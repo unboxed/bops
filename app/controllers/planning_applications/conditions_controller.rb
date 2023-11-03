@@ -35,7 +35,7 @@ module PlanningApplications
     private
 
     def set_condition_set
-      @condition_set = @planning_application.condition_set || @planning_application.create_condition_set!
+      @condition_set = @planning_application.condition_set
     end
 
     def condition_params
@@ -58,7 +58,7 @@ module PlanningApplications
     end
 
     def update_condition_set_review!
-      @condition_set.review.present? ? condition_set_review_status_updated! : true
+      (!@condition_set.review.not_started?) ? condition_set_review_status_updated! : true
     end
 
     def condition_set_review_status_updated!

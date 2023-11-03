@@ -17,11 +17,11 @@ module PlanningApplications
       private
 
       def set_condition_set
-        @condition_set = @planning_application.condition_set || @planning_application.create_condition_set!
+        @condition_set = @planning_application.condition_set
       end
 
       def set_condition_set_review
-        @condition_set_review = @condition_set.review || @condition_set.create_review!
+        @condition_set_review = @condition_set.review
       end
     end
   end

@@ -44,7 +44,7 @@ module PlanningApplications
       end
 
       def set_condition_set_review
-        @condition_set_review = @condition_set.review || @condition_set.create_review!
+        @condition_set_review = @condition_set.review
       end
 
       def update_conditions

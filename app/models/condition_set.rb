@@ -14,4 +14,8 @@ class ConditionSet < ApplicationRecord
     to_be_reviewed: "to_be_reviewed",
     complete: "complete"
   }, default: "not_started"
+
+  def review
+    super || create_review!
+  end
 end

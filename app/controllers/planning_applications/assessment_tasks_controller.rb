@@ -14,7 +14,7 @@ module PlanningApplications
     private
 
     def set_condition_set
-      @condition_set = @planning_application.condition_set || @planning_application.create_condition_set!
+      @condition_set = @planning_application.condition_set
     end
   end
 end
