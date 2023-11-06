@@ -6,6 +6,7 @@ module PlanningApplications
 
     before_action :set_planning_application
     before_action :set_condition_set
+    before_action :set_conditions
 
     def index
       respond_to do |format|
@@ -22,7 +23,7 @@ module PlanningApplications
     def update
       respond_to do |format|
         format.html do
-          if update_condition_set
+          if @condition_set.update(condition_params)
             redirect_to planning_application_assessment_tasks_path(@planning_application),
               notice: I18n.t("conditions.update.success")
           else
@@ -38,10 +39,13 @@ module PlanningApplications
       @condition_set = @planning_application.condition_set
     end
 
+    def set_conditions
+      @conditions = @condition_set.conditions
+    end
+
     def condition_params
       params.require(:condition_set)
         .permit(
-          conditions: [],
           conditions_attributes: %i[_destroy id standard title text reason]
         )
         .to_h.merge(status:)
@@ -49,12 +53,6 @@ module PlanningApplications
 
     def status
       mark_as_complete? ? :complete : :in_progress
-    end
-
-    def update_condition_set
-      ActiveRecord::Base.transaction do
-        @condition_set.update(condition_params.except(:conditions))
-      end
     end
   end
 end

@@ -8,8 +8,8 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <div id="standard-conditions">
-    <%= form.govuk_check_boxes_fieldset :conditions, legend: { text: "Suggested conditions" } do %>
-      <%= form.fields_for :conditions, @condition_set.conditions.standard do |fields| %>
+    <%= form.govuk_check_boxes_fieldset :conditions, multiple: false, legend: { text: "Suggested conditions" } do %>
+      <%= form.fields_for :conditions, @conditions.standard do |fields| %>
         <div class="condition">
           <%= fields.hidden_field :_destroy, value: true %>
           <%= fields.govuk_check_box :_destroy, false, multiple: false, label: { text: fields.object.title }, checked: fields.object.checked? do %>
@@ -27,7 +27,7 @@
   <div class="govuk-!-margin-bottom-7">
     <h2>Other conditions</h2>
     <div id="other-conditions" data-conditions-target="conditions">
-      <%= form.fields_for :conditions, @condition_set.conditions.other do |fields| %>
+      <%= form.fields_for :conditions, @conditions.other do |fields| %>
         <%= content_tag :div, class: "condition govuk-!-margin-bottom-5", data: { index: fields.index } do %>
           <%= fields.hidden_field :_destroy, value: false %>
           <%= fields.hidden_field :id %>

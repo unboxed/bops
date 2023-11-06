@@ -49,7 +49,7 @@ module PlanningApplications
       end
 
       def review_params
-        condition_set_review_params.except(:conditions, :conditions_attributes)
+        condition_set_review_params.except(:conditions_attributes)
           .to_h
           .deep_merge(
             reviewed_at: Time.current,
@@ -59,7 +59,7 @@ module PlanningApplications
       end
 
       def conditions_params
-        condition_set_review_params.except(:conditions, :comment, :action)
+        condition_set_review_params.except(:comment, :action)
           .to_h
           .deep_merge(
             status: condition_set_status
@@ -71,7 +71,6 @@ module PlanningApplications
           .permit(
             :comment,
             :action,
-            conditions: [],
             conditions_attributes: %i[_destroy id standard title text reason]
           )
       end

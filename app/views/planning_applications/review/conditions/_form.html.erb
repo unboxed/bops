@@ -13,7 +13,7 @@
       <%= form.govuk_radio_button(
         :action, :edited_and_accepted, disabled: disabled, checked: @condition_set_review.edited_and_accepted?, label: { text: "Edit to accept", id: "edit-to-accept" }
       ) do %>
-      <%= form.govuk_check_boxes_fieldset :conditions, legend: { text: "Conditions" } do %>
+      <%= form.govuk_check_boxes_fieldset :conditions, multiple: false, legend: { text: "Conditions" } do %>
         <%= form.fields_for :conditions, @condition_set.conditions do |fields| %>
           <div class="condition">
             <%= fields.hidden_field :_destroy, value: true %>
