@@ -4,6 +4,14 @@ class ConsistencyChecklist < ApplicationRecord
   include Memoizable
   belongs_to :planning_application
 
+  CHECKS = %i[
+    description_matches_documents
+    documents_consistent
+    proposal_details_match_documents
+    proposal_measurements_match_documents
+    site_map_correct
+  ].freeze
+
   REQUEST_TYPES = {
     description_matches_documents: :description_change,
     documents_consistent: :additional_document,
@@ -11,7 +19,7 @@ class ConsistencyChecklist < ApplicationRecord
   }.freeze
 
   with_options if: :complete? do
-    planning_application.application_type.consistency_checklist.each { |check| validate("#{check}_determined".to_sym) }
+    CHECKS.each { |check| validate("#{check}_determined".to_sym) }
 
     REQUEST_TYPES.each_value do |request_type|
       validate("#{request_type}_requests_closed".to_sym)
@@ -20,7 +28,7 @@ class ConsistencyChecklist < ApplicationRecord
 
   enum status: {in_assessment: 0, complete: 1}, _default: :in_assessment
 
-  planning_application.application_type.consistency_checklist.each do |check|
+  CHECKS.each do |check|
     enum(check => { to_be_determined: 0, yes: 1, no: 2 }, _prefix: check)
   end
 
@@ -42,8 +50,9 @@ class ConsistencyChecklist < ApplicationRecord
 
   private
 
-  planning_application.application_type.consistency_checklist.each do |check|
+  CHECKS.each do |check|
     define_method("#{check}_determined") do
+      next unless planning_application.application_type.consistency_checklist.include? check.to_s
       return unless send("#{check}_to_be_determined?")
 
       errors.add(check, :not_determined)
