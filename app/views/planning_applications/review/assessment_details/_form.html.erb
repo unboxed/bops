@@ -25,7 +25,7 @@
       <% if assessment_detail == "consultation_summary" %>
         <%= render(
           partial: "consultees",
-          locals: { consultees: @consultation.consultees }
+          locals: { consultees: @consultation&.consultees }
         ) %>
         <h3><%= t(".summary_of_consultee") %><h3>
       <% end %>
@@ -36,6 +36,11 @@
         <% else %>
           <p>There is no existing consultation for this planning application.</p>
         <% end %>
+      <% end %>
+      <% if assessment_detail == "past_applications" %>
+        <p class="govuk-body govuk-!-margin-top-2">
+          <%= planning_application.past_applications&.additional_information %>
+        </p>
       <% end %>
       <%= render(
         FormattedContentComponent.new(

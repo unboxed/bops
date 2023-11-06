@@ -918,6 +918,7 @@ en:
           edit_review: Edit review
           edit_to_accept: Edit to accept
           explain_to_the: Explain to the assessor why this needs reviewing
+          past_applications: Summary of relevant historical applications
           publicity_summary: Summary of neighbour responses
           return_to_officer: Return to officer with comment
           site_description: Site description
@@ -926,6 +927,7 @@ en:
           update_additional_evidence: Update additional evidence
           update_amenity: Update amenity
           update_consultation_summary: Update consultation summary
+          update_past_applications: Update summary of relevant historical applications
           update_publicity_summary: Update summary of neighbour responses
           update_site_description: Update site description
           update_summary_of_work: Update summary of works

@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   def set_consultation
     if @planning_application.consultation.nil?
       error = <<~ERROR
-        "Couldn't find Consulation with 'planning_application_id'=#{@planning_application_id}"
+        "Couldn't find consultation with 'planning_application_id'=#{@planning_application_id}"
       ERROR
 
       raise ActiveRecord::RecordNotFound, error

@@ -78,6 +78,7 @@ application_types = [
      site_description
      consultation_summary
      additional_evidence
+     past_applications
    ]},
   {name: "prior_approval", part: 1, section: "A",
    steps: %w[validation consultation assessment review],
@@ -87,6 +88,7 @@ application_types = [
      additional_evidence
      publicity_summary
      amenity
+     past_applications
    ]},
   {name: "planning_permission",
    steps: %w[validation consultation assessment review],
@@ -96,6 +98,7 @@ application_types = [
      additional_evidence
      consultation_summary
      publicity_summary
+     past_applications
    ]}
 ]
 
