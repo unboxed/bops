@@ -3,6 +3,7 @@
   osVectorTilesApiKey='<%= ENV['OS_VECTOR_TILES_API_KEY'] %>'
   showScale
   useScaleBarStyle
+  showNorthArrow
   <% if locals[:draw_geojson_data].present? %>
     drawGeojsonData='<%= JSON.parse(locals[:draw_geojson_data])["features"].first.to_json %>'
     drawGeojsonDataBuffer=12
