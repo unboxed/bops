@@ -68,5 +68,8 @@ if planning_application.consultation.present?
     json.received_at response.received_at
     json.summary_tag response.summary_tag
   end
+  json.consultation do
+    json.end_date planning_application.consultation.end_date
+  end
 end
 json.make_public planning_application.make_public

@@ -212,6 +212,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :public do
+    resources :planning_applications, only: [] do
+      member do
+        get "decision_notice"
+      end
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       resources :planning_applications, only: %i[index create show] do
