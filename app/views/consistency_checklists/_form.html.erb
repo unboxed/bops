@@ -5,48 +5,14 @@
   class: "consistency-checklist-form"
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <%= render(
-    partial: "site_map_correct",
-    locals: {
-      form: form,
-      consistency_checklist: consistency_checklist,
-      planning_application: planning_application,
-      can_edit: can_edit
-    }
-  ) %>
-  <%= render(
-    partial: "description_matches_documents",
-    locals: {
-      form: form,
-      consistency_checklist: consistency_checklist,
-      planning_application: planning_application,
-      can_edit: can_edit
-    }
-  ) %>
-  <%= render(
-    partial: "documents_consistent",
-    locals: {
-      form: form,
-      consistency_checklist: consistency_checklist,
-      planning_application: planning_application,
-      can_edit: can_edit
-    }
-  ) %>
-  <%= render(
-    partial: "proposal_details_match_documents",
-    locals: {
-      form: form,
-      can_edit: can_edit,
-      consistency_checklist: consistency_checklist
-    }
-  ) %>
-  <% if @planning_application.proposal_measurement %>
+  <% planning_application.application_type.consistency_checklist.each do |checklist| %>
     <%= render(
-      partial: "proposal_measurements_match_documents",
+      partial: checklist,
       locals: {
         form: form,
-        can_edit: can_edit,
-        consistency_checklist: consistency_checklist
+        consistency_checklist: consistency_checklist,
+        planning_application: planning_application,
+        can_edit: can_edit
       }
     ) %>
   <% end %>

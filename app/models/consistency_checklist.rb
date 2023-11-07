@@ -29,7 +29,7 @@ class ConsistencyChecklist < ApplicationRecord
   enum status: {in_assessment: 0, complete: 1}, _default: :in_assessment
 
   CHECKS.each do |check|
-    enum(check => { to_be_determined: 0, yes: 1, no: 2 }, _prefix: check)
+    enum(check => {to_be_determined: 0, yes: 1, no: 2}, :_prefix => check)
   end
 
   REQUEST_TYPES.each do |check, request_type|
