@@ -106,6 +106,7 @@ class PlanningApplication < ApplicationRecord
                 }, if: :valid_red_line_boundary?
   before_update -> { reset_validation_requests_update_counter!(fee_item_validation_requests) }, if: :valid_fee?
   before_update :audit_update_application_type!, if: :application_type_id_changed?
+  before_update :create_proposal_measurement, if: :changed_to_prior_approval?
 
   after_update :audit_updated!
   after_update :update_constraints
@@ -868,5 +869,13 @@ class PlanningApplication < ApplicationRecord
     else
       raise ArgumentError, "The status provided: #{status} is not valid"
     end
+  end
+
+  def changed_to_prior_approval?
+    application_type_changed? && application_type.name == "prior_approval"
+  end
+
+  def create_proposal_measurement
+    ProposalMeasurement.create(planning_application: self, depth: 0, max_height: 0, eaves_height: 0)
   end
 end
