@@ -10,7 +10,6 @@ module PlanningApplications
       before_action :ensure_planning_application_is_validated
       before_action :ensure_user_is_reviewer
       before_action :set_condition_set
-      before_action :set_condition_set_review
 
       def show
         respond_to do |format|
@@ -21,7 +20,7 @@ module PlanningApplications
       def update
         respond_to do |format|
           format.html do
-            if update_conditions
+            if @condition_set.update(condition_set_review_params)
               redirect_to planning_application_review_tasks_path(@planning_application),
                 notice: I18n.t("review.conditions.update.success")
             else
@@ -37,41 +36,14 @@ module PlanningApplications
         @condition_set = @planning_application.condition_set
       end
 
-      def set_condition_set_review
-        @condition_set_review = @condition_set.review
-      end
-
-      def update_conditions
-        ActiveRecord::Base.transaction do
-          @condition_set_review.update(review_params) &&
-            @condition_set.update(conditions_params)
-        end
-      end
-
-      def review_params
-        condition_set_review_params.except(:conditions_attributes)
-          .to_h
-          .deep_merge(
-            reviewed_at: Time.current,
-            reviewer: current_user,
-            status: status
-          )
-      end
-
-      def conditions_params
-        condition_set_review_params.except(:comment, :action)
-          .to_h
-          .deep_merge(
-            status: condition_set_status
-          )
-      end
-
       def condition_set_review_params
         params.require(:condition_set)
-          .permit(
-            :comment,
-            :action,
-            conditions_attributes: %i[_destroy id standard title text reason]
+          .permit(review_attributes: %i[action comment],
+            conditions_attributes: %i[_destroy id standard title text reason])
+          .to_h
+          .deep_merge(
+            status: condition_set_status,
+            review_attributes: {reviewed_at: Time.current, reviewer: current_user, status: status}
           )
       end
 
@@ -94,7 +66,7 @@ module PlanningApplications
       end
 
       def return_to_officer?
-        params.dig(:condition_set, :action) == "rejected"
+        params.dig(:condition_set, :review_attributes, :action) == "rejected"
       end
     end
   end

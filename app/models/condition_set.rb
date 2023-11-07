@@ -9,6 +9,7 @@ class ConditionSet < ApplicationRecord
   before_save :set_review_updated
 
   accepts_nested_attributes_for :conditions, allow_destroy: true
+  accepts_nested_attributes_for :review, update_only: true
 
   enum :status, {
     not_started: "not_started",
