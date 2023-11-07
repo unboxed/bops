@@ -1,3 +1,7 @@
+<% if review = @condition_set.review %>
+  <%= render "comment", review: review %>
+<% end %>
+
 <h2 class="govuk-heading-m">Conditions</h2>
 <ol class="govuk-list govuk-list--number">
   <% @condition_set.conditions.sorted.each do |condition| %>

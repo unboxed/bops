@@ -2,8 +2,11 @@
 
 module PlanningApplications
   class ConditionsController < AuthenticationController
+    include CommitMatchable
+
     before_action :set_planning_application
     before_action :set_condition_set
+    before_action :set_conditions
 
     def index
       respond_to do |format|
@@ -20,7 +23,7 @@ module PlanningApplications
     def update
       respond_to do |format|
         format.html do
-          if @condition_set.update(condition_params.except(:conditions))
+          if @condition_set.update(condition_params)
             redirect_to planning_application_assessment_tasks_path(@planning_application),
               notice: I18n.t("conditions.update.success")
           else
@@ -33,15 +36,23 @@ module PlanningApplications
     private
 
     def set_condition_set
-      @condition_set = @planning_application.condition_set || @planning_application.create_condition_set!
+      @condition_set = @planning_application.condition_set
+    end
+
+    def set_conditions
+      @conditions = @condition_set.conditions
     end
 
     def condition_params
       params.require(:condition_set)
         .permit(
-          conditions: [],
           conditions_attributes: %i[_destroy id standard title text reason]
         )
+        .to_h.merge(status:)
+    end
+
+    def status
+      mark_as_complete? ? :complete : :in_progress
     end
   end
 end

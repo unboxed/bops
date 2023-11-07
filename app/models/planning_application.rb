@@ -682,6 +682,10 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def condition_set
+    super || create_condition_set!
+  end
+
   private
 
   def update_measurements

@@ -13,6 +13,10 @@ class Condition < ApplicationRecord
     [title_key, timestamp_key, Float::INFINITY].compact.first
   end
 
+  def review_title
+    title.presence || "Other"
+  end
+
   private
 
   def titles
