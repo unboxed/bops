@@ -12,10 +12,6 @@ class ConsistencyChecklist < ApplicationRecord
     site_map_correct
   ].freeze
 
-  PRIOR_APPROVAL_CHECKS = %i[
-    proposal_measurements_match_documents
-  ].freeze
-
   REQUEST_TYPES = {
     description_matches_documents: :description_change,
     documents_consistent: :additional_document,
@@ -56,7 +52,7 @@ class ConsistencyChecklist < ApplicationRecord
 
   CHECKS.each do |check|
     define_method("#{check}_determined") do
-      return if !planning_application.prior_approval? && PRIOR_APPROVAL_CHECKS.include?(check)
+      next unless planning_application.application_type.consistency_checklist.include? check.to_s
       return unless send("#{check}_to_be_determined?")
 
       errors.add(check, :not_determined)

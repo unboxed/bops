@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_142815) do
     t.datetime "updated_at", null: false
     t.string "assessment_details", array: true
     t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
+    t.string "consistency_checklist", array: true
   end
 
   create_table "assessment_details", force: :cascade do |t|

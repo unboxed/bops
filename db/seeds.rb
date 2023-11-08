@@ -71,35 +71,60 @@ local_authorities.each do |authority|
 end
 
 application_types = [
-  {name: "lawfulness_certificate",
-   steps: %w[validation assessment review],
-   assessment_details: %w[
-     summary_of_work
-     site_description
-     consultation_summary
-     additional_evidence
-     past_applications
-   ]},
-  {name: "prior_approval", part: 1, section: "A",
-   steps: %w[validation consultation assessment review],
-   assessment_details: %w[
-     summary_of_work
-     site_description
-     additional_evidence
-     publicity_summary
-     amenity
-     past_applications
-   ]},
-  {name: "planning_permission",
-   steps: %w[validation consultation assessment review],
-   assessment_details: %w[
-     summary_of_work
-     site_description
-     additional_evidence
-     consultation_summary
-     publicity_summary
-     past_applications
-   ]}
+  {
+    name: "lawfulness_certificate",
+    steps: %w[validation assessment review],
+    assessment_details: %w[
+      summary_of_work
+      site_description
+      consultation_summary
+      additional_evidence
+      past_applications
+    ],
+    consistency_checklist: %w[
+      description_matches_documents
+      documents_consistent
+      proposal_details_match_documents
+      site_map_correct
+    ]
+  },
+  {
+    name: "prior_approval", part: 1, section: "A",
+    steps: %w[validation consultation assessment review],
+    assessment_details: %w[
+      summary_of_work
+      site_description
+      additional_evidence
+      publicity_summary
+      amenity
+      past_applications
+    ],
+    consistency_checklist: %w[
+      description_matches_documents
+      documents_consistent
+      proposal_details_match_documents
+      proposal_measurements_match_documents
+      site_map_correct
+    ]
+  },
+  {
+    name: "planning_permission",
+    steps: %w[validation consultation assessment review],
+    assessment_details: %w[
+      summary_of_work
+      site_description
+      additional_evidence
+      consultation_summary
+      publicity_summary
+      past_applications
+    ],
+    consistency_checklist: %w[
+      description_matches_documents
+      documents_consistent
+      proposal_details_match_documents
+      site_map_correct
+    ]
+  }
 ]
 
 application_types.each do |attrs|
