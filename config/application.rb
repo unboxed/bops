@@ -56,6 +56,7 @@ module Bops
     config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
 
     config.default_notify_api_key = ENV["NOTIFY_API_KEY"]
+    config.planning_history_enabled = ENV["PLANNING_HISTORY_ENABLED"] == true
   end
 
   def self.env

@@ -9,7 +9,7 @@ RSpec.describe "Planning History" do
   before do
     sign_in assessor
 
-    ENV["PLANNING_HISTORY_ENABLED"] = "true"
+    Rails.configuration.planning_history_enabled = true
   end
 
   context "when planning application's property uprn has planning history" do
