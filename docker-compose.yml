@@ -74,7 +74,7 @@ services:
     tty: true
     environment:
       API_BEARER: 123
-      API_HOST: southwark.bops.localhost:3000
+      API_HOST: bops.localhost:3000
       API_USER: api_user
       PIDFILE: /tmp/pids/server.pid
       PORT: 3001
