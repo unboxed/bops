@@ -59,6 +59,8 @@ module Bops
     config.notify_letter_api_key = ENV["NOTIFY_LETTER_API_KEY"]
     config.otp_secret_encryption_key = ENV["OTP_SECRET_ENCRYPTION_KEY"]
     config.planning_history_enabled = ENV["PLANNING_HISTORY_ENABLED"] == true
+    config.staging_api_bearer = ENV["STAGING_API_BEARER"]
+    config.staging_api_url = ENV["STAGING_API_URL"]
   end
 
   def self.env
