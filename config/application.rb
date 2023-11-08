@@ -60,6 +60,8 @@ module Bops
     config.otp_secret_encryption_key = ENV["OTP_SECRET_ENCRYPTION_KEY"]
     config.paapi_url = ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1")
     config.planning_history_enabled = ENV["PLANNING_HISTORY_ENABLED"] == true
+    config.planx_file_api_key = ENV["PLANX_FILE_API_KEY"]
+    config.planx_file_production_api_key = ENV["PLANX_FILE_PRODUCTION_API_KEY"]
     config.staging_api_bearer = ENV["STAGING_API_BEARER"]
     config.staging_api_url = ENV["STAGING_API_URL"]
   end

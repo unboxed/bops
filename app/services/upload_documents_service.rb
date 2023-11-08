@@ -45,10 +45,10 @@ class UploadDocumentsService
 
   def planx_file_api_key
     if @planning_application.from_production?
-      ENV.fetch("PLANX_FILE_PRODUCTION_API_KEY",
-        nil)
+      Rails.configuration.planx_file_production_api_key
+
     else
-      ENV.fetch("PLANX_FILE_API_KEY", nil)
+      Rails.configuration.planx_file_api_key
     end
   end
 end
