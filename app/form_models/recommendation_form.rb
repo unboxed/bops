@@ -46,11 +46,11 @@ class RecommendationForm
   end
 
   def decisions_text
-    I18n.t(".recommendations.new.is_the_use.#{application_type_name}")
+    I18n.t(".planning_applications.assessment.recommendations.new.is_the_use.#{application_type_name}")
   end
 
   def reason_text
-    I18n.t(".recommendations.new.state_the_reason.#{application_type_name}")
+    I18n.t(".planning_applications.assessment.recommendations.new.state_the_reason.#{application_type_name}")
   end
 
   private
@@ -61,8 +61,8 @@ class RecommendationForm
 
   def granted_and_refused
     [
-      [:refused, I18n.t(".recommendations.new.decision.#{application_type_name}.refused")],
-      [:granted, I18n.t(".recommendations.new.decision.#{application_type_name}.granted")]
+      [:refused, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type_name}.refused")],
+      [:granted, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type_name}.granted")]
     ]
   end
 
@@ -71,6 +71,6 @@ class RecommendationForm
   end
 
   def granted_not_required
-    [:granted_not_required, I18n.t(".recommendations.new.decision.#{application_type_name}.granted_not_required")]
+    [:granted_not_required, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type_name}.granted_not_required")]
   end
 end

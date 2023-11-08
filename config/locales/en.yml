@@ -283,79 +283,6 @@ en:
     dimensions: Revise dimensions
     other: Other
     scale: Missing scale bar or north arrow
-  assess_immunity_detail_permitted_development_right_form:
-    four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
-    four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
-    other: other
-    ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
-  assess_immunity_detail_permitted_development_rights:
-    successfully_created: Immunity/permitted development rights response was successfully created
-    successfully_updated: Immunity/permitted development rights response was successfully updated
-  assessment_details:
-    additional_evidence: Summary of additional evidence
-    additional_evidence_successfully_created: Additional evidence was successfully created.
-    additional_evidence_successfully_updated: Additional evidence was successfully updated.
-    amenity: Amenity
-    amenity_successfully_created: Amenity assessment was successfully created.
-    amenity_successfully_updated: Amenity assessment was successfully updated.
-    consultation_summary: Add consultation summary
-    consultation_summary_successfully_created: Consultation summary successfully added.
-    consultation_summary_successfully_updated: Consultation summary successfully updated.
-    edit_additional_evidence: Edit additional evidence
-    edit_amenity: Edit assessment of impact on neighbouring amenity
-    edit_consultation_summary: Add consultation summary
-    edit_past_applications: History
-    edit_publicity_summary: Edit summary of neighbour responses
-    edit_site_description: Edit site description
-    edit_summary_of_work: Edit summary of works
-    immunity_detail_successfully_updated: Evidence of immunity successfully updated
-    new_additional_evidence: Add detail of additional evidence
-    new_amenity: Assess impact on neighbouring amenity
-    new_consultation_summary: Add consultation summary
-    new_past_applications: History
-    new_publicity_summary: Add summary of neighbour responses
-    new_site_description: Create a description of the site
-    new_summary_of_work: Create a summary of the works
-    not_started: Not started
-    past_applications: History
-    past_applications_successfully_created: History successfully added.
-    past_applications_successfully_updated: History successfully updated.
-    previous_summaries_component:
-      see_previous_summaries: See previous summaries
-    previous_summary_component:
-      user_created_additional_evidence: "%{user} created additional evidence"
-      user_created_consultation_summary: "%{user} created consultation summary"
-      user_created_site_description: "%{user} created site description"
-      user_created_summary_of_work: "%{user} created summary of works"
-      user_marked_this: "%{user} marked this for review"
-      user_updated_additional_evidence: "%{user} updated additional evidence"
-      user_updated_consultation_summary: "%{user} updated consultation summary"
-      user_updated_site_description: "%{user} updated site description"
-      user_updated_summary_of_work: "%{user} updated summary of works"
-    publicity_summary: Summary of neighbour responses
-    publicity_summary_successfully_created: Summary of neighbour responses was successfully created.
-    publicity_summary_successfully_updated: Summary of neighbour responses was successfully updated.
-    show_additional_evidence: Detail of additional evidence
-    show_amenity: Amenity
-    show_consultation_summary: Consultation details
-    show_past_applications: History
-    show_publicity_summary: Summary of neighbour responses
-    show_site_description: Site description
-    show_summary_of_work: Summary of works
-    site_description: Site description
-    site_description_successfully_created: Site description was successfully created.
-    site_description_successfully_updated: Site description was successfully updated.
-    summary_of_work: Summary
-    summary_of_work_successfully_created: Summary of works was successfully created.
-    summary_of_work_successfully_updated: Summary of works was successfully updated.
-    update_additional_evidence: Update additional evidence
-    update_amenity: Update amenity
-    update_consultation_summary: Update consultation details
-    update_site_description: Update site description
-    update_summary_of_work: Update summary of works
-  assessment_report_downloads:
-    show:
-      assessment_report: Assessment report
   audit_user_name:
     applicant: Applicant / Agent via %{api_user_name}
     bops_applicants: Applicant / Agent via BoPS applicants
@@ -448,65 +375,6 @@ en:
       success: Conditions successfully created
     update:
       success: Conditions successfully updated
-  consistency_checklists:
-    additional_document_validation_request:
-      cancelled: Cancelled %{time}
-      reason: 'Reason: %{reason}'
-      requested: Requested %{time}
-      requested_a_new: "%{name} requested a new document"
-      responded: Responded %{time}
-      view_and_edit: View and edit request
-      view_new_document: View new document
-    create:
-      successfully_updated_application: Successfully updated application checklist
-    description_change_validation_request:
-      accepted: Accepted %{time}
-      cancelled: Cancelled %{time}
-      proposed: Proposed %{time}
-      proposed_description: 'Proposed description: %{description}'
-      requested_a_new: "%{name} requested a new description"
-      view_and_edit: View and edit request
-    description_matches_documents:
-      does_the_description: Does the description match the development or use in the plans?
-      'no': 'No'
-      'yes': 'Yes'
-    documents_consistent:
-      are_the_plans: Are the plans consistent with each other?
-      'no': 'No'
-      'yes': 'Yes'
-    form:
-      back: Back
-      edit_check_description: Edit check description, documents and proposal
-    introduction:
-      application_details: Application details
-      check_description_documents: Check description, documents, and proposal details
-      checking_plans_and: Checking plans and description
-      review_the_items: Review the description, site map, and documents submitted by the applicant to check they are consistent.
-    proposal_details_match_documents:
-      are_the_proposal: Are the proposal details consistent with the plans?
-      how_are_the: How are the proposal details inconsistent?
-      'no': 'No'
-      'yes': 'Yes'
-    proposal_measurements_match_documents:
-      are_the_proposal: Do the measurements submitted by the applicant match the drawings?
-      'no': 'No'
-      'yes': 'Yes'
-    red_line_boundary_change_validation_request:
-      accepted: Accepted
-      cancelled: Cancelled
-      proposed: Proposed
-      proposed_a_new: "%{user} proposed a new red line boundary"
-      reason: 'Reason:'
-      view_and_edit: View and edit request
-    request_additional_document: Request a new document
-    request_description_change: Request a change to the description
-    request_red_line_boundary_change: Request a change to the red line boundary
-    site_map_correct:
-      is_the_red: Is the red line on the site map correct for the site and proposed works?
-      'no': 'No'
-      'yes': 'Yes'
-    update:
-      successfully_updated_application: Successfully updated application checklist
   constraint_type_codes:
     article4: Article 4 direction area
     article4_caz: Central activities zones
@@ -777,8 +645,6 @@ en:
       review_immunity_detail:
         accepted: Is the application immune from enforcement?
         removed: Is the application immune from enforcement?
-  immunity_details:
-    successfully_updated: Review immunity details was successfully updated
   legislations:
     update:
       alert: Couldn't mark legislative requirements as checked - please contact support.
@@ -817,66 +683,312 @@ en:
     successfully_created: Permitted development rights response was successfully created
     successfully_updated: Permitted development rights response was successfully updated
   planning_applications:
-    assessment_details:
-      amenity:
-        information:
-          summary_of_the: Assess impact on neighbouring amenity
-          this_information_will: This information WILL be made public
-      comment:
-        user_marked_this: "%{user} marked this for review"
-      consultation_summary:
-        consultee_form:
-          add_consultee: Add consultee
-          external_consultee: External consultee
-          internal_consultee: Internal consultee
-        consultee_table:
-          external: External
-          internal: Internal
-          remove_from_list: Remove from list
-        fields:
-          summary_of_consultation: Summary of consultation responses
-          this_information_will: This information will be made publicly available.
-        form_fields:
-          summary_of_consultation: Summary of consultation responses
-          this_information_will: This information will be made publicly available.
-      past_applications:
-        form_fields:
-          application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
-          relevant_information: 'Provide relevant information about the planning history of the application site. You should also check for any historic conditions, enforcement notices, and the appeal history at this site using the Planning Register or in your back-office planning system:'
-        information:
-          summary_of_the: Summary of the relevant historical applications
-          this_information_will: This information will be made publicly available.
-      show:
-        edit_additional_evidence: Edit additional evidence
-        edit_amenity: Edit amenity assessment
-        edit_consultation_summary: Edit consultation details
-        edit_past_applications: Edit history
-        edit_publicity_summary: Edit summary of neighbour responses
-        edit_site_description: Edit site description
-        edit_summary_of_work: Edit summary of work
-    assessment_report_component:
-      additional_evidence: Summary of additional evidence
-      constraints_including_article: Constraints including Article 4 direction(s)
-      consultation_documents: Consultation documents
-      documents_included_in: Documents included in the decision notice
-      have_the_permitted_development_rights: Have the permitted development rights relevant for this application been removed?
-      immunity_from_enforcement: Immunity from enforcement
-      legislation: Legislation
-      location_description: Location description
-      no_documents_listed: There are no documents listed on the decision notice.
-      no_legislation_assessed: There is no legislation assessment for this application.
-      planning_history: Planning history
-      summary_of_works: Summary of works
-    assessment_tasks:
-      check_consistency:
-        check_application: Check application
-        complete: Complete
-        description_documents_and: Check description, documents and proposal details
-        history: History search (in testing)
-        in_assessment: In assessment
-        permitted_development_rights: Permitted development rights
-      index:
-        application_details: Application details
+    assessment:
+      assess_immunity_detail_permitted_development_right_form:
+        four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
+        four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
+        other: other
+        ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
+      assess_immunity_detail_permitted_development_rights:
+        successfully_created: Immunity/permitted development rights response was successfully created
+        successfully_updated: Immunity/permitted development rights response was successfully updated
+      assessment_details:
+        additional_evidence:
+          created:
+            success: Additional evidence was successfully created.
+          edit: Edit additional evidence
+          new: Add detail of additional evidence
+          show: Detail of additional evidence
+          title: Summary of additional evidence
+          update: Update additional evidence
+          updated:
+            success: Additional evidence was successfully updated.
+        amenity:
+          created:
+            success: Amenity assessment was successfully created.
+          edit: Edit amenity assessment
+          information:
+            summary_of_the: Assess impact on neighbouring amenity
+            this_information_will: This information WILL be made public
+          new: Assess impact on neighbouring amenity
+          show: Amenity
+          title: Amenity
+          update: Update amenity
+          updated:
+            success: Amenity assessment was successfully updated.
+        comment:
+          user_marked_this: "%{user} marked this for review"
+        consultation_summary:
+          consultee_form:
+            add_consultee: Add consultee
+            external_consultee: External consultee
+            internal_consultee: Internal consultee
+          consultee_table:
+            external: External
+            internal: Internal
+            remove_from_list: Remove from list
+          created:
+            success: Consultation summary successfully added.
+          edit: Edit consultation details
+          fields:
+            summary_of_consultation: Summary of consultation responses
+            this_information_will: This information will be made publicly available.
+          form_fields:
+            summary_of_consultation: Summary of consultation responses
+            this_information_will: This information will be made publicly available.
+          new: Add consultation summary
+          show: Consultation details
+          title: Consultation details
+          update: Update consultation details
+          updated:
+            success: Consultation summary successfully updated.
+        not_started: Not started
+        past_applications:
+          created:
+            success: History successfully added.
+          edit: Edit history
+          form_fields:
+            application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
+            relevant_information: 'Provide relevant information about the planning history of the application site. You should also check for any historic conditions, enforcement notices, and the appeal history at this site using the Planning Register or in your back-office planning system:'
+          information:
+            summary_of_the: Summary of the relevant historical applications
+            this_information_will: This information will be made publicly available.
+          new: History
+          show: History
+          title: History
+          updated:
+            success: History successfully updated.
+        previous_summaries_component:
+          see_previous_summaries: See previous summaries
+        previous_summary_component:
+          user_created_additional_evidence: "%{user} created additional evidence"
+          user_created_consultation_summary: "%{user} created consultation summary"
+          user_created_site_description: "%{user} created site description"
+          user_created_summary_of_work: "%{user} created summary of works"
+          user_marked_this: "%{user} marked this for review"
+          user_updated_additional_evidence: "%{user} updated additional evidence"
+          user_updated_consultation_summary: "%{user} updated consultation summary"
+          user_updated_site_description: "%{user} updated site description"
+          user_updated_summary_of_work: "%{user} updated summary of works"
+        publicity_summary:
+          created:
+            success: Summary of neighbour responses was successfully created.
+          edit: Edit summary of neighbour responses
+          new: Add summary of neighbour responses
+          show: Summary of neighbour responses
+          title: Summary of neighbour responses
+          updated:
+            success: Summary of neighbour responses was successfully updated.
+        site_description:
+          created:
+            success: Site description was successfully created.
+          edit: Edit site description
+          new: Create a description of the site
+          show: Site description
+          title: Site description
+          update: Update site description
+          updated:
+            success: Site description was successfully updated.
+        summary_of_work:
+          created:
+            success: Summary of works was successfully created.
+          edit: Edit summary of works
+          new: Create a summary of the works
+          show: Summary of works
+          title: Summary
+          update: Update summary of works
+          updated:
+            success: Summary of works was successfully updated.
+      assessment_report_component:
+        additional_evidence: Summary of additional evidence
+        constraints_including_article: Constraints including Article 4 direction(s)
+        consultation_documents: Consultation documents
+        documents_included_in: Documents included in the decision notice
+        have_the_permitted_development_rights: Have the permitted development rights relevant for this application been removed?
+        immunity_from_enforcement: Immunity from enforcement
+        legislation: Legislation
+        location_description: Location description
+        no_documents_listed: There are no documents listed on the decision notice.
+        no_legislation_assessed: There is no legislation assessment for this application.
+        planning_history: Planning history
+        summary_of_works: Summary of works
+      assessment_report_downloads:
+        show:
+          assessment_report: Assessment report
+      assessment_tasks:
+        check_consistency:
+          check_application: Check application
+          complete: Complete
+          description_documents_and: Check description, documents and proposal details
+          history: History search (in testing)
+          in_assessment: In assessment
+          permitted_development_rights: Permitted development rights
+        index:
+          application_details: Application details
+      consistency_checklists:
+        additional_document_validation_request:
+          cancelled: Cancelled %{time}
+          reason: 'Reason: %{reason}'
+          requested: Requested %{time}
+          requested_a_new: "%{name} requested a new document"
+          responded: Responded %{time}
+          view_and_edit: View and edit request
+          view_new_document: View new document
+        create:
+          successfully_updated_application: Successfully updated application checklist
+        description_change_validation_request:
+          accepted: Accepted %{time}
+          cancelled: Cancelled %{time}
+          proposed: Proposed %{time}
+          proposed_description: 'Proposed description: %{description}'
+          requested_a_new: "%{name} requested a new description"
+          view_and_edit: View and edit request
+        description_matches_documents:
+          does_the_description: Does the description match the development or use in the plans?
+          'no': 'No'
+          request_description_change: Request a change to the description
+          'yes': 'Yes'
+        documents_consistent:
+          are_the_plans: Are the plans consistent with each other?
+          'no': 'No'
+          request_additional_document: Request a new document
+          'yes': 'Yes'
+        form:
+          back: Back
+          edit_check_description: Edit check description, documents and proposal
+        introduction:
+          application_details: Application details
+          check_description_documents: Check description, documents, and proposal details
+          checking_plans_and: Checking plans and description
+          review_the_items: Review the description, site map, and documents submitted by the applicant to check they are consistent.
+        proposal_details_match_documents:
+          are_the_proposal: Are the proposal details consistent with the plans?
+          how_are_the: How are the proposal details inconsistent?
+          'no': 'No'
+          'yes': 'Yes'
+        proposal_measurements_match_documents:
+          are_the_proposal: Do the measurements submitted by the applicant match the drawings?
+          'no': 'No'
+          'yes': 'Yes'
+        red_line_boundary_change_validation_request:
+          accepted: Accepted
+          cancelled: Cancelled
+          proposed: Proposed
+          proposed_a_new: "%{user} proposed a new red line boundary"
+          reason: 'Reason:'
+          view_and_edit: View and edit request
+        site_map_correct:
+          is_the_red: Is the red line on the site map correct for the site and proposed works?
+          'no': 'No'
+          request_red_line_boundary_change: Request a change to the red line boundary
+          'yes': 'Yes'
+        update:
+          successfully_updated_application: Successfully updated application checklist
+      immunity_details:
+        update:
+          success: Evidence of immunity successfully updated
+      policy_classes:
+        comment:
+          delete_comment: Delete comment
+        controls:
+          edit_assessment: Edit assessment
+          view_next_class: View next class
+          view_previous_class: View previous class
+        create:
+          success: Policy classes have been successfully added
+        destroy:
+          success: Policy class has been removed.
+        form_controls:
+          save_changes_and_view_next: Save changes and view next class
+          save_changes_and_view_previous: Save changes and view previous class
+          view_next_class: View next class
+          view_previous_class: View previous class
+        new:
+          add_classes_to: Add classes to assess
+          failure: Please choose one of the policy parts
+        part:
+          select_the_part: Select the part to assess
+        summary:
+          application: Application
+          assess: Assess
+          assess_policy_class: Assess - Part %{part}, Class %{class}
+          home: Home
+          open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+          please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+          remove_class_from: Remove class from assessment
+        summary_component:
+          complies: Complies
+          does_not_comply: Does not comply
+          policy_class_name: Part %{part}, Class %{class} - %{name}
+          to_be_determined: To be determined
+        title: Part %{part}, Class %{class}
+        update:
+          successfully_updated_policy: Successfully updated policy class
+      recommendations:
+        documents:
+          documents_included_in: Documents included in the decision notice
+          no_documents_listed: There are no documents listed on the decision notice.
+        documents_table:
+          add_and_edit: Add and edit documents
+          documents_included_in: Documents included in the decision notice
+        edit:
+          assessor_recommendation: Assessor recommendation
+          edit_information_on: Edit information on the decision notice
+          recommendation: Recommendation
+          review_changes: Review changes
+          sign_off_recommendation: Sign off recommendation
+          this_information_will: This information will appear on the decision notice.
+          you_have_not: You haven't suggested changes to be made by the officer.
+          you_have_suggested: You have suggested changes to be made by the officer.
+        event:
+          by_name_at: by %{name}, %{date} at %{time}
+        events:
+          assessor_reviewer_audit: Assessor and reviewer audit
+          new: Assess recommendation
+          recommendation_queried: Recommendation queried
+          submitted_recommendation: Submitted recommendation
+        form:
+          do_you_agree: Do you agree with the recommendation?
+          'no': No (return the case for assessment)
+          'yes': Yes (decision is ready to be published)
+        legislation:
+          legislation: Legislation
+          no_legislation_assessed: There is no legislation assessment for this application.
+        new:
+          assess_proposal: Assess the proposal
+          assess_recommendation: Assess recommendation
+          decision:
+            lawfulness_certificate:
+              granted: 'Yes'
+              refused: 'No'
+            planning_permission:
+              granted: Granted
+              refused: Refused
+            prior_approval:
+              granted: Prior approval required and approved
+              granted_not_required: Prior approval not required
+              refused: Prior approval required and refused
+          error: 'Error:'
+          is_the_use:
+            lawfulness_certificate: Is the use or operation lawful?
+            planning_permission: What is your recommendation?
+            prior_approval: What is your recommendation?
+          make_draft_recommendation: Make draft recommendation
+          please_provide_supporting: Provide supporting information for your manager.
+          refer_to_the:
+            lawfulness_certificate: Refer to specific permitted development legislation to support your recommendation.
+            planning_permission: Refer to specific development plan policies you used in your assessment.
+            prior_approval: Refer to specific permitted development legislation, and Local Plan policies in relation to impact on neighbouring amenity.
+          state_the_reason:
+            lawfulness_certificate: State the reasons why this application is, or is not lawful.
+            planning_permission: State the reasons for your recommendation.
+            prior_approval: State the reasons for your recommendation.
+          there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
+          this_information_will: This information will appear on the decision notice.
+          this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
+          update_assessment: Update assessment
+        update:
+          success: Recommendation was successfully reviewed.
     cil_liability:
       update:
         success: CIL liability updated
@@ -1006,6 +1118,8 @@ en:
       documents:
         update:
           success: Documents were successfully updated.
+      immunity_details:
+        successfully_updated: Review immunity details was successfully updated
       policy_classes:
         comment:
           edit_comment: Edit comment
@@ -1097,44 +1211,8 @@ en:
       success: Recommendation was successfully withdrawn.
   policy_classes:
     add_comment: Add comment
-    comment:
-      delete_comment: Delete comment
     comment_added_on: Comment added on %{time} by %{user}
     comment_updated_on: Comment updated on %{time} by %{user}
-    controls:
-      edit_assessment: Edit assessment
-      view_next_class: View next class
-      view_previous_class: View previous class
-    create:
-      success: Policy classes have been successfully added
-    destroy:
-      success: Policy class has been removed.
-    form_controls:
-      save_changes_and_view_next: Save changes and view next class
-      save_changes_and_view_previous: Save changes and view previous class
-      view_next_class: View next class
-      view_previous_class: View previous class
-    new:
-      add_classes_to: Add classes to assess
-      failure: Please choose one of the policy parts
-    part:
-      select_the_part: Select the part to assess
-    summary:
-      application: Application
-      assess: Assess
-      assess_policy_class: Assess - Part %{part}, Class %{class}
-      home: Home
-      open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
-      please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
-      remove_class_from: Remove class from assessment
-    summary_component:
-      complies: Complies
-      does_not_comply: Does not comply
-      policy_class_name: Part %{part}, Class %{class} - %{name}
-      to_be_determined: To be determined
-    title: Part %{part}, Class %{class}
-    update:
-      successfully_updated_policy: Successfully updated policy class
   proposal_details:
     list_component:
       the_proposal_details: The proposal details are grouped under the following categories
@@ -1175,71 +1253,6 @@ en:
       legislation_html: Town and Country Planning Act 1990 (as amended)
       refused: Prior approval required and refused
       refused_html: "<strong>Prior approval required and refused</strong>"
-  recommendations:
-    documents:
-      documents_included_in: Documents included in the decision notice
-      no_documents_listed: There are no documents listed on the decision notice.
-    documents_table:
-      add_and_edit: Add and edit documents
-      documents_included_in: Documents included in the decision notice
-    edit:
-      assessor_recommendation: Assessor recommendation
-      edit_information_on: Edit information on the decision notice
-      recommendation: Recommendation
-      review_changes: Review changes
-      sign_off_recommendation: Sign off recommendation
-      this_information_will: This information will appear on the decision notice.
-      you_have_not: You haven't suggested changes to be made by the officer.
-      you_have_suggested: You have suggested changes to be made by the officer.
-    event:
-      by_name_at: by %{name}, %{date} at %{time}
-    events:
-      assessor_reviewer_audit: Assessor and reviewer audit
-      new: Assess recommendation
-      recommendation_queried: Recommendation queried
-      submitted_recommendation: Submitted recommendation
-    form:
-      do_you_agree: Do you agree with the recommendation?
-      'no': No (return the case for assessment)
-      'yes': Yes (decision is ready to be published)
-    legislation:
-      legislation: Legislation
-      no_legislation_assessed: There is no legislation assessment for this application.
-    new:
-      assess_proposal: Assess the proposal
-      assess_recommendation: Assess recommendation
-      decision:
-        lawfulness_certificate:
-          granted: 'Yes'
-          refused: 'No'
-        planning_permission:
-          granted: Granted
-          refused: Refused
-        prior_approval:
-          granted: Prior approval required and approved
-          granted_not_required: Prior approval not required
-          refused: Prior approval required and refused
-      error: 'Error:'
-      is_the_use:
-        lawfulness_certificate: Is the use or operation lawful?
-        planning_permission: What is your recommendation?
-        prior_approval: What is your recommendation?
-      make_draft_recommendation: Make draft recommendation
-      please_provide_supporting: Provide supporting information for your manager.
-      refer_to_the:
-        lawfulness_certificate: Refer to specific permitted development legislation to support your recommendation.
-        planning_permission: Refer to specific development plan policies you used in your assessment.
-        prior_approval: Refer to specific permitted development legislation, and Local Plan policies in relation to impact on neighbouring amenity.
-      state_the_reason:
-        lawfulness_certificate: State the reasons why this application is, or is not lawful.
-        planning_permission: State the reasons for your recommendation.
-        prior_approval: State the reasons for your recommendation.
-      there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
-      this_information_will: This information will appear on the decision notice.
-      this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
-      update_assessment: Update assessment
-    update:
-      success: Recommendation was successfully reviewed.
   reconsult_consultees_component:
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>%{closing_date}</code></nobr> will be substituted when the email is sent.
     hint: Choosing 'Yes' will allow you to add the reasons why this application is being reconsulted.

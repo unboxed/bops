@@ -1,0 +1,29 @@
+<% if recommendations.any? %>
+  <h2 class="govuk-heading-m">
+    <%= t(".assessor_reviewer_audit") %>
+  </h2>
+  <div class="recommendations govuk-inset-text">
+    <% recommendations.each do |recommendation| %>
+      <%= render(
+        partial: "planning_applications/assessment/recommendations/event",
+        locals: {
+          action: t(".submitted_recommendation"),
+          name: recommendation.assessor.name,
+          datetime:  recommendation.created_at,
+          comment: render(FormattedContentComponent.new(text: recommendation.assessor_comment))
+        }
+      ) %>
+      <% if recommendation.reviewed? %>
+        <%= render(
+          partial: "planning_applications/assessment/recommendations/event",
+          locals: {
+            action: t(".recommendation_queried"),
+            name: recommendation.reviewer.name,
+            datetime: recommendation.reviewed_at,
+            comment: render(FormattedContentComponent.new(text: recommendation.reviewer_comment))
+          }
+        ) %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
