@@ -56,6 +56,7 @@ module Bops
     config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
 
     config.default_notify_api_key = ENV["NOTIFY_API_KEY"]
+    config.notify_letter_api_key = ENV["NOTIFY_LETTER_API_KEY"]
     config.otp_secret_encryption_key = ENV["OTP_SECRET_ENCRYPTION_KEY"]
     config.planning_history_enabled = ENV["PLANNING_HISTORY_ENABLED"] == true
   end
