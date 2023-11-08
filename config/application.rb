@@ -54,6 +54,8 @@ module Bops
     config.os_vector_tiles_api_key = ENV["OS_VECTOR_TILES_API_KEY"]
     config.feedback_fish_id = ENV["FEEDBACK_FISH_ID"]
     config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
+
+    config.default_notify_api_key = ENV["NOTIFY_API_KEY"]
   end
 
   def self.env
