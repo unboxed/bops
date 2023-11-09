@@ -22,7 +22,7 @@ module TaskListItems
     end
 
     def link_path
-      planning_application_consultee_responses_path(planning_application)
+      planning_application_consultees_responses_path(planning_application)
     end
 
     def status_tag_component

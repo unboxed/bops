@@ -22,7 +22,7 @@
   }) do %>
     <%= form_with(
       model: @consultation,
-      url: planning_application_consultee_emails_path(@planning_application),
+      url: planning_application_consultees_emails_path(@planning_application),
       builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       method: :post,
       data: { consultees_target: "form" }

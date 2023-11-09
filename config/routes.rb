@@ -147,7 +147,7 @@ Rails.application.routes.draw do
 
       resources :consultees, only: %i[create]
 
-      namespace :consultee do
+      namespace :consultee, as: :consultees do
         resources :emails, only: %i[index create]
         resources :responses, only: %i[index]
         resources :redact_responses, only: %i[edit update]
