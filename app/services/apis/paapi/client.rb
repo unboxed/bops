@@ -5,7 +5,6 @@ require "faraday"
 module Apis
   module Paapi
     class Client
-      HOST = ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1").freeze
       TIMEOUT = 5
 
       def call(uprn)
@@ -17,7 +16,7 @@ module Apis
       private
 
       def faraday
-        @faraday ||= Faraday.new(url: HOST) do |f|
+        @faraday ||= Faraday.new(url: Rails.configuration.paapi_url) do |f|
           f.response :raise_error
         end
       end

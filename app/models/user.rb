@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
     :validatable,
-    otp_secret_encryption_key: ENV.fetch("OTP_SECRET_ENCRYPTION_KEY", nil),
+    otp_secret_encryption_key: Rails.configuration.otp_secret_encryption_key,
     request_keys: [:subdomains]
 
   has_many :planning_applications, dependent: :nullify

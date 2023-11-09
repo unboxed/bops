@@ -51,9 +51,19 @@ module Bops
     # Don't log certain requests that spam the log files
     config.middleware.insert_before Rails::Rack::Logger, QuietLogger, paths: ["/healthcheck"]
 
-    config.os_vector_tiles_api_key = ENV.fetch("OS_VECTOR_TILES_API_KEY", nil)
-    config.feedback_fish_id = ENV.fetch("FEEDBACK_FISH_ID", nil)
-    config.google_tag_manager_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID", " ").presence
+    config.os_vector_tiles_api_key = ENV["OS_VECTOR_TILES_API_KEY"]
+    config.feedback_fish_id = ENV["FEEDBACK_FISH_ID"]
+    config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
+
+    config.default_notify_api_key = ENV["NOTIFY_API_KEY"]
+    config.notify_letter_api_key = ENV["NOTIFY_LETTER_API_KEY"]
+    config.otp_secret_encryption_key = ENV["OTP_SECRET_ENCRYPTION_KEY"]
+    config.paapi_url = ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1")
+    config.planning_history_enabled = ENV["PLANNING_HISTORY_ENABLED"] == true
+    config.planx_file_api_key = ENV["PLANX_FILE_API_KEY"]
+    config.planx_file_production_api_key = ENV["PLANX_FILE_PRODUCTION_API_KEY"]
+    config.staging_api_bearer = ENV["STAGING_API_BEARER"]
+    config.staging_api_url = ENV["STAGING_API_URL"]
   end
 
   def self.env

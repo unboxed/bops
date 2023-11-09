@@ -8,8 +8,7 @@ RSpec.describe "Assessment tasks" do
 
   before do
     sign_in assessor
-    allow(ENV).to receive(:fetch).and_call_original
-    allow(ENV).to receive(:fetch).with("PLANNING_HISTORY_ENABLED", "false").and_return("true")
+    Rails.configuration.planning_history_enabled = true
     visit(planning_application_assessment_tasks_path(planning_application))
   end
 

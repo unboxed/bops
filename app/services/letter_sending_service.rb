@@ -55,9 +55,9 @@ class LetterSendingService
 
   def notify_api_key
     if Bops.env.production?
-      @notify_api_key ||= (@local_authority.notify_api_key || ENV.fetch("NOTIFY_API_KEY"))
+      @notify_api_key ||= (@local_authority.notify_api_key || Rails.configuration.default_notify_api_key)
     else
-      @notify_api_key = ENV.fetch("NOTIFY_LETTER_API_KEY")
+      @notify_api_key = Rails.configuration.notify_letter_api_key
     end
   end
 

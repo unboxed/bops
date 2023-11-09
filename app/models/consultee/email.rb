@@ -48,7 +48,7 @@ class Consultee < ApplicationRecord
     end
 
     def api_key
-      consultee.consultation.planning_application.local_authority.notify_api_key || ENV.fetch("NOTIFY_API_KEY")
+      consultee.consultation.planning_application.local_authority.notify_api_key || Rails.configuration.default_notify_api_key
     end
   end
 end

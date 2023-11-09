@@ -26,7 +26,7 @@ module TwoFactor
     private
 
     def client
-      @client ||= Notifications::Client.new(ENV.fetch("NOTIFY_API_KEY"))
+      @client ||= Notifications::Client.new(Rails.configuration.default_notify_api_key)
     end
   end
 end

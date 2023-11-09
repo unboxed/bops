@@ -5,7 +5,6 @@ require "faraday"
 module Apis
   module Bops
     class Client
-      HOST = ENV.fetch("STAGING_API_URL").freeze
       TIMEOUT = 5
 
       def call(local_authority, planning_application)
@@ -19,11 +18,11 @@ module Apis
       private
 
       def faraday(local_authority)
-        @faraday ||= Faraday.new(url: "https://#{local_authority}.#{HOST}") do |f|
+        @faraday ||= Faraday.new(url: "https://#{local_authority}.#{Rails.configuration.staging_api_url}") do |f|
           f.response :raise_error
           f.headers = {
             "Content-Type" => "application/json",
-            "Authorization" => "Bearer #{ENV.fetch("STAGING_API_BEARER")}"
+            "Authorization" => "Bearer #{Rails.configuration.staging_api_bearer}"
           }
         end
       end

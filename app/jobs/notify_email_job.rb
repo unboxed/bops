@@ -65,9 +65,7 @@ class NotifyEmailJob < ApplicationJob
   private
 
   def api_key
-    ENV.fetch("NOTIFY_API_KEY")
-  rescue KeyError
-    raise NotifyEmailJob::NotConfiguredError, "Notify API key not found"
+    Rails.configuration.default_notify_api_key.presence || (raise NotifyEmailJob::NotConfiguredError, "Notify API key not found")
   end
 
   def client

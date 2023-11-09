@@ -533,7 +533,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def planning_history_enabled?
-    ENV.fetch("PLANNING_HISTORY_ENABLED", "false") == "true"
+    Rails.configuration.planning_history_enabled
   end
 
   def rejected_assessment_detail(category:)

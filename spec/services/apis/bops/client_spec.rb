@@ -8,7 +8,7 @@ RSpec.describe Apis::Bops::Client do
 
   describe "#call" do
     it "is successful" do
-      allow(ENV).to receive(:fetch).with("STAGING_API_BEARER").and_return("testtesttest")
+      Rails.configuration.staging_api_bearer = "testtesttest"
 
       expect(client.call(planning_application.local_authority.subdomain, planning_application).status).to eq(200)
     end
