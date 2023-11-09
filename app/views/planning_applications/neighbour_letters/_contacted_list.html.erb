@@ -8,7 +8,7 @@
       </p>
       <div class="consultation-letter-status">
         <div>
-          <%= render(StatusTags::BaseComponent.new(status: NeighbourLetter::STATUSES[neighbour.last_letter.status.to_sym])) %>
+          <%= render(StatusTags::BaseComponent.new(status: NeighbourLetter::STATUSES[neighbour.last_letter.status&.to_sym])) %>
         </div>
         <% if neighbour.last_letter.status_updated_at.present? %>
           <p class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">

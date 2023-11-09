@@ -68,6 +68,12 @@ if planning_application.consultation.present?
     json.received_at response.received_at
     json.summary_tag response.summary_tag
   end
+
+  json.consultee_comments planning_application.consultation.consultee_responses.redacted do |response|
+    json.comment response.redacted_response
+    json.received_at response.received_at
+  end
+
   json.consultation do
     json.end_date planning_application.consultation.end_date
   end
