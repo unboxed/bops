@@ -21,20 +21,6 @@
   method: :post
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <% if @neighbour_response.errors.any? %>
-    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title">
-        There is a problem
-      </h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <% @neighbour_response.errors.full_messages.each do |error| %>
-            <li><%= error %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
   <%= form.govuk_select :address, @consultation.selected_neighbour_addresses, options: { include_blank: true }, label: { text: "Select an existing neighbour address" } %>
