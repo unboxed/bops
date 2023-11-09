@@ -115,9 +115,9 @@ RSpec.describe "Reviewing assessment summaries" do
         )
       end
 
-      let!(:neighbour1) { create(:neighbour, address: "1 Cookie Avenue", consultation:) }
-      let!(:neighbour2) { create(:neighbour, address: "2 Cookie Avenue", consultation:) }
-      let!(:neighbour3) { create(:neighbour, address: "3 Cookie Avenue", consultation:) }
+      let!(:neighbour1) { create(:neighbour, address: "1, Cookie Avenue, AAA111", consultation:) }
+      let!(:neighbour2) { create(:neighbour, address: "2, Cookie Avenue, AAA111", consultation:) }
+      let!(:neighbour3) { create(:neighbour, address: "3, Cookie Avenue, AAA111", consultation:) }
       let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
       let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
       let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
@@ -904,9 +904,9 @@ RSpec.describe "Reviewing assessment summaries" do
         )
       end
 
-      let!(:neighbour1) { create(:neighbour, address: "1 Cookie Avenue", consultation:) }
-      let!(:neighbour2) { create(:neighbour, address: "2 Cookie Avenue", consultation:) }
-      let!(:neighbour3) { create(:neighbour, address: "3 Cookie Avenue", consultation:) }
+      let!(:neighbour1) { create(:neighbour, address: "1, Cookie Avenue, AAA111", consultation:) }
+      let!(:neighbour2) { create(:neighbour, address: "2, Cookie Avenue, AAA111", consultation:) }
+      let!(:neighbour3) { create(:neighbour, address: "3, Cookie Avenue, AAA111", consultation:) }
       let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
       let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
       let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Neighbour < ApplicationRecord
+  class AddressValidationError < StandardError; end
+
   belongs_to :consultation
   has_many :neighbour_letters, dependent: :destroy
   has_many :neighbour_responses, dependent: :destroy
@@ -11,6 +13,7 @@ class Neighbour < ApplicationRecord
       "#{data[:value]} has already been added."
     }
   }
+  validate :validate_address_format, unless: :not_selected?
 
   accepts_nested_attributes_for :neighbour_responses
 
@@ -37,9 +40,40 @@ class Neighbour < ApplicationRecord
     letter_created? && neighbour_letters.any? { |letter| letter.sent_at.present? }
   end
 
+  def validate_address_format
+    return if address.blank?
+
+    errors.add(:address, address_validation_error_message) if split_address_on_commas.length < 2
+  end
+
+  def format_address_lines
+    address_lines = split_address_on_commas.insert(0, "The Occupier")
+
+    # GOV.UK Notify expects at least 3 lines for the address
+    raise AddressValidationError, address_validation_error_message if address_lines.length < 3
+
+    address_lines.each_with_index.to_h do |line, i|
+      ["address_line_#{i + 1}", line]
+    end
+  end
+
   private
 
   def not_selected?
     selected == false
+  end
+
+  def split_address_on_commas
+    # split on commas unless preceded by digits (i.e. house numbers)
+    address.split(/(?<!\d), */).compact
+  end
+
+  def address_validation_error_message
+    <<~ERROR
+      '#{address}' is invalid
+      Enter the property name or number, followed by a comma
+      Enter the street name, followed by a comma
+      Enter a postcode, like AA11AA
+    ERROR
   end
 end

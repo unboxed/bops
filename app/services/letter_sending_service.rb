@@ -30,7 +30,7 @@ class LetterSendingService
     end
 
     personalisation = {message: letter_content, heading: @consultation.neighbour_letter_header}
-    personalisation.merge! address
+    personalisation.merge! neighbour.format_address_lines
 
     begin
       response = client.send_letter(
@@ -66,15 +66,6 @@ class LetterSendingService
       @notify_template_id ||= @local_authority.notify_letter_template || DEFAULT_NOTIFY_TEMPLATE_ID
     else
       @notify_template_id = DEFAULT_NOTIFY_TEMPLATE_ID
-    end
-  end
-
-  def address
-    # split on commas unless preceded by digits (i.e. house numbers)
-    address_lines = neighbour.address.split(/(?<!\d), */).compact
-    address_lines.insert(0, "The Occupier")
-    address_lines.each_with_index.to_h do |line, i|
-      ["address_line_#{i + 1}", line]
     end
   end
 

@@ -3,7 +3,6 @@
 }
 
 .flash {
-  padding: govuk-spacing(5) 0;
   &.notice {
     @include flash;
     color: govuk-colour("green");
