@@ -35,11 +35,11 @@ RSpec.describe "Consultation", js: true do
   end
 
   let(:start_date) do
-    1.business_day.from_now
+    1.business_day.from_now.beginning_of_day
   end
 
   let(:end_date) do
-    start_date + 21.days
+    start_date.end_of_day + 21.days
   end
 
   let(:now) do
@@ -47,7 +47,7 @@ RSpec.describe "Consultation", js: true do
   end
 
   let(:period) do
-    ((end_date - now) / 86_400.0).floor.abs
+    (end_date - now).seconds.in_days.floor
   end
 
   before do

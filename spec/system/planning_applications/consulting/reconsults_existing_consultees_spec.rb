@@ -111,8 +111,8 @@ RSpec.describe "Consultation", js: true do
 
     consultation.update(
       status: "in_progress",
-      start_date: 14.days.ago,
-      end_date: 7.days.from_now
+      start_date: 14.days.ago.beginning_of_day,
+      end_date: 7.days.from_now.end_of_day
     )
   end
 
@@ -311,7 +311,7 @@ RSpec.describe "Consultation", js: true do
     within "#dates-and-assignment-details" do
       expect(page).to have_text("Consultation start date: #{start.to_date.to_fs}")
       expect(page).to have_text("Consultation end date: #{future.to_date.to_fs}")
-      expect(page).to have_text("15 days remaining")
+      expect(page).to have_text("14 days remaining")
     end
 
     within "#consultee-tasks" do

@@ -92,7 +92,7 @@ class Consultation < ApplicationRecord
     end
 
     if reconsult?
-      extend_deadline(reconsult_date.end_of_day)
+      extend_deadline(reconsult_date)
     end
 
     enqueue_send_consultee_email_jobs
@@ -105,22 +105,22 @@ class Consultation < ApplicationRecord
   end
 
   def start_deadline
-    update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
+    update!(end_date: end_date_from_now, start_date: start_date || default_start_date)
   end
 
   def extend_deadline(new_date)
-    update!(end_date: [end_date, new_date].max)
+    update!(end_date: [end_date, new_date.end_of_day].max)
   end
 
   def end_date_from_now
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
-    1.business_day.from_now + 21.days
+    default_start_date.end_of_day + 21.days
   end
 
-  def days_left
-    (end_date - Time.zone.now).seconds.in_days.round
+  def days_left(now = Time.zone.now)
+    (end_date - now).seconds.in_days.floor
   end
 
   def neighbour_letters_status
@@ -281,6 +281,10 @@ class Consultation < ApplicationRecord
   end
 
   private
+
+  def default_start_date
+    1.business_day.from_now.beginning_of_day
+  end
 
   def enqueue_send_consultee_email_jobs
     defaults = {

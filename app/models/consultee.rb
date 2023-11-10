@@ -33,7 +33,7 @@ class Consultee < ApplicationRecord
   end
 
   def period(now = Time.current)
-    expires_at && ((expires_at - now) / 86_400.0).floor.abs
+    (expires_at - now).seconds.in_days.floor
   end
 
   def consulted?
