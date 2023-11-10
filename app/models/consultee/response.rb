@@ -31,7 +31,7 @@ class Consultee
 
     class << self
       def default_scope
-        preload(documents: :file_attachment)
+        preload(documents: :file_attachment).order(:received_at, :id)
       end
 
       def redacted
@@ -57,6 +57,10 @@ class Consultee
 
     def comment
       (redacted_response.presence || response)
+    end
+
+    def published?
+      redacted_response.present?
     end
 
     def documents=(files)

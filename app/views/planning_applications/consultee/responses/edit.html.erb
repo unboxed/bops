@@ -10,20 +10,7 @@
       locals: {heading: "Redact comment"}
     ) %>
 
-<h2 class="govuk-heading-m govuk-!-margin-top-5">Comment submitted by</h2>
-<hr>
-
-<ul class="govuk-list">
-  <li>
-    <strong><%= @consultee.name %></strong> <span class="govuk-hint" style="display: inline;"><%= @consultee.email_address %></span>
-  </li>
-  <li class="govuk-hint">
-      <%= @consultee.organisation %> (<%= @consultee.origin %>)
-  </li>
-  <li class="govuk-hint">
-    Received on <%= @consultee_response.received_at.to_formatted_s(:day_month_year_slashes) %>
-  </li>
-</ul>
+<%= render ConsulteeSummaryComponent.new(consultee: @consultee) %>
 
 <details class="govuk-details" data-module="govuk-details">
   <summary class="govuk-details__summary">

@@ -15,11 +15,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <ul>
-      <% @consultee.responses.each do |response| %>
-        <li><%= @consultee.name %>: <%= link_to "Redact and publish", edit_planning_application_consultee_response_path(@planning_application, @consultee, response), class: "govuk-link" %> </li>
-      <% end %>
-    </ul>
+    <%= render ConsulteeSummaryComponent.new(consultee: @consultee) %>
+    <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses) %>
 
     <div class="govuk-button-group govuk-!-margin-top-5">
       <%= link_to "Back", planning_application_consultees_responses_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

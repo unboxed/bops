@@ -588,11 +588,21 @@ en:
     no_objections: No objections
     refused: Refused
     sending: Sending
+  consultee_response_component:
+    amendments_needed: Amendments needed
+    no_objections: No objections
+    private: Private
+    published: Published
+    received_on: Received on %-d %B %Y
+    redact_and_publish: Redact and publish
+    refused: Refused
   consultee_response_group_component:
     external_header: External consultee responses (%{count})
     internal_header: Internal consultee responses (%{count})
     no_external_responses: No external consultee responses yet
     no_internal_responses: No internal consultee responses yet
+  consultee_response_list_component:
+    heading: Responses
   consultee_responses_component:
     amendments_needed: Amendments needed
     awaiting_response: Awaiting response
@@ -612,6 +622,19 @@ en:
     responded: Responded
     select_consultee: Select consultee
     sending: Sending
+  consultee_summary_component:
+    amendments_needed: Amendments needed
+    awaiting_response: Awaiting response
+    consulted_on: Consulted on
+    email_address: Email address
+    failed: Failed
+    heading: Consultee
+    last_response_on: Last response on
+    name: Name
+    no_objections: No objections
+    refused: Refused
+    sending: Sending
+    status: Status
   consultees:
     update:
       success: Consultee response has been updated

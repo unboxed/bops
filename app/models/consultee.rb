@@ -45,6 +45,6 @@ class Consultee < ApplicationRecord
   end
 
   def last_response
-    responses.max_by(&:received_at)
+    responses.max_by(&:id)
   end
 end
