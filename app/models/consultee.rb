@@ -43,4 +43,8 @@ class Consultee < ApplicationRecord
   def responses?
     responses.present?
   end
+
+  def last_response
+    responses.max_by(&:received_at)
+  end
 end

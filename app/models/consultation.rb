@@ -315,11 +315,12 @@ class Consultation < ApplicationRecord
         body: format(body, variables)
       )
 
-      if reconsult?
-        expires_at = [end_date, reconsult_date].max
-      else
-        expires_at = end_date
-      end
+      expires_at = \
+        if reconsult?
+          [end_date, reconsult_date].max
+        else
+          end_date
+        end
 
       consultee.update!(
         selected: false,

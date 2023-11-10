@@ -4,6 +4,7 @@ class Document < ApplicationRecord
   class NotArchiveableError < StandardError; end
 
   belongs_to :planning_application
+  belongs_to :owner, optional: true, polymorphic: true
   belongs_to :evidence_group, optional: true
   belongs_to :site_visit, optional: true
   belongs_to :site_notice, optional: true
@@ -131,6 +132,12 @@ class Document < ApplicationRecord
   scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
+
+  before_validation on: :create do
+    if owner.present?
+      self.planning_application ||= owner.planning_application
+    end
+  end
 
   before_create do
     self.api_user ||= Current.api_user

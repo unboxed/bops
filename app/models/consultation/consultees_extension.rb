@@ -6,8 +6,16 @@ class Consultation < ApplicationRecord
       select(&:internal?).sort_by(&:created_at)
     end
 
+    def internal_responses
+      internal.select(&:responses?)
+    end
+
     def external
       select(&:external?).sort_by(&:created_at)
+    end
+
+    def external_responses
+      external.select(&:responses?)
     end
 
     def selected

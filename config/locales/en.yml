@@ -573,6 +573,30 @@ en:
       %{signatory_job_title}
       %{local_authority}
     subject: Application for planning permission %{reference}
+  consultee_overview_component:
+    chase_outstanding_consultees: Chase outstanding consultees
+    consulted: Date last consulted
+    expires: Date of expiry
+    header: Consultee overview
+    name: Consultee name
+    status: Status
+  consultee_overview_row_component:
+    amendments_needed: Amendments needed
+    awaiting_response: Awaiting response
+    no_objections: No objections
+    refused: Refused
+  consultee_response_group_component:
+    external_header: External consultee responses (%{count})
+    internal_header: Internal consultee responses (%{count})
+    no_external_responses: No external consultee responses yet
+    no_internal_responses: No internal consultee responses yet
+  consultee_responses_component:
+    amendments_needed: Amendments needed
+    last_response_at: Last response on %-d %B %Y
+    no_objections: No objections
+    redact_and_publish: Redact and publish
+    refused: Refused
+    view_all_responses: View all responses (%{count})
   consultee_row_component:
     awaiting_response: Awaiting response
     failed: Failed
