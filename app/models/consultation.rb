@@ -125,11 +125,9 @@ class Consultation < ApplicationRecord
   end
 
   def consultee_responses_status
-    return "not_started" if end_date.blank?
-
-    if complete?
+    if consultees.complete?
       "complete"
-    elsif consultee_responses.present?
+    elsif consultees.responded?
       "in_progress"
     else
       "not_started"

@@ -39,4 +39,12 @@ class Consultee < ApplicationRecord
   def period(now = Time.current)
     email_delivered_at? ? ((expires_at - now) / 86_400.0).floor.abs : nil
   end
+
+  def consulted?
+    awaiting_response? || responses?
+  end
+
+  def responses?
+    responses.present?
+  end
 end

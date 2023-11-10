@@ -12,13 +12,14 @@ module TaskListItems
 
     delegate :consultation, to: :planning_application
     delegate :consultee_responses_status, to: :consultation
+    delegate :consultees, to: :consultation
 
     def link_text
       t(".consultee_responses")
     end
 
     def link_active?
-      consultation.end_date.present?
+      consultees.consulted?
     end
 
     def link_path

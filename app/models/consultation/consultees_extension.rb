@@ -19,7 +19,7 @@ class Consultation < ApplicationRecord
     end
 
     def consulted
-      reject(&:not_consulted?)
+      select(&:consulted?).sort_by(&:created_at)
     end
 
     def consulted?
@@ -27,11 +27,15 @@ class Consultation < ApplicationRecord
     end
 
     def failed?
-      consulted.any?(&:failed?)
+      any?(&:failed?)
     end
 
     def awaiting_responses?
       consulted.any?(&:awaiting_response?)
+    end
+
+    def responded?
+      consulted.any?(&:responses?)
     end
 
     def complete?
