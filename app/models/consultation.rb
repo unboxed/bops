@@ -315,11 +315,18 @@ class Consultation < ApplicationRecord
         body: format(body, variables)
       )
 
+      if reconsult?
+        expires_at = [end_date, reconsult_date].max
+      else
+        expires_at = end_date
+      end
+
       consultee.update!(
         selected: false,
         status: "sending",
-        email_sent_at: nil,
-        email_delivered_at: nil
+        expires_at: expires_at.end_of_day,
+        last_email_sent_at: nil,
+        last_email_delivered_at: nil
       )
 
       SendConsulteeEmailJob.perform_later(self, consultee_email)

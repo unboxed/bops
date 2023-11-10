@@ -34,16 +34,44 @@ RSpec.describe "Consultation", js: true do
     Date.current
   end
 
+  let(:end_date) do
+    Date.current + 7.days
+  end
+
   let(:current_date) do
     today.to_fs(:day_month_year_slashes)
   end
 
+  let(:start) do
+    consultation.start_date
+  end
+
   let(:start_date) do
-    consultation.start_date.to_fs(:day_month_year_slashes)
+    start.to_fs(:day_month_year_slashes)
   end
 
   let(:existing_date) do
     consultation.end_date.to_date.to_fs
+  end
+
+  let(:email_sent_at) do
+    14.days.ago
+  end
+
+  let(:email_delivered_at) do
+    email_sent_at + 5.minutes
+  end
+
+  let(:expires_at) do
+    7.days.from_now.end_of_day
+  end
+
+  let(:now) do
+    Time.current
+  end
+
+  let(:consultee) do
+    Consultee.find_by!(email_address: "planning@london.gov.uk")
   end
 
   before do
@@ -55,8 +83,11 @@ RSpec.describe "Consultation", js: true do
       organisation: "GLA",
       email_address: "planning@london.gov.uk",
       status: "awaiting_response",
-      email_sent_at: 14.days.ago,
-      email_delivered_at: 14.days.ago + 5.minutes
+      email_sent_at: email_sent_at,
+      email_delivered_at: email_delivered_at,
+      last_email_sent_at: email_sent_at,
+      last_email_delivered_at: email_delivered_at,
+      expires_at: expires_at
     )
 
     create(
@@ -67,8 +98,11 @@ RSpec.describe "Consultation", js: true do
       organisation: local_authority.council_name,
       email_address: "chris.wood@#{local_authority.subdomain}.gov.uk",
       status: "awaiting_response",
-      email_sent_at: 14.days.ago,
-      email_delivered_at: 14.days.ago + 5.minutes
+      email_sent_at: email_sent_at,
+      email_delivered_at: email_delivered_at,
+      last_email_sent_at: email_sent_at,
+      last_email_delivered_at: email_delivered_at,
+      expires_at: expires_at
     )
 
     consultation.update(
@@ -91,6 +125,12 @@ RSpec.describe "Consultation", js: true do
 
     click_link "Consultees, neighbours and publicity"
     expect(page).to have_selector("h1", text: "Consultation")
+
+    within "#dates-and-assignment-details" do
+      expect(page).to have_text("Consultation start date: #{start.to_date.to_fs}")
+      expect(page).to have_text("Consultation end date: #{end_date.to_fs}")
+      expect(page).to have_text("7 days remaining")
+    end
 
     within "#consultee-tasks" do
       expect(page).to have_selector("li:first-child a", text: "Send emails to consultees")
@@ -193,8 +233,8 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
-        expect(page).to have_selector("td:nth-child(3)", text: "–")
-        expect(page).to have_selector("td:nth-child(4)", text: "–")
+        expect(page).to have_selector("td:nth-child(3)", text: "7 days")
+        expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Sending")
       end
     end
@@ -214,9 +254,20 @@ RSpec.describe "Consultation", js: true do
     perform_enqueued_jobs
     expect(external_status).to have_been_requested
 
+    expect(consultee.email_sent_at).to be_within(1.second).of(email_sent_at)
+    expect(consultee.email_delivered_at).to be_within(1.second).of(email_delivered_at)
+    expect(consultee.last_email_sent_at).to be_within(1.minute).of(now)
+    expect(consultee.last_email_delivered_at).to be_within(1.minute).of(now)
+
     click_link "Back"
     expect(page).to have_selector("h1", text: "Consultation")
     expect(page).to have_text("Consultation end date: #{existing_date}")
+
+    within "#dates-and-assignment-details" do
+      expect(page).to have_text("Consultation start date: #{start.to_date.to_fs}")
+      expect(page).to have_text("Consultation end date: #{end_date.to_fs}")
+      expect(page).to have_text("7 days remaining")
+    end
 
     within "#consultee-tasks" do
       expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
@@ -229,8 +280,8 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
-        expect(page).to have_selector("td:nth-child(3)", text: "21 days")
-        expect(page).to have_selector("td:nth-child(4)", text: current_date)
+        expect(page).to have_selector("td:nth-child(3)", text: "7 days")
+        expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end
     end

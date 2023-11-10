@@ -12,10 +12,14 @@ class UpdateConsulteeEmailStatusJob < ApplicationJob
     consultee_email.with_lock do
       next unless consultee_email.update_status!
 
+      consultee = consultee_email.consultee
+      current_time = Time.current
+
       if consultee_email.delivered?
-        consultee_email.consultee.update!(
+        consultee.update!(
           status: "awaiting_response",
-          email_delivered_at: Time.current
+          email_delivered_at: consultee.email_delivered_at || current_time,
+          last_email_delivered_at: current_time
         )
       elsif consultee_email.failed?
         consultee_email.consultee.update!(status: "failed")

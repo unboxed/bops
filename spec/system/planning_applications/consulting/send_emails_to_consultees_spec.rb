@@ -34,6 +34,22 @@ RSpec.describe "Consultation", js: true do
     Date.current.to_fs(:day_month_year_slashes)
   end
 
+  let(:start_date) do
+    1.business_day.from_now
+  end
+
+  let(:end_date) do
+    start_date + 21.days
+  end
+
+  let(:now) do
+    Time.current
+  end
+
+  let(:period) do
+    ((end_date - now) / 86_400.0).floor.abs
+  end
+
   before do
     create(
       :contact, :external,
@@ -66,6 +82,11 @@ RSpec.describe "Consultation", js: true do
 
     click_link "Consultees, neighbours and publicity"
     expect(page).to have_selector("h1", text: "Consultation")
+
+    within "#dates-and-assignment-details" do
+      expect(page).to have_text("Consultation start date: Not yet started")
+      expect(page).to have_text("Consultation end date: Not yet started")
+    end
 
     within "#consultee-tasks" do
       expect(page).to have_selector("li:first-child a", text: "Send emails to consultees")
@@ -266,7 +287,7 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Chris Wood")
-        expect(page).to have_selector("td:nth-child(3)", text: "21 days")
+        expect(page).to have_selector("td:nth-child(3)", text: "#{period} days")
         expect(page).to have_selector("td:nth-child(4)", text: current_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end
@@ -352,6 +373,12 @@ RSpec.describe "Consultation", js: true do
     click_link "Back"
     expect(page).to have_selector("h1", text: "Consultation")
 
+    within "#dates-and-assignment-details" do
+      expect(page).to have_text("Consultation start date: #{start_date.to_date.to_fs}")
+      expect(page).to have_text("Consultation end date: #{end_date.to_date.to_fs}")
+      expect(page).to have_text("#{period} days remaining")
+    end
+
     within "#consultee-tasks" do
       expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
     end
@@ -363,7 +390,7 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
-        expect(page).to have_selector("td:nth-child(3)", text: "21 days")
+        expect(page).to have_selector("td:nth-child(3)", text: "#{period} days")
         expect(page).to have_selector("td:nth-child(4)", text: current_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end
