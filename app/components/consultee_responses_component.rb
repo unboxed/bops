@@ -8,11 +8,16 @@ class ConsulteeResponsesComponent < ViewComponent::Base
   private
 
   attr_reader :consultee
-  delegate :consultation, to: :consultee
+
+  with_options to: :consultee do
+    delegate :consultation
+    delegate :name, prefix: true
+    delegate :awaiting_response?, :responded?
+    delegate :responses, :responses?
+    delegate :last_response
+  end
+
   delegate :planning_application, to: :consultation
-  delegate :name, to: :consultee, prefix: true
-  delegate :responses, to: :consultee
-  delegate :last_response, to: :consultee
 
   def wrapper_tag(&)
     options = {
@@ -31,18 +36,31 @@ class ConsulteeResponsesComponent < ViewComponent::Base
     tag(:hr, class: "govuk-section-break govuk-section-break--l govuk-section-break--visible")
   end
 
-  def last_response_at
-    time_tag(last_response.received_at, format: t(".last_response_at"))
+  def last_email_delivered_at
+    time_tag(consultee.last_email_delivered_at, format: t(".last_email_delivered_at"))
   end
 
-  def last_response_status
-    case last_response.summary_tag
-    when "amendments_needed"
-      content_tag(:span, t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow")
-    when "refused"
-      content_tag(:span, t(".refused"), class: "govuk-tag govuk-tag--red")
-    else
-      content_tag(:span, t(".no_objections"), class: "govuk-tag govuk-tag--blue")
+  def last_response_at
+    time_tag(consultee.last_response_at, format: t(".last_response_at"))
+  end
+
+  def consultee_status
+    case consultee.status
+    when "sending"
+      content_tag(:span, t(".sending"), class: "govuk-tag govuk-tag--grey")
+    when "failed"
+      content_tag(:span, t(".failed"), class: "govuk-tag govuk-tag--red")
+    when "awaiting_response"
+      content_tag(:span, t(".awaiting_response"), class: "govuk-tag govuk-tag--grey")
+    when "responded"
+      case last_response.summary_tag
+      when "amendments_needed"
+        content_tag(:span, t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow")
+      when "refused"
+        content_tag(:span, t(".refused"), class: "govuk-tag govuk-tag--red")
+      when "no_objections"
+        content_tag(:span, t(".no_objections"), class: "govuk-tag govuk-tag--blue")
+      end
     end
   end
 
@@ -63,21 +81,25 @@ class ConsulteeResponsesComponent < ViewComponent::Base
     link_to(document.name, url_for_document(document), **options)
   end
 
-  def view_all_response_link_tag
+  def view_responses_link_tag
     options = {
       class: "govuk-link",
-      href: planning_application_consultee_responses_path(planning_application, consultee)
+      href: planning_application_consultee_path(planning_application, consultee)
     }
 
-    content_tag(:a, t(".view_all_responses", count: responses.size), **options)
+    if responded?
+      content_tag(:a, t(".view_all_responses", count: responses.size), **options)
+    else
+      content_tag(:a, t(".view_previous_responses", count: responses.size), **options)
+    end
   end
 
-  def redact_and_publish_link_tag
+  def upload_new_response_link_tag
     options = {
       class: "govuk-link",
-      href: "#"
+      href: new_planning_application_consultee_response_path(planning_application, consultee)
     }
 
-    content_tag(:a, t(".redact_and_publish"), **options)
+    content_tag(:a, t(".upload_new_response"), **options)
   end
 end

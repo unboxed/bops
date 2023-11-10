@@ -37,7 +37,7 @@ class Consultee < ApplicationRecord
   end
 
   def consulted?
-    awaiting_response? || responses?
+    !not_consulted?
   end
 
   def responses?

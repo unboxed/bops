@@ -6,16 +6,16 @@ class Consultation < ApplicationRecord
       select(&:internal?).sort_by(&:created_at)
     end
 
-    def internal_responses
-      internal.select(&:responses?)
+    def internal_consulted
+      internal.select(&:consulted?)
     end
 
     def external
       select(&:external?).sort_by(&:created_at)
     end
 
-    def external_responses
-      external.select(&:responses?)
+    def external_consulted
+      external.select(&:consulted?)
     end
 
     def selected
@@ -35,7 +35,7 @@ class Consultation < ApplicationRecord
     end
 
     def failed?
-      any?(&:failed?)
+      consulted.any?(&:failed?)
     end
 
     def awaiting_responses?

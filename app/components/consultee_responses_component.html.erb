@@ -4,30 +4,38 @@
   <% end %>
 
   <div class="govuk-inset-text" %>
-    <p class="govuk-body-s govuk-!-margin-bottom-2">
-      <%= last_response_at %>
-    </p>
+    <% if responded? %>
+      <p class="govuk-body-s govuk-!-margin-bottom-2">
+        <%= last_response_at %>
+      </p>
+    <% elsif awaiting_response? %>
+      <p class="govuk-body-s govuk-!-margin-bottom-2">
+        <%= last_email_delivered_at %>
+      </p>
+    <% end %>
 
     <p class="govuk-body">
-      <%= last_response_status %>
+      <%= consultee_status %>
     </p>
 
-    <p class="govuk-body">
-      <%= last_response.response %>
-    </p>
+    <% if responded? %>
+      <p class="govuk-body">
+        <%= last_response.response %>
+      </p>
 
-    <% if last_response.documents.present? %>
-      <ul class="govuk-list govuk-body-s">
-        <% last_response.documents.each do |document| %>
-          <li><%= document_link_tag(document) %></li>
-        <% end %>
-      </ul>
+      <% if last_response.documents.present? %>
+        <ul class="govuk-list govuk-body-s">
+          <% last_response.documents.each do |document| %>
+            <li><%= document_link_tag(document) %></li>
+          <% end %>
+        </ul>
+      <% end %>
     <% end %>
   </div>
 
   <p class="govuk-body govuk-!-margin-top-2">
-    <%= view_all_response_link_tag %>
-    <%= redact_and_publish_link_tag %>
+    <%= view_responses_link_tag if responses? %>
+    <%= upload_new_response_link_tag %>
   </p>
 
   <%= section_break_tag %>

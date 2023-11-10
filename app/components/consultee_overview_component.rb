@@ -40,11 +40,23 @@ class ConsulteeOverviewComponent < ViewComponent::Base
     content_tag(:a, **options, &)
   end
 
+  def consultees_emails_path(params)
+    planning_application_consultees_emails_path(planning_application, params)
+  end
+
   def chase_outstanding_consultees_path
-    planning_application_consultees_emails_path(planning_application)
+    consultees_emails_path(reason: "resend")
+  end
+
+  def reconsult_existing_consultees_path
+    consultees_emails_path(reason: "reconsult")
   end
 
   def awaiting_responses?
     consultees.any?(&:awaiting_response?)
+  end
+
+  def complete?
+    consultees.present? && consultees.all?(&:responded?)
   end
 end

@@ -16,8 +16,8 @@
   <div class="govuk-grid-column-full">
     <% if @consultees.consulted? %>
       <%= render ConsulteeOverviewComponent.new(consultation: @consultation, consultees: @consultees.consulted) %>
-      <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.external_responses, group: "external") %>
-      <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.internal_responses, group: "internal") %>
+      <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.external_consulted, group: "external") %>
+      <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.internal_consulted, group: "internal") %>
     <% else %>
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

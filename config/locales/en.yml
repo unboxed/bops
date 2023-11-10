@@ -579,12 +579,15 @@ en:
     expires: Date of expiry
     header: Consultee overview
     name: Consultee name
+    reconsult_existing_consultees: Reconsult existing consultees
     status: Status
   consultee_overview_row_component:
     amendments_needed: Amendments needed
     awaiting_response: Awaiting response
+    failed: Failed
     no_objections: No objections
     refused: Refused
+    sending: Sending
   consultee_response_group_component:
     external_header: External consultee responses (%{count})
     internal_header: Internal consultee responses (%{count})
@@ -592,11 +595,16 @@ en:
     no_internal_responses: No internal consultee responses yet
   consultee_responses_component:
     amendments_needed: Amendments needed
+    awaiting_response: Awaiting response
+    failed: Failed
+    last_email_delivered_at: Last consulted on %-d %B %Y
     last_response_at: Last response on %-d %B %Y
     no_objections: No objections
-    redact_and_publish: Redact and publish
     refused: Refused
+    sending: Sending
+    upload_new_response: Upload new response
     view_all_responses: View all responses (%{count})
+    view_previous_responses: View previous responses (%{count})
   consultee_row_component:
     awaiting_response: Awaiting response
     failed: Failed

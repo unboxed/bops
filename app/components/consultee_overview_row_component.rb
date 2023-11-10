@@ -23,18 +23,10 @@ class ConsulteeOverviewRowComponent < ViewComponent::Base
     content_tag(:tr, **options, &)
   end
 
-  def consultee_url
-    if consultee.responses?
-      "#consultee-#{consultee.id}-responses"
-    else
-      new_planning_application_consultee_response_path(planning_application, consultee)
-    end
-  end
-
   def consultee_link_tag(&)
     options = {
       class: "govuk-link",
-      href: consultee_url
+      href: "#consultee-#{consultee.id}-responses"
     }
 
     content_tag(:a, **options, &)
@@ -50,15 +42,19 @@ class ConsulteeOverviewRowComponent < ViewComponent::Base
 
   def consultee_status
     case consultee.status
+    when "sending"
+      content_tag(:span, t(".sending"), class: "govuk-tag govuk-tag--grey")
+    when "failed"
+      content_tag(:span, t(".failed"), class: "govuk-tag govuk-tag--red")
     when "awaiting_response"
       content_tag(:span, t(".awaiting_response"), class: "govuk-tag govuk-tag--grey")
-    else
+    when "responded"
       case last_response.summary_tag
       when "amendments_needed"
         content_tag(:span, t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow")
       when "refused"
         content_tag(:span, t(".refused"), class: "govuk-tag govuk-tag--red")
-      else
+      when "no_objections"
         content_tag(:span, t(".no_objections"), class: "govuk-tag govuk-tag--blue")
       end
     end

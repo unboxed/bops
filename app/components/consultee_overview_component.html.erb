@@ -28,8 +28,16 @@
   </table>
 
   <% if awaiting_responses? %>
-    <%= link_tag chase_outstanding_consultees_path do %>
-      <%= t(".chase_outstanding_consultees") %>
-    <% end %>
+    <p class="govuk-body">
+      <%= link_tag chase_outstanding_consultees_path do %>
+        <%= t(".chase_outstanding_consultees") %>
+      <% end %>
+    </p>
+  <% elsif complete? %>
+    <p class="govuk-body">
+      <%= link_tag reconsult_existing_consultees_path do %>
+        <%= t(".reconsult_existing_consultees") %>
+      <% end %>
+    </p>
   <% end %>
 <% end %>
