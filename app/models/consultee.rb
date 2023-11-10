@@ -23,7 +23,7 @@ class Consultee < ApplicationRecord
   }, scopes: false
 
   class << self
-    def with_response
+    def default_scope
       preload(:responses)
     end
   end
