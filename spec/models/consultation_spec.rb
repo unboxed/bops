@@ -15,18 +15,18 @@ RSpec.describe Consultation do
     describe "address" do
       let!(:consultation) { create(:consultation) }
       let!(:other_consultation) { create(:consultation) }
-      let!(:neighbour) { create(:neighbour, address: "1 Test lane", consultation:) }
+      let!(:neighbour) { create(:neighbour, address: "1, Test Lane, AAA111", consultation:) }
 
       it "validates uniqueness within the scope of consultation_id" do
-        expect { create(:neighbour, address: "1 Test lane", consultation:) }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Address 1 Test lane has already been added.")
+        expect { create(:neighbour, address: "1, Test Lane, AAA111", consultation:) }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Address 1, Test Lane, AAA111 has already been added.")
       end
 
       it "is case insensitive when validating uniqueness within the scope of consultation_id" do
-        expect { create(:neighbour, address: "1 TEST LAnE", consultation:) }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Address 1 TEST LAnE has already been added.")
+        expect { create(:neighbour, address: "1, Test Lane, AAA111", consultation:) }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Address 1, Test Lane, AAA111 has already been added.")
       end
 
       it "allows the same address for different consultations" do
-        neighbour_for_other_consultation = create(:neighbour, address: "1 Test lane", consultation: other_consultation)
+        neighbour_for_other_consultation = create(:neighbour, address: "1, Test Lane, AAA111", consultation: other_consultation)
 
         expect(neighbour_for_other_consultation).to be_valid
       end
@@ -148,9 +148,9 @@ RSpec.describe Consultation do
 
   describe "#neighbour_responses_by_summary_tag" do
     let!(:consultation) { create(:consultation) }
-    let!(:neighbour1) { create(:neighbour, address: "1 Random Lane", consultation:) }
-    let!(:neighbour2) { create(:neighbour, address: "2 Random Lane", consultation:) }
-    let!(:neighbour3) { create(:neighbour, address: "3 Random Lane", consultation:) }
+    let!(:neighbour1) { create(:neighbour, address: "1, Random Lane, AAA111", consultation:) }
+    let!(:neighbour2) { create(:neighbour, address: "2, Random Lane, AAA111", consultation:) }
+    let!(:neighbour3) { create(:neighbour, address: "3, Random Lane, AAA111", consultation:) }
     let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
     let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
     let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }

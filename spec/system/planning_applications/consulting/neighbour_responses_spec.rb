@@ -176,7 +176,7 @@ RSpec.describe "View neighbour responses", js: true do
 
     fill_in "Name", with: "Sara Neighbour"
     fill_in "Email", with: "sara@email.com"
-    fill_in "Address", with: "124 Made up Street"
+    fill_in "Address", with: "124, Made up, Street"
     fill_in "Day", with: "21"
     fill_in "Month", with: "2"
     fill_in "Year", with: "2023"
@@ -187,7 +187,7 @@ RSpec.describe "View neighbour responses", js: true do
     expect(page).to have_content("Received on 21/02/2023")
     expect(page).to have_content("Sara Neighbour")
     expect(page).to have_content("sara@email.com")
-    expect(page).to have_content("124 Made up Street")
+    expect(page).to have_content("124, Made up, Street")
     expect(page).to have_content("I think this proposal looks ****")
 
     expect(page).to have_link("Back", href: planning_application_consultation_path(planning_application))

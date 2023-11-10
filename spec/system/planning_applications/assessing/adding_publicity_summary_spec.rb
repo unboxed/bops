@@ -19,9 +19,9 @@ RSpec.describe "neighbour responses" do
 
   context "when planning application is in assessment" do
     let!(:consultation) { planning_application.consultation }
-    let!(:neighbour1) { create(:neighbour, address: "1 Test Lane", consultation:) }
-    let!(:neighbour2) { create(:neighbour, address: "2 Test Lane", consultation:) }
-    let!(:neighbour3) { create(:neighbour, address: "3 Test Lane", consultation:) }
+    let!(:neighbour1) { create(:neighbour, address: "1, Test Lane, AAA111", consultation:) }
+    let!(:neighbour2) { create(:neighbour, address: "2, Test Lane, AAA111", consultation:) }
+    let!(:neighbour3) { create(:neighbour, address: "3, Test Lane, AAA111", consultation:) }
     let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
     let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
     let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }

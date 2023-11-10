@@ -58,17 +58,17 @@ RSpec.describe "Send letters to neighbours", js: true do
     click_link "Consultees, neighbours and publicity"
     click_link "Send letters to neighbours"
 
-    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
     # # Something weird is happening with the javascript, so having to double click for it to register
     # # This doesn't happen in "real life"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-    expect(page).to have_content("60-62 Commercial Street")
+    expect(page).to have_content("60-62, Commercial Street, E16LT")
 
-    fill_in "Search for neighbours by address", with: "60-61 Commercial Road"
+    fill_in "Search for neighbours by address", with: "60-61, Commercial Road, E16LT"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-    expect(page).to have_content("60-61 Commercial Road")
+    expect(page).to have_content("60-61, Commercial Road, E16LT")
 
     expect(page).not_to have_content("Contacted neighbours")
   end
@@ -77,31 +77,31 @@ RSpec.describe "Send letters to neighbours", js: true do
     click_link "Consultees, neighbours and publicity"
     click_link "Send letters to neighbours"
 
-    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-    expect(page).to have_content("60-62 Commercial Street")
+    expect(page).to have_content("60-62, Commercial Street, E16LT")
 
     click_link "Edit"
 
-    fill_in "Address", with: "60-62 Commercial Road"
+    fill_in "Address", with: "60-62, Commercial Road, E18PT"
     click_button "Save"
 
-    expect(page).to have_content("60-62 Commercial Road")
+    expect(page).to have_content("60-62, Commercial Road, E18PT")
   end
 
   it "allows me to delete addresses" do
     click_link "Consultees, neighbours and publicity"
     click_link "Send letters to neighbours"
 
-    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-    expect(page).to have_content("60-62 Commercial Street")
+    expect(page).to have_content("60-62, Commercial Street, E16LT")
 
     click_link "Remove"
 
-    expect(page).not_to have_content("60-62 Commercial Street")
+    expect(page).not_to have_content("60-62, Commercial Street, E16LT")
   end
 
   context "when sending letters" do
@@ -127,17 +127,17 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
+      fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
       # # Something weird is happening with the javascript, so having to double click for it to register
       # # This doesn't happen in "real life"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-      expect(page).to have_content("60-62 Commercial Street")
+      expect(page).to have_content("60-62, Commercial Street, E16LT")
 
       expect(page).to have_content("# Submit your comments by")
       expect(page).to have_content("Application number: #{planning_application.reference}")
 
-      fill_in "Search for neighbours by address", with: "60-61 Commercial Road"
+      fill_in "Search for neighbours by address", with: "60-61, Commercial Road, E16LT"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       expect(page).to have_content("A copy of the letter will be sent to the applicant by email.")
@@ -173,12 +173,12 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
+      fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
       # # Something weird is happening with the javascript, so having to double click for it to register
       # # This doesn't happen in "real life"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-      expect(page).to have_content("60-62 Commercial Street")
+      expect(page).to have_content("60-62, Commercial Street, E16LT")
 
       expect(page).to have_content("3) Check letter")
       expect(page).to have_content("Check the letter. You can edit the letter before you send it to selected neighbours.")
@@ -216,7 +216,7 @@ RSpec.describe "Send letters to neighbours", js: true do
         click_link "Consultees, neighbours and publicity"
         click_link "Send letters to neighbours"
 
-        fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
+        fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
         page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
         click_button "Print and send letters"
@@ -226,6 +226,67 @@ RSpec.describe "Send letters to neighbours", js: true do
           expect(page).to have_link("made public on the BoPS Public Portal", href: make_public_planning_application_path(planning_application))
         end
       end
+    end
+  end
+
+  context "when there is a validation error on a provided address" do
+    let(:neighbour) { Neighbour.new(address: "Cheese cottage", consultation:) }
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+    end
+
+    it "I can not add an invalid address" do
+      fill_in "Search for neighbours by address", with: "Biscuit town"
+      page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+      within(".govuk-error-summary") do
+        expect(page).to have_content("There is a problem")
+        expect(page).to have_content("'Biscuit town' is invalid")
+        expect(page).to have_content("Enter the property name or number, followed by a comma")
+        expect(page).to have_content("Enter the street name, followed by a comma")
+        expect(page).to have_content("Enter a postcode, like AA11AA")
+      end
+
+      within(".govuk-error-message") do
+        expect(page).to have_content("'Biscuit town' is invalid")
+        expect(page).to have_content("Enter the property name or number, followed by a comma")
+        expect(page).to have_content("Enter the street name, followed by a comma")
+        expect(page).to have_content("Enter a postcode, like AA11AA")
+      end
+
+      expect(Neighbour.count).to eq(0)
+    end
+
+    it "I can not send letters with an invalid address" do
+      neighbour.save(validate: false)
+
+      click_button "Print and send letters"
+
+      within(".govuk-error-summary") do
+        expect(page).to have_content("There is a problem")
+        expect(page).to have_content("'Cheese cottage' is invalid")
+        expect(page).to have_content("Enter the property name or number, followed by a comma")
+        expect(page).to have_content("Enter the street name, followed by a comma")
+        expect(page).to have_content("Enter a postcode, like AA11AA")
+      end
+
+      within(".govuk-error-message") do
+        expect(page).to have_content("'Cheese cottage' is invalid")
+        expect(page).to have_content("Enter the property name or number, followed by a comma")
+        expect(page).to have_content("Enter the street name, followed by a comma")
+        expect(page).to have_content("Enter a postcode, like AA11AA")
+      end
+
+      expect(NeighbourLetter.count).to eq(0)
+      expect(ActionMailer::Base.deliveries.count).to eq(0)
+      expect(consultation.status).to eq("not_started")
+      expect(Audit.where(
+        activity_type: "neighbour_letters_sent"
+      )).not_to exist
     end
   end
 
@@ -243,10 +304,10 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(page).to have_content(neighbour.address)
     expect(page).to have_content("Posted")
 
-    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-    expect(page).to have_content("60-62 Commercial Street")
+    expect(page).to have_content("60-62, Commercial Street, E16LT")
   end
 
   describe "showing the status on the dashboard" do
@@ -277,8 +338,8 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     context "when there are failed letters" do
       before do
-        neighbour1 = create(:neighbour, address: "1 Test Lane", consultation:)
-        neighbour2 = create(:neighbour, address: "2 Test Lane", consultation:)
+        neighbour1 = create(:neighbour, address: "1, Test Lane, AAA111", consultation:)
+        neighbour2 = create(:neighbour, address: "2, Test Lane, AAA111", consultation:)
         create(:neighbour_letter, neighbour: neighbour1, status: "submitted", notify_id: "123")
         create(:neighbour_letter, neighbour: neighbour2, status: "rejected", notify_id: "123")
       end
@@ -501,7 +562,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       within(".govuk-error-summary") do
         expect(page).to have_content(
-          "Error adding neighbour addresses with message: Validation failed: Neighbours address 5, COXSON WAY, LONDON, SE1 2XB has already been added."
+          "Neighbours address 5, COXSON WAY, LONDON, SE1 2XB has already been added."
         )
       end
     end
@@ -612,7 +673,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   context "when letters have already been sent" do
-    let(:neighbour) { create(:neighbour, address: "1 Test Lane", consultation:) }
+    let(:neighbour) { create(:neighbour, address: "1, Test Lane, E1 5AT", consultation:) }
 
     before do
       travel_to(2.weeks.ago) do

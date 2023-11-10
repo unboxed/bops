@@ -21,8 +21,8 @@ module PlanningApplications
       begin
         @consultation.update!(consultation_params)
         flash[:notice] = t(".success")
-      rescue ActiveRecord::RecordInvalid => e
-        flash[:alert] = t(".failure", message: e.message)
+      rescue ActiveRecord::RecordInvalid
+        flash[:error] = @consultation.errors.full_messages.join("\n")
       end
 
       respond_to do |format|
@@ -53,25 +53,12 @@ module PlanningApplications
     end
 
     def send_letters
-      @consultation.update!(consultation_params.except(:resend_existing, :resend_reason).merge(status: "in_progress"))
-      @planning_application.send_neighbour_consultation_letter_copy_mail
-
-      if consultation_params[:resend_existing] == "true"
-        @consultation.neighbours.each do |neighbour|
-          LetterSendingService.new(neighbour, @consultation.neighbour_letter_text,
-            resend_reason: consultation_params[:resend_reason]).deliver!
-        end
-      else
-        @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
-          LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
-        end
+      ActiveRecord::Base.transaction do
+        update_consultation!
+        deliver_letters!
+        send_neighbour_consultation_letter_copy
+        record_audit_for_letters_sent!
       end
-
-      Audit.create!(
-        planning_application_id: @planning_application.id,
-        user: Current.user,
-        activity_type: "neighbour_letters_sent"
-      )
 
       respond_to do |format|
         format.html do
@@ -79,6 +66,8 @@ module PlanningApplications
             flash: {sent_neighbour_letters: true}
         end
       end
+    rescue Neighbour::AddressValidationError => e
+      redirect_address_validation_error(e)
     end
 
     private
@@ -126,11 +115,54 @@ module PlanningApplications
     end
 
     def require_reason_when_resending
-      return unless consultation_params[:resend_existing] == "true"
+      return unless resend_existing?
       return if consultation_params[:resend_reason].present?
 
       flash.now[:alert] = t(".require_resend_reason")
       render :index and return
+    end
+
+    def update_consultation!
+      @consultation.update!(consultation_params.except(:resend_existing, :resend_reason).merge(status: "in_progress"))
+    end
+
+    def send_neighbour_consultation_letter_copy
+      @planning_application.send_neighbour_consultation_letter_copy_mail
+    end
+
+    def deliver_letters!
+      neighbours_to_contact.each do |neighbour|
+        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text, resend_reason:).deliver!
+      end
+    end
+
+    def neighbours_to_contact
+      if resend_existing?
+        @consultation.neighbours
+      else
+        @consultation.neighbours.reject(&:letter_created?)
+      end
+    end
+
+    def resend_existing?
+      consultation_params[:resend_existing] == "true"
+    end
+
+    def resend_reason
+      consultation_params[:resend_reason] if resend_existing?
+    end
+
+    def redirect_address_validation_error(error)
+      flash[:error] = error
+      redirect_to planning_application_consultation_neighbour_letters_path(@planning_application)
+    end
+
+    def record_audit_for_letters_sent!
+      Audit.create!(
+        planning_application_id: @planning_application.id,
+        user: Current.user,
+        activity_type: "neighbour_letters_sent"
+      )
     end
   end
 end

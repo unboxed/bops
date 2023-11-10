@@ -14,7 +14,7 @@ RSpec.describe "Site visit" do
 
   let!(:consultation) { planning_application.consultation }
   let!(:neighbour) { create(:neighbour, consultation:) }
-  let!(:neighbour2) { create(:neighbour, consultation:, address: "123 Another Address") }
+  let!(:neighbour2) { create(:neighbour, consultation:, address: "123, Another, Address") }
 
   before do
     sign_in assessor
