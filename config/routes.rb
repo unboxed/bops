@@ -145,14 +145,13 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :consultees, only: %i[create] do
+      resources :consultees, only: %i[create show] do
         resources :responses, controller: "consultee/responses", except: %i[show destroy]
       end
 
       namespace :consultee, as: :consultees do
         resources :emails, only: %i[index create]
         resources :responses, only: %i[index]
-        resources :redact_responses, only: %i[edit update]
       end
 
       resource :consultation, only: %i[show update] do

@@ -15,10 +15,10 @@
 
 <ul class="govuk-list">
   <li>
-    <strong><%= @consultee_response.name %></strong> <span class="govuk-hint" style="display: inline;"><%= @consultee_response.email %></span>
+    <strong><%= @consultee.name %></strong> <span class="govuk-hint" style="display: inline;"><%= @consultee.email_address %></span>
   </li>
   <li class="govuk-hint">
-      <%= @consultee_response.consultee.organisation %> (<%= @consultee_response.consultee.origin %>)
+      <%= @consultee.organisation %> (<%= @consultee.origin %>)
   </li>
   <li class="govuk-hint">
     Received on <%= @consultee_response.received_at.to_formatted_s(:day_month_year_slashes) %>
@@ -40,7 +40,7 @@
       model: @consultee_response,
       builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       class: "govuk-!-margin-top-5",
-      url: planning_application_consultee_redact_response_path(@planning_application, @consultee_response),
+      url: planning_application_consultee_response_path(@planning_application, @consultee, @consultee_response),
       method: :patch,
       data: {controller: "reset-text"}
     ) do |form| %>
@@ -50,16 +50,17 @@
         label: {size: "l", text: "Full comment"},
         data: {reset_text_target: "source"},
         readonly: true %>
-  <%= form.label :redacted_response, "Redacted comment", class: "govuk-label govuk-label--l" %>
-  <%= content_tag :span, "Replace text you want to redact with [redacted] then save to publish the comment.", class: "govuk-hint" %>
-  <%= button_tag "Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: {action: "click->reset-text#reset"} %>
-  <%= form.text_area :redacted_response, class: "govuk-textarea", rows: 8, data: {reset_text_target: "destination"} %>
+  <%= form.govuk_text_area :redacted_response, class: "govuk-textarea", rows: 8, data: {reset_text_target: "destination"}, label: -> do %>
+    <%= form.label :redacted_response, "Redacted comment", class: "govuk-label govuk-label--l" %>
+    <%= content_tag :span, "Replace text you want to redact with [redacted] then save to publish the comment.", class: "govuk-hint" %>
+    <%= button_tag "Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: {action: "click->reset-text#reset"} %>
+  <% end %>
 
-  <div class="govuk-button-group">
+  <div class="govuk-button-group govuk-!-margin-top-5">
     <%= form.submit(
           "Save and publish",
-          class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+          class: "govuk-button govuk-button--primary"
         ) %>
-    <%= link_to "Back", planning_application_consultee_responses_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
+    <%= link_to "Back", planning_application_consultee_path(@planning_application, @consultee), class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>

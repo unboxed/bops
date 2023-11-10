@@ -20,7 +20,10 @@ class Consultee
 
     validates :name, :response, :summary_tag, :received_at, presence: true
 
-    scope :redacted, -> { where.not(redacted_response: "") }
+    with_options on: :redaction do
+      validates :redacted_by, presence: true
+      validates :redacted_response, presence: true
+    end
 
     after_create do
       consultee.update!(status: "responded", last_response_at: Time.current)
@@ -29,6 +32,10 @@ class Consultee
     class << self
       def default_scope
         preload(documents: :file_attachment)
+      end
+
+      def redacted
+        where.not(redacted_response: "")
       end
     end
 

@@ -861,7 +861,9 @@ en:
           please_search_for_a_consultee: Please search for a consultee first
           send_emails_to_consultees: Send emails to consultees?
           unable_to_add_consultee: 'Error: Unable to add the consultee to the list'
-      redact_responses:
+      responses:
+        create:
+          success: Response was successfully uploaded.
         update:
           success: Response was successfully published.
     create:

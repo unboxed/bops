@@ -13,7 +13,7 @@ RSpec.describe "View consultee responses", js: true do
   }
 
   let(:consultation) { planning_application.consultation }
-  let(:consultee) { create(:consultee, consultation:) }
+  let(:consultee) { create(:consultee, :consulted, consultation:) }
   let!(:consultee_response) { create(:consultee_response, consultee:) }
 
   before do
@@ -25,16 +25,19 @@ RSpec.describe "View consultee responses", js: true do
   end
 
   it "exists" do
-    expect(planning_application.consultation.consultee_responses).not_to be_empty
+    expect(consultee.responses).not_to be_empty
   end
 
   it "is listed on the page" do
     click_on "View consultee responses"
+    click_on "View all responses"
+
     expect(page).to have_text(consultee.name)
   end
 
   it "can be redacted and published" do
     click_on "View consultee responses"
+    click_on "View all responses"
     click_on "Redact and publish"
 
     expect(page).to have_text(consultee_response.response)

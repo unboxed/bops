@@ -6,8 +6,8 @@ module PlanningApplications
       before_action :set_planning_application
       before_action :set_consultation
       before_action :set_consultees, only: %i[index]
-      before_action :set_consultee, only: %i[new create]
-      before_action :set_consultee_response, only: %i[new create]
+      before_action :set_consultee, only: %i[new create edit update]
+      before_action :set_consultee_response, only: %i[new create edit update]
 
       def index
         respond_to do |format|
@@ -24,9 +24,31 @@ module PlanningApplications
       def create
         respond_to do |format|
           if @consultee_response.save
-            format.html { redirect_to planning_application_consultees_responses_path }
+            format.html do
+              redirect_to planning_application_consultees_responses_path(@planning_application), notice: t(".success")
+            end
           else
             format.html { render :new }
+          end
+        end
+      end
+
+      def edit
+        respond_to do |format|
+          format.html
+        end
+      end
+
+      def update
+        @consultee_response.attributes = redaction_params
+
+        respond_to do |format|
+          if @consultee_response.save(context: :redaction)
+            format.html do
+              redirect_to planning_application_consultee_path(@planning_application, @consultee), notice: t(".success")
+            end
+          else
+            format.html { render :edit }
           end
         end
       end
@@ -55,6 +77,13 @@ module PlanningApplications
 
       def consultee_response_attributes
         [:name, :email, :summary_tag, :response, :redacted_response, :received_at, documents: []]
+      end
+
+      def redaction_params
+        params
+          .require(:consultee_response)
+          .permit(:redacted_response)
+          .merge(redacted_by: current_user)
       end
 
       def set_consultee_response
