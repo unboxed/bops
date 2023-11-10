@@ -39,9 +39,10 @@ module PlanningApplications
         [
           :consultee_email_subject,
           :consultee_email_body,
-          :reconsult,
-          :reconsultation_message,
-          :reconsultation_date,
+          :email_reason,
+          :resend_message,
+          :reconsult_message,
+          :reconsult_date,
           {consultees_attributes: consultee_params}
         ]
       end

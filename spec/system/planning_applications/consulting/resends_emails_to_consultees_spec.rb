@@ -34,20 +34,16 @@ RSpec.describe "Consultation", js: true do
     Date.current
   end
 
-  let(:future) do
-    Date.current + 14.days
-  end
-
-  let(:future_date) do
-    future.to_fs
-  end
-
   let(:current_date) do
     today.to_fs(:day_month_year_slashes)
   end
 
   let(:start_date) do
     consultation.start_date.to_fs(:day_month_year_slashes)
+  end
+
+  let(:existing_date) do
+    consultation.end_date.to_date.to_fs
   end
 
   before do
@@ -82,7 +78,7 @@ RSpec.describe "Consultation", js: true do
     )
   end
 
-  it "resends emails to consultees" do
+  it "resends emails to existing consultees" do
     sign_in assessor
 
     visit "/planning_applications/#{planning_application.id}"
@@ -140,49 +136,9 @@ RSpec.describe "Consultation", js: true do
     end
 
     within "#resend-consultees" do
-      choose "Yes, I’m resending to existing consultees"
+      choose "No, I’m chasing existing consultees"
 
-      fill_in "Day", with: ""
-      fill_in "Month", with: ""
-      fill_in "Year", with: ""
-    end
-
-    accept_confirm(text: "Send emails to consultees?") do
-      click_button "Send emails to consultees"
-    end
-
-    expect(page).to have_selector("[role=alert] li", text: "Please enter the reasons for the reconsultation")
-    expect(page).to have_selector("[role=alert] li", text: "Please enter the date by which consultees need to respond by")
-
-    within "#resend-consultees" do
-      fill_in "Day", with: today.day
-      fill_in "Month", with: today.month
-      fill_in "Year", with: today.year
-    end
-
-    accept_confirm(text: "Send emails to consultees?") do
-      click_button "Send emails to consultees"
-    end
-
-    expect(page).to have_selector("[role=alert] li", text: "Please enter a date in the future")
-
-    within "#resend-consultees" do
-      fill_in "Day", with: "50"
-      fill_in "Month", with: today.month
-      fill_in "Year", with: today.year
-    end
-
-    accept_confirm(text: "Send emails to consultees?") do
-      click_button "Send emails to consultees"
-    end
-
-    expect(page).to have_selector("[role=alert] li", text: "Please enter a valid date")
-
-    within "#resend-consultees" do
-      fill_in "Reasons for reconsultation", with: "Application has changes - please respond by %<closing_date>s"
-      fill_in "Day", with: future.day
-      fill_in "Month", with: future.month
-      fill_in "Year", with: future.year
+      fill_in "Additional message to include in the email", with: "Please respond to the message below"
     end
 
     expect do
@@ -212,7 +168,7 @@ RSpec.describe "Consultation", js: true do
             email_address: "planning@london.gov.uk",
             email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
-              "body" => a_string_starting_with("Application has changes - please respond by #{future_date}")
+              "body" => a_string_starting_with("Please respond to the message below")
             )
           }
         ))
@@ -228,7 +184,6 @@ RSpec.describe "Consultation", js: true do
 
     perform_enqueued_jobs(at: Time.current)
     expect(external).to have_been_requested
-    expect(consultation.reload.end_date).to eq(future.end_of_day.floor(6))
     expect(UpdateConsulteeEmailStatusJob).to have_been_enqueued.exactly(:once)
 
     click_link "Send emails to consultees"
@@ -261,7 +216,7 @@ RSpec.describe "Consultation", js: true do
 
     click_link "Back"
     expect(page).to have_selector("h1", text: "Consultation")
-    expect(page).to have_text("Consultation end date: #{future_date}")
+    expect(page).to have_text("Consultation end date: #{existing_date}")
 
     within "#consultee-tasks" do
       expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")

@@ -5,9 +5,12 @@ class Consultation < ApplicationRecord
 
   include GeojsonFormattable
 
-  attribute :reconsult, :boolean, default: false
-  attribute :reconsultation_message, :string
-  attribute :reconsultation_date, :date, default: -> { Date.current + 21.days }
+  EMAIL_REASONS = %w[send resend reconsult].freeze
+
+  attribute :email_reason, :string, default: "send"
+  attribute :resend_message, :string
+  attribute :reconsult_message, :string
+  attribute :reconsult_date, :date, default: -> { Date.current + 21.days }
 
   belongs_to :planning_application
   delegate :local_authority, to: :planning_application
@@ -32,13 +35,14 @@ class Consultation < ApplicationRecord
     next unless validation_context == :send_consultee_emails
 
     errors.add(:consultees, :blank) if consultees.none_selected?
+    errors.add(:email_reason, :invalid) unless email_reason.in?(EMAIL_REASONS)
 
     if reconsult?
-      errors.add(:reconsultation_message, :blank) if reconsultation_message.blank?
-      errors.add(:reconsultation_date, :blank) if reconsultation_date.blank?
+      errors.add(:reconsult_message, :blank) if reconsult_message.blank?
+      errors.add(:reconsult_date, :blank) if reconsult_date.blank?
 
-      if reconsultation_date.present?
-        errors.add(:reconsultation_date, :in_the_past) unless reconsultation_date.future?
+      if reconsult_date.present?
+        errors.add(:reconsult_date, :in_the_past) unless reconsult_date.future?
       end
     end
   end
@@ -55,24 +59,57 @@ class Consultation < ApplicationRecord
 
   format_geojson_epsg :polygon_geojson
 
+  def resend?
+    email_reason == "resend"
+  end
+
+  def reconsult?
+    email_reason == "reconsult"
+  end
+
+  def consultee_activity_type
+    case email_reason
+    when "reconsult"
+      "consultees_reconsulted"
+    when "resend"
+      "consultee_emails_resent"
+    else
+      "consultee_emails_sent"
+    end
+  end
+
   def send_consultee_emails(attributes)
     begin
       self.attributes = attributes
     rescue ActiveRecord::MultiparameterAssignmentErrors
-      errors.add(:reconsultation_date, :invalid) and return false
+      errors.add(:reconsult_date, :invalid) and return false
     end
 
     return false unless save(context: :send_consultee_emails)
 
-    if reconsult?
-      perform_resend_consultee_emails_job
-    else
-      perform_send_consultee_emails_job
+    unless start_date?
+      start_deadline
     end
+
+    if reconsult?
+      extend_deadline(reconsult_date.end_of_day)
+    end
+
+    enqueue_send_consultee_email_jobs
+
+    Audit.create!(
+      planning_application_id: planning_application_id,
+      user: Current.user,
+      activity_type: consultee_activity_type
+    )
   end
 
   def start_deadline
     update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
+  end
+
+  def extend_deadline(new_date)
+    update!(end_date: [end_date, new_date].max)
   end
 
   def end_date_from_now
@@ -245,40 +282,48 @@ class Consultation < ApplicationRecord
 
   private
 
-  def perform_send_consultee_emails_job
-    SendConsulteeEmailsJob.perform_now(
-      self,
-      consultees.selected,
-      consultee_email_subject,
-      consultee_email_body
-    )
+  def enqueue_send_consultee_email_jobs
+    defaults = {
+      signatory_name: local_authority.signatory_name,
+      signatory_job_title: local_authority.signatory_job_title,
+      local_authority: local_authority.council_name,
+      reference: planning_application.reference,
+      description: planning_application.description,
+      address: planning_application.address,
+      link: application_link,
+      closing_date: end_date.to_fs
+    }
 
-    start_deadline
+    subject = consultee_email_subject
+    body = consultee_email_body
+    divider = "\n\n---\n\n"
 
-    Audit.create!(
-      planning_application_id: planning_application_id,
-      user: Current.user,
-      activity_type: "consultee_emails_sent"
-    )
-  end
+    if reconsult?
+      body = reconsult_message + divider + body
+      defaults[:closing_date] = reconsult_date.to_fs
+    elsif resend? && resend_message.present?
+      body = resend_message + divider + body
+    end
 
-  def perform_resend_consultee_emails_job
-    ResendConsulteeEmailsJob.perform_now(
-      self,
-      consultees.selected,
-      reconsultation_message,
-      reconsultation_date,
-      consultee_email_subject,
-      consultee_email_body
-    )
+    consultees.selected.each do |consultee|
+      next if consultee.email_address.blank?
 
-    update!(end_date: reconsultation_date.end_of_day)
+      variables = defaults.merge(name: consultee.name)
 
-    Audit.create!(
-      planning_application_id: planning_application_id,
-      user: Current.user,
-      activity_type: "consultee_emails_resent"
-    )
+      consultee_email = consultee.emails.create!(
+        subject: format(subject, variables),
+        body: format(body, variables)
+      )
+
+      consultee.update!(
+        selected: false,
+        status: "sending",
+        email_sent_at: nil,
+        email_delivered_at: nil
+      )
+
+      SendConsulteeEmailJob.perform_later(self, consultee_email)
+    end
   end
 
   def audit_letter_copy_sent!
