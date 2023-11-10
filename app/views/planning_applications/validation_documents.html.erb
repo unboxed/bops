@@ -2,7 +2,7 @@
   Check documents - <%= t('page_title') %>
 <% end %>
 
-<%= render "validation_requests/validation_requests_breadcrumbs" %>
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
 <% content_for :title, "Check documents" %>
 
 <%= render(
@@ -31,7 +31,7 @@
     <% if @additional_document_validation_requests.any? %>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <%= render "additional_document_validation_requests/additional_document_validation_requests_table",
+      <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
           validation_requests: @additional_document_validation_requests %>
     <% else %>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

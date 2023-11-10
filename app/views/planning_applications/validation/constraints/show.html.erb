@@ -1,0 +1,54 @@
+<% content_for :page_title do %>
+  Constraints - <%= t("page_title") %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Constraints" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Check the constraints" }
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  <%= form_with model: @planning_application, url: planning_application_constraints_path(@planning_application) do |form| %>
+      <% @planning_application.planning_application_constraints.group_by(&:identified_by).each do |identifier, constraints| %>
+        <%= render(
+              partial: "table",
+              locals: {
+                identifier: identifier.downcase,
+                text: "Constraints suggested by: #{identifier}  (#{constraints.count})",
+                planning_application_constraints: constraints
+              }
+            ) %>
+      <% end %>
+      <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-other-constraints-sections">
+        <div class="govuk-accordion__section">
+          <div class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-with-other-constraints-sections-heading-1">
+                Other constraints
+              </span>
+            </h2>
+          </div>
+          <div id="accordion-with-other-constraints-sections-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-with-other-constraints-sections-heading-1">
+            <%= render(
+                  partial: "table",
+                  locals: {
+                    identifier: "other",
+                    text: "",
+                    planning_application_constraints: Constraint.non_applicable_constraints(@planning_application.planning_application_constraints).sort_by(&:category)
+                  }
+                ) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Save and mark as checked", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

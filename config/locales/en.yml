@@ -248,11 +248,6 @@ en:
     add_consultee: Add consultee
     search_for_consultees: Search for consultees
     start_typing: Start typing name, organisation or role
-  additional_document_validation_requests:
-    create:
-      success: Additional document request successfully created.
-    update:
-      success: Additional document request successfully updated
   administrator_dashboard:
     show:
       administrator_dashboard: Administrator dashboard
@@ -405,12 +400,6 @@ en:
     nature_sssi: Site of special scientific interest
     registeredpark: Historic parks and gardens
     tpo: Tree preservation zone
-  constraints:
-    info:
-      update_constraints: Update constraints
-    update:
-      failure: Couldn't check constraints — please contact support.
-      success: Constraints was successfully checked
   consultee_accordian_section_component:
     consultee: Consultee
     date_consulted: Date consulted
@@ -530,19 +519,6 @@ en:
     formats:
       default: "%-d %B %Y"
       long: "%-d %B %Y"
-  description_change_validation_requests:
-    cancel:
-      success: Description change request successfully cancelled.
-    create:
-      success: Description change request successfully sent.
-    description_change_validation_request:
-      change_description: Change description
-      description_change: Description change
-      new_description: 'New description:'
-      proposed_description: 'Propsed description:'
-    show:
-      back: Back
-      cancel_this_request: Cancel this request
   document:
     replacement_document_uploaded: Replacement document uploaded
   documents:
@@ -584,18 +560,6 @@ en:
       validation_notice_mail: Your application for a %{application_type_name}
       validation_request_closure_mail: Changes to your %{application_type_name} application
       validation_request_mail: "%{application_type_name} application - further changes needed"
-  fee_items:
-    fee_item_table:
-      description: Description
-      detail: Detail
-      exempt: Exempt
-      fee_paid: Fee Paid
-      item: Item
-      payment_reference: Payment Reference
-    proposal_details_table:
-      related_questions: Related questions and answers from PlanX
-    validate:
-      success: Fee item was marked as valid.
   form_actions:
     publish_decision: Publish decision
     review_and_publish_decision: Review and publish decision
@@ -680,17 +644,6 @@ en:
     prior_approval: Submit your comments by %{closing_date}
   no_consultees_component:
     no_consultees_yet: No consultees have been added to the consultation yet.
-  other_change_validation_requests:
-    create:
-      success: Other validation change request successfully created.
-    destroy:
-      success: Validation request was successfully deleted.
-    form:
-      labels:
-        suggestion: Tell the applicant how the fee can be made valid.
-        summary: Tell the applicant why the fee is incorrect.
-    update:
-      success: Other validation request successfully updated
   page_title: BETA BOPs - GOV.UK
   permitted_development_rights:
     review_assessment_error: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
@@ -991,9 +944,6 @@ en:
           permitted_development_rights: Permitted development rights
         index:
           application_details: Application details
-    cil_liability:
-      update:
-        success: CIL liability updated
     clone:
       failure: 'Error cloning application with message: %{message}.'
       success: Planning application was successfully cloned.
@@ -1198,6 +1148,85 @@ en:
       success: Planning application was successfully updated.
     validate:
       success: Application is ready for assessment and an email notification has been sent.
+    validation:
+      additional_document_validation_requests:
+        create:
+          success: Additional document request successfully created.
+        update:
+          success: Additional document request successfully updated
+      cil_liability:
+        update:
+          success: CIL liability updated
+      constraints:
+        info:
+          update_constraints: Update constraints
+        update:
+          failure: Couldn't check constraints — please contact support.
+          success: Constraints was successfully checked
+      description_change_validation_requests:
+        cancel:
+          success: Description change request successfully cancelled.
+        create:
+          success: Description change request successfully sent.
+        description_change_validation_request:
+          change_description: Change description
+          description_change: Description change
+          new_description: 'New description:'
+          proposed_description: 'Proposed description:'
+        show:
+          back: Back
+          cancel_this_request: Cancel this request
+      fee_items:
+        fee_item_table:
+          description: Description
+          detail: Detail
+          exempt: Exempt
+          fee_paid: Fee Paid
+          item: Item
+          payment_reference: Payment Reference
+        proposal_details_table:
+          related_questions: Related questions and answers from PlanX
+        validate:
+          success: Fee item was marked as valid.
+      other_change_validation_requests:
+        create:
+          success: Other validation change request successfully created.
+        destroy:
+          success: Validation request was successfully deleted.
+        form:
+          labels:
+            suggestion: Tell the applicant how the fee can be made valid.
+            summary: Tell the applicant why the fee is incorrect.
+        update:
+          success: Other validation request successfully updated
+      red_line_boundary_change_validation_requests:
+        create:
+          validation_request_for: Validation request for red line boundary successfully created.
+        update:
+          success: Recommendation was successfully reviewed.
+      replacement_document_validation_requests:
+        create:
+          success: Replacement document validation request successfully created.
+        update:
+          success: Replacement document reason successfully updated.
+      sitemaps:
+        update:
+          error: Something went wrong. Please contact support.
+          failure: Invalid parameter
+          success: Site boundary has been updated
+        validate:
+          failure: You must first select Valid or Invalid to continue.
+          success: Red line boundary was marked as valid.
+      validation_requests:
+        email_failure: Notify was unable to send applicant email. Please contact the applicant directly.
+        index:
+          for_new_document: For new document requests, requests will remain open until responded, cancelled or the application is decided.
+          for_redline_and: For redline and description requests, the applicant can reject or accept these changes within 5 working days. After that these requests will be automatically accepted.
+          post_validation_requests: Post-validation requests
+          validation_requests: Validation requests
+        table:
+          view: View
+          view_and_update: View and update
     validation_tasks:
       index:
         application_details: Application details
@@ -1266,16 +1295,6 @@ en:
     resend: No, I’m chasing existing consultees
     resend_message_label: Additional message to include in the email (optional)
     send: No, I’m sending to new consultees
-  red_line_boundary_change_validation_requests:
-    create:
-      validation_request_for: Validation request for red line boundary successfully created.
-    update:
-      success: Recommendation was successfully reviewed.
-  replacement_document_validation_requests:
-    create:
-      success: Replacement document validation request successfully created.
-    update:
-      success: Replacement document reason successfully updated.
   response_tag_component:
     privacy: Privacy
   review:
@@ -1345,14 +1364,6 @@ en:
       application: Application
       home: Home
       review_application: Review
-  sitemaps:
-    update:
-      error: Something went wrong. Please contact support.
-      failure: Invalid parameter
-      success: Site boundary has been updated
-    validate:
-      failure: You must first select Valid or Invalid to continue.
-      success: Red line boundary was marked as valid.
   status_tag_component:
     accepted: Printing
     awaiting_determination: Awaiting determination
@@ -1501,13 +1512,3 @@ en:
       sms: SMS
       'true': 'Yes'
       users: Users
-  validation_requests:
-    email_failure: Notify was unable to send applicant email. Please contact the applicant directly.
-    index:
-      for_new_document: For new document requests, requests will remain open until responded, cancelled or the application is decided.
-      for_redline_and: For redline and description requests, the applicant can reject or accept these changes within 5 working days. After that these requests will be automatically accepted.
-      post_validation_requests: Post-validation requests
-      validation_requests: Validation requests
-    table:
-      view: View
-      view_and_update: View and update

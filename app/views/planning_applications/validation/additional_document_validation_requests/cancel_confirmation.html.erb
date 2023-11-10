@@ -1,0 +1,39 @@
+<% content_for :page_title do %>
+  Cancel additional document validation request - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+
+<% content_for :title, "Cancel validation request" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l govuk-!-padding-top-6">
+      Cancel validation request
+    </h1>
+
+    <h2 class="govuk-heading-m">
+      New document request to be cancelled
+    </h2>
+
+    <h3 class="govuk-heading-s">
+      You requested
+    </h3>
+
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        <strong><%= @additional_document_validation_request.document_request_type %></strong>
+      </p>
+      <p class="govuk-body">
+        Reason: <%= @additional_document_validation_request.document_request_reason %>
+      </p>
+      <p class="govuk-body">
+      <%= @additional_document_validation_request.created_at.to_fs %>
+      </p>
+    </div>
+
+    <%= render "planning_applications/validation/validation_requests/cancel_confirmation_form",
+      validation_request: @additional_document_validation_request,
+      cancel_request_url: cancel_request_url(@planning_application, @additional_document_validation_request) %>
+  </div>
+</div>

@@ -67,7 +67,7 @@ module ValidationRequestHelper
   end
 
   def show_validation_request_link(application, request)
-    text = application.validated? ? t(".view") : t(".view_and_update")
+    text = application.validated? ? t("planning_applications.validation.validation_requests.table.view") : t("planning_applications.validation.validation_requests.table.view_and_update")
     url = show_validation_request_url(application, request)
     link_to(text, url)
   end

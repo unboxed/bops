@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe AdditionalDocumentValidationRequestsController do
+RSpec.describe PlanningApplications::Validation::AdditionalDocumentValidationRequestsController do
   it_behaves_like "ValidationRequests", described_class,
     "additional_document_validation_request"
 end
