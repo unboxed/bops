@@ -6,6 +6,7 @@ module PlanningApplications
       before_action :set_planning_application
       before_action :set_consultation
       before_action :set_consultees
+      before_action :set_email_reason, only: %i[index]
 
       def index
         respond_to do |format|
@@ -53,6 +54,21 @@ module PlanningApplications
 
       def consultation_url
         planning_application_consultation_url(@planning_application)
+      end
+
+      def set_email_reason
+        @consultation.email_reason = reason_param
+      end
+
+      def reason_param
+        case params[:reason]
+        when "reconsult"
+          "reconsult"
+        when "resend"
+          "resend"
+        else
+          "send"
+        end
       end
     end
   end
