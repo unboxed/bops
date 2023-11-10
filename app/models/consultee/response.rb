@@ -40,6 +40,10 @@ class Consultee
       super || consultee.email_address
     end
 
+    def received_at
+      super || Date.current
+    end
+
     def truncated_comment
       comment.truncate(100, separator: " ")
     end
