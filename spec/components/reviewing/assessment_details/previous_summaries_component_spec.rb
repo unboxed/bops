@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe AssessmentDetails::PreviousSummariesComponent, type: :component do
+RSpec.describe Reviewing::AssessmentDetails::PreviousSummariesComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
   let(:assessor) { create(:user, :assessor, name: "Alice Smith") }
   let(:reviewer) { create(:user, :reviewer, name: "Bella Jones") }

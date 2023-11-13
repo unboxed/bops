@@ -8,7 +8,7 @@
     <div class="govuk-details__text">
       <% assessment_details.each do |assessment_detail| %>
       <%= render(
-        AssessmentDetails::PreviousSummaryComponent.new(
+        Reviewing::AssessmentDetails::PreviousSummaryComponent.new(
           assessment_details: assessment_details,
           assessment_detail: assessment_detail
         )

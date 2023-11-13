@@ -758,18 +758,6 @@ en:
           title: History
           updated:
             success: History successfully updated.
-        previous_summaries_component:
-          see_previous_summaries: See previous summaries
-        previous_summary_component:
-          user_created_additional_evidence: "%{user} created additional evidence"
-          user_created_consultation_summary: "%{user} created consultation summary"
-          user_created_site_description: "%{user} created site description"
-          user_created_summary_of_work: "%{user} created summary of works"
-          user_marked_this: "%{user} marked this for review"
-          user_updated_additional_evidence: "%{user} updated additional evidence"
-          user_updated_consultation_summary: "%{user} updated consultation summary"
-          user_updated_site_description: "%{user} updated site description"
-          user_updated_summary_of_work: "%{user} updated summary of works"
         publicity_summary:
           created:
             success: Summary of neighbour responses was successfully created.
@@ -1285,6 +1273,19 @@ en:
   review_immunity_enforcements:
     successfully_updated: Review immunity details was successfully updated for enforcement
   reviewing:
+    assessment_details:
+      previous_summaries_component:
+        see_previous_summaries: See previous summaries
+      previous_summary_component:
+        user_created_additional_evidence: "%{user} created additional evidence"
+        user_created_consultation_summary: "%{user} created consultation summary"
+        user_created_site_description: "%{user} created site description"
+        user_created_summary_of_work: "%{user} created summary of works"
+        user_marked_this: "%{user} marked this for review"
+        user_updated_additional_evidence: "%{user} updated additional evidence"
+        user_updated_consultation_summary: "%{user} updated consultation summary"
+        user_updated_site_description: "%{user} updated site description"
+        user_updated_summary_of_work: "%{user} updated summary of works"
     policy_class:
       navigation_component:
         view_next_class: View next class
