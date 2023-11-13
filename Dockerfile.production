@@ -127,6 +127,10 @@ COPY --chown=app:app ./config.ru /app/config.ru
 COPY --chown=app:app ./postcss.config.js /app/postcss.config.js
 COPY --chown=app:app ./Rakefile /app/Rakefile
 
+# Write a REVISION file for Appsignal
+ARG REVISION
+RUN echo -n "$REVISION" > REVISION
+
 USER app:app
 
 # Provide placeholder environment variables during the build phase
