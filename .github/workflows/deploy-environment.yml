@@ -59,6 +59,7 @@ jobs:
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
           IMAGE_TAG: ${{ steps.github.outputs.sha }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          REVISION: ${{ steps.github.outputs.sha }}
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -67,7 +68,10 @@ jobs:
             --cache-to type=gha,mode=max \
             --cache-from type=gha \
             --push \
-            --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
+            --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
+            --build-arg REVISION=$REVISION \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            -f Dockerfile.production .
 
   deploy-db-migrate-service:
     name: Perform database migrations on ${{ inputs.environment-name }}
