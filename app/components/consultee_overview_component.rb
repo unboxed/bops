@@ -12,7 +12,7 @@ class ConsulteeOverviewComponent < ViewComponent::Base
 
   def wrapper_tag(&)
     options = {
-      id: "#consultee-overview",
+      id: "consultee-overview",
       class: "govuk-!-margin-bottom-7"
     }
 
