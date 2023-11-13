@@ -11,6 +11,7 @@ class ConsulteeSummaryComponent < ViewComponent::Base
 
   with_options to: :consultee do
     delegate :name, :email_address, :last_response, :status
+    delegate :organisation, :organisation?, :role, :role?
     delegate :email_delivered_at, :last_response_at
   end
 

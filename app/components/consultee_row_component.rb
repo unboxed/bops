@@ -25,7 +25,12 @@ class ConsulteeRowComponent < ViewComponent::Base
   end
 
   def consultee_name
-    consultee.name
+    if consultee.suffix?
+      content_tag(:span, consultee.name) + tag(:br) +
+      content_tag(:span, consultee.suffix, class: "govuk-!-font-size-16")
+    else
+      content_tag(:span, consultee.name)
+    end
   end
 
   def consultee_period

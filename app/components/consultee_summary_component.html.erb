@@ -11,6 +11,29 @@
       <%= name %>
     </dd>
   </div>
+
+  <% if role? %>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        <%= t(".role") %>
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <%= role %>
+      </dd>
+    </div>
+  <% end %>
+
+  <% if organisation? %>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        <%= t(".organisation") %>
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <%= organisation %>
+      </dd>
+    </div>
+  <% end %>
+
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
       <%= t(".email_address") %>

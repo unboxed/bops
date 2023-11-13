@@ -28,6 +28,14 @@ class Consultee < ApplicationRecord
     end
   end
 
+  def suffix?
+    role? || organisation?
+  end
+
+  def suffix
+    [role, organisation].compact_blank.join(", ").presence
+  end
+
   def expired?(now = Time.current)
     expires_at && now > expires_at
   end

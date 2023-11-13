@@ -632,7 +632,9 @@ en:
     last_response_on: Last response on
     name: Name
     no_objections: No objections
+    organisation: Organisation
     refused: Refused
+    role: Role
     sending: Sending
     status: Status
   consultees:

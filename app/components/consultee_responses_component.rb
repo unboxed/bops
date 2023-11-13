@@ -11,7 +11,6 @@ class ConsulteeResponsesComponent < ViewComponent::Base
 
   with_options to: :consultee do
     delegate :consultation
-    delegate :name, prefix: true
     delegate :awaiting_response?, :responded?
     delegate :responses, :responses?
     delegate :last_response
@@ -30,6 +29,16 @@ class ConsulteeResponsesComponent < ViewComponent::Base
 
   def header_tag(&)
     content_tag(:h3, class: "govuk-heading-s govuk-!-margin-bottom-3 govuk-!-margin-top-3", &)
+  end
+
+  def consultee_name
+    content_tag(:span, consultee.name)
+  end
+
+  def consultee_suffix
+    if consultee.suffix?
+      content_tag(:span, "(#{consultee.suffix})", class: "govuk-!-font-weight-regular govuk-!-font-size-16")
+    end
   end
 
   def section_break_tag

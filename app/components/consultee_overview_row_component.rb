@@ -11,7 +11,6 @@ class ConsulteeOverviewRowComponent < ViewComponent::Base
 
   delegate :consultation, to: :consultee
   delegate :planning_application, to: :consultation
-  delegate :name, to: :consultee, prefix: true
   delegate :last_response, to: :consultee
 
   def table_row_tag(&)
@@ -21,6 +20,15 @@ class ConsulteeOverviewRowComponent < ViewComponent::Base
     }
 
     content_tag(:tr, **options, &)
+  end
+
+  def consultee_name
+    if consultee.suffix?
+      content_tag(:span, consultee.name) + tag(:br) +
+      content_tag(:span, consultee.suffix, class: "govuk-!-font-size-16")
+    else
+      content_tag(:span, consultee.name)
+    end
   end
 
   def consultee_link_tag(&)
