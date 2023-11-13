@@ -141,8 +141,14 @@ export default class extends Controller {
       params.append("consultee[origin]", this.selected.origin)
       params.append("consultee[name]", this.selected.name)
       params.append("consultee[email_address]", this.selected.email_address)
-      params.append("consultee[role]", this.selected.role)
-      params.append("consultee[organisation]", this.selected.organisation)
+
+      if (this.selected.role) {
+        params.append("consultee[role]", this.selected.role)
+      }
+
+      if (this.selected.organisation) {
+        params.append("consultee[organisation]", this.selected.organisation)
+      }
 
       ajax({
         type: "POST",
