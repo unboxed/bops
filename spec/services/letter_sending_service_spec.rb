@@ -18,7 +18,7 @@ RSpec.describe LetterSendingService do
       let(:status) { 200 }
 
       before do
-        travel_to(DateTime.new(2023, 1, 5, 5))
+        travel_to(Time.utc(2023, 1, 5, 5))
       end
 
       it "makes a request and records it in the model" do
@@ -34,8 +34,8 @@ RSpec.describe LetterSendingService do
         expect(letter.sent_at).not_to be_nil
         expect(letter.id).not_to be_nil
         expect(letter.status).not_to be_nil
-        expect(neighbour.consultation.end_date).to eq(DateTime.new(2023, 1, 27, 9))
-        expect(neighbour.consultation.start_date).to eq(DateTime.new(2023, 1, 6, 9))
+        expect(neighbour.consultation.end_date).to eq(Time.utc(2023, 1, 27).end_of_day.floor(6))
+        expect(neighbour.consultation.start_date).to eq(Time.utc(2023, 1, 6).beginning_of_day.floor(6))
         expect(letter.text).to include(letter_content)
       end
     end

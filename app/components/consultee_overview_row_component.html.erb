@@ -1,0 +1,16 @@
+<%= table_row_tag do %>
+  <td class="govuk-table__cell govuk-!-width-one-third">
+    <%= consultee_link_tag do %>
+      <%= consultee_name %>
+    <% end %>
+  </td>
+  <td class="govuk-table__cell govuk-table__cell--centred">
+    <%= consultee_email_sent_at %>
+  </td>
+  <td class="govuk-table__cell govuk-table__cell--centred">
+    <%= consultee_expires_at %>
+  </td>
+  <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-width-one-quarter">
+    <%= consultee_status %>
+  </td>
+<% end %>

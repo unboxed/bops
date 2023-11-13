@@ -5,8 +5,8 @@ FactoryBot.define do
     planning_application
 
     trait :started do
-      start_date { 2.days.ago }
-      end_date { 2.days.ago + 21.days }
+      start_date { 2.days.ago.beginning_of_day }
+      end_date { 2.days.ago.end_of_day + 21.days }
     end
 
     trait :with_polygon_search do

@@ -11,6 +11,9 @@ class SendConsulteeEmailJob < NotifyEmailJob
     consultee_email.with_lock do
       next unless consultee_email.pending?
 
+      consultee = consultee_email.consultee
+      current_time = Time.current
+
       begin
         response = client.send_email(
           email_address: consultee_email.email_address,
@@ -25,12 +28,13 @@ class SendConsulteeEmailJob < NotifyEmailJob
         consultee_email.update!(
           notify_id: response.id,
           status: "created",
-          status_updated_at: Time.current,
-          sent_at: Time.current
+          status_updated_at: current_time,
+          sent_at: current_time
         )
 
-        consultee_email.consultee.update!(
-          email_sent_at: Time.current
+        consultee.update!(
+          email_sent_at: consultee.email_sent_at || current_time,
+          last_email_sent_at: current_time
         )
 
         UpdateConsulteeEmailStatusJob.set(wait: 30.seconds).perform_later(consultee_email)

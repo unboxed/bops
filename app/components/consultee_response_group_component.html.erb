@@ -1,0 +1,11 @@
+<% if consultees.present? %>
+  <%= wrapper_tag do %>
+    <%= header_tag do %>
+      <%= t(header_key, count: consultees.size) %>
+    <% end %>
+
+    <% consultees.each do |consultee| %>
+      <%= render ConsulteeResponsesComponent.new(consultee: consultee) %>
+    <% end %>
+  <% end %>
+<% end %>

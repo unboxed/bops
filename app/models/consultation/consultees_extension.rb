@@ -6,8 +6,16 @@ class Consultation < ApplicationRecord
       select(&:internal?).sort_by(&:created_at)
     end
 
+    def internal_consulted
+      internal.select(&:consulted?)
+    end
+
     def external
       select(&:external?).sort_by(&:created_at)
+    end
+
+    def external_consulted
+      external.select(&:consulted?)
     end
 
     def selected
@@ -19,7 +27,7 @@ class Consultation < ApplicationRecord
     end
 
     def consulted
-      reject(&:not_consulted?)
+      select(&:consulted?).sort_by(&:created_at)
     end
 
     def consulted?
@@ -32,6 +40,10 @@ class Consultation < ApplicationRecord
 
     def awaiting_responses?
       consulted.any?(&:awaiting_response?)
+    end
+
+    def responded?
+      consulted.any?(&:responses?)
     end
 
     def complete?

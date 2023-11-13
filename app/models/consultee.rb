@@ -23,20 +23,36 @@ class Consultee < ApplicationRecord
   }, scopes: false
 
   class << self
-    def with_response
+    def default_scope
       preload(:responses)
     end
   end
 
-  def expires_at
-    (email_delivered_at + 21.days).at_end_of_day
+  def suffix?
+    role? || organisation?
+  end
+
+  def suffix
+    [role, organisation].compact_blank.join(", ").presence
   end
 
   def expired?(now = Time.current)
-    email_delivered_at ? now > expires_at : false
+    expires_at && now > expires_at
   end
 
   def period(now = Time.current)
-    email_delivered_at? ? ((expires_at - now) / 86_400.0).floor.abs : nil
+    (expires_at - now).seconds.in_days.floor
+  end
+
+  def consulted?
+    !not_consulted?
+  end
+
+  def responses?
+    responses.present?
+  end
+
+  def last_response
+    responses.max_by(&:id)
   end
 end

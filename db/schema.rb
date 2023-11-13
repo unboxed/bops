@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_03_170459) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_09_114217) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -212,6 +212,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_170459) do
     t.datetime "redacted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "summary_tag"
     t.index ["consultee_id"], name: "ix_consultee_responses_on_consultee_id"
     t.index ["redacted_by_id"], name: "ix_consultee_responses_on_redacted_by_id"
   end
@@ -229,6 +230,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_170459) do
     t.string "status", default: "not_consulted"
     t.datetime "email_sent_at"
     t.datetime "email_delivered_at"
+    t.datetime "last_email_sent_at"
+    t.datetime "last_email_delivered_at"
+    t.datetime "expires_at"
+    t.datetime "last_response_at"
     t.index ["consultation_id"], name: "ix_consultees_on_consultation_id"
     t.index ["planning_application_id"], name: "ix_consultees_on_planning_application_id"
   end
@@ -301,10 +306,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_170459) do
     t.bigint "neighbour_response_id"
     t.bigint "site_notice_id"
     t.bigint "press_notice_id"
+    t.string "owner_type"
+    t.bigint "owner_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
+    t.index ["owner_type", "owner_id"], name: "index_documents_on_owner"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["press_notice_id"], name: "ix_documents_on_press_notice_id"
     t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"

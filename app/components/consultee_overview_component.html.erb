@@ -1,0 +1,43 @@
+<%= wrapper_tag do %>
+  <%= header_tag do %>
+    <%= t(".header") %>
+  <% end %>
+
+  <table class="govuk-table govuk-!-margin-bottom-3">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          <%= t(".name") %>
+        </th>
+        <th scope="col" class="govuk-table__header govuk-table__header--centred">
+          <%= t(".consulted") %>
+        </th>
+        <th scope="col" class="govuk-table__header govuk-table__header--centred">
+          <%= t(".expires") %>
+        </th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+          <%= t(".status") %>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% consultees.each do |consultee| %>
+        <%= render ConsulteeOverviewRowComponent.new(consultee: consultee) %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if awaiting_responses? %>
+    <p class="govuk-body">
+      <%= link_tag chase_outstanding_consultees_path do %>
+        <%= t(".chase_outstanding_consultees") %>
+      <% end %>
+    </p>
+  <% elsif complete? %>
+    <p class="govuk-body">
+      <%= link_tag reconsult_existing_consultees_path do %>
+        <%= t(".reconsult_existing_consultees") %>
+      <% end %>
+    </p>
+  <% end %>
+<% end %>

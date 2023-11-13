@@ -150,11 +150,11 @@ en:
           attributes:
             consultees:
               blank: Please select at least one consultee
-            reconsultation_date:
+            reconsult_date:
               blank: Please enter the date by which consultees need to respond by
               in_the_past: Please enter a date in the future
               invalid: Please enter a valid date
-            reconsultation_message:
+            reconsult_message:
               blank: Please enter the reasons for the reconsultation
         document:
           attributes:
@@ -382,6 +382,7 @@ en:
       constraints_checked: Constraints Checked
       consultee_emails_resent: Consultee emails resent
       consultee_emails_sent: Consultee emails sent
+      consultees_reconsulted: Reconsultation emails sent
       created: Application created by %{args}
       description_change_request_cancelled: 'Cancelled: description change request (description#%{args})'
       description_change_validation_request_auto_closed:
@@ -572,6 +573,48 @@ en:
       %{signatory_job_title}
       %{local_authority}
     subject: Application for planning permission %{reference}
+  consultee_overview_component:
+    chase_outstanding_consultees: Chase outstanding consultees
+    consulted: Date last consulted
+    expires: Date of expiry
+    header: Consultee overview
+    name: Consultee name
+    reconsult_existing_consultees: Reconsult existing consultees
+    status: Status
+  consultee_overview_row_component:
+    amendments_needed: Amendments needed
+    awaiting_response: Awaiting response
+    failed: Failed
+    no_objections: No objections
+    refused: Refused
+    sending: Sending
+  consultee_response_component:
+    amendments_needed: Amendments needed
+    no_objections: No objections
+    private: Private
+    published: Published
+    received_on: Received on %-d %B %Y
+    redact_and_publish: Redact and publish
+    refused: Refused
+  consultee_response_group_component:
+    external_header: External consultee responses (%{count})
+    internal_header: Internal consultee responses (%{count})
+    no_external_responses: No external consultee responses yet
+    no_internal_responses: No internal consultee responses yet
+  consultee_response_list_component:
+    heading: Responses
+  consultee_responses_component:
+    amendments_needed: Amendments needed
+    awaiting_response: Awaiting response
+    failed: Failed
+    last_email_delivered_at: Last consulted on %-d %B %Y
+    last_response_at: Last response on %-d %B %Y
+    no_objections: No objections
+    refused: Refused
+    sending: Sending
+    upload_new_response: Upload new response
+    view_all_responses: View all responses (%{count})
+    view_previous_responses: View previous responses (%{count})
   consultee_row_component:
     awaiting_response: Awaiting response
     failed: Failed
@@ -579,6 +622,21 @@ en:
     responded: Responded
     select_consultee: Select consultee
     sending: Sending
+  consultee_summary_component:
+    amendments_needed: Amendments needed
+    awaiting_response: Awaiting response
+    consulted_on: Consulted on
+    email_address: Email address
+    failed: Failed
+    heading: Consultee
+    last_response_on: Last response on
+    name: Name
+    no_objections: No objections
+    organisation: Organisation
+    refused: Refused
+    role: Role
+    sending: Sending
+    status: Status
   consultees:
     update:
       success: Consultee response has been updated
@@ -836,7 +894,9 @@ en:
           please_search_for_a_consultee: Please search for a consultee first
           send_emails_to_consultees: Send emails to consultees?
           unable_to_add_consultee: 'Error: Unable to add the consultee to the list'
-      redact_responses:
+      responses:
+        create:
+          success: Response was successfully uploaded.
         update:
           success: Response was successfully published.
     create:
@@ -1181,14 +1241,16 @@ en:
     update:
       success: Recommendation was successfully reviewed.
   reconsult_consultees_component:
-    date_label: Consultee reponse required by
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>%{closing_date}</code></nobr> will be substituted when the email is sent.
     hint: Choosing 'Yes' will allow you to add the reasons why this application is being reconsulted.
     legend: 3) Is this a reconsultation?
-    message_hint: This text will go at the top of the new email
-    message_label: Reasons for reconsultation
-    'no': No, I’m sending to new consultees
-    'yes': Yes, I’m resending to existing consultees
+    reconsult: Yes, I’m reconsulting existing consultees
+    reconsult_date_label: Consultee reponse required by
+    reconsult_message_hint: This text will go at the top of the new email
+    reconsult_message_label: Reasons for reconsultation
+    resend: No, I’m chasing existing consultees
+    resend_message_label: Additional message to include in the email (optional)
+    send: No, I’m sending to new consultees
   red_line_boundary_change_validation_requests:
     create:
       validation_request_for: Validation request for red line boundary successfully created.
