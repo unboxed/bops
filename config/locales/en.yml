@@ -156,6 +156,10 @@ en:
               invalid: The message subject contains an invalid placeholder '{{%{placeholder}}}'
             consultees:
               blank: Please select at least one consultee
+            planning_application:
+              invalidated: Emails can’t be sent out when a planning application is invalid
+              not_public: Emails can’t be sent out when a planning application has not been made public
+              not_started: Emails can’t be sent out when a planning application has not been started
             reconsult_date:
               blank: Please enter the date by which consultees need to respond by
               in_the_past: Please enter a date in the future

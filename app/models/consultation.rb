@@ -50,6 +50,9 @@ class Consultation < ApplicationRecord
     end
 
     validate do
+      errors.add(:planning_application, :invalidated) if planning_application.invalidated?
+      errors.add(:planning_application, :not_started) if planning_application.not_started?
+      errors.add(:planning_application, :not_public) unless planning_application.make_public?
       errors.add(:consultees, :blank) if consultees.none_selected?
 
       unknown_placeholders(consultee_email_subject) do |placeholder|
