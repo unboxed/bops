@@ -803,7 +803,7 @@ en:
       assessment_report_downloads:
         show:
           assessment_report: Assessment report
-      assessment_tasks:
+      tasks:
         check_consistency:
           check_application: Check application
           complete: Complete

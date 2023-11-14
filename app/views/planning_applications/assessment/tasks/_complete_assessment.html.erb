@@ -13,7 +13,7 @@
         <%= link_to_if(
           @planning_application.can_assess?,
           "Make draft recommendation",
-          new_planning_application_recommendation_path(@planning_application),
+          new_planning_application_assessment_recommendation_path(@planning_application),
           class: "govuk-link"
         ) %>
       </span>

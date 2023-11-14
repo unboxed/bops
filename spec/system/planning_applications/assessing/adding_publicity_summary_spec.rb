@@ -49,7 +49,7 @@ RSpec.describe "neighbour responses" do
       end
 
       expect(page).to have_current_path(
-        new_planning_application_assessment_detail_path(planning_application, category: "publicity_summary")
+        new_planning_application_assessment_assessment_detail_path(planning_application, category: "publicity_summary")
       )
 
       within(".govuk-breadcrumbs__list") do
@@ -122,7 +122,7 @@ RSpec.describe "neighbour responses" do
 
       expect(page).to have_link(
         "Edit summary of neighbour responses",
-        href: edit_planning_application_assessment_detail_path(planning_application,
+        href: edit_planning_application_assessment_assessment_detail_path(planning_application,
           AssessmentDetail.publicity_summary.last, category: "publicity_summary")
       )
     end
@@ -136,7 +136,7 @@ RSpec.describe "neighbour responses" do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("neighbour responses")
 
-      visit new_planning_application_assessment_detail_path(planning_application)
+      visit new_planning_application_assessment_assessment_detail_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

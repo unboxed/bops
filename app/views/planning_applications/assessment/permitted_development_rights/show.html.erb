@@ -36,7 +36,7 @@
       <% unless @permitted_development_right.accepted %>
         <%= link_to(
           "Edit permitted development rights",
-          edit_planning_application_permitted_development_right_path(@planning_application),
+          edit_planning_application_assessment_permitted_development_right_path(@planning_application),
           class: "govuk-link"
         ) %>
       <% end %>

@@ -51,7 +51,7 @@
     <% end %>
     <%= form_with(
       model: @recommendation,
-      url: planning_application_recommendations_path(@planning_application)
+      url: planning_application_assessment_recommendations_path(@planning_application)
     ) do |form| %>
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
       <%= form.govuk_collection_radio_buttons(

@@ -13,13 +13,13 @@ RSpec.describe "Recommendations", show_exceptions: true do
     before { sign_in assessor }
 
     it "does not allow an assessor to view review form" do
-      get edit_planning_application_recommendations_path(planning_application, recommendation)
+      get edit_planning_application_assessment_recommendations_path(planning_application, recommendation)
 
       expect(response).to be_forbidden
     end
 
     it "does not allow an assessor to patch review" do
-      patch planning_application_recommendation_path(planning_application, recommendation)
+      patch planning_application_assessment_recommendation_path(planning_application, recommendation)
 
       expect(response).to be_forbidden
     end

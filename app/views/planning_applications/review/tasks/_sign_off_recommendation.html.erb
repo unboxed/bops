@@ -3,7 +3,7 @@
     <%= link_to_if(
           @planning_application.awaiting_determination?,
           "Sign-off recommendation",
-          edit_planning_application_recommendations_path(@planning_application),
+          edit_planning_application_assessment_recommendations_path(@planning_application),
           aria: { describedby: "review_assessment-completed" },
           class: "govuk-link") %>
   </span>

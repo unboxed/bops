@@ -1,6 +1,6 @@
 <%= form_with(
   model: [planning_application, consistency_checklist],
-  url: planning_application_consistency_checklist_path(planning_application),
+  url: planning_application_assessment_consistency_checklist_path(planning_application),
   class: "consistency-checklist-form"
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -22,7 +22,7 @@
       <%= back_link %>
       <%= link_to(
         t(".edit_check_description"),
-        edit_planning_application_consistency_checklist_path(planning_application),
+        edit_planning_application_assessment_consistency_checklist_path(planning_application),
         class: "govuk-link"
       ) %>
     </div>

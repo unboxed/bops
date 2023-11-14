@@ -286,7 +286,7 @@ RSpec.describe "Permitted development right" do
 
       expect(page).not_to have_link("Review permitted development rights")
 
-      visit new_planning_application_permitted_development_right_path(planning_application)
+      visit new_planning_application_assessment_permitted_development_right_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

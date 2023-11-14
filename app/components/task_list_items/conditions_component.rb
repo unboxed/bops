@@ -16,7 +16,7 @@ module TaskListItems
     end
 
     def link_path
-      planning_application_conditions_path(planning_application_id)
+      planning_application_assessment_conditions_path(planning_application_id)
     end
 
     def status_tag_component

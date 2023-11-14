@@ -6,12 +6,12 @@
 
     <%= render(
         PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
-      ) 
+      )
     %>
 
     <%= render "planning_applications/assessment/permitted_development_rights/previous", permitted_development_rights: @permitted_development_rights %>
     <%= render "previous_review_immunity_details", review_immunity_details: @review_immunity_details %>
 
-    <%= render "form", planning_application: @planning_application, form_url: planning_application_assess_immunity_detail_permitted_development_rights_path(@planning_application), form_method: :post %>
+    <%= render "form", planning_application: @planning_application, form_url: planning_application_assessment_assess_immunity_detail_permitted_development_rights_path(@planning_application), form_method: :post %>
   </div>
 </div>

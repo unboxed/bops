@@ -36,7 +36,7 @@ RSpec.describe "Evidence of immunity" do
         end
 
         expect(page).to have_current_path(
-          new_planning_application_immunity_detail_path(planning_application)
+          new_planning_application_assessment_immunity_detail_path(planning_application)
         )
 
         within(".govuk-heading-l") do
@@ -186,7 +186,7 @@ RSpec.describe "Evidence of immunity" do
 
       expect(page).not_to have_link("Evidence of immunity")
 
-      visit new_planning_application_immunity_detail_path(planning_application)
+      visit new_planning_application_assessment_immunity_detail_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

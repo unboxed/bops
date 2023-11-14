@@ -25,7 +25,7 @@ RSpec.describe "Additional evidence" do
       end
 
       expect(page).to have_current_path(
-        new_planning_application_assessment_detail_path(planning_application, category: "additional_evidence")
+        new_planning_application_assessment_assessment_detail_path(planning_application, category: "additional_evidence")
       )
 
       within(".govuk-breadcrumbs__list") do
@@ -97,7 +97,7 @@ RSpec.describe "Additional evidence" do
 
       expect(page).to have_link(
         "Edit additional evidence",
-        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.additional_evidence.last, category: "additional_evidence")
+        href: edit_planning_application_assessment_assessment_detail_path(planning_application, AssessmentDetail.additional_evidence.last, category: "additional_evidence")
       )
     end
   end
@@ -110,7 +110,7 @@ RSpec.describe "Additional evidence" do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("Additional evidence")
 
-      visit new_planning_application_assessment_detail_path(planning_application)
+      visit new_planning_application_assessment_assessment_detail_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

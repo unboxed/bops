@@ -56,11 +56,11 @@ module ApplicationHelper
 
   def consistency_checklist_path(consistency_checklist)
     if consistency_checklist.blank?
-      new_planning_application_consistency_checklist_path
+      new_planning_application_assessment_consistency_checklist_path
     elsif consistency_checklist.in_assessment?
-      edit_planning_application_consistency_checklist_path
+      edit_planning_application_assessment_consistency_checklist_path
     else
-      planning_application_consistency_checklist_path
+      planning_application_assessment_consistency_checklist_path
     end
   end
 

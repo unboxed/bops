@@ -17,7 +17,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
-      url: planning_application_policy_classes_path(@planning_application),
+      url: planning_application_assessment_policy_classes_path(@planning_application),
       html: { data: unsaved_changes_data }
     ) do |form| %>
       <%= form.hidden_field :part, value: @part %>
@@ -66,7 +66,7 @@
 
       <div class="govuk-button-group">
         <%= form.submit "Add classes", class: "govuk-button" %>
-        <%= link_to "Back", part_new_planning_application_policy_class_path(@planning_application, part: @part), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Back", part_new_planning_application_assessment_policy_class_path(@planning_application, part: @part), class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>
   </div>

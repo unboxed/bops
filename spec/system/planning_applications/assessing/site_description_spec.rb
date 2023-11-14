@@ -31,7 +31,7 @@ RSpec.describe "Site description" do
       end
 
       expect(page).to have_current_path(
-        new_planning_application_assessment_detail_path(planning_application, category: "site_description")
+        new_planning_application_assessment_assessment_detail_path(planning_application, category: "site_description")
       )
 
       expect(page).to have_link(
@@ -109,7 +109,7 @@ RSpec.describe "Site description" do
 
       expect(page).to have_link(
         "Edit site description",
-        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.site_description.last, category: :site_description)
+        href: edit_planning_application_assessment_assessment_detail_path(planning_application, AssessmentDetail.site_description.last, category: :site_description)
       )
     end
   end
@@ -122,7 +122,7 @@ RSpec.describe "Site description" do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("Site description")
 
-      visit new_planning_application_assessment_detail_path(planning_application)
+      visit new_planning_application_assessment_assessment_detail_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

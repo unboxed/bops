@@ -77,7 +77,7 @@ RSpec.describe "editing planning application" do
     )
 
     expect(page).to have_current_path(
-      new_planning_application_consistency_checklist_path(planning_application)
+      new_planning_application_assessment_consistency_checklist_path(planning_application)
     )
 
     # Check audit
@@ -111,7 +111,7 @@ RSpec.describe "editing planning application" do
       click_button("Save")
 
       expect(page).to have_content("Please save and mark as complete the draft recommendation before updating application fields.")
-      expect(page).to have_link("draft recommendation", href: new_planning_application_recommendation_path(planning_application))
+      expect(page).to have_link("draft recommendation", href: new_planning_application_assessment_recommendation_path(planning_application))
     end
   end
 end

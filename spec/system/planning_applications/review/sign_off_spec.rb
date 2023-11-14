@@ -70,7 +70,7 @@ RSpec.describe "Reviewing sign-off" do
     expect(page).to have_selector("h1", text: "Review and sign-off")
     expect(page).to have_content("Recommendation was successfully reviewed.")
     expect(page).to have_link("Sign-off recommendation",
-      href: edit_planning_application_recommendations_path(planning_application))
+      href: edit_planning_application_assessment_recommendations_path(planning_application))
 
     expect(list_item("Sign-off recommendation")).to have_content("Completed")
 
@@ -121,7 +121,7 @@ RSpec.describe "Reviewing sign-off" do
     expect(list_item("Sign-off recommendation")).to have_content("Completed")
     expect(page).to have_text("Sign-off recommendation")
     expect(page).not_to have_link("Sign-off recommendation",
-      href: edit_planning_application_recommendations_path(planning_application))
+      href: edit_planning_application_assessment_recommendations_path(planning_application))
 
     expect(page).to have_text "Application is now in assessment and assigned to The name of assessor"
 
@@ -267,7 +267,7 @@ RSpec.describe "Reviewing sign-off" do
       fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."
       click_button "Save"
       expect(page).to have_content("The information appearing on the decision notice was successfully updated.")
-      expect(page).to have_current_path(edit_planning_application_recommendations_path(planning_application))
+      expect(page).to have_current_path(edit_planning_application_assessment_recommendations_path(planning_application))
 
       click_link "Review"
       click_link "Sign-off recommendation"
@@ -365,7 +365,7 @@ RSpec.describe "Reviewing sign-off" do
       end
 
       it "displays a warning message with the consultation end date" do
-        visit new_planning_application_recommendation_path(planning_application)
+        visit new_planning_application_assessment_recommendation_path(planning_application)
 
         within(".moj-banner__message") do
           expect(page).to have_content("The consultation is still ongoing. It will end on the #{consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?")
@@ -379,7 +379,7 @@ RSpec.describe "Reviewing sign-off" do
       end
 
       it "does not display a warning message" do
-        visit new_planning_application_recommendation_path(planning_application)
+        visit new_planning_application_assessment_recommendation_path(planning_application)
 
         expect(page).not_to have_css(".moj-banner__message")
       end

@@ -18,12 +18,12 @@ module TaskListItems
     def link_path
       if @planning_application.local_policy.present?
         if local_policy.status == "complete"
-          planning_application_local_policy_path(planning_application, local_policy)
+          planning_application_assessment_local_policy_path(planning_application, local_policy)
         else
-          edit_planning_application_local_policy_path(planning_application, local_policy)
+          edit_planning_application_assessment_local_policy_path(planning_application, local_policy)
         end
       else
-        new_planning_application_local_policy_path(planning_application)
+        new_planning_application_assessment_local_policy_path(planning_application)
       end
     end
 

@@ -16,4 +16,4 @@
 
 <%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-link govuk-body" %>
 
-<%= render "form", planning_application: @planning_application, local_policy: @local_policy, url: planning_application_local_policies_path(@planning_application), local_policy_areas: @local_policy_areas %>
+<%= render "form", planning_application: @planning_application, local_policy: @local_policy, url: planning_application_assessment_local_policies_path(@planning_application), local_policy_areas: @local_policy_areas %>

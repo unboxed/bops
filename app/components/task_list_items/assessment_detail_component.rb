@@ -20,18 +20,18 @@ module TaskListItems
     def link_path
       case status
       when :not_started, :to_be_reviewed
-        new_planning_application_assessment_detail_path(
+        new_planning_application_assessment_assessment_detail_path(
           planning_application,
           category:
         )
       when :in_progress
-        edit_planning_application_assessment_detail_path(
+        edit_planning_application_assessment_assessment_detail_path(
           planning_application,
           assessment_detail,
           category:
         )
       else
-        planning_application_assessment_detail_path(
+        planning_application_assessment_assessment_detail_path(
           planning_application,
           assessment_detail,
           category:
