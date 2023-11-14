@@ -8,7 +8,7 @@
 <%= render "shared/location_map", locals: { in_accordion: true, geojson: @planning_application.boundary_geojson } %>
 
 <br>
-<%= form_with model: @planning_application, url: validate_planning_application_sitemap_path(@planning_application), local: true do |form| %>
+<%= form_with model: @planning_application, url: validate_planning_application_sitemap_path(@planning_application) do |form| %>
   <%= form.govuk_radio_buttons_fieldset(:valid_red_line_boundary) do %>
     <%= form.govuk_radio_button :valid_red_line_boundary, true, label: { text: "Valid"} %>
     <%= form.govuk_radio_button :valid_red_line_boundary, false, label: { text: "Invalid" } %>

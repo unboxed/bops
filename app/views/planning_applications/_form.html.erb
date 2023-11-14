@@ -1,4 +1,4 @@
-<%= form_with model: @planning_application, local: true do |form| %>
+<%= form_with model: @planning_application do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.hidden_field(

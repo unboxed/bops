@@ -47,7 +47,7 @@
     </p>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-    <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local: true do |form| %>
+    <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application) do |form| %>
       <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
 
       <div class="govuk-button-group">

@@ -1,5 +1,4 @@
-<%= form_with model: [@planning_application, @press_notice],
-              local: true do |form| %>
+<%= form_with model: [@planning_application, @press_notice] do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.govuk_radio_buttons_fieldset(

@@ -1,7 +1,6 @@
 <div class="govuk-grid-column-full">
   <div class="govuk-grid-row">
-    <%= form_with model: [@planning_application, @replacement_document_validation_request],
-      local: true do |form| %>
+    <%= form_with model: [@planning_application, @replacement_document_validation_request] do |form| %>
 
       <%= form.hidden_field :document_id, value: @document.id %>
 
