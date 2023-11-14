@@ -1,0 +1,6 @@
+<h1 class="govuk-heading-l"><%= t(".assessment_report") %><h1>
+<%= render(
+  PlanningApplications::Assessment::AssessmentReportComponent.new(
+    planning_application: @planning_application
+  )
+) %>

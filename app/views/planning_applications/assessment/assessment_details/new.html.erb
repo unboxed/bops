@@ -1,0 +1,29 @@
+<% content_for :page_title do %>
+  <%= new_assessment_detail_title(category: @category, update: @rejected_assessment_detail.present?) %> - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, t("planning_applications.assessment.assessment_details.#{@category}.title") %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "#{new_assessment_detail_title(
+    category: @category,
+    update: @rejected_assessment_detail.present?
+  )}"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+      "form",
+      planning_application: @planning_application,
+      category: @category,
+      rejected_assessment_detail: @rejected_assessment_detail
+    ) %>
+  </div>
+</div>

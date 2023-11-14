@@ -1,0 +1,118 @@
+<%= form_with(
+  model: @form,
+  local: true,
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  url: form_url,
+  method: form_method,
+  ) do |form| %>
+    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <%= form.fields_for :review_immunity_detail do |review_immunity_detail| %>
+        <%= review_immunity_detail.govuk_radio_buttons_fieldset(
+          :decision,
+          legend: { text: "Is the application immune from enforcement?", size: "s" },
+        ) do %>
+
+          <div data-controller="show-hide">
+            <div id="assess-immunity-detail-section">
+              <%= review_immunity_detail.govuk_radio_button(
+                :decision, "Yes",
+                label: { text: "Yes" },
+                link_errors: true,
+                data: {
+                  action: "change->show-hide#handleEventForDecision",
+                  show_hide_target: "toggleableWhenYes"
+                },
+                checked: @review_immunity_detail.try(:decision_is_immune?)
+              ) do %>
+
+                <%= form.govuk_radio_buttons_fieldset(:decision_type, legend: nil) do %>
+                  <%= review_immunity_detail.govuk_radio_button(
+                    :decision_type, I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_substantial"),
+                    label: { text: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_substantial") }, link_errors: true,
+                    checked: @review_immunity_detail.try(:decision_reason) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_substantial")
+                  ) %>
+                  <%= review_immunity_detail.govuk_radio_button(
+                    :decision_type, I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_unauthorised"),
+                    label: { text: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_unauthorised") },
+                    checked: @review_immunity_detail.try(:decision_reason) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_unauthorised")
+                  ) %>
+                  <%= review_immunity_detail.govuk_radio_button(
+                    :decision_type, I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.ten_years_other_breach"),
+                    label: { text: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.ten_years_other_breach") },
+                    checked: @review_immunity_detail.try(:decision_reason) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.ten_years_other_breach")
+                  ) %>
+                  <%= review_immunity_detail.govuk_radio_button(
+                    :decision_type, I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.other"),
+                    label: { text: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.other") }, link_errors: true,
+                    checked: @review_immunity_detail.try(:decision_type) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.other")
+                  ) do %>
+                    <%= review_immunity_detail.govuk_text_area :yes_decision_reason,
+                      label: { text: "Please provide a reason" }, link_errors: true,
+                      value: @review_immunity_detail.try(:decision_type) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.other") ? @review_immunity_detail.try(:decision_reason) : nil
+                    %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <%= review_immunity_detail.govuk_radio_button(
+                :decision, "No",
+                label: { text: "No" },
+                data: {
+                  action: "change->show-hide#handleEventForDecision",
+                  show_hide_target: "toggleableWhenNo"
+                },
+                link_errors: true,
+                checked: @review_immunity_detail.try(:decision_is_not_immune?)
+              ) do %>
+                <%= review_immunity_detail.govuk_text_area(
+                  :no_decision_reason,
+                  rows: 6,
+                  label: { text: "Describe why the application is not immune from enforcement", link_errors: true },
+                  value: @review_immunity_detail.try(:decision_is_not_immune?) ? @review_immunity_detail.decision_reason : nil
+                ) %>
+              <% end %>
+              <div data-show-hide-target="toggleableWhenYes" class=<%= "display-none" if action_name == "new" || action_name == "create" || @review_immunity_detail.try(:decision_is_not_immune?) %>>
+                <%= review_immunity_detail.govuk_text_area(
+                  :summary,
+                  rows: 6,
+                  label: { text: "Immunity from enforcement summary", class: "govuk-label govuk-label--s" },
+                  hint: { text: "Refer to the evidences and history provided" },
+                  value: @review_immunity_detail.try(:summary)
+                ) %>
+              </div>
+            </div>
+
+            <div data-show-hide-target="toggleableWhenNo" id="permitted-development-right-section" class=<%= "display-none" if action_name == "new" || action_name == "create" || @review_immunity_detail.try(:decision_is_immune?) %>>
+              <h3 class="govuk-heading-m govuk-!-padding-top-4">
+                Permitted development rights
+              </h3>
+
+              <%= form.fields_for :permitted_development_right do |permitted_development_right| %>
+                <%= permitted_development_right.govuk_radio_buttons_fieldset(
+                  :removed,
+                  legend: { text: "Have the permitted development rights relevant for this application been removed?", size: "s" }
+                ) do %>
+
+                  <%= permitted_development_right.govuk_radio_button(
+                    :removed, true, label: { text: "Yes" }, checked: @permitted_development_right.try(:removed)
+                  ) do %>
+                    <%= permitted_development_right.govuk_text_area(
+                      :removed_reason, rows: 6, label: { text: "Describe how permitted development rights have been removed" }, value: @permitted_development_right.try(:removed_reason)
+                    ) %>
+                  <% end %>
+
+                  <%= permitted_development_right.govuk_radio_button(
+                    :removed, false, label: { text: "No" }, checked: @permitted_development_right.try(:removed) == false
+                  ) %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+
+        <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

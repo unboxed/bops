@@ -1,0 +1,92 @@
+<section id="constraints-section" class="govuk-!-padding-bottom-5">
+  <h3 class="govuk-heading-s"><%= t(".constraints_including_article") %></h3>
+
+  <%= render "shared/constraints" %>
+</section>
+<% if past_applications.present? %>
+  <section id="past-applications-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".planning_history") %></h3>
+    <h4 class="govuk-heading-s"><%= past_applications.entry %></h4>
+    <%= render(FormattedContentComponent.new(text: past_applications.additional_information)) %>
+  </section>
+<% end %>
+<% if immunity_detail && review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail %>
+  <section id="immunity-section">
+    <%= render(
+        PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
+      )
+    %>
+    <p class="govuk-body"><strong>Is the application immune from enforcement?</strong></p>
+    <p class="govuk-body">
+      <strong><%= review_immunity_detail.decision %></strong><br>
+      <%= review_immunity_detail.decision_reason %>
+    </p>
+    <p class="govuk-body"><%= review_immunity_detail.summary %></p>
+  </section>
+<% end %>
+<% if permitted_development_right %>
+  <section id="permitted-development-rights-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".have_the_permitted_development_rights") %></h3>
+    <% if permitted_development_right.removed %>
+      <p class="govuk-body"><strong>Yes</strong></p>
+      <%= render(FormattedContentComponent.new(text: permitted_development_right.removed_reason)) %>
+    <% else %>
+      <p class="govuk-body"><strong>No</strong></p>
+    <% end %>
+  </section>
+<% end %>
+<% if summary_of_work.present? %>
+  <section id="summary-of-works-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".summary_of_works") %></h3>
+    <%= render(FormattedContentComponent.new(text: summary_of_work.entry)) %>
+  </section>
+<% end %>
+<% if site_description.present? %>
+  <section id="site-description-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".location_description") %></h3>
+    <%= render(FormattedContentComponent.new(text: site_description.entry)) %>
+  </section>
+<% end %>
+<% if consultation_summary.present? %>
+  <section id="consultation-summary-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".consultation_documents") %></h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <% consultation.consultees.each do |consultee| %>
+        <li><%= "#{consultee.name} (#{consultee.origin})" %></li>
+      <% end %>
+    </ul>
+    <%= render(FormattedContentComponent.new(text: consultation_summary.entry)) %>
+  </section>
+<% end %>
+<% if show_additional_evidence && additional_evidence.present? %>
+  <section id="additional-evidence-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".additional_evidence") %></h3>
+    <%= render(FormattedContentComponent.new(text: additional_evidence.entry)) %>
+  </section>
+<% end %>
+<section id="policy-classes-section" class="govuk-!-padding-bottom-5">
+  <h3 class="govuk-heading-s"><%= t(".legislation") %></h3>
+  <% if @planning_application.application_type.name == "planning_permission" %>
+    <% local_policy_areas.each do |local_policy_area| %>
+      <p class="govuk-body"><strong><%= local_policy_area.area.humanize %></strong></p>
+      <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
+      <% if local_policy_area.guidance.present? %>
+        <p class="govuk-body"><strong>Guidance</strong> <%= local_policy_area.guidance %></p>
+      <% end %>
+      <p class="govuk-body"><strong>Assessment:</strong> <%= local_policy_area.assessment %></p>
+    <% end %>
+  <% else %>
+    <% if policy_classes.any? %>
+      <% policy_classes.each do |policy_class| %>
+        <%= render(
+          PlanningApplications::Assessment::PolicyClasses::SummaryComponent.new(policy_class: policy_class)
+        ) %>
+      <% end %>
+    <% else %>
+      <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
+    <% end %>
+  <% end %>
+</section>
+
+
+<%= render "planning_applications/assessment/recommendations/documents", planning_application: planning_application, documents: documents %>

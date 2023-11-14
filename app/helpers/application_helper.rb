@@ -74,14 +74,14 @@ module ApplicationHelper
 
   def assessment_detail_fields_partial_path(category)
     if %w[past_applications consultation_summary].include?(category)
-      "planning_applications/assessment_details/#{category}"
+      "planning_applications/assessment/assessment_details/#{category}"
     else
-      "planning_applications/assessment_details"
+      "planning_applications/assessment/assessment_details"
     end
   end
 
   def new_assessment_detail_title(category:, update:)
     action = update ? :update : :new
-    t("assessment_details.#{action}_#{category}")
+    t("planning_applications.assessment.assessment_details.#{category}.#{action}")
   end
 end

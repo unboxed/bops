@@ -31,7 +31,7 @@ module PlanningApplications
           if update_immunity_details
             format.html do
               redirect_to planning_application_review_tasks_path(@planning_application),
-                notice: I18n.t("immunity_details.successfully_updated")
+                notice: I18n.t("planning_applications.review..immunity_details.successfully_updated")
             end
           else
             set_immunity_detail

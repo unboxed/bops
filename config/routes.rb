@@ -40,26 +40,6 @@ Rails.application.routes.draw do
   resources :users, only: %i[new create edit update]
 
   resources :planning_applications, only: %i[index show new edit create update] do
-    resource :assessment_report_download, only: :show
-    resource :consistency_checklist, only: %i[new create edit update show]
-
-    resources :policy_classes, except: %i[index] do
-      get :part, on: :new
-
-      resources :policies, only: [] do
-        resources :comments, only: %i[create update]
-      end
-    end
-
-    resources :immunity_details, only: [] do
-      resources :evidence_groups do
-        resources :comments, only: %i[create]
-      end
-    end
-
-    resources :recommendations, only: %i[new create update]
-    resource :recommendations, only: %i[edit]
-
     member do
       get :confirm_validation
       patch :validate
@@ -123,26 +103,60 @@ Rails.application.routes.draw do
       patch :cancel
     end
 
-    resource :planning_history, only: :show
-
     resource :legislation, only: %i[show update]
 
     scope module: :planning_applications do
+      resources :assign_users, only: %i[index] do
+        patch :update, on: :collection
+      end
+      resource :cil_liability, only: %i[edit update], controller: :cil_liability
+
+      resources :confirm_press_notices, only: %i[edit update]
+      resources :site_notices
+      resources :press_notices, only: %i[new create show update]
+      resource :withdraw_or_cancel, only: %i[show update]
       resources :notes, only: %i[index create]
 
       resources :validation_tasks, only: :index
 
-      resources :assessment_tasks, only: :index
-
-      resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
-      resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
-
-      resources :assessment_details, only: %i[new edit create show update]
-
-      resources :immunity_details, only: %i[new create edit update show] do
-        resources :evidence_groups do
-          resources :comments, only: %i[update]
+      scope module: :assessment do
+        resource :assessment_report_download, only: :show
+        resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
+        resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
+        resources :assessment_details, only: %i[new edit create show update]
+        resources :assessment_tasks, only: :index
+        resources :conditions, only: %i[index] do
+          get :edit, on: :collection
+          patch :update, on: :collection
         end
+        resource :consistency_checklist, only: %i[new create edit update show]
+        resources :immunity_details, only: %i[new create edit update show] do
+          resources :evidence_groups do
+            resources :comments, only: %i[update]
+          end
+        end
+
+        resources :immunity_details, only: [] do
+          resources :evidence_groups do
+            resources :comments, only: %i[create]
+          end
+        end
+
+        resources :local_policies, only: %i[show new edit create update]
+
+        resources :permitted_development_rights, only: %i[new create edit update show]
+
+        resource :planning_history, only: :show
+
+        resources :policy_classes, except: %i[index] do
+          get :part, on: :new
+
+          resources :policies, only: [] do
+            resources :comments, only: %i[create update]
+          end
+        end
+        resources :recommendations, only: %i[new create update]
+        resource :recommendations, only: %i[edit]
       end
 
       resources :consultees, only: %i[create show] do
@@ -163,27 +177,6 @@ Rails.application.routes.draw do
         resources :redact_neighbour_responses, only: %i[edit update]
         resources :site_visits, only: %i[index new create edit show update]
       end
-
-      resources :site_notices
-
-      resources :permitted_development_rights, only: %i[new create edit update show]
-      resource :cil_liability, only: %i[edit update], controller: :cil_liability
-
-      resources :conditions, only: %i[index] do
-        get :edit, on: :collection
-        patch :update, on: :collection
-      end
-
-      resource :withdraw_or_cancel, only: %i[show update]
-
-      resources :assign_users, only: %i[index] do
-        patch :update, on: :collection
-      end
-
-      resources :press_notices, only: %i[new create show update]
-      resources :confirm_press_notices, only: %i[edit update]
-
-      resources :local_policies, only: %i[show new edit create update]
 
       namespace :review do
         resource :assessment_details, only: %i[show edit update]

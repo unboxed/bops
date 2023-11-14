@@ -1,0 +1,7 @@
+<h3 class="govuk-heading-s"><%= t(".legislation") %></h3>
+<% if policy_classes.empty? %>
+  <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
+<% end %>
+<% policy_classes.each do |policy_class| %>
+  <%= render(PlanningApplications::Assessment::PolicyClasses::SummaryComponent.new(policy_class: policy_class)) %>
+<% end %>

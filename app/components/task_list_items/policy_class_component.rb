@@ -13,7 +13,7 @@ module TaskListItems
 
     def link_text
       I18n.t(
-        "policy_classes.title",
+        "planning_applications.assessment.policy_classes.title",
         part: policy_class.part,
         class: policy_class.section
       )
