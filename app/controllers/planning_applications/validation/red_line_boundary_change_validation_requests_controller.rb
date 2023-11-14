@@ -39,7 +39,7 @@ module PlanningApplications
         case return_to
         when nil
           super
-        when planning_application_sitemap_url(@planning_application)
+        when planning_application_validation_sitemap_url(@planning_application)
           planning_application_validation_tasks_path(@planning_application)
         else
           return_to

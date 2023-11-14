@@ -36,7 +36,7 @@
     <% if @description_change_request.open? %>
       <%= form_with(
         model: [@planning_application, @description_change_request],
-        url: planning_application_description_change_validation_request_cancel_path(
+        url: planning_application_validation_description_change_validation_request_cancel_path(
           @planning_application,
           @description_change_request
         ),

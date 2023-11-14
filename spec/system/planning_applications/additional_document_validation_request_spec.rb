@@ -121,7 +121,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       expect(page).to have_content("Check all necessary documents have been provided and add requests for any missing documents.")
       expect(page).to have_link(
         "Add a request for a missing document",
-        href: new_planning_application_additional_document_validation_request_path(planning_application)
+        href: new_planning_application_validation_additional_document_validation_request_path(planning_application)
       )
 
       within(".govuk-table.current-documents") do
@@ -265,7 +265,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         click_link "Edit request"
 
         expect(page).to have_current_path(
-          edit_planning_application_additional_document_validation_request_path(planning_application, additional_document_validation_request)
+          edit_planning_application_validation_additional_document_validation_request_path(planning_application, additional_document_validation_request)
         )
 
         fill_in "Please specify the new document type:", with: "Floor plans"
@@ -343,7 +343,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       expect(page).to have_link(
         "Cancel request",
-        href: cancel_confirmation_planning_application_additional_document_validation_request_path(planning_application, additional_document_validation_request)
+        href: cancel_confirmation_planning_application_validation_additional_document_validation_request_path(planning_application, additional_document_validation_request)
       )
       expect(page).not_to have_link("Edit request")
       expect(page).not_to have_link("Delete request")
@@ -396,7 +396,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I cannot edit the request" do
-      visit edit_planning_application_additional_document_validation_request_path(
+      visit edit_planning_application_validation_additional_document_validation_request_path(
         planning_application, additional_document_validation_request
       )
 
@@ -411,7 +411,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       end
 
       it "I can see an overdue request" do
-        visit planning_application_validation_requests_path(planning_application)
+        visit planning_application_validation_validation_requests_path(planning_application)
 
         expect(page).to have_content("overdue")
       end

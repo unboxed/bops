@@ -152,7 +152,7 @@ Rails.application.routes.draw do
         resources :site_visits, only: %i[index new create edit show update]
       end
 
-      scope module: :validation do
+      namespace :validation do
         resource :cil_liability, only: %i[edit update], controller: :cil_liability
 
         resource :constraints, only: %i[show update]

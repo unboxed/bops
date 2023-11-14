@@ -49,7 +49,7 @@ RSpec.describe "Requesting other changes to a planning application" do
       expect(page).to have_content("sent")
       expect(page).to have_link(
         "View and update",
-        href: planning_application_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
+        href: planning_application_validation_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
       )
     end
 
@@ -61,7 +61,7 @@ RSpec.describe "Requesting other changes to a planning application" do
       expect(page).to have_content("Invalid")
       expect(page).to have_link(
         "View other validation request #1",
-        href: planning_application_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
+        href: planning_application_validation_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
       )
     end
 
@@ -118,7 +118,7 @@ RSpec.describe "Requesting other changes to a planning application" do
         expect(page).to have_content("sent")
         expect(page).to have_link(
           "View and update",
-          href: planning_application_other_change_validation_request_path(planning_application, other_change_validation_request1)
+          href: planning_application_validation_other_change_validation_request_path(planning_application, other_change_validation_request1)
         )
       end
 
@@ -129,7 +129,7 @@ RSpec.describe "Requesting other changes to a planning application" do
         expect(page).to have_content("Responded")
         expect(page).to have_link(
           "View and update",
-          href: planning_application_other_change_validation_request_path(planning_application, other_change_validation_request2)
+          href: planning_application_validation_other_change_validation_request_path(planning_application, other_change_validation_request2)
         )
       end
     end

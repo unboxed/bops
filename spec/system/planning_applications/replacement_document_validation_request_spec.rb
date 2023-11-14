@@ -367,7 +367,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       it "can only view response and original document is archived" do
         # Can only view request
-        visit planning_application_replacement_document_validation_request_path(
+        visit planning_application_validation_replacement_document_validation_request_path(
           planning_application, replacement_document_validation_request
         )
         expect(page).not_to have_link("Cancel request")
@@ -428,7 +428,7 @@ RSpec.describe "Requesting document changes to a planning application" do
           expect(page).to have_content("sent")
           expect(page).to have_link(
             "View and update",
-            href: planning_application_replacement_document_validation_request_path(planning_application, request)
+            href: planning_application_validation_replacement_document_validation_request_path(planning_application, request)
           )
         end
         within("#replacement_document_validation_request_#{replacement_document_validation_request.id}") do

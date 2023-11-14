@@ -19,12 +19,12 @@ module TaskListItems
     def link_path
       case status
       when :valid, :not_started
-        planning_application_fee_items_path(
+        planning_application_validation_fee_items_path(
           planning_application,
           validate_fee: :yes
         )
       else
-        planning_application_other_change_validation_request_path(
+        planning_application_validation_other_change_validation_request_path(
           planning_application,
           fee_item_validation_requests.not_cancelled.last
         )

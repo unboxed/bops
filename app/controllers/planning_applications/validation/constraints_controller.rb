@@ -50,7 +50,7 @@ module PlanningApplications
           end
         end
       rescue ActiveRecord::ActiveRecordError => e
-        redirect_to planning_application_constraints_path(@planning_application),
+        redirect_to planning_application_validation_constraints_path(@planning_application),
           alert: "Couldn't update constraints with error: #{e.message}. Please contact support."
       end
 

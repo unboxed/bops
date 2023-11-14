@@ -430,7 +430,7 @@ RSpec.describe "Planning Application Assessment" do
           within(".govuk-error-summary") do
             expect(page).to have_content("There is a problem")
             expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting to your manager.")
-            expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application))
+            expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))
           end
 
           expect(planning_application).to be_in_assessment
@@ -717,7 +717,7 @@ RSpec.describe "Planning Application Assessment" do
           within(".moj-banner__message") do
             expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
             expect(page).to have_link(
-              "View all requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application)
+              "View all requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application)
             )
           end
         end
@@ -734,7 +734,7 @@ RSpec.describe "Planning Application Assessment" do
           within(".moj-banner__message") do
             expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
             expect(page).to have_link(
-              "View all requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application)
+              "View all requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application)
             )
           end
         end

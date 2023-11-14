@@ -74,7 +74,7 @@ module PlanningApplications
         if @planning_application.validated?
           @planning_application
         else
-          planning_application_validation_requests_path(@planning_application)
+          planning_application_validation_validation_requests_path(@planning_application)
         end
       end
     end

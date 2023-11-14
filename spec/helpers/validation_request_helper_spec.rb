@@ -10,7 +10,7 @@ RSpec.describe ValidationRequestHelper do
   describe "#cancel_confirmation_request_url" do
     it "returns the link text and url to the cancel confirmation page for a validation request" do
       url = link_to "Cancel request",
-        cancel_confirmation_planning_application_other_change_validation_request_path(planning_application,
+        cancel_confirmation_planning_application_validation_other_change_validation_request_path(planning_application,
           request)
       expect(cancel_confirmation_request_url(planning_application, request)).to eq(url)
     end
@@ -18,7 +18,7 @@ RSpec.describe ValidationRequestHelper do
 
   describe "#cancel_request_url" do
     it "returns the url to the cancel action for a validation request" do
-      url = "/planning_applications/#{planning_application.id}/other_change_validation_requests/#{request.id}/cancel"
+      url = "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{request.id}/cancel"
       expect(cancel_request_url(planning_application, request)).to eq(url)
     end
   end
@@ -47,7 +47,7 @@ RSpec.describe ValidationRequestHelper do
         expect(
           helper.show_validation_request_link(planning_application, request)
         ).to eq(
-          "<a href=\"/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{request.id}\">View and update</a>"
+          "<a href=\"/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{request.id}\">View and update</a>"
         )
       end
 
@@ -78,7 +78,7 @@ RSpec.describe ValidationRequestHelper do
         expect(
           helper.show_validation_request_link(planning_application, request)
         ).to eq(
-          "<a href=\"/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{request.id}\">View</a>"
+          "<a href=\"/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{request.id}\">View</a>"
         )
       end
 

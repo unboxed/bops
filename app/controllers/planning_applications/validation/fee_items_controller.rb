@@ -24,7 +24,7 @@ module PlanningApplications
               flash.now[:alert] = "You must first select Yes or No to continue."
               render :show
             else
-              redirect_to new_planning_application_other_change_validation_request_path(@planning_application,
+              redirect_to new_planning_application_validation_other_change_validation_request_path(@planning_application,
                 validate_fee: "yes")
             end
           end

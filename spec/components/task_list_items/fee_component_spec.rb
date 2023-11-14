@@ -21,7 +21,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/fee_items?validate_fee=yes"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_items?validate_fee=yes"
       )
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/fee_items?validate_fee=yes"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_items?validate_fee=yes"
       )
     end
   end
@@ -63,7 +63,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
       )
     end
   end
@@ -89,7 +89,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
       )
     end
   end

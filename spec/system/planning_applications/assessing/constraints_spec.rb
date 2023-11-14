@@ -14,7 +14,7 @@ RSpec.describe "Constraints" do
   before do
     Rails.application.load_seed
     sign_in assessor
-    visit planning_application_constraints_path(planning_application)
+    visit planning_application_validation_constraints_path(planning_application)
   end
 
   it "displays the planning application address and reference" do
@@ -56,7 +56,7 @@ RSpec.describe "Constraints" do
 
       expect(page).to have_link(
         "Check constraints",
-        href: planning_application_constraints_path(planning_application)
+        href: planning_application_validation_constraints_path(planning_application)
       )
       within("#constraints-validation-tasks .govuk-tag--green") do
         expect(page).to have_content("Checked")
@@ -81,7 +81,7 @@ RSpec.describe "Constraints" do
 
       click_button "Save and mark as checked"
 
-      visit planning_application_constraints_path(planning_application)
+      visit planning_application_validation_constraints_path(planning_application)
 
       within("#planx") do
         expect(page).to have_text("Constraints suggested by: PlanX (2)")

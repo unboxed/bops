@@ -6,7 +6,7 @@
     <% unless @planning_application.validated? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
-          <%= link_to "Add an other validation request", new_planning_application_other_change_validation_request_path, class: "govuk-link" %>
+          <%= link_to "Add an other validation request", new_planning_application_validation_other_change_validation_request_path, class: "govuk-link" %>
         </span>
       </li>
     <% end %>

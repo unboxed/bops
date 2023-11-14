@@ -36,7 +36,7 @@
           message: t(
             ".there_are_outstanding_change_requests_html",
             last_request: @planning_application.all_open_post_validation_requests.last.created_at.to_fs,
-            href: post_validation_requests_planning_application_validation_requests_path(@planning_application)
+            href: post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
           )
         }
       ) %>

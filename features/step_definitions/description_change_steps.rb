@@ -24,7 +24,7 @@ Given("I create a description change request with {string}") do |details|
 end
 
 When("I visit the new description change request link") do
-  visit new_planning_application_description_change_validation_request_path(@planning_application)
+  visit new_planning_application_validation_description_change_validation_request_path(@planning_application)
 end
 
 When("I cancel the existing description change request") do

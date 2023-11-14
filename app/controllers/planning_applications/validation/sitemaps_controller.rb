@@ -23,7 +23,7 @@ module PlanningApplications
               flash.now[:alert] = t(".failure")
               render :show
             else
-              redirect_to new_planning_application_red_line_boundary_change_validation_request_path
+              redirect_to new_planning_application_validation_red_line_boundary_change_validation_request_path
             end
           end
         end
@@ -50,7 +50,7 @@ module PlanningApplications
         end
       rescue ConstraintQueryUpdateService::SaveError => e
         Appsignal.send_error(e)
-        redirect_to planning_application_sitemap_path(@planning_application),
+        redirect_to planning_application_validation_sitemap_path(@planning_application),
           alert: t(".error")
       end
 

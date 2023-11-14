@@ -86,7 +86,7 @@ RSpec.describe "FeeItemsValidation" do
     end
 
     it "renders fee related proposal details" do
-      visit planning_application_fee_items_path(planning_application)
+      visit planning_application_validation_fee_items_path(planning_application)
 
       expect(page).to have_content("Related questions and answers from PlanX")
 
@@ -173,7 +173,7 @@ RSpec.describe "FeeItemsValidation" do
       click_button "Save"
 
       expect(page).to have_current_path(
-        new_planning_application_other_change_validation_request_path(planning_application, validate_fee: "yes")
+        new_planning_application_validation_other_change_validation_request_path(planning_application, validate_fee: "yes")
       )
       expect(page).to have_content("Request other validation change (Fee)")
       expect(page).to have_content("Application number: #{planning_application.reference}")
@@ -218,7 +218,7 @@ RSpec.describe "FeeItemsValidation" do
 
       other_change_validation_request = OtherChangeValidationRequest.last
       expect(page).to have_current_path(
-        planning_application_other_change_validation_request_path(
+        planning_application_validation_other_change_validation_request_path(
           planning_application, other_change_validation_request
         )
       )
@@ -253,7 +253,7 @@ RSpec.describe "FeeItemsValidation" do
         click_link "Edit request"
 
         expect(page).to have_current_path(
-          edit_planning_application_other_change_validation_request_path(planning_application, other_change_validation_request)
+          edit_planning_application_validation_other_change_validation_request_path(planning_application, other_change_validation_request)
         )
 
         expect(page).to have_content("Request other validation change (Fee)")
@@ -325,7 +325,7 @@ RSpec.describe "FeeItemsValidation" do
       end
 
       it "shows the fee as £0.00" do
-        visit(planning_application_fee_items_path(planning_application))
+        visit(planning_application_validation_fee_items_path(planning_application))
 
         expect(page).to have_row_for("Fee Paid", with: "£0.00")
         expect(page).to have_row_for("Payment Reference", with: "Exempt")
@@ -369,7 +369,7 @@ RSpec.describe "FeeItemsValidation" do
       within(".govuk-button-group") do
         expect(page).to have_link(
           "Cancel request",
-          href: cancel_confirmation_planning_application_other_change_validation_request_path(
+          href: cancel_confirmation_planning_application_validation_other_change_validation_request_path(
             planning_application, other_change_validation_request
           )
         )
@@ -413,7 +413,7 @@ RSpec.describe "FeeItemsValidation" do
     end
 
     it "I cannot edit the request" do
-      visit edit_planning_application_other_change_validation_request_path(
+      visit edit_planning_application_validation_other_change_validation_request_path(
         planning_application, other_change_validation_request
       )
 
@@ -488,7 +488,7 @@ RSpec.describe "FeeItemsValidation" do
       end
 
       it "I do not see a continue link for non active fee requests" do
-        visit planning_application_other_change_validation_request_path(
+        visit planning_application_validation_other_change_validation_request_path(
           planning_application, other_change_validation_request
         )
 
