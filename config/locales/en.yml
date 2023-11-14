@@ -803,16 +803,6 @@ en:
       assessment_report_downloads:
         show:
           assessment_report: Assessment report
-      tasks:
-        check_consistency:
-          check_application: Check application
-          complete: Complete
-          description_documents_and: Check description, documents and proposal details
-          history: History search (in testing)
-          in_assessment: In assessment
-          permitted_development_rights: Permitted development rights
-        index:
-          application_details: Application details
       consistency_checklists:
         additional_document_validation_request:
           cancelled: Cancelled %{time}
@@ -977,6 +967,16 @@ en:
           update_assessment: Update assessment
         update:
           success: Recommendation was successfully reviewed.
+      tasks:
+        check_consistency:
+          check_application: Check application
+          complete: Complete
+          description_documents_and: Check description, documents and proposal details
+          history: History search (in testing)
+          in_assessment: In assessment
+          permitted_development_rights: Permitted development rights
+        index:
+          application_details: Application details
     cil_liability:
       update:
         success: CIL liability updated
@@ -1382,16 +1382,23 @@ en:
   task_list_items:
     additional_document_component:
       check_required_documents: Check required documents are on application
-    assess_immunity_detail_permitted_development_right_component:
-      immune_permitted_development_rights: Immunity/permitted development rights
-    assessment_detail_component:
-      additional_evidence: Summary of additional evidence
-      amenity: Amenity
-      consultation_summary: Summary of consultation
-      past_applications: History (manual)
-      publicity_summary: Summary of neighbour responses
-      site_description: Site description
-      summary_of_work: Summary of works
+    assessment:
+      assess_immunity_detail_permitted_development_right_component:
+        immune_permitted_development_rights: Immunity/permitted development rights
+      assessment_detail_component:
+        additional_evidence: Summary of additional evidence
+        amenity: Amenity
+        consultation_summary: Summary of consultation
+        past_applications: History (manual)
+        publicity_summary: Summary of neighbour responses
+        site_description: Site description
+        summary_of_work: Summary of works
+      immunity_details_component:
+        evidence_of_immunity: Evidence of immunity
+      local_policy_component:
+        link_text: Assess against policies and guidance
+      permitted_development_right_component:
+        permitted_development_rights: Permitted development rights
     check_red_line_boundary_component:
       check_red_line: Check red line boundary
     cil_liability_component:
@@ -1406,18 +1413,12 @@ en:
       email_consultees: Send emails to consultees
     fee_component:
       check_fee: Check fee
-    immunity_details_component:
-      evidence_of_immunity: Evidence of immunity
     legislation_component:
       check_legislation: Check legislative requirements
-    local_policy_component:
-      link_text: Assess against policies and guidance
     neighbour_responses_component:
       neighbour_responses: View neighbour responses
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
-    permitted_development_right_component:
-      permitted_development_rights: Permitted development rights
     reviewing:
       assessment_details_component:
         review_assessment_summaries: Review assessment summaries

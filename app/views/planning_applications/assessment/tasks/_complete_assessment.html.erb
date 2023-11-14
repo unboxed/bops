@@ -25,7 +25,7 @@
     </li>
     <% if @planning_application.type == "Householder Application for Planning Permission" %>
       <%= render(
-        TaskListItems::ConditionsComponent.new(
+        TaskListItems::Assessment::ConditionsComponent.new(
           condition_set: @planning_application.condition_set
         )
       ) %>

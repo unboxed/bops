@@ -18,7 +18,7 @@
       ) %>
     </li>
     <%= render(
-      TaskListItems::AssessmentDetailComponent.new(
+      TaskListItems::Assessment::AssessmentDetailComponent.new(
         planning_application: @planning_application,
         category: :past_applications
       )
@@ -36,20 +36,20 @@
     <% end %>
     <% if @planning_application.possibly_immune? %>
       <%= render(
-        TaskListItems::ImmunityDetailsComponent.new(
+        TaskListItems::Assessment::ImmunityDetailsComponent.new(
           planning_application: @planning_application
         )
       ) %>
     <% end %>
     <% if @planning_application.possibly_immune? %>
       <%= render(
-        TaskListItems::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
+        TaskListItems::Assessment::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
           planning_application: @planning_application
         )
       ) %>
     <% else %>
       <%= render(
-        TaskListItems::PermittedDevelopmentRightComponent.new(
+        TaskListItems::Assessment::PermittedDevelopmentRightComponent.new(
           planning_application: @planning_application
         )
       ) %>

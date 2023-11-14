@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::PolicyClassComponent, type: :component do
+RSpec.describe TaskListItems::Assessment::PolicyClassComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:policy_class) do
@@ -30,7 +30,7 @@ RSpec.describe TaskListItems::PolicyClassComponent, type: :component do
     it "renders link to policy_class" do
       expect(page).to have_link(
         "Part 1, Class A",
-        href: "/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}"
+        href: "/planning_applications/#{planning_application.id}/assessment/policy_classes/#{policy_class.id}"
       )
     end
   end
@@ -41,7 +41,7 @@ RSpec.describe TaskListItems::PolicyClassComponent, type: :component do
     it "renders link edit to policy_class" do
       expect(page).to have_link(
         "Part 1, Class A",
-        href: "/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}/edit"
+        href: "/planning_applications/#{planning_application.id}/assessment/policy_classes/#{policy_class.id}/edit"
       )
     end
   end
