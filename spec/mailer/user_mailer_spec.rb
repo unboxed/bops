@@ -61,6 +61,12 @@ RSpec.describe UserMailer, type: :mailer do
         "#{user.current_otp} is your Back Office Planning System verification code."
       )
     end
+
+    it "includes the otp expiry" do
+      expect(mail.body.encoded).to include(
+        "It will expire in 5 minutes."
+      )
+    end
   end
 
   describe "#assigned_notification_mail" do
