@@ -25,7 +25,6 @@
 
 <%= form_with(
       model: @consultee_response,
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       class: "govuk-!-margin-top-5",
       url: planning_application_consultee_response_path(@planning_application, @consultee, @consultee_response),
       method: :patch,

@@ -1,4 +1,4 @@
-<%= form_with model: [@planning_application, @document], local: true, class: "document", builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+<%= form_with model: [@planning_application, @document], local: true, class: "document" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= render partial: 'documents/form_partials/upload', locals: {form: form} unless @validate_document %>
   <div class="govuk-form-group">

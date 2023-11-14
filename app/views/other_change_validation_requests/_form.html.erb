@@ -7,7 +7,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "fee_items/fee_item_table" if @validate_fee %>
 
-    <%= form_with model: [@planning_application, @other_change_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+    <%= form_with model: [@planning_application, @other_change_validation_request], local: true do |form| %>
       <% if @validate_fee %>
         <%= form.hidden_field :fee_item, value: @validate_fee %>
         <%= hidden_field_tag(:validate_fee, "yes") %>

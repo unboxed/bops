@@ -1,6 +1,5 @@
 <%= form_with(
   model: @site_visit,
-  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   class: "govuk-!-margin-top-5",
   url: planning_application_consultation_site_visits_path(@planning_application, @site_visit),
   method: :post

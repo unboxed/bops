@@ -22,7 +22,7 @@
       }
     ) %>
 
-    <%= form_with model: @planning_application, url: validate_planning_application_fee_items_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>
+    <%= form_with model: @planning_application, url: validate_planning_application_fee_items_path(@planning_application), local: true do |form| %>
       <%= form.govuk_radio_buttons_fieldset :valid_fee do %>
         <p class="govuk-!-margin-top-0 govuk-!-margin-bottom-4">
           <a href="https://ecab.planningportal.co.uk/uploads/english_application_fees.pdf" class="govuk-link" target="_blank">

@@ -3,8 +3,7 @@
   locals: { heading: t(".edit_local_authority") }
 ) do %>
   <%= form_with(
-     model: @local_authority,
-     builder: GOVUKDesignSystemFormBuilder::FormBuilder
+     model: @local_authority
   ) do |form| %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
     <%= form.govuk_fieldset(legend: { text: nil }) do %>

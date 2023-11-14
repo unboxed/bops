@@ -1,6 +1,5 @@
 <%= form_with model: @condition_set,
               url: planning_application_review_conditions_path(@planning_application),
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 

@@ -5,7 +5,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: [@planning_application, @additional_document_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+    <%= form_with model: [@planning_application, @additional_document_validation_request], local: true do |form| %>
       <%= form.hidden_field(
         :return_to,
         value: local_assigns.fetch(:return_to, nil)

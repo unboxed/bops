@@ -50,8 +50,7 @@
     <%= form_with(
           model: [@planning_application, @policy_class],
           url: planning_application_review_policy_class_path(@planning_application, @policy_class),
-          html: { data: unsaved_changes_data },
-          builder: GOVUKDesignSystemFormBuilder::FormBuilder
+          html: { data: unsaved_changes_data }
         ) do |form| %>
       <%= render(Reviewing::PolicyClass::NavigationComponent.new(policy_class: @policy_class)) %>
 

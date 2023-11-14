@@ -1,6 +1,5 @@
 <%= form_with model: [@planning_application, @permitted_development_right],
               url: planning_application_review_permitted_development_right_path(@planning_application, @permitted_development_right),
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 

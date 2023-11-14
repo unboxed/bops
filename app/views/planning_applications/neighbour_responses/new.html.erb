@@ -15,7 +15,6 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Add a new response</h2>
 <%= form_with(
   model: @neighbour_response,
-  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   class: "govuk-!-margin-top-5",
   url: planning_application_consultation_neighbour_responses_path(@planning_application, @neighbour_response),
   method: :post

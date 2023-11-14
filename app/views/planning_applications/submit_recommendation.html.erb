@@ -37,8 +37,7 @@
     <div class="govuk-button-group">
       <%= form_with(
         model: @planning_application,
-        url: submit_planning_application_path(@planning_application),
-        builder: GOVUKDesignSystemFormBuilder::FormBuilder
+        url: submit_planning_application_path(@planning_application)
       ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_submit(t(".submit_recommendation")) %>

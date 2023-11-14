@@ -19,7 +19,6 @@
 
     <%= form_with model: @planning_application,
       url: planning_application_withdraw_or_cancel_path(@planning_application),
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       local: true do |form| %>
 
       <div class="govuk-form-group">

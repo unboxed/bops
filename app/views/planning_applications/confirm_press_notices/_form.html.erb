@@ -1,6 +1,5 @@
 <%= form_with(
   model: [@planning_application, @press_notice],
-  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   class: "govuk-!-margin-top-5",
   url: planning_application_confirm_press_notice_path(@planning_application, @press_notice),
   method: :patch

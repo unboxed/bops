@@ -1,7 +1,6 @@
 <%= form_with(
   model: [planning_application, consistency_checklist],
   url: planning_application_consistency_checklist_path(planning_application),
-  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   class: "consistency-checklist-form"
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>

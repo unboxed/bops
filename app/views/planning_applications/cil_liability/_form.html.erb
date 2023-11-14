@@ -1,7 +1,6 @@
 <%= form_with model: [@planning_application],
               url: planning_application_cil_liability_url(@planning_application),
               local: true,
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 

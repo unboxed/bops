@@ -3,7 +3,6 @@
 
 <%= form_with(
       model: consultation,
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       url: send_letters_planning_application_consultation_neighbour_letters_path(planning_application),
       method: "post"
     ) do |form| %>
@@ -38,7 +37,6 @@
 
   <%= form_with(
         model: consultation,
-        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
         url: planning_application_consultation_path(planning_application)
       ) do |form| %>
     <%= form.hidden_field :neighbour_letter_text %>
