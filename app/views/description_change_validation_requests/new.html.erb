@@ -26,7 +26,7 @@
       <p class="govuk-body">
         <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
       </p>
-      <%= form_with model: [@planning_application, @description_change_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <%= form_with model: [@planning_application, @description_change_request] do |form| %>
         <% if @description_change_request.errors.any? %>
           <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
             <h2 class="govuk-error-summary__title" id="error-summary-title">

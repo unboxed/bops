@@ -1,8 +1,7 @@
 <%= form_with(
   model: @form,
   url: planning_application_review_assessment_details_path(planning_application),
-  method: :put,
-  builder: GOVUKDesignSystemFormBuilder::FormBuilder
+  method: :put
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <% planning_application.application_type.assessment_details.each_with_index do |assessment_detail, index| %>

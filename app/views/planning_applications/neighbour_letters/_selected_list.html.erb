@@ -13,7 +13,6 @@
 
         <%= form_with(
           model: neighbour,
-          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
           data: { action: "submit->submit-form#handleSubmit" },
           url: planning_application_consultation_neighbour_letter_path(planning_application, neighbour),
           class: "display-none"

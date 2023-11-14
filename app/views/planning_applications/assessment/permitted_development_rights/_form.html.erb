@@ -1,6 +1,4 @@
 <%= form_with model: [@planning_application, @permitted_development_right],
-              local: true,
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 

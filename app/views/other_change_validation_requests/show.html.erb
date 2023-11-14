@@ -50,7 +50,7 @@
           </p>
         </div>
 
-          <%= form_with model: @planning_application, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+          <%= form_with model: @planning_application do |form| %>
             <% if @other_change_validation_request.fee_item? %>
               <div class="govuk-form-group">
                 <h2 class="govuk-heading-m">

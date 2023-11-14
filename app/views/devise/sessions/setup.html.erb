@@ -13,8 +13,7 @@
         @mobile_number_form,
         as: :user,
         url: user_session_path,
-        method: :post,
-        builder: GOVUKDesignSystemFormBuilder::FormBuilder
+        method: :post
       ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_text_field(:mobile_number) %>

@@ -1,5 +1,4 @@
 <%= form_with model: @condition_set,
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7",
               url: planning_application_conditions_path(@planning_application),
               html: { data: { controller: "conditions" } },

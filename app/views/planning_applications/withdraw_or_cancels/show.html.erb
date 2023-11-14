@@ -18,9 +18,7 @@
       message: "This information will be made publicly available." %>
 
     <%= form_with model: @planning_application,
-      url: planning_application_withdraw_or_cancel_path(@planning_application),
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-      local: true do |form| %>
+      url: planning_application_withdraw_or_cancel_path(@planning_application) do |form| %>
 
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">

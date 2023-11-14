@@ -51,7 +51,6 @@
     <% end %>
     <%= form_with(
       model: @recommendation,
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       url: planning_application_recommendations_path(@planning_application)
     ) do |form| %>
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>

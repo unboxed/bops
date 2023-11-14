@@ -14,9 +14,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @planning_application, 
-      url: planning_application_path(@planning_application), 
-      local: true,
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      url: planning_application_path(@planning_application) do |form| %>
       <% if @planning_application.errors.any? %>
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
           <h2 class="govuk-error-summary__title" id="error-summary-title">

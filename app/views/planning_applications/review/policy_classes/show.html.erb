@@ -41,8 +41,7 @@
     <%= form_with(
         model: [@planning_application, @policy_class],
         url: planning_application_review_policy_class_path(@planning_application, @policy_class),
-        html: { data: unsaved_changes_data },
-        builder: GOVUKDesignSystemFormBuilder::FormBuilder
+        html: { data: unsaved_changes_data }
       ) do |form| %>
       <%= form.fields_for :review_policy_class, @policy_class.review_policy_class do |review_form| %>
         <div class="govuk-form-group">

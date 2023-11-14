@@ -18,7 +18,6 @@
     <div data-show-hide-target="toggleable" class=<%= "display-none" unless new_comment.errors.any? %>>
       <%= form_with(
         model: [planning_application, policy_class, policy, new_comment],
-        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
         data: { action: "submit->submit-form#handleSubmit" }
       ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>

@@ -1,6 +1,5 @@
 <%= form_with model: [@planning_application, @review_immunity_detail],
               url: planning_application_review_immunity_enforcement_path(@planning_application, @review_immunity_detail),
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
