@@ -151,6 +151,7 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
+        expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
         expect(page).to have_selector("td:nth-child(3)", text: "7 days")
         expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
@@ -161,6 +162,7 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Chris Wood")
+        expect(page).to have_selector("td:nth-child(2)", text: "Tree Officer, PlanX Council")
         expect(page).to have_selector("td:nth-child(3)", text: "7 days")
         expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
@@ -278,6 +280,7 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
+        expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
         expect(page).to have_selector("td:nth-child(3)", text: "14 days")
         expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Sending")
@@ -325,6 +328,7 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
+        expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
         expect(page).to have_selector("td:nth-child(3)", text: "14 days")
         expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
@@ -335,6 +339,7 @@ RSpec.describe "Consultation", js: true do
       within "table tbody tr:first-child" do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Chris Wood")
+        expect(page).to have_selector("td:nth-child(2)", text: "Tree Officer, PlanX Council")
         expect(page).to have_selector("td:nth-child(3)", text: "7 days")
         expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
