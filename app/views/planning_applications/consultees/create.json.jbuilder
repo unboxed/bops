@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-json.extract! @consultee, :id, :name, :origin
+json.extract! @consultee, :id, :name, :role, :organisation, :origin

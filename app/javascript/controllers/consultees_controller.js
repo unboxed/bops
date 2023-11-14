@@ -219,7 +219,25 @@ export default class extends Controller {
     checkboxInput.name = fieldName
     checkboxInput.id = domId
     inputLabel.htmlFor = domId
-    nameCell.textContent = data.name
+
+    const consulteeWrapper = document.createElement("div")
+
+    if (data.role || data.organisation) {
+      const suffix = [data.role, data.organisation].filter((v) => v).join(", ")
+      const suffixWrapper = document.createElement("span")
+      suffixWrapper.classList.add("govuk-!-font-size-16")
+      suffixWrapper.textContent = suffix
+
+      consulteeWrapper.append(
+        data.name,
+        document.createElement("br"),
+        suffixWrapper,
+      )
+    } else {
+      consulteeWrapper.textContent = data.name
+    }
+
+    nameCell.appendChild(consulteeWrapper)
 
     return consultee
   }
