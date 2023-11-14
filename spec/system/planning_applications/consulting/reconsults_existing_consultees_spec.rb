@@ -221,7 +221,17 @@ RSpec.describe "Consultation", js: true do
     expect(page).to have_selector("[role=alert] li", text: "Please enter a valid date")
 
     within "#resend-consultees" do
-      fill_in "Reasons for reconsultation", with: "Application has changes - please respond by %<closing_date>s"
+      fill_in "Reasons for reconsultation", with: "Application has changes - please respond by {{close_date}}"
+    end
+
+    accept_confirm(text: "Send emails to consultees?") do
+      click_button "Send emails to consultees"
+    end
+
+    expect(page).to have_selector("[role=alert] li", text: "The reasons for reconsultation contains an invalid placeholder '{{close_date}}'")
+
+    within "#resend-consultees" do
+      fill_in "Reasons for reconsultation", with: "Application has changes - please respond by {{closing_date}}"
       fill_in "Day", with: future.day
       fill_in "Month", with: future.month
       fill_in "Year", with: future.year

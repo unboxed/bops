@@ -148,6 +148,12 @@ en:
               open_red_line_boundary_change_requests: Red line boundary change requests must be closed or cancelled
         consultation:
           attributes:
+            consultee_email_body:
+              blank: Please enter a message body
+              invalid: The message body contains an invalid placeholder '{{%{placeholder}}}'
+            consultee_email_subject:
+              blank: Please enter a message subject
+              invalid: The message subject contains an invalid placeholder '{{%{placeholder}}}'
             consultees:
               blank: Please select at least one consultee
             reconsult_date:
@@ -156,6 +162,9 @@ en:
               invalid: Please enter a valid date
             reconsult_message:
               blank: Please enter the reasons for the reconsultation
+              invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'
+            resend_message:
+              invalid: The additional message contains an invalid placeholder '{{%{placeholder}}}'
         document:
           attributes:
             file:
@@ -407,40 +416,41 @@ en:
     status: Status
     toggle_selection: Toggle selection
   consultee_email_component:
-    formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>%{name}</code> will be substituted when the email is sent.
+    formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>{{name}}</code> will be substituted when the email is sent.
     header: 2) Send email to selected consultees
     message_body_label: Message body
     message_subject_label: Message subject
     view_or_edit_email_template: View/edit email template
   consultee_emails:
     body: |
-      Dear %{name}
+      Dear {{name}}
 
-      Application number %{reference}
+      Application number {{reference}}
 
       We have received an application for the development described below.
 
       ## Proposal
 
-      %{description}
+      {{description}}
 
       ## Site address
 
-      %{address}
+      {{address}}
 
-      To view the application documents, visit %{link}.
+      To view the application documents, visit:
+      {{link}}.
 
       ## Comment on this application
 
-      Please submit your comments by %{closing_date} by replying to this email. You can include attachments. We may not be able to consider comments received after this date.
+      Please submit your comments by {{closing_date}} by replying to this email. You can include attachments. We may not be able to consider comments received after this date.
 
       Yours
 
 
-      %{signatory_name}
-      %{signatory_job_title}
-      %{local_authority}
-    subject: Application for planning permission %{reference}
+      {{signatory_name}}
+      {{signatory_job_title}}
+      {{local_authority}}
+    subject: Application for planning permission {{reference}}
   consultee_overview_component:
     chase_outstanding_consultees: Chase outstanding consultees
     consulted: Date last consulted
@@ -1242,7 +1252,7 @@ en:
       refused: Prior approval required and refused
       refused_html: "<strong>Prior approval required and refused</strong>"
   reconsult_consultees_component:
-    formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>%{closing_date}</code></nobr> will be substituted when the email is sent.
+    formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>{{closing_date}}</code></nobr> will be substituted when the email is sent.
     hint: Choosing 'Yes' will allow you to add the reasons why this application is being reconsulted.
     legend: 3) Is this a reconsultation?
     reconsult: Yes, I’m reconsulting existing consultees
