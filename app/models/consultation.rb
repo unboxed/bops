@@ -6,6 +6,14 @@ class Consultation < ApplicationRecord
   include GeojsonFormattable
 
   EMAIL_REASONS = %w[send resend reconsult].freeze
+  EMAIL_PLACEHOLDER = /\{\{\s*([a-z][_a-z0-9]+)\s*\}\}/
+  EMAIL_PLACEHOLDERS = %w[
+    name reference address description link closing_date
+    signatory_name signatory_job_title local_authority
+  ].freeze
+
+  attribute :consultee_email_subject, :string, default: -> { I18n.t("subject", scope: "consultee_emails") }
+  attribute :consultee_email_body, :string, default: -> { I18n.t("body", scope: "consultee_emails") }
 
   attribute :email_reason, :string, default: "send"
   attribute :resend_message, :string
@@ -31,18 +39,41 @@ class Consultation < ApplicationRecord
     has_many :neighbour_responses
   end
 
-  validate do
-    next unless validation_context == :send_consultee_emails
+  with_options on: :send_consultee_emails do
+    validates :consultee_email_subject, presence: true
+    validates :consultee_email_body, presence: true
+    validates :email_reason, inclusion: {in: EMAIL_REASONS}
 
-    errors.add(:consultees, :blank) if consultees.none_selected?
-    errors.add(:email_reason, :invalid) unless email_reason.in?(EMAIL_REASONS)
+    with_options if: :reconsult? do
+      validates :reconsult_message, presence: true
+      validates :reconsult_date, presence: true
+    end
 
-    if reconsult?
-      errors.add(:reconsult_message, :blank) if reconsult_message.blank?
-      errors.add(:reconsult_date, :blank) if reconsult_date.blank?
+    validate do
+      errors.add(:consultees, :blank) if consultees.none_selected?
 
-      if reconsult_date.present?
-        errors.add(:reconsult_date, :in_the_past) unless reconsult_date.future?
+      unknown_placeholders(consultee_email_subject) do |placeholder|
+        errors.add(:consultee_email_subject, :invalid, placeholder: placeholder)
+      end
+
+      unknown_placeholders(consultee_email_body) do |placeholder|
+        errors.add(:consultee_email_body, :invalid, placeholder: placeholder)
+      end
+
+      if resend?
+        unknown_placeholders(resend_message) do |placeholder|
+          errors.add(:resend_message, :invalid, placeholder: placeholder)
+        end
+      end
+
+      if reconsult?
+        unknown_placeholders(reconsult_message) do |placeholder|
+          errors.add(:reconsult_message, :invalid, placeholder: placeholder)
+        end
+
+        if reconsult_date.present?
+          errors.add(:reconsult_date, :in_the_past) unless reconsult_date.future?
+        end
       end
     end
   end
@@ -175,14 +206,6 @@ class Consultation < ApplicationRecord
     super.presence || local_authority.email_reply_to_id
   end
 
-  def consultee_email_subject
-    super.presence || I18n.t("subject", scope: "consultee_emails")
-  end
-
-  def consultee_email_body
-    super.presence || I18n.t("body", scope: "consultee_emails")
-  end
-
   def neighbour_letter_header
     I18n.t("neighbour_letter_header.#{planning_application.application_type.name}",
       closing_date: end_date_from_now.to_date.to_fs)
@@ -282,6 +305,14 @@ class Consultation < ApplicationRecord
 
   private
 
+  def unknown_placeholders(string)
+    string.to_s.scan(EMAIL_PLACEHOLDER) { yield $1 unless EMAIL_PLACEHOLDERS.include?($1) }
+  end
+
+  def replace_placeholders(string, variables)
+    string.to_s.gsub(EMAIL_PLACEHOLDER) { variables.fetch($1.to_sym) }
+  end
+
   def default_start_date
     1.business_day.from_now.beginning_of_day
   end
@@ -315,8 +346,8 @@ class Consultation < ApplicationRecord
       variables = defaults.merge(name: consultee.name)
 
       consultee_email = consultee.emails.create!(
-        subject: format(subject, variables),
-        body: format(body, variables)
+        subject: replace_placeholders(subject, variables),
+        body: replace_placeholders(body, variables)
       )
 
       expires_at = \

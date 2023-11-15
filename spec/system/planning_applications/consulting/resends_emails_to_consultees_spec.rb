@@ -180,7 +180,17 @@ RSpec.describe "Consultation", js: true do
     within "#resend-consultees" do
       choose "No, I’m chasing existing consultees"
 
-      fill_in "Additional message to include in the email", with: "Please respond to the message below"
+      fill_in "Additional message to include in the email", with: "Please respond to the message below by {{close_date}}"
+    end
+
+    accept_confirm(text: "Send emails to consultees?") do
+      click_button "Send emails to consultees"
+    end
+
+    expect(page).to have_selector("[role=alert] li", text: "The additional message contains an invalid placeholder '{{close_date}}'")
+
+    within "#resend-consultees" do
+      fill_in "Additional message to include in the email", with: "Please respond to the message below by {{closing_date}}"
     end
 
     expect do
@@ -210,7 +220,7 @@ RSpec.describe "Consultation", js: true do
             email_address: "planning@london.gov.uk",
             email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
-              "body" => a_string_starting_with("Please respond to the message below")
+              "body" => a_string_starting_with("Please respond to the message below by #{existing_date}")
             )
           }
         ))

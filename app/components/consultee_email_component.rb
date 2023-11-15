@@ -9,9 +9,22 @@ class ConsulteeEmailComponent < ViewComponent::Base
 
   attr_reader :form
 
+  def subject_invalid?
+    form.object.errors.key?(:consultee_email_subject)
+  end
+
+  def body_invalid?
+    form.object.errors.key?(:consultee_email_body)
+  end
+
+  def message_invalid?
+    subject_invalid? || body_invalid?
+  end
+
   def details_tag(&)
     options = {
       class: "govuk-details",
+      open: message_invalid?,
       data: {
         module: "govuk-details"
       }
@@ -34,16 +47,12 @@ class ConsulteeEmailComponent < ViewComponent::Base
     content_tag(:div, class: "govuk-form-group", &)
   end
 
-  def label_tag(name, content)
-    form.label(name, content, class: "govuk-label govuk-label--s")
+  def text_field_tag(name, **)
+    form.govuk_text_field(name, **)
   end
 
-  def text_field_tag(name)
-    form.text_field(name, class: "govuk-input")
-  end
-
-  def text_area_tag(name, **extra)
-    form.text_area(name, **{class: "govuk-textarea"}.merge(extra))
+  def text_area_tag(name, **)
+    form.govuk_text_area(name, **)
   end
 
   def hint_tag(&)

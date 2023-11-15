@@ -145,7 +145,15 @@ RSpec.describe "Consultation", js: true do
 
     toggle "View/edit email template"
 
-    fill_in "Message subject", with: "Consultation for planning application %<reference>s"
+    fill_in "Message subject", with: "Consultation for planning application {{uuid}}"
+
+    accept_confirm(text: "Send emails to consultees?") do
+      click_button "Send emails to consultees"
+    end
+
+    expect(page).to have_selector("[role=alert] li", text: "The message subject contains an invalid placeholder '{{uuid}}'")
+
+    fill_in "Message subject", with: "Consultation for planning application {{reference}}"
 
     expect do
       accept_confirm(text: "Send emails to consultees?") do
@@ -307,7 +315,7 @@ RSpec.describe "Consultation", js: true do
 
     toggle "View/edit email template"
 
-    fill_in "Message subject", with: "Resend: Consultation for planning application %<reference>s"
+    fill_in "Message subject", with: "Resend: Consultation for planning application {{reference}}"
 
     expect do
       accept_confirm(text: "Send emails to consultees?") do
