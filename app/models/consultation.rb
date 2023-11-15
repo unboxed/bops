@@ -12,8 +12,8 @@ class Consultation < ApplicationRecord
     signatory_name signatory_job_title local_authority
   ].freeze
 
-  attribute :consultee_email_subject, :string, default: -> { I18n.t("subject", scope: "consultee_emails") }
-  attribute :consultee_email_body, :string, default: -> { I18n.t("body", scope: "consultee_emails") }
+  attribute :consultee_email_subject, :string, default: -> { default_consultee_email_subject }
+  attribute :consultee_email_body, :string, default: -> { default_consultee_email_body }
 
   attribute :email_reason, :string, default: "send"
   attribute :resend_message, :string
@@ -92,6 +92,19 @@ class Consultation < ApplicationRecord
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
 
   format_geojson_epsg :polygon_geojson
+
+  class << self
+    def default_consultee_email_subject
+      I18n.t("subject", scope: "consultee_emails")
+    end
+
+    def default_consultee_email_body
+      I18n.t("body", scope: "consultee_emails")
+    end
+  end
+
+  delegate :default_consultee_email_subject, to: :class
+  delegate :default_consultee_email_body, to: :class
 
   def resend?
     email_reason == "resend"

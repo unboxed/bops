@@ -21,12 +21,23 @@ class ConsulteeEmailComponent < ViewComponent::Base
     subject_invalid? || body_invalid?
   end
 
+  def default_subject
+    form.object.default_consultee_email_subject
+  end
+
+  def default_body
+    form.object.default_consultee_email_body
+  end
+
   def details_tag(&)
     options = {
       class: "govuk-details",
       open: message_invalid?,
       data: {
-        module: "govuk-details"
+        module: "govuk-details",
+        controller: "consultee-email",
+        consultee_email_default_subject: default_subject,
+        consultee_email_default_body: default_body
       }
     }
 
@@ -48,11 +59,22 @@ class ConsulteeEmailComponent < ViewComponent::Base
   end
 
   def text_field_tag(name, **)
-    form.govuk_text_field(name, **)
+    form.govuk_text_field(name, data: {consultee_email_target: "subject"}, **)
   end
 
   def text_area_tag(name, **)
-    form.govuk_text_area(name, **)
+    form.govuk_text_area(name, data: {consultee_email_target: "body"}, **)
+  end
+
+  def button_tag(&)
+    options = {
+      type: "button",
+      class: "govuk-button govuk-button--secondary",
+      data: {
+        action: "click->consultee-email#reset"
+      }
+    }
+    content_tag(:button, **options, &)
   end
 
   def hint_tag(&)
