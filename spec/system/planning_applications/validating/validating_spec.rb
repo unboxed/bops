@@ -377,7 +377,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "does not allow new requests when application is determined" do
-      visit planning_application_validation_requests_path(determined_planning_application)
+      visit planning_application_validation_validation_requests_path(determined_planning_application)
 
       expect(page).not_to have_button("Mark the application as invalid")
       expect(page).not_to have_button("New request")

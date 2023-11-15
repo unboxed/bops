@@ -1,0 +1,57 @@
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Request other validation change #{'(Fee)' if @validate_fee}"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "planning_applications/validation/fee_items/fee_item_table" if @validate_fee %>
+
+    <%= form_with model: [@planning_application, :validation, @other_change_validation_request] do |form| %>
+      <% if @validate_fee %>
+        <%= form.hidden_field :fee_item, value: @validate_fee %>
+        <%= hidden_field_tag(:validate_fee, "yes") %>
+      <% end %>
+
+      <% if @other_change_validation_request.errors.any? %>
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <% @other_change_validation_request.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form.govuk_text_area(
+        :summary,
+        label: {
+          size: "s",
+          class: "govuk-label govuk-label--s",
+          text: (t(".labels.summary") if @validate_fee)
+        },
+        hint: { class: ("make-invisible" if @validate_fee) },
+        rows: 5,
+        readonly: @planning_application.validated?
+      ) %>
+
+      <%= form.govuk_text_area(
+        :suggestion,
+        label: {
+          size: "s",
+          class: "govuk-label govuk-label--s",
+          text: (t(".labels.suggestion") if @validate_fee)
+        },
+        rows: 5,
+        readonly: @planning_application.validated?
+      ) %>
+
+      <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
+    <% end %>
+  </div>
+</div>

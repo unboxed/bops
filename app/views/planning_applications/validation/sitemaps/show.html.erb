@@ -1,0 +1,12 @@
+<% content_for :page_title do %>
+  Red line boundary - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Red line boundary" %>
+
+<% if @planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary? %>
+  <%= render "validate_red_line_boundary" %>
+<% else %>
+  <%= render "draw_red_line_boundary" %>
+<% end %>

@@ -16,7 +16,7 @@ module TaskListItems
     end
 
     def link_path
-      planning_application_other_change_validation_request_path(
+      planning_application_validation_other_change_validation_request_path(
         planning_application,
         request
       )

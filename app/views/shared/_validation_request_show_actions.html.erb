@@ -3,7 +3,7 @@
     <% if form %>
       <%= form.govuk_submit "Continue", class: "govuk-button" %>
     <% else %>
-      <%= link_to "Continue", planning_application_fee_items_path(planning_application, validate_fee: "yes"), class: "govuk-button" %>
+      <%= link_to "Continue", planning_application_validation_fee_items_path(planning_application, validate_fee: "yes"), class: "govuk-button" %>
     <% end %>
   <% end %>
   <%= back_link(classname: "govuk-button #{"govuk-button--secondary" if show_continue_link}") %>

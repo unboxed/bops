@@ -61,16 +61,6 @@ Rails.application.routes.draw do
       get :make_public
     end
 
-    resource :constraints, only: %i[show update]
-
-    resource :fee_items, only: %i[show] do
-      patch :validate
-    end
-
-    resource :sitemap, only: %i[show edit update] do
-      patch :validate
-    end
-
     resources :documents, only: %i[index new create edit update] do
       get :archive
 
@@ -80,10 +70,6 @@ Rails.application.routes.draw do
 
     resources :audits, only: :index
 
-    resources :validation_requests, only: %i[index] do
-      get :post_validation_requests, on: :collection
-    end
-
     concern :cancel_validation_requests do
       member do
         get :cancel_confirmation
@@ -92,24 +78,12 @@ Rails.application.routes.draw do
       end
     end
 
-    with_options concerns: :cancel_validation_requests do
-      resources :additional_document_validation_requests, only: %i[new create edit update destroy]
-      resources :other_change_validation_requests, only: %i[new create show edit update destroy]
-      resources :red_line_boundary_change_validation_requests, only: %i[new create show edit update destroy]
-      resources :replacement_document_validation_requests, only: %i[new create show edit update destroy]
-    end
-
-    resources :description_change_validation_requests, only: %i[new create show] do
-      patch :cancel
-    end
-
     resource :legislation, only: %i[show update]
 
     scope module: :planning_applications do
       resources :assign_users, only: %i[index] do
         patch :update, on: :collection
       end
-      resource :cil_liability, only: %i[edit update], controller: :cil_liability
 
       resources :confirm_press_notices, only: %i[edit update]
       resources :site_notices
@@ -176,6 +150,35 @@ Rails.application.routes.draw do
         resources :neighbour_responses, only: %i[new index create edit update]
         resources :redact_neighbour_responses, only: %i[edit update]
         resources :site_visits, only: %i[index new create edit show update]
+      end
+
+      namespace :validation do
+        resource :cil_liability, only: %i[edit update], controller: :cil_liability
+
+        resource :constraints, only: %i[show update]
+
+        resources :description_change_validation_requests, only: %i[new create show] do
+          patch :cancel
+        end
+
+        resource :fee_items, only: %i[show] do
+          patch :validate
+        end
+
+        resource :sitemap, only: %i[show edit update] do
+          patch :validate
+        end
+
+        resources :validation_requests, only: %i[index] do
+          get :post_validation_requests, on: :collection
+        end
+
+        with_options concerns: :cancel_validation_requests do
+          resources :additional_document_validation_requests, only: %i[new create edit update destroy]
+          resources :other_change_validation_requests, only: %i[new create show edit update destroy]
+          resources :red_line_boundary_change_validation_requests, only: %i[new create show edit update destroy]
+          resources :replacement_document_validation_requests, only: %i[new create show edit update destroy]
+        end
       end
 
       namespace :review do

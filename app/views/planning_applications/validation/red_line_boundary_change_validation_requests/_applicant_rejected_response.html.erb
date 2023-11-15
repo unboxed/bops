@@ -1,0 +1,29 @@
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Applicant rejected proposed digital red line boundary"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-padding-top-6">
+      Proposed red line boundary
+    </h2>
+
+    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+
+    <div class="govuk-inset-text">
+      <strong>Applicant rejected this proposed red line boundary</strong><br>
+      <br>
+      <strong>Reason:</strong> <%= @red_line_boundary_change_validation_request.rejection_reason.to_s  %>
+    </div>
+
+    <div class="govuk-button-group">
+      <% if @planning_application.validated? %>
+        <%= back_link(classname: "govuk-button") %>
+      <% else %>
+        <%= link_to "Continue", planning_application_validation_sitemap_path(@planning_application), class: "govuk-button" %>
+        <%= back_link %>
+      <% end %>
+    </div>
+  </div>
+</div>

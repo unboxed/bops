@@ -5,7 +5,7 @@
   <ul class="app-task-list__items">
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
-        <%= link_to "CIL liability", edit_planning_application_cil_liability_path(@planning_application), class: "govuk-link" %>
+        <%= link_to "CIL liability", edit_planning_application_validation_cil_liability_path(@planning_application), class: "govuk-link" %>
       </span>
       <%= render(
             StatusTags::CilLiabilityComponent.new(

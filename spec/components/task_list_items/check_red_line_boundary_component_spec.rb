@@ -42,7 +42,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     it "renders sitemap link" do
       expect(page).to have_link(
         "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/sitemap"
+        href: "/planning_applications/#{planning_application.id}/validation/sitemap"
       )
     end
   end
@@ -67,7 +67,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
 
       expect(page).to have_link(
         "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/sitemap"
+        href: "/planning_applications/#{planning_application.id}/validation/sitemap"
       )
     end
 
@@ -89,7 +89,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       it "renders change request link" do
         expect(page).to have_link(
           "Check red line boundary",
-          href: "/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+          href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
         )
       end
     end
@@ -123,7 +123,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
 
       expect(page).to have_link(
         "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/sitemap"
+        href: "/planning_applications/#{planning_application.id}/validation/sitemap"
       )
     end
 
@@ -146,7 +146,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       it "renders change request link" do
         expect(page).to have_link(
           "Check red line boundary",
-          href: "/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+          href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
         )
       end
     end
@@ -177,7 +177,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     it "renders change request link" do
       expect(page).to have_link(
         "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
       )
     end
   end
@@ -209,7 +209,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     it "renders change request link" do
       expect(page).to have_link(
         "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
       )
     end
   end

@@ -44,7 +44,7 @@
   <% if @planning_application.validated? %>
     <%= link_to(
        t(".request_a_new"),
-       new_planning_application_additional_document_validation_request_path(@planning_application),
+       new_planning_application_validation_additional_document_validation_request_path(@planning_application),
        role: "button",
        class: "govuk-button",
        data: { module: "govuk-button" }
@@ -71,7 +71,7 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 <% if @additional_document_validation_requests.any? %>
   <%= render(
-    partial: "additional_document_validation_requests/additional_document_validation_requests_table",
+    partial: "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
     locals: { validation_requests: @additional_document_validation_requests }
   ) %>
 <% end %>

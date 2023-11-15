@@ -64,7 +64,7 @@ class PlanningApplicationsController < AuthenticationController
           format.html { render :edit_public_comment }
         when :edit_payment_amount
           format.html do
-            redirect_to planning_application_other_change_validation_request_path(
+            redirect_to planning_application_validation_other_change_validation_request_path(
               @planning_application, OtherChangeValidationRequest.find(params[:other_change_validation_request_id])
             ), alert: @planning_application.errors.messages[:payment_amount].join(", ")
           end
@@ -94,7 +94,7 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.errors.add(
         :base,
         :no_boundary_geojson,
-        path: planning_application_sitemap_path(@planning_application)
+        path: planning_application_validation_sitemap_path(@planning_application)
       )
     end
 
@@ -319,7 +319,7 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
-      redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"),
+      redirect_to planning_application_validation_fee_items_path(@planning_application, validate_fee: "yes"),
         notice: t(".edit_payment_amount")
     when :edit_public_comment
       redirect_to edit_planning_application_assessment_recommendations_path(@planning_application),
@@ -346,7 +346,7 @@ class PlanningApplicationsController < AuthenticationController
 
     link = view_context.link_to(
       "review open requests",
-      post_validation_requests_planning_application_validation_requests_path(@planning_application)
+      post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
     )
     flash.now[:error] = sanitize "This application has open non-validation requests. Please
         #{link} and resolve them before submitting to your manager."

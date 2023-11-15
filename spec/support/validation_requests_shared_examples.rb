@@ -56,7 +56,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
 
         patch(:cancel, params:)
 
-        expect(response).to redirect_to planning_application_validation_requests_path(planning_application)
+        expect(response).to redirect_to planning_application_validation_validation_requests_path(planning_application)
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
 
         patch(:cancel, params:)
 
-        expect(response).to redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
+        expect(response).to redirect_to send("cancel_confirmation_planning_application_validation_#{request_type}_path",
           planning_application, request)
       end
 
@@ -85,7 +85,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
 
         patch(:cancel, params:)
 
-        expect(response).to redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
+        expect(response).to redirect_to send("cancel_confirmation_planning_application_validation_#{request_type}_path",
           planning_application, request)
       end
     end

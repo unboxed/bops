@@ -60,7 +60,7 @@ module ValidationRequests
     private
 
     def redirect_failed_cancel_request
-      redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
+      redirect_to send("cancel_confirmation_planning_application_validation_#{request_type}_path",
         @planning_application, request_type_instance),
         alert: t("concerns.validation_requests.cancel.failure")
     end
@@ -104,9 +104,9 @@ module ValidationRequests
 
     def cancel_redirect_url
       if @planning_application.validated?
-        post_validation_requests_planning_application_validation_requests_path(@planning_application)
+        post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
       else
-        planning_application_validation_requests_path(@planning_application)
+        planning_application_validation_validation_requests_path(@planning_application)
       end
     end
   end

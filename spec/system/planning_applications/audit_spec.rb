@@ -75,7 +75,7 @@ RSpec.describe "Auditing changes to a planning application" do
       click_link("Auto-closed: validation request (red line boundary#1)")
 
       expect(page).to have_current_path(
-        planning_application_red_line_boundary_change_validation_request_path(
+        planning_application_validation_red_line_boundary_change_validation_request_path(
           planning_application,
           validation_request
         )
@@ -108,7 +108,7 @@ RSpec.describe "Auditing changes to a planning application" do
       click_link("Auto-closed: validation request (description#1)")
 
       expect(page).to have_current_path(
-        planning_application_description_change_validation_request_path(
+        planning_application_validation_description_change_validation_request_path(
           planning_application,
           validation_request
         )

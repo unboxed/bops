@@ -1,0 +1,43 @@
+<% content_for :page_title do %>
+  Fee validation request - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Fee validation" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Check the fee" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= render "fee_item_table" %>
+
+    <%= render(
+      partial: "proposal_details_table",
+      locals: {
+        proposal_details: @planning_application.fee_related_proposal_details
+      }
+    ) %>
+
+    <%= form_with model: @planning_application, url: validate_planning_application_validation_fee_items_path(@planning_application) do |form| %>
+      <%= form.govuk_radio_buttons_fieldset :valid_fee do %>
+        <p class="govuk-!-margin-top-0 govuk-!-margin-bottom-4">
+          <a href="https://ecab.planningportal.co.uk/uploads/english_application_fees.pdf" class="govuk-link" target="_blank">
+            A guide to the Fees for Planning Applications in England
+          </a>
+        </p>
+        <%= form.govuk_radio_button :valid_fee, true, label: { text: "Yes"} %>
+        <%= form.govuk_radio_button :valid_fee, false, label: { text: "No" } %>
+      <% end %>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

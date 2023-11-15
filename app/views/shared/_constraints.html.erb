@@ -7,7 +7,7 @@
     The application site has these constraints:
   </p>
   <%= render(
-        partial: "constraints/info",
+        partial: "planning_applications/validation/constraints/info",
         locals: {
           planning_application: @planning_application,
           planning_application_constraints: @planning_application.planning_application_constraints.active
@@ -17,5 +17,5 @@
 
 <%= link_to_if(current_user.assessor?,
                "Edit constraints",
-               planning_application_constraints_path(@planning_application),
+               planning_application_validation_constraints_path(@planning_application),
                class: "govuk-link govuk-body") {} %>

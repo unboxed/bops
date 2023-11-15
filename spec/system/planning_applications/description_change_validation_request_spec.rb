@@ -20,7 +20,7 @@ RSpec.describe "Requesting description changes to a planning application" do
 
   it "displays the planning application address and reference" do
     visit(
-      new_planning_application_description_change_validation_request_path(
+      new_planning_application_validation_description_change_validation_request_path(
         planning_application
       )
     )

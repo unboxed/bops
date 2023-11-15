@@ -21,9 +21,9 @@ module TaskListItems
 
     def link_path
       if render_sitemap_path?
-        planning_application_sitemap_path(planning_application)
+        planning_application_validation_sitemap_path(planning_application)
       else
-        planning_application_red_line_boundary_change_validation_request_path(
+        planning_application_validation_red_line_boundary_change_validation_request_path(
           planning_application,
           change_request
         )
