@@ -20,9 +20,9 @@ class PolicyClassPresenter
 
   def default_path
     if complete?
-      planning_application_policy_class_path(planning_application, self)
+      planning_application_assessment_policy_class_path(planning_application, self)
     else
-      edit_planning_application_policy_class_path(planning_application, self)
+      edit_planning_application_assessment_policy_class_path(planning_application, self)
     end
   end
 

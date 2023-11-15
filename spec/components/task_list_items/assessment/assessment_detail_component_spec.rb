@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
+RSpec.describe TaskListItems::Assessment::AssessmentDetailComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   context "when the assessment has not been started" do
@@ -18,7 +18,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     it "renders link to new assessment detail page" do
       expect(page).to have_link(
         "Summary of works",
-        href: "/planning_applications/#{planning_application.id}/assessment_details/new?category=summary_of_work"
+        href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=summary_of_work"
       )
     end
 
@@ -56,7 +56,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     it "renders link to new assessment detail page" do
       expect(page).to have_link(
         "Summary of works",
-        href: "/planning_applications/#{planning_application.id}/assessment_details/new?category=summary_of_work"
+        href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=summary_of_work"
       )
     end
 
@@ -87,7 +87,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     it "renders link to edit assessment detail page" do
       expect(page).to have_link(
         "Summary of works",
-        href: "/planning_applications/#{planning_application.id}/assessment_details/#{assessment_detail.id}/edit?category=summary_of_work"
+        href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=summary_of_work"
       )
     end
 
@@ -118,7 +118,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     it "renders link to show assessment detail page" do
       expect(page).to have_link(
         "Summary of works",
-        href: "/planning_applications/#{planning_application.id}/assessment_details/#{assessment_detail.id}?category=summary_of_work"
+        href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=summary_of_work"
       )
     end
 

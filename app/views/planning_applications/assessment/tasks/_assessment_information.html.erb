@@ -6,7 +6,7 @@
   <ul class="app-task-list__items">
     <% @planning_application.application_type.assessor_remarks.each do |category| %>
       <%= render(
-            TaskListItems::AssessmentDetailComponent.new(
+            TaskListItems::Assessment::AssessmentDetailComponent.new(
               planning_application: @planning_application,
               category:
             )

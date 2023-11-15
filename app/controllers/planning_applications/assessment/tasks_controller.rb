@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class AssessmentTasksController < AuthenticationController
+    class TasksController < AuthenticationController
       before_action :set_planning_application
       before_action :set_condition_set
 

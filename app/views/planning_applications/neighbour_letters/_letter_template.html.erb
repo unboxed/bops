@@ -13,7 +13,7 @@
     <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
     <% if @planning_application.type == "Prior approval" %>
       <p class="govuk-body">
-        Measurements in the letter have been taken from PlanX. If measurements are incorrect, <%= link_to "change the measurements in the consistency checklist", new_planning_application_consistency_checklist_path(planning_application) %> then return to this template.
+        Measurements in the letter have been taken from PlanX. If measurements are incorrect, <%= link_to "change the measurements in the consistency checklist", new_planning_application_assessment_consistency_checklist_path(planning_application) %> then return to this template.
       </p>
     <% end %>
   </div>

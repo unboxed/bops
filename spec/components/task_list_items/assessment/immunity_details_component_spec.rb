@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
+RSpec.describe TaskListItems::Assessment::ImmunityDetailsComponent, type: :component do
   let(:planning_application) { create(:planning_application, :with_immunity) }
 
   context "when the assessment has not been started" do
@@ -17,7 +17,7 @@ RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
     it "renders link to new assessment detail page" do
       expect(page).to have_link(
         "Evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/immunity_details/new"
+        href: "/planning_applications/#{planning_application.id}/assessment/immunity_details/new"
       )
     end
 
@@ -40,7 +40,7 @@ RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
     it "renders link to permitted development right review page" do
       expect(page).to have_link(
         "Evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/immunity_details/#{planning_application.immunity_detail.id}"
+        href: "/planning_applications/#{planning_application.id}/assessment/immunity_details/#{planning_application.immunity_detail.id}"
       )
     end
 
@@ -63,7 +63,7 @@ RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
     it "renders link to edit permitted development right review page" do
       expect(page).to have_link(
         "Evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/immunity_details/#{planning_application.immunity_detail.id}/edit"
+        href: "/planning_applications/#{planning_application.id}/assessment/immunity_details/#{planning_application.immunity_detail.id}/edit"
       )
     end
 

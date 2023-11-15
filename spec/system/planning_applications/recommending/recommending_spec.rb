@@ -255,7 +255,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "shows errors if decision and public comment are blank" do
-        visit(new_planning_application_recommendation_path(planning_application))
+        visit(new_planning_application_assessment_recommendation_path(planning_application))
         click_button("Save and mark as complete")
 
         expect(page).to have_content("Please select Yes or No")
@@ -527,7 +527,7 @@ RSpec.describe "Planning Application Assessment" do
           travel_to(Time.zone.local(2022, 8, 23, 9))
 
           visit(
-            new_planning_application_recommendation_path(planning_application)
+            new_planning_application_assessment_recommendation_path(planning_application)
           )
 
           choose("Yes")
@@ -546,7 +546,7 @@ RSpec.describe "Planning Application Assessment" do
           click_link("Review and submit recommendation")
           click_button("Submit recommendation")
           sign_in(reviewer)
-          visit(edit_planning_application_recommendations_path(planning_application))
+          visit(edit_planning_application_assessment_recommendations_path(planning_application))
           choose("No (return the case for assessment)")
 
           expect(page).to have_text "Case currently assigned to: Alice Aplin"
@@ -597,7 +597,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "displays the documents to be referenced in the decision notice" do
-          visit new_planning_application_recommendation_path(planning_application)
+          visit new_planning_application_assessment_recommendation_path(planning_application)
 
           within("#decision-notice-documents") do
             expect(page).to have_content("Documents included in the decision notice")
@@ -618,7 +618,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "when there are no documents" do
         it "displays there are no documents text" do
-          visit new_planning_application_recommendation_path(planning_application)
+          visit new_planning_application_assessment_recommendation_path(planning_application)
 
           within("#decision-notice-documents") do
             expect(page).to have_content("Documents included in the decision notice")
@@ -640,7 +640,7 @@ RSpec.describe "Planning Application Assessment" do
       let!(:evidence_group2) { create(:evidence_group, start_date: "2009-05-02 12:13:41.501488206 +0000", end_date: nil, immunity_detail:) }
 
       it "shows the relevant assessment details when assessing the recommendation" do
-        visit new_planning_application_recommendation_path(planning_application)
+        visit new_planning_application_assessment_recommendation_path(planning_application)
 
         within("#constraints-section") do
           expect(page).to have_content("Constraints including Article 4 direction(s)")
@@ -684,7 +684,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "does not show additional evidence when reviewing and submitting the recommendation" do
-        visit new_planning_application_recommendation_path(planning_application)
+        visit new_planning_application_assessment_recommendation_path(planning_application)
         choose "Yes"
 
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
@@ -712,7 +712,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "displays a warning message with a link to the post validation requests table" do
-          visit new_planning_application_recommendation_path(planning_application)
+          visit new_planning_application_assessment_recommendation_path(planning_application)
 
           within(".moj-banner__message") do
             expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
@@ -729,7 +729,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "displays a warning message with a link to the post validation requests table" do
-          visit new_planning_application_recommendation_path(planning_application)
+          visit new_planning_application_assessment_recommendation_path(planning_application)
 
           within(".moj-banner__message") do
             expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
@@ -746,7 +746,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "does not display any warning message" do
-          visit new_planning_application_recommendation_path(planning_application)
+          visit new_planning_application_assessment_recommendation_path(planning_application)
 
           expect(page).not_to have_css(".moj-banner__message")
         end
@@ -754,7 +754,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "with no request" do
         it "does not display any warning message" do
-          visit new_planning_application_recommendation_path(planning_application)
+          visit new_planning_application_assessment_recommendation_path(planning_application)
 
           expect(page).not_to have_css(".moj-banner__message")
         end
@@ -913,7 +913,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "displays a warning message with the consultation end date" do
-        visit new_planning_application_recommendation_path(planning_application)
+        visit new_planning_application_assessment_recommendation_path(planning_application)
 
         within(".moj-banner__message") do
           expect(page).to have_content("The consultation is still ongoing. It will end on the #{consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?")
@@ -927,7 +927,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "does not display a warning message" do
-        visit new_planning_application_recommendation_path(planning_application)
+        visit new_planning_application_assessment_recommendation_path(planning_application)
 
         expect(page).not_to have_css(".moj-banner__message")
       end

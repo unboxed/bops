@@ -38,7 +38,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          new_planning_application_permitted_development_right_path(planning_application)
+          new_planning_application_assessment_permitted_development_right_path(planning_application)
         )
 
         within(".govuk-heading-l") do
@@ -281,7 +281,7 @@ RSpec.describe "Permitted development right" do
 
           expect(page).to have_text("#{permitted_development_right.reviewer.name} accepted this response on #{permitted_development_right.reviewed_at}")
 
-          visit edit_planning_application_permitted_development_right_path(planning_application, permitted_development_right)
+          visit edit_planning_application_assessment_permitted_development_right_path(planning_application, permitted_development_right)
           expect(page).to have_text("forbidden")
         end
       end
@@ -316,7 +316,7 @@ RSpec.describe "Permitted development right" do
         end
 
         it "I cannot create a new permitted development right request when there is an open response" do
-          visit new_planning_application_permitted_development_right_path(planning_application)
+          visit new_planning_application_assessment_permitted_development_right_path(planning_application)
           choose "No"
           click_button "Save and mark as complete"
           expect(page).to have_text("Cannot create a permitted development right response when there is already an open response")
@@ -346,7 +346,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
+          new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
         )
 
         within(".govuk-heading-l") do
@@ -378,7 +378,7 @@ RSpec.describe "Permitted development right" do
 
       expect(page).not_to have_link("Permitted development rights")
 
-      visit new_planning_application_permitted_development_right_path(planning_application)
+      visit new_planning_application_assessment_permitted_development_right_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

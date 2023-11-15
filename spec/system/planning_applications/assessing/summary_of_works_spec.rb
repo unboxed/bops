@@ -29,7 +29,7 @@ RSpec.describe "Summary of works" do
       end
 
       expect(page).to have_current_path(
-        new_planning_application_assessment_detail_path(planning_application, category: "summary_of_work")
+        new_planning_application_assessment_assessment_detail_path(planning_application, category: "summary_of_work")
       )
 
       expect(page).to have_content(planning_application.reference)
@@ -109,7 +109,7 @@ RSpec.describe "Summary of works" do
 
       expect(page).to have_link(
         "Edit summary of work",
-        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.summary_of_work.last, category: :summary_of_work)
+        href: edit_planning_application_assessment_assessment_detail_path(planning_application, AssessmentDetail.summary_of_work.last, category: :summary_of_work)
       )
     end
   end
@@ -122,7 +122,7 @@ RSpec.describe "Summary of works" do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("Summary of works")
 
-      visit new_planning_application_assessment_detail_path(planning_application)
+      visit new_planning_application_assessment_assessment_detail_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

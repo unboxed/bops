@@ -5,7 +5,7 @@
   rejected_assessment_detail: rejected_assessment_detail
 ) %>
 
-<%= form_with model: [@planning_application, @assessment_detail] do |form| %>
+<%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
   <%= form.govuk_error_summary(
     presenter: assessment_detail_error_presenter(category)
   ) %>

@@ -34,7 +34,7 @@
     <% end %>
     <%= button_to(
         t(".remove_class_from"),
-        planning_application_policy_class_path(planning_application, policy_class),
+        planning_application_assessment_policy_class_path(planning_application, policy_class),
         method: :delete,
         data: { confirm: "This action cannot be undone.\nAre you sure you want to remove this class?" },
         class: "govuk-button govuk-button--warning",

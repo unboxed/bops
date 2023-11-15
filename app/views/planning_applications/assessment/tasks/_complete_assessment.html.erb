@@ -13,7 +13,7 @@
         <%= link_to_if(
           @planning_application.can_assess?,
           "Make draft recommendation",
-          new_planning_application_recommendation_path(@planning_application),
+          new_planning_application_assessment_recommendation_path(@planning_application),
           class: "govuk-link"
         ) %>
       </span>
@@ -25,7 +25,7 @@
     </li>
     <% if @planning_application.type == "Householder Application for Planning Permission" %>
       <%= render(
-        TaskListItems::ConditionsComponent.new(
+        TaskListItems::Assessment::ConditionsComponent.new(
           condition_set: @planning_application.condition_set
         )
       ) %>

@@ -1,5 +1,5 @@
 <div class="govuk-accordion" data-module="govuk-accordion">
-  <%= form_with model: [@planning_application, @planning_application.immunity_detail],
+  <%= form_with model: [@planning_application, :assessment, @planning_application.immunity_detail],
         builder: GOVUKDesignSystemFormBuilder::FormBuilder,
         class: "govuk-!-margin-top-7",
         id: "immunity-detail-evidence-groups" do |form| %>
@@ -113,7 +113,7 @@
 
 <div class="govuk-button-group">
   <% if editable  %>
-    <%= form_with model: [@planning_application, @planning_application.immunity_detail] do |form| %>
+    <%= form_with model: [@planning_application, :assessment, @planning_application.immunity_detail] do |form| %>
       <div class="govuk-button-group">
         <%= form.submit(
           t("form_actions.save_and_mark_as_complete"),
@@ -134,6 +134,6 @@
   <%= back_link %>
 
   <% if !editable %>
-    <%= link_to "Edit evidence of immunity", edit_planning_application_immunity_detail_path(@planning_application, @planning_application.immunity_detail), class: "govuk-link" %>
+    <%= link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail), class: "govuk-link" %>
   <% end %>
 </div>

@@ -17,7 +17,7 @@
     </div>
     <div data-show-hide-target="toggleable" class=<%= "display-none" unless new_comment.errors.any? %>>
       <%= form_with(
-        model: [planning_application, planning_application.immunity_detail, evidence_group, new_comment],
+        model: [planning_application, :assessment, planning_application.immunity_detail, evidence_group, new_comment],
         data: { action: "submit->submit-form#handleSubmit" }
       ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>

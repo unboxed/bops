@@ -21,7 +21,7 @@ module PlanningApplications
 
         return if @part.present?
 
-        redirect_to part_new_planning_application_policy_class_path(@planning_application),
+        redirect_to part_new_planning_application_assessment_policy_class_path(@planning_application),
           alert: t(".failure")
       end
 
@@ -45,7 +45,7 @@ module PlanningApplications
         if @planning_application.save
           success_redirect_url
         else
-          redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
+          redirect_to new_planning_application_assessment_policy_class_path(@planning_application, part: params[:part]),
             alert: @planning_application.errors.full_messages
         end
       end

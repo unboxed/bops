@@ -1,7 +1,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= form_with(
-          model: [planning_application, policy_class],
+          model: [planning_application, :assessment, policy_class],
           html: { data: unsaved_changes_data }
         ) do |form| %>
       <%= form.govuk_error_summary(presenter: PolicyClassErrorPresenter) %>

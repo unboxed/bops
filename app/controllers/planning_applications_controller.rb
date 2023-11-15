@@ -322,7 +322,7 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"),
         notice: t(".edit_payment_amount")
     when :edit_public_comment
-      redirect_to edit_planning_application_recommendations_path(@planning_application),
+      redirect_to edit_planning_application_assessment_recommendations_path(@planning_application),
         notice: t(".edit_public_comment")
     else
       redirect_to(after_update_url, notice: t(".success"))
@@ -358,7 +358,7 @@ class PlanningApplicationsController < AuthenticationController
 
     flash.now[:alert] = sanitize "Please save and mark as complete the
         #{view_context.link_to "draft recommendation",
-          new_planning_application_recommendation_path(@planning_application)}
+          new_planning_application_assessment_recommendation_path(@planning_application)}
         before updating application fields."
 
     render :edit and return

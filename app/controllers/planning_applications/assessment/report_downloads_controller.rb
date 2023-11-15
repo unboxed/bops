@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class AssessmentReportDownloadsController < AuthenticationController
+    class ReportDownloadsController < AuthenticationController
       before_action :set_planning_application
 
       def show

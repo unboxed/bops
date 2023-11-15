@@ -119,12 +119,12 @@ Rails.application.routes.draw do
 
       resources :validation_tasks, only: :index
 
-      scope module: :assessment do
-        resource :assessment_report_download, only: :show
+      namespace :assessment do
+        resource :report_download, only: :show
         resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
         resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
         resources :assessment_details, only: %i[new edit create show update]
-        resources :assessment_tasks, only: :index
+        resources :tasks, only: :index
         resources :conditions, only: %i[index] do
           get :edit, on: :collection
           patch :update, on: :collection

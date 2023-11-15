@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :component do
+RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   context "when record does not exist" do
@@ -15,7 +15,7 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     it "renders link to new permitted development right" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/new"
+        href: "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
       )
     end
 
@@ -50,7 +50,7 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     it "renders link to new permitted development right" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/new"
+        href: "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
       )
     end
 
@@ -77,7 +77,7 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     it "renders link to edit permitted development right" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}/edit"
+        href: "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/#{permitted_development_right.id}/edit"
       )
     end
 
@@ -104,7 +104,7 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     it "renders link to permitted development right" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}"
+        href: "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/#{permitted_development_right.id}"
       )
     end
 
@@ -131,7 +131,7 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     it "renders link to permitted development right" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}"
+        href: "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/#{permitted_development_right.id}"
       )
     end
 
