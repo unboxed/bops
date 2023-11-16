@@ -21,7 +21,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
     json = {
       name: "Keira Walsh",
       response: "This is good",
-      address: "123 street",
+      address: "123 street, AAA111",
       summary_tag: "supportive",
       files: [""]
     }.to_json

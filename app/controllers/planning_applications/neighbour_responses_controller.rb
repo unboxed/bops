@@ -18,49 +18,46 @@ module PlanningApplications
     end
 
     def create
-      @neighbour_response = @consultation.neighbour_responses
-        .build(neighbour_response_params.except(:address, :new_address, :files))
+      @neighbour_response = @consultation.neighbour_responses.new(neighbour_response_params.except(:address, :new_address, :files))
 
-      @neighbour_response.neighbour = find_neighbour
+      ActiveRecord::Base.transaction do
+        @neighbour_response.neighbour = find_or_build_neighbour
+        create_files(@neighbour_response) if files_present?
+        @neighbour_response.redacted_by = current_user if @neighbour_response.redacted_response.present?
 
-      create_files(@neighbour_response) if neighbour_response_params[:files].compact_blank.any?
-      @neighbour_response.redacted_by = current_user if @neighbour_response.redacted_response.present?
-
-      if @neighbour_response.save
-        respond_to do |format|
-          format.html do
-            redirect_to planning_application_consultation_neighbour_responses_path(@planning_application)
-          end
-          create_audit_log(@neighbour_response, "uploaded")
-        end
-      else
-        render :new
+        @neighbour_response.save!
+        create_audit_log(@neighbour_response, "uploaded")
       end
+
+      respond_to do |format|
+        format.html { redirect_to planning_application_consultation_neighbour_responses_path(@planning_application), notice: t(".success") }
+      end
+    rescue ActiveRecord::RecordInvalid
+      set_error_messages
+
+      render :new
     end
 
     def update
-      if @neighbour_response.update(neighbour_response_params.except(:address, :files))
-        if neighbour_response_params.key?(:address)
-          @neighbour_response.neighbour.update(address: neighbour_response_params[:address])
-        end
-
-        create_files(@neighbour_response) if neighbour_response_params[:files].compact_blank.any?
-
-        respond_to do |format|
-          format.html do
-            redirect_to planning_application_consultation_neighbour_responses_path(@planning_application,
-              @consultation)
-          end
-          create_audit_log(@neighbour_response, "edited")
-        end
-      else
-        render :edit
+      ActiveRecord::Base.transaction do
+        @neighbour_response.update!(neighbour_response_params.except(:address, :files))
+        @neighbour_response.neighbour.update!(address: neighbour_response_params[:address]) if address_param_present?
+        create_files(@neighbour_response) if files_present?
+        create_audit_log(@neighbour_response, "edited")
       end
+
+      respond_to do |format|
+        format.html { redirect_to planning_application_consultation_neighbour_responses_path(@planning_application, @consultation), notice: t(".success") }
+      end
+    rescue ActiveRecord::RecordInvalid
+      set_error_messages
+
+      render :edit
     end
 
     private
 
-    def find_neighbour
+    def find_or_build_neighbour
       if neighbour_response_params[:new_address].present?
         @consultation.neighbours.build(address: neighbour_response_params[:new_address], selected: false)
       else
@@ -98,6 +95,18 @@ module PlanningApplications
         activity_type: "neighbour_response_#{action}",
         audit_comment: "Neighbour response from #{@neighbour_response.neighbour.address} was #{action}"
       )
+    end
+
+    def address_param_present?
+      neighbour_response_params.key?(:address)
+    end
+
+    def files_present?
+      neighbour_response_params[:files]&.compact_blank&.any?
+    end
+
+    def set_error_messages
+      flash.now[:error] = @neighbour_response.neighbour.errors.full_messages.join("\n") if @neighbour_response.neighbour&.errors&.any?
     end
   end
 end
