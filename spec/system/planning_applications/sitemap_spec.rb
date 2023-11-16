@@ -308,7 +308,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       expect(page).to have_content("Validation request for red line boundary successfully created.")
 
       expect(page).to have_current_path(
-        planning_application_assessment_tasks_path(planning_application)
+        "/planning_applications/#{planning_application.id}/assessment/tasks"
       )
 
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)

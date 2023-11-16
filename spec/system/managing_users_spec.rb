@@ -58,7 +58,7 @@ RSpec.describe "managing users" do
       fill_in("Security code", with: User.last.current_otp)
       click_button("Enter code")
 
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path("/")
     end
 
     it "allows adding of new user without mobile number" do
@@ -82,7 +82,7 @@ RSpec.describe "managing users" do
       fill_in("Security code", with: User.last.current_otp)
       click_button("Enter code")
 
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path("/")
     end
 
     it "allows editing of existing user" do

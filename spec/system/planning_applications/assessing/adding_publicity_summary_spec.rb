@@ -49,7 +49,7 @@ RSpec.describe "neighbour responses" do
       end
 
       expect(page).to have_current_path(
-        new_planning_application_assessment_assessment_detail_path(planning_application, category: "publicity_summary")
+        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=publicity_summary"
       )
 
       within(".govuk-breadcrumbs__list") do

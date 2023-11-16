@@ -96,7 +96,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     click_link("Back")
 
     expect(page).to have_current_path(
-      planning_application_validation_tasks_path(planning_application)
+      "/planning_applications/#{planning_application.id}/validation_tasks"
     )
   end
 

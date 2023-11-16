@@ -38,7 +38,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          new_planning_application_assessment_permitted_development_right_path(planning_application)
+          "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
         )
 
         within(".govuk-heading-l") do
@@ -346,7 +346,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
+          "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
         )
 
         within(".govuk-heading-l") do

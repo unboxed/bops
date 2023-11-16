@@ -32,6 +32,15 @@ Style/FrozenStringLiteralComment:
   Enabled: true
   EnforcedStyle: always_true
 
+Style/HaveCurrentPathLiteral:
+  Enabled: true
+  Exclude:
+    - 'app/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'lib/**/*'
+  IgnoreHelpers: []
+
 # past migrations are ignored; we don't expect to go back and edit them ever,
 # we'll fix them in future migrations if at all.
 Rails/BulkChangeTable:

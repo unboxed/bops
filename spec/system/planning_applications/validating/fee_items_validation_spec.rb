@@ -173,7 +173,7 @@ RSpec.describe "FeeItemsValidation" do
       click_button "Save"
 
       expect(page).to have_current_path(
-        new_planning_application_validation_other_change_validation_request_path(planning_application, validate_fee: "yes")
+        "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/new?validate_fee=yes"
       )
       expect(page).to have_content("Request other validation change (Fee)")
       expect(page).to have_content("Application number: #{planning_application.reference}")
@@ -218,9 +218,7 @@ RSpec.describe "FeeItemsValidation" do
 
       other_change_validation_request = OtherChangeValidationRequest.last
       expect(page).to have_current_path(
-        planning_application_validation_other_change_validation_request_path(
-          planning_application, other_change_validation_request
-        )
+        "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
       )
       expect(page).to have_content("View other request (fee)")
       expect(page).to have_content("Officer request")
@@ -232,7 +230,7 @@ RSpec.describe "FeeItemsValidation" do
       end
 
       click_link "Back"
-      expect(page).to have_current_path(planning_application_validation_tasks_path(planning_application))
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation_tasks")
     end
 
     context "when fee item is invalid" do
@@ -253,7 +251,7 @@ RSpec.describe "FeeItemsValidation" do
         click_link "Edit request"
 
         expect(page).to have_current_path(
-          edit_planning_application_validation_other_change_validation_request_path(planning_application, other_change_validation_request)
+          "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}/edit"
         )
 
         expect(page).to have_content("Request other validation change (Fee)")

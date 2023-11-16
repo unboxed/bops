@@ -162,9 +162,7 @@ RSpec.describe "Edit document" do
 
         expect(page).to have_content("Document has been updated")
 
-        expect(page).to have_current_path(
-          planning_application_documents_path(planning_application)
-        )
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "can archive document and return back to the planning applications index page" do
@@ -181,9 +179,7 @@ RSpec.describe "Edit document" do
 
         expect(page).to have_content("#{document.name} has been archived")
 
-        expect(page).to have_current_path(
-          planning_application_documents_path(planning_application)
-        )
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
 
@@ -198,7 +194,7 @@ RSpec.describe "Edit document" do
         click_button "Save"
 
         expect(page).to have_content("Document has been updated")
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "can archive document and return back to the documents index page" do
@@ -211,7 +207,7 @@ RSpec.describe "Edit document" do
         click_button "Archive"
 
         expect(page).to have_content("#{document.name} has been archived")
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "the back button returns to the documents index page" do
@@ -220,7 +216,7 @@ RSpec.describe "Edit document" do
         end
 
         click_link "Back"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
 
@@ -229,14 +225,14 @@ RSpec.describe "Edit document" do
         visit edit_planning_application_document_path(planning_application, document)
 
         click_button "Save"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "archive returns to the documents index page" do
         visit planning_application_document_archive_path(planning_application, document)
 
         click_button "Archive"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
 
@@ -256,7 +252,7 @@ RSpec.describe "Edit document" do
         visit edit_planning_application_document_path(other_planning_application, other_document)
 
         click_button "Save"
-        expect(page).to have_current_path(planning_application_documents_path(other_planning_application))
+        expect(page).to have_current_path("/planning_applications/#{other_planning_application.id}/documents")
       end
 
       it "archive returns to the documents index page" do
@@ -264,7 +260,7 @@ RSpec.describe "Edit document" do
         visit planning_application_document_archive_path(planning_application, document)
 
         click_button "Archive"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
   end

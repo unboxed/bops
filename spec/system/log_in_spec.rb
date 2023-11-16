@@ -76,11 +76,11 @@ RSpec.describe "Sign in" do
         fill_in("Security code", with: administrator.current_otp)
         click_button("Enter code")
 
-        expect(page).to have_current_path(administrator_dashboard_path)
+        expect(page).to have_current_path("/administrator_dashboard")
 
         click_link("Log out")
 
-        expect(page).to have_current_path(new_user_session_path)
+        expect(page).to have_current_path("/users/sign_in")
       end
     end
 

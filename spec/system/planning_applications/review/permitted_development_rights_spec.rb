@@ -41,7 +41,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          edit_planning_application_review_permitted_development_right_path(planning_application, PermittedDevelopmentRight.last)
+          "/planning_applications/#{planning_application.id}/review/permitted_development_rights/#{PermittedDevelopmentRight.last.id}/edit"
         )
 
         expect(page).to have_content("Review permitted development rights")
@@ -255,7 +255,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          edit_planning_application_review_permitted_development_right_path(planning_application, PermittedDevelopmentRight.last)
+          "/planning_applications/#{planning_application.id}/review/permitted_development_rights/#{PermittedDevelopmentRight.last.id}/edit"
         )
 
         expect(page).to have_content("Review permitted development rights")

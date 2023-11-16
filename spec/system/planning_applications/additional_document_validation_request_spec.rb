@@ -265,7 +265,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         click_link "Edit request"
 
         expect(page).to have_current_path(
-          edit_planning_application_validation_additional_document_validation_request_path(planning_application, additional_document_validation_request)
+          "/planning_applications/#{planning_application.id}/validation/additional_document_validation_requests/#{additional_document_validation_request.id}/edit"
         )
 
         fill_in "Please specify the new document type:", with: "Floor plans"
@@ -303,7 +303,7 @@ RSpec.describe "Requesting a new document for a planning application" do
           click_link("Delete request")
         end
 
-        expect(page).to have_current_path(planning_application_validation_tasks_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation_tasks")
         expect(page).to have_content("Validation request was successfully deleted.")
 
         within("#additional-documents-validation-task") do

@@ -44,7 +44,7 @@ RSpec.describe "Requesting description changes to a planning application" do
     expect(page).to have_text("Description change request successfully sent.")
 
     expect(page).to have_current_path(
-      planning_application_assessment_tasks_path(planning_application)
+      "/planning_applications/#{planning_application.id}/assessment/tasks"
     )
 
     click_button("Application information")

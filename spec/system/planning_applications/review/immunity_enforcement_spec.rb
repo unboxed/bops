@@ -61,7 +61,7 @@ RSpec.describe "Reviewing immunity enforcement" do
         end
 
         expect(page).to have_current_path(
-          edit_planning_application_review_immunity_enforcement_path(planning_application, ReviewImmunityDetail.last)
+          "/planning_applications/#{planning_application.id}/review/immunity_enforcements/#{ReviewImmunityDetail.last.id}/edit"
         )
 
         expect(page).to have_content("Review assessment of immunity")

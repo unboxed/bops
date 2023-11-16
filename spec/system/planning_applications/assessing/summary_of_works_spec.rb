@@ -29,7 +29,7 @@ RSpec.describe "Summary of works" do
       end
 
       expect(page).to have_current_path(
-        new_planning_application_assessment_assessment_detail_path(planning_application, category: "summary_of_work")
+        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=summary_of_work"
       )
 
       expect(page).to have_content(planning_application.reference)

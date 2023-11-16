@@ -44,7 +44,7 @@ RSpec.describe "cloning a planning application" do
       expect(PlanningApplication.all.count).to eq(2)
 
       cloned_planning_application = PlanningApplication.last
-      expect(page).to have_current_path(planning_application_path(cloned_planning_application))
+      expect(page).to have_current_path("/planning_applications/#{cloned_planning_application.id}")
       expect(page).to have_content("Planning application was successfully cloned")
 
       expect(JSON.parse(planning_application.audit_log)).to eq(JSON.parse(cloned_planning_application.audit_log))

@@ -41,7 +41,7 @@ RSpec.describe "Review documents for recommendation" do
       end
 
       expect(page).to have_current_path(
-        planning_application_review_documents_path(planning_application)
+        "/planning_applications/#{planning_application.id}/review/documents"
       )
 
       within(".govuk-heading-l") do

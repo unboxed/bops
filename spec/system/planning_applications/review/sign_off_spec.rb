@@ -250,7 +250,7 @@ RSpec.describe "Reviewing sign-off" do
       expect(page).to have_content(planning_application.public_comment)
 
       click_link "Edit information on the decision notice"
-      expect(page).to have_current_path(edit_public_comment_planning_application_path(planning_application))
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/edit_public_comment")
 
       expect(page).to have_content("Edit the information appearing on the decision notice")
       expect(page).to have_content("The planning officer recommends that the application is granted")
@@ -267,7 +267,7 @@ RSpec.describe "Reviewing sign-off" do
       fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."
       click_button "Save"
       expect(page).to have_content("The information appearing on the decision notice was successfully updated.")
-      expect(page).to have_current_path(edit_planning_application_assessment_recommendations_path(planning_application))
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/assessment/recommendations/edit")
 
       click_link "Review"
       click_link "Sign-off recommendation"

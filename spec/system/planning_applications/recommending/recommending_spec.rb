@@ -337,7 +337,7 @@ RSpec.describe "Planning Application Assessment" do
         click_button("Submit recommendation")
 
         expect(page).to have_content("Recommendation was successfully submitted.")
-        expect(page).to have_current_path(planning_application_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}")
         click_link("View recommendation")
         within(".govuk-button-group") do
           expect(page).to have_button("Withdraw recommendation")
@@ -459,7 +459,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         expect(page).to have_content("Recommendation was successfully withdrawn.")
-        expect(page).to have_current_path(submit_recommendation_planning_application_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/submit_recommendation")
         expect(page).to have_button("Submit recommendation")
         expect(page).not_to have_button("Withdraw recommendation")
         expect(planning_application.reload.status).to eq("in_assessment")

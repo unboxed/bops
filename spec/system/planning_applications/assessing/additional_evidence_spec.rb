@@ -25,7 +25,7 @@ RSpec.describe "Additional evidence" do
       end
 
       expect(page).to have_current_path(
-        new_planning_application_assessment_assessment_detail_path(planning_application, category: "additional_evidence")
+        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=additional_evidence"
       )
 
       within(".govuk-breadcrumbs__list") do
