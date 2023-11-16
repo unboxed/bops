@@ -45,6 +45,7 @@ RSpec.describe "View neighbour responses", js: true do
 
     click_button "Save response"
 
+    expect(page).to have_content("Neighbour response successfully created.")
     expect(page).not_to have_content("No neighbour responses yet")
 
     click_button "Supportive responses (1)"
@@ -80,7 +81,7 @@ RSpec.describe "View neighbour responses", js: true do
 
     fill_in "Name", with: "Sarah Neighbour"
     fill_in "Email", with: "sarah@email.com"
-    fill_in "Or add a new neighbour address", with: "123 Street"
+    fill_in "Or add a new neighbour address", with: "123, Street, AAA111"
     fill_in "Day", with: "21"
     fill_in "Month", with: "1"
     fill_in "Year", with: "2023"
@@ -96,7 +97,7 @@ RSpec.describe "View neighbour responses", js: true do
     expect(page).to have_content("Received on 21/01/2023")
     expect(page).to have_content("Sarah Neighbour")
     expect(page).to have_content("sarah@email.com")
-    expect(page).to have_content("123 Street")
+    expect(page).to have_content("123, Street, AAA111")
     expect(page).to have_content("I think this proposal looks great")
     expect(page).to have_content("Objection")
 
@@ -110,7 +111,7 @@ RSpec.describe "View neighbour responses", js: true do
 
     # Check neighbour is not added to the selected neighbours page
     visit planning_application_consultation_path(planning_application)
-    expect(page).not_to have_content("123 Street")
+    expect(page).not_to have_content("123, Street, AAA111")
   end
 
   it "allows planning officer to upload neighbour response with redaction" do
@@ -142,6 +143,33 @@ RSpec.describe "View neighbour responses", js: true do
 
     expect(page).to have_link("Redact and publish")
     expect(page).to have_content("Redacted by: #{assessor.name}")
+  end
+
+  it "displays an error message when address is invalid" do
+    click_link "View neighbour responses"
+    click_link "Add a new neighbour response"
+
+    fill_in "Name", with: "Sarah Neighbour"
+    fill_in "Email", with: "sarah@email.com"
+    fill_in "Or add a new neighbour address", with: "123 Street"
+    fill_in "Day", with: "21"
+    fill_in "Month", with: "1"
+    fill_in "Year", with: "2023"
+    fill_in "Response", with: "I think this proposal looks great"
+    choose "An objection"
+
+    click_button "Save response"
+
+    within(".flash.govuk-error-summary") do
+      expect(page).to have_content("There is a problem")
+      expect(page).to have_content("'123 Street' is invalid")
+      expect(page).to have_content("Enter the property name or number, followed by a comma")
+      expect(page).to have_content("Enter the street name, followed by a comma")
+      expect(page).to have_content("Enter a postcode, like AA11AA")
+    end
+
+    expect(NeighbourResponse.count).to eq(0)
+    expect(Neighbour.count).to eq(1)
   end
 
   it "allows planning officer to edit neighbour responses" do
@@ -176,7 +204,7 @@ RSpec.describe "View neighbour responses", js: true do
 
     fill_in "Name", with: "Sara Neighbour"
     fill_in "Email", with: "sara@email.com"
-    fill_in "Address", with: "124, Made up, Street"
+    fill_in "Address", with: "124, Made up"
     fill_in "Day", with: "21"
     fill_in "Month", with: "2"
     fill_in "Year", with: "2023"
@@ -184,10 +212,23 @@ RSpec.describe "View neighbour responses", js: true do
 
     click_button "Update response"
 
+    within(".flash.govuk-error-summary") do
+      expect(page).to have_content("There is a problem")
+      expect(page).to have_content("'124, Made up' is invalid")
+      expect(page).to have_content("Enter the property name or number, followed by a comma")
+      expect(page).to have_content("Enter the street name, followed by a comma")
+      expect(page).to have_content("Enter a postcode, like AA11AA")
+    end
+
+    fill_in "Address", with: "124, Made up street, AAA111"
+    click_button "Update response"
+
+    expect(page).to have_content("Neighbour response successfully updated.")
+
     expect(page).to have_content("Received on 21/02/2023")
     expect(page).to have_content("Sara Neighbour")
     expect(page).to have_content("sara@email.com")
-    expect(page).to have_content("124, Made up, Street")
+    expect(page).to have_content("124, Made up street, AAA111")
     expect(page).to have_content("I think this proposal looks ****")
 
     expect(page).to have_link("Back", href: planning_application_consultation_path(planning_application))

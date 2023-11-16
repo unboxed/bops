@@ -992,6 +992,11 @@ en:
         success: Addresses have been successfully added.
       send_letters:
         require_resend_reason: Must provide a reason when resending letters to previously-contacted neighbours
+    neighbour_responses:
+      create:
+        success: Neighbour response successfully created.
+      update:
+        success: Neighbour response successfully updated.
     notes:
       create:
         success: Note was successfully created.

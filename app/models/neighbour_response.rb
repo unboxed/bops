@@ -4,6 +4,8 @@ class NeighbourResponse < ApplicationRecord
   belongs_to :neighbour
   belongs_to :redacted_by, class_name: "User", optional: true
 
+  validates_associated :neighbour
+
   has_many :documents, dependent: :destroy
 
   attr_readonly :response

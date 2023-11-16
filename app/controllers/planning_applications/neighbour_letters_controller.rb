@@ -138,9 +138,9 @@ module PlanningApplications
 
     def neighbours_to_contact
       if resend_existing?
-        @consultation.neighbours
+        @consultation.neighbours.with_letters
       else
-        @consultation.neighbours.reject(&:letter_created?)
+        @consultation.neighbours.without_letters
       end
     end
 
