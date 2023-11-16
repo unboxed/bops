@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[new create edit update]
 
-  resources :planning_applications, only: %i[index show new edit create update] do
+  resources :planning_applications, except: %i[destroy] do
     member do
       get :confirm_validation
       patch :validate
@@ -61,7 +61,7 @@ Rails.application.routes.draw do
       get :make_public
     end
 
-    resources :documents, only: %i[index new create edit update] do
+    resources :documents, except: %i[destroy show] do
       get :archive
 
       patch :confirm_archive
@@ -97,14 +97,14 @@ Rails.application.routes.draw do
         resource :report_download, only: :show
         resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
         resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
-        resources :assessment_details, only: %i[new edit create show update]
+        resources :assessment_details, except: %i[destroy index]
         resources :tasks, only: :index
         resources :conditions, only: %i[index] do
           get :edit, on: :collection
           patch :update, on: :collection
         end
-        resource :consistency_checklist, only: %i[new create edit update show]
-        resources :immunity_details, only: %i[new create edit update show] do
+        resource :consistency_checklist, except: %i[destroy index]
+        resources :immunity_details, except: %i[destroy index] do
           resources :evidence_groups do
             resources :comments, only: %i[update]
           end
@@ -116,9 +116,9 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :local_policies, only: %i[show new edit create update]
+        resources :local_policies, except: %i[destroy index]
 
-        resources :permitted_development_rights, only: %i[new create edit update show]
+        resources :permitted_development_rights, except: %i[destroy index]
 
         resource :planning_history, only: :show
 
@@ -147,9 +147,9 @@ Rails.application.routes.draw do
           post :send_letters, on: :collection
         end
 
-        resources :neighbour_responses, only: %i[new index create edit update]
+        resources :neighbour_responses, except: %i[show destroy]
         resources :redact_neighbour_responses, only: %i[edit update]
-        resources :site_visits, only: %i[index new create edit show update]
+        resources :site_visits, except: %i[destroy]
       end
 
       namespace :validation do
@@ -174,10 +174,10 @@ Rails.application.routes.draw do
         end
 
         with_options concerns: :cancel_validation_requests do
-          resources :additional_document_validation_requests, only: %i[new create edit update destroy]
-          resources :other_change_validation_requests, only: %i[new create show edit update destroy]
-          resources :red_line_boundary_change_validation_requests, only: %i[new create show edit update destroy]
-          resources :replacement_document_validation_requests, only: %i[new create show edit update destroy]
+          resources :additional_document_validation_requests, except: %i[index show]
+          resources :other_change_validation_requests, except: %i[index]
+          resources :red_line_boundary_change_validation_requests, except: %i[index]
+          resources :replacement_document_validation_requests, except: %i[index]
         end
       end
 
