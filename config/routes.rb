@@ -104,15 +104,10 @@ Rails.application.routes.draw do
           patch :update, on: :collection
         end
         resource :consistency_checklist, except: %i[destroy index]
+
         resources :immunity_details, except: %i[destroy index] do
           resources :evidence_groups do
-            resources :comments, only: %i[update]
-          end
-        end
-
-        resources :immunity_details, only: [] do
-          resources :evidence_groups do
-            resources :comments, only: %i[create]
+            resources :comments, only: %i[create update]
           end
         end
 
