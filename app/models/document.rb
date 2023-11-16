@@ -121,6 +121,7 @@ class Document < ApplicationRecord
   scope :active, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
   scope :redacted, -> { where(redacted: true) }
+  scope :not_redacted, -> { where.not(redacted: true) }
   scope(
     :referenced_in_decision_notice,
     -> { where(referenced_in_decision_notice: true) }

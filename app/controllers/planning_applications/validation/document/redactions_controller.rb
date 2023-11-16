@@ -13,7 +13,7 @@ module PlanningApplications
         end
 
         def create
-          @planning_application.assign_attributes(assign_params)
+          @planning_application.assign_attributes(planning_application_params)
 
           respond_to do |format|
             format.html do
@@ -27,17 +27,6 @@ module PlanningApplications
         end
 
         private
-
-        def assign_params
-          documents_attributes = planning_application_params[:documents_attributes].select do |_key, value|
-            value[:file].present?
-          end
-
-          new_params = planning_application_params
-
-          new_params[:documents_attributes] = documents_attributes
-          new_params
-        end
 
         def planning_application_params
           params.require(:planning_application)
