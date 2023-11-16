@@ -1176,6 +1176,10 @@ en:
         show:
           back: Back
           cancel_this_request: Cancel this request
+      document:
+        redactions:
+          create:
+            success: Redacted documents successfully uploaded
       fee_items:
         fee_item_table:
           description: Description
@@ -1444,6 +1448,8 @@ en:
       neighbour_responses: View neighbour responses
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
+    redact_documents_component:
+      redact_documents: Upload redacted documents
     reviewing:
       assessment_details_component:
         review_assessment_summaries: Review assessment summaries

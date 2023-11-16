@@ -156,6 +156,10 @@ Rails.application.routes.draw do
           patch :cancel
         end
 
+        namespace :document, as: :documents do
+          resources :redactions, only: %i[index create]
+        end
+
         resource :fee_items, only: %i[show] do
           patch :validate
         end

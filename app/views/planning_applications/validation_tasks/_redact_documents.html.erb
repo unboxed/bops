@@ -1,0 +1,12 @@
+<li id="redact-documents-validation-task">
+  <h2 class="app-task-list__section">
+    Redact documents
+  </h2>
+  <ul class="app-task-list__items">
+    <%= render(
+      TaskListItems::RedactDocumentsComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
+  </ul>
+</li>

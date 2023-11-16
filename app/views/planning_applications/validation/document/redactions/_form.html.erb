@@ -1,0 +1,39 @@
+<%= form_with(
+  model: @planning_application,
+  url: planning_application_validation_documents_redactions_path(@planning_application),
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  method: :post
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <table class="govuk-table redacted-document-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-!-width-one-half">Download original</th>
+        <th class="govuk-table__header govuk-!-width-one-half">Upload redacted</th>
+      </tr>
+    </thead>
+  <%= form.fields_for :documents, @planning_application.documents.not_redacted do |ff| %>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            <%= link_to image_tag(ff.object.file.representation(resize: "150x106")),
+                        url_for_document(ff.object), target: :_blank %>
+          </p>
+          <p class="govuk-body">
+            <%= truncate(ff.object.name.to_s, length: 50) %><br>
+            <%= link_to "Download", url_for_document(ff.object), download: true, class: "govuk-body-s govuk-link" %>
+          </p>
+        </td>
+        <td class="govuk-table__cell">
+          <%= ff.govuk_file_field :file, label: { text: "Upload a file" } %>
+          <%= ff.hidden_field :redacted, value: true %>
+          <%= ff.hidden_field :publishable, value: true %>
+        </td>
+      </tr>
+    </tbody>
+  <% end %>
+  </table>
+  <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+  <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+<% end %>

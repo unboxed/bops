@@ -37,6 +37,9 @@
   <p class="govuk-body govuk-!-margin-bottom-1">
     Public: <%= document.publishable? ? "Yes" : "No" %>
   </p>
+  <p class="govuk-body govuk-!-margin-bottom-1">
+    Redacted: <%= document.redacted? ? "Yes" : "No" %>
+  </p>
 <% else %>
   <p class="govuk-body">
     <strong>This document has been removed due to a security issue</strong>

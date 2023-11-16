@@ -1,3 +1,9 @@
 .govuk-table__cell.description {
   overflow-wrap: anywhere;
 }
+
+.redacted-document-table {
+  .govuk-form-group {
+    margin-bottom: 0;
+  }
+}

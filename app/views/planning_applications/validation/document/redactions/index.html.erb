@@ -1,0 +1,77 @@
+<% content_for :page_title do %>
+  Redact documents - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+      partial: "planning_applications/validation/validation_requests/validation_requests_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+<% content_for :title, "Redact documents" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Redact documents" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <% if @planning_application.documents.redacted.any? %>
+      <h2 class="govuk-header-m">
+        Redacted documents
+      </h2>
+
+      <%= render "redacted_table" %>
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Redact and upload another document
+          </span>
+        </summary>
+        <div class="govuk-!-margin-top-3">
+          <%= render "form" %>
+        </div>
+      </details>
+    <% else %>
+      <h2 class="govuk-header-m">
+        Upload redacted documents
+      </h2>
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        To add a redacted document
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>select a document that needs to be redacted</li>
+        <li>download the original</li>
+        <li>redact</li>
+        <li>upload the redacted version</li>
+      </ul>
+      
+      <p class="govuk-body">
+        Redacted versions will be made public when the application is published
+      </p>
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            What you need to redact
+          </span>
+        </summary>
+        <div class="govuk-!-margin-top-3 govuk-inset-text">
+          <p class="govuk-hint govuk-!-margin-bottom-1">
+            You need to redact
+          </p>
+          <ul class="govuk-list govuk-list--bullet govuk-hint">
+            <li>all signatures (hand written and electronic)</li>
+            <li>personal telephone numbers and email addresses</li>
+            <li>business email addresses that include first and last names</li>
+            <li>name of the agent</li>
+            <li>personal financial information</li>
+            <li>any other sensitive personal information or images that could identify a person</li>
+          </ul>
+        </div>
+      </details>
+
+      <%= render "form" %>
+    <% end %>
+  </div>
+</div>

@@ -113,7 +113,7 @@ class PlanningApplication < ApplicationRecord
   after_update :address_or_boundary_geojson_updated?
 
   accepts_nested_attributes_for :recommendations
-  accepts_nested_attributes_for :documents
+  accepts_nested_attributes_for :documents, reject_if: proc { |attributes| attributes["file"].blank? }
   accepts_nested_attributes_for :constraints
   accepts_nested_attributes_for :proposal_measurement
 
