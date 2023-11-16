@@ -32,7 +32,7 @@ RSpec.describe "adding consultation summary" do
 
   before do
     sign_in(assessor)
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
     click_link("Check and assess")
   end
 

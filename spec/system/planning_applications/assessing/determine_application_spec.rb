@@ -38,7 +38,7 @@ RSpec.describe "Planning Application Assessment" do
 
         travel_to Time.zone.local(2024, 2, 1)
         sign_in(reviewer)
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
       end
 
       it "I can determine the application" do
@@ -104,7 +104,7 @@ RSpec.describe "Planning Application Assessment" do
 
         expect(page).to have_content("Jane Smith, Director")
 
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
 
         # Check latest audit
         click_button "Audit log"
@@ -264,7 +264,7 @@ RSpec.describe "Planning Application Assessment" do
 
       before do
         sign_in(assessor)
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
       end
 
       it "I cannot determine the application" do

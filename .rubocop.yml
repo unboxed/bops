@@ -41,6 +41,16 @@ Style/HaveCurrentPathLiteral:
     - 'lib/**/*'
   IgnoreHelpers: []
 
+Style/VisitLiteral:
+  Enabled: true
+  Exclude:
+    - 'app/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'lib/**/*'
+  IgnoreHelpers:
+    - current_path
+
 # past migrations are ignored; we don't expect to go back and edit them ever,
 # we'll fix them in future migrations if at all.
 Rails/BulkChangeTable:

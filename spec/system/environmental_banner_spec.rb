@@ -8,7 +8,7 @@ RSpec.describe "Environmental banner" do
 
   before do
     sign_in assessor
-    visit root_path
+    visit "/"
   end
 
   it "is not displayed in the test environment" do

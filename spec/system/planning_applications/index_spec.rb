@@ -23,7 +23,7 @@ RSpec.describe "Planning Application index page" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit root_path
+      visit "/"
     end
 
     context "when a planning application is to be reviewed" do
@@ -36,7 +36,7 @@ RSpec.describe "Planning Application index page" do
       end
 
       it "renders alert message" do
-        visit root_path
+        visit "/"
 
         expect(page).to have_content(
           "Reviewer requests 1 application "
@@ -55,7 +55,7 @@ RSpec.describe "Planning Application index page" do
       end
 
       it "renders alert message" do
-        visit root_path
+        visit "/"
 
         expect(page).to have_content(
           "Reviewer requests 2 applications "
@@ -75,7 +75,7 @@ RSpec.describe "Planning Application index page" do
       end
 
       it "renders alert message" do
-        visit root_path
+        visit "/"
         expect(page).to have_content("Not started 1 prior approval ")
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe "Planning Application index page" do
       end
 
       it "renders alert message" do
-        visit root_path
+        visit "/"
         expect(page).to have_content("Not started 2 prior approvals ")
       end
 
@@ -106,7 +106,7 @@ RSpec.describe "Planning Application index page" do
         end
 
         it "alters the alert message" do
-          visit root_path
+          visit "/"
           expect(page).to have_content("Not started 1 prior approval ")
         end
       end
@@ -307,7 +307,7 @@ RSpec.describe "Planning Application index page" do
         end
 
         before do
-          visit(root_path)
+          visit "/"
           click_on "Closed"
         end
 
@@ -371,7 +371,7 @@ RSpec.describe "Planning Application index page" do
         end
 
         it "shows relevant application details" do
-          visit(planning_applications_path(view: "all"))
+          visit "/planning_applications?view=all"
           click_link("Live applications")
 
           within(selected_govuk_tab) do
@@ -400,7 +400,7 @@ RSpec.describe "Planning Application index page" do
         end
 
         it "shows relevant application details" do
-          visit(planning_applications_path(view: "mine"))
+          visit "/planning_applications?view=mine"
 
           within(selected_govuk_tab) do
             expect(page).to have_content("Your live applications")
@@ -443,7 +443,7 @@ RSpec.describe "Planning Application index page" do
       end
 
       before do
-        visit(root_path)
+        visit "/"
       end
 
       it "sorts planning first" do
@@ -590,7 +590,7 @@ RSpec.describe "Planning Application index page" do
   context "as a reviewer" do
     before do
       sign_in reviewer
-      visit root_path
+      visit "/"
     end
 
     context "when planning application is to be reviewed" do
@@ -603,7 +603,7 @@ RSpec.describe "Planning Application index page" do
       end
 
       it "renders alert message" do
-        visit root_path
+        visit "/"
 
         expect(page).to have_content(
           "Reviewer requests 1 application "
@@ -622,7 +622,7 @@ RSpec.describe "Planning Application index page" do
       end
 
       it "renders alert message" do
-        visit root_path
+        visit "/"
 
         expect(page).to have_content(
           "Reviewer requests 2 applications "

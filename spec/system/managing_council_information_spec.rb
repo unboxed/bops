@@ -8,7 +8,7 @@ RSpec.describe "managing council information" do
 
   it "allows the administrator to manage the reviewer group email" do
     sign_in(user)
-    visit(administrator_dashboard_path)
+    visit "/administrator_dashboard"
     row = row_with_content("Manager group email")
     within(row) { click_link("Edit") }
     fill_in("Manager group email", with: "qwerty")
@@ -29,7 +29,7 @@ RSpec.describe "managing council information" do
 
   it "allows the administrator to manage the press notice email" do
     sign_in(user)
-    visit(administrator_dashboard_path)
+    visit "/administrator_dashboard"
     row = row_with_content("Press notice email")
     within(row) { click_link("Edit") }
     fill_in("Press notice email", with: "ssssss")

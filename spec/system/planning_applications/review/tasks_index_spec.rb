@@ -13,6 +13,14 @@ RSpec.describe "Reviewing Tasks Index" do
     )
   end
 
+  let!(:not_started_planning_application) do
+    create(
+      :planning_application,
+      :not_started,
+      local_authority: default_local_authority
+    )
+  end
+
   context "with a reviewer" do
     before do
       sign_in reviewer
@@ -20,7 +28,7 @@ RSpec.describe "Reviewing Tasks Index" do
 
     it "while awaiting determination it can navigate around review tasks" do
       create(:recommendation, planning_application:)
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
 
       click_on "Review and sign-off"
 
@@ -33,16 +41,14 @@ RSpec.describe "Reviewing Tasks Index" do
     end
 
     it "without awaiting determination there is no navigation" do
-      visit planning_application_path(create(:planning_application,
-        :not_started,
-        local_authority: default_local_authority))
+      visit "/planning_applications/#{not_started_planning_application.id}"
 
       expect(page).to have_content("Review and sign-off")
     end
 
     it "displays chosen policy class in a list" do
       policy_classes = create_list(:policy_class, 3, planning_application:)
-      visit(planning_application_review_tasks_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
       policy_classes.each do |policy_class|

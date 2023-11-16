@@ -7,7 +7,7 @@ RSpec.describe "Planning guides" do
 
   context "when not logged in" do
     before do
-      visit public_planning_guides_path
+      visit "/planning_guides"
     end
 
     it "the planning guide index page is publicy accessible" do
@@ -174,7 +174,7 @@ RSpec.describe "Planning guides" do
     before do
       sign_in(user)
 
-      visit public_planning_guides_path
+      visit "/planning_guides"
     end
 
     it "is accessible" do

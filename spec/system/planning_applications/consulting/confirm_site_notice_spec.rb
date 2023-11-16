@@ -28,7 +28,7 @@ RSpec.describe "Confirm site notice", js: true do
   before do
     sign_in(assessor)
 
-    visit planning_application_consultation_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/consultation"
   end
 
   it "allows planning officer to update displayed at date" do

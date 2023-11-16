@@ -18,7 +18,7 @@ RSpec.describe "editing planning application" do
     travel_to(DateTime.new(2023, 1, 1))
     sign_in(assessor)
     create(:application_type, :prior_approval)
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   it "returns the user to the previous page after updating" do
@@ -81,7 +81,7 @@ RSpec.describe "editing planning application" do
     )
 
     # Check audit
-    visit planning_application_audits_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/audits"
     within("#audit_#{Audit.find_by(activity_information: "Application type").id}") do
       expect(page).to have_content("Application type updated")
       expect(page).to have_content(

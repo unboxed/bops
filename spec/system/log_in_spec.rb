@@ -8,20 +8,20 @@ RSpec.describe "Sign in" do
   let(:reviewer) { create(:user, :reviewer, name: "Harley Dicki", local_authority: default_local_authority) }
 
   it "ensure we can perform a healthcheck" do
-    visit healthcheck_path
+    visit "/healthcheck"
 
     expect(page.body).to have_content("OK")
   end
 
   it "Home page redirects to login" do
-    visit root_path
+    visit "/"
 
     expect(page).to have_text("Email")
     expect(page).not_to have_text("Your fast track applications")
   end
 
   it "User cannot log in with invalid credentials" do
-    visit root_path
+    visit "/"
 
     fill_in("user[email]", with: reviewer.email)
     fill_in("user[password]", with: "invalid_password")
@@ -35,7 +35,7 @@ RSpec.describe "Sign in" do
     context "as an assessor" do
       before do
         sign_in assessor
-        visit root_path
+        visit "/"
       end
 
       it "can see their name and role" do
@@ -47,7 +47,7 @@ RSpec.describe "Sign in" do
     context "as a reviewer" do
       before do
         sign_in reviewer
-        visit root_path
+        visit "/"
       end
 
       it "can see their name and role" do
@@ -69,7 +69,7 @@ RSpec.describe "Sign in" do
       end
 
       it "redirects to the users dashboard" do
-        visit(new_user_session_path)
+        visit "/users/sign_in"
         fill_in("Email", with: "alice@example.com")
         fill_in("Password", with: password)
         click_button("Log in")
@@ -106,7 +106,7 @@ RSpec.describe "Sign in" do
       end
 
       it "is prevented from logging in to a different subdomain" do
-        visit root_path
+        visit "/"
 
         fill_in("user[email]", with: southwark_assessor.email)
         fill_in("user[password]", with: southwark_password)
@@ -117,7 +117,7 @@ RSpec.describe "Sign in" do
       end
 
       it "is able to login to its allocated subdomain" do
-        visit root_path
+        visit "/"
 
         fill_in("user[email]", with: lambeth_assessor.email)
         fill_in("user[password]", with: lambeth_password)
@@ -132,7 +132,7 @@ RSpec.describe "Sign in" do
 
   context "when signing in with two factor authentication" do
     before do
-      visit root_path
+      visit "/"
 
       fill_in "Email", with: user.email
       fill_in "Password", with: user.password
@@ -201,7 +201,7 @@ RSpec.describe "Sign in" do
 
         click_link("Log out")
         sign_in(administrator)
-        visit(administrator_dashboard_path)
+        visit "/administrator_dashboard"
 
         expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
       end
@@ -221,7 +221,7 @@ RSpec.describe "Sign in" do
 
         click_link("Log out")
         sign_in(administrator)
-        visit(administrator_dashboard_path)
+        visit "/administrator_dashboard"
 
         expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
       end
@@ -338,7 +338,7 @@ RSpec.describe "Sign in" do
       end
 
       it "sends otp via email" do
-        visit(root_path)
+        visit "/"
         fill_in("Email", with: user.email)
         fill_in("Password", with: password)
         click_button("Log in")
@@ -365,7 +365,7 @@ RSpec.describe "Sign in" do
       end
 
       it "resends otp via email" do
-        visit(root_path)
+        visit "/"
         fill_in("Email", with: user.email)
         fill_in("Password", with: password)
         click_button("Log in")
@@ -406,7 +406,7 @@ RSpec.describe "Sign in" do
         end
 
         it "does not ask for mobile number" do
-          visit(root_path)
+          visit "/"
           fill_in("Email", with: user.email)
           fill_in("Password", with: password)
           click_button("Log in")
@@ -461,7 +461,7 @@ RSpec.describe "Sign in" do
 
     before do
       sign_in user
-      visit root_path
+      visit "/"
     end
 
     it "expires after 6 hours" do
@@ -469,12 +469,12 @@ RSpec.describe "Sign in" do
 
       # User session should still be active
       travel 5.hours
-      visit root_path
+      visit "/"
       expect(page).to have_content(user.name)
 
       # User session should expire
       travel 7.hours
-      visit root_path
+      visit "/"
       expect(page).not_to have_content(user.name)
 
       within(".flash") do
@@ -485,7 +485,7 @@ RSpec.describe "Sign in" do
 
   context "when recovering a password" do
     it "presents a helpful error message when using an expired link" do
-      visit root_path
+      visit "/"
 
       click_link("Forgot your password?")
       fill_in("user[email]", with: assessor.email)
@@ -515,7 +515,7 @@ RSpec.describe "Sign in" do
   end
 
   it "does not allow weak passwords" do
-    visit root_path
+    visit "/"
 
     click_link("Forgot your password?")
     fill_in("user[email]", with: assessor.email)

@@ -12,7 +12,7 @@ RSpec.describe "Withdraw or cancel" do
 
   before do
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   it "displays the planning application address and reference" do
@@ -84,7 +84,7 @@ RSpec.describe "Withdraw or cancel" do
 
     it "prevents closing or cancelling" do
       expect(page).not_to have_link "Withdraw or cancel application"
-      visit planning_application_withdraw_or_cancel_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/withdraw_or_cancel"
       expect(page).to have_content("This application has been determined and cannot be withdrawn or cancelled")
     end
   end
@@ -96,7 +96,7 @@ RSpec.describe "Withdraw or cancel" do
 
     it "prevents closing or cancelling" do
       expect(page).not_to have_link "Withdraw or cancel application"
-      visit planning_application_withdraw_or_cancel_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/withdraw_or_cancel"
       expect(page).to have_content("This application has already been withdrawn or cancelled.")
     end
   end
@@ -104,7 +104,7 @@ RSpec.describe "Withdraw or cancel" do
   context "when uploading a supporting document" do
     context "when providing a file with a permitted extension" do
       it "withdraws or cancels the planning application with a redacted document" do
-        visit planning_application_withdraw_or_cancel_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/withdraw_or_cancel"
         expect(page).to have_content("Upload a supporting document")
         expect(page).to have_content("Optionally add a redacted document to support the decision")
 
@@ -139,7 +139,7 @@ RSpec.describe "Withdraw or cancel" do
 
     context "when providing a file with an unpermitted extension" do
       it "presents an error" do
-        visit planning_application_withdraw_or_cancel_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/withdraw_or_cancel"
         choose "Cancelled for other reason"
 
         attach_file(

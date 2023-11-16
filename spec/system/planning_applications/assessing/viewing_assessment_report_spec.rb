@@ -100,7 +100,7 @@ RSpec.describe "viewing assessment report" do
 
   it "lets the user view and download the report" do
     sign_in(assessor)
-    visit planning_application_assessment_tasks_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_link("Review and submit recommendation")
     click_button("Assessment report details")
 

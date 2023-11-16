@@ -30,7 +30,7 @@ RSpec.describe "Reviewing immunity enforcement" do
   context "when there's not an immunity enforcement" do
     before do
       sign_in reviewer
-      visit(planning_application_review_tasks_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/review/tasks"
     end
 
     it "I cannot view the link of Review assessment of immunity page" do
@@ -43,7 +43,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       create(:review_immunity_detail, :enforcement, immunity_detail: planning_application.immunity_detail, assessor:)
 
       sign_in reviewer
-      visit(planning_application_review_tasks_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/review/tasks"
     end
 
     context "when planning application is awaiting determination" do

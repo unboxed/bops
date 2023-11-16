@@ -48,7 +48,7 @@ RSpec.describe "Reviewing sign-off" do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
 
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review and sign-off"
@@ -101,7 +101,7 @@ RSpec.describe "Reviewing sign-off" do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
 
     expect(list_item("Sign-off recommendation")).to have_content("Not started")
@@ -159,7 +159,7 @@ RSpec.describe "Reviewing sign-off" do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -179,7 +179,7 @@ RSpec.describe "Reviewing sign-off" do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -202,7 +202,7 @@ RSpec.describe "Reviewing sign-off" do
     recommendation = create(:recommendation, :reviewed, planning_application:,
       reviewer_comment: "Reviewer private comment")
 
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -238,7 +238,7 @@ RSpec.describe "Reviewing sign-off" do
         assessor_comment: "New assessor comment",
         submitted: true)
 
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Review and sign-off"
       click_link "Sign-off recommendation"
 
@@ -275,7 +275,7 @@ RSpec.describe "Reviewing sign-off" do
       expect(page).to have_content("This text will appear on the decision notice.")
 
       # Check audit log
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
       click_button "Audit log"
       click_link "View all audits"
 
@@ -289,11 +289,11 @@ RSpec.describe "Reviewing sign-off" do
 
     it "as an assessor I am unable to edit" do
       sign_in assessor
-      visit edit_public_comment_planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/edit_public_comment"
 
       expect(page).to have_content("forbidden")
 
-      visit planning_application_review_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/review/tasks"
 
       expect(page).to have_content("forbidden")
     end
@@ -310,7 +310,7 @@ RSpec.describe "Reviewing sign-off" do
     end
 
     it "raises an error if the reviewer accepts the recommendation" do
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
       click_link("Review and sign-off")
       click_link("Review permitted development rights")
       choose("Return to officer with comment")
@@ -365,7 +365,7 @@ RSpec.describe "Reviewing sign-off" do
       end
 
       it "displays a warning message with the consultation end date" do
-        visit new_planning_application_assessment_recommendation_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
         within(".moj-banner__message") do
           expect(page).to have_content("The consultation is still ongoing. It will end on the #{consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?")
@@ -379,7 +379,7 @@ RSpec.describe "Reviewing sign-off" do
       end
 
       it "does not display a warning message" do
-        visit new_planning_application_assessment_recommendation_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
         expect(page).not_to have_css(".moj-banner__message")
       end

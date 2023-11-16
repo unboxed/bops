@@ -138,7 +138,7 @@ RSpec.describe "Planning Application Assessment" do
     )
 
     sign_in assessor
-    visit root_path
+    visit "/"
   end
 
   context "when planning application has no boundary geojson" do
@@ -170,7 +170,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "blocks validation until boundary geojson has been added" do
-      visit(confirm_validation_planning_application_path(application))
+      visit "/planning_applications/#{application.id}/confirm_validation"
       click_button("Mark the application as valid")
 
       expect(page).to have_content(
@@ -371,13 +371,13 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "does not show validate form" do
-      visit planning_application_documents_path(determined_planning_application)
+      visit "/planning_applications/#{determined_planning_application.id}/documents"
 
       expect(page).not_to have_content("Check and validate")
     end
 
     it "does not allow new requests when application is determined" do
-      visit planning_application_validation_validation_requests_path(determined_planning_application)
+      visit "/planning_applications/#{determined_planning_application.id}/validation/validation_requests"
 
       expect(page).not_to have_button("Mark the application as invalid")
       expect(page).not_to have_button("New request")
@@ -387,7 +387,7 @@ RSpec.describe "Planning Application Assessment" do
 
   context "with invalidation with no requests" do
     it "shows correct errors and status when there are no open validation requests" do
-      visit planning_application_path(new_planning_application)
+      visit "/planning_applications/#{new_planning_application.id}"
       click_link "Check and validate"
       click_link "Review validation requests"
 
@@ -397,7 +397,7 @@ RSpec.describe "Planning Application Assessment" do
 
   context "when application not started" do
     it "shows text and links when application has not been started" do
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Check and validate"
       click_link "Review validation requests"
 
@@ -412,7 +412,7 @@ RSpec.describe "Planning Application Assessment" do
       invalid_planning_application = create(:planning_application, :invalidated,
         local_authority: default_local_authority)
 
-      visit planning_application_path(invalid_planning_application)
+      visit "/planning_applications/#{invalid_planning_application.id}"
       click_link "Check and validate"
       click_link "Send validation decision"
 
@@ -424,7 +424,7 @@ RSpec.describe "Planning Application Assessment" do
     before do
       planning_application = create(:planning_application, :in_assessment, local_authority: default_local_authority)
 
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     it "does not allow you to add requests if application has been validated" do

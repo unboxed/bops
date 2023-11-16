@@ -34,7 +34,7 @@ RSpec.describe "Edit document numbers page" do
       end
 
       before do
-        visit(planning_application_documents_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/documents"
       end
 
       it "displays the planning application address and reference" do
@@ -166,7 +166,7 @@ RSpec.describe "Edit document numbers page" do
       before do
         allow_any_instance_of(Document).to receive(:representable?).and_return(false)
 
-        visit(planning_application_documents_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/documents"
       end
 
       it "displays a placeholder image with error information" do

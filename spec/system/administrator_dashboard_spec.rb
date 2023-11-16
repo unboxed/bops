@@ -12,7 +12,7 @@ RSpec.describe "administrator dashboard" do
 
     it "allows access to dashboard" do
       sign_in(user)
-      visit(administrator_dashboard_path)
+      visit "/administrator_dashboard"
       expect(page).to have_current_path("/administrator_dashboard")
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe "administrator dashboard" do
 
     it "does not allow access to dashboard" do
       sign_in(user)
-      visit(administrator_dashboard_path)
+      visit "/administrator_dashboard"
       expect(page).to have_current_path("/")
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe "administrator dashboard" do
 
     it "does not allow access to dashboard" do
       sign_in(user)
-      visit(administrator_dashboard_path)
+      visit "/administrator_dashboard"
       expect(page).to have_current_path("/")
     end
   end

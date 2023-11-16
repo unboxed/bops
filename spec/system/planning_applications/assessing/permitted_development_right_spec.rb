@@ -13,13 +13,13 @@ RSpec.describe "Permitted development right" do
 
   before do
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   context "when signed in as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     context "when planning application is in assessment" do
@@ -237,7 +237,7 @@ RSpec.describe "Permitted development right" do
           click_button("Submit recommendation")
           click_link("Log out")
           sign_in(reviewer)
-          visit(planning_application_path(planning_application))
+          visit "/planning_applications/#{planning_application.id}"
 
           expect(page).to have_list_item_for(
             "Review and sign-off",
@@ -281,7 +281,7 @@ RSpec.describe "Permitted development right" do
 
           expect(page).to have_text("#{permitted_development_right.reviewer.name} accepted this response on #{permitted_development_right.reviewed_at}")
 
-          visit edit_planning_application_assessment_permitted_development_right_path(planning_application, permitted_development_right)
+          visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/#{permitted_development_right.id}/edit"
           expect(page).to have_text("forbidden")
         end
       end
@@ -316,7 +316,7 @@ RSpec.describe "Permitted development right" do
         end
 
         it "I cannot create a new permitted development right request when there is an open response" do
-          visit new_planning_application_assessment_permitted_development_right_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
           choose "No"
           click_button "Save and mark as complete"
           expect(page).to have_text("Cannot create a permitted development right response when there is already an open response")
@@ -374,11 +374,11 @@ RSpec.describe "Permitted development right" do
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(page).not_to have_link("Permitted development rights")
 
-      visit new_planning_application_assessment_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
 
       expect(page).to have_content("forbidden")
     end

@@ -22,7 +22,7 @@ RSpec.describe "View neighbour responses", js: true do
     consultation.update(end_date: "2023-07-08 16:17:35 +0100")
 
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
     click_link "Consultees, neighbours and publicity"
   end
 
@@ -63,7 +63,7 @@ RSpec.describe "View neighbour responses", js: true do
     expect(page).to have_content("I think this proposal looks great and I would like to make a really long comment about how great it is and please let this person build this thing.")
 
     # Check audit log
-    visit planning_application_audits_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/audits"
     within("#audit_#{Audit.last.id}") do
       expect(page).to have_content("Neighbour response uploaded")
       expect(page).to have_content(assessor.name)
@@ -102,7 +102,7 @@ RSpec.describe "View neighbour responses", js: true do
     expect(page).to have_content("Objection")
 
     # Check audit log
-    visit planning_application_audits_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/audits"
     within("#audit_#{Audit.last.id}") do
       expect(page).to have_content("Neighbour response uploaded")
       expect(page).to have_content(assessor.name)
@@ -110,8 +110,8 @@ RSpec.describe "View neighbour responses", js: true do
     end
 
     # Check neighbour is not added to the selected neighbours page
-    visit planning_application_consultation_path(planning_application)
-    expect(page).not_to have_content("123, Street, AAA111")
+    visit "/planning_applications/#{planning_application.id}/consultation"
+    expect(page).not_to have_content("123 Street, AAA111")
   end
 
   it "allows planning officer to upload neighbour response with redaction" do
@@ -234,7 +234,7 @@ RSpec.describe "View neighbour responses", js: true do
     expect(page).to have_link("Back", href: planning_application_consultation_path(planning_application))
 
     # Check audit log
-    visit planning_application_audits_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/audits"
     within("#audit_#{Audit.last.id}") do
       expect(page).to have_content("Neighbour response edited")
       expect(page).to have_content(assessor.name)
@@ -292,7 +292,7 @@ RSpec.describe "View neighbour responses", js: true do
     end
 
     it "is marked as not started" do
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Consultees, neighbours and publicity"
       expect(page).to have_content("View neighbour responses Not started")
     end

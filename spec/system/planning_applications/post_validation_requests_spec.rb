@@ -9,7 +9,7 @@ RSpec.describe "post validation requests" do
   before do
     sign_in assessor
 
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   context "when application has been validated" do
@@ -18,7 +18,7 @@ RSpec.describe "post validation requests" do
     end
 
     it "lets the assessor create an additional document request" do
-      visit(planning_application_documents_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/documents"
       click_link("Request a new document")
       fill_in("Please specify the new document type:", with: "Floor plan")
 
@@ -43,7 +43,7 @@ RSpec.describe "post validation requests" do
         expect(page).to have_content("Floor plan")
       end
 
-      visit(planning_application_documents_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/documents"
 
       within("#additional-document-validation-requests-table") do
         expect(page).to have_content("Document requested: Floor plan")
@@ -86,7 +86,7 @@ RSpec.describe "post validation requests" do
       end
 
       it "lets the assessor cancel the request" do
-        visit(planning_application_documents_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/documents"
         document_row = row_with_content("Document requested: Floor plan")
 
         within(document_row) do
@@ -110,13 +110,13 @@ RSpec.describe "post validation requests" do
           expect(page).to have_content("Requested in error")
         end
 
-        visit(planning_application_documents_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/documents"
 
         expect(page).not_to have_content("Document requested: Floor plan")
       end
 
       it "does not show request on validation documents page" do
-        visit(validation_documents_planning_application_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/validation_documents"
         expect(page).not_to have_content("Document requested: Floor plan")
       end
     end
@@ -132,7 +132,7 @@ RSpec.describe "post validation requests" do
 
         planning_application.start!
 
-        visit post_validation_requests_planning_application_validation_validation_requests_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
       end
 
       it "does not display any pre validation requests" do
@@ -141,7 +141,7 @@ RSpec.describe "post validation requests" do
         expect(page).not_to have_content("Cancelled requests")
 
         # check pre valiation requests table
-        visit planning_application_validation_validation_requests_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
         within(".validation-requests-table") do
           expect(page).to have_content("Red line boundary changes")
           expect(page).to have_content("View request red line boundary")
@@ -175,7 +175,7 @@ RSpec.describe "post validation requests" do
           proposed_description: "New description 2"
         )
 
-        visit planning_application_validation_validation_requests_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
       end
 
       it "does not display any post validation requests" do
@@ -186,7 +186,7 @@ RSpec.describe "post validation requests" do
         expect(page).not_to have_content("New description 2")
 
         # check post valiation requests table
-        visit post_validation_requests_planning_application_validation_validation_requests_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
         within(".validation-requests-table") do
           expect(page).to have_content("Red line boundary changes")
           expect(page).to have_content("View request red line boundary")
@@ -210,7 +210,7 @@ RSpec.describe "post validation requests" do
       expect(page).not_to have_link("Review non-validation requests")
 
       # visit url directly
-      visit post_validation_requests_planning_application_validation_validation_requests_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
       expect(page).to have_content("forbidden")
     end
   end
@@ -224,7 +224,7 @@ RSpec.describe "post validation requests" do
       expect(page).not_to have_link("Review non-validation requests")
 
       # visit url directly
-      visit post_validation_requests_planning_application_validation_validation_requests_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
       expect(page).to have_content("forbidden")
     end
   end
@@ -239,7 +239,7 @@ RSpec.describe "post validation requests" do
     end
 
     it "lets the assessor create an additional document request" do
-      visit(planning_application_documents_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/documents"
       click_link("Request a new document")
       fill_in("Please specify the new document type:", with: "Floor plan")
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When("I view the planning application notes") do
-  visit planning_application_notes_path(@planning_application)
+  visit "/planning_applications/#{@planning_application.id}/notes"
 end
 
 When("I see the note form actions") do

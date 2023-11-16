@@ -21,7 +21,7 @@ RSpec.describe "Permitted development right" do
       sign_in reviewer
       Current.user = reviewer
       create(:permitted_development_right, planning_application:)
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     context "when planning application is awaiting determination" do
@@ -282,11 +282,11 @@ RSpec.describe "Permitted development right" do
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(page).not_to have_link("Review permitted development rights")
 
-      visit new_planning_application_assessment_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
 
       expect(page).to have_content("forbidden")
     end

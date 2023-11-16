@@ -31,11 +31,11 @@ RSpec.describe "Planning Application Assessment Legislation" do
 
   before do
     sign_in assessor
-    visit root_path
+    visit "/"
   end
 
   it "shows assessed legislation on recommendation page" do
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
     click_link("Check and assess")
     click_link("Add assessment area")
     choose("Part 1 - Development within the curtilage of a dwellinghouse")
@@ -95,7 +95,7 @@ RSpec.describe "Planning Application Assessment Legislation" do
         section: "1A",
         policy_class:)
 
-      visit(new_planning_application_assessment_recommendation_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
       expect(page).to have_selector "h1", text: "Make draft recommendation"
       expect(page).not_to have_content("View commented legislation for class T")
@@ -111,7 +111,7 @@ RSpec.describe "Planning Application Assessment Legislation" do
         section: "1A",
         policy_class:)
 
-      visit(new_planning_application_assessment_recommendation_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
       expect(page).to have_selector "h1", text: "Make draft recommendation"
       expect(page).to have_content("View commented legislation for class T")
@@ -131,7 +131,7 @@ RSpec.describe "Planning Application Assessment Legislation" do
 
       create(:comment, commentable: policy)
 
-      visit(new_planning_application_assessment_recommendation_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
       expect(page).to have_content("Complies")
       expect(page).to have_content("View commented legislation for class T")

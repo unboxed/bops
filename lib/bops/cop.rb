@@ -6,3 +6,4 @@ module Bops
 end
 
 require_relative "cop/style/have_current_path_literal"
+require_relative "cop/style/visit_literal"

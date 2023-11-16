@@ -26,7 +26,7 @@ RSpec.describe "assigning planning application" do
     it "lets a planning application be assigned to a user" do
       travel_to("2022-01-01")
       sign_in(reviewer)
-      visit(planning_application_assign_users_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/assign_users"
       select("Jane Smith")
       click_button("Confirm")
 
@@ -62,7 +62,7 @@ RSpec.describe "assigning planning application" do
     it "lets a planning application be assigned to a user" do
       travel_to("2022-01-01")
       sign_in(reviewer)
-      visit(planning_application_assign_users_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/assign_users"
       select("Jane Smith")
       click_button("Confirm")
 
@@ -99,7 +99,7 @@ RSpec.describe "assigning planning application" do
 
     it "can be unnassigned" do
       sign_in(reviewer)
-      visit(planning_application_assign_users_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/assign_users"
       select("Unassigned")
       click_button("Confirm")
 
@@ -115,7 +115,7 @@ RSpec.describe "assigning planning application" do
     it "there is an error message and no update is persisted" do
       sign_in(reviewer)
 
-      visit(planning_application_assign_users_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/assign_users"
       select("Jane Smith")
       click_button("Confirm")
 

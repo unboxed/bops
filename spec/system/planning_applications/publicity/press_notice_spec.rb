@@ -13,7 +13,7 @@ RSpec.describe "Press notice" do
   before do
     sign_in assessor
 
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   describe "responding to whether a press notice is required" do
@@ -106,7 +106,7 @@ RSpec.describe "Press notice" do
           user: assessor
         )
 
-        visit planning_application_audits_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/audits"
         within("#audit_#{audits.first.id}") do
           expect(page).to have_content("Press notice response added")
           expect(page).to have_content(assessor.name)
@@ -508,7 +508,7 @@ RSpec.describe "Press notice" do
         click_link "Consultees, neighbours and publicity"
         expect(page).not_to have_content("Confirm press notice")
 
-        visit edit_planning_application_confirm_press_notice_path(planning_application, press_notice)
+        visit "/planning_applications/#{planning_application.id}/confirm_press_notices/#{press_notice.id}/edit"
         expect(page).to have_content("forbidden")
       end
     end

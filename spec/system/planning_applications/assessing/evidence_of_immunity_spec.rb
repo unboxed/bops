@@ -17,7 +17,7 @@ RSpec.describe "Evidence of immunity" do
       create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
 
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     context "when planning application is in assessment" do
@@ -182,11 +182,11 @@ RSpec.describe "Evidence of immunity" do
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(page).not_to have_link("Evidence of immunity")
 
-      visit new_planning_application_assessment_immunity_detail_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/immunity_details/new"
 
       expect(page).to have_content("forbidden")
     end

@@ -95,7 +95,7 @@ RSpec.describe "filtering planning applications" do
     context "when looking at their own applications" do
       before do
         sign_in(user)
-        visit(root_path)
+        visit "/"
       end
 
       it "allows user to filter by different statuses" do
@@ -250,7 +250,7 @@ RSpec.describe "filtering planning applications" do
     context "when looking at all applications" do
       before do
         sign_in(user)
-        visit(root_path)
+        visit "/"
         click_link "View all applications"
       end
 
@@ -302,7 +302,7 @@ RSpec.describe "filtering planning applications" do
     context "when looking at their own applications" do
       before do
         sign_in(other_user)
-        visit(root_path)
+        visit "/"
       end
 
       it "allows user to filter by different statuses" do
@@ -347,7 +347,7 @@ RSpec.describe "filtering planning applications" do
     context "when looking at all applications" do
       before do
         sign_in(other_user)
-        visit(root_path)
+        visit "/"
         click_link "View all applications"
       end
 

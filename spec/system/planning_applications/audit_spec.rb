@@ -21,7 +21,7 @@ RSpec.describe "Auditing changes to a planning application" do
       activity_type: "replacement_document_validation_request_received", activity_information: 1, audit_comment: "floor_plan.pdf", api_user:)
 
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
     click_button "Audit log"
     click_link "View all audits"
   end
@@ -65,7 +65,7 @@ RSpec.describe "Auditing changes to a planning application" do
     before { validation_request.auto_close_request! }
 
     it "shows correct information with link to request" do
-      visit(planning_application_audits_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/audits"
 
       expect(page).to have_row_for(
         "Auto-closed: validation request (red line boundary#1)",
@@ -95,7 +95,7 @@ RSpec.describe "Auditing changes to a planning application" do
     before { validation_request.auto_close_request! }
 
     it "shows correct information with link to request" do
-      visit(planning_application_audits_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}/audits"
 
       expect(page).to have_row_for(
         "Auto-closed: validation request (description#1)",
