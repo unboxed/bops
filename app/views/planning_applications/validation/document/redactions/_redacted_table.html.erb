@@ -1,0 +1,29 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-half">Document</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-half">Date uploaded</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @planning_application.documents.redacted.each do |document| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-width-one-half">
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            <%= link_to image_tag(document.file.representation(resize: "150x106")),
+                        url_for_document(document), target: :_blank %>
+          </p>
+          <p class="govuk-body">
+            <%= truncate(document.name.to_s, length: 50) %><br>
+            <%= link_to "View in new window", url_for_document(document), target: :_new %>
+          </p>
+        </td>
+        <td class="govuk-table__cell govuk-!-width-one-half">
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            <%= document.created_at.to_fs %>
+          </p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

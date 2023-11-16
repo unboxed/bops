@@ -120,6 +120,7 @@ class Document < ApplicationRecord
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
+  scope :redacted, -> { where(redacted: true) }
   scope(
     :referenced_in_decision_notice,
     -> { where(referenced_in_decision_notice: true) }
