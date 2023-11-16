@@ -6,6 +6,7 @@ require:
   - standard-rails
   - rubocop-performance
   - rubocop-rails
+  - ./lib/bops/cop.rb
 
 inherit_gem:
   standard: config/base.yml
