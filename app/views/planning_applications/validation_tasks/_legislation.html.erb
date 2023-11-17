@@ -11,7 +11,7 @@
       </li>
     <% else %>
       <%= render(
-        TaskListItems::LegislationComponent.new(
+        TaskListItems::Validating::LegislationComponent.new(
           planning_application: @planning_application
         )
       ) %>

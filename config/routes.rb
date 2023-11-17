@@ -78,8 +78,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :legislation, only: %i[show update]
-
     scope module: :planning_applications do
       resources :assign_users, only: %i[index] do
         patch :update, on: :collection
@@ -171,6 +169,8 @@ Rails.application.routes.draw do
         resources :validation_requests, only: %i[index] do
           get :post_validation_requests, on: :collection
         end
+
+        resource :legislation, only: %i[show update]
 
         with_options concerns: :cancel_validation_requests do
           resources :additional_document_validation_requests, except: %i[index show]

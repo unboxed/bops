@@ -96,7 +96,7 @@ RSpec.describe "Check legislation" do
     end
 
     it "shows forbidden when navigating to the page directly" do
-      visit "/planning_applications/#{planning_application.id}/legislation"
+      visit "/planning_applications/#{planning_application.id}/validation/legislation"
       expect(page).to have_content("Not found")
     end
   end
