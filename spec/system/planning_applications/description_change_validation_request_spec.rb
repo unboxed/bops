@@ -15,22 +15,18 @@ RSpec.describe "Requesting description changes to a planning application" do
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   it "displays the planning application address and reference" do
-    visit(
-      new_planning_application_validation_description_change_validation_request_path(
-        planning_application
-      )
-    )
+    visit "/planning_applications/#{planning_application.id}/validation/description_change_validation_requests/new"
 
     expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
   end
 
   it "lets user create and cancel request" do
-    visit(planning_application_assessment_tasks_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_button("Application information")
     click_link("Propose a change to the description")
     fill_in("Please suggest a new application description", with: "")
@@ -44,7 +40,7 @@ RSpec.describe "Requesting description changes to a planning application" do
     expect(page).to have_text("Description change request successfully sent.")
 
     expect(page).to have_current_path(
-      planning_application_assessment_tasks_path(planning_application)
+      "/planning_applications/#{planning_application.id}/assessment/tasks"
     )
 
     click_button("Application information")
@@ -56,7 +52,7 @@ RSpec.describe "Requesting description changes to a planning application" do
     )
 
     expect(page).to have_current_path(
-      planning_application_assessment_tasks_path(planning_application)
+      "/planning_applications/#{planning_application.id}/assessment/tasks"
     )
   end
 end

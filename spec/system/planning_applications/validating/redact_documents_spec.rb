@@ -25,7 +25,7 @@ RSpec.describe "Redact documents" do
 
   before do
     sign_in assessor
-    visit planning_application_validation_tasks_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/validation_tasks"
   end
 
   it "allows assessor to upload redacted documents" do

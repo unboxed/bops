@@ -21,7 +21,7 @@ RSpec.describe "Edit document" do
 
   context "as a user who is not logged in" do
     it "User cannot see edit_numbers page" do
-      visit edit_planning_application_document_path(planning_application, document)
+      visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
@@ -30,7 +30,7 @@ RSpec.describe "Edit document" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_documents_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/documents"
     end
 
     it "displays the planning application address and reference" do
@@ -39,9 +39,7 @@ RSpec.describe "Edit document" do
     end
 
     it "archives and replaces existing document when new file is uploaded" do
-      visit(
-        edit_planning_application_document_path(planning_application, document)
-      )
+      visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
       check("Front")
       fill_in("Document reference(s)", with: "DOC123")
@@ -80,9 +78,7 @@ RSpec.describe "Edit document" do
       end
 
       it "renders an error if user tries to replace the file" do
-        visit(
-          edit_planning_application_document_path(planning_application, document)
-        )
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
         attach_file(
           "Upload a replacement file",
@@ -98,9 +94,7 @@ RSpec.describe "Edit document" do
     end
 
     it "renders error when document is in unrepresentable format" do
-      visit(
-        edit_planning_application_document_path(planning_application, document)
-      )
+      visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
       attach_file(
         "Upload a replacement file",
@@ -115,7 +109,7 @@ RSpec.describe "Edit document" do
     end
 
     it "with wrong format document" do
-      visit edit_planning_application_document_path(planning_application, document)
+      visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
       attach_file("Upload a replacement file", "spec/fixtures/images/image.gif")
 
@@ -125,7 +119,7 @@ RSpec.describe "Edit document" do
     end
 
     it "cannot validate document via manage documents screen" do
-      visit edit_planning_application_document_path(planning_application, document)
+      visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
       expect(page).not_to have_content("Is the document valid?")
       expect(page).not_to have_css("#validate-document")
@@ -141,7 +135,7 @@ RSpec.describe "Edit document" do
       end
 
       it "cannot edit" do
-        visit edit_planning_application_document_path(planning_application, document)
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
         expect(page).to have_content("forbidden")
       end
@@ -149,12 +143,7 @@ RSpec.describe "Edit document" do
 
     context "when editing/archiving document from the documents accordian section" do
       it "can edit document and return back to the planning applications index page" do
-        visit(
-          edit_planning_application_document_path(
-            planning_application,
-            document
-          )
-        )
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
         fill_in("Document reference(s)", with: "DOCREF123")
 
@@ -162,18 +151,11 @@ RSpec.describe "Edit document" do
 
         expect(page).to have_content("Document has been updated")
 
-        expect(page).to have_current_path(
-          planning_application_documents_path(planning_application)
-        )
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "can archive document and return back to the planning applications index page" do
-        visit(
-          planning_application_document_archive_path(
-            planning_application,
-            document
-          )
-        )
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/archive"
 
         fill_in "archive_reason", with: "an archive reason"
 
@@ -181,9 +163,7 @@ RSpec.describe "Edit document" do
 
         expect(page).to have_content("#{document.name} has been archived")
 
-        expect(page).to have_current_path(
-          planning_application_documents_path(planning_application)
-        )
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
 
@@ -198,7 +178,7 @@ RSpec.describe "Edit document" do
         click_button "Save"
 
         expect(page).to have_content("Document has been updated")
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "can archive document and return back to the documents index page" do
@@ -211,7 +191,7 @@ RSpec.describe "Edit document" do
         click_button "Archive"
 
         expect(page).to have_content("#{document.name} has been archived")
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "the back button returns to the documents index page" do
@@ -220,23 +200,23 @@ RSpec.describe "Edit document" do
         end
 
         click_link "Back"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
 
     context "when visiting the edit/archive url directly" do
       it "edit returns to the documents index page" do
-        visit edit_planning_application_document_path(planning_application, document)
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
         click_button "Save"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
 
       it "archive returns to the documents index page" do
-        visit planning_application_document_archive_path(planning_application, document)
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/archive"
 
         click_button "Archive"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
 
@@ -252,19 +232,19 @@ RSpec.describe "Edit document" do
       end
 
       it "edit returns to the documents index page" do
-        visit edit_planning_application_document_path(planning_application, document)
-        visit edit_planning_application_document_path(other_planning_application, other_document)
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
+        visit "/planning_applications/#{other_planning_application.id}/documents/#{other_document.id}/edit"
 
         click_button "Save"
-        expect(page).to have_current_path(planning_application_documents_path(other_planning_application))
+        expect(page).to have_current_path("/planning_applications/#{other_planning_application.id}/documents")
       end
 
       it "archive returns to the documents index page" do
-        visit edit_planning_application_document_path(other_planning_application, other_document)
-        visit planning_application_document_archive_path(planning_application, document)
+        visit "/planning_applications/#{other_planning_application.id}/documents/#{other_document.id}/edit"
+        visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/archive"
 
         click_button "Archive"
-        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents")
       end
     end
   end

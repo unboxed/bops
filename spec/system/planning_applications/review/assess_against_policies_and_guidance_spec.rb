@@ -18,7 +18,7 @@ RSpec.describe "Permitted development right" do
     before do
       local_policy_area1.local_policy.update(planning_application:)
       sign_in(reviewer)
-      visit planning_application_review_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/review/tasks"
     end
 
     context "when planning application is awaiting determination" do
@@ -121,7 +121,7 @@ RSpec.describe "Permitted development right" do
         sign_out(reviewer)
         sign_in(assessor)
 
-        visit planning_application_assessment_tasks_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
 
         expect(page).to have_list_item_for(
           "Assess against policies and guidance",
@@ -141,7 +141,7 @@ RSpec.describe "Permitted development right" do
         sign_out(assessor)
         sign_in(reviewer)
 
-        visit planning_application_review_tasks_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment against policies and guidance",

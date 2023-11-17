@@ -45,8 +45,21 @@ RSpec.describe "searching planning applications" do
   before { sign_in(user) }
 
   context "when user views her own planning applications" do
+    let(:query) {
+      {
+        query: "00100",
+        submit: "search",
+        application_type: %w[
+          prior_approval planning_permission lawfulness_certificate
+        ],
+        status: %w[
+          not_started invalidated in_assessment awaiting_determination to_be_reviewed
+        ]
+      }.to_query
+    }
+
     before do
-      visit(root_path)
+      visit "/"
     end
 
     it "allows user to search planning applications by reference" do
@@ -80,9 +93,8 @@ RSpec.describe "searching planning applications" do
         expect(page).not_to have_content(planning_application3.reference)
       end
 
-      search_url = current_url
-      visit(root_path)
-      visit(search_url)
+      visit "/"
+      visit "/planning_applications?#{query}#all"
 
       within(govuk_tab_all) do
         expect(page).to have_content("Your live applications")
@@ -172,8 +184,22 @@ RSpec.describe "searching planning applications" do
   end
 
   context "when user views all planning applications" do
+    let(:query) {
+      {
+        query: "00100",
+        view: "all",
+        submit: "search",
+        application_type: %w[
+          prior_approval planning_permission lawfulness_certificate
+        ],
+        status: %w[
+          not_started invalidated in_assessment awaiting_determination to_be_reviewed
+        ]
+      }.to_query
+    }
+
     before do
-      visit(planning_applications_path)
+      visit "/planning_applications"
       click_link("View all applications")
 
       within(govuk_tab_all) do
@@ -207,9 +233,8 @@ RSpec.describe "searching planning applications" do
         expect(page).not_to have_content(planning_application3.reference)
       end
 
-      search_url = current_url
-      visit(root_path)
-      visit(search_url)
+      visit "/"
+      visit "/planning_applications?#{query}#all"
 
       within(govuk_tab_all) do
         expect(page).to have_content("Live applications")

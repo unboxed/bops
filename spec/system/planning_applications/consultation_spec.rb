@@ -13,7 +13,7 @@ RSpec.describe "Press notice" do
     sign_in assessor
 
     planning_application.consultation.update(end_date: Time.zone.local(2023, 9, 15, 12))
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   context "when there is a consultation end date" do

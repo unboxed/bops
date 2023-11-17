@@ -9,7 +9,7 @@ Given("the date is {int}-{int}-{int} and the planning application is validated")
 
   steps("Given the planning application is validated")
 
-  visit root_path
+  visit "/"
 end
 
 Given("the time is {int}:{int} on the {int}-{int}-{int}") do |hour, minutes, day, month, year|
@@ -30,5 +30,5 @@ Given("the time is {int}:{int} and the planning application is validated") do |h
   steps("Given the time is #{hour}:#{minutes}")
   steps("Given the planning application is validated")
 
-  visit root_path
+  visit "/"
 end

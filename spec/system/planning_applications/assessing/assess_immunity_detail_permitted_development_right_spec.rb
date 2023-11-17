@@ -14,7 +14,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
   context "when assessing whether an application is immune" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link("Check and assess")
       click_link("Immunity/permitted development rights")
     end
@@ -359,7 +359,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
     end
 
     it "I cannot create a new permitted development right request when there is an open response" do
-      visit new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       within("#assess-immunity-detail-section") do
         choose "Yes"
@@ -381,11 +381,11 @@ RSpec.describe "Assess immunity detail permitted development right" do
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(page).not_to have_link("Immunity/permitted development rights")
 
-      visit new_planning_application_assessment_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
 
       expect(page).to have_content("forbidden")
     end
@@ -396,12 +396,12 @@ RSpec.describe "Assess immunity detail permitted development right" do
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
 
       click_link "Check and assess"
       expect(page).not_to have_link("Immunity/permitted development rights")
 
-      visit new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("forbidden")
     end
@@ -411,7 +411,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
     it "I can view the information on the permitted development rights page" do
       create(:immunity_detail, planning_application:)
       sign_in assessor
-      visit new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Evidence cover: Unknown")
       expect(page).to have_content("Missing evidence (gap in time): No")
@@ -430,7 +430,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
     it "lists the evidence in a single group for a single document" do
       document = create(:document, tags: ["Council Tax Document"])
       immunity_detail.add_document(document)
-      visit new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Council tax documents (1)")
     end
@@ -440,7 +440,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
       document2 = create(:document, tags: ["Council Tax Document"])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
-      visit new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Council tax documents (2)")
     end
@@ -450,7 +450,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
       document2 = create(:document, tags: ["Photograph"])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
-      visit new_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Council tax documents (1)")
       expect(page).to have_content("Photographs (1)")

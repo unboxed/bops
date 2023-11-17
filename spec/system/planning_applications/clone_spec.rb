@@ -27,7 +27,7 @@ RSpec.describe "cloning a planning application" do
       )
 
     sign_in(assessor)
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   context "when I am able to clone a planning application" do
@@ -44,7 +44,7 @@ RSpec.describe "cloning a planning application" do
       expect(PlanningApplication.all.count).to eq(2)
 
       cloned_planning_application = PlanningApplication.last
-      expect(page).to have_current_path(planning_application_path(cloned_planning_application))
+      expect(page).to have_current_path("/planning_applications/#{cloned_planning_application.id}")
       expect(page).to have_content("Planning application was successfully cloned")
 
       expect(JSON.parse(planning_application.audit_log)).to eq(JSON.parse(cloned_planning_application.audit_log))
@@ -88,7 +88,7 @@ RSpec.describe "cloning a planning application" do
     let(:planning_application) { create(:planning_application, local_authority:) }
 
     it "I am unable to clone and presented with an error" do
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
 
       accept_confirm(text: "This will clone the planning application identical to how it was created via PlanX. Are you sure?") do
         click_link("Clone")

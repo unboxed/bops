@@ -25,7 +25,7 @@ RSpec.describe "Site visit" do
       let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:) }
 
       it "shows the site visit item in the tasklist" do
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
         click_link "Consultees, neighbours and publicity"
 
         expect(page).to have_css("#site-visit")
@@ -36,7 +36,7 @@ RSpec.describe "Site visit" do
       let!(:site_visit) { create(:site_visit, consultation:) }
 
       it "shows the site visit item in the tasklist" do
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
         click_link "Consultees, neighbours and publicity"
 
         expect(page).to have_css("#site-visit")
@@ -48,7 +48,7 @@ RSpec.describe "Site visit" do
       let!(:neighbour_response2) { create(:neighbour_response, summary_tag: "supportive", neighbour:) }
 
       it "does not show the site visit item in the tasklist" do
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
         click_link "Consultees, neighbours and publicity"
 
         expect(page).not_to have_css("#site-visit")
@@ -62,7 +62,7 @@ RSpec.describe "Site visit" do
     let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
     before do
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Consultees, neighbours and publicity"
       click_link "Site visit"
     end
@@ -110,7 +110,7 @@ RSpec.describe "Site visit" do
     let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
     before do
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Consultees, neighbours and publicity"
       within("#site-visit") do
         click_link "Site visit"

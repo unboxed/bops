@@ -58,7 +58,7 @@ RSpec.describe "Planning Application show page" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     it "Site address is present" do
@@ -111,7 +111,7 @@ RSpec.describe "Planning Application show page" do
 
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     it "Breadcrumbs contain reference to Application overview which is not linked" do

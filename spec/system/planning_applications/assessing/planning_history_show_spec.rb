@@ -18,7 +18,7 @@ RSpec.describe "Planning History" do
     end
 
     before do
-      visit planning_application_assessment_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
       click_link "History search (in testing)"
     end
 
@@ -107,7 +107,7 @@ RSpec.describe "Planning History" do
     end
 
     before do
-      visit planning_application_assessment_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
       click_link "History search (in testing)"
     end
 

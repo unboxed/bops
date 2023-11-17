@@ -20,7 +20,7 @@ RSpec.describe "Requesting document changes to a planning application" do
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   context "before an application has been invalidated" do
@@ -37,18 +37,12 @@ RSpec.describe "Requesting document changes to a planning application" do
     end
 
     it "returns to task list if document is not marked as valid or invalid" do
-      visit(
-        edit_planning_application_document_path(
-          planning_application,
-          document1,
-          validate: "yes"
-        )
-      )
+      visit "/planning_applications/#{planning_application.id}/documents/#{document1.id}/edit?validate=yes"
 
       click_button("Save")
 
       expect(page).to have_current_path(
-        planning_application_validation_tasks_path(planning_application)
+        "/planning_applications/#{planning_application.id}/validation_tasks"
       )
     end
 
@@ -297,7 +291,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
 
       # Cancel request
-      visit planning_application_validation_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/validation_tasks"
       within("#document-validation-tasks") do
         click_link("Check document - proposed-roofplan.png")
       end
@@ -330,7 +324,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 2)
 
-      visit planning_application_validation_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/validation_tasks"
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 0")
       end
@@ -367,9 +361,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       it "can only view response and original document is archived" do
         # Can only view request
-        visit planning_application_validation_replacement_document_validation_request_path(
-          planning_application, replacement_document_validation_request
-        )
+        visit "/planning_applications/#{planning_application.id}/validation/replacement_document_validation_requests/#{replacement_document_validation_request.id}"
         expect(page).not_to have_link("Cancel request")
         expect(page).not_to have_link("Delete request")
         expect(page).not_to have_link("Edit request")
@@ -380,7 +372,7 @@ RSpec.describe "Requesting document changes to a planning application" do
           href: "/planning_applications/#{planning_application.id}/documents/#{replacement_document_validation_request.new_document.id}/edit?validate=yes"
         )
 
-        visit planning_application_validation_tasks_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/validation_tasks"
 
         within("#invalid-items-count") do
           expect(page).to have_content("Invalid items 0")
@@ -584,7 +576,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
 
       it "does show a invalid documents warning" do
-        visit planning_application_documents_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/documents"
         expect(page).to have_content("Invalid documents: 1")
       end
     end
@@ -595,14 +587,14 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
 
       it "does not show a warning" do
-        visit planning_application_documents_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/documents"
         expect(page).not_to have_content("Invalid documents")
       end
     end
 
     context "when there is no replacement document validation request" do
       it "does not show a warning" do
-        visit planning_application_documents_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/documents"
         expect(page).not_to have_content("Invalid documents")
       end
     end
@@ -614,7 +606,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
 
       it "does not show a warning" do
-        visit planning_application_documents_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/documents"
         expect(page).not_to have_content("Invalid documents")
       end
     end

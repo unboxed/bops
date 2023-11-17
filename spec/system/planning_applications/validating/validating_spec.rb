@@ -2,116 +2,6 @@
 
 require "rails_helper"
 
-RSpec.shared_examples "validate and invalidate" do
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:second_planning_application) do
-    create(:planning_application, :not_started, local_authority: default_local_authority)
-  end
-  let(:govuk_tab_all) { find("div[class='govuk-tabs__panel']#all") }
-
-  it "can be validated and displays link to notification" do
-    delivered_emails = ActionMailer::Base.deliveries.count
-
-    within(govuk_tab_all) do
-      click_link(planning_application.reference)
-    end
-
-    click_link "Check and validate"
-    click_link "Start now"
-    click_link "Send validation decision"
-    click_link "Mark the application as valid"
-
-    expect(page).to have_content("Valid from")
-    fill_in "Day", with: "03"
-    fill_in "Month", with: "12"
-    fill_in "Year", with: "2021"
-
-    choose "Yes"
-
-    click_button "Mark the application as valid"
-
-    expect(page).to have_content("Application is ready for assessment")
-    expect(page).to have_content("Public on BoPS Public Portal: Yes")
-
-    planning_application.reload
-    expect(planning_application.status).to eq("in_assessment")
-    expect(planning_application.validated_at).to eq(Date.new(2021, 12, 3))
-
-    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
-
-    click_link("Application")
-    click_link("Check and validate")
-    expect(page).to have_link("View notification")
-
-    click_link "View notification"
-    expect(page).to have_content(planning_application.reference)
-    expect(page).to have_content(planning_application.full_address)
-    expect(page).to have_content("Your application is now valid")
-    expect(page).to have_content(planning_application.validated_at)
-  end
-
-  it "allows document edit, archive and upload after invalidation" do
-    create(:additional_document_validation_request, planning_application:, state: "open",
-      created_at: 12.days.ago)
-
-    within(govuk_tab_all) do
-      click_link(planning_application.reference)
-    end
-
-    click_button "Documents"
-    click_link "Manage documents"
-    click_link "Archive"
-
-    fill_in "Why do you want to archive this document?", with: "Scale was wrong"
-    click_button "Archive"
-
-    expect(page).to have_text("proposed-floorplan.png has been archived")
-  end
-
-  it "displays a validation date of the last closed validation request if any closed validation requests exist" do
-    create(:additional_document_validation_request,
-      planning_application:,
-      state: "closed",
-      updated_at: Time.zone.today - 2.days)
-
-    create(:replacement_document_validation_request,
-      planning_application:,
-      state: "closed",
-      updated_at: Time.zone.today - 3.days)
-
-    within(govuk_tab_all) do
-      click_link(planning_application.reference)
-    end
-
-    click_link "Check and validate"
-
-    expect(page).to have_field("Day", with: additional_document_validation_request.updated_at.strftime("%-d"))
-    expect(page).to have_field("Month", with: additional_document_validation_request.updated_at.strftime("%-m"))
-    expect(page).to have_field("Year", with: additional_document_validation_request.updated_at.strftime("%Y"))
-  end
-
-  it "displays a validation date of when the documents where validated if no closed validation requests exist" do
-    visit validate_form_planning_application_path(second_planning_application)
-
-    expect(page).to have_field("Day", with: second_planning_application.validated_at.strftime("%-d"))
-    expect(page).to have_field("Month", with: second_planning_application.validated_at.strftime("%-m"))
-    expect(page).to have_field("Year", with: second_planning_application.validated_at.strftime("%Y"))
-  end
-
-  it "allows for the user to input a validation date manually" do
-    visit validate_form_planning_application_path(second_planning_application)
-    click_link "Mark the application as valid"
-    fill_in "Day", with: "3"
-    fill_in "Month", with: "6"
-    fill_in "Year", with: "2022"
-
-    click_button "Mark the application as valid"
-
-    second_planning_application.reload
-    expect(second_planning_application.validated_at.to_s).to eq("2022-06-03")
-  end
-end
-
 RSpec.describe "Planning Application Assessment" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -138,7 +28,7 @@ RSpec.describe "Planning Application Assessment" do
     )
 
     sign_in assessor
-    visit root_path
+    visit "/"
   end
 
   context "when planning application has no boundary geojson" do
@@ -170,7 +60,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "blocks validation until boundary geojson has been added" do
-      visit(confirm_validation_planning_application_path(application))
+      visit "/planning_applications/#{application.id}/confirm_validation"
       click_button("Mark the application as valid")
 
       expect(page).to have_content(
@@ -371,13 +261,13 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "does not show validate form" do
-      visit planning_application_documents_path(determined_planning_application)
+      visit "/planning_applications/#{determined_planning_application.id}/documents"
 
       expect(page).not_to have_content("Check and validate")
     end
 
     it "does not allow new requests when application is determined" do
-      visit planning_application_validation_validation_requests_path(determined_planning_application)
+      visit "/planning_applications/#{determined_planning_application.id}/validation/validation_requests"
 
       expect(page).not_to have_button("Mark the application as invalid")
       expect(page).not_to have_button("New request")
@@ -387,7 +277,7 @@ RSpec.describe "Planning Application Assessment" do
 
   context "with invalidation with no requests" do
     it "shows correct errors and status when there are no open validation requests" do
-      visit planning_application_path(new_planning_application)
+      visit "/planning_applications/#{new_planning_application.id}"
       click_link "Check and validate"
       click_link "Review validation requests"
 
@@ -397,7 +287,7 @@ RSpec.describe "Planning Application Assessment" do
 
   context "when application not started" do
     it "shows text and links when application has not been started" do
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Check and validate"
       click_link "Review validation requests"
 
@@ -412,7 +302,7 @@ RSpec.describe "Planning Application Assessment" do
       invalid_planning_application = create(:planning_application, :invalidated,
         local_authority: default_local_authority)
 
-      visit planning_application_path(invalid_planning_application)
+      visit "/planning_applications/#{invalid_planning_application.id}"
       click_link "Check and validate"
       click_link "Send validation decision"
 
@@ -424,7 +314,7 @@ RSpec.describe "Planning Application Assessment" do
     before do
       planning_application = create(:planning_application, :in_assessment, local_authority: default_local_authority)
 
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     it "does not allow you to add requests if application has been validated" do

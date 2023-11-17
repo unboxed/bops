@@ -32,7 +32,7 @@ RSpec.describe "Planning application updated tab spec" do
 
   before do
     sign_in(assessor)
-    visit(root_path)
+    visit "/"
 
     click_link "Updated"
   end
@@ -77,14 +77,14 @@ RSpec.describe "Planning application updated tab spec" do
     end
 
     # Now perform an update to a planning application
-    visit edit_planning_application_path(planning_application2)
+    visit "/planning_applications/#{planning_application2.id}/edit"
 
     within(find(:fieldset, text: "Agent information")) do
       fill_in("Email address", with: "new_agent_email@example.com")
     end
 
     click_button("Save")
-    visit(root_path)
+    visit "/"
     click_link "Updated"
 
     last_audit = Audit.last
@@ -102,12 +102,12 @@ RSpec.describe "Planning application updated tab spec" do
     expect(page).not_to have_css("#audit_#{audit2.id}")
 
     # Now perform another update to the planning application
-    visit edit_planning_application_path(planning_application2)
+    visit "/planning_applications/#{planning_application2.id}/edit"
 
     fill_in "planning_application[payment_amount]", with: "105.00"
 
     click_button("Save")
-    visit(root_path)
+    visit "/"
     click_link "Updated"
 
     within("#audit_#{Audit.last.id}") do

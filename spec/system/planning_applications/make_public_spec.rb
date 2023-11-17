@@ -25,11 +25,11 @@ RSpec.describe "making planning application public" do
     travel_to("2022-01-01")
     sign_in(assessor)
 
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
 
     expect(page).to have_content("Public on BoPS Public Portal: No")
 
-    visit(make_public_planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}/make_public"
 
     expect(page).to have_content("Make application public")
 
@@ -39,7 +39,7 @@ RSpec.describe "making planning application public" do
 
     expect(page).to have_content("Public on BoPS Public Portal: Yes")
 
-    visit(make_public_planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}/make_public"
 
     choose "No"
 

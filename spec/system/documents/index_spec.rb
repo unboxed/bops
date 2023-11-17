@@ -18,7 +18,7 @@ RSpec.describe "Documents index page" do
 
   context "as a user who is not logged in" do
     it "User is redirected to login page" do
-      visit planning_application_documents_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/documents"
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
@@ -27,7 +27,7 @@ RSpec.describe "Documents index page" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_documents_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/documents"
     end
 
     it "Application reference is displayed on page" do
@@ -70,7 +70,7 @@ RSpec.describe "Documents index page" do
       end
 
       it "opens each file in a new tab" do
-        visit(planning_application_documents_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/documents"
 
         window1 = window_opened_by do
           row = row_with_content("File name: proposed-floorplan.png")
@@ -104,14 +104,14 @@ RSpec.describe "Documents index page" do
       click_button "Documents"
       click_link "Manage documents"
       click_link "Back"
-      expect(page).to have_current_path(planning_application_validation_tasks_path(planning_application))
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation_tasks")
 
       # Navigate via archive document page
       click_button "Documents"
       click_link "Archive"
       click_link "Cancel"
       click_link "Back"
-      expect(page).to have_current_path(planning_application_document_archive_path(planning_application, document))
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents/#{document.id}/archive")
     end
   end
 
@@ -130,7 +130,7 @@ RSpec.describe "Documents index page" do
 
     before do
       sign_in assessor
-      visit planning_application_documents_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/documents"
     end
 
     it "displays the number of invalid documents at the top of the page" do

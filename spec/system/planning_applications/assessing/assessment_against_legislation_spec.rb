@@ -38,7 +38,7 @@ RSpec.describe "assessment against legislation" do
 
       before do
         sign_in(assessor)
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
       end
 
       it "warns the user about unsaved changes" do
@@ -170,7 +170,7 @@ RSpec.describe "assessment against legislation" do
         click_link("Log out")
         travel_to(Time.zone.local(2022, 9, 2))
         sign_in(assessor2)
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
         click_link("Check and assess")
         click_link("Part 1, Class D")
 
@@ -425,7 +425,7 @@ RSpec.describe "assessment against legislation" do
 
       before do
         sign_in(reviewer)
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
       end
 
       it "displays the constraints without edit" do
@@ -460,7 +460,7 @@ RSpec.describe "assessment against legislation" do
       planning_application.create_consultation!
 
       sign_in(assessor)
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     it "doesn't show policy classes" do

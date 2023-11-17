@@ -16,7 +16,7 @@ RSpec.describe "Google Tag Manager" do
     end
 
     it "includes the Google Tag Manager script and noscript" do
-      visit root_path
+      visit "/"
 
       within("head") do
         expect(page).to have_css("script[nonce]", text: /gtm\.start/)
@@ -35,7 +35,7 @@ RSpec.describe "Google Tag Manager" do
     end
 
     it "does not include Google Tag Manager" do
-      visit root_path
+      visit "/"
 
       expect(page).not_to have_css("script[nonce]", text: /gtm\.start/)
       expect(page).not_to have_css("noscript")

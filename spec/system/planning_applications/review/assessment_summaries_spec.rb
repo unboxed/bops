@@ -125,7 +125,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       it "allows reviewer to submit correctly filled out form" do
         travel_to(Time.zone.local(2022, 11, 28, 12, 30))
-        visit(planning_application_review_tasks_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -256,7 +256,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_link("Log out")
         sign_in(assessor)
-        visit(planning_application_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}"
 
         expect(page).to have_list_item_for(
           "Check and assess", with: "To be reviewed"
@@ -270,7 +270,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Submit recommendation")
         click_link("Log out")
         sign_in(reviewer)
-        visit(planning_application_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}"
 
         click_link("Review and sign-off")
         click_link("Sign-off recommendation")
@@ -282,7 +282,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor didn't fill out summaries" do
       it "allows reviewer to submit correctly filled out form" do
-        visit(planning_application_review_tasks_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -439,7 +439,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       it "allows reviewer to submit correctly filled out form" do
         travel_to(Time.zone.local(2022, 11, 28, 12, 30))
-        visit(planning_application_review_tasks_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -584,7 +584,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_link("Log out")
         sign_in(assessor)
-        visit(planning_application_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}"
 
         expect(page).to have_list_item_for(
           "Check and assess", with: "To be reviewed"
@@ -630,7 +630,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Submit recommendation")
         click_link("Log out")
         sign_in(reviewer)
-        visit(planning_application_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}"
 
         expect(page).to have_list_item_for(
           "Review and sign-off", with: "Updated"
@@ -723,7 +723,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor didn't fill out summaries" do
       it "allows reviewer to submit correctly filled out form" do
-        visit(planning_application_review_tasks_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -914,7 +914,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       it "allows reviewer to submit correctly filled out form" do
         travel_to(Time.zone.local(2022, 11, 28, 12, 30))
-        visit(planning_application_review_tasks_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -1038,7 +1038,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_link("Log out")
         sign_in(assessor)
-        visit(planning_application_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}"
 
         expect(page).to have_list_item_for(
           "Check and assess", with: "To be reviewed"
@@ -1052,7 +1052,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Submit recommendation")
         click_link("Log out")
         sign_in(reviewer)
-        visit(planning_application_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}"
 
         click_link("Review and sign-off")
         click_link("Sign-off recommendation")
@@ -1064,7 +1064,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor didn't fill out summaries" do
       it "allows reviewer to submit correctly filled out form" do
-        visit(planning_application_review_tasks_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"

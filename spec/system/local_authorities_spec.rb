@@ -17,7 +17,7 @@ RSpec.describe "Accessing correct local authority" do
     end
 
     it "visit namespaced path" do
-      visit root_path
+      visit "/"
 
       expect(page).to have_content("Lambeth Back-office Planning System")
       expect(page).not_to have_content("Southwark Back-office Planning System")
@@ -35,7 +35,7 @@ RSpec.describe "Accessing correct local authority" do
     end
 
     it "visit non existing path" do
-      visit root_path
+      visit "/"
       expect(page).to have_content("No Local Authority Found")
     end
   end

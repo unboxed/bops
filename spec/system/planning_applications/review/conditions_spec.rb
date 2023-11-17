@@ -18,7 +18,7 @@ RSpec.describe "Reviewing conditions" do
   context "when signed in as a reviewer" do
     before do
       sign_in(reviewer)
-      visit planning_application_review_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/review/tasks"
     end
 
     context "when planning application is awaiting determination" do
@@ -114,7 +114,7 @@ RSpec.describe "Reviewing conditions" do
         sign_out(reviewer)
         sign_in(assessor)
 
-        visit planning_application_assessment_tasks_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
 
         expect(page).to have_list_item_for(
           "Add conditions",
@@ -136,7 +136,7 @@ RSpec.describe "Reviewing conditions" do
         sign_out(assessor)
         sign_in(reviewer)
 
-        visit planning_application_review_tasks_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review conditions",

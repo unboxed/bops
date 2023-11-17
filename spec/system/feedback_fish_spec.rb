@@ -16,7 +16,7 @@ RSpec.describe "Feedback fish" do
     end
 
     it "is displayed with a reference to the user's email" do
-      visit root_path
+      visit "/"
 
       within find("a[data-feedback-fish][data-feedback-fish-userid='#{assessor.email}']") do
         expect(page).to have_content "feedback"
@@ -30,7 +30,7 @@ RSpec.describe "Feedback fish" do
     end
 
     it "is not displayed" do
-      visit root_path
+      visit "/"
 
       within(".govuk-phase-banner__content") do
         expect(page).not_to have_content "feedback"

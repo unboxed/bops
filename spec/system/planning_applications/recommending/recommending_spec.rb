@@ -45,11 +45,11 @@ RSpec.describe "Planning Application Assessment" do
 
     before do
       sign_in assessor
-      visit planning_applications_path
+      visit "/planning_applications"
     end
 
     it "shows the correct status tags at each stage" do
-      visit planning_application_assessment_tasks_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
 
       expect(list_item("Make draft recommendation")).to have_content("Not started")
 
@@ -75,7 +75,7 @@ RSpec.describe "Planning Application Assessment" do
 
       expect(list_item("Make draft recommendation")).to have_content("Completed")
 
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
       ["Not started", "In progress", "Completed"].each do |status|
         expect(list_item("View recommendation")).not_to have_content(status)
       end
@@ -84,12 +84,12 @@ RSpec.describe "Planning Application Assessment" do
       click_link("Review and submit recommendation")
       click_button("Submit recommendation")
 
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(list_item("View recommendation")).to have_content("Awaiting determination")
 
       sign_in(reviewer)
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(list_item("Review and sign-off")).to have_content("Not started")
 
@@ -127,7 +127,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       sign_in(assessor)
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
 
       click_link("Check and assess")
       click_link("Make draft recommendation")
@@ -147,7 +147,7 @@ RSpec.describe "Planning Application Assessment" do
       expect(list_item("View recommendation")).to have_content("Awaiting determination")
 
       sign_in(reviewer)
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(list_item("Review and sign-off")).to have_content("Not started")
 
@@ -164,7 +164,7 @@ RSpec.describe "Planning Application Assessment" do
       expect(list_item("Make draft recommendation")).to have_content("Completed")
 
       sign_in(assessor)
-      visit(planning_application_path(planning_application))
+      visit "/planning_applications/#{planning_application.id}"
 
       expect(list_item("View recommendation")).to have_content("Completed")
     end
@@ -238,7 +238,7 @@ RSpec.describe "Planning Application Assessment" do
           planning_application.reload
           expect(planning_application.status).to eq("awaiting_determination")
 
-          visit planning_application_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}"
           click_link "View recommendation"
           expect(page).to have_text("Recommendations submitted by #{planning_application.recommendations.first.assessor.name}")
 
@@ -255,7 +255,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "shows errors if decision and public comment are blank" do
-        visit(new_planning_application_assessment_recommendation_path(planning_application))
+        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
         click_button("Save and mark as complete")
 
         expect(page).to have_content("Please select Yes or No")
@@ -337,7 +337,7 @@ RSpec.describe "Planning Application Assessment" do
         click_button("Submit recommendation")
 
         expect(page).to have_content("Recommendation was successfully submitted.")
-        expect(page).to have_current_path(planning_application_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}")
         click_link("View recommendation")
         within(".govuk-button-group") do
           expect(page).to have_button("Withdraw recommendation")
@@ -345,9 +345,9 @@ RSpec.describe "Planning Application Assessment" do
         end
         expect(planning_application.reload.status).to eq("awaiting_determination")
 
-        visit submit_recommendation_planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/submit_recommendation"
         expect(page).to have_content("Not Found")
-        visit planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}"
 
         # Check latest audit
         click_button "Audit log"
@@ -459,7 +459,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         expect(page).to have_content("Recommendation was successfully withdrawn.")
-        expect(page).to have_current_path(submit_recommendation_planning_application_path(planning_application))
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/submit_recommendation")
         expect(page).to have_button("Submit recommendation")
         expect(page).not_to have_button("Withdraw recommendation")
         expect(planning_application.reload.status).to eq("in_assessment")
@@ -526,9 +526,7 @@ RSpec.describe "Planning Application Assessment" do
         it "displays recommendation events" do
           travel_to(Time.zone.local(2022, 8, 23, 9))
 
-          visit(
-            new_planning_application_assessment_recommendation_path(planning_application)
-          )
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
           choose("Yes")
 
@@ -546,7 +544,7 @@ RSpec.describe "Planning Application Assessment" do
           click_link("Review and submit recommendation")
           click_button("Submit recommendation")
           sign_in(reviewer)
-          visit(edit_planning_application_assessment_recommendations_path(planning_application))
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/edit"
           choose("No (return the case for assessment)")
 
           expect(page).to have_text "Case currently assigned to: Alice Aplin"
@@ -597,7 +595,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "displays the documents to be referenced in the decision notice" do
-          visit new_planning_application_assessment_recommendation_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
           within("#decision-notice-documents") do
             expect(page).to have_content("Documents included in the decision notice")
@@ -618,7 +616,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "when there are no documents" do
         it "displays there are no documents text" do
-          visit new_planning_application_assessment_recommendation_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
           within("#decision-notice-documents") do
             expect(page).to have_content("Documents included in the decision notice")
@@ -640,7 +638,7 @@ RSpec.describe "Planning Application Assessment" do
       let!(:evidence_group2) { create(:evidence_group, start_date: "2009-05-02 12:13:41.501488206 +0000", end_date: nil, immunity_detail:) }
 
       it "shows the relevant assessment details when assessing the recommendation" do
-        visit new_planning_application_assessment_recommendation_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
         within("#constraints-section") do
           expect(page).to have_content("Constraints including Article 4 direction(s)")
@@ -684,14 +682,14 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "does not show additional evidence when reviewing and submitting the recommendation" do
-        visit new_planning_application_assessment_recommendation_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
         choose "Yes"
 
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
         fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
 
-        visit submit_recommendation_planning_application_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/submit_recommendation"
         expect(page).to have_css("#constraints-section")
         expect(page).to have_css("#past-applications-section")
         expect(page).to have_css("#summary-of-works-section")
@@ -712,7 +710,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "displays a warning message with a link to the post validation requests table" do
-          visit new_planning_application_assessment_recommendation_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
           within(".moj-banner__message") do
             expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
@@ -729,7 +727,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "displays a warning message with a link to the post validation requests table" do
-          visit new_planning_application_assessment_recommendation_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
           within(".moj-banner__message") do
             expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
@@ -746,7 +744,7 @@ RSpec.describe "Planning Application Assessment" do
         end
 
         it "does not display any warning message" do
-          visit new_planning_application_assessment_recommendation_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
           expect(page).not_to have_css(".moj-banner__message")
         end
@@ -754,7 +752,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "with no request" do
         it "does not display any warning message" do
-          visit new_planning_application_assessment_recommendation_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
           expect(page).not_to have_css(".moj-banner__message")
         end
@@ -780,7 +778,7 @@ RSpec.describe "Planning Application Assessment" do
 
     before do
       sign_in assessor
-      visit planning_applications_path
+      visit "/planning_applications"
     end
 
     context "when clicking Save and mark as complete" do
@@ -890,7 +888,7 @@ RSpec.describe "Planning Application Assessment" do
           planning_application.reload
           expect(planning_application.status).to eq("awaiting_determination")
 
-          visit planning_application_path(planning_application)
+          visit "/planning_applications/#{planning_application.id}"
           click_link "View recommendation"
           expect(page).to have_text("Recommendations submitted by #{planning_application.recommendations.first.assessor.name}")
 
@@ -913,7 +911,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "displays a warning message with the consultation end date" do
-        visit new_planning_application_assessment_recommendation_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
         within(".moj-banner__message") do
           expect(page).to have_content("The consultation is still ongoing. It will end on the #{consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?")
@@ -927,7 +925,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       it "does not display a warning message" do
-        visit new_planning_application_assessment_recommendation_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
         expect(page).not_to have_css(".moj-banner__message")
       end

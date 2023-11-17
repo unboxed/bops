@@ -19,7 +19,7 @@ RSpec.describe "Document uploads" do
 
     context "when the application is under assessment" do
       it "cannot upload a document in the wrong format" do
-        visit planning_application_documents_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/documents"
 
         click_link("Upload document")
         attach_file("Upload a file", "spec/fixtures/images/image.gif")
@@ -31,7 +31,7 @@ RSpec.describe "Document uploads" do
       end
 
       it "cannot save without a document being attached" do
-        visit planning_application_documents_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/documents"
 
         click_link("Upload document")
         check("Floor")
@@ -45,7 +45,7 @@ RSpec.describe "Document uploads" do
       let!(:planning_application) { create(:submitted_planning_application, local_authority: default_local_authority) }
 
       it "the upload \"button\" is disabled" do
-        visit planning_application_documents_path(planning_application)
+        visit "/planning_applications/#{planning_application.id}/documents"
 
         # The enabled call-to-action is a link, but to show it as disabled
         # we replace it with a button.

@@ -22,7 +22,7 @@ RSpec.describe "managing users" do
     it "allows adding of new user" do
       password = secure_password
 
-      visit(administrator_dashboard_path)
+      visit "/administrator_dashboard"
       click_link("Add user")
       click_button("Submit")
 
@@ -58,13 +58,13 @@ RSpec.describe "managing users" do
       fill_in("Security code", with: User.last.current_otp)
       click_button("Enter code")
 
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path("/")
     end
 
     it "allows adding of new user without mobile number" do
       password = secure_password
 
-      visit new_user_path
+      visit "/users/new"
       fill_in("Name", with: "Alice Smith")
       fill_in("Email", with: "alice@example.com")
       fill_in("Password", with: password)
@@ -82,7 +82,7 @@ RSpec.describe "managing users" do
       fill_in("Security code", with: User.last.current_otp)
       click_button("Enter code")
 
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path("/")
     end
 
     it "allows editing of existing user" do
@@ -94,7 +94,7 @@ RSpec.describe "managing users" do
         otp_delivery_method: :email
       )
 
-      visit(administrator_dashboard_path)
+      visit "/administrator_dashboard"
       row = row_with_content("Bella Jones")
       within(row) { click_link("Edit") }
       fill_in("Email", with: "")
@@ -125,7 +125,7 @@ RSpec.describe "managing users" do
     end
 
     it "does not allow current user to update own role" do
-      visit(administrator_dashboard_path)
+      visit "/administrator_dashboard"
       row = row_with_content("Carrie Taylor")
       within(row) { click_link("Edit") }
 

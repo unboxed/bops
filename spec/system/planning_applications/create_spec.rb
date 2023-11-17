@@ -10,12 +10,12 @@ RSpec.describe "Creating a planning application" do
 
   before do
     sign_in assessor1
-    visit root_path
+    visit "/"
   end
 
   it "prevents a logged out user from accessing the form" do
     click_link "Log out"
-    visit new_planning_application_path(default_local_authority)
+    visit "/planning_applications/new"
 
     expect(page).to have_text("You need to sign in or sign up before continuing.")
   end
@@ -35,7 +35,7 @@ RSpec.describe "Creating a planning application" do
     click_button "Save"
     expect(page).to have_text("Planning application was successfully created.")
 
-    visit planning_application_path(PlanningApplication.last.id)
+    visit "/planning_applications/#{PlanningApplication.last.id}"
     click_link("Check and validate")
     expect(page).to have_text("Description: Back shack")
   end
@@ -54,7 +54,7 @@ RSpec.describe "Creating a planning application" do
     end
     click_button "Save"
 
-    visit planning_application_path(PlanningApplication.last.id)
+    visit "/planning_applications/#{PlanningApplication.last.id}"
     click_link("Check and validate")
     expect(page).to have_text("Description: Bad bad application")
   end
@@ -69,7 +69,7 @@ RSpec.describe "Creating a planning application" do
   it "allows for an application to be created by a reviewer, using minimum details" do
     click_link "Log out"
     sign_in reviewer1
-    visit root_path
+    visit "/"
 
     click_link "Add new application"
 
@@ -82,7 +82,7 @@ RSpec.describe "Creating a planning application" do
     click_button "Save"
     expect(page).to have_text("Planning application was successfully created.")
 
-    visit planning_application_path(PlanningApplication.last.id)
+    visit "/planning_applications/#{PlanningApplication.last.id}"
     click_link("Check and validate")
     expect(page).to have_text("Description: Bird house")
   end
@@ -126,7 +126,7 @@ RSpec.describe "Creating a planning application" do
 
       expect(page).to have_text("Planning application was successfully created.")
 
-      visit planning_application_path(PlanningApplication.last.id)
+      visit "/planning_applications/#{PlanningApplication.last.id}"
 
       expect(page).to have_text("Agentina Agentino")
       expect(page).to have_text("agentina@agentino.com")
@@ -147,7 +147,7 @@ RSpec.describe "Creating a planning application" do
     it "has the correct format for payment amount in pounds" do
       click_button "Save"
 
-      visit planning_application_path(PlanningApplication.last.id)
+      visit "/planning_applications/#{PlanningApplication.last.id}"
       click_link("Check and validate")
       click_button "Application information"
       click_link "Edit details"
@@ -162,7 +162,7 @@ RSpec.describe "Creating a planning application" do
 
       click_button "Save"
 
-      visit planning_application_path(PlanningApplication.last.id)
+      visit "/planning_applications/#{PlanningApplication.last.id}"
       click_link("Check and validate")
 
       expect(page).to have_text("Work already started: Yes")

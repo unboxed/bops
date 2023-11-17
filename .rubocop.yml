@@ -6,6 +6,7 @@ require:
   - standard-rails
   - rubocop-performance
   - rubocop-rails
+  - ./lib/bops/cop.rb
 
 inherit_gem:
   standard: config/base.yml
@@ -30,6 +31,25 @@ AllCops:
 Style/FrozenStringLiteralComment:
   Enabled: true
   EnforcedStyle: always_true
+
+Style/HaveCurrentPathLiteral:
+  Enabled: true
+  Exclude:
+    - 'app/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'lib/**/*'
+  IgnoreHelpers: []
+
+Style/VisitLiteral:
+  Enabled: true
+  Exclude:
+    - 'app/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'lib/**/*'
+  IgnoreHelpers:
+    - current_path
 
 # past migrations are ignored; we don't expect to go back and edit them ever,
 # we'll fix them in future migrations if at all.

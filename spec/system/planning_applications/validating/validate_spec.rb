@@ -8,7 +8,7 @@ RSpec.describe "Validating the application" do
 
   before do
     sign_in assessor
-    visit root_path
+    visit "/"
   end
 
   describe "viewing the prepopulated valid from date field" do
@@ -26,7 +26,7 @@ RSpec.describe "Validating the application" do
           # 04/01/2023 12:00
           travel_to(DateTime.new(2023, 1, 4, 12)) do
             validation_request.close!
-            visit(confirm_validation_planning_application_path(planning_application))
+            visit "/planning_applications/#{planning_application.id}/confirm_validation"
           end
         end
 
@@ -42,7 +42,7 @@ RSpec.describe "Validating the application" do
           # 04/01/2023 18:00
           travel_to(DateTime.new(2023, 1, 4, 18)) do
             validation_request.close!
-            visit(confirm_validation_planning_application_path(planning_application))
+            visit "/planning_applications/#{planning_application.id}/confirm_validation"
           end
         end
 
@@ -58,7 +58,7 @@ RSpec.describe "Validating the application" do
           # 01/01/2023 12:00
           travel_to(DateTime.new(2023, 1, 1, 12)) do
             validation_request.close!
-            visit(confirm_validation_planning_application_path(planning_application))
+            visit "/planning_applications/#{planning_application.id}/confirm_validation"
           end
         end
 
@@ -71,7 +71,7 @@ RSpec.describe "Validating the application" do
     end
 
     context "when there is no closed validation request" do
-      before { visit(confirm_validation_planning_application_path(planning_application)) }
+      before { visit "/planning_applications/#{planning_application.id}/confirm_validation" }
 
       context "when the planning application was created during work hours" do
         let(:planning_application) do

@@ -13,7 +13,7 @@ RSpec.describe "Add conditions" do
 
   before do
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}"
     click_link "Check and assess"
   end
 
@@ -74,7 +74,7 @@ RSpec.describe "Add conditions" do
       create(:condition, condition_set: planning_application.condition_set, standard: true)
       create(:condition, condition_set: planning_application.condition_set, standard: false, text: "Condition 1", reason: "Reason 1")
 
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
 
       click_link "Add conditions"
@@ -158,7 +158,7 @@ RSpec.describe "Add conditions" do
       create(:recommendation, :assessment_in_progress, planning_application:)
       create(:condition, condition_set: planning_application.condition_set, standard: true)
 
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
       click_link "Review and submit recommendation"
 
@@ -173,7 +173,7 @@ RSpec.describe "Add conditions" do
       type = create(:application_type)
       planning_application.update(application_type: type)
 
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
 
       expect(page).not_to have_content("Add conditions")

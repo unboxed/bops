@@ -3,7 +3,7 @@
 require "faker"
 
 Given("I am logged out") do
-  visit root_path
+  visit "/"
 
   click_on "Log out" if page.has_button? "Log out"
 end
@@ -16,11 +16,11 @@ Given("I am logged in as a(n) {}") do |role|
 
   domain = @officer.local_authority.subdomain
 
-  visit root_path
+  visit "/"
 
   Capybara.app_host = "http://#{domain}.#{domain}.localhost:#{Capybara.server_port}"
 
-  visit new_user_session_path
+  visit "/users/sign_in"
 
   fill_in "Email", with: @officer.email
   fill_in "Password", with: @officer.password
@@ -108,11 +108,11 @@ Given("a recommendation is submitted for the planning application") do
 end
 
 When("I view the planning application") do
-  visit planning_application_path(@planning_application)
+  visit "/planning_applications/#{@planning_application.id}"
 end
 
 When("I view the planning application audit") do
-  visit planning_application_audits_path(@planning_application)
+  visit "/planning_applications/#{@planning_application.id}/audits"
 end
 
 And("the planning application has a description of {string}") do |description|
@@ -120,7 +120,7 @@ And("the planning application has a description of {string}") do |description|
 end
 
 When("I view all {string} planning applications") do |status|
-  visit planning_applications_path
+  visit "/planning_applications"
 
   click_on(status)
 end

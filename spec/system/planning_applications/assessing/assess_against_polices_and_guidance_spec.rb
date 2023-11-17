@@ -28,7 +28,7 @@ RSpec.describe "assess against policies and guidance" do
 
   before do
     sign_in(assessor)
-    visit planning_application_assessment_tasks_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
   end
 
   it "allows officer to assess against policies and guidance" do

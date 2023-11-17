@@ -24,7 +24,7 @@ RSpec.describe "checking consistency" do
 
   before do
     sign_in(user)
-    visit(planning_application_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}"
   end
 
   context "when the application is an LDC" do
@@ -304,7 +304,7 @@ RSpec.describe "checking consistency" do
       .last
       .auto_close_request!
 
-    visit(planning_application_assessment_tasks_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_link("Check description, documents and proposal details")
 
     expect(page).to have_content("Accepted 15 September 2022 13:00")
@@ -346,7 +346,7 @@ RSpec.describe "checking consistency" do
 
     request.close!
     request.update!(approved: true)
-    visit(planning_application_assessment_tasks_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_link("Check description, documents and proposal details")
 
     expect(page).to have_content("Accepted 15 September 2022 14:00")
@@ -403,7 +403,7 @@ RSpec.describe "checking consistency" do
     )
 
     click_button("Confirm cancellation")
-    visit(planning_application_assessment_tasks_path(planning_application))
+    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_link("Check description, documents and proposal details")
 
     expect(page).to have_content("Cancelled 15 September 2022 12:00")

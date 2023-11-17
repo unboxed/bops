@@ -25,7 +25,7 @@ RSpec.describe "Create a site notice", js: true do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
     sign_in(assessor)
-    visit planning_application_consultation_path(planning_application)
+    visit "/planning_applications/#{planning_application.id}/consultation"
   end
 
   it "allows officers to create a site notice and print it" do

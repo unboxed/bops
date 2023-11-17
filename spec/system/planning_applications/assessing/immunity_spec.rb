@@ -10,7 +10,7 @@ RSpec.describe "Immunity" do
   context "when not immune" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     let(:planning_application) do
@@ -34,7 +34,7 @@ RSpec.describe "Immunity" do
     before do
       allow_any_instance_of(PlanningApplication).to receive(:possibly_immune?).and_return(true)
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     it "returns true from possibly_immune?" do
@@ -57,7 +57,7 @@ RSpec.describe "Immunity" do
       create(:evidence_group, :with_document, tag: "utility_bill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
 
       sign_in assessor
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     it "shows the assessment and review stages for immunity" do
@@ -101,7 +101,7 @@ RSpec.describe "Immunity" do
       click_on("Submit recommendation")
 
       sign_in(reviewer)
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Review and sign-off"
 
       click_link "Review evidence of immunity"
@@ -128,7 +128,7 @@ RSpec.describe "Immunity" do
       expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
       sign_in(assessor)
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link("Check and assess")
       click_link("Evidence of immunity")
 
@@ -177,7 +177,7 @@ RSpec.describe "Immunity" do
       expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
       sign_in(reviewer)
-      visit planning_application_path(planning_application)
+      visit "/planning_applications/#{planning_application.id}"
       click_link "Review and sign-off"
 
       click_link "Review evidence of immunity"
