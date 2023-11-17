@@ -413,6 +413,7 @@ en:
     header: 2) Send email to selected consultees
     message_body_label: Message body
     message_subject_label: Message subject
+    reset_message_to_default: Reset message to default content
     view_or_edit_email_template: View/edit email template
   consultee_emails:
     body: |

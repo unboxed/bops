@@ -153,7 +153,17 @@ RSpec.describe "Consultation", js: true do
 
     expect(page).to have_selector("[role=alert] li", text: "The message subject contains an invalid placeholder '{{uuid}}'")
 
-    fill_in "Message subject", with: "Consultation for planning application {{reference}}"
+    fill_in "Message subject", with: ""
+    fill_in "Message body", with: ""
+
+    accept_confirm(text: "Send emails to consultees?") do
+      click_button "Send emails to consultees"
+    end
+
+    expect(page).to have_selector("[role=alert] li", text: "Please enter a message subject")
+    expect(page).to have_selector("[role=alert] li", text: "Please enter a message body")
+
+    click_button "Reset message to default content"
 
     expect do
       accept_confirm(text: "Send emails to consultees?") do
@@ -182,7 +192,7 @@ RSpec.describe "Consultation", js: true do
             email_address: "chris.wood@planx.gov.uk",
             email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
-              "subject" => "Consultation for planning application #{planning_application.reference}"
+              "subject" => "Application for planning permission #{planning_application.reference}"
             )
           }
         ))
@@ -203,7 +213,7 @@ RSpec.describe "Consultation", js: true do
             email_address: "planning@london.gov.uk",
             email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
-              "subject" => "Consultation for planning application #{planning_application.reference}"
+              "subject" => "Application for planning permission #{planning_application.reference}"
             )
           }
         ))

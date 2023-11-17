@@ -9,6 +9,9 @@ application.register("address-fill", AddressFillController)
 import ConsulteesController from "./consultees_controller.js"
 application.register("consultees", ConsulteesController)
 
+import ConsulteeEmailController from "./consultee_email_controller.js"
+application.register("consultee-email", ConsulteeEmailController)
+
 import ClearFormController from "./clear_form_controller.js"
 application.register("clear-form", ClearFormController)
 
