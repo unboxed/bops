@@ -52,7 +52,7 @@ class PlanningApplicationCreationService
     PlanningApplication.transaction do
       if planning_application.save!
         if planning_application.from_production?
-          PlanningApplicationAnonymisationService.new(planning_application:).call!
+          BopsApi::Application::AnonymisationService.new(planning_application:).call!
         end
         PlanxPlanningData.create!(
           planning_application:,

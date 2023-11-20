@@ -18,7 +18,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when not started" do
-      it_behaves_like "PlanningApplicationStateMachineEvents", "not_started", %i[return close withdraw]
+      it_behaves_like "PlanningApplicationStateMachineEvents", "not_started", %i[return close withdraw mark_pending]
     end
 
     context "when invalidated" do

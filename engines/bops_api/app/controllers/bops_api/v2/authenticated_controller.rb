@@ -3,6 +3,8 @@
 module BopsApi
   module V2
     class AuthenticatedController < ApplicationController
+      include ActionController::HttpAuthentication::Token::ControllerMethods
+
       before_action :authenticate
 
       private

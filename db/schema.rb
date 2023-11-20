@@ -581,6 +581,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_104814) do
     t.boolean "legislation_checked", default: false, null: false
     t.boolean "cil_liable"
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.datetime "pending_at"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
@@ -604,7 +605,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_104814) do
     t.jsonb "params_v1"
     t.jsonb "params_v2"
     t.index ["planning_application_id"], name: "ix_planx_planning_data_on_planning_application_id"
-    t.index ["session_id"], name: "ix_planx_planning_data_on_session_id", unique: true
   end
 
   create_table "policies", force: :cascade do |t|

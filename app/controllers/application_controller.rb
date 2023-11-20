@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def planning_applications_scope
-    current_local_authority.planning_applications
+    current_local_authority.planning_applications.accepted
   end
 
   def planning_application_id

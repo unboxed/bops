@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module BopsApi
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ActionController::API
+    include ActionController::MimeResponds
+
     before_action :set_local_authority
 
     private
