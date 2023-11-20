@@ -70,14 +70,6 @@ Rails.application.routes.draw do
 
     resources :audits, only: :index
 
-    concern :cancel_validation_requests do
-      member do
-        get :cancel_confirmation
-
-        patch :cancel
-      end
-    end
-
     scope module: :planning_applications do
       resources :assign_users, only: %i[index] do
         patch :update, on: :collection
@@ -171,6 +163,14 @@ Rails.application.routes.draw do
         end
 
         resource :legislation, only: %i[show update]
+
+        concern :cancel_validation_requests do
+          member do
+            get :cancel_confirmation
+
+            patch :cancel
+          end
+        end
 
         with_options concerns: :cancel_validation_requests do
           resources :additional_document_validation_requests, except: %i[index show]
