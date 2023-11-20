@@ -18,3 +18,7 @@ production:
       cron: '0 9 * * *'   # Runs at 9am every morning
       class: CloseDescriptionChangeJob
       queue: low_priority
+    enqueue_update_consultee_email_status:
+      cron: '9 * * * *'   # Runs every hour at 9 minutes past
+      class: EnqueueUpdateConsulteeEmailStatusJob
+      queue: low_priority

@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :consultee do
     name { Faker::Name.name }
+    email_address { Faker::Internet.email }
     status { "not_consulted" }
     origin { :internal }
 
