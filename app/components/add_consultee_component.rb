@@ -80,7 +80,6 @@ class AddConsulteeComponent < ViewComponent::Base
         consultees_target: "addConsultee",
         action: %w[
           click->consultees#addConsulteeClick
-          keydown->consultees#addConsulteeKeyDown
         ].join(" ")
       }
     }

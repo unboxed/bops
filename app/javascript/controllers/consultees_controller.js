@@ -32,7 +32,7 @@ export default class extends Controller {
       onConfirm: (selected) => {
         this.onConfirm(selected)
       },
-      autoselect: true,
+      autoselect: false,
       confirmOnBlur: false,
       templates: {
         inputValue: (value) => {
@@ -44,35 +44,23 @@ export default class extends Controller {
       },
     })
 
-    // Prevent the enter key from submitting the form
-    this.formTarget.addEventListener("keypress", (event) => {
-      if (
-        event.keyCode === 13 &&
-        event.srcElement.id !== "send-emails-button"
-      ) {
-        event.preventDefault()
-      }
-    })
-
     // Confirm that the user wants to send the emails
-    this.submitTarget.addEventListener("click", (event) => {
+    this.formTarget.addEventListener("submit", (event) => {
       if (!confirm(this.confirmationMessage)) {
         event.preventDefault()
         this.submitTarget.blur()
       }
     })
-  }
 
-  handleKeyDown(event) {
-    if (event.keyCode === 13) {
-      event.stopPropagation()
+    this.autocompleteInput.addEventListener("keydown", (event) => {
+      if (event.keyCode === 13) {
+        event.preventDefault()
 
-      this.autocompleteInput.blur()
-
-      setTimeout(() => {
-        this.addConsulteeTarget.focus()
-      }, 50)
-    }
+        if (this.selected) {
+          this.addConsultee()
+        }
+      }
+    })
   }
 
   source(query, populateResults) {
@@ -125,13 +113,6 @@ export default class extends Controller {
 
   addConsulteeClick(event) {
     this.addConsultee()
-  }
-
-  addConsulteeKeyDown(event) {
-    if (event.keyCode === 13) {
-      event.stopPropagation()
-      this.addConsultee()
-    }
   }
 
   addConsultee() {
@@ -245,19 +226,10 @@ export default class extends Controller {
   resetAutocomplete() {
     this.selected = null
     this.autocompleteInput.value = ""
-    this.autocompleteInput.scrollIntoView(true)
-
-    setTimeout(() => {
-      this.autocompleteInput.focus()
-    }, 50)
   }
 
   onConfirm(selected) {
     this.selected = selected
-
-    setTimeout(() => {
-      this.addConsulteeTarget.focus()
-    }, 50)
   }
 
   get planningApplicationId() {
