@@ -245,7 +245,7 @@ class Document < ApplicationRecord
   end
 
   def tag_values_permitted
-    errors.add(:tags, :unpermitted_tags) unless (tags - Document::TAGS).empty?
+    errors.add(:tags, :unpermitted_tags) unless (tags - planning_application.application_type.document_tag_list).empty?
   end
 
   def file_content_type_permitted

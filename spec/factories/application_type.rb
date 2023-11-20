@@ -24,6 +24,41 @@ FactoryBot.define do
       ]
     end
 
+    document_tags do
+      {
+        evidence: [
+          "Photograph",
+          "Utility Bill",
+          "Building Control Certificate",
+          "Construction Invoice",
+          "Council Tax Document",
+          "Tenancy Agreement",
+          "Tenancy Invoice",
+          "Bank Statement",
+          "Statutory Declaration",
+          "Other"
+        ],
+        plans: %w[
+          Front
+          Rear
+          Side
+          Roof
+          Floor
+          Site
+          Plan
+          Elevation
+          Section
+          Proposed
+          Existing
+        ],
+        other: [
+          "Site Visit",
+          "Site Notice",
+          "Press Notice"
+        ]
+      }
+    end
+
     trait :prior_approval do
       name { "prior_approval" }
       steps { %w[validation consultation assessment review] }

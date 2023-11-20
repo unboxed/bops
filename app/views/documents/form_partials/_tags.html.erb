@@ -20,7 +20,7 @@
           PLANS
         </h3>
         <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :tags, Document::PLAN_TAGS, :itself, :itself do |b| %>
+          <%= form.collection_check_boxes :tags, @planning_application.application_type.document_plan_tags, :itself, :itself do |b| %>
             <div class="govuk-checkboxes__item">
               <%= b.check_box class: "govuk-checkboxes__input" %>
               <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
@@ -34,7 +34,7 @@
           EVIDENCE
         </h3>
         <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :tags, Document::EVIDENCE_TAGS, :itself, :itself do |b| %>
+          <%= form.collection_check_boxes :tags, @planning_application.application_type.document_evidence_tags, :itself, :itself do |b| %>
             <div class="govuk-checkboxes__item">
               <%= b.check_box class: "govuk-checkboxes__input" %>
               <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
