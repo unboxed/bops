@@ -148,10 +148,10 @@ en:
               open_red_line_boundary_change_requests: Red line boundary change requests must be closed or cancelled
         consultation:
           attributes:
-            consultee_email_body:
+            consultee_message_body:
               blank: Please enter a message body
               invalid: The message body contains an invalid placeholder '{{%{placeholder}}}'
-            consultee_email_subject:
+            consultee_message_subject:
               blank: Please enter a message subject
               invalid: The message subject contains an invalid placeholder '{{%{placeholder}}}'
             consultees:

@@ -9,11 +9,11 @@
 
   <%= wrapper_tag do %>
     <%= form_group_tag do %>
-      <%= text_field_tag :consultee_email_subject, label: { text: t(".message_subject_label"), size: "s" } %>
+      <%= text_field_tag :consultee_message_subject, label: { text: t(".message_subject_label"), size: "s" } %>
     <% end %>
 
     <%= form_group_tag do %>
-      <%= text_area_tag :consultee_email_body, rows: 25, label: { text: t(".message_body_label"), size: "s" } %>
+      <%= text_area_tag :consultee_message_body, rows: 25, label: { text: t(".message_body_label"), size: "s" } %>
     <% end %>
 
     <%= hint_tag do %>

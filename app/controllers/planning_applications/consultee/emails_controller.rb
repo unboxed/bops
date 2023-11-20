@@ -38,8 +38,8 @@ module PlanningApplications
 
       def consultation_params
         [
-          :consultee_email_subject,
-          :consultee_email_body,
+          :consultee_message_subject,
+          :consultee_message_body,
           :email_reason,
           :resend_message,
           :reconsult_message,
