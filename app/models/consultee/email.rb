@@ -29,11 +29,7 @@ class Consultee < ApplicationRecord
       return if notify_id.blank?
       return if finalized?
 
-      begin
-        response = client.get_notification(notify_id)
-      rescue Notifications::Client::RequestError
-        return false
-      end
+      response = client.get_notification(notify_id)
 
       update!(
         status: response.status,
