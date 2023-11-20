@@ -17,6 +17,12 @@ class Consultee < ApplicationRecord
       technical_failure: "technical-failure"
     }, scopes: false
 
+    class << self
+      def overdue(time = 15.minutes.ago)
+        where(status: %w[created sending], status_updated_at: 7.days.ago..time)
+      end
+    end
+
     def failed?
       permanent_failure? | temporary_failure? | technical_failure?
     end
@@ -29,11 +35,7 @@ class Consultee < ApplicationRecord
       return if notify_id.blank?
       return if finalized?
 
-      begin
-        response = client.get_notification(notify_id)
-      rescue Notifications::Client::RequestError
-        return false
-      end
+      response = client.get_notification(notify_id)
 
       update!(
         status: response.status,
