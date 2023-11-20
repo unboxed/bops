@@ -96,7 +96,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     click_link("Back")
 
     expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.id}/validation_tasks"
+      "/planning_applications/#{planning_application.id}/validation/tasks"
     )
   end
 
@@ -167,7 +167,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     end
 
     it "does not show in the other validation issues task list" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
       within("#other-change-validation-tasks") do
         expect(page).to have_link("View other validation request ##{other_change_validation_request.sequence}")

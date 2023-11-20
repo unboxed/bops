@@ -81,8 +81,6 @@ Rails.application.routes.draw do
       resource :withdraw_or_cancel, only: %i[show update]
       resources :notes, only: %i[index create]
 
-      resources :validation_tasks, only: :index
-
       namespace :assessment do
         resource :report_download, only: :show
         resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
@@ -138,6 +136,8 @@ Rails.application.routes.draw do
       end
 
       namespace :validation do
+        resources :tasks, only: :index
+
         resource :cil_liability, only: %i[edit update], controller: :cil_liability
 
         resource :constraints, only: %i[show update]

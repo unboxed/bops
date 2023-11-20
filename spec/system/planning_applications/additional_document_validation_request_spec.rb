@@ -108,7 +108,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I can see the list of active documents when I go to validate" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
       within("#additional-documents-validation-task") do
         expect(page).to have_content("Check for missing documents")
@@ -169,7 +169,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I can validate that there are no missing documents" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check required documents are on application"
       click_button "Save"
 
@@ -184,7 +184,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I get validation errors when I omit required information" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check required documents are on application"
       click_link "Add a request for a missing document"
       click_button "Save request"
@@ -199,7 +199,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I can request missing documents meaning the required documents are invalid" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check required documents are on application"
       click_link "Add a request for a missing document"
       click_button "Save request"
@@ -256,7 +256,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       end
 
       it "I can edit the additional document validation request" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         within("#additional-documents-validation-task") do
           expect(page).to have_content("Invalid")
         end
@@ -293,7 +293,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       end
 
       it "I can delete the additional document validation request" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         expect(page).to have_selector("h1", text: "Check the application")
 
         click_link "Check required documents are on application"
@@ -303,7 +303,7 @@ RSpec.describe "Requesting a new document for a planning application" do
           click_link("Delete request")
         end
 
-        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation_tasks")
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation/tasks")
         expect(page).to have_content("Validation request was successfully deleted.")
 
         within("#additional-documents-validation-task") do
@@ -329,7 +329,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I can view the request" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check required documents are on application"
 
       expect(page).to have_content("Check the documents provided")
@@ -357,7 +357,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I can cancel the request" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check required documents are on application"
       click_link "Cancel request"
 
@@ -431,7 +431,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       end
 
       it "I can see the new document in the validate documents list" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
         within("#additional-documents-validation-task") do
           expect(page).to have_content("Not started")
@@ -467,7 +467,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "does not allow you to validate for missing documents" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
       within("#additional-documents-validation-task") do
         expect(page).to have_content("Planning application has already been validated")
@@ -483,7 +483,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     before do
       allow_any_instance_of(Document).to receive(:representable?).and_return(false)
 
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check required documents are on application"
     end
 

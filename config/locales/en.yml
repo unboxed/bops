@@ -1227,6 +1227,9 @@ en:
         validate:
           failure: You must first select Valid or Invalid to continue.
           success: Red line boundary was marked as valid.
+      tasks:
+        index:
+          application_details: Application details
       validation_requests:
         email_failure: Notify was unable to send applicant email. Please contact the applicant directly.
         index:
@@ -1237,9 +1240,6 @@ en:
         table:
           view: View
           view_and_update: View and update
-    validation_tasks:
-      index:
-        application_details: Application details
     withdraw_or_cancels:
       closed: Application has been closed
       returned: Application has been returned
