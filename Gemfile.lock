@@ -1,3 +1,9 @@
+PATH
+  remote: engines/bops_api
+  specs:
+    bops_api (0.1.0)
+      rails (>= 7.0.8, < 7.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -563,6 +569,7 @@ DEPENDENCIES
   appsignal
   aws-sdk-s3
   bootsnap (>= 1.4.2)
+  bops_api!
   brakeman
   bullet
   business_time

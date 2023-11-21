@@ -7,7 +7,8 @@ require "sidekiq/web"
 Rails.application.routes.draw do
   root to: "planning_applications#index"
 
-  mount Rswag::Ui::Engine => "api-docs"
+  mount BopsApi::Engine, at: "/api"
+  mount Rswag::Ui::Engine, at: "/api-docs"
 
   authenticate :user, ->(u) { u.administrator? } do
     mount Sidekiq::Web => "/sidekiq"

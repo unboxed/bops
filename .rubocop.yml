@@ -27,6 +27,7 @@ AllCops:
     - 'storage/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
+    - 'engines/*/bin/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: true
