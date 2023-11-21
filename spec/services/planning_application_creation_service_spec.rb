@@ -76,6 +76,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
           )
 
           expect(planning_application.planx_planning_data.entry).to eq(cloned_planning_application.planx_planning_data.entry)
+          expect(cloned_planning_application.planx_planning_data.read_attribute(:session_id)).to eq(nil)
 
           # Proposal details have their own object id i.e. ProposalDetail:0x00007fe42a8476a8 so compare the json value instead
           proposal_details = planning_application.proposal_details.map(&:to_json)
@@ -160,7 +161,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         end
       end
 
-      [Api::V1::Errors::WrongFileTypeError, Api::V1::Errors::GetFileError, ActiveRecord::RecordInvalid, ArgumentError, NoMethodError].each do |error|
+      [Api::V1::Errors::WrongFileTypeError, Api::V1::Errors::GetFileError, ActiveRecord::RecordInvalid, ArgumentError, NoMethodError, ActiveRecord::RecordNotUnique].each do |error|
         context "when there is an error of type: #{error} saving the new planning application" do
           before { allow_any_instance_of(PlanningApplication).to receive(:save!).and_raise(error) }
 
@@ -194,6 +195,12 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
 
         it "creates a new planx planning data record" do
           expect { create_planning_application }.to change(PlanxPlanningData, :count).by(1)
+        end
+
+        it "sets the session_id on the planx planning data record" do
+          create_planning_application
+
+          expect(PlanxPlanningData.last.session_id).to eq("21161b70-0e29-40e6-9a38-c42f61f25ab9")
         end
       end
     end

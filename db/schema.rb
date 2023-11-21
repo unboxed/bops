@@ -605,7 +605,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_040052) do
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "session_id"
+    t.jsonb "params_v1"
+    t.jsonb "params_v2"
     t.index ["planning_application_id"], name: "ix_planx_planning_data_on_planning_application_id"
+    t.index ["session_id"], name: "ix_planx_planning_data_on_session_id", unique: true
   end
 
   create_table "policies", force: :cascade do |t|

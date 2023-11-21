@@ -16,6 +16,7 @@ class PlanningApplicationCreationService
       @send_email = false
     else
       options.each { |k, v| instance_variable_set("@#{k}", v) unless v.nil? }
+      @session_id = params.dig(:planx_debug_data, :session_id)
     end
   end
 
@@ -25,7 +26,7 @@ class PlanningApplicationCreationService
 
   private
 
-  attr_reader :local_authority, :params, :api_user
+  attr_reader :local_authority, :params, :api_user, :session_id
 
   def build_planning_application
     planning_application = PlanningApplication.new(
@@ -57,7 +58,10 @@ class PlanningApplicationCreationService
         end
         if params[:planx_debug_data].present?
           PlanxPlanningData.create!(
-            planning_application:, entry: params[:planx_debug_data].to_json
+            planning_application:,
+            entry: params[:planx_debug_data].to_json,
+            session_id:,
+            params_v1: params.to_json
           )
         end
         ConstraintsCreationService.new(planning_application:,
@@ -71,7 +75,7 @@ class PlanningApplicationCreationService
 
     planning_application
   rescue Api::V1::Errors::WrongFileTypeError, Api::V1::Errors::GetFileError, ActiveRecord::RecordInvalid,
-    ArgumentError, NoMethodError => e
+    ArgumentError, NoMethodError, ActiveRecord::RecordNotUnique => e
     raise CreateError, e.message
   end
 
