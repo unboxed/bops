@@ -17,7 +17,7 @@ RSpec.describe "Permitted development right" do
   end
 
   it "is listed as incomplete by default" do
-    visit "/planning_applications/#{planning_application.id}/validation_tasks"
+    visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
     within "#cil-liability-validation-tasks" do
       expect(page).to have_content "CIL liability Not started"
@@ -25,7 +25,7 @@ RSpec.describe "Permitted development right" do
   end
 
   it "can be marked as liable" do
-    visit "/planning_applications/#{planning_application.id}/validation_tasks"
+    visit "/planning_applications/#{planning_application.id}/validation/tasks"
     click_link "CIL liability"
     choose "Yes"
     click_button "Save and mark as complete"
@@ -37,7 +37,7 @@ RSpec.describe "Permitted development right" do
   end
 
   it "can be marked as not liable" do
-    visit "/planning_applications/#{planning_application.id}/validation_tasks"
+    visit "/planning_applications/#{planning_application.id}/validation/tasks"
     click_link "CIL liability"
     choose "No"
     click_button "Save and mark as complete"
@@ -50,7 +50,7 @@ RSpec.describe "Permitted development right" do
 
   context "when revisiting the edit page" do
     it "is marked as true when liable" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "CIL liability"
       choose "Yes"
       click_button "Save and mark as complete"
@@ -62,7 +62,7 @@ RSpec.describe "Permitted development right" do
     end
 
     it "is marked as false when not liable" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "CIL liability"
       choose "No"
       click_button "Save and mark as complete"
@@ -76,14 +76,14 @@ RSpec.describe "Permitted development right" do
 
   context "when there is no liability information from planx" do
     it "explains that there is no liability information" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "CIL liability"
 
       expect(page).to have_content("No information on potential CIL liability from PlanX.")
     end
 
     it "does not preselect any radio button" do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "CIL liability"
 
       expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
@@ -102,7 +102,7 @@ RSpec.describe "Permitted development right" do
       let(:planx_response) { "More than 100m²" }
 
       it "shows relevant liability information" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "CIL liability"
 
         expect(page).to have_content(planx_response)
@@ -110,7 +110,7 @@ RSpec.describe "Permitted development right" do
       end
 
       it "selects yes by default" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "CIL liability"
 
         expect(find_by_id("planning-application-cil-liable-true-field")).to be_selected
@@ -122,7 +122,7 @@ RSpec.describe "Permitted development right" do
       let(:planx_response) { "Less than 100m²" }
 
       it "shows relevant liability information" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "CIL liability"
 
         expect(page).to have_content(planx_response)
@@ -130,7 +130,7 @@ RSpec.describe "Permitted development right" do
       end
 
       it "selects no by default" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "CIL liability"
 
         expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected

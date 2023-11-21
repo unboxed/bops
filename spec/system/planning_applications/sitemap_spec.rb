@@ -28,7 +28,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       it "displays the planning application address and reference" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Draw red line boundary"
 
         expect(page).to have_content(planning_application.full_address)
@@ -36,7 +36,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       it "is possible to create a sitemap" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Draw red line boundary"
 
         # When no boundary set, map should be displayed zoomed in at latitiude/longitude if fields present
@@ -68,7 +68,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         map = find("my-map")
         expect(map["showMarker"]).to eq("false")
 
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         expect(page).not_to have_link("Draw red line boundary")
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "with 0 documents tagged with sitemap" do
       it "links to all documents" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Draw red line boundary"
 
         expect(page).to have_content("No document has been tagged as a sitemap for this application")
@@ -106,7 +106,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       let!(:document1) { create(:document, tags: %w[Site], planning_application:) }
 
       it "links to that documents" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Draw red line boundary"
 
         expect(page).to have_content("This digital red line boundary was submitted by the applicant on PlanX")
@@ -119,7 +119,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       let!(:document2) { create(:document, tags: %w[Site], planning_application:) }
 
       it "links to all documents" do
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Draw red line boundary"
 
         expect(page).to have_content("This digital red line boundary was submitted by the applicant on PlanX")
@@ -137,7 +137,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     let!(:api_user) { create(:api_user, name: "Api Wizard") }
 
     before do
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check red line boundary"
 
       within("fieldset", text: "Is this red line boundary valid?") do

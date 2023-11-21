@@ -624,10 +624,6 @@ en:
       review_immunity_detail:
         accepted: Is the application immune from enforcement?
         removed: Is the application immune from enforcement?
-  legislations:
-    update:
-      alert: Couldn't mark legislative requirements as checked - please contact support.
-      success: Legislative requirements have been marked as checked.
   local_authorities:
     edit:
       edit_local_authority: Edit council information
@@ -1198,6 +1194,10 @@ en:
           related_questions: Related questions and answers from PlanX
         validate:
           success: Fee item was marked as valid.
+      legislations:
+        update:
+          alert: Couldn't mark legislative requirements as checked - please contact support.
+          success: Legislative requirements have been marked as checked.
       other_change_validation_requests:
         create:
           success: Other validation change request successfully created.
@@ -1227,6 +1227,9 @@ en:
         validate:
           failure: You must first select Valid or Invalid to continue.
           success: Red line boundary was marked as valid.
+      tasks:
+        index:
+          application_details: Application details
       validation_requests:
         email_failure: Notify was unable to send applicant email. Please contact the applicant directly.
         index:
@@ -1237,9 +1240,6 @@ en:
         table:
           view: View
           view_and_update: View and update
-    validation_tasks:
-      index:
-        application_details: Application details
     withdraw_or_cancels:
       closed: Application has been closed
       returned: Application has been returned
@@ -1448,8 +1448,6 @@ en:
       email_consultees: Send emails to consultees
     fee_component:
       check_fee: Check fee
-    legislation_component:
-      check_legislation: Check legislative requirements
     neighbour_responses_component:
       neighbour_responses: View neighbour responses
     other_change_request_component:
@@ -1477,6 +1475,9 @@ en:
       link_text: Send site notice
     site_visit_component:
       site_visit: Site visit
+    validating:
+      legislation_component:
+        check_legislation: Check legislative requirements
     validation_decision_component:
       send_validation_decision: Send validation decision
   time:

@@ -5,7 +5,7 @@ When("I view the application's validations requests") do
 end
 
 When("I start the validation wizard") do
-  visit "/planning_applications/#{@planning_application.id}/validation_tasks"
+  visit "/planning_applications/#{@planning_application.id}/validation/tasks"
 end
 
 When("I create a new document validation request for a(n) {string} because {string}") do |type, reason|

@@ -70,16 +70,6 @@ Rails.application.routes.draw do
 
     resources :audits, only: :index
 
-    concern :cancel_validation_requests do
-      member do
-        get :cancel_confirmation
-
-        patch :cancel
-      end
-    end
-
-    resource :legislation, only: %i[show update]
-
     scope module: :planning_applications do
       resources :assign_users, only: %i[index] do
         patch :update, on: :collection
@@ -90,8 +80,6 @@ Rails.application.routes.draw do
       resources :press_notices, only: %i[new create show update]
       resource :withdraw_or_cancel, only: %i[show update]
       resources :notes, only: %i[index create]
-
-      resources :validation_tasks, only: :index
 
       namespace :assessment do
         resource :report_download, only: :show
@@ -148,6 +136,8 @@ Rails.application.routes.draw do
       end
 
       namespace :validation do
+        resources :tasks, only: :index
+
         resource :cil_liability, only: %i[edit update], controller: :cil_liability
 
         resource :constraints, only: %i[show update]
@@ -170,6 +160,16 @@ Rails.application.routes.draw do
 
         resources :validation_requests, only: %i[index] do
           get :post_validation_requests, on: :collection
+        end
+
+        resource :legislation, only: %i[show update]
+
+        concern :cancel_validation_requests do
+          member do
+            get :cancel_confirmation
+
+            patch :cancel
+          end
         end
 
         with_options concerns: :cancel_validation_requests do

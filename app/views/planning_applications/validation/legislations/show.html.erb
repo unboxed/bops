@@ -15,12 +15,12 @@
 
     <p class="govuk-body"><%= @planning_application.application_type.legislation_description %></p>
     <p class="govuk-body"><%= link_to @planning_application.application_type.legislation_link_text, @planning_application.application_type.legislation_link, target: "_blank" %></p>
-    
+
     <%= render(
       AccordionComponent.new(planning_application: @planning_application, sections: ["proposal_details"])
     ) %>
 
-    <%= form_with model: @planning_application, url: planning_application_legislation_path(@planning_application), method: :patch do |form| %>
+    <%= form_with model: @planning_application, url: planning_application_validation_legislation_path(@planning_application), method: :patch do |form| %>
       <div class="govuk-button-group">
         <%= form.submit "Mark as checked", class: "govuk-button", data: { module: "govuk-button" } unless @planning_application.legislation_checked? %>
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

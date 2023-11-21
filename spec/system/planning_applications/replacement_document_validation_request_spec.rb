@@ -42,7 +42,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button("Save")
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation_tasks"
+        "/planning_applications/#{planning_application.id}/validation/tasks"
       )
     end
 
@@ -291,7 +291,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
 
       # Cancel request
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       within("#document-validation-tasks") do
         click_link("Check document - proposed-roofplan.png")
       end
@@ -324,7 +324,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 2)
 
-      visit "/planning_applications/#{planning_application.id}/validation_tasks"
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 0")
       end
@@ -372,7 +372,7 @@ RSpec.describe "Requesting document changes to a planning application" do
           href: "/planning_applications/#{planning_application.id}/documents/#{replacement_document_validation_request.new_document.id}/edit?validate=yes"
         )
 
-        visit "/planning_applications/#{planning_application.id}/validation_tasks"
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
         within("#invalid-items-count") do
           expect(page).to have_content("Invalid items 0")

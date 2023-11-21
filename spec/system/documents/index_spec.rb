@@ -104,7 +104,7 @@ RSpec.describe "Documents index page" do
       click_button "Documents"
       click_link "Manage documents"
       click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation_tasks")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation/tasks")
 
       # Navigate via archive document page
       click_button "Documents"
