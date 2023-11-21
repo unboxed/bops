@@ -546,7 +546,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_074256) do
     t.string "postcode"
     t.string "uprn"
     t.jsonb "boundary_geojson"
-    t.text "old_constraints", default: [], null: false, array: true
     t.string "change_access_id"
     t.date "expiry_date"
     t.decimal "payment_amount", precision: 10, scale: 2

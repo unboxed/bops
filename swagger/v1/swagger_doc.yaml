@@ -72,9 +72,6 @@ paths:
                     result_description: Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate
                     result_override: This was my reason for rejecting the result
                     make_public: true
-                    constraints:
-                      - Conservation Area
-                      - Listed Building
                     boundary_geojson:
                       type: Feature
                       geometry:

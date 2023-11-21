@@ -131,7 +131,6 @@ class PlanningApplication < ApplicationRecord
     agent_phone
     agent_email
     county
-    old_constraints
     created_at(3i)
     created_at(2i)
     created_at(1i)
@@ -404,48 +403,6 @@ class PlanningApplication < ApplicationRecord
 
   def received_at
     super || (Time.next_immediate_business_day(created_at) if created_at)
-  end
-
-  # FIXME: it is unclear how the constraits are parsed/mapped from an
-  # API request. I was told (RIPA (now PlanX) Slack, 12/21) that the list was:
-  #
-  # article4
-  # article4.buckinghamshire.officetoresi
-  # article4.buckinghamshire.poultry
-  # article4.lambeth.caz
-  # article4.lambeth.kiba
-  # article4.lambeth.fentiman
-  # article4.lambeth.streatham
-  # article4.lambeth.stockwell
-  # article4.lambeth.leigham
-  # article4.lambeth.stmarks
-  # article4.lambeth.parkHall
-  # article4.lambeth.lansdowne
-  # article4.lambeth.albert
-  # article4.lambeth.hydeFarm
-  # article4.southwark.sunray
-  # listed
-  # designated
-  # designated.conservationArea
-  # designated.conservationArea.lambeth.churchRoad
-  # designated.AONB
-  # designated.nationalPark
-  # designated.broads
-  # designated.WHS
-  # designated.monument
-  # tpo
-  # nature.SSSI
-  #
-  # but these do not map to all the constraints we have (ex: military
-  # zone). Until that is figured (and please ad some integration tests
-  # around it), just assume plain-text constraints rather than a
-  # key-value mapping.
-  def defined_constraints
-    I18n.t("constraint_list").values.flatten
-  end
-
-  def local_constraints
-    old_constraints.difference(defined_constraints)
   end
 
   def valid_from
@@ -782,13 +739,9 @@ class PlanningApplication < ApplicationRecord
   end
 
   def attribute_to_audit(attribute_name)
-    if attribute_name.eql?("old_constraints")
-      audit_old_constraints!(saved_changes)
-    else
-      audit!(activity_type: "updated",
-        activity_information: attribute_name.humanize,
-        audit_comment: audit_comment(attribute_name))
-    end
+    audit!(activity_type: "updated",
+      activity_information: attribute_name.humanize,
+      audit_comment: audit_comment(attribute_name))
   end
 
   def audit_comment(attribute_name)
@@ -801,20 +754,6 @@ class PlanningApplication < ApplicationRecord
     else
       "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
     end
-  end
-
-  def audit_payment_amount
-    audit_old_constraints!(saved_changes) if attribute_name.eql?("old_constraints")
-  end
-
-  def audit_old_constraints!(saved_changes)
-    prev_arr, new_arr = saved_changes[:old_constraints]
-
-    attr_removed = prev_arr - new_arr
-    attr_added = new_arr - prev_arr
-
-    attr_added.each { |attr| audit!(activity_type: "constraint_added", audit_comment: attr) }
-    attr_removed.each { |attr| audit!(activity_type: "constraint_removed", audit_comment: attr) }
   end
 
   def audit_update_application_type!
