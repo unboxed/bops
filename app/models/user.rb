@@ -6,7 +6,7 @@ class User < ApplicationRecord
   enum otp_delivery_method: {sms: 0, email: 1}
 
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
-    :validatable,
+    :validatable, :confirmable,
     otp_secret_encryption_key: Rails.configuration.otp_secret_encryption_key,
     request_keys: [:subdomains]
 
@@ -60,6 +60,10 @@ class User < ApplicationRecord
 
   def send_otp_by_sms?
     otp_delivery_method == "sms"
+  end
+
+  def confirmed?
+    confirmed_at.present?
   end
 
   private
