@@ -1,20 +1,33 @@
 <% content_for :page_title do %>
-  Resend confirmation instructions - <%= t('page_title') %>
+  Confirm - <%= t('page_title') %>
 <% end %>
 
-<h2>Resend confirmation instructions</h2>
+<h2>Thank you for confirming your account</h2>
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<%= @user.email %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
-  </div>
+<%= form_for @user, url: {action: "confirm_and_set_password"} do |f| %>
+  <div class="govuk-form-group govuk-!-margin-top-8">
+    <%= f.hidden_field :user_id, value: @user.id %>]
+    <%= f.label :password, "New password", class: "govuk-heading-s govuk-!-margin-bottom-1" %>
+    <span class="govuk-hint govuk-!-margin-bottom-1">Your password must have:</span>
+    <ul class="govuk-!-margin-top-1">
+      <% if @minimum_password_length %>
+        <li class="govuk-hint govuk-!-margin-bottom-1">at least <%= @minimum_password_length %> characters</li>
+      <% end %>
+      <li class="govuk-hint govuk-!-margin-bottom-1">at least one symbol (for example, ?!£%)</li>
+      <li class="govuk-hint govuk-!-margin-bottom-1">at least one capital letter</li>
+      <li class="govuk-hint govuk-!-margin-bottom-1">no dictionary words or other common passwords</li>
+    </ul>
+    <%= f.password_field :password, class: "govuk-input govuk-input--width-20", autofocus: true, autocomplete: "new-password" %>
 
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
+    <%= f.label :password_confirmation, "Confirm new password", class: "govuk-heading-s govuk-!-margin-top-6" %>
+    <%= f.password_field :password_confirmation, class: "govuk-input govuk-input--width-20", autocomplete: "new-password" %> <br>
+
+    <%= f.submit "Change password", class: "govuk-button govuk-!-margin-top-7  govuk-!-margin-bottom-4", data: { module: "govuk-button" } %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<p class="govuk-body govuk-!-margin-top-8">
+  <%= render "devise/shared/links" %>
+</p>

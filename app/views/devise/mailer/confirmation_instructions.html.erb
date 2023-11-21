@@ -1,5 +1,7 @@
-<p>Welcome <%= @email %>.</p>
+<p>Dear <%= @user.name %>,</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p>Welcome to the Back-office Planning System for <%= @user.local_authority %></p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p>You can confirm your account and set a password through the link below:</p>
+
+<p><%= link_to 'Confirm my account', confirmation_path(@resource, subdomain: @resource.local_authority.subdomain, confirmation_token: @token) %></p>

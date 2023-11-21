@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     sessions: "users/sessions",
-    confirmations: "confirmations",
+    confirmations: "confirmations"
   }
 
   devise_scope :user do

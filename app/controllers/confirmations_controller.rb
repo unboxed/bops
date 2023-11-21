@@ -1,4 +1,4 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
 class ConfirmationsController < Devise::ConfirmationsController
   def show
@@ -10,11 +10,11 @@ class ConfirmationsController < Devise::ConfirmationsController
   def confirm_and_set_password
     @user = User.find(user_params[:user_id])
 
-    if @user.update({ password: user_params[:password],
-                      password_confirmation: user_params[:password_confirmation] })
+    if @user.update({password: user_params[:password],
+                      password_confirmation: user_params[:password_confirmation]})
       @user.confirm
 
-    redirect_to new_user_session_path, notice: "Your email has been confirmed and your password reset. You may now log in"
+      redirect_to new_user_session_path, notice: "Your email has been confirmed and your password reset. You may now log in"
     else
       render :show, alert: "We were unable to confirm your email. Click below to receive confirmation instructions"
     end
