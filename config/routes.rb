@@ -15,13 +15,15 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: {
-    sessions: "users/sessions"
+    sessions: "users/sessions",
+    confirmations: "confirmations",
   }
 
   devise_scope :user do
     get "setup", to: "users/sessions#setup", as: "setup"
     get "two_factor", to: "users/sessions#two_factor", as: "two_factor"
     get "resend_code", to: "users/sessions#resend_code", as: "resend_code"
+    patch "/confirmations/confirm_and_set_password", to: "confirmations#confirm_and_set_password"
   end
 
   defaults format: "json" do

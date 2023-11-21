@@ -16,6 +16,8 @@ class UsersController < AuthenticationController
     @user = current_local_authority.users.new(user_params)
 
     if @user.save
+
+      @user.send_confirmation_instructions
       flash[:notice] = I18n.t(
         "administrator_dashboard.show.user_successfully_created"
       )
@@ -45,7 +47,7 @@ class UsersController < AuthenticationController
   end
 
   def permitted_params
-    %i[name email otp_delivery_method password mobile_number role]
+    %i[name email otp_delivery_method password password_confirmation mobile_number role]
   end
 
   def set_user
