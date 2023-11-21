@@ -9,6 +9,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { "Id!l]GT1-{ncnZ!oSvrF.*jx\\w1>V@]_}e>B,A\\yI&'4z6P$2iIQDZ-*rsiFoBP~0=uL/%2wHFg_RrF%nx[`oeY4" }
     mobile_number { "07656546552" }
+    confirmed_at { Time.zone.now }
   end
 
   trait :assessor do
@@ -21,5 +22,9 @@ FactoryBot.define do
 
   trait :administrator do
     role { :administrator }
+  end
+
+  trait :unconfirmed do
+    confirmed_at { nil }
   end
 end

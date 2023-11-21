@@ -167,6 +167,24 @@ RSpec.describe User do
     end
   end
 
+  describe "#confirmed?" do
+    context "when user is unconfirmed" do
+      let(:user) { build(:user, :unconfirmed) }
+
+      it "returns true" do
+        expect(user.confirmed?).to be(false)
+      end
+    end
+
+    context "when user is confirmed" do
+      let(:user) { build(:user) }
+
+      it "returns true" do
+        expect(user.confirmed?).to be(true)
+      end
+    end
+  end
+
   describe "#send_otp" do
     let(:session_mobile_number) { "07717123123" }
 
