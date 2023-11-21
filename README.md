@@ -173,6 +173,9 @@ The following parameters are required and a validation error will be raised if t
 - `enquiries_paragraph`: will be present on decision notice
 - `email_address`: will be present on decision notice
 - `feedback_email`: will be used to receive any feedback requests
+- `council_name`: the council's name
+- `short_name`: the council's short name
+- `applicants_url`: match to council's applicants url
 
 There is also the following optional parameter:
 
@@ -186,6 +189,9 @@ rake local_authority:create -- --subdomain 'lambeth' \
   --enquiries_paragraph 'Planning, London Borough of Lambeth' \
   --email_address 'mail@lambeth.gov.uk' \
   --feedback_email 'mail@lambeth.gov.uk' \
+  --council_name 'Lambeth Council' \
+  --short_name 'Lambeth' \
+  --applicants_url 'https://lambeth.planningapplications.gov.uk' \
   --admin_email 'admin@lambeth.gov.uk'
 ```
 
