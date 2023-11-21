@@ -1,0 +1,8 @@
+<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
+<p class="govuk-body">
+  Applicant: <i><%= JSON.parse(locals[:item].audit_comment)["response"] %></i>
+<br/>
+  <% if JSON.parse(locals[:item].audit_comment).include?("reason") %>
+    Reason: <i><%= JSON.parse(locals[:item].audit_comment)["reason"] %></i>
+    <% end %>
+</p>

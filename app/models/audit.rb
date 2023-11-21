@@ -71,6 +71,8 @@ class Audit < ApplicationRecord
     other_change_validation_request_sent: "other_change_validation_request_sent",
     other_change_validation_request_received: "other_change_validation_request_received",
     other_change_validation_request_sent_post_validation: "other_change_validation_request_sent_post_validation",
+    ownership_certificate_validation_request_added: "ownership_certificate_validation_request_added",
+    ownership_certificate_validation_request_received: "ownership_certificate_validation_request_received",
     validation_requests_sent: "validation_requests_sent",
     additional_document_validation_request_cancelled: "additional_document_validation_request_cancelled",
     additional_document_validation_request_cancelled_post_validation:

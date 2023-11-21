@@ -107,4 +107,20 @@ json.data do
       :cancelled_at
     json.type "other_change_validation_request"
   end
+
+  json.ownership_certificate_validation_requests @planning_application
+    .ownership_certificate_validation_requests do |ownership_certificate_validation_request|
+    json.extract! ownership_certificate_validation_request,
+      :id,
+      :state,
+      :response_due,
+      :response,
+      :reason,
+      :suggestion,
+      :reason,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
+    json.type "ownership_certificate_validation_request"
+  end
 end

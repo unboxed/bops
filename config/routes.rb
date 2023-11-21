@@ -150,6 +150,10 @@ Rails.application.routes.draw do
           resources :redactions, only: %i[index create]
         end
 
+        resource :ownership_certificate do
+          patch :validate
+        end
+
         resource :fee_items, only: %i[show] do
           patch :validate
         end
@@ -174,6 +178,7 @@ Rails.application.routes.draw do
         resources :fee_change_validation_requests, controller: :validation_requests
         resources :red_line_boundary_change_validation_requests, controller: :validation_requests
         resources :description_change_validation_requests, controller: :validation_requests
+        resources :ownership_certificate_validation_requests, controller: :validation_requests
 
         resource :legislation, only: %i[show update]
       end
@@ -230,6 +235,7 @@ Rails.application.routes.draw do
         resources :documents, only: %i[show]
         resources :other_change_validation_requests, only: %i[index update show]
         resources :fee_change_validation_requests, only: %i[index update show]
+        resources :ownership_certificate_validation_requests, only: %i[index update show]
         resources :red_line_boundary_change_validation_requests, only: %i[index update show]
         resources :neighbour_responses, only: :create
       end

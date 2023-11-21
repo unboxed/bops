@@ -39,6 +39,7 @@ class PlanningApplication < ApplicationRecord
     has_many :fee_change_validation_requests
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
+    has_many :ownership_certificate_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :validation_requests
     has_many :assessment_details, -> { by_created_at_desc }, inverse_of: :planning_application
@@ -55,6 +56,7 @@ class PlanningApplication < ApplicationRecord
     has_one :press_notice, required: false
     has_one :local_policy, required: false
     has_one :fee_calculation, required: false
+    has_one :ownership_certificate, required: false
 
     has_many(
       :policy_classes,

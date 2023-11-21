@@ -462,8 +462,10 @@ en:
       no_user:
         assigned: Application unassigned
       other_change_validation_request_added: 'Added: validation request (other validation#%{args})'
+      ownership_certificate_validation_request_added: 'Added: validation request (ownership certificate validation#%{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
+      ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
@@ -1294,6 +1296,9 @@ en:
     validate:
       success: Application is ready for assessment and an email notification has been sent.
     validation:
+      ownership_certificates:
+        update:
+          success: Ownership certificate successfully updated
       cil_liability:
         update:
           success: CIL liability updated
@@ -1371,6 +1376,8 @@ en:
             success: Fee change request successfully created.
           other_change_validation_request:
             success: Change request successfully created.
+          ownership_certificate_validation_request:
+            success: Ownership certificate request successfully created
           red_line_boundary_change_validation_request:
             success: Validation request for red line boundary successfully created.
           replacement_document_validation_request:
