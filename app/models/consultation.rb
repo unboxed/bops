@@ -12,8 +12,8 @@ class Consultation < ApplicationRecord
     signatory_name signatory_job_title local_authority
   ].freeze
 
-  attribute :consultee_email_subject, :string, default: -> { default_consultee_email_subject }
-  attribute :consultee_email_body, :string, default: -> { default_consultee_email_body }
+  attribute :consultee_message_subject, :string, default: -> { default_consultee_message_subject }
+  attribute :consultee_message_body, :string, default: -> { default_consultee_message_body }
 
   attribute :email_reason, :string, default: "send"
   attribute :resend_message, :string
@@ -40,8 +40,8 @@ class Consultation < ApplicationRecord
   end
 
   with_options on: :send_consultee_emails do
-    validates :consultee_email_subject, presence: true
-    validates :consultee_email_body, presence: true
+    validates :consultee_message_subject, presence: true
+    validates :consultee_message_body, presence: true
     validates :email_reason, inclusion: {in: EMAIL_REASONS}
 
     with_options if: :reconsult? do
@@ -55,12 +55,12 @@ class Consultation < ApplicationRecord
       errors.add(:planning_application, :not_public) unless planning_application.make_public?
       errors.add(:consultees, :blank) if consultees.none_selected?
 
-      unknown_placeholders(consultee_email_subject) do |placeholder|
-        errors.add(:consultee_email_subject, :invalid, placeholder: placeholder)
+      unknown_placeholders(consultee_message_subject) do |placeholder|
+        errors.add(:consultee_message_subject, :invalid, placeholder: placeholder)
       end
 
-      unknown_placeholders(consultee_email_body) do |placeholder|
-        errors.add(:consultee_email_body, :invalid, placeholder: placeholder)
+      unknown_placeholders(consultee_message_body) do |placeholder|
+        errors.add(:consultee_message_body, :invalid, placeholder: placeholder)
       end
 
       if resend?
@@ -94,17 +94,17 @@ class Consultation < ApplicationRecord
   format_geojson_epsg :polygon_geojson
 
   class << self
-    def default_consultee_email_subject
+    def default_consultee_message_subject
       I18n.t("subject", scope: "consultee_emails")
     end
 
-    def default_consultee_email_body
+    def default_consultee_message_body
       I18n.t("body", scope: "consultee_emails")
     end
   end
 
-  delegate :default_consultee_email_subject, to: :class
-  delegate :default_consultee_email_body, to: :class
+  delegate :default_consultee_message_subject, to: :class
+  delegate :default_consultee_message_body, to: :class
 
   def resend?
     email_reason == "resend"
@@ -345,8 +345,8 @@ class Consultation < ApplicationRecord
       closing_date: end_date.to_fs
     }
 
-    subject = consultee_email_subject
-    body = consultee_email_body
+    subject = consultee_message_subject
+    body = consultee_message_body
     divider = "\n\n---\n\n"
 
     if reconsult?

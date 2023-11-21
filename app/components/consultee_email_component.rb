@@ -10,11 +10,11 @@ class ConsulteeEmailComponent < ViewComponent::Base
   attr_reader :form
 
   def subject_invalid?
-    form.object.errors.key?(:consultee_email_subject)
+    form.object.errors.key?(:consultee_message_subject)
   end
 
   def body_invalid?
-    form.object.errors.key?(:consultee_email_body)
+    form.object.errors.key?(:consultee_message_body)
   end
 
   def message_invalid?
@@ -22,11 +22,11 @@ class ConsulteeEmailComponent < ViewComponent::Base
   end
 
   def default_subject
-    form.object.default_consultee_email_subject
+    form.object.default_consultee_message_subject
   end
 
   def default_body
-    form.object.default_consultee_email_body
+    form.object.default_consultee_message_body
   end
 
   def details_tag(&)

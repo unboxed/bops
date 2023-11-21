@@ -40,6 +40,10 @@ class Consultee < ApplicationRecord
     expires_at && now > expires_at
   end
 
+  def expires_at
+    super || default_expires_at
+  end
+
   def period(now = Time.current)
     (expires_at - now).seconds.in_days.floor
   end
@@ -54,5 +58,11 @@ class Consultee < ApplicationRecord
 
   def last_response
     responses.max_by(&:id)
+  end
+
+  private
+
+  def default_expires_at
+    email_delivered_at && (email_delivered_at + 21.days).end_of_day
   end
 end
