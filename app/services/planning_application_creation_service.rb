@@ -7,10 +7,10 @@ class PlanningApplicationCreationService
     if planning_application
       raise CreateError, "Cloning is not permitted in production" unless planning_application.can_clone?
 
-      audit_log = planning_application.audit_log
-      raise CreateError, "Planning application can not be cloned as it was not created via PlanX" unless audit_log
+      params_v1 = planning_application.params_v1
+      raise CreateError, "Planning application can not be cloned as it was not created via PlanX" unless params_v1
 
-      @params = ActionController::Parameters.new(JSON.parse(audit_log))
+      @params = ActionController::Parameters.new(JSON.parse(params_v1))
       @local_authority = planning_application.local_authority
       @api_user = planning_application.api_user
       @send_email = false
@@ -36,7 +36,6 @@ class PlanningApplicationCreationService
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
         old_constraints: constraints_array_from_param(params[:constraints_proposed]&.map(&:to_unsafe_hash)),
         api_user:,
-        audit_log: params.to_json,
         user_role: params[:user_role].presence,
         payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount]),
         from_production: params[:from_production].present?,
@@ -56,14 +55,11 @@ class PlanningApplicationCreationService
         if planning_application.from_production?
           PlanningApplicationAnonymisationService.new(planning_application:).call!
         end
-        if params[:planx_debug_data].present?
-          PlanxPlanningData.create!(
-            planning_application:,
-            entry: params[:planx_debug_data].to_json,
-            session_id:,
-            params_v1: params.to_json
-          )
-        end
+        PlanxPlanningData.create!(
+          planning_application:,
+          session_id:,
+          params_v1: params.to_json
+        )
         ConstraintsCreationService.new(planning_application:,
           constraints_params: params[:constraints_proposed]&.map(&:to_unsafe_hash)).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])

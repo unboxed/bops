@@ -384,12 +384,12 @@ FactoryBot.define do
     end
 
     trait :from_planx do
-      audit_log { file_fixture("planx_params.json").read }
+      after(:build) do |planning_application|
+        planning_application.planx_planning_data = build(:planx_planning_data, params_v1: file_fixture("planx_params.json").read, planning_application:)
+      end
     end
 
     trait :from_planx_immunity do
-      audit_log { file_fixture("planx_params_immunity.json").read }
-
       proposal_details do
         [
           {
@@ -539,14 +539,22 @@ FactoryBot.define do
           }
         ].to_json
       end
+
+      after(:build) do |planning_application|
+        planning_application.planx_planning_data = build(:planx_planning_data, params_v1: file_fixture("planx_params_immunity.json").read, planning_application:)
+      end
     end
 
     trait :from_planx_prior_approval do
-      audit_log { file_fixture("planx_params_prior_approval.json").read }
+      after(:build) do |planning_application|
+        planning_application.planx_planning_data = build(:planx_planning_data, params_v1: file_fixture("planx_params_prior_approval.json").read, planning_application:)
+      end
     end
 
     trait :from_planx_prior_approval_not_accepted do
-      audit_log { file_fixture("planx_params_prior_approval_not_accepted.json").read }
+      after(:build) do |planning_application|
+        planning_application.planx_planning_data = build(:planx_planning_data, params_v1: file_fixture("planx_params_prior_approval_not_accepted.json").read, planning_application:)
+      end
     end
 
     trait :with_immunity do

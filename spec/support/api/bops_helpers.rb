@@ -4,7 +4,7 @@ module BopsHelper
   BASE_URL = "bops-staging.services/planning_applications"
 
   def stub_bops_api_request_for(local_authority, planning_application)
-    stub_request(:post, "https://#{local_authority.subdomain}.#{BASE_URL}").with(body: planning_application.audit_log).to_return(bops_api_response(200))
+    stub_request(:post, "https://#{local_authority.subdomain}.#{BASE_URL}").with(body: planning_application.params_v1).to_return(bops_api_response(200))
   end
 
   def stub_any_bops_api_request

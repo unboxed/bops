@@ -32,13 +32,13 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
 
       context "when successful" do
         before do
-          # Create the planning application to be cloned using the audit_log value from planx params
+          # Create the planning application to be cloned using the params_v1 value from planx params
           described_class.new(
             planning_application:
           ).call
         end
 
-        it "creates a new planning application identical to how it came via planx using the audit_log value as the params" do
+        it "creates a new planning application identical to how it came via planx using the params_v1 value as the params" do
           planning_application = PlanningApplication.last
 
           expect(PlanningApplicationAnonymisationService).not_to receive(:new)
@@ -57,7 +57,6 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
             id: planning_application.id + 1,
             local_authority_id: planning_application.local_authority.id,
             api_user_id: planning_application.api_user.id,
-            audit_log: planning_application.audit_log,
             address_1: planning_application.address_1,
             address_2: planning_application.address_2,
             town: planning_application.town,
@@ -75,8 +74,8 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
             lonlat: RGeo::Geographic.spherical_factory(srid: 4326).point(planning_application.longitude, planning_application.latitude)
           )
 
-          expect(planning_application.planx_planning_data.entry).to eq(cloned_planning_application.planx_planning_data.entry)
-          expect(cloned_planning_application.planx_planning_data.read_attribute(:session_id)).to eq(nil)
+          expect(planning_application.params_v1).to eq(cloned_planning_application.params_v1)
+          expect(cloned_planning_application.planx_planning_data.session_id).to eq(nil)
 
           # Proposal details have their own object id i.e. ProposalDetail:0x00007fe42a8476a8 so compare the json value instead
           proposal_details = planning_application.proposal_details.map(&:to_json)
@@ -153,7 +152,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         end
       end
 
-      context "when planning application was not created via PlanX i.e. there is no audit_log value" do
+      context "when planning application was not created via PlanX i.e. there is no params_v1 value" do
         let(:planning_application) { create(:planning_application) }
 
         it "raises an error" do

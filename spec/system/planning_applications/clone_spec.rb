@@ -47,7 +47,7 @@ RSpec.describe "cloning a planning application" do
       expect(page).to have_current_path("/planning_applications/#{cloned_planning_application.id}")
       expect(page).to have_content("Planning application was successfully cloned")
 
-      expect(JSON.parse(planning_application.audit_log)).to eq(JSON.parse(cloned_planning_application.audit_log))
+      expect(JSON.parse(planning_application.params_v1)).to eq(JSON.parse(cloned_planning_application.params_v1))
       expect(planning_application.reference).not_to eq(cloned_planning_application.reference)
     end
   end
@@ -84,7 +84,7 @@ RSpec.describe "cloning a planning application" do
     end
   end
 
-  context "when planning application was not created via PlanX i.e. there is no audit_log value" do
+  context "when planning application was not created via PlanX i.e. there is no params_v1 value" do
     let(:planning_application) { create(:planning_application, local_authority:) }
 
     it "I am unable to clone and presented with an error" do
