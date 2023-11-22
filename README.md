@@ -150,14 +150,14 @@ BOPS applicants has to operate against the Southwark local authority
 
 ## API
 
-API documentation is available at /api-docs/index.html.
+API documentation is available at /api/docs/index.html.
 
 ## Creating data through the API
 
-Once you have the application running, you can submit planning application through the API. You can do this through the provided swagger documentation at /api-docs/index.html
+Once you have the application running, you can submit planning application through the API. You can do this through the provided swagger documentation at /api/docs/index.html
 
 * Click Authorize and fill in the API key ('123' if not otherwise specified at db:seed)
-* POST /api​/v1​/planning_applications > Try it out > Choose 'Full' example > Click Execute.
+* POST /api/v1/planning_applications > Try it out > Choose 'Full' example > Click Execute.
 
 [1]: https://www.docker.com/products/docker-desktop
 [2]: http://localhost:3000/
@@ -200,13 +200,13 @@ rake local_authority:create -- --subdomain 'lambeth' \
 We need a single openapi file to exist, but to keep the code easier to maintain we have multiple files that are then compiled into this single file:
 
 ```
-public/api-docs/v1/_build/swagger_doc.yaml
+public/api/docs/v1/swagger_doc.yaml
 ```
 
-So to create a new api endpoint, create your yaml doc inside public/api-docs/v1 and reference it in
+So to create a new api endpoint, create your yaml doc inside swagger/v1 and reference it in
 
 ```
-public/api-docs/v1/swagger_doc.yaml
+swagger/v1/swagger_doc.yaml
 ```
 
 like so:
@@ -224,7 +224,7 @@ npm install -g swagger-cli
 and running:
 
 ```
-swagger-cli bundle public/api-docs/v1/swagger_doc.yaml --outfile public/api-docs/v1/_build/swagger_doc.yaml --type yaml --dereference
+swagger-cli bundle swagger/v1/swagger_doc.yaml --outfile public/api/docs/v1/swagger_doc.yaml --type yaml --dereference
 ```
 
 ## Javascript

@@ -24,10 +24,12 @@ RUN bash -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg ma
 # Install NodeJS
 ARG NODE_VERSION=18.16.1
 ARG YARN_VERSION=1.22.19
+ARG SWAGGER_CLI_VERSION=4.0.4
 ENV PATH=/usr/local/node/bin:$PATH
 RUN bash -c "curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
     /tmp/node-build-master/bin/node-build '$NODE_VERSION' /usr/local/node && \
     npm install -g yarn@$YARN_VERSION && \
+    npm install -g swagger-cli@$SWAGGER_CLI_VERSION && \
     rm -rf /tmp/node-build-master"
 
 # Install Bundler
