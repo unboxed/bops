@@ -1,0 +1,35 @@
+---
+openapi: 3.0.1
+info:
+  title: Back-office Planning System
+  version: v2
+components:
+  schemas:
+    healthcheck:
+      type: object
+      properties:
+        message:
+          type: string
+          const: OK
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - message
+      - timestamp
+paths:
+  "/api/v2/ping":
+    get:
+      summary: Returns a healthcheck
+      responses:
+        '200':
+          description: Returns a healthcheck
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    message: OK
+                    timestamp: '2023-11-22T20:00:00.000Z'
+              schema:
+                "$ref": "#/components/schemas/healthcheck"

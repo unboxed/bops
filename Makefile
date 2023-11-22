@@ -30,6 +30,12 @@ rollback:
 locales:
 	$(DOCKER-RUN) web i18n-tasks normalize
 
+api-docs:
+	$(DOCKER-RUN) web rake api:docs:generate
+
+api-specs:
+	$(DOCKER-RUN) web rspec engines/bops_api/spec
+
 rspec:
 	$(DOCKER-RUN) web rspec
 

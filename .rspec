@@ -1,1 +1,2 @@
+-I engines/bops_api/spec
 --require spec_helper

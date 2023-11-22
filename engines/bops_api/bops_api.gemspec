@@ -13,4 +13,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "rails", ">= 7.0.8", "< 7.1"
+  spec.add_dependency "rswag-api", "~> 2.11"
+  spec.add_dependency "rswag-specs", "~> 2.11"
+  spec.add_dependency "rswag-ui", "~> 2.11"
 end

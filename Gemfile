@@ -34,6 +34,7 @@ gem "rails", "~> 7.0"
 gem "rails_autolink"
 gem "rgeo"
 gem "rgeo-geojson"
+gem "rswag-api"
 gem "rswag-ui"
 gem "sidekiq"
 gem "sidekiq-scheduler"
@@ -53,6 +54,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
+  gem "rswag-specs", require: false
   gem "standard", "~> 1.31", require: false
   gem "standard-custom", require: false
   gem "standard-performance", require: false

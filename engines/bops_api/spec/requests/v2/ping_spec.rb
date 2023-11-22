@@ -1,33 +1,22 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require "swagger_helper"
 
-RSpec.describe "BopsApi", type: :request do
-  around do |example|
-    travel_to("2023-11-21T18:30:00Z") { example.run }
-  end
+RSpec.describe "BOPS API" do
+  path "/api/v2/ping" do
+    get "Returns a healthcheck" do
+      produces "application/json"
 
-  let(:json) { JSON.parse(response.body) }
+      response "200", "Returns a healthcheck" do
+        schema "$ref" => "#/components/schemas/healthcheck"
 
-  describe "GET /api/v2/ping" do
-    before do
-      get "/api/v2/ping"
-    end
+        example "application/json", :default, {
+          message: "OK",
+          timestamp: "2023-11-22T20:00:00.000Z"
+        }
 
-    it "returns 200 OK" do
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "returns JSON" do
-      expect(response).to have_attributes(content_type: "application/json; charset=utf-8")
-    end
-
-    it "returns an 'OK' message" do
-      expect(json).to match(a_hash_including("message" => "OK"))
-    end
-
-    it "returns the current time" do
-      expect(json).to match(a_hash_including("timestamp" => "2023-11-21T18:30:00.000Z"))
+        run_test!
+      end
     end
   end
 end
