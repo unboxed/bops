@@ -17,7 +17,7 @@
     </div>
   <% end %>
 
-  <%= form.govuk_text_area :cancel_reason, rows: 5, required: true %>
+  <%= form.govuk_text_area :cancel_reason, label: { text: "Reason for cancelling request" }, rows: 5, required: true %>
 
   <div class="govuk-button-group">
     <%= form.submit "Confirm cancellation", class: "govuk-button", data: { module: "govuk-button" } %>

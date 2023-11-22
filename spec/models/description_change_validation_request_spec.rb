@@ -7,7 +7,7 @@ RSpec.describe DescriptionChangeValidationRequest do
     subject { create(:description_change_validation_request) }
   end
 
-  it_behaves_like("ValidationRequestable")
+  it_behaves_like("ValidationRequest")
 
   describe "validations" do
     let!(:request) { create(:description_change_validation_request) }

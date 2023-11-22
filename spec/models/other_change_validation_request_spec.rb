@@ -203,7 +203,7 @@ RSpec.describe OtherChangeValidationRequest do
           it "prevents an other_change_validation_request from being created" do
             expect do
               other_change_validation_request
-            end.to raise_error(ValidationRequestable::ValidationRequestNotCreatableError,
+            end.to raise_error(ValidationRequest::ValidationRequestNotCreatableError,
               "Cannot create Other Change Validation Request when planning application has been validated")
           end
         end

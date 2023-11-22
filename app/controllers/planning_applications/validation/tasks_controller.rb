@@ -12,7 +12,7 @@ module PlanningApplications
       private
 
       def planning_applications_scope
-        super.includes(:other_change_validation_requests)
+        super
       end
 
       def set_items_counter

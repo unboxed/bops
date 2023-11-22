@@ -9,7 +9,7 @@ RSpec.describe RedLineBoundaryChangeValidationRequest do
     subject { create(:red_line_boundary_change_validation_request) }
   end
 
-  it_behaves_like("ValidationRequestable")
+  it_behaves_like("ValidationRequest")
 
   describe "validations" do
     subject(:red_line_boundary_change_validation_request) { described_class.new }

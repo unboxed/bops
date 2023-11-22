@@ -113,10 +113,11 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to @planning_application, notice: t(".success")
     else
       validation_requests = @planning_application.validation_requests
-      @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
+      @cancelled_validation_requests = validation_requests.where(state: "cancelled")
+      @active_validation_requests = validation_requests.where.not(state: "cancelled")
 
       flash.now[:alert] = t(".failure")
-      render "validation_requests/index"
+      render "planning_applications/validation/validation_requests/index"
     end
   end
 
@@ -203,7 +204,7 @@ class PlanningApplicationsController < AuthenticationController
   def validation_documents
     @documents = @planning_application.documents.active
     @additional_document_validation_requests = @planning_application
-      .additional_document_validation_requests
+      .validation_requests.where(request_type: "additional_document")
       .pre_validation
       .open_or_pending
 

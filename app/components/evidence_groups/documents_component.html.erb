@@ -18,7 +18,7 @@
           <%= link_to "View document", url_for_document(document), target: :_new %><br>
           <%= link_to "Edit", edit_planning_application_document_path(document.planning_application, document), class: "govuk-link" %><br>
           <%= link_to "Archive", planning_application_document_archive_path(document_id: document.id), class: "govuk-link" %><br>
-          <%= link_to "Request replacement", new_planning_application_validation_replacement_document_validation_request_path(planning_application_id: document.planning_application.id, document: document), class: "govuk-link" %>
+          <%= link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_id: document.planning_application.id, document: document), class: "govuk-link" %>
         </div>
       </div>
     <% end %>

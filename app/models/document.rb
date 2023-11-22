@@ -21,7 +21,7 @@ class Document < ApplicationRecord
     belongs_to :api_user
   end
 
-  has_one :replacement_document_validation_request,
+  has_one :validation_request,
     lambda { |document|
       unscope(:where).where(old_document_id: document.id, cancelled_at: nil)
     },
@@ -207,7 +207,7 @@ class Document < ApplicationRecord
   end
 
   def invalidated_document_reason
-    replacement_document_validation_request.try(:reason) || super
+    validation_request.try(:reason) || super
   end
 
   def image_url(resize_to_limit = [1000, 1000])
@@ -237,7 +237,7 @@ class Document < ApplicationRecord
   private
 
   def no_open_replacement_request
-    return unless replacement_document_validation_request&.open_or_pending?
+    return unless validation_request&.open_or_pending?
 
     errors.add(:file, :open_replacement_request)
   end
@@ -278,7 +278,7 @@ class Document < ApplicationRecord
   def reset_replacement_document_validation_request_update_counter!
     return unless validated? || archived?
 
-    return unless (request = ReplacementDocumentValidationRequest.find_by(new_document_id: id))
+    return unless (request = ValidationRequest.find_by(new_document_id: id))
 
     request.reset_update_counter!
   end

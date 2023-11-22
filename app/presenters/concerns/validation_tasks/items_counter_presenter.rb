@@ -7,7 +7,7 @@ module ValidationTasks
     def initialize(template, planning_application)
       super(template, planning_application)
 
-      @validation_requests = planning_application.active_validation_requests
+      @validation_requests = planning_application.validation_requests.active
     end
 
     def items_count
@@ -22,11 +22,11 @@ module ValidationTasks
     attr_reader :validation_requests
 
     def invalid_items_count
-      validation_requests.count(&:open_or_pending?)
+      validation_requests.where(state: ["open", "pending"]).count
     end
 
     def updated_items_count
-      planning_application.requests.where(update_counter: true).length
+      planning_application.validation_requests.where(update_counter: true).length
     end
   end
 end

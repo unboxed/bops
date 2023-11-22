@@ -80,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.string "assessment_details", array: true
     t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
     t.string "consistency_checklist", array: true
+    t.jsonb "document_tags"
   end
 
   create_table "assessment_details", force: :cascade do |t|
@@ -582,6 +583,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.boolean "cil_liable"
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.datetime "not_started_at"
+    t.string "ownership_certificate_type"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
@@ -833,15 +835,34 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   end
 
   create_table "validation_requests", force: :cascade do |t|
-    t.bigint "requestable_id", null: false
-    t.string "requestable_type", null: false
+    t.bigint "requestable_id"
+    t.string "request_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "planning_application_id"
     t.datetime "closed_at", precision: nil
     t.boolean "update_counter", default: false, null: false
+    t.string "state", null: false
+    t.bigint "user_id", null: false
+    t.boolean "post_validation", default: false, null: false
+    t.boolean "applicant_approved"
+    t.text "reason"
+    t.string "applicant_rejection_reason"
+    t.text "applicant_response"
+    t.datetime "notified_at"
+    t.datetime "cancelled_at"
+    t.text "cancel_reason"
+    t.boolean "auto_closed"
+    t.datetime "auto_closed_at"
+    t.bigint "old_document_id"
+    t.bigint "new_document_id"
+    t.integer "sequence"
+    t.jsonb "specific_attributes"
+    t.index ["new_document_id"], name: "ix_validation_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
-    t.index ["requestable_type", "requestable_id"], name: "ix_validation_requests_on_requestable_type__requestable_id", unique: true
+    t.index ["request_type", "requestable_id"], name: "ix_validation_requests_on_request_type__requestable_id", unique: true
+    t.index ["user_id"], name: "ix_validation_requests_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -931,5 +952,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   add_foreign_key "site_visits", "neighbours"
   add_foreign_key "site_visits", "users", column: "created_by_id"
   add_foreign_key "users", "local_authorities"
+  add_foreign_key "validation_requests", "documents", column: "new_document_id"
+  add_foreign_key "validation_requests", "documents", column: "old_document_id"
   add_foreign_key "validation_requests", "planning_applications"
 end

@@ -15,7 +15,7 @@ class PlanningApplication < ApplicationRecord
       post_validation_requests_method = "#{state}_post_validation_requests"
 
       define_method validation_requests_method do
-        validation_requests.select(&:"#{state}?".to_sym)
+        validation_requests.where(state: "#{state}")
       end
 
       define_method post_validation_requests_method do
@@ -29,26 +29,6 @@ class PlanningApplication < ApplicationRecord
       define_method "#{post_validation_requests_method}?" do
         send(post_validation_requests_method).any?
       end
-    end
-
-    def validation_requests(post_validation: false, include_description_change_validation_requests: false)
-      request_types = validation_request_types(
-        include_description_change: include_description_change_validation_requests
-      )
-
-      requests = request_types.map do |request_type|
-        send("#{request_type}_validation_requests").where(post_validation:)
-      end
-
-      requests.flatten.sort_by(&:created_at).reverse
-    end
-
-    def active_validation_requests(post_validation: false)
-      (replacement_document_validation_requests +
-        additional_document_validation_requests +
-        other_change_validation_requests +
-        red_line_boundary_change_validation_requests)
-        .reject(&:cancelled?).send(enumerable_method(post_validation), &:post_validation?)
     end
 
     def open_description_change_requests
@@ -68,7 +48,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     def overdue_requests
-      validation_requests.select(&:open?).select(&:overdue?)
+      validation_requests.where(state: ["open", "overdue"])
     end
 
     def reset_validation_requests_update_counter!(requests)
@@ -101,7 +81,7 @@ class PlanningApplication < ApplicationRecord
       [
         :additional_document,
         (:description_change if include_description_change),
-        :other_change,
+        :other,
         :red_line_boundary_change,
         :replacement_document
       ].compact

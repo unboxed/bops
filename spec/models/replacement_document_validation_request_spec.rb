@@ -104,7 +104,7 @@ RSpec.describe ReplacementDocumentValidationRequest do
         it "allows a replacement_document_validation_request to be created" do
           expect do
             replacement_document_validation_request
-          end.not_to raise_error(ValidationRequestable::ValidationRequestNotCreatableError,
+          end.not_to raise_error(ValidationRequest::ValidationRequestNotCreatableError,
             "Cannot create Replacement Document Validation Request when planning application has been validated")
         end
       end

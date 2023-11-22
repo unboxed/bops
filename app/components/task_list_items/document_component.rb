@@ -11,10 +11,9 @@ module TaskListItems
 
     attr_reader :planning_application, :document
 
-    delegate(
-      :replacement_document_validation_request,
-      to: :document
-    )
+    def replacement_document_validation_request
+      document.validation_request
+    end
 
     def link_text
       t(".check_document", document: truncated_document_name)
@@ -30,9 +29,10 @@ module TaskListItems
 
     def link_path
       if status == :invalid
-        planning_application_validation_replacement_document_validation_request_path(
+        planning_application_validation_validation_request_path(
           planning_application,
-          replacement_document_validation_request
+          replacement_document_validation_request,
+          request_type: "replacement_document"
         )
       else
         edit_planning_application_document_path(
@@ -48,7 +48,7 @@ module TaskListItems
         :valid
       elsif replacement_document_validation_request&.open_or_pending?
         :invalid
-      elsif ReplacementDocumentValidationRequest.find_by(new_document: document).present?
+      elsif ValidationRequest.find_by(new_document: document).present?
         :updated
       else
         :not_started

@@ -13,7 +13,7 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplicationStatus
 
-  include PlanningApplication::ValidationRequests
+  # include PlanningApplication::ValidationRequests
 
   include PlanningApplication::Notification
 
@@ -35,17 +35,8 @@ class PlanningApplication < ApplicationRecord
       inverse_of: :planning_application
     )
 
-    has_many :description_change_validation_requests
-    has_many :replacement_document_validation_requests
-    has_many :other_change_validation_requests
-    has_many :fee_item_validation_requests,
-      -> { fee_item },
-      class_name: "OtherChangeValidationRequest",
-      inverse_of: :planning_application
-    has_many :additional_document_validation_requests
-    has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
-    has_many :requests, class_name: "ValidationRequest"
+    has_many :validation_requests
     has_many :assessment_details, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :permitted_development_rights, -> { order :created_at }, inverse_of: :planning_application
     has_many :planning_application_constraints
@@ -107,7 +98,7 @@ class PlanningApplication < ApplicationRecord
   before_update lambda {
                   reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
                 }, if: :valid_red_line_boundary?
-  before_update -> { reset_validation_requests_update_counter!(fee_item_validation_requests) }, if: :valid_fee?
+  before_update -> { reset_validation_requests_update_counter!(validation_requests.where(request_type: "fee_change")) }, if: :valid_fee?
   before_update :audit_update_application_type!, if: :application_type_id_changed?
   before_update :create_proposal_measurement, if: :changed_to_prior_approval?
 
@@ -411,7 +402,7 @@ class PlanningApplication < ApplicationRecord
   def valid_from
     return nil unless validated?
 
-    if closed_validation_requests.any?
+    if validation_requests.closed.any?
       Time.next_immediate_business_day(last_validation_request_date)
     else
       received_at
@@ -646,6 +637,20 @@ class PlanningApplication < ApplicationRecord
 
   def condition_set
     super || create_condition_set!
+  end
+
+  def pending_validation_requests?
+    validation_requests.where(state: "pending").any?
+  end
+
+  def pending_validation_requests
+    validation_requests.where(state: "pending")
+  end
+
+  def reset_validation_requests_update_counter!(requests)
+    return unless validation_requests.any?
+
+    validation_requests.pre_validation.with_validation_request.filter(&:update_counter?).each(&:reset_update_counter!)
   end
 
   private

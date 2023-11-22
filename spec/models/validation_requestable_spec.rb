@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe ValidationRequestable do
+RSpec.describe ValidationRequest do
   let(:request) { create(:additional_document_validation_request, :pending) }
 
   before { freeze_time }
@@ -252,21 +252,21 @@ RSpec.describe ValidationRequestable do
       end
 
       describe "when there is an ActiveRecord error" do
-        it "when no cancel reason it raises ValidationRequestable::RecordCancelError" do
+        it "when no cancel reason it raises ValidationRequest::RecordCancelError" do
           expect { request.cancel_request! }
-            .to raise_error(ValidationRequestable::RecordCancelError, "Validation failed: Cancel reason can't be blank")
+            .to raise_error(ValidationRequest::RecordCancelError, "Validation failed: Cancel reason can't be blank")
             .and not_change(Audit, :count)
 
           expect(request).to be_pending
           expect(request.cancelled_at).to be_nil
         end
 
-        it "when request is in closed state it raises ValidationRequestable::RecordCancelError" do
+        it "when request is in closed state it raises ValidationRequest::RecordCancelError" do
           request.update(state: "closed")
           request.assign_attributes(cancel_reason: "My bad")
 
           expect { request.cancel_request! }
-            .to raise_error(ValidationRequestable::RecordCancelError, "Event 'cancel' cannot transition from 'closed'.")
+            .to raise_error(ValidationRequest::RecordCancelError, "Event 'cancel' cannot transition from 'closed'.")
             .and not_change(Audit, :count)
 
           expect(request).to be_closed

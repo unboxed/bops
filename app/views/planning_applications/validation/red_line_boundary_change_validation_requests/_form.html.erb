@@ -5,15 +5,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: [@planning_application, :validation, @red_line_boundary_change_validation_request] do |form| %>
-      <% if @red_line_boundary_change_validation_request.errors.any? %>
+    <%= form_with model: [@planning_application, :validation, @validation_request] do |form| %>
+      <% if @validation_request.errors.any? %>
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
           <h2 class="govuk-error-summary__title" id="error-summary-title">
             There is a problem
           </h2>
           <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-              <% @red_line_boundary_change_validation_request.errors.each do |error| %>
+              <% @validation_request.errors.each do |error| %>
                 <li><%= error.message %></li>
               <% end %>
             </ul>
@@ -32,9 +32,9 @@
       <%= render(
          "shared/location_map",
          locals: {
-           draw_geojson_data: @red_line_boundary_change_validation_request.new_geojson,
+           draw_geojson_data: @validation_request.new_geojson,
            geojson: @planning_application.boundary_geojson,
-           geojson_field: "red-line-boundary-change-validation-request-new-geojson-field",
+           geojson_field: "validation-request-new-geojson-field",
            invalid_red_line_boundary: true
          }
       ) %>
@@ -43,7 +43,7 @@
         <h2 class="govuk-heading-m govuk-!-padding-top-6">
           Proposed red line boundary
         </h2>
-        <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+        <%= render "shared/location_map", locals: { geojson: @validation_request.new_geojson } %>
       <% end %>
 
       <h3 class="govuk-heading-s govuk-!-padding-top-6">
@@ -61,6 +61,7 @@
           Proposed red line boundary
         </p>
       </div>
+      <%= form.hidden_field :request_type, value: "red_line_boundary_change" %>
       <%= form.govuk_text_area :reason,
                                label: { text: 'Explain to the applicant why changes are proposed to the red line boundary', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
                                rows: 5 %>

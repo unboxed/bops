@@ -18,8 +18,9 @@
     ) do %>
       <%= link_to(
         t(".request_additional_document"),
-        new_planning_application_validation_additional_document_validation_request_path(
-          planning_application
+        new_planning_application_validation_validation_request_path(
+          planning_application,
+          request_type: "additional_document"
         ),
         class: "govuk-link"
       ) %>

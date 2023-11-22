@@ -48,7 +48,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
           expect do
             request
           end.to raise_error(
-            ValidationRequestable::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
+            ValidationRequest::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
           )
         end
       end
@@ -60,7 +60,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
           expect do
             request
           end.to raise_error(
-            ValidationRequestable::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
+            ValidationRequest::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
           )
         end
       end
@@ -101,7 +101,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
         it "raises an error" do
           expect do
             request.destroy!
-          end.to raise_error(ValidationRequestable::NotDestroyableError,
+          end.to raise_error(ValidationRequest::NotDestroyableError,
             "Only requests that are pending can be destroyed")
         end
       end

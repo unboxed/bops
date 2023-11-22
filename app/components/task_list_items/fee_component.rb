@@ -10,23 +10,25 @@ module TaskListItems
 
     attr_reader :planning_application
 
-    delegate(:fee_item_validation_requests, to: :planning_application)
-
     def link_text
       t(".check_fee")
+    end
+
+    def fee_item_validation_requests
+      @planning_application.validation_requests.where(request_type: "fee_change")
     end
 
     def link_path
       case status
       when :valid, :not_started
         planning_application_validation_fee_items_path(
-          planning_application,
-          validate_fee: :yes
+          planning_application
         )
       else
-        planning_application_validation_other_change_validation_request_path(
+        planning_application_validation_validation_request_path(
           planning_application,
-          fee_item_validation_requests.not_cancelled.last
+          fee_item_validation_requests.not_cancelled.last,
+          request_type: "fee_change"
         )
       end
     end

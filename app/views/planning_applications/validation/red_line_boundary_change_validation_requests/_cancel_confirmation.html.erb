@@ -8,7 +8,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l govuk-!-padding-top-6">
+    <h1 class="govuk-heading-l">
       Cancel validation request
     </h1>
 
@@ -16,9 +16,9 @@
       Requested red line boundary to be cancelled
     </h2>
 
-    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+    <%= render "shared/location_map", locals: { geojson: @validation_request.new_geojson } %>
 
-    <div class="govuk-warning-text">
+    <div class="govuk-warning-text govuk-!-margin-top-3">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
       <strong class="govuk-warning-text__text">
         <span class="govuk-warning-text__assistive">Warning</span>
@@ -27,7 +27,7 @@
     </div>
 
     <%= render "planning_applications/validation/validation_requests/cancel_confirmation_form",
-        validation_request: @red_line_boundary_change_validation_request,
-        cancel_request_url: cancel_request_url(@planning_application, @red_line_boundary_change_validation_request) %>
+        validation_request: @validation_request,
+        cancel_request_url: cancel_planning_application_validation_validation_request_path(@planning_application, @validation_request) %>
   </div>
 </div>
