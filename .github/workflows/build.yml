@@ -54,10 +54,11 @@ jobs:
               pattern: "*_spec.rb",
               directories: "{components,form_models,helpers,presenters,mailer,jobs,services,translations}",
             }
+          - { group: "bops_api", pattern: "*_spec.rb", module: "engines" }
       fail-fast: false
     with:
       name: "${{matrix.specs.group}}: ${{matrix.specs.pattern }}"
-      include: "spec/${{matrix.specs.directories || matrix.specs.group}}/**/${{matrix.specs.pattern}}"
+      include: "${{matrix.specs.module || 'spec'}}/${{matrix.specs.directories || matrix.specs.group}}/**/${{matrix.specs.pattern}}"
       want-pdf: "${{ !!matrix.specs.want_pdf }}"
     secrets: inherit
 

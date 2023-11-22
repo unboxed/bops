@@ -42,6 +42,8 @@ gem "stimulus-rails"
 gem "strong_password", "~> 0.0.9"
 gem "view_component"
 
+gem "bops_api", path: "engines/bops_api"
+
 group :development, :test do
   gem "brakeman", require: false
   gem "bullet"

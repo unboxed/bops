@@ -69,6 +69,9 @@ WORKDIR /app
 # Add our Gemfile
 COPY Gemfile Gemfile.lock /app/
 
+# Add the engines
+COPY engines/ /app/engines/
+
 # Install gems
 RUN bash -c "bundle config set --local without 'development test' && \
   bundle config set --local deployment 'true' && \
@@ -120,6 +123,7 @@ COPY --chown=app:app ./bin/ /app/bin/
 COPY --chown=app:app ./config/ /app/config/
 COPY --chown=app:app ./config.ru /app/config.ru
 COPY --chown=app:app ./db/ /app/db/
+COPY --chown=app:app ./engines/ /app/engines/
 COPY --chown=app:app ./lib/ /app/lib/
 COPY --chown=app:app ./public/ /app/public/
 COPY --chown=app:app ./babel.config.js /app/babel.config.js
