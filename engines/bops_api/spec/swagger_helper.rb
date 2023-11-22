@@ -16,7 +16,35 @@ RSpec.configure do |config|
         version: "v2"
       },
       components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer"
+          }
+        },
+
         schemas: {
+          unauthorized: {
+            type: "object",
+            properties: {
+              error: {
+                type: "object",
+                properties: {
+                  code: {
+                    type: "integer",
+                    const: 401
+                  },
+                  message: {
+                    type: "string",
+                    const: "Unauthorized"
+                  }
+                },
+                required: %w[code message]
+              }
+            },
+            required: %w[error]
+          },
+
           healthcheck: {
             type: "object",
             properties: {

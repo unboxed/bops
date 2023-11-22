@@ -4,7 +4,28 @@ info:
   title: Back-office Planning System
   version: v2
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
   schemas:
+    unauthorized:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              const: 401
+            message:
+              type: string
+              const: Unauthorized
+          required:
+          - code
+          - message
+      required:
+      - error
     healthcheck:
       type: object
       properties:
@@ -21,6 +42,8 @@ paths:
   "/api/v2/ping":
     get:
       summary: Returns a healthcheck
+      security:
+      - bearerAuth: []
       responses:
         '200':
           description: Returns a healthcheck
@@ -33,3 +56,15 @@ paths:
                     timestamp: '2023-11-22T20:00:00.000Z'
               schema:
                 "$ref": "#/components/schemas/healthcheck"
+        '401':
+          description: Missing or invalid credentials
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    error:
+                      code: 401
+                      message: Unauthorized
+              schema:
+                "$ref": "#/components/schemas/unauthorized"
