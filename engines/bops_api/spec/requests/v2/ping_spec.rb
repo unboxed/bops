@@ -13,7 +13,7 @@ RSpec.describe "BOPS API" do
       security [bearerAuth: []]
       produces "application/json"
 
-      response "200", "Returns a healthcheck" do
+      response "200", "with valid credentials" do
         schema "$ref" => "#/components/schemas/healthcheck"
 
         example "application/json", :default, {
@@ -26,7 +26,7 @@ RSpec.describe "BOPS API" do
         run_test!
       end
 
-      response "401", "Missing or invalid credentials" do
+      response "401", "with missing or invalid credentials" do
         schema "$ref" => "#/components/schemas/unauthorized"
 
         example "application/json", :default, {
