@@ -16,7 +16,7 @@ class Document < ApplicationRecord
   include Auditable
 
   with_options optional: true do
-    belongs_to :additional_document_validation_request
+    belongs_to :additional_document_validation_request, class_name: "ValidationRequest"
     belongs_to :user
     belongs_to :api_user
   end

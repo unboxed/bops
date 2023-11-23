@@ -32,6 +32,8 @@ class ValidationRequest < ApplicationRecord
 
   class ValidationRequestNotCreatableError < StandardError; end
 
+  class UploadFilesError < RuntimeError; end
+
   belongs_to :requestable, polymorphic: true, optional: true
   belongs_to :planning_application
   belongs_to :user
@@ -46,11 +48,11 @@ class ValidationRequest < ApplicationRecord
   validates :proposed_description, presence: true, if: :description_change?
   validate :allows_only_one_open_description_change, on: :create, if: :description_change?
   validate :planning_application_has_not_been_determined, on: :create, if: :description_change?
-  validate :rejected_reason_is_present?
+  validate :rejected_reason_is_present?, if: :red_line_boundary_change?
   validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create, if: :fee_change?
 
   scope :closed, -> { where(state: "closed") }
-  scope :active, -> { where.not(state: "cancelled") }
+  scope :active, -> { where.not(state: "cancelled").or(where.not(state: "closed")) }
   scope :cancelled, -> { where(state: "cancelled") }
   scope :pending, -> { where(state: "pending") }
   scope :not_cancelled, -> { where(cancelled_at: nil) }
@@ -76,6 +78,8 @@ class ValidationRequest < ApplicationRecord
   after_create :create_audit!
   before_destroy :ensure_validation_request_destroyable!
   after_destroy :reset_columns
+  after_create :set_documents_missing, if: :additional_document?
+  before_destroy :reset_documents_missing, if: :additional_document?
 
   after_create :set_invalid_payment_amount, if: :fee_change?
   before_update :reset_fee_invalidation, if: -> { closed? && fee_change? }
@@ -200,6 +204,22 @@ class ValidationRequest < ApplicationRecord
     end
 
     create_audit_for!(event)
+  end
+
+  def can_upload?
+    open? && may_close?
+  end
+
+  def upload_files!(files)
+    transaction do
+      files.each do |file|
+        planning_application.documents.create!(file:, additional_document_validation_request: self)
+      end
+      close!
+      audit_upload_files!
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    raise UploadFilesError, e.message
   end
 
   def ensure_planning_application_not_validated!
@@ -377,6 +397,10 @@ class ValidationRequest < ApplicationRecord
     request_type == "fee_change"
   end
 
+  def document
+    @document ||= documents.order(:created_at).last
+  end
+
   def reset_columns
     reset_document_invalidation if replacement_document?
     reset_fee_invalidation if fee_change?
@@ -455,5 +479,19 @@ class ValidationRequest < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetFeeInvalidationError, e.message
+  end
+
+  def set_documents_missing
+    return if planning_application.documents_missing?
+
+    planning_application.update!(documents_missing: true)
+  end
+
+  def reset_documents_missing
+    return if planning_application.additional_document_validation_requests.open_or_pending.excluding(self).any?
+
+    planning_application.update!(documents_missing: nil)
+  rescue ActiveRecord::ActiveRecordError => e
+    raise ResetDocumentsMissingError, e.message
   end
 end

@@ -19,7 +19,7 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
   end
 
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request,
+    create(:validation_request, :additional_document,
       planning_application:)
   end
 
