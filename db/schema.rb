@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_140158) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_23_144842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -672,8 +672,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_140158) do
   end
 
   create_table "red_line_boundary_change_validation_requests", force: :cascade do |t|
-    t.integer "planning_application_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
     t.string "state", null: false
     t.jsonb "new_geojson", null: false
     t.string "reason", null: false
@@ -843,14 +843,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_140158) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "additional_document_validation_requests", "planning_applications"
   add_foreign_key "additional_document_validation_requests", "users"
+  add_foreign_key "api_users", "local_authorities"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"
+  add_foreign_key "consistency_checklists", "planning_applications"
   add_foreign_key "constraints", "local_authorities"
+  add_foreign_key "consultations", "planning_applications"
   add_foreign_key "consultee_emails", "consultees"
   add_foreign_key "consultee_responses", "consultees"
   add_foreign_key "consultee_responses", "users", column: "redacted_by_id"
@@ -862,20 +866,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_140158) do
   add_foreign_key "documents", "api_users"
   add_foreign_key "documents", "evidence_groups"
   add_foreign_key "documents", "neighbour_responses"
+  add_foreign_key "documents", "planning_applications"
   add_foreign_key "documents", "press_notices"
   add_foreign_key "documents", "replacement_document_validation_requests"
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "users"
+  add_foreign_key "evidence_groups", "immunity_details"
+  add_foreign_key "immunity_details", "planning_applications"
+  add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policies", "users", column: "assessor_id"
   add_foreign_key "local_policies", "users", column: "reviewer_id"
   add_foreign_key "local_policy_areas", "local_policies"
+  add_foreign_key "neighbour_letters", "neighbours"
   add_foreign_key "neighbour_responses", "consultations"
+  add_foreign_key "neighbour_responses", "neighbours"
   add_foreign_key "neighbour_responses", "users", column: "redacted_by_id"
+  add_foreign_key "neighbours", "consultations"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
   add_foreign_key "other_change_validation_requests", "users"
+  add_foreign_key "permitted_development_rights", "planning_applications"
   add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
   add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"
   add_foreign_key "planning_application_constraints", "constraints"
@@ -883,17 +895,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_140158) do
   add_foreign_key "planning_application_constraints", "planning_applications"
   add_foreign_key "planning_application_constraints_queries", "planning_applications"
   add_foreign_key "planning_applications", "api_users"
+  add_foreign_key "planning_applications", "local_authorities"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
   add_foreign_key "planx_planning_data", "planning_applications"
+  add_foreign_key "policies", "policy_classes"
+  add_foreign_key "policy_classes", "planning_applications"
   add_foreign_key "press_notices", "planning_applications"
+  add_foreign_key "proposal_measurements", "planning_applications"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
+  add_foreign_key "red_line_boundary_change_validation_requests", "planning_applications"
+  add_foreign_key "red_line_boundary_change_validation_requests", "users"
   add_foreign_key "replacement_document_validation_requests", "documents", column: "new_document_id"
   add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
   add_foreign_key "replacement_document_validation_requests", "planning_applications"
   add_foreign_key "replacement_document_validation_requests", "users"
+  add_foreign_key "review_immunity_details", "immunity_details"
   add_foreign_key "review_immunity_details", "users", column: "assessor_id"
   add_foreign_key "review_immunity_details", "users", column: "reviewer_id"
   add_foreign_key "review_local_policies", "local_policies"
@@ -902,8 +921,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_140158) do
   add_foreign_key "review_policy_classes", "policy_classes"
   add_foreign_key "reviews", "users", column: "assessor_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
+  add_foreign_key "site_notices", "planning_applications"
   add_foreign_key "site_visits", "consultations"
   add_foreign_key "site_visits", "neighbours"
   add_foreign_key "site_visits", "users", column: "created_by_id"
+  add_foreign_key "users", "local_authorities"
   add_foreign_key "validation_requests", "planning_applications"
 end
