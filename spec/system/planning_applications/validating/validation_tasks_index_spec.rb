@@ -50,15 +50,15 @@ RSpec.describe "Validation tasks" do
           expect(page).to have_content("Fee")
           expect(page).to have_link(
             "Check fee",
-            href: planning_application_validation_fee_items_path(planning_application, validate_fee: "yes")
+            href: planning_application_validation_fee_items_path(planning_application)
           )
         end
 
         within("#other-change-validation-tasks") do
           expect(page).to have_content("Other validation issues")
           expect(page).to have_link(
-            "Add an other validation request",
-            href: new_planning_application_validation_other_change_validation_request_path(planning_application)
+            "Add another validation request",
+            href: new_planning_application_validation_validation_request_path(planning_application, request_type: "other")
           )
         end
 

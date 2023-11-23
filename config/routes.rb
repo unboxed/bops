@@ -169,18 +169,6 @@ Rails.application.routes.draw do
         end
 
         resource :legislation, only: %i[show update]
-
-        # concern :cancel_validation_requests do
-        #   member do
-        #     get :cancel_confirmation
-
-        #     patch :cancel
-        #   end
-        # end
-
-        # with_options concerns: :cancel_validation_requests do
-        #   resources :validation_requests, except: %i[index show]
-        # end
       end
 
       namespace :review do
