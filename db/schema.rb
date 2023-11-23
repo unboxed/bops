@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_074256) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_23_140158) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -218,7 +218,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_074256) do
   create_table "consultees", force: :cascade do |t|
     t.string "name", null: false
     t.string "origin", null: false
-    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "consultation_id"
@@ -233,7 +232,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_074256) do
     t.datetime "expires_at"
     t.datetime "last_response_at"
     t.index ["consultation_id"], name: "ix_consultees_on_consultation_id"
-    t.index ["planning_application_id"], name: "ix_consultees_on_planning_application_id"
   end
 
   create_table "contacts", force: :cascade do |t|
