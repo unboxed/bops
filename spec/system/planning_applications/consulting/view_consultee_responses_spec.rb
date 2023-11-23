@@ -168,7 +168,7 @@ RSpec.describe "Consultation", js: true do
     within "#external-consultee-responses" do
       within ".consultee-responses:first-of-type" do
         expect(page).to have_selector("h3", text: "Consultations (Planning Department, GLA)")
-        expect(page).to have_selector("p time", text: "Last response on #{today.to_fs}")
+        expect(page).to have_selector("p time", text: "Last received on #{today.to_fs}")
         expect(page).to have_selector("p span", text: "Approved")
         expect(page).to have_selector("p", text: "We are happy for this application to proceed")
 
@@ -207,7 +207,7 @@ RSpec.describe "Consultation", js: true do
       end
 
       within ".govuk-summary-list__row:nth-of-type(6)" do
-        expect(page).to have_selector("dt", text: "Last response on")
+        expect(page).to have_selector("dt", text: "Last received on")
         expect(page).to have_selector("dd", text: today.to_fs)
       end
 

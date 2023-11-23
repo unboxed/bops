@@ -481,7 +481,7 @@ en:
     awaiting_response: Awaiting response
     failed: Failed
     last_email_delivered_at: Last consulted on %-d %B %Y
-    last_response_at: Last response on %-d %B %Y
+    last_received_at: Last received on %-d %B %Y
     objected: Objected
     sending: Sending
     upload_new_response: Upload new response
@@ -502,7 +502,7 @@ en:
     email_address: Email address
     failed: Failed
     heading: Consultee
-    last_response_on: Last response on
+    last_received_on: Last received on
     name: Name
     objected: Objected
     organisation: Organisation
