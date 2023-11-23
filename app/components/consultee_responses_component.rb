@@ -49,8 +49,8 @@ class ConsulteeResponsesComponent < ViewComponent::Base
     time_tag(consultee.last_email_delivered_at, format: t(".last_email_delivered_at"))
   end
 
-  def last_response_at
-    time_tag(consultee.last_response_at, format: t(".last_response_at"))
+  def last_received_at
+    time_tag(consultee.last_received_at, format: t(".last_received_at"))
   end
 
   def consultee_status
@@ -65,10 +65,10 @@ class ConsulteeResponsesComponent < ViewComponent::Base
       case last_response.summary_tag
       when "amendments_needed"
         content_tag(:span, t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow")
-      when "refused"
-        content_tag(:span, t(".refused"), class: "govuk-tag govuk-tag--red")
-      when "no_objections"
-        content_tag(:span, t(".no_objections"), class: "govuk-tag govuk-tag--blue")
+      when "objected"
+        content_tag(:span, t(".objected"), class: "govuk-tag govuk-tag--red")
+      when "approved"
+        content_tag(:span, t(".approved"), class: "govuk-tag govuk-tag--blue")
       end
     end
   end

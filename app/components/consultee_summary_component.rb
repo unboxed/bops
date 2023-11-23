@@ -12,7 +12,7 @@ class ConsulteeSummaryComponent < ViewComponent::Base
   with_options to: :consultee do
     delegate :name, :email_address, :last_response, :status
     delegate :organisation, :organisation?, :role, :role?
-    delegate :email_delivered_at, :last_response_at
+    delegate :email_delivered_at, :last_received_at
   end
 
   delegate :summary_tag, to: :last_response
@@ -29,10 +29,10 @@ class ConsulteeSummaryComponent < ViewComponent::Base
       case summary_tag
       when "amendments_needed"
         content_tag(:span, t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow")
-      when "refused"
-        content_tag(:span, t(".refused"), class: "govuk-tag govuk-tag--red")
-      when "no_objections"
-        content_tag(:span, t(".no_objections"), class: "govuk-tag govuk-tag--blue")
+      when "objected"
+        content_tag(:span, t(".objected"), class: "govuk-tag govuk-tag--red")
+      when "approved"
+        content_tag(:span, t(".approved"), class: "govuk-tag govuk-tag--green")
       end
     end
   end
@@ -41,7 +41,7 @@ class ConsulteeSummaryComponent < ViewComponent::Base
     email_delivered_at && time_tag(email_delivered_at, format: "%-d %B %Y") || "–"
   end
 
-  def last_response_on
-    last_response_at && time_tag(last_response_at, format: "%-d %B %Y") || "–"
+  def last_received_on
+    last_received_at && time_tag(last_received_at, format: "%-d %B %Y") || "–"
   end
 end

@@ -60,6 +60,8 @@ class Consultee < ApplicationRecord
     responses.max_by(&:id)
   end
 
+  delegate :received_at, to: :last_response, prefix: :last, allow_nil: true
+
   private
 
   def default_expires_at

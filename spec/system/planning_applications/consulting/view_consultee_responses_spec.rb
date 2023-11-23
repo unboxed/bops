@@ -150,7 +150,7 @@ RSpec.describe "Consultation", js: true do
     expect(page).to have_selector("h1", text: "Upload consultee response")
     expect(page).to have_selector("h2", text: "Add a new response")
 
-    choose "No objections"
+    choose "Approved"
     fill_in "Response", with: "We are happy for this application to proceed"
 
     click_button "Save response"
@@ -161,15 +161,15 @@ RSpec.describe "Consultation", js: true do
         expect(page).to have_selector("td:nth-child(1)", text: "Consultations Planning Department, GLA")
         expect(page).to have_selector("td:nth-child(2)", text: start_date.to_fs(:day_month_year_slashes))
         expect(page).to have_selector("td:nth-child(3)", text: end_date.to_fs(:day_month_year_slashes))
-        expect(page).to have_selector("td:nth-child(4)", text: "No objections")
+        expect(page).to have_selector("td:nth-child(4)", text: "Approved")
       end
     end
 
     within "#external-consultee-responses" do
       within ".consultee-responses:first-of-type" do
         expect(page).to have_selector("h3", text: "Consultations (Planning Department, GLA)")
-        expect(page).to have_selector("p time", text: "Last response on #{today.to_fs}")
-        expect(page).to have_selector("p span", text: "No objections")
+        expect(page).to have_selector("p time", text: "Last received on #{today.to_fs}")
+        expect(page).to have_selector("p span", text: "Approved")
         expect(page).to have_selector("p", text: "We are happy for this application to proceed")
 
         click_link "View all responses (1)"
@@ -207,13 +207,13 @@ RSpec.describe "Consultation", js: true do
       end
 
       within ".govuk-summary-list__row:nth-of-type(6)" do
-        expect(page).to have_selector("dt", text: "Last response on")
+        expect(page).to have_selector("dt", text: "Last received on")
         expect(page).to have_selector("dd", text: today.to_fs)
       end
 
       within ".govuk-summary-list__row:nth-of-type(7)" do
         expect(page).to have_selector("dt", text: "Status")
-        expect(page).to have_selector("dd", text: "No objections")
+        expect(page).to have_selector("dd", text: "Approved")
       end
     end
 
@@ -222,7 +222,7 @@ RSpec.describe "Consultation", js: true do
 
       within ".consultee-response:first-of-type" do
         expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
-        expect(page).to have_selector("p span", text: "No objections")
+        expect(page).to have_selector("p span", text: "Approved")
         expect(page).to have_selector("p span", text: "Private")
         expect(page).to have_selector("p", text: "We are happy for this application to proceed")
 
