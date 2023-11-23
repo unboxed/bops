@@ -599,7 +599,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_074256) do
   end
 
   create_table "planx_planning_data", force: :cascade do |t|
-    t.jsonb "entry", null: false
+    t.jsonb "entry"
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

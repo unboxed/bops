@@ -78,6 +78,7 @@ class PlanningApplication < ApplicationRecord
     delegate :required?, to: :press_notice
     delegate :required?, to: :site_notice
   end
+  delegate :params_v1, to: :planx_planning_data, allow_nil: true
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
