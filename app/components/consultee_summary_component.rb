@@ -29,10 +29,10 @@ class ConsulteeSummaryComponent < ViewComponent::Base
       case summary_tag
       when "amendments_needed"
         content_tag(:span, t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow")
-      when "refused"
-        content_tag(:span, t(".refused"), class: "govuk-tag govuk-tag--red")
-      when "no_objections"
-        content_tag(:span, t(".no_objections"), class: "govuk-tag govuk-tag--blue")
+      when "objected"
+        content_tag(:span, t(".objected"), class: "govuk-tag govuk-tag--red")
+      when "approved"
+        content_tag(:span, t(".approved"), class: "govuk-tag govuk-tag--green")
       end
     end
   end

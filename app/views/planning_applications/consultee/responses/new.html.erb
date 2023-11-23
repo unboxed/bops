@@ -25,9 +25,9 @@
   <%= form.govuk_text_field :email %>
   <%= form.govuk_date_field :received_at, legend: { text: "Response received on", size: "s", tag: "p" } %>
   <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: { text: 'Is the response', size: 'm' } do %>
-    <%= form.govuk_radio_button :summary_tag, 'no_objections', label: { text: 'No objections' } %>
+    <%= form.govuk_radio_button :summary_tag, 'approved', label: { text: 'Approved' } %>
     <%= form.govuk_radio_button :summary_tag, 'amendments_needed', label: { text: 'Amendments needed' } %>
-    <%= form.govuk_radio_button :summary_tag, 'refused', label: { text: 'Refused' } %>
+    <%= form.govuk_radio_button :summary_tag, 'objected', label: { text: 'Objected' } %>
   <% end %>
   <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
   <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>

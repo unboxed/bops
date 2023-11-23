@@ -14,8 +14,8 @@ class Consultee
 
     enum :summary_tag, {
       amendments_needed: "amendments_needed",
-      no_objections: "no_objections",
-      refused: "refused"
+      approved: "approved",
+      objected: "objected"
     }, scopes: false
 
     validates :name, :response, :summary_tag, :received_at, presence: true

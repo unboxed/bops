@@ -455,19 +455,19 @@ en:
     status: Status
   consultee_overview_row_component:
     amendments_needed: Amendments needed
+    approved: Approved
     awaiting_response: Awaiting response
     failed: Failed
-    no_objections: No objections
-    refused: Refused
+    objected: Objected
     sending: Sending
   consultee_response_component:
     amendments_needed: Amendments needed
-    no_objections: No objections
+    approved: Approved
+    objected: Objected
     private: Private
     published: Published
     received_on: Received on %-d %B %Y
     redact_and_publish: Redact and publish
-    refused: Refused
   consultee_response_group_component:
     external_header: External consultee responses (%{count})
     internal_header: Internal consultee responses (%{count})
@@ -477,12 +477,12 @@ en:
     heading: Responses
   consultee_responses_component:
     amendments_needed: Amendments needed
+    approved: Approved
     awaiting_response: Awaiting response
     failed: Failed
     last_email_delivered_at: Last consulted on %-d %B %Y
     last_response_at: Last response on %-d %B %Y
-    no_objections: No objections
-    refused: Refused
+    objected: Objected
     sending: Sending
     upload_new_response: Upload new response
     view_all_responses: View all responses (%{count})
@@ -496,6 +496,7 @@ en:
     sending: Sending
   consultee_summary_component:
     amendments_needed: Amendments needed
+    approved: Approved
     awaiting_response: Awaiting response
     consulted_on: Consulted on
     email_address: Email address
@@ -503,9 +504,8 @@ en:
     heading: Consultee
     last_response_on: Last response on
     name: Name
-    no_objections: No objections
+    objected: Objected
     organisation: Organisation
-    refused: Refused
     role: Role
     sending: Sending
     status: Status
