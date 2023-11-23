@@ -2,7 +2,9 @@
 en:
   devise:
     confirmations:
-      confirmed: Your email address has been successfully confirmed. You may now log in.
+      confirmed: Your email address has been successfully confirmed and your password has been set. You may now log in.
+      failed_confirmation: We were unable to confirm your email. Click below to receive confirmation instructions
+      confirmation_expired: The confirmtion link has expired. Request a new confirmation link on this page
       send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
     failure:

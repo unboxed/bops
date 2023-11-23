@@ -536,4 +536,31 @@ RSpec.describe "Sign in" do
       expect(page).to have_content("Password is too weak")
     end
   end
+
+  context "when I am a new user who has not confirmed my email" do
+    let!(:user) { create(:user, :unconfirmed, local_authority: default_local_authority) }
+
+    it "does not allow me to log in without confirmation" do
+      visit("/")
+      fill_in("Email", with: user.email)
+      fill_in("Password", with: user.password)
+      click_button("Log in")
+      fill_in("Security code", with: user.current_otp)
+      click_button("Enter code")
+
+      expect(page).to have_content("Email is not confirmed")
+    end
+
+    it "allows me to log in after confirmation" do
+      user.confirm
+
+      visit("/")
+      fill_in("Email", with: user.email)
+      fill_in("Password", with: user.password)
+      fill_in("Security code", with: user.current_otp)
+      click_button("Enter code")
+
+      expect(page).to have_text("Signed in successfully.")
+    end
+  end
 end

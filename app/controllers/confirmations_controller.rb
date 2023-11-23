@@ -4,7 +4,11 @@ class ConfirmationsController < Devise::ConfirmationsController
   def show
     @user = User.find_by(confirmation_token: params[:confirmation_token])
 
-    render :show
+    if @user.confirmation_period_expired?
+      redirect_to new_user_confirmation_path, alert: t("devise.confirmations.confirmation_expired")
+    else
+      render :show
+    end
   end
 
   def confirm_and_set_password
@@ -14,9 +18,9 @@ class ConfirmationsController < Devise::ConfirmationsController
                       password_confirmation: user_params[:password_confirmation]})
       @user.confirm
 
-      redirect_to new_user_session_path, notice: "Your email has been confirmed and your password reset. You may now log in"
+      redirect_to new_user_session_path, notice: t("devise.confirmations.confirmed")
     else
-      render :show, alert: "We were unable to confirm your email. Click below to receive confirmation instructions"
+      render :show, alert: t("devise.confirmations.failed_confirmation")
     end
   end
 

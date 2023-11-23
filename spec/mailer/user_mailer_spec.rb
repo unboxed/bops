@@ -108,4 +108,24 @@ RSpec.describe UserMailer, type: :mailer do
       )
     end
   end
+
+  describe "#confirmation mail" do
+    let(:user) { create(:user, :unconfirmed, email: "heidi@example.com") }
+
+    it "sets subject" do
+      user.send_confirmation_instructions
+      mail = Devise.mailer.deliveries.last
+
+      expect(mail.subject).to eq(
+        "Confirmation instructions"
+      )
+      expect(mail.to).to contain_exactly("heidi@example.com")
+      expect(mail.body.encoded).to include(
+        user.confirmation_token
+      )
+      expect(mail.body.encoded).to include(
+        "The link will expire in 3 days."
+      )
+    end
+  end
 end

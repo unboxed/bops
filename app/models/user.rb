@@ -66,6 +66,14 @@ class User < ApplicationRecord
     confirmed_at.present?
   end
 
+  def confirmation_timeout
+    6.hours
+  end
+
+  def confirmation_period_expired?
+    Time.now > confirmation_sent_at + confirmation_timeout if confirmation_sent_at.present?
+  end
+
   private
 
   def generate_otp_secret

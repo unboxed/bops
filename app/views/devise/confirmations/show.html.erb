@@ -2,13 +2,11 @@
   Confirm - <%= t('page_title') %>
 <% end %>
 
-<h2>Thank you for confirming your account</h2>
-
-<%= @user.email %>
+<h1>Confirm your account and set your email</h1>
 
 <%= form_for @user, url: {action: "confirm_and_set_password"} do |f| %>
   <div class="govuk-form-group govuk-!-margin-top-8">
-    <%= f.hidden_field :user_id, value: @user.id %>]
+    <%= f.hidden_field :user_id, value: @user.id %>
     <%= f.label :password, "New password", class: "govuk-heading-s govuk-!-margin-bottom-1" %>
     <span class="govuk-hint govuk-!-margin-bottom-1">Your password must have:</span>
     <ul class="govuk-!-margin-top-1">
@@ -24,7 +22,7 @@
     <%= f.label :password_confirmation, "Confirm new password", class: "govuk-heading-s govuk-!-margin-top-6" %>
     <%= f.password_field :password_confirmation, class: "govuk-input govuk-input--width-20", autocomplete: "new-password" %> <br>
 
-    <%= f.submit "Change password", class: "govuk-button govuk-!-margin-top-7  govuk-!-margin-bottom-4", data: { module: "govuk-button" } %>
+    <%= f.submit "Submit", class: "govuk-button govuk-!-margin-top-7  govuk-!-margin-bottom-4", data: { module: "govuk-button" } %>
   </div>
 <% end %>
 
