@@ -51,13 +51,13 @@ class ConsulteeRowComponent < ViewComponent::Base
   def consultee_status
     case consultee.status
     when "sending"
-      content_tag(:span, t(".sending"), class: "govuk-tag govuk-tag--blue")
+      content_tag(:span, t(".sending"), class: "govuk-tag govuk-tag--grey")
     when "failed"
       content_tag(:span, t(".failed"), class: "govuk-tag govuk-tag--red")
     when "awaiting_response"
-      content_tag(:span, t(".awaiting_response"), class: "govuk-tag govuk-tag--blue")
+      content_tag(:span, t(".awaiting_response"), class: "govuk-tag govuk-tag--grey")
     when "responded"
-      content_tag(:span, t(".responded"), class: "govuk-tag govuk-tag--green")
+      content_tag(:span, t(".responded"), class: "govuk-tag govuk-tag--blue")
     else
       content_tag(:span, t(".not_consulted"), class: "govuk-tag govuk-tag--grey")
     end
