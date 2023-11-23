@@ -68,7 +68,7 @@ class ConsulteeResponsesComponent < ViewComponent::Base
       when "objected"
         content_tag(:span, t(".objected"), class: "govuk-tag govuk-tag--red")
       when "approved"
-        content_tag(:span, t(".approved"), class: "govuk-tag govuk-tag--blue")
+        content_tag(:span, t(".approved"), class: "govuk-tag govuk-tag--green")
       end
     end
   end
