@@ -5,11 +5,11 @@ FactoryBot.define do
     planning_application { create(:planning_application, :invalidated) }
     user
     request_type { "fee_change" }
-    state { "open" }
     reason { "Incorrect fee" }
     post_validation { false }
+    suggestion { "Do it better" }
 
-    trait :fee_change_validation_request do
+    trait :fee_change do
       request_type { "fee_change" }
       reason { "Incorrect fee" }
       specific_attributes do
@@ -17,16 +17,15 @@ FactoryBot.define do
       end
     end
 
-    trait :other_change_validation_request do
-      request_type { "other" }
-      state { "open" }
+    trait :other_change do
+      request_type { "other_change" }
       reason { "Something else was wrong" }
       specific_attributes do
         {summary: "You need to pay a different fee"}
       end
     end
 
-    trait :additional_document_validation_request do
+    trait :additional_document do
       request_type { "additional_document" }
       reason { "Missing floor plan" }
       specific_attributes do
@@ -55,9 +54,10 @@ FactoryBot.define do
       end
     end
 
-    trait :red_line_boundary_change_validation_request do
+    trait :red_line_boundary_change do
       specific_attributes do
-        new_geojson do
+        {
+          new_geojson:
           '{
             "type": "Feature",
             "geometry": {
@@ -72,18 +72,19 @@ FactoryBot.define do
               ]
             }
           }'
-        end
+        }
       end
       reason { "Boundary incorrect" }
+      request_type { "red_line_boundary_change" }
     end
 
-    trait :replacement_document_validation_request do
+    trait :replacement_document do
       old_document factory: :document
       reason { "Document is invalid" }
       request_type { "replacement_document" }
     end
 
-    trait :description_change_validation_request do
+    trait :description_change do
       reason { "Description is incorrect" }
       specific_attributes do
         {

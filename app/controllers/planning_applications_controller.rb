@@ -76,7 +76,7 @@ class PlanningApplicationsController < AuthenticationController
   def validate
     if validation_date_fields_invalid?
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
-    elsif @planning_application.open_validation_requests?
+    elsif @planning_application.validation_requests.open.any?
       @planning_application.errors.add(:planning_application,
         "Planning application cannot be validated if open validation requests exist.")
     elsif @planning_application.invalid_documents.present?
@@ -204,7 +204,7 @@ class PlanningApplicationsController < AuthenticationController
   def validation_documents
     @documents = @planning_application.documents.active
     @additional_document_validation_requests = @planning_application
-      .validation_requests.where(request_type: "additional_document")
+      .validation_requests.additional_documents
       .pre_validation
       .open_or_pending
 

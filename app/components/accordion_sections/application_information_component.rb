@@ -51,7 +51,7 @@ module AccordionSections
 
     def description_change_request
       @description_change_request ||= planning_application
-        .validation_requests.where(request_type: "description_change").open
+        .validation_requests.description_changes.open
         .last
     end
 

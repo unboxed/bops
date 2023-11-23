@@ -11,7 +11,7 @@ module TaskListItems
     attr_reader :planning_application
 
     def red_line_boundary_change_validation_requests
-      @planning_application.validation_requests.where(request_type: "red_line_boundary_change")
+      @planning_application.validation_requests.red_line_boundary_changes
     end
 
     def link_text

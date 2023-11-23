@@ -47,7 +47,9 @@ class Audit < ApplicationRecord
     document_changed_to_validated: "document_changed_to_validated",
     document_received_at_changed: "document_received_at_changed",
     description_change_validation_request_sent: "description_change_validation_request_sent",
-    description_change_request_cancelled: "description_change_request_cancelled",
+    description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
+    description_change_validation_request_added: "description_change_validation_request_added",
+    description_change_validation_request_sent_post_validation: "description_change_validation_request_sent_post_validation",
     replacement_document_validation_request_sent: "replacement_document_validation_request_sent",
     replacement_document_validation_request_sent_post_validation:
       "replacement_document_validation_request_sent_post_validation",
@@ -71,7 +73,6 @@ class Audit < ApplicationRecord
     additional_document_validation_request_cancelled: "additional_document_validation_request_cancelled",
     additional_document_validation_request_cancelled_post_validation:
       "additional_document_validation_request_cancelled_post_validation",
-    description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
     other_change_validation_request_cancelled: "other_change_validation_request_cancelled",
     fee_change_validation_request_cancelled: "fee_change_validation_request_cancelled",
     fee_change_validation_request_added: "fee_change_validation_request_added",

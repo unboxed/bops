@@ -7,7 +7,7 @@
 
 <% content_for :title, "Documents" %>
 
-<% if @planning_application.replacement_document_validation_requests.open_or_pending.with_active_document.any? %>
+<% if @planning_application.validation_requests.replacement_documents.open_or_pending.with_active_document.any? %>
   <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
     <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 25 25" height="25" width="25">
@@ -19,7 +19,7 @@
           Invalid documents:
           <span>
             <strong>
-              <%= @planning_application.replacement_document_validation_requests.open_or_pending.with_active_document.count %>
+              <%= @planning_application.validation_requests.replacement_documents.open_or_pending.with_active_document.count %>
             </strong>
           </span>
         </li>

@@ -17,8 +17,6 @@ module PlanningApplications
       before_action :ensure_planning_application_is_validated, only: :post_validation_requests
       before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
       before_action :ensure_planning_application_not_invalidated, only: :edit
-      before_action :ensure_no_open_or_pending_fee_item_validation_request, only: %i[show validate]
-      before_action :ensure_no_open_or_pending_red_line_boundary_validation_request, only: %i[show validate]
       before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
       before_action :set_document
 
@@ -143,19 +141,6 @@ module PlanningApplications
 
       def ensure_planning_application_not_validated
         render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
-      end
-
-      def ensure_no_open_or_pending_fee_item_validation_request
-        return unless @planning_application.validation_requests.where(request_type: "fee_item").open_or_pending.any?
-
-        render plain: "forbidden", status: :forbidden
-      end
-
-      def ensure_no_open_or_pending_red_line_boundary_validation_request
-        return unless @validation_request.nil? || @validation_request.request_type == "red_line_boundary_change"
-        return unless @planning_application.validation_requests.where(request_type: "red_line_boundary_change").open_or_pending.any?
-
-        render plain: "forbidden", status: :forbidden
       end
 
       def ensure_planning_application_not_invalidated

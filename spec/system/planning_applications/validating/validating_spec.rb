@@ -11,7 +11,7 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request, planning_application:, state: "closed")
+    create(:validation_request, :additional_document_validation_request, planning_application:, state: "closed")
   end
 
   let!(:document) do
@@ -93,7 +93,7 @@ RSpec.describe "Planning Application Assessment" do
 
   context "when checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
-      create(:additional_document_validation_request, planning_application:, state: "pending",
+      create(:validation_request, :additional_document_validation_request, planning_application:, state: "pending",
         created_at: 12.days.ago)
 
       delivered_emails = ActionMailer::Base.deliveries.count
@@ -122,7 +122,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
-      create(:additional_document_validation_request, planning_application:, state: "open")
+      create(:validation_request, :additional_document_validation_request, planning_application:, state: "open")
 
       within(govuk_tab_all) do
         click_link(planning_application.reference)

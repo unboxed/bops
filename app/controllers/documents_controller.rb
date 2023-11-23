@@ -13,7 +13,7 @@ class DocumentsController < AuthenticationController
   def index
     @documents = @planning_application.documents.with_file_attachment
     @additional_document_validation_requests = @planning_application
-      .additional_document_validation_requests
+      .validation_requests.additional_documents
       .post_validation
       .open_or_pending
 

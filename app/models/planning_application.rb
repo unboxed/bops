@@ -13,8 +13,6 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplicationStatus
 
-  # include PlanningApplication::ValidationRequests
-
   include PlanningApplication::Notification
 
   include GeojsonFormattable
@@ -96,9 +94,9 @@ class PlanningApplication < ApplicationRecord
   after_create :create_consultation!, if: :consultation?
   before_update :set_key_dates
   before_update lambda {
-                  reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
+                  reset_validation_requests_update_counter!(validation_requests.red_line_boundary_change)
                 }, if: :valid_red_line_boundary?
-  before_update -> { reset_validation_requests_update_counter!(validation_requests.where(request_type: "fee_change")) }, if: :valid_fee?
+  before_update -> { reset_validation_requests_update_counter!(validation_requests.fee_changes) }, if: :valid_fee?
   before_update :audit_update_application_type!, if: :application_type_id_changed?
   before_update :create_proposal_measurement, if: :changed_to_prior_approval?
 
@@ -650,7 +648,7 @@ class PlanningApplication < ApplicationRecord
   def reset_validation_requests_update_counter!(requests)
     return unless validation_requests.any?
 
-    validation_requests.pre_validation.with_validation_request.filter(&:update_counter?).each(&:reset_update_counter!)
+    validation_requests.pre_validation.filter(&:update_counter?).each(&:reset_update_counter!)
   end
 
   private
@@ -803,8 +801,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def valid_from_date
-    if closed_validation_requests.present?
-      last_validation_request_date
+    if validation_requests.closed.any?
+      validation_requests.closed.max_by(&:updated_at).updated_at
     else
       created_at
     end

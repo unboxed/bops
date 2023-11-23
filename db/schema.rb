@@ -842,17 +842,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.bigint "planning_application_id"
     t.datetime "closed_at", precision: nil
     t.boolean "update_counter", default: false, null: false
-    t.string "state", null: false
-    t.bigint "user_id", null: false
+    t.string "state"
+    t.bigint "user_id"
     t.boolean "post_validation", default: false, null: false
-    t.boolean "applicant_approved"
+    t.boolean "applicant_approved", default: false, null: false
     t.text "reason"
     t.string "applicant_rejection_reason"
     t.text "applicant_response"
     t.datetime "notified_at"
     t.datetime "cancelled_at"
     t.text "cancel_reason"
-    t.boolean "auto_closed"
+    t.boolean "auto_closed", default: false, null: false
     t.datetime "auto_closed_at"
     t.bigint "old_document_id"
     t.bigint "new_document_id"

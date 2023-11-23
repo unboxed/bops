@@ -3,17 +3,17 @@
 class AddColumnsToValidationRequest < ActiveRecord::Migration[7.0]
   def up
     change_table :validation_requests, bulk: true do |t|
-      t.string :state, null: false
-      t.references :user, null: false
+      t.string :state
+      t.references :user
       t.boolean :post_validation, default: false, null: false
-      t.boolean :applicant_approved
+      t.boolean :applicant_approved, default: false, null: false
       t.text :reason
       t.string :applicant_rejection_reason
       t.text :applicant_response
       t.datetime :notified_at
       t.datetime :cancelled_at
       t.text :cancel_reason
-      t.boolean :auto_closed
+      t.boolean :auto_closed, null: false, default: false
       t.datetime :auto_closed_at
       t.references :old_document, foreign_key: {to_table: :documents}
       t.references :new_document, foreign_key: {to_table: :documents}
@@ -46,6 +46,5 @@ class AddColumnsToValidationRequest < ActiveRecord::Migration[7.0]
     end
 
     rename_column :validation_requests, :request_type, :requestable_type
-    change_column :validation_requests, :requestable_id, :bigint, null: false
   end
 end

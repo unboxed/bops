@@ -71,7 +71,8 @@ RSpec.describe "Edit document" do
     context "when there is an open replacement request" do
       before do
         create(
-          :replacement_document_validation_request,
+          :validation_request,
+          :replacement_document,
           old_document: document,
           planning_application:
         )

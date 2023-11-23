@@ -7,16 +7,22 @@ class ValidationRequest < ApplicationRecord
     red_line_boundary_change
     replacement_document
     fee_change
-    other
+    other_change
   ].freeze
 
   with_options to: :planning_application do
     delegate :audits
     delegate :validated?, prefix: :planning_application
     delegate :closed_or_cancelled?, prefix: :planning_application
+    delegate :reset_validation_requests_update_counter!
   end
 
+  delegate :invalidated_document_reason, to: :old_document
+  delegate :validated?, :archived?, to: :new_document, prefix: :new_document
+
   include Auditable
+
+  include GeojsonFormattable
 
   class RecordCancelError < RuntimeError; end
 
@@ -35,10 +41,18 @@ class ValidationRequest < ApplicationRecord
   validates :request_type, presence: true, inclusion: {in: VALIDATION_REQUEST_TYPES}
   validates :reason, presence: true
   validates :suggestion, presence: true, if: :fee_change?
+  validates :cancel_reason, presence: true, if: :cancelled?
+  validates :new_geojson, presence: true, if: :red_line_boundary_change?
+  validates :proposed_description, presence: true, if: :description_change?
+  validate :allows_only_one_open_description_change, on: :create, if: :description_change?
+  validate :planning_application_has_not_been_determined, on: :create, if: :description_change?
+  validate :rejected_reason_is_present?
+  validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create, if: :fee_change?
 
   scope :closed, -> { where(state: "closed") }
   scope :active, -> { where.not(state: "cancelled") }
   scope :cancelled, -> { where(state: "cancelled") }
+  scope :pending, -> { where(state: "pending") }
   scope :not_cancelled, -> { where(cancelled_at: nil) }
   scope :open_or_pending, -> { open.or(pending) }
   scope :post_validation, -> { where(post_validation: true) }
@@ -46,11 +60,29 @@ class ValidationRequest < ApplicationRecord
   scope :pre_validation, -> { where(post_validation: false) }
   scope :overdue, -> { where(state: ["open", "overdue"]) }
   scope :responsed, -> { where.not(responded_at: nil) }
+  scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
+  before_create lambda {
+                  reset_validation_requests_update_counter!(planning_application.validation_requests.fee_changes)
+                }, if: :fee_change?
   before_create :set_original_geojson, if: :red_line_boundary_change?
+  before_create :set_sequence
+  before_create :set_previous_application_description, if: :description_change?
+  before_create :ensure_planning_application_not_closed_or_cancelled!
+  after_create :set_post_validation!, if: :planning_application_validated?
+  after_create :email_and_timestamp, if: :pending?
+  after_create :create_audit!
+  before_destroy :ensure_validation_request_destroyable!
   after_destroy :reset_columns
+
+  after_create :set_invalid_payment_amount, if: :fee_change?
+  before_update :reset_fee_invalidation, if: -> { closed? && fee_change? }
+  before_destroy :reset_fee_invalidation, if: :fee_change?
+
+  format_geojson_epsg :original_geojson
+  format_geojson_epsg :new_geojson
 
   VALIDATION_REQUEST_TYPES.each do |type|
     scope "#{type.underscore}s", -> { where(request_type: type) }
@@ -92,13 +124,17 @@ class ValidationRequest < ApplicationRecord
 
       after do
         update_counter! unless post_validation?
-        validation_request.update!(closed_at: Time.current)
+        update!(closed_at: Time.current)
       end
     end
   end
 
   def response_due
-    15.business_days.after(created_at.to_date)
+    if description_change?
+      5.business_days.after(created_at.to_date)
+    else
+      15.business_days.after(created_at.to_date)
+    end
   end
 
   def days_until_response_due
@@ -180,17 +216,12 @@ class ValidationRequest < ApplicationRecord
       "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
   end
 
-  def create_validation_request!
-    ValidationRequest.create!(requestable_id: id, requestable_type: self.class,
-      planning_application:)
-  end
-
   def open_or_pending?
     open? || pending?
   end
 
   def active_closed_fee_item?
-    (request_type == "fee_change") && closed? && self == planning_application.validation_requests.where(request_type: "fee_change").not_cancelled.last
+    (request_type == "fee_change") && closed? && self == planning_application.validation_requests.fee_changes.not_cancelled.last
   end
 
   def request_expiry_date
@@ -201,10 +232,10 @@ class ValidationRequest < ApplicationRecord
     transaction do
       auto_close!
       update_planning_application_for_auto_closed_request!
-      update!(approved: true, auto_closed: true, auto_closed_at: Time.current)
+      update!(applicant_approved: true, auto_closed: true, auto_closed_at: Time.current)
 
       audit!(
-        activity_type: "#{self.class.name.underscore}_auto_closed",
+        activity_type: "#{request_type}_#{self.class.name.underscore}_auto_closed",
         activity_information: sequence
       )
     end
@@ -219,13 +250,13 @@ class ValidationRequest < ApplicationRecord
   end
 
   def update_counter!
-    unless is_a?(ReplacementDocumentValidationRequest) ||
-        is_a?(RedLineBoundaryChangeValidationRequest) ||
-        is_a?(OtherChangeValidationRequest)
+    unless replacement_document? ||
+        red_line_boundary_change? ||
+        other_change?
       return
     end
 
-    validation_request.update!(update_counter: true)
+    update!(update_counter: true)
   end
 
   def sent_by
@@ -243,6 +274,19 @@ class ValidationRequest < ApplicationRecord
       .deliver_now
   end
 
+  def replace_document!(file:, reason:)
+    transaction do
+      self.new_document = planning_application.documents.create!(
+        file:,
+        tags: old_document.tags,
+        numbers: old_document.numbers
+      )
+
+      close!
+      old_document.update!(archive_reason: reason, archived_at: Time.zone.now)
+    end
+  end
+
   private
 
   def send_and_add_events
@@ -255,9 +299,8 @@ class ValidationRequest < ApplicationRecord
 
   def create_audit_for!(event)
     audit!(
-      activity_type: "#{self.class.name.underscore}_#{event}",
-      activity_information: sequence.to_s,
-      audit_comment:
+      activity_type: "#{request_type}_#{self.class.name.underscore}_#{event}",
+      activity_information: sequence.to_s
     )
   end
 
@@ -266,14 +309,19 @@ class ValidationRequest < ApplicationRecord
   end
 
   def email_and_timestamp
-    return unless planning_application.validation_complete?
+    if description_change?
+      send_description_request_email
 
-    if post_validation?
-      send_post_validation_request_email
     else
-      send_validation_request_email
-    end
+      return unless planning_application.validation_complete?
 
+      if post_validation?
+        send_post_validation_request_email
+      else
+        send_validation_request_email
+      end
+
+    end
     mark_as_sent!
   end
 
@@ -309,14 +357,30 @@ class ValidationRequest < ApplicationRecord
     request_type == "red_line_boundary_change"
   end
 
+  def replacement_document?
+    request_type == "replacement_document"
+  end
+
+  def description_change?
+    request_type == "description_change"
+  end
+
+  def additional_document?
+    request_type == "additional_document"
+  end
+
+  def other_change?
+    request_type == "other"
+  end
+
   def fee_change?
     request_type == "fee_change"
   end
 
   def reset_columns
-    reset_document_invalidation if request_type == "replacement_document"
+    reset_document_invalidation if replacement_document?
     reset_fee_invalidation if fee_change?
-    reset_documents_missing if request_type == "addtional_document"
+    reset_documents_missing if additional_document?
     reset_red_line_boundary_invalidation if red_line_boundary_change?
   end
 
@@ -330,20 +394,11 @@ class ValidationRequest < ApplicationRecord
 
   def reset_document_invalidation
     transaction do
-      replacement_documents.closed.find_by(new_document_id: old_document_id)&.update_counter!
+      planning_application.validation_requests.replacement_documents.closed.find_by(new_document_id: old_document_id)&.update_counter!
       old_document.update!(invalidated_document_reason: nil, validated: nil)
     end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetDocumentInvalidationError, e.message
-  end
-
-  def reset_fee_invalidation
-    transaction do
-      planning_application.validation_requests.fee_changes.closed.max_by(&:closed_at)&.update_counter! if cancelled?
-      planning_application.update!(valid_fee: nil)
-    end
-  rescue ActiveRecord::ActiveRecordError => e
-    raise ResetFeeInvalidationError, e.message
   end
 
   def reset_red_line_boundary_invalidation
@@ -353,5 +408,52 @@ class ValidationRequest < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetRedLineBoundaryInvalidationError, e.message
+  end
+
+  def set_previous_application_description
+    self.previous_description = planning_application.description
+  end
+
+  def allows_only_one_open_description_change
+    return unless planning_application.validation_requests.description_changes.open.any?
+
+    errors.add(:base, "An open description change already exists for this planning application.")
+  end
+
+  def planning_application_has_not_been_determined
+    return unless planning_application.determined?
+
+    errors.add(:base, "A description change request cannot be submitted for a determined planning application.")
+  end
+
+  def update_planning_application_for_auto_closed_request!
+    planning_application.update!(description: proposed_description)
+  end
+
+  def rejected_reason_is_present?
+    return unless applicant_approved == false && applicant_rejection_reason.blank?
+
+    errors.add(:base,
+      "Please include a comment for the case officer to " \
+      "indicate why the red line boundary change has been rejected.")
+  end
+
+  def ensure_no_open_or_pending_fee_item_validation_request
+    return unless planning_application.validation_requests.fee_changes.open_or_pending.any?
+
+    errors.add(:base, "An open or pending fee validation request already exists for this planning application.")
+  end
+
+  def set_invalid_payment_amount
+    planning_application.update!(invalid_payment_amount: planning_application.payment_amount)
+  end
+
+  def reset_fee_invalidation
+    transaction do
+      planning_application.validation_requests.fee_changes.closed.max_by(&:closed_at)&.update_counter! if cancelled?
+      planning_application.update!(valid_fee: nil)
+    end
+  rescue ActiveRecord::ActiveRecordError => e
+    raise ResetFeeInvalidationError, e.message
   end
 end

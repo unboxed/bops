@@ -239,12 +239,6 @@ en:
           attributes:
             challenged:
               updates_required: You have requested officer changes, resolve these before agreeing with the recommendation
-        red_line_boundary_change_validation_request:
-          attributes:
-            new_geojson:
-              blank: Red line drawing must be complete
-            reason:
-              blank: Provide a reason for changes
         review:
           attributes:
             reviewer_comment:
@@ -276,6 +270,12 @@ en:
           attributes:
             reset_password_token:
               invalid: The reset password link you used no longer works. Please request a new link and try again.
+        validation_request:
+          attributes:
+            new_geojson:
+              blank: Red line drawing must be complete
+            reason:
+              blank: Provide a reason for changes
   add_consultee_component:
     add_additional_consultees: Add additional consultees
     add_consultee: Add consultee

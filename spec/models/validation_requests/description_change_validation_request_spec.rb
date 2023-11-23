@@ -2,15 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe DescriptionChangeValidationRequest do
+RSpec.describe ValidationRequest do
   it_behaves_like("Auditable") do
-    subject { create(:description_change_validation_request) }
+    subject { create(:validation_request, :description_change) }
   end
 
-  it_behaves_like("ValidationRequest")
-
   describe "validations" do
-    let!(:request) { create(:description_change_validation_request) }
+    let!(:request) { create(:validation_request, :description_change) }
 
     it "has a valid factory" do
       expect(request).to be_valid
@@ -19,7 +17,7 @@ RSpec.describe DescriptionChangeValidationRequest do
     describe "when another description change request exists" do
       let(:other_request) do
         build(
-          :description_change_validation_request,
+          :validation_request, :description_change,
           planning_application: request.planning_application
         )
       end
@@ -34,7 +32,7 @@ RSpec.describe DescriptionChangeValidationRequest do
     describe "#response_due" do
       let(:request) do
         build(
-          :description_change_validation_request,
+          :validation_request, :description_change,
           created_at: DateTime.new(2022, 6, 20)
         )
       end

@@ -9,7 +9,7 @@ RSpec.describe "Validation banners" do
   context "when validation request banners are displayed correctly when open request is overdue" do
     let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
     let!(:replacement_document_validation_request) do
-      create(:replacement_document_validation_request, planning_application:, state: "open")
+      create(:validation_request, :replacement_document_validation_request, planning_application:, state: "open")
     end
 
     before do
@@ -23,7 +23,8 @@ RSpec.describe "Validation banners" do
     end
 
     it "shows the correct count for 2 overdue request validations" do
-      create(:replacement_document_validation_request,
+      create(:validation_request,
+        :replacement_document_validation_request,
         planning_application:,
         state: "open")
 
@@ -36,10 +37,10 @@ RSpec.describe "Validation banners" do
   context "when validation warning banner is not displayed when request is closed" do
     let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
     let!(:replacement_document_validation_request) do
-      create(:replacement_document_validation_request, planning_application:, state: "closed")
+      create(:validation_request, :replacement_document_validation_request, planning_application:, state: "closed")
     end
     let!(:additional_document_validation_request) do
-      create(:additional_document_validation_request, planning_application:, state: "closed")
+      create(:validation_request, :additional_document_validation_request, planning_application:, state: "closed")
     end
 
     before do

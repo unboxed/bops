@@ -21,12 +21,12 @@
     <%= render "shared/response_banner" %>
   <% end %>
 <% end %>
-<% if @planning_application.validation_requests.where(request_type: "description_change").any? %>
-  <% if @planning_application.validation_requests.where(request_type: "description_change").responded.any? %>
+<% if @planning_application.validation_requests.description_changes.any? %>
+  <% if @planning_application.validation_requests.description_changes.responded.any? %>
     <%= render "shared/description_response_banner" %>
   <% end %>
 <% end %>
-<% if @planning_application.validation_requests.where(request_type: "description_change").where.not(auto_closed: nil).present? %>
+<% if @planning_application.validation_requests.description_changes.where.not(auto_closed: nil).present? %>
   <%= render "shared/description_change_auto_closed_banner" %>
 <% end %>
 <div class="govuk-grid-row">

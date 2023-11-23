@@ -4,7 +4,6 @@ module PlanningApplications
   module Validation
     class FeeItemsController < ValidationRequestsController
       before_action :ensure_planning_application_not_validated, only: %i[show validate]
-      before_action :ensure_no_open_or_pending_fee_item_validation_request, only: %i[show validate]
 
       def show
         respond_to do |format|

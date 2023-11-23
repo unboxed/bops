@@ -15,7 +15,7 @@ module TaskListItems
     end
 
     def fee_item_validation_requests
-      @planning_application.validation_requests.where(request_type: "fee_change")
+      @planning_application.validation_requests.fee_changes
     end
 
     def link_path
