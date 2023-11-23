@@ -13,7 +13,7 @@
     </h1>
 
     <h2 class="govuk-heading-m">
-      Other request to be cancelled <%= "(fee)" if @other_change_validation_request.fee_item? %>
+      Other request to be cancelled (fee)
     </h2>
 
     <h3 class="govuk-heading-s">
@@ -22,18 +22,18 @@
 
     <div class="govuk-inset-text">
       <p class="govuk-body">
-        <strong><%= render(FormattedContentComponent.new(text: @other_change_validation_request.summary)) %></strong>
+        <strong><%= @validation_request.reason %></strong>
       </p>
       <p class="govuk-body">
-        <%= render(FormattedContentComponent.new(text: @other_change_validation_request.suggestion)) %>
+        <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
       </p>
       <p class="govuk-body">
-      <%= @other_change_validation_request.created_at.to_fs %>
+      <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
 
     <%= render "planning_applications/validation/validation_requests/cancel_confirmation_form",
-        validation_request: @other_change_validation_request,
-        cancel_request_url: cancel_request_url(@planning_application, @other_change_validation_request) %>
+        validation_request: @validation_request,
+        cancel_request_url: cancel_planning_application_validation_validation_request_path(@planning_application, @validation_request) %>
   </div>
 </div>

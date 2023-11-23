@@ -15,7 +15,7 @@ class PlanningApplication < ApplicationRecord
       post_validation_requests_method = "#{state}_post_validation_requests"
 
       define_method validation_requests_method do
-        validation_requests.where(state: "#{state}")
+        validation_requests.where(state: state.to_s)
       end
 
       define_method post_validation_requests_method do

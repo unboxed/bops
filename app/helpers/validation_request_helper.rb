@@ -1,49 +1,51 @@
+# frozen_string_literal: true
+
 # # frozen_string_literal: true
 
 module ValidationRequestHelper
-#   def applicant_response(validation_request)
-#     if validation_request.is_a?(RedLineBoundaryChangeValidationRequest)
-#       if validation_request.approved?
-#         "Change to red line boundary has been approved by the applicant"
-#       elsif validation_request.approved == false
-#         validation_request.rejection_reason.to_s
-#       end
-#     elsif validation_request.class.name.include?("Other") && validation_request.closed?
-#       link_to("View response",
-#         planning_application_validation_other_change_validation_request_path(validation_request.planning_application,
-#           validation_request))
-#     elsif validation_request.closed?
-#       link_to(validation_request.new_document.name.to_s,
-#         edit_planning_application_document_path(validation_request.planning_application,
-#           validation_request.new_document.id.to_s))
-#     end
-#   end
+  #   def applicant_response(validation_request)
+  #     if validation_request.is_a?(RedLineBoundaryChangeValidationRequest)
+  #       if validation_request.approved?
+  #         "Change to red line boundary has been approved by the applicant"
+  #       elsif validation_request.approved == false
+  #         validation_request.rejection_reason.to_s
+  #       end
+  #     elsif validation_request.class.name.include?("Other") && validation_request.closed?
+  #       link_to("View response",
+  #         planning_application_validation_other_change_validation_request_path(validation_request.planning_application,
+  #           validation_request))
+  #     elsif validation_request.closed?
+  #       link_to(validation_request.new_document.name.to_s,
+  #         edit_planning_application_document_path(validation_request.planning_application,
+  #           validation_request.new_document.id.to_s))
+  #     end
+  #   end
 
-#   def display_request_status(validation_request)
-#     if validation_request.closed?
-#       "grey"
-#     elsif validation_request.overdue?
-#       "red"
-#     else
-#       "green"
-#     end
-#   end
+  #   def display_request_status(validation_request)
+  #     if validation_request.closed?
+  #       "grey"
+  #     elsif validation_request.overdue?
+  #       "red"
+  #     else
+  #       "green"
+  #     end
+  #   end
 
   def edit_request_url(planning_application, validation_request, classname: nil)
     link_to "Edit request",
-      send("edit_planning_application_validation_validation_request_path", planning_application,
+      send(:edit_planning_application_validation_validation_request_path, planning_application,
         validation_request), class: classname
   end
 
-#   def cancel_confirmation_request_url(planning_application, validation_request, classname: nil)
-#     link_to "Cancel request",
-#       send("cancel_confirmation_planning_application_validation_#{request_type(validation_request)}_path",
-#         planning_application, validation_request), class: classname
-#   end
+  #   def cancel_confirmation_request_url(planning_application, validation_request, classname: nil)
+  #     link_to "Cancel request",
+  #       send("cancel_confirmation_planning_application_validation_#{request_type(validation_request)}_path",
+  #         planning_application, validation_request), class: classname
+  #   end
 
   def delete_confirmation_request_url(planning_application, validation_request, classname: nil)
     link_to "Delete request",
-      send("planning_application_validation_validation_request_path",
+      send(:planning_application_validation_validation_request_path,
         planning_application, validation_request),
       method: :delete, data: {confirm: "Are you sure?"}, class: classname
   end
@@ -53,40 +55,36 @@ module ValidationRequestHelper
   #     validation_request)
   # end
 
-#   def edit_validation_request_url(planning_application, validation_request)
-#     type = request_type(validation_request)
+  #   def edit_validation_request_url(planning_application, validation_request)
+  #     type = request_type(validation_request)
 
-#     return if type.eql?("replacement_document_validation_request")
+  #     return if type.eql?("replacement_document_validation_request")
 
-#     link_to "Edit", [:edit, planning_application, validation_request]
-#   end
+  #     link_to "Edit", [:edit, planning_application, validation_request]
+  #   end
 
-#   def document_url(document)
-#     link_to(document.name.to_s,
-#       edit_planning_application_document_path(document.planning_application, document.id))
-#   end
+  #   def document_url(document)
+  #     link_to(document.name.to_s,
+  #       edit_planning_application_document_path(document.planning_application, document.id))
+  #   end
 
-#   def show_validation_request_link(application, request)
-#     text = application.validated? ? t("planning_applications.validation.validation_requests.table.view") : t("planning_applications.validation.validation_requests.table.view_and_update")
-#     url = show_validation_request_url(application, request)
-#     link_to(text, url)
-#   end
+  def show_validation_request_link(application, request)
+    text = application.invalidated? ? t("planning_applications.validation.validation_requests.table.view") : t("planning_applications.validation.validation_requests.table.view_and_update")
+    url = show_validation_request_url(application, request)
+    link_to(text, url)
+  end
 
-#   def show_validation_request_url(application, request)
-#     if request.request_type == "additional_document"
-#       show_additional_document_validation_request_url(application, request)
-#     else
-#       polymorphic_path([application, :validation, request])
-#     end
-#   end
+  def show_validation_request_url(application, request)
+    polymorphic_path([application, :validation, request])
+  end
 
-#   def show_additional_document_validation_request_url(application, request)
-#     if request.post_validation?
-#       planning_application_documents_path(application)
-#     else
-#       validation_documents_planning_application_path(application)
-#     end
-#   end
+  #   def show_additional_document_validation_request_url(application, request)
+  #     if request.post_validation?
+  #       planning_application_documents_path(application)
+  #     else
+  #       validation_documents_planning_application_path(application)
+  #     end
+  #   end
 
   def display_request_date_state(validation_request)
     validation_request.days_until_response_due.positive? ? "green" : "red"
@@ -106,9 +104,9 @@ module ValidationRequestHelper
     action_name == "post_validation_requests"
   end
 
-#   private
+  #   private
 
-#   def request_type(validation_request)
-#     validation_request.class.name.underscore
-#   end
+  #   def request_type(validation_request)
+  #     validation_request.class.name.underscore
+  #   end
 end

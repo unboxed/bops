@@ -12,8 +12,8 @@ FactoryBot.define do
     trait :fee_change_validation_request do
       request_type { "fee_change" }
       reason { "Incorrect fee" }
-      specific_attributes do 
-        { suggestion: "You need to pay a different fee" }
+      specific_attributes do
+        {suggestion: "You need to pay a different fee"}
       end
     end
 
@@ -21,17 +21,17 @@ FactoryBot.define do
       request_type { "other" }
       state { "open" }
       reason { "Something else was wrong" }
-      specific_attributes do 
-        { summary: "You need to pay a different fee" }
+      specific_attributes do
+        {summary: "You need to pay a different fee"}
       end
     end
 
     trait :additional_document_validation_request do
       request_type { "additional_document" }
       reason { "Missing floor plan" }
-      specific_attributes do 
+      specific_attributes do
         {
-          document_request_type: "Floor plan",
+          document_request_type: "Floor plan"
         }
       end
     end
@@ -39,9 +39,9 @@ FactoryBot.define do
     trait :additional_document_validation_request_with_documents do
       request_type { "additional_document" }
       reason { "Missing floor plan" }
-      specific_attributes do 
+      specific_attributes do
         {
-          document_request_type: "Floor plan",
+          document_request_type: "Floor plan"
         }
       end
 
@@ -105,7 +105,7 @@ FactoryBot.define do
 
     trait :closed do
       state { "closed" }
-      response { "Some response" }
+      applicant_response { "Some response" }
     end
 
     trait :cancelled do

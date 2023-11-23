@@ -11,7 +11,7 @@
         Status
       </th>
       <th scope="col" class="govuk-table__header">
-        View <%= "and update" unless @planning_application.validated? %> request
+        View <%= "and update" unless @planning_application.invalidated? %> request
       </th>
     </tr>
   </thead>
@@ -51,7 +51,7 @@
           </td>
 
           <td class="govuk-table__cell">
-            <%=link_to "View and edit", planning_application_validation_validation_request_path(@planning_application, request, request_type: request.request_type) %>
+            <%= show_validation_request_link(@planning_application, request) %>
           </td>
         <% end %>
       </tr>

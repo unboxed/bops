@@ -1253,6 +1253,8 @@ en:
         index:
           application_details: Application details
       validation_requests:
+        cancel:
+          success: Validation request was successfully cancelled.
         create:
           success: Request successfully created.
         update:

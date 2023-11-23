@@ -36,7 +36,7 @@ class ValidationRequest < ApplicationRecord
   validates :reason, presence: true
   validates :suggestion, presence: true, if: :fee_change?
 
-  scope :closed, -> { where.not(closed_at: nil) }
+  scope :closed, -> { where(state: "closed") }
   scope :active, -> { where.not(state: "cancelled") }
   scope :cancelled, -> { where(state: "cancelled") }
   scope :not_cancelled, -> { where(cancelled_at: nil) }
@@ -190,7 +190,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def active_closed_fee_item?
-    try(:fee_item?) && closed? && self == planning_application.fee_item_validation_requests.not_cancelled.last
+    (request_type == "fee_change") && closed? && self == planning_application.validation_requests.where(request_type: "fee_change").not_cancelled.last
   end
 
   def request_expiry_date
@@ -230,6 +230,17 @@ class ValidationRequest < ApplicationRecord
 
   def sent_by
     audits.find_by(activity_type: send_and_add_events, activity_information: sequence).try(:user)
+  end
+
+  def send_cancelled_validation_request_mail
+    unless cancelled?
+      raise ValidationRequest::CancelledEmailError,
+        "Validation request: #{request_klass_name}, ID: #{id} must have a cancelled state."
+    end
+
+    PlanningApplicationMailer
+      .cancelled_validation_request_mail(planning_application)
+      .deliver_now
   end
 
   private
@@ -300,17 +311,6 @@ class ValidationRequest < ApplicationRecord
 
   def fee_change?
     request_type == "fee_change"
-  end
-
-  def send_cancelled_validation_request_mail
-    unless cancelled?
-      raise ValidationRequest::CancelledEmailError,
-        "Validation request: #{request_klass_name}, ID: #{id} must have a cancelled state."
-    end
-
-    PlanningApplicationMailer
-      .cancelled_validation_request_mail(@planning_application)
-      .deliver_now
   end
 
   def reset_columns

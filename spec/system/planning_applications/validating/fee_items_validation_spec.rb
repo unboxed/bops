@@ -367,7 +367,7 @@ RSpec.describe "FeeItemsValidation" do
       within(".govuk-button-group") do
         expect(page).to have_link(
           "Cancel request",
-          href: cancel_confirmation_planning_application_validation_other_change_validation_request_path(
+          href: cancel_confirmation_planning_application_validation_validation_request_path(
             planning_application, other_change_validation_request
           )
         )
@@ -390,15 +390,13 @@ RSpec.describe "FeeItemsValidation" do
       expect(page).to have_content("Validation request was successfully cancelled.")
 
       within(".govuk-table.cancelled-requests") do
-        within("#other_change_validation_request_#{other_change_validation_request.id}") do
-          expect(page).to have_content("Other (fee)")
-          expect(page).to have_content("Mistake")
-          expect(page).to have_content(other_change_validation_request.reload.cancelled_at.to_fs)
-        end
+        expect(page).to have_content("Fee change")
+        expect(page).to have_content("Mistake")
+        expect(page).to have_content(other_change_validation_request.reload.cancelled_at.to_fs)
       end
 
       expect(planning_application.reload.valid_fee).to be_nil
-      expect(OtherChangeValidationRequest.last.state).to eq("cancelled")
+      expect(ValidationRequest.last.state).to eq("cancelled")
 
       click_link "Validation tasks"
 
@@ -411,7 +409,7 @@ RSpec.describe "FeeItemsValidation" do
     end
 
     it "I cannot edit the request" do
-      visit "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}/edit"
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{other_change_validation_request.id}/edit"
 
       expect(page).to have_content("forbidden")
       expect(page).not_to have_link("Edit request")
@@ -419,14 +417,14 @@ RSpec.describe "FeeItemsValidation" do
 
     context "when applicant has responded" do
       before do
-        other_change_validation_request.update(state: "closed", response: "ok")
+        other_change_validation_request.update(state: "closed", applicant_response: "ok")
       end
 
       let!(:closed_other_change_validation_request) do
         create(
-          :other_change_validation_request, :closed, :fee,
+          :validation_request, :closed, :fee_change_validation_request,
           planning_application:,
-          response: "I agree with the fee"
+          applicant_response: "I agree with the fee"
         )
       end
 
@@ -484,7 +482,7 @@ RSpec.describe "FeeItemsValidation" do
       end
 
       it "I do not see a continue link for non active fee requests" do
-        visit "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
+        visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{other_change_validation_request.id}"
 
         expect(page).not_to have_link("Continue")
       end
@@ -496,7 +494,7 @@ RSpec.describe "FeeItemsValidation" do
       create(:planning_application, :in_assessment, local_authority: default_local_authority)
     end
 
-    it "does not allow you to validate documents" do
+    it "does not allow you to validate fee" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
       within("#fee-validation-task") do

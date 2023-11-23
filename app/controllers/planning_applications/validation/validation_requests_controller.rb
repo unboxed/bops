@@ -13,9 +13,14 @@ module PlanningApplications
       rescue_from ValidationRequest::ValidationRequestNotCreatableError, with: :redirect_failed_create_request_error
 
       before_action :set_planning_application
+      before_action :set_validation_request, except: [:index]
       before_action :ensure_planning_application_is_validated, only: :post_validation_requests
+      before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
+      before_action :ensure_planning_application_not_invalidated, only: :edit
+      before_action :ensure_no_open_or_pending_fee_item_validation_request, only: %i[show validate]
+      before_action :ensure_no_open_or_pending_red_line_boundary_validation_request, only: %i[show validate]
+      before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
       before_action :set_document
-      before_action :set_validation_request, only: [:show, :cancel, :cancel_confirmation, :edit, :update, :destroy]
 
       def index
         validation_requests = @planning_application.validation_requests
@@ -54,9 +59,9 @@ module PlanningApplications
         end
       end
 
-      def destroy 
+      def destroy
         @validation_request.destroy
-  
+
         respond_to do |format|
           if @validation_request.destroyed?
             format.html do
@@ -100,12 +105,12 @@ module PlanningApplications
           if @validation_request.may_cancel?
             @validation_request.assign_attributes(cancel_validation_request_params)
             @validation_request.cancel_request!
-  
-            send_cancelled_validation_request_mail unless @planning_application.not_started?
-  
+
+            @validation_request.send_cancelled_validation_request_mail unless @planning_application.not_started?
+
             format.html do
               redirect_to cancel_redirect_url,
-                notice: t("cancel.success")
+                notice: t(".success")
             end
           else
             format.html do
@@ -147,7 +152,8 @@ module PlanningApplications
       end
 
       def ensure_no_open_or_pending_red_line_boundary_validation_request
-        return unless @planning_application.red_line_boundary_change_validation_requests.open_or_pending.any?
+        return unless @validation_request.nil? || @validation_request.request_type == "red_line_boundary_change"
+        return unless @planning_application.validation_requests.where(request_type: "red_line_boundary_change").open_or_pending.any?
 
         render plain: "forbidden", status: :forbidden
       end

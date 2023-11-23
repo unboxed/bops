@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnsToValidationRequest < ActiveRecord::Migration[7.0]
   def up
     change_table :validation_requests, bulk: true do |t|
