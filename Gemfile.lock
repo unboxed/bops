@@ -3,6 +3,9 @@ PATH
   specs:
     bops_api (0.1.0)
       rails (>= 7.0.8, < 7.1)
+      rswag-api (~> 2.11)
+      rswag-specs (~> 2.11)
+      rswag-ui (~> 2.11)
 
 GEM
   remote: https://rubygems.org/
@@ -291,6 +294,8 @@ GEM
     jsbundling-rails (1.1.1)
       railties (>= 6.0.0)
     json (2.6.3)
+    json-schema (3.0.0)
+      addressable (>= 2.8)
     jwt (2.7.0)
     language_server-protocol (3.17.0.3)
     lint_roller (1.1.0)
@@ -450,9 +455,16 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
-    rswag-ui (2.8.0)
-      actionpack (>= 3.1, < 7.1)
-      railties (>= 3.1, < 7.1)
+    rswag-api (2.11.0)
+      railties (>= 3.1, < 7.2)
+    rswag-specs (2.11.0)
+      activesupport (>= 3.1, < 7.2)
+      json-schema (>= 2.2, < 4.0)
+      railties (>= 3.1, < 7.2)
+      rspec-core (>= 2.14)
+    rswag-ui (2.11.0)
+      actionpack (>= 3.1, < 7.2)
+      railties (>= 3.1, < 7.2)
     rubocop (1.56.4)
       base64 (~> 0.1.1)
       json (~> 2.3)
@@ -610,6 +622,8 @@ DEPENDENCIES
   rgeo
   rgeo-geojson
   rspec-rails (~> 4.0.0)
+  rswag-api
+  rswag-specs
   rswag-ui
   selenium-webdriver
   sidekiq

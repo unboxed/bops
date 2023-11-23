@@ -2,7 +2,7 @@
 
 module BopsApi
   module V2
-    class PingController < ApplicationController
+    class PingController < AuthenticatedController
       def index
         respond_to do |format|
           format.json

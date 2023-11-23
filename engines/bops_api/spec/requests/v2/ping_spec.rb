@@ -1,33 +1,45 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require "swagger_helper"
 
-RSpec.describe "BopsApi", type: :request do
-  around do |example|
-    travel_to("2023-11-21T18:30:00Z") { example.run }
+RSpec.describe "BOPS API" do
+  before do
+    create(:local_authority, :default)
+    create(:api_user, token: "bRPkCPjaZExpUYptBJDVFzss")
   end
 
-  let(:json) { JSON.parse(response.body) }
+  path "/api/v2/ping" do
+    get "Returns a healthcheck" do
+      security [bearerAuth: []]
+      produces "application/json"
 
-  describe "GET /api/v2/ping" do
-    before do
-      get "/api/v2/ping"
-    end
+      response "200", "with valid credentials" do
+        schema "$ref" => "#/components/schemas/healthcheck"
 
-    it "returns 200 OK" do
-      expect(response).to have_http_status(:ok)
-    end
+        example "application/json", :default, {
+          message: "OK",
+          timestamp: "2023-11-22T20:00:00.000Z"
+        }
 
-    it "returns JSON" do
-      expect(response).to have_attributes(content_type: "application/json; charset=utf-8")
-    end
+        let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
 
-    it "returns an 'OK' message" do
-      expect(json).to match(a_hash_including("message" => "OK"))
-    end
+        run_test!
+      end
 
-    it "returns the current time" do
-      expect(json).to match(a_hash_including("timestamp" => "2023-11-21T18:30:00.000Z"))
+      response "401", "with missing or invalid credentials" do
+        schema "$ref" => "#/components/schemas/unauthorized"
+
+        example "application/json", :default, {
+          error: {
+            code: 401,
+            message: "Unauthorized"
+          }
+        }
+
+        let(:Authorization) { "Bearer invalid-credentials" }
+
+        run_test!
+      end
     end
   end
 end

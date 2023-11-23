@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Swagger index file" do
   before do
-    visit "/api-docs/index.html"
+    visit "/api/docs/index.html"
   end
 
   it "Lists all available API options for planning applications" do
