@@ -392,7 +392,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def other_change?
-    request_type == "other"
+    request_type == "other_change"
   end
 
   def fee_change?
@@ -400,7 +400,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def document
-    @document ||= documents.order(:created_at).last
+    document || documents.order(:created_at).last
   end
 
   def reset_columns
@@ -408,14 +408,6 @@ class ValidationRequest < ApplicationRecord
     reset_fee_invalidation if fee_change?
     reset_documents_missing if additional_document?
     reset_red_line_boundary_invalidation if red_line_boundary_change?
-  end
-
-  def reset_documents_missing
-    return if planning_application.validation_requests.additional_documents.open_or_pending.excluding(self).any?
-
-    planning_application.update!(documents_missing: nil)
-  rescue ActiveRecord::ActiveRecordError => e
-    raise ResetDocumentsMissingError, e.message
   end
 
   def reset_document_invalidation
@@ -434,6 +426,23 @@ class ValidationRequest < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetRedLineBoundaryInvalidationError, e.message
+  end
+
+  def reset_documents_missing
+    return if planning_application.validation_requests.additional_documents.open_or_pending.excluding(self).any?
+
+    planning_application.update!(documents_missing: nil)
+  rescue ActiveRecord::ActiveRecordError => e
+    raise ResetDocumentsMissingError, e.message
+  end
+
+  def reset_fee_invalidation
+    transaction do
+      planning_application.validation_requests.fee_changes.closed.max_by(&:closed_at)&.update_counter! if cancelled?
+      planning_application.update!(valid_fee: nil)
+    end
+  rescue ActiveRecord::ActiveRecordError => e
+    raise ResetFeeInvalidationError, e.message
   end
 
   def set_previous_application_description
@@ -475,27 +484,10 @@ class ValidationRequest < ApplicationRecord
     planning_application.update!(invalid_payment_amount: planning_application.payment_amount)
   end
 
-  def reset_fee_invalidation
-    transaction do
-      planning_application.validation_requests.fee_changes.closed.max_by(&:closed_at)&.update_counter! if cancelled?
-      planning_application.update!(valid_fee: nil)
-    end
-  rescue ActiveRecord::ActiveRecordError => e
-    raise ResetFeeInvalidationError, e.message
-  end
-
   def set_documents_missing
     return if planning_application.documents_missing?
 
     planning_application.update!(documents_missing: true)
-  end
-
-  def reset_documents_missing
-    return if planning_application.validation_requests.additional_documents.open_or_pending.excluding(self).any?
-
-    planning_application.update!(documents_missing: nil)
-  rescue ActiveRecord::ActiveRecordError => e
-    raise ResetDocumentsMissingError, e.message
   end
 
   def reset_replacement_document_validation_request_update_counter!

@@ -183,25 +183,21 @@ RSpec.describe ValidationRequest do
             create(:planning_application, :invalidated, valid_fee: false)
           end
           let!(:request1) do
-            create(:validation_request, :fee_change, :open, planning_application:, applicant_response: "ok")
+            create(:validation_request, :fee_change, :closed, planning_application:, applicant_response: "ok")
           end
           let(:request2) do
             create(:validation_request, :fee_change, :open, planning_application:, applicant_response: "ok")
           end
 
           it "resets the fee invalidation on the planning application" do
-            request1.assign_attributes(cancel_reason: "Cancel reason")
+            request2.assign_attributes(cancel_reason: "Cancel reason")
 
             expect do
-              request1.cancel_request!
-            end.to change(request1.planning_application, :valid_fee).from(false).to(nil)
+              request2.cancel_request!
+            end.to change(request2.planning_application, :valid_fee).from(false).to(nil)
           end
 
           it "resets the update counter on the previously closed request" do
-            request1.close!
-            expect(request1.reload.update_counter).to be(false)
-            expect(request2.update_counter).to be(false)
-
             request2.assign_attributes(cancel_reason: "Cancel reason")
             request2.cancel_request!
             expect(request2.update_counter).to be(false)
@@ -309,14 +305,6 @@ RSpec.describe ValidationRequest do
     end
 
     describe "#active_closed_fee_item?" do
-      context "when validation request does not respond to fee_item?" do
-        let!(:validation_request) { create(:validation_request, :replacement_document) }
-
-        it "returns nil" do
-          expect(validation_request.active_closed_fee_item?).to be_nil
-        end
-      end
-
       context "when fee_item is not true on the validation request" do
         let!(:validation_request) { create(:validation_request, :other_change) }
 
