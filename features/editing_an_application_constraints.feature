@@ -2,7 +2,7 @@ Feature: Editing an application's constraints
   Background:
     Given I am logged in as an assessor
     And a validated planning application
-    And the planning application has the "Conservation Area" constraint
+    And the planning application has the "Conservation area" constraint
     And I view the planning application
 
   Scenario: As an assessor I cannot add constraints past determination

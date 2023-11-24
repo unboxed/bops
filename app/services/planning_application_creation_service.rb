@@ -34,7 +34,6 @@ class PlanningApplicationCreationService
         local_authority_id: local_authority.id,
         boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
-        old_constraints: constraints_array_from_param(params[:constraints_proposed]&.map(&:to_unsafe_hash)),
         api_user:,
         user_role: params[:user_role].presence,
         payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount]),
@@ -99,18 +98,6 @@ class PlanningApplicationCreationService
       {feedback: %i[result find_property planning_constraints]}]
 
     params.permit permitted_keys
-  end
-
-  def constraints_array_from_param(constraints_params)
-    if constraints_params.present?
-      Array.wrap(constraints_params).filter_map do |constraint|
-        constraint["constraints"].filter_map do |key, value|
-          key.parameterize.underscore if value["value"]
-        end
-      end.flatten
-    else
-      []
-    end
   end
 
   def site_params

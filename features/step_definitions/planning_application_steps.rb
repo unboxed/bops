@@ -13,6 +13,7 @@ Given("I am logged in as a(n) {}") do |role|
 
   southwark = LocalAuthority.find_by(subdomain: "southwark")
   @officer = FactoryBot.create(:user, role.to_sym, local_authority: southwark, mobile_number: "07788446542")
+  @api_user = FactoryBot.create(:api_user, name: "PlanX")
 
   domain = @officer.local_authority.subdomain
 
@@ -44,8 +45,10 @@ Given("a new planning application") do
     :planning_application,
     :not_started,
     :with_boundary_geojson,
+    :with_constraints,
     user: @officer,
-    local_authority: @officer.local_authority
+    local_authority: @officer.local_authority,
+    api_user: @api_user
   )
 end
 
@@ -53,7 +56,9 @@ Given("a validated planning application") do
   @planning_application = FactoryBot.create(
     :planning_application,
     :in_assessment,
-    local_authority: @officer.local_authority
+    :with_constraints,
+    local_authority: @officer.local_authority,
+    api_user: @api_user
   )
 end
 

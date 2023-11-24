@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 Given("the planning application has the {string} constraint") do |constraint|
-  @planning_application.old_constraints << constraint
-
-  @planning_application.save!
+  @planning_application.planning_application_constraints.select { |k, v| k.type_code == constraint }
 end
 
 Given("I visit the application's constraints form") do

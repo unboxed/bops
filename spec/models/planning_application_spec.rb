@@ -886,22 +886,6 @@ RSpec.describe PlanningApplication do
     end
   end
 
-  describe "local_constraints" do
-    let(:planning_application) { build(:planning_application) }
-
-    it "contains any custom constraint added" do
-      planning_application.old_constraints << "Foobar"
-
-      expect(planning_application.local_constraints).to contain_exactly "Foobar"
-    end
-
-    it "is empty when all constraints are predefined ones" do
-      planning_application.old_constraints << "listed"
-
-      expect(planning_application.local_constraints).to be_empty
-    end
-  end
-
   describe "#submit_recommendation!" do
     let(:local_authority) do
       create(:local_authority, reviewer_group_email: "reviewers@example.com")
