@@ -10,7 +10,7 @@
         </span>
       </li>
     <% end %>
-    <% @planning_application.validation_requests.others.not_cancelled.each do |other_change_validation_request| %>
+    <% @planning_application.validation_requests.other_changes.not_cancelled.each do |other_change_validation_request| %>
       <%= render(
         TaskListItems::OtherChangeRequestComponent.new(
           planning_application: @planning_application,

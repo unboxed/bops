@@ -23,15 +23,9 @@
           <td class="govuk-table__cell change-request-list">
             <%= request.request_type.humanize %>
           </td>
-          <% if request.cancelled_at? %>
-            <td class="govuk-table__cell change-request-list">
-              <%= request.reason %>
-            </td>
-          <% else %>
-            <td class="govuk-table__cell change-request-list">
-              <%#%>= request.specific_attributes %>
-            </td>
-          <% end %>
+          <td class="govuk-table__cell change-request-list">
+            <%= request.reason %>
+          </td>
 
           <td class="govuk-table__cell">
             <% case request.state %>

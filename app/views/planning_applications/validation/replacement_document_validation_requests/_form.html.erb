@@ -1,29 +1,27 @@
 <div class="govuk-grid-column-full">
-  <div class="govuk-grid-row">
-    <%= form_with model: [@planning_application, :validation, @validation_request] do |form| %>
+  <%= form_with model: [@planning_application, :validation, @validation_request] do |form| %>
 
-      <%= form.hidden_field :old_document_id, value: @document.id %>
+    <%= form.hidden_field :old_document_id, value: @document.id %>
 
-      <% if @validation_request.errors.any? %>
-        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <% @validation_request.errors.full_messages.each do |error| %>
-                <li><%= error %></li>
-              <% end %>
-            </ul>
-          </div>
+    <% if @validation_request.errors.any? %>
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <% @validation_request.errors.full_messages.each do |error| %>
+              <li><%= error %></li>
+            <% end %>
+          </ul>
         </div>
-      <% end %>
-      <%= form.hidden_field :request_type, value: "replacement_document" %>
-      <%= form.govuk_text_area :reason, required: true %>
-
-      <%= render "shared/planning_guides_link" %>
-
-      <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
+      </div>
     <% end %>
-  </div>
+    <%= form.hidden_field :request_type, value: "replacement_document" %>
+    <%= form.govuk_text_area :reason, required: true %>
+
+    <%= render "shared/planning_guides_link" %>
+
+    <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
+  <% end %>
 </div>

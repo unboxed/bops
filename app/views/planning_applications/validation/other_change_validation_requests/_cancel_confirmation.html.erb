@@ -13,7 +13,7 @@
     </h1>
 
     <h2 class="govuk-heading-m">
-      Other request to be cancelled <%= "(fee)" if @validation_request.fee_item? %>
+      Other request to be cancelled (fee)
     </h2>
 
     <h3 class="govuk-heading-s">
@@ -22,7 +22,7 @@
 
     <div class="govuk-inset-text">
       <p class="govuk-body">
-        <strong><%= @validation_request.summary %></strong>
+        <strong><%= @validation_request.reason %></strong>
       </p>
       <p class="govuk-body">
         <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>

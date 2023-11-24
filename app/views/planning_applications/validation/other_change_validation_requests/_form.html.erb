@@ -42,7 +42,7 @@
         readonly: @planning_application.validated?
       ) %>
 
-      <%= form.hidden_field :request_type, value: "other" %>
+      <%= form.hidden_field :request_type, value: "other_change" %>
 
       <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
     <% end %>

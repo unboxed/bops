@@ -94,9 +94,11 @@ class PlanningApplication < ApplicationRecord
   after_create :create_consultation!, if: :consultation?
   before_update :set_key_dates
   before_update lambda {
-                  reset_validation_requests_update_counter!(validation_requests.red_line_boundary_change)
+                  reset_validation_requests_update_counter!(validation_requests.red_line_boundary_changes)
                 }, if: :valid_red_line_boundary?
-  before_update -> { reset_validation_requests_update_counter!(validation_requests.fee_changes) }, if: :valid_fee?
+  before_update lambda {
+                  reset_validation_requests_update_counter!(validation_requests.fee_changes)
+                }, if: :valid_fee?
   before_update :audit_update_application_type!, if: :application_type_id_changed?
   before_update :create_proposal_measurement, if: :changed_to_prior_approval?
 
@@ -645,10 +647,10 @@ class PlanningApplication < ApplicationRecord
     validation_requests.where(state: "pending")
   end
 
-  def reset_validation_requests_update_counter!(requests)
+  def reset_validation_requests_update_counter!(request_type)
     return unless validation_requests.any?
 
-    validation_requests.pre_validation.filter(&:update_counter?).each(&:reset_update_counter!)
+    validation_requests.where(request_type:).pre_validation.filter(&:update_counter?).each(&:reset_update_counter!)
   end
 
   private

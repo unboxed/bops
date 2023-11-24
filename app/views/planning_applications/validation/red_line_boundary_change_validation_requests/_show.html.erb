@@ -7,9 +7,9 @@
 <% content_for :title, "Red line boundary change" %>
 
 <% if @validation_request.applicant_approved? %>
-  <%= render "applicant_approved_response" %>
+  <%= render "planning_applications/validation/red_line_boundary_change_validation_requests/applicant_approved_response" %>
 <% elsif @validation_request.applicant_approved == false %>
-  <%= render "applicant_rejected_response" %>
+  <%= render "planning_applications/validation/red_line_boundary_change_validation_requests/applicant_rejected_response" %>
 <% else %>
   <%= render "planning_applications/validation/red_line_boundary_change_validation_requests/propose_change" %>
 <% end %>

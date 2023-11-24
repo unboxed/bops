@@ -67,8 +67,9 @@ class ValidationRequest < ApplicationRecord
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
   before_create lambda {
-                  reset_validation_requests_update_counter!(planning_application.validation_requests.fee_changes)
-                }, if: :fee_change?
+                  reset_validation_requests_update_counter!(request_type)
+                }
+  before_create :reset_replacement_document_validation_request_update_counter!, if: :replacement_document?
   before_create :set_original_geojson, if: :red_line_boundary_change?
   before_create :set_sequence
   before_create :set_previous_application_description, if: :description_change?
@@ -272,7 +273,8 @@ class ValidationRequest < ApplicationRecord
   def update_counter!
     unless replacement_document? ||
         red_line_boundary_change? ||
-        other_change?
+        other_change? ||
+        fee_change?
       return
     end
 
@@ -455,7 +457,8 @@ class ValidationRequest < ApplicationRecord
   end
 
   def rejected_reason_is_present?
-    return unless applicant_approved == false && applicant_rejection_reason.blank?
+    return unless planning_application.invalidated?
+    return if applicant_approved == false && applicant_rejection_reason.blank?
 
     errors.add(:base,
       "Please include a comment for the case officer to " \
@@ -488,10 +491,16 @@ class ValidationRequest < ApplicationRecord
   end
 
   def reset_documents_missing
-    return if planning_application.additional_document_validation_requests.open_or_pending.excluding(self).any?
+    return if planning_application.validation_requests.additional_documents.open_or_pending.excluding(self).any?
 
     planning_application.update!(documents_missing: nil)
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetDocumentsMissingError, e.message
+  end
+
+  def reset_replacement_document_validation_request_update_counter!
+    request = ValidationRequest.find_by(new_document_id: old_document_id)
+
+    request&.reset_update_counter!
   end
 end

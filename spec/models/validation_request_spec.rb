@@ -186,7 +186,7 @@ RSpec.describe ValidationRequest do
             create(:validation_request, :fee_change, :open, planning_application:, applicant_response: "ok")
           end
           let(:request2) do
-            create(:validation_request, :open, :fee_change, planning_application:, applicant_response: "ok")
+            create(:validation_request, :fee_change, :open, planning_application:, applicant_response: "ok")
           end
 
           it "resets the fee invalidation on the planning application" do
@@ -199,7 +199,7 @@ RSpec.describe ValidationRequest do
 
           it "resets the update counter on the previously closed request" do
             request1.close!
-            expect(request1.update_counter).to be(false)
+            expect(request1.reload.update_counter).to be(false)
             expect(request2.update_counter).to be(false)
 
             request2.assign_attributes(cancel_reason: "Cancel reason")
@@ -220,7 +220,7 @@ RSpec.describe ValidationRequest do
           it "when request is cancelled it updates the counter of the previously closed request to true" do
             request1.close!
             expect(request2.update_counter).to be(false)
-            expect(request1.update_counter).to be(false)
+            expect(request1.reload.update_counter).to be(false)
 
             request2.assign_attributes(cancel_reason: "Cancel reason")
             request2.cancel_request!
@@ -454,7 +454,7 @@ RSpec.describe ValidationRequest do
         let(:request) { create(:validation_request, :red_line_boundary_change, :post_validation) }
 
         it "does not reset the update counter" do
-          expect(request.validation_request).not_to receive(:update!)
+          expect(request).not_to receive(:update!)
 
           request.reset_update_counter!
         end
@@ -464,7 +464,7 @@ RSpec.describe ValidationRequest do
         let(:request) { create(:validation_request, :red_line_boundary_change, :open) }
 
         it "does not reset the update counter" do
-          expect(request.validation_request).to receive(:update!)
+          expect(request).to receive(:update!)
 
           request.reset_update_counter!
         end
