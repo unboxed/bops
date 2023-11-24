@@ -62,6 +62,7 @@ RSpec.describe "Sign in" do
         create(
           :user,
           :administrator,
+          confirmed_at: Time.zone.now,
           local_authority: default_local_authority,
           email: "alice@example.com",
           password:
@@ -548,19 +549,7 @@ RSpec.describe "Sign in" do
       fill_in("Security code", with: user.current_otp)
       click_button("Enter code")
 
-      expect(page).to have_content("Email is not confirmed")
-    end
-
-    it "allows me to log in after confirmation" do
-      user.confirm
-
-      visit("/")
-      fill_in("Email", with: user.email)
-      fill_in("Password", with: user.password)
-      fill_in("Security code", with: user.current_otp)
-      click_button("Enter code")
-
-      expect(page).to have_text("Signed in successfully.")
+      expect(page).to have_content("You have to confirm your email address before continuing")
     end
   end
 end

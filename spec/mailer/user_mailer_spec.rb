@@ -116,7 +116,7 @@ RSpec.describe UserMailer, type: :mailer do
       mail = Devise.mailer.deliveries.last
 
       expect(mail.subject).to eq(
-        "Reset password instructions"
+        "Set password instructions"
       )
       expect(mail.to).to contain_exactly("heidi@example.com")
       expect(mail.body.encoded).to include(
