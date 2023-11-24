@@ -821,6 +821,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_144842) do
     t.string "mobile_number"
     t.integer "otp_delivery_method", default: 0
     t.string "otp_secret"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["email", "local_authority_id"], name: "index_users_on_email_and_local_authority_id", unique: true
     t.index ["encrypted_otp_secret"], name: "ix_users_on_encrypted_otp_secret", unique: true
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"

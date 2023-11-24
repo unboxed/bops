@@ -51,6 +51,9 @@ RSpec.describe "managing users" do
       expect(row).to have_content("Email")
       expect(row).to have_content("Assessor")
 
+      user = User.last
+      user.confirm
+
       click_link("Log out")
       fill_in("Email", with: "alice@example.com")
       fill_in("Password", with: password)
@@ -72,6 +75,9 @@ RSpec.describe "managing users" do
       click_button("Submit")
 
       expect(page).to have_content("User successfully created")
+
+      user = User.last
+      user.confirm
 
       click_link("Log out")
       fill_in("Email", with: "alice@example.com")

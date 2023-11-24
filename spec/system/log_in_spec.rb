@@ -62,6 +62,7 @@ RSpec.describe "Sign in" do
         create(
           :user,
           :administrator,
+          confirmed_at: Time.zone.now,
           local_authority: default_local_authority,
           email: "alice@example.com",
           password:
@@ -534,6 +535,21 @@ RSpec.describe "Sign in" do
 
     within(".govuk-error-summary") do
       expect(page).to have_content("Password is too weak")
+    end
+  end
+
+  context "when I am a new user who has not confirmed my email" do
+    let!(:user) { create(:user, :unconfirmed, local_authority: default_local_authority) }
+
+    it "does not allow me to log in without confirmation" do
+      visit("/")
+      fill_in("Email", with: user.email)
+      fill_in("Password", with: user.password)
+      click_button("Log in")
+      fill_in("Security code", with: user.current_otp)
+      click_button("Enter code")
+
+      expect(page).to have_content("You have to confirm your email address before continuing")
     end
   end
 end
