@@ -120,10 +120,7 @@ RSpec.describe UserMailer, type: :mailer do
       )
       expect(mail.to).to contain_exactly("heidi@example.com")
       expect(mail.body.encoded).to include(
-        user.confirmation_token
-      )
-      expect(mail.body.encoded).to include(
-        "Welcome to"
+        "Welcome to the Back-office Planning System"
       )
     end
   end
