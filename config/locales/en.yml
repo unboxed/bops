@@ -161,9 +161,9 @@ en:
               not_public: Emails can’t be sent out when a planning application has not been made public
               not_started: Emails can’t be sent out when a planning application has not been started
             reconsult_date:
-              blank: Please enter the date by which consultees need to respond by
-              in_the_past: Please enter a date in the future
-              invalid: Please enter a valid date
+              date_blank: Please enter the date by which consultees need to respond by
+              date_invalid: Please enter a valid date
+              date_not_on_or_after: Please enter a date at least seven days from today
             reconsult_message:
               blank: Please enter the reasons for the reconsultation
               invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'
@@ -561,6 +561,16 @@ en:
       validation_notice_mail: Your application for a %{application_type_name}
       validation_request_closure_mail: Changes to your %{application_type_name} application
       validation_request_mail: "%{application_type_name} application - further changes needed"
+  errors:
+    messages:
+      date_blank: is blank
+      date_invalid: is not a valid date
+      date_is_not: is not %{date}
+      date_not_after: is not after %{date}
+      date_not_before: is not before %{date}
+      date_not_between: is not between %{start_date} and %{end_date}
+      date_not_on_or_after: is not on or after %{date}
+      date_not_on_or_before: is not on or before %{date}
   form_actions:
     publish_decision: Publish decision
     review_and_publish_decision: Review and publish decision

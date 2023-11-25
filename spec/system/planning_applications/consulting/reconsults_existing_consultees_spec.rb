@@ -206,7 +206,7 @@ RSpec.describe "Consultation", js: true do
       click_button "Send emails to consultees"
     end
 
-    expect(page).to have_selector("[role=alert] li", text: "Please enter a date in the future")
+    expect(page).to have_selector("[role=alert] li", text: "Please enter a date at least seven days from today")
 
     within "#resend-consultees" do
       fill_in "Day", with: "50"
