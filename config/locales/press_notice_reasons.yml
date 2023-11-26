@@ -1,18 +1,12 @@
 en:
   press_notice_reasons:
-    conservation_area:
-      - The site of the application is within/affecting the setting of a designated Conservation Area (Section 73) of the Planning (Listed Buildings and Conservation Areas) Act 1990
-    listed_building:
-      - The application relates to, or affects the setting of a Listed Building (Section 67) of the Planning (Listed Buildings and Conservation Areas) Act 1990
-    major_development:
-      - The application is for a Major Development
-    wildlife_and_countryside:
-      - The application would affect a right of way to which Part III of the Wildlife and Countryside Act 1981 (as amended) applies
-    development_plan:
-      - The application does not accord with the provisions of the development plan
-    environment:
-      - An environmental statement accompanies this application
-    ancient_monument:
-      - The site of the application is affecting the setting of an Ancient Monument
-    public_interest:
-      - Wider Public interest
+    conservation_area: The site of the application is within/affecting the setting of a designated Conservation Area (Section 73) of the Planning (Listed Buildings and Conservation Areas) Act 1990
+    listed_building: The application relates to, or affects the setting of a Listed Building (Section 67) of the Planning (Listed Buildings and Conservation Areas) Act 1990
+    major_development: The application is for a Major Development
+    wildlife_and_countryside: The application would affect a right of way to which Part III of the Wildlife and Countryside Act 1981 (as amended) applies
+    development_plan: The application does not accord with the provisions of the development plan
+    environment: An environmental statement accompanies this application
+    ancient_monument: The site of the application is affecting the setting of an Ancient Monument
+    public_interest: Wider Public interest
+    other: Other
+    other_reason: Provide another reason why this application requires a press notice

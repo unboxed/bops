@@ -1,0 +1,68 @@
+<% content_for :page_title do %>
+  Press notice - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+<% content_for :title, "Confirm press notice" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Confirm press notice" }
+) %>
+
+<%= form_with(
+  model: @press_notice,
+  url: planning_application_press_notice_confirmation_path(@planning_application)
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <% if @press_notice.requested_at? %>
+    <div class="govuk-inset-text govuk-!-margin-top-0 govuk-!-padding-top-2 govuk-!-padding-bottom-2">
+      <p class="govuk-body-s govuk-!-margin-bottom-2">
+        <%= time_tag(@press_notice.requested_at, format: t(".requested_on")) %>
+      </p>
+      <p class="govuk-body">
+        <strong class="govuk-tag">Emailed</strong>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="background-light-grey govuk-!-padding-bottom-1 govuk-!-padding-left-5 govuk-!-padding-right-5 govuk-!-padding-top-5 govuk-!-margin-bottom-7">
+    <h2 class="govuk-heading-s">Reasons selected:</h2>
+    <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+      <% @press_notice.reasons.each do |reason| %>
+        <li>
+          <% if reason == "other" %>
+            <%= @press_notice.other_reason %>
+          <% else %>
+            <%= t(reason, scope: :press_notice_reasons) %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <%= form.govuk_date_field(:press_sent_at, rows: 6, id: "press-sent-at-field", legend: { size: "s", text: t(".press_sent_at") }) %>
+      <%= form.govuk_date_field(:published_at, rows: 6, id: "published-at-field", legend: { size: "s", text: t(".published_at") }) %>
+
+      <%= render "documents", documents: @press_notice.documents %>
+
+      <%= form.govuk_file_field :documents,
+        label: { size: "s", text: t(".upload_photos") },
+        hint: { text: t(".photos_hint") },
+        multiple: true
+      %>
+
+      <%= form.govuk_text_area(:comment, rows: 3, label: { text: t(".optional_comment") }) %>
+    </fieldset>
+
+    <div class="govuk-button-group govuk-!-padding-top-7">
+      <%= form.submit t(".save"), class: "govuk-button govuk-button--primary" %>
+      <%= link_to t(".back"), planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    </div>
+  </div>
+<% end %>

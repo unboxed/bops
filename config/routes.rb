@@ -77,9 +77,11 @@ Rails.application.routes.draw do
         patch :update, on: :collection
       end
 
-      resources :confirm_press_notices, only: %i[edit update]
+      resource :press_notice, only: %i[show create update] do
+        resource :confirmation, only: %i[show update], controller: "press_notices/confirmations"
+      end
+
       resources :site_notices
-      resources :press_notices, only: %i[new create show update]
       resource :withdraw_or_cancel, only: %i[show update]
       resources :notes, only: %i[index create]
 

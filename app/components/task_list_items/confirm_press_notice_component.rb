@@ -20,9 +20,7 @@ module TaskListItems
     end
 
     def link_path
-      return unless link_active?
-
-      edit_planning_application_confirm_press_notice_path(planning_application, press_notice)
+      planning_application_press_notice_confirmation_path(planning_application)
     end
 
     def status_tag_component
@@ -30,10 +28,15 @@ module TaskListItems
     end
 
     def status
-      return "not_started" unless press_notice&.press_sent_at
-      return "in_progress" unless press_notice.published_at
-
-      "complete"
+      if press_notice.nil?
+        "not_started"
+      elsif press_notice.published_at?
+        "complete"
+      elsif press_notice.press_sent_at?
+        "in_progress"
+      else
+        "not_started"
+      end
     end
   end
 end

@@ -16,11 +16,7 @@ module TaskListItems
     end
 
     def link_path
-      if press_notice.nil?
-        new_planning_application_press_notice_path(planning_application)
-      else
-        planning_application_press_notice_path(planning_application, press_notice)
-      end
+      planning_application_press_notice_path(planning_application)
     end
 
     def status_tag_component
@@ -28,9 +24,7 @@ module TaskListItems
     end
 
     def status
-      return "not_started" if press_notice.nil?
-
-      "complete"
+      press_notice ? "complete" : "not_started"
     end
   end
 end
