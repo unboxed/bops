@@ -381,8 +381,7 @@ class PlanningApplicationsController < AuthenticationController
 
     flash.now[:alert] = sanitize "You must
         #{view_context.link_to "confirm the press notice published at date",
-          edit_planning_application_confirm_press_notice_path(@planning_application,
-            @planning_application.press_notice)}
+          planning_application_press_notice_confirmation_path(@planning_application)}
         before determining the application."
 
     render :publish and return

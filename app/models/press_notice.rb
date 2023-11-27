@@ -2,81 +2,111 @@
 
 class PressNotice < ApplicationRecord
   include Auditable
+  include DateValidateable
+
+  REASONS = %i[
+    conservation_area
+    listed_building
+    major_development
+    wildlife_and_countryside
+    development_plan
+    environment
+    ancient_monument
+    public_interest
+    other
+  ].freeze
 
   belongs_to :planning_application
-  has_many :documents, dependent: :destroy
-
-  with_options presence: true do
-    validates :reasons, if: :required?
-  end
+  has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
   validates :required, inclusion: {in: [true, false]}
 
-  after_update :update_consultation_end_date!
-  after_save :audit_press_notice!
+  with_options presence: true do
+    validates :reasons, if: :required?
+    validates :other_reason, if: :other_selected?
+  end
+
+  with_options on: :confirmation do
+    validates :press_sent_at,
+      presence: true,
+      date: {
+        on_or_before: :current,
+        on_or_after: :consultation_start_date
+      }
+
+    validates :published_at,
+      date: {
+        on_or_before: :current,
+        on_or_after: :press_sent_at
+      }
+
+    validates :documents, presence: true, if: :published_at?
+  end
+
+  before_validation :reset_reasons, unless: :required?
+  before_validation :reset_other_reason, unless: :other_selected?
+
+  after_update :extend_consultation!, if: :saved_change_to_published_at?
+  after_save :audit_press_notice!, if: :audit_required?
 
   delegate :audits, to: :planning_application
   delegate :consultation, to: :planning_application
-  delegate :press_notice_email, to: "planning_application.local_authority", allow_nil: true
+  delegate :local_authority, to: :planning_application
+  delegate :press_notice_email, to: :local_authority
+  delegate :start_date, to: :consultation, prefix: true
+  delegate :end_date, to: :consultation, prefix: true
 
   scope :required, -> { where(required: true) }
 
-  accepts_nested_attributes_for :documents
-
-  class << self
-    def reasons_list
-      I18n.t("press_notice_reasons")
-    end
-
-    def reason_keys
-      reasons_list.keys.flatten
-    end
+  def reasons
+    Array.wrap(super)
   end
 
-  def send_press_notice_mail
-    return unless required
-    return if press_notice_email.blank?
+  def reasons=(values)
+    super(Array.wrap(values).reject(&:blank?))
+  end
 
-    transaction do
-      PlanningApplicationMailer.press_notice_mail(self).deliver_now
-      update!(requested_at: Time.current)
+  def other_selected?
+    reasons.include?("other")
+  end
 
-      audit!(
-        activity_type: "press_notice_mail",
-        audit_comment: "Press notice request was sent to #{press_notice_email}"
-      )
+  def documents=(files)
+    files.select(&:present?).each do |file|
+      documents.new(file: file, planning_application: planning_application, tags: ["Press Notice"])
     end
   end
 
   private
 
-  def audit_press_notice!
-    return unless saved_change_to_required? || saved_change_to_reasons?
+  def reset_reasons
+    self.reasons = []
+  end
 
-    comment = if reasons.present?
-      "Press notice has been marked as required with the following reasons: #{joined_reasons}"
+  def reset_other_reason
+    self.other_reason = nil
+  end
+
+  def audit_required?
+    saved_change_to_required? || saved_change_to_reasons?
+  end
+
+  def audit_comment
+    if required?
+      "Press notice has been marked as required with the following reasons: #{reasons.join(", ")}"
     else
       "Press notice has been marked as not required"
     end
-
-    audit!(
-      activity_type: "press_notice",
-      audit_comment: comment
-    )
   end
 
-  def joined_reasons
-    reasons.values.join(", ")
+  def audit_press_notice!
+    audit!(activity_type: "press_notice", audit_comment: audit_comment)
   end
 
-  def update_consultation_end_date!
-    return unless consultation
-    return unless saved_changes.include? "published_at"
+  def new_consultation_end_date
+    [published_at && (published_at + 21.days).end_of_day, consultation_end_date].compact.max
+  end
 
-    new_end_date = published_at + 21.days
-
-    return unless consultation.end_date.nil? || new_end_date > consultation.end_date
-
-    consultation.update!(end_date: new_end_date)
+  def extend_consultation!
+    consultation.update!(end_date: new_consultation_end_date)
   end
 end

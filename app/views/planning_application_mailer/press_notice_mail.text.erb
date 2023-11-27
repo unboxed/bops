@@ -4,8 +4,12 @@ Address: <%= @planning_application.full_address %>
 
 This application requires a press notice with the following reasons:
 
-<% @press_notice.reasons.values.each do |reason| %>
-- <%= reason %>
-<% end %>
+<% @press_notice.reasons.each do |reason| %>
+<% if reason == "other" -%>
+- <%= @press_notice.other_reason %>
+<% else -%>
+- <%= t(reason, scope: :press_notice_reasons) %>
+<% end -%>
+<% end -%>
 
-View the application at <%= edit_planning_application_confirm_press_notice_url(@planning_application, @press_notice, subdomain: @planning_application.local_authority.subdomain) %>.
+View the application at <%= planning_application_press_notice_confirmation_url(@planning_application, subdomain: @planning_application.local_authority.subdomain) %>.

@@ -8,23 +8,14 @@ FactoryBot.define do
 
     trait :required do
       required { true }
-      reasons do
-        {
-          environment: "An environmental statement accompanies this application",
-          development_plan: "The application does not accord with the provisions of the development plan"
-        }
-      end
+      reasons { %w[environment development_plan] }
       requested_at { Time.zone.now }
     end
 
     trait :with_other_reason do
       required { true }
-      reasons do
-        {
-          environment: "An environmental statement accompanies this application",
-          other: "An other reason"
-        }
-      end
+      reasons { %w[environment other] }
+      other_reason { "An other reason" }
     end
   end
 end

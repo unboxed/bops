@@ -23,6 +23,14 @@ html * {
   background-color: white;
 }
 
+.govuk-checkboxes__divider {
+  @include govuk-font($size: 19);
+  @include govuk-text-colour;
+  width: 40px;
+  margin-bottom: govuk-spacing(2);
+  text-align: center;
+}
+
 .flash-archive {
   border: 5px solid govuk-colour("green");
   @include govuk-font($size: 19);

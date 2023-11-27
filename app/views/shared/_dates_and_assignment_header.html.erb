@@ -44,7 +44,7 @@
             <div id="confirm-press-notice-warning">
               <%= render(
                 partial: "shared/warning_text",
-                locals: { message: link_to("Confirm press notice publication date", edit_planning_application_confirm_press_notice_path(@planning_application, @planning_application.press_notice)) }
+                locals: { message: link_to("Confirm press notice publication date", planning_application_press_notice_confirmation_path(@planning_application), class: "govuk-link") }
               ) %>
             </div>
           <% end %>

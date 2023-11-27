@@ -50,7 +50,7 @@ RSpec.describe "Press notice" do
       within("#confirm-press-notice-warning .govuk-warning-text") do
         expect(page).to have_link(
           "Confirm press notice publication date",
-          href: edit_planning_application_confirm_press_notice_path(planning_application, press_notice)
+          href: "/planning_applications/#{planning_application.id}/press_notice/confirmation"
         )
       end
     end

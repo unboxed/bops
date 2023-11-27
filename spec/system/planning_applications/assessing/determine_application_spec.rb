@@ -220,7 +220,7 @@ RSpec.describe "Planning Application Assessment" do
           within(".govuk-error-summary") do
             expect(page).to have_content("You must confirm the press notice published at date before determining the application")
             expect(page).to have_link(
-              "confirm the press notice published at date", href: edit_planning_application_confirm_press_notice_path(planning_application, press_notice)
+              "confirm the press notice published at date", href: "/planning_applications/#{planning_application.id}/press_notice/confirmation"
             )
           end
         end

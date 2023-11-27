@@ -1237,10 +1237,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       create(
         :press_notice,
         :required,
-        reasons: {
-          "environment" => "An environmental statement accompanies this application",
-          "major_development" => "The application is for a Major Development"
-        },
+        reasons: %w[major_development environment],
         planning_application:
       )
     end
@@ -1289,7 +1286,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the bops request url" do
       expect(mail_body).to include(
-        "View the application at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.id}/confirm_press_notices/#{press_notice.id}/edit."
+        "View the application at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.id}/press_notice/confirmation."
       )
     end
   end

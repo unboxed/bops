@@ -79,16 +79,15 @@ RSpec.describe "Press notice" do
         end
 
         expect(find_by_id("press-notice-required-true-field")).to be_checked
-        expect(find_by_id("press_notice_reason_major_development")).to be_checked
-        expect(find_by_id("press_notice_reason_environment")).to be_checked
+        expect(find_by_id("press-notice-reasons-major-development-field")).to be_checked
+        expect(find_by_id("press-notice-reasons-environment-field")).to be_checked
+
+        perform_enqueued_jobs
 
         expect(PressNotice.last).to have_attributes(
           planning_application_id: planning_application.id,
           required: true,
-          reasons: {
-            "environment" => "An environmental statement accompanies this application",
-            "major_development" => "The application is for a Major Development"
-          },
+          reasons: %w[major_development environment],
           requested_at: Time.zone.local(2023, 3, 15, 12)
         )
 
@@ -96,7 +95,7 @@ RSpec.describe "Press notice" do
         expect(audits.first).to have_attributes(
           planning_application_id: planning_application.id,
           activity_type: "press_notice",
-          audit_comment: "Press notice has been marked as required with the following reasons: The application is for a Major Development, An environmental statement accompanies this application",
+          audit_comment: "Press notice has been marked as required with the following reasons: major_development, environment",
           user: assessor
         )
         expect(audits.second).to have_attributes(
@@ -110,7 +109,7 @@ RSpec.describe "Press notice" do
         within("#audit_#{audits.first.id}") do
           expect(page).to have_content("Press notice response added")
           expect(page).to have_content(assessor.name)
-          expect(page).to have_content("Press notice has been marked as required with the following reasons: The application is for a Major Development, An environmental statement accompanies this application")
+          expect(page).to have_content("Press notice has been marked as required with the following reasons: major_development, environment")
           expect(page).to have_content(audits.first.created_at.strftime("%d-%m-%Y %H:%M"))
         end
         within("#audit_#{audits.second.id}") do
@@ -121,7 +120,7 @@ RSpec.describe "Press notice" do
         end
       end
 
-      it "I provide a standard reason and an other reason why a press notice is required" do
+      it "I provide a standard reason and another reason why a press notice is required" do
         click_link "Consultees, neighbours and publicity"
         click_link "Press notice"
 
@@ -129,24 +128,23 @@ RSpec.describe "Press notice" do
         check("The application is for a Major Development")
         check("Other")
         fill_in(
-          "Provide an other reason why this application requires a press notice",
-          with: "An other reason not included in the list"
+          "Provide another reason why this application requires a press notice",
+          with: "Another reason not included in the list"
         )
 
         click_button("Save and mark as complete")
         click_link("Press notice")
 
         expect(find_by_id("press-notice-required-true-field")).to be_checked
-        expect(find_by_id("press_notice_reason_major_development")).to be_checked
-        expect(find_by_id("press-notice-other-reason-selected-1-field")).to be_checked
+        expect(find_by_id("press-notice-reasons-major-development-field")).to be_checked
+        expect(find_by_id("press-notice-reasons-other-field")).to be_checked
+
+        perform_enqueued_jobs
 
         expect(PressNotice.last).to have_attributes(
           planning_application_id: planning_application.id,
           required: true,
-          reasons: {
-            "other" => "An other reason not included in the list",
-            "major_development" => "The application is for a Major Development"
-          },
+          reasons: %w[major_development other],
           requested_at: Time.zone.local(2023, 3, 15, 12)
         )
 
@@ -154,7 +152,7 @@ RSpec.describe "Press notice" do
         expect(audits.first).to have_attributes(
           planning_application_id: planning_application.id,
           activity_type: "press_notice",
-          audit_comment: "Press notice has been marked as required with the following reasons: The application is for a Major Development, An other reason not included in the list",
+          audit_comment: "Press notice has been marked as required with the following reasons: major_development, other",
           user: assessor
         )
         expect(audits.second).to have_attributes(
@@ -165,29 +163,29 @@ RSpec.describe "Press notice" do
         )
       end
 
-      it "I provide an other reason why a press notice is required" do
+      it "I provide another reason why a press notice is required" do
         click_link "Consultees, neighbours and publicity"
         click_link "Press notice"
 
         choose("Yes")
         check("Other")
         fill_in(
-          "Provide an other reason why this application requires a press notice",
-          with: "An other reason not included in the list"
+          "Provide another reason why this application requires a press notice",
+          with: "Another reason not included in the list"
         )
 
         click_button("Save and mark as complete")
         click_link("Press notice")
 
         expect(find_by_id("press-notice-required-true-field")).to be_checked
-        expect(find_by_id("press-notice-other-reason-selected-1-field")).to be_checked
+        expect(find_by_id("press-notice-reasons-other-field")).to be_checked
+
+        perform_enqueued_jobs
 
         expect(PressNotice.last).to have_attributes(
           planning_application_id: planning_application.id,
           required: true,
-          reasons: {
-            "other" => "An other reason not included in the list"
-          },
+          reasons: %w[other],
           requested_at: Time.zone.local(2023, 3, 15, 12)
         )
 
@@ -195,7 +193,7 @@ RSpec.describe "Press notice" do
         expect(audits.first).to have_attributes(
           planning_application_id: planning_application.id,
           activity_type: "press_notice",
-          audit_comment: "Press notice has been marked as required with the following reasons: An other reason not included in the list",
+          audit_comment: "Press notice has been marked as required with the following reasons: other",
           user: assessor
         )
         expect(audits.second).to have_attributes(
@@ -215,6 +213,8 @@ RSpec.describe "Press notice" do
         check("The application is for a Major Development")
         click_button("Save and mark as complete")
 
+        perform_enqueued_jobs
+
         expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
       end
 
@@ -231,6 +231,8 @@ RSpec.describe "Press notice" do
           expect(page).to have_content("No press notice email has been set. This can be done by an administrator in the admin dashboard.")
           click_button("Save and mark as complete")
 
+          perform_enqueued_jobs
+
           expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
         end
       end
@@ -244,10 +246,10 @@ RSpec.describe "Press notice" do
 
           expect(find_by_id("press-notice-required-true-field")).to be_disabled
           expect(find_by_id("press-notice-required-field")).to be_disabled
-          expect(find_by_id("press-notice-other-reason-selected-1-field")).to be_disabled
+          expect(find_by_id("press-notice-reasons-other-field")).to be_disabled
 
           expect(page).not_to have_button("Save and mark as complete")
-          expect(page).to have_content("Press notice was published on #{press_notice.published_at.to_date.to_fs}")
+          expect(page).to have_content("Press notice published on #{press_notice.published_at.to_date.to_fs}")
         end
       end
     end
@@ -271,7 +273,7 @@ RSpec.describe "Press notice" do
         expect(PressNotice.last).to have_attributes(
           planning_application_id: planning_application.id,
           required: false,
-          reasons: {},
+          reasons: [],
           requested_at: nil
         )
 
@@ -313,7 +315,7 @@ RSpec.describe "Press notice" do
           expect(PressNotice.last).to have_attributes(
             planning_application_id: planning_application.id,
             required: false,
-            reasons: {},
+            reasons: [],
             requested_at: Time.zone.local(2023, 3, 14, 12)
           )
 
@@ -328,7 +330,7 @@ RSpec.describe "Press notice" do
         it "I can modify the reasons to why the press notice is required" do
           click_link "Consultees, neighbours and publicity"
           click_link "Press notice"
-          expect(find_by_id("press-notice-other-reason-selected-1-field")).to be_checked
+          expect(find_by_id("press-notice-reasons-other-field")).to be_checked
 
           check("The application is for a Major Development")
           check("Wider Public interest")
@@ -338,14 +340,16 @@ RSpec.describe "Press notice" do
           click_link("Press notice")
 
           expect(find_by_id("press-notice-required-true-field")).to be_checked
-          expect(find_by_id("press_notice_reason_major_development")).to be_checked
-          expect(find_by_id("press_notice_reason_public_interest")).to be_checked
-          expect(find_by_id("press-notice-other-reason-selected-1-field")).not_to be_checked
+          expect(find_by_id("press-notice-reasons-major-development-field")).to be_checked
+          expect(find_by_id("press-notice-reasons-public-interest-field")).to be_checked
+          expect(find_by_id("press-notice-reasons-other-field")).not_to be_checked
+
+          perform_enqueued_jobs
 
           expect(PressNotice.last).to have_attributes(
             planning_application_id: planning_application.id,
             required: true,
-            reasons: {"environment" => "An environmental statement accompanies this application", "major_development" => "The application is for a Major Development", "public_interest" => "Wider Public interest"},
+            reasons: %w[major_development environment public_interest],
             requested_at: Time.zone.local(2023, 3, 15, 12)
           )
 
@@ -353,7 +357,7 @@ RSpec.describe "Press notice" do
           expect(audits.first).to have_attributes(
             planning_application_id: planning_application.id,
             activity_type: "press_notice",
-            audit_comment: "Press notice has been marked as required with the following reasons: The application is for a Major Development, An environmental statement accompanies this application, Wider Public interest",
+            audit_comment: "Press notice has been marked as required with the following reasons: major_development, environment, public_interest",
             user: assessor
           )
           expect(audits.second).to have_attributes(
@@ -379,14 +383,14 @@ RSpec.describe "Press notice" do
           click_link("Press notice")
 
           expect(find_by_id("press-notice-required-true-field")).to be_checked
-          expect(find_by_id("press_notice_reason_major_development")).to be_checked
+          expect(find_by_id("press-notice-reasons-major-development-field")).to be_checked
+
+          perform_enqueued_jobs
 
           expect(PressNotice.last).to have_attributes(
             planning_application_id: planning_application.id,
             required: true,
-            reasons: {
-              "major_development" => "The application is for a Major Development"
-            },
+            reasons: %w[major_development],
             requested_at: Time.zone.local(2023, 3, 15, 12)
           )
 
@@ -394,7 +398,7 @@ RSpec.describe "Press notice" do
           expect(audits.first).to have_attributes(
             planning_application_id: planning_application.id,
             activity_type: "press_notice",
-            audit_comment: "Press notice has been marked as required with the following reasons: The application is for a Major Development",
+            audit_comment: "Press notice has been marked as required with the following reasons: major_development",
             user: assessor
           )
           expect(audits.second).to have_attributes(
@@ -409,6 +413,14 @@ RSpec.describe "Press notice" do
   end
 
   describe "confirming a press notice" do
+    let(:consultation) { planning_application.consultation }
+
+    before do
+      travel_to "2023-09-20" do
+        consultation.start_deadline
+      end
+    end
+
     context "when a press notice is required" do
       let!(:press_notice) { create(:press_notice, :required, planning_application:) }
 
@@ -428,7 +440,7 @@ RSpec.describe "Press notice" do
         end
 
         expect(page).to have_content("Press notice requested")
-        expect(page).to have_content("Emailed on #{press_notice.requested_at.to_fs(:day_month_year_slashes)}")
+        expect(page).to have_content("Press notice requested on #{press_notice.requested_at.to_date.to_fs}")
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Confirm press notice")
@@ -453,14 +465,35 @@ RSpec.describe "Press notice" do
         click_link "Consultees, neighbours and publicity"
         click_link "Confirm press notice"
 
+        click_button "Save"
+        expect(page).to have_content("You must provide the date when the press notice was sent")
+
+        within("#press-sent-at-field") do
+          expect(page).to have_content("What date was the press notice sent?")
+          fill_in "Day", with: "1"
+          fill_in "Month", with: "1"
+          fill_in "Year", with: "2023"
+        end
+
+        click_button "Save"
+        expect(page).to have_content("The date the press notice was sent must be on or after the consultation start date")
+
+        within("#press-sent-at-field") do
+          expect(page).to have_content("What date was the press notice sent?")
+          fill_in "Day", with: "31"
+          fill_in "Month", with: "12"
+          fill_in "Year", with: "2023"
+        end
+
+        click_button "Save"
+        expect(page).to have_content("The date the press notice was sent must be on or before today")
+
         within("#press-sent-at-field") do
           expect(page).to have_content("What date was the press notice sent?")
           fill_in "Day", with: "25"
           fill_in "Month", with: "9"
           fill_in "Year", with: "2023"
         end
-
-        attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
 
         fill_in "Optional comment", with: "Press notice comment"
         click_button "Save"
@@ -472,13 +505,25 @@ RSpec.describe "Press notice" do
           click_link("Confirm press notice")
         end
 
-        within(".govuk-table") do
-          document = PressNotice.last.documents.first
-          expect(page).to have_content(document.name.to_s)
-          expect(page).to have_link("View in new window")
-          expect(page).to have_content("Press Notice")
-          expect(page).to have_content(document.created_at.to_fs)
+        within("#published-at-field") do
+          expect(page).to have_content("What date was the press notice published?")
+          fill_in "Day", with: "1"
+          fill_in "Month", with: "1"
+          fill_in "Year", with: "2023"
         end
+
+        click_button "Save"
+        expect(page).to have_content("The date the press notice was published must be on or after the press sent date")
+
+        within("#published-at-field") do
+          expect(page).to have_content("What date was the press notice published?")
+          fill_in "Day", with: "31"
+          fill_in "Month", with: "12"
+          fill_in "Year", with: "2023"
+        end
+
+        click_button "Save"
+        expect(page).to have_content("The date the press notice was published must be on or before today")
 
         within("#published-at-field") do
           expect(page).to have_content("What date was the press notice published?")
@@ -488,9 +533,23 @@ RSpec.describe "Press notice" do
         end
 
         click_button "Save"
+        expect(page).to have_content("You must provide documentary evidence that the press notice was published")
+
+        attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
+
+        click_button "Save"
 
         within("#confirm-press-notice") do
           expect(page).to have_content("Complete")
+          click_link("Confirm press notice")
+        end
+
+        within(".govuk-table") do
+          document = PressNotice.last.documents.first
+          expect(page).to have_content(document.name.to_s)
+          expect(page).to have_link("View in new window")
+          expect(page).to have_content("Press Notice")
+          expect(page).to have_content(document.created_at.to_fs)
         end
 
         expect(PressNotice.last).to have_attributes(
@@ -508,8 +567,9 @@ RSpec.describe "Press notice" do
         click_link "Consultees, neighbours and publicity"
         expect(page).not_to have_content("Confirm press notice")
 
-        visit "/planning_applications/#{planning_application.id}/confirm_press_notices/#{press_notice.id}/edit"
-        expect(page).to have_content("forbidden")
+        visit "/planning_applications/#{planning_application.id}/press_notice/confirmation"
+        expect(page).to have_current_path("/planning_applications/#{planning_application.id}/consultation")
+        expect(page).to have_content("The press notice is not required so there is no need to confirm it")
       end
     end
   end

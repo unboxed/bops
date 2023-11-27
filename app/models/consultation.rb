@@ -4,6 +4,7 @@ class Consultation < ApplicationRecord
   class AddNeighbourAddressesError < StandardError; end
 
   include GeojsonFormattable
+  include DateValidateable
 
   EMAIL_REASONS = %w[send resend reconsult].freeze
   EMAIL_PLACEHOLDER = /\{\{\s*([a-z][_a-z0-9]+)\s*\}\}/
@@ -46,7 +47,7 @@ class Consultation < ApplicationRecord
 
     with_options if: :reconsult? do
       validates :reconsult_message, presence: true
-      validates :reconsult_date, presence: true
+      validates :reconsult_date, presence: true, date: {on_or_after: ->(c) { Date.current + 7.days }}
     end
 
     validate do
@@ -72,10 +73,6 @@ class Consultation < ApplicationRecord
       if reconsult?
         unknown_placeholders(reconsult_message) do |placeholder|
           errors.add(:reconsult_message, :invalid, placeholder: placeholder)
-        end
-
-        if reconsult_date.present?
-          errors.add(:reconsult_date, :in_the_past) unless reconsult_date.future?
         end
       end
     end
@@ -126,12 +123,7 @@ class Consultation < ApplicationRecord
   end
 
   def send_consultee_emails(attributes)
-    begin
-      self.attributes = attributes
-    rescue ActiveRecord::MultiparameterAssignmentErrors
-      errors.add(:reconsult_date, :invalid) and return false
-    end
-
+    self.attributes = attributes
     return false unless save(context: :send_consultee_emails)
 
     unless start_date?
