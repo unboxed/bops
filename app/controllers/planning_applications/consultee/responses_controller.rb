@@ -40,10 +40,8 @@ module PlanningApplications
       end
 
       def update
-        @consultee_response.attributes = redaction_params
-
         respond_to do |format|
-          if @consultee_response.save(context: :redaction)
+          if @consultee_response.update(redaction_params, :redaction)
             format.html do
               redirect_to planning_application_consultee_path(@planning_application, @consultee), notice: t(".success")
             end

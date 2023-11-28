@@ -123,8 +123,7 @@ class Consultation < ApplicationRecord
   end
 
   def send_consultee_emails(attributes)
-    self.attributes = attributes
-    return false unless save(context: :send_consultee_emails)
+    return false unless update(attributes, :send_consultee_emails)
 
     unless start_date?
       start_deadline
