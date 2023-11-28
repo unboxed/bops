@@ -949,7 +949,7 @@ en:
             lawfulness_certificate: State the reasons why this application is, or is not lawful.
             planning_permission: State the reasons for your recommendation.
             prior_approval: State the reasons for your recommendation.
-          there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
+          there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href="%{href}">View all requests</a>.
           this_information_will: This information will appear on the decision notice.
           this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
           update_assessment: Update assessment
@@ -991,6 +991,8 @@ en:
       other: "%{count} days remaining"
       zero: "%{count} days overdue"
     determine:
+      confirm_press_notice_published_at_html: You must <a class="govuk-notification-banner__link" href="%{href}">confirm the press notice published at date</a> before determining the application.
+      confirm_site_notice_displayed_at_html: You must <a class="govuk-notification-banner__link" href="%{href}">confirm the site notice displayed at date</a> before determining the application.
       success: Decision Notice sent to applicant
     index:
       prior_approvals:
@@ -1009,7 +1011,9 @@ en:
         failure: 'Error adding neighbour addresses with message: %{message}'
         success: Addresses have been successfully added.
       send_letters:
-        require_resend_reason: Must provide a reason when resending letters to previously-contacted neighbours
+        add_neighbours: You must add some neighbours before sending letters
+        make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BoPS Public Portal</a> before you can send letters to neighbours.
+        require_resend_reason: You must provide a reason when resending letters to previously-contacted neighbours
     neighbour_responses:
       create:
         success: Neighbour response successfully created.
@@ -1163,6 +1167,7 @@ en:
       validation:
         check_and_validate: Check and validate
     submit:
+      has_open_non_validation_requests_html: This application has open non-validation requests. Please <a class="govuk-notification-banner__link" href="%{href}">review open requests</a> and resolve them before submitting to your manager.
       success: Recommendation was successfully submitted.
     submit_recommendation:
       back: Back
@@ -1184,6 +1189,7 @@ en:
     update:
       edit_payment_amount: Planning application payment amount was successfully updated.
       edit_public_comment: The information appearing on the decision notice was successfully updated.
+      save_and_mark_complete_html: Please save and mark as complete the <a class="govuk-notification-banner__link" href="%{href}">draft recommendation</a> before updating application fields.
       success: Planning application was successfully updated.
     validate:
       success: Application is ready for assessment and an email notification has been sent.

@@ -106,7 +106,7 @@ module PlanningApplications
     end
 
     def set_error_messages
-      flash.now[:error] = @neighbour_response.neighbour.errors.full_messages.join("\n") if @neighbour_response.neighbour&.errors&.any?
+      flash.now[:alert] = @neighbour_response.neighbour.errors.full_messages.join("\n") if @neighbour_response.neighbour&.errors&.any?
     end
   end
 end

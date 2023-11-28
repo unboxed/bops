@@ -1,18 +1,11 @@
 # frozen_string_literal: true
 
 class PlanningApplicationsController < AuthenticationController
-  include ActionView::Helpers::SanitizeHelper
-
   before_action :set_planning_application, except: %i[new create index]
-
   before_action :ensure_user_is_reviewer_checking_assessment, only: %i[edit_public_comment]
-
   before_action :ensure_no_open_post_validation_requests, only: %i[submit]
-
   before_action :ensure_draft_recommendation_complete, only: :update
-
   before_action :ensure_site_notice_displayed_at, only: %i[determine]
-
   before_action :ensure_press_notice_published_at, only: %i[determine]
 
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
@@ -344,46 +337,28 @@ class PlanningApplicationsController < AuthenticationController
   def ensure_no_open_post_validation_requests
     return unless @planning_application.open_post_validation_requests?
 
-    link = view_context.link_to(
-      "review open requests",
-      post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
-    )
-    flash.now[:error] = sanitize "This application has open non-validation requests. Please
-        #{link} and resolve them before submitting to your manager."
+    flash.now[:alert] = t(".has_open_non_validation_requests_html", href: post_validation_requests_planning_application_validation_validation_requests_path(@planning_application))
     render :submit_recommendation and return
   end
 
   def ensure_draft_recommendation_complete
     return unless @planning_application.try(:assessment_in_progress?)
 
-    flash.now[:alert] = sanitize "Please save and mark as complete the
-        #{view_context.link_to "draft recommendation",
-          new_planning_application_assessment_recommendation_path(@planning_application)}
-        before updating application fields."
-
+    flash.now[:alert] = t(".save_and_mark_complete_html", href: new_planning_application_assessment_recommendation_path(@planning_application))
     render :edit and return
   end
 
   def ensure_site_notice_displayed_at
     return unless @planning_application.site_notice_needs_displayed_at?
 
-    flash.now[:alert] = sanitize "You must
-        #{view_context.link_to "confirm the site notice displayed at date",
-          edit_planning_application_site_notice_path(@planning_application,
-            @planning_application.site_notice)}
-        before determining the application."
-
+    flash.now[:alert] = t(".confirm_site_notice_displayed_at_html", href: edit_planning_application_site_notice_path(@planning_application, @planning_application.site_notice))
     render :publish and return
   end
 
   def ensure_press_notice_published_at
     return unless @planning_application.press_notice_needs_published_at?
 
-    flash.now[:alert] = sanitize "You must
-        #{view_context.link_to "confirm the press notice published at date",
-          planning_application_press_notice_confirmation_path(@planning_application)}
-        before determining the application."
-
+    flash.now[:alert] = t(".confirm_press_notice_published_at_html", href: planning_application_press_notice_confirmation_path(@planning_application))
     render :publish and return
   end
 end

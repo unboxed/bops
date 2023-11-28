@@ -478,7 +478,7 @@ RSpec.describe "Sign in" do
       visit "/"
       expect(page).not_to have_content(user.name)
 
-      within(".flash") do
+      within(".govuk-notification-banner--alert") do
         expect(page).to have_content("Your session expired. Please sign in again to continue.")
       end
     end

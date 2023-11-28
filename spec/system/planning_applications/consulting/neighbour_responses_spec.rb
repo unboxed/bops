@@ -160,7 +160,7 @@ RSpec.describe "View neighbour responses", js: true do
 
     click_button "Save response"
 
-    within(".flash.govuk-error-summary") do
+    within(".govuk-notification-banner--alert") do
       expect(page).to have_content("There is a problem")
       expect(page).to have_content("'123 Street' is invalid")
       expect(page).to have_content("Enter the property name or number, followed by a comma")
@@ -212,7 +212,7 @@ RSpec.describe "View neighbour responses", js: true do
 
     click_button "Update response"
 
-    within(".flash.govuk-error-summary") do
+    within(".govuk-notification-banner--alert") do
       expect(page).to have_content("There is a problem")
       expect(page).to have_content("'124, Made up' is invalid")
       expect(page).to have_content("Enter the property name or number, followed by a comma")
