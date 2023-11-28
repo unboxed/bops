@@ -13,10 +13,8 @@ module PlanningApplications
       end
 
       def update
-        @press_notice.assign_attributes(press_notice_params)
-
         respond_to do |format|
-          if @press_notice.save(context: :confirmation)
+          if @press_notice.update(press_notice_params, :confirmation)
             format.html do
               redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
             end
