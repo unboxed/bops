@@ -19,7 +19,7 @@
       <% unless form.object.open_red_line_boundary_change_requests? %>
         <%= link_to(
           t(".request_red_line_boundary_change"),
-          new_planning_application_validation_red_line_boundary_change_validation_request_path(
+          new_planning_application_validation_validation_request_path(
             planning_application
           ),
           class: "govuk-link"

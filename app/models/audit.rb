@@ -104,17 +104,9 @@ class Audit < ApplicationRecord
   validates :activity_type, presence: true
 
   def validation_request
-    return if request_type.blank?
-
-    request_type.find_by(
+    ValidationRequest.find_by(
       planning_application:,
       sequence: activity_information
     )
-  end
-
-  private
-
-  def request_type
-    activity_type.try(:[], /[a-z|_]+_request/)&.camelize&.constantize
   end
 end

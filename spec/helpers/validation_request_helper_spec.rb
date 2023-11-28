@@ -10,7 +10,7 @@ RSpec.describe ValidationRequestHelper do
   describe "#cancel_confirmation_request_url" do
     it "returns the link text and url to the cancel confirmation page for a validation request" do
       url = link_to "Cancel request",
-        cancel_confirmation_planning_application_validation_other_change_validation_request_path(planning_application,
+        cancel_confirmation_planning_application_validation_validation_request_path(planning_application,
           request)
       expect(cancel_confirmation_request_url(planning_application, request)).to eq(url)
     end

@@ -58,7 +58,7 @@ class PlanningApplicationsController < AuthenticationController
           format.html { render :edit_public_comment }
         when :edit_payment_amount
           format.html do
-            redirect_to planning_application_validation_other_change_validation_request_path(
+            redirect_to planning_application_validation_validation_request_path(
               @planning_application, OtherChangeValidationRequest.find(params[:other_change_validation_request_id])
             ), alert: @planning_application.errors.messages[:payment_amount].join(", ")
           end

@@ -2,15 +2,15 @@
 
 json.data do
   json.description_change_validation_requests @planning_application
-    .description_change_validation_requests do |description_change_validation_request|
+    .validation_requests.description_changes do |description_change_validation_request|
     json.extract! description_change_validation_request,
       :id,
       :state,
       :response_due,
       :proposed_description,
       :previous_description,
-      :rejection_reason,
-      :approved,
+      :applicant_rejection_reason,
+      :applicant_approved,
       :days_until_response_due,
       :cancel_reason,
       :cancelled_at
@@ -18,15 +18,15 @@ json.data do
   end
 
   json.red_line_boundary_change_validation_requests @planning_application
-    .red_line_boundary_change_validation_requests do |red_line_boundary_change_validation_request|
+    .validation_requests.red_line_boundary_changes do |red_line_boundary_change_validation_request|
     json.extract! red_line_boundary_change_validation_request,
       :id,
       :state,
       :response_due,
       :new_geojson,
       :reason,
-      :rejection_reason,
-      :approved,
+      :applicant_rejection_reason,
+      :applicant_approved,
       :days_until_response_due,
       :cancel_reason,
       :cancelled_at
@@ -34,7 +34,7 @@ json.data do
   end
 
   json.replacement_document_validation_requests @planning_application
-    .replacement_document_validation_requests do |replacement_document_validation_request|
+    .validation_requests.replacement_documents do |replacement_document_validation_request|
     json.extract! replacement_document_validation_request,
       :id,
       :state,
@@ -58,14 +58,14 @@ json.data do
   end
 
   json.additional_document_validation_requests @planning_application
-    .additional_document_validation_requests do |additional_document_validation_request|
+    .validation_requests.additional_documents do |additional_document_validation_request|
     json.extract! additional_document_validation_request,
       :id,
       :state,
       :response_due,
       :days_until_response_due,
       :document_request_type,
-      :document_request_reason,
+      :reason,
       :cancel_reason,
       :cancelled_at
 
@@ -78,14 +78,29 @@ json.data do
     json.type "additional_document_validation_request"
   end
 
-  json.other_change_validation_requests @planning_application
-    .other_change_validation_requests do |other_change_validation_request|
+  json.fee_change_validation_requests @planning_application
+    .validation_requests.fee_changes do |other_change_validation_request|
     json.extract! other_change_validation_request,
       :id,
       :state,
       :response_due,
-      :response,
-      :summary,
+      :applicant_response,
+      :reason,
+      :suggestion,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
+    json.type "other_change_validation_request"
+  end
+
+  json.other_change_validation_requests @planning_application
+    .validation_requests.other_changes do |other_change_validation_request|
+    json.extract! other_change_validation_request,
+      :id,
+      :state,
+      :response_due,
+      :applicant_response,
+      :reason,
       :suggestion,
       :days_until_response_due,
       :cancel_reason,

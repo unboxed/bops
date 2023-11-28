@@ -40,6 +40,9 @@ class ValidationRequest < ApplicationRecord
   belongs_to :old_document, optional: true, class_name: "Document"
   belongs_to :new_document, optional: true, class_name: "Document"
 
+  has_many :additional_documents, dependent: :destroy, class_name: "Document"
+  has_many :replacement_documents, dependent: :destroy, class_name: "Document"
+
   validates :request_type, presence: true, inclusion: {in: VALIDATION_REQUEST_TYPES}
   validates :reason, presence: true
   validates :suggestion, presence: true, if: :fee_change?
@@ -48,7 +51,7 @@ class ValidationRequest < ApplicationRecord
   validates :proposed_description, presence: true, if: :description_change?
   validate :allows_only_one_open_description_change, on: :create, if: :description_change?
   validate :planning_application_has_not_been_determined, on: :create, if: :description_change?
-  validate :rejected_reason_is_present?, if: :red_line_boundary_change?
+  validate :rejected_reason_is_present?, if: -> { red_line_boundary_change? || description_change? }
   validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create, if: :fee_change?
 
   scope :closed, -> { where(state: "closed") }
@@ -189,7 +192,7 @@ class ValidationRequest < ApplicationRecord
 
   def create_api_audit!
     audit!(
-      activity_type: "#{self.class.name.underscore}_received",
+      activity_type: "#{request_type}_validation_request_received",
       activity_information: sequence.to_s,
       audit_comment: audit_api_comment
     )
@@ -221,20 +224,6 @@ class ValidationRequest < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise UploadFilesError, e.message
-  end
-
-  def ensure_planning_application_not_validated!
-    return unless planning_application_validated?
-
-    raise ValidationRequestNotCreatableError,
-      "Cannot create #{self.class.name.titleize} when planning application has been validated"
-  end
-
-  def ensure_planning_application_not_closed_or_cancelled!
-    return unless planning_application_closed_or_cancelled?
-
-    raise ValidationRequestNotCreatableError,
-      "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
   end
 
   def open_or_pending?
@@ -467,7 +456,7 @@ class ValidationRequest < ApplicationRecord
 
   def rejected_reason_is_present?
     return unless planning_application.invalidated?
-    return if applicant_approved == false && applicant_rejection_reason.blank?
+    return unless applicant_approved == false && applicant_rejection_reason.blank?
 
     errors.add(:base,
       "Please include a comment for the case officer to " \
@@ -494,5 +483,33 @@ class ValidationRequest < ApplicationRecord
     request = ValidationRequest.find_by(new_document_id: old_document_id)
 
     request&.reset_update_counter!
+  end
+
+  def audit_api_comment
+    if description_change? || red_line_boundary_change?
+      if applicant_approved?
+        {applicant_response: "approved"}.to_json
+      else
+        {applicant_response: "rejected", applicant_rejection_reason:}.to_json
+      end
+    elsif replacement_document?
+      new_document.name
+    else
+      {applicant_response:}.to_json
+    end
+  end
+
+  def ensure_planning_application_not_validated!
+    return unless planning_application_validated?
+
+    raise ValidationRequestNotCreatableError,
+      "Cannot create #{self.class.name.titleize} when planning application has been validated"
+  end
+
+  def ensure_planning_application_not_closed_or_cancelled!
+    return unless planning_application_closed_or_cancelled?
+
+    raise ValidationRequestNotCreatableError,
+      "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
   end
 end

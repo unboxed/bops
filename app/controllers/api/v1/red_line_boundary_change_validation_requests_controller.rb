@@ -10,7 +10,7 @@ module Api
         respond_to do |format|
           format.json do
             @red_line_boundary_change_validation_requests =
-              @planning_application.red_line_boundary_change_validation_requests
+              @planning_application.validation_requests.red_line_boundary_changes
           end
         end
       end
@@ -18,7 +18,7 @@ module Api
       def show
         respond_to do |format|
           if (@red_line_boundary_change_validation_request =
-                @planning_application.red_line_boundary_change_validation_requests.where(id: params[:id]).first)
+                @planning_application.validation_requests.red_line_boundary_changes.where(id: params[:id]).first)
             format.json
           else
             format.json do
@@ -33,11 +33,11 @@ module Api
 
       def update
         @red_line_boundary_change_validation_request =
-          @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
+          @planning_application.validation_requests.red_line_boundary_changes.find(params[:id])
 
         if @red_line_boundary_change_validation_request.update(red_line_boundary_change_params)
           @red_line_boundary_change_validation_request.close!
-          if @red_line_boundary_change_validation_request.approved?
+          if @red_line_boundary_change_validation_request.applicant_approved?
             @planning_application.update!(boundary_geojson: @red_line_boundary_change_validation_request.new_geojson)
           end
 
@@ -55,8 +55,8 @@ module Api
       private
 
       def red_line_boundary_change_params
-        {approved: params[:data][:approved],
-         rejection_reason: params[:data][:rejection_reason]}
+        {applicant_approved: params[:data][:applicant_approved],
+         applicant_rejection_reason: params[:data][:applicant_rejection_reason]}
       end
     end
   end

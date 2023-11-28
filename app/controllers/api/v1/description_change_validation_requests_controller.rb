@@ -9,7 +9,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            @description_change_validation_requests = @planning_application.description_change_validation_requests
+            @description_change_validation_requests = @planning_application.validation_requests.description_changes
           end
         end
       end
@@ -17,7 +17,7 @@ module Api
       def show
         respond_to do |format|
           if (@description_change_validation_request =
-                @planning_application.description_change_validation_requests.where(id: params[:id]).first)
+                @planning_application.validation_requests.description_changes.where(id: params[:id]).first)
             format.json
           else
             format.json do
@@ -30,11 +30,11 @@ module Api
 
       def update
         @description_change_validation_request =
-          @planning_application.description_change_validation_requests.where(id: params[:id]).first
+          @planning_application.validation_requests.description_changes.where(id: params[:id]).first
 
         if @description_change_validation_request.update(description_change_params)
           @description_change_validation_request.close!
-          if @description_change_validation_request.approved?
+          if @description_change_validation_request.applicant_approved?
             @planning_application.update!(description: @description_change_validation_request.proposed_description)
           end
           @description_change_validation_request.create_api_audit!
@@ -50,8 +50,10 @@ module Api
       private
 
       def description_change_params
-        {approved: params[:data][:approved],
-         rejection_reason: params[:data][:rejection_reason]}
+        {
+          applicant_approved: params[:data][:applicant_approved],
+          applicant_rejection_reason: params[:data][:applicant_rejection_reason]
+        }
       end
     end
   end

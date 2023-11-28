@@ -13,7 +13,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   let(:params) do
     {
       change_access_id: planning_application.change_access_id,
-      data: {approved: true}
+      data: {applicant_approved: true}
     }
   end
 
@@ -34,20 +34,20 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   let!(:red_line_boundary_change_validation_request) do
-    create(:red_line_boundary_change_validation_request,
+    create(:validation_request, :red_line_boundary_change,
       planning_application:)
   end
 
   rejected_json = '{
     "data": {
-      "approved": false,
-      "rejection_reason": "The boundary is incorrect"
+      "applicant_approved": false,
+      "applicant_rejection_reason": "The boundary is incorrect"
     }
   }'
 
   rejected_json_missing_reason = '{
     "data": {
-      "approved": false
+      "applicant_approved": false
     }
   }'
 
@@ -60,8 +60,8 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     planning_application.reload
 
     expect(red_line_boundary_change_validation_request.state).to eq("closed")
-    expect(red_line_boundary_change_validation_request.approved).to be(true)
-    expect(red_line_boundary_change_validation_request.approved).to be(true)
+    expect(red_line_boundary_change_validation_request.applicant_approved).to be(true)
+    expect(red_line_boundary_change_validation_request.applicant_approved).to be(true)
     expect(planning_application.boundary_geojson).to eq(red_line_boundary_change_validation_request.new_geojson)
   end
 
@@ -70,7 +70,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
 
     expect(planning_application.audits.reload.last).to have_attributes(
       activity_type: "red_line_boundary_change_validation_request_received",
-      audit_comment: {response: "approved"}.to_json,
+      audit_comment: {applicant_response: "approved"}.to_json,
       activity_information: "1",
       api_user:
     )
@@ -97,10 +97,10 @@ RSpec.describe "API request to patch document validation requests", show_excepti
 
     red_line_boundary_change_validation_request.reload
     expect(red_line_boundary_change_validation_request.state).to eq("closed")
-    expect(red_line_boundary_change_validation_request.approved).to be(false)
-    expect(red_line_boundary_change_validation_request.rejection_reason).to eq("The boundary is incorrect")
+    expect(red_line_boundary_change_validation_request.applicant_approved).to be(false)
+    expect(red_line_boundary_change_validation_request.applicant_rejection_reason).to eq("The boundary is incorrect")
     expect(Audit.all.last.activity_type).to eq("red_line_boundary_change_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq({response: "rejected", reason: "The boundary is incorrect"}.to_json)
+    expect(Audit.all.last.audit_comment).to eq({applicant_response: "rejected", applicant_rejection_reason: "The boundary is incorrect"}.to_json)
     expect(Audit.all.last.activity_information).to eq("1")
   end
 

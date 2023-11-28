@@ -43,26 +43,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "additional_document_validation_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.string "state", null: false
-    t.string "document_request_type"
-    t.string "document_request_reason"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sequence"
-    t.date "notified_at"
-    t.text "cancel_reason"
-    t.datetime "cancelled_at", precision: nil
-    t.boolean "post_validation", default: false, null: false
-    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
-  end
-
   create_table "api_users", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "token", null: false
+    t.string "name"
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
@@ -80,7 +63,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.string "assessment_details", array: true
     t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
     t.string "consistency_checklist", array: true
-    t.jsonb "document_tags"
   end
 
   create_table "assessment_details", force: :cascade do |t|
@@ -258,27 +240,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.index ["search"], name: "ix_contacts_on_search", using: :gin
   end
 
-  create_table "description_change_validation_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.string "state", null: false
-    t.text "proposed_description"
-    t.boolean "approved"
-    t.string "rejection_reason"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "previous_description"
-    t.integer "sequence"
-    t.date "notified_at"
-    t.text "cancel_reason"
-    t.datetime "cancelled_at", precision: nil
-    t.boolean "auto_closed", default: false
-    t.boolean "post_validation", default: false, null: false
-    t.datetime "auto_closed_at", precision: nil
-    t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_description_change_requests_on_user_id"
-  end
-
   create_table "documents", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
@@ -295,8 +256,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.bigint "user_id"
     t.bigint "api_user_id"
     t.datetime "received_at", precision: nil
-    t.bigint "additional_document_validation_request_id"
-    t.bigint "replacement_document_validation_request_id"
     t.boolean "redacted", default: false, null: false
     t.bigint "evidence_group_id"
     t.bigint "site_visit_id"
@@ -305,17 +264,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.bigint "press_notice_id"
     t.string "owner_type"
     t.bigint "owner_id"
-    t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
+    t.bigint "validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
     t.index ["owner_type", "owner_id"], name: "index_documents_on_owner"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["press_notice_id"], name: "ix_documents_on_press_notice_id"
-    t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
     t.index ["site_notice_id"], name: "ix_documents_on_site_notice_id"
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
+    t.index ["validation_request_id"], name: "ix_documents_on_validation_request_id"
   end
 
   create_table "evidence_groups", force: :cascade do |t|
@@ -442,25 +401,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.index ["user_id"], name: "ix_notes_on_user_id"
   end
 
-  create_table "other_change_validation_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.string "state", null: false
-    t.text "summary"
-    t.text "suggestion"
-    t.text "response"
-    t.integer "sequence"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date "notified_at"
-    t.text "cancel_reason"
-    t.datetime "cancelled_at", precision: nil
-    t.boolean "fee_item", default: false
-    t.boolean "post_validation", default: false, null: false
-    t.index ["planning_application_id"], name: "ix_other_change_validation_requests_on_planning_application_id"
-    t.index ["user_id"], name: "ix_other_change_validation_requests_on_user_id"
-  end
-
   create_table "permitted_development_rights", force: :cascade do |t|
     t.string "status", null: false
     t.boolean "removed"
@@ -561,12 +501,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.string "longitude"
     t.datetime "closed_at", precision: nil
     t.datetime "determination_date", precision: nil
-    t.integer "user_role"
     t.boolean "updated_address_or_boundary_geojson", default: false
+    t.integer "user_role"
     t.boolean "constraints_checked", default: false, null: false
     t.boolean "valid_fee"
-    t.boolean "documents_missing"
     t.boolean "valid_red_line_boundary"
+    t.boolean "documents_missing"
     t.decimal "invalid_payment_amount", precision: 10, scale: 2
     t.bigint "application_number", null: false
     t.string "parish_name"
@@ -583,7 +523,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.boolean "cil_liable"
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.datetime "not_started_at"
-    t.string "ownership_certificate_type"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
@@ -671,46 +610,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
-  end
-
-  create_table "red_line_boundary_change_validation_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.string "state", null: false
-    t.jsonb "new_geojson", null: false
-    t.string "reason", null: false
-    t.string "rejection_reason"
-    t.boolean "approved"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sequence"
-    t.date "notified_at"
-    t.text "cancel_reason"
-    t.datetime "cancelled_at", precision: nil
-    t.jsonb "original_geojson"
-    t.boolean "post_validation", default: false, null: false
-    t.boolean "auto_closed", default: false, null: false
-    t.datetime "auto_closed_at", precision: nil
-  end
-
-  create_table "replacement_document_validation_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "old_document_id", null: false
-    t.bigint "new_document_id"
-    t.string "state", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sequence"
-    t.date "notified_at"
-    t.text "cancel_reason"
-    t.datetime "cancelled_at", precision: nil
-    t.text "reason"
-    t.boolean "post_validation", default: false, null: false
-    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
-    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
-    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
   end
 
   create_table "review_immunity_details", force: :cascade do |t|
@@ -835,7 +734,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   end
 
   create_table "validation_requests", force: :cascade do |t|
-    t.bigint "requestable_id"
     t.string "request_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -845,7 +743,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.string "state"
     t.bigint "user_id"
     t.boolean "post_validation", default: false, null: false
-    t.boolean "applicant_approved", default: false, null: false
+    t.boolean "applicant_approved"
     t.text "reason"
     t.string "applicant_rejection_reason"
     t.text "applicant_response"
@@ -861,14 +759,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.index ["new_document_id"], name: "ix_validation_requests_on_new_document_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
-    t.index ["request_type", "requestable_id"], name: "ix_validation_requests_on_request_type__requestable_id", unique: true
     t.index ["user_id"], name: "ix_validation_requests_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "additional_document_validation_requests", "planning_applications"
-  add_foreign_key "additional_document_validation_requests", "users"
   add_foreign_key "api_users", "local_authorities"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"
@@ -886,18 +781,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   add_foreign_key "consultee_responses", "users", column: "redacted_by_id"
   add_foreign_key "consultees", "consultations"
   add_foreign_key "contacts", "local_authorities"
-  add_foreign_key "description_change_validation_requests", "planning_applications"
-  add_foreign_key "description_change_validation_requests", "users"
-  add_foreign_key "documents", "additional_document_validation_requests"
   add_foreign_key "documents", "api_users"
   add_foreign_key "documents", "evidence_groups"
   add_foreign_key "documents", "neighbour_responses"
   add_foreign_key "documents", "planning_applications"
   add_foreign_key "documents", "press_notices"
-  add_foreign_key "documents", "replacement_document_validation_requests"
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "users"
+  add_foreign_key "documents", "validation_requests"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "immunity_details", "planning_applications"
   add_foreign_key "local_policies", "planning_applications"
@@ -911,8 +803,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   add_foreign_key "neighbours", "consultations"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
-  add_foreign_key "other_change_validation_requests", "planning_applications"
-  add_foreign_key "other_change_validation_requests", "users"
   add_foreign_key "permitted_development_rights", "planning_applications"
   add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
   add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"
@@ -932,12 +822,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
-  add_foreign_key "red_line_boundary_change_validation_requests", "planning_applications"
-  add_foreign_key "red_line_boundary_change_validation_requests", "users"
-  add_foreign_key "replacement_document_validation_requests", "documents", column: "new_document_id"
-  add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
-  add_foreign_key "replacement_document_validation_requests", "planning_applications"
-  add_foreign_key "replacement_document_validation_requests", "users"
   add_foreign_key "review_immunity_details", "immunity_details"
   add_foreign_key "review_immunity_details", "users", column: "assessor_id"
   add_foreign_key "review_immunity_details", "users", column: "reviewer_id"

@@ -35,7 +35,7 @@ FactoryBot.define do
       end
     end
 
-    trait :additional_document_validation_request_with_documents do
+    trait :additional_document_with_documents do
       request_type { "additional_document" }
       reason { "Missing floor plan" }
       specific_attributes do
@@ -50,7 +50,7 @@ FactoryBot.define do
           planning_application: request.planning_application
         )
 
-        request.documents << document
+        request.additional_documents << document
       end
     end
 
@@ -82,6 +82,21 @@ FactoryBot.define do
       old_document factory: :document
       reason { "Document is invalid" }
       request_type { "replacement_document" }
+    end
+
+    trait :replacement_document_with_response do
+      old_document factory: :document
+      reason { "Document is invalid" }
+      request_type { "replacement_document" }
+
+      before(:create) do |request|
+        document = create(
+          :document,
+          planning_application: request.planning_application
+        )
+
+        request.update(new_document: document)
+      end
     end
 
     trait :description_change do

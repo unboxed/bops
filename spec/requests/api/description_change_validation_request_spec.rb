@@ -16,7 +16,8 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
 
   let!(:description_change_validation_request) do
     create(
-      :description_change_validation_request,
+      :validation_request,
+      :description_change,
       planning_application:,
       created_at: DateTime.new(2022, 6, 20),
       proposed_description: "New description"
@@ -58,8 +59,8 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
               "response_due" => "2022-06-27",
               "proposed_description" => "New description",
               "previous_description" => "Current description",
-              "rejection_reason" => nil,
-              "approved" => nil,
+              "applicant_rejection_reason" => nil,
+              "applicant_approved" => nil,
               "days_until_response_due" => 5,
               "cancel_reason" => nil,
               "cancelled_at" => nil
@@ -116,8 +117,8 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
               "response_due" => "2022-06-27",
               "proposed_description" => "New description",
               "previous_description" => "Current description",
-              "rejection_reason" => nil,
-              "approved" => nil,
+              "applicant_rejection_reason" => nil,
+              "applicant_approved" => nil,
               "days_until_response_due" => 5,
               "cancel_reason" => nil,
               "cancelled_at" => nil

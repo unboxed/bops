@@ -22,18 +22,18 @@
 
     <div class="govuk-inset-text">
       <p class="govuk-body">
-        <strong><%= @additional_document_validation_request.document_request_type %></strong>
+        <strong><%= @validation_request.document_request_type %></strong>
       </p>
       <p class="govuk-body">
-        Reason: <%= @additional_document_validation_request.reason %>
+        Reason: <%= @validation_request.reason %>
       </p>
       <p class="govuk-body">
-      <%= @additional_document_validation_request.created_at.to_fs %>
+      <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
 
     <%= render "planning_applications/validation/validation_requests/cancel_confirmation_form",
-      validation_request: @additional_document_validation_request,
-      cancel_request_url: cancel_request_url(@planning_application, @additional_document_validation_request) %>
+      validation_request: @validation_request,
+      cancel_request_url: cancel_planning_application_validation_validation_request_path(@planning_application, @validation_request) %>
   </div>
 </div>

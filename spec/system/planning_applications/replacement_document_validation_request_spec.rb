@@ -420,7 +420,7 @@ RSpec.describe "Requesting document changes to a planning application" do
           expect(page).to have_content("sent")
           expect(page).to have_link(
             "View and update",
-            href: planning_application_validation_replacement_document_validation_request_path(planning_application, request)
+            href: planning_application_validation_validation_request_path(planning_application, request)
           )
         end
         within("#replacement_document_validation_request_#{replacement_document_validation_request.id}") do

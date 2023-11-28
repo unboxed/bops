@@ -19,26 +19,26 @@
 
     <div>
       <p class="govuk-body"> <strong> Previous description:</strong><br>
-        <%= @description_change_request.previous_description  %>
+        <%= @validation_request.previous_description  %>
       </p>
       <p class="govuk-body"> <strong> Proposed description:</strong><br>
-        <%= render(FormattedContentComponent.new(text: @description_change_request.proposed_description)) %>
+        <%= render(FormattedContentComponent.new(text: @validation_request.proposed_description)) %>
       </p>
     </div>
     <p class="govuk-body">
-      <% if @description_change_request.open? %>
-        Sent on <%= @description_change_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
+      <% if @validation_request.open? %>
+        Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
       <% else %>
-        <%= @description_change_request.approved? ? 'Approved' : 'Rejected' %>
+        <%= @validation_request.approved? ? 'Approved' : 'Rejected' %>
       <% end %>
     </p>
 
-    <% if @description_change_request.open? %>
+    <% if @validation_request.open? %>
       <%= form_with(
-        model: [@planning_application, @description_change_request],
-        url: planning_application_validation_description_change_validation_request_cancel_path(
+        model: [@planning_application, @validation_request],
+        url: planning_application_validation_validation_request_cancel_path(
           @planning_application,
-          @description_change_request
+          @validation_request
         ),
         method: :patch
       ) do |form| %>
