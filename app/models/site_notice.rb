@@ -1,10 +1,21 @@
 # frozen_string_literal: true
 
 class SiteNotice < ApplicationRecord
+  include DateValidateable
+
   belongs_to :planning_application
   has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
+
+  with_options on: :confirmation do
+    validates :displayed_at,
+      presence: true,
+      date: {
+        on_or_before: :current,
+        on_or_after: :consultation_start_date
+      }
+  end
 
   delegate :consultation, to: :planning_application
   delegate :start_date, to: :consultation, prefix: true

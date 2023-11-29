@@ -39,6 +39,9 @@ RSpec.describe "Confirm site notice", js: true do
     expect(page).to have_content "Site notice was emailed to the applicant"
     expect(page).to have_content audit.created_at.to_fs(:day_month_year_slashes).to_s
 
+    click_button "Save and mark as complete"
+    expect(page).to have_content "You must provide the date when the site notice was displayed"
+
     fill_in "Day", with: "01"
     fill_in "Month", with: "02"
     fill_in "Year", with: "2023"

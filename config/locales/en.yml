@@ -249,6 +249,11 @@ en:
               recommendation_accepted: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
         site_notice:
           attributes:
+            displayed_at:
+              date_blank: You must provide the date when the site notice was displayed
+              date_invalid: The date the site notice was displayed must be a valid date
+              date_not_on_or_after: The date the site notice was displayed must be on or after the consultation start date
+              date_not_on_or_before: The date the site notice was displayed must be on or before today
             documents:
               blank: You must provide documentary evidence that the site notice was displayed
         site_visit:

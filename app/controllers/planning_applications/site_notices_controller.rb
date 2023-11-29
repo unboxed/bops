@@ -52,7 +52,7 @@ module PlanningApplications
     end
 
     def update
-      if @site_notice.update(site_notice_params)
+      if @site_notice.update(site_notice_params, :confirmation)
         respond_to do |format|
           format.html do
             redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
