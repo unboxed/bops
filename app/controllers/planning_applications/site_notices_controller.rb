@@ -2,8 +2,6 @@
 
 module PlanningApplications
   class SiteNoticesController < AuthenticationController
-    include ActionView::Helpers::SanitizeHelper
-
     before_action :set_planning_application
     before_action :build_site_notice, only: %i[new create]
     before_action :set_site_notice, except: %i[new create]
@@ -96,22 +94,17 @@ module PlanningApplications
     end
 
     def ensure_public_portal_is_active
-      return if @planning_application.make_public? || site_notice_params[:required] == "No"
+      return if @planning_application.make_public?
+      return if site_notice_not_required?
 
-      flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to "made public on the BoPS Public Portal", make_public_planning_application_path(@planning_application)}
-      before you can create a site notice."
-
+      flash.now[:alert] = t(".make_public_html", href: make_public_planning_application_path(@planning_application))
       render :new and return
     end
 
     def ensure_application_is_assigned
       return if @planning_application.user.present?
 
-      flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to "assigned to an officer", planning_application_assign_users_path(@planning_application)}
-      before you can create a site notice."
-
+      flash.now[:alert] = t(".assign_user_html", href: planning_application_assign_users_path(@planning_application))
       render :new and return
     end
 
@@ -130,6 +123,10 @@ module PlanningApplications
         activity_type: "site_notice_created",
         audit_comment: comment
       )
+    end
+
+    def site_notice_not_required?
+      site_notice_params[:required] == "No"
     end
   end
 end

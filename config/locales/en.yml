@@ -1156,6 +1156,8 @@ en:
       you_can_search: You can search by application number or description
     site_notices:
       create:
+        assign_user_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">assigned to an officer</a> before you can create a site notice.
+        make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BoPS Public Portal</a> before you can create a site notice.
         success: Site notice was successfully %{action}
       update:
         success: Site notice was successfully updated
