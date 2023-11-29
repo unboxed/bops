@@ -212,23 +212,23 @@ en:
         press_notice:
           attributes:
             documents:
-              blank: You must provide documentary evidence that the press notice was published
+              blank: Provide documentary evidence that the press notice was published
             other_reason:
-              blank: You must provide the other reason for the press notice
+              blank: Provide the other reason for the press notice
             press_sent_at:
-              date_blank: You must provide the date when the press notice was sent
+              date_blank: Provide the date when the press notice was sent
               date_invalid: The date the press notice was sent must be a valid date
               date_not_on_or_after: The date the press notice was sent must be on or after the consultation start date
               date_not_on_or_before: The date the press notice was sent must be on or before today
             published_at:
-              date_blank: You must provide the date when the press notice was published
+              date_blank: Provide the date when the press notice was published
               date_invalid: The date the press notice was published must be a valid date
               date_not_on_or_after: The date the press notice was published must be on or after the press sent date
               date_not_on_or_before: The date the press notice was published must be on or before today
             reasons:
-              blank: You must provide a reason for the press notice
+              blank: Provide a reason for the press notice
             required:
-              inclusion: You must choose 'Yes' or 'No'
+              inclusion: Choose 'Yes' or 'No'
         recommendation:
           attributes:
             challenged:
@@ -250,20 +250,20 @@ en:
         site_notice:
           attributes:
             displayed_at:
-              date_blank: You must provide the date when the site notice was displayed
+              date_blank: Provide the date when the site notice was displayed
               date_invalid: The date the site notice was displayed must be a valid date
               date_not_on_or_after: The date the site notice was displayed must be on or after the consultation start date
               date_not_on_or_before: The date the site notice was displayed must be on or before today
             documents:
-              blank: You must provide documentary evidence that the site notice was displayed
+              blank: Provide documentary evidence that the site notice was displayed
             required:
               inclusion: Choose 'Yes' or 'No'
         site_visit:
           attributes:
             decision:
-              inclusion: You must choose 'Yes' or 'No'
+              inclusion: Choose 'Yes' or 'No'
             visited_at:
-              blank: You must provide a site visited at date
+              blank: Provide a date when the site visit took place
         user:
           attributes:
             reset_password_token:
@@ -1002,8 +1002,8 @@ en:
       other: "%{count} days remaining"
       zero: "%{count} days overdue"
     determine:
-      confirm_press_notice_published_at_html: You must <a class="govuk-notification-banner__link" href="%{href}">confirm the press notice published at date</a> before determining the application.
-      confirm_site_notice_displayed_at_html: You must <a class="govuk-notification-banner__link" href="%{href}">confirm the site notice displayed at date</a> before determining the application.
+      confirm_press_notice_published_at_html: <a class="govuk-notification-banner__link" href="%{href}">Confirm the press notice published at date</a> before determining the application.
+      confirm_site_notice_displayed_at_html: <a class="govuk-notification-banner__link" href="%{href}">Confirm the site notice displayed at date</a> before determining the application.
       success: Decision Notice sent to applicant
     index:
       prior_approvals:
@@ -1022,9 +1022,9 @@ en:
         failure: 'Error adding neighbour addresses with message: %{message}'
         success: Addresses have been successfully added.
       send_letters:
-        add_neighbours: You must add some neighbours before sending letters
+        add_neighbours: Add some neighbours before sending letters
         make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BoPS Public Portal</a> before you can send letters to neighbours.
-        require_resend_reason: You must provide a reason when resending letters to previously-contacted neighbours
+        require_resend_reason: Provide a reason when resending letters to previously-contacted neighbours
     neighbour_responses:
       create:
         success: Neighbour response successfully created.
@@ -1281,7 +1281,7 @@ en:
           failure: Invalid parameter
           success: Site boundary has been updated
         validate:
-          failure: You must first select Valid or Invalid to continue.
+          failure: First select Valid or Invalid to continue.
           success: Red line boundary was marked as valid.
       tasks:
         index:

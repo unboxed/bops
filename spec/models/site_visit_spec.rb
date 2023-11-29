@@ -20,7 +20,7 @@ RSpec.describe SiteVisit do
 
     describe "#decision" do
       it "validates inclusion in [true, false]" do
-        expect { site_visit.valid? }.to change { site_visit.errors[:decision] }.to ["You must choose 'Yes' or 'No'"]
+        expect { site_visit.valid? }.to change { site_visit.errors[:decision] }.to ["Choose 'Yes' or 'No'"]
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe SiteVisit do
         subject(:site_visit) { described_class.new(decision: true) }
 
         it "validates presence" do
-          expect { site_visit.valid? }.to change { site_visit.errors[:visited_at] }.to ["You must provide a site visited at date"]
+          expect { site_visit.valid? }.to change { site_visit.errors[:visited_at] }.to ["Provide a site visited at date"]
         end
       end
 

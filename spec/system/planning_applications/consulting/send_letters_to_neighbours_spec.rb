@@ -244,7 +244,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       within(".govuk-notification-banner--alert") do
         expect(page).to have_content("There is a problem")
-        expect(page).to have_content("You must add some neighbours before sending letters")
+        expect(page).to have_content("Add some neighbours before sending letters")
       end
     end
 

@@ -147,7 +147,7 @@ RSpec.describe "FeeItemsValidation" do
       click_link "Check fee"
       click_button "Save"
 
-      expect(page).to have_content("You must first select Yes or No to continue.")
+      expect(page).to have_content("Select Yes or No to continue.")
 
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }

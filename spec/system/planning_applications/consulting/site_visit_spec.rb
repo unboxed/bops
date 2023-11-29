@@ -121,11 +121,11 @@ RSpec.describe "Site visit" do
       click_button "Save"
 
       within(".govuk-error-summary") do
-        expect(page).to have_content("You must choose 'Yes' or 'No'")
+        expect(page).to have_content("Choose 'Yes' or 'No'")
         expect(page).to have_content("Comment can't be blank")
       end
       within("#site-visit-decision-error") do
-        expect(page).to have_content("You must choose 'Yes' or 'No'")
+        expect(page).to have_content("Choose 'Yes' or 'No'")
       end
       within("#site-visit-comment-error") do
         expect(page).to have_content("can't be blank")
@@ -138,7 +138,7 @@ RSpec.describe "Site visit" do
       expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
 
       within("#site-visit-visited-at-error") do
-        expect(page).to have_content("You must provide a site visited at date")
+        expect(page).to have_content("Provide a date when the site visit took place")
       end
     end
 

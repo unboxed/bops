@@ -14,7 +14,7 @@ RSpec.describe PressNotice do
 
     describe "#required" do
       it "validates inclusion in [true, false]" do
-        expect { press_notice.valid? }.to change { press_notice.errors[:required] }.to ["You must choose 'Yes' or 'No'"]
+        expect { press_notice.valid? }.to change { press_notice.errors[:required] }.to ["Choose 'Yes' or 'No'"]
       end
     end
 
@@ -23,7 +23,7 @@ RSpec.describe PressNotice do
         subject(:press_notice) { described_class.new(required: true) }
 
         it "validates presence" do
-          expect { press_notice.valid? }.to change { press_notice.errors[:reasons] }.to ["You must provide a reason for the press notice"]
+          expect { press_notice.valid? }.to change { press_notice.errors[:reasons] }.to ["Provide a reason for the press notice"]
         end
       end
 
