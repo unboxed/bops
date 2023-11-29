@@ -43,16 +43,22 @@ class PressNotice < ApplicationRecord
 
   before_validation :reset_reasons, unless: :required?
   before_validation :reset_other_reason, unless: :other_selected?
+  before_validation :start_deadline, unless: :consultation_started?
 
   after_update :extend_consultation!, if: :saved_change_to_published_at?
   after_save :audit_press_notice!, if: :audit_required?
 
   delegate :audits, to: :planning_application
-  delegate :consultation, to: :planning_application
   delegate :local_authority, to: :planning_application
   delegate :press_notice_email, to: :local_authority
-  delegate :start_date, to: :consultation, prefix: true
-  delegate :end_date, to: :consultation, prefix: true
+
+  with_options allow_nil: true do
+    delegate :consultation, to: :planning_application
+    delegate :start_date, to: :consultation, prefix: true
+    delegate :end_date, to: :consultation, prefix: true
+    delegate :started?, to: :consultation, prefix: true
+    delegate :start_deadline, to: :consultation
+  end
 
   scope :required, -> { where(required: true) }
 
