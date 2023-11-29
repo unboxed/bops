@@ -256,6 +256,8 @@ en:
               date_not_on_or_before: The date the site notice was displayed must be on or before today
             documents:
               blank: You must provide documentary evidence that the site notice was displayed
+            required:
+              inclusion: Choose 'Yes' or 'No'
         site_visit:
           attributes:
             decision:

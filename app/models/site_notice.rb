@@ -8,6 +8,8 @@ class SiteNotice < ApplicationRecord
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
+  validates :required, inclusion: {in: [true, false]}
+
   with_options on: :confirmation do
     validates :displayed_at,
       presence: true,
