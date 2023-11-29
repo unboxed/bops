@@ -266,6 +266,8 @@ en:
               inclusion: Choose 'Yes' or 'No'
         site_visit:
           attributes:
+            comment:
+              blank: Enter a comment about the site visit
             decision:
               inclusion: Choose 'Yes' or 'No'
             visited_at:

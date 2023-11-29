@@ -121,14 +121,14 @@ RSpec.describe "Site visit" do
       click_button "Save"
 
       within(".govuk-error-summary") do
+        expect(page).to have_content("Enter a comment about the site visit")
         expect(page).to have_content("Choose 'Yes' or 'No'")
-        expect(page).to have_content("Comment can't be blank")
       end
       within("#site-visit-decision-error") do
         expect(page).to have_content("Choose 'Yes' or 'No'")
       end
       within("#site-visit-comment-error") do
-        expect(page).to have_content("can't be blank")
+        expect(page).to have_content("Enter a comment about the site visit")
       end
 
       choose "Yes"
