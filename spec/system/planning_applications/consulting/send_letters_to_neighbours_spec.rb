@@ -742,7 +742,7 @@ RSpec.describe "Send letters to neighbours", js: true do
         with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
 
       expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
-        personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date}\r\n\r\nDear Resident/))).and_call_original
+        personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}\r\n\r\nDear Resident/))).and_call_original
       click_button "Print and send letters"
     end
   end
