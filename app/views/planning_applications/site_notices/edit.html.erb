@@ -12,15 +12,14 @@
   locals: { heading: "Confirm site notice is in place" }
 ) %>
 
-<%= render "status", planning_application: @planning_application %>
-
 <%= form_with(
   model: [@planning_application, @site_notice],
   class: "govuk-!-margin-top-5",
   method: :patch
 ) do |form| %>
-
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= render "status", planning_application: @planning_application %>
 
   <%= form.govuk_date_field :displayed_at, legend: { text: '1. What date was the site notice displayed?' } %>
 
