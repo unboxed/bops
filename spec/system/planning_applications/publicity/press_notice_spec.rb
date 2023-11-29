@@ -532,9 +532,6 @@ RSpec.describe "Press notice" do
           fill_in "Year", with: "2023"
         end
 
-        click_button "Save"
-        expect(page).to have_content("You must provide documentary evidence that the press notice was published")
-
         attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
 
         click_button "Save"

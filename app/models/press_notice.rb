@@ -39,8 +39,6 @@ class PressNotice < ApplicationRecord
         on_or_before: :current,
         on_or_after: :press_sent_at
       }
-
-    validates :documents, presence: true, if: :published_at?
   end
 
   before_validation :reset_reasons, unless: :required?
