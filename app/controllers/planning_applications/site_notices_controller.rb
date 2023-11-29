@@ -54,12 +54,7 @@ module PlanningApplications
     end
 
     def update
-      if @site_notice.update(site_notice_params.except(:file))
-        if site_notice_params[:file]
-          @planning_application.documents.create!(file: site_notice_params[:file], site_notice: @site_notice,
-            tags: ["Site Notice"])
-        end
-
+      if @site_notice.update(site_notice_params)
         respond_to do |format|
           format.html do
             redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
@@ -81,7 +76,7 @@ module PlanningApplications
     end
 
     def site_notice_params
-      params.require(:site_notice).permit(:required, :displayed_at, :method, :file, :internal_team_email)
+      params.require(:site_notice).permit(:required, :displayed_at, :method, :internal_team_email, documents: [])
     end
 
     def calculate_consultation_end_date

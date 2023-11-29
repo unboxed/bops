@@ -247,6 +247,10 @@ en:
           attributes:
             base:
               recommendation_accepted: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
+        site_notice:
+          attributes:
+            documents:
+              blank: You must provide documentary evidence that the site notice was displayed
         site_visit:
           attributes:
             decision:

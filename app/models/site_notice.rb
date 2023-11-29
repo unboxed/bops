@@ -2,7 +2,7 @@
 
 class SiteNotice < ApplicationRecord
   belongs_to :planning_application
-  has_one :document, dependent: :destroy
+  has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
@@ -16,6 +16,16 @@ class SiteNotice < ApplicationRecord
   after_update :extend_consultation!, if: :saved_change_to_displayed_at?
 
   attr_reader :method
+
+  def documents=(files)
+    files.select(&:present?).each do |file|
+      documents.new(file: file, planning_application: planning_application, tags: ["Site Notice"])
+    end
+  end
+
+  def document
+    documents.select(&:persisted?).min_by(&:created_at)
+  end
 
   def preview_content(planning_application)
     start_deadline unless consultation_started?

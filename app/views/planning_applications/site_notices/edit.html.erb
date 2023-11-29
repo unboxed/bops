@@ -24,7 +24,11 @@
 
   <%= form.govuk_date_field :displayed_at, legend: { text: '1. What date was the site notice displayed?' } %>
 
-  <%= form.govuk_file_field :file, label: { text: '2. Upload evidence of site notice in place', size: 'm' }, hint: { text: 'Add any photos of the site notice being displayed' } %>
+  <%= form.govuk_file_field :documents,
+    label: { text: '2. Upload evidence of site notice in place', size: 'm' },
+    hint: { text: 'Add any photos of the site notice being displayed' },
+    multiple: true
+  %>
 
   <div class="govuk-button-group govuk-!-padding-top-7">
     <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
