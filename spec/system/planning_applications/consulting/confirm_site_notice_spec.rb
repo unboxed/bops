@@ -21,11 +21,13 @@ RSpec.describe "Confirm site notice", js: true do
   end
 
   let!(:consultation) { planning_application.consultation }
-
-  let!(:site_notice) { create(:site_notice, planning_application:) }
   let!(:audit) { create(:audit, planning_application:, activity_type: "site_notice_created", audit_comment: "Site notice was emailed to the applicant") }
 
   before do
+    travel_to("2023-01-30")
+    create(:site_notice, planning_application:)
+
+    travel_to("2023-02-01")
     sign_in(assessor)
 
     visit "/planning_applications/#{planning_application.id}/consultation"
@@ -45,15 +47,11 @@ RSpec.describe "Confirm site notice", js: true do
     create(:document, site_notice:)
 
     click_button "Save and mark as complete"
-
     expect(page).to have_content("Site notice was successfully updated")
-
     expect(list_item("Confirm site notice")).to have_content("Complete")
 
     click_link "Confirm site notice"
-
     expect(page).to have_content("1 February 2023")
-
     expect(consultation.reload.end_date.to_fs(:day_month_year_slashes)).to eq "22/02/2023"
   end
 end

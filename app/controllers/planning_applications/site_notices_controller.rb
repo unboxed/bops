@@ -60,8 +60,6 @@ module PlanningApplications
             tags: ["Site Notice"])
         end
 
-        calculate_consultation_end_date
-
         respond_to do |format|
           format.html do
             redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
