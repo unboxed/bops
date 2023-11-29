@@ -27,7 +27,7 @@ class SiteNotice < ApplicationRecord
     documents.select(&:persisted?).min_by(&:created_at)
   end
 
-  def preview_content(planning_application)
+  def preview_content
     start_deadline unless consultation_started?
 
     I18n.t("site_notice_template",

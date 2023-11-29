@@ -18,7 +18,7 @@
   <span id="application-reference"><%= @planning_application.reference %></span>
   <div id="site-notice-content">
     <div style="width: 430px;">
-      <%= @planning_application.last_site_notice.preview_content(@planning_application.planning_application).html_safe %>
+      <%= raw @planning_application.last_site_notice.preview_content %>
     </div>
   </div>
 </div>

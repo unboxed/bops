@@ -28,7 +28,7 @@ module PlanningApplications
 
     def create
       @site_notice.assign_attributes(site_notice_params.except(:method, :internal_team_email))
-      @site_notice.assign_attributes(content: @site_notice.preview_content(@planning_application))
+      @site_notice.assign_attributes(content: @site_notice.preview_content)
 
       if @site_notice.save
         send_mail if params[:commit] == "Email site notice and mark as complete"
