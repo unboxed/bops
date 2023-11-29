@@ -3,25 +3,28 @@
 module BopsApi
   module Application
     class CreationService
-      class CreateError < StandardError; end
+      SCHEMA_PATH = Rails.root.join("engines", "bops_api", "app", "schemas", "digital_planning_data", "v0.2.1", "schema.json")
 
-      def initialize(**options)
-        raise CreateError, "Creating planning applications using this endpoint is not permitted in production" if Bops.env.production?
+      def initialize(local_authority:, user:, params:)
+        if Bops.env.production?
+          raise BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
+        end
 
-        options.each { |k, v| instance_variable_set("@#{k}", v) unless v.nil? }
+        @local_authority = local_authority
+        @user = user
+        @params = params
       end
 
-      def call
+      def call!
+        validate_schema
         planning_application = build_planning_application
 
         save!(planning_application)
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound, ActiveRecord::RecordNotUnique, ArgumentError, NoMethodError => e
-        raise CreateError, e.message
       end
 
       private
 
-      attr_reader :local_authority, :params, :api_user
+      attr_reader :local_authority, :params, :user
 
       def data_params
         @data_params ||= params[:data]
@@ -29,7 +32,7 @@ module BopsApi
 
       def build_planning_application
         PlanningApplication.new(planning_application_params).tap do |pa|
-          pa.api_user_id = api_user.id
+          pa.api_user_id = user.id
           pa.local_authority_id = local_authority.id
         end
       end
@@ -71,7 +74,6 @@ module BopsApi
       def save!(planning_application)
         PlanningApplication.transaction do
           if planning_application.save!
-            planning_application.mark_pending!
             AnonymisationService.new(planning_application:).call! if planning_application.from_production?
 
             # TODO: create constraints
@@ -87,6 +89,25 @@ module BopsApi
 
       def skip_email?(planning_application)
         params[:send_email] == "false" || planning_application.pending?
+      end
+
+      def validate_schema
+        schema = JSON.load_file(SCHEMA_PATH)
+        schemer = JSONSchemer.schema(schema)
+
+        unless schemer.valid?(JSON.parse(permitted_params.to_json))
+          raise BopsApi::Errors::InvalidSchemaError, "We couldn’t process your request because some information is missing or incorrect."
+        end
+      end
+
+      def permitted_params
+        params.permit(
+          data: {},
+          files: [:name, {type: [:value, :description]}],
+          preAssessment: [],
+          metadata: {},
+          responses: [:question, {responses: [:value], metadata: [:policyRefs, :sectionName]}]
+        )
       end
     end
   end

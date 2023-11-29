@@ -3,6 +3,7 @@
 module BopsApi
   class ApplicationController < ActionController::API
     include ActionController::MimeResponds
+    include ErrorHandler
 
     before_action :set_local_authority
 

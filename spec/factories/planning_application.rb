@@ -104,7 +104,6 @@ FactoryBot.define do
 
     trait :pending do
       status { :pending }
-      pending_at { Time.zone.now }
     end
 
     trait :in_assessment do

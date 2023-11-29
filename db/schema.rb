@@ -508,7 +508,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_104814) do
 
   create_table "planning_applications", force: :cascade do |t|
     t.date "target_date", null: false
-    t.string "status", default: "not_started", null: false
+    t.string "status", default: "pending", null: false
     t.datetime "started_at", precision: nil
     t.datetime "determined_at", precision: nil
     t.text "description"
@@ -581,7 +581,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_104814) do
     t.boolean "legislation_checked", default: false, null: false
     t.boolean "cil_liable"
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
-    t.datetime "pending_at"
+    t.datetime "not_started_at"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

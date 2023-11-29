@@ -22,7 +22,7 @@ RSpec.describe BopsApi::Application::Parsers::AddressParser do
           address_2: nil,
           town: "LONDON",
           postcode: "SW9 9RZ",
-          lonlat: "POINT(-0.1185926 51.4656522)"
+          lonlat: RGeo::Geographic.spherical_factory(srid: 4326).point("-0.1185926", "51.4656522")
         )
       end
     end

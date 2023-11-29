@@ -26,7 +26,11 @@ module BopsApi
         def lonlat(longitude, latitude)
           return unless longitude.present? && latitude.present?
 
-          "POINT(#{longitude} #{latitude})"
+          factory.point(longitude, latitude)
+        end
+
+        def factory
+          @factory ||= RGeo::Geographic.spherical_factory(srid: 4326)
         end
       end
     end

@@ -4,6 +4,7 @@ require "swagger_helper"
 
 RSpec.describe "BOPS API" do
   valid_planning_permission_json = File.read(Rails.root.join("spec", "fixtures", "files", "v2", "valid_planning_permission.json"))
+  valid_prior_approval_json = File.read(Rails.root.join("spec", "fixtures", "files", "v2", "valid_prior_approval.json"))
   let(:planning_application) { JSON.parse(valid_planning_permission_json, symbolize_names: true) }
 
   before do
@@ -70,6 +71,40 @@ RSpec.describe "BOPS API" do
         }
 
         let(:Authorization) { "Bearer invalid-credentials" }
+
+        run_test!
+      end
+
+      response "404", "Not found" do
+        schema "$ref" => "#/components/schemas/errors/properties/not_found"
+
+        example "application/json", :default, {
+          error: {
+            code: 404,
+            message: "Not found"
+          }
+        }
+
+        let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
+        let(:planning_application) { JSON.parse(valid_prior_approval_json, symbolize_names: true) }
+
+        run_test!
+      end
+
+      response "500", "Internal server error" do
+        before { allow_any_instance_of(PlanningApplication).to receive(:save!).and_raise(NoMethodError) }
+
+        schema "$ref" => "#/components/schemas/errors/properties/server_error"
+
+        example "application/json", :default, {
+          error: {
+            code: 500,
+            message: "Internal server error"
+          }
+        }
+
+        let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
+        let(:planning_application) { JSON.parse(valid_planning_permission_json, symbolize_names: true) }
 
         run_test!
       end

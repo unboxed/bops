@@ -48,6 +48,25 @@ components:
               - message
           required:
           - error
+        not_found:
+          type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code:
+                  type: integer
+                  const: 404
+                message:
+                  type: string
+                  const: Not found
+                detail:
+                  type: string
+              required:
+              - code
+              - message
+          required:
+          - error
     healthcheck:
       type: object
       properties:
@@ -628,6 +647,18 @@ paths:
                       message: Bad Request
               schema:
                 "$ref": "#/components/schemas/errors/properties/bad_request"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    error:
+                      code: 404
+                      message: Not found
+              schema:
+                "$ref": "#/components/schemas/errors/properties/not_found"
         '401':
           description: with missing or invalid credentials
           content:
@@ -1619,5 +1650,5 @@ paths:
                     service:
                       flowId: 01e38c5d-e701-4e44-acdc-4d6b5cc3b854
                       url: https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview
-                    submittedAt: '2023-10-02 00:00:00'
+                    submittedAt: '2023-10-02T00:00:00.00Z'
                     schema: https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schema.json

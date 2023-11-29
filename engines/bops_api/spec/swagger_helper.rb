@@ -69,6 +69,52 @@ RSpec.configure do |config|
                   }
                 },
                 required: %w[error]
+              },
+              not_found: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "object",
+                    properties: {
+                      code: {
+                        type: "integer",
+                        const: 404
+                      },
+                      message: {
+                        type: "string",
+                        const: "Not found"
+                      },
+                      detail: {
+                        type: "string"
+                      }
+                    },
+                    required: %w[code message]
+                  }
+                },
+                required: %w[error]
+              },
+              server_error: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "object",
+                    properties: {
+                      code: {
+                        type: "integer",
+                        const: 500
+                      },
+                      message: {
+                        type: "string",
+                        const: "Internal server error"
+                      },
+                      detail: {
+                        type: "string"
+                      }
+                    },
+                    required: %w[code message]
+                  }
+                },
+                required: %w[error]
               }
             }
           },
