@@ -92,7 +92,7 @@ class DocumentsController < AuthenticationController
       render :archive
     end
   rescue Document::NotArchiveableError => e
-    flash[:alert] = e
+    flash[:alert] = e.message
     render :archive
   end
 

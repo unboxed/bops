@@ -60,7 +60,7 @@ RSpec.describe "cloning a planning application" do
         click_link("Clone")
       end
 
-      within(".govuk-error-summary") do
+      within(".govuk-notification-banner--alert") do
         expect(page).to have_content("Error cloning application with message: Record invalid.")
       end
 
@@ -76,7 +76,7 @@ RSpec.describe "cloning a planning application" do
         click_link("Clone")
       end
 
-      within(".govuk-error-summary") do
+      within(".govuk-notification-banner--alert") do
         expect(page).to have_content("Cloning is not permitted in production")
       end
 
@@ -94,7 +94,7 @@ RSpec.describe "cloning a planning application" do
         click_link("Clone")
       end
 
-      within(".govuk-error-summary") do
+      within(".govuk-notification-banner--alert") do
         expect(page).to have_content("Planning application can not be cloned as it was not created via PlanX")
       end
 

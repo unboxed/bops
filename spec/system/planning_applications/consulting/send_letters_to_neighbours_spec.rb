@@ -221,9 +221,9 @@ RSpec.describe "Send letters to neighbours", js: true do
 
         click_button "Print and send letters"
 
-        within(".govuk-error-summary__body") do
+        within(".govuk-notification-banner--alert") do
           expect(page).to have_content("The planning application must be made public on the BoPS Public Portal before you can send letters to neighbours.")
-          expect(page).to have_link("made public on the BoPS Public Portal", href: make_public_planning_application_path(planning_application))
+          expect(page).to have_link("made public on the BoPS Public Portal", href: "/planning_applications/#{planning_application.id}/make_public")
         end
       end
     end
@@ -239,17 +239,18 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Send letters to neighbours"
     end
 
+    it "I can not send letters without neighbours" do
+      click_button "Print and send letters"
+
+      within(".govuk-notification-banner--alert") do
+        expect(page).to have_content("There is a problem")
+        expect(page).to have_content("You must add some neighbours before sending letters")
+      end
+    end
+
     it "I can not add an invalid address" do
       fill_in "Search for neighbours by address", with: "Biscuit town"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
-      within(".govuk-error-summary") do
-        expect(page).to have_content("There is a problem")
-        expect(page).to have_content("'Biscuit town' is invalid")
-        expect(page).to have_content("Enter the property name or number, followed by a comma")
-        expect(page).to have_content("Enter the street name, followed by a comma")
-        expect(page).to have_content("Enter a postcode, like AA11AA")
-      end
 
       within(".govuk-error-message") do
         expect(page).to have_content("'Biscuit town' is invalid")
@@ -266,15 +267,8 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       click_button "Print and send letters"
 
-      within(".govuk-error-summary") do
+      within(".govuk-notification-banner--alert") do
         expect(page).to have_content("There is a problem")
-        expect(page).to have_content("'Cheese cottage' is invalid")
-        expect(page).to have_content("Enter the property name or number, followed by a comma")
-        expect(page).to have_content("Enter the street name, followed by a comma")
-        expect(page).to have_content("Enter a postcode, like AA11AA")
-      end
-
-      within(".govuk-error-message") do
         expect(page).to have_content("'Cheese cottage' is invalid")
         expect(page).to have_content("Enter the property name or number, followed by a comma")
         expect(page).to have_content("Enter the street name, followed by a comma")
@@ -560,7 +554,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       click_button "Add neighbours"
 
-      within(".govuk-error-summary") do
+      within(".govuk-error-message") do
         expect(page).to have_content(
           "Neighbours address 5, COXSON WAY, LONDON, SE1 2XB has already been added."
         )

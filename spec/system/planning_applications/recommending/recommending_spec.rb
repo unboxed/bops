@@ -427,7 +427,7 @@ RSpec.describe "Planning Application Assessment" do
           click_link("Review and submit recommendation")
           click_button("Submit recommendation")
 
-          within(".govuk-error-summary") do
+          within(".govuk-notification-banner--alert") do
             expect(page).to have_content("There is a problem")
             expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting to your manager.")
             expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))

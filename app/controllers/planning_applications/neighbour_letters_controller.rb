@@ -2,14 +2,16 @@
 
 module PlanningApplications
   class NeighbourLettersController < AuthenticationController
-    include ActionView::Helpers::SanitizeHelper
-
     before_action :set_planning_application
     before_action :set_consultation
     before_action :set_neighbour, only: %i[update destroy]
     before_action :update_letter_statuses, only: %i[index]
-    before_action :ensure_public_portal_is_active, only: %i[send_letters]
-    before_action :require_reason_when_resending, only: :send_letters
+
+    with_options only: :send_letters do
+      before_action :ensure_public_portal_is_active
+      before_action :ensure_neighbours_have_been_added
+      before_action :require_reason_when_resending
+    end
 
     def index
       respond_to do |format|
@@ -107,16 +109,20 @@ module PlanningApplications
     def ensure_public_portal_is_active
       return if @planning_application.make_public?
 
-      flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to "made public on the BoPS Public Portal", make_public_planning_application_path(@planning_application)}
-      before you can send letters to neighbours."
+      flash.now[:alert] = t(".make_public_html", href: make_public_planning_application_path(@planning_application))
+      render :index and return
+    end
 
+    def ensure_neighbours_have_been_added
+      return if neighbours_to_contact.present?
+
+      flash.now[:alert] = t(".add_neighbours")
       render :index and return
     end
 
     def require_reason_when_resending
       return unless resend_existing?
-      return if consultation_params[:resend_reason].present?
+      return if resend_reason.present?
 
       flash.now[:alert] = t(".require_resend_reason")
       render :index and return
@@ -153,7 +159,7 @@ module PlanningApplications
     end
 
     def redirect_address_validation_error(error)
-      flash[:error] = error
+      flash[:alert] = error
       redirect_to planning_application_consultation_neighbour_letters_path(@planning_application)
     end
 

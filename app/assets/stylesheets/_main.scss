@@ -149,6 +149,26 @@ html * {
   color: govuk-colour("red");
 }
 
+.govuk-notification-banner {
+  &--alert {
+    background-color: $govuk-error-colour;
+    border-color: $govuk-error-colour;
+
+    .govuk-notification-banner__link {
+      color: $govuk-error-colour;
+    }
+  }
+
+  &--notice {
+    background-color: $govuk-success-colour;
+    border-color: $govuk-success-colour;
+
+    .govuk-notification-banner__link {
+      color: $govuk-success-colour;
+    }
+  }
+}
+
 .audit_details {
   font-style: italic;
 }
