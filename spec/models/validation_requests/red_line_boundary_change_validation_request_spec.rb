@@ -32,7 +32,7 @@ RSpec.describe ValidationRequest do
 
     describe "#rejection_reason" do
       it "validates presence when approved is set to false" do
-        red_line_boundary_change_validation_request = described_class.new(applicant_approved: false)
+        red_line_boundary_change_validation_request = build(:validation_request, :red_line_boundary_change, applicant_approved: false)
 
         expect do
           red_line_boundary_change_validation_request.valid?

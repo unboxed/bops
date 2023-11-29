@@ -10,7 +10,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
     create(:validation_request, :description_change, planning_application:)
   end
   let!(:replacement_document_validation_request) do
-    create(:validation_request, :replacement_document_with_response, planning_application:)
+    create(:validation_request, :replacement_document_with_response, planning_application:, state: "closed")
   end
   let!(:additional_document_validation_request) do
     create(:validation_request, :additional_document_with_documents, planning_application:)
@@ -64,7 +64,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
       "response_due" => additional_document_validation_request.response_due.strftime("%Y-%m-%d"),
       "days_until_response_due" => additional_document_validation_request.days_until_response_due,
       "document_request_type" => additional_document_validation_request.document_request_type,
-      "document_request_reason" => additional_document_validation_request.document_request_reason,
+      "reason" => additional_document_validation_request.reason,
       "type" => "additional_document_validation_request"
     })
 

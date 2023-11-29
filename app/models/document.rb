@@ -16,8 +16,7 @@ class Document < ApplicationRecord
   include Auditable
 
   with_options optional: true do
-    belongs_to :additional_document_validation_request, class_name: "ValidationRequest", foreign_key: "additional_document_validation_request_id"
-    belongs_to :replacement_document_validation_request, class_name: "ValidationRequest", foreign_key: "replacement_document_validation_request_id"
+    belongs_to :validation_request
     belongs_to :user
     belongs_to :api_user
   end
@@ -164,7 +163,7 @@ class Document < ApplicationRecord
   end
 
   def archive(archive_reason)
-    if replacement_document_validation_request.try(:open_or_pending?)
+    if validation_request.try(:open_or_pending?)
       raise NotArchiveableError,
         "Cannot archive document with an open or pending validation request"
     end

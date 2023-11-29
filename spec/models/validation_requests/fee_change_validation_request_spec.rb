@@ -151,7 +151,7 @@ RSpec.describe ValidationRequest do
             expect do
               fee_change_validation_request
             end.to raise_error(ValidationRequest::ValidationRequestNotCreatableError,
-              "Cannot create Other Change Validation Request when planning application has been validated")
+              "Cannot create Fee Change Validation Request when planning application has been validated")
           end
         end
       end

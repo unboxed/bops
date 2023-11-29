@@ -23,7 +23,7 @@ RSpec.describe ConsistencyChecklist do
       context "when there are open red line boundary requests" do
         before do
           create(
-            :red_line_boundary_change_validation_request,
+            :validation_request, :red_line_boundary_change,
             :open,
             planning_application:
           )
@@ -47,7 +47,7 @@ RSpec.describe ConsistencyChecklist do
       context "when there are open description change requests" do
         before do
           create(
-            :description_change_validation_request,
+            :validation_request, :description_change,
             :open,
             planning_application:
           )
@@ -71,7 +71,7 @@ RSpec.describe ConsistencyChecklist do
       context "when there are open additional document requests" do
         before do
           create(
-            :additional_document_validation_request,
+            :validation_request, :additional_document,
             :open,
             planning_application:
           )
@@ -95,13 +95,14 @@ RSpec.describe ConsistencyChecklist do
       context "when all requests are closed" do
         before do
           create(
-            :additional_document_validation_request,
+            :validation_request, :additional_document,
             :closed,
             planning_application:
           )
 
           create(
-            :description_change_validation_request,
+            :validation_request,
+            :description_change,
             :closed,
             planning_application:
           )
@@ -292,7 +293,7 @@ RSpec.describe ConsistencyChecklist do
       context "when there are open red line boundary requests" do
         before do
           create(
-            :red_line_boundary_change_validation_request,
+            :validation_request, :red_line_boundary_change,
             :open,
             planning_application:
           )
@@ -306,7 +307,7 @@ RSpec.describe ConsistencyChecklist do
       context "when there are open description change requests" do
         before do
           create(
-            :description_change_validation_request,
+            :validation_request, :description_change,
             :open,
             planning_application:
           )
@@ -320,7 +321,7 @@ RSpec.describe ConsistencyChecklist do
       context "when there are open additional document requests" do
         before do
           create(
-            :additional_document_validation_request,
+            :validation_request, :additional_document,
             :open,
             planning_application:
           )
@@ -401,7 +402,7 @@ RSpec.describe ConsistencyChecklist do
     context "when there are open requests" do
       before do
         create(
-          :red_line_boundary_change_validation_request,
+          :validation_request, :red_line_boundary_change,
           planning_application:
         )
       end
@@ -436,7 +437,7 @@ RSpec.describe ConsistencyChecklist do
     context "when there are open requests" do
       before do
         create(
-          :additional_document_validation_request,
+          :validation_request, :additional_document,
           planning_application:
         )
       end
@@ -471,7 +472,7 @@ RSpec.describe ConsistencyChecklist do
     context "when there are open requests" do
       before do
         create(
-          :description_change_validation_request,
+          :validation_request, :description_change,
           planning_application:
         )
       end
@@ -526,7 +527,8 @@ RSpec.describe ConsistencyChecklist do
 
       before do
         create(
-          :description_change_validation_request,
+          :validation_request,
+          :description_change,
           planning_application:
         )
       end
@@ -581,7 +583,8 @@ RSpec.describe ConsistencyChecklist do
 
       before do
         create(
-          :additional_document_validation_request,
+          :validation_request,
+          :additional_document,
           planning_application:
         )
       end
@@ -636,7 +639,7 @@ RSpec.describe ConsistencyChecklist do
 
       before do
         create(
-          :red_line_boundary_change_validation_request,
+          :validation_request, :red_line_boundary_change,
           planning_application:
         )
       end

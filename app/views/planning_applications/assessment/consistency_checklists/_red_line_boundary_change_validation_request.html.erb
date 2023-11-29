@@ -1,11 +1,11 @@
 <% if request.present? %>
   <p class="govuk-body-s">
-    <%= t(".proposed_a_new", user: request.sent_by.name) %><br>
+    <%= t(".proposed_a_new", user: request.user.name) %><br>
     <%= t(".reason") %> <%= request.reason %><br>
     <%= t(".proposed") %> <%= request.created_at.to_fs %><br>
     <% if request.auto_closed? %>
       <%= t(".accepted") %> <%= request.auto_closed_at.to_fs %>
-    <% elsif request.approved? %>
+    <% elsif request.applicant_approved? %>
       <%= t(".accepted") %> <%= request.closed_at.to_fs %>
     <% elsif request.cancelled? %>
       <%= t(".cancelled") %> <%= request.cancelled_at.to_fs %>

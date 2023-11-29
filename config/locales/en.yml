@@ -121,12 +121,6 @@ en:
   activerecord:
     errors:
       models:
-        additional_document_validation_request:
-          attributes:
-            document_request_reason:
-              blank: Please fill in the reason for this document request.
-            document_request_type:
-              blank: Please fill in the document request type.
         assessment_detail:
           attributes:
             base:
@@ -276,6 +270,8 @@ en:
               blank: Red line drawing must be complete
             reason:
               blank: Provide a reason for changes
+            document_request_type:
+              blank: Fill in the document request type.
   add_consultee_component:
     add_additional_consultees: Add additional consultees
     add_consultee: Add consultee
@@ -358,10 +354,15 @@ en:
       description_change_validation_request_cancelled: 'Cancelled: validation request (applicant approval for description change #%{args})'
       description_change_validation_request_received: 'Received: request for change (description#%{args})'
       description_change_validation_request_sent: 'Sent: description change request (description#%{args})'
+      description_change_validation_request_sent_post_validation: 'Sent: description change request (description#%{args})'
       determined: Decision Published
       document_changed_to_validated: "%{args} was modified from invalid to valid"
       document_invalidated: "%{args} was marked as invalid"
       document_received_at_changed: "%{args} received at date was modified"
+      fee_change_validation_request_added: 'Added: validation request (fee validation#%{args})'
+      fee_change_validation_request_cancelled: 'Cancelled: validation request (fee change from applicant#%{args})'
+      fee_change_validation_request_received: 'Received: request for change (fee validation#%{args})'
+      fee_change_validation_request_sent: 'Sent: validation request (fee validation#%{args})'
       invalidated: Application invalidated
       legislation_checked: Legislative requirements checked
       neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
@@ -1207,6 +1208,10 @@ en:
     validate:
       success: Application is ready for assessment and an email notification has been sent.
     validation:
+      description_change_validation_requests:
+        show: 
+          back: Back
+          cancel_this_request: Cancel this request
       cil_liability:
         update:
           success: CIL liability updated

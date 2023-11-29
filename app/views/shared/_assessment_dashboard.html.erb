@@ -26,7 +26,7 @@
     <%= render "shared/description_response_banner" %>
   <% end %>
 <% end %>
-<% if @planning_application.validation_requests.description_changes.where.not(auto_closed: nil).present? %>
+<% if @planning_application.validation_requests.description_changes.where(auto_closed: true).present? %>
   <%= render "shared/description_change_auto_closed_banner" %>
 <% end %>
 <div class="govuk-grid-row">

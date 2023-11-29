@@ -36,7 +36,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     fill_in "Please specify the reason you have requested this document?", with: "Application is missing a rear view."
 
     click_button "Send request"
-    expect(page).to have_content("Additional document request successfully created.")
+    expect(page).to have_content("Request successfully created.")
 
     click_link "Application"
     click_button "Audit log"
@@ -69,7 +69,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       new_planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
 
       request = create(
-        :additional_document_validation_request,
+        :validation_request, :additional_document,
         planning_application: new_planning_application,
         state: "pending",
         created_at: 12.days.ago
@@ -121,7 +121,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       expect(page).to have_content("Check all necessary documents have been provided and add requests for any missing documents.")
       expect(page).to have_link(
         "Add a request for a missing document",
-        href: new_planning_application_validation_validation_request_path(planning_application)
+        href: new_planning_application_validation_validation_request_path(planning_application, request_type: "additional_document")
       )
 
       within(".govuk-table.current-documents") do
@@ -180,7 +180,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       end
 
       expect(planning_application.reload.documents_missing).to be(false)
-      expect(AdditionalDocumentValidationRequest.all.length).to eq(0)
+      expect(ValidationRequest.all.length).to eq(0)
     end
 
     it "I get validation errors when I omit required information" do
@@ -189,12 +189,12 @@ RSpec.describe "Requesting a new document for a planning application" do
       click_link "Add a request for a missing document"
       click_button "Save request"
 
-      within(".govuk-error-message#additional-document-validation-request-document-request-type-error") do
-        expect(page).to have_content("Please fill in the document request type.")
+      within(".govuk-error-message#validation-request-document-request-type-error") do
+        expect(page).to have_content("Fill in the document request type.")
       end
 
-      within(".govuk-error-message#additional-document-validation-request-document-request-reason-error") do
-        expect(page).to have_content("Please fill in the reason for this document request.")
+      within(".govuk-error-message#validation-request-reason-error") do
+        expect(page).to have_content("Provide a reason for changes")
       end
     end
 
@@ -219,17 +219,19 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       click_button "Save request"
 
-      expect(page).to have_content("Additional document request successfully created.")
+      expect(page).to have_content("Request successfully created.")
 
       expect(planning_application.reload.documents_missing).to be_truthy
-      expect(AdditionalDocumentValidationRequest.all.length).to eq(1)
+      expect(ValidationRequest.all.length).to eq(1)
 
-      additional_document_validation_request = AdditionalDocumentValidationRequest.last
+      additional_document_validation_request = ValidationRequest.last
+
+      click_link "Check required documents are on application"
 
       within(".govuk-table#additional-document-validation-requests-table") do
         expect(page).to have_content("New document requested")
         expect(page).to have_content("Document requested: #{additional_document_validation_request.document_request_type}")
-        expect(page).to have_content("Reason: #{additional_document_validation_request.document_request_reason}")
+        expect(page).to have_content("Reason: #{additional_document_validation_request.reason}")
         expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
 
@@ -251,7 +253,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       let!(:additional_document_validation_request) do
         create(
-          :additional_document_validation_request, :pending, planning_application:
+          :validation_request, :additional_document, :pending, planning_application:
         )
       end
 
@@ -265,7 +267,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         click_link "Edit request"
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/validation/additional_document_validation_requests/#{additional_document_validation_request.id}/edit"
+          "/planning_applications/#{planning_application.id}/validation/validation_requests/#{additional_document_validation_request.id}/edit"
         )
 
         fill_in "Please specify the new document type:", with: "Floor plans"
@@ -276,7 +278,7 @@ RSpec.describe "Requesting a new document for a planning application" do
           click_button "Update"
         end
 
-        expect(page).to have_content("Additional document request successfully updated")
+        expect(page).to have_content("Request successfully updated")
 
         within("#additional-documents-validation-task") do
           expect(page).to have_content("Invalid")
@@ -311,7 +313,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         end
 
         expect(planning_application.reload.documents_missing).to be_nil
-        expect(AdditionalDocumentValidationRequest.all.length).to eq(0)
+        expect(ValidationRequest.all.length).to eq(0)
       end
     end
   end
@@ -323,7 +325,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
     let!(:additional_document_validation_request) do
       create(
-        :additional_document_validation_request, :open,
+        :validation_request, :additional_document, :open,
         planning_application:
       )
     end
@@ -337,7 +339,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       within(".govuk-table#additional-document-validation-requests-table") do
         expect(page).to have_content("New document requested")
         expect(page).to have_content("Document requested: #{additional_document_validation_request.document_request_type}")
-        expect(page).to have_content("Reason: #{additional_document_validation_request.document_request_reason}")
+        expect(page).to have_content("Reason: #{additional_document_validation_request.reason}")
         expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
 
@@ -367,15 +369,15 @@ RSpec.describe "Requesting a new document for a planning application" do
       expect(page).to have_content("Validation request was successfully cancelled.")
 
       within(".govuk-table.cancelled-requests") do
-        within("#additional_document_validation_request_#{additional_document_validation_request.id}") do
-          expect(page).to have_content("New document")
+        within("#validation_request_#{additional_document_validation_request.id}") do
+          expect(page).to have_content("Additional document")
           expect(page).to have_content("Mistake")
           expect(page).to have_content(additional_document_validation_request.reload.cancelled_at.to_fs)
         end
       end
 
       expect(planning_application.reload.documents_missing).to be_nil
-      expect(AdditionalDocumentValidationRequest.last.state).to eq("cancelled")
+      expect(ValidationRequest.last.state).to eq("cancelled")
 
       click_link "Validation tasks"
 
@@ -396,7 +398,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I cannot edit the request" do
-      visit "/planning_applications/#{planning_application.id}/validation/additional_document_validation_requests/#{additional_document_validation_request.id}/edit"
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{additional_document_validation_request.id}/edit"
 
       expect(page).to have_content("forbidden")
       expect(page).not_to have_link("Edit request")
@@ -418,7 +420,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     context "when applicant has responded" do
       let!(:additional_document_validation_request) do
         create(
-          :additional_document_validation_request, :open,
+          :validation_request, :additional_document, :open,
           planning_application:
         )
       end
@@ -427,7 +429,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       before do
         additional_document_validation_request.update(state: "closed")
-        additional_document_validation_request.documents << document
+        additional_document_validation_request.additional_documents << document
       end
 
       it "I can see the new document in the validate documents list" do

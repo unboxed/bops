@@ -29,14 +29,14 @@
       <% if @validation_request.open? %>
         Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
       <% else %>
-        <%= @validation_request.approved? ? 'Approved' : 'Rejected' %>
+        <%= @validation_request.applicant_approved? ? 'Approved' : 'Rejected' %>
       <% end %>
     </p>
 
     <% if @validation_request.open? %>
       <%= form_with(
         model: [@planning_application, @validation_request],
-        url: planning_application_validation_validation_request_cancel_path(
+        url: cancel_planning_application_validation_validation_request_path(
           @planning_application,
           @validation_request
         ),

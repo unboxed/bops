@@ -139,7 +139,7 @@ RSpec.describe "Planning Application Assessment" do
       context "when open description_change_validation_request" do
         before do
           create(
-            :description_change_validation_request,
+            :validation_request, :description_change,
             :open,
             planning_application:,
             created_at: DateTime.new(2024, 1, 1)

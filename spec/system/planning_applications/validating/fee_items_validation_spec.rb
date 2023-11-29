@@ -157,7 +157,7 @@ RSpec.describe "FeeItemsValidation" do
 
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
-        expect(page).to have_content("Reason can't be blank")
+        expect(page).to have_content("Provide a reason for changes")
         expect(page).to have_content("Suggestion can't be blank")
       end
     end
@@ -240,7 +240,7 @@ RSpec.describe "FeeItemsValidation" do
 
       let!(:other_change_validation_request) do
         create(
-          :validation_request, :fee_change_validation_request, :pending,
+          :validation_request, :fee_change, :pending,
           planning_application:
         )
       end
@@ -344,7 +344,7 @@ RSpec.describe "FeeItemsValidation" do
 
     let!(:other_change_validation_request) do
       create(
-        :validation_request, :fee_change_validation_request, :open,
+        :validation_request, :fee_change, :open,
         planning_application:
       )
     end
@@ -422,7 +422,7 @@ RSpec.describe "FeeItemsValidation" do
 
       let!(:closed_other_change_validation_request) do
         create(
-          :validation_request, :closed, :fee_change_validation_request,
+          :validation_request, :closed, :fee_change,
           planning_application:,
           applicant_response: "I agree with the fee"
         )

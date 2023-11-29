@@ -39,13 +39,18 @@ class ConsistencyChecklist < ApplicationRecord
     define_method("default_#{check}_to_no?") do
       send("open_#{request_type}_requests?") || send("#{check}_no?")
     end
+  end
 
-    # defines #open_description_change_requests?,
-    # #open_additional_document_requests?,
-    # #open_red_line_boundary_change_requests?
-    define_method("open_#{request_type}_requests?") do
-      send("open_#{request_type}_requests").any?
-    end
+  def open_description_change_requests?
+    planning_application.validation_requests.description_changes.open.any?
+  end
+
+  def open_additional_document_requests?
+    planning_application.validation_requests.additional_documents.open.any?
+  end
+
+  def open_red_line_boundary_change_requests?
+    planning_application.validation_requests.red_line_boundary_changes.open.any?
   end
 
   private

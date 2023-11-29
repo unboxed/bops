@@ -337,7 +337,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def ensure_no_open_post_validation_requests
-    return unless @planning_application.open_post_validation_requests?
+    return unless @planning_application.validation_requests.open.post_validation.any?
 
     flash.now[:alert] = t(".has_open_non_validation_requests_html", href: post_validation_requests_planning_application_validation_validation_requests_path(@planning_application))
     render :submit_recommendation and return

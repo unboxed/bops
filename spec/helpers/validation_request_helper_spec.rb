@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe ValidationRequestHelper do
   let(:planning_application) { create(:planning_application, :invalidated) }
-  let!(:request) { create(:other_change_validation_request, planning_application:) }
+  let!(:request) { create(:validation_request, :other_change, planning_application:) }
   let(:document) { create(:document, planning_application:) }
 
   describe "#cancel_confirmation_request_url" do

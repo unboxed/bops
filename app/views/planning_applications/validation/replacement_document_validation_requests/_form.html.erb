@@ -18,7 +18,7 @@
       </div>
     <% end %>
     <%= form.hidden_field :request_type, value: "replacement_document" %>
-    <%= form.govuk_text_area :reason, required: true %>
+    <%= form.govuk_text_area :reason, label: { text: "List all issues with the document" }, required: true %>
 
     <%= render "shared/planning_guides_link" %>
 

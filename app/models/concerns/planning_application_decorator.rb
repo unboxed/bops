@@ -4,7 +4,7 @@ module PlanningApplicationDecorator
   extend ActiveSupport::Concern
 
   def open_description_change_request
-    @open_description_change_request ||= description_change_validation_requests.open.last
+    @open_description_change_request ||= validation_requests.description_changes.open.last
   end
 
   def agent_full_name

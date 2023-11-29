@@ -47,12 +47,16 @@ module PlanningApplications
       end
 
       def update
-        if @validation_request.update(validation_request_params)
+        if @validation_request.update(validation_request_params.except(:return_to))
           redirect_to(
             create_request_redirect_url,
             notice: t(".success")
           )
         else
+          if @validation_request.request_type == "replacement_document"
+            @document = @validation_request.old_document
+          end
+
           render :edit
         end
       end
@@ -78,7 +82,7 @@ module PlanningApplications
       def create
         @validation_request =
           ValidationRequest.new(
-            validation_request_params.merge!({planning_application_id: @planning_application.id})
+            validation_request_params.except(:return_to).merge!({planning_application_id: @planning_application.id})
           )
         @validation_request.user = current_user
 
@@ -88,7 +92,11 @@ module PlanningApplications
             notice: t(".success")
           )
         else
-          render :new
+          if @validation_request.request_type == "replacement_document"
+            @document = @validation_request.old_document
+          end
+
+          render :new, request_type: @validation_request.request_type
         end
       end
 
@@ -120,12 +128,11 @@ module PlanningApplications
       end
 
       def post_validation_requests
-        validation_requests = @planning_application.validation_requests(
-          post_validation: true,
-          include_description_change_validation_requests: true
+        validation_requests = @planning_application.validation_requests.where(
+          post_validation: true
         )
 
-        @cancelled_validation_requests = validation.requests.cancelled
+        @cancelled_validation_requests = validation_requests.cancelled
         @active_validation_requests = validation_requests.active
 
         respond_to do |format|
@@ -163,7 +170,10 @@ module PlanningApplications
       end
 
       def create_request_redirect_url
-        if @planning_application.validated?
+        if params.dig(:validation_request, :return_to)
+          params.dig(:validation_request, :return_to) ||
+          @planning_application
+        elsif @planning_application.validated?
           @planning_application
         else
           planning_application_validation_tasks_path(@planning_application)
@@ -178,7 +188,7 @@ module PlanningApplications
         params.require(:validation_request)
           .permit(
             :new_geojson, :reason, :request_type, :suggestion,
-            :document_request_type, :old_document_id
+            :document_request_type, :old_document_id, :proposed_description, :return_to
           )
       end
 
@@ -187,17 +197,21 @@ module PlanningApplications
       end
 
       def set_document
-        return unless params[:request_type] == "replacement_document"
+        return unless params[:request_type] == "replacement_document" || @validation_request&.request_type == "replacement_document"
 
         if params[:document]
           @document = @planning_application.documents.find(params[:document].to_i)
         else
           @replacement_document_validation_request = @planning_application.validation_requests.find(params[:id].to_i)
+          @document = @replacement_document_validation_request.old_document
         end
       end
 
       def cancel_redirect_url
-        if @planning_application.validated?
+        if params.dig(:validation_request, :return_to)
+          params.dig(:validation_request, :return_to) ||
+          @planning_application
+        elsif @planning_application.validated?
           post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
         else
           planning_application_validation_validation_requests_path(@planning_application)

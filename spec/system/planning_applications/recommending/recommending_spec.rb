@@ -410,7 +410,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "when there are open post validation requests" do
         let!(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority) }
-        let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
+        let!(:red_line_boundary_change_validation_request) { create(:validation_request, :red_line_boundary_change, :open, :post_validation, planning_application:) }
 
         it "prevents me from submitting the planning application" do
           within(selected_govuk_tab) do
@@ -706,7 +706,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "with an open red line boundary request" do
         let!(:post_validation_red_line_boundary_change_validation_request) do
-          create(:red_line_boundary_change_validation_request, :post_validation, :open, planning_application:)
+          create(:validation_request, :red_line_boundary_change, :post_validation, :open, planning_application:)
         end
 
         it "displays a warning message with a link to the post validation requests table" do
@@ -723,7 +723,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "with an open description change request" do
         let!(:post_description_change_validation_request) do
-          create(:description_change_validation_request, :post_validation, :open, planning_application:)
+          create(:validation_request, :description_change, :post_validation, :open, planning_application:)
         end
 
         it "displays a warning message with a link to the post validation requests table" do
@@ -740,7 +740,7 @@ RSpec.describe "Planning Application Assessment" do
 
       context "with a closed change request" do
         let!(:post_validation_red_line_boundary_change_validation_request) do
-          create(:red_line_boundary_change_validation_request, :post_validation, :closed, planning_application:)
+          create(:validation_request, :red_line_boundary_change, :post_validation, :closed, planning_application:)
         end
 
         it "does not display any warning message" do

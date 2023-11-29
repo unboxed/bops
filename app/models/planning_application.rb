@@ -647,10 +647,30 @@ class PlanningApplication < ApplicationRecord
     validation_requests.where(state: "pending")
   end
 
-  def reset_validation_requests_update_counter!(request_type)
+  def reset_validation_requests_update_counter!(requests)
     return unless validation_requests.any?
 
-    validation_requests.where(request_type:).pre_validation.filter(&:update_counter?).each(&:reset_update_counter!)
+    requests.pre_validation.where(update_counter: true).each(&:reset_update_counter!)
+  end
+
+  def latest_rejected_description_change
+    validation_requests.description_changes.order(created_at: :desc).find(&:rejected?)
+  end
+
+  def latest_auto_closed_description_request
+    validation_requests.description_changes.where(auto_closed: true).order(created_at: :desc).last
+  end
+
+  def last_validation_request_date
+    validation_requests.closed.max_by(&:updated_at).updated_at
+  end
+
+  def all_open_post_validation_requests
+    validation_requests.open.post_validation
+  end
+
+  def no_open_post_validation_requests?
+    validation_requests.open.post_validation.none?
   end
 
   private

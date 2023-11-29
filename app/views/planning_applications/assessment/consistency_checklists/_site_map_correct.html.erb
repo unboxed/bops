@@ -20,7 +20,8 @@
         <%= link_to(
           t(".request_red_line_boundary_change"),
           new_planning_application_validation_validation_request_path(
-            planning_application
+            planning_application,
+            request_type: "red_line_boundary_change"
           ),
           class: "govuk-link"
         ) %>
@@ -37,7 +38,7 @@
   <%= render(
     partial: "red_line_boundary_change_validation_request",
     locals: {
-      request: planning_application.red_line_boundary_change_validation_request,
+      request: planning_application.validation_requests.red_line_boundary_changes.last,
       planning_application: planning_application
     }
   ) %>

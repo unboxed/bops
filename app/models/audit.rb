@@ -50,6 +50,7 @@ class Audit < ApplicationRecord
     description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
     description_change_validation_request_added: "description_change_validation_request_added",
     description_change_validation_request_sent_post_validation: "description_change_validation_request_sent_post_validation",
+    description_change_validation_request_cancelled_post_validation: "description_change_validation_request_cancelled_post_validation",
     replacement_document_validation_request_sent: "replacement_document_validation_request_sent",
     replacement_document_validation_request_sent_post_validation:
       "replacement_document_validation_request_sent_post_validation",
@@ -69,6 +70,7 @@ class Audit < ApplicationRecord
     other_change_validation_request_added: "other_change_validation_request_added",
     other_change_validation_request_sent: "other_change_validation_request_sent",
     other_change_validation_request_received: "other_change_validation_request_received",
+    other_change_validation_request_sent_post_validation: "other_change_validation_request_sent_post_validation",
     validation_requests_sent: "validation_requests_sent",
     additional_document_validation_request_cancelled: "additional_document_validation_request_cancelled",
     additional_document_validation_request_cancelled_post_validation:
@@ -77,6 +79,7 @@ class Audit < ApplicationRecord
     fee_change_validation_request_cancelled: "fee_change_validation_request_cancelled",
     fee_change_validation_request_added: "fee_change_validation_request_added",
     fee_change_validation_request_sent: "fee_change_validation_request_sent",
+    fee_change_validation_request_sent_post_validation: "fee_change_validation_request_sent_post_validation",
     fee_change_validation_request_received: "fee_change_validation_request_received",
     proposal_measurements_updated: "proposal_measurements_updated",
     red_line_boundary_change_validation_request_cancelled: "red_line_boundary_change_validation_request_cancelled",

@@ -13,7 +13,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     let(:description_change_validation_request) do
-      create(:description_change_validation_request, planning_application:, state: "open",
+      create(:validation_request, :description_change, planning_application:, state: "open",
         created_at: 12.days.ago)
     end
 
@@ -147,7 +147,8 @@ RSpec.describe PlanningApplicationStatus do
 
       before do
         create(
-          :additional_document_validation_request,
+          :validation_request, 
+          :additional_document,
           planning_application:,
           state: "pending"
         )

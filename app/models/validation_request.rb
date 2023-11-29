@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ValidationRequest < ApplicationRecord
-  VALIDATION_REQUEST_TYPES = %w[
+  REQUEST_TYPES = %w[
     additional_document
     description_change
     red_line_boundary_change
@@ -43,11 +43,13 @@ class ValidationRequest < ApplicationRecord
   has_many :additional_documents, dependent: :destroy, class_name: "Document"
   has_many :replacement_documents, dependent: :destroy, class_name: "Document"
 
-  validates :request_type, presence: true, inclusion: {in: VALIDATION_REQUEST_TYPES}
-  validates :reason, presence: true
+  validates :request_type, presence: true, inclusion: {in: REQUEST_TYPES}
+  validates :reason, presence: true, unless: :description_change?
   validates :suggestion, presence: true, if: :fee_change?
-  validates :cancel_reason, presence: true, if: :cancelled?
+  validates :cancel_reason, presence: true, if: -> { cancelled? && !description_change? }
   validates :new_geojson, presence: true, if: :red_line_boundary_change?
+  validates :applicant_rejection_reason, presence: true, if: -> { red_line_boundary_change? && applicant_approved == false }
+  validates :document_request_type, presence: true, if: :additional_document?
   validates :proposed_description, presence: true, if: :description_change?
   validate :allows_only_one_open_description_change, on: :create, if: :description_change?
   validate :planning_application_has_not_been_determined, on: :create, if: :description_change?
@@ -64,19 +66,20 @@ class ValidationRequest < ApplicationRecord
   scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
   scope :pre_validation, -> { where(post_validation: false) }
   scope :overdue, -> { where(state: ["open", "overdue"]) }
-  scope :responsed, -> { where.not(responded_at: nil) }
+  scope :responded, -> { where.not(applicant_response: nil) }
   scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
   before_create lambda {
-                  reset_validation_requests_update_counter!(request_type)
+                  reset_validation_requests_update_counter!(planning_application.validation_requests)
                 }
   before_create :reset_replacement_document_validation_request_update_counter!, if: :replacement_document?
   before_create :set_original_geojson, if: :red_line_boundary_change?
   before_create :set_sequence
   before_create :set_previous_application_description, if: :description_change?
   before_create :ensure_planning_application_not_closed_or_cancelled!
+  before_create :ensure_planning_application_not_validated!, if: -> { fee_change? || other_change? }
   after_create :set_post_validation!, if: :planning_application_validated?
   after_create :email_and_timestamp, if: :pending?
   after_create :create_audit!
@@ -92,7 +95,7 @@ class ValidationRequest < ApplicationRecord
   format_geojson_epsg :original_geojson
   format_geojson_epsg :new_geojson
 
-  VALIDATION_REQUEST_TYPES.each do |type|
+  REQUEST_TYPES.each do |type|
     scope "#{type.underscore}s", -> { where(request_type: type) }
   end
 
@@ -217,7 +220,7 @@ class ValidationRequest < ApplicationRecord
   def upload_files!(files)
     transaction do
       files.each do |file|
-        planning_application.documents.create!(file:, additional_document_validation_request: self)
+        planning_application.documents.create!(file:, validation_request_id: self.id)
       end
       close!
       audit_upload_files!
@@ -298,20 +301,63 @@ class ValidationRequest < ApplicationRecord
     end
   end
 
+  def rejected?
+    !applicant_approved && applicant_rejection_reason.present?
+  end
+
+  def sent_by
+    audits.find_by(activity_type: send_and_add_events, activity_information: sequence).try(:user)
+  end
+
   private
 
   def send_and_add_events
     [
-      "#{self.class.name.underscore}_sent_post_validation",
-      "#{self.class.name.underscore}_sent",
-      "#{self.class.name.underscore}_added"
+      "#{self.request_type}_validation_request_sent_post_validation",
+      "#{self.request_type}_validation_request_sent",
+      "#{self.request_type}_validation_request_added"
     ]
   end
 
   def create_audit_for!(event)
     audit!(
       activity_type: "#{request_type}_#{self.class.name.underscore}_#{event}",
-      activity_information: sequence.to_s
+      activity_information: sequence.to_s,
+      audit_comment:
+    )
+  end
+
+  def audit_comment
+    if fee_change? || other_change?
+      {
+        reason:,
+        suggestion:
+      }.to_json
+    elsif red_line_boundary_change?
+      reason
+    elsif description_change?
+      {
+        previous: planning_application.description,
+        proposed: proposed_description
+      }.to_json
+    elsif additional_document?
+      {
+        document: document_request_type,
+        reason:
+      }.to_json
+    elsif replacement_document?
+      {
+        old_document: old_document.name,
+        reason:
+      }.to_json
+    end
+  end
+
+  def audit_upload_files!
+    audit!(
+      activity_type: "additional_document_validation_request_received",
+      activity_information: sequence,
+      audit_comment: additional_documents.map(&:name).join(", ")
     )
   end
 
@@ -386,10 +432,6 @@ class ValidationRequest < ApplicationRecord
 
   def fee_change?
     request_type == "fee_change"
-  end
-
-  def document
-    document || documents.order(:created_at).last
   end
 
   def reset_columns
@@ -503,13 +545,13 @@ class ValidationRequest < ApplicationRecord
     return unless planning_application_validated?
 
     raise ValidationRequestNotCreatableError,
-      "Cannot create #{self.class.name.titleize} when planning application has been validated"
+      "Cannot create #{self.request_type.titleize} Validation Request when planning application has been validated"
   end
 
   def ensure_planning_application_not_closed_or_cancelled!
     return unless planning_application_closed_or_cancelled?
 
     raise ValidationRequestNotCreatableError,
-      "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
+      "Cannot create #{self.request_type.titleize} Validation Request when planning application has been closed or cancelled"
   end
 end

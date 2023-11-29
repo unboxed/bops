@@ -22,7 +22,7 @@ RSpec.describe ValidationRequest do
           other_change_validation_request.valid?
         end.to change {
           other_change_validation_request.errors[:reason]
-        }.to ["can't be blank"]
+        }.to ["Provide a reason for changes"]
       end
     end
   end
@@ -47,6 +47,9 @@ RSpec.describe ValidationRequest do
     describe "::before_create #reset_validation_requests_update_counter" do
       let(:local_authority) { create(:local_authority) }
       let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
+      let(:other_change_validation_request1) do
+        create(:validation_request, :other_change, planning_application:)
+      end
 
       before { other_change_validation_request1.close! }
 
@@ -57,8 +60,8 @@ RSpec.describe ValidationRequest do
   end
 
   describe "events" do
-    let!(:other_change_validation_request) { create(:other_change_validation_request, :open, response: "ok") }
-    let!(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, response: "ok") }
+    let!(:other_change_validation_request) { create(:validation_request, :other_change, :open, applicant_response: "ok") }
+    let!(:fee_item_validation_request) { create(:validation_request, :fee_change, :open, applicant_response: "ok") }
 
     describe "#close" do
       it "sets updated_counter to true on the associated validation request" do

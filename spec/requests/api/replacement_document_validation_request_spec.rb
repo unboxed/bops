@@ -10,7 +10,7 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
 
   let!(:replacement_document_validation_request) do
     create(
-      :replacement_document_validation_request,
+      :validation_request, :replacement_document,
       planning_application:,
       created_at: DateTime.new(2022, 1, 1),
       old_document: document
@@ -35,8 +35,7 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
 
     let!(:replacement_document_validation_request2) do
       create(
-        :replacement_document_validation_request,
-        :with_response,
+        :validation_request, :replacement_document_with_response,
         :closed,
         planning_application:,
         created_at: DateTime.new(2022, 1, 2)
@@ -45,7 +44,7 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
 
     let!(:replacement_document_validation_request3) do
       create(
-        :replacement_document_validation_request,
+        :validation_request, :replacement_document,
         :cancelled,
         planning_application:,
         created_at: DateTime.new(2022, 1, 3),

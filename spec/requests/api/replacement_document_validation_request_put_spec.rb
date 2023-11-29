@@ -32,7 +32,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   let!(:replacement_document_validation_request) do
-    create(:replacement_document_validation_request,
+    create(:validation_request, :replacement_document,
       planning_application:,
       old_document: document)
   end

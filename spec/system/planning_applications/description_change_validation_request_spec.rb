@@ -19,7 +19,7 @@ RSpec.describe "Requesting description changes to a planning application" do
   end
 
   it "displays the planning application address and reference" do
-    visit "/planning_applications/#{planning_application.id}/validation/description_change_validation_requests/new"
+    visit "/planning_applications/#{planning_application.id}/validation/validation_requests/new?request_type=description_change"
 
     expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
@@ -37,7 +37,7 @@ RSpec.describe "Requesting description changes to a planning application" do
     fill_in("Please suggest a new application description", with: "description")
     click_button "Send"
 
-    expect(page).to have_text("Description change request successfully sent.")
+    expect(page).to have_text("Request successfully created.")
 
     expect(page).to have_current_path(
       "/planning_applications/#{planning_application.id}/assessment/tasks"
@@ -48,7 +48,7 @@ RSpec.describe "Requesting description changes to a planning application" do
     click_button("Cancel this request")
 
     expect(page).to have_content(
-      "Description change request successfully cancelled."
+      "Validation request was successfully cancelled."
     )
 
     expect(page).to have_current_path(

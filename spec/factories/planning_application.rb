@@ -335,7 +335,8 @@ FactoryBot.define do
       factory :invalidated_planning_application do
         after(:create) do |p|
           create(
-            :additional_document_validation_request,
+            :validation_request,
+            :additional_document,
             :pending,
             planning_application: p
           )

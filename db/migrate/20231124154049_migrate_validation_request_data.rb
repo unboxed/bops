@@ -101,7 +101,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
     RedLineBoundaryChangeValidationRequest.find_each do |request|
       validation_request = ValidationRequest.find_by(requestable_id: request.id, request_type: "RedLineBoundaryChangeValidationRequest")
 
-      validation_request.assign_attributes(
+      validation_request&.assign_attributes(
         state: request.state,
         request_type: "red_line_boundary_change",
         user_id: request.user_id,
@@ -119,7 +119,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         auto_closed_at: request.auto_closed_at
       )
 
-      validation_request.save(validate: false)
+      validation_request&.save(validate: false)
     end
 
     OtherChangeValidationRequest.where(fee_item: true).find_each do |request|
@@ -188,7 +188,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
   end
 
   def down
-    change_table :validation_request, bulk: true do |t|
+    change_table :validation_requests, bulk: true do |t|
       t.bigint :requestable_id
     end
 
@@ -214,15 +214,16 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         state: request.state,
         user_id: request.user_id,
         post_validation: request.post_validation,
-        document_request_reason: request.document_request_reason,
+        document_request_reason: request.reason,
         notified_at: request.notified_at,
         cancelled_at: request.cancelled_at,
         cancel_reason: request.cancel_reason,
         sequence: request.sequence,
-        document_request_type: request.document_request_type
+        document_request_type: request.document_request_type,
+        planning_application_id: request.planning_application_id
       )
 
-      Document.find_by(validation_request_id: request.id).update(additional_document_validation_request_id: new_request.id)
+      Document.find_by(validation_request_id: request.id)&.update(additional_document_validation_request_id: new_request.id)
 
       request.update(
         requestable_id: new_request.id,
@@ -258,10 +259,11 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         notified_at: request.notified_at,
         cancelled_at: request.cancelled_at,
         cancel_reason: request.cancel_reason,
-        sequence: request.sequence
+        sequence: request.sequence,
+        planning_application_id: request.planning_application_id
       )
 
-      Document.find_by(validation_request_id: request.id).update(replacement_document_validation_request_id: new_request.id)
+      Document.find_by(validation_request_id: request.id)&.update(replacement_document_validation_request_id: new_request.id)
 
       request.update(
         requestable_id: new_request.id,
@@ -304,7 +306,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         auto_closed: request.auto_closed,
         approved: request.applicant_approved,
         rejection_reason: request.applicant_rejection_reason,
-        reason: request.reason
+        reason: request.reason,
+        planning_application_id: request.planning_application_id
       )
 
       request.update(
@@ -344,11 +347,10 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence,
         auto_closed_at: request.auto_closed_at,
         auto_closed: request.auto_closed,
-        proposed_description: request.proposed_description,
-        previous_description: request.previous_description,
         approved: request.applicant_approved,
         rejection_reason: request.applicant_rejection_reason,
-        reason: request.reason
+        reason: request.reason,
+        planning_application_id: request.planning_application_id
       )
 
       request.update(
@@ -369,7 +371,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.string :cancel_reason
       t.datetime :cancelled_at
       t.boolean :post_validation, default: false, null: false
-      t.boolean :valid_fee, default: false, null: false
+      t.boolean :fee_item, default: false, null: false
 
       t.timestamps
     end
@@ -384,8 +386,9 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         cancel_reason: request.cancel_reason,
         sequence: request.sequence,
         valid_fee: false,
-        summary: request.summary,
-        suggestion: request.reason
+        summary: request.reason,
+        suggestion: request.specific_attributes["suggestion"],
+        planning_application_id: request.planning_application_id
       )
 
       request.update(
@@ -403,17 +406,18 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         cancelled_at: request.cancelled_at,
         cancel_reason: request.cancel_reason,
         sequence: request.sequence,
-        valid_fee: true,
-        summary: request.summary,
-        suggestion: request.reason
+        fee_item: true,
+        summary: request.reason,
+        suggestion: request.specific_attributes["suggestion"],
+        planning_application_id: request.planning_application_id
       )
 
       request.update(
         requestable_id: new_request.id,
         request_type: "OtherChangeValidationRequest"
       )
-    end
 
-    rename_column :validation_requests, :request_type, :requestable_type
+      remove_reference :documents, :validation_request, foreign_key: true
+    end
   end
 end

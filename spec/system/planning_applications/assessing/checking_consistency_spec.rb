@@ -259,7 +259,7 @@ RSpec.describe "checking consistency" do
     click_button("Send")
 
     expect(page).to have_content(
-      "Description change request successfully sent."
+      "Request successfully created."
     )
 
     expect(page).not_to have_link("Request a change to the description")
@@ -270,9 +270,9 @@ RSpec.describe "checking consistency" do
     click_link("View and edit request")
     click_button("Cancel this request")
 
-    expect(page).to have_content("Description change request successfully cancelled.")
+    expect(page).to have_content("Validation request was successfully cancelled.")
 
-    expect(page).to have_content("Cancelled 15 September 2022 12:00")
+    expect(page).to have_content("15 September 2022 12:00")
 
     travel_to(Time.zone.local(2022, 9, 15, 13))
 
@@ -291,7 +291,7 @@ RSpec.describe "checking consistency" do
     click_button("Send")
 
     expect(page).to have_content(
-      "Description change request successfully sent."
+      "Request successfully created."
     )
 
     expect(page).not_to have_link("Request a change to the description")
@@ -299,7 +299,7 @@ RSpec.describe "checking consistency" do
     expect(page).to have_content("Proposed 15 September 2022 13:00")
 
     planning_application
-      .description_change_validation_requests
+      .validation_requests.description_changes
       .open
       .last
       .auto_close_request!
@@ -326,7 +326,7 @@ RSpec.describe "checking consistency" do
     click_button("Send")
 
     expect(page).to have_content(
-      "Description change request successfully sent."
+      "Request successfully created."
     )
 
     expect(page).not_to have_link("Request a change to the description")
@@ -340,12 +340,12 @@ RSpec.describe "checking consistency" do
     )
 
     request = planning_application
-      .description_change_validation_requests
+      .validation_requests.description_changes
       .open
       .last
 
     request.close!
-    request.update!(approved: true)
+    request.update!(applicant_approved: true)
     visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_link("Check description, documents and proposal details")
 
@@ -383,6 +383,9 @@ RSpec.describe "checking consistency" do
 
     click_button("Send request")
 
+    click_link("Check and assess")
+    click_link("Check description, documents and proposal details")
+
     expect(page).to have_content("Alice Smith requested a new document")
     expect(page).to have_content("New document type")
     expect(page).to have_content("Reason: Reason for new document")
@@ -418,8 +421,8 @@ RSpec.describe "checking consistency" do
   context "when applicant has provided additional document" do
     before do
       create(
-        :additional_document_validation_request,
-        :with_documents,
+        :validation_request,
+        :additional_document_with_documents,
         planning_application:
       )
     end
@@ -475,7 +478,7 @@ RSpec.describe "checking consistency" do
     click_button("Send request")
 
     expect(page).to have_content(
-      "Validation request for red line boundary successfully created."
+      "Request successfully created."
     )
 
     form_group = form_group_with_legend(
