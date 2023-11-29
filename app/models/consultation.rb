@@ -299,7 +299,7 @@ class Consultation < ApplicationRecord
   end
 
   def started?
-    neighbour_responses.present? && end_date.present?
+    start_date? && start_date < Time.zone.now
   end
 
   def complete?
