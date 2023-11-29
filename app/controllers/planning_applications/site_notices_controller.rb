@@ -5,6 +5,7 @@ module PlanningApplications
     include ActionView::Helpers::SanitizeHelper
 
     before_action :set_planning_application
+    before_action :build_site_notice, only: %i[new create]
     before_action :set_site_notice, except: %i[new create]
     before_action :ensure_public_portal_is_active, only: :create
     before_action :ensure_application_is_assigned, only: :create
@@ -16,7 +17,9 @@ module PlanningApplications
     end
 
     def new
-      @site_notice = SiteNotice.new
+      respond_to do |format|
+        format.html
+      end
     end
 
     def edit
@@ -26,10 +29,7 @@ module PlanningApplications
     end
 
     def create
-      @site_notice = SiteNotice.new(site_notice_params
-                                    .except(:method, :internal_team_email)
-                                    .merge(planning_application_id: @planning_application.id))
-
+      @site_notice.assign_attributes(site_notice_params.except(:method, :internal_team_email))
       @site_notice.assign_attributes(content: @site_notice.preview_content(@planning_application))
 
       if @site_notice.save
@@ -74,6 +74,10 @@ module PlanningApplications
 
     private
 
+    def build_site_notice
+      @site_notice = @planning_application.site_notices.new
+    end
+
     def set_site_notice
       @site_notice = @planning_application.site_notices.find(params[:id])
     end
@@ -105,7 +109,6 @@ module PlanningApplications
       #{view_context.link_to "made public on the BoPS Public Portal", make_public_planning_application_path(@planning_application)}
       before you can create a site notice."
 
-      @site_notice = SiteNotice.new
       render :new and return
     end
 
@@ -116,7 +119,6 @@ module PlanningApplications
       #{view_context.link_to "assigned to an officer", planning_application_assign_users_path(@planning_application)}
       before you can create a site notice."
 
-      @site_notice = SiteNotice.new
       render :new and return
     end
 
