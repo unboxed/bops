@@ -131,6 +131,12 @@ en:
           attributes:
             base:
               no_consultees_added: Consultees must be added
+        condition:
+          attributes:
+            reason:
+              blank: Enter the reason for this condition
+            text:
+              blank: Enter the text of this condition
         consistency_checklist:
           attributes:
             description_matches_documents:
