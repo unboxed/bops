@@ -1,12 +1,13 @@
 <tr class="govuk-table__row" id=<%= dom_id(planning_application) %>>
   <% attributes.each do |attribute| %>
-    <td class="govuk-table__cell<%= " bottom-border-none" if audit %><%= " #{attribute}" %>">
+    <%= tag.td(class: class_names("govuk-table__cell", attribute, "limit-column-width", "border-bottom-none": audit)) do %>
       <%= link_to_if(
         attribute == :reference,
         planning_application.send(attribute),
-        planning_application
+        planning_application,
+        class: "govuk-link"
       ) %>
-    </td>
+    <% end %>
   <% end %>
 </tr>
 
