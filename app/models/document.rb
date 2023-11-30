@@ -10,6 +10,8 @@ class Document < ApplicationRecord
   belongs_to :site_notice, optional: true
   belongs_to :neighbour_response, optional: true
 
+  has_one :replacement_document_validation_request, foreign_key: "old_document_id"
+
   delegate :audits, to: :planning_application
   delegate :representable?, to: :file
 

@@ -47,7 +47,6 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.boolean :fee_item
       t.datetime :auto_closed_at
       t.references :old_document, foreign_key: {to_table: :documents}
-      t.references :new_document, foreign_key: {to_table: :documents}
       t.integer :sequence
       t.jsonb :specific_attributes
     end

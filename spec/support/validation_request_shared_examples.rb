@@ -89,10 +89,11 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
 
       context "with a pending request" do
         let(:request) do
-          create(request_type, planning_application:, state: "pending")
+          create(request_type, planning_application:)
         end
 
         it "destroys the record" do
+          request.update(state: "pending")
           expect(request.destroy!).to be_truthy
         end
       end

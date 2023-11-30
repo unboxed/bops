@@ -5,12 +5,12 @@ FactoryBot.define do
     planning_application { create(:planning_application, :invalidated) }
     user
     state { "open" }
-    reason { "You need to pay a different fee" }
+    reason { "Incorrect fee" }
     post_validation { false }
 
     specific_attributes do
       {
-        suggestion: "Incorrect fee"
+        suggestion: "You need to pay a different fee"
       }
     end
 

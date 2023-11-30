@@ -16,7 +16,7 @@ FactoryBot.define do
           planning_application: request.planning_application
         )
 
-        request.documents << document
+        request.additional_documents << document
       end
     end
 

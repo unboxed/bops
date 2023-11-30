@@ -201,7 +201,7 @@ RSpec.describe ReplacementDocumentValidationRequest do
       new_document = replacement_document_validation_request.reload.new_document
 
       expect(
-        new_document.file.blob.filename
+        new_document.file.blob[:filename]
       ).to eq(
         "proposed-roofplan.png"
       )

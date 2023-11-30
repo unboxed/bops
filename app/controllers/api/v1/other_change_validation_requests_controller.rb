@@ -32,8 +32,8 @@ module Api
         @other_change_validation_request =
           @planning_application.validation_requests.other_changes.where(id: params[:id]).first
 
-        if params[:data][:applicant_response].present? &&
-            @other_change_validation_request.update(applicant_response: params[:data][:applicant_response])
+          if params[:data][:applicant_response].present? &&
+          @other_change_validation_request.update(applicant_response: params[:data][:applicant_response])
           @other_change_validation_request.close!
           @other_change_validation_request.create_api_audit!
           @planning_application.send_update_notification_to_assessor

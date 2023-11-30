@@ -48,8 +48,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
 
     let!(:other_change_validation_request) do
       create(
-        :other_change_validation_request,
-        fee_item: true,
+        :fee_change_validation_request,
         planning_application:
       )
     end
@@ -71,11 +70,10 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
   context "when there is a closed request" do
     let(:planning_application) { create(:planning_application, :not_started) }
 
-    let!(:other_change_validation_request) do
+    let!(:fee_change_validation_request) do
       create(
         :other_change_validation_request,
         :closed,
-        fee_item: true,
         planning_application:
       )
     end

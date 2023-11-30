@@ -31,7 +31,8 @@ class ValidationRequest < ApplicationRecord
 
   class UploadFilesError < RuntimeError; end
 
-  belongs_to :requestable, polymorphic: true, optional: true
+  class ResetDocumentInvalidationError < StandardError; end
+
   belongs_to :planning_application
   belongs_to :user
 
@@ -163,7 +164,7 @@ class ValidationRequest < ApplicationRecord
 
   def create_api_audit!
     audit!(
-      activity_type: "#{request_type}_validation_request_received",
+      activity_type: "#{type.underscore}_received",
       activity_information: sequence.to_s,
       audit_comment: audit_api_comment
     )
@@ -253,19 +254,6 @@ class ValidationRequest < ApplicationRecord
     PlanningApplicationMailer
       .cancelled_validation_request_mail(planning_application)
       .deliver_now
-  end
-
-  def replace_document!(file:, reason:)
-    transaction do
-      self.new_document = planning_application.documents.create!(
-        file:,
-        tags: old_document.tags,
-        numbers: old_document.numbers
-      )
-
-      close!
-      old_document.update!(archive_reason: reason, archived_at: Time.zone.now)
-    end
   end
 
   def rejected?
@@ -402,7 +390,9 @@ class ValidationRequest < ApplicationRecord
 
   def reset_document_invalidation
     transaction do
-      planning_application.validation_requests.replacement_documents.closed.find_by(new_document_id: old_document_id)&.update_counter!
+      planning_application.validation_requests.replacement_documents.closed.select do |request|
+        request.new_document == old_document
+      end.first&.update_counter!
       old_document.update!(invalidated_document_reason: nil, validated: nil)
     end
   rescue ActiveRecord::ActiveRecordError => e
@@ -434,20 +424,6 @@ class ValidationRequest < ApplicationRecord
     request = ValidationRequest.find_by(new_document_id: old_document_id)
 
     request&.reset_update_counter!
-  end
-
-  def audit_api_comment
-    if description_change? || red_line_boundary_change?
-      if applicant_approved?
-        {applicant_response: "approved"}.to_json
-      else
-        {applicant_response: "rejected", applicant_rejection_reason:}.to_json
-      end
-    elsif replacement_document?
-      new_document.name
-    else
-      {applicant_response:}.to_json
-    end
   end
 
   def ensure_planning_application_not_closed_or_cancelled!

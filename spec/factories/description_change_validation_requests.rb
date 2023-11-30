@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :description_change_validation_request do
     planning_application
     user
-    state { "open" }
+    state { "pending" }
     applicant_approved { nil }
     applicant_rejection_reason { nil }
     post_validation { false }

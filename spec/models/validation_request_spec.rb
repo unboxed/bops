@@ -326,7 +326,7 @@ RSpec.describe ValidationRequest do
 
     describe "#sent_by" do
       let(:user) { create(:user) }
-      let(:request) { create(described_class.name.underscore, planning_application:) }
+      let(:request) { create(:validation_request, planning_application:) }
 
       before { Current.user = user }
 
@@ -352,11 +352,11 @@ RSpec.describe ValidationRequest do
         let!(:validation_request) { create(:replacement_document_validation_request) }
 
         it "returns nil" do
-          expect(validation_request.active_closed_fee_item?).to be_nil
+          expect(validation_request.active_closed_fee_item?).to be false
         end
       end
 
-      context "when fee_item is not true on the validation request" do
+      context "when it is a fee validation request" do
         let!(:validation_request) { create(:other_change_validation_request) }
 
         it "returns false" do
@@ -364,7 +364,7 @@ RSpec.describe ValidationRequest do
         end
       end
 
-      context "when fee_item is true and validation request is not closed" do
+      context "when it is a fee change validation request is not closed" do
         let!(:validation_request) { create(:other_change_validation_request, :open) }
 
         it "returns false" do
@@ -378,7 +378,7 @@ RSpec.describe ValidationRequest do
           create(:other_change_validation_request, :closed, planning_application:)
         end
         let!(:validation_request2) do
-          create(:other_change_validation_request, :closed, planning_application:)
+          create(:fee_change_validation_request, :closed, planning_application:)
         end
 
         it "returns false when it is not the latest record" do
