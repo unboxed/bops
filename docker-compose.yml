@@ -40,6 +40,7 @@ services:
       PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
       NOTIFY_API_KEY: ${NOTIFY_API_KEY}
       NOTIFY_LETTER_API_KEY: ${NOTIFY_LETTER_API_KEY}
+      RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION: "true"
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:

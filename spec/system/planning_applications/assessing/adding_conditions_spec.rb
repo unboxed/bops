@@ -150,8 +150,8 @@ RSpec.describe "Add conditions" do
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_content "Conditions text can't be blank"
-      expect(page).to have_content "Conditions reason can't be blank"
+      expect(page).to have_content "Enter the text of this condition"
+      expect(page).to have_content "Enter the reason for this condition"
     end
 
     it "shows conditions on the decision notice" do

@@ -14,7 +14,7 @@ RSpec.describe PressNotice do
 
     describe "#required" do
       it "validates inclusion in [true, false]" do
-        expect { press_notice.valid? }.to change { press_notice.errors[:required] }.to ["You must choose 'Yes' or 'No'"]
+        expect { press_notice.valid? }.to change { press_notice.errors[:required] }.to ["Choose 'Yes' or 'No'"]
       end
     end
 
@@ -23,7 +23,7 @@ RSpec.describe PressNotice do
         subject(:press_notice) { described_class.new(required: true) }
 
         it "validates presence" do
-          expect { press_notice.valid? }.to change { press_notice.errors[:reasons] }.to ["You must provide a reason for the press notice"]
+          expect { press_notice.valid? }.to change { press_notice.errors[:reasons] }.to ["Provide a reason for the press notice"]
         end
       end
 
@@ -103,36 +103,62 @@ RSpec.describe PressNotice do
         let(:press_notice) { create(:press_notice, planning_application:) }
 
         context "when there is an update to the published_at date" do
+          before do
+            consultation.update!(
+              start_date: Time.zone.local(2023, 3, 28),
+              end_date: Time.zone.local(2023, 3, 28, 23, 59, 59, 999999)
+            )
+          end
+
           it "there is an update of 21 days added to the consultation end date" do
             expect do
-              press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12))
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
-              .from(nil).to(Time.zone.local(2023, 3, 15, 23, 59, 59, 999999) + 21.days)
+              .from(Time.zone.local(2023, 3, 28, 23, 59, 59, 999999))
+              .to(Time.zone.local(2023, 4, 5, 23, 59, 59, 999999))
           end
         end
 
         context "when there is an update to another field" do
+          before do
+            consultation.update!(
+              start_date: Time.zone.local(2023, 3, 28),
+              end_date: Time.zone.local(2023, 3, 28, 23, 59, 59, 999999)
+            )
+          end
+
           it "there is no update to the consultation end date" do
-            expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15, 12)) }.not_to change(consultation, :end_date)
+            expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15)) }.not_to change(consultation, :end_date)
           end
         end
 
         context "when consultation end date is later than the published at date + 21 days" do
-          let!(:consultation) { create(:consultation, planning_application:, end_date: Time.zone.local(2023, 3, 15, 12) + 22.days) }
+          before do
+            consultation.update!(
+              start_date: Time.zone.local(2023, 3, 28),
+              end_date: Time.zone.local(2023, 4, 10, 23, 59, 59, 999999)
+            )
+          end
 
           it "there is no update to the consultation end date" do
-            expect { press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12)) }.not_to change(consultation, :end_date)
+            expect { press_notice.update(published_at: Time.zone.local(2023, 3, 15)) }.not_to change(consultation, :end_date)
           end
         end
 
         context "when consultation end date is less than the published at date + 21 days" do
-          let!(:consultation) { create(:consultation, planning_application:, end_date: Time.zone.local(2023, 3, 15, 12) + 20.days) }
+          before do
+            consultation.update!(
+              start_date: Time.zone.local(2023, 3, 28),
+              end_date: Time.zone.local(2023, 3, 28, 23, 59, 59, 999999)
+            )
+          end
 
           it "there is an update to the consultation end date" do
             expect do
-              press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12))
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
-              .from(Time.zone.local(2023, 3, 15, 12) + 20.days).to(Time.zone.local(2023, 3, 15, 23, 59, 59, 999999) + 21.days)
+              .from(Time.zone.local(2023, 3, 28, 23, 59, 59, 999999))
+              .to(Time.zone.local(2023, 4, 5, 23, 59, 59, 999999))
           end
         end
       end

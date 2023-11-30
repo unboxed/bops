@@ -58,7 +58,7 @@ RSpec.describe "Press notice" do
 
         within(".govuk-error-summary") do
           expect(page).to have_content("There is a problem")
-          expect(page).to have_content("You must provide a reason for the press notice")
+          expect(page).to have_content("Provide a reason for the press notice")
         end
       end
 
@@ -466,7 +466,7 @@ RSpec.describe "Press notice" do
         click_link "Confirm press notice"
 
         click_button "Save"
-        expect(page).to have_content("You must provide the date when the press notice was sent")
+        expect(page).to have_content("Provide the date when the press notice was sent")
 
         within("#press-sent-at-field") do
           expect(page).to have_content("What date was the press notice sent?")
@@ -531,9 +531,6 @@ RSpec.describe "Press notice" do
           fill_in "Month", with: "9"
           fill_in "Year", with: "2023"
         end
-
-        click_button "Save"
-        expect(page).to have_content("You must provide documentary evidence that the press notice was published")
 
         attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
 

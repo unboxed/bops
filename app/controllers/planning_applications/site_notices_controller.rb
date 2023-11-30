@@ -2,9 +2,8 @@
 
 module PlanningApplications
   class SiteNoticesController < AuthenticationController
-    include ActionView::Helpers::SanitizeHelper
-
     before_action :set_planning_application
+    before_action :build_site_notice, only: %i[new create]
     before_action :set_site_notice, except: %i[new create]
     before_action :ensure_public_portal_is_active, only: :create
     before_action :ensure_application_is_assigned, only: :create
@@ -16,7 +15,9 @@ module PlanningApplications
     end
 
     def new
-      @site_notice = SiteNotice.new
+      respond_to do |format|
+        format.html
+      end
     end
 
     def edit
@@ -26,11 +27,8 @@ module PlanningApplications
     end
 
     def create
-      @site_notice = SiteNotice.new(site_notice_params
-                                    .except(:method, :internal_team_email)
-                                    .merge(planning_application_id: @planning_application.id))
-
-      @site_notice.assign_attributes(content: @site_notice.preview_content(@planning_application))
+      @site_notice.assign_attributes(site_notice_params.except(:method, :internal_team_email))
+      @site_notice.assign_attributes(content: @site_notice.preview_content)
 
       if @site_notice.save
         send_mail if params[:commit] == "Email site notice and mark as complete"
@@ -54,14 +52,7 @@ module PlanningApplications
     end
 
     def update
-      if @site_notice.update(site_notice_params.except(:file))
-        if site_notice_params[:file]
-          @planning_application.documents.create!(file: site_notice_params[:file], site_notice: @site_notice,
-            tags: ["Site Notice"])
-        end
-
-        calculate_consultation_end_date
-
+      if @site_notice.update(site_notice_params, :confirmation)
         respond_to do |format|
           format.html do
             redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
@@ -74,12 +65,16 @@ module PlanningApplications
 
     private
 
+    def build_site_notice
+      @site_notice = @planning_application.site_notices.new
+    end
+
     def set_site_notice
       @site_notice = @planning_application.site_notices.find(params[:id])
     end
 
     def site_notice_params
-      params.require(:site_notice).permit(:required, :displayed_at, :method, :file, :internal_team_email)
+      params.require(:site_notice).permit(:required, :displayed_at, :method, :internal_team_email, documents: [])
     end
 
     def calculate_consultation_end_date
@@ -99,24 +94,17 @@ module PlanningApplications
     end
 
     def ensure_public_portal_is_active
-      return if @planning_application.make_public? || site_notice_params[:required] == "No"
+      return if @planning_application.make_public?
+      return if site_notice_not_required?
 
-      flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to "made public on the BoPS Public Portal", make_public_planning_application_path(@planning_application)}
-      before you can create a site notice."
-
-      @site_notice = SiteNotice.new
+      flash.now[:alert] = t(".make_public_html", href: make_public_planning_application_path(@planning_application))
       render :new and return
     end
 
     def ensure_application_is_assigned
       return if @planning_application.user.present?
 
-      flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to "assigned to an officer", planning_application_assign_users_path(@planning_application)}
-      before you can create a site notice."
-
-      @site_notice = SiteNotice.new
+      flash.now[:alert] = t(".assign_user_html", href: planning_application_assign_users_path(@planning_application))
       render :new and return
     end
 
@@ -135,6 +123,10 @@ module PlanningApplications
         activity_type: "site_notice_created",
         audit_comment: comment
       )
+    end
+
+    def site_notice_not_required?
+      site_notice_params[:required] == "No"
     end
   end
 end

@@ -33,7 +33,7 @@
           </p>
           <p class="govuk-body">
             <%= truncate(@site_notice.document.name.to_s, length: 50) %><br>
-            <%= link_to "View in new window", url_for_document(@site_notice.document), target: :_new %>
+            <%= link_to "View in new window", url_for_document(@site_notice.document), target: :_new, class: "govuk-link" %>
           </p>
         </td>
         <td class="govuk-table__cell govuk-!-width-one-third">

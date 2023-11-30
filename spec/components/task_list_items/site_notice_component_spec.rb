@@ -3,8 +3,12 @@
 require "rails_helper"
 
 RSpec.describe TaskListItems::SiteNoticeComponent, type: :component do
+  let(:application_type) do
+    create(:application_type, :planning_permission)
+  end
+
   let(:planning_application) do
-    create(:planning_application)
+    create(:planning_application, application_type:)
   end
 
   let(:component) do

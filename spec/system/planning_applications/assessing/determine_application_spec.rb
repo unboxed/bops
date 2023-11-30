@@ -191,6 +191,14 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       context "when there is a required site notice without a displayed at date" do
+        let(:application_type) { create(:application_type, :planning_permission) }
+        let!(:planning_application) do
+          create(:planning_application, :awaiting_determination,
+            application_type:,
+            local_authority: default_local_authority,
+            decision: "granted")
+        end
+
         let!(:site_notice) do
           create(:site_notice, planning_application:, displayed_at: nil)
         end
@@ -200,15 +208,23 @@ RSpec.describe "Planning Application Assessment" do
           click_button("Publish determination")
 
           within(".govuk-notification-banner--alert") do
-            expect(page).to have_content("You must confirm the site notice displayed at date before determining the application")
+            expect(page).to have_content("Confirm the site notice displayed at date before determining the application")
             expect(page).to have_link(
-              "confirm the site notice displayed at date", href: edit_planning_application_site_notice_path(planning_application, site_notice)
+              "Confirm the site notice displayed at date", href: edit_planning_application_site_notice_path(planning_application, site_notice)
             )
           end
         end
       end
 
       context "when there is a required press notice without a published at date" do
+        let(:application_type) { create(:application_type, :planning_permission) }
+        let!(:planning_application) do
+          create(:planning_application, :awaiting_determination,
+            application_type:,
+            local_authority: default_local_authority,
+            decision: "granted")
+        end
+
         let!(:press_notice) do
           create(:press_notice, :required, planning_application:, published_at: nil)
         end
@@ -218,9 +234,9 @@ RSpec.describe "Planning Application Assessment" do
           click_button("Publish determination")
 
           within(".govuk-notification-banner--alert") do
-            expect(page).to have_content("You must confirm the press notice published at date before determining the application")
+            expect(page).to have_content("Confirm the press notice published at date before determining the application")
             expect(page).to have_link(
-              "confirm the press notice published at date", href: "/planning_applications/#{planning_application.id}/press_notice/confirmation"
+              "Confirm the press notice published at date", href: "/planning_applications/#{planning_application.id}/press_notice/confirmation"
             )
           end
         end
