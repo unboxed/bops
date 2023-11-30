@@ -715,6 +715,14 @@ class PlanningApplication < ApplicationRecord
     validation_requests.open.select(&:overdue?)
   end
 
+  def check_permitted_development_rights?
+    application_type.features.permitted_development_rights?
+  end
+
+  def review_permitted_development_rights?
+    check_permitted_development_rights? && permitted_development_right
+  end
+
   private
 
   def update_measurements

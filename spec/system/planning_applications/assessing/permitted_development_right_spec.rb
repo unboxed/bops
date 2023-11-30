@@ -383,4 +383,22 @@ RSpec.describe "Permitted development right" do
       expect(page).to have_content("forbidden")
     end
   end
+
+  context "when application type is planning permission" do
+    let!(:planning_application) do
+      create(:planning_application, :planning_permission, local_authority: default_local_authority)
+    end
+
+    it "returns 404" do
+      sign_in assessor
+      visit "/planning_applications/#{planning_application.id}"
+
+      expect(page).not_to have_link("Permitted development rights")
+
+      expect do
+        visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
+        expect(page).to have_selector("h1", text: "Does not exist")
+      end.to raise_error(ActionController::RoutingError, "Not found")
+    end
+  end
 end

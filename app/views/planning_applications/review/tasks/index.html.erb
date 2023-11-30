@@ -47,7 +47,7 @@
             )
           ) %>
       <% end %>
-      <% if @planning_application.permitted_development_right %>
+      <% if @planning_application.review_permitted_development_rights? %>
         <%= render(
           TaskListItems::Reviewing::PermittedDevelopmentRightComponent.new(
             planning_application: @planning_application

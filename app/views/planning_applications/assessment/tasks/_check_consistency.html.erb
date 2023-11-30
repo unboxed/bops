@@ -41,18 +41,20 @@
         )
       ) %>
     <% end %>
-    <% if @planning_application.possibly_immune? %>
-      <%= render(
-        TaskListItems::Assessment::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
-    <% else %>
-      <%= render(
-        TaskListItems::Assessment::PermittedDevelopmentRightComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+    <% if @planning_application.check_permitted_development_rights? %>
+      <% if @planning_application.possibly_immune? %>
+        <%= render(
+          TaskListItems::Assessment::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+      <% else %>
+        <%= render(
+          TaskListItems::Assessment::PermittedDevelopmentRightComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+      <% end %>
     <% end %>
   </ul>
 </li>
