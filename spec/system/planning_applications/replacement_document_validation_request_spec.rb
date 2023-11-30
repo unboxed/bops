@@ -62,15 +62,14 @@ RSpec.describe "Requesting document changes to a planning application" do
 
         click_link("Check document - proposed-roofplan.png")
       end
-      
+
       expect(page).not_to have_content("Upload a replacement file")
       expect(page).not_to have_css("#received-at")
-      
+
       within("#validate-document") { choose "No" }
       click_button "Save"
-      
-      expect(page).to have_content("Request a replacement document")
 
+      expect(page).to have_content("Request a replacement document")
       within("#document-summary") do
         expect(page).to have_content("This document has been marked as invalid")
         expect(page).to have_content(document1.received_at_or_created)
@@ -89,17 +88,17 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Save request"
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
-        expect(page).to have_content("Provide a reason for changes")
+        expect(page).to have_content("Reason can't be blank")
       end
 
-      fill_in "List all issues with the document", with: "This is very invalid"
+      fill_in "List all issues with the document.", with: "This is very invalid"
       click_button "Save request"
 
-      expect(page).to have_content("Request successfully created.")
+      expect(page).to have_content("Replacement document validation request successfully created.")
 
       document1.reload
-      expect(document1.validation_request).to eq(ValidationRequest.last)
-      expect(document1.validation_request.post_validation).to be_falsey
+      expect(document1.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+      expect(document1.replacement_document_validation_request.post_validation).to be_falsey
 
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 1")
@@ -123,23 +122,23 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#replacement-document-details") do
         expect(page).to have_content("Replacement for: #{document1.name}")
         expect(page).to have_content("This is very invalid")
-        expect(page).to have_content(document1.validation_request.created_at.to_fs)
+        expect(page).to have_content(document1.replacement_document_validation_request.created_at.to_fs)
       end
       expect(page).to have_link("Back")
 
       # Edit the request
       click_link "Edit request"
-      fill_in "List all issues with the document", with: "Not valid at all"
+      fill_in "List all issues with the document.", with: "Not valid at all"
       click_button "Update request"
       expect(page).to have_content("Replacement document reason successfully updated.")
-      
+
       # Delete the request
       within("#document-validation-tasks") do
-      expect(page).to have_list_item_for(
-        "Check document - proposed-roofplan.png",
-        with: "Invalid"
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Invalid"
         )
-        
+
         click_link("Check document - proposed-roofplan.png")
       end
       accept_confirm(text: "Are you sure?") do
@@ -149,8 +148,9 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 0")
       end
+
       # The document returns to "Not checked yet"
-      expect(document1.reload.validation_request).to be_nil
+      expect(document1.reload.replacement_document_validation_request).to be_nil
       expect(document1.invalidated_document_reason).to be_nil
       expect(document1.validated).to be_nil
       within("#document-validation-tasks") do
@@ -166,10 +166,10 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#validate-document") { choose "No" }
       click_button "Save"
 
-      fill_in "List all issues with the document", with: "Invalid doc"
+      fill_in "List all issues with the document.", with: "Invalid doc"
       click_button "Save request"
-      expect(page).to have_content("Request successfully created.")
-      expect(document1.reload.validation_request).to eq(ValidationRequest.last)
+      expect(page).to have_content("Replacement document validation request successfully created.")
+      expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
       within("#document-validation-tasks") do
         expect(page).to have_list_item_for(
           "Check document - proposed-roofplan.png",
@@ -256,9 +256,9 @@ RSpec.describe "Requesting document changes to a planning application" do
         href: public_planning_guides_path
       )
 
-      fill_in "List all issues with the document", with: "Not readable"
+      fill_in "List all issues with the document.", with: "Not readable"
       click_button "Send request"
-      expect(page).to have_content("Request successfully created.")
+      expect(page).to have_content("Replacement document validation request successfully created.")
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 1")
       end
@@ -299,7 +299,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#replacement-document-details") do
         expect(page).to have_content("Replacement for: #{document1.name}")
         expect(page).to have_content("Not readable")
-        expect(page).to have_content(document1.validation_request.created_at.to_fs)
+        expect(page).to have_content(document1.replacement_document_validation_request.created_at.to_fs)
       end
       expect(page).not_to have_link("Edit request")
       expect(page).not_to have_link("Delete request")
@@ -308,7 +308,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       fill_in "Explain to the applicant why this request is being cancelled", with: "mistake"
       click_button "Confirm cancellation"
       expect(page).to have_content("Validation request was successfully cancelled.")
-      expect(document1.reload.validation_request).to be_nil
+      expect(document1.reload.replacement_document_validation_request).to be_nil
       expect(document1.invalidated_document_reason).to be_nil
       expect(document1.validated).to be_nil
 
@@ -350,7 +350,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
 
       let!(:replacement_document_validation_request) do
-        create(:validation_request, :replacement_document_with_response,
+        create(:replacement_document_validation_request, :with_response,
           planning_application:, old_document: document1, new_document: document_response)
       end
 
@@ -361,7 +361,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       it "can only view response and original document is archived" do
         # Can only view request
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{replacement_document_validation_request.id}"
+        visit "/planning_applications/#{planning_application.id}/validation/replacement_document_validation_requests/#{replacement_document_validation_request.id}"
         expect(page).not_to have_link("Cancel request")
         expect(page).not_to have_link("Delete request")
         expect(page).not_to have_link("Edit request")
@@ -393,9 +393,9 @@ RSpec.describe "Requesting document changes to a planning application" do
         within("#validate-document") { choose "No" }
         click_button "Save"
 
-        fill_in "List all issues with the document", with: "Not valid"
+        fill_in "List all issues with the document.", with: "Not valid"
         click_button "Send request"
-        expect(page).to have_content("Request successfully created.")
+        expect(page).to have_content("Replacement document validation request successfully created.")
 
         within("#document-validation-tasks") do
           expect(page).to have_list_item_for(
@@ -407,8 +407,8 @@ RSpec.describe "Requesting document changes to a planning application" do
           expect(page).to have_content("Invalid items 1")
         end
 
-        request = ValidationRequest.last
-        expect(document_response.validation_request).to eq(request)
+        request = ReplacementDocumentValidationRequest.last
+        expect(document_response.replacement_document_validation_request).to eq(request)
         expect(request.old_document).to eq(document_response)
         expect(request.new_document).to be_nil
 
@@ -420,7 +420,7 @@ RSpec.describe "Requesting document changes to a planning application" do
           expect(page).to have_content("sent")
           expect(page).to have_link(
             "View and update",
-            href: planning_application_validation_validation_request_path(planning_application, request)
+            href: planning_application_validation_replacement_document_validation_request_path(planning_application, request)
           )
         end
         within("#replacement_document_validation_request_#{replacement_document_validation_request.id}") do
@@ -469,14 +469,14 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Documents"
       click_link "Request replacement"
 
-      fill_in "List all issues with the document", with: "This is very invalid"
+      fill_in "List all issues with the document.", with: "This is very invalid"
       click_button "Send request"
 
-      expect(page).to have_content("Request successfully created.")
+      expect(page).to have_content("Replacement document validation request successfully created.")
 
       document1.reload
-      expect(document1.validation_request).to eq(ValidationRequest.last)
-      expect(document1.validation_request.post_validation).to be true
+      expect(document1.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+      expect(document1.replacement_document_validation_request.post_validation).to be true
     end
 
     it "appears in the post validation requests table" do
@@ -484,7 +484,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Documents"
       click_link "Request replacement"
 
-      fill_in "List all issues with the document", with: "This is very invalid"
+      fill_in "List all issues with the document.", with: "This is very invalid"
       click_button "Send request"
       click_link "Application"
       click_link "Review non-validation requests"
@@ -501,7 +501,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Documents"
       click_link "Request replacement"
 
-      fill_in "List all issues with the document", with: "This is very invalid"
+      fill_in "List all issues with the document.", with: "This is very invalid"
       click_button "Send request"
 
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
@@ -512,14 +512,14 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Documents"
       click_link "Request replacement"
 
-      fill_in "List all issues with the document", with: "This is very invalid"
+      fill_in "List all issues with the document.", with: "This is very invalid"
       click_button "Send request"
 
-      expect(page).to have_content("Request successfully created.")
+      expect(page).to have_content("Replacement document validation request successfully created.")
       document1.reload
 
       document2 = create(:document, :with_file, planning_application:)
-      request = planning_application.validation_requests.replacement_documents.last
+      request = planning_application.replacement_document_validation_requests.last
       request.new_document = document2
       request.state = "closed"
       request.save!
@@ -572,7 +572,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
     context "when there is an open or pending replacement document validation request" do
       let!(:replacement_document_validation_request) do
-        create(:validation_request, :replacement_document, :open, planning_application:, old_document: document)
+        create(:replacement_document_validation_request, :open, planning_application:, old_document: document)
       end
 
       it "does show a invalid documents warning" do
@@ -583,7 +583,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
     context "when there is a cancelled replacement document validation request" do
       let!(:replacement_document_validation_request) do
-        create(:validation_request, :replacement_document, :cancelled, planning_application:, old_document: document)
+        create(:replacement_document_validation_request, :cancelled, planning_application:, old_document: document)
       end
 
       it "does not show a warning" do
@@ -602,7 +602,7 @@ RSpec.describe "Requesting document changes to a planning application" do
     context "when document is archived" do
       let!(:document) { create(:document, planning_application:, validated: false, archived_at: Time.zone.now) }
       let!(:replacement_document_validation_request) do
-        create(:validation_request, :replacement_document, planning_application:, old_document: document)
+        create(:replacement_document_validation_request, planning_application:, old_document: document)
       end
 
       it "does not show a warning" do
@@ -617,7 +617,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end
     let!(:replacement_document_validation_request) do
-      create(:validation_request, :replacement_document, planning_application:,
+      create(:replacement_document_validation_request, planning_application:,
         state: "pending", created_at: 12.days.ago)
     end
 

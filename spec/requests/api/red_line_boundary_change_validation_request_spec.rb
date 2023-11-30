@@ -7,14 +7,14 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority) }
   let!(:red_line_boundary_change_validation_request) do
-    create(:validation_request, :red_line_boundary_change, planning_application:)
+    create(:red_line_boundary_change_validation_request, planning_application:)
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests" }
     let!(:red_line_boundary_change_validation_request2) do
-      create(:validation_request, :red_line_boundary_change, :closed, planning_application:)
+      create(:red_line_boundary_change_validation_request, :closed, planning_application:)
     end
 
     context "when the request is successful" do
@@ -32,8 +32,8 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
               "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
               "reason" => "Boundary incorrect",
               "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
-              "applicant_rejection_reason" => nil,
-              "applicant_approved" => nil,
+              "rejection_reason" => nil,
+              "approved" => nil,
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
               "cancelled_at" => nil
@@ -45,8 +45,8 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
               "new_geojson" => red_line_boundary_change_validation_request2.new_geojson,
               "reason" => "Boundary incorrect",
               "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
-              "applicant_rejection_reason" => nil,
-              "applicant_approved" => nil,
+              "rejection_reason" => nil,
+              "approved" => nil,
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
               "cancelled_at" => nil
@@ -88,8 +88,8 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
             "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
             "reason" => "Boundary incorrect",
             "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
-            "applicant_rejection_reason" => nil,
-            "applicant_approved" => nil,
+            "rejection_reason" => nil,
+            "approved" => nil,
             "days_until_response_due" => 15,
             "cancel_reason" => nil,
             "cancelled_at" => nil

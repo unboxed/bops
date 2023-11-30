@@ -12,7 +12,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   let(:params) do
     {
       change_access_id: planning_application.change_access_id,
-      data: {applicant_approved: true}
+      data: {approved: true}
     }
   end
 
@@ -26,36 +26,34 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   let!(:planning_application) do
     create(
       :planning_application,
-      :invalidated,
       user:,
       local_authority: default_local_authority
     )
   end
 
   let!(:description_change_validation_request) do
-    create(:validation_request,
-      :description_change,
+    create(:description_change_validation_request,
       planning_application:,
       proposed_description: "new roof")
   end
 
   approved_json = '{
     "data": {
-      "applicant_approved": true
+      "approved": true
     }
   }'
 
   rejected_json = '{
     "data": {
-      "applicant_approved": false,
-      "applicant_rejection_reason": "The description is unclear"
+      "approved": false,
+      "rejection_reason": "The description is unclear"
     }
   }'
 
   rejected_json_missing_reason = '{
     "data": {
-      "applicant_approved": false,
-      "applicant_rejection_reason": ""
+      "approved": false,
+      "rejection_reason": ""
     }
   }'
 
@@ -67,8 +65,8 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
     description_change_validation_request.reload
     planning_application.reload
     expect(description_change_validation_request.state).to eq("closed")
-    expect(description_change_validation_request.applicant_approved).to be(true)
-    expect(description_change_validation_request.applicant_approved).to be(true)
+    expect(description_change_validation_request.approved).to be(true)
+    expect(description_change_validation_request.approved).to be(true)
     expect(planning_application.description).to eq("new roof")
   end
 
@@ -89,7 +87,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
 
     expect(planning_application.audits.reload.last).to have_attributes(
       activity_type: "description_change_validation_request_received",
-      audit_comment: {applicant_response: "approved"}.to_json,
+      audit_comment: {response: "approved"}.to_json,
       activity_information: "1",
       api_user:
     )
@@ -104,10 +102,10 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
 
     description_change_validation_request.reload
     expect(description_change_validation_request.state).to eq("closed")
-    expect(description_change_validation_request.applicant_approved).to be(false)
-    expect(description_change_validation_request.applicant_rejection_reason).to eq("The description is unclear")
+    expect(description_change_validation_request.approved).to be(false)
+    expect(description_change_validation_request.rejection_reason).to eq("The description is unclear")
     expect(Audit.all.last.activity_type).to eq("description_change_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq({applicant_response: "rejected", applicant_rejection_reason: "The description is unclear"}.to_json)
+    expect(Audit.all.last.audit_comment).to eq({response: "rejected", reason: "The description is unclear"}.to_json)
     expect(Audit.all.last.activity_information).to eq("1")
   end
 

@@ -6,7 +6,7 @@ RSpec.shared_examples "ValidationRequestStateMachineTransitions" do |request_typ
   states = %i[pending open cancelled closed]
   invalid_states = states - valid_states
 
-  let(:validation_request) { create(:validation_request, request_type.to_s, :"#{state}") }
+  let(:validation_request) { create("#{request_type}_validation_request", :"#{state}") }
 
   describe "transitions" do
     valid_states.each do |valid_state|
@@ -48,7 +48,7 @@ RSpec.shared_examples "ValidationRequestStateMachineEvents" do |request_type, st
   events = %i[mark_as_sent cancel auto_close]
   invalid_events = events - valid_events
 
-  let(:validation_request) { create(:validation_request, request_type.to_s, :"#{state}") }
+  let(:validation_request) { create("#{request_type}_validation_request", :"#{state}") }
 
   describe "events" do
     valid_events.each do |valid_event|

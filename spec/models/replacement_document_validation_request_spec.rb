@@ -2,13 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe ValidationRequest do
+RSpec.describe ReplacementDocumentValidationRequest do
+  include_examples "ValidationRequest", described_class, "replacement_document_validation_request"
+
   it_behaves_like("Auditable") do
-    subject { create(:validation_request, :replacement_document) }
+    subject { create(:replacement_document_validation_request) }
   end
 
   describe "validations" do
-    subject(:replacement_document_validation_request) { build(:validation_request, :replacement_document, reason: nil, old_document_id: nil) }
+    subject(:replacement_document_validation_request) { described_class.new }
 
     describe "#reason" do
       it "validates presence" do
@@ -20,8 +22,7 @@ RSpec.describe ValidationRequest do
       end
     end
 
-    # We can't validate an optional field...
-    xdescribe "#old_document" do
+    describe "#old_document" do
       it "validates presence" do
         expect do
           replacement_document_validation_request.valid?
@@ -35,15 +36,15 @@ RSpec.describe ValidationRequest do
   describe "scopes" do
     describe ".open_or_pending" do
       before do
-        create(:validation_request, :replacement_document, :closed)
-        create(:validation_request, :replacement_document, :cancelled)
+        create(:replacement_document_validation_request, :closed)
+        create(:replacement_document_validation_request, :cancelled)
       end
 
       let!(:replacement_document_validation_request1) do
-        create(:validation_request, :replacement_document, :open)
+        create(:replacement_document_validation_request, :open)
       end
       let!(:replacement_document_validation_request3) do
-        create(:validation_request, :replacement_document, :pending)
+        create(:replacement_document_validation_request, :pending)
       end
 
       it "returns replacement_document_validation_requests that are open or pending" do
@@ -56,16 +57,16 @@ RSpec.describe ValidationRequest do
     describe ".with_active_document" do
       let(:document1) { create(:document, :archived) }
       let!(:replacement_document_validation_request2) do
-        create(:validation_request, :replacement_document, old_document: document2)
+        create(:replacement_document_validation_request, old_document: document2)
       end
       let!(:replacement_document_validation_request3) do
-        create(:validation_request, :replacement_document, old_document: document3)
+        create(:replacement_document_validation_request, old_document: document3)
       end
       let(:document2) { create(:document) }
       let(:document3) { create(:document) }
 
       before do
-        create(:validation_request, :replacement_document, old_document: document1)
+        create(:replacement_document_validation_request, old_document: document1)
       end
 
       it "returns replacement_document_validation_requests where there is an associated active document" do
@@ -82,7 +83,7 @@ RSpec.describe ValidationRequest do
         create(:document, validated: false, invalidated_document_reason: "Invalid")
       end
       let!(:replacement_document_validation_request) do
-        create(:validation_request, :replacement_document, :pending, old_document: document)
+        create(:replacement_document_validation_request, :pending, old_document: document)
       end
 
       before { replacement_document_validation_request.destroy! }
@@ -97,7 +98,7 @@ RSpec.describe ValidationRequest do
       context "when a planning application has been validated" do
         let(:planning_application) { create(:planning_application, :in_assessment) }
         let(:replacement_document_validation_request) do
-          create(:validation_request, :replacement_document, planning_application:)
+          create(:replacement_document_validation_request, planning_application:)
         end
 
         it "allows a replacement_document_validation_request to be created" do
@@ -113,10 +114,10 @@ RSpec.describe ValidationRequest do
       let(:planning_application) { create(:planning_application, :invalidated) }
       let!(:document) { create(:document) }
       let(:replacement_document_validation_request1) do
-        create(:validation_request, :replacement_document, :open, planning_application:, new_document: document)
+        create(:replacement_document_validation_request, :open, planning_application:, new_document: document)
       end
       let(:replacement_document_validation_request2) do
-        create(:validation_request, :replacement_document, :open, planning_application:, old_document: document)
+        create(:replacement_document_validation_request, :open, planning_application:, old_document: document)
       end
 
       before { replacement_document_validation_request1.close! }
@@ -132,7 +133,7 @@ RSpec.describe ValidationRequest do
   end
 
   describe "events" do
-    let!(:replacement_document_validation_request) { create(:validation_request, :replacement_document, :open) }
+    let!(:replacement_document_validation_request) { create(:replacement_document_validation_request, :open) }
 
     describe "#close" do
       it "sets updated_counter to true on the associated validation request" do
@@ -169,8 +170,7 @@ RSpec.describe ValidationRequest do
 
     let(:replacement_document_validation_request) do
       create(
-        :validation_request,
-        :replacement_document,
+        :replacement_document_validation_request,
         old_document:,
         new_document: nil,
         state: :open,

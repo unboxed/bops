@@ -7,17 +7,17 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:additional_document_validation_request) do
-    create(:validation_request, :additional_document, planning_application:)
+    create(:additional_document_validation_request, planning_application:)
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests" }
     let!(:additional_document_validation_request2) do
-      create(:validation_request, :additional_document_with_documents, :closed, planning_application:)
+      create(:additional_document_validation_request, :closed, :with_documents, planning_application:)
     end
     let!(:additional_document_validation_request3) do
-      create(:validation_request, :additional_document, :cancelled, planning_application:)
+      create(:additional_document_validation_request, :cancelled, planning_application:)
     end
 
     context "when the request is successful" do
@@ -34,7 +34,7 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
               "response_due" => additional_document_validation_request.response_due.to_fs(:db),
               "days_until_response_due" => 15,
               "document_request_type" => "Floor plan",
-              "reason" => "Missing floor plan",
+              "document_request_reason" => "Missing floor plan",
               "cancel_reason" => nil,
               "cancelled_at" => nil,
               "documents" => [],
@@ -46,7 +46,7 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
               "response_due" => additional_document_validation_request2.response_due.to_fs(:db),
               "days_until_response_due" => 15,
               "document_request_type" => "Floor plan",
-              "reason" => "Missing floor plan",
+              "document_request_reason" => "Missing floor plan",
               "cancel_reason" => nil,
               "cancelled_at" => nil,
               "documents" => [
@@ -63,7 +63,7 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
               "response_due" => additional_document_validation_request3.response_due.to_fs(:db),
               "days_until_response_due" => 15,
               "document_request_type" => "Floor plan",
-              "reason" => "Missing floor plan",
+              "document_request_reason" => "Missing floor plan",
               "cancel_reason" => "Made by mistake!",
               "cancelled_at" => json_time_format(additional_document_validation_request3.cancelled_at),
               "documents" => [],
@@ -105,7 +105,7 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
             "response_due" => additional_document_validation_request.response_due.to_fs(:db),
             "days_until_response_due" => 15,
             "document_request_type" => "Floor plan",
-            "reason" => "Missing floor plan",
+            "document_request_reason" => "Missing floor plan",
             "cancel_reason" => nil,
             "cancelled_at" => nil,
             "documents" => [],

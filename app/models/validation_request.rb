@@ -2,12 +2,12 @@
 
 class ValidationRequest < ApplicationRecord
   REQUEST_TYPES = %w[
-    additional_document
-    description_change
-    red_line_boundary_change
-    replacement_document
-    fee_change
-    other_change
+    AdditionalDocumentValidationRequest
+    DescriptionChangeValidationRequest
+    RedLineBoundaryChangeValidationRequest
+    ReplacementDocumentValidationRequest
+    OtherChangeValidationRequest
+    FeeChangeValidationRequest
   ].freeze
 
   with_options to: :planning_application do
@@ -16,9 +16,6 @@ class ValidationRequest < ApplicationRecord
     delegate :closed_or_cancelled?, prefix: :planning_application
     delegate :reset_validation_requests_update_counter!
   end
-
-  delegate :invalidated_document_reason, to: :old_document
-  delegate :validated?, :archived?, to: :new_document, prefix: :new_document
 
   include Auditable
 
@@ -37,24 +34,9 @@ class ValidationRequest < ApplicationRecord
   belongs_to :requestable, polymorphic: true, optional: true
   belongs_to :planning_application
   belongs_to :user
-  belongs_to :old_document, optional: true, class_name: "Document"
-  belongs_to :new_document, optional: true, class_name: "Document"
 
-  has_many :additional_documents, dependent: :destroy, class_name: "Document"
-  has_many :replacement_documents, dependent: :destroy, class_name: "Document"
-
-  validates :request_type, presence: true, inclusion: {in: REQUEST_TYPES}
-  validates :reason, presence: true, unless: :description_change?
-  validates :suggestion, presence: true, if: :fee_change?
-  validates :cancel_reason, presence: true, if: -> { cancelled? && !description_change? }
-  validates :new_geojson, presence: true, if: :red_line_boundary_change?
-  validates :applicant_rejection_reason, presence: true, if: -> { red_line_boundary_change? && applicant_approved == false }
-  validates :document_request_type, presence: true, if: :additional_document?
-  validates :proposed_description, presence: true, if: :description_change?
-  validate :allows_only_one_open_description_change, on: :create, if: :description_change?
-  validate :planning_application_has_not_been_determined, on: :create, if: :description_change?
-  validate :rejected_reason_is_present?, if: -> { red_line_boundary_change? || description_change? }
-  validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create, if: :fee_change?
+  validates :type, presence: true, inclusion: {in: REQUEST_TYPES}
+  validates :cancel_reason, presence: true, if: :cancelled?
 
   scope :closed, -> { where(state: "closed") }
   scope :active, -> { where.not(state: "cancelled").or(where.not(state: "closed")) }
@@ -67,36 +49,22 @@ class ValidationRequest < ApplicationRecord
   scope :pre_validation, -> { where(post_validation: false) }
   scope :overdue, -> { where(state: ["open", "overdue"]) }
   scope :responded, -> { where.not(applicant_response: nil) }
-  scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
   before_create lambda {
                   reset_validation_requests_update_counter!(planning_application.validation_requests)
                 }
-  before_create :reset_replacement_document_validation_request_update_counter!, if: :replacement_document?
-  before_create :set_original_geojson, if: :red_line_boundary_change?
   before_create :set_sequence
-  before_create :set_previous_application_description, if: :description_change?
   before_create :ensure_planning_application_not_closed_or_cancelled!
-  before_create :ensure_planning_application_not_validated!, if: -> { fee_change? || other_change? }
   after_create :set_post_validation!, if: :planning_application_validated?
   after_create :email_and_timestamp, if: :pending?
   after_create :create_audit!
   before_destroy :ensure_validation_request_destroyable!
   after_destroy :reset_columns
-  after_create :set_documents_missing, if: :additional_document?
-  before_destroy :reset_documents_missing, if: :additional_document?
-
-  after_create :set_invalid_payment_amount, if: :fee_change?
-  before_update :reset_fee_invalidation, if: -> { closed? && fee_change? }
-  before_destroy :reset_fee_invalidation, if: :fee_change?
-
-  format_geojson_epsg :original_geojson
-  format_geojson_epsg :new_geojson
 
   REQUEST_TYPES.each do |type|
-    scope "#{type.underscore}s", -> { where(request_type: type) }
+    scope "#{type.underscore[/^.*(?=(_validation_request))/]}s", -> { where(type: type) }
   end
 
   include AASM
@@ -180,7 +148,7 @@ class ValidationRequest < ApplicationRecord
     transaction do
       cancel!
       reset_columns
-      audit!(activity_type: "#{request_type}_validation_request_#{cancel_audit_event}", activity_information: sequence,
+      audit!(activity_type: "#{type.underscore}_#{cancel_audit_event}", activity_information: sequence,
         audit_comment: {cancel_reason:}.to_json)
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
@@ -220,7 +188,7 @@ class ValidationRequest < ApplicationRecord
   def upload_files!(files)
     transaction do
       files.each do |file|
-        planning_application.documents.create!(file:, validation_request_id: self.id)
+        planning_application.documents.create!(file:, owner: self)
       end
       close!
       audit_upload_files!
@@ -234,7 +202,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def active_closed_fee_item?
-    (request_type == "fee_change") && closed? && self == planning_application.validation_requests.fee_changes.not_cancelled.last
+    fee_change? && closed? && self == planning_application.validation_requests.fee_changes.closed.last
   end
 
   def request_expiry_date
@@ -248,7 +216,7 @@ class ValidationRequest < ApplicationRecord
       update!(applicant_approved: true, auto_closed: true, auto_closed_at: Time.current)
 
       audit!(
-        activity_type: "#{request_type}_#{self.class.name.underscore}_auto_closed",
+        activity_type: "#{type.underscore}_auto_closed",
         activity_information: sequence
       )
     end
@@ -269,7 +237,6 @@ class ValidationRequest < ApplicationRecord
         fee_change?
       return
     end
-
     update!(update_counter: true)
   end
 
@@ -305,23 +272,19 @@ class ValidationRequest < ApplicationRecord
     !applicant_approved && applicant_rejection_reason.present?
   end
 
-  def sent_by
-    audits.find_by(activity_type: send_and_add_events, activity_information: sequence).try(:user)
-  end
-
   private
 
   def send_and_add_events
     [
-      "#{self.request_type}_validation_request_sent_post_validation",
-      "#{self.request_type}_validation_request_sent",
-      "#{self.request_type}_validation_request_added"
+      "#{type.underscore}_sent_post_validation",
+      "#{type.underscore}_sent",
+      "#{type.underscore}_added"
     ]
   end
 
   def create_audit_for!(event)
     audit!(
-      activity_type: "#{request_type}_#{self.class.name.underscore}_#{event}",
+      activity_type: "#{type.underscore}_#{event}",
       activity_information: sequence.to_s,
       audit_comment:
     )
@@ -406,32 +369,28 @@ class ValidationRequest < ApplicationRecord
     post_validation ? "cancelled_post_validation" : "cancelled"
   end
 
-  def set_original_geojson
-    self.original_geojson = planning_application.boundary_geojson
-  end
-
   def red_line_boundary_change?
-    request_type == "red_line_boundary_change"
+    type == "RedLineBoundaryChangeValidationRequest"
   end
 
   def replacement_document?
-    request_type == "replacement_document"
+    type == "ReplacementDocumentValidationRequest"
   end
 
   def description_change?
-    request_type == "description_change"
+    type == "DescriptionChangeValidationRequest"
   end
 
   def additional_document?
-    request_type == "additional_document"
+    type == "AdditionalDocumentValidationRequest"
   end
 
   def other_change?
-    request_type == "other_change"
+    type == "OtherChangeValidationRequest"
   end
 
   def fee_change?
-    request_type == "fee_change"
+    type == "FeeChangeValidationRequest"
   end
 
   def reset_columns
@@ -467,58 +426,8 @@ class ValidationRequest < ApplicationRecord
     raise ResetDocumentsMissingError, e.message
   end
 
-  def reset_fee_invalidation
-    transaction do
-      planning_application.validation_requests.fee_changes.closed.max_by(&:closed_at)&.update_counter! if cancelled?
-      planning_application.update!(valid_fee: nil)
-    end
-  rescue ActiveRecord::ActiveRecordError => e
-    raise ResetFeeInvalidationError, e.message
-  end
-
-  def set_previous_application_description
-    self.previous_description = planning_application.description
-  end
-
-  def allows_only_one_open_description_change
-    return unless planning_application.validation_requests.description_changes.open.any?
-
-    errors.add(:base, "An open description change already exists for this planning application.")
-  end
-
-  def planning_application_has_not_been_determined
-    return unless planning_application.determined?
-
-    errors.add(:base, "A description change request cannot be submitted for a determined planning application.")
-  end
-
   def update_planning_application_for_auto_closed_request!
     planning_application.update!(description: proposed_description)
-  end
-
-  def rejected_reason_is_present?
-    return unless planning_application.invalidated?
-    return unless applicant_approved == false && applicant_rejection_reason.blank?
-
-    errors.add(:base,
-      "Please include a comment for the case officer to " \
-      "indicate why the red line boundary change has been rejected.")
-  end
-
-  def ensure_no_open_or_pending_fee_item_validation_request
-    return unless planning_application.validation_requests.fee_changes.open_or_pending.any?
-
-    errors.add(:base, "An open or pending fee validation request already exists for this planning application.")
-  end
-
-  def set_invalid_payment_amount
-    planning_application.update!(invalid_payment_amount: planning_application.payment_amount)
-  end
-
-  def set_documents_missing
-    return if planning_application.documents_missing?
-
-    planning_application.update!(documents_missing: true)
   end
 
   def reset_replacement_document_validation_request_update_counter!
@@ -541,17 +450,10 @@ class ValidationRequest < ApplicationRecord
     end
   end
 
-  def ensure_planning_application_not_validated!
-    return unless planning_application_validated?
-
-    raise ValidationRequestNotCreatableError,
-      "Cannot create #{self.request_type.titleize} Validation Request when planning application has been validated"
-  end
-
   def ensure_planning_application_not_closed_or_cancelled!
     return unless planning_application_closed_or_cancelled?
 
     raise ValidationRequestNotCreatableError,
-      "Cannot create #{self.request_type.titleize} Validation Request when planning application has been closed or cancelled"
+      "Cannot create #{type.titleize} when planning application has been closed or cancelled"
   end
 end

@@ -2,15 +2,17 @@
 
 require "rails_helper"
 
-RSpec.describe ValidationRequest do
+RSpec.describe AdditionalDocumentValidationRequest do
   include ActionDispatch::TestProcess::FixtureFile
 
+  include_examples "ValidationRequest", described_class, "additional_document_validation_request"
+
   it_behaves_like("Auditable") do
-    subject { create(:validation_request, :additional_document) }
+    subject { create(:additional_document_validation_request) }
   end
 
   describe "validations" do
-    subject(:additional_document_validation_request) { build(:validation_request, :additional_document, reason: "", specific_attributes: {document_request_type: ""}) }
+    subject(:additional_document_validation_request) { described_class.new }
 
     describe "#document_request_type" do
       it "validates presence" do
@@ -22,7 +24,7 @@ RSpec.describe ValidationRequest do
       end
     end
 
-    describe "#reason" do
+    describe "#document_request_reason" do
       it "validates presence" do
         expect do
           additional_document_validation_request.valid?
@@ -34,7 +36,7 @@ RSpec.describe ValidationRequest do
   end
 
   describe "instance methods" do
-    let(:additional_document_validation_request) { create(:validation_request, :additional_document, :open) }
+    let(:additional_document_validation_request) { create(:additional_document_validation_request, :open) }
     let(:api_user) { create(:api_user) }
     let(:files) do
       [
@@ -64,7 +66,7 @@ RSpec.describe ValidationRequest do
           documents = additional_document_validation_request.additional_documents
           expect(documents.length).to eq(2)
           expect(documents.map(&:name).map(&:to_s)).to include("proposed-floorplan.png", "proposed-roofplan.pdf")
-          expect(documents.pluck(:validation_request_id)).to eq(
+          expect(documents.pluck(:owner_id)).to eq(
             [
               additional_document_validation_request.id, additional_document_validation_request.id
             ]
@@ -77,7 +79,7 @@ RSpec.describe ValidationRequest do
           additional_document_validation_request.update(state: "closed")
 
           expect { additional_document_validation_request.upload_files!(files) }
-            .to raise_error(ValidationRequest::UploadFilesError,
+            .to raise_error(AdditionalDocumentValidationRequest::UploadFilesError,
               "Event 'close' cannot transition from 'closed'.")
             .and not_change(Audit, :count)
 
@@ -95,7 +97,7 @@ RSpec.describe ValidationRequest do
         create(:planning_application, :not_started, documents_missing: true)
       end
       let!(:additional_document_validation_request) do
-        create(:validation_request, :additional_document, :pending, planning_application:)
+        create(:additional_document_validation_request, :pending, planning_application:)
       end
 
       before do
@@ -104,7 +106,7 @@ RSpec.describe ValidationRequest do
 
       context "when there are more than one open or pending additional document validation requests" do
         before do
-          create(:validation_request, :additional_document, :pending, planning_application:)
+          create(:additional_document_validation_request, :pending, planning_application:)
         end
 
         it "does not update documents_missing on the planning application" do
@@ -125,7 +127,7 @@ RSpec.describe ValidationRequest do
       end
 
       let(:additional_document_validation_request) do
-        create(:validation_request, :additional_document, :pending, planning_application:)
+        create(:additional_document_validation_request, :pending, planning_application:)
       end
 
       it "updates documents_missing on planning application to true" do
@@ -139,7 +141,7 @@ RSpec.describe ValidationRequest do
       context "when request is open" do
         let(:request) do
           create(
-            :validation_request, :additional_document,
+            :additional_document_validation_request,
             :open,
             planning_application:
           )
@@ -179,7 +181,7 @@ RSpec.describe ValidationRequest do
       context "when request is pending" do
         let(:request) do
           create(
-            :validation_request, :additional_document,
+            :additional_document_validation_request,
             :pending,
             planning_application:
           )
@@ -219,7 +221,7 @@ RSpec.describe ValidationRequest do
       context "when request is not open or pending" do
         let(:request) do
           create(
-            :validation_request, :additional_document,
+            :additional_document_validation_request,
             :closed,
             planning_application:
           )

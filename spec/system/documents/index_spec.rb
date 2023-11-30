@@ -124,7 +124,7 @@ RSpec.describe "Documents index page" do
         validated: false, invalidated_document_reason: "Document is invalid")
     end
     let!(:replacement_document_validation_request) do
-      create(:validation_request, :replacement_document, planning_application:,
+      create(:replacement_document_validation_request, planning_application:,
         old_document: invalid_document)
     end
 

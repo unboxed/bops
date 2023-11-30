@@ -7,13 +7,13 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:description_change_validation_request) do
-    create(:validation_request, :description_change, planning_application:)
+    create(:description_change_validation_request, planning_application:)
   end
   let!(:replacement_document_validation_request) do
-    create(:validation_request, :replacement_document_with_response, planning_application:, state: "closed")
+    create(:replacement_document_validation_request, :with_response, planning_application:)
   end
   let!(:additional_document_validation_request) do
-    create(:validation_request, :additional_document_with_documents, planning_application:)
+    create(:additional_document_validation_request, :with_documents, planning_application:)
   end
 
   it "lists the all description validation requests that exist on the planning application" do
@@ -27,8 +27,8 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
       "response_due" => description_change_validation_request.response_due.to_fs(:db),
       "proposed_description" => description_change_validation_request.proposed_description,
       "previous_description" => description_change_validation_request.previous_description,
-      "applicant_approved" => nil,
-      "applicant_rejection_reason" => nil,
+      "approved" => nil,
+      "rejection_reason" => nil,
       "days_until_response_due" => description_change_validation_request.days_until_response_due,
       "cancel_reason" => nil,
       "cancelled_at" => nil
@@ -64,7 +64,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
       "response_due" => additional_document_validation_request.response_due.strftime("%Y-%m-%d"),
       "days_until_response_due" => additional_document_validation_request.days_until_response_due,
       "document_request_type" => additional_document_validation_request.document_request_type,
-      "reason" => additional_document_validation_request.reason,
+      "document_request_reason" => additional_document_validation_request.document_request_reason,
       "type" => "additional_document_validation_request"
     })
 

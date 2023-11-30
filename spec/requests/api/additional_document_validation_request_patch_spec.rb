@@ -19,7 +19,7 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
   end
 
   let!(:additional_document_validation_request) do
-    create(:validation_request, :additional_document,
+    create(:additional_document_validation_request,
       planning_application:)
   end
 
@@ -51,7 +51,7 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
     planning_application.reload
 
     expect(additional_document_validation_request.state).to eq("closed")
-    expect(additional_document_validation_request.additional_documents.last).to be_a(Document)
+    expect(additional_document_validation_request.documents.last).to be_a(Document)
   end
 
   it "creates audit associated with API user" do

@@ -2,13 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe ValidationRequest do
+RSpec.describe RedLineBoundaryChangeValidationRequest do
+  include_examples "ValidationRequest", described_class, "red_line_boundary_change_validation_request"
+
   it_behaves_like("Auditable") do
-    subject { create(:validation_request, :red_line_boundary_change) }
+    subject { create(:red_line_boundary_change_validation_request) }
   end
 
   describe "validations" do
-    subject(:red_line_boundary_change_validation_request) { build(:validation_request, :red_line_boundary_change, reason: "", specific_attributes: {new_geojson: {}}) }
+    subject(:red_line_boundary_change_validation_request) { described_class.new }
 
     describe "#new_geojson" do
       it "validates presence" do
@@ -32,7 +34,8 @@ RSpec.describe ValidationRequest do
 
     describe "#rejection_reason" do
       it "validates presence when approved is set to false" do
-        red_line_boundary_change_validation_request = build(:validation_request, :red_line_boundary_change, applicant_approved: false)
+        planning_application = create(:planning_application, :invalidated)
+        red_line_boundary_change_validation_request = described_class.new(applicant_approved: false, planning_application:)
 
         expect do
           red_line_boundary_change_validation_request.valid?
@@ -44,12 +47,12 @@ RSpec.describe ValidationRequest do
   end
 
   describe "callbacks" do
-    let(:red_line_boundary_change_validation_request) { create(:validation_request, :red_line_boundary_change) }
+    let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request) }
 
     describe "::before_create #set_original_geojson" do
       it "sets the original geojson field using the planning application boundary geojson" do
         planning_application = create(:planning_application, :invalidated, :with_boundary_geojson)
-        red_line_boundary_change_validation_request = create(:validation_request, :red_line_boundary_change,
+        red_line_boundary_change_validation_request = create(:red_line_boundary_change_validation_request,
           planning_application:)
 
         expect(red_line_boundary_change_validation_request.original_geojson).to eq(planning_application.boundary_geojson)
@@ -59,8 +62,8 @@ RSpec.describe ValidationRequest do
     describe "::before_create #reset_validation_requests_update_counter" do
       let(:local_authority) { create(:local_authority) }
       let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
-      let(:red_line_boundary_change_validation_request1) { create(:validation_request, :red_line_boundary_change, :open, planning_application:) }
-      let(:red_line_boundary_change_validation_request2) { create(:validation_request, :red_line_boundary_change, :open, planning_application:) }
+      let(:red_line_boundary_change_validation_request1) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
+      let(:red_line_boundary_change_validation_request2) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
 
       context "when there is a closed red line boundary change request and another request is made" do
         before { red_line_boundary_change_validation_request1.close! }
@@ -78,7 +81,7 @@ RSpec.describe ValidationRequest do
     describe "::after_create #set_post_validation" do
       context "when a planning application has not been validated" do
         let(:planning_application) { create(:planning_application, :not_started) }
-        let(:red_line_boundary_change_validation_request) { create(:validation_request, :red_line_boundary_change, planning_application:) }
+        let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, planning_application:) }
 
         it "does not set post validation to true on a red line boundary validation request" do
           expect(red_line_boundary_change_validation_request.post_validation).to be_falsey
@@ -87,7 +90,7 @@ RSpec.describe ValidationRequest do
 
       context "when a planning application has been validated" do
         let(:planning_application) { create(:planning_application, :in_assessment) }
-        let(:red_line_boundary_change_validation_request) { create(:validation_request, :red_line_boundary_change, planning_application:) }
+        let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, planning_application:) }
 
         it "sets post validation to true on a red line boundary validation request" do
           expect(red_line_boundary_change_validation_request.post_validation).to be_truthy
@@ -97,7 +100,7 @@ RSpec.describe ValidationRequest do
   end
 
   describe "events" do
-    let!(:red_line_boundary_change_validation_request) { create(:validation_request, :red_line_boundary_change, :open) }
+    let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open) }
 
     describe "#close" do
       it "sets updated_counter to true on the associated validation request" do

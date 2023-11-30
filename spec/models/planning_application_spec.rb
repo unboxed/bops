@@ -305,8 +305,8 @@ RSpec.describe PlanningApplication do
     describe "::before_update #reset_validation_requests_update_counter" do
       let(:local_authority) { create(:local_authority) }
       let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
-      let(:red_line_boundary_change_validation_request) { create(:validation_request, :red_line_boundary_change, :open, planning_application:) }
-      let(:fee_item_validation_request) { create(:validation_request, :fee_change, :open, planning_application:, applicant_response: "a response") }
+      let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
+      let(:fee_item_validation_request) { create(:fee_change_validation_request, :open, planning_application:, applicant_response: "a response") }
 
       context "when the red line boundary is made valid" do
         before { red_line_boundary_change_validation_request.close! }
@@ -625,8 +625,7 @@ RSpec.describe PlanningApplication do
             [1.day.ago, :closed]
           ].each do |at, state|
             create(
-              :validation_request,
-              :other_change,
+              :other_change_validation_request,
               state,
               planning_application:,
               updated_at: at
@@ -941,7 +940,7 @@ RSpec.describe PlanningApplication do
 
       context "when there are open post validation requests" do
         before do
-          create(:validation_request, :red_line_boundary_change, :post_validation, planning_application:)
+          create(:red_line_boundary_change_validation_request, :post_validation, planning_application:)
         end
 
         it "raises PlanningApplication::SubmitRecommendationError" do
@@ -1779,6 +1778,148 @@ RSpec.describe PlanningApplication do
 
     it "returns most recent assessment detail with category 'consultation_summary'" do
       expect(planning_application.consultation_summary).to eq(assessment_detail1)
+    end
+  end
+
+  describe "#red_line_boundary_change_validation_request" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:request) do
+      create(
+        :red_line_boundary_change_validation_request,
+        planning_application:,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :red_line_boundary_change_validation_request,
+        planning_application:,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns latest request" do
+      expect(
+        planning_application.red_line_boundary_change_validation_request
+      ).to eq(
+        request
+      )
+    end
+  end
+
+  describe "#additional_document_validation_request" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:request) do
+      create(
+        :additional_document_validation_request,
+        planning_application:,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :additional_document_validation_request,
+        planning_application:,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns latest request" do
+      expect(
+        planning_application.additional_document_validation_request
+      ).to eq(
+        request
+      )
+    end
+  end
+
+  describe "#description_change_validation_request" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:request) do
+      create(
+        :description_change_validation_request,
+        :closed,
+        planning_application:,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :description_change_validation_request,
+        :closed,
+        planning_application:,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns latest request" do
+      expect(
+        planning_application.description_change_validation_request
+      ).to eq(
+        request
+      )
+    end
+  end
+
+  describe "#replacement_document_validation_request" do
+    let(:planning_application) { create(:planning_application, :not_started) }
+
+    let!(:request) do
+      create(
+        :replacement_document_validation_request,
+        planning_application:,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :replacement_document_validation_request,
+        planning_application:,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns latest request" do
+      expect(
+        planning_application.replacement_document_validation_request
+      ).to eq(
+        request
+      )
+    end
+  end
+
+  describe "#other_change_validation_request" do
+    let(:planning_application) { create(:planning_application, :not_started) }
+
+    let!(:request) do
+      create(
+        :other_change_validation_request,
+        planning_application:,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :other_change_validation_request,
+        planning_application:,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns latest request" do
+      expect(
+        planning_application.other_change_validation_request
+      ).to eq(
+        request
+      )
     end
   end
 

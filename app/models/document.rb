@@ -16,17 +16,9 @@ class Document < ApplicationRecord
   include Auditable
 
   with_options optional: true do
-    belongs_to :validation_request
     belongs_to :user
     belongs_to :api_user
   end
-
-  has_one :validation_request,
-    lambda { |document|
-      unscope(:where).where(old_document_id: document.id, cancelled_at: nil)
-    },
-    dependent: :destroy,
-    inverse_of: false
 
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
@@ -163,7 +155,7 @@ class Document < ApplicationRecord
   end
 
   def archive(archive_reason)
-    if validation_request.try(:open_or_pending?)
+    if owner.try(:open_or_pending?)
       raise NotArchiveableError,
         "Cannot archive document with an open or pending validation request"
     end
@@ -207,7 +199,7 @@ class Document < ApplicationRecord
   end
 
   def invalidated_document_reason
-    validation_request.try(:reason) || super
+    owner.try(:reason) || super
   end
 
   def image_url(resize_to_limit = [1000, 1000])
@@ -237,7 +229,7 @@ class Document < ApplicationRecord
   private
 
   def no_open_replacement_request
-    return unless validation_request&.open_or_pending?
+    return unless owner&.type == "ReplacementDocumentValidationRequest" && owner&.open_or_pending?
 
     errors.add(:file, :open_replacement_request)
   end

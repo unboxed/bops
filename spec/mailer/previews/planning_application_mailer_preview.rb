@@ -18,14 +18,14 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   def description_change_mail
     PlanningApplicationMailer.description_change_mail(
       planning_application,
-      planning_application.validation_requests.description_changes.last
+      planning_application.description_change_validation_requests.last
     )
   end
 
   def description_closure_notification_mail
     PlanningApplicationMailer.description_closure_notification_mail(
       planning_application,
-      planning_application.validation_requests.description_changes.last
+      planning_application.description_change_validation_requests.last
     )
   end
 

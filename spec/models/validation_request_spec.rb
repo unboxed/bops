@@ -3,14 +3,12 @@
 require "rails_helper"
 
 RSpec.describe ValidationRequest do
-  before { freeze_time }
-
   describe "validations" do
     subject(:validation_request) { described_class.new }
 
-    describe "#request_type" do
+    describe "#type" do
       it "validates presence and inclusion" do
-        expect { validation_request.valid? }.to change { validation_request.errors[:request_type] }.to ["can't be blank", "is not included in the list"]
+        expect { validation_request.valid? }.to change { validation_request.errors[:type] }.to ["can't be blank", "is not included in the list"]
       end
     end
 
@@ -21,9 +19,28 @@ RSpec.describe ValidationRequest do
     end
   end
 
-  describe "states" do
-    let(:request) { create(:validation_request, :additional_document, :pending) }
+  describe "constants" do
+    describe "REQUEST_TYPES" do
+      it "returns the permitted validation request types" do
+        expect(ValidationRequest::REQUEST_TYPES).to eq(
+          %w[
+            AdditionalDocumentValidationRequest
+            DescriptionChangeValidationRequest
+            RedLineBoundaryChangeValidationRequest
+            ReplacementDocumentValidationRequest
+            OtherChangeValidationRequest
+            FeeChangeValidationRequest
+          ]
+        )
+      end
+    end
+  end
 
+  let(:request) { create(:additional_document_validation_request, :pending) }
+
+  before { freeze_time }
+
+  describe "states" do
     it "is initially in pending state" do
       expect(request).to be_pending
     end
@@ -68,21 +85,21 @@ RSpec.describe ValidationRequest do
   describe "scopes" do
     describe ".not_cancelled" do
       before do
-        create(:validation_request, :replacement_document, :cancelled)
+        create(:replacement_document_validation_request, :cancelled)
       end
 
       let!(:replacement_document_validation_request1) do
-        create(:validation_request, :replacement_document, :closed)
+        create(:replacement_document_validation_request, :closed)
       end
       let!(:replacement_document_validation_request2) do
-        create(:validation_request, :replacement_document, :open)
+        create(:replacement_document_validation_request, :open)
       end
       let!(:replacement_document_validation_request3) do
-        create(:validation_request, :replacement_document, :pending)
+        create(:replacement_document_validation_request, :pending)
       end
 
       it "returns non cancelled replacement document requests" do
-        expect(ValidationRequest.not_cancelled).to match_array(
+        expect(ReplacementDocumentValidationRequest.not_cancelled).to match_array(
           [replacement_document_validation_request1, replacement_document_validation_request2,
             replacement_document_validation_request3]
         )
@@ -91,14 +108,14 @@ RSpec.describe ValidationRequest do
 
     describe ".post_validation" do
       before do
-        create(:validation_request, :red_line_boundary_change, planning_application:)
+        create(:red_line_boundary_change_validation_request, planning_application:)
       end
 
       let!(:planning_application) { create(:planning_application, :invalidated) }
-      let!(:request2) { create(:validation_request, :red_line_boundary_change, :post_validation, planning_application:) }
+      let!(:request2) { create(:red_line_boundary_change_validation_request, :post_validation, planning_application:) }
 
       it "returns post validation requests" do
-        expect(ValidationRequest.post_validation).to match_array(
+        expect(RedLineBoundaryChangeValidationRequest.post_validation).to match_array(
           [request2]
         )
       end
@@ -107,11 +124,17 @@ RSpec.describe ValidationRequest do
 
   describe "callbacks" do
     describe "::after_create #email_and_timestamp" do
+      let(:replacement_document_validation_request) { create(:replacement_document_validation_request, :pending, planning_application:) }
+      let(:additional_document_validation_request) { create(:additional_document_validation_request, :pending, planning_application:) }
+      let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :pending, planning_application:) }
+      let(:other_change_validation_request) { create(:replacement_document_validation_request, :pending, planning_application:) }
+      let(:description_change_validation_request) { create(:description_change_validation_request, :pending, planning_application:) }
+
       context "when planning application is not started" do
         let(:planning_application) { create(:planning_application, :not_started) }
 
-        %w[replacement_document additional_document red_line_boundary_change other_change].each do |request|
-          let(:validation_request) { create(:validation_request, request.to_sym, planning_application:) }
+        %w[replacement_document_validation_request additional_document_validation_request red_line_boundary_change_validation_request other_change_validation_request].each do |request|
+          let(:validation_request) { send(request) }
 
           it "does not send an email or call the mark_as_sent! event for a(n) #{request}" do
             expect { validation_request }.not_to change(ActionMailer::Base.deliveries, :count)
@@ -119,8 +142,6 @@ RSpec.describe ValidationRequest do
             expect(validation_request.state).to eq("pending")
           end
         end
-
-        let(:description_change_validation_request) { create(:validation_request, :description_change, planning_application:) }
 
         it "sends an email and calls the mark_as_sent! event for a description change validation request" do
           expect(description_change_validation_request.state).to eq("open")
@@ -130,8 +151,8 @@ RSpec.describe ValidationRequest do
       context "when planning application is invalidated" do
         let(:planning_application) { create(:planning_application, :invalidated) }
 
-        %w[replacement_document additional_document red_line_boundary_change other_change description_change].each do |request|
-          let(:validation_request) { create(:validation_request, request.to_sym, planning_application:) }
+        %w[replacement_document_validation_request additional_document_validation_request red_line_boundary_change_validation_request other_change_validation_request description_change_validation_request].each do |request|
+          let(:validation_request) { send(request) }
 
           it "sends an email and calls the mark_as_sent! event for a(n) #{request}" do
             expect { validation_request }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -144,8 +165,8 @@ RSpec.describe ValidationRequest do
       context "when planning application has been validated" do
         let(:planning_application) { create(:planning_application, :in_assessment) }
 
-        %w[red_line_boundary_change description_change].each do |request|
-          let(:validation_request) { create(:validation_request, request.to_sym, planning_application:) }
+        %w[red_line_boundary_change_validation_request description_change_validation_request].each do |request|
+          let(:validation_request) { send(request) }
 
           it "sends an email and calls the mark_as_sent! event for a(n) #{request}" do
             expect { validation_request }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -159,13 +180,12 @@ RSpec.describe ValidationRequest do
 
   describe "instance methods" do
     describe "#cancel_request!" do
-      let(:planning_application) { create(:planning_application, :not_started) }
-      let(:request) { create(:validation_request, :additional_document, planning_application:) }
       before { Current.user = request.user }
 
       describe "when successful" do
-        it "cancels the request and creates an audit record" do
+        it "cancels the request and creates and audit record" do
           request.assign_attributes(cancel_reason: "My bad")
+
           expect { request.cancel_request! }
             .to change(request, :cancelled_at).from(nil).to(Time.current)
             .and change(request, :state).from("pending").to("cancelled")
@@ -183,10 +203,10 @@ RSpec.describe ValidationRequest do
             create(:planning_application, :invalidated, valid_fee: false)
           end
           let!(:request1) do
-            create(:validation_request, :fee_change, :closed, planning_application:, applicant_response: "ok")
+            create(:fee_change_validation_request, :closed, planning_application:, applicant_response: "ok")
           end
           let(:request2) do
-            create(:validation_request, :fee_change, :open, planning_application:, applicant_response: "ok")
+            create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok")
           end
 
           it "resets the fee invalidation on the planning application" do
@@ -194,7 +214,7 @@ RSpec.describe ValidationRequest do
 
             expect do
               request2.cancel_request!
-            end.to change(request2.planning_application, :valid_fee).from(false).to(nil)
+            end.to change(request1.planning_application, :valid_fee).from(false).to(nil)
           end
 
           it "resets the update counter on the previously closed request" do
@@ -210,8 +230,8 @@ RSpec.describe ValidationRequest do
             create(:planning_application, :invalidated)
           end
           let!(:document) { create(:document) }
-          let(:request1) { create(:validation_request, :replacement_document, :open, planning_application:, new_document: document) }
-          let(:request2) { create(:validation_request, :replacement_document, :open, planning_application:, old_document: document) }
+          let(:request1) { create(:replacement_document_validation_request, :open, planning_application:, new_document: document) }
+          let(:request2) { create(:replacement_document_validation_request, :open, planning_application:, old_document: document) }
 
           it "when request is cancelled it updates the counter of the previously closed request to true" do
             request1.close!
@@ -229,8 +249,8 @@ RSpec.describe ValidationRequest do
           let!(:planning_application) do
             create(:planning_application, :invalidated, valid_red_line_boundary: false)
           end
-          let(:request1) { create(:validation_request, :red_line_boundary_change, :open, planning_application:) }
-          let(:request2) { create(:validation_request, :red_line_boundary_change, :open, planning_application:) }
+          let(:request1) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
+          let(:request2) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
 
           it "resets the valid_red_line_boundary on the planning application" do
             request1.assign_attributes(cancel_reason: "Cancel reason")
@@ -282,7 +302,7 @@ RSpec.describe ValidationRequest do
       context "when true" do
         %i[open pending].each do |state|
           let!(:replacement_document_validation_request) do
-            create(:validation_request, :replacement_document, :"#{state}")
+            create(:replacement_document_validation_request, :"#{state}")
           end
 
           it "for a #{state} validation request" do
@@ -294,7 +314,7 @@ RSpec.describe ValidationRequest do
       context "when false" do
         %i[closed cancelled].each do |state|
           let!(:replacement_document_validation_request) do
-            create(:validation_request, :replacement_document, :"#{state}")
+            create(:replacement_document_validation_request, :"#{state}")
           end
 
           it "for a #{state} validation request" do
@@ -304,9 +324,40 @@ RSpec.describe ValidationRequest do
       end
     end
 
+    describe "#sent_by" do
+      let(:user) { create(:user) }
+      let(:request) { create(described_class.name.underscore, planning_application:) }
+
+      before { Current.user = user }
+
+      context "when a planning application has been invalidated" do
+        let(:planning_application) { create(:planning_application, :invalidated) }
+
+        it "returns user for audit associated with send event" do
+          expect(request.sent_by).to eq(user)
+        end
+      end
+
+      context "before a planning application is invalidated" do
+        let(:planning_application) { create(:planning_application, :not_started) }
+
+        it "returns user for audit associated with add event" do
+          expect(request.sent_by).to eq(user)
+        end
+      end
+    end
+
     describe "#active_closed_fee_item?" do
+      context "when validation request does not respond to fee_item?" do
+        let!(:validation_request) { create(:replacement_document_validation_request) }
+
+        it "returns nil" do
+          expect(validation_request.active_closed_fee_item?).to be_nil
+        end
+      end
+
       context "when fee_item is not true on the validation request" do
-        let!(:validation_request) { create(:validation_request, :other_change) }
+        let!(:validation_request) { create(:other_change_validation_request) }
 
         it "returns false" do
           expect(validation_request.active_closed_fee_item?).to be(false)
@@ -314,7 +365,7 @@ RSpec.describe ValidationRequest do
       end
 
       context "when fee_item is true and validation request is not closed" do
-        let!(:validation_request) { create(:validation_request, :open, :fee_change) }
+        let!(:validation_request) { create(:other_change_validation_request, :open) }
 
         it "returns false" do
           expect(validation_request.active_closed_fee_item?).to be(false)
@@ -324,10 +375,10 @@ RSpec.describe ValidationRequest do
       context "when fee_item is true and validation request is closed" do
         let!(:planning_application) { create(:planning_application, :invalidated) }
         let!(:validation_request1) do
-          create(:validation_request, :closed, :fee_change, planning_application:)
+          create(:other_change_validation_request, :closed, planning_application:)
         end
         let!(:validation_request2) do
-          create(:validation_request, :closed, :fee_change, planning_application:)
+          create(:other_change_validation_request, :closed, planning_application:)
         end
 
         it "returns false when it is not the latest record" do
@@ -345,8 +396,7 @@ RSpec.describe ValidationRequest do
 
       let!(:request) do
         create(
-          :validation_request,
-          :red_line_boundary_change,
+          :red_line_boundary_change_validation_request,
           :open,
           planning_application:
         )
@@ -383,8 +433,7 @@ RSpec.describe ValidationRequest do
       context "when request is for description change" do
         let(:request) do
           create(
-            :validation_request,
-            :description_change,
+            :description_change_validation_request,
             :open,
             planning_application:
           )
@@ -403,7 +452,7 @@ RSpec.describe ValidationRequest do
       end
 
       describe "when there is an AASM::InvalidTransition error" do
-        let!(:request) { create(:validation_request, :red_line_boundary_change, :pending) }
+        let!(:request) { create(:red_line_boundary_change_validation_request, :pending) }
 
         it "sends the error to Appsignal" do
           expect(Appsignal).to receive(:send_error).with("Event 'auto_close' cannot transition from 'pending'.")
@@ -439,7 +488,7 @@ RSpec.describe ValidationRequest do
 
     describe "#reset_update_counter!" do
       context "when the request is post validation" do
-        let(:request) { create(:validation_request, :red_line_boundary_change, :post_validation) }
+        let(:request) { create(:red_line_boundary_change_validation_request, :post_validation) }
 
         it "does not reset the update counter" do
           expect(request).not_to receive(:update!)
@@ -449,7 +498,7 @@ RSpec.describe ValidationRequest do
       end
 
       context "when the request is not post validation" do
-        let(:request) { create(:validation_request, :red_line_boundary_change, :open) }
+        let(:request) { create(:red_line_boundary_change_validation_request, :open) }
 
         it "does not reset the update counter" do
           expect(request).to receive(:update!)
@@ -462,17 +511,17 @@ RSpec.describe ValidationRequest do
     describe "#update_counter!" do
       let!(:planning_application) { create(:planning_application, :invalidated) }
       let(:fee_item_validation_request) do
-        create(:validation_request, :fee_change, :closed, planning_application:)
+        create(:fee_change_validation_request, :closed, planning_application:)
       end
 
       %w[
-        additional_document
-        description_change
-        other_change
-        red_line_boundary_change
-        replacement_document
+        additional_document_validation_request
+        description_change_validation_request
+        other_change_validation_request
+        red_line_boundary_change_validation_request
+        replacement_document_validation_request
       ].each do |validation_request|
-        let("#{validation_request}_validation_request".to_sym) { create(:validation_request, validation_request.to_sym, :closed, planning_application:) }
+        let(validation_request) { create(validation_request, :closed, planning_application:) }
       end
 
       it "does not update counter for a description change validation request" do
@@ -498,6 +547,65 @@ RSpec.describe ValidationRequest do
         fee_item_validation_request.update_counter!
         replacement_document_validation_request.update_counter!
       end
+    end
+  end
+
+  describe "#open_post_validation_requests" do
+    let(:planning_application) { create(:planning_application, :in_assessment) }
+
+    before do
+      create(:red_line_boundary_change_validation_request, :cancelled, :post_validation, planning_application:)
+      create(:red_line_boundary_change_validation_request, :closed, :post_validation, planning_application:)
+    end
+
+    context "when there are no open post validation requests" do
+      it "returns an empty array" do
+        expect(planning_application.open_post_validation_requests).to eq([])
+        expect(planning_application).not_to be_open_post_validation_requests
+      end
+    end
+
+    context "when there are open post validation requests" do
+      let!(:red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:)
+      end
+
+      it "returns the array" do
+        expect(planning_application.open_post_validation_requests).to match_array([red_line_boundary_change_validation_request])
+        expect(planning_application).to be_open_post_validation_requests
+      end
+    end
+  end
+
+  describe ".pre_validation" do
+    let(:pre_validation_planning_application) do
+      create(:planning_application, :not_started)
+    end
+
+    let(:pre_validation_request) do
+      create(
+        :additional_document_validation_request,
+        planning_application: pre_validation_planning_application
+      )
+    end
+
+    let(:post_validation_planning_application) do
+      create(:planning_application, :in_assessment)
+    end
+
+    before do
+      create(
+        :additional_document_validation_request,
+        planning_application: post_validation_planning_application
+      )
+    end
+
+    it "returns only pre validation requests" do
+      expect(
+        AdditionalDocumentValidationRequest.pre_validation
+      ).to contain_exactly(
+        pre_validation_request
+      )
     end
   end
 end

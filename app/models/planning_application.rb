@@ -673,6 +673,38 @@ class PlanningApplication < ApplicationRecord
     validation_requests.open.post_validation.none?
   end
 
+  def open_post_validation_requests
+    validation_requests.open.post_validation
+  end
+
+  def open_post_validation_requests?
+    validation_requests.open.post_validation.any?
+  end
+
+  def other_change_validation_request
+    validation_requests.other_changes.order(:created_at).last
+  end
+
+  def fee_change_validation_request
+    validation_requests.fee_changes.order(:created_at).last
+  end
+
+  def description_change_validation_request
+    validation_requests.description_changes.order(:created_at).last
+  end
+
+  def red_line_boundary_change_validation_request
+    validation_requests.red_line_boundary_changes.order(:created_at).last
+  end
+
+  def additional_document_validation_request
+    validation_requests.additional_documents.order(:created_at).last
+  end
+
+  def replacement_document_validation_request
+    validation_requests.replacement_documents.order(:created_at).last
+  end
+
   private
 
   def update_measurements

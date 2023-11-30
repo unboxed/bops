@@ -216,7 +216,7 @@ RSpec.describe "Documents index page" do
 
   context "with an associated replacement document validation request" do
     let!(:replacement_document_validation_request) do
-      create(:validation_request, :replacement_document, planning_application: not_started_planning_application,
+      create(:replacement_document_validation_request, planning_application: not_started_planning_application,
         old_document: not_started_document)
     end
 

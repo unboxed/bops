@@ -1,23 +1,24 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/ThreeStateBooleanColumn
 class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
-  class AdditionalDocumentValidationRequest < ApplicationRecord
+  class AdditionalDocumentValidationRequest < ValidationRequest
+    # has_one :validation_request, as: :requestable
+  end
+
+  class ReplacementDocumentValidationRequest < ValidationRequest
     has_one :validation_request, as: :requestable
   end
 
-  class ReplacementDocumentValidationRequest < ApplicationRecord
+  class DescriptionChangeValidationRequest < ValidationRequest
     has_one :validation_request, as: :requestable
   end
 
-  class DescriptionChangeValidationRequest < ApplicationRecord
+  class RedLineBoundaryChangeValidationRequest < ValidationRequest
     has_one :validation_request, as: :requestable
   end
 
-  class RedLineBoundaryChangeValidationRequest < ApplicationRecord
-    has_one :validation_request, as: :requestable
-  end
-
-  class OtherChangeValidationRequest < ApplicationRecord
+  class OtherChangeValidationRequest < ValidationRequest
     has_one :validation_request, as: :requestable
   end
 
@@ -31,13 +32,33 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
   end
 
   def up
-    add_reference :documents, :validation_request, foreign_key: true
+    change_table :validation_requests, bulk: true do |t|
+      t.string :state
+      t.references :user
+      t.boolean :post_validation, default: false, null: false
+      t.boolean :applicant_approved
+      t.text :reason
+      t.string :applicant_rejection_reason
+      t.text :applicant_response
+      t.datetime :notified_at
+      t.datetime :cancelled_at
+      t.text :cancel_reason
+      t.boolean :auto_closed, null: false, default: false
+      t.boolean :fee_item
+      t.datetime :auto_closed_at
+      t.references :old_document, foreign_key: {to_table: :documents}
+      t.references :new_document, foreign_key: {to_table: :documents}
+      t.integer :sequence
+      t.jsonb :specific_attributes
+    end
+
+    rename_column :validation_requests, :requestable_type, :type
+    change_column :validation_requests, :requestable_id, :bigint, null: true
 
     AdditionalDocumentValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, request_type: "AdditionalDocumentValidationRequest")
+      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "AdditionalDocumentValidationRequest")
       validation_request.assign_attributes(
         state: request.state,
-        request_type: "additional_document",
         user_id: request.user_id,
         post_validation: request.post_validation,
         reason: request.document_request_reason,
@@ -50,15 +71,14 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
       validation_request.save(validate: false)
 
-      Document.find_by(additional_document_validation_request_id: request.id)&.update(validation_request_id: validation_request.id)
+      request.documents.each { |document| document.update(owner: request) }
     end
 
     ReplacementDocumentValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, request_type: "ReplacementDocumentValidationRequest")
+      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "ReplacementDocumentValidationRequest")
 
       validation_request.assign_attributes(
         state: request.state,
-        request_type: "replacement_document",
         old_document_id: request.old_document_id,
         new_document_id: request.new_document_id,
         user_id: request.user_id,
@@ -72,15 +92,14 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
       validation_request.save(validate: false)
 
-      Document.find_by(replacement_document_validation_request_id: request)&.update(validation_request_id: validation_request.id)
+      request.documents.each { |document| document.update(owner: request) }
     end
 
     DescriptionChangeValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, request_type: "DescriptionChangeValidationRequest")
+      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "DescriptionChangeValidationRequest")
 
       validation_request.assign_attributes(
         state: request.state,
-        request_type: "description_change",
         user_id: request.user_id,
         post_validation: request.post_validation,
         notified_at: request.notified_at,
@@ -99,11 +118,10 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
     end
 
     RedLineBoundaryChangeValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, request_type: "RedLineBoundaryChangeValidationRequest")
+      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "RedLineBoundaryChangeValidationRequest")
 
       validation_request&.assign_attributes(
         state: request.state,
-        request_type: "red_line_boundary_change",
         user_id: request.user_id,
         post_validation: request.post_validation,
         reason: request.reason,
@@ -123,11 +141,11 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
     end
 
     OtherChangeValidationRequest.where(fee_item: true).find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, request_type: "OtherChangeValidationRequest")
+      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "OtherChangeValidationRequest")
 
       validation_request.assign_attributes(
         state: request.state,
-        request_type: "fee_change",
+        type: "FeeChangeValidationRequest",
         user_id: request.user_id,
         post_validation: request.post_validation,
         reason: request.summary,
@@ -146,7 +164,6 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
       validation_request.assign_attributes(
         state: request.state,
-        request_type: "other_change",
         user_id: request.user_id,
         post_validation: request.post_validation,
         reason: request.summary,
@@ -175,23 +192,20 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
     remove_foreign_key :other_change_validation_requests, :planning_applications
     remove_foreign_key :other_change_validation_requests, :users
 
-    remove_reference :documents, :additional_document_validation_request
-    remove_reference :documents, :replacement_document_validation_request
-
-    drop_table :additional_document_validation_requests, if_exists: true
-    drop_table :replacement_document_validation_requests, if_exists: true
-    drop_table :description_change_validation_requests, if_exists: true
-    drop_table :red_line_boundary_change_validation_requests, if_exists: true
-    drop_table :other_change_validation_requests, if_exists: true
-
     remove_reference :validation_requests, :requestable
+    remove_column :validation_requests, :fee_item
+
+    remove_reference :documents, :replacement_document_validation_request
+    remove_reference :documents, :additional_document_validation_request
+
+    drop_table :other_change_validation_requests
+    drop_table :description_change_validation_requests
+    drop_table :red_line_boundary_change_validation_requests
+    drop_table :replacement_document_validation_requests
+    drop_table :additional_document_validation_requests
   end
 
   def down
-    change_table :validation_requests, bulk: true do |t|
-      t.bigint :requestable_id
-    end
-
     create_table :additional_document_validation_requests do |t|
       t.references :planning_application, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
@@ -209,7 +223,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
     add_reference :documents, :additional_document_validation_request, foreign_key: true
 
-    ValidationRequest.where(request_type: "additional_document").each do |request|
+    AdditionalDocumentValidationRequest.find_each do |request|
       new_request = AdditionalDocumentValidationRequest.create(
         state: request.state,
         user_id: request.user_id,
@@ -249,7 +263,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
     add_reference :documents, :replacement_document_validation_request, foreign_key: true
 
-    ValidationRequest.where(request_type: "replacement_document").each do |request|
+    ReplacementDocumentValidationRequest.find_each do |request|
       new_request = ReplacementDocumentValidationRequest.create(
         state: request.state,
         user_id: request.user_id,
@@ -291,7 +305,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    ValidationRequest.where(request_type: "red_line_boundary_change").each do |request|
+    RedLineBoundaryChangeValidationRequest.find_each do |request|
       new_request = RedLineBoundaryChangeValidationRequest.create(
         state: request.state,
         user_id: request.user_id,
@@ -336,8 +350,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    ValidationRequest.where(request_type: "description_change").each do |request|
-      new_request = RedLineBoundaryChangeValidationRequest.create(
+    DescriptionChangeValidationRequest.find_each do |request|
+      new_request = DescriptionChangeValidationRequest.create(
         state: request.state,
         user_id: request.user_id,
         post_validation: request.post_validation,
@@ -376,7 +390,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    ValidationRequest.where(request_type: "other_change").each do |request|
+    OtherChangeValidationRequest.find_each do |request|
       new_request = OtherChangeValidationRequest.create(
         state: request.state,
         user_id: request.user_id,
@@ -397,7 +411,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       )
     end
 
-    ValidationRequest.where(request_type: "fee_change").each do |request|
+    FeeChangeValidationRequest.find_each do |request|
       new_request = OtherChangeValidationRequest.create(
         state: request.state,
         user_id: request.user_id,
@@ -416,8 +430,29 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         requestable_id: new_request.id,
         request_type: "OtherChangeValidationRequest"
       )
-
-      remove_reference :documents, :validation_request, foreign_key: true
     end
+
+    change_table :validation_requests, bulk: true do |t|
+      t.remove :state
+      t.remove :user_id
+      t.remove :post_validation
+      t.remove :applicant_approved
+      t.remove :reason
+      t.remove :applicant_rejection_reason
+      t.remove :applicant_response
+      t.remove :notified_at
+      t.remove :cancelled_at
+      t.remove :cancel_reason
+      t.remove :auto_closed
+      t.remove :auto_closed_at
+      t.remove :old_document_id
+      t.remove :new_document_id
+      t.remove :sequence
+      t.remove :specific_attributes
+      t.bigint :requestable_id
+    end
+
+    rename_column :validation_requests, :type, :requestable_type
   end
 end
+# rubocop:enable Rails/ThreeStateBooleanColumn

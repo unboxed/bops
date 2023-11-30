@@ -48,7 +48,7 @@ module TaskListItems
         :valid
       elsif replacement_document_validation_request&.open_or_pending?
         :invalid
-      elsif ValidationRequest.find_by(new_document: document).present?
+      elsif ValidationRequest.find_by(old_document: document).present?
         :updated
       else
         :not_started

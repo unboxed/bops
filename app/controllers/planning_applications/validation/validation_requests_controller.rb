@@ -172,7 +172,7 @@ module PlanningApplications
       def create_request_redirect_url
         if params.dig(:validation_request, :return_to)
           params.dig(:validation_request, :return_to) ||
-          @planning_application
+            @planning_application
         elsif @planning_application.validated?
           @planning_application
         else
@@ -210,7 +210,7 @@ module PlanningApplications
       def cancel_redirect_url
         if params.dig(:validation_request, :return_to)
           params.dig(:validation_request, :return_to) ||
-          @planning_application
+            @planning_application
         elsif @planning_application.validated?
           post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
         else

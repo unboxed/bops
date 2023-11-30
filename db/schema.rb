@@ -264,7 +264,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.bigint "press_notice_id"
     t.string "owner_type"
     t.bigint "owner_id"
-    t.bigint "validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
@@ -274,7 +273,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.index ["site_notice_id"], name: "ix_documents_on_site_notice_id"
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
-    t.index ["validation_request_id"], name: "ix_documents_on_validation_request_id"
   end
 
   create_table "evidence_groups", force: :cascade do |t|
@@ -734,7 +732,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   end
 
   create_table "validation_requests", force: :cascade do |t|
-    t.string "request_type", null: false
+    t.string "type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "planning_application_id"
@@ -789,7 +787,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "users"
-  add_foreign_key "documents", "validation_requests"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "immunity_details", "planning_applications"
   add_foreign_key "local_policies", "planning_applications"

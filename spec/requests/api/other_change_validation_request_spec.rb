@@ -7,17 +7,17 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:other_change_validation_request) do
-    create(:validation_request, :other_change, planning_application:, reason: "Incorrect fee", specific_attributes: {suggestion: "You need to pay a different fee"})
+    create(:other_change_validation_request, planning_application:)
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests" }
     let!(:other_change_validation_request2) do
-      create(:validation_request, :other_change, :closed, planning_application:, reason: "Incorrect fee", specific_attributes: {suggestion: "You need to pay a different fee"})
+      create(:other_change_validation_request, :closed, planning_application:)
     end
     let!(:other_change_validation_request3) do
-      create(:validation_request, :other_change, :cancelled, planning_application:, reason: "Incorrect fee", specific_attributes: {suggestion: "You need to pay a different fee"})
+      create(:other_change_validation_request, :cancelled, planning_application:)
     end
 
     context "when the request is successful" do
@@ -32,8 +32,8 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
               "id" => other_change_validation_request.id,
               "state" => "open",
               "response_due" => other_change_validation_request.response_due.to_fs(:db),
-              "applicant_response" => nil,
-              "reason" => "Incorrect fee",
+              "response" => nil,
+              "summary" => "Incorrect fee",
               "suggestion" => "You need to pay a different fee",
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
@@ -43,8 +43,8 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
               "id" => other_change_validation_request2.id,
               "state" => "closed",
               "response_due" => other_change_validation_request.response_due.to_fs(:db),
-              "applicant_response" => "Some response",
-              "reason" => "Incorrect fee",
+              "response" => "Some response",
+              "summary" => "Incorrect fee",
               "suggestion" => "You need to pay a different fee",
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
@@ -54,8 +54,8 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
               "id" => other_change_validation_request3.id,
               "state" => "cancelled",
               "response_due" => other_change_validation_request.response_due.to_fs(:db),
-              "applicant_response" => nil,
-              "reason" => "Incorrect fee",
+              "response" => nil,
+              "summary" => "Incorrect fee",
               "suggestion" => "You need to pay a different fee",
               "days_until_response_due" => 15,
               "cancel_reason" => "Made by mistake!",
@@ -95,8 +95,8 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
             "id" => other_change_validation_request.id,
             "state" => "open",
             "response_due" => other_change_validation_request.response_due.to_fs(:db),
-            "applicant_response" => nil,
-            "reason" => "Incorrect fee",
+            "response" => nil,
+            "summary" => "Incorrect fee",
             "suggestion" => "You need to pay a different fee",
             "days_until_response_due" => 15,
             "cancel_reason" => nil,
