@@ -17,6 +17,10 @@ RSpec.describe PlanningApplicationStatus do
         created_at: 12.days.ago)
     end
 
+    context "when pending" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "pending", %i[mark_accepted]
+    end
+
     context "when not started" do
       it_behaves_like "PlanningApplicationStateMachineEvents", "not_started", %i[return close withdraw]
     end

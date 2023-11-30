@@ -25,7 +25,8 @@ module PlanningApplicationStatus
     aasm.attribute_name :status
 
     aasm whiny_persistence: true, no_direct_assignment: true do
-      state :not_started, initial: true
+      state :pending, initial: true
+      state :not_started
       state :invalidated, display: "invalid"
       state :assessment_in_progress
       state :in_assessment
@@ -35,6 +36,10 @@ module PlanningApplicationStatus
       state :returned
       state :withdrawn
       state :closed
+
+      event :mark_accepted do
+        transitions from: :pending, to: :not_started
+      end
 
       event :start do
         transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :validation_date?

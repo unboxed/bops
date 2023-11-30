@@ -102,6 +102,10 @@ FactoryBot.define do
       validated_at { nil }
     end
 
+    trait :pending do
+      status { :pending }
+    end
+
     trait :in_assessment do
       status { :in_assessment }
       validated_at { Time.zone.now }

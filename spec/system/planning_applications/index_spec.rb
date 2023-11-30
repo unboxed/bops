@@ -424,6 +424,22 @@ RSpec.describe "Planning Application index page" do
       end
     end
 
+    context "when a planning application is pending" do
+      let!(:planning_application) do
+        create(
+          :planning_application,
+          :pending,
+          local_authority: default_local_authority,
+          address_1: "Pending lane"
+        )
+      end
+
+      it "does not display the application" do
+        click_link "View all applications"
+        expect(page).not_to have_content("Pending lane")
+      end
+    end
+
     context "when there are prior approval planning applications" do
       let!(:planning_application_not_started) do
         create(

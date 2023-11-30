@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PlanningApplicationAnonymisationService, type: :service do
+RSpec.describe BopsApi::Application::AnonymisationService, type: :service do
   describe "#call!" do
     let!(:local_authority) { create(:local_authority) }
 

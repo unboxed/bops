@@ -51,8 +51,9 @@ class PlanningApplicationCreationService
   def save_planning_application!(planning_application)
     PlanningApplication.transaction do
       if planning_application.save!
+        planning_application.mark_accepted!
         if planning_application.from_production?
-          PlanningApplicationAnonymisationService.new(planning_application:).call!
+          BopsApi::Application::AnonymisationService.new(planning_application:).call!
         end
         PlanxPlanningData.create!(
           planning_application:,

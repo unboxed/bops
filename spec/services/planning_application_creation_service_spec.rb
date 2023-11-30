@@ -41,7 +41,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         it "creates a new planning application identical to how it came via planx using the params_v1 value as the params" do
           planning_application = PlanningApplication.last
 
-          expect(PlanningApplicationAnonymisationService).not_to receive(:new)
+          expect(BopsApi::Application::AnonymisationService).not_to receive(:new)
 
           expect do
             described_class.new(
@@ -100,6 +100,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
               planning_application:
             ).call
           end.to change(ImmunityDetail, :count).by(1)
+            .and change(EvidenceGroup, :count).by(2)
         end
       end
 
@@ -199,6 +200,10 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
           create_planning_application
 
           expect(PlanxPlanningData.last.session_id).to eq("21161b70-0e29-40e6-9a38-c42f61f25ab9")
+        end
+
+        it "creates new documents" do
+          expect { create_planning_application }.to change(Document, :count).by(1)
         end
       end
     end

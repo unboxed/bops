@@ -79,6 +79,7 @@ class PlanningApplication < ApplicationRecord
     delegate :required?, to: :site_notice
   end
   delegate :params_v1, to: :planx_planning_data, allow_nil: true
+  delegate :params_v2, to: :planx_planning_data, allow_nil: true
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
@@ -92,6 +93,7 @@ class PlanningApplication < ApplicationRecord
   scope :with_user, -> { preload(:user) }
   scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
   scope :prior_approvals, -> { joins(:application_type).where(application_type: {name: :prior_approval}) }
+  scope :accepted, -> { where.not(status: "pending") }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
@@ -117,6 +119,7 @@ class PlanningApplication < ApplicationRecord
   accepts_nested_attributes_for :documents, reject_if: proc { |attributes| attributes["file"].blank? }
   accepts_nested_attributes_for :constraints
   accepts_nested_attributes_for :proposal_measurement
+  accepts_nested_attributes_for :planx_planning_data
 
   WORK_STATUSES = %w[proposed existing].freeze
 

@@ -27,7 +27,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "401", "with missing or invalid credentials" do
-        schema "$ref" => "#/components/schemas/unauthorized"
+        schema "$ref" => "#/components/schemas/errors/properties/unauthorized"
 
         example "application/json", :default, {
           error: {

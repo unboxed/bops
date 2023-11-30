@@ -7,7 +7,7 @@ class Audit < ApplicationRecord
 
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :with_user_and_api_user, -> { preload(:user, :api_user) }
-  scope :with_planning_application, -> { includes(:planning_application) }
+  scope :with_planning_application, -> { includes(:planning_application).where.not(planning_applications: {status: "pending"}) }
   scope :not_by_assigned_officer, lambda {
     joins(:planning_application).where(
       "audits.user_id != planning_applications.user_id OR planning_applications.user_id IS NULL"

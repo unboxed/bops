@@ -39,6 +39,7 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.assign_attributes(local_authority: current_local_authority)
 
     if @planning_application.save
+      @planning_application.mark_accepted!
       @planning_application.send_receipt_notice_mail
 
       redirect_to planning_application_documents_path(@planning_application), notice: t(".success")
