@@ -83,6 +83,8 @@ services:
       OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
     ports:
       - "127.0.0.1:3001:3001"
+    depends_on:
+      - web
     volumes:
       - type: bind
         source: bops-applicants
