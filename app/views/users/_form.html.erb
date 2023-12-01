@@ -4,7 +4,7 @@
     <%= form.govuk_text_field :name, class: "govuk-input--width-30" %>
     <%= form.govuk_text_field :email, class: "govuk-input--width-30" %>
     <% if local_assigns.fetch(:include_password, true) %>
-      <%= form.govuk_password_field :password, class: "govuk-input--width-30" %>
+      <%= form.hidden_field :password, value: PasswordGenerator.call %>
     <% end %>
     <%= form.govuk_text_field :mobile_number, class: "govuk-input--width-30" %>
     <%= form.govuk_collection_select(
