@@ -7,7 +7,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "planning_applications/validation/fee_items/fee_item_table" %>
 
-    <%= form_with model: [@planning_application, :validation, @validation_request] do |form| %>
+    <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request  do |form| %>
       <%= form.hidden_field :fee_item, value: @validate_fee %>
       <%= hidden_field_tag(:validate_fee, "yes") %>
 
@@ -31,7 +31,7 @@
         label: {
           size: "s",
           class: "govuk-label govuk-label--s",
-          text: (t(".labels.summary"))
+          text: "Tell the applicant why the fee is incorrect",
         },
         rows: 5,
         readonly: @planning_application.validated?
@@ -42,14 +42,14 @@
         label: {
           size: "s",
           class: "govuk-label govuk-label--s",
-          text: (t(".labels.suggestion"))
+          text: "Tell the applicant how the fee can be made valid"
         },
         hint: { text: "Add all information that they will need to complete this action" },
         rows: 5,
         readonly: @planning_application.validated?
       ) %>
 
-      <%= form.hidden_field :request_type, value: "fee_change" %>
+      <%= form.hidden_field :type, value: "FeeChangeValidationRequest" %>
 
       <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
     <% end %>

@@ -2,30 +2,13 @@
 
 # rubocop:disable Rails/ThreeStateBooleanColumn
 class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
-  class AdditionalDocumentValidationRequest < ValidationRequest
-    # has_one :validation_request, as: :requestable
-  end
-
-  class ReplacementDocumentValidationRequest < ValidationRequest
-    has_one :validation_request, as: :requestable
-  end
-
-  class DescriptionChangeValidationRequest < ValidationRequest
-    has_one :validation_request, as: :requestable
-  end
-
-  class RedLineBoundaryChangeValidationRequest < ValidationRequest
-    has_one :validation_request, as: :requestable
-  end
-
-  class OtherChangeValidationRequest < ValidationRequest
-    has_one :validation_request, as: :requestable
+  class Document < ApplicationRecord
+    def reset_replacement_document_validation_request_update_counter!
+    end
   end
 
   class ValidationRequest < ApplicationRecord
     before_update :reset_fee_invalidation
-
-    store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
     def reset_fee_invalidation
     end
@@ -51,12 +34,18 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.jsonb :specific_attributes
     end
 
-    rename_column :validation_requests, :requestable_type, :type
     change_column :validation_requests, :requestable_id, :bigint, null: true
 
-    AdditionalDocumentValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "AdditionalDocumentValidationRequest")
-      validation_request.assign_attributes(
+    validation_request = Class.new(ActiveRecord::Base) do
+      self.table_name = "validation_requests"
+      store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
+    end
+
+    advr = Class.new(ActiveRecord::Base) { self.table_name = "additional_document_validation_requests" }
+
+    advr.all.find_each do |request|
+      vr = validation_request.find_by(requestable_id: request.id, requestable_type: "AdditionalDocumentValidationRequest")
+      vr.assign_attributes(
         state: request.state,
         user_id: request.user_id,
         post_validation: request.post_validation,
@@ -68,18 +57,21 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         document_request_type: request.document_request_type
       )
 
-      validation_request.save(validate: false)
+      vr.save(validate: false)
 
-      request.documents.each { |document| document.update(owner: request) }
+      Document.where(additional_document_validation_request_id: request.id).each do |document|
+        document.update(owner_id: vr.id, owner_type: "ValidationRequest")
+      end
     end
 
-    ReplacementDocumentValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "ReplacementDocumentValidationRequest")
+    rdvr = Class.new(ActiveRecord::Base) { self.table_name = "replacement_document_validation_requests" }
 
-      validation_request.assign_attributes(
+    rdvr.all.find_each do |request|
+      vr = validation_request.find_by(requestable_id: request.id, requestable_type: "ReplacementDocumentValidationRequest")
+
+      vr.assign_attributes(
         state: request.state,
         old_document_id: request.old_document_id,
-        new_document_id: request.new_document_id,
         user_id: request.user_id,
         post_validation: request.post_validation,
         reason: request.reason,
@@ -89,15 +81,19 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence
       )
 
-      validation_request.save(validate: false)
+      vr.save(validate: false)
 
-      request.documents.each { |document| document.update(owner: request) }
+      if request.new_document_id.present?
+        Document.find(request.new_document_id).update(owner_id: vr.id, owner_type: "ValidationRequest")
+      end
     end
 
-    DescriptionChangeValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "DescriptionChangeValidationRequest")
+    dcvr = Class.new(ActiveRecord::Base) { self.table_name = "description_change_validation_requests" }
 
-      validation_request.assign_attributes(
+    dcvr.all.find_each do |request|
+      vr = validation_request.find_by(requestable_id: request.id, requestable_type: "DescriptionChangeValidationRequest")
+
+      vr.assign_attributes(
         state: request.state,
         user_id: request.user_id,
         post_validation: request.post_validation,
@@ -113,13 +109,15 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         auto_closed_at: request.auto_closed_at
       )
 
-      validation_request.save(validate: false)
+      vr.save(validate: false)
     end
 
-    RedLineBoundaryChangeValidationRequest.find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "RedLineBoundaryChangeValidationRequest")
+    rlbcvr = Class.new(ActiveRecord::Base) { self.table_name = "red_line_boundary_change_validation_requests" }
 
-      validation_request&.assign_attributes(
+    rlbcvr.all.find_each do |request|
+      vr = validation_request.find_by(requestable_id: request.id, requestable_type: "RedLineBoundaryChangeValidationRequest")
+
+      vr.assign_attributes(
         state: request.state,
         user_id: request.user_id,
         post_validation: request.post_validation,
@@ -136,15 +134,17 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         auto_closed_at: request.auto_closed_at
       )
 
-      validation_request&.save(validate: false)
+      vr.save(validate: false)
     end
 
-    OtherChangeValidationRequest.where(fee_item: true).find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, type: "OtherChangeValidationRequest")
+    ocvr = Class.new(ActiveRecord::Base) { self.table_name = "other_change_validation_requests" }
 
-      validation_request.assign_attributes(
+    ocvr.all.where(fee_item: true).find_each do |request|
+      vr = validation_request.find_by(requestable_id: request.id, requestable_type: "OtherChangeValidationRequest")
+
+      vr.assign_attributes(
         state: request.state,
-        type: "FeeChangeValidationRequest",
+        requestable_type: "FeeChangeValidationRequest",
         user_id: request.user_id,
         post_validation: request.post_validation,
         reason: request.summary,
@@ -155,13 +155,13 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         suggestion: request.suggestion
       )
 
-      validation_request.save(validate: false)
+      vr.save(validate: false)
     end
 
-    OtherChangeValidationRequest.where(fee_item: false).find_each do |request|
-      validation_request = ValidationRequest.find_by(requestable_id: request.id, request_type: "OtherChangeValidationRequest")
+    ocvr.all.where(fee_item: false).find_each do |request|
+      vr = validation_request.find_by(requestable_id: request.id, requestable_type: "OtherChangeValidationRequest")
 
-      validation_request.assign_attributes(
+      vr.assign_attributes(
         state: request.state,
         user_id: request.user_id,
         post_validation: request.post_validation,
@@ -173,7 +173,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         suggestion: request.suggestion
       )
 
-      validation_request.save(validate: false)
+      vr.save(validate: false)
     end
 
     remove_foreign_key :additional_document_validation_requests, :planning_applications
@@ -193,6 +193,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
     remove_reference :validation_requests, :requestable
     remove_column :validation_requests, :fee_item
+
+    rename_column :validation_requests, :requestable_type, :type
 
     remove_reference :documents, :replacement_document_validation_request
     remove_reference :documents, :additional_document_validation_request

@@ -13,15 +13,16 @@ module PlanningApplications
       rescue_from ValidationRequest::ValidationRequestNotCreatableError, with: :redirect_failed_create_request_error
 
       before_action :set_planning_application
-      before_action :set_validation_request, except: [:index]
+      before_action :set_validation_request, only: %i[show edit update destroy cancel_confirmation cancel]
+      before_action :set_document
+      before_action :set_type, only: [:new]
       before_action :ensure_planning_application_is_validated, only: :post_validation_requests
       before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
       before_action :ensure_planning_application_not_invalidated, only: :edit
       before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
-      before_action :set_document
 
       def index
-        validation_requests = @planning_application.validation_requests
+        validation_requests = @planning_application.validation_requests.where(post_validation: false)
         @cancelled_validation_requests = validation_requests.cancelled
         @active_validation_requests = validation_requests.active
 
@@ -31,7 +32,7 @@ module PlanningApplications
       end
 
       def new
-        @validation_request = @planning_application.validation_requests.new
+        @validation_request = @planning_application.validation_requests.new(type: @type.camelize.to_s)
       end
 
       def show
@@ -50,14 +51,13 @@ module PlanningApplications
         if @validation_request.update(validation_request_params.except(:return_to))
           redirect_to(
             create_request_redirect_url,
-            notice: t(".success")
+            notice: t(".#{@validation_request.type.underscore}.success")
           )
         else
-          if @validation_request.request_type == "replacement_document"
+          if @validation_request.type == "ReplacementDocumentValidationRequest"
             @document = @validation_request.old_document
           end
-
-          render :edit
+          render :edit, type: @validation_request.type.underscore
         end
       end
 
@@ -68,7 +68,7 @@ module PlanningApplications
           if @validation_request.destroyed?
             format.html do
               redirect_to planning_application_validation_tasks_path(@planning_application),
-                notice: t(".success")
+                notice: t(".#{@validation_request.type.underscore}.success")
             end
           else
             format.html do
@@ -89,14 +89,14 @@ module PlanningApplications
         if @validation_request.save
           redirect_to(
             create_request_redirect_url,
-            notice: t(".success")
+            notice: t(".#{@validation_request.type.underscore}.success")
           )
         else
-          if @validation_request.request_type == "replacement_document"
+          if @validation_request.type == "ReplacementDocumentValidationRequest"
             @document = @validation_request.old_document
           end
-
-          render :new, request_type: @validation_request.request_type
+          set_type
+          render :new
         end
       end
 
@@ -116,7 +116,7 @@ module PlanningApplications
 
             format.html do
               redirect_to cancel_redirect_url,
-                notice: t(".success")
+                notice: t(".#{@validation_request.type.underscore}.success")
             end
           else
             format.html do
@@ -140,14 +140,12 @@ module PlanningApplications
         end
       end
 
-      def fee_item?
-        params[:request_type] == "validate_fee"
-      end
-
       private
 
       def ensure_planning_application_not_validated
-        render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+        if params[:type] == "fee_change" || params[:type] == "other_change"
+          render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+        end
       end
 
       def ensure_planning_application_not_invalidated
@@ -187,7 +185,7 @@ module PlanningApplications
       def validation_request_params
         params.require(:validation_request)
           .permit(
-            :new_geojson, :reason, :request_type, :suggestion,
+            :new_geojson, :reason, :type, :suggestion,
             :document_request_type, :old_document_id, :proposed_description, :return_to
           )
       end
@@ -197,7 +195,7 @@ module PlanningApplications
       end
 
       def set_document
-        return unless params[:request_type] == "replacement_document" || @validation_request&.request_type == "replacement_document"
+        return unless params[:type] == "replacement_document" || @validation_request&.type == "ReplacementDocumentValidationRequest"
 
         if params[:document]
           @document = @planning_application.documents.find(params[:document].to_i)
@@ -219,8 +217,20 @@ module PlanningApplications
       end
 
       def set_validation_request
-        if params[:id]
-          @validation_request = @planning_application.validation_requests.find(params[:id].to_i)
+        return if params.permit(:id)[:id].nil?
+
+        @validation_request = @planning_application.validation_requests.find(validation_request_id)
+      end
+
+      def validation_request_id
+        Integer(params.permit(:id)[:id].to_s)
+      end
+
+      def set_type
+        @type = if params[:type]
+          params.permit(:type)[:type] + "_validation_request"
+        else
+          params.require(:validation_request).permit(:type)[:type]
         end
       end
     end

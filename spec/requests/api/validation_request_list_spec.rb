@@ -27,8 +27,8 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
       "response_due" => description_change_validation_request.response_due.to_fs(:db),
       "proposed_description" => description_change_validation_request.proposed_description,
       "previous_description" => description_change_validation_request.previous_description,
-      "approved" => nil,
-      "rejection_reason" => nil,
+      "applicant_approved" => nil,
+      "applicant_rejection_reason" => nil,
       "days_until_response_due" => description_change_validation_request.days_until_response_due,
       "cancel_reason" => nil,
       "cancelled_at" => nil
@@ -64,7 +64,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
       "response_due" => additional_document_validation_request.response_due.strftime("%Y-%m-%d"),
       "days_until_response_due" => additional_document_validation_request.days_until_response_due,
       "document_request_type" => additional_document_validation_request.document_request_type,
-      "document_request_reason" => additional_document_validation_request.document_request_reason,
+      "reason" => additional_document_validation_request.reason,
       "type" => "additional_document_validation_request"
     })
 

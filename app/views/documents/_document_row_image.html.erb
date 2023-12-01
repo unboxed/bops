@@ -27,7 +27,7 @@
     <p class="govuk-body">
       <%= link_to(
         "Request replacement",
-        new_planning_application_validation_validation_request_path(planning_application_id: planning_application.id, document: document),
+        new_planning_application_validation_validation_request_path(planning_application_id: planning_application.id, document: document, type: "replacement_document"),
         class: "govuk-link"
       ) %>
     </p>

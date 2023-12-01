@@ -4,13 +4,23 @@ class FeeChangeValidationRequest < ValidationRequest
   validates :reason, presence: true
   validates :suggestion, presence: true
   validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create
+  validates :cancel_reason, presence: true, if: :cancelled?
 
   before_create :ensure_planning_application_not_validated!
   after_create :set_invalid_payment_amount
   before_update :reset_fee_invalidation, if: :closed?
   before_destroy :reset_fee_invalidation
 
+  before_create lambda {
+                  reset_validation_requests_update_counter!(planning_application.validation_requests.fee_changes)
+                }
+
   private
+
+  def audit_comment
+    {reason:,
+     suggestion:}.to_json
+  end
 
   def ensure_no_open_or_pending_fee_item_validation_request
     return if planning_application.nil?

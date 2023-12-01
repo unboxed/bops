@@ -39,16 +39,15 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
 
     context "when validation request is present" do
-      let(:other_change_validation_request) do
-        create(:other_change_validation_request)
-      end
-
       let(:planning_application) do
         create(
           :planning_application,
-          :not_started,
-          other_change_validation_requests: [other_change_validation_request]
+          :not_started
         )
+      end
+
+      let!(:other_change_validation_request) do
+        create(:other_change_validation_request, planning_application:)
       end
 
       it "returns 'in_progress'" do

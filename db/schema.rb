@@ -751,10 +751,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.boolean "auto_closed", default: false, null: false
     t.datetime "auto_closed_at"
     t.bigint "old_document_id"
-    t.bigint "new_document_id"
     t.integer "sequence"
     t.jsonb "specific_attributes"
-    t.index ["new_document_id"], name: "ix_validation_requests_on_new_document_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_validation_requests_on_user_id"
@@ -833,7 +831,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
   add_foreign_key "site_visits", "neighbours"
   add_foreign_key "site_visits", "users", column: "created_by_id"
   add_foreign_key "users", "local_authorities"
-  add_foreign_key "validation_requests", "documents", column: "new_document_id"
   add_foreign_key "validation_requests", "documents", column: "old_document_id"
   add_foreign_key "validation_requests", "planning_applications"
 end

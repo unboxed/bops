@@ -168,6 +168,13 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :additional_document_validation_requests, controller: :validation_requests
+        resources :replacement_document_validation_requests, controller: :validation_requests
+        resources :other_change_validation_requests, controller: :validation_requests
+        resources :fee_change_validation_requests, controller: :validation_requests
+        resources :red_line_boundary_change_validation_requests, controller: :validation_requests
+        resources :description_change_validation_requests, controller: :validation_requests
+
         resource :legislation, only: %i[show update]
       end
 

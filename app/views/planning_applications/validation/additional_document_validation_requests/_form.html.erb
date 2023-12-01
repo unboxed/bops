@@ -5,7 +5,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: [@planning_application, :validation, @validation_request] do |form| %>
+    <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.hidden_field(
+        :return_to,
+        value: local_assigns.fetch(:return_to, nil)
+      ) %>
 
       <%= form.govuk_text_field :document_request_type,
        label: { text: 'Please specify the new document type:', size: 's' },
@@ -15,7 +21,7 @@
        label: { text: 'Please specify the reason you have requested this document?', size: 's'},
        rows: 5 %>
 
-      <%= form.hidden_field :request_type, value: "additional_document" %>
+      <%= form.hidden_field :type, value: AdditionalDocumentValidationRequest.name %>
 
       <%= render "shared/planning_guides_link" %>
 

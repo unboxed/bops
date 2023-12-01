@@ -11,7 +11,7 @@
         Status
       </th>
       <th scope="col" class="govuk-table__header">
-        View <%= "and update" unless @planning_application.invalidated? %> request
+        View <%= "and update" unless planning_application.validated? %> request
       </th>
     </tr>
   </thead>
@@ -20,12 +20,7 @@
     <% requests.each do |request| %>
       <tr class="govuk-table__row">
         <%= content_tag(:tr, id: dom_id(request)) do %>
-          <td class="govuk-table__cell change-request-list">
-            <%= request.request_type.humanize %>
-          </td>
-          <td class="govuk-table__cell change-request-list">
-            <%= request.reason %>
-          </td>
+          <%= render request %>
 
           <td class="govuk-table__cell">
             <% case request.state %>
@@ -45,7 +40,7 @@
           </td>
 
           <td class="govuk-table__cell">
-            <%= show_validation_request_link(@planning_application, request) %>
+            <%= show_validation_request_link(planning_application, request) %>
           </td>
         <% end %>
       </tr>

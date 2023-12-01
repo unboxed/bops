@@ -116,14 +116,16 @@ RSpec.describe Document do
         create(:replacement_document_validation_request, :open, planning_application:, old_document: document)
       end
 
-      before { replacement_document_validation_request1.close! }
+      before do
+        document.update(owner: replacement_document_validation_request1)
+        replacement_document_validation_request1.close!
+      end
 
       context "when document is validated" do
-        before { document.update(validated: true) }
-
         it "resets the update counter on the previous request where its new document is associated" do
           expect(replacement_document_validation_request1.update_counter).to be(true)
 
+          document.update(validated: true)
           replacement_document_validation_request2
 
           expect(replacement_document_validation_request1.reload.update_counter).to be(false)
@@ -131,11 +133,10 @@ RSpec.describe Document do
       end
 
       context "when document is archived" do
-        before { document.update(archived_at: Time.current) }
-
         it "resets the update counter on the previous request where its new document is associated" do
           expect(replacement_document_validation_request1.update_counter).to be(true)
 
+          document.update(archived_at: Time.current)
           replacement_document_validation_request2
 
           expect(replacement_document_validation_request1.reload.update_counter).to be(false)

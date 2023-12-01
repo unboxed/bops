@@ -266,12 +266,12 @@ en:
               invalid: The reset password link you used no longer works. Please request a new link and try again.
         validation_request:
           attributes:
+            document_request_type:
+              blank: Fill in the document request type.
             new_geojson:
               blank: Red line drawing must be complete
             reason:
               blank: Provide a reason for changes
-            document_request_type:
-              blank: Fill in the document request type.
   add_consultee_component:
     add_additional_consultees: Add additional consultees
     add_consultee: Add consultee
@@ -348,7 +348,6 @@ en:
       consultee_emails_sent: Consultee emails sent
       consultees_reconsulted: Reconsultation emails sent
       created: Application created by %{args}
-      description_change_request_cancelled: 'Cancelled: description change request (description#%{args})'
       description_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'
       description_change_validation_request_cancelled: 'Cancelled: validation request (applicant approval for description change #%{args})'
@@ -1208,10 +1207,6 @@ en:
     validate:
       success: Application is ready for assessment and an email notification has been sent.
     validation:
-      description_change_validation_requests:
-        show: 
-          back: Back
-          cancel_this_request: Cancel this request
       cil_liability:
         update:
           success: CIL liability updated
@@ -1221,10 +1216,24 @@ en:
         update:
           failure: Couldn't check constraints — please contact support.
           success: Constraints was successfully checked
+      description_change_validation_requests:
+        description_change_validation_request:
+          change_description: Change description
+          description_change: Description change
+          new_description: 'New description:'
+          proposed_description: 'Proposed description:'
+        show:
+          back: Back
+          cancel_this_request: Cancel this request
       document:
         redactions:
           create:
             success: Redacted documents successfully uploaded
+      fee_change_validation_requests:
+        form:
+          labels:
+            suggestion: Tell the applicant how the fee can be made valid
+            summary: Tell the applicant why the fee is incorrect
       fee_items:
         fee_item_table:
           description: Description
@@ -1249,23 +1258,50 @@ en:
         validate:
           failure: First select Valid or Invalid to continue.
           success: Red line boundary was marked as valid.
-      fee_change_validation_requests:
-        form: 
-          labels:
-            summary: Tell the applicant why the fee is incorrect
-            suggestion: Tell the applicant how the fee can be made valid
       tasks:
         index:
           application_details: Application details
       validation_requests:
         cancel:
-          success: Validation request was successfully cancelled.
+          additional_document_validation_request:
+            success: Additional document request successfully cancelled.
+          description_change_validation_request:
+            success: Description change request successfully cancelled.
+          fee_change_validation_request:
+            success: Fee change request successfully cancelled.
+          other_change_validation_request:
+            success: Change request successfully cancelled.
+          red_line_boundary_change_validation_request:
+            success: Red line boundary change request was successfully cancelled.
+          replacement_document_validation_request:
+            success: Replacement document validation request successfully cancelled.
         create:
-          success: Request successfully created.
-        update:
-          success: Request successfully updated.
+          additional_document_validation_request:
+            success: Additional document request successfully created.
+          description_change_validation_request:
+            success: Description change request successfully sent.
+          fee_change_validation_request:
+            success: Fee change request successfully created.
+          other_change_validation_request:
+            success: Change request successfully created.
+          red_line_boundary_change_validation_request:
+            success: Validation request for red line boundary successfully created.
+          replacement_document_validation_request:
+            success: Replacement document validation request successfully created.
         destroy:
+          additional_document_validation_request:
+            success: Additional document request was successfully deleted.
+          description_change_validation_request:
+            success: Description change request successfully deleted.
           failure: Couldn't delete validation request — please contact support.
+          fee_change_validation_request:
+            success: Fee change request successfully deleted.
+          other_change_validation_request:
+            success: Change request successfully deleted.
+          red_line_boundary_change_validation_request:
+            success: Red line boundary change request was successfully deleted.
+          replacement_document_validation_request:
+            success: Replacement document request successfully deleted
           success: Validation request was successfully deleted.
         email_failure: Notify was unable to send applicant email. Please contact the applicant directly.
         index:
@@ -1276,6 +1312,19 @@ en:
         table:
           view: View
           view_and_update: View and update
+        update:
+          additional_document_validation_request:
+            success: Additional document request successfully updated
+          description_change_validation_request:
+            success: Description change request successfully updated.
+          fee_change_validation_request:
+            success: Fee change request successfully updated.
+          other_change_validation_request:
+            success: Change request successfully updated.
+          red_line_boundary_change_validation_request:
+            success: Red line boundary change request was successfully updated.
+          replacement_document_validation_request:
+            success: Replacement document request successfully updated
     withdraw_or_cancels:
       closed: Application has been closed
       returned: Application has been returned

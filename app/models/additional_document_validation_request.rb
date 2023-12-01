@@ -10,11 +10,34 @@ class AdditionalDocumentValidationRequest < ValidationRequest
   after_create :set_documents_missing
   before_destroy :reset_documents_missing
 
+  def can_upload?
+    open? && may_close?
+  end
+
+  def upload_files!(files)
+    transaction do
+      files.each do |file|
+        planning_application.documents.create!(file:, owner: self)
+      end
+      close!
+      audit_upload_files!
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    raise UploadFilesError, e.message
+  end
+
   private
 
   def set_documents_missing
     return if planning_application.documents_missing?
 
     planning_application.update!(documents_missing: true)
+  end
+
+  def audit_comment
+    {
+      document: document_request_type,
+      reason: reason
+    }.to_json
   end
 end

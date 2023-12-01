@@ -121,7 +121,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       expect(page).to have_content("Check all necessary documents have been provided and add requests for any missing documents.")
       expect(page).to have_link(
         "Add a request for a missing document",
-        href: new_planning_application_validation_additional_document_validation_request_path(planning_application)
+        href: new_planning_application_validation_validation_request_path(planning_application, type: "additional_document")
       )
 
       within(".govuk-table.current-documents") do
@@ -189,12 +189,12 @@ RSpec.describe "Requesting a new document for a planning application" do
       click_link "Add a request for a missing document"
       click_button "Save request"
 
-      within(".govuk-error-message#additional-document-validation-request-document-request-type-error") do
+      within(".govuk-error-message#validation-request-document-request-type-error") do
         expect(page).to have_content("Fill in the document request type.")
       end
 
-      within(".govuk-error-message#additional-document-validation-request-document-request-reason-error") do
-        expect(page).to have_content("Please fill in the reason for this document request.")
+      within(".govuk-error-message#validation-request-reason-error") do
+        expect(page).to have_content("Provide a reason for changes")
       end
     end
 
@@ -229,10 +229,9 @@ RSpec.describe "Requesting a new document for a planning application" do
       within(".govuk-table#additional-document-validation-requests-table") do
         expect(page).to have_content("New document requested")
         expect(page).to have_content("Document requested: #{additional_document_validation_request.document_request_type}")
-        expect(page).to have_content("Reason: #{additional_document_validation_request.document_request_reason}")
+        expect(page).to have_content("Reason: #{additional_document_validation_request.reason}")
         expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
-
       within(".govuk-button-group") do
         click_button "Save"
       end
@@ -265,7 +264,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         click_link "Edit request"
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/validation/additional_document_validation_requests/#{additional_document_validation_request.id}/edit"
+          "/planning_applications/#{planning_application.id}/validation/validation_requests/#{additional_document_validation_request.id}/edit"
         )
 
         fill_in "Please specify the new document type:", with: "Floor plans"
@@ -277,6 +276,8 @@ RSpec.describe "Requesting a new document for a planning application" do
         end
 
         expect(page).to have_content("Additional document request successfully updated")
+
+        visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
         within("#additional-documents-validation-task") do
           expect(page).to have_content("Invalid")
@@ -304,7 +305,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         end
 
         expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation/tasks")
-        expect(page).to have_content("Validation request was successfully deleted.")
+        expect(page).to have_content("Additional document request was successfully deleted.")
 
         within("#additional-documents-validation-task") do
           expect(page).to have_content("Not started")
@@ -337,13 +338,13 @@ RSpec.describe "Requesting a new document for a planning application" do
       within(".govuk-table#additional-document-validation-requests-table") do
         expect(page).to have_content("New document requested")
         expect(page).to have_content("Document requested: #{additional_document_validation_request.document_request_type}")
-        expect(page).to have_content("Reason: #{additional_document_validation_request.document_request_reason}")
+        expect(page).to have_content("Reason: #{additional_document_validation_request.reason}")
         expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
 
       expect(page).to have_link(
         "Cancel request",
-        href: cancel_confirmation_planning_application_validation_additional_document_validation_request_path(planning_application, additional_document_validation_request)
+        href: cancel_confirmation_planning_application_validation_validation_request_path(planning_application, additional_document_validation_request)
       )
       expect(page).not_to have_link("Edit request")
       expect(page).not_to have_link("Delete request")
@@ -364,7 +365,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       fill_in "Explain to the applicant why this request is being cancelled", with: "Mistake"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Validation request was successfully cancelled.")
+      expect(page).to have_content("Additional document request successfully cancelled.")
 
       within(".govuk-table.cancelled-requests") do
         within("#additional_document_validation_request_#{additional_document_validation_request.id}") do
@@ -396,7 +397,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     it "I cannot edit the request" do
-      visit "/planning_applications/#{planning_application.id}/validation/additional_document_validation_requests/#{additional_document_validation_request.id}/edit"
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{additional_document_validation_request.id}/edit"
 
       expect(page).to have_content("forbidden")
       expect(page).not_to have_link("Edit request")
@@ -427,7 +428,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       before do
         additional_document_validation_request.update(state: "closed")
-        additional_document_validation_request.documents << document
+        additional_document_validation_request.additional_documents << document
       end
 
       it "I can see the new document in the validate documents list" do

@@ -1,5 +1,1 @@
-<% if params[:request_type] %>
-  <%= render "planning_applications/validation/#{params[:request_type]}_validation_requests/new" %>
-<% else %>
-  <%= render "planning_applications/validation/#{params[:validation_request][:request_type]}_validation_requests/new" %>
-<% end %>
+<%= render "planning_applications/validation/#{@type.underscore}s/new" %>

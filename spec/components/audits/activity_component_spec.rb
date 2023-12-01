@@ -3,8 +3,6 @@
 require "rails_helper"
 
 RSpec.describe Audits::ActivityComponent, type: :component do
-  include PlanningApplication::ValidationRequests
-
   let(:planning_application) { create(:planning_application) }
 
   let(:audit_template) do

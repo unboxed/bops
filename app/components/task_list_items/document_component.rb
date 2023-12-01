@@ -12,7 +12,7 @@ module TaskListItems
     attr_reader :planning_application, :document
 
     def replacement_document_validation_request
-      document.validation_request
+      ReplacementDocumentValidationRequest.where(old_document: document).first
     end
 
     def link_text
@@ -31,8 +31,7 @@ module TaskListItems
       if status == :invalid
         planning_application_validation_validation_request_path(
           planning_application,
-          replacement_document_validation_request,
-          request_type: "replacement_document"
+          replacement_document_validation_request
         )
       else
         edit_planning_application_document_path(
@@ -48,7 +47,7 @@ module TaskListItems
         :valid
       elsif replacement_document_validation_request&.open_or_pending?
         :invalid
-      elsif ValidationRequest.find_by(old_document: document).present?
+      elsif ReplacementDocumentValidationRequest.find_by(new_document: document).present?
         :updated
       else
         :not_started

@@ -171,7 +171,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
       # Two maps should be displayed with the original geojson and what the proposed change was
       map_selectors = all("my-map")
-      red_line_boundary_change_validation_request = planning_application.red_line_boundary_change_validation_requests.last
+      red_line_boundary_change_validation_request = planning_application.validation_requests.red_line_boundary_changes.last
       expect(map_selectors.first["geojsondata"]).to eq(red_line_boundary_change_validation_request.original_geojson)
       expect(map_selectors.last["geojsondata"]).to eq(red_line_boundary_change_validation_request.new_geojson)
 
@@ -308,12 +308,11 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       expect(page).to have_content("Validation request for red line boundary successfully created.")
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/assessment/tasks"
+        "/planning_applications/#{planning_application.id}"
       )
 
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
 
-      click_link("Application")
       click_button "Audit log"
       click_link "View all audits"
 
@@ -346,7 +345,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       fill_in "Explain to the applicant why this request is being cancelled", with: "no longer needed"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Validation request was successfully cancelled.")
+      expect(page).to have_content("Red line boundary change request was successfully cancelled")
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 2)
 
       within(".cancelled-requests") do
@@ -367,7 +366,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "when applicant accepts the response" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :closed, approved: true, planning_application:)
+        create(:red_line_boundary_change_validation_request, :closed, applicant_approved: true, planning_application:)
       end
 
       it "I can view the accepted response" do
@@ -384,7 +383,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "when applicant rejects the response" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :closed, rejection_reason: "disagree", approved: false, planning_application:)
+        create(:red_line_boundary_change_validation_request, :closed, applicant_rejection_reason: "disagree", applicant_approved: false, planning_application:)
       end
 
       it "I can view the rejected response" do

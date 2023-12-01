@@ -15,13 +15,25 @@ module ValidationRequestHelper
   end
 
   def show_validation_request_link(application, request)
-    text = application.invalidated? ? t("planning_applications.validation.validation_requests.table.view") : t("planning_applications.validation.validation_requests.table.view_and_update")
+    text = (!application.validated?) ? t("planning_applications.validation.validation_requests.table.view_and_update") : t("planning_applications.validation.validation_requests.table.view")
     url = show_validation_request_url(application, request)
     link_to(text, url)
   end
 
   def show_validation_request_url(application, request)
-    polymorphic_path([application, :validation, request])
+    if request.type == "AdditionalDocumentValidationRequest"
+      show_additional_document_validation_request_url(application, request)
+    else
+      planning_application_validation_validation_request_path(application, request)
+    end
+  end
+
+  def show_additional_document_validation_request_url(application, request)
+    if request.post_validation?
+      planning_application_documents_path(application)
+    else
+      validation_documents_planning_application_path(application)
+    end
   end
 
   def display_request_date_state(validation_request)

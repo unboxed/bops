@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequest < ValidationRequest
+  RESPONSE_TIME_IN_DAYS = 5
+
   validates :proposed_description, presence: true
   validate :allows_only_one_open_description_change, on: :create
   validate :planning_application_has_not_been_determined, on: :create
@@ -8,7 +10,28 @@ class DescriptionChangeValidationRequest < ValidationRequest
 
   before_create :set_previous_application_description
 
+  def response_due
+    RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
+  end
+
   private
+
+  def create_audit!
+    create_audit_for!("sent")
+  end
+
+  def email_and_timestamp
+    send_description_request_email
+
+    mark_as_sent!
+  end
+
+  def audit_comment
+    {
+      previous: planning_application.description,
+      proposed: proposed_description
+    }.to_json
+  end
 
   def allows_only_one_open_description_change
     return if planning_application.nil?
@@ -43,5 +66,9 @@ class DescriptionChangeValidationRequest < ValidationRequest
     else
       {applicant_response: "rejected", reason: applicant_rejection_reason}.to_json
     end
+  end
+
+  def update_planning_application_for_auto_closed_request!
+    planning_application.update!(description: proposed_description)
   end
 end

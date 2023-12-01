@@ -30,7 +30,7 @@ RSpec.describe TaskListItems::OtherChangeRequestComponent, type: :component do
   it "renders link" do
     expect(page).to have_link(
       "View other validation request #1",
-      href: "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
+      href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{other_change_validation_request.id}"
     )
   end
 
@@ -41,7 +41,7 @@ RSpec.describe TaskListItems::OtherChangeRequestComponent, type: :component do
         planning_application:,
         sequence: 1,
         state: :closed,
-        response: "response"
+        applicant_response: "response"
       )
     end
 

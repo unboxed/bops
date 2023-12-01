@@ -116,7 +116,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
 
     describe "#close" do
       it "sets a closed_at timestamp on the associated validation request" do
-        request.update(applicant_response: "a response") if request_type == "other_change_validation_request"
+        request.update(applicant_response: "a response") if request.type == "OtherChangeValidationRequest"
         request.close!
 
         expect(request.state).to eq("closed")

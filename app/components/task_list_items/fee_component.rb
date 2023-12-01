@@ -27,8 +27,7 @@ module TaskListItems
       else
         planning_application_validation_validation_request_path(
           planning_application,
-          fee_item_validation_requests.not_cancelled.last,
-          request_type: "fee_change"
+          fee_item_validation_requests.not_cancelled.last
         )
       end
     end

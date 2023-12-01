@@ -17,7 +17,8 @@ module AccordionSections
         )
       else
         new_planning_application_validation_validation_request_path(
-          planning_application
+          planning_application,
+          type: "red_line_boundary_change"
         )
       end
     end

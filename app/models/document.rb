@@ -4,23 +4,28 @@ class Document < ApplicationRecord
   class NotArchiveableError < StandardError; end
 
   belongs_to :planning_application
-  belongs_to :owner, optional: true, polymorphic: true
-  belongs_to :evidence_group, optional: true
-  belongs_to :site_visit, optional: true
-  belongs_to :site_notice, optional: true
-  belongs_to :neighbour_response, optional: true
 
-  has_one :replacement_document_validation_request, foreign_key: "old_document_id"
+  with_options optional: true do
+    belongs_to :user
+    belongs_to :api_user
+    belongs_to :owner, polymorphic: true
+    belongs_to :evidence_group
+    belongs_to :site_visit
+    belongs_to :site_notice
+    belongs_to :neighbour_response
+  end
+
+  has_one :replacement_document_validation_request,
+    lambda { |document|
+      unscope(:where).where(old_document_id: document.id, cancelled_at: nil)
+    },
+    dependent: :destroy,
+    inverse_of: false
 
   delegate :audits, to: :planning_application
   delegate :representable?, to: :file
 
   include Auditable
-
-  with_options optional: true do
-    belongs_to :user
-    belongs_to :api_user
-  end
 
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
@@ -109,7 +114,7 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { where(site_visit_id: nil, site_notice_id: nil, press_notice_id: nil) }
+  # default_scope -> { where(site_visit_id: nil, site_notice_id: nil, press_notice_id: nil) }
 
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }
@@ -157,7 +162,7 @@ class Document < ApplicationRecord
   end
 
   def archive(archive_reason)
-    if owner.try(:open_or_pending?)
+    if replacement_document_validation_request.try(:open_or_pending?)
       raise NotArchiveableError,
         "Cannot archive document with an open or pending validation request"
     end
@@ -201,7 +206,7 @@ class Document < ApplicationRecord
   end
 
   def invalidated_document_reason
-    owner.try(:reason) || super
+    replacement_document_validation_request.try(:reason) || super
   end
 
   def image_url(resize_to_limit = [1000, 1000])
@@ -231,7 +236,7 @@ class Document < ApplicationRecord
   private
 
   def no_open_replacement_request
-    return unless owner&.type == "ReplacementDocumentValidationRequest" && owner&.open_or_pending?
+    return unless replacement_document_validation_request&.open_or_pending?
 
     errors.add(:file, :open_replacement_request)
   end
@@ -271,8 +276,7 @@ class Document < ApplicationRecord
 
   def reset_replacement_document_validation_request_update_counter!
     return unless validated? || archived?
-
-    return unless (request = ValidationRequest.find_by(new_document_id: id))
+    return unless (request = owner)
 
     request.reset_update_counter!
   end

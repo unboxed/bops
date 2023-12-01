@@ -7,6 +7,7 @@ FactoryBot.define do
     state { "open" }
     reason { "Incorrect fee" }
     post_validation { false }
+    type { "OtherChangeValidationRequest" }
 
     specific_attributes do
       {

@@ -26,7 +26,7 @@
       <p class="govuk-body">
         <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
       </p>
-      <%= form_with model: [@planning_application, :validation, @validation_request] do |form| %>
+      <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
         <% if @validation_request.errors.any? %>
           <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
             <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -52,12 +52,12 @@
           </p>
           <p class="govuk-body">
             <span class="govuk-caption-m">
-              Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.rejection_reason %>
+              Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.applicant_rejection_reason %>
             </span>
           </p>
         <% end %>
         <%= form.hidden_field(:return_to, value: @back_path) %>
-        <%= form.hidden_field(:request_type, value: "description_change") %>
+        <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
         <%= form.govuk_text_area :proposed_description,
       label: { text: 'Please suggest a new application description', class: 'govuk-label govuk-label--s'},
       rows: 5 %>

@@ -23,7 +23,7 @@ module PlanningApplications
               flash.now[:alert] = t(".failure")
               render :show
             else
-              redirect_to new_planning_application_validation_validation_request_path(request_type: "red_line_boundary_change")
+              redirect_to new_planning_application_validation_validation_request_path(type: "red_line_boundary_change")
             end
           end
         end

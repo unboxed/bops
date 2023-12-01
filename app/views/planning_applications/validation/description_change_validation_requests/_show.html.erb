@@ -40,6 +40,7 @@
           @planning_application,
           @validation_request
         ),
+        scope: :validation_request,
         method: :patch
       ) do |form| %>
         <%= form.hidden_field(:return_to, value: @back_path) %>

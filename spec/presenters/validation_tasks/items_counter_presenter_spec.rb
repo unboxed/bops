@@ -17,7 +17,7 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
 
       before do
         create(:replacement_document_validation_request, :pending, planning_application:)
-        create(:other_change_validation_request, :fee, :pending, planning_application:)
+        create(:fee_change_validation_request, :pending, planning_application:)
         create(:additional_document_validation_request, :pending, planning_application:)
         create(:red_line_boundary_change_validation_request, :pending, planning_application:)
         create(:other_change_validation_request, :pending, planning_application:)
@@ -39,7 +39,7 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
       let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
 
       before do
-        create(:other_change_validation_request, :fee, :open, planning_application:, response: "ok")
+        create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok")
         create(:replacement_document_validation_request, :open, planning_application:)
         create(:other_change_validation_request, :open, planning_application:)
       end
@@ -128,15 +128,15 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple fee item validation requests" do
-      let!(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application:, response: "ok") }
+      let!(:fee_item_validation_request) { create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok") }
 
       before do
         fee_item_validation_request.close!
-        create(:other_change_validation_request, :fee, :open, planning_application:, response: "ok")
+        create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok")
       end
 
       it "the updated count only includes the latest closed fee item change validation request" do
-        OtherChangeValidationRequest.fee_item.open.last.close!
+        FeeChangeValidationRequest.open.last.close!
 
         expect(items_count_hash).to eq(
           {
@@ -156,7 +156,7 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
       end
 
       it "when fee is made valid it resets the update counter" do
-        OtherChangeValidationRequest.fee_item.last.close!
+        FeeChangeValidationRequest.last.close!
         planning_application.update!(valid_fee: true)
 
         expect(items_count_hash).to eq(
@@ -169,11 +169,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple other validation requests" do
-      let!(:other_change_validation_request) { create(:other_change_validation_request, :open, planning_application:, response: "ok") }
+      let!(:other_change_validation_request) { create(:other_change_validation_request, :open, planning_application:, applicant_response: "ok") }
 
       before do
         other_change_validation_request.close!
-        create(:other_change_validation_request, :open, planning_application:, response: "ok")
+        create(:other_change_validation_request, :open, planning_application:, applicant_response: "ok")
       end
 
       it "the updated count includes all the closed other change validation requests" do

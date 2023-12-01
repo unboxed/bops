@@ -1,6 +1,6 @@
 <% if request.present? %>
   <p class="govuk-body-s">
-    <%= t(".proposed_a_new", user: request.user.name) %><br>
+    <%= t(".proposed_a_new", user: request&.user&.name) %><br>
     <%= t(".reason") %> <%= request.reason %><br>
     <%= t(".proposed") %> <%= request.created_at.to_fs %><br>
     <% if request.auto_closed? %>

@@ -24,7 +24,7 @@ module PlanningApplications
               render :show
             else
               redirect_to new_planning_application_validation_validation_request_path(@planning_application,
-                request_type: "fee_change")
+                type: "fee_change")
             end
           end
         end

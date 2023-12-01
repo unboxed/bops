@@ -37,7 +37,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
 
     expect(page).to have_link(
       "Propose a change to the description",
-      href: "/planning_applications/#{planning_application.id}/validation/description_change_validation_requests/new"
+      href: "/planning_applications/#{planning_application.id}/validation/validation_requests/new?type=description_change"
     )
   end
 
@@ -138,7 +138,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
 
       expect(page).to have_link(
         "View requested change",
-        href: "/planning_applications/#{planning_application.id}/validation/description_change_validation_requests/#{description_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{description_change_validation_request.id}"
       )
     end
   end

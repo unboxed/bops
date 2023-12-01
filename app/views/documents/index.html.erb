@@ -44,7 +44,7 @@
   <% if @planning_application.validated? %>
     <%= link_to(
        t(".request_a_new"),
-       new_planning_application_validation_validation_request_path(@planning_application, request_type: "additional_document"),
+       new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"),
        role: "button",
        class: "govuk-button",
        data: { module: "govuk-button" }

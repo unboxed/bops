@@ -314,7 +314,7 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
-      redirect_to planning_application_validation_fee_items_path(@planning_application, validate_fee: "yes"),
+      redirect_to planning_application_validation_fee_items_path(@planning_application),
         notice: t(".edit_payment_amount")
     when :edit_public_comment
       redirect_to edit_planning_application_assessment_recommendations_path(@planning_application),

@@ -7,8 +7,8 @@ Given("a rejected description change request") do
     :description_change_validation_request,
     planning_application: @planning_application,
     state: "closed",
-    approved: false,
-    rejection_reason: "Spelling mistakes"
+    applicant_approved: false,
+    applicant_rejection_reason: "Spelling mistakes"
   )
 end
 
@@ -24,7 +24,7 @@ Given("I create a description change request with {string}") do |details|
 end
 
 When("I visit the new description change request link") do
-  visit "/planning_applications/#{@planning_application.id}/validation/description_change_validation_requests/new"
+  visit "/planning_applications/#{@planning_application.id}/validation/validation_requests/new?type=description_change"
 end
 
 When("I cancel the existing description change request") do
@@ -42,7 +42,7 @@ When("the description change request has been auto-closed after 5 days") do
 end
 
 When("the request has been responded to") do
-  @planning_application.validation_requests.description_changes.last.update!(state: "closed", approved: true)
+  @planning_application.validation_requests.description_changes.last.update!(state: "closed", applicant_approved: true)
 end
 
 When("the description request has been auto-closed") do

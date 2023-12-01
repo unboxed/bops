@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ValidationRequest < ApplicationRecord
+  RESPONSE_TIME_IN_DAYS = 15
+
   REQUEST_TYPES = %w[
     AdditionalDocumentValidationRequest
     DescriptionChangeValidationRequest
@@ -35,12 +37,12 @@ class ValidationRequest < ApplicationRecord
 
   belongs_to :planning_application
   belongs_to :user
+  belongs_to :old_document, class_name: "Document", optional: true
 
   validates :type, presence: true, inclusion: {in: REQUEST_TYPES}
-  validates :cancel_reason, presence: true, if: :cancelled?
 
   scope :closed, -> { where(state: "closed") }
-  scope :active, -> { where.not(state: "cancelled").or(where.not(state: "closed")) }
+  scope :active, -> { where.not(state: "cancelled") }
   scope :cancelled, -> { where(state: "cancelled") }
   scope :pending, -> { where(state: "pending") }
   scope :not_cancelled, -> { where(cancelled_at: nil) }
@@ -49,13 +51,11 @@ class ValidationRequest < ApplicationRecord
   scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
   scope :pre_validation, -> { where(post_validation: false) }
   scope :overdue, -> { where(state: ["open", "overdue"]) }
-  scope :responded, -> { where.not(applicant_response: nil) }
+  scope :responded, -> { where.not(applicant_response: nil).or(where(applicant_approved: true)) }
+  scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
-  before_create lambda {
-                  reset_validation_requests_update_counter!(planning_application.validation_requests)
-                }
   before_create :set_sequence
   before_create :ensure_planning_application_not_closed_or_cancelled!
   after_create :set_post_validation!, if: :planning_application_validated?
@@ -110,11 +110,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def response_due
-    if description_change?
-      5.business_days.after(created_at.to_date)
-    else
-      15.business_days.after(created_at.to_date)
-    end
+    RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
   end
 
   def days_until_response_due
@@ -149,8 +145,11 @@ class ValidationRequest < ApplicationRecord
     transaction do
       cancel!
       reset_columns
-      audit!(activity_type: "#{type.underscore}_#{cancel_audit_event}", activity_information: sequence,
-        audit_comment: {cancel_reason:}.to_json)
+      audit!(
+        activity_type: "#{type.underscore}_#{cancel_audit_event}",
+        activity_information: sequence,
+        audit_comment: {cancel_reason:}.to_json
+      )
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise RecordCancelError, e.message
@@ -180,22 +179,6 @@ class ValidationRequest < ApplicationRecord
     end
 
     create_audit_for!(event)
-  end
-
-  def can_upload?
-    open? && may_close?
-  end
-
-  def upload_files!(files)
-    transaction do
-      files.each do |file|
-        planning_application.documents.create!(file:, owner: self)
-      end
-      close!
-      audit_upload_files!
-    end
-  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
-    raise UploadFilesError, e.message
   end
 
   def open_or_pending?
@@ -278,32 +261,6 @@ class ValidationRequest < ApplicationRecord
     )
   end
 
-  def audit_comment
-    if fee_change? || other_change?
-      {
-        reason:,
-        suggestion:
-      }.to_json
-    elsif red_line_boundary_change?
-      reason
-    elsif description_change?
-      {
-        previous: planning_application.description,
-        proposed: proposed_description
-      }.to_json
-    elsif additional_document?
-      {
-        document: document_request_type,
-        reason:
-      }.to_json
-    elsif replacement_document?
-      {
-        old_document: old_document.name,
-        reason:
-      }.to_json
-    end
-  end
-
   def audit_upload_files!
     audit!(
       activity_type: "additional_document_validation_request_received",
@@ -317,19 +274,14 @@ class ValidationRequest < ApplicationRecord
   end
 
   def email_and_timestamp
-    if description_change?
-      send_description_request_email
+    return unless planning_application.validation_complete?
 
+    if post_validation?
+      send_post_validation_request_email
     else
-      return unless planning_application.validation_complete?
-
-      if post_validation?
-        send_post_validation_request_email
-      else
-        send_validation_request_email
-      end
-
+      send_validation_request_email
     end
+
     mark_as_sent!
   end
 
@@ -388,17 +340,6 @@ class ValidationRequest < ApplicationRecord
     reset_red_line_boundary_invalidation if red_line_boundary_change?
   end
 
-  def reset_document_invalidation
-    transaction do
-      planning_application.validation_requests.replacement_documents.closed.select do |request|
-        request.new_document == old_document
-      end.first&.update_counter!
-      old_document.update!(invalidated_document_reason: nil, validated: nil)
-    end
-  rescue ActiveRecord::ActiveRecordError => e
-    raise ResetDocumentInvalidationError, e.message
-  end
-
   def reset_red_line_boundary_invalidation
     transaction do
       planning_application.validation_requests.red_line_boundary_changes.closed.max_by(&:closed_at)&.update_counter!
@@ -414,16 +355,6 @@ class ValidationRequest < ApplicationRecord
     planning_application.update!(documents_missing: nil)
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetDocumentsMissingError, e.message
-  end
-
-  def update_planning_application_for_auto_closed_request!
-    planning_application.update!(description: proposed_description)
-  end
-
-  def reset_replacement_document_validation_request_update_counter!
-    request = ValidationRequest.find_by(new_document_id: old_document_id)
-
-    request&.reset_update_counter!
   end
 
   def ensure_planning_application_not_closed_or_cancelled!

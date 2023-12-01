@@ -11,7 +11,10 @@ FactoryBot.define do
 
     trait :with_response do
       state { "closed" }
-      new_document factory: :document
+
+      after(:create) do |request|
+        create(:document, owner: request)
+      end
     end
 
     trait :pending do
