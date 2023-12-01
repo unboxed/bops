@@ -72,10 +72,8 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.action_mailer.default_url_options = { host: (ENV["DOMAIN"] || "bops-care.link"), port: 3000 }
+  config.action_mailer.default_url_options = { host: (ENV["DOMAIN"] || "bops.localhost"), port: 3000 }
 
-  config.hosts << ".bops-care.link"
-  config.hosts << "southwark.bops.web"
   config.hosts << "southwark.bops.localhost"
 
   # Allow web-console connections into docker
