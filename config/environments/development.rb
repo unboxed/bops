@@ -74,7 +74,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: (ENV["DOMAIN"] || "bops.localhost"), port: 3000 }
 
-  config.hosts << "southwark.bops.localhost"
+  # Allow connections on any bops.localhost subdomain
+  config.hosts << /[a-z][-a-z0-9]{0,62}\.bops\.localhost/
 
   # Allow web-console connections into docker
   config.web_console.permissions = %w( 127.0.0.1 ::1 172.23.9.254 )

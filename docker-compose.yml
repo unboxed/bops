@@ -49,6 +49,8 @@ services:
     networks:
       default:
         aliases:
+          - buckinghamshire.bops.localhost
+          - lambeth.bops.localhost
           - southwark.bops.localhost
     volumes:
       - type: bind
