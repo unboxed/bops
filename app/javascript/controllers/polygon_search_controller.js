@@ -91,9 +91,9 @@ export default class extends Controller {
     const container = this.getAddressContainer()
 
     addresses.forEach((address, index) => {
-      const addressDiv = this.createAddressElement(address, index)
+      const addressDiv = this.createAddressElement(address.ADDRESS, index)
 
-      const hiddenInput = this.createHiddenInputElement(address, index)
+      const hiddenInput = this.createHiddenInputElement(address.ADDRESS, index)
       this.getConsultationNeighbourAddressesForm().appendChild(hiddenInput)
 
       container.appendChild(addressDiv)

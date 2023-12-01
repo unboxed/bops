@@ -22,7 +22,7 @@ module Apis
         end
 
         data = JSON.parse(response.body)
-        data["results"]&.map { |result| result["DPA"]["ADDRESS"] } || []
+        data["results"]&.map { |result| result["DPA"] } || []
       end
 
       private

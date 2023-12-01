@@ -59,7 +59,8 @@ RSpec.describe Apis::OsPlaces::Client, exclude_stub_any_os_places_api_request: t
         }
       )
 
-      expect(result).to eq(["5, COXSON WAY, LONDON, SE1 2XB", "6, COXSON WAY, LONDON, SE1 2XB"])
+      expect(result).to contain_exactly(hash_including("ADDRESS" => "5, COXSON WAY, LONDON, SE1 2XB"),
+        hash_including("ADDRESS" => "6, COXSON WAY, LONDON, SE1 2XB"))
     end
   end
 end
