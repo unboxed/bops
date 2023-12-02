@@ -1,4 +1,4 @@
-DOCKER-RUN = docker compose run --rm
+DOCKER-RUN = docker compose --profile console run --rm
 
 .DEFAULT_GOAL := up
 
@@ -13,46 +13,49 @@ down:
 	docker compose down
 
 prompt:
-	$(DOCKER-RUN) web bash
+	$(DOCKER-RUN) console bash
 
 aprompt:
-	$(DOCKER-RUN) applicants bash
+	$(DOCKER-RUN) aconsole bash
 
 console:
-	$(DOCKER-RUN) web rails console
+	$(DOCKER-RUN) console rails console
+
+aconsole:
+	$(DOCKER-RUN) aconsole rails console
 
 migrate:
-	$(DOCKER-RUN) web rails db:migrate
+	$(DOCKER-RUN) console rails db:migrate
 
 rollback:
-	$(DOCKER-RUN) web rails db:rollback
+	$(DOCKER-RUN) console rails db:rollback
 
 locales:
-	$(DOCKER-RUN) web i18n-tasks normalize
+	$(DOCKER-RUN) console i18n-tasks normalize
 
 api-docs:
-	$(DOCKER-RUN) web rake api:docs:generate
+	$(DOCKER-RUN) console rake api:docs:generate
 
 api-specs:
-	$(DOCKER-RUN) web rspec engines/bops_api/spec
+	$(DOCKER-RUN) console rspec engines/bops_api/spec
 
 rspec:
-	$(DOCKER-RUN) web rspec
+	$(DOCKER-RUN) console rspec
 
 cucumber:
-	$(DOCKER-RUN) web cucumber
+	$(DOCKER-RUN) console cucumber
 
 guard:
-	$(DOCKER-RUN) web $(BUNDLE-EXEC) guard
+	$(DOCKER-RUN) console $(BUNDLE-EXEC) guard
 
 db-prompt:
-	$(DOCKER-RUN) web psql postgres://postgres:postgres@db
+	$(DOCKER-RUN) console psql postgres://postgres:postgres@db
 
 lint:
-	$(DOCKER-RUN) web rubocop
+	$(DOCKER-RUN) console rubocop
 
 lint-auto-correct:
-	$(DOCKER-RUN) web rubocop --auto-correct-all
+	$(DOCKER-RUN) console rubocop --auto-correct-all
 
 # this regenerates the Rubocop TODO and ensures that cops aren't
 # turned off over a max number of file offenses. Note: we don't want
