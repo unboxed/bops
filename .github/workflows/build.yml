@@ -70,6 +70,15 @@ jobs:
       want-pdf: true
     secrets: inherit
 
+  docker-dnsmasq:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      test-runner: "docker"
+      dockerfile: docker/dnsmasq/Dockerfile
+      context: docker/dnsmasq
+    secrets: inherit
+
   docker-postgis:
     uses: ./.github/workflows/testing.yml
     with:
