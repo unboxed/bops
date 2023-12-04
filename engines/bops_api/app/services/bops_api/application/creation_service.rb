@@ -136,6 +136,10 @@ module BopsApi
           end
         end
       end
+
+      def possibly_immune?(planning_application)
+        planning_application.immune_proposal_details.many?
+      end
     end
   end
 end

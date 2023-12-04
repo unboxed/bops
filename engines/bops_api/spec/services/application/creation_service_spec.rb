@@ -333,6 +333,17 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect { create_planning_application }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
+
+      context "when application may be immune" do
+        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read)) }
+        let(:service) { described_class.new(local_authority:, user:, params:) }
+
+        it "returns true for possibly_immune?" do
+          # TODO remove this disgusting invasion of privacy
+          planning_application = service.send(:build_planning_application)
+          expect(service.send(:possibly_immune?, planning_application)).to be true
+        end
+      end
     end
 
     context "when a planning application is provided" do
