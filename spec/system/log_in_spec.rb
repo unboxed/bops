@@ -57,22 +57,20 @@ RSpec.describe "Sign in" do
     end
 
     context "when user is an administrator" do
-      let(:password) { secure_password }
       let!(:administrator) do
         create(
           :user,
           :administrator,
           confirmed_at: Time.zone.now,
           local_authority: default_local_authority,
-          email: "alice@example.com",
-          password:
+          email: "alice@example.com"
         )
       end
 
       it "redirects to the users dashboard" do
         visit "/users/sign_in"
         fill_in("Email", with: "alice@example.com")
-        fill_in("Password", with: password)
+        fill_in("Password", with: administrator.password)
         click_button("Log in")
         fill_in("Security code", with: administrator.current_otp)
         click_button("Enter code")
@@ -88,13 +86,11 @@ RSpec.describe "Sign in" do
     context "with a user belonging to a given subdomain" do
       let!(:lambeth) { create(:local_authority, :lambeth) }
       let!(:southwark) { create(:local_authority, :southwark) }
-      let(:lambeth_password) { secure_password }
-      let(:southwark_password) { secure_password }
       let(:lambeth_assessor) do
-        create(:user, :assessor, name: "Lambertina Lamb", password: lambeth_password, local_authority: lambeth)
+        create(:user, :assessor, name: "Lambertina Lamb", local_authority: lambeth)
       end
       let(:southwark_assessor) do
-        create(:user, :assessor, name: "Southwarkina Sully", password: southwark_password, local_authority: southwark)
+        create(:user, :assessor, name: "Southwarkina Sully", local_authority: southwark)
       end
 
       before do
@@ -110,7 +106,7 @@ RSpec.describe "Sign in" do
         visit "/"
 
         fill_in("user[email]", with: southwark_assessor.email)
-        fill_in("user[password]", with: southwark_password)
+        fill_in("user[password]", with: southwark_assessor.password)
         click_button("Log in")
 
         expect(page).to have_text("Email")
@@ -121,7 +117,7 @@ RSpec.describe "Sign in" do
         visit "/"
 
         fill_in("user[email]", with: lambeth_assessor.email)
-        fill_in("user[password]", with: lambeth_password)
+        fill_in("user[password]", with: lambeth_assessor.password)
         click_button("Log in")
         fill_in("Security code", with: lambeth_assessor.current_otp)
         click_button("Enter code")
@@ -328,20 +324,18 @@ RSpec.describe "Sign in" do
     end
 
     context "when otp delivery method is set to email" do
-      let(:password) { secure_password }
       let(:user) do
         create(
           :user,
           local_authority: default_local_authority,
-          otp_delivery_method: :email,
-          password:
+          otp_delivery_method: :email
         )
       end
 
       it "sends otp via email" do
         visit "/"
         fill_in("Email", with: user.email)
-        fill_in("Password", with: password)
+        fill_in("Password", with: user.password)
         click_button("Log in")
 
         expect(page).to have_content(
@@ -368,7 +362,7 @@ RSpec.describe "Sign in" do
       it "resends otp via email" do
         visit "/"
         fill_in("Email", with: user.email)
-        fill_in("Password", with: password)
+        fill_in("Password", with: user.password)
         click_button("Log in")
 
         travel_to(1.1.minutes.from_now) do
@@ -395,13 +389,11 @@ RSpec.describe "Sign in" do
       end
 
       context "when mobile number is not set" do
-        let(:password) { secure_password }
         let(:user) do
           create(
             :user,
             local_authority: default_local_authority,
             otp_delivery_method: :email,
-            password:,
             mobile_number: nil
           )
         end
@@ -409,7 +401,7 @@ RSpec.describe "Sign in" do
         it "does not ask for mobile number" do
           visit "/"
           fill_in("Email", with: user.email)
-          fill_in("Password", with: password)
+          fill_in("Password", with: user.password)
           click_button("Log in")
 
           email = ActionMailer::Base.deliveries.last

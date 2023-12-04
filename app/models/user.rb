@@ -19,6 +19,10 @@ class User < ApplicationRecord
 
   before_create :generate_otp_secret
 
+  before_validation on: :create do
+    self.password = self.password_confirmation = PasswordGenerator.call
+  end
+
   validates :mobile_number, phone_number: true
   validates :password, password_strength: {use_dictionary: true}, unless: ->(user) { user.password.blank? }
   validate :password_complexity

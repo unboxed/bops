@@ -3,9 +3,6 @@
   <%= form.govuk_fieldset(legend: { text: nil }) do %>
     <%= form.govuk_text_field :name, class: "govuk-input--width-30" %>
     <%= form.govuk_text_field :email, class: "govuk-input--width-30" %>
-    <% if local_assigns.fetch(:include_password, true) %>
-      <%= form.hidden_field :password, value: PasswordGenerator.call %>
-    <% end %>
     <%= form.govuk_text_field :mobile_number, class: "govuk-input--width-30" %>
     <%= form.govuk_collection_select(
       :otp_delivery_method,

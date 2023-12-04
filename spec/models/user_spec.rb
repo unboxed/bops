@@ -104,11 +104,6 @@ RSpec.describe User do
     expect(user.role).to eq "assessor"
   end
 
-  it "is not created without a password" do
-    user_without_password = build(:user, password: nil)
-    expect(user_without_password).not_to be_valid
-  end
-
   it "is not created without an email" do
     email = build(:user, email: nil)
     expect(email).not_to be_valid
