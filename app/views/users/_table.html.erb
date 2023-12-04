@@ -10,6 +10,7 @@
         <%= t(".mobile_number") %>
       </th>
       <th scope="col" class="govuk-table__header"><%= t(".role") %></th>
+      <th scope="col" class="govuk-table__header"><%= t(".confirmed") %></th>
       <th scope="col" class="govuk-table__header">
         <%= t(".otp_required_for_login") %>
       </th>
@@ -32,6 +33,7 @@
           ) %>
         </td>
         <td class="govuk-table__cell"><%= user.role.capitalize %></td>
+        <td class="govuk-table__cell"><%= t(".#{user.confirmed?}") %></td>
         <td class="govuk-table__cell">
           <%= t(".#{user.otp_required_for_login}") %>
         </td>
