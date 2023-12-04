@@ -1,5 +1,90 @@
 ---
+x-bops: &bops
+  image: bops/ruby
+  build: docker/ruby
+  working_dir: /home/rails/bops
+  init: true
+  stdin_open: true
+  tty: true
+  depends_on:
+    - db
+    - dnsmasq
+    - redis
+  dns:
+    - 172.23.9.53
+  environment:
+    DATABASE_URL: postgres://postgres:postgres@db:5432
+    GROVER_NO_SANDBOX: "true"
+    PIDFILE: /tmp/pids/server.pid
+    OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
+    REDIS_URL: redis://redis:6379/1
+    PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
+    NOTIFY_API_KEY: ${NOTIFY_API_KEY}
+    NOTIFY_LETTER_API_KEY: ${NOTIFY_LETTER_API_KEY}
+    RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION: "true"
+  volumes:
+    - type: bind
+      source: .
+      target: /home/rails/bops
+    - type: volume
+      source: bundle
+      target: /home/rails/bundle
+    - type: volume
+      source: node_modules
+      target: /home/rails/bops/node_modules
+    - type: tmpfs
+      target: /tmp/pids
+      tmpfs:
+        mode: 0777
+
+x-applicants: &applicants
+  image: bops/applicants
+  build: bops-applicants/docker/ruby
+  working_dir: /home/rails/bops-applicants
+  init: true
+  stdin_open: true
+  tty: true
+  depends_on:
+    - web
+  dns:
+    - 172.23.9.53
+  environment:
+    API_BEARER: 123
+    API_HOST: bops.localhost:3000
+    API_USER: api_user
+    PIDFILE: /tmp/pids/server.pid
+    PORT: 3001
+    PROTOCOL: http
+    OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
+  volumes:
+    - type: bind
+      source: bops-applicants
+      target: /home/rails/bops-applicants
+    - type: volume
+      source: applicants_bundle
+      target: /home/rails/bundle
+    - type: volume
+      source: applicants_node_modules
+      target: /home/rails/bops-applicants/node_modules
+    - type: tmpfs
+      target: /tmp/pids
+      tmpfs:
+        mode: 0777
+
 services:
+  dnsmasq:
+    image: bops/dnsmasq
+    build: docker/dnsmasq
+    volumes:
+      - type: bind
+        source: docker/dnsmasq/dnsmasq.conf
+        target: /etc/dnsmasq.conf
+    cap_add:
+      - NET_ADMIN
+    networks:
+      default:
+        ipv4_address: 172.23.9.53
+
   db:
     image: bops/postgis
     build: docker/postgis
@@ -24,83 +109,34 @@ services:
         target: /var/lib/redis/data
 
   web:
-    image: bops/ruby
-    build: docker/ruby
-    working_dir: /home/rails/bops
+    <<: *bops
     command: ["foreman", "start", "-f", "Procfile.dev"]
-    init: true
-    stdin_open: true
-    tty: true
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432
-      GROVER_NO_SANDBOX: "true"
-      PIDFILE: /tmp/pids/server.pid
-      OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
-      REDIS_URL: redis://redis:6379/1
-      PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
-      NOTIFY_API_KEY: ${NOTIFY_API_KEY}
-      NOTIFY_LETTER_API_KEY: ${NOTIFY_LETTER_API_KEY}
-      RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION: "true"
     ports:
       - "127.0.0.1:3000:3000"
-    depends_on:
-      - db
-      - redis
     networks:
       default:
-        aliases:
-          - southwark.bops.localhost
-    volumes:
-      - type: bind
-        source: .
-        target: /home/rails/bops
-      - type: volume
-        source: bundle
-        target: /home/rails/bundle
-      - type: volume
-        source: node_modules
-        target: /home/rails/bops/node_modules
-      - type: tmpfs
-        target: /tmp/pids
-        tmpfs:
-          mode: 0777
+        ipv4_address: 172.23.9.30
+
+  console:
+    <<: *bops
+    command: ["/bin/bash"]
+    profiles:
+      - console
 
   applicants:
-    image: bops/applicants
-    build: bops-applicants/docker/ruby
-    working_dir: /home/rails/bops-applicants
+    <<: *applicants
     command: ["foreman", "start", "-f", "Procfile.dev"]
-    init: true
-    stdin_open: true
-    tty: true
-    environment:
-      API_BEARER: 123
-      API_HOST: bops.localhost:3000
-      API_USER: api_user
-      PIDFILE: /tmp/pids/server.pid
-      PORT: 3001
-      PROTOCOL: http
-      OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
     ports:
       - "127.0.0.1:3001:3001"
     networks:
       default:
-        aliases:
-          - southwark.bops-applicants.localhost
-    volumes:
-      - type: bind
-        source: bops-applicants
-        target: /home/rails/bops-applicants
-      - type: volume
-        source: applicants_bundle
-        target: /home/rails/bundle
-      - type: volume
-        source: applicants_node_modules
-        target: /home/rails/bops-applicants/node_modules
-      - type: tmpfs
-        target: /tmp/pids
-        tmpfs:
-          mode: 0777
+        ipv4_address: 172.23.9.31
+
+  aconsole:
+    <<: *applicants
+    command: ["/bin/bash"]
+    profiles:
+      - console
 
 networks:
   default:

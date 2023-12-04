@@ -87,25 +87,18 @@ $ bin/dev
 
 ## Subdomains
 
-Because of the local authority being inferred on the request's
-subdomain, your options to get the application working locally include using Docker or
-using the `bops-care.link` domain which points back to your localhost:
+Because of the local authority being inferred on the request's subdomain,
+your options to get the application working locally include using Docker or
+using the `bops.localhost` domain which points back to your localhost:
 
 ```
-http://southwark.bops-care.link:3000/
-http://lambeth.bops-care.link:3000/
-http://buckinghamshire.bops-care.link:3000/
+http://southwark.bops.localhost:3000/
+http://lambeth.bops.localhost:3000/
+http://buckinghamshire.bops.localhost:3000/
 ```
 
-Otherwise you can use localhost though you'll have to double the
-subdomain since `localhost` is missing the second component found in
-`normal-domains.com`.
-
-```
-http://southwark.southwark.localhost:3000/
-http://lambeth.lambeth.localhost:3000/
-http://buckinghamshire.buckinghamshire.localhost:3000/
-```
+This should happen automatically but may require adding the hosts to `/etc/hosts`
+if your specific system/browser config doesn't work.
 
 ## GOV.UK Notify
 
