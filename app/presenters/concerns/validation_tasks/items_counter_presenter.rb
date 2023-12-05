@@ -22,7 +22,7 @@ module ValidationTasks
     attr_reader :validation_requests
 
     def invalid_items_count
-      validation_requests.where(state: ["open", "pending"]).count
+      validation_requests.count(&:open_or_pending?)
     end
 
     def updated_items_count

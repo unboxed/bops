@@ -173,7 +173,7 @@ RSpec.describe "FeeItemsValidation" do
       click_button "Save"
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation/validation_requests/new?type=fee_change"
+        "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/new?type=fee_change"
       )
       expect(page).to have_content("Request other validation change (fee)")
       expect(page).to have_content("Application number: #{planning_application.reference}")
@@ -219,7 +219,7 @@ RSpec.describe "FeeItemsValidation" do
       other_change_validation_request = FeeChangeValidationRequest.last
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation/validation_requests/#{other_change_validation_request.id}"
+        "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{other_change_validation_request.id}"
       )
       expect(page).to have_content("View other request (fee)")
       expect(page).to have_content("Officer request")

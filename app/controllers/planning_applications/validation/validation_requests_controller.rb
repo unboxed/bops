@@ -227,11 +227,7 @@ module PlanningApplications
       end
 
       def set_type
-        @type = if params[:type]
-          params.permit(:type)[:type] + "_validation_request"
-        else
-          params.require(:validation_request).permit(:type)[:type]
-        end
+        @type = request.path[/(?<=\/validation\/)(.*)(?=s\/)/]
       end
     end
   end

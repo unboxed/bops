@@ -1,5 +1,5 @@
 <p class="govuk-body-s">
-  <%= t(".requested_a_new", name: request&.user&.name) %><br>
+  <%= t(".requested_a_new", name: request&.sent_by&.name) %><br>
   <%= request.document_request_type %><br>
   <%= t(".reason", reason: request.reason) %><br>
   <%= t(".requested", time: request.created_at.to_fs) %><br>

@@ -48,7 +48,7 @@ RSpec.describe TaskListItems::DocumentComponent, type: :component do
     it "renders link" do
       expect(page).to have_link(
         "Check document - proposed-floorplan.png",
-        href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{replacement_document_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/replacement_document_validation_requests/#{replacement_document_validation_request.id}"
       )
     end
   end

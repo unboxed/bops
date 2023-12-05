@@ -66,7 +66,7 @@ module PlanningApplicationStatus
         end
 
         after do
-          request_names = validation_requests.where(state: "open").map(&:audit_name).join(", ")
+          request_names = validation_requests.open.map(&:audit_name).join(", ")
           audit!(activity_type: "validation_requests_sent", activity_information: request_names)
           audit!(activity_type: "invalidated")
         end

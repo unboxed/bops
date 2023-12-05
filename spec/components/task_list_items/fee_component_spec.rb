@@ -62,7 +62,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{fee_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
       )
     end
   end
@@ -87,7 +87,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{fee_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
       )
     end
   end

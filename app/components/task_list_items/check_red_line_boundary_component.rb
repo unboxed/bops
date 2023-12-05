@@ -10,9 +10,10 @@ module TaskListItems
 
     attr_reader :planning_application
 
-    def red_line_boundary_change_validation_requests
-      @planning_application.red_line_boundary_change_validation_requests
-    end
+    delegate(
+      :red_line_boundary_change_validation_requests,
+      to: :planning_application
+    )
 
     def link_text
       t(".check_red_line")
@@ -22,7 +23,7 @@ module TaskListItems
       if render_sitemap_path?
         planning_application_validation_sitemap_path(planning_application)
       else
-        planning_application_validation_validation_request_path(
+        planning_application_validation_red_line_boundary_change_validation_request_path(
           planning_application,
           change_request
         )

@@ -17,8 +17,7 @@ module AccordionSections
         )
       else
         new_planning_application_validation_red_line_boundary_change_validation_request_path(
-          planning_application,
-          type: "red_line_boundary_change"
+          planning_application
         )
       end
     end
@@ -36,8 +35,7 @@ module AccordionSections
 
     def change_request
       @change_request ||= planning_application
-        .validation_requests
-        .red_line_boundary_changes
+        .red_line_boundary_change_validation_requests
         .post_validation
         .last
     end

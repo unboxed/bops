@@ -14,6 +14,10 @@ class AdditionalDocumentValidationRequest < ValidationRequest
     open? && may_close?
   end
 
+  def can_cancel?
+    may_cancel? && (planning_application.invalidated? || post_validation?)
+  end
+
   def upload_files!(files)
     transaction do
       files.each do |file|
@@ -39,10 +43,6 @@ class AdditionalDocumentValidationRequest < ValidationRequest
       document: document_request_type,
       reason: reason
     }.to_json
-  end
-
-  def can_cancel?
-    may_cancel? && (planning_application.invalidated? || post_validation?)
   end
 
   def document

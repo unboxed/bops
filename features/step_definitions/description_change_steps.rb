@@ -46,7 +46,7 @@ When("the request has been responded to") do
 end
 
 When("the description request has been auto-closed") do
-  @planning_application.description_change_validation_requestss.last.update!(created_at: 6.business_days.ago)
+  @planning_application.description_change_validation_requests.last.update!(created_at: 6.business_days.ago)
 
   CloseDescriptionChangeJob.perform_now
 end

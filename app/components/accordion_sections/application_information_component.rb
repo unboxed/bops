@@ -22,14 +22,13 @@ module AccordionSections
 
     def description_change_link_path
       if description_change_request.present?
-        planning_application_validation_validation_request_path(
+        planning_application_validation_description_change_validation_request_path(
           planning_application,
           description_change_request
         )
       elsif !closed_or_cancelled?
-        new_planning_application_validation_validation_request_path(
-          planning_application,
-          type: "description_change"
+        new_planning_application_validation_description_change_validation_request_path(
+          planning_application
         )
       end
     end

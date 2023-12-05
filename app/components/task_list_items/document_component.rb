@@ -11,9 +11,10 @@ module TaskListItems
 
     attr_reader :planning_application, :document
 
-    def replacement_document_validation_request
-      ReplacementDocumentValidationRequest.where(old_document: document).first
-    end
+    delegate(
+      :replacement_document_validation_request,
+      to: :document
+    )
 
     def link_text
       t(".check_document", document: truncated_document_name)

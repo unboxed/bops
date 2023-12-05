@@ -61,7 +61,7 @@ RSpec.describe "Requesting other changes to a planning application" do
       expect(page).to have_content("Invalid")
       expect(page).to have_link(
         "View other validation request #1",
-        href: planning_application_validation_validation_request_path(planning_application, OtherChangeValidationRequest.last)
+        href: planning_application_validation_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
       )
     end
 
@@ -172,7 +172,7 @@ RSpec.describe "Requesting other changes to a planning application" do
       within("#other-change-validation-tasks") do
         expect(page).to have_link(
           "View other validation request ##{other_change_validation_request.sequence}",
-          href: planning_application_validation_validation_request_path(planning_application, other_change_validation_request)
+          href: planning_application_validation_other_change_validation_request_path(planning_application, other_change_validation_request)
         )
         expect(page).not_to have_link(
           "View other validation request ##{fee_change_validation_request.sequence}",
