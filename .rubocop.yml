@@ -29,6 +29,9 @@ AllCops:
     - 'vendor/**/*'
     - 'engines/*/bin/*'
 
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
 Style/FrozenStringLiteralComment:
   Enabled: true
   EnforcedStyle: always_true

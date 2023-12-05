@@ -162,7 +162,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "raises an error" do
           expect { create_planning_application }.to raise_error(
-            BopsApi::Errors::InvalidSchemaError, "We couldn’t process your request because some information is missing or incorrect."
+            BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
           )
         end
       end
