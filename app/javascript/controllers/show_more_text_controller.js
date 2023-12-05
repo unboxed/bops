@@ -14,8 +14,8 @@ export default class extends Controller {
 
     // Show the rest of the comment and hide "show more"
     event.target.parentElement
-      .getElementsByClassName("hidden-comment display-none")[0]
-      .classList.remove("display-none")
-    event.target.classList.add("display-none")
+      .getElementsByClassName("hidden-comment govuk-!-display-none")[0]
+      .classList.remove("govuk-!-display-none")
+    event.target.classList.add("govuk-!-display-none")
   }
 }

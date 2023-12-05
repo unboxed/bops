@@ -173,10 +173,6 @@ html * {
   font-style: italic;
 }
 
-.make-invisible {
-  display: none;
-}
-
 .limit-column-width {
   word-wrap: break-word;
   max-width: 150px;
@@ -280,10 +276,6 @@ html * {
   justify-content: space-between;
 }
 
-.display-none {
-  display: none;
-}
-
 .button-as-link {
   border: none;
   background: none;
@@ -354,24 +346,12 @@ html * {
   display: flex;
 }
 
-.justify-content-space-between {
-  justify-content: space-between;
-}
-
 .align-items-center {
   align-items: center;
 }
 
 .bottom-border-none {
   border-bottom: none;
-}
-
-.govuk-link__no-underline {
-  text-decoration: none;
-}
-
-.width-80 {
-  width: 80%;
 }
 
 .status-bar-container {
