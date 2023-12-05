@@ -1578,6 +1578,7 @@ en:
         two_factor_invalid: Your two factor code is invalid.
     table:
       actions: Actions
+      confirmed: Confirmed
       edit: Edit
       email: Email
       'false': 'No'

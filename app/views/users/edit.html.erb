@@ -2,8 +2,5 @@
   layout: "shared/administrator_layout",
   locals: { heading: t(".edit_user") }
 ) do %>
-  <%= render(
-    partial: "form",
-    locals: { user: @user, include_password: false }
-  ) %>
+  <%= render(partial: "form", locals: { user: @user }) %>
 <% end %>

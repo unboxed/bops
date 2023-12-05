@@ -20,14 +20,11 @@ RSpec.describe "managing users" do
     end
 
     it "allows adding of new user" do
-      password = secure_password
-
       visit "/administrator_dashboard"
       click_link("Add user")
       click_button("Submit")
 
       expect(page).to have_content("Email can't be blank")
-      expect(page).to have_content("Password can't be blank")
 
       fill_in("Email", with: "alice")
       fill_in("Mobile number", with: "not a number")
@@ -38,7 +35,6 @@ RSpec.describe "managing users" do
 
       fill_in("Name", with: "Alice Smith")
       fill_in("Email", with: "alice@example.com")
-      fill_in("Password", with: password)
       fill_in("Mobile number", with: "01234123123")
       select("Email", from: "Verification code delivery method")
       select("Assessor", from: "Role")
@@ -50,11 +46,18 @@ RSpec.describe "managing users" do
       expect(row).to have_content("01234 123 123")
       expect(row).to have_content("Email")
       expect(row).to have_content("Assessor")
+      click_link("Log out")
 
       user = User.last
-      user.confirm
+      user_reset_token = user.send_reset_password_instructions
+      password = secure_password
 
-      click_link("Log out")
+      visit "/users/password/edit?reset_password_token=#{user_reset_token}"
+
+      fill_in("New password", with: password)
+      fill_in("Confirm new password", with: password)
+      click_button("Change password")
+
       fill_in("Email", with: "alice@example.com")
       fill_in("Password", with: password)
       click_button("Log in")
@@ -65,21 +68,25 @@ RSpec.describe "managing users" do
     end
 
     it "allows adding of new user without mobile number" do
-      password = secure_password
-
       visit "/users/new"
       fill_in("Name", with: "Alice Smith")
       fill_in("Email", with: "alice@example.com")
-      fill_in("Password", with: password)
       select("Assessor", from: "Role")
       click_button("Submit")
 
       expect(page).to have_content("User successfully created")
+      click_link("Log out")
 
       user = User.last
-      user.confirm
+      user_reset_token = user.send_reset_password_instructions
+      password = secure_password
 
-      click_link("Log out")
+      visit "/users/password/edit?reset_password_token=#{user_reset_token}"
+
+      fill_in("New password", with: password)
+      fill_in("Confirm new password", with: password)
+      click_button("Change password")
+
       fill_in("Email", with: "alice@example.com")
       fill_in("Password", with: password)
       click_button("Log in")
