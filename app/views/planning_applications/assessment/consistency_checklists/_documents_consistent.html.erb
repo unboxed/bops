@@ -33,7 +33,7 @@
       disabled: true
     ) %>
   <% end %>
-  <% planning_application.validation_requests.additional_documents.order(:created_at).each do |request| %>
+  <% planning_application.additional_document_validation_requests.order(:created_at).each do |request| %>
     <%= render(
       partial: "additional_document_validation_request",
       locals: { request: request, planning_application: planning_application }

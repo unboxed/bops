@@ -42,15 +42,15 @@ class ConsistencyChecklist < ApplicationRecord
   end
 
   def open_description_change_requests?
-    planning_application.validation_requests.description_changes.open.any?
+    planning_application.description_change_validation_requests.open.any?
   end
 
   def open_additional_document_requests?
-    planning_application.validation_requests.additional_documents.open.any?
+    planning_application.additional_document_validation_requests.open.any?
   end
 
   def open_red_line_boundary_change_requests?
-    planning_application.validation_requests.red_line_boundary_changes.open.any?
+    planning_application.red_line_boundary_change_validation_requests.open.any?
   end
 
   private

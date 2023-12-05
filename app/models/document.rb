@@ -114,7 +114,7 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  # default_scope -> { where(site_visit_id: nil, site_notice_id: nil, press_notice_id: nil) }
+  default_scope -> { where(site_visit_id: nil, site_notice_id: nil, press_notice_id: nil) }
 
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }

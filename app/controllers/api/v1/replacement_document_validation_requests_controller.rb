@@ -13,7 +13,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            @replacement_document_validation_requests = @planning_application.validation_requests.replacement_documents
+            @replacement_document_validation_requests = @planning_application.replacement_document_validation_requests
           end
         end
       end
@@ -21,7 +21,7 @@ module Api
       def show
         respond_to do |format|
           if (@replacement_document_validation_request =
-                @planning_application.validation_requests.replacement_documents.where(id: params[:id]).first)
+                @planning_application.replacement_document_validation_requests.where(id: params[:id]).first)
             format.json
           else
             format.json do
@@ -36,7 +36,7 @@ module Api
 
       def update
         @replacement_document_validation_request =
-          @planning_application.validation_requests.replacement_documents.find_by(id: params[:id])
+          @planning_application.replacement_document_validation_requests.find_by(id: params[:id])
 
         @replacement_document_validation_request.replace_document!(
           file: params[:new_file],

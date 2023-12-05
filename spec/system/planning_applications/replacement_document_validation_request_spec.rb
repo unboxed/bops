@@ -517,7 +517,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       document1.reload
 
       document2 = create(:document, :with_file, planning_application:)
-      request = planning_application.validation_requests.replacement_documents.last
+      request = planning_application.replacement_document_validation_requests.last
       request.new_document = document2
       request.state = "closed"
       request.save!

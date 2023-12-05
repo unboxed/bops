@@ -9,7 +9,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            @other_change_validation_requests = @planning_application.validation_requests.other_changes
+            @other_change_validation_requests = @planning_application.other_change_validation_requests
           end
         end
       end
@@ -17,7 +17,7 @@ module Api
       def show
         respond_to do |format|
           if (@other_change_validation_request =
-                @planning_application.validation_requests.other_changes.where(id: params[:id]).first)
+                @planning_application.other_change_validation_requests.where(id: params[:id]).first)
             format.json
           else
             format.json do
@@ -30,7 +30,7 @@ module Api
 
       def update
         @other_change_validation_request =
-          @planning_application.validation_requests.other_changes.where(id: params[:id]).first
+          @planning_application.other_change_validation_requests.where(id: params[:id]).first
 
         if params[:data][:applicant_response].present? &&
             @other_change_validation_request.update(applicant_response: params[:data][:applicant_response])

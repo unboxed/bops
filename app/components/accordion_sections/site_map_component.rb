@@ -11,12 +11,12 @@ module AccordionSections
     def change_request_link_path
       case change_request&.state
       when "open", "closed"
-        planning_application_validation_validation_request_path(
+        planning_application_validation_red_line_boundary_change_validation_request_path(
           planning_application,
           change_request
         )
       else
-        new_planning_application_validation_validation_request_path(
+        new_planning_application_validation_red_line_boundary_change_validation_request_path(
           planning_application,
           type: "red_line_boundary_change"
         )

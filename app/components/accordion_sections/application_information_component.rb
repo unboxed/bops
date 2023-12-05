@@ -52,7 +52,7 @@ module AccordionSections
 
     def description_change_request
       @description_change_request ||= planning_application
-        .validation_requests.description_changes.open
+        .description_change_validation_requests.open
         .last
     end
 

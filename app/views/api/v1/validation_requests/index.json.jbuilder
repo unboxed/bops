@@ -2,7 +2,7 @@
 
 json.data do
   json.description_change_validation_requests @planning_application
-    .validation_requests.description_changes do |description_change_validation_request|
+    .description_change_validation_requests do |description_change_validation_request|
     json.extract! description_change_validation_request,
       :id,
       :state,
@@ -18,7 +18,7 @@ json.data do
   end
 
   json.red_line_boundary_change_validation_requests @planning_application
-    .validation_requests.red_line_boundary_changes do |red_line_boundary_change_validation_request|
+    .red_line_boundary_change_validation_requests do |red_line_boundary_change_validation_request|
     json.extract! red_line_boundary_change_validation_request,
       :id,
       :state,
@@ -34,7 +34,7 @@ json.data do
   end
 
   json.replacement_document_validation_requests @planning_application
-    .validation_requests.replacement_documents do |replacement_document_validation_request|
+    .replacement_document_validation_requests do |replacement_document_validation_request|
     json.extract! replacement_document_validation_request,
       :id,
       :state,
@@ -58,7 +58,7 @@ json.data do
   end
 
   json.additional_document_validation_requests @planning_application
-    .validation_requests.additional_documents do |additional_document_validation_request|
+    .additional_document_validation_requests do |additional_document_validation_request|
     json.extract! additional_document_validation_request,
       :id,
       :state,
@@ -79,7 +79,7 @@ json.data do
   end
 
   json.fee_change_validation_requests @planning_application
-    .validation_requests.fee_changes do |other_change_validation_request|
+    .fee_change_validation_requests do |other_change_validation_request|
     json.extract! other_change_validation_request,
       :id,
       :state,
@@ -94,7 +94,7 @@ json.data do
   end
 
   json.other_change_validation_requests @planning_application
-    .validation_requests.other_changes do |other_change_validation_request|
+    .other_change_validation_requests do |other_change_validation_request|
     json.extract! other_change_validation_request,
       :id,
       :state,

@@ -40,4 +40,20 @@ class AdditionalDocumentValidationRequest < ValidationRequest
       reason: reason
     }.to_json
   end
+
+  def can_cancel?
+    may_cancel? && (planning_application.invalidated? || post_validation?)
+  end
+
+  def document
+    @document ||= additional_documents.order(:created_at).last
+  end
+
+  def audit_upload_files!
+    audit!(
+      activity_type: "additional_document_validation_request_received",
+      activity_information: sequence,
+      audit_comment: additional_documents.map(&:name).join(", ")
+    )
+  end
 end

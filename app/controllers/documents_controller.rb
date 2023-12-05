@@ -13,7 +13,7 @@ class DocumentsController < AuthenticationController
   def index
     @documents = @planning_application.documents.with_file_attachment
     @additional_document_validation_requests = @planning_application
-      .validation_requests.additional_documents
+      .additional_document_validation_requests
       .post_validation
       .open_or_pending
 
@@ -50,7 +50,7 @@ class DocumentsController < AuthenticationController
       format.html do
         if @document.update_or_replace(document_params)
           if validate_document? && @document.validated == false
-            redirect_to new_planning_application_validation_validation_request_path(document: @document, type: "replacement_document")
+            redirect_to new_planning_application_validation_replacement_document_validation_request_path(document: @document, type: "replacement_document")
           else
             redirect_to redirect_url, notice: t(".success")
           end

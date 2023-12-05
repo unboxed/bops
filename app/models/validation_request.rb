@@ -137,10 +137,6 @@ class ValidationRequest < ApplicationRecord
     "#{model_name.human} ##{sequence}"
   end
 
-  def can_cancel?
-    may_cancel? && (planning_application.invalidated? || post_validation?)
-  end
-
   def cancel_request!
     transaction do
       cancel!
@@ -186,7 +182,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def active_closed_fee_item?
-    fee_change? && closed? && self == planning_application.validation_requests.fee_changes.closed.last
+    fee_change? && closed? && self == planning_application.fee_change_validation_requests.closed.last
   end
 
   def request_expiry_date
@@ -342,7 +338,7 @@ class ValidationRequest < ApplicationRecord
 
   def reset_red_line_boundary_invalidation
     transaction do
-      planning_application.validation_requests.red_line_boundary_changes.closed.max_by(&:closed_at)&.update_counter!
+      planning_application.red_line_boundary_change_validation_requests.closed.max_by(&:closed_at)&.update_counter!
       planning_application.update!(valid_red_line_boundary: nil)
     end
   rescue ActiveRecord::ActiveRecordError => e
@@ -350,7 +346,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def reset_documents_missing
-    return if planning_application.validation_requests.additional_documents.open_or_pending.excluding(self).any?
+    return if planning_application.additional_document_validation_requests.open_or_pending.excluding(self).any?
 
     planning_application.update!(documents_missing: nil)
   rescue ActiveRecord::ActiveRecordError => e

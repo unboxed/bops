@@ -11,7 +11,7 @@ module StatusTags
     attr_reader :planning_application
 
     def status
-      if planning_application.validation_requests.additional_documents.open_or_pending.any?
+      if planning_application.additional_document_validation_requests.open_or_pending.any?
         :invalid
       elsif planning_application.documents_missing == false
         :valid

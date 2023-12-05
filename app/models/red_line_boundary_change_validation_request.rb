@@ -12,7 +12,7 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
   format_geojson_epsg :new_geojson
 
   before_create lambda {
-    reset_validation_requests_update_counter!(planning_application.validation_requests.red_line_boundary_changes)
+    reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
   }
 
   private

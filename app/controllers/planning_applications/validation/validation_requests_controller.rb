@@ -32,7 +32,7 @@ module PlanningApplications
       end
 
       def new
-        @validation_request = @planning_application.validation_requests.new(type: @type.camelize.to_s)
+        @validation_request = @planning_application.validation_requests.new(type: @type.camelize)
       end
 
       def show

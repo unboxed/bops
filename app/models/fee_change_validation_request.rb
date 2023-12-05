@@ -12,7 +12,7 @@ class FeeChangeValidationRequest < ValidationRequest
   before_destroy :reset_fee_invalidation
 
   before_create lambda {
-                  reset_validation_requests_update_counter!(planning_application.validation_requests.fee_changes)
+                  reset_validation_requests_update_counter!(planning_application.fee_change_validation_requests)
                 }
 
   private
@@ -24,7 +24,7 @@ class FeeChangeValidationRequest < ValidationRequest
 
   def ensure_no_open_or_pending_fee_item_validation_request
     return if planning_application.nil?
-    return unless planning_application.validation_requests.fee_changes.open_or_pending.any?
+    return unless planning_application.fee_change_validation_requests.open_or_pending.any?
 
     errors.add(:base, "An open or pending fee validation request already exists for this planning application.")
   end
@@ -42,7 +42,7 @@ class FeeChangeValidationRequest < ValidationRequest
 
   def reset_fee_invalidation
     transaction do
-      planning_application.validation_requests.fee_changes.closed.max_by(&:closed_at)&.update_counter! if cancelled?
+      planning_application.fee_change_validation_requests.closed.max_by(&:closed_at)&.update_counter! if cancelled?
       planning_application.update!(valid_fee: nil)
     end
   rescue ActiveRecord::ActiveRecordError => e

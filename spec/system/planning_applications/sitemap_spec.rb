@@ -171,7 +171,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
       # Two maps should be displayed with the original geojson and what the proposed change was
       map_selectors = all("my-map")
-      red_line_boundary_change_validation_request = planning_application.validation_requests.red_line_boundary_changes.last
+      red_line_boundary_change_validation_request = planning_application.red_line_boundary_change_validation_requests.last
       expect(map_selectors.first["geojsondata"]).to eq(red_line_boundary_change_validation_request.original_geojson)
       expect(map_selectors.last["geojsondata"]).to eq(red_line_boundary_change_validation_request.new_geojson)
 

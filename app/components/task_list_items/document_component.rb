@@ -29,7 +29,7 @@ module TaskListItems
 
     def link_path
       if status == :invalid
-        planning_application_validation_validation_request_path(
+        planning_application_validation_replacement_document_validation_request_path(
           planning_application,
           replacement_document_validation_request
         )

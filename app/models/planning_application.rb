@@ -33,6 +33,12 @@ class PlanningApplication < ApplicationRecord
       inverse_of: :planning_application
     )
 
+    has_many :description_change_validation_requests
+    has_many :replacement_document_validation_requests
+    has_many :other_change_validation_requests
+    has_many :fee_item_validation_requests
+    has_many :additional_document_validation_requests
+    has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :validation_requests
     has_many :assessment_details, -> { by_created_at_desc }, inverse_of: :planning_application
@@ -94,10 +100,10 @@ class PlanningApplication < ApplicationRecord
   after_create :create_consultation!, if: :consultation?
   before_update :set_key_dates
   before_update lambda {
-                  reset_validation_requests_update_counter!(validation_requests.red_line_boundary_changes)
+                  reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
                 }, if: :valid_red_line_boundary?
   before_update lambda {
-                  reset_validation_requests_update_counter!(validation_requests.fee_changes)
+                  reset_validation_requests_update_counter!(fee_change_validation_requests)
                 }, if: :valid_fee?
   before_update :audit_update_application_type!, if: :application_type_id_changed?
   before_update :create_proposal_measurement, if: :changed_to_prior_approval?
@@ -654,11 +660,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def latest_rejected_description_change
-    validation_requests.description_changes.order(created_at: :desc).find(&:rejected?)
+    description_change_validation_requests.order(created_at: :desc).find(&:rejected?)
   end
 
   def latest_auto_closed_description_request
-    validation_requests.description_changes.where(auto_closed: true).order(created_at: :desc).last
+    description_change_validation_requests.where(auto_closed: true).order(created_at: :desc).last
   end
 
   def last_validation_request_date
@@ -682,27 +688,27 @@ class PlanningApplication < ApplicationRecord
   end
 
   def other_change_validation_request
-    validation_requests.other_changes.order(:created_at).last
+    other_change_validation_requests.order(:created_at).last
   end
 
   def fee_change_validation_request
-    validation_requests.fee_changes.order(:created_at).last
+    fee_change_validation_requests.order(:created_at).last
   end
 
   def description_change_validation_request
-    validation_requests.description_changes.order(:created_at).last
+    description_change_validation_requests.order(:created_at).last
   end
 
   def red_line_boundary_change_validation_request
-    validation_requests.red_line_boundary_changes.order(:created_at).last
+    red_line_boundary_change_validation_requests.order(:created_at).last
   end
 
   def additional_document_validation_request
-    validation_requests.additional_documents.order(:created_at).last
+    additional_document_validation_requests.order(:created_at).last
   end
 
   def replacement_document_validation_request
-    validation_requests.replacement_documents.order(:created_at).last
+    replacement_document_validation_requests.order(:created_at).last
   end
 
   private

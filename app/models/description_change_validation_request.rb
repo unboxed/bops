@@ -35,7 +35,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
 
   def allows_only_one_open_description_change
     return if planning_application.nil?
-    return unless planning_application.validation_requests.description_changes.open.any?
+    return unless planning_application.description_change_validation_requests.open.any?
 
     errors.add(:base, "An open description change already exists for this planning application.")
   end

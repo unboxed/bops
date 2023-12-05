@@ -15,7 +15,7 @@ module TaskListItems
     end
 
     def fee_item_validation_requests
-      @planning_application.validation_requests.fee_changes
+      @planning_application.fee_change_validation_requests
     end
 
     def link_path
@@ -25,7 +25,7 @@ module TaskListItems
           planning_application
         )
       else
-        planning_application_validation_validation_request_path(
+        planning_application_validation_other_change_validation_request_path(
           planning_application,
           fee_item_validation_requests.not_cancelled.last
         )

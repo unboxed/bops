@@ -299,7 +299,7 @@ RSpec.describe "checking consistency" do
     expect(page).to have_content("Proposed 15 September 2022 13:00")
 
     planning_application
-      .validation_requests.description_changes
+      .description_change_validation_requests
       .open
       .last
       .auto_close_request!
@@ -340,7 +340,7 @@ RSpec.describe "checking consistency" do
     )
 
     request = planning_application
-      .validation_requests.description_changes
+      .description_change_validation_requests
       .open
       .last
 

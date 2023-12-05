@@ -18,7 +18,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            @additional_document_validation_requests = @planning_application.validation_requests.additional_documents
+            @additional_document_validation_requests = @planning_application.additional_document_validation_requests
           end
         end
       end
@@ -26,7 +26,7 @@ module Api
       def show
         respond_to do |format|
           if (@additional_document_validation_request =
-                @planning_application.validation_requests.additional_documents.where(id: params[:id]).first)
+                @planning_application.additional_document_validation_requests.where(id: params[:id]).first)
             format.json
           else
             format.json do
@@ -39,7 +39,7 @@ module Api
 
       def update
         @additional_document_validation_request =
-          @planning_application.validation_requests.additional_documents.find_by(id: params[:id])
+          @planning_application.additional_document_validation_requests.find_by(id: params[:id])
 
         if @additional_document_validation_request.can_upload?
           @additional_document_validation_request.upload_files!(params[:files])
