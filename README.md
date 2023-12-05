@@ -184,7 +184,7 @@ rake local_authority:create -- --subdomain 'lambeth' \
   --feedback_email 'mail@lambeth.gov.uk' \
   --council_name 'Lambeth Council' \
   --short_name 'Lambeth' \
-  --applicants_url 'https://lambeth.planningapplications.gov.uk' \
+  --applicants_url 'https://planningapplications.lambeth.gov.uk' \
   --admin_email 'admin@lambeth.gov.uk'
 ```
 

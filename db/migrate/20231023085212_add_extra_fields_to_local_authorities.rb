@@ -21,7 +21,7 @@ class AddExtraFieldsToLocalAuthorities < ActiveRecord::Migration[7.0]
         la.applicants_url = \
           case ENV.fetch("APPLICANTS_APP_HOST", nil)
           when "planningapplications"
-            "https://#{la.subdomain}.planningapplications.gov.uk"
+            "https://planningapplications.#{la.subdomain}.gov.uk"
           when "bops-applicants-staging.services"
             "https://#{la.subdomain}.bops-applicants-staging.services"
           else
