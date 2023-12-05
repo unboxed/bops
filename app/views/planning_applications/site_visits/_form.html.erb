@@ -20,14 +20,11 @@
 
           <%= form.govuk_collection_select :neighbour_id, @consultation.selected_neighbours, :id, :address, options: { include_blank: true }, label: { text: "Select site visit address" } %>
 
-          <%= form.fields_for :documents, @site_visit.documents.new do |document_attributes| %>
-            <%= document_attributes.govuk_file_field :files,
-              multiple: true,
-              label: { text: "Upload photo(s)",
-              class: "govuk-label govuk-!-font-weight-bold" },
-              accept: acceptable_file_mime_types
-            %>
-          <% end %>
+          <%= form.govuk_file_field :documents,
+            label: { size: "s", text: t(".upload_photos") },
+            accept: acceptable_file_mime_types,
+            multiple: true
+          %>
         <% end %>
 
         <%= form.govuk_radio_button(:decision, false, label: { text: "No" }) %>

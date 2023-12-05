@@ -271,7 +271,10 @@ en:
             decision:
               inclusion: Choose 'Yes' or 'No'
             visited_at:
-              blank: Provide a date when the site visit took place
+              date_blank: Provide the date when the site visit took place
+              date_invalid: The date the site visit took place must be a valid date
+              date_not_on_or_after: The date the site visit took place must be on or after the consultation start date
+              date_not_on_or_before: The date the site visit took place must be on or before today
         user:
           attributes:
             reset_password_token:
@@ -1179,6 +1182,8 @@ en:
     site_visits:
       create:
         success: Site visit was successfully created.
+      form:
+        upload_photos: Upload photo(s)
     steps:
       assessment:
         check_and_assess: Check and assess

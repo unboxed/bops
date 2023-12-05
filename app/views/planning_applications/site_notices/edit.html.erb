@@ -26,6 +26,7 @@
   <%= form.govuk_file_field :documents,
     label: { text: '2. Upload evidence of site notice in place', size: 'm' },
     hint: { text: 'Add any photos of the site notice being displayed' },
+    accept: acceptable_file_mime_types,
     multiple: true
   %>
 

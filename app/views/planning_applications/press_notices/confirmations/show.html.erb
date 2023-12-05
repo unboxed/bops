@@ -54,6 +54,7 @@
       <%= form.govuk_file_field :documents,
         label: { size: "s", text: t(".upload_photos") },
         hint: { text: t(".photos_hint") },
+        accept: acceptable_file_mime_types,
         multiple: true
       %>
 

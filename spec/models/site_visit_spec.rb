@@ -35,7 +35,7 @@ RSpec.describe SiteVisit do
         subject(:site_visit) { described_class.new(decision: true) }
 
         it "validates presence" do
-          expect { site_visit.valid? }.to change { site_visit.errors[:visited_at] }.to ["Provide a date when the site visit took place"]
+          expect { site_visit.valid? }.to change { site_visit.errors[:visited_at] }.to ["Provide the date when the site visit took place"]
         end
       end
 
@@ -51,9 +51,12 @@ RSpec.describe SiteVisit do
 
   describe "scopes" do
     describe ".by_created_at_desc" do
-      let!(:site_visits1) { create(:site_visit, created_at: 1.day.ago) }
-      let!(:site_visits2) { create(:site_visit, created_at: Time.zone.now) }
-      let!(:site_visits3) { create(:site_visit, created_at: 2.days.ago) }
+      let!(:default_local_authority) { create(:local_authority, :default) }
+      let!(:planning_application) { create(:planning_application, :planning_permission, :consulting, local_authority: default_local_authority) }
+      let!(:consultation) { planning_application.consultation }
+      let!(:site_visits1) { create(:site_visit, created_at: 1.day.ago, consultation: consultation) }
+      let!(:site_visits2) { create(:site_visit, created_at: Time.zone.now, consultation: consultation) }
+      let!(:site_visits3) { create(:site_visit, created_at: 2.days.ago, consultation: consultation) }
 
       it "returns site_visits sorted by created at desc (i.e. most recent first)" do
         expect(described_class.by_created_at_desc).to eq([site_visits2, site_visits1, site_visits3])

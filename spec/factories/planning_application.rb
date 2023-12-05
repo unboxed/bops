@@ -290,6 +290,15 @@ FactoryBot.define do
       application_type { association :application_type, :planning_permission }
     end
 
+    trait :consulting do
+      after(:create) do |planning_application|
+        planning_application.consultation.update!(
+          start_date: 7.days.ago.beginning_of_day,
+          end_date: 14.days.from_now.end_of_day
+        )
+      end
+    end
+
     trait :with_consultees do
       after(:create) do |planning_application|
         consultation = planning_application.consultation || planning_application.create_consultation!
