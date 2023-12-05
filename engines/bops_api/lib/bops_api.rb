@@ -2,6 +2,7 @@
 
 require "bops_api/engine"
 require "bops_api/errors"
+require "bops_api/schemas"
 
 module BopsApi
   def self.table_name_prefix

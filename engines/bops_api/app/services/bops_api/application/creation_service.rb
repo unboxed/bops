@@ -3,8 +3,6 @@
 module BopsApi
   module Application
     class CreationService
-      SCHEMA_PATH = Rails.root.join("engines", "bops_api", "app", "schemas", "digital_planning_data", "v0.2.1", "schema.json")
-
       def initialize(local_authority:, user:, params:)
         if Bops.env.production?
           raise BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
@@ -16,10 +14,7 @@ module BopsApi
       end
 
       def call!
-        validate_schema
-        planning_application = build_planning_application
-
-        save!(planning_application)
+        validate_request! && save!(build_planning_application)
       end
 
       private
@@ -91,13 +86,16 @@ module BopsApi
         params[:send_email] == "false" || planning_application.pending?
       end
 
-      def validate_schema
-        schema = JSON.load_file(SCHEMA_PATH)
-        schemer = JSONSchemer.schema(schema)
+      def schema
+        @schema ||= BopsApi::Schemas.find!("submission")
+      end
 
-        unless schemer.valid?(JSON.parse(permitted_params.to_json))
-          raise BopsApi::Errors::InvalidSchemaError, "We couldn’t process your request because some information is missing or incorrect."
-        end
+      def validate_request!
+        schema.valid?(permitted_params.to_h) || raise_invalid_request_error
+      end
+
+      def raise_invalid_request_error
+        raise BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
       end
 
       def permitted_params

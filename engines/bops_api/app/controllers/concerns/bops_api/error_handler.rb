@@ -5,10 +5,10 @@ module BopsApi
     extend ActiveSupport::Concern
 
     EXCEPTIONS = {
-      "ActiveRecord::RecordInvalid" => {status: 400, message: "Record Invalid"},
-      "BopsApi::Errors::InvalidSchemaError" => {status: 400, message: "Bad Request"},
+      "ActiveRecord::RecordInvalid" => {status: 400, message: "Bad Request"},
+      "BopsApi::Errors::InvalidRequestError" => {status: 400, message: "Bad Request"},
       "BopsApi::Errors::NotPermittedError" => {status: 403, message: "Forbidden"},
-      "ActiveRecord::RecordNotFound" => {status: 404, message: "Cannot find record"},
+      "ActiveRecord::RecordNotFound" => {status: 404, message: "Not Found"},
       "StandardError" => {status: 500, message: "Internal Server Error"}
     }.freeze
 
