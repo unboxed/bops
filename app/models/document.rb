@@ -105,6 +105,7 @@ class Document < ApplicationRecord
   TAGS = PLAN_TAGS + EVIDENCE_TAGS + OTHER_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
+  EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit].freeze
 
   attr_accessor :replacement_file
 
@@ -115,8 +116,10 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { where(site_visit_id: nil, site_notice_id: nil, press_notice_id: nil) }
+  default_scope -> { no_owner.or(not_excluded_owners) }
 
+  scope :no_owner, -> { where(owner_type: nil) }
+  scope :not_excluded_owners, -> { where.not(owner_type: EXCLUDED_OWNERS) }
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }

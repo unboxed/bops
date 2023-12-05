@@ -17,7 +17,11 @@ RSpec.describe "Site visit" do
   let!(:neighbour2) { create(:neighbour, consultation:, address: "123, Another, Address") }
 
   before do
-    sign_in assessor
+    travel_to("2023-07-10")
+    create(:site_notice, planning_application:)
+
+    travel_to("2023-07-21")
+    sign_in(assessor)
   end
 
   describe "viewing the consultations tasklist" do
@@ -138,7 +142,7 @@ RSpec.describe "Site visit" do
       expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
 
       within("#site-visit-visited-at-error") do
-        expect(page).to have_content("Provide a date when the site visit took place")
+        expect(page).to have_content("Provide the date when the site visit took place")
       end
     end
 

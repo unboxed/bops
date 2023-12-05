@@ -13,6 +13,6 @@
 ) %>
 
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Objected neighbour responses</h2>
-<%= render "planning_applications/neighbour_responses/responses", neighbour_responses: @objected_neighbour_responses %>
+<%= render "planning_applications/neighbour_responses/responses", neighbour_responses: @consultation.neighbour_responses.objection %>
 
 <%= render "form" %>

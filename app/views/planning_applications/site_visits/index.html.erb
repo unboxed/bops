@@ -13,7 +13,7 @@
 ) %>
 
 <h2 class="govuk-heading-m">Objected neighbour responses</h2>
-<%= render "planning_applications/neighbour_responses/responses", neighbour_responses: @objected_neighbour_responses %>
+<%= render "planning_applications/neighbour_responses/responses", neighbour_responses: @consultation.neighbour_responses.objection %>
 
 <% if @site_visits.any? %>
   <h2 class="govuk-heading-m">Site visits</h2>
