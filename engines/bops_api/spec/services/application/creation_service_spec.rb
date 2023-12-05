@@ -343,6 +343,52 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           planning_application = service.send(:build_planning_application)
           expect(service.send(:possibly_immune?, planning_application)).to be true
         end
+
+        it "creates the immunity details for the planning application" do
+          planning_application = nil
+          expect do
+            planning_application = service.call!
+          end.to change(ImmunityDetail, :count).by(1)
+
+          immunity_detail = ImmunityDetail.last
+
+          expect(immunity_detail).to have_attributes(
+            planning_application_id: planning_application.id,
+            status: "not_started",
+            end_date: "2015-02-01 00:00:00.000000000 +0000".to_datetime
+          )
+
+          expect(EvidenceGroup.count).to eq 2
+        end
+
+        it "creates the evidence groups for the planning application" do
+          planning_application = nil
+          expect do
+            planning_application = service.call!
+          end.to change(EvidenceGroup, :count).by(2)
+
+          utility_bills = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
+
+          expect(utility_bills).to have_attributes(
+            immunity_detail_id: planning_application.immunity_detail.id,
+            start_date: "2013-03-02 00:00:00.000000000 +0000".to_time,
+            end_date: "2019-04-01 00:00:00.000000000 +0100".to_time,
+            applicant_comment: "That i was paying water bills"
+          )
+
+          expect(utility_bills.documents).to include(document1, document2)
+
+          building_certificate = planning_application.immunity_detail.evidence_groups.where(tag: "building_control_certificate").first
+
+          expect(building_certificate).to have_attributes(
+            immunity_detail_id: planning_application.immunity_detail.id,
+            start_date: "2016-02-01 00:00:00.000000000 +0000".to_time,
+            end_date: nil,
+            applicant_comment: "that it was certified"
+          )
+
+          expect(building_certificate.documents).to eq [document3]
+        end
       end
     end
 
