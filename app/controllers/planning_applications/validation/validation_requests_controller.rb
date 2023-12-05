@@ -15,7 +15,7 @@ module PlanningApplications
       before_action :set_planning_application
       before_action :set_validation_request, only: %i[show edit update destroy cancel_confirmation cancel]
       before_action :set_document
-      before_action :set_type, only: [:new]
+      before_action :set_type, only: %i[new]
       before_action :ensure_planning_application_is_validated, only: :post_validation_requests
       before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
       before_action :ensure_planning_application_not_invalidated, only: :edit
@@ -227,7 +227,11 @@ module PlanningApplications
       end
 
       def set_type
-        @type = request.path[/(?<=\/validation\/)(.*)(?=s\/)/]
+        @type = if params[:type]
+          params.permit(:type)[:type] + "_validation_request"
+        else
+          params.require(:validation_request).permit(:type)[:type]
+        end
       end
     end
   end

@@ -5,7 +5,7 @@
     <%= t(".proposed", time: request.created_at.to_fs) %><br>
     <% if request.auto_closed? %>
       <%= t(".accepted", time: request.auto_closed_at.to_fs) %><br>
-    <% elsif request.applicant_approved? %>
+    <% elsif request.approved? %>
       <%= t(".accepted", time: request.closed_at.to_fs) %><br>
     <% elsif request.cancelled? %>
       <%= t(".cancelled", time: request.cancelled_at.to_fs) %><br>

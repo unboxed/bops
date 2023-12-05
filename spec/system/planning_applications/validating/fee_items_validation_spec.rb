@@ -420,14 +420,14 @@ RSpec.describe "FeeItemsValidation" do
 
     context "when applicant has responded" do
       before do
-        other_change_validation_request.update(state: "closed", applicant_response: "ok")
+        other_change_validation_request.update(state: "closed", response: "ok")
       end
 
       let!(:closed_other_change_validation_request) do
         create(
           :fee_change_validation_request, :closed,
           planning_application:,
-          applicant_response: "I agree with the fee"
+          response: "I agree with the fee"
         )
       end
 

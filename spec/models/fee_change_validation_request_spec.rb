@@ -70,7 +70,7 @@ RSpec.describe FeeChangeValidationRequest do
             create(:fee_change_validation_request, :open, planning_application:)
           end
 
-          before { fee_change_validation_request.update(state: "closed", applicant_response: "A response") }
+          before { fee_change_validation_request.update(state: "closed", response: "A response") }
 
           it "updates and resets the valid_fee to nil on the planning application" do
             expect(planning_application.reload.valid_fee).to be_nil
@@ -124,8 +124,8 @@ RSpec.describe FeeChangeValidationRequest do
     describe "::before_create #reset_validation_requests_update_counter" do
       let(:local_authority) { create(:local_authority) }
       let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
-      let(:fee_item_validation_request1) { create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok") }
-      let(:fee_item_validation_request2) { create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok") }
+      let(:fee_item_validation_request1) { create(:fee_change_validation_request, :open, planning_application:, response: "ok") }
+      let(:fee_item_validation_request2) { create(:fee_change_validation_request, :open, planning_application:, response: "ok") }
 
       context "when there is a closed fee item change request and a new request is made" do
         before { fee_item_validation_request1.close! }
@@ -142,8 +142,8 @@ RSpec.describe FeeChangeValidationRequest do
   end
 
   describe "events" do
-    let!(:other_change_validation_request) { create(:other_change_validation_request, :open, applicant_response: "ok") }
-    let!(:fee_item_validation_request) { create(:fee_change_validation_request, :open, applicant_response: "ok") }
+    let!(:other_change_validation_request) { create(:other_change_validation_request, :open, response: "ok") }
+    let!(:fee_item_validation_request) { create(:fee_change_validation_request, :open, response: "ok") }
 
     describe "#close" do
       it "sets updated_counter to true on the associated validation request" do

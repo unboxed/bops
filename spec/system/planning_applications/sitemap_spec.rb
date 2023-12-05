@@ -366,7 +366,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "when applicant accepts the response" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :closed, applicant_approved: true, planning_application:)
+        create(:red_line_boundary_change_validation_request, :closed, approved: true, planning_application:)
       end
 
       it "I can view the accepted response" do
@@ -383,7 +383,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "when applicant rejects the response" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :closed, applicant_rejection_reason: "disagree", applicant_approved: false, planning_application:)
+        create(:red_line_boundary_change_validation_request, :closed, rejection_reason: "disagree", approved: false, planning_application:)
       end
 
       it "I can view the rejected response" do

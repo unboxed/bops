@@ -37,7 +37,7 @@ module Api
 
         if @red_line_boundary_change_validation_request.update(red_line_boundary_change_params)
           @red_line_boundary_change_validation_request.close!
-          if @red_line_boundary_change_validation_request.applicant_approved?
+          if @red_line_boundary_change_validation_request.approved?
             @planning_application.update!(boundary_geojson: @red_line_boundary_change_validation_request.new_geojson)
           end
 
@@ -55,8 +55,8 @@ module Api
       private
 
       def red_line_boundary_change_params
-        {applicant_approved: params[:data][:applicant_approved],
-         applicant_rejection_reason: params[:data][:applicant_rejection_reason]}
+        {approved: params[:data][:approved],
+         rejection_reason: params[:data][:rejection_reason]}
       end
     end
   end

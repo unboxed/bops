@@ -25,7 +25,7 @@ FactoryBot.define do
       }
     end
     reason { "Boundary incorrect" }
-    applicant_approved { nil }
+    approved { nil }
     post_validation { false }
 
     trait :pending do

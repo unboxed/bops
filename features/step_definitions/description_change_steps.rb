@@ -7,8 +7,8 @@ Given("a rejected description change request") do
     :description_change_validation_request,
     planning_application: @planning_application,
     state: "closed",
-    applicant_approved: false,
-    applicant_rejection_reason: "Spelling mistakes"
+    approved: false,
+    rejection_reason: "Spelling mistakes"
   )
 end
 
@@ -42,7 +42,7 @@ When("the description change request has been auto-closed after 5 days") do
 end
 
 When("the request has been responded to") do
-  @planning_application.description_change_validation_requests.last.update!(state: "closed", applicant_approved: true)
+  @planning_application.description_change_validation_requests.last.update!(state: "closed", approved: true)
 end
 
 When("the description request has been auto-closed") do

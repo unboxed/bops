@@ -34,7 +34,7 @@ module Api
 
         if @description_change_validation_request.update(description_change_params)
           @description_change_validation_request.close!
-          if @description_change_validation_request.applicant_approved?
+          if @description_change_validation_request.approved?
             @planning_application.update!(description: @description_change_validation_request.proposed_description)
           end
           @description_change_validation_request.create_api_audit!
@@ -51,8 +51,8 @@ module Api
 
       def description_change_params
         {
-          applicant_approved: params[:data][:applicant_approved],
-          applicant_rejection_reason: params[:data][:applicant_rejection_reason]
+          approved: params[:data][:approved],
+          rejection_reason: params[:data][:rejection_reason]
         }
       end
     end

@@ -12,7 +12,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
   let(:params) do
     {
       change_access_id: planning_application.change_access_id,
-      data: {applicant_response: "I will send an extra payment"}
+      data: {response: "I will send an extra payment"}
     }
   end
 
@@ -39,13 +39,13 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
 
   valid_response = '{
     "data": {
-      "applicant_response": "I will send an extra payment"
+      "response": "I will send an extra payment"
     }
   }'
 
   missing_response = '{
     "data": {
-      "applicant_response": ""
+      "response": ""
     }
   }'
 
@@ -57,7 +57,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
     other_change_validation_request.reload
     planning_application.reload
     expect(other_change_validation_request.state).to eq("closed")
-    expect(other_change_validation_request.applicant_response).to eq("I will send an extra payment")
+    expect(other_change_validation_request.response).to eq("I will send an extra payment")
   end
 
   it "creates audit associated with API user" do
@@ -65,7 +65,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
 
     expect(planning_application.audits.reload.last).to have_attributes(
       activity_type: "other_change_validation_request_received",
-      audit_comment: {applicant_response: "I will send an extra payment"}.to_json,
+      audit_comment: {response: "I will send an extra payment"}.to_json,
       activity_information: "1",
       api_user:
     )

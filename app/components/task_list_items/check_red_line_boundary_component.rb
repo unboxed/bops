@@ -39,7 +39,7 @@ module TaskListItems
         :valid
       elsif red_line_boundary_change_validation_requests.open_or_pending.any?
         :invalid
-      elsif change_request&.applicant_approved == false
+      elsif change_request&.approved == false
         :updated
       else
         :not_started
@@ -52,7 +52,7 @@ module TaskListItems
     end
 
     def valid?
-      planning_application.valid_red_line_boundary? || change_request&.applicant_approved?
+      planning_application.valid_red_line_boundary? || change_request&.approved?
     end
 
     def change_request

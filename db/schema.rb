@@ -741,10 +741,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_152702) do
     t.string "state"
     t.bigint "user_id"
     t.boolean "post_validation", default: false, null: false
-    t.boolean "applicant_approved"
+    t.boolean "approved"
     t.text "reason"
-    t.string "applicant_rejection_reason"
-    t.text "applicant_response"
+    t.string "rejection_reason"
+    t.text "response"
     t.datetime "notified_at"
     t.datetime "cancelled_at"
     t.text "cancel_reason"

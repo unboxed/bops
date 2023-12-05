@@ -104,7 +104,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     create(:other_change_validation_request, planning_application:, state: "open",
       created_at: 12.days.ago, notified_at: 12.days.ago, reason: "Missing information", suggestion: "Please provide more details about ownership")
     create(:other_change_validation_request, planning_application:, state: "closed",
-      created_at: 12.days.ago, notified_at: 12.days.ago, reason: "Fees outstanding", suggestion: "Please pay the balance", applicant_response: "paid")
+      created_at: 12.days.ago, notified_at: 12.days.ago, reason: "Fees outstanding", suggestion: "Please pay the balance", response: "paid")
 
     click_link "Check and validate"
     click_link "Send validation decision"

@@ -41,7 +41,7 @@ RSpec.describe TaskListItems::OtherChangeRequestComponent, type: :component do
         planning_application:,
         sequence: 1,
         state: :closed,
-        applicant_response: "response"
+        response: "response"
       )
     end
 

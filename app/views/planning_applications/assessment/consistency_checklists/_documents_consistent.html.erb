@@ -19,7 +19,8 @@
       <%= link_to(
         t(".request_additional_document"),
         new_planning_application_validation_additional_document_validation_request_path(
-          planning_application
+          planning_application,
+          type: "additional_document"
         ),
         class: "govuk-link"
       ) %>

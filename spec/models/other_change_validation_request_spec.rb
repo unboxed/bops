@@ -66,8 +66,8 @@ RSpec.describe OtherChangeValidationRequest do
   end
 
   describe "events" do
-    let!(:other_change_validation_request) { create(:other_change_validation_request, :open, applicant_response: "ok") }
-    let!(:fee_item_validation_request) { create(:fee_change_validation_request, :open, applicant_response: "ok") }
+    let!(:other_change_validation_request) { create(:other_change_validation_request, :open, response: "ok") }
+    let!(:fee_item_validation_request) { create(:fee_change_validation_request, :open, response: "ok") }
 
     describe "#close" do
       it "sets updated_counter to true on the associated validation request" do

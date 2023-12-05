@@ -306,7 +306,7 @@ RSpec.describe PlanningApplication do
       let(:local_authority) { create(:local_authority) }
       let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
       let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
-      let(:fee_item_validation_request) { create(:fee_change_validation_request, :open, planning_application:, applicant_response: "a response") }
+      let(:fee_item_validation_request) { create(:fee_change_validation_request, :open, planning_application:, response: "a response") }
 
       context "when the red line boundary is made valid" do
         before { red_line_boundary_change_validation_request.close! }

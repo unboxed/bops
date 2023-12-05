@@ -203,10 +203,10 @@ RSpec.describe ValidationRequest do
             create(:planning_application, :invalidated, valid_fee: false)
           end
           let!(:request1) do
-            create(:fee_change_validation_request, :closed, planning_application:, applicant_response: "ok")
+            create(:fee_change_validation_request, :closed, planning_application:, response: "ok")
           end
           let(:request2) do
-            create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok")
+            create(:fee_change_validation_request, :open, planning_application:, response: "ok")
           end
 
           it "resets the fee invalidation on the planning application" do

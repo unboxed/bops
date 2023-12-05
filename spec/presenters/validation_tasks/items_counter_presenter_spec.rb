@@ -39,7 +39,7 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
       let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
 
       before do
-        create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok")
+        create(:fee_change_validation_request, :open, planning_application:, response: "ok")
         create(:replacement_document_validation_request, :open, planning_application:)
         create(:other_change_validation_request, :open, planning_application:)
       end
@@ -128,11 +128,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple fee item validation requests" do
-      let!(:fee_item_validation_request) { create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok") }
+      let!(:fee_item_validation_request) { create(:fee_change_validation_request, :open, planning_application:, response: "ok") }
 
       before do
         fee_item_validation_request.close!
-        create(:fee_change_validation_request, :open, planning_application:, applicant_response: "ok")
+        create(:fee_change_validation_request, :open, planning_application:, response: "ok")
       end
 
       it "the updated count only includes the latest closed fee item change validation request" do
@@ -169,11 +169,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple other validation requests" do
-      let!(:other_change_validation_request) { create(:other_change_validation_request, :open, planning_application:, applicant_response: "ok") }
+      let!(:other_change_validation_request) { create(:other_change_validation_request, :open, planning_application:, response: "ok") }
 
       before do
         other_change_validation_request.close!
-        create(:other_change_validation_request, :open, planning_application:, applicant_response: "ok")
+        create(:other_change_validation_request, :open, planning_application:, response: "ok")
       end
 
       it "the updated count includes all the closed other change validation requests" do

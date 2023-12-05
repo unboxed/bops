@@ -28,7 +28,8 @@ module AccordionSections
         )
       elsif !closed_or_cancelled?
         new_planning_application_validation_description_change_validation_request_path(
-          planning_application
+          planning_application,
+          type: "description_change"
         )
       end
     end

@@ -107,7 +107,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       create(
         :red_line_boundary_change_validation_request,
         planning_application:,
-        applicant_approved: true,
+        approved: true,
         created_at: 1.day.ago
       )
     end
@@ -194,9 +194,9 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       create(
         :red_line_boundary_change_validation_request,
         planning_application:,
-        applicant_approved: false,
+        approved: false,
         state: :closed,
-        applicant_rejection_reason: "reason"
+        rejection_reason: "reason"
       )
     end
 

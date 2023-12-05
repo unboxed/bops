@@ -27,7 +27,7 @@ FactoryBot.define do
 
     trait :closed do
       state { "closed" }
-      applicant_response { "Some response" }
+      response { "Some response" }
     end
 
     trait :cancelled do

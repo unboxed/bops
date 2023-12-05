@@ -5,8 +5,8 @@ FactoryBot.define do
     planning_application
     user
     state { "pending" }
-    applicant_approved { nil }
-    applicant_rejection_reason { nil }
+    approved { nil }
+    rejection_reason { nil }
     post_validation { false }
 
     specific_attributes do

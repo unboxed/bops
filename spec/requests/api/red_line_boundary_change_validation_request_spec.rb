@@ -32,8 +32,8 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
               "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
               "reason" => "Boundary incorrect",
               "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
-              "applicant_rejection_reason" => nil,
-              "applicant_approved" => nil,
+              "rejection_reason" => nil,
+              "approved" => nil,
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
               "cancelled_at" => nil
@@ -45,8 +45,8 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
               "new_geojson" => red_line_boundary_change_validation_request2.new_geojson,
               "reason" => "Boundary incorrect",
               "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
-              "applicant_rejection_reason" => nil,
-              "applicant_approved" => nil,
+              "rejection_reason" => nil,
+              "approved" => nil,
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
               "cancelled_at" => nil
@@ -88,8 +88,8 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
             "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
             "reason" => "Boundary incorrect",
             "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
-            "applicant_rejection_reason" => nil,
-            "applicant_approved" => nil,
+            "rejection_reason" => nil,
+            "approved" => nil,
             "days_until_response_due" => 15,
             "cancel_reason" => nil,
             "cancelled_at" => nil

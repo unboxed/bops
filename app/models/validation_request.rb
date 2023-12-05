@@ -51,7 +51,7 @@ class ValidationRequest < ApplicationRecord
   scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
   scope :pre_validation, -> { where(post_validation: false) }
   scope :overdue, -> { where(state: ["open", "overdue"]) }
-  scope :responded, -> { where.not(applicant_response: nil).or(where(applicant_approved: true)) }
+  scope :responded, -> { where.not(response: nil).or(where(approved: true)) }
   scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
@@ -193,7 +193,7 @@ class ValidationRequest < ApplicationRecord
     transaction do
       auto_close!
       update_planning_application_for_auto_closed_request!
-      update!(applicant_approved: true, auto_closed: true, auto_closed_at: Time.current)
+      update!(approved: true, auto_closed: true, auto_closed_at: Time.current)
 
       audit!(
         activity_type: "#{type.underscore}_auto_closed",
@@ -236,7 +236,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def rejected?
-    !applicant_approved && applicant_rejection_reason.present?
+    !approved && rejection_reason.present?
   end
 
   private

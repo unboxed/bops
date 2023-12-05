@@ -36,10 +36,10 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.string :state
       t.references :user
       t.boolean :post_validation, default: false, null: false
-      t.boolean :applicant_approved
+      t.boolean :approved
       t.text :reason
-      t.string :applicant_rejection_reason
-      t.text :applicant_response
+      t.string :rejection_reason
+      t.text :response
       t.datetime :notified_at
       t.datetime :cancelled_at
       t.text :cancel_reason
@@ -120,8 +120,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence,
         proposed_description: request.proposed_description,
         previous_description: request.previous_description,
-        applicant_approved: request.approved,
-        applicant_rejection_reason: request.rejection_reason,
+        approved: request.approved,
+        rejection_reason: request.rejection_reason,
         auto_closed: request.auto_closed,
         auto_closed_at: request.auto_closed_at
       )
@@ -145,8 +145,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence,
         new_geojson: request.new_geojson,
         original_geojson: request.original_geojson,
-        applicant_approved: request.approved,
-        applicant_rejection_reason: request.rejection_reason,
+        approved: request.approved,
+        rejection_reason: request.rejection_reason,
         auto_closed: request.auto_closed,
         auto_closed_at: request.auto_closed_at
       )
@@ -169,7 +169,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         cancelled_at: request.cancelled_at,
         cancel_reason: request.cancel_reason,
         sequence: request.sequence,
-        suggestion: request.suggestion
+        suggestion: request.suggestion,
+        response: request.response
       )
 
       vr.save(validate: false)
@@ -187,7 +188,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         cancelled_at: request.cancelled_at,
         cancel_reason: request.cancel_reason,
         sequence: request.sequence,
-        suggestion: request.suggestion
+        suggestion: request.suggestion,
+        response: request.response
       )
 
       vr.save(validate: false)
@@ -351,7 +353,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
     validation_request.all.where(requestable_type: "ReplacementDocumentValidationRequest").find_each do |request|
       document = Document.find_by(owner_id: request.id, owner_type: "ValidationRequest")
-      
+
       new_request = ReplacementDocumentValidationRequest.create!(
         state: request.state,
         user_id: request.user_id,
@@ -386,8 +388,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence,
         auto_closed_at: request.auto_closed_at,
         auto_closed: request.auto_closed,
-        approved: request.applicant_approved,
-        rejection_reason: request.applicant_rejection_reason,
+        approved: request.approved,
+        rejection_reason: request.rejection_reason,
         reason: request.reason,
         planning_application_id: request.planning_application_id
       )
@@ -409,8 +411,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence,
         auto_closed_at: request.auto_closed_at,
         auto_closed: request.auto_closed,
-        approved: request.applicant_approved,
-        rejection_reason: request.applicant_rejection_reason,
+        approved: request.approved,
+        rejection_reason: request.rejection_reason,
         reason: request.reason,
         planning_application_id: request.planning_application_id
       )
@@ -432,7 +434,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence,
         fee_item: false,
         summary: request.reason,
-        suggestion: request.specific_attributes["suggestion"],
+        suggestion: request.suggestion,
+        response: request.response,
         planning_application_id: request.planning_application_id
       )
 
@@ -453,7 +456,8 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
         sequence: request.sequence,
         fee_item: true,
         summary: request.reason,
-        suggestion: request.specific_attributes["suggestion"],
+        suggestion: request.suggestion,
+        response: request.response,
         planning_application_id: request.planning_application_id
       )
 
@@ -467,10 +471,10 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
       t.remove :state
       t.remove :user_id
       t.remove :post_validation
-      t.remove :applicant_approved
+      t.remove :approved
       t.remove :reason
-      t.remove :applicant_rejection_reason
-      t.remove :applicant_response
+      t.remove :rejection_reason
+      t.remove :response
       t.remove :notified_at
       t.remove :cancelled_at
       t.remove :cancel_reason

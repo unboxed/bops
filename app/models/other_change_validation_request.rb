@@ -17,7 +17,7 @@ class OtherChangeValidationRequest < ValidationRequest
   private
 
   def audit_api_comment
-    {applicant_response:}.to_json
+    {response:}.to_json
   end
 
   def audit_comment

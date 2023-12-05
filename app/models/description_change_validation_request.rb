@@ -49,7 +49,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
 
   def rejected_reason_is_present?
     return if planning_application.nil?
-    return unless applicant_approved == false && applicant_rejection_reason.blank?
+    return unless approved == false && rejection_reason.blank?
 
     errors.add(:base,
       "Please include a comment for the case officer to " \
@@ -61,10 +61,10 @@ class DescriptionChangeValidationRequest < ValidationRequest
   end
 
   def audit_api_comment
-    if applicant_approved?
-      {applicant_response: "approved"}.to_json
+    if approved?
+      {response: "approved"}.to_json
     else
-      {applicant_response: "rejected", reason: applicant_rejection_reason}.to_json
+      {response: "rejected", reason: rejection_reason}.to_json
     end
   end
 

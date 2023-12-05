@@ -345,7 +345,7 @@ RSpec.describe "checking consistency" do
       .last
 
     request.close!
-    request.update!(applicant_approved: true)
+    request.update!(approved: true)
     visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_link("Check description, documents and proposal details")
 
