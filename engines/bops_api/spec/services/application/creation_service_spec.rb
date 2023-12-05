@@ -5,18 +5,17 @@ require "rails_helper"
 RSpec.describe BopsApi::Application::CreationService, type: :service do
   describe "#call" do
     let(:user) { create(:api_user) }
+    let(:local_authority) { create(:local_authority) }
     let!(:application_type_ldc) { create(:application_type) }
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
 
+    let(:create_planning_application) do
+      described_class.new(
+        local_authority:, user:, params:
+      ).call!
+    end
+
     context "when successfully calling the service with params" do
-      let(:local_authority) { create(:local_authority) }
-
-      let(:create_planning_application) do
-        described_class.new(
-          local_authority:, user:, params:
-        ).call!
-      end
-
       context "when application type is LDCE" do
         let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read)) }
 
@@ -174,20 +173,89 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect { create_planning_application }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
+    end
 
-      context "when environment is production" do
-        let(:params) { {} }
+    context "when a planning application is provided" do
+      let!(:planning_application) { create(:planning_application, :with_v2_params, api_user: user) }
 
+      let(:create_planning_application) do
+        described_class.new(
+          planning_application:
+        ).call!
+      end
+
+      context "when successful" do
         before do
-          allow(ENV).to receive(:fetch).and_call_original
-          allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+          # Firstly, create the planning application to be cloned using the params_v2 value
+          create_planning_application
         end
+
+        it "creates a new planning application using params_v2 as the submission data" do
+          planning_application = PlanningApplication.last
+
+          expect(BopsApi::Application::AnonymisationService).not_to receive(:new)
+
+          expect do
+            described_class.new(
+              planning_application:
+            ).call!
+          end.to change(PlanningApplication, :count).by(1)
+
+          cloned_planning_application = PlanningApplication.last
+
+          expect(planning_application.reference).not_to eq(cloned_planning_application.reference)
+
+          expect(cloned_planning_application).to have_attributes(
+            id: planning_application.id + 1,
+            local_authority_id: planning_application.local_authority.id,
+            api_user_id: planning_application.api_user.id,
+            address_1: planning_application.address_1,
+            address_2: planning_application.address_2,
+            town: planning_application.town,
+            county: planning_application.county,
+            postcode: planning_application.postcode,
+            uprn: planning_application.uprn,
+            boundary_geojson: planning_application.boundary_geojson,
+            agent_first_name: planning_application.agent_first_name,
+            agent_email: planning_application.agent_email,
+            applicant_email: planning_application.applicant_email,
+            result_flag: planning_application.result_flag,
+            description: planning_application.description,
+            from_production: false,
+            lonlat: RGeo::Geographic.spherical_factory(srid: 4326).point(planning_application.longitude, planning_application.latitude)
+          )
+
+          expect(planning_application.params_v2).to eq(cloned_planning_application.params_v2)
+          expect(planning_application.planx_planning_data.session_id).to eq(cloned_planning_application.planx_planning_data.session_id)
+
+          # Proposal details have their own object id i.e. ProposalDetail:0x00007fe42a8476a8 so compare the json value instead
+          proposal_details = planning_application.proposal_details.map(&:to_json)
+          cloned_proposal_details = cloned_planning_application.proposal_details.map(&:to_json)
+          expect(proposal_details).to eq(cloned_proposal_details)
+        end
+      end
+
+      context "when there is no params_v2 value" do
+        let(:planning_application) { create(:planning_application) }
 
         it "raises an error" do
-          expect { create_planning_application }.to raise_error(
-            BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
-          )
+          expect { create_planning_application }.to raise_error(BopsApi::Errors::NotPermittedError, "Planning application cannot be cloned without V2 params")
         end
+      end
+    end
+
+    context "when environment is production" do
+      let(:params) { {} }
+
+      before do
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+      end
+
+      it "raises an error" do
+        expect { create_planning_application }.to raise_error(
+          BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
+        )
       end
     end
   end

@@ -3,14 +3,16 @@
 module BopsApi
   module Application
     class CreationService
-      def initialize(local_authority:, user:, params:)
-        if Bops.env.production?
-          raise BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
-        end
+      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil)
+        raise_not_permitted_in_production_error if Bops.env.production?
 
-        @local_authority = local_authority
-        @user = user
-        @params = params
+        if planning_application
+          initialize_from_planning_application(planning_application)
+        else
+          @local_authority = local_authority
+          @user = user
+          @params = params
+        end
       end
 
       def call!
@@ -83,7 +85,7 @@ module BopsApi
       end
 
       def skip_email?(planning_application)
-        params[:send_email] == "false" || planning_application.pending?
+        params[:send_email] == "false" || @send_email == false || planning_application.pending?
       end
 
       def schema
@@ -106,6 +108,23 @@ module BopsApi
           metadata: {},
           responses: [:question, {responses: [:value], metadata: [:policyRefs, :sectionName]}]
         )
+      end
+
+      def initialize_from_planning_application(planning_application)
+        params_v2 = planning_application.params_v2 || raise_not_permitted_to_clone_error
+
+        @params = ActionController::Parameters.new(JSON.parse(params_v2))
+        @local_authority = planning_application.local_authority
+        @user = planning_application.api_user
+        @send_email = false
+      end
+
+      def raise_not_permitted_in_production_error
+        raise BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
+      end
+
+      def raise_not_permitted_to_clone_error
+        raise BopsApi::Errors::NotPermittedError, "Planning application cannot be cloned without V2 params"
       end
     end
   end

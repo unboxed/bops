@@ -227,11 +227,13 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def clone
-    planning_application = PlanningApplicationCreationService.new(planning_application: @planning_application).call
+    planning_application = create_cloned_application
 
     respond_to do |format|
       format.html { redirect_to planning_application, notice: t(".success") }
     end
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_failed_clone_planning_application(e)
   end
 
   private
@@ -362,5 +364,17 @@ class PlanningApplicationsController < AuthenticationController
 
     flash.now[:alert] = t(".confirm_press_notice_published_at_html", href: planning_application_press_notice_confirmation_path(@planning_application))
     render :publish and return
+  end
+
+  def create_cloned_application
+    if @planning_application.params_v2
+      # Use V2 creation service if params v2 is present
+      BopsApi::Application::CreationService.new(planning_application: @planning_application).call!.tap do |pa|
+        pa.mark_accepted!
+      end
+    else
+      # Support cloning with params v1 until we deprecate the service
+      PlanningApplicationCreationService.new(planning_application: @planning_application).call
+    end
   end
 end

@@ -680,5 +680,11 @@ FactoryBot.define do
         create(:immunity_detail, planning_application:)
       end
     end
+
+    trait :with_v2_params do
+      after(:build) do |planning_application|
+        planning_application.planx_planning_data = build(:planx_planning_data, params_v2: file_fixture("v2/valid_planning_permission.json").read, planning_application:)
+      end
+    end
   end
 end
