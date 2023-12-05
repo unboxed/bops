@@ -3,7 +3,7 @@
   locals: { heading: t(".edit_local_authority") }
 ) do %>
   <%= form_with(
-     model: @local_authority
+     model: [:administrator, @local_authority]
   ) do |form| %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
     <%= form.govuk_fieldset(legend: { text: nil }) do %>

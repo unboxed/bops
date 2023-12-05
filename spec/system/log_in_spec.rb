@@ -75,7 +75,7 @@ RSpec.describe "Sign in" do
         fill_in("Security code", with: administrator.current_otp)
         click_button("Enter code")
 
-        expect(page).to have_current_path("/administrator_dashboard")
+        expect(page).to have_current_path("/administrator/dashboard")
 
         click_link("Log out")
 
@@ -198,7 +198,7 @@ RSpec.describe "Sign in" do
 
         click_link("Log out")
         sign_in(administrator)
-        visit "/administrator_dashboard"
+        visit "/administrator/dashboard"
 
         expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
       end
@@ -218,7 +218,7 @@ RSpec.describe "Sign in" do
 
         click_link("Log out")
         sign_in(administrator)
-        visit "/administrator_dashboard"
+        visit "/administrator/dashboard"
 
         expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
       end

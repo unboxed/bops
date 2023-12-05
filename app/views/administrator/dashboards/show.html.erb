@@ -2,15 +2,15 @@
   layout: "shared/administrator_layout",
   locals: { heading: t(".administrator_dashboard"), back_button: false }
 ) do %>
-  <%= render(partial: "users/table", locals: { users: @users }) %>
+  <%= render(partial: "administrator/users/table", locals: { users: @users }) %>
   <%= link_to(
     t(".add_user"),
-    new_user_path,
+    new_administrator_user_path,
     class: "govuk-button",
     data: { module: "govuk-button" }
   ) %>
   <%= render(
-    partial: "local_authorities/table",
+    partial: "administrator/local_authorities/table",
     locals: { local_authority: @local_authority }
   ) %>
 <% end %>
