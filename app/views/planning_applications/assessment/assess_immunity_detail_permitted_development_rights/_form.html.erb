@@ -71,7 +71,7 @@
                   value: @review_immunity_detail.try(:decision_is_not_immune?) ? @review_immunity_detail.decision_reason : nil
                 ) %>
               <% end %>
-              <div data-show-hide-target="toggleableWhenYes" class=<%= "display-none" if action_name == "new" || action_name == "create" || @review_immunity_detail.try(:decision_is_not_immune?) %>>
+              <div data-show-hide-target="toggleableWhenYes" class=<%= "govuk-!-display-none" if action_name == "new" || action_name == "create" || @review_immunity_detail.try(:decision_is_not_immune?) %>>
                 <%= review_immunity_detail.govuk_text_area(
                   :summary,
                   rows: 6,
@@ -82,7 +82,7 @@
               </div>
             </div>
 
-            <div data-show-hide-target="toggleableWhenNo" id="permitted-development-right-section" class=<%= "display-none" if action_name == "new" || action_name == "create" || @review_immunity_detail.try(:decision_is_immune?) %>>
+            <div data-show-hide-target="toggleableWhenNo" id="permitted-development-right-section" class=<%= "govuk-!-display-none" if action_name == "new" || action_name == "create" || @review_immunity_detail.try(:decision_is_immune?) %>>
               <h3 class="govuk-heading-m govuk-!-padding-top-4">
                 Permitted development rights
               </h3>

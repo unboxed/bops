@@ -5,7 +5,7 @@ export default class extends Controller {
 
   handleEvent(_event) {
     this.toggleableTargets.forEach((element) => {
-      element.classList.toggle("display-none")
+      element.classList.toggle("govuk-!-display-none")
     })
   }
 
@@ -21,10 +21,10 @@ export default class extends Controller {
     }
 
     this[`toggleableWhen${selectedDecisionValue}Targets`].forEach((element) => {
-      element.classList.remove("display-none")
+      element.classList.remove("govuk-!-display-none")
     })
     this[`toggleableWhen${oppositeValue}Targets`].forEach((element) => {
-      element.classList.add("display-none")
+      element.classList.add("govuk-!-display-none")
     })
   }
 }

@@ -1,6 +1,6 @@
 <% if comment.present? %>
   <div data-controller="show-hide submit-form">
-    <div data-show-hide-target="toggleable" class=<%= "display-none" if new_comment.errors.any? %>>
+    <div data-show-hide-target="toggleable" class=<%= "govuk-!-display-none" if new_comment.errors.any? %>>
       <h4 class="govuk-heading-s govuk-!-margin-bottom-0">
         <%= existing_policy_comment_label(comment) %>
       </h4>
@@ -15,7 +15,7 @@
         }
       ) %>
     </div>
-    <div data-show-hide-target="toggleable" class=<%= "display-none" unless new_comment.errors.any? %>>
+    <div data-show-hide-target="toggleable" class=<%= "govuk-!-display-none" unless new_comment.errors.any? %>>
       <%= form_with(
         model: [planning_application, :assessment, policy_class, policy, new_comment],
         data: { action: "submit->submit-form#handleSubmit" }

@@ -6,30 +6,30 @@ export default class extends Controller {
       if (
         !document
           .getElementById("site-notice-form-actions")
-          .classList.contains("display-none")
+          .classList.contains("govuk-!-display-none")
       ) {
         document
           .getElementById("site-notice-form-actions")
-          .classList.add("display-none")
+          .classList.add("govuk-!-display-none")
       }
 
       document
         .getElementById("site-notice-options")
-        .classList.remove("display-none")
+        .classList.remove("govuk-!-display-none")
     } else if (event.target.value === "false") {
       if (
         !document
           .getElementById("site-notice-options")
-          .classList.contains("display-none")
+          .classList.contains("govuk-!-display-none")
       ) {
         document
           .getElementById("site-notice-options")
-          .classList.add("display-none")
+          .classList.add("govuk-!-display-none")
       }
 
       document
         .getElementById("site-notice-form-actions")
-        .classList.remove("display-none")
+        .classList.remove("govuk-!-display-none")
     }
   }
 }

@@ -15,7 +15,7 @@
           model: neighbour,
           data: { action: "submit->submit-form#handleSubmit" },
           url: planning_application_consultation_neighbour_letter_path(planning_application, neighbour),
-          class: "display-none"
+          class: "govuk-!-display-none"
         ) do |form| %>
           <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
           <%= form.govuk_text_field :address %>

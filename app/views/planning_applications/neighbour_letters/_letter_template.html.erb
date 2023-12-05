@@ -7,7 +7,7 @@
       method: "post"
     ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <%= form.label :neighbour_letter_text, "Neighbour letter", class: "display-none" %>
+  <%= form.label :neighbour_letter_text, "Neighbour letter", class: "govuk-!-display-none" %>
   <div class="govuk-inset-text">
     <p class="govuk-body">Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
     <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>

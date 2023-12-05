@@ -10,10 +10,10 @@ export default class extends Controller {
     )
     event.currentTarget.parentElement.parentElement
       .querySelector(".govuk-body")
-      .classList.add("display-none")
+      .classList.add("govuk-!-display-none")
     event.currentTarget.parentElement.parentElement
       .querySelector("form")
-      .classList.remove("display-none")
-    event.currentTarget.parentElement.classList.add("display-none")
+      .classList.remove("govuk-!-display-none")
+    event.currentTarget.parentElement.classList.add("govuk-!-display-none")
   }
 }
