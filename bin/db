@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+db_dump() {
+  if [ -z "$1" ]; then
+    echo "Please supply a name for the file to dump the database to"
+    exit
+  fi
+
+  if [ -e "tmp/dumps/$1.dump" ]; then
+    echo "The dump file '$1' already exists - either run 'db remove $1' or run 'db clean' to remove all dump files";
+    exit
+  fi
+
+  pg_dump -Fc --no-acl --no-owner -d "$DATABASE_URL/bops_development" > "tmp/dumps/$1.dump"
+
+  echo "Dumped the database to dump file '$1'"
+}
+
+db_reset() {
+  export PGOPTIONS='--client-min-messages=warning'
+
+  psql $DATABASE_URL -c 'DROP DATABASE IF EXISTS bops_development;'
+  psql $DATABASE_URL -c 'CREATE DATABASE bops_development;'
+
+  echo "Reset the database to an empty state - either load the schema or restore a dump file"
+}
+
+db_restore() {
+  if [ -z "$1" ]; then
+    echo "Please supply a name for the file to restore the database from"
+    exit
+  fi
+
+  if ! [ -e "tmp/dumps/$1.dump" ]; then
+    echo "Couldn't find the dump file '$1'";
+    exit
+  fi
+
+  export PGOPTIONS='--client-min-messages=warning'
+
+  psql $DATABASE_URL -c 'DROP DATABASE IF EXISTS bops_development;'
+  psql $DATABASE_URL -c 'CREATE DATABASE bops_development;'
+  pg_restore --verbose --clean --if-exists --no-acl --no-owner -d "$DATABASE_URL/bops_development" "tmp/dumps/$1.dump"
+
+  echo "Restored the database from dump file '$1'"
+}
+
+db_remove() {
+  if [ -z "$1" ]; then
+    echo "Please supply a name of a dump file to remove"
+    exit
+  fi
+
+  if ! [ -e "tmp/dumps/$1.dump" ]; then
+    echo "Couldn't find the dump file '$1'";
+    exit
+  fi
+
+  rm -f "tmp/dumps/$1.dump"
+  echo "Removed dump file '$1'"
+}
+
+db_clean() {
+  rm -rf tmp/dumps/*.dump
+  echo "Removed all dump files"
+}
+
+mkdir -p "tmp/dumps"
+
+case "$1" in
+  dump)
+    db_dump "$2"
+    ;;
+  reset)
+    db_reset
+    ;;
+  restore)
+    db_restore "$2"
+    ;;
+  remove)
+    db_remove "$2"
+    ;;
+  clean)
+    db_clean
+    ;;
+  *)
+    echo "Usage: $0 {dump|reset|restore|remove|clean}"
+    ;;
+esac
