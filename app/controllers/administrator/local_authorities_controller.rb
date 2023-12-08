@@ -4,6 +4,9 @@ module Administrator
   class LocalAuthoritiesController < ApplicationController
     before_action :set_local_authority, only: %i[edit update]
 
+    def show
+    end
+
     def edit
     end
 
@@ -13,7 +16,7 @@ module Administrator
           "administrator.dashboards.show.local_authority_successfully_updated"
         )
 
-        redirect_to administrator_dashboard_path
+        redirect_to administrator_local_authority_path
       else
         render :edit
       end

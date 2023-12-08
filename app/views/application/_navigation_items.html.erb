@@ -1,0 +1,20 @@
+<% if current_user.administrator? %>
+  <div class="govuk-header__navigation-item">
+    <%= link_to(
+       t(".users"),
+       administrator_users_path,
+       class: "govuk-header__link"
+    ) %>
+  </div>
+  <div class="govuk-header__navigation-item">
+    <%= link_to(
+       t(".settings"),
+       administrator_local_authority_path,
+       class: "govuk-header__link"
+    ) %>
+  </div>
+<% else %>
+  <div class="govuk-header__navigation-item">
+    <strong><%= current_user.name %></strong>
+  </div>
+<% end %>

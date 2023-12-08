@@ -6,9 +6,12 @@ RSpec.describe "managing council information" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :administrator, local_authority:) }
 
-  it "allows the administrator to manage the reviewer group email" do
+  before do
     sign_in(user)
-    visit "/administrator/dashboard"
+    visit "/administrator/local_authority"
+  end
+
+  it "allows the administrator to manage the reviewer group email" do
     row = row_with_content("Manager group email")
     within(row) { click_link("Edit") }
     fill_in("Manager group email", with: "qwerty")
@@ -28,8 +31,6 @@ RSpec.describe "managing council information" do
   end
 
   it "allows the administrator to manage the press notice email" do
-    sign_in(user)
-    visit "/administrator/dashboard"
     row = row_with_content("Press notice email")
     within(row) { click_link("Edit") }
     fill_in("Press notice email", with: "ssssss")

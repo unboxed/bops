@@ -249,7 +249,7 @@ Rails.application.routes.draw do
 
   namespace :administrator do
     resource :dashboard, only: %i[show]
-    resources :local_authorities, only: %i[edit update]
-    resources :users, only: %i[new create edit update]
+    resource :local_authority, only: %i[show edit update]
+    resources :users, only: %i[index new create edit update]
   end
 end

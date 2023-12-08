@@ -20,7 +20,7 @@ RSpec.describe "managing users" do
     end
 
     it "allows adding of new user" do
-      visit "/administrator/dashboard"
+      visit "/administrator/users"
       click_link("Add user")
       click_button("Submit")
 
@@ -107,7 +107,7 @@ RSpec.describe "managing users" do
         otp_delivery_method: :email
       )
 
-      visit "/administrator/dashboard"
+      visit "/administrator/users"
       row = row_with_content("Bella Jones")
       within(row) { click_link("Edit") }
       fill_in("Email", with: "")
@@ -138,7 +138,7 @@ RSpec.describe "managing users" do
     end
 
     it "does not allow current user to update own role" do
-      visit "/administrator/dashboard"
+      visit "/administrator/users"
       row = row_with_content("Carrie Taylor")
       within(row) { click_link("Edit") }
 

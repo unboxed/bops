@@ -200,6 +200,10 @@ RSpec.describe "Sign in" do
         sign_in(administrator)
         visit "/administrator/dashboard"
 
+        expect(page).to have_content("Welcome #{administrator.name}")
+
+        click_link("Users")
+
         expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
       end
 
@@ -219,6 +223,8 @@ RSpec.describe "Sign in" do
         click_link("Log out")
         sign_in(administrator)
         visit "/administrator/dashboard"
+
+        click_link("Users")
 
         expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
       end

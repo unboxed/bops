@@ -291,10 +291,16 @@ en:
         local_authority_successfully_updated: Council information successfully updated
         user_successfully_created: User successfully created
         user_successfully_updated: User successfully updated
+        welcome_message: Welcome %{name}
     local_authorities:
       edit:
-        edit_local_authority: Edit council information
+        local_authority: Edit council information settings
+      form:
+        press_notice_email: Press notice email
+        reviewer_group_email: Manager group email
         submit: Submit
+      show:
+        local_authority: Council information settings
       table:
         edit: Edit
         local_authority: Council information
@@ -307,6 +313,9 @@ en:
         email: Email
         sms: SMS
         submit: Submit
+      index:
+        add_user: Add user
+        users: Users
       new:
         add_user: Add a new user
       sessions:
@@ -337,6 +346,9 @@ en:
     header:
       back_office_planning: Back-office Planning System
       log_out: Log out
+    navigation_items:
+      settings: Settings
+      users: Users
   application_type_codes:
     lawfulness_certificate:
       existing: LDCE
@@ -1430,11 +1442,6 @@ en:
         view_next_class: View next class
         view_previous_class: View previous class
   shared:
-    administrator_layout:
-      add_user: Add user
-      press_notice_email: Press notice email
-      reviewer_group_email: Manager group email
-      submit: Submit
     alert_banner:
       warning: Warning
     application_information:

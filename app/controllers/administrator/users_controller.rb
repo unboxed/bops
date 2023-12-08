@@ -4,6 +4,10 @@ module Administrator
   class UsersController < ApplicationController
     before_action :set_user, only: %i[edit update]
 
+    def index
+      @users = current_local_authority.users
+    end
+
     def new
       @user = current_local_authority.users.new
     end
@@ -19,7 +23,7 @@ module Administrator
           "administrator.dashboards.show.user_successfully_created"
         )
 
-        redirect_to administrator_dashboard_path
+        redirect_to administrator_users_path
       else
         render :new
       end
@@ -31,7 +35,7 @@ module Administrator
           "administrator.dashboards.show.user_successfully_updated"
         )
 
-        redirect_to administrator_dashboard_path
+        redirect_to administrator_users_path
       else
         render :edit
       end

@@ -1,0 +1,30 @@
+<% content_for :page_title do %>
+  <%= t(".users") %> - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+
+<% content_for :title, t(".users") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".users") %>
+    </h1>
+    <%= render(
+      partial: "table",
+      locals: { users: @users }
+    ) %>
+
+    <div class="govuk-button-group">
+      <%= link_to(
+        t(".add_user"),
+        new_administrator_user_path,
+        class: "govuk-button",
+        data: { module: "govuk-button" }
+      ) %>
+
+      <%= back_link %>
+    </div>
+  </div>
+</div>
