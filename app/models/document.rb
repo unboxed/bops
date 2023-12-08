@@ -276,8 +276,8 @@ class Document < ApplicationRecord
 
   def reset_replacement_document_validation_request_update_counter!
     return unless validated? || archived?
-    return unless (request = owner)
+    return if owner.nil?
 
-    request.reset_update_counter!
+    owner.reset_update_counter!
   end
 end

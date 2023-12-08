@@ -217,7 +217,7 @@ module PlanningApplications
       end
 
       def set_validation_request
-        return if validation_request_id.blank?
+        return if params[:id].blank?
 
         @validation_request = @planning_application.validation_requests.find(validation_request_id)
       end
