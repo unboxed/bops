@@ -2,8 +2,6 @@
 
 module Administrator
   class LocalAuthoritiesController < ApplicationController
-    include Administratable
-
     before_action :set_local_authority, only: %i[edit update]
 
     def edit

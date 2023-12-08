@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module Administrator
-  class UsersController < AuthenticationController
-    include Administratable
-
+  class UsersController < ApplicationController
     before_action :set_user, only: %i[edit update]
 
     def new
