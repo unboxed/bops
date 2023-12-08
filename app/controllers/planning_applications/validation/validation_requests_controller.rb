@@ -217,13 +217,13 @@ module PlanningApplications
       end
 
       def set_validation_request
-        return if params.permit(:id)[:id].nil?
+        return if validation_request_id.blank?
 
         @validation_request = @planning_application.validation_requests.find(validation_request_id)
       end
 
       def validation_request_id
-        Integer(params.permit(:id)[:id].to_s)
+        Integer(params[:id].to_s)
       end
 
       def set_type

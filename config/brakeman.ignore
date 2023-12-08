@@ -15,7 +15,7 @@
           "type": "controller",
           "class": "PlanningApplicationsController",
           "method": "confirm_validation",
-          "line": 80,
+          "line": 74,
           "file": "app/controllers/planning_applications_controller.rb",
           "rendered": {
             "name": "planning_applications/confirm_validation",
@@ -35,13 +35,47 @@
       "note": ""
     },
     {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "7db818492a354dcc125c250a78a18b6689d8fa8545c3e7c1a015440df0ea2094",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/planning_applications/validation/validation_requests/cancel_confirmation.html.erb",
+      "line": 1,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"planning_applications/validation/#{PlanningApplicationPresenter.new(view_context, planning_applications_scope.find(planning_application_id)).validation_requests.find(params[:id].to_i).model_name.plural}/cancel_confirmation\", {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "PlanningApplications::Validation::ValidationRequestsController",
+          "method": "cancel",
+          "line": 124,
+          "file": "app/controllers/planning_applications/validation/validation_requests_controller.rb",
+          "rendered": {
+            "name": "planning_applications/validation/validation_requests/cancel_confirmation",
+            "file": "app/views/planning_applications/validation/validation_requests/cancel_confirmation.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "planning_applications/validation/validation_requests/cancel_confirmation"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "HTTP Verb Confusion",
       "warning_code": 118,
       "fingerprint": "9629e1b14cc8c66eb28d151ebd4ca28a458a3add860a62c9130def76133d424c",
       "check_name": "VerbConfusion",
       "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
       "file": "app/controllers/application_controller.rb",
-      "line": 67,
+      "line": 69,
       "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
       "code": "session[:back_path] = request.referer if request.get?",
       "render_path": null,
@@ -64,7 +98,7 @@
       "check_name": "CrossSiteScripting",
       "message": "Unescaped model attribute",
       "file": "app/views/planning_applications/make_public.html.erb",
-      "line": 28,
+      "line": 26,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
       "code": "(Unresolved Model).new.message",
       "render_path": [
@@ -72,7 +106,7 @@
           "type": "controller",
           "class": "PlanningApplicationsController",
           "method": "make_public",
-          "line": 183,
+          "line": 178,
           "file": "app/controllers/planning_applications_controller.rb",
           "rendered": {
             "name": "planning_applications/make_public",
@@ -92,6 +126,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-10-24 14:24:08 +0100",
+  "updated": "2023-12-08 15:07:33 +0000",
   "brakeman_version": "6.0.1"
 }
