@@ -1,9 +1,10 @@
+<hr>
 <div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>">
-  <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend">
-      <p class="govuk-fieldset__heading govuk-!-font-weight-bold">
+  <fieldset class="govuk-fieldset govuk-!-margin-top-4">
+    <legend class="govuk-fieldset__legend">
+      <h3 class="govuk-heading-s">
         What does the document contain?
-      </p>
+      </h3>
     </legend>
 
     <% if form.object.errors[:tags].any? %>
@@ -13,35 +14,58 @@
       <% end %>
     <% end %>
 
-
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-half">
-        <h3 class="govuk-heading-s govuk-!-padding-top-4">
-          PLANS
-        </h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :tags, @planning_application.application_type.document_plan_tags, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+    <% @planning_application.application_type.document_tags.keys.each do |key| %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h3 class="govuk-heading-s">
+            <%= key.humanize %>
+          </h3>
+          <% if @planning_application.application_type.document_tags[key].count > 1 %>
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-checkboxes govuk-checkboxes--small">
+                <%= form.collection_check_boxes :tags, tags_first_half(@planning_application.application_type.document_tags[key]), :itself, :itself do |b| %>
+                  <div class="govuk-checkboxes__item">
+                    <%= b.check_box class: "govuk-checkboxes__input" %>
+                    <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                  </div>
+                <% end %>
+              </div>
             </div>
           <% end %>
-        </div>
-      </div>
-
-      <div class="govuk-grid-column-one-half">
-        <h3 class="govuk-heading-s govuk-!-padding-top-5">
-          EVIDENCE
-        </h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :tags, @planning_application.application_type.document_evidence_tags, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+          <% if @planning_application.application_type.document_tags[key].count > 1 %>
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-checkboxes govuk-checkboxes--small">
+                <%= form.collection_check_boxes :tags, tags_second_half(@planning_application.application_type.document_tags[key]), :itself, :itself do |b| %>
+                  <div class="govuk-checkboxes__item">
+                    <%= b.check_box class: "govuk-checkboxes__input" %>
+                    <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                  </div>
+                <% end %>
+              </div>
             </div>
           <% end %>
+          <div class="govuk-grid-column-full">
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  See all (<%= (Document.send("#{key}_tags") - @planning_application.application_type.document_tags[key]).count %>)
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <%= form.collection_check_boxes :tags, (Document.send("#{key}_tags") - @planning_application.application_type.document_tags[key]), :itself, :itself do |b| %>
+                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                    <div class="govuk-checkboxes__item">
+                      <%= b.check_box class: "govuk-checkboxes__input" %>
+                      <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </details>
+          </div>
         </div>
       </div>
-    </div>
+      <hr>
+    <% end %>
   </fieldset>
 </div>

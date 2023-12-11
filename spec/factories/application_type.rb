@@ -36,6 +36,7 @@ FactoryBot.define do
           "Tenancy Invoice",
           "Bank Statement",
           "Statutory Declaration",
+          "Discounts",
           "Other"
         ],
         plans: %w[
@@ -51,11 +52,7 @@ FactoryBot.define do
           Proposed
           Existing
         ],
-        other: [
-          "Site Visit",
-          "Site Notice",
-          "Press Notice"
-        ]
+        supporting_documents: []
       }
     end
 
@@ -83,6 +80,57 @@ FactoryBot.define do
           site_map_correct
         ]
       end
+
+      document_tags do
+        {
+          evidence: [
+            "Discounts"
+          ],
+          plans: %w[
+            Front
+            Rear
+            Side
+            Roof
+            Floor
+            Site
+            Plan
+            Elevation
+            Section
+            Proposed
+            Existing
+          ],
+          supporting_documents: [
+            "Site Visit",
+            "Site Notice",
+            "Press Notice",
+            "Design and Access Statement",
+            "Planning Statement",
+            "Viability Appraisal",
+            "Heritage Statement",
+            "Agricultural, Forestry or Occupational Worker Dwelling Justification",
+            "Arboricultural Assessment",
+            "Structural Survey/report",
+            "Air Quality Assessment",
+            "Basement Impact Assessment",
+            "Biodiversity Net Gain (from April)",
+            "Contaminated Land Assessment",
+            "Daylight and Sunlight Assessment",
+            "Flood Risk Assessment/Drainage and SuDs Report",
+            "Landscape and Visual Impact Assessment",
+            "Noise Impact Assessment",
+            "Open Space Assessment",
+            "Sustainability and Energy Statement",
+            "Transport Statement",
+            "NDSS Compliance Statement",
+            "Ventilation/Extraction Statement",
+            "Community Infrastructure Levy (CIL) form",
+            "Gypsy and Traveller Statement",
+            "HMO statement",
+            "Specialist Accommodation Statement",
+            "Student Accommodation Statement"
+          ]
+        }
+      end
     end
 
     trait :planning_permission do
@@ -107,6 +155,57 @@ FactoryBot.define do
           proposal_details_match_documents
           site_map_correct
         ]
+      end
+
+      document_tags do
+        {
+          evidence: [
+            "Discounts"
+          ],
+          plans: %w[
+            Front
+            Rear
+            Side
+            Roof
+            Floor
+            Site
+            Plan
+            Elevation
+            Section
+            Proposed
+            Existing
+          ],
+          supporting_documents: [
+            "Site Visit",
+            "Site Notice",
+            "Press Notice",
+            "Design and Access Statement",
+            "Planning Statement",
+            "Viability Appraisal",
+            "Heritage Statement",
+            "Agricultural, Forestry or Occupational Worker Dwelling Justification",
+            "Arboricultural Assessment",
+            "Structural Survey/report",
+            "Air Quality Assessment",
+            "Basement Impact Assessment",
+            "Biodiversity Net Gain (from April)",
+            "Contaminated Land Assessment",
+            "Daylight and Sunlight Assessment",
+            "Flood Risk Assessment/Drainage and SuDs Report",
+            "Landscape and Visual Impact Assessment",
+            "Noise Impact Assessment",
+            "Open Space Assessment",
+            "Sustainability and Energy Statement",
+            "Transport Statement",
+            "NDSS Compliance Statement",
+            "Ventilation/Extraction Statement",
+            "Community Infrastructure Levy (CIL) form",
+            "Gypsy and Traveller Statement",
+            "HMO statement",
+            "Specialist Accommodation Statement",
+            "Student Accommodation Statement"
+          ]
+        }
       end
     end
 

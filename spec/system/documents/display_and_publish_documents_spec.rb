@@ -50,7 +50,8 @@ RSpec.describe "Edit document numbers page" do
         expect(page).to have_text("Elevation")
         expect(page).to have_text("Proposed")
         expect(page).to have_text("Photograph")
-        expect(page).to have_text("EVIDENCE")
+        expect(page).to have_text("Evidence")
+        expect(page).to have_text("Supporting documents")
         expect(page).to have_text("proposed-floorplan.png")
       end
 

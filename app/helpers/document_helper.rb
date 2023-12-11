@@ -13,6 +13,10 @@ module DocumentHelper
     Document::EVIDENCE_TAGS.include?(tag)
   end
 
+  def supporting_document_tag?(tag)
+    Document::SUPPORT_TAGS.include?(tag)
+  end
+
   def created_by(document)
     if document.user.present?
       "This document was manually uploaded by #{document.user.name}."
@@ -31,5 +35,15 @@ module DocumentHelper
 
   def reference_or_file_name(document)
     document.numbers.presence || document.name
+  end
+
+  def tags_first_half(tags)
+    count = (tags.count.round / 2.to_f).ceil
+    tags.in_groups_of(count).first
+  end
+
+  def tags_second_half(tags)
+    count = (tags.count.round / 2.to_f).ceil
+    tags.in_groups_of(count).second
   end
 end

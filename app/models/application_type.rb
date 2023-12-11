@@ -41,14 +41,6 @@ class ApplicationType < ApplicationRecord
     document_tags.values.flatten
   end
 
-  def document_evidence_tags
-    document_tags["evidence"]
-  end
-
-  def document_plan_tags
-    document_tags["plans"]
-  end
-
   class << self
     def menu(scope = all)
       scope.order(name: :asc).select(:name, :id).map do |application_type|

@@ -56,13 +56,39 @@ class Document < ApplicationRecord
     "Tenancy Invoice",
     "Bank Statement",
     "Statutory Declaration",
+    "Discounts",
     "Other"
   ].freeze
 
-  OTHER_TAGS = [
+  SUPPORT_TAGS = [
     "Site Visit",
     "Site Notice",
-    "Press Notice"
+    "Press Notice",
+    "Design and Access Statement",
+    "Planning Statement",
+    "Viability Appraisal",
+    "Heritage Statement",
+    "Agricultural, Forestry or Occupational Worker Dwelling Justification",
+    "Arboricultural Assessment",
+    "Structural Survey/report",
+    "Air Quality Assessment",
+    "Basement Impact Assessment",
+    "Biodiversity Net Gain (from April)",
+    "Contaminated Land Assessment",
+    "Daylight and Sunlight Assessment",
+    "Flood Risk Assessment/Drainage and SuDs Report",
+    "Landscape and Visual Impact Assessment",
+    "Noise Impact Assessment",
+    "Open Space Assessment",
+    "Sustainability and Energy Statement",
+    "Transport Statement",
+    "NDSS Compliance Statement",
+    "Ventilation/Extraction Statement",
+    "Community Infrastructure Levy (CIL) form",
+    "Gypsy and Traveller Statement",
+    "HMO statement",
+    "Specialist Accommodation Statement",
+    "Student Accommodation Statement"
   ].freeze
 
   ## Needs to be better
@@ -101,7 +127,7 @@ class Document < ApplicationRecord
     other: ["What do these documents show?"]
   }.freeze
 
-  TAGS = PLAN_TAGS + EVIDENCE_TAGS + OTHER_TAGS
+  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SUPPORT_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
   EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit].freeze
@@ -146,6 +172,20 @@ class Document < ApplicationRecord
   before_create do
     self.api_user ||= Current.api_user
     self.user ||= Current.user
+  end
+
+  class << self
+    def evidence_tags
+      EVIDENCE_TAGS
+    end
+
+    def plans_tags
+      PLAN_TAGS
+    end
+
+    def supporting_documents_tags
+      SUPPORT_TAGS
+    end
   end
 
   def name
@@ -245,7 +285,7 @@ class Document < ApplicationRecord
   end
 
   def tag_values_permitted
-    errors.add(:tags, :unpermitted_tags) unless (tags - planning_application.application_type.document_tag_list).empty?
+    errors.add(:tags, :unpermitted_tags) unless (tags - Document::TAGS).empty?
   end
 
   def file_content_type_permitted
