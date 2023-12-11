@@ -27,4 +27,19 @@ export default class extends Controller {
       element.classList.add("govuk-!-display-none")
     })
   }
+
+  showDisplayNone(event) {
+    event.preventDefault()
+
+    const target = event.currentTarget
+
+    target.parentElement.parentElement
+      .querySelector(".document-tags")
+      .classList.remove("govuk-!-display-none")
+    target.classList.add("govuk-!-display-none")
+    target.parentElement.classList.remove(
+      "govuk-!-margin-bottom-3",
+      "govuk-!-margin-top-2",
+    )
+  }
 }

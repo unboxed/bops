@@ -17,6 +17,10 @@ module DocumentHelper
     Document::SUPPORT_TAGS.include?(tag)
   end
 
+  def irrelevant_tags(planning_application, key)
+    Document.send("#{key}_tags") - planning_application.application_type.document_tags[key]
+  end
+
   def created_by(document)
     if document.user.present?
       "This document was manually uploaded by #{document.user.name}."

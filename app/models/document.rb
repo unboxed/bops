@@ -88,7 +88,8 @@ class Document < ApplicationRecord
     "Gypsy and Traveller Statement",
     "HMO statement",
     "Specialist Accommodation Statement",
-    "Student Accommodation Statement"
+    "Student Accommodation Statement",
+    "Other Supporting Document"
   ].freeze
 
   ## Needs to be better

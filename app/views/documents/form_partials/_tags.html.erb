@@ -1,5 +1,5 @@
 <hr>
-<div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>">
+<div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>" data-controller="show-hide">
   <fieldset class="govuk-fieldset govuk-!-margin-top-4">
     <legend class="govuk-fieldset__legend">
       <h3 class="govuk-heading-s">
@@ -31,8 +31,6 @@
                 <% end %>
               </div>
             </div>
-          <% end %>
-          <% if @planning_application.application_type.document_tags[key].count > 1 %>
             <div class="govuk-grid-column-one-half">
               <div class="govuk-checkboxes govuk-checkboxes--small">
                 <%= form.collection_check_boxes :tags, tags_second_half(@planning_application.application_type.document_tags[key]), :itself, :itself do |b| %>
@@ -44,24 +42,38 @@
               </div>
             </div>
           <% end %>
-          <div class="govuk-grid-column-full">
-            <details class="govuk-details" data-module="govuk-details">
-              <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                  See all (<%= (Document.send("#{key}_tags") - @planning_application.application_type.document_tags[key]).count %>)
-                </span>
-              </summary>
-              <div class="govuk-details__text">
-                <%= form.collection_check_boxes :tags, (Document.send("#{key}_tags") - @planning_application.application_type.document_tags[key]), :itself, :itself do |b| %>
+          <div>
+            <div class="govuk-grid-column-full govuk-!-margin-bottom-3 govuk-!-margin-top-2">
+              <a class="show-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#showDisplayNone">
+                Show all (<%= irrelevant_tags(@planning_application, key).count %>)
+              </a>
+            </div>
+            <div class="document-tags govuk-!-display-none">
+              <% if irrelevant_tags(@planning_application, key).count > 0 %>
+                <div class="govuk-grid-column-one-half">
                   <div class="govuk-checkboxes govuk-checkboxes--small">
-                    <div class="govuk-checkboxes__item">
-                      <%= b.check_box class: "govuk-checkboxes__input" %>
-                      <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                    <%= form.collection_check_boxes :tags, tags_first_half(irrelevant_tags(@planning_application, key)), :itself, :itself do |b| %>
+                      <div class="govuk-checkboxes__item">
+                        <%= b.check_box class: "govuk-checkboxes__input" %>
+                        <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <% unless tags_second_half(irrelevant_tags(@planning_application, key)).nil? %>
+                  <div class="govuk-grid-column-one-half">
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                      <%= form.collection_check_boxes :tags, tags_second_half(irrelevant_tags(@planning_application, key)), :itself, :itself do |b| %>
+                        <div class="govuk-checkboxes__item">
+                          <%= b.check_box class: "govuk-checkboxes__input" %>
+                          <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                        </div>
+                      <% end %>
                     </div>
                   </div>
                 <% end %>
-              </div>
-            </details>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>

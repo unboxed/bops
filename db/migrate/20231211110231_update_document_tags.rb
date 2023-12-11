@@ -78,7 +78,8 @@ class UpdateDocumentTags < ActiveRecord::Migration[7.0]
             "Gypsy and Traveller Statement",
             "HMO statement",
             "Specialist Accommodation Statement",
-            "Student Accommodation Statement"
+            "Student Accommodation Statement",
+            "Other Supporting Document"
           ]
         }
       end
