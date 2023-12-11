@@ -121,7 +121,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       expect(page).to have_content("Check all necessary documents have been provided and add requests for any missing documents.")
       expect(page).to have_link(
         "Add a request for a missing document",
-        href: new_planning_application_validation_additional_document_validation_request_path(planning_application, type: "additional_document")
+        href: new_planning_application_validation_validation_request_path(planning_application, type: "additional_document")
       )
 
       within(".govuk-table.current-documents") do

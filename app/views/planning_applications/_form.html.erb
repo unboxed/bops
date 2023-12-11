@@ -10,7 +10,7 @@
       <div class="govuk-form-group govuk-!-margin-bottom-4">
         <%= form.govuk_select(:application_type_id, ApplicationType.menu, options: { include_blank: true }, label: { text: "Application type" }) %>
       </div>
-      
+
       <p class="govuk-body">
         <%= form.label :description, "Description", class: "govuk-heading-m govuk-!-margin-bottom-1" %>
         <%= form.text_area :description, class: "govuk-textarea", rows: "5" %>
@@ -18,9 +18,9 @@
     <% else %>
       <p class="govuk-body">
         <% if @planning_application.description_change_validation_requests.open.any? %>
-          <%= link_to "View requested change", planning_application_validation_description_change_validation_request_path(@planning_application, @planning_application.description_changes_validation_request.id), class: "govuk-link" %>
+          <%= link_to "View requested change", planning_application_validation_validation_request_path(@planning_application, @planning_application.description_changes_validation_request.id), class: "govuk-link" %>
         <% elsif !@planning_application.closed_or_cancelled? %>
-          <%= link_to "Propose a change to the description", new_planning_application_validation_description_change_validation_request_path(@planning_application, type: "description_change"), class: "govuk-link" %>
+          <%= link_to "Propose a change to the description", new_planning_application_validation_validation_request_path(@planning_application, type: "description_change"), class: "govuk-link" %>
         <% end %>
       </p>
 
