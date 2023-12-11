@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  <%= t(".local_authority") %> - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+
+<% content_for :title, "Settings" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".local_authority") %>
+    </h1>
+    <%= render(
+      partial: "table",
+      locals: { local_authority: current_local_authority }
+    ) %>
+
+    <div class="govuk-button-group">
+      <%= back_link %>
+    </div>
+  </div>
+</div>

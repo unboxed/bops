@@ -1,0 +1,22 @@
+<%= form_with(
+   model: [:administrator, current_local_authority]
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_fieldset(legend: { text: nil }) do %>
+    <%= form.govuk_text_field(
+       :reviewer_group_email,
+       label: { text: t(".reviewer_group_email") },
+       class: "govuk-input--width-30"
+    ) %>
+    <%= form.govuk_text_field(
+       :press_notice_email,
+       label: { text: t(".press_notice_email") },
+       class: "govuk-input--width-30"
+    ) %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_submit(t(".submit")) %>
+    <%= back_link %>
+  </div>
+<% end %>

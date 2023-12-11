@@ -39,8 +39,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: %i[new create edit update]
-
   resources :planning_applications, except: %i[destroy] do
     member do
       get :confirm_validation
@@ -249,11 +247,9 @@ Rails.application.routes.draw do
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
 
-  resources :local_authorities, only: %i[edit update]
-
-  resource(
-    :administrator_dashboard,
-    only: %i[show],
-    controller: :administrator_dashboard
-  )
+  namespace :administrator do
+    resource :dashboard, only: %i[show]
+    resource :local_authority, only: %i[show edit update]
+    resources :users, only: %i[index new create edit update]
+  end
 end

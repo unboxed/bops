@@ -1,4 +1,4 @@
-<%= form_with model: user do |form| %>
+<%= form_with model: [:administrator, user] do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.govuk_fieldset(legend: { text: nil }) do %>
     <%= form.govuk_text_field :name, class: "govuk-input--width-30" %>
@@ -19,5 +19,9 @@
       ) %>
     <% end %>
   <% end %>
-  <%= form.govuk_submit(t(".submit")) %>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_submit(t(".submit")) %>
+    <%= back_link %>
+  </div>
 <% end %>

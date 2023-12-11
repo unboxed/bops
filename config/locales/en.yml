@@ -284,12 +284,57 @@ en:
     add_consultee: Add consultee
     search_for_consultees: Search for consultees
     start_typing: Start typing name, organisation or role
-  administrator_dashboard:
-    show:
-      administrator_dashboard: Administrator dashboard
-      local_authority_successfully_updated: Council information successfully updated
-      user_successfully_created: User successfully created
-      user_successfully_updated: User successfully updated
+  administrator:
+    dashboards:
+      show:
+        administrator_dashboard: Administrator dashboard
+        local_authority_successfully_updated: Council information successfully updated
+        user_successfully_created: User successfully created
+        user_successfully_updated: User successfully updated
+        welcome_message: Welcome %{name}
+    local_authorities:
+      edit:
+        local_authority: Edit council information settings
+      form:
+        press_notice_email: Press notice email
+        reviewer_group_email: Manager group email
+        submit: Submit
+      show:
+        local_authority: Council information settings
+      table:
+        edit: Edit
+        local_authority: Council information
+        press_notice_email: Press notice email
+        reviewer_group_email: Manager group email
+    users:
+      edit:
+        edit_user: Edit user
+      form:
+        email: Email
+        sms: SMS
+        submit: Submit
+      index:
+        add_user: Add user
+        users: Users
+      new:
+        add_user: Add a new user
+      sessions:
+        create:
+          two_factor_invalid: Your two factor code is invalid.
+      table:
+        actions: Actions
+        confirmed: Confirmed
+        edit: Edit
+        email: Email
+        'false': 'No'
+        mobile_number: Mobile number
+        name: Name
+        otp_delivery_method: Verification code delivery method
+        otp_required_for_login: Two factor authentication
+        role: Role
+        sms: SMS
+        'true': 'Yes'
+        users: Users
   api:
     v1:
       replacement_document_validation_requests:
@@ -301,6 +346,9 @@ en:
     header:
       back_office_planning: Back-office Planning System
       log_out: Log out
+    navigation_items:
+      settings: Settings
+      users: Users
   application_type_codes:
     lawfulness_certificate:
       existing: LDCE
@@ -670,15 +718,6 @@ en:
       review_immunity_detail:
         accepted: Is the application immune from enforcement?
         removed: Is the application immune from enforcement?
-  local_authorities:
-    edit:
-      edit_local_authority: Edit council information
-      submit: Submit
-    table:
-      edit: Edit
-      local_authority: Council information
-      press_notice_email: Press notice email
-      reviewer_group_email: Manager group email
   local_policies:
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
@@ -1403,11 +1442,6 @@ en:
         view_next_class: View next class
         view_previous_class: View previous class
   shared:
-    administrator_layout:
-      add_user: Add user
-      press_notice_email: Press notice email
-      reviewer_group_email: Manager group email
-      submit: Submit
     alert_banner:
       warning: Warning
     application_information:
@@ -1569,29 +1603,3 @@ en:
       bops_updates: BoPS updates
       view_reference_on: View %{reference} on BoPS
   user_not_authorized: You are not authorized to perform this action.
-  users:
-    edit:
-      edit_user: Edit user
-    form:
-      email: Email
-      sms: SMS
-      submit: Submit
-    new:
-      add_user: Add a new user
-    sessions:
-      create:
-        two_factor_invalid: Your two factor code is invalid.
-    table:
-      actions: Actions
-      confirmed: Confirmed
-      edit: Edit
-      email: Email
-      'false': 'No'
-      mobile_number: Mobile number
-      name: Name
-      otp_delivery_method: Verification code delivery method
-      otp_required_for_login: Two factor authentication
-      role: Role
-      sms: SMS
-      'true': 'Yes'
-      users: Users

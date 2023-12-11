@@ -1,7 +1,4 @@
 <table class="govuk-table">
-  <caption class="govuk-table__caption govuk-table__caption--m">
-    <%= t(".users") %>
-  </caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header"><%= t(".name") %></th>
@@ -41,7 +38,7 @@
           <%= t(".#{user.otp_delivery_method}")%>
         </td>
         <td class="govuk-table__cell">
-          <%= link_to(t(".edit"), edit_user_path(user), class: "govuk-link") %>
+          <%= link_to(t(".edit"), edit_administrator_user_path(user), class: "govuk-link") %>
         </td>
       </tr>
     <% end %>
