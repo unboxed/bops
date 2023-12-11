@@ -540,6 +540,8 @@ GEM
       rubocop-rails (~> 2.20.2)
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
+    store_model (2.1.2)
+      activerecord (>= 5.2)
     strong_password (0.0.10)
     sys-uname (1.2.2)
       ffi (~> 1.1)
@@ -645,6 +647,7 @@ DEPENDENCIES
   standard-performance
   standard-rails
   stimulus-rails
+  store_model
   strong_password (~> 0.0.9)
   view_component
   web-console
