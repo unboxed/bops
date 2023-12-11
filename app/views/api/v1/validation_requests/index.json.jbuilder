@@ -65,17 +65,32 @@ json.data do
       :response_due,
       :days_until_response_due,
       :document_request_type,
-      :document_request_reason,
+      :reason,
       :cancel_reason,
       :cancelled_at
 
-    json.documents additional_document_validation_request.documents do |document|
+    json.documents additional_document_validation_request.additional_documents do |document|
       json.name document.file.filename
       json.url document.file.representation(resize_to_limit: [1000, 1000]).processed.url
       json.extract! document
     end
 
     json.type "additional_document_validation_request"
+  end
+
+  json.fee_change_validation_requests @planning_application
+    .fee_change_validation_requests do |other_change_validation_request|
+    json.extract! other_change_validation_request,
+      :id,
+      :state,
+      :response_due,
+      :response,
+      :reason,
+      :suggestion,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
+    json.type "other_change_validation_request"
   end
 
   json.other_change_validation_requests @planning_application
@@ -85,7 +100,7 @@ json.data do
       :state,
       :response_due,
       :response,
-      :summary,
+      :reason,
       :suggestion,
       :days_until_response_due,
       :cancel_reason,

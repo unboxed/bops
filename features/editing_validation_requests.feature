@@ -23,7 +23,7 @@ Scenario: I can edit an other type of validation request before its been sent
   When I view the application's validations requests
   And I click link "View and update" in table row for "Time for some changes"
   And I press "Edit request"
-  And I fill in "Tell the applicant another reason why the application is invalid." with "change those manners"
+  And I fill in "Tell the applicant another reason why the application is invalid" with "change those manners"
   When I press "Update"
   And I view the application's validations requests
   Then the page contains "change those manners"

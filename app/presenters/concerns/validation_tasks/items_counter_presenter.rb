@@ -7,7 +7,7 @@ module ValidationTasks
     def initialize(template, planning_application)
       super(template, planning_application)
 
-      @validation_requests = planning_application.active_validation_requests
+      @validation_requests = planning_application.validation_requests.active
     end
 
     def items_count
@@ -26,7 +26,7 @@ module ValidationTasks
     end
 
     def updated_items_count
-      planning_application.requests.where(update_counter: true).length
+      planning_application.validation_requests.where(update_counter: true).length
     end
   end
 end

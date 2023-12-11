@@ -3,13 +3,11 @@
 require "rails_helper"
 
 RSpec.describe RedLineBoundaryChangeValidationRequest do
-  it_behaves_like "ValidationRequest", described_class, "red_line_boundary_change_validation_request"
+  include_examples "ValidationRequest", described_class, "red_line_boundary_change_validation_request"
 
   it_behaves_like("Auditable") do
     subject { create(:red_line_boundary_change_validation_request) }
   end
-
-  it_behaves_like("ValidationRequestable")
 
   describe "validations" do
     subject(:red_line_boundary_change_validation_request) { described_class.new }
@@ -36,7 +34,8 @@ RSpec.describe RedLineBoundaryChangeValidationRequest do
 
     describe "#rejection_reason" do
       it "validates presence when approved is set to false" do
-        red_line_boundary_change_validation_request = described_class.new(approved: false)
+        planning_application = create(:planning_application, :invalidated)
+        red_line_boundary_change_validation_request = described_class.new(approved: false, planning_application:)
 
         expect do
           red_line_boundary_change_validation_request.valid?

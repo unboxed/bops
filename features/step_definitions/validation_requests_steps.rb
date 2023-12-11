@@ -74,7 +74,7 @@ end
 Given("I create a(n) other change validation request with {string}") do |details|
   steps %(
     Given I start the validation wizard
-    And I press "Add an other validation request"
+    And I press "Add another validation request"
     And I fill in "Tell the applicant" with "#{details}"
     And I fill in "Explain to the applicant" with "Please make the change"
     And I save or send the request

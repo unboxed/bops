@@ -4,7 +4,6 @@ module PlanningApplications
   module Validation
     class FeeItemsController < ValidationRequestsController
       before_action :ensure_planning_application_not_validated, only: %i[show validate]
-      before_action :ensure_no_open_or_pending_fee_item_validation_request, only: %i[show validate]
 
       def show
         respond_to do |format|
@@ -24,8 +23,7 @@ module PlanningApplications
               flash.now[:alert] = "Select Yes or No to continue."
               render :show
             else
-              redirect_to new_planning_application_validation_other_change_validation_request_path(@planning_application,
-                validate_fee: "yes")
+              redirect_to new_planning_application_validation_fee_change_validation_request_path(@planning_application, type: "fee_change")
             end
           end
         end

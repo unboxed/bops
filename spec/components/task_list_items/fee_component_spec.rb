@@ -21,7 +21,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/validation/fee_items?validate_fee=yes"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_items"
       )
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/validation/fee_items?validate_fee=yes"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_items"
       )
     end
   end
@@ -46,10 +46,9 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
   context "when there is an open request" do
     let(:planning_application) { create(:planning_application, :not_started) }
 
-    let!(:other_change_validation_request) do
+    let!(:fee_change_validation_request) do
       create(
-        :other_change_validation_request,
-        fee_item: true,
+        :fee_change_validation_request,
         planning_application:
       )
     end
@@ -63,7 +62,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
       )
     end
   end
@@ -71,11 +70,10 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
   context "when there is a closed request" do
     let(:planning_application) { create(:planning_application, :not_started) }
 
-    let!(:other_change_validation_request) do
+    let!(:fee_change_validation_request) do
       create(
-        :other_change_validation_request,
+        :fee_change_validation_request,
         :closed,
-        fee_item: true,
         planning_application:
       )
     end
@@ -89,7 +87,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     it "renders link to fee items path" do
       expect(page).to have_link(
         "Check fee",
-        href: "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
+        href: "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
       )
     end
   end

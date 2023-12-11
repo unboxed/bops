@@ -7,7 +7,7 @@
       <div class="moj-banner__message">
         <span class="moj-banner__assistive">
           Warning
-        </span><strong><%= pluralize(@planning_application.closed_validation_requests.count, "new response") %></strong> to a validation request.<br/>
+        </span><strong><%= pluralize(@planning_application.validation_requests.closed.count, "new response") %></strong> to a validation request.<br/>
           <%= link_to "View all validation requests", planning_application_validation_validation_requests_path(@planning_application), class: "govuk-link" %>
       </div>
     </div>

@@ -6,7 +6,7 @@ FactoryBot.define do
     user
     state { "open" }
     document_request_type { "Floor plan" }
-    document_request_reason { "Missing floor plan" }
+    reason { "Missing floor plan" }
     post_validation { false }
 
     trait :with_documents do
@@ -16,7 +16,7 @@ FactoryBot.define do
           planning_application: request.planning_application
         )
 
-        request.documents << document
+        request.additional_documents << document
       end
     end
 

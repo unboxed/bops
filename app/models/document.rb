@@ -4,21 +4,15 @@ class Document < ApplicationRecord
   class NotArchiveableError < StandardError; end
 
   belongs_to :planning_application
-  belongs_to :owner, optional: true, polymorphic: true
-  belongs_to :evidence_group, optional: true
-  belongs_to :site_visit, optional: true
-  belongs_to :site_notice, optional: true
-  belongs_to :neighbour_response, optional: true
-
-  delegate :audits, to: :planning_application
-  delegate :representable?, to: :file
-
-  include Auditable
 
   with_options optional: true do
-    belongs_to :additional_document_validation_request
     belongs_to :user
     belongs_to :api_user
+    belongs_to :owner, polymorphic: true
+    belongs_to :evidence_group
+    belongs_to :site_visit
+    belongs_to :site_notice
+    belongs_to :neighbour_response
   end
 
   has_one :replacement_document_validation_request,
@@ -27,6 +21,11 @@ class Document < ApplicationRecord
     },
     dependent: :destroy,
     inverse_of: false
+
+  delegate :audits, to: :planning_application
+  delegate :representable?, to: :file
+
+  include Auditable
 
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
@@ -280,9 +279,8 @@ class Document < ApplicationRecord
 
   def reset_replacement_document_validation_request_update_counter!
     return unless validated? || archived?
+    return if owner.nil?
 
-    return unless (request = ReplacementDocumentValidationRequest.find_by(new_document_id: id))
-
-    request.reset_update_counter!
+    owner.reset_update_counter!
   end
 end

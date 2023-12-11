@@ -9,10 +9,10 @@
       Proposed red line boundary
     </h2>
 
-    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+    <%= render "shared/location_map", locals: { geojson: @validation_request.new_geojson } %>
 
     <div class="govuk-inset-text">
-      <% if @red_line_boundary_change_validation_request.auto_closed? %>
+      <% if @validation_request.auto_closed? %>
         <strong>Change to red line boundary was auto closed and approved after being open for more than 5 business days</strong>
       <% else %>
         <strong>Change to red line boundary has been approved by the applicant</strong>

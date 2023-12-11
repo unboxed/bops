@@ -47,7 +47,10 @@ class Audit < ApplicationRecord
     document_changed_to_validated: "document_changed_to_validated",
     document_received_at_changed: "document_received_at_changed",
     description_change_validation_request_sent: "description_change_validation_request_sent",
-    description_change_request_cancelled: "description_change_request_cancelled",
+    description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
+    description_change_validation_request_added: "description_change_validation_request_added",
+    description_change_validation_request_sent_post_validation: "description_change_validation_request_sent_post_validation",
+    description_change_validation_request_cancelled_post_validation: "description_change_validation_request_cancelled_post_validation",
     replacement_document_validation_request_sent: "replacement_document_validation_request_sent",
     replacement_document_validation_request_sent_post_validation:
       "replacement_document_validation_request_sent_post_validation",
@@ -67,12 +70,17 @@ class Audit < ApplicationRecord
     other_change_validation_request_added: "other_change_validation_request_added",
     other_change_validation_request_sent: "other_change_validation_request_sent",
     other_change_validation_request_received: "other_change_validation_request_received",
+    other_change_validation_request_sent_post_validation: "other_change_validation_request_sent_post_validation",
     validation_requests_sent: "validation_requests_sent",
     additional_document_validation_request_cancelled: "additional_document_validation_request_cancelled",
     additional_document_validation_request_cancelled_post_validation:
       "additional_document_validation_request_cancelled_post_validation",
-    description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
     other_change_validation_request_cancelled: "other_change_validation_request_cancelled",
+    fee_change_validation_request_cancelled: "fee_change_validation_request_cancelled",
+    fee_change_validation_request_added: "fee_change_validation_request_added",
+    fee_change_validation_request_sent: "fee_change_validation_request_sent",
+    fee_change_validation_request_sent_post_validation: "fee_change_validation_request_sent_post_validation",
+    fee_change_validation_request_received: "fee_change_validation_request_received",
     proposal_measurements_updated: "proposal_measurements_updated",
     red_line_boundary_change_validation_request_cancelled: "red_line_boundary_change_validation_request_cancelled",
     red_line_boundary_change_validation_request_cancelled_post_validation:
@@ -99,17 +107,9 @@ class Audit < ApplicationRecord
   validates :activity_type, presence: true
 
   def validation_request
-    return if request_type.blank?
-
-    request_type.find_by(
+    ValidationRequest.find_by(
       planning_application:,
       sequence: activity_information
     )
-  end
-
-  private
-
-  def request_type
-    activity_type.try(:[], /[a-z|_]+_request/)&.camelize&.constantize
   end
 end

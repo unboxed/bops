@@ -1,0 +1,9 @@
+<% content_for :page_title do %>
+  Request a new document - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+
+<% content_for :title, "Request a new document" %>
+
+<%= render(partial: "planning_applications/validation/additional_document_validation_requests/form", locals: { return_to: @back_path }) %>

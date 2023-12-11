@@ -76,7 +76,7 @@ class PlanningApplicationsController < AuthenticationController
   def validate
     if validation_date_fields_invalid?
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
-    elsif @planning_application.open_validation_requests?
+    elsif @planning_application.validation_requests.open.any?
       @planning_application.errors.add(:planning_application,
         "Planning application cannot be validated if open validation requests exist.")
     elsif @planning_application.invalid_documents.present?
@@ -113,10 +113,11 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to @planning_application, notice: t(".success")
     else
       validation_requests = @planning_application.validation_requests
-      @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
+      @cancelled_validation_requests = validation_requests.where(state: "cancelled")
+      @active_validation_requests = validation_requests.where.not(state: "cancelled")
 
       flash.now[:alert] = t(".failure")
-      render "validation_requests/index"
+      render "planning_applications/validation/validation_requests/index"
     end
   end
 
@@ -313,7 +314,7 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
-      redirect_to planning_application_validation_fee_items_path(@planning_application, validate_fee: "yes"),
+      redirect_to planning_application_validation_fee_items_path(@planning_application),
         notice: t(".edit_payment_amount")
     when :edit_public_comment
       redirect_to edit_planning_application_assessment_recommendations_path(@planning_application),
@@ -336,7 +337,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def ensure_no_open_post_validation_requests
-    return unless @planning_application.open_post_validation_requests?
+    return unless @planning_application.validation_requests.open.post_validation.any?
 
     flash.now[:alert] = t(".has_open_non_validation_requests_html", href: post_validation_requests_planning_application_validation_validation_requests_path(@planning_application))
     render :submit_recommendation and return

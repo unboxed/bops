@@ -23,7 +23,6 @@
       <tr class="govuk-table__row">
         <%= content_tag(:tr, id: dom_id(request)) do %>
           <%= render request %>
-
           <td class="govuk-table__cell limit-column-width">
             <%= render(FormattedContentComponent.new(text: request.cancel_reason)) %>
           </td>

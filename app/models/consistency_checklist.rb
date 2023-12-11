@@ -44,7 +44,7 @@ class ConsistencyChecklist < ApplicationRecord
     # #open_additional_document_requests?,
     # #open_red_line_boundary_change_requests?
     define_method("open_#{request_type}_requests?") do
-      send("open_#{request_type}_requests").any?
+      planning_application.send("#{request_type}_validation_requests").open.any?
     end
   end
 

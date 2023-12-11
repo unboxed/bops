@@ -50,7 +50,7 @@ class DocumentsController < AuthenticationController
       format.html do
         if @document.update_or_replace(document_params)
           if validate_document? && @document.validated == false
-            redirect_to new_planning_application_validation_replacement_document_validation_request_path(document: @document)
+            redirect_to new_planning_application_validation_replacement_document_validation_request_path(document: @document, type: "replacement_document")
           else
             redirect_to redirect_url, notice: t(".success")
           end
@@ -124,8 +124,7 @@ class DocumentsController < AuthenticationController
   end
 
   def replacement_document_validation_request
-    @replacement_document_validation_request ||=
-      ReplacementDocumentValidationRequest.find_by(new_document_id: @document.id)
+    @replacement_document_validation_request ||= @document.owner
   end
 
   def redirect_url

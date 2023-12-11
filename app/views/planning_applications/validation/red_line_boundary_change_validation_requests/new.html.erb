@@ -1,8 +1,0 @@
-<% content_for :page_title do %>
-  Add red line boundary validation request - <%= t('page_title') %>
-<% end %>
-
-<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
-<% content_for :title, "Red line boundary change" %>
-
-<%= render(partial: "form", locals: { return_to: @back_path }) %>

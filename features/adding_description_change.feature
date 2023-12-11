@@ -13,7 +13,7 @@ Feature: Creating a description change on the application
     Given I create a description change request with "Add a backyard cinema"
     And I cancel the existing description change request
     Then the page contains "Description change request successfully cancelled"
-    And there is an audit entry containing "Cancelled: description change request"
+    And there is an audit entry containing "Cancelled: validation request"
 
   Scenario: I can add and view a new description change request after cancelling the previous one
     Given I create a description change request with "Its margarita time ole!"

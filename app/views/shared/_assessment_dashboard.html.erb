@@ -14,17 +14,19 @@
 <%= render "shared/dates_and_assignment_header" %>
 
 <% if @planning_application.validation_requests %>
-  <% if @planning_application.overdue_requests.present? %>
+  <% if @planning_application.validation_requests.overdue.any? %>
     <%= render "shared/overdue_banner" %>
   <% end %>
-  <% if @planning_application.closed_validation_requests.any? %>
+  <% if @planning_application.validation_requests.closed.any? %>
     <%= render "shared/response_banner" %>
   <% end %>
 <% end %>
-<% if @planning_application.description_change_validation_requests.responded.present? %>
-  <%= render "shared/description_response_banner" %>
+<% if @planning_application.description_change_validation_requests.any? %>
+  <% if @planning_application.description_change_validation_requests.responded.any? %>
+    <%= render "shared/description_response_banner" %>
+  <% end %>
 <% end %>
-<% if @planning_application.latest_auto_closed_description_request.present? %>
+<% if @planning_application.description_change_validation_requests.where(auto_closed: true).present? %>
   <%= render "shared/description_change_auto_closed_banner" %>
 <% end %>
 <div class="govuk-grid-row">

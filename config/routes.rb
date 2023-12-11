@@ -144,10 +144,6 @@ Rails.application.routes.draw do
 
         resource :constraints, only: %i[show update]
 
-        resources :description_change_validation_requests, only: %i[new create show] do
-          patch :cancel
-        end
-
         namespace :document, as: :documents do
           resources :redactions, only: %i[index create]
         end
@@ -160,13 +156,9 @@ Rails.application.routes.draw do
           patch :validate
         end
 
-        resources :validation_requests, only: %i[index] do
+        resources :validation_requests do
           get :post_validation_requests, on: :collection
-        end
 
-        resource :legislation, only: %i[show update]
-
-        concern :cancel_validation_requests do
           member do
             get :cancel_confirmation
 
@@ -174,12 +166,14 @@ Rails.application.routes.draw do
           end
         end
 
-        with_options concerns: :cancel_validation_requests do
-          resources :additional_document_validation_requests, except: %i[index show]
-          resources :other_change_validation_requests, except: %i[index]
-          resources :red_line_boundary_change_validation_requests, except: %i[index]
-          resources :replacement_document_validation_requests, except: %i[index]
-        end
+        resources :additional_document_validation_requests, controller: :validation_requests
+        resources :replacement_document_validation_requests, controller: :validation_requests
+        resources :other_change_validation_requests, controller: :validation_requests
+        resources :fee_change_validation_requests, controller: :validation_requests
+        resources :red_line_boundary_change_validation_requests, controller: :validation_requests
+        resources :description_change_validation_requests, controller: :validation_requests
+
+        resource :legislation, only: %i[show update]
       end
 
       namespace :review do

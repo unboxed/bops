@@ -56,7 +56,7 @@ RSpec.describe "post validation requests" do
           :additional_document_validation_request,
           planning_application:,
           document_request_type: "Floor plan",
-          document_request_reason: "Existing document inaccurate"
+          reason: "Existing document inaccurate"
         )
       end
 
@@ -101,10 +101,8 @@ RSpec.describe "post validation requests" do
         click_button("Confirm cancellation")
 
         expect(page).to have_content(
-          "Validation request was successfully cancelled."
+          "Additional document request successfully cancelled."
         )
-
-        click_link("Review non-validation requests")
 
         within(".cancelled-requests") do
           expect(page).to have_content("Requested in error")

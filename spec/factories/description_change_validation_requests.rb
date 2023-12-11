@@ -4,11 +4,16 @@ FactoryBot.define do
   factory :description_change_validation_request do
     planning_application
     user
-    state { "open" }
-    proposed_description { "New description" }
+    state { "pending" }
     approved { nil }
     rejection_reason { nil }
     post_validation { false }
+
+    specific_attributes do
+      {
+        proposed_description: "New description"
+      }
+    end
 
     trait :pending do
       planning_application { create(:planning_application, :not_started) }

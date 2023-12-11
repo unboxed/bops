@@ -10,7 +10,7 @@ module TaskListItems
 
     attr_reader :planning_application
 
-    delegate(:fee_item_validation_requests, to: :planning_application)
+    delegate(:fee_change_validation_requests, to: :planning_application)
 
     def link_text
       t(".check_fee")
@@ -20,13 +20,12 @@ module TaskListItems
       case status
       when :valid, :not_started
         planning_application_validation_fee_items_path(
-          planning_application,
-          validate_fee: :yes
+          planning_application
         )
       else
-        planning_application_validation_other_change_validation_request_path(
+        planning_application_validation_fee_change_validation_request_path(
           planning_application,
-          fee_item_validation_requests.not_cancelled.last
+          fee_change_validation_requests.not_cancelled.last
         )
       end
     end
@@ -34,9 +33,9 @@ module TaskListItems
     def status
       @status ||= if planning_application.valid_fee?
         :valid
-      elsif fee_item_validation_requests.open_or_pending.any?
+      elsif fee_change_validation_requests.open_or_pending.any?
         :invalid
-      elsif fee_item_validation_requests.closed.any?
+      elsif fee_change_validation_requests.closed.any?
         :updated
       else
         :not_started

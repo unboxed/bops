@@ -40,6 +40,7 @@ module AuditHelper
       additional_document_validation_request_received
       red_line_boundary_change_validation_request_received
       other_change_validation_request_received
+      fee_change_validation_request_received
     ]
   end
 

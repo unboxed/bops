@@ -30,7 +30,8 @@
         <p class="govuk-body"><%= t(".for_redline_and") %></p>
         <p class="govuk-body"><%= t(".for_new_document") %></p>
       <% end %>
-      <%= render "planning_applications/validation/validation_requests/table", requests: @active_validation_requests %>
+
+      <%= render "planning_applications/validation/validation_requests/table", requests: @active_validation_requests, planning_application: @planning_application %>
 
     <% else %>
       <p class="govuk-body">There are no active validation requests.</p>

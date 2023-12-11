@@ -5,13 +5,11 @@ require "rails_helper"
 RSpec.describe AdditionalDocumentValidationRequest do
   include ActionDispatch::TestProcess::FixtureFile
 
-  it_behaves_like "ValidationRequest", described_class, "additional_document_validation_request"
+  include_examples "ValidationRequest", described_class, "additional_document_validation_request"
 
   it_behaves_like("Auditable") do
     subject { create(:additional_document_validation_request) }
   end
-
-  it_behaves_like("ValidationRequestable")
 
   describe "validations" do
     subject(:additional_document_validation_request) { described_class.new }
@@ -22,7 +20,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
           additional_document_validation_request.valid?
         end.to change {
           additional_document_validation_request.errors[:document_request_type]
-        }.to ["Please fill in the document request type."]
+        }.to ["Fill in the document request type."]
       end
     end
 
@@ -31,8 +29,8 @@ RSpec.describe AdditionalDocumentValidationRequest do
         expect do
           additional_document_validation_request.valid?
         end.to change {
-          additional_document_validation_request.errors[:document_request_reason]
-        }.to ["Please fill in the reason for this document request."]
+          additional_document_validation_request.errors[:reason]
+        }.to ["Provide a reason for changes"]
       end
     end
   end
@@ -65,10 +63,10 @@ RSpec.describe AdditionalDocumentValidationRequest do
             api_user_id: api_user.id
           )
 
-          documents = additional_document_validation_request.documents
+          documents = additional_document_validation_request.additional_documents
           expect(documents.length).to eq(2)
           expect(documents.map(&:name).map(&:to_s)).to include("proposed-floorplan.png", "proposed-roofplan.pdf")
-          expect(documents.pluck(:additional_document_validation_request_id)).to eq(
+          expect(documents.pluck(:owner_id)).to eq(
             [
               additional_document_validation_request.id, additional_document_validation_request.id
             ]
@@ -87,7 +85,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
 
           additional_document_validation_request.reload
           expect(additional_document_validation_request).to be_closed
-          expect(additional_document_validation_request.documents).to eq([])
+          expect(additional_document_validation_request.additional_documents).to eq([])
         end
       end
     end

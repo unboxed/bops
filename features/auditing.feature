@@ -15,7 +15,7 @@ Feature: Auditing a planning application
     Given I create an additional document validation request with "Picture of the dog"
     And the planning application is invalidated
     When I view the planning application audit
-    Then there is an audit entry containing "invalidation requests have been emailed: Additional document validation request #2, Additional document validation request #1"
+    Then there is an audit entry containing "invalidation requests have been emailed: Additional document validation request #1, Additional document validation request #2"
     And there is an audit entry containing "Application invalidated"
 
   Scenario: I can audit when a validation request is cancelled after an application is made invalid

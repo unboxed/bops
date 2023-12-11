@@ -9,12 +9,12 @@
       Proposed red line boundary
     </h2>
 
-    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+    <%= render "shared/location_map", locals: { geojson: @validation_request.new_geojson } %>
 
     <div class="govuk-inset-text">
       <strong>Applicant rejected this proposed red line boundary</strong><br>
       <br>
-      <strong>Reason:</strong> <%= @red_line_boundary_change_validation_request.rejection_reason.to_s  %>
+      <strong>Reason:</strong> <%= @validation_request.rejection_reason.to_s  %>
     </div>
 
     <div class="govuk-button-group">

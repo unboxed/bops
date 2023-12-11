@@ -5,12 +5,14 @@ FactoryBot.define do
     planning_application { create(:planning_application, :invalidated) }
     user
     state { "open" }
-    summary { "Incorrect fee" }
-    suggestion { "You need to pay a different fee" }
+    reason { "Incorrect fee" }
     post_validation { false }
+    type { "OtherChangeValidationRequest" }
 
-    trait :fee do
-      fee_item { true }
+    specific_attributes do
+      {
+        suggestion: "You need to pay a different fee"
+      }
     end
 
     trait :pending do

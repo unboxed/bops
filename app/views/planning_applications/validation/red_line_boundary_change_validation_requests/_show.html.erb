@@ -1,0 +1,15 @@
+<% content_for :page_title do %>
+  Red line boundary validation request - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+
+<% content_for :title, "Red line boundary change" %>
+
+<% if @validation_request.approved? %>
+  <%= render "planning_applications/validation/red_line_boundary_change_validation_requests/applicant_approved_response" %>
+<% elsif @validation_request.approved == false %>
+  <%= render "planning_applications/validation/red_line_boundary_change_validation_requests/applicant_rejected_response" %>
+<% else %>
+  <%= render "planning_applications/validation/red_line_boundary_change_validation_requests/propose_change" %>
+<% end %>

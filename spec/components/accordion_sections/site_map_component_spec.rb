@@ -15,7 +15,7 @@ RSpec.describe AccordionSections::SiteMapComponent, type: :component do
 
       expect(page).to have_link(
         "Request approval for a change to red line boundary",
-        href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/new"
+        href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/new?type=red_line_boundary_change"
       )
     end
 

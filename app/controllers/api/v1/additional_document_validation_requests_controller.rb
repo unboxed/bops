@@ -11,7 +11,7 @@ module Api
         :check_files_type,
         :current_api_user, only: :update
 
-      rescue_from AdditionalDocumentValidationRequest::UploadFilesError do |_exception|
+      rescue_from ValidationRequest::UploadFilesError do |_exception|
         render_failed_request
       end
 

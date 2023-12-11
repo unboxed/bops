@@ -3,14 +3,14 @@
     <% if form %>
       <%= form.govuk_submit "Continue", class: "govuk-button" %>
     <% else %>
-      <%= link_to "Continue", planning_application_validation_fee_items_path(planning_application, validate_fee: "yes"), class: "govuk-button" %>
+      <%= link_to "Continue", planning_application_validation_fee_items_path(planning_application), class: "govuk-button" %>
     <% end %>
   <% end %>
   <%= back_link(classname: "govuk-button #{"govuk-button--secondary" if show_continue_link}") %>
 
   <% if validation_request.open_or_pending? %>
     <% if planning_application.validation_complete? %>
-      <%= cancel_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
+      <%= link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request), class: "govuk-button govuk-button--secondary" %>
     <% end %>
 
     <% if planning_application.not_started? %>

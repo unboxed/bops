@@ -64,7 +64,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
       "response_due" => additional_document_validation_request.response_due.strftime("%Y-%m-%d"),
       "days_until_response_due" => additional_document_validation_request.days_until_response_due,
       "document_request_type" => additional_document_validation_request.document_request_type,
-      "document_request_reason" => additional_document_validation_request.document_request_reason,
+      "reason" => additional_document_validation_request.reason,
       "type" => "additional_document_validation_request"
     })
 

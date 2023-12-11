@@ -50,8 +50,10 @@ module Api
       private
 
       def description_change_params
-        {approved: params[:data][:approved],
-         rejection_reason: params[:data][:rejection_reason]}
+        {
+          approved: params[:data][:approved],
+          rejection_reason: params[:data][:rejection_reason]
+        }
       end
     end
   end

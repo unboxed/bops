@@ -1,0 +1,71 @@
+<% content_for :page_title do %>
+  Add new description change validation request - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Description change" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Description change"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+    <div class="govuk-form-group">
+      <h2 class="govuk-heading-m">
+        Description of work
+      </h2>
+      <p class="govuk-body">
+        <strong>
+          Previous description
+        </strong>
+      </p>
+      <p class="govuk-body">
+        <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+      </p>
+      <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
+        <% if @validation_request.errors.any? %>
+          <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+              There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                <% @validation_request.errors.full_messages.each do |error| %>
+                  <li><%= error %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+        <% if @planning_application.latest_rejected_description_change.present? %>
+          <p class="govuk-body">
+            <strong>
+              Rejected proposed description
+            </strong>
+          </p>
+          <p class="govuk-body">
+            <%= render(FormattedContentComponent.new(text: @planning_application.latest_rejected_description_change.proposed_description)) %>
+          </p>
+          <p class="govuk-body">
+            <span class="govuk-caption-m">
+              Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.rejection_reason %>
+            </span>
+          </p>
+        <% end %>
+        <%= form.hidden_field(:return_to, value: @back_path) %>
+        <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
+        <%= form.govuk_text_area :proposed_description,
+      label: { text: 'Please suggest a new application description', class: 'govuk-label govuk-label--s'},
+      rows: 5 %>
+        <div class="govuk-button-group">
+          <%= form.govuk_submit "Send" %>
+          <%= back_link %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

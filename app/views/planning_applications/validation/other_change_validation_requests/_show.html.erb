@@ -1,0 +1,59 @@
+<% content_for :page_title do %>
+  Other validation request - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Other validation request" %>
+
+<% if @validation_request.closed? %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "Check the response to other request" }
+  ) %>
+<% else %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "View other request" }
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Officer request</h2>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        <strong>Reason it is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+      </p>
+      <p class="govuk-body">
+        <strong>How it can be made valid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
+      </p>
+      <p class="govuk-body">
+      <%= @validation_request.created_at.to_fs %>
+      </p>
+    </div>
+
+      <% if @validation_request.closed? && @planning_application.invalidated?  %>
+        <h2 class="govuk-heading-m">Applicant response</h2>
+        <div class="govuk-inset-text">
+          <p class="govuk-body">
+            <%= @validation_request.response %>
+          </p>
+          <p class="govuk-body">
+            <%= @validation_request.updated_at.to_fs %>
+          </p>
+        </div>
+
+        <%= form_with model: @planning_application do |form| %>
+          <%= render "shared/validation_request_show_actions",
+            planning_application: @planning_application, validation_request: @validation_request, form: form %>
+        <% end %>
+      <% else %>
+        <% if @planning_application.invalidated? %>
+          <h2 class="govuk-heading-m">Applicant has not responded yet</h2>
+        <% end %>
+
+        <%= render "shared/validation_request_show_actions",
+            planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+      <% end %>
+  </div>
+</div>

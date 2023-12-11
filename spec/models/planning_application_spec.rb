@@ -96,20 +96,6 @@ RSpec.describe PlanningApplication do
   end
 
   describe "associations" do
-    describe "fee_validation_requests" do
-      let!(:planning_application) { create(:planning_application, :invalidated) }
-      let!(:other_change_validation_request1) do
-        create(:other_change_validation_request, fee_item: false, planning_application:)
-      end
-      let!(:other_change_validation_request2) do
-        create(:other_change_validation_request, fee_item: true, planning_application:)
-      end
-
-      it "returns a has many association only where fee item is set to true on other change validation requests" do
-        expect(planning_application.fee_item_validation_requests).to eq([other_change_validation_request2])
-      end
-    end
-
     describe "constraints" do
       let!(:planning_application) { create(:planning_application) }
 
@@ -320,7 +306,7 @@ RSpec.describe PlanningApplication do
       let(:local_authority) { create(:local_authority) }
       let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
       let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
-      let(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application:, response: "a response") }
+      let(:fee_item_validation_request) { create(:fee_change_validation_request, :open, planning_application:, response: "a response") }
 
       context "when the red line boundary is made valid" do
         before { red_line_boundary_change_validation_request.close! }
