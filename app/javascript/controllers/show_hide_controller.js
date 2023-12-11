@@ -42,4 +42,18 @@ export default class extends Controller {
       "govuk-!-margin-top-2",
     )
   }
+
+  hideDisplayNone(event) {
+    event.preventDefault()
+
+    const target = event.currentTarget
+
+    target.parentElement.parentElement.classList.add("govuk-!-display-none")
+    target.parentElement.parentElement.parentElement
+      .querySelector(".show-document-tags")
+      .classList.remove("govuk-!-display-none")
+    target.parentElement.parentElement.parentElement
+      .querySelector(".govuk-grid-column-full")
+      .classList.add("govuk-!-margin-bottom-3", "govuk-!-margin-top-2")
+  }
 }
