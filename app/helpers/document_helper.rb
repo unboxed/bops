@@ -14,11 +14,7 @@ module DocumentHelper
   end
 
   def supporting_document_tag?(tag)
-    Document::SUPPORT_TAGS.include?(tag)
-  end
-
-  def irrelevant_tags(planning_application, key)
-    Document.send("#{key}_tags") - planning_application.application_type.document_tags[key]
+    Document::SUPPORTING_DOCUMENT_TAGS.include?(tag)
   end
 
   def created_by(document)
@@ -39,15 +35,5 @@ module DocumentHelper
 
   def reference_or_file_name(document)
     document.numbers.presence || document.name
-  end
-
-  def tags_first_half(tags)
-    count = (tags.count.round / 2.to_f).ceil
-    tags.in_groups_of(count).first
-  end
-
-  def tags_second_half(tags)
-    count = (tags.count.round / 2.to_f).ceil
-    tags.in_groups_of(count).second
   end
 end

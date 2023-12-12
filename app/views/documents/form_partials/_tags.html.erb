@@ -20,20 +20,10 @@
           <h3 class="govuk-heading-s">
             <%= key.humanize %>
           </h3>
-          <% if @planning_application.application_type.document_tags[key].count > 1 %>
+          <% @planning_application.application_type.document_tags[key].in_groups(2, false) do |tags| %>
             <div class="govuk-grid-column-one-half">
               <div class="govuk-checkboxes govuk-checkboxes--small">
-                <%= form.collection_check_boxes :tags, tags_first_half(@planning_application.application_type.document_tags[key]), :itself, :itself do |b| %>
-                  <div class="govuk-checkboxes__item">
-                    <%= b.check_box class: "govuk-checkboxes__input" %>
-                    <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-            <div class="govuk-grid-column-one-half">
-              <div class="govuk-checkboxes govuk-checkboxes--small">
-                <%= form.collection_check_boxes :tags, tags_second_half(@planning_application.application_type.document_tags[key]), :itself, :itself do |b| %>
+                <%= form.collection_check_boxes :tags, tags, :itself, :itself do |b| %>
                   <div class="govuk-checkboxes__item">
                     <%= b.check_box class: "govuk-checkboxes__input" %>
                     <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
@@ -45,14 +35,14 @@
           <div>
             <div class="govuk-grid-column-full govuk-!-margin-bottom-3 govuk-!-margin-top-2">
               <a class="show-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#showDisplayNone">
-                Show all (<%= irrelevant_tags(@planning_application, key).count %>)
+                Show all (<%= @planning_application.application_type.irrelevant_tags(key).count %>)
               </a>
             </div>
             <div class="document-tags govuk-!-display-none">
-              <% if irrelevant_tags(@planning_application, key).count > 0 %>
+              <% @planning_application.application_type.irrelevant_tags(key).in_groups(2, false) do |tags| %>
                 <div class="govuk-grid-column-one-half">
                   <div class="govuk-checkboxes govuk-checkboxes--small">
-                    <%= form.collection_check_boxes :tags, tags_first_half(irrelevant_tags(@planning_application, key)), :itself, :itself do |b| %>
+                    <%= form.collection_check_boxes :tags, tags, :itself, :itself do |b| %>
                       <div class="govuk-checkboxes__item">
                         <%= b.check_box class: "govuk-checkboxes__input" %>
                         <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
@@ -60,18 +50,6 @@
                     <% end %>
                   </div>
                 </div>
-                <% unless tags_second_half(irrelevant_tags(@planning_application, key)).nil? %>
-                  <div class="govuk-grid-column-one-half">
-                    <div class="govuk-checkboxes govuk-checkboxes--small">
-                      <%= form.collection_check_boxes :tags, tags_second_half(irrelevant_tags(@planning_application, key)), :itself, :itself do |b| %>
-                        <div class="govuk-checkboxes__item">
-                          <%= b.check_box class: "govuk-checkboxes__input" %>
-                          <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-                        </div>
-                      <% end %>
-                    </div>
-                  </div>
-                <% end %>
               <% end %>
               <div class="govuk-grid-column-full govuk-!-margin-bottom-3 govuk-!-margin-top-2">
                 <a class="remove-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#hideDisplayNone">

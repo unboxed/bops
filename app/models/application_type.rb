@@ -37,8 +37,17 @@ class ApplicationType < ApplicationRecord
     assessment_details.excluding("past_applications")
   end
 
-  def document_tag_list
-    document_tags.values.flatten
+  def irrelevant_tags(key)
+    case key
+    when "plans"
+      Document::PLAN_TAGS - document_tags[key]
+    when "evidence"
+      Document::EVIDENCE_TAGS - document_tags[key]
+    when "supporting_documents"
+      Document::SUPPORTING_DOCUMENT_TAGS - document_tags[key]
+    else
+      raise ArgumentError, "Unexpected document tag type: #{key}"
+    end
   end
 
   class << self

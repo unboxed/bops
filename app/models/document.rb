@@ -60,7 +60,7 @@ class Document < ApplicationRecord
     "Other"
   ].freeze
 
-  SUPPORT_TAGS = [
+  SUPPORTING_DOCUMENT_TAGS = [
     "Site Visit",
     "Site Notice",
     "Press Notice",
@@ -128,7 +128,7 @@ class Document < ApplicationRecord
     other: ["What do these documents show?"]
   }.freeze
 
-  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SUPPORT_TAGS
+  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SUPPORTING_DOCUMENT_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
   EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit].freeze
@@ -173,20 +173,6 @@ class Document < ApplicationRecord
   before_create do
     self.api_user ||= Current.api_user
     self.user ||= Current.user
-  end
-
-  class << self
-    def evidence_tags
-      EVIDENCE_TAGS
-    end
-
-    def plans_tags
-      PLAN_TAGS
-    end
-
-    def supporting_documents_tags
-      SUPPORT_TAGS
-    end
   end
 
   def name

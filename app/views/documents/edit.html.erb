@@ -50,25 +50,25 @@
       <strong>File name:</strong> <%= @document.name %>
     </p>
 
-    <p class="govuk-body govuk-body govuk-!-margin-bottom-0">
+    <p class="govuk-body govuk-!-margin-bottom-0">
       <strong>Date received:</strong> <%= @document.received_at_or_created %>
     </p>
 
     <% if @replacement_document_validation_request %>
-      <p class="govuk-body govuk-body govuk-!-margin-bottom-0">
+      <p class="govuk-body govuk-!-margin-bottom-0">
         <strong>This document replaced:</strong>
         <%= link_to @replacement_document_validation_request.old_document.name, edit_planning_application_document_path(@planning_application, @replacement_document_validation_request.old_document), target: :_new, class: "govuk-link" %>
       </p>
 
-      <p class="govuk-body govuk-body govuk-!-margin-bottom-0">
+      <p class="govuk-body govuk-!-margin-bottom-0">
         <strong>Reason this replacement document was requested:</strong> <%= render(FormattedContentComponent.new(text: @replacement_document_validation_request.invalidated_document_reason)) %>
       </p>
 
-      <p class="govuk-body govuk-body govuk-!-margin-bottom-0">
+      <p class="govuk-body govuk-!-margin-bottom-0">
         <strong>Applicant accepted request and uploaded this document.</strong>
       </p>
     <% else %>
-      <p class="govuk-body govuk-body govuk-!-margin-bottom-0">
+      <p class="govuk-body govuk-!-margin-bottom-0">
         <strong>Applicant reason for submitting document:</strong>
 
         <% if @document.applicant_description.present? %>
