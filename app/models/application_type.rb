@@ -37,6 +37,19 @@ class ApplicationType < ApplicationRecord
     assessment_details.excluding("past_applications")
   end
 
+  def irrelevant_tags(key)
+    case key
+    when "plans"
+      Document::PLAN_TAGS - document_tags[key]
+    when "evidence"
+      Document::EVIDENCE_TAGS - document_tags[key]
+    when "supporting_documents"
+      Document::SUPPORTING_DOCUMENT_TAGS - document_tags[key]
+    else
+      raise ArgumentError, "Unexpected document tag type: #{key}"
+    end
+  end
+
   class << self
     def menu(scope = all)
       scope.order(name: :asc).select(:name, :id).map do |application_type|

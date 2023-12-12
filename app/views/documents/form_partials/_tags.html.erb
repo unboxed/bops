@@ -1,9 +1,10 @@
-<div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>">
-  <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend">
-      <p class="govuk-fieldset__heading govuk-!-font-weight-bold">
+<hr>
+<div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>" data-controller="show-hide">
+  <fieldset class="govuk-fieldset govuk-!-margin-top-4">
+    <legend class="govuk-fieldset__legend">
+      <h3 class="govuk-heading-s">
         What does the document contain?
-      </p>
+      </h3>
     </legend>
 
     <% if form.object.errors[:tags].any? %>
@@ -13,35 +14,53 @@
       <% end %>
     <% end %>
 
-
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-half">
-        <h3 class="govuk-heading-s govuk-!-padding-top-4">
-          PLANS
-        </h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :tags, Document::PLAN_TAGS, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+    <% @planning_application.application_type.document_tags.keys.each do |key| %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h3 class="govuk-heading-s">
+            <%= key.humanize %>
+          </h3>
+          <% @planning_application.application_type.document_tags[key].in_groups(2, false) do |tags| %>
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-checkboxes govuk-checkboxes--small">
+                <%= form.collection_check_boxes :tags, tags, :itself, :itself do |b| %>
+                  <div class="govuk-checkboxes__item">
+                    <%= b.check_box class: "govuk-checkboxes__input" %>
+                    <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                  </div>
+                <% end %>
+              </div>
             </div>
           <% end %>
-        </div>
-      </div>
-
-      <div class="govuk-grid-column-one-half">
-        <h3 class="govuk-heading-s govuk-!-padding-top-5">
-          EVIDENCE
-        </h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :tags, Document::EVIDENCE_TAGS, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+          <div>
+            <div class="govuk-grid-column-full govuk-!-margin-bottom-3 govuk-!-margin-top-2">
+              <a class="show-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#showDisplayNone">
+                Show all (<%= @planning_application.application_type.irrelevant_tags(key).count %>)
+              </a>
             </div>
-          <% end %>
+            <div class="document-tags govuk-!-display-none">
+              <% @planning_application.application_type.irrelevant_tags(key).in_groups(2, false) do |tags| %>
+                <div class="govuk-grid-column-one-half">
+                  <div class="govuk-checkboxes govuk-checkboxes--small">
+                    <%= form.collection_check_boxes :tags, tags, :itself, :itself do |b| %>
+                      <div class="govuk-checkboxes__item">
+                        <%= b.check_box class: "govuk-checkboxes__input" %>
+                        <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <div class="govuk-grid-column-full govuk-!-margin-bottom-3 govuk-!-margin-top-2">
+                <a class="remove-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#hideDisplayNone">
+                  Show less
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      <hr>
+    <% end %>
   </fieldset>
 </div>

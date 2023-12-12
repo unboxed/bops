@@ -191,9 +191,15 @@ RSpec.describe "Requesting document changes to a planning application" do
         click_link("Check document - proposed-roofplan.png")
       end
 
+      click_link "Show all (29)"
+
+      check "Sustainability and Energy Statement"
+
       # Mark document as valid
       within("#validate-document") { choose "Yes" }
       click_button "Save"
+
+      expect(page).to have_content "Sustainability and Energy Statement"
 
       within("#document-validation-tasks") do
         expect(page).to have_list_item_for(

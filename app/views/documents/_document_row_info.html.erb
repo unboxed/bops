@@ -14,6 +14,13 @@
         </p>
       <% end %>
     <% end %>
+    <% document.tags.each do |tag| %>
+      <% if supporting_document_tag?(tag) %>
+        <p class="govuk-body">
+          <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong><br>
+        </p>
+      <% end %>
+    <% end %>
   <% end %>
   <% if document.invalidated_document_reason %>
     <p class="govuk-body govuk-!-margin-bottom-1">

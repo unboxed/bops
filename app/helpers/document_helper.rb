@@ -13,6 +13,10 @@ module DocumentHelper
     Document::EVIDENCE_TAGS.include?(tag)
   end
 
+  def supporting_document_tag?(tag)
+    Document::SUPPORTING_DOCUMENT_TAGS.include?(tag)
+  end
+
   def created_by(document)
     if document.user.present?
       "This document was manually uploaded by #{document.user.name}."
