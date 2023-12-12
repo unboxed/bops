@@ -156,16 +156,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
       end
 
-      context "when submission is not valid against the schema specification" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v1/valid_planning_permission.json").read)) }
-
-        it "raises an error" do
-          expect { create_planning_application }.to raise_error(
-            BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
-          )
-        end
-      end
-
       context "when application type is not supported" do
         let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_prior_approval.json").read)) }
 

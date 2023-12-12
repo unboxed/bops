@@ -14,7 +14,7 @@ RSpec.describe "BOPS API" do
       produces "application/json"
 
       response "200", "with valid credentials" do
-        schema "$ref" => "#/components/schemas/healthcheck"
+        schema "$ref" => "#/components/schemas/Healthcheck"
 
         example "application/json", :default, {
           message: "OK",
@@ -27,7 +27,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "401", "with missing or invalid credentials" do
-        schema "$ref" => "#/components/schemas/errors/properties/unauthorized"
+        schema "$ref" => "#/components/schemas/UnauthorizedError"
 
         example "application/json", :default, {
           error: {

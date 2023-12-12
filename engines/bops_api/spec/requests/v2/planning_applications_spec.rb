@@ -10,8 +10,8 @@ RSpec.describe "BOPS API" do
   before do
     create(:local_authority, :default)
     create(:api_user, token: "bRPkCPjaZExpUYptBJDVFzss")
+    create(:application_type, :lawfulness_certificate)
     create(:application_type, :prior_approval)
-    create(:application_type)
     create(:application_type, :planning_permission)
   end
 
@@ -20,19 +20,15 @@ RSpec.describe "BOPS API" do
       security [bearerAuth: []]
       consumes "application/json"
       produces "application/json"
+
       parameter name: :planning_application, in: :body, schema: {
-        "$ref": "#/components/schemas/planning_application"
+        "$ref": "#/components/schemas/Submission"
       }
 
       request_body_example value: JSON.parse(valid_planning_permission_json, symbolize_names: true), name: "Planning application", summary: "Valid planning permission - full householder"
 
-      response "200", "Application successfully created" do
-        schema type: :object,
-          properties: {
-            id: {type: :string},
-            message: {type: :string}
-          },
-          required: %w[id message]
+      response "200", "when the application is created" do
+        schema "$ref" => "#/components/schemas/SubmissionResponse"
 
         example "application/json", :default, {
           id: "BUC-23-00100-HAPP",
@@ -44,8 +40,8 @@ RSpec.describe "BOPS API" do
         run_test!
       end
 
-      response "400", "Bad request" do
-        schema "$ref" => "#/components/schemas/errors/properties/bad_request"
+      response "400", "with an invalid request" do
+        schema "$ref" => "#/components/schemas/BadRequestError"
 
         example "application/json", :default, {
           error: {
@@ -61,7 +57,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "401", "with missing or invalid credentials" do
-        schema "$ref" => "#/components/schemas/errors/properties/unauthorized"
+        schema "$ref" => "#/components/schemas/UnauthorizedError"
 
         example "application/json", :default, {
           error: {
@@ -75,8 +71,12 @@ RSpec.describe "BOPS API" do
         run_test!
       end
 
-      response "404", "Not found" do
-        schema "$ref" => "#/components/schemas/errors/properties/not_found"
+      response "404", "when a local authority isn't found" do
+        before do
+          allow(BopsApi::LocalAuthority).to receive(:find_by!).with(subdomain: "planx").and_raise(ActiveRecord::RecordNotFound)
+        end
+
+        schema "$ref" => "#/components/schemas/NotFoundError"
 
         example "application/json", :default, {
           error: {
@@ -86,15 +86,19 @@ RSpec.describe "BOPS API" do
         }
 
         let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
-        let(:planning_application) { JSON.parse(valid_prior_approval_json, symbolize_names: true) }
+        let(:planning_application) { JSON.parse(valid_planning_permission_json, symbolize_names: true) }
 
         run_test!
       end
 
-      response "500", "Internal server error" do
-        before { allow_any_instance_of(PlanningApplication).to receive(:save!).and_raise(NoMethodError) }
+      response "500", "when an internal server error occurs" do
+        before do
+          planning_application = PlanningApplication.new
+          allow(PlanningApplication).to receive(:new).and_return(planning_application)
+          allow(planning_application).to receive(:save!).and_raise(ActiveRecord::RecordNotUnique)
+        end
 
-        schema "$ref" => "#/components/schemas/errors/properties/server_error"
+        schema "$ref" => "#/components/schemas/InternalServerError"
 
         example "application/json", :default, {
           error: {

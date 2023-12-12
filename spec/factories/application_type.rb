@@ -2,58 +2,62 @@
 
 FactoryBot.define do
   factory :application_type do
-    name { "lawfulness_certificate" }
-    steps { %w[validation assessment review] }
+    lawfulness_certificate
 
-    assessment_details do
-      %w[
-        summary_of_work
-        site_description
-        consultation_summary
-        additional_evidence
-        past_applications
-      ]
-    end
+    trait :lawfulness_certificate do
+      name { "lawfulness_certificate" }
+      steps { %w[validation assessment review] }
 
-    consistency_checklist do
-      %w[
-        description_matches_documents
-        documents_consistent
-        proposal_details_match_documents
-        site_map_correct
-      ]
-    end
+      assessment_details do
+        %w[
+          summary_of_work
+          site_description
+          consultation_summary
+          additional_evidence
+          past_applications
+        ]
+      end
 
-    document_tags do
-      {
-        evidence: [
-          "Photograph",
-          "Utility Bill",
-          "Building Control Certificate",
-          "Construction Invoice",
-          "Council Tax Document",
-          "Tenancy Agreement",
-          "Tenancy Invoice",
-          "Bank Statement",
-          "Statutory Declaration",
-          "Discounts",
-          "Other"
-        ],
-        plans: %w[
-          Front
-          Rear
-          Side
-          Roof
-          Floor
-          Site
-          Plan
-          Elevation
-          Section
-          Proposed
-          Existing
-        ],
-        supporting_documents: []
-      }
+      consistency_checklist do
+        %w[
+          description_matches_documents
+          documents_consistent
+          proposal_details_match_documents
+          site_map_correct
+        ]
+      end
+
+      document_tags do
+        {
+          evidence: [
+            "Photograph",
+            "Utility Bill",
+            "Building Control Certificate",
+            "Construction Invoice",
+            "Council Tax Document",
+            "Tenancy Agreement",
+            "Tenancy Invoice",
+            "Bank Statement",
+            "Statutory Declaration",
+            "Discounts",
+            "Other"
+          ],
+          plans: %w[
+            Front
+            Rear
+            Side
+            Roof
+            Floor
+            Site
+            Plan
+            Elevation
+            Section
+            Proposed
+            Existing
+          ],
+          supporting_documents: []
+        }
+      end
     end
 
     trait :prior_approval do

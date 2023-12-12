@@ -16,7 +16,7 @@ module BopsApi
       end
 
       def call!
-        validate_request! && save!(build_planning_application)
+        save!(build_planning_application)
       end
 
       private
@@ -86,28 +86,6 @@ module BopsApi
 
       def skip_email?(planning_application)
         params[:send_email] == "false" || @send_email == false || planning_application.pending?
-      end
-
-      def schema
-        @schema ||= BopsApi::Schemas.find!("submission")
-      end
-
-      def validate_request!
-        schema.valid?(permitted_params.to_h) || raise_invalid_request_error
-      end
-
-      def raise_invalid_request_error
-        raise BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
-      end
-
-      def permitted_params
-        params.permit(
-          data: {},
-          files: [:name, {type: [:value, :description]}],
-          preAssessment: [],
-          metadata: {},
-          responses: [:question, {responses: [:value], metadata: [:policyRefs, :sectionName]}]
-        )
       end
 
       def initialize_from_planning_application(planning_application)
