@@ -11,6 +11,7 @@ RSpec.describe "BOPS API" do
 
   let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
   let(:planning_application) { json_fixture("v2/valid_planning_permission.json") }
+  let(:send_email) { "true" }
 
   path "/api/v2/planning_applications" do
     post "Creates a new plannning application" do
@@ -20,6 +21,11 @@ RSpec.describe "BOPS API" do
 
       parameter name: :planning_application, in: :body, schema: {
         "$ref": "#/components/schemas/Submission"
+      }
+
+      parameter name: :send_email, in: :query, schema: {
+        enum: %w[true false],
+        default: "true"
       }
 
       request_body_example \

@@ -15,11 +15,16 @@ module BopsApi
 
       private
 
+      def send_email
+        query_parameters[:send_email] == "true"
+      end
+
       def creation_service
         @creation_service ||= Application::CreationService.new(
           local_authority: @local_authority,
           user: @current_user,
-          params: request_parameters
+          params: request_parameters,
+          send_email: send_email
         )
       end
     end

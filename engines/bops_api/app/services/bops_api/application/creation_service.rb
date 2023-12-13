@@ -3,7 +3,7 @@
 module BopsApi
   module Application
     class CreationService
-      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil)
+      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil, send_email: false)
         raise_not_permitted_in_production_error if BopsApi.env.production?
 
         if planning_application
@@ -12,6 +12,7 @@ module BopsApi
           @local_authority = local_authority
           @user = user
           @params = params
+          @send_email = send_email
         end
       end
 
@@ -77,15 +78,15 @@ module BopsApi
             # TODO: create documents
             # TODO: create immunity details
 
-            planning_application.send_receipt_notice_mail unless skip_email?(planning_application)
+            planning_application.send_receipt_notice_mail if send_email?(planning_application)
           end
         end
 
         planning_application
       end
 
-      def skip_email?(planning_application)
-        params[:send_email] == "false" || @send_email == false || planning_application.pending?
+      def send_email?(planning_application)
+        @send_email && !planning_application.pending?
       end
 
       def initialize_from_planning_application(planning_application)

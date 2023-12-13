@@ -12755,7 +12755,14 @@ paths:
       summary: Creates a new plannning application
       security:
       - bearerAuth: []
-      parameters: []
+      parameters:
+      - name: send_email
+        in: query
+        schema:
+          enum:
+          - 'true'
+          - 'false'
+          default: 'true'
       responses:
         '200':
           description: when the application is created
