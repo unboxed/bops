@@ -160,10 +160,4 @@ class PlanningApplicationCreationService
 
     "POINT(#{longitude} #{latitude})"
   end
-
-  def certificate_type
-    if params[:planx_debug_data].present?
-      params[:planx_debug_data][:passport][:data][:"applicant.ownership.certificate"]
-    end
-  end
 end

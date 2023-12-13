@@ -117,17 +117,21 @@ module BopsApi
         ActiveRecord::Base.transaction do
           ownership_certificate = OwnershipCertificate.create(planning_application:, certificate_type: ownership_details[:certificate])
 
-          ownership_details[:owners].each do |owner|
-            LandOwner.create(
-              ownership_certificate:,
-              name: owner[:name],
-              town: owner[:address][:town],
-              line_1: owner[:address][:line1],
-              line_2: owner[:address][:line2],
-              county: owner[:address][:county],
-              postcode: owner[:address][:postcode],
-              notice_given_at: owner[:noticeDate]
-            )
+          if ownership_details[:owners].present?
+            ownership_details[:owners].each do |owner|
+              LandOwner.create(
+                ownership_certificate:,
+                name: owner[:name],
+                town: owner[:address][:town],
+                address_1: owner[:address][:line1],
+                address_2: owner[:address][:line2],
+                county: owner[:address][:county],
+                country: owner[:address][:country],
+                postcode: owner[:address][:postcode],
+                notice_given: owner[:noticeDate].present?,
+                notice_given_at: owner[:noticeDate]
+              )
+            end
           end
         end
       end

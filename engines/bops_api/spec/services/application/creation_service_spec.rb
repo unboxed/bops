@@ -128,21 +128,24 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates the ownership certificate information" do
           expect { create_planning_application }.to change(OwnershipCertificate, :count).by(1)
-          expect { create_planning_application }.to change(LandOwner, :count).by(1)
+          expect(OwnershipCertificate.last.land_owners.length).to eq 1
 
           expect(OwnershipCertificate.last).to have_attributes(
-            certificate_type: "B",
-            planning_application: PlanningApplication.last
+            certificate_type: "b",
+            planning_application_id: PlanningApplication.last.id
           )
 
           expect(LandOwner.last).to have_attributes(
-            ownership_certificate: OwnershipCertificate.last,
+            ownership_certificate_id: OwnershipCertificate.last.id,
             name: "Matilda Wormwood",
             town: "Reading",
-            line_1: "9, Library Way",
-            line_2: "",
+            county: "",
+            country: "",
+            address_1: "9, Library Way",
+            address_2: "",
             postcode: "L1T3R8Y",
-            notice_given_at: "1988-04-01"
+            notice_given: true,
+            notice_given_at: Time.zone.parse('1988-04-01 00:00')
           )
         end
       end
@@ -236,6 +239,15 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
               tags: %w[Floor Proposed],
               applicant_description: nil
             )
+        end
+        
+        it "creates the ownership certificate information" do
+          expect { create_planning_application }.to change(OwnershipCertificate, :count).by(1)
+          expect(OwnershipCertificate.last.land_owners.length).to eq 0
+
+          expect(OwnershipCertificate.last).to have_attributes(
+            certificate_type: "a",
+            planning_application_id: PlanningApplication.last.id
           )
         end
       end
