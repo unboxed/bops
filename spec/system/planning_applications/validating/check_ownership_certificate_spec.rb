@@ -56,5 +56,21 @@ RSpec.describe "Check ownership certificate type" do
         end
       end
     end
+
+    context "when I disagree with the type" do
+      it "allows me to mark it as invalid" do
+        click_link "Check ownership certificate"
+
+        choose "No"
+
+        click_button "Save"
+
+        expect(page).to have_content "Request ownership certificate change"
+
+        within("#ownership-certificate-validation-task") do
+          expect(page).to have_content("Valid")
+        end
+      end
+    end
   end
 end

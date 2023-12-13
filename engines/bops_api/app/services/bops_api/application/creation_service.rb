@@ -81,6 +81,7 @@ module BopsApi
 
             # TODO: create constraints
             # TODO: create immunity details
+            process_ownership_certificate_details(planning_application)
 
             planning_application.send_receipt_notice_mail if send_email?(planning_application)
           end
@@ -108,6 +109,27 @@ module BopsApi
 
       def raise_not_permitted_to_clone_error
         raise BopsApi::Errors::NotPermittedError, "Planning application cannot be cloned without V2 params"
+      end
+
+      def process_ownership_certificate_details(planning_application)
+        ownership_details = data_params[:applicant][:ownership]
+
+        ActiveRecord::Base.transaction do
+          ownership_certificate = OwnershipCertificate.create(planning_application:, certificate_type: ownership_details[:certificate])
+
+          ownership_details[:owners].each do |owner|
+            LandOwner.create(
+              ownership_certificate:,
+              name: owner[:name],
+              town: owner[:address][:town],
+              line_1: owner[:address][:line1],
+              line_2: owner[:address][:line2],
+              county: owner[:address][:county],
+              postcode: owner[:address][:postcode],
+              notice_given_at: owner[:noticeDate]
+            )
+          end
+        end
       end
     end
   end
