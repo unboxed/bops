@@ -51,8 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_14_161701) do
     t.bigint "local_authority_id"
     t.jsonb "file_downloader"
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
-    t.index ["name"], name: "ix_api_users_on_name", unique: true
-    t.index ["token"], name: "ix_api_users_on_token", unique: true
+    t.index ["name", "local_authority_id"], name: "index_api_users_on_name_and_local_authority_id", unique: true
+    t.index ["token", "local_authority_id"], name: "index_api_users_on_token_and_local_authority_id", unique: true
   end
 
   create_table "application_types", force: :cascade do |t|
