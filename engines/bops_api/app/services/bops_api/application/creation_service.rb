@@ -25,7 +25,7 @@ module BopsApi
       attr_reader :local_authority, :params, :user
 
       def data_params
-        @data_params ||= params[:data]
+        @data_params ||= params.fetch(:data)
       end
 
       def build_planning_application
