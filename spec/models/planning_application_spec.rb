@@ -1006,6 +1006,18 @@ RSpec.describe PlanningApplication do
     end
   end
 
+  describe "#overdue_validation_requests" do
+    let(:planning_application) { create(:planning_application, :invalidated) }
+    let!(:not_overdue_validation_request1) { create(:red_line_boundary_change_validation_request, :open, created_at: Time.zone.now, planning_application:) }
+    let!(:not_overdue_validation_request2) { create(:other_change_validation_request, :pending, created_at: Time.zone.now, planning_application:) }
+    let!(:not_overdue_validationrequest3) { create(:fee_change_validation_request, :pending, created_at: 20.days.ago, planning_application:) }
+    let!(:overdue_validation_request) { create(:description_change_validation_request, :open, created_at: 20.days.ago, planning_application:) }
+
+    it "returns overdue validation requests" do
+      expect(planning_application.overdue_validation_requests).to contain_exactly(overdue_validation_request)
+    end
+  end
+
   describe "#assign!" do
     let(:planning_application) { create(:planning_application) }
     let(:user) { create(:user) }

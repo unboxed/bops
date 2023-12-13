@@ -301,6 +301,28 @@ RSpec.describe ValidationRequest do
       end
     end
 
+    describe "#overdue?" do
+      context "not description change requests" do
+        let(:overdue_request) { create(:other_change_validation_request, :open, created_at: 16.business_days.ago) }
+        let(:not_overdue_request) { create(:other_change_validation_request, :open, created_at: 1.business_day.ago) }
+
+        it "returns true for overdue requests" do
+          expect(overdue_request.overdue?).to be true
+          expect(not_overdue_request.overdue?).to be false
+        end
+      end
+
+      context "description change requests" do
+        let(:overdue_request) { create(:description_change_validation_request, :open, created_at: 6.business_days.ago) }
+        let(:not_overdue_request) { create(:description_change_validation_request, :open, created_at: 4.business_day.ago) }
+
+        it "returns true for overdue requests" do
+          expect(overdue_request.overdue?).to be true
+          expect(not_overdue_request.overdue?).to be false
+        end
+      end
+    end
+
     describe "#open_or_pending?" do
       context "when true" do
         %i[open pending].each do |state|

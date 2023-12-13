@@ -711,6 +711,10 @@ class PlanningApplication < ApplicationRecord
     replacement_document_validation_requests.order(:created_at).last
   end
 
+  def overdue_validation_requests
+    validation_requests.open.select(&:overdue?)
+  end
+
   private
 
   def update_measurements
