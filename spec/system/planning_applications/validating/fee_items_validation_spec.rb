@@ -221,7 +221,7 @@ RSpec.describe "FeeItemsValidation" do
       expect(page).to have_current_path(
         "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{other_change_validation_request.id}"
       )
-      expect(page).to have_content("View other request (fee)")
+      expect(page).to have_content("View fee change request")
       expect(page).to have_content("Officer request")
 
       within(".govuk-inset-text") do
@@ -354,7 +354,7 @@ RSpec.describe "FeeItemsValidation" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check fee"
 
-      expect(page).to have_content("View other request (fee)")
+      expect(page).to have_content("View fee change request")
       expect(page).to have_content("Officer request")
 
       within(".govuk-inset-text") do
@@ -440,7 +440,7 @@ RSpec.describe "FeeItemsValidation" do
 
         click_link "Check fee"
 
-        expect(page).to have_content("Check the response to other request (fee)")
+        expect(page).to have_content("Check the response to fee change request")
         expect(page).to have_content("Officer request")
 
         inset_texts = page.all(".govuk-inset-text")

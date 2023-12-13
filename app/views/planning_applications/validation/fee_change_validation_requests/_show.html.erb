@@ -8,12 +8,12 @@
 <% if @validation_request.closed? %>
   <%= render(
     partial: "shared/proposal_header",
-    locals: { heading: "Check the response to other request (fee)"}
+    locals: { heading: "Check the response to fee change request"}
   ) %>
 <% else %>
   <%= render(
     partial: "shared/proposal_header",
-    locals: { heading: "View other request (fee)" }
+    locals: { heading: "View fee change request" }
   ) %>
 <% end %>
 

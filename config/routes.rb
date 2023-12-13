@@ -227,6 +227,7 @@ Rails.application.routes.draw do
         resources :additional_document_validation_requests, only: %i[index update show]
         resources :documents, only: %i[show]
         resources :other_change_validation_requests, only: %i[index update show]
+        resources :fee_change_validation_requests, only: %i[index update show]
         resources :red_line_boundary_change_validation_requests, only: %i[index update show]
         resources :neighbour_responses, only: :create
       end

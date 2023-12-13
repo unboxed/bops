@@ -22,6 +22,10 @@ class FeeChangeValidationRequest < ValidationRequest
      suggestion:}.to_json
   end
 
+  def audit_api_comment
+    {response:}.to_json
+  end
+
   def ensure_no_open_or_pending_fee_item_validation_request
     return if planning_application.nil?
     return unless planning_application.fee_change_validation_requests.open_or_pending.any?

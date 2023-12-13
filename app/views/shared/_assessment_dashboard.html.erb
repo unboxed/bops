@@ -14,7 +14,7 @@
 <%= render "shared/dates_and_assignment_header" %>
 
 <% if @planning_application.validation_requests %>
-  <% if @planning_application.validation_requests.overdue.any? %>
+  <% if @planning_application.overdue_validation_requests.any? %>
     <%= render "shared/overdue_banner" %>
   <% end %>
   <% if @planning_application.validation_requests.closed.any? %>

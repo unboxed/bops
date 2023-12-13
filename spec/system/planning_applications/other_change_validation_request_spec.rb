@@ -67,7 +67,7 @@ RSpec.describe "Requesting other changes to a planning application" do
 
     click_link "View other validation request #1"
     expect(page).to have_content("View other request")
-    expect(page).not_to have_content("View other request (fee)")
+    expect(page).not_to have_content("View fee change request")
     expect(page).to have_link("Cancel request")
     expect(page).not_to have_link("Edit request")
     expect(page).not_to have_link("Delete request")
