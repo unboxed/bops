@@ -121,6 +121,31 @@ RSpec.configure do |config|
             type: "object"
           },
 
+          ForbiddenError: {
+            additionalProperties: false,
+            properties: {
+              error: {
+                type: "object",
+                properties: {
+                  code: {
+                    type: "integer",
+                    const: 403
+                  },
+                  message: {
+                    type: "string",
+                    const: "Forbidden"
+                  },
+                  detail: {
+                    type: "string"
+                  }
+                },
+                required: %w[code message]
+              }
+            },
+            required: %w[error],
+            type: "object"
+          },
+
           NotFoundError: {
             type: "object",
             properties: {
@@ -145,6 +170,30 @@ RSpec.configure do |config|
             required: %w[error]
           },
 
+          UnprocessableEntityError: {
+            type: "object",
+            properties: {
+              error: {
+                type: "object",
+                properties: {
+                  code: {
+                    type: "integer",
+                    const: 422
+                  },
+                  message: {
+                    type: "string",
+                    const: "Unprocessable Entity"
+                  },
+                  detail: {
+                    type: "string"
+                  }
+                },
+                required: %w[code message]
+              }
+            },
+            required: %w[error]
+          },
+
           InternalServerError: {
             type: "object",
             properties: {
@@ -157,7 +206,7 @@ RSpec.configure do |config|
                   },
                   message: {
                     type: "string",
-                    const: "Internal server error"
+                    const: "Internal Server Error"
                   },
                   detail: {
                     type: "string"

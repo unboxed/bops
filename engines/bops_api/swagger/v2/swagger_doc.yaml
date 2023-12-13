@@ -12643,6 +12643,26 @@ components:
       required:
       - error
       type: object
+    ForbiddenError:
+      additionalProperties: false
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              const: 403
+            message:
+              type: string
+              const: Forbidden
+            detail:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - error
+      type: object
     NotFoundError:
       type: object
       properties:
@@ -12662,6 +12682,25 @@ components:
           - message
       required:
       - error
+    UnprocessableEntityError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              const: 422
+            message:
+              type: string
+              const: Unprocessable Entity
+            detail:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - error
     InternalServerError:
       type: object
       properties:
@@ -12673,7 +12712,7 @@ components:
               const: 500
             message:
               type: string
-              const: Internal server error
+              const: Internal Server Error
             detail:
               type: string
           required:
@@ -12739,6 +12778,8 @@ paths:
                     error:
                       code: 400
                       message: Bad Request
+                      detail: We couldn’t process your request because some information
+                        is missing or incorrect.
               schema:
                 "$ref": "#/components/schemas/BadRequestError"
         '401':
@@ -12753,6 +12794,20 @@ paths:
                       message: Unauthorized
               schema:
                 "$ref": "#/components/schemas/UnauthorizedError"
+        '403':
+          description: when the endpoint is disabled
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    error:
+                      code: 403
+                      message: Forbidden
+                      detail: Creating planning applications using this endpoint is
+                        not permitted in production
+              schema:
+                "$ref": "#/components/schemas/ForbiddenError"
         '404':
           description: when a local authority isn't found
           content:
@@ -12762,9 +12817,23 @@ paths:
                   value:
                     error:
                       code: 404
-                      message: Not found
+                      message: Not Found
+                      detail: Local authority not found
               schema:
                 "$ref": "#/components/schemas/NotFoundError"
+        '422':
+          description: when an application is invalid
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    error:
+                      code: 422
+                      message: Unprocessable Entity
+                      detail: Planning application is invalid
+              schema:
+                "$ref": "#/components/schemas/UnprocessableEntityError"
         '500':
           description: when an internal server error occurs
           content:
@@ -12774,7 +12843,8 @@ paths:
                   value:
                     error:
                       code: 500
-                      message: Internal server error
+                      message: Internal Server Error
+                      detail: Couldn’t connect to the database
               schema:
                 "$ref": "#/components/schemas/InternalServerError"
       requestBody:
