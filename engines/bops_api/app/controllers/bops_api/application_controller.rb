@@ -5,7 +5,7 @@ module BopsApi
     include ErrorHandler
     include SchemaValidation
 
-    protect_from_forgery
+    protect_from_forgery with: :null_session, prepend: true
     wrap_parameters false
 
     before_action :set_local_authority
