@@ -28,6 +28,10 @@ module BopsApi
         @data_params ||= params.fetch(:data)
       end
 
+      def files
+        @files ||= params.fetch(:files)
+      end
+
       def build_planning_application
         PlanningApplication.new(planning_application_params).tap do |pa|
           pa.api_user_id = user.id
@@ -73,9 +77,9 @@ module BopsApi
         PlanningApplication.transaction do
           if planning_application.save!
             AnonymisationService.new(planning_application:).call! if planning_application.from_production?
+            DocumentsService.new(planning_application:, user:, files:).call!
 
             # TODO: create constraints
-            # TODO: create documents
             # TODO: create immunity details
 
             planning_application.send_receipt_notice_mail if send_email?(planning_application)
