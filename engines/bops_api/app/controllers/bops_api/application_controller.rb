@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 module BopsApi
-  class ApplicationController < ActionController::API
-    include ActionController::MimeResponds
+  class ApplicationController < ActionController::Base
     include ErrorHandler
+    include SchemaValidation
+
+    protect_from_forgery with: :null_session, prepend: true
+    wrap_parameters false
 
     before_action :set_local_authority
 

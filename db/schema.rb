@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_11_110231) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_11_125913) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -44,11 +44,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_11_110231) do
   end
 
   create_table "api_users", force: :cascade do |t|
-    t.string "name"
-    t.string "token"
+    t.string "name", null: false
+    t.string "token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
+    t.jsonb "file_downloader"
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
     t.index ["name"], name: "ix_api_users_on_name", unique: true
     t.index ["token"], name: "ix_api_users_on_token", unique: true
@@ -500,12 +501,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_11_110231) do
     t.string "longitude"
     t.datetime "closed_at", precision: nil
     t.datetime "determination_date", precision: nil
-    t.boolean "updated_address_or_boundary_geojson", default: false
     t.integer "user_role"
+    t.boolean "updated_address_or_boundary_geojson", default: false
     t.boolean "constraints_checked", default: false, null: false
     t.boolean "valid_fee"
-    t.boolean "valid_red_line_boundary"
     t.boolean "documents_missing"
+    t.boolean "valid_red_line_boundary"
     t.decimal "invalid_payment_amount", precision: 10, scale: 2
     t.bigint "application_number", null: false
     t.string "parish_name"

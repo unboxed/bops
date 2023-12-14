@@ -5,7 +5,13 @@ require "bops_api/errors"
 require "bops_api/schemas"
 
 module BopsApi
-  def self.table_name_prefix
-    ""
+  class << self
+    def table_name_prefix
+      ""
+    end
+
+    def env
+      ActiveSupport::StringInquirer.new(ENV.fetch("BOPS_ENVIRONMENT", "development"))
+    end
   end
 end

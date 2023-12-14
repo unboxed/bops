@@ -3,8 +3,8 @@
 module BopsApi
   module Application
     class CreationService
-      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil)
-        raise_not_permitted_in_production_error if Bops.env.production?
+      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil, send_email: false)
+        raise_not_permitted_in_production_error if BopsApi.env.production?
 
         if planning_application
           initialize_from_planning_application(planning_application)
@@ -12,11 +12,12 @@ module BopsApi
           @local_authority = local_authority
           @user = user
           @params = params
+          @send_email = send_email
         end
       end
 
       def call!
-        validate_request! && save!(build_planning_application)
+        save!(build_planning_application)
       end
 
       private
@@ -24,7 +25,11 @@ module BopsApi
       attr_reader :local_authority, :params, :user
 
       def data_params
-        @data_params ||= params[:data]
+        @data_params ||= params.fetch(:data)
+      end
+
+      def files
+        @files ||= params.fetch(:files)
       end
 
       def build_planning_application
@@ -72,42 +77,20 @@ module BopsApi
         PlanningApplication.transaction do
           if planning_application.save!
             AnonymisationService.new(planning_application:).call! if planning_application.from_production?
+            DocumentsService.new(planning_application:, user:, files:).call!
 
             # TODO: create constraints
-            # TODO: create documents
             # TODO: create immunity details
 
-            planning_application.send_receipt_notice_mail unless skip_email?(planning_application)
+            planning_application.send_receipt_notice_mail if send_email?(planning_application)
           end
         end
 
         planning_application
       end
 
-      def skip_email?(planning_application)
-        params[:send_email] == "false" || @send_email == false || planning_application.pending?
-      end
-
-      def schema
-        @schema ||= BopsApi::Schemas.find!("submission")
-      end
-
-      def validate_request!
-        schema.valid?(permitted_params.to_h) || raise_invalid_request_error
-      end
-
-      def raise_invalid_request_error
-        raise BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
-      end
-
-      def permitted_params
-        params.permit(
-          data: {},
-          files: [:name, {type: [:value, :description]}],
-          preAssessment: [],
-          metadata: {},
-          responses: [:question, {responses: [:value], metadata: [:policyRefs, :sectionName]}]
-        )
+      def send_email?(planning_application)
+        @send_email && !planning_application.pending?
       end
 
       def initialize_from_planning_application(planning_application)

@@ -15,14 +15,40 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       ).call!
     end
 
+    around do |example|
+      perform_enqueued_jobs { example.run }
+    end
+
+    before do
+      [
+        ["Elevations.pdf", "planx/Elevations.pdf", "application/pdf"],
+        ["Plan.pdf", "planx/Plan.pdf", "application/pdf"],
+        ["Roald-Dahl-letter-one-use.pdf", "planx/Roald-Dahl-letter-one-use.pdf", "application/pdf"],
+        ["RoaldDahlHut.jpg", "planx/RoaldDahlHut.jpg", "image/jpeg"],
+        ["RoofPlan.pdf", "planx/RoofPlan.pdf", "application/pdf"],
+        ["Site%20plan.pdf", "planx/Site plan.pdf", "application/pdf"],
+        ["Test%20document.pdf", "planx/Test document.pdf", "application/pdf"]
+      ].each do |file, fixture, content_type|
+        stub_request(:get, %r{\Ahttps://api.editor.planx.dev/file/private/\w+/#{Regexp.escape(file)}\z})
+          .with(headers: {"Api-Key" => "G41sAys9uPMUVBH5WUKsYE4H"})
+          .to_return(
+            status: 200,
+            body: file_fixture(fixture).read,
+            headers: {"Content-Type" => content_type}
+          )
+      end
+    end
+
     context "when successfully calling the service with params" do
+      let(:planning_application) { PlanningApplication.last }
+      let(:documents) { planning_application.documents }
+
       context "when application type is LDCE" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read)) }
+        let(:params) { json_fixture("v2/valid_lawful_development_certificate_existing.json").with_indifferent_access }
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
 
-          planning_application = PlanningApplication.last
           expect(planning_application).to have_attributes(
             status: "pending",
             description: "Construction of a small outbuilding for use as a writing studio.",
@@ -61,15 +87,51 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             session_id: "95f90e21-93f5-4761-90b3-815c673e041f"
           )
         end
+
+        it "uploads the documents" do
+          expect { create_planning_application }.to change(Document, :count).by(6)
+
+          expect(documents).to include(
+            an_object_having_attributes(
+              name: "RoaldDahlHut.jpg",
+              tags: %w[Photograph],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Site plan.pdf",
+              tags: %w[Site Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Elevations.pdf",
+              tags: %w[Elevation Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Plan.pdf",
+              tags: %w[Floor Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Roald-Dahl-letter-one-use.pdf",
+              tags: %w[Other],
+              applicant_description: "Nothing really, this is just a test. "
+            ),
+            an_object_having_attributes(
+              name: "Test document.pdf",
+              tags: ["Construction Invoice"],
+              applicant_description: "Nothing, it's a test document. "
+            )
+          )
+        end
       end
 
       context "when application type is LDCP" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_proposed.json").read)) }
+        let(:params) { json_fixture("v2/valid_lawful_development_certificate_proposed.json").with_indifferent_access }
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
 
-          planning_application = PlanningApplication.last
           expect(planning_application).to have_attributes(
             status: "pending",
             description: "Rear extension of a home",
@@ -108,15 +170,61 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             session_id: "8da51c5b-a2a0-4386-a15d-29d66f9c121c"
           )
         end
+
+        it "uploads the documents" do
+          expect { create_planning_application }.to change(Document, :count).by(8)
+
+          expect(documents).to include(
+            an_object_having_attributes(
+              name: "RoofPlan.pdf",
+              tags: %w[Roof Existing],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Site plan.pdf",
+              tags: %w[Site Existing],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "RoofPlan.pdf",
+              tags: %w[Roof Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Site plan.pdf",
+              tags: %w[Site Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Elevations.pdf",
+              tags: %w[Elevation Existing],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Plan.pdf",
+              tags: %w[Floor Existing],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Elevations.pdf",
+              tags: %w[Elevation Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Plan.pdf",
+              tags: %w[Floor Proposed],
+              applicant_description: nil
+            )
+          )
+        end
       end
 
       context "when application type is planning permission full householder" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_planning_permission.json").read)) }
+        let(:params) { json_fixture("v2/valid_planning_permission.json").with_indifferent_access }
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
 
-          planning_application = PlanningApplication.last
           expect(planning_application).to have_attributes(
             status: "pending",
             description: "Roof extension to the rear of the property, incorporating starship launchpad.",
@@ -154,20 +262,37 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             session_id: "81bcaa0f-baf5-4573-ba0a-ea868c573faf"
           )
         end
-      end
 
-      context "when submission is not valid against the schema specification" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v1/valid_planning_permission.json").read)) }
+        it "uploads the documents" do
+          expect { create_planning_application }.to change(Document, :count).by(4)
 
-        it "raises an error" do
-          expect { create_planning_application }.to raise_error(
-            BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
+          expect(documents).to include(
+            an_object_having_attributes(
+              name: "RoofPlan.pdf",
+              tags: %w[Roof Existing Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Site plan.pdf",
+              tags: %w[Site Existing Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Elevations.pdf",
+              tags: %w[Elevation Existing Proposed],
+              applicant_description: nil
+            ),
+            an_object_having_attributes(
+              name: "Plan.pdf",
+              tags: %w[Floor Existing Proposed],
+              applicant_description: nil
+            )
           )
         end
       end
 
       context "when application type is not supported" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_prior_approval.json").read)) }
+        let(:params) { json_fixture("v2/valid_prior_approval.json").with_indifferent_access }
 
         it "raises a not found error" do
           expect { create_planning_application }.to raise_error(ActiveRecord::RecordNotFound)

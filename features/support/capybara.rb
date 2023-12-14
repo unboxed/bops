@@ -5,7 +5,7 @@ Capybara.server = :puma, {Silent: true}
 Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.load_selenium
   browser_options = Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << "--headless"
+  browser_options.args << "--headless=new"
   browser_options.args << "--no-sandbox"
   browser_options.args << "--allow-insecure-localhost"
   browser_options.args << "--window-size=1280,2800"
