@@ -9,7 +9,7 @@ module BopsApi
 
       def authenticate
         user = authenticate_with_http_token do |token, options|
-          User.authenticate(token)
+          ApiUser.authenticate(token)
         end
 
         if user

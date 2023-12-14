@@ -3,5 +3,13 @@
 FactoryBot.define do
   factory :api_user do
     name { Faker::Name.name }
+
+    file_downloader do
+      {
+        "type" => "HeaderAuthentication",
+        "key" => "api-key",
+        "value" => "G41sAys9uPMUVBH5WUKsYE4H"
+      }
+    end
   end
 end

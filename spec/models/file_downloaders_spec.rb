@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe BopsApi::FileDownloaders, type: :model do
+RSpec.describe FileDownloaders, type: :model do
   subject { described_class.new(attributes) }
 
   let(:url) { "https://example.com/path/to/file.pdf" }
@@ -17,7 +17,7 @@ RSpec.describe BopsApi::FileDownloaders, type: :model do
     subject.get(url)
   end
 
-  describe BopsApi::FileDownloaders::BasicAuthentication do
+  describe FileDownloaders::BasicAuthentication do
     let(:attributes) do
       {username: "username", password: "password"}
     end
@@ -31,7 +31,7 @@ RSpec.describe BopsApi::FileDownloaders, type: :model do
     end
   end
 
-  describe BopsApi::FileDownloaders::BearerAuthentication do
+  describe FileDownloaders::BearerAuthentication do
     let(:attributes) do
       {token: "76Vncyn5avSqahcD5h3te3yn"}
     end
@@ -45,7 +45,7 @@ RSpec.describe BopsApi::FileDownloaders, type: :model do
     end
   end
 
-  describe BopsApi::FileDownloaders::HeaderAuthentication do
+  describe FileDownloaders::HeaderAuthentication do
     let(:attributes) do
       {key: "Api-Key", value: "SKhExJz2Akhi9yixppWFSRxS"}
     end
