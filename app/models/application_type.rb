@@ -9,6 +9,8 @@ class ApplicationType < ApplicationRecord
 
   validates :name, presence: true
 
+  attribute :features, ApplicationTypeFeature.to_type
+
   def full_name
     name.humanize
   end

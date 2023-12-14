@@ -109,6 +109,7 @@ application_types = [
   },
   {
     name: "planning_permission",
+    features: {"permitted_development_rights" => false},
     steps: %w[validation consultation assessment review],
     assessment_details: %w[
       summary_of_work
