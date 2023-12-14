@@ -145,7 +145,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             address_2: "",
             postcode: "L1T3R8Y",
             notice_given: true,
-            notice_given_at: Time.zone.parse('1988-04-01 00:00')
+            notice_given_at: Time.zone.parse("1988-04-01 00:00")
           )
         end
       end

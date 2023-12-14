@@ -12,12 +12,7 @@ RSpec.describe "Check ownership certificate type" do
   end
 
   context "when application is not started" do
-    let!(:planning_application) do
-      create(
-        :planning_application, :not_started,
-        local_authority: default_local_authority
-      )
-    end
+    let!(:planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
 
     let!(:document1) { create(:document, planning_application:, tags: ["Proposed"]) }
     let!(:document2) { create(:document, planning_application:, tags: ["Planning Statement"]) }
@@ -66,10 +61,62 @@ RSpec.describe "Check ownership certificate type" do
         click_button "Save"
 
         expect(page).to have_content "Request ownership certificate change"
+      end
+    end
+  end
 
-        within("#ownership-certificate-validation-task") do
-          expect(page).to have_content("Valid")
-        end
+  context "when planning application has been invalidated" do
+    let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
+    let!(:request) { create(:ownership_certificate_validation_request, planning_application:, state: "open") }
+
+    it "I can view it" do
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+
+      expect(page).to have_content("Ownership certificate")
+      expect(page).to have_content(request.reason)
+
+      click_link "View and update"
+
+      expect(page).to have_content("View ownership certificate request")
+      expect(page).to have_content(request.reason)
+      expect(page).to have_content(request.suggestion)
+    end
+
+    it "I can cancel my request" do
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+
+      expect(page).to have_content("Ownership certificate")
+      expect(page).to have_content(request.reason)
+
+      click_link "View and update"
+
+      expect(page).to have_content("View ownership certificate request")
+      expect(page).to have_content(request.reason)
+      expect(page).to have_content(request.suggestion)
+
+      click_link "Cancel request"
+
+      fill_in "Explain to the applicant why this request is being cancelled", with: "I made a mistake"
+
+      click_button "Confirm cancellation"
+
+      expect(page).to have_content("Ownership certificate request successfully cancelled")
+    end
+
+    context "when the applicant has responded" do
+      before do
+        request.update(approved: false, rejection_reason: "I disagree", state: "closed")
+      end
+
+      it "I can view their response" do
+        visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+
+        click_link "View and update"
+
+        expect(page).to have_content "Check the response to ownership certificate request"
+        expect(page).to have_content "Applicant response"
+        expect(page).to have_content "Applicant rejected this ownership certificate change"
+        expect(page).to have_content "Reason: I disagree"
       end
     end
   end

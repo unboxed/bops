@@ -56,6 +56,7 @@ x-applicants: &applicants
     PORT: 3001
     PROTOCOL: http
     OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
+    DATABASE_URL: postgres://postgres:postgres@db:5432
   volumes:
     - type: bind
       source: bops-applicants
