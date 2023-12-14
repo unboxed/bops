@@ -176,7 +176,7 @@ class Document < ApplicationRecord
   end
 
   def name
-    file.filename if file.attached?
+    file.filename.to_s if file.attached?
   end
 
   def archived?
