@@ -16,13 +16,14 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
     end
 
     context "when successfully calling the service with params" do
+      let(:planning_application) { PlanningApplication.last }
+
       context "when application type is LDCE" do
         let(:params) { json_fixture("v2/valid_lawful_development_certificate_existing.json").with_indifferent_access }
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
 
-          planning_application = PlanningApplication.last
           expect(planning_application).to have_attributes(
             status: "pending",
             description: "Construction of a small outbuilding for use as a writing studio.",
@@ -69,7 +70,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
 
-          planning_application = PlanningApplication.last
           expect(planning_application).to have_attributes(
             status: "pending",
             description: "Rear extension of a home",
@@ -116,7 +116,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
 
-          planning_application = PlanningApplication.last
           expect(planning_application).to have_attributes(
             status: "pending",
             description: "Roof extension to the rear of the property, incorporating starship launchpad.",
