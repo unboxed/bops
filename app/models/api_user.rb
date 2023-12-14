@@ -8,10 +8,8 @@ class ApiUser < ApplicationRecord
 
   has_secure_token :token, length: 36
 
-  with_options presence: true do
-    validates :name, uniqueness: true
-    validates :file_downloader, store_model: true
-  end
+  validates :name, presence: true, uniqueness: true
+  validates :file_downloader, store_model: {allow_blank: true}
 
   class << self
     def authenticate(token)
