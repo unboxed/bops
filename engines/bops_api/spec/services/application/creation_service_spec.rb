@@ -17,7 +17,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
     context "when successfully calling the service with params" do
       context "when application type is LDCE" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read)) }
+        let(:params) { json_fixture("v2/valid_lawful_development_certificate_existing.json").with_indifferent_access }
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
@@ -64,7 +64,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       end
 
       context "when application type is LDCP" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_proposed.json").read)) }
+        let(:params) { json_fixture("v2/valid_lawful_development_certificate_proposed.json").with_indifferent_access }
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
@@ -111,7 +111,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       end
 
       context "when application type is planning permission full householder" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_planning_permission.json").read)) }
+        let(:params) { json_fixture("v2/valid_planning_permission.json").with_indifferent_access }
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
@@ -157,7 +157,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       end
 
       context "when application type is not supported" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_prior_approval.json").read)) }
+        let(:params) { json_fixture("v2/valid_prior_approval.json").with_indifferent_access }
 
         it "raises a not found error" do
           expect { create_planning_application }.to raise_error(ActiveRecord::RecordNotFound)
