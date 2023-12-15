@@ -7,20 +7,24 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request, planning_application:)
+    travel_to(DateTime.new(2023, 12, 15)) { create(:additional_document_validation_request, planning_application:) }
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests" }
     let!(:additional_document_validation_request2) do
-      create(:additional_document_validation_request, :closed, :with_documents, planning_application:)
+      travel_to(DateTime.new(2023, 12, 15)) { create(:additional_document_validation_request, :closed, :with_documents, planning_application:) }
     end
     let!(:additional_document_validation_request3) do
-      create(:additional_document_validation_request, :cancelled, planning_application:)
+      travel_to(DateTime.new(2023, 12, 15)) { create(:additional_document_validation_request, :cancelled, planning_application:) }
     end
 
     context "when the request is successful" do
+      before do
+        travel_to(DateTime.new(2023, 12, 15))
+      end
+
       it "retrieves all additional document validation requests for a given planning application" do
         get "#{path}?change_access_id=#{planning_application.change_access_id}",
           headers: {"CONTENT-TYPE": "application/json", Authorization: token}
@@ -93,6 +97,10 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
     end
 
     context "when the request is successful" do
+      before do
+        travel_to(DateTime.new(2023, 12, 15))
+      end
+
       it "retrieves a additional document validation request for a given planning application" do
         get "#{path}?change_access_id=#{planning_application.change_access_id}",
           headers: {"CONTENT-TYPE": "application/json", Authorization: token}

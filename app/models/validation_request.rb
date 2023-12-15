@@ -109,7 +109,7 @@ class ValidationRequest < ApplicationRecord
   end
 
   def response_due
-    RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
+    RESPONSE_TIME_IN_DAYS.business_days.after(created_at.to_date)
   end
 
   def days_until_response_due
