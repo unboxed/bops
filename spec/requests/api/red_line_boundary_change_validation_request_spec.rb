@@ -7,17 +7,21 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority) }
   let!(:red_line_boundary_change_validation_request) do
-    create(:red_line_boundary_change_validation_request, planning_application:)
+    travel_to(DateTime.new(2023, 12, 15)) { create(:red_line_boundary_change_validation_request, planning_application:) }
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests" }
     let!(:red_line_boundary_change_validation_request2) do
-      create(:red_line_boundary_change_validation_request, :closed, planning_application:)
+      travel_to(DateTime.new(2023, 12, 15)) { create(:red_line_boundary_change_validation_request, :closed, planning_application:) }
     end
 
     context "when the request is successful" do
+      before do
+        travel_to(DateTime.new(2023, 12, 15))
+      end
+
       it "retrieves all red line boundary change validation requests for a given planning application" do
         get "#{path}?change_access_id=#{planning_application.change_access_id}",
           headers: {"CONTENT-TYPE": "application/json", Authorization: token}
@@ -75,6 +79,10 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
     end
 
     context "when the request is successful" do
+      before do
+        travel_to(DateTime.new(2023, 12, 15))
+      end
+
       it "retrieves a red line boundary change validation request for a given planning application" do
         get "#{path}?change_access_id=#{planning_application.change_access_id}",
           headers: {"CONTENT-TYPE": "application/json", Authorization: token}
