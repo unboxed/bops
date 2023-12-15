@@ -1,23 +1,105 @@
 <% content_for :page_title do %>
-  <%= t(".local_authority") %> - <%= t('page_title') %>
+  <%= t(".profile") %> - <%= t('page_title') %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 
-<% content_for :title, "Settings" %>
+<% content_for :title, t(".profile") %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t(".local_authority") %>
+      <%= t(".profile") %>
     </h1>
-    <%= render(
-      partial: "table",
-      locals: { local_authority: current_local_authority }
-    ) %>
+    <p class="govuk-body">
+      Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task. If the planning officer completes this task themselves, leave it blank.
+    </p>
+
+    <div class="govuk-form-group govuk-!-margin-top-5">
+      <ol class="govuk-list">
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".signatory_name") %></h2>
+          <span class="govuk-hint"><%= t(".signatory_name_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.signatory_name %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".signatory_job_title") %></h2>
+          <span class="govuk-hint"><%= t(".signatory_job_title_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.signatory_job_title %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".enquiries_paragraph") %></h2>
+          <span class="govuk-hint"><%= t(".enquiries_paragraph_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.enquiries_paragraph %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".email_address") %></h2>
+          <span class="govuk-hint"><%= t(".email_address_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.email_address %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".feedback_email") %></h2>
+          <span class="govuk-hint"><%= t(".feedback_email_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.feedback_email %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".reviewer_group_email") %></h2>
+          <span class="govuk-hint"><%= t(".reviewer_group_email_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.reviewer_group_email %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".press_notice_email") %></h2>
+          <span class="govuk-hint"><%= t(".press_notice_email_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.press_notice_email %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".notify_api_key") %></h2>
+          <span class="govuk-hint"><%= t(".notify_api_key_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.notify_api_key %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".notify_letter_template") %></h2>
+          <span class="govuk-hint"><%= t(".notify_letter_template_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.notify_letter_template %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".reply_to_notify_id") %></h2>
+          <span class="govuk-hint"><%= t(".reply_to_notify_id_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.reply_to_notify_id %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m"><%= t(".email_reply_to_id") %></h2>
+          <span class="govuk-hint"><%= t(".email_reply_to_id_hint") %></span>
+          <p class="govuk-body">
+            <%= current_local_authority.email_reply_to_id %>
+          </p>
+        </li>
+      </ol>
+    </div>
 
     <div class="govuk-button-group">
       <%= back_link %>
+      <%= link_to "Edit profile", edit_administrator_local_authority_path, class: "govuk-link govuk-body" %>
     </div>
   </div>
 </div>
