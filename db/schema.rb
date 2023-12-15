@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_15_140221) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_15_141514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -320,6 +320,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_140221) do
     t.string "council_name", null: false
     t.string "applicants_url", null: false
     t.uuid "email_reply_to_id"
+    t.boolean "active", default: false, null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
