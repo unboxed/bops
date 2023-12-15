@@ -44,36 +44,6 @@ RSpec.describe LocalAuthority do
       end
     end
 
-    describe "#signatory_name" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:signatory_name] }.to ["can't be blank"]
-      end
-    end
-
-    describe "#signatory_job_title" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:signatory_job_title] }.to ["can't be blank"]
-      end
-    end
-
-    describe "#enquiries_paragraph" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:enquiries_paragraph] }.to ["can't be blank"]
-      end
-    end
-
-    describe "#email_address" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:email_address] }.to ["can't be blank"]
-      end
-    end
-
-    describe "#feedback_email" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:feedback_email] }.to ["can't be blank"]
-      end
-    end
-
     describe "#signatory" do
       let(:local_authority) do
         build(

@@ -13,9 +13,7 @@ class LocalAuthority < ApplicationRecord
   with_options presence: true do
     validates :council_code, :subdomain
     validates :short_name, :council_name
-    validates :applicants_url, :email_address
-    validates :signatory_name, :signatory_job_title
-    validates :enquiries_paragraph, :feedback_email
+    validates :applicants_url
   end
 
   with_options format: {with: URI::HTTP::ABS_URI} do
