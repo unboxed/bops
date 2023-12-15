@@ -32,6 +32,8 @@ class LocalAuthority < ApplicationRecord
 
   validate :council_code_exists
 
+  before_update :set_active
+
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
   end
@@ -59,5 +61,27 @@ class LocalAuthority < ApplicationRecord
 
   def planning_data?
     !planning_data.nil?
+  end
+
+  def set_active
+    self.active = active_attributes?
+  end
+
+  def active_attributes?
+    attributes.select { |k, v| active_attributes.include?(k) }.values.all?(&:present?)
+  end
+
+  def active_attributes
+    %w[signatory_name
+      signatory_job_title
+      enquiries_paragraph
+      email_address
+      feedback_email
+      press_notice_email
+      reviewer_group_email
+      notify_api_key
+      notify_letter_template
+      reply_to_notify_id
+      email_reply_to_id]
   end
 end
