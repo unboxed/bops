@@ -32,10 +32,17 @@ module Api
         @ownership_certificate_validation_request =
           @planning_application.ownership_certificate_validation_requests.where(id: params[:id]).first
 
-        if @ownership_certificate_validation_request.update(ownership_certificate_params)
+        if @ownership_certificate_validation_request.update(ownership_certificate_params.except(:params))
           @ownership_certificate_validation_request.close!
           @ownership_certificate_validation_request.create_api_audit!
           @planning_application.send_update_notification_to_assessor
+
+          if @ownership_certificate_validation_request.approved?
+            OwnershipCertificateCreationService.new(
+              params: ownership_certificate_params[:params], planning_application: @planning_application
+            ).call
+          end
+
           render json: {message: "Change request updated"}, status: :ok
         else
           render json: {message: "Unable to update request. Please ensure response is present"}, status: :bad_request
@@ -45,7 +52,8 @@ module Api
       def ownership_certificate_params
         {
           approved: params[:data][:approved],
-          rejection_reason: params[:data][:rejection_reason]
+          rejection_reason: params[:data][:rejection_reason],
+          params: params[:data][:params]
         }
       end
     end

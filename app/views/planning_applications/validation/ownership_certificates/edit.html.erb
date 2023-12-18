@@ -47,7 +47,7 @@
             <% if owner.notice_given? %>
               <tr class="govuk-table__row">
                 <th scope="row" class="govuk-table__header">Notice date</th>
-                <td class="govuk-table__cell"><%= owner.notice_given_at.to_fs %></td>
+                <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs %></td>
               </tr>
             <% end %>
           <% end %>

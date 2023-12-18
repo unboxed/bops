@@ -2,7 +2,6 @@
 
 class OwnershipCertificateValidationRequest < ValidationRequest
   validates :reason, presence: true
-  validates :suggestion, presence: true
   validate :rejected_reason_is_present?
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :allows_only_one_open_ownership_certificate_change, on: :create
