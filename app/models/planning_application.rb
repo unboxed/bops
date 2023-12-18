@@ -723,6 +723,14 @@ class PlanningApplication < ApplicationRecord
     check_permitted_development_rights? && permitted_development_right
   end
 
+  def fee_calculation
+    @fee_calculation ||= if planx_planning_data.params_v2.present?
+      FeeCalculation.from_odp_data(JSON.parse(planx_planning_data.params_v2, symbolize_names: true))
+    else
+      FeeCalculation.from_planx_data(JSON.parse(planx_planning_data.params_v1, symbolize_names: true))
+    end
+  end
+
   private
 
   def update_measurements
