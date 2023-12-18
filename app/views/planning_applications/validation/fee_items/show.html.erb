@@ -15,6 +15,58 @@
 
     <%= render "fee_item_table" %>
 
+    <% if @planning_application.fee_calculation %>
+      <h3 class="govuk-heading-m">Fee calculation</h3>
+      <table class="govuk-table">
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Application Fee
+            </th>
+            <td class="govuk-table__cell">
+              £<%= @planning_application.fee_calculation.total_fee || 0 %>
+            </td>
+          </tr>
+          <% unless @planning_application.fee_calculation.exemptions.empty? %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">
+                Exemptions
+              </th>
+              <td class="govuk-table__cell">
+                <%= @planning_application.fee_calculation.exemptions.map(&:humanize).to_sentence %>
+              </td>
+            </tr>
+          <% end %>
+          <% unless @planning_application.fee_calculation.reductions.empty? %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">
+                Reductions
+              </th>
+              <td class="govuk-table__cell">
+                <%= @planning_application.fee_calculation.reductions.map(&:humanize).to_sentence %>
+              </td>
+            </tr>
+          <% end %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Discount
+            </th>
+            <td class="govuk-table__cell">
+              -£<%= @planning_application.fee_calculation.total_fee.to_d - @planning_application.fee_calculation.payable_fee.to_d %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Total
+            </th>
+            <td class="govuk-table__cell">
+              £<%= @planning_application.fee_calculation.payable_fee.to_i %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <% end %>
+
     <%= render(
       partial: "proposal_details_table",
       locals: {
