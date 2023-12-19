@@ -124,6 +124,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
               tags: ["Construction Invoice"],
               applicant_description: "Nothing, it's a test document. "
             )
+          )
         end
 
         it "creates the ownership certificate information" do
@@ -239,8 +240,9 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
               tags: %w[Floor Proposed],
               applicant_description: nil
             )
+          )
         end
-        
+
         it "creates the ownership certificate information" do
           expect { create_planning_application }.to change(OwnershipCertificate, :count).by(1)
           expect(OwnershipCertificate.last.land_owners.length).to eq 0

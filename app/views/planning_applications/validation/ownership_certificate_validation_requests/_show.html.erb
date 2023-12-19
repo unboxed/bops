@@ -26,9 +26,6 @@
         <strong>Reason it is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
       <p class="govuk-body">
-        <strong>How it can be made valid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
-      </p>
-      <p class="govuk-body">
       <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
@@ -36,7 +33,43 @@
       <% if @validation_request.closed? && @planning_application.invalidated?  %>
         <h2 class="govuk-heading-m">Applicant response</h2>
         <% if @validation_request.approved? %>
-          <p class="govuk-body">Change to the ownership certificate has been approved by the applicant</p>
+          <p class="govuk-body">The applicant provided this information:</p>
+          <table class="govuk-table">
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Certificate type</th>
+                <td class="govuk-table__cell">
+                  <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %>
+                </td>
+              </tr>
+              <% if @planning_application.ownership_certificate.present? && @planning_application.ownership_certificate.land_owners.any? %>
+                <% @planning_application.ownership_certificate.land_owners.each_with_index do |owner, i| %>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header" style="font-weight: normal;">Owner <%= i + 1 %></th>
+                    <td class="govuk-table__cell">&nbsp</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Name</th>
+                    <td class="govuk-table__cell"><%= owner.name %></td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Address</th>
+                    <td class="govuk-table__cell"><%= owner.address %></td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Notice given</th>
+                    <td class="govuk-table__cell"><%= owner.notice_given? ? "Yes" : "No" %></td>
+                  </tr>
+                  <% if owner.notice_given? %>
+                    <tr class="govuk-table__row">
+                      <th scope="row" class="govuk-table__header">Notice date</th>
+                      <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
         <% elsif !@validation_request.approved? %>
           <p class="govuk-body">Applicant rejected this ownership certificate change</p>
           <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s  %></p>

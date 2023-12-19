@@ -18,20 +18,19 @@ class OwnershipCertificateCreationService
 
   def save_ownership_certificate!
     if planning_application.ownership_certificate.present?
-      certificate = planning_application.ownership_certificate.update!(
+      planning_application.ownership_certificate.update!(
         response_params
       )
 
-      certificate
-    else 
+    else
       certificate = planning_application.build_ownership_certificate(
         response_params
       )
 
       certificate.save!
 
-      certificate
     end
+    certificate
   rescue ActiveRecord::RecordInvalid => e
     raise CreateError, e.message
   end
