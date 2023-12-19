@@ -151,4 +151,4 @@ jobs:
         run: |
           DOCKER_BUILDKIT=1 docker buildx build \
             --cache-to type=gha,mode=max \
-            --build-arg RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} -f ${{ inputs.dockerfile }} ${{ inputs.context }}
+            -f ${{ inputs.dockerfile }} ${{ inputs.context }}

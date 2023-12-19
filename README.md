@@ -47,7 +47,7 @@ bin/rails assets:precompile
 ### Create production docker
 
 ```sh
-docker build --build-arg RAILS_MASTER_KEY=xxxx -t bops -f Dockerfile.production .
+docker build -t bops -f Dockerfile.production .
 ```
 
 ### Run production docker
@@ -117,9 +117,7 @@ These keys are set within [github actions](https://github.com/unboxed/bops/setti
 
 Versions 5+ of the [devise-two-factor](https://github.com/tinfoil/devise-two-factor) gem uses a single [Rails 7+ encrypted attribute](https://edgeguides.rubyonrails.org/active_record_encryption.html) named `otp_secret` to store the OTP secret in the database table
 
-Add in ./config/credentials a `development.key` (which can be found in 1password) or set a `RAILS_MASTER_KEY` env variable either natively or as part of `docker-compose.yml` with this value to enable 2FA to work in development.
-
-This key is set as an env `RAILS_MASTER_KEY` in production. See the [BOPS Terraform](https://github.com/unboxed/bops-terraform) repo for more information about BOPS infrastructure.
+See the [BOPS Terraform](https://github.com/unboxed/bops-terraform) repo for more information about BOPS infrastructure.
 
 ## OS maps
 

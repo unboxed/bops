@@ -20,7 +20,7 @@ Rails.application.configure do
   # Ensures that a master key has been made available in either
   # ENV["RAILS_MASTER_KEY"] or in config/master.key.
   # This key is used to decrypt credentials (and other encrypted files).
-  config.require_master_key = true
+  config.require_master_key = false
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -125,4 +125,8 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::
   #                                                   DatabaseSelector::
   #                                                   Resolver::Session
+
+  config.active_record.encryption.primary_key = ENV["ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY"]
+  config.active_record.encryption.deterministic_key = ENV["ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY"]
+  config.active_record.encryption.key_derivation_salt = ENV["ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT"]
 end
