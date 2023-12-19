@@ -16,15 +16,6 @@ namespace :local_authority do |args|
     opts.on("-sc", "--short_name ARG", String) { |short_name| options[:short_name] = short_name }
     opts.on("-cn", "--council_name ARG", String) { |council_name| options[:council_name] = council_name }
     opts.on("-au", "--applicants_url ARG", String) { |applicants_url| options[:applicants_url] = applicants_url }
-    opts.on("-sn", "--signatory_name ARG", String) { |signatory_name| options[:signatory_name] = signatory_name }
-    opts.on("-sjt", "--signatory_job_title ARG", String) do |signatory_job_title|
-      options[:signatory_job_title] = signatory_job_title
-    end
-    opts.on("-ep", "--enquiries_paragraph ARG", String) do |enquiries_paragraph|
-      options[:enquiries_paragraph] = enquiries_paragraph
-    end
-    opts.on("-ea", "--email_address ARG", String) { |email_address| options[:email_address] = email_address }
-    opts.on("-fe", "--feedback_email ARG", String) { |feedback_email| options[:feedback_email] = feedback_email }
     opts.on("-ae", "--admin_email ARG", String) { |admin_email| options[:admin_email] = admin_email }
 
     args = opts.order!(ARGV) {} # rubocop:disable Lint/EmptyBlock

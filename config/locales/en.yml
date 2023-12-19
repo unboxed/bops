@@ -290,18 +290,55 @@ en:
         welcome_message: Welcome %{name}
     local_authorities:
       edit:
-        local_authority: Edit council information settings
+        profile: Edit profile
       form:
+        email_address: Decision notice email
+        email_address_hint: ''
+        email_reply_to_id: Email reply_to_id
+        email_reply_to_id_hint: ''
+        enquiries_paragraph: Enquiries paragraph
+        enquiries_paragraph_hint: ''
+        feedback_email: Feedback email
+        feedback_email_hint: ''
+        notify_api_key: Notify API key
+        notify_api_key_hint: ''
+        notify_letter_template: Notify letter template
+        notify_letter_template_hint: ''
         press_notice_email: Press notice email
+        press_notice_email_hint: ''
+        reply_to_notify_id: Reply to_notify_id
+        reply_to_notify_id_hint: ''
         reviewer_group_email: Manager group email
+        reviewer_group_email_hint: ''
+        signatory_job_title: Signatory job title
+        signatory_job_title_hint: ''
+        signatory_name: Signatory name
+        signatory_name_hint: ''
         submit: Submit
       show:
-        local_authority: Council information settings
-      table:
-        edit: Edit
-        local_authority: Council information
+        email_address: Decision notice email
+        email_address_hint: ''
+        email_reply_to_id: Email reply_to_id
+        email_reply_to_id_hint: ''
+        enquiries_paragraph: Enquiries paragraph
+        enquiries_paragraph_hint: ''
+        feedback_email: Feedback email
+        feedback_email_hint: ''
+        notify_api_key: Notify API key
+        notify_api_key_hint: ''
+        notify_letter_template: Notify letter template
+        notify_letter_template_hint: ''
         press_notice_email: Press notice email
+        press_notice_email_hint: ''
+        profile: Profile
+        reply_to_notify_id: Reply to_notify_id
+        reply_to_notify_id_hint: ''
         reviewer_group_email: Manager group email
+        reviewer_group_email_hint: ''
+        signatory_job_title: Signatory job title
+        signatory_job_title_hint: ''
+        signatory_name: Signatory name
+        signatory_name_hint: ''
     users:
       edit:
         edit_user: Edit user
@@ -343,7 +380,7 @@ en:
       back_office_planning: Back-office Planning System
       log_out: Log out
     navigation_items:
-      settings: Settings
+      profile: Profile
       users: Users
   application_type_codes:
     lawfulness_certificate:

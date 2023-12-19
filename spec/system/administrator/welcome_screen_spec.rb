@@ -20,7 +20,7 @@ RSpec.describe "welcome screen" do
     )
 
     expect(page).to have_link(
-      "Settings",
+      "Profile",
       href: "/administrator/local_authority"
     )
   end

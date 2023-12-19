@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "managing council information" do
+RSpec.describe "managing council information profile" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :administrator, local_authority:) }
 
@@ -11,41 +11,53 @@ RSpec.describe "managing council information" do
     visit "/administrator/local_authority"
   end
 
-  it "allows the administrator to manage the reviewer group email" do
-    row = row_with_content("Manager group email")
-    within(row) { click_link("Edit") }
-    fill_in("Manager group email", with: "qwerty")
-    click_button("Submit")
+  it "allows the administrator to view council information profile" do
+    expect(page).to have_content("Signatory name")
 
-    expect(page).to have_content("Reviewer group email is invalid")
+    expect(page).to have_content("Signatory job title")
 
-    fill_in("Manager group email", with: "list@example.com")
-    click_button("Submit")
+    expect(page).to have_content("Enquiries paragraph")
 
-    expect(page).to have_content("Council information successfully updated")
+    expect(page).to have_content("Decision notice email")
 
-    expect(page).to have_row_for(
-      "Manager group email",
-      with: "list@example.com"
-    )
+    expect(page).to have_content("Feedback email")
+
+    expect(page).to have_content("Manager group email")
+
+    expect(page).to have_content("Press notice email")
+
+    expect(page).to have_content("Notify API key")
+
+    expect(page).to have_content("Reply to_notify_id")
+
+    expect(page).to have_content("Email reply_to_id")
   end
 
-  it "allows the administrator to manage the press notice email" do
-    row = row_with_content("Press notice email")
-    within(row) { click_link("Edit") }
-    fill_in("Press notice email", with: "ssssss")
-    click_button("Submit")
+  it "allows the administrator to edit council information profile" do
+    click_link("Edit profile")
 
-    expect(page).to have_content("Press notice email is invalid")
+    fill_in("Signatory name", with: "Andrew Drey")
 
-    fill_in("Press notice email", with: "press_notice@example.com")
+    fill_in("Signatory job title", with: "Director")
+
+    fill_in("Enquiries paragraph", with: "ssssss")
+
+    fill_in("Decision notice email", with: "email@buckinghamshire.gov.uk")
+
+    fill_in("Feedback email", with: "feedback_email@buckinghamshire.gov.uk")
+
+    fill_in("Manager group email", with: "manager_email@buckinghamshire.gov.uk")
+
+    fill_in("Press notice email", with: "press_notice_email@buckinghamshire.gov.uk")
+
+    fill_in("Notify API key", with: "ssssss")
+
+    fill_in("Reply to_notify_id", with: "ssssss")
+
+    fill_in("Email reply_to_id", with: "ssssss")
+
     click_button("Submit")
 
     expect(page).to have_content("Council information successfully updated")
-
-    expect(page).to have_row_for(
-      "Press notice email",
-      with: "press_notice@example.com"
-    )
   end
 end

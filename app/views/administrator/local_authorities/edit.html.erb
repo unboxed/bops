@@ -1,18 +1,20 @@
 <% content_for :page_title do %>
-  <%= t(".local_authority") %> - <%= t('page_title') %>
+  <%= t(".profile") %> - <%= t('page_title') %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "Settings", administrator_local_authority_path %>
+<% add_parent_breadcrumb_link "Profile", administrator_local_authority_path %>
 
-<% content_for :title, t(".local_authority") %>
-
+<% content_for :title, t(".profile") %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t(".local_authority") %>
+      <%= t(".profile") %>
     </h1>
+    <p class="govuk-body">
+      Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task. If the planning officer completes this task themselves, leave it blank.
+    </p>
 
     <%= render "form" %>
   </div>

@@ -7,11 +7,6 @@ class LocalAuthorityCreationService
     @short_name = params.fetch(:short_name, nil)
     @council_name = params.fetch(:council_name, nil)
     @applicants_url = params.fetch(:applicants_url, nil)
-    @signatory_name = params.fetch(:signatory_name, nil)
-    @signatory_job_title = params.fetch(:signatory_job_title, nil)
-    @enquiries_paragraph = params.fetch(:enquiries_paragraph, nil)
-    @email_address = params.fetch(:email_address, nil)
-    @feedback_email = params.fetch(:feedback_email, nil)
     @admin_email = params.fetch(:admin_email, nil)
   end
 
@@ -22,8 +17,7 @@ class LocalAuthorityCreationService
   private
 
   attr_reader :subdomain, :council_code, :short_name, :council_name, :applicants_url,
-    :signatory_name, :signatory_job_title, :enquiries_paragraph,
-    :email_address, :feedback_email, :admin_email
+    :admin_email
 
   def setup
     local_authority
@@ -37,12 +31,7 @@ class LocalAuthorityCreationService
       council_code:,
       short_name:,
       council_name:,
-      applicants_url:,
-      signatory_name:,
-      signatory_job_title:,
-      enquiries_paragraph:,
-      email_address:,
-      feedback_email:
+      applicants_url:
     )
   end
 
