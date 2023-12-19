@@ -77,6 +77,13 @@
       }
     ) %>
 
+    <% if @planning_application.documents.for_fee_exemption.any? %>
+      <%= render(
+        partial: "planning_applications/validation/fee_change_validation_requests/supporting_documents",
+        locals: { documents: @planning_application.documents.for_fee_exemption }
+      ) %>
+    <% end %>
+
     <%= form_with model: @planning_application, url: validate_planning_application_validation_fee_items_path(@planning_application) do |form| %>
       <%= form.govuk_radio_buttons_fieldset :valid_fee do %>
         <p class="govuk-!-margin-top-0 govuk-!-margin-bottom-4">

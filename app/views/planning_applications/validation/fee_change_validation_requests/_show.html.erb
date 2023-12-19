@@ -8,7 +8,7 @@
 <% if @validation_request.closed? %>
   <%= render(
     partial: "shared/proposal_header",
-    locals: { heading: "Check the response to fee change request"}
+    locals: { heading: "Check applicant response and update fee paid"}
   ) %>
 <% else %>
   <%= render(
@@ -17,63 +17,74 @@
   ) %>
 <% end %>
 
+<p class="govuk-body">
+  Invalid fee previously paid: <%= number_to_currency (@planning_application.invalid_payment_amount), unit: '£' %>
+</p>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Officer request</h2>
 
-    <p class="govuk-body">
-      <strong>Invalid fee previously paid </strong> <%= number_to_currency (@planning_application.invalid_payment_amount), unit: '£' %>
-    </p>
-
     <div class="govuk-inset-text">
       <p class="govuk-body">
-        <strong>Reason it is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+        <strong>Reason fee is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
       <p class="govuk-body">
-        <strong>How it can be made valid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
+        <strong>What the applicant needs to do </strong><%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
       </p>
       <p class="govuk-body">
       <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
 
-      <% if @validation_request.closed? && @planning_application.invalidated?  %>
-        <h2 class="govuk-heading-m">Applicant response</h2>
-        <div class="govuk-inset-text">
+    <% if @planning_application.documents.for_fee_exemption.any? %>
+      <%= render(
+        partial: "planning_applications/validation/fee_change_validation_requests/supporting_documents",
+        locals: { documents: @planning_application.documents.for_fee_exemption }
+      ) %>
+    <% end %>
+
+    <% if @validation_request.closed? && @planning_application.invalidated?  %>
+      <h2 class="govuk-heading-m">Applicant response</h2>
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          <%= @validation_request.response %>
+        </p>
+        <p class="govuk-body">
+          <%= @validation_request.updated_at.to_fs %>
+        </p>
+      </div>
+
+      <%= form_with model: @planning_application do |form| %>
+        <div class="govuk-form-group">
+          <h2 class="govuk-heading-m">
+            Confirm total fee paid
+          </h2>
           <p class="govuk-body">
-            <%= @validation_request.response %>
+            Check any extra fee has been received and update the total fee now paid.
           </p>
-          <p class="govuk-body">
-            <%= @validation_request.updated_at.to_fs %>
-          </p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>check that the correct fee has been received</li>
+            <li>update the total fee paid</li>
+          </ul>
+          <div class="govuk-input__wrapper">
+            <div class="govuk-input__prefix" aria-hidden="true">£</div>
+            <%= form.text_field :payment_amount, value: number_to_currency(@planning_application.payment_amount, unit: ""), class: "govuk-textarea govuk-input" %>
+            <%= hidden_field_tag(:edit_action, "edit_payment_amount") %>
+            <%= hidden_field_tag(:validation_request_id, @validation_request.id) %>
+          </div>
         </div>
 
-          <%= form_with model: @planning_application do |form| %>
-            <div class="govuk-form-group">
-              <h2 class="govuk-heading-m">
-                Total fee paid
-              </h2>
-              <p class="govuk-body">
-                Check any extra fee has been received and update the total fee now paid.
-              </p>
-              <div class="govuk-input__wrapper">
-                <div class="govuk-input__prefix" aria-hidden="true">£</div>
-                <%= form.text_field :payment_amount, value: number_to_currency(@planning_application.payment_amount, unit: ""), class: "govuk-textarea govuk-input" %>
-                <%= hidden_field_tag(:edit_action, "edit_payment_amount") %>
-                <%= hidden_field_tag(:validation_request_id, @validation_request.id) %>
-              </div>
-            </div>
-
-            <%= render "shared/validation_request_show_actions",
-              planning_application: @planning_application, validation_request: @validation_request, form: form %>
-        <% end %>
-      <% else %>
-        <% if @planning_application.invalidated? %>
-          <h2 class="govuk-heading-m">Applicant has not responded yet</h2>
-        <% end %>
-
         <%= render "shared/validation_request_show_actions",
-          planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+          planning_application: @planning_application, validation_request: @validation_request, form: form %>
       <% end %>
+    <% else %>
+      <% if @planning_application.invalidated? %>
+        <h2 class="govuk-heading-m">Applicant has not responded to the latest request</h2>
+      <% end %>
+
+      <%= render "shared/validation_request_show_actions",
+        planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+    <% end %>
   </div>
 </div>

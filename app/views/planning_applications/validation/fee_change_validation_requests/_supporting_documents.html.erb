@@ -1,0 +1,30 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <h2>Documents provided by applicant</h2>
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-half"></th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-half"></th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% documents.with_file_attachment.each do |document| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-width-one-half">
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            <%= link_to image_tag(document.file.representation(resize: "300x212")),
+                        url_for_document(document), target: :_blank %>
+          </p>
+          <p class="govuk-body">
+            <%= link_to "View in new window", url_for_document(document), target: :_new %>
+          </p>
+        </td>
+        <td class="govuk-table__cell govuk-!-width-one-half">
+          <p><strong>Document reference:</strong> <%= document.numbers %></p>
+          <p><strong>File name:</strong> <%= document.name %></p>
+          <p><strong>Date received:</strong> <%= document.received_at_or_created %></p>
+          <p>This document was uploaded by the applicant</p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
