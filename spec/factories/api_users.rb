@@ -11,5 +11,13 @@ FactoryBot.define do
         "value" => "G41sAys9uPMUVBH5WUKsYE4H"
       }
     end
+
+    trait :swagger do
+      name { "swagger" }
+    end
+
+    trait :planx do
+      name { "PlanX" }
+    end
   end
 end

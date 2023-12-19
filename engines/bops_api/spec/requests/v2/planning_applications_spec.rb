@@ -3,9 +3,11 @@
 require "swagger_helper"
 
 RSpec.describe "BOPS API" do
+  let(:local_authority) { create(:local_authority, :default) }
+
   before do
-    create(:local_authority, :default)
-    create(:api_user, token: "bRPkCPjaZExpUYptBJDVFzss")
+    create(:api_user, token: "bRPkCPjaZExpUYptBJDVFzss", local_authority:)
+    create(:api_user, name: "other", token: "pUYptBJDVFzssbRPkCPjaZEx")
     create(:application_type, :planning_permission)
   end
 
@@ -71,6 +73,21 @@ RSpec.describe "BOPS API" do
         }
 
         let(:Authorization) { "Bearer invalid-credentials" }
+
+        run_test!
+      end
+
+      response "401", "with a token from another api user" do
+        schema "$ref" => "#/components/schemas/UnauthorizedError"
+
+        example "application/json", :default, {
+          error: {
+            code: 401,
+            message: "Unauthorized"
+          }
+        }
+
+        let(:Authorization) { "Bearer pUYptBJDVFzssbRPkCPjaZEx" }
 
         run_test!
       end

@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 class LocalAuthority < ApplicationRecord
-  has_many :users, dependent: :destroy
-  has_many :planning_applications, dependent: :destroy
+  with_options dependent: :destroy do
+    has_many :users
+    has_many :planning_applications
+    has_many :constraints
+    has_many :api_users
+  end
+
   has_many :audits, through: :planning_applications
-  has_many :constraints, dependent: :destroy
-  has_one :api_user, dependent: :destroy
 
   with_options presence: true do
     validates :council_code, :subdomain

@@ -2,54 +2,52 @@
 
 require "faker"
 
-lambeth = LocalAuthority.find_or_create_by!(
-  council_code: "LBH",
-  subdomain: "lambeth",
-  short_name: "Lambeth",
-  council_name: "Lambeth Council",
-  applicants_url: "http://lambeth.bops-applicants.localhost:3001",
-  signatory_name: "Christina Thompson",
-  signatory_job_title: "Director of Finance & Property",
-  enquiries_paragraph: "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG",
-  email_address: "planning@lambeth.gov.uk",
-  feedback_email: "digitalplanning@lambeth.gov.uk",
-  press_notice_email: "digitalplanning@lambeth.gov.uk"
-)
-southwark = LocalAuthority.find_or_create_by!(
-  council_code: "SWK",
-  subdomain: "southwark",
-  short_name: "Southwark",
-  council_name: "Southwark Council",
-  applicants_url: "http://southwark.bops-applicants.localhost:3001",
-  signatory_name: "Stephen Platts",
-  signatory_job_title: "Director of Planning and Growth",
-  enquiries_paragraph: "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG",
-  email_address: "planning@southwark.gov.uk",
-  feedback_email: "digital.projects@southwark.gov.uk",
-  press_notice_email: "digital.projects@southwark.gov.uk"
-)
+LocalAuthority.find_or_create_by!(subdomain: "lambeth") do |la|
+  la.council_code = "LBH"
+  la.short_name = "Lambeth"
+  la.council_name = "Lambeth Council"
+  la.applicants_url = "http://lambeth.bops-applicants.localhost:3001"
+  la.signatory_name = "Christina Thompson"
+  la.signatory_job_title = "Director of Finance & Property"
+  la.enquiries_paragraph = "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG"
+  la.email_address = "planning@lambeth.gov.uk"
+  la.feedback_email = "digitalplanning@lambeth.gov.uk"
+  la.press_notice_email = "digitalplanning@lambeth.gov.uk"
+end
 
-buckinghamshire = LocalAuthority.find_or_create_by!(
-  council_code: "BUC",
-  subdomain: "buckinghamshire",
-  short_name: "Buckinghamshire",
-  council_name: "Buckinghamshire Council",
-  applicants_url: "http://buckinghamshire.bops-applicants.localhost:3001",
-  signatory_name: "Steve Bambick",
-  signatory_job_title: "Director of Planning",
-  enquiries_paragraph: "Planning, Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",
-  email_address: "planning@buckinghamshire.gov.uk",
-  feedback_email: "planning.digital@buckinghamshire.gov.uk",
-  press_notice_email: "planning.digital@buckinghamshire.gov.uk"
-)
+LocalAuthority.find_or_create_by!(subdomain: "southwark") do |la|
+  la.council_code = "SWK"
+  la.short_name = "Southwark"
+  la.council_name = "Southwark Council"
+  la.applicants_url = "http://southwark.bops-applicants.localhost:3001"
+  la.signatory_name = "Stephen Platts"
+  la.signatory_job_title = "Director of Planning and Growth"
+  la.enquiries_paragraph = "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG"
+  la.email_address = "planning@southwark.gov.uk"
+  la.feedback_email = "digital.projects@southwark.gov.uk"
+  la.press_notice_email = "digital.projects@southwark.gov.uk"
+end
 
-ApiUser.find_or_create_by!(name: "api_user", token: (ENV["API_TOKEN"] || "123"))
+LocalAuthority.find_or_create_by!(subdomain: "buckinghamshire") do |la|
+  la.council_code = "BUC"
+  la.short_name = "Buckinghamshire"
+  la.council_name = "Buckinghamshire Council"
+  la.applicants_url = "http://buckinghamshire.bops-applicants.localhost:3001"
+  la.signatory_name = "Steve Bambick"
+  la.signatory_job_title = "Director of Planning"
+  la.enquiries_paragraph = "Planning, Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF"
+  la.email_address = "planning@buckinghamshire.gov.uk"
+  la.feedback_email = "planning.digital@buckinghamshire.gov.uk"
+  la.press_notice_email = "planning.digital@buckinghamshire.gov.uk"
+end
 
 admin_roles = %i[assessor reviewer administrator]
-local_authorities = [southwark, lambeth, buckinghamshire]
+local_authorities = LocalAuthority.all
 
 local_authorities.each do |authority|
   authority.readonly!
+
+  authority.api_users.find_or_create_by!(name: authority.subdomain)
 
   admin_roles.each do |admin_role|
     User.find_or_create_by!(email: "#{authority.subdomain}_#{admin_role}@example.com") do |user|
