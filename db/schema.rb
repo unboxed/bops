@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_15_141514) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_21_162919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -291,6 +291,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_141514) do
     t.index ["immunity_detail_id"], name: "ix_evidence_groups_on_immunity_detail_id"
   end
 
+  create_table "fee_calculations", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.decimal "total_fee", precision: 10, scale: 2
+    t.decimal "payable_fee", precision: 10, scale: 2
+    t.decimal "requested_fee", precision: 10, scale: 2
+    t.string "exemptions", default: [], array: true
+    t.string "reductions", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_fee_calculations_on_planning_application_id"
+  end
+
   create_table "immunity_details", force: :cascade do |t|
     t.datetime "end_date"
     t.bigint "planning_application_id"
@@ -488,7 +500,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_141514) do
     t.jsonb "boundary_geojson"
     t.string "change_access_id"
     t.date "expiry_date"
-    t.decimal "payment_amount", precision: 10, scale: 2
     t.string "result_flag"
     t.text "result_heading"
     t.text "result_description"
@@ -789,6 +800,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_15_141514) do
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "users"
   add_foreign_key "evidence_groups", "immunity_details"
+  add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
   add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policies", "users", column: "assessor_id"

@@ -112,7 +112,7 @@ RSpec.describe "Planning application updated tab spec" do
 
     within("#audit_#{Audit.last.id}") do
       within(".govuk-inset-text") do
-        expect(page).to have_content("Update: Payment amount updated Changed from: £0.00 Changed to: £105.00")
+        expect(page).to have_content("Update: Requested fee updated Changed from: £0.00 Changed to: £105.00")
       end
     end
 

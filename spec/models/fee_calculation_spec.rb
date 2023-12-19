@@ -25,8 +25,8 @@ RSpec.describe FeeCalculation, type: :model do
       calculation = FeeCalculation.from_odp_data(data)
       expect(calculation.total_fee).to eq 206
       expect(calculation.payable_fee).to eq 0
-      expect(calculation.exemptions).to eq [:disability, :resubmission]
-      expect(calculation.reductions).to eq [:sports, :parishCouncil, :alternative]
+      expect(calculation.exemptions).to eq ["disability", "resubmission"]
+      expect(calculation.reductions).to eq ["sports", "parishCouncil", "alternative"]
     end
   end
 
@@ -75,8 +75,8 @@ RSpec.describe FeeCalculation, type: :model do
       calculation = FeeCalculation.from_planning_portal_data(data)
       expect(calculation.total_fee).to eq 206
       expect(calculation.payable_fee).to eq 0
-      expect(calculation.exemptions).to eq [:disabledAccess, :disabledAccessPublic, :planningActPart3, :firstRevision]
-      expect(calculation.reductions).to eq [:parishCouncil]
+      expect(calculation.exemptions).to eq ["disabledAccess", "disabledAccessPublic", "planningActPart3", "firstRevision"]
+      expect(calculation.reductions).to eq ["parishCouncil"]
     end
   end
 end

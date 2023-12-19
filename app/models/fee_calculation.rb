@@ -1,17 +1,22 @@
 # frozen_string_literal: true
 
-class FeeCalculation
-  attr_reader :payable_fee, :total_fee, :exemptions, :reductions
+class FeeCalculation < ApplicationRecord
+  include Auditable
+
+  belongs_to :planning_application
+  delegate :audits, to: :planning_application
+
+  after_update :audit_updated!
+  after_create :audit_updated!
 
   class << self
     def from_odp_data(odp_data)
-      calc = FeeCalculation.new
-      calc.payable_fee = odp_data[:payable]
-      calc.total_fee = odp_data[:calculated]
-      calc.exemptions = odp_data[:exemption]&.select { |k, v| v }&.keys
-      calc.reductions = odp_data[:reduction]&.select { |k, v| v }&.keys
-
-      calc
+      FeeCalculation.new(
+        payable_fee: odp_data[:payable],
+        total_fee: odp_data[:calculated],
+        exemptions: odp_data[:exemption]&.select { |k, v| v }&.keys,
+        reductions: odp_data[:reduction]&.select { |k, v| v }&.keys
+      )
     end
 
     def from_planx_data(planx_data)
@@ -41,6 +46,32 @@ class FeeCalculation
         exemption: pp_data[:concessions][:exemptions],
         reduction: pp_data[:concessions][:reductions]  # TODO make names match ODP?
       })
+    end
+  end
+
+  private
+
+  def audit_updated!
+    return unless saved_changes?
+
+    saved_changes.keys.map do |attribute_name|
+      next if saved_change_to_attribute(attribute_name).all? { |value| value.blank? || value.try(:zero?) }
+
+      next if %w[updated_at].include? attribute_name
+
+      original_attribute = saved_change_to_attribute(attribute_name).first
+      new_attribute = saved_change_to_attribute(attribute_name).second
+
+      audit_comment = if %w[payable_fee total_fee requested_fee].include? attribute_name
+        "Changed from: £#{format("%.2f",
+          original_attribute.to_f)} \r\n Changed to: £#{format("%.2f", new_attribute.to_f)}"
+      else
+        "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
+      end
+
+      audit!(activity_type: "updated",
+        activity_information: attribute_name.humanize,
+        audit_comment: audit_comment)
     end
   end
 end

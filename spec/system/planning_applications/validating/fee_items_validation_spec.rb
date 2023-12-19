@@ -32,12 +32,16 @@ RSpec.describe "FeeItemsValidation" do
       ].to_json
     end
 
+    let(:fee_calculation) do
+      FeeCalculation.new(payable_fee: 96.00)
+    end
+
     let!(:planning_application) do
       create(
-        :planning_application, :not_started,
+        :planning_application, :not_started, :from_planx_prior_approval,
         local_authority: default_local_authority,
         payment_reference: "PAY1",
-        payment_amount: 112.12,
+        fee_calculation:,
         proposal_details:
       )
     end
@@ -69,7 +73,7 @@ RSpec.describe "FeeItemsValidation" do
 
           within(rows[0]) do
             expect(page).to have_content("Fee Paid")
-            expect(page).to have_content("£112.12")
+            expect(page).to have_content("£96.00")
           end
 
           within(rows[1]) do
@@ -464,7 +468,7 @@ RSpec.describe "FeeItemsValidation" do
         click_button("Continue")
 
         # Display fee item table
-        within(".govuk-table") do
+        within(".govuk-table:nth-of-type(1)") do
           within(".govuk-table__head") do
             expect(page).to have_content("Item")
             expect(page).to have_content("Detail")
@@ -479,7 +483,7 @@ RSpec.describe "FeeItemsValidation" do
 
         # Check audit log
         within("#audit_#{Audit.last.id}") do
-          expect(page).to have_content("Payment amount updated")
+          expect(page).to have_content("Requested fee updated")
           expect(page).to have_content("Changed from: £100.00 Changed to: £350.22")
         end
       end

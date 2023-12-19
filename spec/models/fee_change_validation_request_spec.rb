@@ -100,8 +100,11 @@ RSpec.describe FeeChangeValidationRequest do
       end
 
       describe "::after_create #set_invalid_payment_amount" do
+        let(:fee_calculation) do
+          FeeCalculation.new(payable_fee: 172.36)
+        end
         let!(:planning_application) do
-          create(:planning_application, :not_started, payment_amount: 172.36)
+          create(:planning_application, :not_started, fee_calculation:)
         end
 
         context "when it is a fee item validation request" do
