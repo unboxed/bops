@@ -293,52 +293,52 @@ en:
         profile: Edit profile
       form:
         email_address: Decision notice email
-        email_address_hint: ''
+        email_address_hint: Enter the email address that appears on decision notices.
         email_reply_to_id: Email reply_to_id
-        email_reply_to_id_hint: ''
+        email_reply_to_id_hint: Enter the email address to which planning applicants and consultees can reply. It may be included in correspondence sent out by the local authority.
         enquiries_paragraph: Enquiries paragraph
-        enquiries_paragraph_hint: ''
+        enquiries_paragraph_hint: Enter the paragraph containing the local authority address and contact details that appears at the bottom of decision notices and other correspondence.
         feedback_email: Feedback email
-        feedback_email_hint: ''
+        feedback_email_hint: Enter the email of the person or team who will deal with any queries about BOPS at your council.
         notify_api_key: Notify API key
-        notify_api_key_hint: ''
+        notify_api_key_hint: Enter the API key used by the Government's Notify service for sending out emails, SMS and letters. Note that in all environments other than Production, a generic Notify key is used, so you will not see changes in your Notify account reflected in communications you send out.
         notify_letter_template: Notify letter template
-        notify_letter_template_hint: ''
+        notify_letter_template_hint: Enter the ID number of the letter template you will use within Notify
         press_notice_email: Press notice email
-        press_notice_email_hint: ''
+        press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         reply_to_notify_id: Reply to_notify_id
-        reply_to_notify_id_hint: ''
+        reply_to_notify_id_hint: Enter your Notify reply ID. You will need to go to Notify to set this up.
         reviewer_group_email: Manager group email
-        reviewer_group_email_hint: ''
+        reviewer_group_email_hint: Enter the email of the person who will be responsible for managing the planning process.
         signatory_job_title: Signatory job title
-        signatory_job_title_hint: ''
+        signatory_job_title_hint: Enter the job title of the person whose signature appears at the bottom of decision notices.
         signatory_name: Signatory name
-        signatory_name_hint: ''
+        signatory_name_hint: Enter the name of the person whose signature appears at the bottom of decision notices.
         submit: Submit
       show:
         email_address: Decision notice email
-        email_address_hint: ''
+        email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: Email reply_to_id
-        email_reply_to_id_hint: ''
+        email_reply_to_id_hint: This is the email address to which planning applicants and consultees can reply. It may be included in correspondence sent out by the local authority.
         enquiries_paragraph: Enquiries paragraph
-        enquiries_paragraph_hint: ''
+        enquiries_paragraph_hint: This is the paragraph containing the local authority address and contact details that appears at the bottom of decision notices and other correspondence.
         feedback_email: Feedback email
-        feedback_email_hint: ''
+        feedback_email_hint: This is the email of the person or team who will deal with any queries about BOPS at your council.
         notify_api_key: Notify API key
-        notify_api_key_hint: ''
+        notify_api_key_hint: This is the API key used by the Government's Notify service for sending out emails, SMS and letters. Note that in all environments other than Production, a generic Notify key is used, so you will not see changes in your Notify account reflected in communications you send out.
         notify_letter_template: Notify letter template
-        notify_letter_template_hint: ''
+        notify_letter_template_hint: This is the ID number of the letter template you will use within Notify
         press_notice_email: Press notice email
-        press_notice_email_hint: ''
+        press_notice_email_hint: This is the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         profile: Profile
         reply_to_notify_id: Reply to_notify_id
-        reply_to_notify_id_hint: ''
+        reply_to_notify_id_hint: This is your Notify reply ID. You will need to go to Notify to set this up.
         reviewer_group_email: Manager group email
-        reviewer_group_email_hint: ''
+        reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process.
         signatory_job_title: Signatory job title
-        signatory_job_title_hint: ''
+        signatory_job_title_hint: This is the job title of the person whose signature appears at the bottom of decision notices.
         signatory_name: Signatory name
-        signatory_name_hint: ''
+        signatory_name_hint: This is the name of the person whose signature appears at the bottom of decision notices.
     users:
       edit:
         edit_user: Edit user
