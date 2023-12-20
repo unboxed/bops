@@ -33,6 +33,26 @@ RSpec.describe "managing council information profile" do
     expect(page).to have_content("Email reply_to_id")
   end
 
+  it "displays the correct hint text on the council information profile" do
+    expect(page).to have_content("name of the person whose signature")
+
+    expect(page).to have_content("job title of the person whose signature")
+
+    expect(page).to have_content("paragraph containing the local authority address")
+
+    expect(page).to have_content("email address that appears on decision notices.")
+
+    expect(page).to have_content("deal with any queries about BOPS")
+
+    expect(page).to have_content("person who will be responsible for managing")
+
+    expect(page).to have_content("who will prepare press notices")
+
+    expect(page).to have_content("Notify reply ID. You will need to go to Notify")
+
+    expect(page).to have_content("sending out emails, SMS and letters.")
+  end
+
   it "allows the administrator to edit council information profile" do
     click_link("Edit profile")
 
