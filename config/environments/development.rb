@@ -79,4 +79,8 @@ Rails.application.configure do
 
   # Allow web-console connections into docker
   config.web_console.permissions = %w( 127.0.0.1 ::1 172.23.9.254 )
+
+  config.active_record.encryption.primary_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY", "notasecret")
+  config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY", "notasecret")
+  config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT", "notasecret")
 end
