@@ -410,7 +410,7 @@ en:
     scale: Missing scale bar or north arrow
   audit_user_name:
     applicant: Applicant / Agent via %{api_user_name}
-    bops_applicants: Applicant / Agent via BoPS applicants
+    bops_applicants: Applicant / Agent via BOPS applicants
     deleted: User deleted
     system: Automated by the system
   audits:
@@ -670,7 +670,7 @@ en:
       press_notice_mail: Request for press notice
       receipt_notice_mail: "%{application_type_name} application received"
       site_notice_mail: Display site notice for your application %{reference}
-      update_notification_mail: BoPS case %{reference} has a new update
+      update_notification_mail: BOPS case %{reference} has a new update
       validation_notice_mail: Your application for a %{application_type_name}
       validation_request_closure_mail: Changes to your %{application_type_name} application
       validation_request_mail: "%{application_type_name} application - further changes needed"
@@ -1102,7 +1102,7 @@ en:
         success: Addresses have been successfully added.
       send_letters:
         add_neighbours: Add some neighbours before sending letters
-        make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BoPS Public Portal</a> before you can send letters to neighbours.
+        make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BOPS Public Portal</a> before you can send letters to neighbours.
         require_resend_reason: Provide a reason when resending letters to previously-contacted neighbours
     neighbour_responses:
       create:
@@ -1243,7 +1243,7 @@ en:
     site_notices:
       create:
         assign_user_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">assigned to an officer</a> before you can create a site notice.
-        make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BoPS Public Portal</a> before you can create a site notice.
+        make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BOPS Public Portal</a> before you can create a site notice.
         success: Site notice was successfully %{action}
       update:
         success: Site notice was successfully updated
@@ -1651,13 +1651,13 @@ en:
   user_mailer:
     assigned_notification_mail:
       bops_case_reference: You have been assigned to a prior approval case %{reference}.
-      bops_updates: BoPS updates
-      view_reference_on: View %{reference} on BoPS
+      bops_updates: BOPS updates
+      view_reference_on: View %{reference} on BOPS
     otp_mail:
       otp_expires: It will expire in %{expires} minutes.
       otp_is_your: "%{otp} is your Back Office Planning System verification code."
     update_notification_mail:
-      bops_case_reference: BoPS case %{reference} has a new update.
-      bops_updates: BoPS updates
-      view_reference_on: View %{reference} on BoPS
+      bops_case_reference: BOPS case %{reference} has a new update.
+      bops_updates: BOPS updates
+      view_reference_on: View %{reference} on BOPS
   user_not_authorized: You are not authorized to perform this action.

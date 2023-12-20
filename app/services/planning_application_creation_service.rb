@@ -131,7 +131,7 @@ class PlanningApplicationCreationService
 
   def check_for_prior_approval
     return unless params[:application_type] == "Apply for prior approval"
-    raise CreateError, "BoPS does not accept this Prior Approval type" unless permitted_prior_approval_type?
+    raise CreateError, "BOPS does not accept this Prior Approval type" unless permitted_prior_approval_type?
 
     params[:application_type] = "prior_approval"
   end

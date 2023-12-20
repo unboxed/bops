@@ -16,7 +16,7 @@ The easiest way to run the application is with Docker. First `cd` into the `bops
 git submodule update --init --recursive
 ```
 
-This links the main repo to the [BoPS applicants project](https://github.com/unboxed/bops-applicants/).
+This links the main repo to the [BOPS applicants project](https://github.com/unboxed/bops-applicants/).
 
 Then build and launch the images:
 
@@ -119,7 +119,7 @@ Versions 5+ of the [devise-two-factor](https://github.com/tinfoil/devise-two-fac
 
 Add in ./config/credentials a `development.key` (which can be found in 1password) or set a `RAILS_MASTER_KEY` env variable either natively or as part of `docker-compose.yml` with this value to enable 2FA to work in development.
 
-This key is set as an env `RAILS_MASTER_KEY` in production. See the [BoPS Terraform](https://github.com/unboxed/bops-terraform) repo for more information about BoPS infrastructure.
+This key is set as an env `RAILS_MASTER_KEY` in production. See the [BOPS Terraform](https://github.com/unboxed/bops-terraform) repo for more information about BOPS infrastructure.
 
 ## OS maps
 

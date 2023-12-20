@@ -27,7 +27,7 @@ RSpec.describe "making planning application public" do
 
     visit "/planning_applications/#{planning_application.id}"
 
-    expect(page).to have_content("Public on BoPS Public Portal: No")
+    expect(page).to have_content("Public on BOPS Public Portal: No")
 
     visit "/planning_applications/#{planning_application.id}/make_public"
 
@@ -37,7 +37,7 @@ RSpec.describe "making planning application public" do
 
     click_button "Update application"
 
-    expect(page).to have_content("Public on BoPS Public Portal: Yes")
+    expect(page).to have_content("Public on BOPS Public Portal: Yes")
 
     visit "/planning_applications/#{planning_application.id}/make_public"
 
@@ -45,6 +45,6 @@ RSpec.describe "making planning application public" do
 
     click_button "Update application"
 
-    expect(page).to have_content("Public on BoPS Public Portal: No")
+    expect(page).to have_content("Public on BOPS Public Portal: No")
   end
 end

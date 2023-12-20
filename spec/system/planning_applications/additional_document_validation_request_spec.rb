@@ -61,7 +61,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
     expect(page).to have_text("Received: request for change (new document#1)")
     expect(page).to have_text("roof_plan.pdf")
-    expect(page).to have_text("Applicant / Agent via BoPS applicants")
+    expect(page).to have_text("Applicant / Agent via BOPS applicants")
   end
 
   context "when invalidation updates an additional document validation request" do
