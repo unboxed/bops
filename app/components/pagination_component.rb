@@ -62,7 +62,7 @@ class PaginationComponent < ViewComponent::Base
   end
 
   def items
-    pagy.series(size: [1,2,2,1])
+    pagy.series(size: [1, 2, 2, 1])
   end
 
   def item_tag(item)
@@ -106,7 +106,7 @@ class PaginationComponent < ViewComponent::Base
   end
 
   def current_link(page)
-    page_link(page.to_i, aria: { current: "page" })
+    page_link(page.to_i, aria: {current: "page"})
   end
 
   def current_item(page)

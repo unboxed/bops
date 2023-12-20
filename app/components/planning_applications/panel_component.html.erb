@@ -32,5 +32,9 @@
         <% end %>
       </tbody>
     </table>
+
+    <% if type == :all %>
+      <%= pagination %>
+    <% end %>
   <% end %>
 </div>
