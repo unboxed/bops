@@ -12,6 +12,6 @@ RSpec.describe EnvironmentBannerComponent, type: :component do
   it "displays warning in the staging environment" do
     render_inline(described_class.new(display: true))
 
-    expect(page).to have_content "This is staging. Only process test cases on this version of BoPS"
+    expect(page).to have_content "This is staging. Only process test cases on this version of BOPS"
   end
 end

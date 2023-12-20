@@ -199,7 +199,7 @@ RSpec.describe "Send letters to neighbours", js: true do
         .to include("This is some content I'm putting in")
     end
 
-    context "when planning application has not been made public on the BoPS Public Portal" do
+    context "when planning application has not been made public on the BOPS Public Portal" do
       let(:planning_application) do
         create(:planning_application,
           :from_planx_prior_approval,
@@ -222,8 +222,8 @@ RSpec.describe "Send letters to neighbours", js: true do
         click_button "Print and send letters"
 
         within(".govuk-notification-banner--alert") do
-          expect(page).to have_content("The planning application must be made public on the BoPS Public Portal before you can send letters to neighbours.")
-          expect(page).to have_link("made public on the BoPS Public Portal", href: "/planning_applications/#{planning_application.id}/make_public")
+          expect(page).to have_content("The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.")
+          expect(page).to have_link("made public on the BOPS Public Portal", href: "/planning_applications/#{planning_application.id}/make_public")
         end
       end
     end

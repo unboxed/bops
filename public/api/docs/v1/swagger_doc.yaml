@@ -770,7 +770,7 @@ paths:
                         monument:
                           name: Scheduled monument
                           text: |-
-                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport). 
+                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport).
 
                             This list of scheduled monuments is kept and maintained by [Historic England](https://historicengland.org.uk/).
                           plural: Scheduled monuments
@@ -949,7 +949,7 @@ paths:
                         designated.SPA:
                           name: Special protection area
                           text: |-
-                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated 
+                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated
                             for the protection of birds and wildlife. This dataset is provided by [Natural England](https://www.gov.uk/government/organisations/natural-england).
                           plural: Special protection areas
                           prefix: ''
@@ -1954,7 +1954,7 @@ paths:
                         monument:
                           name: Scheduled monument
                           text: |-
-                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport). 
+                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport).
 
                             This list of scheduled monuments is kept and maintained by [Historic England](https://historicengland.org.uk/).
                           plural: Scheduled monuments
@@ -2133,7 +2133,7 @@ paths:
                         designated.SPA:
                           name: Special protection area
                           text: |-
-                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated 
+                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated
                             for the protection of birds and wildlife. This dataset is provided by [Natural England](https://www.gov.uk/government/organisations/natural-england).
                           plural: Special protection areas
                           prefix: ''
@@ -3031,7 +3031,7 @@ paths:
                         monument:
                           name: Scheduled monument
                           text: |-
-                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport). 
+                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport).
 
                             This list of scheduled monuments is kept and maintained by [Historic England](https://historicengland.org.uk/).
                           plural: Scheduled monuments
@@ -3210,7 +3210,7 @@ paths:
                         designated.SPA:
                           name: Special protection area
                           text: |-
-                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated 
+                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated
                             for the protection of birds and wildlife. This dataset is provided by [Natural England](https://www.gov.uk/government/organisations/natural-england).
                           plural: Special protection areas
                           prefix: ''
@@ -3429,7 +3429,7 @@ paths:
                     postcode: SE16 3RQ
                     latitude: '51.4842536'
                     longitude: '-0.0764165'
-                  description: 'Alterations to roof to create a loft conversion using an ''L'' shaped dormer, to provide additional residential accommodation.'
+                  description: "Alterations to roof to create a loft conversion using an 'L' shaped dormer, to provide additional residential accommodation."
                   payment_amount: 20600
                   payment_reference: fb4v6c47coecjk40seh3ima37k
                   applicant_first_name: Albert
@@ -3693,7 +3693,7 @@ paths:
                         monument:
                           name: Scheduled monument
                           text: |-
-                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport). 
+                            Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport).
 
                             This list of scheduled monuments is kept and maintained by [Historic England](https://historicengland.org.uk/).
                           plural: Scheduled monuments
@@ -3872,7 +3872,7 @@ paths:
                         designated.SPA:
                           name: Special protection area
                           text: |-
-                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated 
+                            [Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated
                             for the protection of birds and wildlife. This dataset is provided by [Natural England](https://www.gov.uk/government/organisations/natural-england).
                           plural: Special protection areas
                           prefix: ''
@@ -4141,7 +4141,7 @@ paths:
           schema:
             type: string
             minimum: 1
-          description: The local authority's subdomain on BoPS
+          description: The local authority's subdomain on BOPS
       security:
         - bearerAuth: []
       responses:

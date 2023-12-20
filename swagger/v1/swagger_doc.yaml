@@ -4279,7 +4279,7 @@ paths:
           schema:
             type: string
             minimum: 1
-          description: The local authority's subdomain on BoPS
+          description: The local authority's subdomain on BOPS
       security:
         - bearerAuth: []
       responses:

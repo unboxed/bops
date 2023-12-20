@@ -142,7 +142,7 @@ RSpec.describe "Reviewing sign-off" do
     expect(update_notification.to).to contain_exactly(user.email)
 
     expect(update_notification.subject).to eq(
-      "BoPS case PlanX-22-00100-LDCP has a new update"
+      "BOPS case PlanX-22-00100-LDCP has a new update"
     )
 
     click_button "Audit log"

@@ -139,7 +139,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
           end
 
           it "raises an error" do
-            expect { create_planning_application }.to raise_error(described_class::CreateError, "BoPS does not accept this Prior Approval type")
+            expect { create_planning_application }.to raise_error(described_class::CreateError, "BOPS does not accept this Prior Approval type")
           end
         end
       end

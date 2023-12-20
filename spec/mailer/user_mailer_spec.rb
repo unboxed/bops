@@ -18,7 +18,7 @@ RSpec.describe UserMailer, type: :mailer do
     it "sets subject" do
       travel_to("2022-01-01 00:00:00 GMT") do
         expect(mail.subject).to eq(
-          "BoPS case BUC-22-00100-LDCP has a new update"
+          "BOPS case BUC-22-00100-LDCP has a new update"
         )
       end
     end
@@ -30,7 +30,7 @@ RSpec.describe UserMailer, type: :mailer do
     it "includes planning application reference" do
       travel_to("2022-01-01 00:00:00 GMT") do
         expect(mail_body).to include(
-          "BoPS case BUC-22-00100-LDCP has a new update."
+          "BOPS case BUC-22-00100-LDCP has a new update."
         )
       end
     end

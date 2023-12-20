@@ -18,8 +18,8 @@ Keep up to date with the latest ODP news and progress via our Show and Tell sess
 ### What is the code in this repo?
 The code is open-source and licensed under the [MIT License](https://en.wikipedia.org/wiki/MIT_License). The code required for deployment and hosting is in a separate repo, [BOPS infrastructure repo](https://github.com/unboxed/bops-terraform/), which is private.
 
-### Where can I find technical information about how to get my local authority's planning team up and running on BoPS?
-There is a BOPS handbook that provides a list of all the prerequisites and configuration instructions that are needed. To get access to this and to find out more information about the project, email [bops-team@unboxedconsulting.com](mailto:bops-team@unboxed.consulting.com) 
+### Where can I find technical information about how to get my local authority's planning team up and running on BOPS?
+There is a BOPS handbook that provides a list of all the prerequisites and configuration instructions that are needed. To get access to this and to find out more information about the project, email [bops-team@unboxedconsulting.com](mailto:bops-team@unboxed.consulting.com)
 
 ### With what other services is BOPS integrated?
 BOPS is integrated with:

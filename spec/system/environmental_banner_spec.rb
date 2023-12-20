@@ -12,6 +12,6 @@ RSpec.describe "Environmental banner" do
   end
 
   it "is not displayed in the test environment" do
-    expect(page).not_to have_content "Only process test cases on this version of BoPS"
+    expect(page).not_to have_content "Only process test cases on this version of BOPS"
   end
 end
