@@ -72,6 +72,10 @@ class User < ApplicationRecord
     confirmed_at.present?
   end
 
+  def unconfirmed?
+    confirmed_at.nil?
+  end
+
   def confirmation_timeout
     6.hours
   end

@@ -19,6 +19,90 @@ RSpec.describe "managing users" do
       )
     end
 
+    it "shows a warning when users are unconfirmed" do
+      create(
+        :user,
+        :assessor,
+        :unconfirmed,
+        name: "Andrea Khan",
+        local_authority:
+      )
+
+      create(
+        :user,
+        :assessor,
+        :unconfirmed,
+        name: "Rosie Starr",
+        local_authority:
+      )
+
+      visit "/administrator/users"
+
+      expect(page).to have_content("2 users have not confirmed their email")
+      expect(page).to have_content("Resend invites to unconfirmed users to add them to your team.")
+    end
+
+    it "displays different links for confirmed and unconfirmed users" do
+      create(
+        :user,
+        :reviewer,
+        name: "Dieter Waldbeck",
+        local_authority:
+      )
+
+      create(
+        :user,
+        :assessor,
+        :unconfirmed,
+        name: "Andrea Khan",
+        local_authority:
+      )
+
+      create(
+        :user,
+        :assessor,
+        :unconfirmed,
+        name: "Rosie Starr",
+        local_authority:
+      )
+
+      visit "/administrator/users"
+
+      row = row_with_content("Dieter Waldbeck")
+      expect(row).to have_content("Edit user")
+      expect(row).not_to have_content("Resend invite")
+
+      click_link("Unconfirmed")
+
+      row2 = row_with_content("Andrea Khan")
+      expect(row2).to have_content("Edit user")
+      expect(row2).to have_content("Resend invite")
+    end
+
+    it "allows the administrator to resend an invite from the index page" do
+      create(
+        :user,
+        :assessor,
+        :unconfirmed,
+        name: "Rosie Starr",
+        local_authority:
+      )
+
+      visit "/administrator/users"
+      click_link("Unconfirmed")
+
+      row = row_with_content("Rosie Starr")
+      within(row) do
+        click_link("Resend invite")
+      end
+
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.subject).to eq("Set password instructions")
+      expect(mail.body).to include(
+        "Welcome to the Back-office Planning System"
+      )
+    end
+
     it "allows adding of new user" do
       visit "/administrator/users"
       click_link("Add user")

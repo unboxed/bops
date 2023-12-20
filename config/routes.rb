@@ -245,6 +245,10 @@ Rails.application.routes.draw do
   namespace :administrator do
     resource :dashboard, only: %i[show]
     resource :local_authority, only: %i[show edit update]
-    resources :users, only: %i[index new create edit update]
+    resources :users, only: %i[index new create edit update] do
+      member do
+        get :resend_invite
+      end
+    end
   end
 end
