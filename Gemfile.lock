@@ -364,6 +364,7 @@ GEM
     openapi3_parser (0.9.2)
       commonmarker (~> 0.17)
     orm_adapter (0.5.0)
+    pagy (6.2.0)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
@@ -627,6 +628,7 @@ DEPENDENCIES
   mini_magick
   notifications-ruby-client
   openapi3_parser
+  pagy
   pg (>= 0.18, < 2.0)
   pry-byebug
   puma (~> 5)
