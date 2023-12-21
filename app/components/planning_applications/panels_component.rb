@@ -19,7 +19,7 @@ module PlanningApplications
     end
 
     def all_planning_applications
-      search.call || planning_applications
+      planning_applications
     end
 
     def closed_planning_applications
