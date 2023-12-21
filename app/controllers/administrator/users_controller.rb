@@ -2,10 +2,12 @@
 
 module Administrator
   class UsersController < ApplicationController
-    before_action :set_user, only: %i[edit update]
+    before_action :set_user, only: %i[edit update resend_invite]
 
     def index
       @users = current_local_authority.users
+      @confirmed_users = current_local_authority.users.confirmed
+      @unconfirmed_users = current_local_authority.users.unconfirmed
     end
 
     def new
@@ -38,6 +40,15 @@ module Administrator
         redirect_to administrator_users_path
       else
         render :edit
+      end
+    end
+
+    def resend_invite
+      if @user.send_confirmation_instructions
+        flash[:notice] = t(
+          "administrator.dashboards.show.confirmation_resent"
+        )
+        redirect_to administrator_users_path
       end
     end
 

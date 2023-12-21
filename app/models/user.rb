@@ -28,6 +28,8 @@ class User < ApplicationRecord
   validate :password_complexity
 
   scope :non_administrator, -> { where.not(role: "administrator") }
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
+  scope :unconfirmed, -> { where(confirmed_at: nil) }
 
   class << self
     def menu(scope = User.all)
@@ -70,6 +72,10 @@ class User < ApplicationRecord
 
   def confirmed?
     confirmed_at.present?
+  end
+
+  def unconfirmed?
+    confirmed_at.nil?
   end
 
   def confirmation_timeout

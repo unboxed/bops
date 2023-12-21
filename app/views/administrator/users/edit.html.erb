@@ -14,6 +14,15 @@
       <%= t(".edit_user") %>
     </h1>
 
+    <div class="govuk-button-group">
+      <%= link_to(
+            "Resend invite",
+            resend_invite_administrator_user_path,
+            class: "govuk-button",
+            data: { module: "govuk-button" }
+          ) if @user.unconfirmed? %>
+    </div>
+
     <%= render(partial: "form", locals: { user: @user }) %>
   </div>
 </div>

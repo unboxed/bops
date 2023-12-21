@@ -284,6 +284,7 @@ en:
     dashboards:
       show:
         administrator_dashboard: Administrator dashboard
+        confirmation_resent: User will receive a reminder email
         local_authority_successfully_updated: Council information successfully updated
         user_successfully_created: User successfully created
         user_successfully_updated: User successfully updated
@@ -348,7 +349,7 @@ en:
         submit: Submit
       index:
         add_user: Add user
-        users: Users
+        users: Manage users
       new:
         add_user: Add a new user
       sessions:
