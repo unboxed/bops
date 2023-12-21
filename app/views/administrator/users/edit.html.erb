@@ -20,7 +20,7 @@
             resend_invite_administrator_user_path,
             class: "govuk-button",
             data: { module: "govuk-button" }
-          ) %>
+          ) if @user.unconfirmed? %>
     </div>
 
     <%= render(partial: "form", locals: { user: @user }) %>
