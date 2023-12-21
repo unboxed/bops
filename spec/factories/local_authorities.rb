@@ -13,6 +13,7 @@ FactoryBot.define do
     email_address { Faker::Internet.email }
     feedback_email { "feedback_email@buckinghamshire.gov.uk" }
     email_reply_to_id { "4896bb50-4f4c-4b4d-ad67-2caddddde125" }
+    active { true }
 
     trait :default do
       council_code { "PlanX" }
