@@ -6,8 +6,8 @@ module Administrator
 
     def index
       @users = current_local_authority.users
-      @confirmed_users = current_local_authority.users.select { |u| u.confirmed? }
-      @unconfirmed_users = current_local_authority.users.select { |u| u.unconfirmed? }
+      @confirmed_users = current_local_authority.users.confirmed
+      @unconfirmed_users = current_local_authority.users.unconfirmed
     end
 
     def new

@@ -6,7 +6,7 @@
 
 <% content_for :title, t(".users") %>
 
-<% if current_user.local_authority.users.any?(&:unconfirmed?) %>
+<% if @unconfirmed_users.any? %>
   <%= render(
         partial: "status_prompt",
         locals: { users: @unconfirmed_users }
