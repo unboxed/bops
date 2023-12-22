@@ -54,6 +54,7 @@ class PlanningApplication < ApplicationRecord
     has_one :planx_planning_data, required: false
     has_one :press_notice, required: false
     has_one :local_policy, required: false
+    has_one :fee_calculation, required: false
 
     has_many(
       :policy_classes,
@@ -176,7 +177,10 @@ class PlanningApplication < ApplicationRecord
   format_geojson_epsg :boundary_geojson
 
   def payment_amount=(amount)
-    self[:payment_amount] = amount.to_s.delete("^0-9.-").to_d
+    fee_calculation.requested_fee = amount.to_s.delete("^0-9.-").to_d
+    fee_calculation.save! if persisted?
+
+    fee_calculation.requested_fee
   end
 
   def timestamp_status_change
@@ -723,7 +727,29 @@ class PlanningApplication < ApplicationRecord
     check_permitted_development_rights? && permitted_development_right
   end
 
+  def payment_amount
+    (fee_calculation&.requested_fee || fee_calculation&.payable_fee).to_d
+  end
+
+  def fee_calculation
+    super || create_fee_calculation
+  end
+
   private
+
+  def create_fee_calculation
+    calc = if planx_planning_data&.params_v2.present?
+      FeeCalculation.from_odp_data(JSON.parse(planx_planning_data.params_v2, symbolize_names: true))
+    elsif planx_planning_data&.params_v1.present?
+      FeeCalculation.from_planx_data(JSON.parse(planx_planning_data.params_v1, symbolize_names: true))
+    else
+      FeeCalculation.new
+    end
+
+    calc.planning_application = self
+    calc.save! if persisted?
+    calc
+  end
 
   def update_measurements
     ProposalMeasurement.create!(
@@ -826,12 +852,7 @@ class PlanningApplication < ApplicationRecord
     original_attribute = saved_change_to_attribute(attribute_name).first
     new_attribute = saved_change_to_attribute(attribute_name).second
 
-    if attribute_name == "payment_amount"
-      "Changed from: £#{format("%.2f",
-        original_attribute.to_f)} \r\n Changed to: £#{format("%.2f", new_attribute.to_f)}"
-    else
-      "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
-    end
+    "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
   end
 
   def audit_update_application_type!
