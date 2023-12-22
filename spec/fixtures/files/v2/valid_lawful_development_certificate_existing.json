@@ -1458,10 +1458,46 @@
       "metadata": {}
     },
     {
+      "question": "What do these photographs show?",
+      "responses": [
+        {
+          "value": "Nothing, it's a test photo. "
+        }
+      ],
+      "metadata": {}
+    },
+    {
       "question": "What do these documents show?",
       "responses": [
         {
           "value": "Nothing really, this is just a test. "
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "What do these Council Tax documents show?",
+      "responses": [
+        {
+          "value": "That I was paying council tax"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "What date do these council tax bills start from?",
+      "responses": [
+        {
+          "value": "2013-03-02"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "When do these councils tax bills run until?",
+      "responses": [
+        {
+          "value": "2019-04-01"
         }
       ],
       "metadata": {}
@@ -1846,6 +1882,16 @@
         }
       ],
       "description": "Nothing, it's a test document. "
+    },
+    {
+      "name": "https://api.editor.planx.dev/file/private/uz72iu40/Test%20document.pdf",
+      "type": [
+        {
+          "value": "proposal.document.councilTaxBill",
+          "description": "Council Tax Document"
+        }
+      ],
+      "description": "Council tax bill"
     }
   ],
   "metadata": {
