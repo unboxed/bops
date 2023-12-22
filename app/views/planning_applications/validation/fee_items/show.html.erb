@@ -60,8 +60,11 @@
               Total
             </th>
             <td class="govuk-table__cell">
-              £<%= @planning_application.fee_calculation.payable_fee.to_i %>
+              £<%= @planning_application.fee_calculation.requested_fee || @planning_application.fee_calculation.payable_fee || 0 %>
             </td>
+            <% if  @planning_application.fee_calculation.requested_fee.present? %>
+              <td>(set by PO)</td>
+            <% end %>
           </tr>
         </tbody>
       </table>
