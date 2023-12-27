@@ -190,6 +190,12 @@ RSpec.describe "FeeItemsValidation" do
         end
       end
 
+      within(".govuk-details__summary") do
+        expect(page).to have_content(
+          "View guidance on supporting documents"
+        )
+      end
+
       expect(page).to have_content(
         "This request will be added to the application. The requests will not be sent until the application is marked as invalid."
       )
@@ -200,7 +206,7 @@ RSpec.describe "FeeItemsValidation" do
       )
 
       fill_in(
-        "Tell the applicant how the fee can be made valid",
+        "Tell the applicant what they need to do",
         with: "Update accurate fee"
       )
 
@@ -229,8 +235,8 @@ RSpec.describe "FeeItemsValidation" do
       expect(page).to have_content("Officer request")
 
       within(".govuk-inset-text") do
-        expect(page).to have_content("Reason it is invalid: Fee is invalid")
-        expect(page).to have_content("How it can be made valid: Update accurate fee")
+        expect(page).to have_content("Reason fee is invalid: Fee is invalid")
+        expect(page).to have_content("What the applicant needs to do Update accurate fee")
         expect(page).to have_content(other_change_validation_request.created_at.to_fs)
       end
 
@@ -276,7 +282,7 @@ RSpec.describe "FeeItemsValidation" do
         )
 
         fill_in(
-          "Tell the applicant how the fee can be made valid",
+          "Tell the applicant what they need to do",
           with: "Update better fee"
         )
 
@@ -289,8 +295,8 @@ RSpec.describe "FeeItemsValidation" do
         click_link "Check fee"
 
         within(".govuk-inset-text") do
-          expect(page).to have_content("Reason it is invalid: Fee is very invalid")
-          expect(page).to have_content("How it can be made valid: Update better fee")
+          expect(page).to have_content("Reason fee is invalid: Fee is very invalid")
+          expect(page).to have_content("What the applicant needs to do Update better fee")
         end
       end
 
@@ -362,12 +368,14 @@ RSpec.describe "FeeItemsValidation" do
       expect(page).to have_content("Officer request")
 
       within(".govuk-inset-text") do
-        expect(page).to have_content("Reason it is invalid: Incorrect fee")
-        expect(page).to have_content("How it can be made valid: You need to pay a different fee")
+        expect(page).to have_content("Reason fee is invalid")
+        expect(page).to have_content("Incorrect fee")
+        expect(page).to have_content("What the applicant needs to do")
+        expect(page).to have_content("You need to pay a different fee")
         expect(page).to have_content(other_change_validation_request.created_at.to_fs)
       end
 
-      expect(page).to have_content("Applicant has not responded yet")
+      expect(page).to have_content("Applicant has not responded to the latest request")
 
       within(".govuk-button-group") do
         expect(page).to have_link(
@@ -423,11 +431,17 @@ RSpec.describe "FeeItemsValidation" do
     end
 
     context "when applicant has responded" do
+      let(:fee_exemption_document) { create(:document, :with_file, planning_application:, tags: ["Fee Exemption"]) }
+
       before do
+        travel_to Time.zone.local(2021, 1, 1)
+
         other_change_validation_request.update(state: "closed", response: "ok")
+
+        closed_other_change_validation_request.supporting_documents << fee_exemption_document
       end
 
-      let!(:closed_other_change_validation_request) do
+      let(:closed_other_change_validation_request) do
         create(
           :fee_change_validation_request, :closed,
           planning_application:,
@@ -444,14 +458,24 @@ RSpec.describe "FeeItemsValidation" do
 
         click_link "Check fee"
 
-        expect(page).to have_content("Check the response to fee change request")
+        expect(page).to have_content("Check applicant response and update fee paid")
         expect(page).to have_content("Officer request")
 
         inset_texts = page.all(".govuk-inset-text")
         within(inset_texts[0]) do
-          expect(page).to have_content("Reason it is invalid: Incorrect fee")
-          expect(page).to have_content("How it can be made valid: You need to pay a different fee")
+          expect(page).to have_content("Reason fee is invalid:")
+          expect(page).to have_content("Incorrect fee")
+          expect(page).to have_content("What the applicant needs to do")
+          expect(page).to have_content("You need to pay a different fee")
           expect(page).to have_content(closed_other_change_validation_request.updated_at.to_fs)
+        end
+
+        expect(page).to have_content("Documents provided by applicant")
+        within(".govuk-table__body") do
+          expect(page).to have_link("View in new window")
+          expect(page).to have_content("File name: proposed-floorplan.png")
+          expect(page).to have_content("Date received: 1 January 2021")
+          expect(page).to have_content("This document was uploaded by the applicant")
         end
 
         expect(page).to have_content("Applicant response")
@@ -460,15 +484,17 @@ RSpec.describe "FeeItemsValidation" do
           expect(page).to have_content(closed_other_change_validation_request.updated_at.to_fs)
         end
 
-        expect(page).to have_content("Total fee paid")
+        expect(page).to have_content("Confirm total fee paid")
         expect(page).to have_content("Check any extra fee has been received and update the total fee now paid.")
+        expect(page).to have_content("check that the correct fee has been received")
+        expect(page).to have_content("update the total fee paid")
         expect(page).to have_field("planning_application[payment_amount]", with: "100.00")
 
         fill_in "planning_application[payment_amount]", with: "350.22"
         click_button("Continue")
 
         # Display fee item table
-        within(".govuk-table:nth-of-type(1)") do
+        within(".fee-table") do
           within(".govuk-table__head") do
             expect(page).to have_content("Item")
             expect(page).to have_content("Detail")

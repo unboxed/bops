@@ -4,13 +4,13 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
-Your application for a <%= @planning_application.application_type.human_name %> contains errors or missing information. We cannot continue with your application until you make the necessary changes.
+We need some more information to process your <%= @planning_application.application_type.human_name %>.
 
-To make changes, go to:
+Use this link to view requests from your case officer and update your application:
 
 <%= @planning_application.secure_change_url %>
 
-If no changes are made by <%= @planning_application.invalidation_response_due.to_fs %>, we may close your application and send you a refund.
+If we don't receive the information we need by <%= @planning_application.invalidation_response_due.to_fs %>, we may close your application and send you a refund.
 
 If you need help with your application, contact us at  <%= @planning_application.local_authority.email_address %>.
 

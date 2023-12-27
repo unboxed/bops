@@ -89,6 +89,7 @@ class Document < ApplicationRecord
     "HMO statement",
     "Specialist Accommodation Statement",
     "Student Accommodation Statement",
+    "Fee Exemption",
     "Other Supporting Document"
   ].freeze
 
@@ -142,7 +143,7 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { no_owner.or(not_excluded_owners) }
+  default_scope -> { no_owner.or(not_excluded_owners).not_for_fee_exemption }
 
   scope :no_owner, -> { where(owner_type: nil) }
   scope :not_excluded_owners, -> { where.not(owner_type: EXCLUDED_OWNERS) }
@@ -163,6 +164,8 @@ class Document < ApplicationRecord
   scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
+  scope :for_fee_exemption, -> { unscoped.with_tag("Fee Exemption") }
+  scope :not_for_fee_exemption, -> { where("NOT (tags @> ?)", "\"Fee Exemption\"") }
 
   before_validation on: :create do
     if owner.present?

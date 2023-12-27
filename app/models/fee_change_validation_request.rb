@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class FeeChangeValidationRequest < ValidationRequest
+  has_many :supporting_documents, as: :owner, dependent: :destroy, class_name: "Document"
+
   validates :reason, presence: true
   validates :suggestion, presence: true
   validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create
@@ -14,6 +16,12 @@ class FeeChangeValidationRequest < ValidationRequest
   before_create lambda {
                   reset_validation_requests_update_counter!(planning_application.fee_change_validation_requests)
                 }
+
+  def supporting_documents=(files)
+    files.select(&:present?).each do |file|
+      supporting_documents.new(file: file, planning_application: planning_application, tags: ["Fee Exemption"])
+    end
+  end
 
   private
 
