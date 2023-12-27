@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_21_162919) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_27_111910) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -473,7 +473,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_21_162919) do
     t.datetime "awaiting_determination_at", precision: nil
     t.datetime "in_assessment_at", precision: nil
     t.datetime "to_be_reviewed_at", precision: nil
-    t.jsonb "proposal_details"
+    t.json "proposal_details"
     t.string "agent_first_name"
     t.string "agent_last_name"
     t.string "agent_phone"
