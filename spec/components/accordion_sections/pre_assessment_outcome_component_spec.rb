@@ -42,7 +42,7 @@ RSpec.describe AccordionSections::PreAssessmentOutcomeComponent, type: :componen
     end
 
     let(:result_override) { nil }
-    let(:proposal_details) { [].to_json }
+    let(:proposal_details) { [] }
     let(:updated_address_or_boundary_geojson) { false }
     let(:feedback) { {} }
 
@@ -106,7 +106,7 @@ RSpec.describe AccordionSections::PreAssessmentOutcomeComponent, type: :componen
               }
             ]
           }
-        ].to_json
+        ]
       end
 
       it "renders question" do

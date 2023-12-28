@@ -312,7 +312,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def proposal_details
-    JSON.parse(super || "[]").each_with_index.map do |hash, index|
+    Array(super).each_with_index.map do |hash, index|
       ProposalDetail.new(hash, index)
     end
   end

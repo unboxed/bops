@@ -741,7 +741,7 @@ RSpec.describe PlanningApplication do
               flags: ["Test flag"]
             }
           }
-        ].to_json
+        ]
       end
 
       let(:planning_application) do
@@ -767,7 +767,7 @@ RSpec.describe PlanningApplication do
 
     context "when there's a proposal detail with multiple responses" do
       before do
-        planning_application.proposal_details = File.read("./spec/fixtures/files/multiple_responses_proposal_details.json")
+        planning_application.proposal_details = JSON.parse(File.read("./spec/fixtures/files/multiple_responses_proposal_details.json"))
       end
 
       it "does not crash" do
@@ -805,7 +805,7 @@ RSpec.describe PlanningApplication do
             flags: ["Test flag"]
           }
         }
-      ].to_json
+      ]
     end
 
     let(:planning_application) do
@@ -820,7 +820,7 @@ RSpec.describe PlanningApplication do
 
     context "when there's a proposal detail with multiple responses" do
       before do
-        planning_application.proposal_details = File.read("./spec/fixtures/files/multiple_responses_proposal_details.json")
+        planning_application.proposal_details = JSON.parse(File.read("./spec/fixtures/files/multiple_responses_proposal_details.json"))
       end
 
       it "does not crash" do
@@ -850,7 +850,7 @@ RSpec.describe PlanningApplication do
             portal_name: "immunity-check"
           }
         }
-      ].to_json
+      ]
     end
 
     let(:planning_application) do

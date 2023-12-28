@@ -17,7 +17,7 @@ RSpec.describe BopsApi::Application::Parsers::ProposalDetailsParser do
 
       it "returns a correctly formatted proposal_details hash" do
         expect(parse_proposal_details).to eq(
-          proposal_details: params.to_json
+          proposal_details: params
         )
       end
     end

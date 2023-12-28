@@ -153,7 +153,7 @@ RSpec.describe "Assessment tasks" do
           question: "Question 4",
           responses: [{value: "Answer 4"}]
         }
-      ].to_json
+      ]
     end
 
     it "displays the proposal details by group" do

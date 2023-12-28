@@ -50,7 +50,7 @@ RSpec.describe AccordionSections::ProposalDetailsComponent, type: :component do
             }
           ]
         }
-      ].to_json
+      ]
     end
 
     let(:planning_application) do

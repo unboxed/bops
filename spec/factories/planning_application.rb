@@ -83,7 +83,7 @@ FactoryBot.define do
             }
           }
         ]
-      ].to_json
+      ]
     end
 
     trait :awaiting_determination do
@@ -276,7 +276,7 @@ FactoryBot.define do
               }
             ]
           }
-        ].to_json
+        ]
       end
 
       application_type { association :application_type, :prior_approval }
@@ -550,7 +550,7 @@ FactoryBot.define do
             },
             question: "Has enforcement action been taken about these changes?"
           }
-        ].to_json
+        ]
       end
 
       after(:build) do |planning_application|
@@ -673,7 +673,7 @@ FactoryBot.define do
             },
             question: "Has enforcement action been taken about these changes?"
           }
-        ].to_json
+        ]
       end
 
       after(:create) do |planning_application|

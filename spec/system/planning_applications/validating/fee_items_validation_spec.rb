@@ -29,7 +29,7 @@ RSpec.describe "FeeItemsValidation" do
             ]
           }
         }
-      ].to_json
+      ]
     end
 
     let(:fee_calculation) do

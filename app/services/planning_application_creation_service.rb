@@ -33,7 +33,6 @@ class PlanningApplicationCreationService
       planning_application_params.merge!(
         local_authority_id: local_authority.id,
         boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
-        proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
         api_user:,
         user_role: params[:user_role].presence,
         payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount]),
@@ -90,13 +89,21 @@ class PlanningApplicationCreationService
       :agent_phone,
       :agent_email,
       :user_role,
-      :proposal_details,
       :files,
       :payment_reference,
       :work_status,
       :planx_debug_data,
       :from_production,
-      {feedback: %i[result find_property planning_constraints]}]
+      {feedback: %i[result find_property planning_constraints]},
+      proposal_details: [
+        :question,
+        {
+          responses: [:value, metadata: {}]
+        },
+        {
+          metadata: {}
+        }
+      ]]
 
     params.permit permitted_keys
   end

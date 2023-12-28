@@ -14,7 +14,7 @@ module BopsApi
           return {} if params.blank?
 
           {
-            proposal_details: params.to_json
+            proposal_details: params
           }
         end
       end

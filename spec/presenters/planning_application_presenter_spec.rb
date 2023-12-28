@@ -174,7 +174,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
           responses: [{value: "Answer 5"}],
           metadata: {section_name: "Birdfeed Related"}
         }
-      ].to_json
+      ]
     end
 
     let(:planning_application) do
