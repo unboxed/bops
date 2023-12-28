@@ -53,6 +53,11 @@ RSpec.describe "managing council information profile" do
     expect(page).to have_content("sending out emails, SMS and letters.")
   end
 
+  it "shows the council as active" do
+    visit "/"
+    expect(page).to have_content("Active")
+  end
+
   it "allows the administrator to edit council information profile" do
     click_link("Edit profile")
 
