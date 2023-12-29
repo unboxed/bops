@@ -4,11 +4,12 @@ class MigratePlanningApplicationProposalDetailsJsonStringToJson < ActiveRecord::
   def change
     up_only do
       PlanningApplication.find_each do |pa|
-        next if pa.proposal_details.blank?
+        proposal_details = pa.read_attribute(:proposal_details)
+        next if proposal_details.blank?
 
-        if pa.proposal_details.is_a?(String)
+        if proposal_details.is_a?(String)
           begin
-            parsed_json = JSON.parse(pa.proposal_details)
+            parsed_json = JSON.parse(proposal_details)
             pa.update_column(:proposal_details, parsed_json)
           rescue JSON::ParserError => e
             puts "There was an issue parsing the JSON in planning application #{pa.id}: #{e.message}"
