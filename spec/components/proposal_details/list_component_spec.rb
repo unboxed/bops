@@ -20,7 +20,7 @@ RSpec.describe ProposalDetails::ListComponent, type: :component do
         responses: [{value: "Test response 3"}],
         metadata: {auto_answered: true, section_name: "group_a"}
       }
-    ].to_json
+    ]
   end
 
   let(:planning_application) do

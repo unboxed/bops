@@ -28,7 +28,7 @@ RSpec.describe "Planning Application show page" do
         question: "Is the property in a world heritage site?",
         responses: [{value: "No"}]
       }
-    ].to_json
+    ]
   end
 
   let(:application_type) { create(:application_type) }
