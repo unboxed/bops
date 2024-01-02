@@ -19,21 +19,6 @@ Capybara.register_driver :chrome_headless do |app|
   browser_options.args << "--disable-dev-shm-usage"
   browser_options.args << "--host-rules=MAP * 127.0.0.1"
 
-  if Gem::Platform.local.os == "darwin" && !(File.exist? "/Applications/Google Chrome for Testing.app")
-    browser_options.binary = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-  end
-
-  if Gem::Platform.local.os != "darwin"
-    # Probably Docker/GHA
-    %w[/usr/local/bin /usr/bin].each do |path|
-      driver_path = "#{path}/chromedriver"
-      if File.exist? driver_path
-        Selenium::WebDriver::Chrome::Service.driver_path = driver_path
-        break
-      end
-    end
-  end
-
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options).tap do |d|
     d.browser.download_path = download_path
   end
