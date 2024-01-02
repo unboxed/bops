@@ -54,7 +54,8 @@ RUN bash -c "groupadd -r rails && \
     chmod go-rx /home/rails"
 
 # Create the crash reports directory - without it Chromium complains on startup
-RUN mkdir -p "/home/rails/.config/chromium/Crash Reports/pending/"
+RUN bash -c "mkdir -p /home/rails/.config/chromium/Crash Reports/pending/ && \
+    chown -R rails:rails /home/rails/.config"
 
 # Switch to non-root user
 USER rails:rails
