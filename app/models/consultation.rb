@@ -142,19 +142,23 @@ class Consultation < ApplicationRecord
     )
   end
 
-  def start_deadline
-    update!(end_date: end_date_from_now, start_date: start_date || default_start_date)
+  def start_deadline(now = Time.zone.now)
+    update!(end_date: end_date_from(now), start_date: start_date || default_start_date(now))
   end
 
   def extend_deadline(new_date)
     update!(end_date: [end_date, new_date.end_of_day].max)
   end
 
-  def end_date_from_now
+  def end_date_from(now = Time.zone.now)
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
-    default_start_date.end_of_day + 21.days
+    default_start_date(now).end_of_day + 21.days
+  end
+
+  def end_date_from_now
+    end_date_from(Time.zone.now)
   end
 
   def days_left(now = Time.zone.now)
@@ -320,8 +324,8 @@ class Consultation < ApplicationRecord
     string.to_s.gsub(EMAIL_PLACEHOLDER) { variables.fetch($1.to_sym) }
   end
 
-  def default_start_date
-    1.business_day.from_now.beginning_of_day
+  def default_start_date(now = Time.zone.now)
+    1.business_day.since(now).beginning_of_day
   end
 
   def enqueue_send_consultee_email_jobs
