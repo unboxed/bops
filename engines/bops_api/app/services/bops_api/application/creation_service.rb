@@ -129,7 +129,8 @@ module BopsApi
                 country: owner[:address][:country],
                 postcode: owner[:address][:postcode],
                 notice_given: owner[:noticeDate].present?,
-                notice_given_at: owner[:noticeDate]
+                notice_given_at: owner[:noticeDate],
+                notice_reason: owner[:noticeReason]
               )
             end
           end

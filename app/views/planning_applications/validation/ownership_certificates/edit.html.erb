@@ -49,6 +49,11 @@
                 <th scope="row" class="govuk-table__header">Notice date</th>
                 <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs %></td>
               </tr>
+            <% else %>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Reason no notice given</th>
+                <td class="govuk-table__cell"><%= owner.notice_reason %></td>
+              </tr>
             <% end %>
           <% end %>
         <% end %>

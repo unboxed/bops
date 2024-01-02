@@ -326,6 +326,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_121550) do
     t.datetime "notice_given_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "notice_reason"
     t.index ["ownership_certificate_id"], name: "ix_land_owners_on_ownership_certificate_id"
   end
 
@@ -525,6 +526,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_121550) do
     t.jsonb "boundary_geojson"
     t.string "change_access_id"
     t.date "expiry_date"
+    t.decimal "payment_amount", precision: 10, scale: 2
     t.string "result_flag"
     t.text "result_heading"
     t.text "result_description"
