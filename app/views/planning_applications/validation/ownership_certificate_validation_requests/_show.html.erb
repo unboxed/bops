@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Other validation request - <%= t('page_title') %>
+  Ownership certificate validation request - <%= t('page_title') %>
 <% end %>
 
 <%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
@@ -30,63 +30,64 @@
       </p>
     </div>
 
-      <% if @validation_request.closed? && @planning_application.invalidated?  %>
-        <h2 class="govuk-heading-m">Applicant response</h2>
-        <% if @validation_request.approved? %>
-          <p class="govuk-body">The applicant provided this information:</p>
-          <table class="govuk-table">
-            <tbody class="govuk-table__body">
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Certificate type</th>
-                <td class="govuk-table__cell">
-                  <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %>
-                </td>
-              </tr>
-              <% if @planning_application.ownership_certificate.present? && @planning_application.ownership_certificate.land_owners.any? %>
-                <% @planning_application.ownership_certificate.land_owners.each_with_index do |owner, i| %>
+    <% if @validation_request.closed? && @planning_application.invalidated?  %>
+      <h2 class="govuk-heading-m">Applicant response</h2>
+      <% if @validation_request.approved? %>
+        <p class="govuk-body">The applicant provided this information:</p>
+        <table class="govuk-table">
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Certificate type</th>
+              <td class="govuk-table__cell">
+                <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %>
+              </td>
+            </tr>
+            <% if @planning_application.ownership_certificate.present? && @planning_application.ownership_certificate.land_owners.any? %>
+              <% @planning_application.ownership_certificate.land_owners.each_with_index do |owner, i| %>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header" style="font-weight: normal;">Owner <%= i + 1 %></th>
+                  <td class="govuk-table__cell">&nbsp</td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">Name</th>
+                  <td class="govuk-table__cell"><%= owner.name %></td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">Address</th>
+                  <td class="govuk-table__cell"><%= owner.address %></td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">Notice given</th>
+                  <td class="govuk-table__cell"><%= owner.notice_given? ? "Yes" : "No" %></td>
+                </tr>
+                <% if owner.notice_given? %>
                   <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header" style="font-weight: normal;">Owner <%= i + 1 %></th>
-                    <td class="govuk-table__cell">&nbsp</td>
+                    <th scope="row" class="govuk-table__header">Notice date</th>
+                    <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs %></td>
                   </tr>
-                  <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Name</th>
-                    <td class="govuk-table__cell"><%= owner.name %></td>
-                  </tr>
-                  <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Address</th>
-                    <td class="govuk-table__cell"><%= owner.address %></td>
-                  </tr>
-                  <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Notice given</th>
-                    <td class="govuk-table__cell"><%= owner.notice_given? ? "Yes" : "No" %></td>
-                  </tr>
-                  <% if owner.notice_given? %>
-                    <tr class="govuk-table__row">
-                      <th scope="row" class="govuk-table__header">Notice date</th>
-                      <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs %></td>
-                    </tr>
-                  <% end %>
                 <% end %>
               <% end %>
-            </tbody>
-          </table>
-        <% elsif !@validation_request.approved? %>
-          <p class="govuk-body">Applicant rejected this ownership certificate change</p>
-          <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s  %></p>
-        <% end %>
+            <% end %>
+          </tbody>
+        </table>
 
-
-        <%= form_with model: @planning_application do |form| %>
-          <%= render "shared/validation_request_show_actions",
-            planning_application: @planning_application, validation_request: @validation_request, form: form %>
-        <% end %>
-      <% else %>
-        <% if @planning_application.invalidated? %>
-          <h2 class="govuk-heading-m">Applicant has not responded yet</h2>
-        <% end %>
-
-        <%= render "shared/validation_request_show_actions",
-            planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+        <p class="govuk-body">
+          If this is incorrect, <%= link_to "create another ownership certificate validation request", edit_planning_application_validation_ownership_certificate_path(@planning_application) %>
+        </p>
+      <% elsif !@validation_request.approved? %>
+        <p class="govuk-body">Applicant rejected this ownership certificate change</p>
+        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s  %></p>
       <% end %>
+
+      <%= form_with model: @planning_application do |form| %>
+        <%= render "shared/validation_request_show_actions", planning_application: @planning_application, validation_request: @validation_request, form: form %>
+      <% end %>
+    <% else %>
+      <% if @planning_application.invalidated? %>
+        <h2 class="govuk-heading-m">Applicant has not responded yet</h2>
+      <% end %>
+
+      <%= render "shared/validation_request_show_actions", planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+    <% end %>
   </div>
 </div>

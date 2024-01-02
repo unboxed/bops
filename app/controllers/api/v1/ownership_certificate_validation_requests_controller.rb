@@ -36,6 +36,7 @@ module Api
           @ownership_certificate_validation_request.close!
           @ownership_certificate_validation_request.create_api_audit!
           @planning_application.send_update_notification_to_assessor
+          @planning_application.update(valid_ownership_certificate: true)
 
           if @ownership_certificate_validation_request.approved?
             OwnershipCertificateCreationService.new(
