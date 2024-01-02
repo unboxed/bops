@@ -462,11 +462,12 @@ en:
       no_user:
         assigned: Application unassigned
       other_change_validation_request_added: 'Added: validation request (other validation#%{args})'
-      ownership_certificate_validation_request_added: 'Added: validation request (ownership certificate validation#%{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
-      ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
+      ownership_certificate_validation_request_added: 'Added: validation request (ownership certificate validation#%{args})'
+      ownership_certificate_validation_request_cancelled: 'Cancelled: validation request (ownership certificate validation#%{args})'
+      ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
       proposal_measurements_updated: Proposal measurements were updated
@@ -1296,9 +1297,6 @@ en:
     validate:
       success: Application is ready for assessment and an email notification has been sent.
     validation:
-      ownership_certificates:
-        update:
-          success: Ownership certificate successfully updated
       cil_liability:
         update:
           success: CIL liability updated
@@ -1342,6 +1340,9 @@ en:
         update:
           alert: Couldn't mark legislative requirements as checked - please contact support.
           success: Legislative requirements have been marked as checked.
+      ownership_certificates:
+        update:
+          success: Ownership certificate successfully updated
       sitemaps:
         update:
           error: Something went wrong. Please contact support.
