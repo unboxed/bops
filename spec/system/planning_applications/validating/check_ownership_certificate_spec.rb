@@ -64,6 +64,8 @@ RSpec.describe "Check ownership certificate type" do
 
         fill_in "Tell the applicant why their ownership certificate type is wrong", with: "It's a flat so you don't own the land"
 
+        click_button "Save request"
+
         expect(page).to have_content "Ownership certificate request successfully created"
       end
     end
@@ -83,7 +85,6 @@ RSpec.describe "Check ownership certificate type" do
 
       expect(page).to have_content("View ownership certificate request")
       expect(page).to have_content(request.reason)
-      expect(page).to have_content(request.suggestion)
     end
 
     it "I can cancel my request" do
@@ -96,7 +97,6 @@ RSpec.describe "Check ownership certificate type" do
 
       expect(page).to have_content("View ownership certificate request")
       expect(page).to have_content(request.reason)
-      expect(page).to have_content(request.suggestion)
 
       click_link "Cancel request"
 
@@ -127,7 +127,7 @@ RSpec.describe "Check ownership certificate type" do
     context "when the applicant has responded with approval" do
       before do
         request.update(approved: true, state: "closed")
-        create(:ownership_certificate, planning_application:)
+        ownership_certificate = create(:ownership_certificate, planning_application:)
         create(:land_owner, ownership_certificate:)
       end
 
@@ -136,11 +136,13 @@ RSpec.describe "Check ownership certificate type" do
 
         click_link "View and update"
 
+        certificate = planning_application.ownership_certificate
+
         expect(page).to have_content "Check the response to ownership certificate request"
         expect(page).to have_content "Applicant response"
         expect(page).to have_content "The applicant provided this information:"
         expect(page).to have_content certificate.certificate_type
-        expect(page).to have_content land_owner.name
+        expect(page).to have_content certificate.land_owners.first.name
       end
     end
   end

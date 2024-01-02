@@ -14,15 +14,15 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      %> audits.each do |audit|
-        <%# <%= render(
+      <% audits.each do |audit| %>
+        <%= render(
           PlanningApplications::RowComponent.new(
             planning_application: audit.planning_application,
             attributes: attributes,
             audit: audit
           )
         ) %>
-      <%# <% end %> %> %>
+      <% end %>
     </tbody>
   </table>
 </div>
