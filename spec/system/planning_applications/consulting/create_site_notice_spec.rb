@@ -21,6 +21,10 @@ RSpec.describe "Create a site notice", js: true do
       make_public: true)
   end
 
+  around do |example|
+    travel_to("2023-02-01") { example.run }
+  end
+
   before do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")

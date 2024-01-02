@@ -16,7 +16,9 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
     end
 
     around do |example|
-      perform_enqueued_jobs { example.run }
+      travel_to("2023-12-13") do
+        perform_enqueued_jobs { example.run }
+      end
     end
 
     before do

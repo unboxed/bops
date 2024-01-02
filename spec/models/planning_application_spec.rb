@@ -355,10 +355,10 @@ RSpec.describe PlanningApplication do
       let(:local_authority) { create(:local_authority, :southwark) }
       let(:assessor) { create(:user, :assessor, local_authority:) }
       let!(:pa_planning_application) do
-        travel_to(DateTime.new(2023, 1, 1)) { create(:planning_application, :prior_approval, local_authority:) }
+        travel_to("2023-01-01") { create(:planning_application, :prior_approval, local_authority:) }
       end
       let!(:ldc_planning_application) do
-        travel_to(DateTime.new(2023, 1, 1)) { create(:planning_application, local_authority:) }
+        travel_to("2023-01-01") { create(:planning_application, local_authority:) }
       end
 
       before { Current.user = assessor }
@@ -377,22 +377,24 @@ RSpec.describe PlanningApplication do
           expect(pa_planning_application.reference).to eq("23-00100-PA")
           expect(ldc_planning_application.reference).to eq("23-00101-LDCP")
 
-          expect do
-            ldc_planning_application.update!(application_type_id: ApplicationType.find_by(name: "prior_approval").id)
-          end.to change(Audit, :count)
-            .by(1)
-            .and change(ldc_planning_application, :application_number)
-            .from("00101").to("00102")
-            .and change(ldc_planning_application, :reference)
-            .from("23-00101-LDCP").to("23-00102-PA")
+          travel_to("2023-02-01") do
+            expect do
+              ldc_planning_application.update!(application_type_id: ApplicationType.find_by(name: "prior_approval").id)
+            end.to change(Audit, :count)
+              .by(1)
+              .and change(ldc_planning_application, :application_number)
+              .from("00101").to("00102")
+              .and change(ldc_planning_application, :reference)
+              .from("23-00101-LDCP").to("23-00102-PA")
 
-          expect(Audit.last).to have_attributes(
-            planning_application_id: ldc_planning_application.id,
-            activity_type: "updated",
-            activity_information: "Application type",
-            audit_comment: "Application type changed from: Lawfulness certificate / Changed to: Prior approval,\n         Reference changed from 23-00101-LDCP to 23-00102-PA",
-            user: assessor
-          )
+            expect(Audit.last).to have_attributes(
+              planning_application_id: ldc_planning_application.id,
+              activity_type: "updated",
+              activity_information: "Application type",
+              audit_comment: "Application type changed from: Lawfulness certificate / Changed to: Prior approval,\n         Reference changed from 23-00101-LDCP to 23-00102-PA",
+              user: assessor
+            )
+          end
         end
       end
     end
