@@ -293,53 +293,55 @@ en:
       edit:
         profile: Edit profile
       form:
-        email_address: Decision notice email
-        email_address_hint: Enter the email address that appears on decision notices.
-        email_reply_to_id: Email reply_to_id
-        email_reply_to_id_hint: Enter the email address to which planning applicants and consultees can reply. It may be included in correspondence sent out by the local authority.
-        enquiries_paragraph: Enquiries paragraph
-        enquiries_paragraph_hint: Enter the paragraph containing the local authority address and contact details that appears at the bottom of decision notices and other correspondence.
+        email_address: Email
+        email_address_hint: This is the email address that appears on decision notices.
+        email_reply_to_id: "'Email to' Notify ID"
+        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account.
+        enquiries_paragraph: Contact address
+        enquiries_paragraph_hint: This is the contact address that will appear on decision notices and other correspondence.
         feedback_email: Feedback email
-        feedback_email_hint: Enter the email of the person or team who will deal with any queries about BOPS at your council.
+        feedback_email_hint: This is the email of the person or team who will deal with any queries about the BOPS service at your council.
+        legend: Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
         notify_api_key: Notify API key
-        notify_api_key_hint: Enter the API key used by the Government's Notify service for sending out emails, SMS and letters. Note that in all environments other than Production, a generic Notify key is used, so you will not see changes in your Notify account reflected in communications you send out.
+        notify_api_key_hint: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account.
         notify_letter_template: Notify letter template
-        notify_letter_template_hint: Enter the ID number of the letter template you will use within Notify
+        notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
-        reply_to_notify_id: Reply to_notify_id
-        reply_to_notify_id_hint: Enter your Notify reply ID. You will need to go to Notify to set this up.
-        reviewer_group_email: Manager group email
-        reviewer_group_email_hint: Enter the email of the person who will be responsible for managing the planning process.
-        signatory_job_title: Signatory job title
-        signatory_job_title_hint: Enter the job title of the person whose signature appears at the bottom of decision notices.
-        signatory_name: Signatory name
-        signatory_name_hint: Enter the name of the person whose signature appears at the bottom of decision notices.
+        reply_to_notify_id: "'Reply to' Notify ID"
+        reply_to_notify_id_hint: Find this in your Notify account.
+        reviewer_group_email: BOPS lead email
+        reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
+        signatory_job_title: Job title
+        signatory_job_title_hint: This is the job title of the person whose signature appears at the bottom of decision notices.
+        signatory_name: Signatory
+        signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
         submit: Submit
       show:
-        email_address: Decision notice email
+        email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
-        email_reply_to_id: Email reply_to_id
-        email_reply_to_id_hint: This is the email address to which planning applicants and consultees can reply. It may be included in correspondence sent out by the local authority.
-        enquiries_paragraph: Enquiries paragraph
-        enquiries_paragraph_hint: This is the paragraph containing the local authority address and contact details that appears at the bottom of decision notices and other correspondence.
+        email_reply_to_id: "'Email to' Notify ID"
+        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account.
+        enquiries_paragraph: Contact address
+        enquiries_paragraph_hint: This is the contact address that will appear on decision notices and other correspondence.
         feedback_email: Feedback email
-        feedback_email_hint: This is the email of the person or team who will deal with any queries about BOPS at your council.
+        feedback_email_hint: This is the email of the person or team who will deal with any queries about the BOPS service at your council.
+        legend: Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
         notify_api_key: Notify API key
-        notify_api_key_hint: This is the API key used by the Government's Notify service for sending out emails, SMS and letters. Note that in all environments other than Production, a generic Notify key is used, so you will not see changes in your Notify account reflected in communications you send out.
+        notify_api_key_hint: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account.
         notify_letter_template: Notify letter template
-        notify_letter_template_hint: This is the ID number of the letter template you will use within Notify
+        notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
         press_notice_email: Press notice email
-        press_notice_email_hint: This is the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
+        press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         profile: Profile
-        reply_to_notify_id: Reply to_notify_id
-        reply_to_notify_id_hint: This is your Notify reply ID. You will need to go to Notify to set this up.
-        reviewer_group_email: Manager group email
-        reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process.
-        signatory_job_title: Signatory job title
+        reply_to_notify_id: "'Reply to' Notify ID"
+        reply_to_notify_id_hint: Find this in your Notify account.
+        reviewer_group_email: BOPS lead email
+        reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
+        signatory_job_title: Job title
         signatory_job_title_hint: This is the job title of the person whose signature appears at the bottom of decision notices.
-        signatory_name: Signatory name
-        signatory_name_hint: This is the name of the person whose signature appears at the bottom of decision notices.
+        signatory_name: Signatory
+        signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
     users:
       edit:
         edit_user: Edit user
