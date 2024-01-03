@@ -40,16 +40,6 @@
     polygon_search_id: "neighbour-addresses",
     polygon_search_name: "consultation[neighbours_attributes][][address]"
   } do %>
-    <%= render "select_neighbours", planning_application: @planning_application, consultation: @consultation %>
-
-    <%= render "neighbour_addresses_form", planning_application: @planning_application, consultation: @consultation %>
-
-    <p class="govuk-body">or</p>
-
-    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
-
-    <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
-
     <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "contacted_list", planning_application: @planning_application, consultation: @consultation %>
