@@ -128,6 +128,8 @@ Rails.application.routes.draw do
       end
 
       resource :consultation, only: %i[show update] do
+        resources :neighbours, only: %i[index create update destroy]
+
         resources :neighbour_letters, only: %i[index create update destroy] do
           post :send_letters, on: :collection
         end
