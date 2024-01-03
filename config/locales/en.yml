@@ -1633,6 +1633,8 @@ en:
         link_text: Review assessment against policies and guidance
       permitted_development_right_component:
         review_permitted_development_rights: Review permitted development rights
+    select_neighbours_component:
+      select_neighbours: Select and add neighbours
     send_letters_to_neighbours_component:
       send_letters_to_neighbours: Send letters to neighbours
     site_notice_component:

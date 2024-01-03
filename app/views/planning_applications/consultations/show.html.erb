@@ -38,6 +38,11 @@
         <h2 class="govuk-heading-m">Neighbours</h2>
         <ul class="app-task-list__items" id="neighbour-section">
           <%= render(
+            TaskListItems::SelectNeighboursComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+          <%= render(
             TaskListItems::SendLettersToNeighboursComponent.new(
               planning_application: @planning_application
             )
