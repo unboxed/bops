@@ -603,6 +603,19 @@ RSpec.describe "Planning Application index page" do
     end
   end
 
+  context "when local authority is inactive" do
+    before do
+      default_local_authority.update!(active: false)
+      sign_in assessor
+      visit "/"
+    end
+
+    it "Does not show the planning applications table" do
+      expect(page).to have_no_content "Your live applications"
+      expect(page).to have_content "Planning applications will be shown here once your local authority has been fully activated within the Back-office Planning System"
+    end
+  end
+
   context "as a reviewer" do
     before do
       sign_in reviewer

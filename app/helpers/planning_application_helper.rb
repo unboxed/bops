@@ -55,4 +55,8 @@ module PlanningApplicationHelper
       raise ArgumentError, "Unexpected value for 'type': #{type.inspect}"
     end
   end
+
+  def inactive_local_authority_message
+    I18n.t("planning_applications.index.inactive_local_authority")
+  end
 end

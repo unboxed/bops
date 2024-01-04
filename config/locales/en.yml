@@ -1013,6 +1013,7 @@ en:
       confirm_site_notice_displayed_at_html: <a class="govuk-notification-banner__link" href="%{href}">Confirm the site notice displayed at date</a> before determining the application.
       success: Decision Notice sent to applicant
     index:
+      inactive_local_authority: Planning applications will be shown here once your local authority has been fully activated within the Back-office Planning System
       prior_approvals:
         one: "%{count} prior approval"
         other: "%{count} prior approvals"

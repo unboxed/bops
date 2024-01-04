@@ -13,6 +13,8 @@ LocalAuthority.find_or_create_by!(subdomain: "lambeth") do |la|
   la.email_address = "planning@lambeth.gov.uk"
   la.feedback_email = "digitalplanning@lambeth.gov.uk"
   la.press_notice_email = "digitalplanning@lambeth.gov.uk"
+  la.email_reply_to_id = "550e8400-e29b-41d4-a716-446655440000"
+  la.active = true
 end
 
 LocalAuthority.find_or_create_by!(subdomain: "southwark") do |la|
@@ -24,8 +26,14 @@ LocalAuthority.find_or_create_by!(subdomain: "southwark") do |la|
   la.signatory_job_title = "Director of Planning and Growth"
   la.enquiries_paragraph = "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG"
   la.email_address = "planning@southwark.gov.uk"
+  la.reviewer_group_email = "planning@southwark.gov.uk"
   la.feedback_email = "digital.projects@southwark.gov.uk"
   la.press_notice_email = "digital.projects@southwark.gov.uk"
+  la.email_reply_to_id = "550e8400-e29b-41d4-a716-446655440000"
+  la.notify_api_key = "550e8400-e29b-41d4-a716-446655440000"
+  la.notify_letter_template = "550e8400-e29b-41d4-a716-446655440000"
+  la.reply_to_notify_id = "550e8400-e29b-41d4-a716-446655440000"
+  la.active = true
 end
 
 LocalAuthority.find_or_create_by!(subdomain: "buckinghamshire") do |la|
@@ -39,6 +47,8 @@ LocalAuthority.find_or_create_by!(subdomain: "buckinghamshire") do |la|
   la.email_address = "planning@buckinghamshire.gov.uk"
   la.feedback_email = "planning.digital@buckinghamshire.gov.uk"
   la.press_notice_email = "planning.digital@buckinghamshire.gov.uk"
+  la.email_reply_to_id = "550e8400-e29b-41d4-a716-446655440000"
+  la.active = true
 end
 
 admin_roles = %i[assessor reviewer administrator]

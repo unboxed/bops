@@ -2,68 +2,74 @@
   Planning Applications List - <%= t('page_title') %>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <% if @search.exclude_others? %>
-      <h1 class="govuk-heading-l">
-        Your planning applications
-      </h1>
-      <p class="govuk-body-m">
-        <strong><%= current_user.name %>,</strong> <%= role_name %>
-      </p>
-      <p class="govuk-body">
-        <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
-      </p>
-      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path(view: 'all'), class: "govuk-button" %></p>
-    <% else %>
-      <h1 class="govuk-heading-l">
-        All planning applications
-      </h1>
-      <p class="govuk-body-m">
-        <strong><%= current_user.name %>,</strong> <%= role_name %>
-      </p>
-      <p class="govuk-body">
-        <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
-      </p>
-      <p class="govuk-body">
-        <%= link_to "View my applications", planning_applications_path, class: "govuk-button" %>
-      </p>
-    <% end %>
+<% if current_local_authority&.active? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <% if @search.exclude_others? %>
+        <h1 class="govuk-heading-l">
+          Your planning applications
+        </h1>
+        <p class="govuk-body-m">
+          <strong><%= current_user.name %>,</strong> <%= role_name %>
+        </p>
+        <p class="govuk-body">
+          <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
+        </p>
+        <p class="govuk-body"><%= link_to "View all applications", planning_applications_path(view: 'all'), class: "govuk-button" %></p>
+      <% else %>
+        <h1 class="govuk-heading-l">
+          All planning applications
+        </h1>
+        <p class="govuk-body-m">
+          <strong><%= current_user.name %>,</strong> <%= role_name %>
+        </p>
+        <p class="govuk-body">
+          <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
+        </p>
+        <p class="govuk-body">
+          <%= link_to "View my applications", planning_applications_path, class: "govuk-button" %>
+        </p>
+      <% end %>
+    </div>
   </div>
-</div>
 
-<div class="status-bar-container">
-  <h2 class="govuk-heading-m">Status update:</h2>
-  <div class="status-bar">
-    <div class="status-panel<% if filter_enabled_uniquely?(status: 'to_be_reviewed') %> status-panel--highlighted<% end %>" id="reviewer-requests">
-      <a class="status-filter-link" href="<%= planning_applications_path(filter_enabled_uniquely?(status: "to_be_reviewed") ? {} : { status: [:to_be_reviewed] }) %>">
-        <h3 class="govuk-heading-s"><%= t ".reviewer_requests.title" %></h3>
-        <p class="govuk-heading-m"><%= t ".reviewer_requests", count: @search.current_planning_applications.to_be_reviewed.count %></p>
-      </a>
-    </div>
-    <div class="status-panel<% if filter_enabled_uniquely?(application_type: 'prior_approval') %> status-panel--highlighted<% end %>" id="not-started">
-      <a class="status-filter-link" href="<%= planning_applications_path(filter_enabled_uniquely?(application_type: "prior_approval") ? {} : { application_type: [:prior_approval] }) %>">
-        <h3 class="govuk-heading-s"><%= t ".prior_approvals.title" %></h3>
-        <p class="govuk-heading-m"><%= t ".prior_approvals", count: @search.current_planning_applications.prior_approvals.not_started.count %></p>
-      </a>
+  <div class="status-bar-container">
+    <h2 class="govuk-heading-m">Status update:</h2>
+    <div class="status-bar">
+      <div class="status-panel<% if filter_enabled_uniquely?(status: 'to_be_reviewed') %> status-panel--highlighted<% end %>" id="reviewer-requests">
+        <a class="status-filter-link" href="<%= planning_applications_path(filter_enabled_uniquely?(status: "to_be_reviewed") ? {} : { status: [:to_be_reviewed] }) %>">
+          <h3 class="govuk-heading-s"><%= t ".reviewer_requests.title" %></h3>
+          <p class="govuk-heading-m"><%= t ".reviewer_requests", count: @search.current_planning_applications.to_be_reviewed.count %></p>
+        </a>
+      </div>
+      <div class="status-panel<% if filter_enabled_uniquely?(application_type: 'prior_approval') %> status-panel--highlighted<% end %>" id="not-started">
+        <a class="status-filter-link" href="<%= planning_applications_path(filter_enabled_uniquely?(application_type: "prior_approval") ? {} : { application_type: [:prior_approval] }) %>">
+          <h3 class="govuk-heading-s"><%= t ".prior_approvals.title" %></h3>
+          <p class="govuk-heading-m"><%= t ".prior_approvals", count: @search.current_planning_applications.prior_approvals.not_started.count %></p>
+        </a>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <div class="govuk-tabs" data-module="govuk-tabs">
-      <h2 class="govuk-tabs__title">
-        Contents
-      </h2>
-      <%= render "planning_application_tabs" %>
-      <%= render(
-        PlanningApplications::PanelsComponent.new(
-          planning_applications: @planning_applications,
-          search: @search,
-          local_authority: current_local_authority
-        )
-      ) %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">
+          Contents
+        </h2>
+        <%= render "planning_application_tabs" %>
+        <%= render(
+          PlanningApplications::PanelsComponent.new(
+            planning_applications: @planning_applications,
+            search: @search,
+            local_authority: current_local_authority
+          )
+        ) %>
+      </div>
     </div>
   </div>
-</div>
+<% else %>
+  <p class="govuk-body-m">
+    <%= inactive_local_authority_message %>
+  </p>
+<% end %>
