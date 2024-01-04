@@ -172,7 +172,7 @@ FactoryBot.define do
 
     trait :with_boundary_geojson do
       boundary_geojson do
-        '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}'
+        {"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.054597, 51.537331], [-0.054588, 51.537287], [-0.054453, 51.537313], [-0.054597, 51.537331]]]}}
       end
     end
 

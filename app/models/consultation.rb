@@ -282,7 +282,7 @@ class Consultation < ApplicationRecord
     return unless polygon_search
     return polygon_search_geojson unless planning_application.boundary_geojson
 
-    boundary_geojson = JSON.parse(planning_application.boundary_geojson)
+    boundary_geojson = planning_application.boundary_geojson
     feature_collection_geojson = polygon_search_geojson
 
     case boundary_geojson["type"]
