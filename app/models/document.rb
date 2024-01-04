@@ -129,6 +129,13 @@ class Document < ApplicationRecord
     other: ["What do these documents show?"]
   }.freeze
 
+  DEFAULT_TABS = ["All", "Plans", "Supporting documents", "Evidence"].freeze
+  TAGS_MAP = {
+    "Plans" => PLAN_TAGS,
+    "Supporting documents" => SUPPORTING_DOCUMENT_TAGS,
+    "Evidence" => EVIDENCE_TAGS
+  }.freeze
+
   TAGS = PLAN_TAGS + EVIDENCE_TAGS + SUPPORTING_DOCUMENT_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze

@@ -1,0 +1,21 @@
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <h2 class="govuk-tabs__title">
+    Contents
+  </h2>
+  <ul class="govuk-tabs__list">
+    <% @tabs.each_with_index do |tab, index| %>
+      <li class="govuk-tabs__list-item <%= 'govuk-tabs__list-item--selected' if index.zero? %>">
+        <a class="govuk-tabs__tab" href="#<%= tab[:id] %>">
+          <%= tab[:title] %> (<%= tab[:records].length.to_s %>)
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  <% @tabs.each_with_index do |tab, index| %>
+    <div class="govuk-tabs__panel <%= 'govuk-tabs__panel--hidden' unless index.zero? %>" id="<%= tab[:id] %>">
+      <h2 class="govuk-heading-m"><%= tab[:content] %></h2>
+
+      <%= render_tab(tab) %>
+    </div>
+  <% end %>
+</div>

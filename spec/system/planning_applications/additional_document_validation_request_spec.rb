@@ -93,6 +93,62 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
   end
 
+  context "when viewing the documents tabs" do
+    let!(:planning_application) do
+      create(:planning_application, :not_started, local_authority: default_local_authority)
+    end
+    let!(:document_no_tag) { create(:document, tags: [], planning_application:) }
+    let!(:document_evidence_tag) { create(:document, tags: ["Photograph"], planning_application:) }
+    let!(:document_plan_tag) { create(:document, tags: ["Proposed"], planning_application:) }
+    let!(:document_supporting_tag) { create(:document, tags: ["Noise Impact Assessment"], planning_application:) }
+    let!(:document_evidence_and_plan_tags) { create(:document, tags: ["Photograph", "Proposed"], planning_application:) }
+    let!(:document_plan_and_supporting_tags) { create(:document, tags: ["Proposed", "Other Supporting Document"], planning_application:) }
+
+    it "I can view the documents separated by their tag category" do
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      click_link "Check required documents are on application"
+
+      within(".govuk-tabs") do
+        within("#tab_all") do
+          expect(page).to have_content("All (6)")
+        end
+        within("#all") do
+          expect(page).to have_css(".govuk-table__row#document_#{document_no_tag.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_evidence_tag.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_plan_tag.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_supporting_tag.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_evidence_and_plan_tags.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_plan_and_supporting_tags.id}")
+        end
+
+        within("#tab_plans") do
+          expect(page).to have_content("Plans (3)")
+        end
+        within("#plans") do
+          expect(page).to have_css(".govuk-table__row#document_#{document_plan_tag.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_evidence_and_plan_tags.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_plan_and_supporting_tags.id}")
+        end
+
+        within("#tab_supporting-documents") do
+          expect(page).to have_content("Supporting documents (2)")
+        end
+        within("#supporting-documents") do
+          expect(page).to have_css(".govuk-table__row#document_#{document_supporting_tag.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_plan_and_supporting_tags.id}")
+        end
+
+        within("#tab_evidence") do
+          expect(page).to have_content("Evidence (2)")
+        end
+        within("#evidence") do
+          expect(page).to have_css(".govuk-table__row#document_#{document_evidence_tag.id}")
+          expect(page).to have_css(".govuk-table__row#document_#{document_evidence_and_plan_tags.id}")
+        end
+      end
+    end
+  end
+
   context "when application is not started" do
     let!(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority)
@@ -124,7 +180,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         href: new_planning_application_validation_validation_request_path(planning_application, type: "additional_document")
       )
 
-      within(".govuk-table.current-documents") do
+      within("#all .govuk-table.current-documents") do
         within(".govuk-table__body") do
           rows = page.all(".govuk-table__row")
 
@@ -440,7 +496,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
         click_link "Check required documents are on application"
 
-        within(".govuk-table.current-documents") do
+        within("#all .govuk-table.current-documents") do
           within(".govuk-table__body") do
             within(".govuk-table__row") do
               cells = page.all(".govuk-table__cell")

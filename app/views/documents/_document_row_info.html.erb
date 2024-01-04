@@ -28,24 +28,28 @@
     </p>
   <% end %>
   <p class="govuk-body govuk-!-margin-bottom-1">
-    <%= titled_reference_or_file_name(document) %>
+    <% if document.numbers? %>
+      Reference: <strong><%= document.numbers %></strong>
+    <% else %>
+      File name: <strong><%= document.name %></strong>
+    <% end %>
   </p>
   <p class="govuk-body govuk-!-margin-bottom-1">
-    Date received: <%= document.received_at_or_created %>
+    Date received: <strong><%= document.received_at_or_created %></strong>
   </p>
   <% if document.numbers.present? %>
     <p class="govuk-body govuk-!-margin-bottom-1">
-      Document reference(s): <%= document.numbers %>
+      Document reference(s): <strong><%= document.numbers %></strong>
     </p>
   <% end %>
   <p class="govuk-body govuk-!-margin-bottom-1">
-    Included in decision notice: <%= document.referenced_in_decision_notice? ? "Yes" : "No" %>
+    Included in decision notice: <strong><%= document.referenced_in_decision_notice? ? "Yes" : "No" %></strong>
   </p>
   <p class="govuk-body govuk-!-margin-bottom-1">
-    Public: <%= document.publishable? ? "Yes" : "No" %>
+    Public: <strong><%= document.publishable? ? "Yes" : "No" %></strong>
   </p>
   <p class="govuk-body govuk-!-margin-bottom-1">
-    Redacted: <%= document.redacted? ? "Yes" : "No" %>
+    Redacted: <strong><%= document.redacted? ? "Yes" : "No" %></strong>
   </p>
 <% else %>
   <p class="govuk-body">

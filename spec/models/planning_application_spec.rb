@@ -2305,4 +2305,61 @@ RSpec.describe PlanningApplication do
       )
     end
   end
+
+  describe "#generate_document_tabs" do
+    let!(:document_no_tag) { create(:document, tags: [], planning_application:) }
+    let!(:document_evidence_tag) { create(:document, tags: ["Photograph"], planning_application:) }
+    let!(:document_plan_tag) { create(:document, tags: ["Proposed"], planning_application:) }
+    let!(:document_supporting_tag) { create(:document, tags: ["Noise Impact Assessment"], planning_application:) }
+    let!(:document_evidence_and_plan_tags) { create(:document, tags: ["Photograph", "Proposed"], planning_application:) }
+    let!(:document_plan_and_supporting_tags) { create(:document, tags: ["Proposed", "Other Supporting Document"], planning_application:) }
+
+    def find_tab(title)
+      planning_application.generate_document_tabs.find { |tab| tab[:title] == title }
+    end
+
+    it "returns all documents for the 'All' tab" do
+      all_tab = find_tab("All")
+
+      expect(all_tab).to eq({
+        title: "All",
+        id: "all",
+        content: "All",
+        records: [document_no_tag, document_evidence_tag, document_plan_tag, document_supporting_tag, document_evidence_and_plan_tags, document_plan_and_supporting_tags]
+      })
+    end
+
+    it "filters documents for the 'Evidence' tab" do
+      evidence_tab = find_tab("Evidence")
+
+      expect(evidence_tab).to eq({
+        title: "Evidence",
+        id: "evidence",
+        content: "Evidence",
+        records: [document_evidence_tag, document_evidence_and_plan_tags]
+      })
+    end
+
+    it "filters documents for the 'Plans' tab" do
+      plans_tab = find_tab("Plans")
+
+      expect(plans_tab).to eq({
+        title: "Plans",
+        id: "plans",
+        content: "Plans",
+        records: [document_plan_tag, document_evidence_and_plan_tags, document_plan_and_supporting_tags]
+      })
+    end
+
+    it "filters documents for the 'Supporting documents' tab" do
+      supporting_documents_tab = find_tab("Supporting documents")
+
+      expect(supporting_documents_tab).to eq({
+        title: "Supporting documents",
+        id: "supporting-documents",
+        content: "Supporting documents",
+        records: [document_supporting_tag, document_plan_and_supporting_tags]
+      })
+    end
+  end
 end
