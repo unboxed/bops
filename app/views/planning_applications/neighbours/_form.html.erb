@@ -1,36 +1,16 @@
-<details class="govuk-details">
+<details class="govuk-details govuk-!-margin-top-3">
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text">
       Manually add addresses
     </span>
   </summary>
   <div class="govuk-details__text">
-    <%= form_with(
-      model: consultation.neighbours.new,
-      url: planning_application_consultation_neighbours_path(planning_application),
-      class: "govuk-!-margin-top-5",
-      id: "consultation-form",
-    ) do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-      <div class="govuk-!-padding-bottom-5">
-        <label for="neighbour-address" class="govuk-heading-s">Search neighbours by address</label>
-          <span id="neighbour-address-hint" class="govuk-hint">
-            Start typing address or postcode
-          </span>
-        <div id="neighbour-address-container"></div>
-      </div>
-
-      <% if flash["error"].present? %>
-        <div class="govuk-error-message" id="error_message">
-          <span class="govuk-visually-hidden">Error: </span>
-          <%= simple_format(flash["error"], {}, wrapper_tag: "span") %>
-        </div>
-      <% end %>
-
-      <%= form.submit(
-        "Add neighbour",
-        class: "govuk-button govuk-button--secondary govuk-!-margin-top-5"
-      ) %>
-    <% end %>
+    <div class="govuk-!-padding-bottom-5">
+      <label for="neighbour-address" class="govuk-heading-s">Search neighbours by address</label>
+        <span id="neighbour-address-hint" class="govuk-hint">
+          Start typing address or postcode
+        </span>
+      <div id="neighbour-address-container"></div>
+    </div>
   </div>
 </details>

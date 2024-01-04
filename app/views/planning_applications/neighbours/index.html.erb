@@ -22,14 +22,32 @@
     polygon_search_id: "neighbour-addresses",
     polygon_search_name: "consultation[neighbours_attributes][][address]"
   } do %>
+    <% if @consultation.errors.any? %>
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <% @consultation.errors.each do |error| %>
+              <li><%= error.message.html_safe %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
     <%= render "select_neighbours", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "form", planning_application: @planning_application, consultation: @consultation %>
     
+    <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
+    
     <%= render "neighbour_addresses_form", planning_application: @planning_application, consultation: @consultation %>
 
-    <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
+    <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
 
-    <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <div class="submit-buttons display-flex">
+      <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary back-button" %>
+    </div>
   <% end %>
 </div>
