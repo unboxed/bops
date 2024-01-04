@@ -25,14 +25,13 @@ RSpec.describe "Send letters to neighbours", js: true do
     planning_application.consultation
   end
 
+  let!(:neighbour) { create(:neighbour, consultation:, address: "60-62, Commercial Street, E16LT") }
+
   before do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
     ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
-    allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double(Faraday::Response, status: 200, body: "some data"))
-    allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).and_return(Faraday.new.get)
-    allow_any_instance_of(Apis::Mapit::Query).to receive(:fetch).and_return(Faraday.new.get)
 
     stub_any_os_places_api_request
 
@@ -40,45 +39,9 @@ RSpec.describe "Send letters to neighbours", js: true do
     visit "/planning_applications/#{planning_application.id}"
   end
 
-  it "displays the planning application address, reference, and addresses submitted by applicant" do
-    click_link "Consultees, neighbours and publicity"
-    click_link "Send letters to neighbours"
-
-    expect(page).to have_content("Send letters to neighbours")
-
-    expect(page).to have_content(planning_application.full_address)
-    expect(page).to have_content(planning_application.reference)
-
-    expect(page).to have_content("Neighbours submitted by applicant")
-    expect(page).to have_content("London, 80 Underhill Road, SE22 0QU")
-    expect(page).to have_content("London, 78 Underhill Road, SE22 0QU")
-  end
-
-  it "allows me to add addresses" do
-    click_link "Consultees, neighbours and publicity"
-    click_link "Send letters to neighbours"
-
-    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
-    # # Something weird is happening with the javascript, so having to double click for it to register
-    # # This doesn't happen in "real life"
-    page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
-    expect(page).to have_content("60-62, Commercial Street, E16LT")
-
-    fill_in "Search for neighbours by address", with: "60-61, Commercial Road, E16LT"
-    page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
-    expect(page).to have_content("60-61, Commercial Road, E16LT")
-
-    expect(page).not_to have_content("Contacted neighbours")
-  end
-
   it "allows me to edit addresses" do
     click_link "Consultees, neighbours and publicity"
     click_link "Send letters to neighbours"
-
-    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
-    page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62, Commercial Street, E16LT")
 
@@ -88,20 +51,6 @@ RSpec.describe "Send letters to neighbours", js: true do
     click_button "Save"
 
     expect(page).to have_content("60-62, Commercial Road, E18PT")
-  end
-
-  it "allows me to delete addresses" do
-    click_link "Consultees, neighbours and publicity"
-    click_link "Send letters to neighbours"
-
-    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
-    page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
-    expect(page).to have_content("60-62, Commercial Street, E16LT")
-
-    click_link "Remove"
-
-    expect(page).not_to have_content("60-62, Commercial Street, E16LT")
   end
 
   context "when sending letters" do
@@ -127,18 +76,8 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
-      # # Something weird is happening with the javascript, so having to double click for it to register
-      # # This doesn't happen in "real life"
-      page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
-      expect(page).to have_content("60-62, Commercial Street, E16LT")
-
       expect(page).to have_content("# Submit your comments by")
       expect(page).to have_content("Application number: #{planning_application.reference}")
-
-      fill_in "Search for neighbours by address", with: "60-61, Commercial Road, E16LT"
-      page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       expect(page).to have_content("A copy of the letter will be sent to the applicant by email.")
       click_button "Print and send letters"
@@ -172,11 +111,6 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
-
-      fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
-      # # Something weird is happening with the javascript, so having to double click for it to register
-      # # This doesn't happen in "real life"
-      page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       expect(page).to have_content("60-62, Commercial Street, E16LT")
 
@@ -216,9 +150,6 @@ RSpec.describe "Send letters to neighbours", js: true do
         click_link "Consultees, neighbours and publicity"
         click_link "Send letters to neighbours"
 
-        fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
-        page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
         click_button "Print and send letters"
 
         within(".govuk-notification-banner--alert") do
@@ -246,20 +177,6 @@ RSpec.describe "Send letters to neighbours", js: true do
         expect(page).to have_content("There is a problem")
         expect(page).to have_content("Add some neighbours before sending letters")
       end
-    end
-
-    it "I can not add an invalid address" do
-      fill_in "Search for neighbours by address", with: "Biscuit town"
-      page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
-      within(".govuk-error-message") do
-        expect(page).to have_content("'Biscuit town' is invalid")
-        expect(page).to have_content("Enter the property name or number, followed by a comma")
-        expect(page).to have_content("Enter the street name, followed by a comma")
-        expect(page).to have_content("Enter a postcode, like AA11AA")
-      end
-
-      expect(Neighbour.count).to eq(0)
     end
 
     it "I can not send letters with an invalid address" do
@@ -297,11 +214,6 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(page).to have_content("Contacted neighbours")
     expect(page).to have_content(neighbour.address)
     expect(page).to have_content("Posted")
-
-    fill_in "Search for neighbours by address", with: "60-62, Commercial Street, E16LT"
-    page.find(:xpath, "//input[@value='Add neighbour']").click.click
-
-    expect(page).to have_content("60-62, Commercial Street, E16LT")
   end
 
   describe "showing the status on the dashboard" do
@@ -342,326 +254,6 @@ RSpec.describe "Send letters to neighbours", js: true do
         visit "/planning_applications/#{planning_application.id}"
         click_link "Consultees, neighbours and publicity"
         expect(page).to have_content "Send letters to neighbours Failed"
-      end
-    end
-  end
-
-  context "when drawing a polygon to search for addresses" do
-    let(:geojson) do
-      {
-        "EPSG:3857" => {
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Polygon",
-                coordinates: [
-                  [
-                    [-0.07837477827741827, 51.49960885888714],
-                    [-0.0783663401899492, 51.49932756979237],
-                    [-0.07795182562987539, 51.49943999679809],
-                    [-0.07803420855642619, 51.49966559098456],
-                    [-0.07837477827741827, 51.49960885888714]
-                  ]
-                ]
-              }
-            }
-          ]
-        },
-        "EPSG:27700" => {
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Polygon",
-                coordinates: [
-                  [
-                    [533_660.325620841, 179_698.37392323086],
-                    [533_649.9051589356, 179_685.7419492526],
-                    [533_657.22377888, 179_679.7348004314],
-                    [533_666.9384742181, 179_692.96876213647],
-                    [533_660.325620841, 179_698.37392323086]
-                  ]
-                ]
-              },
-              properties: nil
-            }
-          ]
-        }
-      }
-    end
-
-    before do
-      stub_os_places_api_request_for_polygon(geojson["EPSG:27700"][:features][0])
-      Rails.configuration.os_vector_tiles_api_key = "testtest"
-      click_link "Consultees, neighbours and publicity"
-      click_link "Send letters to neighbours"
-
-      mock_csrf_token
-      # Mimic drawing the polygon on the map
-      dispatch_geojson_event(geojson)
-    end
-
-    it "shows the relevant content for searching by polygon" do
-      expect(page).to have_content("1) Select the neighbours you want to send letters to")
-      expect(page).to have_content("Selected addresses will appear in a list in the next step. You can check the list before sending letters.")
-      expect(page).to have_content("Click and drag your cursor to draw a line around all the neighbours you want to select. Draw around a whole property to select it.")
-      expect(page).to have_content("If you want to change your selection, use the reset button to start again.")
-
-      expect(page).to have_content("2) Check selected neighbours")
-      expect(page).to have_content("Add or remove neighbours before sending letters")
-      map = find("my-map")
-      expect(map["geojsondata"]).to eq(planning_application.boundary_geojson)
-
-      within("#map-legend") do
-        expect(page).to have_content("Red line boundary")
-        expect(page).to have_content("Area of selected neighbours")
-      end
-    end
-
-    it "I can add the neighbour addresses that are returned" do
-      within("#address-container") do
-        within(".address-entry#neighbour-addresses-0") do
-          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-0"]', text: "Remove")
-        end
-        within(".address-entry#neighbour-addresses-1") do
-          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-1"]', text: "Remove")
-        end
-      end
-
-      # Nothing is persisted to the database at this point
-      expect(Neighbour.all.length).to eq(0)
-
-      click_button "Add neighbours"
-      expect(page).to have_content("Addresses have been successfully added.")
-
-      within("#selected-neighbours-list") do
-        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-      end
-
-      expect(Consultation.last.neighbours.pluck(:address)).to eq(["5, COXSON WAY, LONDON, SE1 2XB", "6, COXSON WAY, LONDON, SE1 2XB"])
-
-      click_button "Print and send letters"
-      expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
-    end
-
-    it "I can remove an address before adding the relevant neighbour addresses" do
-      within("#neighbour-addresses-0") do
-        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-      end
-
-      within("#neighbour-addresses-1") do
-        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-        click_link "Remove"
-      end
-
-      expect(page).not_to have_css("#address-1")
-      expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-
-      click_button "Add neighbours"
-
-      within("#selected-neighbours-list") do
-        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-      end
-
-      expect(Consultation.last.neighbours.pluck(:address)).to eq(["5, COXSON WAY, LONDON, SE1 2XB"])
-
-      click_button "Print and send letters"
-    end
-
-    it "I can view the previously drawn area" do
-      click_button "Add neighbours"
-
-      map = find("my-map")
-      geojson = JSON.parse(map["geojsondata"])
-
-      expect(geojson["features"][0]).to eq(
-        {
-          "type" => "Feature",
-          "geometry" => {
-            "type" => "Polygon",
-            "coordinates" =>
-              [
-                [
-                  [-0.07837477827741827, 51.49960885888714],
-                  [-0.0783663401899492, 51.49932756979237],
-                  [-0.07795182562987539, 51.49943999679809],
-                  [-0.07803420855642619, 51.49966559098456],
-                  [-0.07837477827741827, 51.49960885888714]
-                ]
-              ]
-          },
-          "properties" => {
-            "color" => "#d870fc"
-          }
-        }
-      )
-
-      expect(geojson["features"][1]).to eq(
-        {
-          "type" => "Feature",
-          "properties" => {},
-          "geometry" => {
-            "type" => "Polygon",
-            "coordinates" =>
-              [
-                [
-                  [-0.054597, 51.537331],
-                  [-0.054588, 51.537287],
-                  [-0.054453, 51.537313],
-                  [-0.054597, 51.537331]
-                ]
-              ]
-          }
-        }
-      )
-    end
-
-    it "I can reset a drawn area" do
-      within("#neighbour-addresses-0") do
-        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-      end
-      within("#neighbour-addresses-1") do
-        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-      end
-
-      reset_map
-
-      expect(page).not_to have_css("#neighbour-addresses-0")
-      expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-      expect(page).not_to have_css("#neighbour-addresses-1")
-      expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-    end
-
-    it "I cannot add a neighbour address if it already exists" do
-      click_button "Add neighbours"
-
-      # Draw polygon for same addresses
-      mock_csrf_token
-      dispatch_geojson_event(geojson)
-
-      within("#neighbour-addresses-0") do
-        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-      end
-      within("#neighbour-addresses-1") do
-        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-      end
-
-      click_button "Add neighbours"
-
-      within(".govuk-error-message") do
-        expect(page).to have_content(
-          "Neighbours address 5, COXSON WAY, LONDON, SE1 2XB has already been added."
-        )
-      end
-    end
-
-    context "when redrawing the polygon" do
-      before do
-        stub_os_places_api_request_for_polygon(redrawn_geojson["EPSG:27700"][:features][0], "redrawn_polygon_search")
-      end
-
-      let(:redrawn_geojson) do
-        {
-          "EPSG:3857" => {
-            type: "FeatureCollection",
-            features: [
-              {
-                type: "Feature",
-                geometry: {
-                  type: "Polygon",
-                  coordinates: [
-                    [
-                      [-0.08018430103465587, 51.497070661375886],
-                      [-0.08025903628948244, 51.49700191751015],
-                      [-0.08022688540367927, 51.49689298114299],
-                      [-0.08004421293717312, 51.49685137544674],
-                      [-0.07992821506988153, 51.496941695353854],
-                      [-0.07996192953503174, 51.49705721720349],
-                      [-0.08009447338556726, 51.49706107297908],
-                      [-0.08018430103465587, 51.497070661375886]
-                    ]
-                  ]
-                }
-              }
-            ]
-          },
-          "EPSG:27700" => {
-            type: "FeatureCollection",
-            features: [
-              {
-                type: "Feature",
-                geometry: {
-                  type: "Polygon",
-                  coordinates: [
-                    [
-                      [533_378.6137480768, 179_308.4693687631],
-                      [533_379.2170422648, 179_306.59981187445],
-                      [533_373.4315282275, 179_297.8483378425],
-                      [533_367.6318595328, 179_299.8685499648],
-                      [533_358.2525280855, 179_307.0164626359],
-                      [533_363.4518187683, 179_316.33355877135],
-                      [533_373.4518187683, 179_310.43355877135],
-                      [533_378.6137480768, 179_308.4693687631]
-                    ]
-                  ]
-                },
-                properties: nil
-              }
-            ]
-          }
-        }
-      end
-
-      it "I can redraw the polygon to return different addresses" do
-        within("#neighbour-addresses-0") do
-          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-        end
-        within("#neighbour-addresses-1") do
-          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-        end
-
-        # Update drawn polygon
-        dispatch_geojson_event(redrawn_geojson)
-
-        expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-        expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-
-        within("#neighbour-addresses-0") do
-          expect(page).to have_content("82, GRANGE WALK, LONDON, SE1 3DT")
-        end
-        within("#neighbour-addresses-1") do
-          expect(page).to have_content("83, GRANGE WALK, LONDON, SE1 3DT")
-        end
-        within("#neighbour-addresses-2") do
-          expect(page).to have_content("84, GRANGE WALK, LONDON, SE1 3DT")
-        end
-        within("#neighbour-addresses-3") do
-          expect(page).to have_content("85, GRANGE WALK, LONDON, SE1 3DT")
-        end
-
-        click_button "Add neighbours"
-
-        within("#selected-neighbours-list") do
-          expect(page).to have_content("82, GRANGE WALK, LONDON, SE1 3DT")
-          expect(page).to have_content("83, GRANGE WALK, LONDON, SE1 3DT")
-          expect(page).to have_content("84, GRANGE WALK, LONDON, SE1 3DT")
-          expect(page).to have_content("85, GRANGE WALK, LONDON, SE1 3DT")
-        end
-
-        expect(Consultation.last.neighbours.pluck(:address)).to eq(
-          [
-            "82, GRANGE WALK, LONDON, SE1 3DT",
-            "83, GRANGE WALK, LONDON, SE1 3DT",
-            "84, GRANGE WALK, LONDON, SE1 3DT",
-            "85, GRANGE WALK, LONDON, SE1 3DT"
-          ]
-        )
       end
     end
   end

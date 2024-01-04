@@ -764,9 +764,6 @@ en:
     successfully_created: Permitted development rights response was successfully created
     successfully_updated: Permitted development rights response was successfully updated
   planning_applications:
-    neighbours: 
-      create: 
-        success: Addresses have been successfully added.
     assessment:
       assess_immunity_detail_permitted_development_right_form:
         four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
@@ -1115,6 +1112,9 @@ en:
         success: Neighbour response successfully created.
       update:
         success: Neighbour response successfully updated.
+    neighbours:
+      create:
+        success: Addresses have been successfully added.
     notes:
       create:
         success: Note was successfully created.

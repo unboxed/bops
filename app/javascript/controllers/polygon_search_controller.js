@@ -183,11 +183,7 @@ export default class extends Controller {
     input.id = "submit-button"
     input.setAttribute("data-disable-with", "Continue to sending letters")
     input.setAttribute("form", "consultation-neighbour-addresses-form")
-    input.classList.add(
-      "govuk-button",
-      "govuk-!-margin-right-2",
-      "submit-button"
-    )
+    input.classList.add("govuk-button", "govuk-!-margin-right-2")
     return input
   }
 

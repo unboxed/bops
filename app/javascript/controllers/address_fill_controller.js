@@ -25,7 +25,7 @@ export default class extends Controller {
       confirmOnBlur: false,
       onConfirm: (val) => {
         this.appendAddress(val)
-      }
+      },
     })
   }
 
@@ -40,9 +40,12 @@ export default class extends Controller {
   appendAddress(address) {
     const container = this.getAddressContainer()
 
-    const addressDiv = this.createAddressElement(address, 0)
+    const addressCount = document.getElementById("address-container")
 
-    const hiddenInput = this.createHiddenInputElement(address, 0)
+    const count = addressCount === null ? 0 : addressCount.children.length
+    const addressDiv = this.createAddressElement(address, count)
+    const hiddenInput = this.createHiddenInputElement(address, count)
+
     this.getConsultationNeighbourAddressesForm().appendChild(hiddenInput)
 
     container.appendChild(addressDiv)
@@ -130,10 +133,7 @@ export default class extends Controller {
     input.id = "submit-button"
     input.setAttribute("data-disable-with", "Continue to sending letters")
     input.setAttribute("form", "consultation-neighbour-addresses-form")
-    input.classList.add(
-      "govuk-button",
-      "govuk-!-margin-right-2",
-    )
+    input.classList.add("govuk-button", "govuk-!-margin-right-2")
     return input
   }
 }

@@ -22,7 +22,7 @@ module TaskListItems
 
     def status
       if consultation.neighbours.any?
-        :in_progress
+        :complete
       else
         :not_started
       end
