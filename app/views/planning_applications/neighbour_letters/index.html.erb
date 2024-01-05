@@ -41,15 +41,19 @@
       <%= render "list", planning_application: @planning_application, consultation: @consultation, form: form %>
 
       <%= render "letter_template", planning_application: @planning_application, consultation: @consultation, form: form %>
+
+      <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
+        <%= form.submit "Confirm and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 1rem;" %>
     <% end %>
 
-    <%= form_with(
-        model: @consultation,
-        url: planning_application_consultation_path(@planning_application)
-      ) do |form| %>
-      <%= form.hidden_field :neighbour_letter_text %>
-      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-      <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-    <% end %>
+      <%= form_with(
+          model: @consultation,
+          url: planning_application_consultation_path(@planning_application)
+        ) do |form| %>
+        <%= form.hidden_field :neighbour_letter_text %>
+        <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+        <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% end %>
+    </div>
   </div>  
 </div>
