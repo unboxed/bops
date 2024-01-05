@@ -31,19 +31,25 @@
 <% end %>
 
 <div class="govuk-grid-row">
-  <%= content_tag :div, class: "govuk-grid-column-full", data: {
-    controller: "address-fill polygon-search",
-    address_fill_url: os_places_api_index_path,
-    address_fill_id: "neighbour-address",
-    address_fill_name: "consultation[neighbours_attributes][][address]",
-    polygon_search_url: search_addresses_by_polygon_path,
-    polygon_search_id: "neighbour-addresses",
-    polygon_search_name: "consultation[neighbours_attributes][][address]"
-  } do %>
-    <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
+  <div class="govuk-grid-column-full">
+    <%= form_with(
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      model: @consultation,
+      method: :post,
+      url: send_letters_planning_application_consultation_neighbour_letters_path(@planning_application)
+    ) do |form| %>
+      <%= render "list", planning_application: @planning_application, consultation: @consultation, form: form %>
 
-    <%= render "contacted_list", planning_application: @planning_application, consultation: @consultation %>
+      <%= render "letter_template", planning_application: @planning_application, consultation: @consultation, form: form %>
+    <% end %>
 
-    <%= render "letter_template", planning_application: @planning_application, consultation: @consultation %>
-  <% end %>
+    <%= form_with(
+        model: @consultation,
+        url: planning_application_consultation_path(@planning_application)
+      ) do |form| %>
+      <%= form.hidden_field :neighbour_letter_text %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+      <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <% end %>
+  </div>  
 </div>
