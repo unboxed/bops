@@ -76,7 +76,6 @@ Rails/ThreeStateBooleanColumn:
     - db/migrate/2022*
     - db/migrate/20230*
     - db/migrate/202310*
-    - db/migrate/202312*
 
 # False positive: if being used in migrations, behaviour is different and intentional
 Rails/ApplicationRecord:
