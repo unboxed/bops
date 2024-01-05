@@ -38,6 +38,21 @@
       method: :post,
       url: send_letters_planning_application_consultation_neighbour_letters_path(@planning_application)
     ) do |form| %>
+      <% if @consultation.errors.any? %>
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <% @consultation.errors.each do |error| %>
+                <li><%= error.message.html_safe %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
       <%= render "list", planning_application: @planning_application, consultation: @consultation, form: form %>
 
       <%= render "letter_template", planning_application: @planning_application, consultation: @consultation, form: form %>

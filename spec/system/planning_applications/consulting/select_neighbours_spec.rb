@@ -235,7 +235,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(Consultation.last.neighbours.pluck(:address)).to eq(["5, COXSON WAY, LONDON, SE1 2XB"])
 
-      click_button "Print and send letters"
+      click_button "Confirm and send letters"
     end
 
     it "I can view the previously drawn area" do

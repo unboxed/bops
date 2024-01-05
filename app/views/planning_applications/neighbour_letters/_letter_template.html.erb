@@ -10,7 +10,7 @@
   %>
 
   <div id="renotification-form" class="govuk-!-display-none">
-    <%= form.hidden_field :resend_existing, value: "true" %>
+    <%= form.hidden_field :resend_existing, value: "false" %>
     <%= form.govuk_text_area :resend_reason, label: { text: "Resend reason" }, hint: { text: "Enter a reason for renotification. This text will appear at the beginning of the letter." } %>
   </div>
 </div>

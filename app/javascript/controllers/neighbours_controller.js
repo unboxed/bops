@@ -23,8 +23,10 @@ export default class extends Controller {
 
     if(template === "Renotification") {
       target.classList.remove("govuk-!-display-none")
+      document.getElementById("consultation_resend_existing").value = "true"
     } else {
       target.classList.add("govuk-!-display-none")
+      document.getElementById("consultation_resend_existing").value = "false"
     }
   }
 }

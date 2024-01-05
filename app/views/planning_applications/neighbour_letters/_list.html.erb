@@ -19,7 +19,7 @@
                 %>
                 <label class="govuk-label govuk-checkboxes__label" for="toggle-neighbours">
                   <span class="govuk-visually-hidden">
-                    <%=  %>
+                    Select all neighbours
                   </span>
                 </label>
               </div>
@@ -40,7 +40,7 @@
                   <%= neighbour.check_box :selected, class: "govuk-checkboxes__input" %>
                   <%= neighbour.label :selected, class: "govuk-label govuk-checkboxes__label" do %>
                     <span class="govuk-visually-hidden">
-                      <%=  %>
+                      <%= "Select #{neighbour.object.address}" %>
                     </span>
                   <% end %>
                 </div>

@@ -31,26 +31,8 @@ RSpec.describe "Send letters to neighbours", js: true do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
-    ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
-
-    stub_any_os_places_api_request
-
     sign_in assessor
     visit "/planning_applications/#{planning_application.id}"
-  end
-
-  it "allows me to edit addresses" do
-    click_link "Consultees, neighbours and publicity"
-    click_link "Send letters to neighbours"
-
-    expect(page).to have_content("60-62, Commercial Street, E16LT")
-
-    click_link "Edit"
-
-    fill_in "Address", with: "60-62, Commercial Road, E18PT"
-    click_button "Save"
-
-    expect(page).to have_content("60-62, Commercial Road, E18PT")
   end
 
   context "when sending letters" do
@@ -70,17 +52,17 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "agent@example.com").and_call_original
       expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "applicant@example.com").and_call_original
 
-      sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
-
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      expect(page).to have_content("# Submit your comments by")
-      expect(page).to have_content("Application number: #{planning_application.reference}")
+      expect(page).to have_content("60-62, Commercial Street")
+      expect(page).to have_content("123, Made Up Street")
 
-      expect(page).to have_content("A copy of the letter will be sent to the applicant by email.")
-      click_button "Print and send letters"
+      within "#selected-neighbours-list" do
+        uncheck "Select 123, Made Up Street"
+      end
+
+      click_button "Confirm and send letters"
       expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
 
       expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
@@ -114,15 +96,13 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(page).to have_content("60-62, Commercial Street, E16LT")
 
-      expect(page).to have_content("3) Check letter")
-      expect(page).to have_content("Check the letter. You can edit the letter before you send it to selected neighbours.")
+      expect(page).to have_content("3) Choose which letter to send")
+
+      # Rspec doesn't like govuk-details, doesn't think it's a link. This is the "View/edit template" link
+      page.find(:xpath, "//*[@id='main-content']/div[2]/div/form/details/summary/span").click
       fill_in "Neighbour letter", with: "This is some content I'm putting in"
 
-      expect(page).to have_content("4) Send letter")
-      expect(page).to have_content("The letter will be sent to all selected neighbours.")
-      expect(page).to have_content("A copy of the letter will be sent to the applicant by email.")
-
-      click_button "Print and send letters"
+      click_button "Confirm and send letters"
       expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
 
       expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
@@ -150,7 +130,7 @@ RSpec.describe "Send letters to neighbours", js: true do
         click_link "Consultees, neighbours and publicity"
         click_link "Send letters to neighbours"
 
-        click_button "Print and send letters"
+        click_button "Confirm and send letters"
 
         within(".govuk-notification-banner--alert") do
           expect(page).to have_content("The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.")
@@ -171,7 +151,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     it "I can not send letters without neighbours" do
-      click_button "Print and send letters"
+      click_button "Confirm and send letters"
 
       within(".govuk-notification-banner--alert") do
         expect(page).to have_content("There is a problem")
@@ -182,7 +162,11 @@ RSpec.describe "Send letters to neighbours", js: true do
     it "I can not send letters with an invalid address" do
       neighbour.save(validate: false)
 
-      click_button "Print and send letters"
+      visit "/planning_applications/#{planning_application.id}"
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      click_button "Confirm and send letters"
 
       within(".govuk-notification-banner--alert") do
         expect(page).to have_content("There is a problem")
@@ -211,7 +195,6 @@ RSpec.describe "Send letters to neighbours", js: true do
     click_link "Consultees, neighbours and publicity"
     click_link "Send letters to neighbours"
 
-    expect(page).to have_content("Contacted neighbours")
     expect(page).to have_content(neighbour.address)
     expect(page).to have_content("Posted")
   end
@@ -281,7 +264,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(page).to have_content "Send letters to neighbours Completed"
 
       click_link "Send letters to neighbours"
-      within("#contacted-neighbours-list") do
+      within("#selected-neighbours-list") do
         expect(page).to have_content(neighbour.address)
       end
     end
@@ -291,13 +274,13 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      check "Resend letters to previously-contacted neighbours"
-      fill_in("Specify a reason for resending",
+      select "Renotification"
+      fill_in("Resend reason",
         with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
 
       orig_deadline = consultation.end_date
 
-      click_button "Print and send letters"
+      click_button "Confirm and send letters"
       expect(neighbour.neighbour_letters.length).to eq(2)
       expect(consultation.reload.end_date).to be_after(orig_deadline)
     end
@@ -307,9 +290,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      uncheck "Resend letters to previously-contacted neighbours"
-
-      click_button "Print and send letters"
+      click_button "Confirm and send letters"
       expect(neighbour.neighbour_letters.length).to eq(1)
     end
 
@@ -318,9 +299,10 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      check "Resend letters to previously-contacted neighbours"
+      select "Renotification"
 
-      click_button "Print and send letters"
+      click_button "Confirm and send letters"
+      expect(page).to have_content "Provide a reason when resending letters to previously-contacted neighbours"
       expect(neighbour.neighbour_letters.length).to eq(1)
     end
 
@@ -329,13 +311,13 @@ RSpec.describe "Send letters to neighbours", js: true do
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
-      check "Resend letters to previously-contacted neighbours"
-      fill_in("Specify a reason for resending",
+      select "Renotification"
+      fill_in("Resend reason",
         with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
 
       expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
         personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}\r\n\r\nDear Resident/))).and_call_original
-      click_button "Print and send letters"
+      click_button "Confirm and send letters"
     end
   end
 end
