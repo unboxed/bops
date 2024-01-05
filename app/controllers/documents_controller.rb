@@ -124,6 +124,8 @@ class DocumentsController < AuthenticationController
   end
 
   def replacement_document_validation_request
+    return unless @document.owner&.type == "ReplacementDocumentValidationRequest"
+
     @replacement_document_validation_request ||= @document.owner
   end
 

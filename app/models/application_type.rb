@@ -47,6 +47,8 @@ class ApplicationType < ApplicationRecord
       Document::EVIDENCE_TAGS - document_tags[key]
     when "supporting_documents"
       (Document::SUPPORTING_DOCUMENT_TAGS - ["Fee Exemption"]) - document_tags[key]
+    when "other"
+      []
     else
       raise ArgumentError, "Unexpected document tag type: #{key}"
     end
