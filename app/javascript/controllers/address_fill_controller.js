@@ -33,20 +33,19 @@ export default class extends Controller {
     return document.getElementById("manual-address-container")
   }
 
-  getConsultationNeighbourAddressesForm() {
-    return document.getElementById("consultation-neighbour-addresses-form")
+  getHiddenAddressesField() {
+    return document.getElementById("manual-addresses-hidden")
   }
 
   appendAddress(address) {
     const container = this.getAddressContainer()
 
-    const addressCount = document.getElementById("address-container")
+    const count = this.countExistingAddressElements()
 
-    const count = addressCount === null ? 0 : addressCount.children.length
     const addressDiv = this.createAddressElement(address, count)
     const hiddenInput = this.createHiddenInputElement(address, count)
 
-    this.getConsultationNeighbourAddressesForm().appendChild(hiddenInput)
+    this.getHiddenAddressesField().appendChild(hiddenInput)
 
     container.appendChild(addressDiv)
 
@@ -59,6 +58,22 @@ export default class extends Controller {
 
       submitButtonDiv.insertBefore(btn, backButton)
     }
+  }
+
+  countExistingAddressElements() {
+    const addressCount = document.querySelector(".address-entry")
+    const manualAddressCount = document.querySelector(".manual-address-entry")
+
+    const polygonCount =
+      addressCount === null
+        ? 0
+        : document.getElementById("address-container").children.length
+    const manualCount =
+      manualAddressCount === null
+        ? 0
+        : document.getElementById("manual-address-container").children.length
+
+    return polygonCount + manualCount
   }
 
   createHiddenInputElement(address, index) {
@@ -75,7 +90,7 @@ export default class extends Controller {
 
   createAddressElement(address, index) {
     const addressEntryDiv = document.createElement("div")
-    addressEntryDiv.className = "address-entry"
+    addressEntryDiv.className = "manual-address-entry"
 
     const addressId = `${this.data.get("id")}-${index}`
     addressEntryDiv.id = addressId

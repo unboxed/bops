@@ -476,23 +476,23 @@ RSpec.describe "Send letters to neighbours", js: true do
       # # This doesn't happen in "real life"
       page.find(:xpath, "//li[text()='60-62, Commercial Street, E16LT']").click
 
-      within("#manual-address-container") do
-        expect(page).to have_content("60-62, Commercial Street, E16LT")
-      end
-
       mock_csrf_token
       # Mimic drawing the polygon on the map
       dispatch_geojson_event(geojson)
 
       within("#address-container") do
-        within(".address-entry#neighbour-addresses-0") do
-          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-0"]', text: "Remove")
-        end
         within(".address-entry#neighbour-addresses-1") do
-          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
           expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-1"]', text: "Remove")
         end
+        within(".address-entry#neighbour-addresses-2") do
+          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-2"]', text: "Remove")
+        end
+      end
+
+      within("#manual-address-container") do
+        expect(page).to have_content("60-62, Commercial Street, E16LT")
       end
 
       click_button "Continue to sending letters"

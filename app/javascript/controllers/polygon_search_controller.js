@@ -32,7 +32,7 @@ export default class extends Controller {
   }
 
   getConsultationNeighbourAddressesForm() {
-    return document.getElementById("consultation-neighbour-addresses-form")
+    return document.getElementById("addresses-hidden")
   }
 
   setupEventListeners() {
@@ -92,9 +92,11 @@ export default class extends Controller {
     const container = this.getAddressContainer()
 
     addresses.forEach((address, index) => {
-      const addressDiv = this.createAddressElement(address, index)
+      const count = this.countExistingAddressElements()
 
-      const hiddenInput = this.createHiddenInputElement(address, index)
+      const addressDiv = this.createAddressElement(address, count + index)
+      const hiddenInput = this.createHiddenInputElement(address, count + index)
+
       this.getConsultationNeighbourAddressesForm().appendChild(hiddenInput)
 
       container.appendChild(addressDiv)
@@ -109,6 +111,17 @@ export default class extends Controller {
 
       submitButtonDiv.insertBefore(btn, backButton)
     }
+  }
+
+  countExistingAddressElements() {
+    const manualAddressCount = document.querySelector(".manual-address-entry")
+
+    const manualCount =
+      manualAddressCount === null
+        ? 0
+        : document.getElementById("manual-address-container").children.length
+
+    return manualCount
   }
 
   createHiddenInputElement(address, index) {
@@ -202,9 +215,9 @@ export default class extends Controller {
   }
 
   removeHiddenAddressInputs() {
-    const hiddenInputs = document.querySelectorAll(
-      `input[type="hidden"][name="${this.data.get("name")}"]`,
-    )
+    const hiddenInputs = document
+      .getElementById("addresses-hidden")
+      .querySelectorAll(`input[type="hidden"][name="${this.data.get("name")}"]`)
 
     hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
   }
