@@ -5,8 +5,8 @@ module OsPlacesHelper
     stub_request(:get, "https://api.os.uk/search/places/v1/find?key=testtest&maxresults=20&query=#{query}").to_return(os_places_api_response(200))
   end
 
-  def stub_os_places_api_request_for_polygon(body, results = "polygon_search")
-    stub_request(:post, "https://api.os.uk/search/places/v1/polygon?key=testtest&output_srs=EPSG:27700&srs=EPSG:27700")
+  def stub_os_places_api_request_for_polygon(body, results = "polygon_search", offset = 0)
+    stub_request(:post, "https://api.os.uk/search/places/v1/polygon?key=testtest&output_srs=EPSG:27700&srs=EPSG:27700&offset=#{offset}")
       .with(
         body:
       )

@@ -15,14 +15,7 @@ module Apis
       end
 
       def post(body, params)
-        response = faraday.post("polygon") do |request|
-          request.params = params.merge(key)
-          request.headers["Content-Type"] = "application/json"
-          request.body = body.to_json
-        end
-
-        data = JSON.parse(response.body)
-        data["results"]&.map { |result| result["DPA"]["ADDRESS"] } || []
+        PolygonSearchService.new(body, params.merge(key)).call
       end
 
       private
