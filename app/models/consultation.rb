@@ -270,7 +270,7 @@ class Consultation < ApplicationRecord
   end
 
   def polygon_geojson=(value)
-    self.polygon_search = geometry_collection(value) if value.present?
+    self.polygon_search = geometry_collection(value) if value.present? && JSON.parse(value)["EPSG:3857"].present?
     super
   end
 
