@@ -1,6 +1,8 @@
 <div id="selected-neighbours-list" data-controller="neighbours">
   <%= link_to "< Back to add neighbours", planning_application_consultation_neighbours_path(@planning_application), class: "govuk-link govuk-body" %>
-  <h2 class="govuk-heading-m govuk-!-margin-top-6">2) Review neighbours to send letters to</h2>
+
+  <div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-4">Step 2</div>
+  <h2 class="govuk-heading-m govuk-!-margin-top-1">Review neighbours to send letters to</h2>
   <p class="govuk-body">Review the list and check the addresses you want to send</p>
 
   <% if consultation.neighbours.any? %>

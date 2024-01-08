@@ -1,9 +1,10 @@
 <div data-controller="neighbours">
+   <div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-8">Step 3</div>
   <%= form.govuk_collection_select :template, 
     ["Notification", "Renotification"], 
     :itself, 
     :itself, 
-    label: { text: "3) Choose which letter to send", size: "m" },
+    label: { text: "Choose which letter to send", size: "m" },
     data: {
       action: "change->neighbours#toggleTemplates"
     }
