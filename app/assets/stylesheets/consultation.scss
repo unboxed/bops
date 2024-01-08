@@ -107,3 +107,21 @@
     background: initial;
   }
 }
+
+#selected-neighbours-list {
+  .govuk-table {
+    height: 600px; 
+    overflow-y: scroll; 
+    display: block;
+
+    thead:first-of-type {
+      position: sticky; 
+      top: 0; 
+      background: white
+    }
+
+    .govuk-table__cell {
+      padding: 15px 20px 15px 0;
+    }
+  }
+}

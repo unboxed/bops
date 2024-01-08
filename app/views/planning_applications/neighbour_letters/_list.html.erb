@@ -25,10 +25,10 @@
               </div>
             </div>
           </th>
-          <th scope="col" class="govuk-table__header">Address list</th>
-          <th scope="col" class="govuk-table__header">Source</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-half">Address list</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Source</th>
           <th scope="col" class="govuk-table__header">Status</th>
-          <th scope="col" class="govuk-table__header">Last contacted</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Last contacted</th>
         </tr>
       </thead>
       <%= form.fields_for :neighbours, consultation.neighbours do |neighbour| %>
@@ -54,9 +54,9 @@
             </td>
             <td class="govuk-table__cell">
               <% if neighbour.object.last_letter.blank? %>
-                <%= render(StatusTags::BaseComponent.new(status: "new")) %>
+                <%= render(StatusTags::LetterComponent.new(status: "new")) %>
               <% else %>
-                <%= render(StatusTags::BaseComponent.new(status: NeighbourLetter::STATUSES[neighbour.object.last_letter.status&.to_sym])) %>
+                <%= render(StatusTags::LetterComponent.new(status: NeighbourLetter::STATUSES[neighbour.object.last_letter.status&.to_sym])) %>
               <% end %>
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-width-one-quarter">
