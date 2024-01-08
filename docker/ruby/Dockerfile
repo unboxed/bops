@@ -26,7 +26,7 @@ ARG NODE_VERSION=18.16.1
 ARG YARN_VERSION=1.22.19
 ARG SWAGGER_CLI_VERSION=4.0.4
 ENV PATH=/usr/local/node/bin:$PATH
-RUN bash -c "curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+RUN bash -c "curl --retry 5 --retry-delay 5 --retry-max-time 60 -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
     /tmp/node-build-master/bin/node-build '$NODE_VERSION' /usr/local/node && \
     npm install -g yarn@$YARN_VERSION && \
     npm install -g swagger-cli@$SWAGGER_CLI_VERSION && \
