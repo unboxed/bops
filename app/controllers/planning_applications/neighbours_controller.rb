@@ -13,12 +13,42 @@ module PlanningApplications
     end
 
     def create
+      begin
+        @consultation.update!(consultation_params)
+        flash[:notice] = t(".success")
+      rescue ActiveRecord::RecordInvalid
+        flash[:error] = @consultation.errors.full_messages.join("\n")
+      end
+
+      respond_to do |format|
+        format.html do
+          if @consultation.errors.any?
+            render :index
+          else
+            redirect_to planning_application_consultation_neighbour_letters_path(@planning_application)
+          end
+        end
+      end
     end
 
     def update
+      @neighbour.update!(neighbour_params)
+
+      respond_to do |format|
+        format.html do
+          redirect_to planning_application_consultation_neighbours_path(@planning_application)
+        end
+      end
     end
 
     def destroy
+      @neighbour.destroy
+
+      respond_to do |format|
+        format.html do
+          redirect_to planning_application_consultation_neighbours_path(@planning_application)
+        end
+      end
     end
 
     private
@@ -28,6 +58,14 @@ module PlanningApplications
     end
 
     def set_neighbour
+      @neighbour = @consultation.neighbours.find(neighbour_id)
+    end
+
+    def consultation_params
+      params.require(:consultation).permit(
+        :polygon_geojson,
+        neighbours_attributes: %i[id address]
+      )
     end
 
     def neighbour_params

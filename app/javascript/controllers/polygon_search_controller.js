@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { ajax } from "@rails/ujs"
 
 export default class extends Controller {
   connect() {
@@ -31,7 +32,7 @@ export default class extends Controller {
   }
 
   getConsultationNeighbourAddressesForm() {
-    return document.getElementById("consultation-neighbour-addresses-form")
+    return document.getElementById("addresses-hidden")
   }
 
   setupEventListeners() {
@@ -91,18 +92,36 @@ export default class extends Controller {
     const container = this.getAddressContainer()
 
     addresses.forEach((address, index) => {
-      const addressDiv = this.createAddressElement(address, index)
+      const count = this.countExistingAddressElements()
 
-      const hiddenInput = this.createHiddenInputElement(address, index)
+      const addressDiv = this.createAddressElement(address, count + index)
+      const hiddenInput = this.createHiddenInputElement(address, count + index)
+
       this.getConsultationNeighbourAddressesForm().appendChild(hiddenInput)
 
       container.appendChild(addressDiv)
     })
 
-    if (addresses.length > 0) {
+    const submitButton = document.getElementById("submit-button")
+
+    if (addresses.length > 0 && submitButton === null) {
       const btn = this.createAddNeighboursButton()
-      container.appendChild(btn)
+      const submitButtonDiv = document.querySelector(".submit-buttons")
+      const backButton = document.querySelector(".back-button")
+
+      submitButtonDiv.insertBefore(btn, backButton)
     }
+  }
+
+  countExistingAddressElements() {
+    const manualAddressCount = document.querySelector(".manual-address-entry")
+
+    const manualCount =
+      manualAddressCount === null
+        ? 0
+        : document.getElementById("manual-address-container").children.length
+
+    return manualCount
   }
 
   createHiddenInputElement(address, index) {
@@ -173,14 +192,11 @@ export default class extends Controller {
 
     input.type = "submit"
     input.name = "commit"
-    input.value = "Add neighbours"
-    input.setAttribute("data-disable-with", "Add neighbours")
-    input.classList.add(
-      "govuk-button",
-      "govuk-button--secondary",
-      "govuk-!-margin-top-5",
-    )
-
+    input.value = "Continue to sending letters"
+    input.id = "submit-button"
+    input.setAttribute("data-disable-with", "Continue to sending letters")
+    input.setAttribute("form", "consultation-neighbour-addresses-form")
+    input.classList.add("govuk-button", "govuk-!-margin-right-2")
     return input
   }
 
@@ -199,9 +215,9 @@ export default class extends Controller {
   }
 
   removeHiddenAddressInputs() {
-    const hiddenInputs = document.querySelectorAll(
-      `input[type="hidden"][name="${this.data.get("name")}"]`,
-    )
+    const hiddenInputs = document
+      .getElementById("addresses-hidden")
+      .querySelectorAll(`input[type="hidden"][name="${this.data.get("name")}"]`)
 
     hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
   }

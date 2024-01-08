@@ -19,21 +19,6 @@ module PlanningApplications
       end
     end
 
-    def create
-      begin
-        @consultation.update!(consultation_params)
-        flash[:notice] = t(".success")
-      rescue ActiveRecord::RecordInvalid
-        flash[:error] = @consultation.errors.full_messages.join("\n")
-      end
-
-      respond_to do |format|
-        format.html do
-          redirect_to planning_application_consultation_neighbour_letters_path(@planning_application)
-        end
-      end
-    end
-
     def update
       @neighbour.update!(neighbour_params)
 

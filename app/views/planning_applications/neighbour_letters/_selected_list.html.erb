@@ -1,5 +1,5 @@
 <div id="selected-neighbours-list">
-  <h2 class="govuk-heading-m govuk-!-margin-top-6">2) Check selected neighbours</h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-6">2) Review neighbours to send letters to</h2>
   <p class="govuk-body">Add or remove neighbours before sending letters</p>
   <% if @consultation.neighbours.without_letters.any? %>
     <% @consultation.neighbours.without_letters.each do |neighbour| %>

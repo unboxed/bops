@@ -1,0 +1,47 @@
+<h2 class="govuk-heading-m govuk-!-padding-top-6">
+  1) Select neighbours using the map
+</h2>
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      View more instructions
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <p class="govuk-body">You can select neighbours by:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>using the map to draw a boundary</li>
+      <li>searching by address</li>
+    </ul>
+    <p class="govuk-body">Selected addresses will appear in a list in the next step. You can check the list before sending letters.</p>
+    <h3 class="govuk-heading-s">
+      Use the map
+    </h3>
+    <p class="govuk-body">Click and drag your cursor to draw a line around all the neighbours you want to select. Draw around a whole property to select it.</p>
+    <p class="govuk-body">If you want to change your selection, use the reset button to start again.</p>
+  </div>
+</details>
+
+<%= render(
+  partial: "shared/location_map",
+  locals: {
+    locals: {
+      in_accordion: false,
+      polygon_search: true,
+      geojson: consultation.polygon_search_and_boundary_geojson || planning_application.boundary_geojson,
+      geojson_field: "consultation-polygon-geojson-field",
+      draw_color: consultation.polygon_colour,
+      draw_fill_color: consultation.polygon_fill_colour
+    }
+  }
+) %>
+
+<div id="map-legend" class="govuk-!-padding-top-2">
+  <svg width="100%" height="50" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="10" width="30" height="30" stroke="red" fill="none" stroke-width="2"/>
+    <text x="50" y="30" font-size="16">Red line boundary</text>
+
+    <rect x="200" y="10" width="30" height="30" stroke="#d870fc" fill="none" stroke-width="2"/>
+    <text x="240" y="30" font-size="16">Area of selected neighbours</text>
+  </svg>
+</div>

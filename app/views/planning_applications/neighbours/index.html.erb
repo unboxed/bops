@@ -1,0 +1,53 @@
+<% content_for :page_title do %>
+  Select and add neighbours - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+<% content_for :title, "Select and add neighbours" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Select and add neighbours" }
+) %>
+
+<div class="govuk-grid-row">
+  <%= content_tag :div, class: "govuk-grid-column-full", data: {
+    controller: "address-fill polygon-search",
+    address_fill_url: os_places_api_index_path,
+    address_fill_id: "neighbour-address",
+    address_fill_name: "consultation[neighbours_attributes][][address]",
+    polygon_search_url: search_addresses_by_polygon_path,
+    polygon_search_id: "neighbour-addresses",
+    polygon_search_name: "consultation[neighbours_attributes][][address]"
+  } do %>
+    <% if @consultation.errors.any? %>
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <% @consultation.errors.each do |error| %>
+              <li><%= error.message.html_safe %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+    <%= render "select_neighbours", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
+    
+    <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
+    
+    <%= render "neighbour_addresses_form", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
+
+    <div class="submit-buttons display-flex">
+      <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary back-button" %>
+    </div>
+  <% end %>
+</div>

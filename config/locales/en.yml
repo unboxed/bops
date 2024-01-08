@@ -1112,6 +1112,9 @@ en:
         success: Neighbour response successfully created.
       update:
         success: Neighbour response successfully updated.
+    neighbours:
+      create:
+        success: Addresses have been successfully added.
     notes:
       create:
         success: Note was successfully created.
