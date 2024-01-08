@@ -10,18 +10,17 @@ export default class extends Controller {
   }
 
   get neighbourCheckboxes() {
-    return document.getElementById("selected-neighbours-list").querySelectorAll(
-      "input[type=checkbox]",
-    )
+    return document
+      .getElementById("selected-neighbours-list")
+      .querySelectorAll("input[type=checkbox]")
   }
 
   toggleTemplates(event) {
-    console.log("i am here")
     const template = event.target.value
 
     const target = document.getElementById("renotification-form")
 
-    if(template === "Renotification") {
+    if (template === "Renotification") {
       target.classList.remove("govuk-!-display-none")
       document.getElementById("consultation_resend_existing").value = "true"
     } else {

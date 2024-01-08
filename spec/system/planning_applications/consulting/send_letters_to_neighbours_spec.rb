@@ -96,7 +96,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(page).to have_content("60-62, Commercial Street, E16LT")
 
-      expect(page).to have_content("3) Choose which letter to send")
+      expect(page).to have_content("Choose which letter to send")
 
       # Rspec doesn't like govuk-details, doesn't think it's a link. This is the "View/edit template" link
       page.find(:xpath, "//*[@id='main-content']/div[2]/div/form/details/summary/span").click

@@ -7,6 +7,8 @@ class Neighbour < ApplicationRecord
   has_many :neighbour_letters, dependent: :destroy
   has_many :neighbour_responses, dependent: :destroy
 
+  enum source: {manual: "manual", system: "system", opted_in: "opted_in"}
+
   validates :address, presence: true, unless: :not_selected?
   validates :address, uniqueness: {
     scope: :consultation_id, case_sensitive: false, message: lambda { |_object, data|

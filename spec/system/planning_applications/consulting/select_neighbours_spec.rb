@@ -173,7 +173,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     it "shows the relevant content for searching by polygon" do
-      expect(page).to have_content("1) Select neighbours using the map")
+      expect(page).to have_content("Select neighbours using the map")
 
       page.find(:xpath, "//*[@id='main-content']/div[2]/div/details[1]/summary/span").click
       expect(page).to have_content("Selected addresses will appear in a list in the next step. You can check the list before sending letters.")

@@ -52,7 +52,7 @@
               <%= neighbour.object.address %>
             </td>
             <td class="govuk-table__cell">
-              source
+              <%= neighbour.object.source&.capitalize %>
             </td>
             <td class="govuk-table__cell">
               <% if neighbour.object.last_letter.blank? %>

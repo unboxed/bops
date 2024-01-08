@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { ajax } from "@rails/ujs"
 
 export default class extends Controller {
   connect() {
@@ -31,7 +30,7 @@ export default class extends Controller {
     return document.getElementById("address-container")
   }
 
-  getConsultationNeighbourAddressesForm() {
+  getHiddenAddressesField() {
     return document.getElementById("addresses-hidden")
   }
 
@@ -86,6 +85,7 @@ export default class extends Controller {
   clearAddresses = () => {
     this.getAddressContainer().innerHTML = ""
     this.removeHiddenAddressInputs()
+    this.removeHiddenSourceInputs()
   }
 
   appendAddressesToPage(addresses) {
@@ -95,9 +95,19 @@ export default class extends Controller {
       const count = this.countExistingAddressElements()
 
       const addressDiv = this.createAddressElement(address, count + index)
-      const hiddenInput = this.createHiddenInputElement(address, count + index)
+      const addressHiddenInput = this.createHiddenInputElement(
+        "address",
+        address,
+        count + index,
+      )
+      const sourceHiddenInput = this.createHiddenInputElement(
+        "source",
+        "system",
+        count + index,
+      )
 
-      this.getConsultationNeighbourAddressesForm().appendChild(hiddenInput)
+      this.getHiddenAddressesField().appendChild(addressHiddenInput)
+      this.getHiddenAddressesField().appendChild(sourceHiddenInput)
 
       container.appendChild(addressDiv)
     })
@@ -124,16 +134,22 @@ export default class extends Controller {
     return manualCount
   }
 
-  createHiddenInputElement(address, index) {
+  createHiddenInputElement(name, value, index) {
     const hiddenInput = document.createElement("input")
     hiddenInput.type = "hidden"
-    hiddenInput.name = this.data.get("name")
-    hiddenInput.value = address
+    hiddenInput.name = `consultation[neighbours_attributes][][${name}]`
+    hiddenInput.value = value
 
-    const hiddenInputAddressId = `hidden-${this.data.get("id")}-${index}`
-    hiddenInput.id = hiddenInputAddressId
+    const hiddenInputId = this.getInputId(name, index)
+    hiddenInput.id = hiddenInputId
 
     return hiddenInput
+  }
+
+  getInputId(name, index) {
+    return name === "address"
+      ? `hidden-neighbour-addresses-${index}`
+      : `hidden-neighbour-sources-${index}`
   }
 
   createAddressElement(address, index) {
@@ -180,9 +196,12 @@ export default class extends Controller {
       const addressDiv = document.getElementById(targetId)
       const hiddenInputId = `hidden-${targetId}`
       const hiddenInput = document.getElementById(hiddenInputId)
+      const hiddenSourceId = hiddenInputId.replace("addresses", "sources")
+      const hiddenSourceInput = document.getElementById(hiddenSourceId)
 
       addressDiv.remove()
       hiddenInput.remove()
+      hiddenSourceInput.remove()
     })
     return link
   }
@@ -215,9 +234,17 @@ export default class extends Controller {
   }
 
   removeHiddenAddressInputs() {
-    const hiddenInputs = document
-      .getElementById("addresses-hidden")
-      .querySelectorAll(`input[type="hidden"][name="${this.data.get("name")}"]`)
+    const hiddenInputs = this.getHiddenAddressesField().querySelectorAll(
+      `input[type="hidden"][name="${this.data.get("name")}"]`,
+    )
+
+    hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
+  }
+
+  removeHiddenSourceInputs() {
+    const hiddenInputs = this.getHiddenAddressesField().querySelectorAll(
+      `input[type="hidden"][name="consultation[neighbours_attributes][][source]"`,
+    )
 
     hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
   }
