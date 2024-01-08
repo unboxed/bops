@@ -29,10 +29,6 @@ module DocumentHelper
     "#{document.name}#{document.numbers? ? " - #{document.numbers}" : ""}"
   end
 
-  def titled_reference_or_file_name(document)
-    document.numbers? ? "Reference: #{document.numbers}" : "File name: #{document.name}"
-  end
-
   def reference_or_file_name(document)
     document.numbers.presence || document.name
   end

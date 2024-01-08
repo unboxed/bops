@@ -735,6 +735,16 @@ class PlanningApplication < ApplicationRecord
     super || create_fee_calculation
   end
 
+  def generate_document_tabs(tabs = Document::DEFAULT_TABS)
+    all_documents = documents.with_file_attachment
+
+    tabs.map do |tab|
+      documents = (tab == "All") ? all_documents : filter_documents_for_tab(all_documents, tab)
+
+      {title: tab, id: tab.parameterize, content: tab, records: documents}
+    end
+  end
+
   private
 
   def create_fee_calculation
@@ -920,5 +930,11 @@ class PlanningApplication < ApplicationRecord
 
   def create_proposal_measurement
     ProposalMeasurement.create(planning_application: self, depth: 0, max_height: 0, eaves_height: 0)
+  end
+
+  def filter_documents_for_tab(documents, tab)
+    tags = Document::TAGS_MAP[tab]
+
+    documents.select { |document| (tags & document.tags).any? }
   end
 end
