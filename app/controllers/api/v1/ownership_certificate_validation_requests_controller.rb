@@ -8,6 +8,10 @@ module Api
       before_action :set_ownership_certificate_validation_requests, only: %i[index]
       before_action :set_ownership_certificate_validation_request, only: %i[show update]
 
+      rescue_from ValidationRequestUpdateService::UpdateError do |error|
+        render json: {message: error.message}, status: :bad_request
+      end
+
       def index
         respond_to do |format|
           format.json
@@ -26,21 +30,11 @@ module Api
       end
 
       def update
-        @ownership_certificate_validation_request.update!(ownership_certificate_params.except(:params))
-        @ownership_certificate_validation_request.close!
-        @ownership_certificate_validation_request.create_api_audit!
-        @planning_application.send_update_notification_to_assessor
-        @planning_application.update(valid_ownership_certificate: true)
-
-        if @ownership_certificate_validation_request.approved?
-          OwnershipCertificateCreationService.new(
-            params: ownership_certificate_params[:params], planning_application: @planning_application
-          ).call
-        end
-
+        ValidationRequestUpdateService.new(
+          validation_request: @ownership_certificate_validation_request,
+          params:
+        ).call!
         render json: {message: "Change request updated"}, status: :ok
-      rescue ActiveRecord::RecordInvalid, NoMethodError
-        render json: {message: "Unable to update request. Please ensure response is present"}, status: :bad_request
       end
 
       private
@@ -52,14 +46,6 @@ module Api
       def set_ownership_certificate_validation_request
         @ownership_certificate_validation_request =
           @planning_application.ownership_certificate_validation_requests.find(id: params[:id])
-      end
-
-      def ownership_certificate_params
-        {
-          approved: params[:data][:approved],
-          rejection_reason: params[:data][:rejection_reason],
-          params: params[:data][:params]
-        }
       end
     end
   end
