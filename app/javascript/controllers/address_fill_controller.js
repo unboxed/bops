@@ -50,7 +50,7 @@ export default class extends Controller {
     )
     const sourceHiddenInput = this.createHiddenInputElement(
       "source",
-      "manual",
+      "manual_add",
       count,
     )
 
