@@ -16,7 +16,15 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
   end
 
   def example_request_json_for(path, http_method, example_name)
-    document.paths[path][http_method].request_body.content["application/json"].examples[example_name].value.to_h.to_json
+    value = document.paths[path][http_method].request_body.content["application/json"].examples[example_name].value.merge(
+      planx_debug_data: {passport: {data: {
+        "application.fee.calculated": 206,
+        "application.fee.payable": 103,
+        "application.fee.reduction.parishCouncil": ["true"]
+      }}}
+    )
+
+    value.to_json
   end
 
   def example_response_json_for(path, http_method, response_code, example_name)

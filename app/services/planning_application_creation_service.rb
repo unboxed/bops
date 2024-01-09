@@ -34,7 +34,6 @@ class PlanningApplicationCreationService
         local_authority_id: local_authority.id,
         api_user:,
         user_role: params[:user_role].presence,
-        payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount]),
         from_production: params[:from_production].present?,
         application_type: ApplicationType.find_by(name: params[:application_type])
       )
@@ -63,6 +62,10 @@ class PlanningApplicationCreationService
           constraints_params: params[:constraints_proposed]&.map(&:to_unsafe_hash)).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
         CreateImmunityDetailsJob.perform_now(planning_application:) if possibly_immune?(planning_application)
+
+        if planx_params.present?
+          planning_application.fee_calculation = FeeCalculation.from_planx_data(planx_params.to_h)
+        end
       end
     end
 
@@ -127,6 +130,10 @@ class PlanningApplicationCreationService
      result_heading: params[:result][:heading],
      result_description: params[:result][:description],
      result_override: params[:result][:override]}
+  end
+
+  def planx_params
+    params.permit(planx_debug_data: {})
   end
 
   def payment_amount_in_pounds(amount)
