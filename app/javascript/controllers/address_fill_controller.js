@@ -43,9 +43,19 @@ export default class extends Controller {
     const count = this.countExistingAddressElements()
 
     const addressDiv = this.createAddressElement(address, count)
-    const hiddenInput = this.createHiddenInputElement(address, count)
+    const addressHiddenInput = this.createHiddenInputElement(
+      "address",
+      address,
+      count,
+    )
+    const sourceHiddenInput = this.createHiddenInputElement(
+      "source",
+      "manual",
+      count,
+    )
 
-    this.getHiddenAddressesField().appendChild(hiddenInput)
+    this.getHiddenAddressesField().appendChild(addressHiddenInput)
+    this.getHiddenAddressesField().appendChild(sourceHiddenInput)
 
     container.appendChild(addressDiv)
 
@@ -76,14 +86,14 @@ export default class extends Controller {
     return polygonCount + manualCount
   }
 
-  createHiddenInputElement(address, index) {
+  createHiddenInputElement(name, value, index) {
     const hiddenInput = document.createElement("input")
     hiddenInput.type = "hidden"
-    hiddenInput.name = this.data.get("name")
-    hiddenInput.value = address
+    hiddenInput.name = `consultation[neighbours_attributes][][${name}]`
+    hiddenInput.value = value
 
-    const hiddenInputAddressId = `hidden-${this.data.get("id")}-${index}`
-    hiddenInput.id = hiddenInputAddressId
+    const hiddenInputId = `hidden-neighbour-${name}-${index}`
+    hiddenInput.id = hiddenInputId
 
     return hiddenInput
   }
@@ -132,9 +142,11 @@ export default class extends Controller {
       const addressDiv = document.getElementById(targetId)
       const hiddenInputId = `hidden-${targetId}`
       const hiddenInput = document.getElementById(hiddenInputId)
-
+      const hiddenSourceId = hiddenInputId.replace("address", "source")
+      const hiddenSourceInput = document.getElementById(hiddenSourceId)
       addressDiv.remove()
       hiddenInput.remove()
+      hiddenSourceInput.remove()
     })
     return link
   }

@@ -24,7 +24,7 @@ module StatusTags
 
     def colour_class
       case status.to_sym
-      when :not_started
+      when :not_started, :new
         "govuk-tag--grey"
       when :in_progress, :awaiting_responses
         "govuk-tag--blue"

@@ -1,46 +1,39 @@
-<h2 class="govuk-heading-m govuk-!-margin-top-6">3) Check letter</h2>
-<p class="govuk-body">Check the letter. You can edit the letter before you send it to selected neighbours.</p>
+<div data-controller="neighbours">
+   <div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-8">Step 3</div>
+  <%= form.govuk_collection_select :template, 
+    ["Notification", "Renotification"], 
+    :itself, 
+    :itself, 
+    label: { text: "Choose which letter to send", size: "m" },
+    data: {
+      action: "change->neighbours#toggleTemplates"
+    }
+  %>
 
-<%= form_with(
-      model: consultation,
-      url: send_letters_planning_application_consultation_neighbour_letters_path(planning_application),
-      method: "post"
-    ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <%= form.label :neighbour_letter_text, "Neighbour letter", class: "govuk-!-display-none" %>
-  <div class="govuk-inset-text">
-    <p class="govuk-body">Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
-    <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
-    <% if @planning_application.type == "Prior approval" %>
-      <p class="govuk-body">
-        Measurements in the letter have been taken from PlanX. If measurements are incorrect, <%= link_to "change the measurements in the consistency checklist", new_planning_application_assessment_consistency_checklist_path(planning_application) %> then return to this template.
-      </p>
-    <% end %>
+  <div id="renotification-form" class="govuk-!-display-none">
+    <%= form.hidden_field :resend_existing, value: "false" %>
+    <%= form.govuk_text_area :resend_reason, label: { text: "Resend reason" }, hint: { text: "Enter a reason for renotification. This text will appear at the beginning of the letter." } %>
   </div>
-  <%= form.text_area :neighbour_letter_text, rows: 25, class: "govuk-body neighbour-letter-template" %>
-
-  <h2 class="govuk-heading-m govuk-!-margin-top-6">4) Send letter</h2>
-  <p class="govuk-body">The letter will be sent to all selected neighbours.</p>
-  <p class="govuk-body">A copy of the letter will be sent to the applicant by email.</p>
-
-  <% if consultation.neighbour_letters.present? %>
-    <%= form.govuk_check_boxes_fieldset :resend_existing, legend: -> { "" } do %>
-      <%= form.govuk_check_box :resend_existing, true, label: { text: "Resend letters to previously-contacted neighbours" }, link_errors: true, multiple: false do %>
-        <%= form.govuk_text_field :resend_reason, label: { text: "Specify a reason for resending" }, hint: { text: "This will be included in the letter" } %>
-      <% end %>
-    <% end %>
-  <% end %>
-
-  <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
-    <%= form.submit "Print and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 2rem;" %>
-  <% end %>
-
-  <%= form_with(
-        model: consultation,
-        url: planning_application_consultation_path(planning_application)
-      ) do |form| %>
-    <%= form.hidden_field :neighbour_letter_text %>
-    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-    <%= link_to "Back", planning_application_consultation_path(planning_application), class: "govuk-button govuk-button--secondary" %>
-  <% end %>
 </div>
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      View/edit letter template
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <%= form.label :neighbour_letter_text, "Neighbour letter", class: "govuk-!-display-none" %>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
+      <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
+      <% if @planning_application.type == "Prior approval" %>
+        <p class="govuk-body">
+          Measurements in the letter have been taken from PlanX. If measurements are incorrect, <%= link_to "change the measurements in the consistency checklist", new_planning_application_assessment_consistency_checklist_path(planning_application) %> then return to this template.
+        </p>
+      <% end %>
+    </div>
+    <%= form.text_area :neighbour_letter_text, rows: 25, class: "govuk-body neighbour-letter-template" %>
+  </div>
+</details>
+

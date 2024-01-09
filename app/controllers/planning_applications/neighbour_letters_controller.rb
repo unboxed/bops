@@ -73,7 +73,7 @@ module PlanningApplications
         :resend_existing,
         :resend_reason,
         :polygon_geojson,
-        neighbours_attributes: %i[id address]
+        neighbours_attributes: %i[id selected]
       )
     end
 
@@ -128,11 +128,11 @@ module PlanningApplications
     end
 
     def neighbours_to_contact
-      if resend_existing?
-        @consultation.neighbours.with_letters
-      else
-        @consultation.neighbours.without_letters
-      end
+      consultation_params[:neighbours_attributes].to_h.map do |key, value|
+        next unless value[:selected] == "1"
+
+        @consultation.neighbours.find(value[:id].to_i)
+      end.compact
     end
 
     def resend_existing?

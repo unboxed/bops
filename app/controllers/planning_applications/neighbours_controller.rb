@@ -64,7 +64,7 @@ module PlanningApplications
     def consultation_params
       params.require(:consultation).permit(
         :polygon_geojson,
-        neighbours_attributes: %i[id address]
+        neighbours_attributes: %i[id address source]
       )
     end
 
