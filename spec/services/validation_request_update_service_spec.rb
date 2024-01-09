@@ -24,7 +24,7 @@ RSpec.describe ValidationRequestUpdateService, type: :service do
 
     let(:update_validation_request) do
       described_class.new(
-        validation_request:, params:
+        validation_request:, params:, ownership_certificate: true
       ).call!
     end
 
@@ -57,41 +57,43 @@ RSpec.describe ValidationRequestUpdateService, type: :service do
           )
       end
 
-      context "request is approved" do
-        it "updates the planning application" do
-          expect { update_validation_request }.to change(planning_application, :valid_ownership_certificate).from(nil).to(true)
+      context "when it's an ownership certificate validation request" do
+        context "request is approved" do
+          it "updates the planning application" do
+            expect { update_validation_request }.to change(planning_application, :valid_ownership_certificate).from(nil).to(true)
+          end
+
+          it "updates the certificate" do
+            expect do
+              update_validation_request
+            end.to change(OwnershipCertificate, :count).by(1)
+
+            expect(OwnershipCertificate.last.certificate_type).to eq "a"
+          end
         end
 
-        it "updates the certificate" do
-          expect do
-            update_validation_request
-          end.to change(OwnershipCertificate, :count).by(1)
-
-          expect(OwnershipCertificate.last.certificate_type).to eq "a"
-        end
-      end
-
-      context "request is rejected" do
-        let!(:params) do
-          ActionController::Parameters.new(
-            {
-              "data" => {
-                "approved" => "false",
-                "rejection_reason" => "I don't agree",
-                "params" => {}
+        context "request is rejected" do
+          let!(:params) do
+            ActionController::Parameters.new(
+              {
+                "data" => {
+                  "approved" => "false",
+                  "rejection_reason" => "I don't agree",
+                  "params" => {}
+                }
               }
-            }
-          )
-        end
+            )
+          end
 
-        it "does not update the planning application" do
-          expect { update_validation_request }.not_to change(planning_application, :valid_ownership_certificate)
-        end
+          it "does not update the planning application" do
+            expect { update_validation_request }.not_to change(planning_application, :valid_ownership_certificate)
+          end
 
-        it "updates the certificate" do
-          expect do
-            update_validation_request
-          end.to change(OwnershipCertificate, :count).by(0)
+          it "updates the certificate" do
+            expect do
+              update_validation_request
+            end.to change(OwnershipCertificate, :count).by(0)
+          end
         end
       end
     end

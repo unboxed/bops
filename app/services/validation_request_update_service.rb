@@ -3,10 +3,11 @@
 class ValidationRequestUpdateService
   class UpdateError < StandardError; end
 
-  def initialize(validation_request:, params:)
+  def initialize(validation_request:, params:, ownership_certificate: false)
     @validation_request = validation_request
     @params = params
     @planning_application = validation_request.planning_application
+    @ownership_certificate = ownership_certificate
   end
 
   def call!
@@ -16,18 +17,22 @@ class ValidationRequestUpdateService
       @validation_request.create_api_audit!
       @planning_application.send_update_notification_to_assessor
 
-      if @validation_request.approved?
-        @planning_application.update(valid_ownership_certificate: true)
-        OwnershipCertificateCreationService.new(
-          params: ownership_certificate_params[:params], planning_application: @planning_application
-        ).call
-      end
+      further_update if @ownership_certificate
     end
   rescue => exception
     raise UpdateError, (exception.message || "Unable to update request. Please ensure response is present")
   end
 
   private
+
+  def further_update
+    if @validation_request.approved?
+      @planning_application.update(valid_ownership_certificate: true)
+      OwnershipCertificateCreationService.new(
+        params: ownership_certificate_params[:params], planning_application: @planning_application
+      ).call
+    end
+  end
 
   def ownership_certificate_params
     @params.require(:data).permit(
@@ -36,6 +41,6 @@ class ValidationRequestUpdateService
   end
 
   def validation_request_params
-    @params.require(:data).permit(:approved, :rejection_reason)
+    @params.require(:data).permit(:approved, :rejection_reason, :response, supporting_documents: [])
   end
 end

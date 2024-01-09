@@ -32,7 +32,8 @@ module Api
       def update
         ValidationRequestUpdateService.new(
           validation_request: @ownership_certificate_validation_request,
-          params:
+          params:,
+          ownership_certificate: true
         ).call!
         render json: {message: "Change request updated"}, status: :ok
       end
