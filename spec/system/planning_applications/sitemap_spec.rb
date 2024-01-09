@@ -229,7 +229,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
               ]
             ]
           }
-        }.to_json
+        }
       end
 
       let(:new_geojson_feature) do
@@ -251,7 +251,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       let(:new_geojson) do
-        {type: "FeatureCollection", features: [new_geojson_feature]}.to_json
+        {type: "FeatureCollection", features: [new_geojson_feature]}
       end
 
       before do
@@ -270,7 +270,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(
           find("my-map")[:drawgeojsondata]
         ).to eq(
-          new_geojson_feature.to_json
+          new_geojson_feature
         )
 
         fill_in(

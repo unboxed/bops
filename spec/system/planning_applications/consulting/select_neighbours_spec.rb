@@ -181,7 +181,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(page).to have_content("If you want to change your selection, use the reset button to start again.")
 
       map = find("my-map")
-      expect(map["geojsondata"]).to eq(planning_application.boundary_geojson)
+      expect(JSON.parse(map["geojsondata"])).to match(planning_application.boundary_geojson)
 
       within("#map-legend") do
         expect(page).to have_content("Red line boundary")
