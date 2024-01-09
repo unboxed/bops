@@ -12,6 +12,11 @@ module Api
         render json: {message: error.message}, status: :bad_request
       end
 
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: {message: "Unable to find ownership certificate validation request with id: #{params[:id]}"},
+          status: :not_found
+      end
+
       def index
         respond_to do |format|
           format.json
@@ -22,18 +27,12 @@ module Api
         respond_to do |format|
           format.json
         end
-      rescue ActiveRecord::RecordNotFound
-        format.json do
-          render json: {message: "Unable to find ownership certificate validation request with id: #{params[:id]}"},
-            status: :not_found
-        end
       end
 
       def update
         ValidationRequestUpdateService.new(
           validation_request: @ownership_certificate_validation_request,
-          params:,
-          ownership_certificate: true
+          params:
         ).call!
         render json: {message: "Change request updated"}, status: :ok
       end
@@ -46,7 +45,7 @@ module Api
 
       def set_ownership_certificate_validation_request
         @ownership_certificate_validation_request =
-          @planning_application.ownership_certificate_validation_requests.find(id: params[:id])
+          @planning_application.ownership_certificate_validation_requests.find(params[:id])
       end
     end
   end

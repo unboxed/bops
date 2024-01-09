@@ -17,6 +17,11 @@ module Api
         render json: {message: error.message}, status: :bad_request
       end
 
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: {message: "Unable to find fee change validation request with id: #{params[:id]}"},
+          status: :not_found
+      end
+
       def index
         respond_to do |format|
           format.json do
@@ -28,11 +33,6 @@ module Api
       def show
         respond_to do |format|
           format.json
-        end
-      rescue ActiveRecord::RecordNotFound
-        format.json do
-          render json: {message: "Unable to find fee change validation request with id: #{params[:id]}"},
-            status: :not_found
         end
       end
 
@@ -51,7 +51,7 @@ module Api
       end
 
       def set_fee_change_validation_request
-        @fee_change_validation_request = @planning_application.fee_change_validation_requests.find_by(id: params[:id])
+        @fee_change_validation_request = @planning_application.fee_change_validation_requests.find(params[:id])
       end
     end
   end

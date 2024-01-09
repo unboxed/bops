@@ -11,6 +11,11 @@ module Api
         render json: {message: error.message}, status: :bad_request
       end
 
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: {message: "Unable to find red line boundary change validation request with id: #{params[:id]}"},
+          status: :not_found
+      end
+
       def index
         respond_to do |format|
           format.json do
@@ -24,18 +29,12 @@ module Api
         respond_to do |format|
           format.json
         end
-      rescue ActiveRecord::RecordNotFound
-        format.json do
-          render json: {message: "Unable to find red line boundary change validation request with id: #{params[:id]}"},
-            status: :not_found
-        end
       end
 
       def update
         ValidationRequestUpdateService.new(
           validation_request: @red_line_boundary_change_validation_request,
-          params:,
-          red_line_boundary_change: true
+          params:
         ).call!
 
         render json: {message: "Change request updated"}, status: :ok

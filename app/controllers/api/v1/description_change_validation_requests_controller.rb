@@ -11,6 +11,11 @@ module Api
         render json: {message: error.message}, status: :bad_request
       end
 
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: {message: "Unable to find description change validation request with id: #{params[:id]}"},
+          status: :not_found
+      end
+
       def index
         respond_to do |format|
           format.json do
@@ -23,18 +28,12 @@ module Api
         respond_to do |format|
           format.json
         end
-      rescue ActiveRecord::RecordNotFound
-        format.json do
-          render json: {message: "Unable to find description change validation request with id: #{params[:id]}"},
-            status: :not_found
-        end
       end
 
       def update
         ValidationRequestUpdateService.new(
           validation_request: @description_change_validation_request,
-          params:,
-          description_change: true
+          params:
         ).call!
 
         render json: {message: "Change request updated"}, status: :ok
@@ -43,7 +42,7 @@ module Api
       private
 
       def set_description_change_validation_request
-        @description_change_validation_request = @planning_application.description_change_validation_requests.where(id: params[:id]).first
+        @description_change_validation_request = @planning_application.description_change_validation_requests.find(params[:id])
       end
     end
   end
