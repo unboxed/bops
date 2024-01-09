@@ -16,6 +16,24 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
     planning_application.update!(boundary_geojson: new_geojson)
   end
 
+  def new_geojson=(value)
+    if value.is_a?(String)
+      return if value.blank?
+      super(JSON.parse(value))
+    else
+      super(value)
+    end
+  end
+
+  def original_geojson=(value)
+    if value.is_a?(String)
+      return if value.blank?
+      super(JSON.parse(value))
+    else
+      super(value)
+    end
+  end
+
   private
 
   def rejected_reason_is_present?

@@ -5,11 +5,11 @@
   useScaleBarStyle
   showNorthArrow
   <% if locals[:draw_geojson_data].present? %>
-    drawGeojsonData='<%= JSON.parse(locals[:draw_geojson_data])["features"].first.to_json %>'
+    drawGeojsonData='<%= locals[:draw_geojson_data]["features"].first.to_json %>'
     drawGeojsonDataBuffer=12
   <% end %>
   <% if locals[:geojson].present? %>
-    geojsonData='<%= locals[:geojson].is_a?(Hash) ? locals[:geojson].to_json : JSON.parse(locals[:geojson]).to_json.html_safe %>'
+    geojsonData='<%= locals[:geojson].to_json %>'
     <% if locals[:invalid_red_line_boundary].present? %>
       geojsonColor='#515151'
     <% end %>
