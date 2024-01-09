@@ -3,18 +3,20 @@
 class ValidationRequestUpdateService
   class UpdateError < StandardError; end
 
-  def initialize(validation_request:, params:, ownership_certificate: false, red_line_boundary_change: false)
+  def initialize(validation_request:, params:, ownership_certificate: false, red_line_boundary_change: false, description_change: false)
     @validation_request = validation_request
     @params = params
     @planning_application = validation_request.planning_application
     @ownership_certificate = ownership_certificate
     @red_line_boundary_change = red_line_boundary_change
+    @description_change = description_change
   end
 
   def call!
     ActiveRecord::Base.transaction do
       @validation_request.update!(validation_request_params)
       @validation_request.close!
+      other_update if @description_change && @validation_request.approved?
       @validation_request.create_api_audit!
       @planning_application.send_update_notification_to_assessor
 
@@ -36,6 +38,10 @@ class ValidationRequestUpdateService
 
   def another_update
     @planning_application.update!(boundary_geojson: @validation_request.new_geojson)
+  end
+
+  def other_update
+    @planning_application.update!(description: @validation_request.proposed_description)
   end
 
   def ownership_certificate_params
