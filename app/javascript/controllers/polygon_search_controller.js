@@ -102,7 +102,7 @@ export default class extends Controller {
       )
       const sourceHiddenInput = this.createHiddenInputElement(
         "source",
-        "system",
+        "map_selection",
         count + index,
       )
 
