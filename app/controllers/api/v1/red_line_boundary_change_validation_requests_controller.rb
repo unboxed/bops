@@ -5,6 +5,11 @@ module Api
     class RedLineBoundaryChangeValidationRequestsController < Api::V1::ApplicationController
       skip_before_action :verify_authenticity_token
       before_action :check_token_and_set_application
+      before_action :set_red_line_boundary_change_validation_request, only: %i[show update]
+
+      rescue_from ValidationRequestUpdateService::UpdateError do |error|
+        render json: {message: error.message}, status: :bad_request
+      end
 
       def index
         respond_to do |format|
@@ -17,46 +22,29 @@ module Api
 
       def show
         respond_to do |format|
-          if (@red_line_boundary_change_validation_request =
-                @planning_application.red_line_boundary_change_validation_requests.where(id: params[:id]).first)
-            format.json
-          else
-            format.json do
-              render json: {
-                       message: "Unable to find red line boundary change validation request with id: #{params[:id]}"
-                     },
-                status: :not_found
-            end
-          end
+          format.json
+        end
+      rescue ActiveRecord::RecordNotFound
+        format.json do
+          render json: {message: "Unable to find red line boundary change validation request with id: #{params[:id]}"},
+            status: :not_found
         end
       end
 
       def update
-        @red_line_boundary_change_validation_request =
-          @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
+        ValidationRequestUpdateService.new(
+          validation_request: @red_line_boundary_change_validation_request,
+          params:,
+          red_line_boundary_change: true
+        ).call!
 
-        if @red_line_boundary_change_validation_request.update(red_line_boundary_change_params)
-          @red_line_boundary_change_validation_request.close!
-          if @red_line_boundary_change_validation_request.approved?
-            @planning_application.update!(boundary_geojson: @red_line_boundary_change_validation_request.new_geojson)
-          end
-
-          @red_line_boundary_change_validation_request.create_api_audit!
-          @planning_application.send_update_notification_to_assessor
-          render json: {message: "Validation request updated"}, status: :ok
-        else
-          render json: {
-                   message: "Unable to update request. Please ensure rejection_reason is present if approved is false."
-                 },
-            status: :bad_request
-        end
+        render json: {message: "Change request updated"}, status: :ok
       end
 
       private
 
-      def red_line_boundary_change_params
-        {approved: params[:data][:approved],
-         rejection_reason: params[:data][:rejection_reason]}
+      def set_red_line_boundary_change_validation_request
+        @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
       end
     end
   end

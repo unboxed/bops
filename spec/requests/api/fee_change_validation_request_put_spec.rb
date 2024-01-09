@@ -43,12 +43,6 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
     }
   }'
 
-  missing_response = '{
-    "data": {
-      "response": ""
-    }
-  }'
-
   it "successfully accepts a response" do
     patch(path, params:, headers:)
 
