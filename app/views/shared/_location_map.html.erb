@@ -35,7 +35,7 @@
     id="polygon-search-map"
     drawMode="true"
   <% end %>
-  
+
   <% %w[geojson_color draw_color draw_fill_color].each do |color| %>
     <% if locals[color.to_sym] %>
       <%= color.camelize(:lower) %>=<%= locals[color.to_sym] %>
@@ -46,7 +46,7 @@
 <%= javascript_tag nonce: true do %>
   <% if locals[:geojson_field].present? %>
     const map = document.querySelector("my-map");
-    
+
     map.addEventListener("geojsonChange", ({ detail: geoJSON }) => {
       document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON);
     });

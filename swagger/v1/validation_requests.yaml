@@ -64,7 +64,7 @@
                         reason: needs more accurate line
                         response_due: '2021-11-19'
                         days_until_response_due: 15
-                        original_geojson: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1116511730084775,51.46847182126817],[-0.11325081560910647,51.46816799316076]]]},\"properties\":null}]}"
+                        original_geojson: {"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1116511730084775,51.46847182126817],[-0.11325081560910647,51.46816799316076]]]},"properties":null}]}
                         new_geojson: null
                         approved: null
                         cancel_reason: null
