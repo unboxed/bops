@@ -28,6 +28,7 @@ RSpec.describe ValidationRequest do
             DescriptionChangeValidationRequest
             RedLineBoundaryChangeValidationRequest
             ReplacementDocumentValidationRequest
+            OwnershipCertificateValidationRequest
             OtherChangeValidationRequest
             FeeChangeValidationRequest
           ]
@@ -45,7 +46,7 @@ RSpec.describe ValidationRequest do
       expect(request).to be_pending
     end
 
-    %w[additional_document other_change red_line_boundary_change
+    %w[additional_document other_change red_line_boundary_change fee_change ownership_certificate
       replacement_document].each do |request_type|
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "pending", %i[open cancelled]
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "open", %i[cancelled closed]

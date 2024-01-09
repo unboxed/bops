@@ -1,0 +1,38 @@
+<% content_for :page_title do %>
+  Cancel ownership certificate validation request - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+
+<% content_for :title, "Cancel validation request" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l govuk-!-padding-top-6">
+      Cancel validation request
+    </h1>
+
+    <h2 class="govuk-heading-m">
+      Ownership certificate request to be cancelled
+    </h2>
+
+    <h3 class="govuk-heading-s">
+      You requested
+    </h3>
+
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        <strong><%= @validation_request.reason %></strong>
+      </p>
+      <p class="govuk-body">
+        <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
+      </p>
+      <p class="govuk-body">
+      <%= @validation_request.created_at.to_fs %>
+      </p>
+    </div>
+
+    <%= render "planning_applications/validation/validation_requests/cancel_confirmation_form",
+        validation_request: @validation_request %>
+  </div>
+</div>

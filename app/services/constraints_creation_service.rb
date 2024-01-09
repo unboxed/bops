@@ -28,7 +28,7 @@ class ConstraintsCreationService
             constraint_id: existing_constraint.id,
             planning_application_constraints_query: query,
             identified: true,
-            identified_by: planning_application.api_user.name,
+            identified_by: planning_application.api_user&.name,
             data: v["data"],
             metadata:
           )

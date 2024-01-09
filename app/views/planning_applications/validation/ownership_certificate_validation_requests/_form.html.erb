@@ -1,0 +1,45 @@
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Request ownership certificate change"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      Certificate type: <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %>
+    </p>
+
+    <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
+
+      <% if @validation_request.errors.any? %>
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <% @validation_request.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form.govuk_text_area(
+        :reason,
+        label: {
+          size: "s",
+          class: "govuk-label govuk-label--s",
+          text: "Tell the applicant why their ownership certificate type is wrong"
+        },
+        rows: 5,
+        readonly: @planning_application.validated?
+      ) %>
+
+      <%= form.hidden_field :type, value: "OwnershipCertificateValidationRequest" %>
+
+      <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
+    <% end %>
+  </div>
+</div>

@@ -465,6 +465,9 @@ en:
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
+      ownership_certificate_validation_request_added: 'Added: validation request (ownership certificate validation#%{args})'
+      ownership_certificate_validation_request_cancelled: 'Cancelled: validation request (ownership certificate validation#%{args})'
+      ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
       proposal_measurements_updated: Proposal measurements were updated
@@ -1337,6 +1340,9 @@ en:
         update:
           alert: Couldn't mark legislative requirements as checked - please contact support.
           success: Legislative requirements have been marked as checked.
+      ownership_certificates:
+        update:
+          success: Ownership certificate successfully updated
       sitemaps:
         update:
           error: Something went wrong. Please contact support.
@@ -1358,6 +1364,8 @@ en:
             success: Fee change request successfully cancelled.
           other_change_validation_request:
             success: Change request successfully cancelled.
+          ownership_certificate_validation_request:
+            success: Ownership certificate request successfully cancelled
           red_line_boundary_change_validation_request:
             success: Red line boundary change request was successfully cancelled.
           replacement_document_validation_request:
@@ -1371,6 +1379,8 @@ en:
             success: Fee change request successfully created.
           other_change_validation_request:
             success: Change request successfully created.
+          ownership_certificate_validation_request:
+            success: Ownership certificate request successfully created
           red_line_boundary_change_validation_request:
             success: Validation request for red line boundary successfully created.
           replacement_document_validation_request:

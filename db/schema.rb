@@ -313,6 +313,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_121550) do
     t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
   end
 
+  create_table "land_owners", force: :cascade do |t|
+    t.bigint "ownership_certificate_id", null: false
+    t.string "name"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "town"
+    t.string "county"
+    t.string "country"
+    t.string "postcode"
+    t.boolean "notice_given", default: true, null: false
+    t.datetime "notice_given_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "notice_reason"
+    t.index ["ownership_certificate_id"], name: "ix_land_owners_on_ownership_certificate_id"
+  end
+
   create_table "local_authorities", force: :cascade do |t|
     t.string "subdomain", null: false
     t.datetime "created_at", null: false
@@ -416,6 +433,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_121550) do
     t.index ["user_id"], name: "ix_notes_on_user_id"
   end
 
+  create_table "ownership_certificates", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.string "certificate_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_ownership_certificates_on_planning_application_id"
+  end
+
   create_table "permitted_development_rights", force: :cascade do |t|
     t.string "status", null: false
     t.boolean "removed"
@@ -501,6 +526,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_121550) do
     t.jsonb "boundary_geojson"
     t.string "change_access_id"
     t.date "expiry_date"
+    t.decimal "payment_amount", precision: 10, scale: 2
     t.string "result_flag"
     t.text "result_heading"
     t.text "result_description"
@@ -536,6 +562,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_08_121550) do
     t.boolean "cil_liable"
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.datetime "not_started_at"
+    t.boolean "valid_ownership_certificate"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

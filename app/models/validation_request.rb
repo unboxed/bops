@@ -8,6 +8,7 @@ class ValidationRequest < ApplicationRecord
     DescriptionChangeValidationRequest
     RedLineBoundaryChangeValidationRequest
     ReplacementDocumentValidationRequest
+    OwnershipCertificateValidationRequest
     OtherChangeValidationRequest
     FeeChangeValidationRequest
   ].freeze
