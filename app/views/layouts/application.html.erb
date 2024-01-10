@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template app-html-class">
   <%= render "head" %>
 
-  <body class="govuk-template__body app-body-class" data-test="My value" data-other="report:details">
+  <body class="govuk-template__body app-body-class govuk-frontend-supported" data-test="My value" data-other="report:details">
     <%= javascript_tag nonce: true do %>
       document.body.className = (
         (document.body.className)
@@ -33,7 +33,7 @@
       <div class="govuk-phase-banner">
         <p class="govuk-phase-banner__content">
           <strong class="govuk-tag govuk-phase-banner__content__tag">
-            beta
+            Beta
           </strong>
 
           <% if Rails.configuration.feedback_fish_id %>
