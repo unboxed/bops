@@ -80,6 +80,10 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     expect(result.result_heading).to eq("It looks like these changes will need planning permission")
     expect(result.result_description).to eq("Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate")
     expect(result.result_override).to eq("This was my reason for rejecting the result")
+
+    expect(result.fee_calculation.total_fee).to eq(206)
+    expect(result.fee_calculation.payable_fee).to eq(103)
+    expect(result.fee_calculation.requested_fee).to be_nil
   end
 
   it "successfully returns the listing of applications as specified" do
