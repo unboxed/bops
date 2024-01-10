@@ -5,11 +5,21 @@ module Api
     class FeeChangeValidationRequestsController < Api::V1::ValidationRequestsController
       skip_before_action :verify_authenticity_token
       before_action :check_token_and_set_application
+      before_action :set_fee_change_validation_request, only: %i[show update]
       before_action :check_files_size,
         :check_files_type, only: :update
 
       rescue_from ValidationRequest::UploadFilesError do |_exception|
         render_failed_request
+      end
+
+      rescue_from ValidationRequestUpdateService::UpdateError do |error|
+        render json: {message: error.message}, status: :bad_request
+      end
+
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: {message: "Unable to find fee change validation request with id: #{params[:id]}"},
+          status: :not_found
       end
 
       def index
@@ -22,40 +32,26 @@ module Api
 
       def show
         respond_to do |format|
-          if (@fee_change_validation_request =
-                @planning_application.fee_change_validation_requests.where(id: params[:id]).first)
-            format.json
-          else
-            format.json do
-              render json: {message: "Unable to find fee change validation request with id: #{params[:id]}"},
-                status: :not_found
-            end
-          end
+          format.json
         end
       end
 
       def update
-        @fee_change_validation_request = @planning_application.fee_change_validation_requests.find_by(id: params[:id])
-
-        if @fee_change_validation_request.update(fee_change_validation_request_params)
-          @fee_change_validation_request.close!
-          @fee_change_validation_request.create_api_audit!
-          @planning_application.send_update_notification_to_assessor
-
-          render json: {message: "Change request updated"}, status: :ok
-        else
-          render json: {message: "Unable to update request."}, status: :bad_request
-        end
+        ValidationRequestUpdateService.new(
+          validation_request: @fee_change_validation_request,
+          params:
+        ).call!
+        render json: {message: "Change request updated"}, status: :ok
       end
 
       private
 
-      def fee_change_validation_request_params
-        params.permit(:response, supporting_documents: [])
-      end
-
       def file_params
         params[:supporting_documents]
+      end
+
+      def set_fee_change_validation_request
+        @fee_change_validation_request = @planning_application.fee_change_validation_requests.find(params[:id])
       end
     end
   end

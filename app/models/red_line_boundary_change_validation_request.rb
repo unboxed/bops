@@ -15,6 +15,10 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
     reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
   }
 
+  def update_planning_application!(params)
+    planning_application.update!(boundary_geojson: new_geojson)
+  end
+
   private
 
   def rejected_reason_is_present?

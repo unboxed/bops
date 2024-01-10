@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe ValidationRequestUpdateService, type: :service do
   describe "#call" do
     let!(:assessor) { create(:user, :assessor) }
-    let!(:planning_application) { create(:planning_application, :invalidated, user: assessor) }
+    let!(:planning_application) { create(:planning_application, :invalidated, user: assessor, description: "Old description") }
     let!(:validation_request) { create(:ownership_certificate_validation_request, planning_application:, state: "open") }
 
     let!(:params) do
@@ -57,41 +57,135 @@ RSpec.describe ValidationRequestUpdateService, type: :service do
           )
       end
 
-      context "request is approved" do
-        it "updates the planning application" do
-          expect { update_validation_request }.to change(planning_application, :valid_ownership_certificate).from(nil).to(true)
+      context "when it's an ownership certificate validation request" do
+        context "request is approved" do
+          it "updates the planning application" do
+            expect { update_validation_request }.to change(planning_application, :valid_ownership_certificate).from(nil).to(true)
+          end
+
+          it "updates the certificate" do
+            expect do
+              update_validation_request
+            end.to change(OwnershipCertificate, :count).by(1)
+
+            expect(OwnershipCertificate.last.certificate_type).to eq "a"
+          end
         end
 
-        it "updates the certificate" do
-          expect do
-            update_validation_request
-          end.to change(OwnershipCertificate, :count).by(1)
+        context "request is rejected" do
+          let!(:params) do
+            ActionController::Parameters.new(
+              {
+                "data" => {
+                  "approved" => "false",
+                  "rejection_reason" => "I don't agree",
+                  "params" => {}
+                }
+              }
+            )
+          end
 
-          expect(OwnershipCertificate.last.certificate_type).to eq "a"
+          it "does not update the planning application" do
+            expect { update_validation_request }.not_to change(planning_application, :valid_ownership_certificate)
+          end
+
+          it "does not update the certificate" do
+            expect do
+              update_validation_request
+            end.to change(OwnershipCertificate, :count).by(0)
+          end
         end
       end
 
-      context "request is rejected" do
+      context "when it's a red line boundary change validation request" do
+        let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, planning_application:, state: "open") }
+
         let!(:params) do
           ActionController::Parameters.new(
             {
               "data" => {
-                "approved" => "false",
-                "rejection_reason" => "I don't agree",
+                "approved" => "true",
+                "rejection_reason" => "",
                 "params" => {}
               }
             }
           )
         end
 
-        it "does not update the planning application" do
-          expect { update_validation_request }.not_to change(planning_application, :valid_ownership_certificate)
+        let(:update_validation_request) do
+          described_class.new(
+            validation_request: red_line_boundary_change_validation_request, params:
+          ).call!
         end
 
-        it "updates the certificate" do
-          expect do
-            update_validation_request
-          end.to change(OwnershipCertificate, :count).by(0)
+        context "request is approved" do
+          it "updates the planning application" do
+            expect { update_validation_request }.to change(planning_application, :boundary_geojson)
+          end
+        end
+
+        context "request is rejected" do
+          let!(:params) do
+            ActionController::Parameters.new(
+              {
+                "data" => {
+                  "approved" => "false",
+                  "rejection_reason" => "I don't agree",
+                  "params" => {}
+                }
+              }
+            )
+          end
+
+          it "does not update the planning application" do
+            expect { update_validation_request }.not_to change(planning_application, :boundary_geojson)
+          end
+        end
+      end
+
+      context "when it's a description change validation request" do
+        let!(:description_change_validation_request) { create(:description_change_validation_request, planning_application:, state: "open", proposed_description: "New description") }
+
+        let!(:params) do
+          ActionController::Parameters.new(
+            {
+              "data" => {
+                "approved" => "true",
+                "rejection_reason" => "",
+                "params" => {}
+              }
+            }
+          )
+        end
+
+        let(:update_validation_request) do
+          described_class.new(
+            validation_request: description_change_validation_request, params:
+          ).call!
+        end
+
+        context "request is approved" do
+          it "updates the planning application" do
+            expect { update_validation_request }.to change(planning_application, :description).from("Old description").to("New description")
+          end
+        end
+
+        context "request is rejected" do
+          let!(:params) do
+            ActionController::Parameters.new(
+              {
+                "data" => {
+                  "approved" => "false",
+                  "rejection_reason" => "I don't agree",
+                  "params" => {}
+                }
+              }
+            )
+          end
+
+          it "does not update the planning application" do
+            expect { update_validation_request }.not_to change(planning_application, :description)
+          end
         end
       end
     end

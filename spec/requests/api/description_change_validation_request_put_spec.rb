@@ -85,7 +85,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   it "creates audit associated with API user" do
     patch(path, params:, headers:)
 
-    expect(planning_application.audits.reload.last).to have_attributes(
+    expect(planning_application.audits[-2]).to have_attributes(
       activity_type: "description_change_validation_request_received",
       audit_comment: {response: "approved"}.to_json,
       activity_information: "1",
