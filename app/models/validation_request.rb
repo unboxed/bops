@@ -239,6 +239,11 @@ class ValidationRequest < ApplicationRecord
     !approved && rejection_reason.present?
   end
 
+  def update_planning_application!(params)
+    # Specific types of validation request use this method, which is overwritten in those models.
+    #  A couple don't hence the empty method
+  end
+
   private
 
   def send_and_add_events

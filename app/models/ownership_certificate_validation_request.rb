@@ -6,6 +6,14 @@ class OwnershipCertificateValidationRequest < ValidationRequest
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :allows_only_one_open_ownership_certificate_change, on: :create
 
+  def update_planning_application!(params)
+    planning_application.update(valid_ownership_certificate: true)
+
+    OwnershipCertificateCreationService.new(
+      params: params[:params], planning_application:
+    ).call
+  end
+
   private
 
   def audit_api_comment
