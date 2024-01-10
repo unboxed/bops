@@ -4,8 +4,10 @@
       home_path,
       class: "govuk-header__link govuk-header__link--homepage"
     ) do %>
+      <span class="govuk-header__service-name">
+        <%= current_local_authority.short_name %>
+      </span>
       <span class="govuk-header__product-name">
-        <strong><%= current_local_authority.short_name %></strong>
         <%= t(".back_office_planning") %>
       </span>
     <% end %>

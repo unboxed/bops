@@ -179,16 +179,8 @@ html * {
   max-width: 150px;
 }
 
-.govuk-header__link--homepage {
-  margin-bottom: 10px;
-
-  &:hover {
-    margin-bottom: 7px;
-  }
-
-  &:focus {
-    margin-bottom: 10px;
-  }
+.govuk-header__navigation-item {
+  padding: 10px 0px;
 }
 
 .header-session-info {
