@@ -16,6 +16,14 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
     planning_application.update!(boundary_geojson: new_geojson)
   end
 
+  def new_geojson_before_type_cast
+    new_geojson.to_json
+  end
+
+  def original_geojson_before_type_cast
+    original_geojson.to_json
+  end
+
   def new_geojson=(value)
     if value.is_a?(String)
       return if value.blank?
