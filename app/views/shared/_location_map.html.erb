@@ -5,11 +5,11 @@
   useScaleBarStyle
   showNorthArrow
   <% if locals[:draw_geojson_data].present? %>
-    drawGeojsonData='<%= JSON.parse(locals[:draw_geojson_data])["features"].first.to_json %>'
+    drawGeojsonData='<%= locals[:draw_geojson_data]["features"].first.to_json %>'
     drawGeojsonDataBuffer=12
   <% end %>
   <% if locals[:geojson].present? %>
-    geojsonData='<%= locals[:geojson].is_a?(Hash) ? locals[:geojson].to_json : JSON.parse(locals[:geojson]).to_json.html_safe %>'
+    geojsonData='<%= locals[:geojson].to_json %>'
     <% if locals[:invalid_red_line_boundary].present? %>
       geojsonColor='#515151'
     <% end %>
@@ -35,7 +35,7 @@
     id="polygon-search-map"
     drawMode="true"
   <% end %>
-  
+
   <% %w[geojson_color draw_color draw_fill_color].each do |color| %>
     <% if locals[color.to_sym] %>
       <%= color.camelize(:lower) %>=<%= locals[color.to_sym] %>
@@ -46,7 +46,7 @@
 <%= javascript_tag nonce: true do %>
   <% if locals[:geojson_field].present? %>
     const map = document.querySelector("my-map");
-    
+
     map.addEventListener("geojsonChange", ({ detail: geoJSON }) => {
       document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON);
     });

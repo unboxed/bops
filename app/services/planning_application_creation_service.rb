@@ -32,7 +32,6 @@ class PlanningApplicationCreationService
     planning_application = PlanningApplication.new(
       planning_application_params.merge!(
         local_authority_id: local_authority.id,
-        boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         api_user:,
         user_role: params[:user_role].presence,
         payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount]),
@@ -43,6 +42,7 @@ class PlanningApplicationCreationService
 
     planning_application.assign_attributes(site_params) if site_params.present?
     planning_application.assign_attributes(result_params) if result_params.present?
+    planning_application.assign_attributes(boundary_geojson: params[:boundary_geojson]) if params[:boundary_geojson].present?
 
     planning_application
   end
@@ -94,6 +94,7 @@ class PlanningApplicationCreationService
       :work_status,
       :planx_debug_data,
       :from_production,
+      :boundary_geojson,
       {feedback: %i[result find_property planning_constraints]},
       proposal_details: [
         :question,

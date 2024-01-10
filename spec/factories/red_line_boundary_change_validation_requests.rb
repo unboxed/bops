@@ -8,11 +8,11 @@ FactoryBot.define do
     specific_attributes do
       {
         new_geojson:
-        '{
-          "type": "Feature",
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
+        {
+          "type" => "Feature",
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" => [
               [
                 [-0.07716178894042969, 51.50094238217541],
                 [-0.07645905017852783, 51.50053497847238],
@@ -21,7 +21,7 @@ FactoryBot.define do
               ]
             ]
           }
-        }'
+        }
       }
     end
     reason { "Boundary incorrect" }

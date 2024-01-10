@@ -156,7 +156,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       expect(map["showMarker"]).to eq("true")
 
       find(".govuk-visually-hidden",
-        visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
+        visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
       click_button "Send request"
 
@@ -172,8 +172,8 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       # Two maps should be displayed with the original geojson and what the proposed change was
       map_selectors = all("my-map")
       red_line_boundary_change_validation_request = planning_application.red_line_boundary_change_validation_requests.last
-      expect(map_selectors.first["geojsondata"]).to eq(red_line_boundary_change_validation_request.original_geojson)
-      expect(map_selectors.last["geojsondata"]).to eq(red_line_boundary_change_validation_request.new_geojson)
+      expect(JSON.parse(map_selectors.first["geojsondata"])).to eq(red_line_boundary_change_validation_request.original_geojson)
+      expect(JSON.parse(map_selectors.last["geojsondata"])).to eq(red_line_boundary_change_validation_request.new_geojson)
 
       click_link "Application"
       click_button "Audit log"
@@ -216,11 +216,11 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     context "when reason is not provided" do
       let(:boundary_geojson) do
         {
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "Polygon",
-            coordinates: [
+          "type" => "Feature",
+          "properties" => {},
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" => [
               [
                 [-0.054597, 51.537331],
                 [-0.054588, 51.537287],
@@ -229,16 +229,16 @@ RSpec.describe "Drawing a sitemap on a planning application" do
               ]
             ]
           }
-        }.to_json
+        }
       end
 
       let(:new_geojson_feature) do
         {
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "Polygon",
-            coordinates: [
+          "type" => "Feature",
+          "properties" => {},
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" => [
               [
                 [-0.054597, 51.537332],
                 [-0.054588, 51.537288],
@@ -251,11 +251,11 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       let(:new_geojson) do
-        {type: "FeatureCollection", features: [new_geojson_feature]}.to_json
+        {"type" => "FeatureCollection", "features" => [new_geojson_feature]}
       end
 
       before do
-        find(".govuk-visually-hidden", visible: false).set(new_geojson)
+        find(".govuk-visually-hidden", visible: false).set(new_geojson.to_json)
         fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: ""
         click_button "Send request"
       end
@@ -265,12 +265,12 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(page).not_to have_content("Red line drawing must be complete")
         expect(page).to have_content("Provide a reason for changes")
 
-        expect(find("my-map")[:geojsondata]).to eq(boundary_geojson)
+        expect(JSON.parse(find("my-map")["geojsondata"])).to match(boundary_geojson)
 
         expect(
-          find("my-map")[:drawgeojsondata]
-        ).to eq(
-          new_geojson_feature.to_json
+          JSON.parse(find("my-map")["drawgeojsondata"])
+        ).to match(
+          new_geojson_feature
         )
 
         fill_in(
@@ -281,8 +281,8 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         click_button("Send request")
         click_link("Check red line boundary")
 
-        expect(find_all("my-map")[0][:geojsondata]).to eq(boundary_geojson)
-        expect(find_all("my-map")[1][:geojsondata]).to eq(new_geojson)
+        expect(JSON.parse(find_all("my-map")[0]["geojsondata"])).to match(boundary_geojson)
+        expect(JSON.parse(find_all("my-map")[1]["geojsondata"])).to match(new_geojson)
       end
     end
   end
@@ -301,7 +301,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       expect(map["showMarker"]).to eq("true")
 
       # Draw proposed red line boundary
-      find(".govuk-visually-hidden", visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
+      find(".govuk-visually-hidden", visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
 
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Amendment request"
       click_button "Send request"

@@ -3,7 +3,6 @@
 class Consultation < ApplicationRecord
   class AddNeighbourAddressesError < StandardError; end
 
-  include GeojsonFormattable
   include DateValidateable
 
   EMAIL_REASONS = %w[send resend reconsult].freeze
@@ -87,8 +86,6 @@ class Consultation < ApplicationRecord
   }
 
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
-
-  format_geojson_epsg :polygon_geojson
 
   class << self
     def default_consultee_message_subject
@@ -282,7 +279,7 @@ class Consultation < ApplicationRecord
     return unless polygon_search
     return polygon_search_geojson unless planning_application.boundary_geojson
 
-    boundary_geojson = JSON.parse(planning_application.boundary_geojson)
+    boundary_geojson = planning_application.boundary_geojson
     feature_collection_geojson = polygon_search_geojson
 
     case boundary_geojson["type"]

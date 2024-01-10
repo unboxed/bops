@@ -217,7 +217,7 @@ RSpec.describe Consultation do
               [[20, 10], [30, 30], [20, 10]]
             ]
           }
-        }.to_json
+        }
       end
 
       it "appends the feature to the features of polygon_search_geojson" do
@@ -282,7 +282,7 @@ RSpec.describe Consultation do
               }
             }
           ]
-        }.to_json
+        }
       end
 
       it "concatenates the features with the features of polygon_search_geojson" do
@@ -375,7 +375,7 @@ RSpec.describe Consultation do
       let(:planning_application) { create(:planning_application) }
 
       it "raises an error" do
-        allow(planning_application).to receive(:boundary_geojson).and_return({"type" => "InvalidType"}.to_json)
+        allow(planning_application).to receive(:boundary_geojson).and_return({"type" => "InvalidType"})
 
         expect { consultation.polygon_search_and_boundary_geojson }.to raise_error(/Invalid GeoJSON type/)
       end

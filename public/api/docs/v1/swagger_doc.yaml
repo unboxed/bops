@@ -4302,7 +4302,24 @@ paths:
                           reason: needs more accurate line
                           response_due: '2021-11-19'
                           days_until_response_due: 15
-                          original_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1116511730084775,51.46847182126817],[-0.11325081560910647,51.46816799316076]]]},"properties":null}]}'
+                          original_geojson:
+                            type: FeatureCollection
+                            features:
+                              - type: Feature
+                                geometry:
+                                  type: Polygon
+                                  coordinates:
+                                    - - - -0.10325081560910647
+                                        - 51.46816799316076
+                                      - - -0.10352967552199721
+                                        - 51.46765851790562
+                                      - - -0.10129790933432066
+                                        - 51.46777755697633
+                                      - - -0.1116511730084775
+                                        - 51.46847182126817
+                                      - - -0.11325081560910646
+                                        - 51.46816799316076
+                                properties: null
                           new_geojson: null
                           approved: null
                           cancel_reason: null
@@ -4638,8 +4655,42 @@ paths:
                   - id: 1
                     state: open
                     response_due: '2021-11-19'
-                    original_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1116511730084775,51.46847182126817],[-0.11325081560910647,51.46816799316076]]]},"properties":null}]}'
-                    new_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1016511730084775,51.46847182126817],[-0.10325081560910647,51.46816799316076]]]},"properties":null}]}'
+                    original_geojson:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                              - - - -0.10325081560910647
+                                  - 51.46816799316076
+                                - - -0.10352967552199721
+                                  - 51.46765851790562
+                                - - -0.10129790933432066
+                                  - 51.46777755697633
+                                - - -0.1116511730084775
+                                  - 51.46847182126817
+                                - - -0.11325081560910646
+                                  - 51.46816799316076
+                          properties: null
+                    new_geojson:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                              - - - -0.10325081560910647
+                                  - 51.46816799316076
+                                - - -0.10352967552199721
+                                  - 51.46765851790562
+                                - - -0.10129790933432066
+                                  - 51.46777755697633
+                                - - -0.1016511730084775
+                                  - 51.46847182126817
+                                - - -0.10325081560910647
+                                  - 51.46816799316076
+                          properties: null
                     reason: needs more accurate line
                     rejection_reason: i do not agree
                     approved: false
@@ -4649,8 +4700,42 @@ paths:
                   - id: 2
                     state: open
                     response_due: '2021-11-19'
-                    original_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1216511730084775,51.46847182126817],[-0.12325081560910647,51.46816799316076]]]},"properties":null}]}'
-                    new_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.09761652809754853,51.467562650218866],[-0.09746094063525311,51.466979258263365],[-0.09590813634358597,51.46703468056387],[-0.09605296414052011,51.46772966009246],[-0.09761652809754853,51.467562650218866]]]},"properties":null}]}'
+                    original_geojson:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                              - - - -0.10325081560910647
+                                  - 51.46816799316076
+                                - - -0.10352967552199721
+                                  - 51.46765851790562
+                                - - -0.10129790933432066
+                                  - 51.46777755697633
+                                - - -0.1216511730084775
+                                  - 51.46847182126817
+                                - - -0.12325081560910647
+                                  - 51.46816799316076
+                          properties: null
+                    new_geojson:
+                      type: FeatureCollection
+                      features:
+                        - type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                              - - - -0.09761652809754853
+                                  - 51.467562650218866
+                                - - -0.09746094063525311
+                                  - 51.466979258263365
+                                - - -0.09590813634358597
+                                  - 51.46703468056387
+                                - - -0.09605296414052011
+                                  - 51.46772966009246
+                                - - -0.09761652809754853
+                                  - 51.467562650218866
+                          properties: null
                     reason: needs a way more accurate line
                     rejection_reason: null
                     approved: true
@@ -4694,8 +4779,42 @@ paths:
                 id: 1
                 state: closed
                 response_due: '2021-11-19'
-                original_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1116511730084775,51.46847182126817],[-0.11325081560910647,51.46816799316076]]]},"properties":null}]}'
-                new_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1016511730084775,51.46847182126817],[-0.10325081560910647,51.46816799316076]]]},"properties":null}]}'
+                original_geojson:
+                  type: FeatureCollection
+                  features:
+                    - type: Feature
+                      geometry:
+                        type: Polygon
+                        coordinates:
+                          - - - -0.10325081560910647
+                              - 51.46816799316076
+                            - - -0.10352967552199721
+                              - 51.46765851790562
+                            - - -0.10129790933432066
+                              - 51.46777755697633
+                            - - -0.1116511730084775
+                              - 51.46847182126817
+                            - - -0.11325081560910646
+                              - 51.46816799316076
+                      properties: null
+                new_geojson:
+                  type: FeatureCollection
+                  features:
+                    - type: Feature
+                      geometry:
+                        type: Polygon
+                        coordinates:
+                          - - - -0.10325081560910647
+                              - 51.46816799316076
+                            - - -0.10352967552199721
+                              - 51.46765851790562
+                            - - -0.10129790933432066
+                              - 51.46777755697633
+                            - - -0.1016511730084775
+                              - 51.46847182126817
+                            - - -0.10325081560910647
+                              - 51.46816799316076
+                      properties: null
                 reason: needs more accurate line
                 rejection_reason: i do not agree
                 approved: false

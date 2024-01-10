@@ -8,15 +8,38 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
 
   before_create :set_original_geojson
 
-  format_geojson_epsg :original_geojson
-  format_geojson_epsg :new_geojson
-
   before_create lambda {
     reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
   }
 
   def update_planning_application!(params)
     planning_application.update!(boundary_geojson: new_geojson)
+  end
+
+  def new_geojson_before_type_cast
+    new_geojson.to_json
+  end
+
+  def original_geojson_before_type_cast
+    original_geojson.to_json
+  end
+
+  def new_geojson=(value)
+    if value.is_a?(String)
+      return if value.blank?
+      super(JSON.parse(value))
+    else
+      super(value)
+    end
+  end
+
+  def original_geojson=(value)
+    if value.is_a?(String)
+      return if value.blank?
+      super(JSON.parse(value))
+    else
+      super(value)
+    end
   end
 
   private

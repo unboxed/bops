@@ -76,7 +76,7 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
       end
 
       it "creates some constraints" do
-        planning_application.boundary_geojson = '{"type":"Polygon","coordinates":[[[-0.07629275321961124,51.48596289289142],[-0.07630616426468570,51.48591028066045],[-0.07555112242699404,51.48584764697301],[-0.07554173469544191,51.48590192950712],[-0.07629275321961124,51.48596289289142]]]}'
+        planning_application.boundary_geojson = {"type" => "Polygon", "coordinates" => [[[-0.07629275321961124, 51.48596289289142], [-0.07630616426468570, 51.48591028066045], [-0.07555112242699404, 51.48584764697301], [-0.07554173469544191, 51.48590192950712], [-0.07629275321961124, 51.48596289289142]]]}
         planning_application.save!
         perform_enqueued_jobs
 

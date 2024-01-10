@@ -22,8 +22,6 @@ class ValidationRequest < ApplicationRecord
 
   include Auditable
 
-  include GeojsonFormattable
-
   class RecordCancelError < RuntimeError; end
 
   class NotDestroyableError < StandardError; end
