@@ -1,5 +1,5 @@
 $govuk-assets-path: "~govuk-frontend/govuk/assets/";
-@import "govuk-frontend/govuk/all";
+@import "govuk-frontend/dist/govuk/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 @import "components/buttons";
 @import "components/flashes";
@@ -180,6 +180,10 @@ html * {
 
 .govuk-header__navigation-item {
   padding: 10px 0px;
+}
+
+.govuk-tag {
+  max-width: none;
 }
 
 .header-session-info {
