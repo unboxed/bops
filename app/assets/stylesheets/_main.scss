@@ -1,10 +1,9 @@
 $govuk-assets-path: "~govuk-frontend/govuk/assets/";
-@import "govuk-frontend/govuk/all";
+@import "govuk-frontend/dist/govuk/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 @import "components/buttons";
 @import "components/flashes";
 @import "components/loading_spinner";
-@import "components/pagination";
 @import "components/table";
 @import "components/task_list";
 @import "proposal";
@@ -179,16 +178,12 @@ html * {
   max-width: 150px;
 }
 
-.govuk-header__link--homepage {
-  margin-bottom: 10px;
+.govuk-header__navigation-item {
+  padding: 10px 0px;
+}
 
-  &:hover {
-    margin-bottom: 7px;
-  }
-
-  &:focus {
-    margin-bottom: 10px;
-  }
+.govuk-tag {
+  max-width: none;
 }
 
 .header-session-info {
