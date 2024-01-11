@@ -44,7 +44,7 @@ RSpec.describe "Planning application updated tab spec" do
       expect(page).to have_content("Updated")
 
       within("#planning_application_#{audit1.planning_application.id}") do
-        expect(page).to have_content("23-00100-LDCP")
+        expect(page).to have_content("#{10.days.ago.strftime("%y")}-00100-LDCP")
         expect(page).to have_content(audit1.planning_application.full_address)
         expect(page).to have_content(audit1.planning_application.description)
       end
