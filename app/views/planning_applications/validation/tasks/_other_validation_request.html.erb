@@ -12,11 +12,13 @@
     <% end %>
     <% @planning_application.other_change_validation_requests.not_cancelled.each do |other_change_validation_request| %>
       <%= render(
-        TaskListItems::OtherChangeRequestComponent.new(
-          planning_application: @planning_application,
-          request: other_change_validation_request
-        )
-      ) %>
+            TaskListItems::OtherChangeRequestComponent.new(
+              planning_application: @planning_application,
+              request_id: other_change_validation_request.id,
+              request_sequence: other_change_validation_request.sequence,
+              request_status: other_change_validation_request.state
+            )
+          ) %>
     <% end %>
   </ul>
 </li>
