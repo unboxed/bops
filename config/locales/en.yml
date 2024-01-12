@@ -303,7 +303,7 @@ en:
         feedback_email_hint: This is the email of the person or team who will deal with any queries about the BOPS service at your council.
         legend: Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
         notify_api_key: Notify API key
-        notify_api_key_hint: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account.
+        notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
         notify_letter_template: Notify letter template
         notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
         press_notice_email: Press notice email
@@ -328,7 +328,7 @@ en:
         feedback_email_hint: This is the email of the person or team who will deal with any queries about the BOPS service at your council.
         legend: Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
         notify_api_key: Notify API key
-        notify_api_key_hint: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account.
+        notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
         notify_letter_template: Notify letter template
         notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
         press_notice_email: Press notice email
