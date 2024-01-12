@@ -144,6 +144,8 @@ Rails.application.routes.draw do
 
         resource :cil_liability, only: %i[edit update], controller: :cil_liability
 
+        resource :environment_impact_assessment, only: %i[edit update]
+
         resource :constraints, only: %i[show update]
 
         namespace :document, as: :documents do

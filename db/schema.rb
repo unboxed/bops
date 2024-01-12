@@ -564,6 +564,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_12_123201) do
     t.datetime "not_started_at"
     t.boolean "valid_ownership_certificate"
     t.boolean "valid_description"
+    t.boolean "environment_impact_assessment"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

@@ -1,0 +1,17 @@
+<% content_for :page_title do %>
+  Environment Impact Assessment (EIA) - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+  partial: "planning_applications/validation/validation_requests/validation_requests_breadcrumbs",
+  locals: { planning_application: @planning_application }
+) %>
+
+<% content_for :title, "Environment Impact Assessment (EIA)" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Environment Impact Assessment (EIA)" }
+) %>
+
+<%= render "form" %>
