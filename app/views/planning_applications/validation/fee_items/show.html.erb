@@ -27,26 +27,30 @@
               £<%= @planning_application.fee_calculation.total_fee || 0 %>
             </td>
           </tr>
-          <% unless @planning_application.fee_calculation.exemptions.empty? %>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">
-                Exemptions
-              </th>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Exemptions
+            </th>
               <td class="govuk-table__cell">
+              <% if @planning_application.fee_calculation.exemptions.present? %>
                 <%= @planning_application.fee_calculation.exemptions.map(&:humanize).to_sentence %>
-              </td>
-            </tr>
-          <% end %>
-          <% unless @planning_application.fee_calculation.reductions.empty? %>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">
-                Reductions
-              </th>
-              <td class="govuk-table__cell">
+              <% else %>
+                None
+              <% end %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Reductions
+            </th>
+            <td class="govuk-table__cell">
+              <% if @planning_application.fee_calculation.reductions.present? %>
                 <%= @planning_application.fee_calculation.reductions.map(&:humanize).to_sentence %>
-              </td>
-            </tr>
-          <% end %>
+              <% else %>
+                None
+              <% end %>
+            </td>
+          </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">
               Discount
