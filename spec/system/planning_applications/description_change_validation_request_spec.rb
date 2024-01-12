@@ -7,7 +7,7 @@ RSpec.describe "Requesting description changes to a planning application" do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :not_started, local_authority: default_local_authority)
+    create(:planning_application, :in_assessment, local_authority: default_local_authority)
   end
 
   let!(:api_user) { create(:api_user, name: "Api Wizard") }
@@ -31,12 +31,12 @@ RSpec.describe "Requesting description changes to a planning application" do
     visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_button("Application information")
     click_link("Propose a change to the description")
-    fill_in("Please suggest a new application description", with: "")
+    fill_in("Suggest a new application description", with: "")
     click_button("Send")
 
     expect(page).to have_content("Proposed description can't be blank")
 
-    fill_in("Please suggest a new application description", with: "description")
+    fill_in("Suggest a new application description", with: "description")
     click_button "Send"
 
     expect(page).to have_text("Description change request successfully sent.")

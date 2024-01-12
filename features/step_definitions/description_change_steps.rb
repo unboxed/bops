@@ -18,7 +18,7 @@ Given("I create a description change request with {string}") do |details|
     And I press "Check and validate"
     And I press "Application information"
     And I press "Propose a change to the description"
-    And I fill in "Please suggest a new application description" with "#{details}"
+    And I fill in "Suggest a new application description" with "#{details}"
     And I press "Send"
   )
 end

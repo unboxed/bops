@@ -22,14 +22,16 @@
         <%= @validation_request.previous_description  %>
       </p>
       <p class="govuk-body"> <strong> Proposed description:</strong><br>
-        <%= render(FormattedContentComponent.new(text: @validation_request.proposed_description)) %>
+        <%= @validation_request.proposed_description %>
       </p>
     </div>
     <p class="govuk-body">
-      <% if @validation_request.open? %>
-        Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
-      <% else %>
-        <%= @validation_request.approved? ? 'Approved' : 'Rejected' %>
+      <% if @planning_application.invalidated? %>
+        <% if @validation_request.open? %>
+          Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
+        <% else %>
+          <%= @validation_request.approved? ? 'Approved' : 'Rejected' %>
+        <% end %>
       <% end %>
     </p>
 
