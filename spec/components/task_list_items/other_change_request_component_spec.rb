@@ -10,14 +10,16 @@ RSpec.describe TaskListItems::OtherChangeRequestComponent, type: :component do
       :other_change_validation_request,
       planning_application:,
       sequence: 1,
-      state: :open
+      state: "open"
     )
   end
 
   let(:component) do
     described_class.new(
       planning_application:,
-      request: other_change_validation_request
+      request_sequence: other_change_validation_request.sequence,
+      request_status: other_change_validation_request.state,
+      request_id: other_change_validation_request.id
     )
   end
 
