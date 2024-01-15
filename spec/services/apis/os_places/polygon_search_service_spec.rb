@@ -33,6 +33,9 @@ RSpec.describe Apis::OsPlaces::PolygonSearchService, exclude_stub_any_os_places_
         key: Rails.configuration.os_vector_tiles_api_key
       }
     }
+    let(:data) { described_class.new(geojson, params).call }
+    let(:addresses) { data[:addresses] }
+    let(:total_results) { data[:total_results] }
 
     context "when total addresses found is less than 100" do
       before do
@@ -40,9 +43,8 @@ RSpec.describe Apis::OsPlaces::PolygonSearchService, exclude_stub_any_os_places_
       end
 
       it "returns all the addresses with one API request" do
-        addresses = described_class.new(geojson, params).call
-
         expect(addresses).to eq(["5, COXSON WAY, LONDON, SE1 2XB", "6, COXSON WAY, LONDON, SE1 2XB"])
+        expect(total_results).to eq(2)
       end
     end
 
@@ -56,12 +58,11 @@ RSpec.describe Apis::OsPlaces::PolygonSearchService, exclude_stub_any_os_places_
         expect(Faraday).to receive(:new).once.and_call_original
         expect_any_instance_of(Faraday::Connection).to receive(:post).twice.and_call_original
 
-        addresses = described_class.new(geojson, params).call
-
         expect(addresses.length).to eq(103)
         expect(addresses).to include(
           "1, Example Street, LONDON, SE1 2XB", "2, Example Street, LONDON, SE1 2XB", "102, Example Street, LONDON, SE1 2XB", "103, Example Street, LONDON, SE1 2XB"
         )
+        expect(total_results).to eq(103)
       end
     end
   end
