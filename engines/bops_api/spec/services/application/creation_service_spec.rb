@@ -91,7 +91,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "uploads the documents" do
-          expect { create_planning_application }.to change(Document, :count).by(6)
+          expect { create_planning_application }.to change(Document, :count).by(7)
 
           expect(documents).to include(
             an_object_having_attributes(
@@ -331,6 +331,59 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "raises a not found error" do
           expect { create_planning_application }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context "when application may be immune" do
+        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read)) }
+        let(:service) { described_class.new(local_authority:, user:, params:) }
+
+        it "returns true for possibly_immune?" do
+          # TODO remove this disgusting invasion of privacy
+          planning_application = service.send(:build_planning_application)
+          expect(service.send(:possibly_immune?, planning_application)).to be true
+        end
+
+        it "creates the immunity details for the planning application" do
+          planning_application = nil
+          expect do
+            planning_application = service.call!
+          end.to change(ImmunityDetail, :count).by(1)
+
+          immunity_detail = ImmunityDetail.last
+
+          expect(immunity_detail).to have_attributes(
+            planning_application_id: planning_application.id,
+            status: "not_started",
+            end_date: "1959-01-01".to_date
+          )
+
+          expect(EvidenceGroup.count).to eq 4
+        end
+
+        it "creates the evidence groups for the planning application" do
+          planning_application = nil
+          expect do
+            planning_application = service.call!
+          end.to change(EvidenceGroup, :count).by(4)
+
+          council_tax_bill = planning_application.immunity_detail.evidence_groups.where(tag: "council_tax_document").first
+
+          expect(council_tax_bill).to have_attributes(
+            immunity_detail_id: planning_application.immunity_detail.id,
+            start_date: "2013-03-02 00:00:00.000000000 +0000".to_time,
+            end_date: "2019-04-01 00:00:00.000000000 +0100".to_time,
+            applicant_comment: "That I was paying council tax"
+          )
+
+          other_document = planning_application.immunity_detail.evidence_groups.where(tag: "other").first
+
+          expect(other_document).to have_attributes(
+            immunity_detail_id: planning_application.immunity_detail.id,
+            start_date: nil,
+            end_date: nil,
+            applicant_comment: "Nothing really, this is just a test. "
+          )
         end
       end
     end

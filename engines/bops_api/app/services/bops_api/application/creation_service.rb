@@ -80,8 +80,8 @@ module BopsApi
             DocumentsService.new(planning_application:, user:, files:).call!
 
             # TODO: create constraints
-            # TODO: create immunity details
             process_ownership_certificate_details(planning_application)
+            process_immunity_details(planning_application) if possibly_immune?(planning_application)
 
             planning_application.send_receipt_notice_mail if send_email?(planning_application)
           end
@@ -135,6 +135,44 @@ module BopsApi
             end
           end
         end
+      end
+
+      def possibly_immune?(planning_application)
+        planning_application.immune_proposal_details.many?
+      end
+
+      def process_immunity_details(planning_application)
+        ActiveRecord::Base.transaction do
+          immunity_detail = ImmunityDetail.new(planning_application: planning_application)
+          immunity_detail.end_date = planning_application
+            .find_proposal_detail("When were the works completed?")
+            .first.response_values.first
+          immunity_detail.save!
+        end
+
+        Document::EVIDENCE_TAGS.each do |tag|
+          next if planning_application.documents.with_tag(tag).empty?
+
+          planning_application.documents.with_tag(tag).each do |doc|
+            planning_application.immunity_detail.add_document(doc)
+          end
+        end
+
+        planning_application.immunity_detail.evidence_groups.each do |eg|
+          Document::EVIDENCE_QUESTIONS[eg.tag.to_sym].each do |question|
+            case question
+            when /show/
+              eg.applicant_comment = planning_application.find_proposal_detail(question).first.response_values.first
+            when /(start|issued)/
+              eg.start_date = planning_application.find_proposal_detail(question).first.response_values.first
+            when /run/
+              eg.end_date = planning_application.find_proposal_detail(question).first.response_values.first
+            end
+            eg.save!
+          end
+        end
+      rescue ActiveRecord::RecordInvalid, NoMethodError => e
+        Appsignal.send_error(e)
       end
     end
   end
