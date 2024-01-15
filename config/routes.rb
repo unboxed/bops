@@ -154,6 +154,10 @@ Rails.application.routes.draw do
           patch :validate
         end
 
+        resource :description_changes, only: %i[show] do
+          patch :validate
+        end
+
         resource :fee_items, only: %i[show] do
           patch :validate
         end

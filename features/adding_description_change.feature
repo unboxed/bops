@@ -34,7 +34,7 @@ Feature: Creating a description change on the application
   Scenario: I cannot create a second description change request when an open one exists
     Given I create a description change request with "A yard full of bananas"
     When I visit the new description change request link
-    And I fill in "Please suggest a new application description" with "Mambo number 2"
+    And I fill in "Suggest a new application description" with "Mambo number 2"
     And I press "Send"
     Then the page contains "An open description change already exists for this planning application."
 

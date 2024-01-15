@@ -1315,6 +1315,9 @@ en:
         show:
           back: Back
           cancel_this_request: Cancel this request
+      description_changes:
+        validate:
+          success: Description was marked as valid
       document:
         redactions:
           create:
@@ -1620,6 +1623,8 @@ en:
       link_text: Confirm site notice
     consultee_responses_component:
       consultee_responses: View consultee responses
+    description_change:
+      check_description: Check description
     document_component:
       check_document: Check document - %{document}
     email_consultees_component:
