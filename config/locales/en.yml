@@ -306,6 +306,7 @@ en:
         notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
         notify_letter_template: Notify letter template
         notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
+        notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         reply_to_notify_id: "'Reply to' Notify ID"
@@ -331,6 +332,7 @@ en:
         notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
         notify_letter_template: Notify letter template
         notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
+        notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         profile: Profile

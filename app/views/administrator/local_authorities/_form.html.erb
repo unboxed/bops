@@ -57,7 +57,7 @@
   <%= form.govuk_text_field(
      :notify_api_key,
      label: { text: t(".notify_api_key"), class: "govuk-label govuk-label--m" },
-     hint: { text: t(".notify_api_key_hint_html", notify_notion_link: link_to("Read our guide to Notify set up.", LocalAuthority.notify_notion_link, target: '_blank', class: "govuk-link")) },
+     hint: { text: t(".notify_api_key_hint_html", notify_notion_link: link_to("Read our guide to Notify set up.", t('.notify_notion_link'), target: '_blank', class: "govuk-link")) },
      class: "govuk-input--width-30",
      type: "password"
   ) %>
