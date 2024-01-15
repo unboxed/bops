@@ -187,6 +187,23 @@ RSpec.describe "Send letters to neighbours", js: true do
         expect(page).to have_content("Red line boundary")
         expect(page).to have_content("Area of selected neighbours")
       end
+
+      within("#address-container") do
+        expect(page).to have_content("Your search has returned 2 results.")
+      end
+    end
+
+    context "when search returns more than 100 addresses" do
+      before do
+        allow_any_instance_of(Apis::OsPlaces::PolygonSearchService).to receive(:call).and_return({total_results: 1001, addresses: []})
+      end
+
+      it "shows that the max total results returned for a search is 1000" do
+        within("#address-container") do
+          expect(page).to have_content("Your search has returned 1001 results. The first 1000 results are shown below. Check your search area or contact support at bops-team@unboxed.co if you need to see more than 1000 results.")
+          expect(page).to have_link("bops-team@unboxed.co", href: "mailto:bops-team@unboxed.co")
+        end
+      end
     end
 
     it "I can add the neighbour addresses that are returned" do

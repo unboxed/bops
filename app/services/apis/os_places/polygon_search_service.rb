@@ -20,7 +20,7 @@ module Apis
       def call
         fetch_all_addresses
 
-        all_addresses
+        {total_results: @total_results, addresses: all_addresses}
       end
 
       private

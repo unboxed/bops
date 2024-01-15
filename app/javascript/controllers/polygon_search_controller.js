@@ -47,7 +47,8 @@ export default class extends Controller {
       const response = await this.fetchGeojsonData(geoJSON, this.getCSRFToken())
       const data = await response.json()
 
-      this.appendAddressesToPage(data)
+      this.appendAddressesToPage(data.addresses)
+      this.showTotalResults(data.total_results)
     } catch (error) {
       console.error("There was an error calling the OS Places API:", error)
     } finally {
@@ -247,6 +248,28 @@ export default class extends Controller {
     )
 
     hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
+  }
+
+  showTotalResults(totalResults) {
+    const paragraph = document.createElement("p")
+    paragraph.classList.add("govuk-body", "govuk-!-font-weight-bold")
+    paragraph.textContent = `Your search has returned ${totalResults} results.`
+
+    if (totalResults > 1000) {
+      paragraph.appendChild(
+        document.createTextNode(
+          " The first 1000 results are shown below. Check your search area or contact support at ",
+        ),
+      )
+      const emailLink = document.createElement("a")
+      emailLink.href = "mailto:bops-team@unboxed.co"
+      emailLink.textContent = "bops-team@unboxed.co"
+      paragraph.appendChild(emailLink)
+      paragraph.appendChild(
+        document.createTextNode(" if you need to see more than 1000 results."),
+      )
+    }
+    this.getAddressContainer().prepend(paragraph)
   }
 
   debounce(func, wait) {

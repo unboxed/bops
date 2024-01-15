@@ -60,7 +60,7 @@ RSpec.describe Apis::OsPlaces::Client, exclude_stub_any_os_places_api_request: t
           }
         )
 
-        expect(result).to eq(["5, COXSON WAY, LONDON, SE1 2XB", "6, COXSON WAY, LONDON, SE1 2XB"])
+        expect(result[:addresses]).to eq(["5, COXSON WAY, LONDON, SE1 2XB", "6, COXSON WAY, LONDON, SE1 2XB"])
       end
     end
 
@@ -100,10 +100,11 @@ RSpec.describe Apis::OsPlaces::Client, exclude_stub_any_os_places_api_request: t
           }
         )
 
-        expect(result.length).to eq(103)
-        expect(result).to include(
+        expect(result[:addresses].length).to eq(103)
+        expect(result[:addresses]).to include(
           "1, Example Street, LONDON, SE1 2XB", "2, Example Street, LONDON, SE1 2XB", "102, Example Street, LONDON, SE1 2XB", "103, Example Street, LONDON, SE1 2XB"
         )
+        expect(result[:total_results]).to eq(103)
       end
     end
   end
