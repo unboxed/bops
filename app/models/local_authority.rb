@@ -34,16 +34,16 @@ class LocalAuthority < ApplicationRecord
 
   before_update :set_active
 
+  def self.notify_notion_link
+    "https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74"
+  end
+
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
   end
 
   def document_checklist?
     I18n.exists?("council_documents.#{subdomain}.document_checklist")
-  end
-
-  def notify_notion_link
-    "https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74"
   end
 
   private
