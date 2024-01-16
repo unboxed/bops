@@ -114,14 +114,23 @@
     overflow-y: scroll; 
     display: block;
 
-    thead:first-of-type {
-      position: sticky; 
-      top: 0; 
-      background: white
+    thead {
+      z-index: 1;
+
+      &:first-of-type {
+        position: sticky; 
+        top: 0; 
+        background: white
+      }
     }
 
     .govuk-table__cell {
       padding: 15px 20px 15px 0;
     }
   }
+}
+
+#selected-neighbours-table {
+  border: 1px solid $govuk-border-colour;
+  padding: 0 5px;
 }

@@ -59,7 +59,7 @@ module PlanningApplications
 
     def find_or_build_neighbour
       if neighbour_response_params[:new_address].present?
-        @consultation.neighbours.build(address: neighbour_response_params[:new_address], selected: false)
+        @consultation.neighbours.build(address: neighbour_response_params[:new_address], selected: false, source: "sent_comment")
       else
         @consultation.neighbours.find_by(address: neighbour_response_params[:address])
       end
