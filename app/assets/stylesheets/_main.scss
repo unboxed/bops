@@ -1,4 +1,5 @@
-$govuk-assets-path: "~govuk-frontend/govuk/assets/";
+$govuk-assets-path: "govuk-frontend/dist/govuk/assets/";
+$govuk-font-family: open-sans, sans-serif;
 @import "govuk-frontend/dist/govuk/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 @import "components/buttons";
@@ -10,10 +11,6 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "consultation";
 @import "decision_notice";
 @import "components/documents";
-
-html * {
-  font-family: open-sans, sans-serif !important;
-}
 
 .accordion-tr:last-child > td {
   border-bottom: none !important;
