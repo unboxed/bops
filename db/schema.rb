@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_12_123201) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_16_115538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_12_123201) do
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
     t.jsonb "file_downloader"
+    t.string "service"
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
     t.index ["name", "local_authority_id"], name: "index_api_users_on_name_and_local_authority_id", unique: true
     t.index ["token", "local_authority_id"], name: "index_api_users_on_token_and_local_authority_id", unique: true
