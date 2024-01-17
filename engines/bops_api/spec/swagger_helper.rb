@@ -4,9 +4,9 @@ require "rails_helper"
 require "rswag/specs"
 
 RSpec.configure do |config|
-  config.swagger_strict_schema_validation = true
-  config.swagger_root = BopsApi::Engine.root.join("swagger").to_s
-  config.swagger_format = :yaml
+  config.openapi_strict_schema_validation = true
+  config.openapi_root = BopsApi::Engine.root.join("swagger").to_s
+  config.openapi_format = :yaml
 
   json = BopsApi::Schemas.find!("submission").value
 
@@ -27,7 +27,7 @@ RSpec.configure do |config|
   definitions = json["definitions"].deep_transform_values(&transformer)
   submission = json.slice(*keys).deep_transform_values(&transformer)
 
-  config.swagger_docs = {
+  config.openapi_specs = {
     "v2/swagger_doc.yaml" => {
       openapi: "3.0.1",
       info: {
