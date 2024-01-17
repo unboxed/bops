@@ -9,6 +9,10 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
     let!(:application_type_ldc) { create(:application_type) }
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
 
+    let!(:article4_constraint) { create(:constraint, type: "article4", category: "general_policy") }
+    let!(:designated_constraint) { create(:constraint, type: "designated", category: "heritage_and_conservation") }
+    let!(:designated_aonb_constraint) { create(:constraint, type: "designated_aonb", category: "heritage_and_conservation") }
+
     let(:create_planning_application) do
       described_class.new(
         local_authority:, user:, params:
@@ -44,9 +48,15 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
     context "when successfully calling the service with params" do
       let(:planning_application) { PlanningApplication.last }
       let(:documents) { planning_application.documents }
+      let(:planning_application_constraints) { planning_application.planning_application_constraints }
 
       context "when application type is LDCE" do
         let(:params) { json_fixture("v2/valid_lawful_development_certificate_existing.json").with_indifferent_access }
+
+        before do
+          stub_planning_data_entity_request("1000005")
+          stub_planning_data_entity_request("7010002192")
+        end
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
@@ -148,6 +158,42 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             notice_given: true,
             notice_given_at: Time.zone.parse("1988-04-01 00:00")
           )
+        end
+
+        it "creates the expected constraints" do
+          expect {
+            perform_enqueued_jobs {
+              create_planning_application
+            }
+          }.to change(PlanningApplicationConstraint, :count).by(3)
+
+          expect(planning_application_constraints).to match_array([
+            an_object_having_attributes(
+              constraint_id: article4_constraint.id,
+              data: [
+                a_hash_including("name" => "Whole District excluding the Town of Chesham - Poultry production.")
+              ],
+              metadata: {"description" => "Article 4 Direction area"},
+              identified: true,
+              identified_by: "PlanX"
+            ),
+            an_object_having_attributes(
+              constraint_id: designated_constraint.id,
+              data: [],
+              metadata: {"description" => "Designated land"},
+              identified: true,
+              identified_by: "PlanX"
+            ),
+            an_object_having_attributes(
+              constraint_id: designated_aonb_constraint.id,
+              data: [
+                a_hash_including("name" => "Chilterns")
+              ],
+              metadata: {"description" => "Area of Outstanding Natural Beauty (AONB)"},
+              identified: true,
+              identified_by: "PlanX"
+            )
+          ])
         end
       end
 
@@ -252,6 +298,10 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             planning_application_id: PlanningApplication.last.id
           )
         end
+
+        it "doesn't create any constraints" do
+          expect { create_planning_application }.not_to change(PlanningApplicationConstraint, :count)
+        end
       end
 
       context "when application type is planning permission full householder" do
@@ -324,6 +374,10 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             )
           )
         end
+
+        it "doesn't create any constraints" do
+          expect { create_planning_application }.not_to change(PlanningApplicationConstraint, :count)
+        end
       end
 
       context "when application type is not supported" do
@@ -335,8 +389,13 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       end
 
       context "when application may be immune" do
-        let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read)) }
+        let(:params) { json_fixture("v2/valid_lawful_development_certificate_existing.json").with_indifferent_access }
         let(:service) { described_class.new(local_authority:, user:, params:) }
+
+        before do
+          stub_planning_data_entity_request("1000005")
+          stub_planning_data_entity_request("7010002192")
+        end
 
         it "returns true for possibly_immune?" do
           # TODO remove this disgusting invasion of privacy

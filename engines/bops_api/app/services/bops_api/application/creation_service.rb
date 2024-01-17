@@ -79,7 +79,7 @@ module BopsApi
             AnonymisationService.new(planning_application:).call! if planning_application.from_production?
             DocumentsService.new(planning_application:, user:, files:).call!
 
-            # TODO: create constraints
+            process_planning_designations(planning_application)
             process_ownership_certificate_details(planning_application)
             process_immunity_details(planning_application) if possibly_immune?(planning_application)
 
@@ -109,6 +109,35 @@ module BopsApi
 
       def raise_not_permitted_to_clone_error
         raise BopsApi::Errors::NotPermittedError, "Planning application cannot be cloned without V2 params"
+      end
+
+      def process_planning_designations(planning_application)
+        planning_designations.each do |designation|
+          next unless designation.fetch(:intersects)
+
+          if (constraint = ::Constraint.for_type(designation.fetch(:value)))
+            planning_application_constraint = create_planning_application_constraint(planning_application, designation, constraint)
+            entities = designation.fetch(:entities, [])
+
+            if entities.present?
+              BopsApi::FetchConstraintEntitiesJob.perform_later(planning_application_constraint, entities)
+            end
+          end
+        end
+      end
+
+      def planning_designations
+        Array.wrap(data_params.dig(:property, :planning, :designations))
+      end
+
+      def create_planning_application_constraint(planning_application, designation, constraint)
+        planning_application.planning_application_constraints.create! do |c|
+          c.constraint = constraint
+          c.identified = true
+          c.identified_by = user.service
+          c.data = []
+          c.metadata = {"description" => designation.fetch(:description)}
+        end
       end
 
       def process_ownership_certificate_details(planning_application)

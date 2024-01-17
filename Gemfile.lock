@@ -234,6 +234,8 @@ GEM
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
+    faraday_middleware (1.2.0)
+      faraday (~> 1.0)
     ffi (1.15.5)
     foreman (0.87.2)
     formatador (0.3.0)
@@ -610,6 +612,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   faraday
+  faraday_middleware
   foreman
   govuk_design_system_formbuilder
   grover
