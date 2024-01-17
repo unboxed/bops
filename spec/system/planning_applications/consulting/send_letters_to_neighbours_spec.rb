@@ -302,7 +302,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       select "Renotification"
 
       click_button "Confirm and send letters"
-      expect(page).to have_content "Provide a reason when resending letters to previously-contacted neighbours"
+      expect(page).to have_content "Provide a reason when resending letters to previously contacted neighbours"
       expect(neighbour.neighbour_letters.length).to eq(1)
     end
 
