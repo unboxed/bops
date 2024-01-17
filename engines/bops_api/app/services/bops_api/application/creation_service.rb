@@ -171,7 +171,9 @@ module BopsApi
       def process_immunity_details(planning_application)
         ActiveRecord::Base.transaction do
           immunity_detail = ImmunityDetail.new(planning_application: planning_application)
-          immunity_detail.end_date = planning_application
+
+          immunity_detail.end_date = params.dig("data", "proposal", "date", "completion")
+          immunity_detail.end_date ||= planning_application
             .find_proposal_detail("When were the works completed?")
             .first.response_values.first
           immunity_detail.save!
