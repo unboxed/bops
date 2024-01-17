@@ -445,7 +445,7 @@ RSpec.describe "checking consistency" do
     click_link("Request a change to the red line boundary")
 
     find(".govuk-visually-hidden", visible: false).set(
-      {
+      {"EPSG:3857" => {
         type: "FeatureCollection",
         features: [
           {
@@ -464,7 +464,7 @@ RSpec.describe "checking consistency" do
             }
           }
         ]
-      }.to_json
+      }}.to_json
     )
 
     fill_in(

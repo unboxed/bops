@@ -156,7 +156,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       expect(map["showMarker"]).to eq("true")
 
       find(".govuk-visually-hidden",
-        visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
+        visible: false).set({"EPSG:3857" => {"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}}.to_json)
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
       click_button "Send request"
 
@@ -255,7 +255,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       before do
-        find(".govuk-visually-hidden", visible: false).set(new_geojson.to_json)
+        find(".govuk-visually-hidden", visible: false).set({"EPSG:3857" => new_geojson}.to_json)
         fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: ""
         click_button "Send request"
       end
@@ -301,7 +301,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       expect(map["showMarker"]).to eq("true")
 
       # Draw proposed red line boundary
-      find(".govuk-visually-hidden", visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
+      find(".govuk-visually-hidden", visible: false).set({"EPSG:3857" => {"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}}.to_json)
 
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Amendment request"
       click_button "Send request"
