@@ -27,7 +27,7 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
   def new_geojson=(value)
     if value.is_a?(String)
       return if value.blank?
-      super(JSON.parse(value)["EPSG:3857"])
+      super(JSON.parse(value))
     else
       super(value)
     end

@@ -267,7 +267,7 @@ class Consultation < ApplicationRecord
   end
 
   def polygon_geojson=(value)
-    self.polygon_search = geometry_collection(value) if value.present? && JSON.parse(value)["EPSG:3857"].present?
+    self.polygon_search = geometry_collection(value) if value.present? && JSON.parse(value).present?
     super
   end
 
@@ -392,7 +392,7 @@ class Consultation < ApplicationRecord
   end
 
   def geometry_collection(geojson)
-    parsed = JSON.parse(geojson)["EPSG:3857"]
+    parsed = JSON.parse(geojson)
     decoded = RGeo::GeoJSON.decode(parsed)
     geometries = decoded.map(&:geometry)
 
