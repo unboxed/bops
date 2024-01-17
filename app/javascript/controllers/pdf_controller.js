@@ -10,7 +10,6 @@ export default class extends Controller {
     const pdfjs = document.getElementById("site-notice-content")
     doc.html(pdfjs, {
       callback: function (doc) {
-        doc.setFont("Arial")
         doc.save(`site-notice-${applicationReference}.pdf`)
       },
     })
