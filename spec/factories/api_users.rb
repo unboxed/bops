@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :api_user do
     name { Faker::Name.name }
+    service { "PlanX" }
 
     file_downloader do
       {

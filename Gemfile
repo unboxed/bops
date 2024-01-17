@@ -17,6 +17,7 @@ gem "devise"
 gem "devise-two-factor"
 gem "faker", require: false
 gem "faraday", require: false
+gem "faraday_middleware", require: false
 gem "govuk_design_system_formbuilder"
 gem "grover"
 gem "i18n", "< 1.9"

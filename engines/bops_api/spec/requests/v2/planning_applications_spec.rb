@@ -94,7 +94,7 @@ RSpec.describe "BOPS API" do
 
       response "403", "when the endpoint is disabled" do
         before do
-          allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+          allow(BopsApi::Application::CreationService).to receive(:new).and_raise(BopsApi::Errors::NotPermittedError)
         end
 
         schema "$ref" => "#/components/schemas/ForbiddenError"
