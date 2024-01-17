@@ -515,20 +515,5 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
       end
     end
-
-    context "when environment is production" do
-      let(:params) { {} }
-
-      before do
-        allow(ENV).to receive(:fetch).and_call_original
-        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
-      end
-
-      it "raises an error" do
-        expect { create_planning_application }.to raise_error(
-          BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
-        )
-      end
-    end
   end
 end

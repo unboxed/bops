@@ -4,8 +4,6 @@ module BopsApi
   module Application
     class CreationService
       def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil, send_email: false)
-        raise_not_permitted_in_production_error if BopsApi.env.production?
-
         if planning_application
           initialize_from_planning_application(planning_application)
         else
