@@ -95,7 +95,7 @@ module BopsApi
       def initialize_from_planning_application(planning_application)
         params_v2 = planning_application.params_v2 || raise_not_permitted_to_clone_error
 
-        @params = ActionController::Parameters.new(JSON.parse(params_v2))
+        @params = params_v2.with_indifferent_access
         @local_authority = planning_application.local_authority
         @user = planning_application.api_user
         @send_email = false

@@ -13,7 +13,7 @@ module BopsApi
         def parse
           {
             session_id: params[:metadata][:id],
-            params_v2: params.to_json
+            params_v2: params
           }
         end
       end
