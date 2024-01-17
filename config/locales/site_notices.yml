@@ -1,10 +1,10 @@
 en: 
   site_notice_template: |-
-    <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
+    <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px; line-height: 12px;">
     <div style="width: 420px; text-align: center">
       <h1 style="margin-bottom: 5px;">Planning notice</h1>
-      <h2 style="margin-bottom: 5px;">%{council} Council</h2>
-      <h3>Town and country Planning Act 1990</h3>
+      <h2 style="margin-bottom: 3px;">%{council} Council</h2>
+      <h3 style="margin-bottom: 3px;">Town and country Planning Act 1990</h3>
       <p>We have received an application for the following development:</p>
     </div>
     <h3>Application number %{reference}</h3>
