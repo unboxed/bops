@@ -12,6 +12,7 @@ class MigratePolygonGeojsonFromConsultationsToJson < ActiveRecord::Migration[7.0
             parsed_json = JSON.parse(polygon_geojson)["EPSG:3857"]
             co.update_column(:polygon_geojson, parsed_json)
           rescue JSON::ParserError
+            co.update_column(:polygon_geojson, nil)
           end
         end
       end
