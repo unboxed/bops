@@ -3,7 +3,7 @@
 class AddProposalMeasurementsToExistingApplications < ActiveRecord::Migration[7.0]
   def change
     prior_approval = ApplicationType.find_by(name: "prior_approval")
-    PlanningApplication.where(application_type: prior_approval).each do |planning_application|
+    PlanningApplication.where(application_type: prior_approval).find_each do |planning_application|
       next if planning_application.proposal_measurement
 
       ProposalMeasurement.create(

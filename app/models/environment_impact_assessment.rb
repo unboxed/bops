@@ -12,9 +12,9 @@ class EnvironmentImpactAssessment < ApplicationRecord
     validates :email_address, allow_blank: true
   end
 
+  before_save :create_audit!
   after_create :modify_expiry_date
   after_update :modify_expiry_date, unless: :required?
-  before_save :create_audit!
 
   with_options to: :planning_application do
     delegate :audits

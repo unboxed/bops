@@ -42,7 +42,7 @@ class ConsulteeResponsesComponent < ViewComponent::Base
   end
 
   def section_break_tag
-    tag(:hr, class: "govuk-section-break govuk-section-break--l govuk-section-break--visible")
+    tag.hr(class: "govuk-section-break govuk-section-break--l govuk-section-break--visible")
   end
 
   def last_email_delivered_at

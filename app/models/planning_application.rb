@@ -660,7 +660,7 @@ class PlanningApplication < ApplicationRecord
   def reset_validation_requests_update_counter!(requests)
     return unless validation_requests.any?
 
-    requests.pre_validation.where(update_counter: true).each(&:reset_update_counter!)
+    requests.pre_validation.where(update_counter: true).find_each(&:reset_update_counter!)
   end
 
   def latest_rejected_description_change

@@ -44,8 +44,8 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
 
           expect(utility_bills).to have_attributes(
             immunity_detail_id: planning_application.immunity_detail.id,
-            start_date: "2013-03-02 00:00:00.000000000 +0000".to_time,
-            end_date: "2019-04-01 00:00:00.000000000 +0100".to_time,
+            start_date: Time.zone.parse("2013-03-02 00:00:00.000000000 +0000"),
+            end_date: Time.zone.parse("2019-04-01 00:00:00.000000000 +0100"),
             applicant_comment: "That i was paying water bills"
           )
 
@@ -55,7 +55,7 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
 
           expect(building_certificate).to have_attributes(
             immunity_detail_id: planning_application.immunity_detail.id,
-            start_date: "2016-02-01 00:00:00.000000000 +0000".to_time,
+            start_date: Time.zone.parse("2016-02-01 00:00:00.000000000 +0000"),
             end_date: nil,
             applicant_comment: "that it was certified"
           )

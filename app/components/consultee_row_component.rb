@@ -28,7 +28,7 @@ class ConsulteeRowComponent < ViewComponent::Base
     if consultee.suffix?
       content_tag(:div) do
         concat(consultee.name + " ")
-        concat(tag(:br))
+        concat(tag.br)
         concat(content_tag(:span, consultee.suffix, class: "govuk-!-font-size-16"))
       end
     else

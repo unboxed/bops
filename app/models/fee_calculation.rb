@@ -6,8 +6,8 @@ class FeeCalculation < ApplicationRecord
   belongs_to :planning_application
   delegate :audits, to: :planning_application
 
-  after_update :audit_updated!
   after_create :audit_updated!
+  after_update :audit_updated!
 
   class << self
     def from_odp_data(odp_data)
