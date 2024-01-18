@@ -60,7 +60,7 @@ module StatusPresenter
       elsif determined?
         determination_date.to_date
       else
-        send("#{status}_at")
+        send(:"#{status}_at")
       end
     end
   end

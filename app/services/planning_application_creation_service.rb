@@ -15,7 +15,7 @@ class PlanningApplicationCreationService
       @api_user = planning_application.api_user
       @send_email = false
     else
-      options.each { |k, v| instance_variable_set("@#{k}", v) unless v.nil? }
+      options.each { |k, v| instance_variable_set(:"@#{k}", v) unless v.nil? }
       @session_id = params.dig(:planx_debug_data, :session_id)
     end
   end

@@ -511,7 +511,7 @@ class PlanningApplication < ApplicationRecord
       assessment_details.where(category:).first
     end
 
-    define_method("existing_or_new_#{category}") do
+    define_method(:"existing_or_new_#{category}") do
       send(category) || assessment_details.new(category:)
     end
   end
@@ -640,7 +640,7 @@ class PlanningApplication < ApplicationRecord
   delegate :name, to: :application_type, prefix: true
 
   ApplicationType::NAME_ORDER.each do |name|
-    define_method "#{name}?" do
+    define_method :"#{name}?" do
       name == application_type_name
     end
   end

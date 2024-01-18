@@ -116,7 +116,7 @@ RSpec.describe AssessmentDetail do
           end
 
           it "returns #{category_type} sorted by created at desc (i.e. most recent first)" do
-            expect(described_class.by_created_at_desc).to eq([send("#{category_type}2"), send("#{category_type}1"), send("#{category_type}3")])
+            expect(described_class.by_created_at_desc).to eq([send(:"#{category_type}2"), send(:"#{category_type}1"), send(:"#{category_type}3")])
           end
         end
       end

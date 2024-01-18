@@ -36,40 +36,40 @@ class ConsistencyChecklist < ApplicationRecord
     # defines #default_description_matches_documents_to_no?,
     # #default_documents_consistent_to_no?,
     # #default_site_map_correct_to_no?
-    define_method("default_#{check}_to_no?") do
-      send("open_#{request_type}_requests?") || send("#{check}_no?")
+    define_method(:"default_#{check}_to_no?") do
+      send(:"open_#{request_type}_requests?") || send(:"#{check}_no?")
     end
 
     # defines #open_description_change_requests?,
     # #open_additional_document_requests?,
     # #open_red_line_boundary_change_requests?
-    define_method("open_#{request_type}_requests?") do
-      planning_application.send("#{request_type}_validation_requests").open.any?
+    define_method(:"open_#{request_type}_requests?") do
+      planning_application.send(:"#{request_type}_validation_requests").open.any?
     end
   end
 
   private
 
   CHECKS.each do |check|
-    define_method("#{check}_determined") do
+    define_method(:"#{check}_determined") do
       next unless planning_application.application_type.consistency_checklist.include? check.to_s
-      return unless send("#{check}_to_be_determined?")
+      return unless send(:"#{check}_to_be_determined?")
 
       errors.add(check, :not_determined)
     end
   end
 
   REQUEST_TYPES.each do |check, request_type|
-    define_method("#{request_type}_requests_closed") do
-      return unless send("open_#{request_type}_requests?")
+    define_method(:"#{request_type}_requests_closed") do
+      return unless send(:"open_#{request_type}_requests?")
 
       errors.add(check, :"open_#{request_type}_requests")
     end
 
-    define_method("open_#{request_type}_requests") do
+    define_method(:"open_#{request_type}_requests") do
       memoize(
         "open_#{request_type}_requests",
-        planning_application.send("#{request_type}_validation_requests").open
+        planning_application.send(:"#{request_type}_validation_requests").open
       )
     end
   end

@@ -22,7 +22,7 @@ module StatusTags
         if planning_application.recommendation_review_complete?
           :complete
         else
-          send("#{user.role}_status")
+          send(:"#{user.role}_status")
         end
       end
 
