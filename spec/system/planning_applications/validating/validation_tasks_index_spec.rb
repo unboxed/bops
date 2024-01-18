@@ -46,6 +46,17 @@ RSpec.describe "Validation tasks" do
 
     it "displays the validation tasks list" do
       within(".app-task-list") do
+        within("#environment-impact-assessment-task") do
+          expect(page).to have_content("Environment Impact Assessment (EIA)")
+          expect(page).to have_link(
+            "Check Environment Impact Assessment",
+            href: planning_application_validation_environment_impact_assessments_path(planning_application)
+          )
+          within(".govuk-tag--grey") do
+            expect(page).to have_content("Not started")
+          end
+        end
+
         within("#fee-validation-task") do
           expect(page).to have_content("Fee")
           expect(page).to have_link(

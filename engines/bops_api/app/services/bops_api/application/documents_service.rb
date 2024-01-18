@@ -28,6 +28,7 @@ module BopsApi
         "proposal.document.councilTaxBill" => ["Council Tax Document"],
         "proposal.document.declaration" => ["Statutory Declaration"],
         "proposal.document.designAndAccess" => ["Design and Access Statement"],
+        "proposal.document.eia" => ["Environment Impact Assessment"],
         "proposal.document.fireSafety" => ["Other Supporting Document"],
         "proposal.document.floodRisk" => ["Flood Risk Assessment/Drainage and SuDs Report"],
         "proposal.document.heritageStatement" => ["Heritage Statement"],

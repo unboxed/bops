@@ -191,7 +191,7 @@ RSpec.describe "Requesting document changes to a planning application" do
         click_link("Check document - proposed-roofplan.png")
       end
 
-      click_link "Show all (29)"
+      click_link "Show all (30)"
 
       check "Sustainability and Energy Statement"
 

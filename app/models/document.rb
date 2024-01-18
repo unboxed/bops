@@ -77,6 +77,7 @@ class Document < ApplicationRecord
     "Contaminated Land Assessment",
     "Daylight and Sunlight Assessment",
     "Flood Risk Assessment/Drainage and SuDs Report",
+    "Environment Impact Assessment",
     "Landscape and Visual Impact Assessment",
     "Noise Impact Assessment",
     "Open Space Assessment",

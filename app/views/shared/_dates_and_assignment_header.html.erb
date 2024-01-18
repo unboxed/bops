@@ -8,6 +8,7 @@
         Not yet valid
       <% end %>
     </p>
+
     <% if @planning_application.consultation.present? %>
       <p class="govuk-body govuk-!-margin-bottom-0">
         <strong>Consultation start date:</strong>
@@ -63,6 +64,11 @@
         </span>
       <% end %>
     </p>
+
+    <% if @planning_application.environment_impact_assessment %>
+      <p class="govuk-body govuk-!-margin-bottom-0"><strong>Subject to an EIA</strong></p>
+      <p class="govuk-body">The expiry date has been extended to 16 weeks</p>
+    <% end %>
 
     <% if @planning_application.in_progress? %>
       <p class="govuk-body">
