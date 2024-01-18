@@ -50,7 +50,7 @@ RSpec.describe "Validation tasks" do
           expect(page).to have_content("Environment Impact Assessment (EIA)")
           expect(page).to have_link(
             "Check Environment Impact Assessment",
-            href: planning_application_validation_environment_impact_assessments_path(planning_application)
+            href: edit_planning_application_validation_environment_impact_assessment_path(planning_application)
           )
           within(".govuk-tag--grey") do
             expect(page).to have_content("Not started")
