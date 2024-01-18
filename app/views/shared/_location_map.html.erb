@@ -48,7 +48,7 @@
     const map = document.querySelector("my-map");
 
     map.addEventListener("geojsonChange", ({ detail: geoJSON }) => {
-      document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON);
+      document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON["EPSG:3857"]);
     });
   <% end %>
   <% if locals[:in_accordion] == true %>
