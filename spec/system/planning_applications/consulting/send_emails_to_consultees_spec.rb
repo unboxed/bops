@@ -185,7 +185,7 @@ RSpec.describe "Consultation", js: true do
       end
     end.to have_enqueued_job(SendConsulteeEmailJob).exactly(:twice)
 
-    internal = \
+    internal =
       stub_request(:post, "#{notify_url}/email")
         .with(body: hash_including(
           {
@@ -206,7 +206,7 @@ RSpec.describe "Consultation", js: true do
           }.to_json
         )
 
-    external = \
+    external =
       stub_request(:post, "#{notify_url}/email")
         .with(body: hash_including(
           {
@@ -257,7 +257,7 @@ RSpec.describe "Consultation", js: true do
       end
     end
 
-    internal_status = \
+    internal_status =
       stub_request(:get, "#{notify_url}/ee35ce55-f32e-4269-a217-18517745fe8b")
         .to_return(
           status: 200,
@@ -269,7 +269,7 @@ RSpec.describe "Consultation", js: true do
           }.to_json
         )
 
-    external_status = \
+    external_status =
       stub_request(:get, "#{notify_url}/48025d96-abc9-4b1d-a519-3cbc1c7f700b")
         .to_return(
           status: 200,
@@ -341,7 +341,7 @@ RSpec.describe "Consultation", js: true do
       end
     end.to have_enqueued_job(SendConsulteeEmailJob).exactly(:once)
 
-    resend = \
+    resend =
       stub_request(:post, "#{notify_url}/email")
         .with(body: hash_including(
           {
@@ -380,7 +380,7 @@ RSpec.describe "Consultation", js: true do
       end
     end
 
-    resend_status = \
+    resend_status =
       stub_request(:get, "#{notify_url}/17d69fb7-5d4c-400b-af11-2952266d2e2b")
         .to_return(
           status: 200,

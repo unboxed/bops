@@ -19,10 +19,10 @@ class ConsistencyChecklist < ApplicationRecord
   }.freeze
 
   with_options if: :complete? do
-    CHECKS.each { |check| validate("#{check}_determined".to_sym) }
+    CHECKS.each { |check| validate(:"#{check}_determined") }
 
     REQUEST_TYPES.each_value do |request_type|
-      validate("#{request_type}_requests_closed".to_sym)
+      validate(:"#{request_type}_requests_closed")
     end
   end
 
@@ -63,7 +63,7 @@ class ConsistencyChecklist < ApplicationRecord
     define_method("#{request_type}_requests_closed") do
       return unless send("open_#{request_type}_requests?")
 
-      errors.add(check, "open_#{request_type}_requests".to_sym)
+      errors.add(check, :"open_#{request_type}_requests")
     end
 
     define_method("open_#{request_type}_requests") do

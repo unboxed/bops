@@ -58,18 +58,18 @@ class ReviewAssessmentDetailsForm
     validates(
       "#{assessment_detail}_comment_text",
       presence: true,
-      if: "#{assessment_detail}_reviewer_verdict_rejected?".to_sym
+      if: :"#{assessment_detail}_reviewer_verdict_rejected?"
     )
 
     validates(
       "#{assessment_detail}_entry",
       presence: true,
-      if: "#{assessment_detail}_reviewer_verdict_edited_and_accepted?".to_sym
+      if: :"#{assessment_detail}_reviewer_verdict_edited_and_accepted?"
     )
 
     validate(
-      "#{assessment_detail}_entry_changed".to_sym,
-      if: "#{assessment_detail}_reviewer_verdict_edited_and_accepted?".to_sym
+      :"#{assessment_detail}_entry_changed",
+      if: :"#{assessment_detail}_reviewer_verdict_edited_and_accepted?"
     )
 
     define_method("#{assessment_detail}_reviewer_verdict_rejected?") do

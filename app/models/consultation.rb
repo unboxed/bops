@@ -358,7 +358,7 @@ class Consultation < ApplicationRecord
         body: replace_placeholders(body, variables)
       )
 
-      expires_at = \
+      expires_at =
         if reconsult?
           [end_date, reconsult_date].max
         else

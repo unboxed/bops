@@ -34,9 +34,9 @@ class NeighbourResponseCreationService
   def find_or_create_neighbour
     neighbour = planning_application.consultation.neighbours.find_by(address: params[:address])
 
-    (neighbour.presence || planning_application.consultation.neighbours.build(
+    neighbour.presence || planning_application.consultation.neighbours.build(
       address: params[:address], selected: false, source: "sent_comment"
-    ))
+    )
   end
 
   def create_files(response)

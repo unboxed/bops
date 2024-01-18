@@ -56,7 +56,7 @@ class Consultee
     end
 
     def comment
-      (redacted_response.presence || response)
+      redacted_response.presence || response
     end
 
     def published?
