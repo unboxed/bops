@@ -2,7 +2,7 @@
 
 class OwnershipCertificate < ApplicationRecord
   belongs_to :planning_application
-  has_many :land_owners
+  has_many :land_owners # rubocop:disable Rails/HasManyOrHasOneDependent
 
   accepts_nested_attributes_for :land_owners
 

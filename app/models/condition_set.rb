@@ -4,7 +4,7 @@ class ConditionSet < ApplicationRecord
   include Reviewable
 
   belongs_to :planning_application
-  has_many :conditions, extend: ConditionsExtension
+  has_many :conditions, extend: ConditionsExtension # rubocop:disable Rails/HasManyOrHasOneDependent
 
   before_save :set_review_updated
 

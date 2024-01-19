@@ -8,7 +8,7 @@ class ApiUser < ApplicationRecord
 
   has_secure_token :token, length: 36
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :file_downloader, store_model: {allow_blank: true}
 
   class << self
