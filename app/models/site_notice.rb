@@ -43,7 +43,9 @@ class SiteNotice < ApplicationRecord
   def preview_content
     start_deadline unless consultation_started?
 
-    I18n.t("site_notice_template",
+    site_notice_type = consultation.planning_application.environment_impact_assessment&.required? ? "eia" : "default"
+
+    I18n.t("site_notice_template.#{site_notice_type}",
       council: planning_application.local_authority.subdomain.capitalize,
       reference: planning_application.reference,
       application_description: planning_application.description,
@@ -52,7 +54,8 @@ class SiteNotice < ApplicationRecord
       application_link: application_link(planning_application),
       council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
       consultation_end_date: consultation_end_date.to_date.to_fs,
-      site_notice_display_date: displayed_at&.to_date&.to_fs || Time.zone.today.to_fs)
+      site_notice_display_date: displayed_at&.to_date&.to_fs || Time.zone.today.to_fs,
+      eia_statement: eia_statement)
   end
 
   private
@@ -71,5 +74,12 @@ class SiteNotice < ApplicationRecord
 
   def extend_consultation!
     consultation.update!(end_date: new_consultation_end_date)
+  end
+
+  def eia_statement
+    eia = planning_application.environment_impact_assessment
+    if eia&.required? && eia&.with_address_email_and_fee?
+      "<p>You can request a hard copy for a fee of £#{eia.fee} by emailing #{eia.email_address} or in person at #{eia.address}.</p>"
+    end
   end
 end

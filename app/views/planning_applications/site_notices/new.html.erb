@@ -12,6 +12,12 @@
   locals: { heading: "Send site notice" }
 ) %>
 
+<% if @planning_application.environment_impact_assessment&.required? %>
+  <strong class="govuk-tag">
+    Subject to EIA
+  </strong>
+<% end %>
+
 <% if @planning_application.site_notices.exists? %>
   <%= render "status", planning_application: @planning_application %>
 <% end %>
