@@ -470,6 +470,7 @@ en:
       ownership_certificate_validation_request_added: 'Added: validation request (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_cancelled: 'Cancelled: validation request (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
+      ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
       proposal_measurements_updated: Proposal measurements were updated
