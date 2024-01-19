@@ -1,5 +1,5 @@
 <my-map
-  style="width: 100%; height: 400px;"
+  style="width: 100%; height: 600px;"
   osVectorTilesApiKey='<%= Rails.configuration.os_vector_tiles_api_key %>'
   showScale
   useScaleBarStyle
@@ -34,6 +34,7 @@
   <% if locals[:polygon_search] == true %>
     id="polygon-search-map"
     drawMode="true"
+    geojsonBuffer=30
   <% end %>
 
   <% %w[geojson_color draw_color draw_fill_color].each do |color| %>
