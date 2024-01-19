@@ -33,7 +33,8 @@ RSpec.describe Apis::OsPlaces::PolygonSearchService, exclude_stub_any_os_places_
         key: Rails.configuration.os_vector_tiles_api_key
       }
     }
-    let(:data) { described_class.new(geojson, params).call }
+    let(:uprn) { "100021892955" }
+    let(:data) { described_class.new(geojson, params, uprn).call }
     let(:addresses) { data[:addresses] }
     let(:total_results) { data[:total_results] }
 
@@ -63,6 +64,20 @@ RSpec.describe Apis::OsPlaces::PolygonSearchService, exclude_stub_any_os_places_
           "1, Example Street, LONDON, SE1 2XB", "2, Example Street, LONDON, SE1 2XB", "102, Example Street, LONDON, SE1 2XB", "103, Example Street, LONDON, SE1 2XB"
         )
         expect(total_results).to eq(103)
+      end
+    end
+
+    context "when site address uprn is included in the search results" do
+      let(:uprn) { "200003357029" }
+
+      before do
+        stub_os_places_api_request_for_polygon(geojson)
+      end
+
+      it "excludes this address" do
+        expect(total_results).to eq(2)
+        expect(addresses.length).to eq(1)
+        expect(addresses).to eq(["6, COXSON WAY, LONDON, SE1 2XB"])
       end
     end
   end

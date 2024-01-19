@@ -14,8 +14,8 @@ module Apis
         end
       end
 
-      def post(body, params)
-        PolygonSearchService.new(body, params.merge(key)).call
+      def post(body, params, uprn)
+        PolygonSearchService.new(body, params.merge(key), uprn).call
       end
 
       private

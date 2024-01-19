@@ -57,7 +57,8 @@ RSpec.describe Apis::OsPlaces::Client, exclude_stub_any_os_places_api_request: t
           geojson, {
             output_srs: "EPSG:27700",
             srs: "EPSG:27700"
-          }
+          },
+          uprn: "100021892955"
         )
 
         expect(result[:addresses]).to eq(["5, COXSON WAY, LONDON, SE1 2XB", "6, COXSON WAY, LONDON, SE1 2XB"])
@@ -97,7 +98,8 @@ RSpec.describe Apis::OsPlaces::Client, exclude_stub_any_os_places_api_request: t
           geojson, {
             output_srs: "EPSG:27700",
             srs: "EPSG:27700"
-          }
+          },
+          uprn: "100021892955"
         )
 
         expect(result[:addresses].length).to eq(103)

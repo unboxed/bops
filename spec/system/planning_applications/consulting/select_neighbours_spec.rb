@@ -18,8 +18,10 @@ RSpec.describe "Send letters to neighbours", js: true do
       api_user:,
       agent_email: "agent@example.com",
       applicant_email: "applicant@example.com",
-      make_public: true)
+      make_public: true,
+      uprn: uprn)
   end
+  let(:uprn) { "20000111111" }
 
   let(:consultation) do
     planning_application.consultation
@@ -193,6 +195,25 @@ RSpec.describe "Send letters to neighbours", js: true do
       end
     end
 
+    context "when search includes the uprn of the site address" do
+      let(:uprn) { "200003357029" }
+
+      it "excludes this address from the returned address list" do
+        within("#address-container") do
+          expect(page).to have_content(
+            "Your search has returned 2 results. The site address is not included in these results."
+          )
+
+          within(".address-entry#neighbour-addresses-0") do
+            expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+            expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-0"]', text: "Remove")
+          end
+
+          expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+        end
+      end
+    end
+
     context "when search returns more than 100 addresses" do
       before do
         allow_any_instance_of(Apis::OsPlaces::PolygonSearchService).to receive(:call).and_return({total_results: 1001, addresses: []})
@@ -200,7 +221,9 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       it "shows that the max total results returned for a search is 1000" do
         within("#address-container") do
-          expect(page).to have_content("Your search has returned 1001 results. The first 1000 results are shown below. Check your search area or contact support at bops-team@unboxed.co if you need to see more than 1000 results.")
+          expect(page).to have_content(
+            "Your search has returned 1001 results. The site address is not included in these results. The first 1000 results are shown below. Check your search area or contact support at bops-team@unboxed.co if you need to see more than 1000 results."
+          )
           expect(page).to have_link("bops-team@unboxed.co", href: "mailto:bops-team@unboxed.co")
         end
       end
