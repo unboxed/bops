@@ -57,7 +57,7 @@ class FeeCalculation < ApplicationRecord
     saved_changes.keys.map do |attribute_name|
       next if saved_change_to_attribute(attribute_name).all? { |value| value.blank? || value.try(:zero?) }
 
-      next if %w[updated_at].include? attribute_name
+      next if %w[created_at updated_at].include? attribute_name
 
       original_attribute = saved_change_to_attribute(attribute_name).first
       new_attribute = saved_change_to_attribute(attribute_name).second
