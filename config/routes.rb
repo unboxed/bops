@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   mount BopsApi::Engine, at: "/api"
   get "/api-docs(/index)", to: redirect("/api/docs")
 
+  mount BopsAdmin::Engine, at: "/admin"
+
   authenticate :user, ->(u) { u.administrator? } do
     mount Sidekiq::Web, at: "/sidekiq"
   end
@@ -256,14 +258,4 @@ Rails.application.routes.draw do
   end
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
-
-  namespace :administrator do
-    resource :dashboard, only: %i[show]
-    resource :local_authority, only: %i[show edit update]
-    resources :users, only: %i[index new create edit update] do
-      member do
-        get :resend_invite
-      end
-    end
-  end
 end

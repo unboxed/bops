@@ -1,0 +1,88 @@
+<%= form_with(model: @local_authority, url: profile_path, id: "profile-form") do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_fieldset(legend: { text: nil }) do %>
+
+  <%= form.govuk_text_field(
+     :signatory_name,
+     label: { text: t(".signatory_name"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".signatory_name_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+  <%= form.govuk_text_field(
+     :signatory_job_title,
+     label: { text: t(".signatory_job_title"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".signatory_job_title_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+  <%= form.govuk_text_field(
+     :enquiries_paragraph,
+     label: { text: t(".enquiries_paragraph"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".enquiries_paragraph_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+  <%= form.govuk_text_field(
+     :email_address,
+     label: { text: t(".email_address"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".email_address_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+  <%= form.govuk_text_field(
+     :feedback_email,
+     label: { text: t(".feedback_email"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".feedback_email_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+   <%= form.govuk_text_field(
+     :press_notice_email,
+     label: { text: t(".press_notice_email"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".press_notice_email_hint") },
+     class: "govuk-input--width-30"
+   ) %>
+
+  <%= form.govuk_text_field(
+     :reviewer_group_email,
+     label: { text: t(".reviewer_group_email"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".reviewer_group_email_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+  <%= form.govuk_text_field(
+     :notify_api_key,
+     label: { text: t(".notify_api_key"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".notify_api_key_hint_html", notify_notion_link: link_to("Read our guide to Notify set up.", t('.notify_notion_link'), target: '_blank', class: "govuk-link")) },
+     class: "govuk-input--width-30",
+     type: "password"
+  ) %>
+
+  <%= form.govuk_text_field(
+     :notify_letter_template,
+     label: { text: t(".notify_letter_template"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".notify_letter_template_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+   <%= form.govuk_text_field(
+      :reply_to_notify_id,
+      label: { text: t(".reply_to_notify_id"), class: "govuk-label govuk-label--m" },
+      hint: { text: t(".reply_to_notify_id_hint") },
+      class: "govuk-input--width-30"
+   ) %>
+
+  <%= form.govuk_text_field(
+     :email_reply_to_id,
+     label: { text: t(".email_reply_to_id"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".email_reply_to_id_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_submit(t(".submit")) %>
+    <%= back_link %>
+  </div>
+<% end %>

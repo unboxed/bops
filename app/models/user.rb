@@ -37,6 +37,10 @@ class User < ApplicationRecord
 
       [["Unassigned", nil]].concat(users)
     end
+
+    def by_name
+      order(name: :asc)
+    end
   end
 
   def self.find_for_authentication(tainted_conditions)

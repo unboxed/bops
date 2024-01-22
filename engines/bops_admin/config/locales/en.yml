@@ -1,0 +1,93 @@
+---
+en:
+  bops_admin:
+    administrator_required: You need to be an administrator to view the page '%{path}'
+    application:
+      navigation_items:
+        profile: Profile
+        users: Users
+    dashboards:
+      show:
+        administrator_dashboard: Administrator dashboard
+        welcome_message: Welcome %{name}
+    profiles:
+      edit:
+        profile: Edit profile
+      form:
+        email_address: Email
+        email_address_hint: This is the email address that appears on decision notices.
+        email_reply_to_id: "'Email to' Notify ID"
+        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account.
+        enquiries_paragraph: Contact address
+        enquiries_paragraph_hint: This is the contact address that will appear on decision notices and other correspondence.
+        feedback_email: Feedback email
+        feedback_email_hint: This is the email of the person or team who will deal with any queries about the BOPS service at your council.
+        legend: Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
+        notify_api_key: Notify API key
+        notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
+        notify_letter_template: Notify letter template
+        notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
+        notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
+        press_notice_email: Press notice email
+        press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
+        reply_to_notify_id: "'Reply to' Notify ID"
+        reply_to_notify_id_hint: Find this in your Notify account.
+        reviewer_group_email: BOPS lead email
+        reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
+        signatory_job_title: Job title
+        signatory_job_title_hint: This is the job title of the person whose signature appears at the bottom of decision notices.
+        signatory_name: Signatory
+        signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
+        submit: Submit
+      show:
+        email_address: Email
+        email_address_hint: This is the email address that appears on decision notices.
+        email_reply_to_id: "'Email to' Notify ID"
+        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account.
+        enquiries_paragraph: Contact address
+        enquiries_paragraph_hint: This is the contact address that will appear on decision notices and other correspondence.
+        feedback_email: Feedback email
+        feedback_email_hint: This is the email of the person or team who will deal with any queries about the BOPS service at your council.
+        legend: Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
+        notify_api_key: Notify API key
+        notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
+        notify_letter_template: Notify letter template
+        notify_letter_template_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
+        notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
+        press_notice_email: Press notice email
+        press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
+        profile: Profile
+        reply_to_notify_id: "'Reply to' Notify ID"
+        reply_to_notify_id_hint: Find this in your Notify account.
+        reviewer_group_email: BOPS lead email
+        reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
+        signatory_job_title: Job title
+        signatory_job_title_hint: This is the job title of the person whose signature appears at the bottom of decision notices.
+        signatory_name: Signatory
+        signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
+      update:
+        profile_successfully_updated: Council information successfully updated
+    users:
+      create:
+        user_successfully_created: User successfully created
+      edit:
+        edit_user: Edit user
+      form:
+        email: Email
+        sms: SMS
+        submit: Submit
+      index:
+        add_user: Add user
+        users: Manage users
+      new:
+        add_user: Add a new user
+      resend_invite:
+        confirmation_failed_to_resend: Unable to send a reminder email - please contact support
+        confirmation_resent: User will receive a reminder email
+      table:
+        email: Email
+        'false': 'No'
+        sms: SMS
+        'true': 'Yes'
+      update:
+        user_successfully_updated: User successfully updated

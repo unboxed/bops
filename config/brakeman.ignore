@@ -35,6 +35,29 @@
       "note": ""
     },
     {
+      "warning_type": "HTTP Verb Confusion",
+      "warning_code": 118,
+      "fingerprint": "1e9f155cd38f2facbc9e446a4dc8c8dd88fe1b44f97b50e5ca1a6d9e2a23c936",
+      "check_name": "VerbConfusion",
+      "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
+      "file": "engines/bops_admin/app/controllers/bops_admin/application_controller.rb",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
+      "code": "session[:back_path] = request.referer if request.get?",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BopsAdmin::ApplicationController",
+        "method": "set_back_path"
+      },
+      "user_input": "request.get?",
+      "confidence": "Weak",
+      "cwe_id": [
+        352
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
       "fingerprint": "7db818492a354dcc125c250a78a18b6689d8fa8545c3e7c1a015440df0ea2094",
@@ -126,6 +149,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-12-08 15:07:33 +0000",
+  "updated": "2024-01-23 02:47:22 +0000",
   "brakeman_version": "6.0.1"
 }

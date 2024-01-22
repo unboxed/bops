@@ -1,0 +1,27 @@
+<%= form_with model: @user do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_fieldset(legend: { text: nil }) do %>
+    <%= form.govuk_text_field :name, class: "govuk-input--width-30" %>
+    <%= form.govuk_text_field :email, class: "govuk-input--width-30" %>
+    <%= form.govuk_text_field :mobile_number, class: "govuk-input--width-30" %>
+    <%= form.govuk_collection_select(
+      :otp_delivery_method,
+      otp_delivery_method_options,
+      :first,
+      :last
+    ) %>
+    <% unless form.object == current_user %>
+      <%= form.govuk_collection_select(
+        :role,
+        User.roles.keys,
+        :itself,
+        :capitalize
+      ) %>
+    <% end %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_submit(t(".submit")) %>
+    <%= back_link %>
+  </div>
+<% end %>

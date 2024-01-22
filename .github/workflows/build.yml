@@ -54,6 +54,7 @@ jobs:
               pattern: "*_spec.rb",
               directories: "{components,form_models,helpers,presenters,mailer,jobs,services,translations}",
             }
+          - { group: "bops_admin", pattern: "*_spec.rb", module: "engines" }
           - { group: "bops_api", pattern: "*_spec.rb", module: "engines" }
       fail-fast: false
     with:

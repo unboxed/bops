@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template app-html-class">
-  <%= render "head" %>
+  <%= render "application/head" %>
 
   <body class="govuk-template__body app-body-class" data-test="My value" data-other="report:details">
     <%= javascript_tag nonce: true do %>
@@ -22,7 +22,7 @@
     <% unless @blank_layout == true %>
       <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", 'data-module': 'govuk-skip-link' %>
       <%= render(EnvironmentBannerComponent.new(display: Bops.env.staging?)) %>
-      <%= render "header" %>
+      <%= render "application/header" %>
     <% end %>
 
     <div class="govuk-width-container app-width-container--wide">
@@ -51,7 +51,7 @@
       <%= render_navigation unless @blank_layout == true %>
 
       <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
-        <%= render "flash_content" %>
+        <%= render "application/flash_content" %>
         <%= yield %>
       </main>
     </div>

@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
   end
 
   def enforce_user_permissions
-    redirect_to administrator_dashboard_path if current_user&.administrator?
+    redirect_to bops_admin.dashboard_url if current_user&.administrator?
   end
 
   def ensure_user_is_reviewer

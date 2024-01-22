@@ -1,0 +1,32 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+  <tr class="govuk-table__row">
+    <th scope="col" class="govuk-table__header">User details</th>
+    <th scope="col" class="govuk-table__header">2FA set up</th>
+    <th scope="col" class="govuk-table__header">2FA method</th>
+  </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+
+  <% users.each do |user| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <%= user.name %><br>
+        <%= user.role.capitalize %><br>
+        <%= user.email %><br>
+        <%= number_to_phone(user.mobile_number, delimiter: " ", pattern: /(\d{5})(\d{3})(\d{3})$/) %><br>
+        <%= link_to("Edit user", edit_user_path(user), class: "govuk-link") %>
+        <% if user.unconfirmed? %>
+          <%= link_to("Resend invite", resend_invite_user_path(user), class: "govuk-link") %>
+        <% end %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= t(".#{user.otp_required_for_login}") %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= t(".#{user.otp_delivery_method}") %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
