@@ -5,7 +5,9 @@
   <ul class="app-task-list__items">
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
-        <%= link_to "Check Environment Impact Assessment", edit_planning_application_validation_environment_impact_assessment_path(@planning_application), class: "govuk-link" %>
+        <%= link_to "Check Environment Impact Assessment",
+         @planning_application.environment_impact_assessment.nil? ? new_planning_application_validation_environment_impact_assessment_path(@planning_application) : planning_application_validation_environment_impact_assessment_path(@planning_application), 
+         class: "govuk-link" %>
       </span>
 
       <%= render(

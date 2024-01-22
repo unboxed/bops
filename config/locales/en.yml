@@ -185,6 +185,12 @@ en:
               blank: Fill in your assessment
             policies:
               blank: Fill in the policies you consulted
+        environment_impact_assessment:
+          attributes:
+            address:
+              blank: Enter an address where the fee can be paid
+            fee:
+              blank: Enter a fee or enter '0' if there is no fee
         planning_application:
           attributes:
             base:
@@ -684,6 +690,8 @@ en:
       validation_request_closure_mail: Changes to your %{application_type_name} application
       validation_request_mail: "%{application_type_name} application - further changes needed"
   environment_impact_assessment:
+    address_error: You have entered a fee but not provided an address. Enter an address where the fee can be paid.
+    fee_error: Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee.
     guidance_link: https://www.gov.uk/government/publications/environmental-impact-assessment-screening-checklist
   errors:
     messages:
@@ -751,7 +759,6 @@ en:
         removed: Have the permitted development rights relevant for this application been removed?
       planning_application:
         determination_date: Enter determination date
-        environment_impact_assessment: Does the application require an assessment?
         received_at: Date received
         valid_fee: Is the fee valid?
         valid_red_line_boundary: Is this red line boundary valid?
@@ -759,6 +766,8 @@ en:
       review_immunity_detail:
         accepted: Is the application immune from enforcement?
         removed: Is the application immune from enforcement?
+      environment_impact_assessment:
+        title: Does the application require an assessment?
   local_policies:
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
@@ -1334,6 +1343,9 @@ en:
           label:
             'no': 'No'
             'yes': 'Yes'
+        create:
+          success_no: Application marked as not requiring an EIA
+          success_yes: Application marked as requiring an EIA. The determination period is extended to 16 weeks.
         update:
           success_no: Application marked as not requiring an EIA
           success_yes: Application marked as requiring an EIA. The determination period is extended to 16 weeks.
