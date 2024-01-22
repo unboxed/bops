@@ -2,13 +2,9 @@
 <html lang="en" class="govuk-template app-html-class">
   <%= render "head" %>
 
-  <body class="govuk-template__body app-body-class govuk-frontend-supported" data-test="My value" data-other="report:details">
+  <body class="govuk-template__body app-body-class" data-test="My value" data-other="report:details">
     <%= javascript_tag nonce: true do %>
-      document.body.className = (
-        (document.body.className)
-          ? document.body.className + ' js-enabled'
-          : 'js-enabled'
-      );
+      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
     <% end %>
 
     <% if gtmid = Rails.configuration.google_tag_manager_id  %>
