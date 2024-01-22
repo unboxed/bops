@@ -54,7 +54,9 @@ module PlanningApplications
         end
       end
     rescue Neighbour::AddressValidationError => e
-      redirect_address_validation_error(e)
+      redirect_after_rescue(e)
+    rescue ActiveRecord::RecordInvalid => e
+      redirect_after_rescue(e)
     end
 
     private
@@ -72,6 +74,7 @@ module PlanningApplications
         :neighbour_letter_text,
         :resend_existing,
         :resend_reason,
+        :deadline_extension,
         :polygon_geojson,
         neighbours_attributes: %i[id selected]
       )
@@ -114,7 +117,7 @@ module PlanningApplications
     end
 
     def update_consultation!
-      @consultation.update!(consultation_params.except(:resend_existing, :resend_reason).merge(status: "in_progress"))
+      @consultation.update!(consultation_params.except(:resend_existing, :resend_reason).merge(status: "in_progress"), :apply_deadline_extension)
     end
 
     def send_neighbour_consultation_letter_copy
@@ -143,9 +146,8 @@ module PlanningApplications
       consultation_params[:resend_reason] if resend_existing?
     end
 
-    def redirect_address_validation_error(error)
-      flash[:alert] = error
-      redirect_to planning_application_consultation_neighbour_letters_path(@planning_application)
+    def redirect_after_rescue(error)
+      redirect_to planning_application_consultation_neighbour_letters_path(@planning_application), alert: error
     end
 
     def record_audit_for_letters_sent!
