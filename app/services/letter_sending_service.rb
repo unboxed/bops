@@ -38,7 +38,7 @@ class LetterSendingService
         personalisation:
       )
     rescue Notifications::Client::RequestError => e
-      letter_record.update(status: "rejected", failure_reason: e.message)
+      letter_record.update!(status: "rejected", failure_reason: e.message)
       Appsignal.send_error(e)
       return
     end

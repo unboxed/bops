@@ -165,6 +165,6 @@ class User < ApplicationRecord
     #    required for streaming cipher modes but including it is a best practice
     #    so that your code will continue to function correctly even if you later
     #    change to a block cipher mode.
-    cipher.update(cipher_text) + cipher.final
+    cipher.update(cipher_text) + cipher.final # rubocop:disable Rails/SaveBang
   end
 end

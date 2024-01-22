@@ -12,7 +12,7 @@ module PlanningApplications
       end
 
       def validate
-        @planning_application.update(description_changes_params)
+        @planning_application.update!(description_changes_params)
 
         respond_to do |format|
           format.html do

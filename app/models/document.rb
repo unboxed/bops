@@ -263,10 +263,10 @@ class Document < ApplicationRecord
     return false unless valid?
 
     if replacement_file.present?
-      planning_application.documents.create(attributes)
+      planning_application.documents.create!(attributes)
       reload.archive(I18n.t("document.replacement_document_uploaded"))
     else
-      save
+      save!
     end
   end
 

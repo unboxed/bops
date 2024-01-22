@@ -760,7 +760,7 @@ class PlanningApplication < ApplicationRecord
       set_key_dates
     end
 
-    save
+    save!
   end
 
   private

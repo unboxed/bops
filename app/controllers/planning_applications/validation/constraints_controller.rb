@@ -17,7 +17,7 @@ module PlanningApplications
               if pac.identified?
                 pac.update!(removed_at: Time.current)
               else
-                pac.destroy
+                pac.destroy!
               end
             elsif pac.identified? && pac.removed_at?
               pac.update!(removed_at: nil) if constraint_ids.include?(pac.constraint_id)

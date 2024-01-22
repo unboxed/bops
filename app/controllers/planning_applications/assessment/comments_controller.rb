@@ -13,7 +13,7 @@ module PlanningApplications
 
       def update
         comment = @comment_type.comments.find(params[:id])
-        comment.update(deleted_at: DateTime.current)
+        comment.update!(deleted_at: DateTime.current)
         render(json: {partial: update_comment_partial})
       end
 

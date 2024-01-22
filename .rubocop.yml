@@ -79,3 +79,11 @@ Rails/ThreeStateBooleanColumn:
 Rails/ApplicationRecord:
   Exclude:
     - db/migrate/*
+
+Rails/SaveBang:
+  Exclude:
+    # past migrations ignored, see above
+    - db/migrate/202[0123]*
+    # specs ignored because we might rely on this behaviour for testing errors
+    - engines/*/spec/**/*
+    - spec/**/*

@@ -86,7 +86,7 @@ module PlanningApplications
 
         @planning_application
           .proposal_measurement
-          .update(consistency_checklist_params[:proposal_measurement])
+          .update!(consistency_checklist_params[:proposal_measurement])
 
         Audit.create!(
           planning_application_id: @planning_application.id,

@@ -62,7 +62,7 @@ module PlanningApplications
       end
 
       def destroy
-        @validation_request.destroy
+        @validation_request.destroy!
 
         respond_to do |format|
           if @validation_request.destroyed?

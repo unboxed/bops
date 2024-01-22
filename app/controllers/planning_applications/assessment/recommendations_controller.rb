@@ -49,7 +49,7 @@ module PlanningApplications
           if @recommendation.review_complete?
             @recommendation.review!
           else
-            @recommendation.save
+            @recommendation.save!
           end
 
           format.html do

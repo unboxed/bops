@@ -80,7 +80,7 @@ module PlanningApplications
     def calculate_consultation_end_date
       new_end_date = @site_notice.displayed_at + 21.days
 
-      @planning_application.consultation.update(end_date: new_end_date)
+      @planning_application.consultation.update!(end_date: new_end_date)
     end
 
     def send_mail

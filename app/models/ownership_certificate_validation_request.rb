@@ -7,7 +7,7 @@ class OwnershipCertificateValidationRequest < ValidationRequest
   validate :allows_only_one_open_ownership_certificate_change, on: :create
 
   def update_planning_application!(params)
-    planning_application.update(valid_ownership_certificate: true)
+    planning_application.update!(valid_ownership_certificate: true)
 
     OwnershipCertificateCreationService.new(
       params: params[:params], planning_application:

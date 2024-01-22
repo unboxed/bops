@@ -142,7 +142,7 @@ module BopsApi
         ownership_details = data_params[:applicant][:ownership]
 
         ActiveRecord::Base.transaction do
-          ownership_certificate = OwnershipCertificate.create(planning_application:, certificate_type: ownership_details[:certificate])
+          ownership_certificate = OwnershipCertificate.create!(planning_application:, certificate_type: ownership_details[:certificate])
 
           if ownership_details[:owners].present?
             ownership_details[:owners].each do |owner|
