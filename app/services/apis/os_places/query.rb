@@ -12,8 +12,8 @@ module Apis
         handle_request { client.get("find", find_addresses_params(query)) }
       end
 
-      def find_addresses_by_polygon(body)
-        handle_request { client.post(body, find_addresses_by_polygon_params) }
+      def find_addresses_by_polygon(body, uprn)
+        handle_request { client.post(body, find_addresses_by_polygon_params, uprn) }
       end
 
       private

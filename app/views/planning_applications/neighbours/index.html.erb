@@ -18,7 +18,7 @@
     address_fill_url: os_places_api_index_path,
     address_fill_id: "neighbour-address",
     address_fill_name: "consultation[neighbours_attributes][][address]",
-    polygon_search_url: search_addresses_by_polygon_path,
+    polygon_search_url: search_addresses_by_polygon_path(planning_application: @planning_application),
     polygon_search_id: "neighbour-addresses",
     polygon_search_name: "consultation[neighbours_attributes][][address]"
   } do %>

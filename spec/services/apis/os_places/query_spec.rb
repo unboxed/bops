@@ -64,6 +64,7 @@ RSpec.describe Apis::OsPlaces::Query, exclude_stub_any_os_places_api_request: tr
         "properties" => nil
       }
     end
+    let(:uprn) { "100021892955" }
 
     it "initializes a Client object and invokes #find_addresses_by_polygon" do
       expect_any_instance_of(
@@ -73,10 +74,11 @@ RSpec.describe Apis::OsPlaces::Query, exclude_stub_any_os_places_api_request: tr
         {
           output_srs: "EPSG:27700",
           srs: "EPSG:27700"
-        }
+        },
+        uprn
       ).and_call_original
 
-      described_class.new.find_addresses_by_polygon(geojson)
+      described_class.new.find_addresses_by_polygon(geojson, uprn)
     end
 
     context "when Faraday::Error is raised" do
@@ -87,7 +89,7 @@ RSpec.describe Apis::OsPlaces::Query, exclude_stub_any_os_places_api_request: tr
       it "sends exception to Appsignal" do
         expect(Appsignal).to receive(:send_exception).with(instance_of(Faraday::Error))
 
-        result = described_class.new.find_addresses_by_polygon(geojson)
+        result = described_class.new.find_addresses_by_polygon(geojson, uprn)
         expect(result).to eq([])
       end
     end

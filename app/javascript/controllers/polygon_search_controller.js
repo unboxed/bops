@@ -253,7 +253,7 @@ export default class extends Controller {
   showTotalResults(totalResults) {
     const paragraph = document.createElement("p")
     paragraph.classList.add("govuk-body", "govuk-!-font-weight-bold")
-    paragraph.textContent = `Your search has returned ${totalResults} results.`
+    paragraph.textContent = `Your search has returned ${totalResults} results. The site address is not included in these results.`
 
     if (totalResults > 1000) {
       paragraph.appendChild(

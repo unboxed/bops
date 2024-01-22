@@ -10,9 +10,10 @@ module Apis
 
       attr_reader :all_addresses
 
-      def initialize(body, params)
+      def initialize(body, params, uprn)
         @body = body
         @params = params
+        @uprn = uprn
         @all_addresses = []
         @offset = 0
       end
@@ -25,7 +26,7 @@ module Apis
 
       private
 
-      attr_reader :body, :params, :offset, :total_results
+      attr_reader :body, :params, :uprn, :offset, :total_results
 
       def fetch_all_addresses
         loop do
@@ -54,7 +55,9 @@ module Apis
       end
 
       def retrieve_addresses(data)
-        data["results"]&.map { |result| result["DPA"]["ADDRESS"] } || []
+        data["results"]
+          &.reject { |result| uprn.present? && result["DPA"]["UPRN"] == uprn }
+          &.map { |result| result["DPA"]["ADDRESS"] } || []
       end
 
       def end_of_results?
