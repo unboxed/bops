@@ -16,6 +16,7 @@ class PlanningApplication < ApplicationRecord
   include PlanningApplication::Notification
 
   DAYS_TO_EXPIRE = 56
+  DAYS_TO_EXPIRE_EIA = 112
 
   enum user_role: {applicant: 0, agent: 1, proxy: 2}
 
@@ -754,7 +755,7 @@ class PlanningApplication < ApplicationRecord
 
   def modify_expiry_date
     if environment_impact_assessment.required?
-      self.expiry_date += 56.days
+      self.expiry_date = DAYS_TO_EXPIRE_EIA.days.after(validated_at || received_at)
     else
       set_key_dates
     end
