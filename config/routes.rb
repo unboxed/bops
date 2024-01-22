@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get "/api-docs(/index)", to: redirect("/api/docs")
 
   authenticate :user, ->(u) { u.administrator? } do
-    mount Sidekiq::Web => "/sidekiq"
+    mount Sidekiq::Web, at: "/sidekiq"
   end
 
   devise_for :users, controllers: {
