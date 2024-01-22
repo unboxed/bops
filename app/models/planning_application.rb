@@ -756,8 +756,7 @@ class PlanningApplication < ApplicationRecord
     if environment_impact_assessment.required?
       self.expiry_date += 56.days
     else
-      self.expiry_date = DAYS_TO_EXPIRE.days.after(validated_at || received_at)
-      self.target_date = 35.days.after(validated_at || received_at)
+      set_key_dates
     end
 
     save

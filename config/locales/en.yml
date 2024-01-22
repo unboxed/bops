@@ -179,18 +179,18 @@ en:
               missing_numbers: All documents listed on the decision notice must have a document number
             tags:
               unpermitted_tags: Please choose valid tags
-        local_policy_area:
-          attributes:
-            assessment:
-              blank: Fill in your assessment
-            policies:
-              blank: Fill in the policies you consulted
         environment_impact_assessment:
           attributes:
             address:
               blank: Enter an address where the fee can be paid
             fee:
               blank: Enter a fee or enter '0' if there is no fee
+        local_policy_area:
+          attributes:
+            assessment:
+              blank: Fill in your assessment
+            policies:
+              blank: Fill in the policies you consulted
         planning_application:
           attributes:
             base:
@@ -754,6 +754,8 @@ en:
         password: Password
         role: Role
     legend:
+      environment_impact_assessment:
+        title: Does the application require an assessment?
       permitted_development_right:
         accepted: Have the permitted development rights relevant for this application been removed?
         removed: Have the permitted development rights relevant for this application been removed?
@@ -766,8 +768,6 @@ en:
       review_immunity_detail:
         accepted: Is the application immune from enforcement?
         removed: Is the application immune from enforcement?
-      environment_impact_assessment:
-        title: Does the application require an assessment?
   local_policies:
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
@@ -1338,14 +1338,14 @@ en:
           create:
             success: Redacted documents successfully uploaded
       environment_impact_assessments:
+        create:
+          success_no: Application marked as not requiring an EIA
+          success_yes: Application marked as requiring an EIA. The determination period is extended to 16 weeks.
         form:
           hint: This application is subject to an EIA. The determination period will be extended to 16 weeks.
           label:
             'no': 'No'
             'yes': 'Yes'
-        create:
-          success_no: Application marked as not requiring an EIA
-          success_yes: Application marked as requiring an EIA. The determination period is extended to 16 weeks.
         update:
           success_no: Application marked as not requiring an EIA
           success_yes: Application marked as requiring an EIA. The determination period is extended to 16 weeks.

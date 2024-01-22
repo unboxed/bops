@@ -8,11 +8,13 @@ class EnvironmentImpactAssessment < ApplicationRecord
   validates :fee, presence: {unless: -> { address.blank? }}
   validates :address, presence: {unless: -> { fee.blank? }}
 
-  after_commit :modify_expiry_date
+  after_create :modify_expiry_date
+  after_update :modify_expiry_date, unless: :required?
   before_save :create_audit!
 
   with_options to: :planning_application do
     delegate :audits
+    delegate :modify_expiry_date
   end
 
   private
@@ -26,9 +28,5 @@ class EnvironmentImpactAssessment < ApplicationRecord
       activity_information: "Environment impact assessment",
       audit_comment: comment
     )
-  end
-
-  def modify_expiry_date
-    planning_application.modify_expiry_date
   end
 end

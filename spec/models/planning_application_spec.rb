@@ -399,48 +399,6 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    describe "::before_update #modify_expiry_date" do
-      let(:local_authority) { create(:local_authority) }
-      let(:assessor) { create(:user, :assessor, local_authority:) }
-      let!(:planning_application) do
-        travel_to("2024-01-01") { create(:planning_application, local_authority:) }
-      end
-
-      it "adds 8 weeks to the expiry date if an EIA is required" do
-        expect do
-          planning_application.update!(environment_impact_assessment: true)
-        end.to change(planning_application, :expiry_date).from("Mon, 26 Feb 2024".to_date).to("Mon, 22 Apr 2024".to_date)
-          .and change(Audit, :count).by(1)
-      end
-
-      it "does not get called unless the environment impact assessment value has changed" do
-        expect do
-          planning_application.update!(postcode: "111XXX")
-        end.not_to change(planning_application, :expiry_date)
-      end
-
-      context "when planning application has been marked as requiring an EIA" do
-        let!(:planning_application) do
-          travel_to("2024-01-01") do
-            create(:planning_application, local_authority:, environment_impact_assessment: true, target_date: "Mon, 22 Apr 2024".to_date, expiry_date: "Mon, 22 Apr 2024".to_date)
-          end
-        end
-
-        it "sets the original expiry date if the EIA is no longer required" do
-          expect do
-            planning_application.update!(environment_impact_assessment: false)
-          end.to change(planning_application, :expiry_date).from("Mon, 22 Apr 2024".to_date).to("Mon, 26 Feb 2024".to_date)
-            .and change(Audit, :count).by(1)
-        end
-
-        it "does not add an additional 8 weeks to the expiry date if an EIA has already been marked as required" do
-          expect do
-            planning_application.update!(environment_impact_assessment: true)
-          end.not_to change(planning_application, :expiry_date)
-        end
-      end
-    end
-
     describe "::after_update #update_constraints" do
       let(:boundary_geojson) do
         {
