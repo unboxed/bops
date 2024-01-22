@@ -201,7 +201,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       it "excludes this address from the returned address list" do
         within("#address-container") do
           expect(page).to have_content(
-            "Your search has returned 2 results. The site address is not included in these results."
+            "Your search has returned 1 results. The site address is not included in these results."
           )
 
           within(".address-entry#neighbour-addresses-0") do
