@@ -126,7 +126,6 @@ COPY --chown=app:app ./db/ /app/db/
 COPY --chown=app:app ./engines/ /app/engines/
 COPY --chown=app:app ./lib/ /app/lib/
 COPY --chown=app:app ./public/ /app/public/
-COPY --chown=app:app ./babel.config.js /app/babel.config.js
 COPY --chown=app:app ./config.ru /app/config.ru
 COPY --chown=app:app ./postcss.config.js /app/postcss.config.js
 COPY --chown=app:app ./Rakefile /app/Rakefile
