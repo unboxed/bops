@@ -1,0 +1,41 @@
+<%= form_with model: @planning_application, local: true, url: planning_application_validation_reporting_type_url(@planning_application) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+      :reporting_type,
+      legend: { size: "m" }
+    ) do %>
+      <% @planning_application.fetch_reporting_types.each do |type| %>
+        <%= form.govuk_radio_button(
+          :reporting_type,
+          @planning_application.fetch_reporting_type(type)[:category],
+          label: { text: @planning_application.fetch_reporting_type_with_description(type) },
+          data: { "aria-controls": "conditional-#{type}" }
+        ) %>
+
+          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id=<%="conditional-#{type}"%>>
+            <% if @planning_application.fetch_reporting_type(type)[:guidance].present? %>
+              <p class="govuk-body"><strong>Guidance</strong></p>
+              <p class="govuk-hint"><%= @planning_application.fetch_reporting_type(type)[:guidance] %></p>
+              <% if @planning_application.fetch_reporting_type(type)[:guidance_link].present? %>
+                <%= link_to("Read more guidance GOV.UK (opens in new tab)", @planning_application.fetch_reporting_type(type)[:guidance_link], target: '_blank', class: "govuk-link") %>
+              <% end %>
+            <% end %>
+            <% if @planning_application.fetch_reporting_type(type)[:legislation].present? %>
+              <p class="govuk-body"><strong>Legislation</strong></p>
+              <p class="govuk-hint"><%= @planning_application.fetch_reporting_type(type)[:legislation] %></p>
+            <% end %>
+          </div>
+
+      <% end %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <%= form.submit(
+      t("form_actions.save_and_mark_as_complete"),
+      class: "govuk-button",
+      data: { module: "govuk-button" }
+    ) %>
+    <%= back_link %>
+  </div>
+<% end %>

@@ -148,6 +148,8 @@ Rails.application.routes.draw do
 
         resource :environment_impact_assessment, only: %i[new create edit show update]
 
+        resource :reporting_type, only: %i[edit update]
+
         resource :constraints, only: %i[show update]
 
         namespace :document, as: :documents do
