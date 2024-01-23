@@ -140,6 +140,48 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
   end
 
+  context "when sending letters about an application with an EIA" do
+    it "successfully sends the right letter to an applicant for an application with an EIA" do
+      eia_planning_application = create(:planning_application,
+        :from_planx,
+        :with_boundary_geojson,
+        application_type:,
+        local_authority: default_local_authority,
+        api_user:,
+        agent_email: "agent@example.com",
+        applicant_email: "applicant@example.com",
+        make_public: true)
+
+      travel_to(Time.zone.local(2023, 9, 1, 10))
+      sign_in assessor
+      visit "/planning_applications/#{eia_planning_application.id}"
+
+      create(:environment_impact_assessment, planning_application: eia_planning_application, address: "4 Council Buildings", email_address: "eia@example.com", fee: 8)
+
+      eia_consultation = eia_planning_application.consultation
+      eia_neighbour = create(:neighbour, consultation: eia_consultation, address: "4, Sand Street, E15LT")
+      eia_neighbour_letter = create(:neighbour_letter, neighbour: eia_neighbour, status: "submitted", notify_id: "124")
+
+      stub_send_letter(status: 200)
+      stub_get_notify_status(notify_id: eia_neighbour_letter.notify_id)
+
+      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(eia_planning_application, "agent@example.com").and_call_original
+      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(eia_planning_application, "applicant@example.com").and_call_original
+
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      expect(page).to have_content("4, Sand Street, E15LT")
+
+      click_button "Confirm and send letters"
+      expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
+
+      expect(eia_planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
+
+      expect(NeighbourLetter.last.text).to include("You can request a hard copy for a fee of £8 by emailing eia@example.com or in person at 4 Council Buildings")
+    end
+  end
+
   context "when there is a validation error on a provided address" do
     let(:neighbour) { Neighbour.new(address: "Cheese cottage", consultation:) }
 

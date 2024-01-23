@@ -21,6 +21,18 @@ class EnvironmentImpactAssessment < ApplicationRecord
     delegate :modify_expiry_date
   end
 
+  def has_address?
+    address
+  end
+
+  def has_email?
+    email_address
+  end
+
+  def has_address_and_email?
+    address && email_address
+  end
+
   private
 
   def create_audit!

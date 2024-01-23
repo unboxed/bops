@@ -21,11 +21,7 @@ en:
 
       # View, comment and track planning applications online
 
-      Use this link to:
-      * view the application documents
-      * submit your comments about the application
-
-      %{application_link}
+      %{view_application}
       
       # Commenting on this application
       
@@ -38,8 +34,6 @@ en:
       # If a decision is appealed
       
       If the Council's decision is appealed and you have commented, we will write to you to let you know. Your comments will be shared with the Planning Inspectorate. You will not be able to make any further comments if the decision is appealed.
-      
-      You will be notified of a decision about the appeal.
       
       # Commenting by post
       
@@ -112,3 +106,41 @@ en:
       
       %{current_user}
       Planning officer
+
+    view_application_paragraph: |-
+      Use this link to:
+      * view the application documents
+      * submit your comments about the application
+
+      %{application_link}
+    eia_both_fields_content: |-
+      Use this link to:
+      * view the application documents, including the Environmental Statement
+      * submit your comments about the application
+      
+      %{application_link}
+  
+      This application is subject to and Environmental Impact Assessment (EIA).
+  
+      You can request a hard copy for a fee of %{eia_fee} by emailing %{eia_email} or in person at %{eia_address}
+    eia_address_content: |-
+      Use this link to:
+      * view the application documents, including the Environmental Statement
+      * submit your comments about the application
+      
+      %{application_link}
+      
+      This application is subject to and Environmental Impact Assessment (EIA).
+      
+      You can request a hard copy for a fee of %{eia_fee} in person at %{eia_address}
+    eia_email_content: |-
+      Use this link to:
+      * view the application documents, including the Environmental Statement
+      * submit your comments about the application
+      
+      %{application_link}
+      
+      This application is subject to and Environmental Impact Assessment (EIA).
+      
+      You can request a hard copy for a fee of %{eia_fee} by emailing %{eia_email}.
+      
