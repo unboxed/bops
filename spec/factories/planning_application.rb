@@ -33,6 +33,8 @@ FactoryBot.define do
     result_heading { Faker::Lorem.unique.sentence }
     result_description { Faker::Lorem.unique.sentence }
     result_override { "Override" }
+    target_date { 4.weeks.from_now }
+    expiry_date { 4.weeks.from_now }
     application_type
 
     proposal_details do

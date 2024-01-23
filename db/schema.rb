@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_18_114324) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_22_104018) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -277,6 +277,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_18_114324) do
     t.index ["site_notice_id"], name: "ix_documents_on_site_notice_id"
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
+  end
+
+  create_table "environment_impact_assessments", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.string "address"
+    t.integer "fee"
+    t.boolean "required", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_environment_impact_assessments_on_planning_application_id"
   end
 
   create_table "evidence_groups", force: :cascade do |t|
@@ -565,7 +575,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_18_114324) do
     t.datetime "not_started_at"
     t.boolean "valid_ownership_certificate"
     t.boolean "valid_description"
-    t.boolean "environment_impact_assessment"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

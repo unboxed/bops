@@ -29,15 +29,15 @@ RSpec.describe "Validation tasks" do
       expect(page).to have_link(
         "Check EIA guidance", href: "https://www.gov.uk/government/publications/environmental-impact-assessment-screening-checklist"
       )
-      within(".govuk-hint") do
-        expect(page).to have_content("This application is subject to an EIA. The determination period will be extended to 16 weeks.")
-      end
+      expect(page).to have_content("This application is subject to an EIA. The determination period will be extended to 16 weeks.")
     end
 
     it "I can mark the application as requiring an environment impact assessment" do
       click_link "Check Environment Impact Assessment"
 
       choose "Yes"
+      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "123 street"
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "196"
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--notice") do
@@ -60,6 +60,86 @@ RSpec.describe "Validation tasks" do
         expect(page).to have_content("Environment impact assessment updated")
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
+
+      expect(planning_application.reload.environment_impact_assessment.address).to eq "123 street"
+      expect(planning_application.reload.environment_impact_assessment.fee).to eq 196
+    end
+
+    it "I can edit the information" do
+      click_link "Check Environment Impact Assessment"
+
+      choose "Yes"
+      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "123 street"
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "196"
+      click_button "Save and mark as complete"
+
+      within(".govuk-notification-banner--notice") do
+        expect(page).to have_content("Application marked as requiring an EIA. The determination period is extended to 16 weeks.")
+      end
+      within("#dates-and-assignment-details") do
+        expect(page).to have_content("Expiry date: 6 May 2024")
+        expect(page).to have_content("Subject to an EIA")
+        expect(page).to have_content("The expiry date has been extended to 16 weeks")
+      end
+      within("#environment-impact-assessment-task") do
+        within(".govuk-tag") do
+          expect(page).to have_content("Required")
+        end
+      end
+
+      click_link "Check Environment Impact Assessment"
+      click_link "Edit information"
+
+      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "456 street"
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "195"
+
+      click_button "Save and mark as complete"
+
+      within(".govuk-notification-banner--notice") do
+        expect(page).to have_content("Application marked as requiring an EIA. The determination period is extended to 16 weeks.")
+      end
+
+      expect(planning_application.reload.environment_impact_assessment.address).to eq "456 street"
+      expect(planning_application.reload.environment_impact_assessment.fee).to eq 195
+    end
+
+    it "shows errors" do
+      click_link "Check Environment Impact Assessment"
+
+      choose "Yes"
+
+      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "456 street"
+
+      click_button "Save and mark as complete"
+
+      within(".govuk-error-summary") do
+        expect(page).to have_content "Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee."
+      end
+
+      within(".govuk-form-group--error") do
+        expect(page).to have_content "Enter a fee or enter '0' if there is no fee"
+      end
+
+      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: ""
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "195"
+
+      click_button "Save and mark as complete"
+
+      within(".govuk-error-summary") do
+        expect(page).to have_content "You have entered a fee but not provided an address. Enter an address where the fee can be paid."
+      end
+
+      within(".govuk-form-group--error") do
+        expect(page).to have_content "Enter an address where the fee can be paid"
+      end
+
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: ""
+
+      click_button "Save and mark as complete"
+
+      within(".govuk-notification-banner--notice") do
+        expect(page).to have_content("Application marked as requiring an EIA. The determination period is extended to 16 weeks.")
+      end
     end
 
     context "when application has been marked as requiring an environment impact assessment" do
@@ -70,6 +150,7 @@ RSpec.describe "Validation tasks" do
         expect(page).to have_content("Expiry date: 6 May 2024")
 
         click_link "Check Environment Impact Assessment"
+        click_link "Edit information"
         choose "No"
         click_button "Save and mark as complete"
 

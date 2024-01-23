@@ -55,6 +55,7 @@ class PlanningApplication < ApplicationRecord
     has_one :local_policy, required: false
     has_one :fee_calculation, required: false
     has_one :ownership_certificate, required: false
+    has_one :environment_impact_assessment, required: false
 
     has_many(
       :policy_classes,
@@ -108,7 +109,6 @@ class PlanningApplication < ApplicationRecord
                 }, if: :valid_fee?
   before_update :audit_update_application_type!, if: :application_type_id_changed?
   before_update :create_proposal_measurement, if: :changed_to_prior_approval?
-  before_update :modify_expiry_date, if: :environment_impact_assessment_changed?
 
   after_update :audit_updated!
   after_update :update_constraints
@@ -137,7 +137,6 @@ class PlanningApplication < ApplicationRecord
     created_at(2i)
     created_at(1i)
     description
-    environment_impact_assessment
     proposal_details
     payment_reference
     payment_amount
@@ -746,16 +745,21 @@ class PlanningApplication < ApplicationRecord
   end
 
   def environment_impact_assessment_status
-    case environment_impact_assessment
-    when TrueClass
-      :required
-    when FalseClass
-      :not_required
-    when NilClass
-      :not_started
+    if environment_impact_assessment.present?
+      environment_impact_assessment.required ? :required : :not_required
     else
-      raise ArgumentError, "Unexpected value for 'environment_impact_assessment': #{environment_impact_assessment.inspect}"
+      :not_started
     end
+  end
+
+  def modify_expiry_date
+    if environment_impact_assessment.required?
+      self.expiry_date += 56.days
+    else
+      set_key_dates
+    end
+
+    save
   end
 
   private
@@ -792,7 +796,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_key_dates
-    return if environment_impact_assessment
+    return if environment_impact_assessment&.required?
 
     self.expiry_date = DAYS_TO_EXPIRE.days.after(validated_at || received_at)
     self.target_date = 35.days.after(validated_at || received_at)
@@ -951,13 +955,5 @@ class PlanningApplication < ApplicationRecord
     tags = Document::TAGS_MAP[tab]
 
     documents.select { |document| (tags & document.tags).any? }
-  end
-
-  def modify_expiry_date
-    if environment_impact_assessment
-      self.expiry_date += 56.days unless environment_impact_assessment_was
-    else
-      set_key_dates
-    end
   end
 end
