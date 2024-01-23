@@ -2,6 +2,7 @@ PATH
   remote: engines/bops_admin
   specs:
     bops_admin (0.1.0)
+      pagy
       rails (>= 7.0.8, < 7.1)
 
 PATH

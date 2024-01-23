@@ -4,8 +4,47 @@ en:
     administrator_required: You need to be an administrator to view the page '%{path}'
     application:
       navigation_items:
+        consultees: Consultees
         profile: Profile
         users: Users
+    consultees:
+      create:
+        consultee_successfully_created: Consultee successfully created
+      destroy:
+        consultee_successfully_destroyed: Consultee successfully deleted
+        consultee_unsuccessfully_destroyed: Unable to delete consultee - please contact support
+      edit:
+        edit_consultee: Edit consultee
+      form:
+        hints:
+          origin: What type of consultee is this?
+        labels:
+          email_address: Email address
+          external: External
+          internal: Internal
+          name: Name
+          organisation: Organisation
+          role: Role
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_consultee: Add consultee
+        are_you_sure: Are you sure you want to delete this consultee?
+        consultees: Manage consultees
+        find_consultees: Find consultees
+        headings:
+          actions: Actions
+          name: Name
+          organisation: Organisation
+          origin: Type
+          role: Role
+        no_consultees_found: No consultees found
+      new:
+        add_consultee: Add a new consultee
+      update:
+        consultee_successfully_updated: Consultee successfully updated
     dashboards:
       show:
         administrator_dashboard: Administrator dashboard

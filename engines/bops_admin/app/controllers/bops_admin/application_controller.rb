@@ -2,6 +2,8 @@
 
 module BopsAdmin
   class ApplicationController < ActionController::Base
+    include Pagy::Backend
+
     default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
 
     before_action :set_local_authority

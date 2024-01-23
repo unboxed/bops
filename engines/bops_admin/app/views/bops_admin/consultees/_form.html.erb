@@ -1,0 +1,17 @@
+<%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+<%= form.govuk_fieldset(legend: { text: nil }) do %>
+  <%= form.govuk_text_field :name, width: "one-half", label: { text: t(".labels.name") } %>
+  <%= form.govuk_email_field :email_address, width: "one-half", label: { text: t(".labels.email_address") } %>
+  <%= form.govuk_text_field :role, width: "one-half", label: { text: t(".labels.role") } %>
+  <%= form.govuk_text_field :organisation, width: "one-half", label: { text: t(".labels.organisation") } %>
+<% end %>
+
+<%= form.govuk_radio_buttons_fieldset(:origin, inline: true, legend: { size: "s", text: t(".hints.origin") }) do %>
+  <%= form.govuk_radio_button :origin, "internal", label: { text: t(".labels.internal") } %>
+  <%= form.govuk_radio_button :origin, "external", label: { text: t(".labels.external") } %>
+<% end %>
+
+<div class="govuk-button-group">
+  <%= form.govuk_submit(t(".submit")) %>
+  <%= back_link %>
+</div>
