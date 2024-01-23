@@ -95,7 +95,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect { create_planning_application }.to change(PlanxPlanningData, :count).by(1)
 
           expect(PlanxPlanningData.last).to have_attributes(
-            params_v2: params.to_json,
+            params_v2: params,
             session_id: "95f90e21-93f5-4761-90b3-815c673e041f"
           )
         end
@@ -237,7 +237,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect { create_planning_application }.to change(PlanxPlanningData, :count).by(1)
 
           expect(PlanxPlanningData.last).to have_attributes(
-            params_v2: params.to_json,
+            params_v2: params,
             session_id: "8da51c5b-a2a0-4386-a15d-29d66f9c121c"
           )
         end
@@ -343,7 +343,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect { create_planning_application }.to change(PlanxPlanningData, :count).by(1)
 
           expect(PlanxPlanningData.last).to have_attributes(
-            params_v2: params.to_json,
+            params_v2: params,
             session_id: "81bcaa0f-baf5-4573-ba0a-ea868c573faf"
           )
         end

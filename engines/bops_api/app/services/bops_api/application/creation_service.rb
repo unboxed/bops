@@ -95,7 +95,7 @@ module BopsApi
       def initialize_from_planning_application(planning_application)
         params_v2 = planning_application.params_v2 || raise_not_permitted_to_clone_error
 
-        @params = ActionController::Parameters.new(JSON.parse(params_v2))
+        @params = params_v2.with_indifferent_access
         @local_authority = planning_application.local_authority
         @user = planning_application.api_user
         @send_email = false
@@ -171,7 +171,9 @@ module BopsApi
       def process_immunity_details(planning_application)
         ActiveRecord::Base.transaction do
           immunity_detail = ImmunityDetail.new(planning_application: planning_application)
-          immunity_detail.end_date = planning_application
+
+          immunity_detail.end_date = params.dig("data", "proposal", "date", "completion")
+          immunity_detail.end_date ||= planning_application
             .find_proposal_detail("When were the works completed?")
             .first.response_values.first
           immunity_detail.save!

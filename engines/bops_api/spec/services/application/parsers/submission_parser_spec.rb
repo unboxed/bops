@@ -18,7 +18,7 @@ RSpec.describe BopsApi::Application::Parsers::SubmissionParser do
       it "returns a correctly formatted submission hash" do
         expect(parse_submission).to eq(
           session_id: "81bcaa0f-baf5-4573-ba0a-ea868c573faf",
-          params_v2: params.to_json
+          params_v2: params
         )
       end
     end
