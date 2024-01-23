@@ -75,7 +75,7 @@ RSpec.describe Apis::OsPlaces::PolygonSearchService, exclude_stub_any_os_places_
       end
 
       it "excludes this address" do
-        expect(total_results).to eq(2)
+        expect(total_results).to eq(1)
         expect(addresses.length).to eq(1)
         expect(addresses).to eq(["6, COXSON WAY, LONDON, SE1 2XB"])
       end

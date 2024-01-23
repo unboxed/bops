@@ -55,9 +55,15 @@ module Apis
       end
 
       def retrieve_addresses(data)
-        data["results"]
-          &.reject { |result| uprn.present? && result["DPA"]["UPRN"] == uprn }
-          &.map { |result| result["DPA"]["ADDRESS"] } || []
+        results = data["results"] || []
+
+        results.each_with_object([]) do |result, addresses|
+          if uprn.present? && result["DPA"]["UPRN"] == uprn
+            @total_results -= 1
+          else
+            addresses << result["DPA"]["ADDRESS"]
+          end
+        end
       end
 
       def end_of_results?
