@@ -1,0 +1,20 @@
+<% content_for :page_title do %>
+  <%= t(".edit_consultee") %> - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Consultees", consultees_path %>
+
+<% content_for :title, t(".edit_consultee") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".edit_consultee") %>
+    </h1>
+
+    <%= form_with model: @consultee, url: consultee_path(@consultee), scope: :consultee do |form| %>
+      <%= render "form", form: form %>
+    <% end %>
+  </div>
+</div>

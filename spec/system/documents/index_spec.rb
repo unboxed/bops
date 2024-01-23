@@ -47,10 +47,14 @@ RSpec.describe "Documents index page" do
     end
 
     it "File image opens in new tab" do
-      click_link "View in new window"
-      page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+      window = window_opened_by do
+        click_link("View in new window")
+        sleep 0.5
+      end
 
-      expect(current_url).to include("/rails/active_storage/")
+      within_window(window) do
+        expect(page).to have_current_path(/\A\/rails\/active_storage/)
+      end
     end
 
     context "when there is more than one document" do
@@ -71,27 +75,32 @@ RSpec.describe "Documents index page" do
 
       it "opens each file in a new tab" do
         visit "/planning_applications/#{planning_application.id}/documents"
+        expect(page).to have_selector("h1", text: "Documents")
 
         window1 = window_opened_by do
-          row = row_with_content("File name: proposed-floorplan.png")
-          within(row) { click_link("View in new window") }
+          within("tr", text: "File name: proposed-floorplan.png") do
+            click_link("View in new window")
+            sleep 0.5
+          end
         end
 
         within_window(window1) do
-          expect(current_url).to include("proposed-floorplan.png")
+          expect(page).to have_current_path(/proposed-floorplan\.png/)
         end
 
         window2 = window_opened_by do
-          row = row_with_content("File name: proposed-roofplan.png")
-          within(row) { click_link("View in new window") }
+          within("tr", text: "File name: proposed-roofplan.png") do
+            click_link("View in new window")
+            sleep 0.5
+          end
         end
 
         within_window(window1) do
-          expect(current_url).to include("proposed-floorplan.png")
+          expect(page).to have_current_path(/proposed-floorplan\.png/)
         end
 
         within_window(window2) do
-          expect(current_url).to include("proposed-roofplan.png")
+          expect(page).to have_current_path(/proposed-roofplan\.png/)
         end
       end
     end

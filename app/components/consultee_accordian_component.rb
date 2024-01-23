@@ -15,6 +15,7 @@ class ConsulteeAccordianComponent < ViewComponent::Base
       style: consultees.none? ? "display: none;" : nil,
       data: {
         module: "govuk-accordion",
+        remember_expanded: "false",
         consultees_target: "accordian"
       }
     }

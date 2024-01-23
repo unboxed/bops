@@ -5,6 +5,7 @@ class LocalAuthority < ApplicationRecord
     has_many :users
     has_many :planning_applications
     has_many :constraints
+    has_many :contacts
     has_many :api_users
   end
 

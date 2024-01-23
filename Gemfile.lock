@@ -1,4 +1,11 @@
 PATH
+  remote: engines/bops_admin
+  specs:
+    bops_admin (0.1.0)
+      pagy
+      rails (>= 7.0.8, < 7.1)
+
+PATH
   remote: engines/bops_api
   specs:
     bops_api (0.1.0)
@@ -597,6 +604,7 @@ DEPENDENCIES
   appsignal
   aws-sdk-s3
   bootsnap (>= 1.4.2)
+  bops_admin!
   bops_api!
   brakeman
   bullet

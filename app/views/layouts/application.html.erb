@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template app-html-class">
-  <%= render "head" %>
+  <%= render "application/head" %>
 
-  <body class="govuk-template__body app-body-class govuk-frontend-supported" data-test="My value" data-other="report:details">
+  <body class="govuk-template__body app-body-class" data-test="My value" data-other="report:details">
     <%= javascript_tag nonce: true do %>
-      document.body.className = (
-        (document.body.className)
-          ? document.body.className + ' js-enabled'
-          : 'js-enabled'
-      );
+      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
     <% end %>
 
     <% if gtmid = Rails.configuration.google_tag_manager_id  %>
@@ -26,7 +22,7 @@
     <% unless @blank_layout == true %>
       <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", 'data-module': 'govuk-skip-link' %>
       <%= render(EnvironmentBannerComponent.new(display: Bops.env.staging?)) %>
-      <%= render "header" %>
+      <%= render "application/header" %>
     <% end %>
 
     <div class="govuk-width-container app-width-container--wide">
@@ -55,7 +51,7 @@
       <%= render_navigation unless @blank_layout == true %>
 
       <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
-        <%= render "flash_content" %>
+        <%= render "application/flash_content" %>
         <%= yield %>
       </main>
     </div>

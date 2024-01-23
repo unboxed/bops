@@ -4,6 +4,9 @@ data:
     - config/locales/%{locale}.yml
     - config/locales/*.%{locale}.yml
     - config/locales/**/*.%{locale}.yml
+    - engines/*/config/locales/%{locale}.yml
+    - engines/*/config/locales/*.%{locale}.yml
+    - engines/*/config/locales/**/*.%{locale}.yml
   yaml:
     write:
       line_width: -1
@@ -15,8 +18,18 @@ search:
     - app/mailers
     - app/presenters
     - app/views
+    - engines/*/app/controllers
+    - engines/*/app/components
+    - engines/*/app/helpers
+    - engines/*/app/mailers
+    - engines/*/app/presenters
+    - engines/*/app/views
   exclude:
     - app/assets/images
     - app/assets/fonts
     - app/assets/videos
     - app/assets/builds
+    - engines/*/app/assets/images
+    - engines/*/app/assets/fonts
+    - engines/*/app/assets/videos
+    - engines/*/app/assets/builds

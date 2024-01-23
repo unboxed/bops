@@ -6,7 +6,7 @@ module BreadcrumbNavigationHelper
   end
 
   def render_navigation
-    render partial: "breadcrumb_navigation", locals: {nav: navigation}
+    render partial: "application/breadcrumb_navigation", locals: {nav: navigation}
   end
 
   private

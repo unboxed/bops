@@ -1,4 +1,4 @@
-<div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+<div class="govuk-accordion" data-module="govuk-accordion" data-remember-expanded="false" id="accordion-default">
   <% neighbour_responses.group_by(&:summary_tag).sort_by { |key, _value| key[0] }.reverse.each_with_index do |(tag, responses), index| %>
     <div class="govuk-accordion__section">
       <div class="govuk-accordion__section-header">
