@@ -182,9 +182,9 @@ en:
         environment_impact_assessment:
           attributes:
             address:
-              blank: Enter an address where the fee can be paid
+              blank: You have entered a fee but not provided an address. Enter an address where the fee can be paid.
             fee:
-              blank: Enter a fee or enter '0' if there is no fee
+              blank: Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee.
         local_policy_area:
           attributes:
             assessment:
@@ -597,8 +597,6 @@ en:
       validation_request_closure_mail: Changes to your %{application_type_name} application
       validation_request_mail: "%{application_type_name} application - further changes needed"
   environment_impact_assessment:
-    address_error: You have entered a fee but not provided an address. Enter an address where the fee can be paid.
-    fee_error: Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee.
     guidance_link: https://www.gov.uk/government/publications/environmental-impact-assessment-screening-checklist
   errors:
     messages:
@@ -1249,8 +1247,15 @@ en:
           success_no: Application marked as not requiring an EIA
           success_yes: Application marked as requiring an EIA. The determination period is extended to 16 weeks.
         form:
-          hint: This application is subject to an EIA. The determination period will be extended to 16 weeks.
+          hint:
+            address: Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).
+            email_address: Enter an email address where members of the public can request a copy of the Environmental Statement (optional).
+            fee: Enter the fee to obtain a hard copy of the Environmental Statement (optional).
+            'yes': This application is subject to an EIA. The determination period will be extended to 16 weeks.
           label:
+            address: Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).
+            email_address: Enter an email address where members of the public can request a copy of the Environmental Statement (optional).
+            fee: Enter the fee to obtain a hard copy of the Environmental Statement (optional).
             'no': 'No'
             'yes': 'Yes'
         update:

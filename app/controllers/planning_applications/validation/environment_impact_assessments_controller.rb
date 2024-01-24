@@ -53,7 +53,7 @@ module PlanningApplications
       private
 
       def environmental_impact_assessment_params
-        params.require(:environment_impact_assessment).permit(:required, :address, :fee)
+        params.require(:environment_impact_assessment).permit(:required, :address, :email_address, :fee)
       end
 
       def set_environment_impact_assessment

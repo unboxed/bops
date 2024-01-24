@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_22_104018) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_24_113618) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -286,6 +286,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_22_104018) do
     t.boolean "required", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email_address"
     t.index ["planning_application_id"], name: "ix_environment_impact_assessments_on_planning_application_id"
   end
 

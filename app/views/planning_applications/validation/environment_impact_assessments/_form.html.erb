@@ -1,26 +1,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: [@environment_impact_assessment], url: planning_application_validation_environment_impact_assessment_url(@planning_application) do |form| %>
-      <% if @environment_impact_assessment.errors.any? %>
-        <div class="govuk-error-summary" data-module="govuk-error-summary">
-          <div role="alert">
-            <h2 class="govuk-error-summary__title">
-              There is a problem
-            </h2>
-            <div class="govuk-error-summary__body">
-              <ul class="govuk-list govuk-error-summary__list">
-                <li>
-                  <% if @environment_impact_assessment.errors.include? :address %>
-                    <%= t("environment_impact_assessment.address_error") %>
-                  <% else %>
-                    <%= t("environment_impact_assessment.fee_error") %>
-                  <% end %>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      <% end %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.govuk_radio_buttons_fieldset(
           :title,
@@ -40,15 +21,19 @@
             true, 
             checked: @environment_impact_assessment.required, 
             label: { text: t(".label.yes") }, 
-            hint: { text: t(".hint") }
+            hint: { text: t(".hint.yes") }
           ) do %>
+            <%= form.govuk_text_field :email_address, 
+              hint: { text: t(".hint.email_address") },
+              label: { text: t(".label.email_address"), hidden: true }
+            %>
             <%= form.govuk_text_field :address, 
-              hint: { text: "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)" },
-              label: { text: "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", hidden: true }
+              hint: { text: t(".hint.address") },
+              label: { text: t(".label.address"), hidden: true }
             %>
             <%= form.govuk_text_field :fee, 
-              hint: { text: "Enter the fee to obtain a hard copy of the Environmental Statement (optional)" },
-              label: { text: "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", hidden: true },
+              hint: { text: t(".hint.fee") },
+              label: { text: t(".label.fee"), hidden: true },
               prefix_text: '£',
               width: 'one-quarter' 
             %>
@@ -68,14 +53,19 @@
             hint: { text: t(".hint") },
             disabled: true
           ) do %>
+            <%= form.govuk_text_field :email_address, 
+              hint: { text: t(".hint.email_address") },
+              label: { text: t(".label.email_address"), hidden: true },
+              disabled: true
+            %>
             <%= form.govuk_text_field :address, 
-              hint: { text: "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)" },
-              label: { text: "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional). Include building name/number, street, town, postcode.", hidden: true },
+              hint: { text: t(".hint.address") },
+              label: { text: t(".label.address"), hidden: true },
               disabled: true
             %>
             <%= form.govuk_text_field :fee, 
-              hint: { text: "Enter the fee to obtain a hard copy of the Environmental Statement (optional)" },
-              label: { text: "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", hidden: true },
+              hint: { text: t(".hint.fee") },
+              label: { text: t(".label.fee"), hidden: true },
               prefix_text: '£',
               width: 'one-quarter',
               disabled: true
