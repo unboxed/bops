@@ -319,5 +319,25 @@ RSpec.describe "Send letters to neighbours", js: true do
         personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}\r\n\r\nDear Resident/))).and_call_original
       click_button "Confirm and send letters"
     end
+
+    context "when the neighbour sent a comment" do
+      before do
+        neighbour.update!(source: "sent_comment")
+      end
+
+      it "allows setting a reason when resend letters" do
+        visit "/planning_applications/#{planning_application.id}"
+        click_link "Consultees, neighbours and publicity"
+        click_link "Send letters to neighbours"
+
+        select "Renotification"
+        fill_in("Resend reason",
+          with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
+
+        expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
+          personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}\r\n\r\nDear Resident/))).and_call_original
+        click_button "Confirm and send letters"
+      end
+    end
   end
 end

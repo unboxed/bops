@@ -3,8 +3,8 @@
 class NeighbourLetter < ApplicationRecord
   belongs_to :neighbour
 
-  validates :resend_reason, absence: true, unless: :resend?
-  validates :resend_reason, presence: true, if: :resend?
+  validates :resend_reason, absence: true, unless: :allowed_resend_reason?
+  validates :resend_reason, presence: true, if: :needs_resend_reason?
 
   STATUSES = {
     technical_failure: "technical failure",
@@ -43,5 +43,13 @@ class NeighbourLetter < ApplicationRecord
 
   def resend?
     neighbour.last_letter_sent_at.present?
+  end
+
+  def needs_resend_reason?
+    resend? && !neighbour.sent_comment?
+  end
+
+  def allowed_resend_reason?
+    resend? || neighbour.sent_comment?
   end
 end
