@@ -52,6 +52,21 @@ RSpec.describe EnvironmentImpactAssessment do
       end.not_to change(planning_application, :expiry_date)
     end
 
+    context "when planning application has been validated" do
+      let!(:planning_application) do
+        travel_to("2024-01-01") do
+          create(:planning_application, local_authority:, validated_at: "Mon, 8 Apr 2024".to_date)
+        end
+      end
+      let(:environment_impact_assessment) { create(:environment_impact_assessment, planning_application:) }
+
+      it "adds 16 weeks to the validated date instead of the received at date" do
+        expect do
+          environment_impact_assessment.update!(required: true)
+        end.to change(planning_application, :expiry_date).from("Mon, 03 June 2024".to_date).to("Mon, 29 July 2024".to_date)
+      end
+    end
+
     context "when planning application has been marked as requiring an EIA" do
       let!(:planning_application) do
         travel_to("2024-01-01") do
