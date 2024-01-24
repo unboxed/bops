@@ -763,18 +763,6 @@ class PlanningApplication < ApplicationRecord
     save!
   end
 
-  def fetch_reporting_types
-    I18n.t("reporting_type.#{application_type_name}").keys
-  end
-
-  def fetch_reporting_type_with_description(type)
-    "#{fetch_reporting_type(type)[:category]} - #{fetch_reporting_type(type)[:description]}"
-  end
-
-  def fetch_reporting_type(type)
-    I18n.t("reporting_type.#{application_type_name}.#{type}")
-  end
-
   def reporting_type_status
     reporting_type.blank? ? :not_started : :complete
   end

@@ -5,28 +5,22 @@
       :reporting_type,
       legend: { size: "m" }
     ) do %>
-      <% @planning_application.fetch_reporting_types.each do |type| %>
-        <%= form.govuk_radio_button(
-          :reporting_type,
-          @planning_application.fetch_reporting_type(type)[:category],
-          label: { text: @planning_application.fetch_reporting_type_with_description(type) },
-          data: { "aria-controls": "conditional-#{type}" }
-        ) %>
+      <% reporting_types(@planning_application.application_type.name.to_sym).each do | category, description, guidance, guidance_link, legislation| %>
+        <%= form.govuk_radio_button(:reporting_type, category, label: { text: "#{category} - #{description}" }, data: { "aria-controls": "conditional-#{category}" }) %>
 
-          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id=<%="conditional-#{type}"%>>
-            <% if @planning_application.fetch_reporting_type(type)[:guidance].present? %>
-              <p class="govuk-body"><strong>Guidance</strong></p>
-              <p class="govuk-hint"><%= @planning_application.fetch_reporting_type(type)[:guidance] %></p>
-              <% if @planning_application.fetch_reporting_type(type)[:guidance_link].present? %>
-                <%= link_to("Read more guidance GOV.UK (opens in new tab)", @planning_application.fetch_reporting_type(type)[:guidance_link], target: '_blank', class: "govuk-link") %>
-              <% end %>
+        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id=<%="conditional-#{category}"%>>
+          <% if guidance.present? %>
+            <p class="govuk-body"><strong>Guidance</strong></p>
+            <p class="govuk-hint"><%= guidance %></p>
+            <% if guidance_link.present? %>
+              <%= link_to("Read more guidance GOV.UK (opens in new tab)", guidance_link, target: '_blank', class: "govuk-link") %>
             <% end %>
-            <% if @planning_application.fetch_reporting_type(type)[:legislation].present? %>
-              <p class="govuk-body"><strong>Legislation</strong></p>
-              <p class="govuk-hint"><%= @planning_application.fetch_reporting_type(type)[:legislation] %></p>
-            <% end %>
-          </div>
-
+          <% end %>
+          <% if legislation.present? %>
+            <p class="govuk-body"><strong>Legislation</strong></p>
+            <p class="govuk-hint"><%= legislation %></p>
+          <% end %>
+        </div>
       <% end %>
   <% end %>
 
