@@ -36,8 +36,9 @@ RSpec.describe "Validation tasks" do
       click_link "Check Environment Impact Assessment"
 
       choose "Yes"
-      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "123 street"
-      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "196"
+      fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: "123 street"
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional).", with: "196"
+      fill_in "Enter an email address where members of the public can request a copy of the Environmental Statement (optional).", with: "email@example.com"
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--notice") do
@@ -62,6 +63,7 @@ RSpec.describe "Validation tasks" do
       end
 
       expect(planning_application.reload.environment_impact_assessment.address).to eq "123 street"
+      expect(planning_application.reload.environment_impact_assessment.email_address).to eq "email@example.com"
       expect(planning_application.reload.environment_impact_assessment.fee).to eq 196
     end
 
@@ -69,8 +71,9 @@ RSpec.describe "Validation tasks" do
       click_link "Check Environment Impact Assessment"
 
       choose "Yes"
-      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "123 street"
-      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "196"
+      fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: "123 street"
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional).", with: "196"
+      fill_in "Enter an email address where members of the public can request a copy of the Environmental Statement (optional).", with: "email@example.com"
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--notice") do
@@ -90,8 +93,9 @@ RSpec.describe "Validation tasks" do
       click_link "Check Environment Impact Assessment"
       click_link "Edit information"
 
-      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "456 street"
-      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "195"
+      fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: "456 street"
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional).", with: "195"
+      fill_in "Enter an email address where members of the public can request a copy of the Environmental Statement (optional).", with: "edited_email@example.com"
 
       click_button "Save and mark as complete"
 
@@ -100,6 +104,7 @@ RSpec.describe "Validation tasks" do
       end
 
       expect(planning_application.reload.environment_impact_assessment.address).to eq "456 street"
+      expect(planning_application.reload.environment_impact_assessment.email_address).to eq "edited_email@example.com"
       expect(planning_application.reload.environment_impact_assessment.fee).to eq 195
     end
 
@@ -108,20 +113,23 @@ RSpec.describe "Validation tasks" do
 
       choose "Yes"
 
-      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: "456 street"
+      fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: "456 street"
+      fill_in "Enter an email address where members of the public can request a copy of the Environmental Statement (optional).", with: "invalid_email.com"
 
       click_button "Save and mark as complete"
 
       within(".govuk-error-summary") do
         expect(page).to have_content "Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee."
+        expect(page).to have_content "Email address is invalid"
       end
 
-      within(".govuk-form-group--error") do
-        expect(page).to have_content "Enter a fee or enter '0' if there is no fee"
+      within(".govuk-form-group--error #environment-impact-assessment-fee-error") do
+        expect(page).to have_content "Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee."
       end
 
-      fill_in "Enter the address where members of the public can view or purchase a hard copy of the Environmental Statement (optional)", with: ""
-      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: "195"
+      fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: ""
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional).", with: "195"
+      fill_in "Enter an email address where members of the public can request a copy of the Environmental Statement (optional).", with: "email@example.com"
 
       click_button "Save and mark as complete"
 
@@ -130,10 +138,10 @@ RSpec.describe "Validation tasks" do
       end
 
       within(".govuk-form-group--error") do
-        expect(page).to have_content "Enter an address where the fee can be paid"
+        expect(page).to have_content "You have entered a fee but not provided an address. Enter an address where the fee can be paid."
       end
 
-      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional)", with: ""
+      fill_in "Enter the fee to obtain a hard copy of the Environmental Statement (optional).", with: ""
 
       click_button "Save and mark as complete"
 
