@@ -1286,8 +1286,61 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the bops request url" do
       expect(mail_body).to include(
-        "View the application at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.id}/press_notice/confirmation."
+        "You can view the application at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.id}/press_notice/confirmation."
       )
+    end
+
+    context "when application has been marked as requiring an EIA" do
+      let!(:environment_impact_assessment) do
+        create(
+          :environment_impact_assessment,
+          planning_application:
+        )
+      end
+
+      it "includes EIA specific content" do
+        expect(mail_body).to include(
+          "This application is subject to an Environmental Impact Assessment (EIA)."
+        )
+        expect(mail_body).to include(
+          "You can view the application and Environmental Statement at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.id}/press_notice/confirmation."
+        )
+      end
+    end
+
+    context "when address, email address and fee have been provided" do
+      let!(:environment_impact_assessment) do
+        create(
+          :environment_impact_assessment,
+          address: "1 Random Lane",
+          email_address: "test@example.com",
+          fee: 25,
+          planning_application:
+        )
+      end
+
+      it "shows the correct copy in the email" do
+        expect(mail_body).to include(
+          "You can request a hard copy for a fee of £25.00 by emailing test@example.com or in person at 1 Random Lane"
+        )
+      end
+    end
+
+    context "when address and fee have been provided" do
+      let!(:environment_impact_assessment) do
+        create(
+          :environment_impact_assessment,
+          address: "1 Random Lane",
+          fee: 25,
+          planning_application:
+        )
+      end
+
+      it "shows the correct copy in the email" do
+        expect(mail_body).to include(
+          "You can request a hard copy for a fee of £25.00 in person at 1 Random Lane"
+        )
+      end
     end
   end
 end

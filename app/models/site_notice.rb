@@ -66,7 +66,7 @@ class SiteNotice < ApplicationRecord
   end
 
   def new_consultation_end_date
-    [displayed_at && (displayed_at + 21.days).end_of_day, consultation_end_date].compact.max
+    [displayed_at && (displayed_at + Consultation::DEFAULT_PERIOD).end_of_day, consultation_end_date].compact.max
   end
 
   def extend_consultation!

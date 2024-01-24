@@ -12,4 +12,12 @@ This application requires a press notice with the following reasons:
 <% end -%>
 <% end -%>
 
-View the application at <%= planning_application_press_notice_confirmation_url(@planning_application, subdomain: @planning_application.local_authority.subdomain) %>.
+<% if @planning_application.environment_impact_assessment_required? %>
+This application is subject to an Environmental Impact Assessment (EIA).
+<% end -%>
+
+You can view the application<% if @planning_application.environment_impact_assessment_required? %> and Environmental Statement<% end %> at <%= planning_application_press_notice_confirmation_url(@planning_application, subdomain: @planning_application.local_authority.subdomain) %>.
+
+<% if @planning_application.environment_impact_assessment_required? %>
+<%= request_eia_copy(@planning_application.environment_impact_assessment) %>
+<% end -%>
