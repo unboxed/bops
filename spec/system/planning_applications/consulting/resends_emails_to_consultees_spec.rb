@@ -213,7 +213,7 @@ RSpec.describe "Consultation", js: true do
       end
     end.to have_enqueued_job(SendConsulteeEmailJob).exactly(:once)
 
-    external = \
+    external =
       stub_request(:post, "#{notify_url}/email")
         .with(body: hash_including(
           {
@@ -252,7 +252,7 @@ RSpec.describe "Consultation", js: true do
       end
     end
 
-    external_status = \
+    external_status =
       stub_request(:get, "#{notify_url}/48025d96-abc9-4b1d-a519-3cbc1c7f700b")
         .to_return(
           status: 200,

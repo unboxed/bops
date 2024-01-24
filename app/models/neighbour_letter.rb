@@ -32,7 +32,7 @@ class NeighbourLetter < ApplicationRecord
 
     self.status = response.status.parameterize(separator: "_")
     self.status_updated_at = response.sent_at || response.created_at
-    save
+    save # rubocop:disable Rails/SaveBang
   end
 
   private

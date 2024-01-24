@@ -67,7 +67,7 @@ class PressNotice < ApplicationRecord
   end
 
   def reasons=(values)
-    super(Array.wrap(values).reject(&:blank?))
+    super(Array.wrap(values).compact_blank)
   end
 
   def other_selected?

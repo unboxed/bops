@@ -153,6 +153,6 @@ class PlanningApplicationSearch
   end
 
   def selected_application_type_ids
-    ApplicationType.where(name: application_type).pluck(:id)
+    ApplicationType.where(name: application_type).ids
   end
 end

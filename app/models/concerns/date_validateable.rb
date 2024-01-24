@@ -50,7 +50,7 @@ module DateValidateable
 
   def attribute_date_invalid?(attribute)
     invalid_dates_before_type_cast.key?(attribute.to_s) ||
-      attribute_before_type_cast(attribute.to_s).present? && read_attribute(attribute.to_s).blank?
+      attribute_before_type_cast(attribute.to_s).present? && self[attribute.to_s].blank?
   end
 
   def attribute_before_type_cast(attribute)

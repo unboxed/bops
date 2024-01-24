@@ -9,13 +9,12 @@ class FeeChangeValidationRequest < ValidationRequest
   validates :cancel_reason, presence: true, if: :cancelled?
 
   before_create :ensure_planning_application_not_validated!
-  after_create :set_invalid_payment_amount
-  before_update :reset_fee_invalidation, if: :closed?
-  before_destroy :reset_fee_invalidation
-
   before_create lambda {
                   reset_validation_requests_update_counter!(planning_application.fee_change_validation_requests)
                 }
+  after_create :set_invalid_payment_amount
+  before_update :reset_fee_invalidation, if: :closed?
+  before_destroy :reset_fee_invalidation
 
   def supporting_documents=(files)
     files.select(&:present?).each do |file|

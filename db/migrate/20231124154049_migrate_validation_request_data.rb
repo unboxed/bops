@@ -76,7 +76,7 @@ class MigrateValidationRequestData < ActiveRecord::Migration[7.0]
 
       vr.save(validate: false)
 
-      Document.where(additional_document_validation_request_id: request.id).each do |document|
+      Document.where(additional_document_validation_request_id: request.id).find_each do |document|
         document.update(owner_id: vr.id, owner_type: "ValidationRequest")
       end
     end

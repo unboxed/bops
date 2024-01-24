@@ -31,6 +31,6 @@ class NeighbourResponse < ApplicationRecord
   end
 
   def comment
-    (redacted_response.presence || response)
+    redacted_response.presence || response
   end
 end

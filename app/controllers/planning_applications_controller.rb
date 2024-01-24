@@ -96,7 +96,7 @@ class PlanningApplicationsController < AuthenticationController
       render "confirm_validation"
     else
       @planning_application.validated_at = date_from_params
-      @planning_application.update(planning_application_params)
+      @planning_application.update!(planning_application_params)
       @planning_application.start!
       @planning_application.send_validation_notice_mail
 

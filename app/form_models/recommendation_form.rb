@@ -32,7 +32,7 @@ class RecommendationForm
     ActiveRecord::Base.transaction do
       if assessment_in_progress?
         planning_application.save_assessment
-        recommendation.save(validate: false)
+        recommendation.save!(validate: false)
       else
         planning_application.save!
         recommendation.save!

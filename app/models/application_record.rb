@@ -6,7 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   def update(attributes, context = nil)
     with_transaction_returning_status do
       assign_attributes(attributes)
-      save(context: context)
+      save(context: context) # rubocop:disable Rails/SaveBang
     end
   end
 

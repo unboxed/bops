@@ -32,7 +32,7 @@ class ConsulteeResponseComponent < ViewComponent::Base
   end
 
   def section_break_tag
-    tag(:hr, class: "govuk-section-break govuk-section-break--l govuk-section-break--visible")
+    tag.hr(class: "govuk-section-break govuk-section-break--l govuk-section-break--visible")
   end
 
   def received_on

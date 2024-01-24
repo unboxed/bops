@@ -59,21 +59,19 @@ Style/VisitLiteral:
 # we'll fix them in future migrations if at all.
 Rails/BulkChangeTable:
   Exclude:
-    - db/migrate/2020*
-    - db/migrate/2021*
-    - db/migrate/2022*
+    - db/migrate/202[0123]*
 
 Rails/ReversibleMigration:
   Exclude:
-    - db/migrate/2020*
-    - db/migrate/2021*
-    - db/migrate/2022*
+    - db/migrate/202[0123]*
+
+Rails/ReversibleMigrationMethodDefinition:
+  Exclude:
+    - db/migrate/202[0123]*
 
 Rails/ThreeStateBooleanColumn:
   Exclude:
-    - db/migrate/2020*
-    - db/migrate/2021*
-    - db/migrate/2022*
+    - db/migrate/202[012]*
     - db/migrate/20230*
     - db/migrate/202310*
 
@@ -81,3 +79,11 @@ Rails/ThreeStateBooleanColumn:
 Rails/ApplicationRecord:
   Exclude:
     - db/migrate/*
+
+Rails/SaveBang:
+  Exclude:
+    # past migrations ignored, see above
+    - db/migrate/202[0123]*
+    # specs ignored because we might rely on this behaviour for testing errors
+    - engines/*/spec/**/*
+    - spec/**/*

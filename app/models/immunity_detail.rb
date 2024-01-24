@@ -38,7 +38,7 @@ class ImmunityDetail < ApplicationRecord
 
   def add_document(document)
     tag = document.tags.intersection(Document::EVIDENCE_TAGS).first.delete(" ").underscore
-    evidence_group = evidence_groups.find_or_create_by(tag:)
+    evidence_group = evidence_groups.find_or_create_by!(tag:)
     evidence_group.documents << document
     evidence_group.save!
   end

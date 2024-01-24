@@ -16,7 +16,7 @@ module EmailConfirmable
   def reset_password(new_password, new_password_confirmation)
     if new_password.present? && confirmed?
       update_password(new_password, new_password_confirmation)
-      save
+      save # rubocop:disable Rails/SaveBang
     elsif new_password.present?
       update_password(new_password, new_password_confirmation)
       confirm if save

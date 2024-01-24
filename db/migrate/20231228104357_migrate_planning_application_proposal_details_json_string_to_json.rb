@@ -12,7 +12,7 @@ class MigratePlanningApplicationProposalDetailsJsonStringToJson < ActiveRecord::
             parsed_json = JSON.parse(proposal_details)
             pa.update_column(:proposal_details, parsed_json)
           rescue JSON::ParserError => e
-            puts "There was an issue parsing the JSON in planning application #{pa.id}: #{e.message}"
+            Rails.logger.debug { "There was an issue parsing the JSON in planning application #{pa.id}: #{e.message}" }
           end
         end
       end

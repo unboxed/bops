@@ -85,7 +85,7 @@ module PlanningApplications
       end
 
       def set_consultee_response
-        @consultee_response = \
+        @consultee_response =
           case action_name
           when "new"
             @consultee.responses.new

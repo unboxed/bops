@@ -27,11 +27,11 @@ class ReviewAssessmentDetailsForm
     define_method(assessment_detail) do
       memoize(
         assessment_detail,
-        planning_application.send("existing_or_new_#{assessment_detail}")
+        planning_application.send(:"existing_or_new_#{assessment_detail}")
       )
     end
 
-    define_method("#{assessment_detail}_comment") do
+    define_method(:"#{assessment_detail}_comment") do
       memoize(
         "#{assessment_detail}_comment",
         send(assessment_detail).existing_or_new_comment
@@ -58,29 +58,29 @@ class ReviewAssessmentDetailsForm
     validates(
       "#{assessment_detail}_comment_text",
       presence: true,
-      if: "#{assessment_detail}_reviewer_verdict_rejected?".to_sym
+      if: :"#{assessment_detail}_reviewer_verdict_rejected?"
     )
 
     validates(
       "#{assessment_detail}_entry",
       presence: true,
-      if: "#{assessment_detail}_reviewer_verdict_edited_and_accepted?".to_sym
+      if: :"#{assessment_detail}_reviewer_verdict_edited_and_accepted?"
     )
 
     validate(
-      "#{assessment_detail}_entry_changed".to_sym,
-      if: "#{assessment_detail}_reviewer_verdict_edited_and_accepted?".to_sym
+      :"#{assessment_detail}_entry_changed",
+      if: :"#{assessment_detail}_reviewer_verdict_edited_and_accepted?"
     )
 
-    define_method("#{assessment_detail}_reviewer_verdict_rejected?") do
-      send("#{assessment_detail}_reviewer_verdict") == "rejected"
+    define_method(:"#{assessment_detail}_reviewer_verdict_rejected?") do
+      send(:"#{assessment_detail}_reviewer_verdict") == "rejected"
     end
 
-    define_method("#{assessment_detail}_reviewer_verdict_edited_and_accepted?") do
-      send("#{assessment_detail}_reviewer_verdict") == "edited_and_accepted"
+    define_method(:"#{assessment_detail}_reviewer_verdict_edited_and_accepted?") do
+      send(:"#{assessment_detail}_reviewer_verdict") == "edited_and_accepted"
     end
 
-    define_method("#{assessment_detail}_entry_changed") do
+    define_method(:"#{assessment_detail}_entry_changed") do
       return if !send(assessment_detail).reviewer_verdict_changed? || send(assessment_detail).entry_changed?
 
       errors.add("#{assessment_detail}_entry", :not_changed)
@@ -126,7 +126,7 @@ class ReviewAssessmentDetailsForm
   end
 
   ASSESSMENT_DETAILS.each do |assessment_detail|
-    define_method("#{assessment_detail}_for_application?") do
+    define_method(:"#{assessment_detail}_for_application?") do
       next if status == :in_progress
 
       planning_application.application_type.assessment_details.include? assessment_detail.to_s

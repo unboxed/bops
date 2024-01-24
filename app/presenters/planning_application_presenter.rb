@@ -17,7 +17,7 @@ class PlanningApplicationPresenter
   end
 
   def outcome_date
-    send("#{status}_at")
+    send(:"#{status}_at")
   end
 
   def application_type_name
@@ -37,6 +37,6 @@ class PlanningApplicationPresenter
   end
 
   %i[awaiting_determination_at expiry_date outcome_date].each do |date|
-    define_method("formatted_#{date}") { send(date).to_date.to_fs(:day_month_only) }
+    define_method(:"formatted_#{date}") { send(date).to_date.to_fs(:day_month_only) }
   end
 end

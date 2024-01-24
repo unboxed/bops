@@ -12,7 +12,7 @@ module PlanningApplications
       end
 
       def validate
-        @planning_application.update(red_line_boundary_params)
+        @planning_application.update!(red_line_boundary_params)
 
         respond_to do |format|
           format.html do

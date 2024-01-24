@@ -42,7 +42,7 @@ module PlanningApplications
     end
 
     def destroy
-      @neighbour.destroy
+      @neighbour.destroy!
 
       respond_to do |format|
         format.html do
