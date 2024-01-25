@@ -75,6 +75,7 @@ class PlanningApplication < ApplicationRecord
     delegate :name, to: :user
     delegate :required?, to: :press_notice
     delegate :required?, to: :site_notice
+    delegate :required?, to: :environment_impact_assessment
   end
   delegate :params_v1, to: :planx_planning_data, allow_nil: true
   delegate :params_v2, to: :planx_planning_data, allow_nil: true
@@ -801,7 +802,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_key_dates
-    return if environment_impact_assessment&.required?
+    return if environment_impact_assessment_required?
 
     self.expiry_date = DAYS_TO_EXPIRE.days.after(validated_at || received_at)
     self.target_date = 35.days.after(validated_at || received_at)

@@ -54,6 +54,7 @@ class PressNotice < ApplicationRecord
 
   with_options allow_nil: true do
     delegate :consultation, to: :planning_application
+    delegate :environment_impact_assessment, to: :planning_application
     delegate :start_date, to: :consultation, prefix: true
     delegate :end_date, to: :consultation, prefix: true
     delegate :started?, to: :consultation, prefix: true
@@ -107,7 +108,7 @@ class PressNotice < ApplicationRecord
   end
 
   def new_consultation_end_date
-    [published_at && (published_at + 21.days).end_of_day, consultation_end_date].compact.max
+    [published_at && (published_at + consultation.period_days).end_of_day, consultation_end_date].compact.max
   end
 
   def extend_consultation!

@@ -2,6 +2,7 @@
 
 class PlanningApplicationMailer < ApplicationMailer
   helper :planning_application
+  helper :mailer
 
   def decision_notice_mail(planning_application, host, user)
     @planning_application = planning_application

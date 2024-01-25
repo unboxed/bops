@@ -65,7 +65,7 @@
       <% end %>
     </p>
 
-    <% if @planning_application.environment_impact_assessment&.required? %>
+    <% if @planning_application.environment_impact_assessment_required? %>
       <p class="govuk-body govuk-!-margin-bottom-0"><strong>Subject to an EIA</strong></p>
       <p class="govuk-body">The expiry date has been extended to 16 weeks</p>
     <% end %>

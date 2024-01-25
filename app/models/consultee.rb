@@ -65,6 +65,6 @@ class Consultee < ApplicationRecord
   private
 
   def default_expires_at
-    email_delivered_at && (email_delivered_at + 21.days).end_of_day
+    email_delivered_at && (email_delivered_at + Consultation::DEFAULT_PERIOD).end_of_day
   end
 end

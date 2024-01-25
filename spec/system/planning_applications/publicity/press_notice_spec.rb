@@ -558,6 +558,32 @@ RSpec.describe "Press notice" do
           published_at: Time.zone.local(2023, 9, 29),
           comment: "Press notice comment"
         )
+
+        expect(consultation.reload.end_date.to_date).to eq("Fri, 20 Oct 2023".to_date)
+      end
+
+      context "when application has been marked as requiring an EIA" do
+        let!(:environment_impact_assessment) { create(:environment_impact_assessment, planning_application:) }
+
+        it "I can confirm the press notice details and consultation period is extended by 30 days" do
+          click_link "Consultees, neighbours and publicity"
+          click_link "Confirm press notice"
+
+          within("#press-sent-at-field") do
+            fill_in "Day", with: "25"
+            fill_in "Month", with: "9"
+            fill_in "Year", with: "2023"
+          end
+
+          within("#published-at-field") do
+            fill_in "Day", with: "29"
+            fill_in "Month", with: "9"
+            fill_in "Year", with: "2023"
+          end
+
+          click_button "Save"
+          expect(consultation.reload.end_date.to_date).to eq("Sun, 29 Oct 2023".to_date)
+        end
       end
     end
 

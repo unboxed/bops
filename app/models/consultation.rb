@@ -12,16 +12,23 @@ class Consultation < ApplicationRecord
     signatory_name signatory_job_title local_authority
   ].freeze
 
+  DEFAULT_PERIOD = 21.days
+  EIA_PERIOD = 30.days
+
   attribute :consultee_message_subject, :string, default: -> { default_consultee_message_subject }
   attribute :consultee_message_body, :string, default: -> { default_consultee_message_body }
 
   attribute :email_reason, :string, default: "send"
   attribute :resend_message, :string
   attribute :reconsult_message, :string
-  attribute :reconsult_date, :date, default: -> { Date.current + 21.days }
+  attribute :reconsult_date, :date, default: -> { Date.current + DEFAULT_PERIOD }
 
   belongs_to :planning_application
-  delegate :local_authority, to: :planning_application
+
+  with_options to: :planning_application do
+    delegate :local_authority
+    delegate :environment_impact_assessment, allow_nil: true
+  end
 
   with_options dependent: :destroy do
     has_many :consultees, extend: ConsulteesExtension
@@ -151,7 +158,7 @@ class Consultation < ApplicationRecord
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
-    default_start_date(now).end_of_day + 21.days
+    default_start_date(now).end_of_day + period_days
   end
 
   def end_date_from_now
@@ -309,6 +316,14 @@ class Consultation < ApplicationRecord
 
   def application_link
     "#{local_authority.applicants_url}/planning_applications/#{planning_application_id}"
+  end
+
+  def period_days
+    if environment_impact_assessment.try(:required?)
+      Consultation::EIA_PERIOD
+    else
+      Consultation::DEFAULT_PERIOD
+    end
   end
 
   private
