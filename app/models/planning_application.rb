@@ -763,6 +763,10 @@ class PlanningApplication < ApplicationRecord
     save!
   end
 
+  def reporting_type_status
+    reporting_type.blank? ? :not_started : :complete
+  end
+
   private
 
   def create_fee_calculation

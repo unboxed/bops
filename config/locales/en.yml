@@ -666,7 +666,9 @@ en:
         removed: Have the permitted development rights relevant for this application been removed?
       planning_application:
         determination_date: Enter determination date
+        environment_impact_assessment: Does the application require an assessment?
         received_at: Date received
+        reporting_type: Select development type
         valid_fee: Is the fee valid?
         valid_red_line_boundary: Is this red line boundary valid?
         validated_at: Valid from
@@ -1285,6 +1287,10 @@ en:
       ownership_certificates:
         update:
           success: Ownership certificate successfully updated
+      reporting_types:
+        update:
+          failure: Please select a development type for reporting
+          success: Planning application's development type for reporting was successfully selected
       sitemaps:
         update:
           error: Something went wrong. Please contact support.
@@ -1429,6 +1435,109 @@ en:
     resend: No, I’m chasing existing consultees
     resend_message_label: Additional message to include in the email (optional)
     send: No, I’m sending to new consultees
+  reporting_type:
+    lawfulness_certificate:
+      Q26:
+        description: Certificate of Lawful Development
+        guidance: Includes both Existing & Proposed applications
+    planning_permission:
+      Q01:
+        description: Major Dwellings
+        guidance: |
+          Record any applications for development in use class C3 (dwelling houses) in Town and Country Planning (Use Classes) Order 1987 (SI 1987/764) (as amended) under the relevant question according to the size of the application.
+          Exclude residential uses that fall in other use classes e.g. hotels (C1), residential institutions such as hospitals and nursing homes, houses in multiple occupation (C4 or Sui Generis) and caravan sites.
+          Although the guidance notes for April to June 2014 and previous quarters have asked for granny annexes to be included under Q1 or Q13 as appropriate, the department has reviewed this part of the guidance and concluded that granny annexes should now be recorded at question Q21 (householder developments).
+        guidance_link: https://www.gov.uk/government/publications/district-planning-matters-return-ps1-and-ps2/ps1-and-ps2-district-planning-matters-return-guidance-notes#viewing-saving-and-submitting
+      Q02:
+        description: Major Offices/R&amp;D/Light Ind
+        guidance: |
+          Please record any relevant applications for development in use classes E in Town and Country Planning (Use Classes) Order 1987 (as amended) (e.g. financial and professional services and businesses) (under the relevant question according to the size of the application.
+          Examples of applications that should be recorded here include banks, building societies, estate agents, general offices and those for research and non-polluting industrial processes.
+      Q03:
+        description: Major General Ind/Stor/Ware
+        guidance: Please record any applications for development in use classes B2 (general industrial) and B8 (storage or distribution) in Town and Country Planning (Use Classes) Order 1987 (as amended) under the relevant question according to the size of the application.
+      Q04:
+        description: Major Retail and services
+        guidance: Please record any relevant applications for development in use classes E in Town and Country Planning (Use Classes) Order 1987 (as amended) (e.g. shops, restaurants and cafes) or which are sui generis (drinking establishments and hot food takeaways only) under the relevant question according to the size of the application.
+      Q05:
+        description: Major  Traveller caravan pitches
+        guidance: Decisions on applications in relation to Traveller caravan sites should be recorded in the relevant category of development of major or minor development. There is a requirement to separately record these types of applications in order to help monitor the effectiveness of the department’s Planning Policy for Traveller Sites. Although applications may refer to ‘sites’, please record the number of pitches the local authority believes the site would provide. An application determined for between 1 - 9 pitches should be recorded as a minor development, and 10 or more pitches as a major development.
+      Q06:
+        description: All Other Major Development
+      Q07:
+        description: Major Public Service Infrastructure Projects
+        guidance: Major developments for schools, hospitals and criminal justice accommodation have been subject to an accelerated decision-making timetable. For more details on Major Public Service Infrastructure developments please refer to pages 5-6 of the July 2021 Planning Newsletter.
+        guidance_link: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1004896/Chief_Planners_Newsletter_-_July_2021.pdf
+      Q13:
+        description: Minor Dwellings
+        guidance: |
+          Record any applications for development in use class C3 (dwelling houses) in Town and Country Planning (Use Classes) Order 1987 (SI 1987/764) (as amended) under the relevant question according to the size of the application.
+          Exclude residential uses that fall in other use classes e.g. hotels (C1), residential institutions such as hospitals and nursing homes, houses in multiple occupation (C4 or Sui Generis) and caravan sites.
+          Although the guidance notes for April to June 2014 and previous quarters have asked for granny annexes to be included under Q1 or Q13 as appropriate, the department has reviewed this part of the guidance and concluded that granny annexes should now be recorded at question Q21 (householder developments).
+        guidance_link: https://www.gov.uk/government/publications/district-planning-matters-return-ps1-and-ps2/ps1-and-ps2-district-planning-matters-return-guidance-notes#viewing-saving-and-submitting
+      Q14:
+        description: Minor Offices/Rsearch Development/Light Industry
+        guidance: |
+          Please record any relevant applications for development in use classes E in Town and Country Planning (Use Classes) Order 1987 (as amended) (e.g. financial and professional services and businesses) (under the relevant question according to the size of the application.
+          Examples of applications that should be recorded here include banks, building societies, estate agents, general offices and those for research and non-polluting industrial processes.
+      Q15:
+        description: Minor General Industry/Storage/Warehouse
+        guidance: Please record any applications for development in use classes B2 (general industrial) and B8 (storage or distribution) in Town and Country Planning (Use Classes) Order 1987 (as amended) under the relevant question according to the size of the application.
+      Q16:
+        description: Minor Retail and services
+        guidance: Please record any relevant applications for development in use classes E in Town and Country Planning (Use Classes) Order 1987 (as amended) (e.g. shops, restaurants and cafes) or which are sui generis (drinking establishments and hot food takeaways only) under the relevant question according to the size of the application.
+      Q17:
+        description: Minor  Traveller caravan pitches
+        guidance: Decisions on applications in relation to Traveller caravan sites should be recorded in the relevant category of development of major or minor development. There is a requirement to separately record these types of applications in order to help monitor the effectiveness of the department’s Planning Policy for Traveller Sites. Although applications may refer to ‘sites’, please record the number of pitches the local authority believes the site would provide. An application determined for between 1 - 9 pitches should be recorded as a minor development, and 10 or more pitches as a major development
+      Q18:
+        description: All Other Minor Development
+        guidance: |-
+          Record any decisions on applications other than those already captured in Questions 1 to 5 and 13 to 17 according to the size of the application.
+          This includes developments in the following use classes:
+          C1 (hotels) C2 (residential institutions) C4 (houses in multiple occupations for 3 to 6 residents) E (gymnasiums, indoor recreations not involving motorised vehicles or firearms) F1 (non-residential institutions) Sui generis uses except drinking establishments and hot food takeaways): Certain uses do not fall within any use class and are considered ‘sui generis’. Such uses include: betting offices/shops, payday loan shops, theatres, houses in multiple occupation for more than 6 residents, hostels providing no significant element of care, scrap yards, petrol filling stations and shops selling and/or displaying motor vehicles, retail warehouse clubs, nightclubs, launderettes, taxi businesses, amusement centres, casinos, cinemas, concert halls, bingo halls and dance halls
+      Q19:
+        description: Minerals Processing
+        guidance: The former Question 19 (minerals processing) was removed from the form with effect from April 2014.
+        guidance_link: https://www.gov.uk/government/publications/district-planning-matters-return-ps1-and-ps2/ps1-and-ps2-district-planning-matters-return-guidance-notes#viewing-saving-and-submitting
+      Q20:
+        description: Change of Use
+      Q21:
+        description: Householder Development
+    prior_approval:
+      PA1:
+        description: Householders Extensions
+        guidance: "' Householder developments (as referred to in some of the live tables, such as P123) are defined as those within the curtilage of a dwelling house which require an application for planning permission and are not a change of use. Included in householder developments are extensions, conservatories, loft conversions, dormer windows, alterations, garages, car ports or outbuildings, swimming pools, walls, fences, domestic vehicular accesses including footway crossovers, porches and satellite dishes. Granny annexes have been included with effect from 1 July 2014, having previously been recorded under dwellings. Excluded from householder developments are: applications relating to any work to 1 or more flats, applications to change the number of dwellings (flat conversions, building a separate house in the garden), changes of use to part or all of the property to non-residential (including business) uses, or anything outside the garden of the property (including stables if in a separate paddock). By definition, householder developments that do not require an application for planning permission are also excluded – e.g. for extensions, these include those for which permitted development rights exist, including larger householder extensions (as defined under ‘Permitted development rights’) for which local authority prior approval is needed, and those that satisfy other conditions within the General Permitted Development Order, for which prior approval is not needed, and for which data are therefore not collected.'"
+        guidance_link: https://www.gov.uk/government/publications/district-planning-matters-return-ps1-and-ps2/ps1-and-ps2-district-planning-matters-return-guidance-notes#viewing-saving-and-submitting
+        legislation: Class A of Part 1 of Schedule 2 to the General Permitted Development Order (GPDO 2015)
+      PA15:
+        description: AA New Dwelling Detached Commer/Mix use
+        legislation: Class AA of Part 20 of Schedule 2 to GPDO 2015
+      PA16:
+        description: AD New Dwelling Detached Dwellinghouse
+        legislation: Class AD of Part 20 of Schedule 2 to GPDO 2015
+      PA17:
+        description: A New Dwelling Detached Block of flats
+        legislation: Class A of Part 20 of Schedule 2 to GPDO 2015
+      PA18:
+        description: AA Enlarge dwelling additional storey
+        legislation: Class AA of Part 1 of Schedule 2 to the General Permitted Development Order (GPDO 2015)
+      PA19:
+        description: ZA New Dwelling/Block flats Demolition
+        legislation: Class ZA of Part 20 of Schedule 2 to GPDO 2015
+      PA2:
+        description: Office to Residential
+        legislation: Class O of Part 3 of Schedule 2 to GPDO 2015
+      PA20:
+        description: AB New Dwelling Terrace Commercial/Mixed
+        legislation: Class AB of Part 20 of Schedule 2 to GPDO 2015
+      PA7:
+        description: Specified sui generis uses to C3
+        legislation: |
+          Class N of Part 3 of Schedule 2 to GPDO 2015; AND
+          Class M of Part 3 of Schedule 2 to GPDO 2015;
+      PA8:
+        description: Agricultural buildings to dwellinghouses
+        legislation: Class Q of Part 3 of Schedule 2 to GPDO 2015;
   response_tag_component:
     privacy: Privacy
   review:
