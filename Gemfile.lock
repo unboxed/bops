@@ -221,27 +221,10 @@ GEM
       railties (>= 5.0.0)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
-    faraday (1.7.0)
-      faraday-em_http (~> 1.0)
-      faraday-em_synchrony (~> 1.0)
-      faraday-excon (~> 1.1)
-      faraday-httpclient (~> 1.0.1)
-      faraday-net_http (~> 1.0)
-      faraday-net_http_persistent (~> 1.1)
-      faraday-patron (~> 1.0)
-      faraday-rack (~> 1.0)
-      multipart-post (>= 1.2, < 3)
-      ruby2_keywords (>= 0.0.4)
-    faraday-em_http (1.0.0)
-    faraday-em_synchrony (1.0.0)
-    faraday-excon (1.1.0)
-    faraday-httpclient (1.0.1)
-    faraday-net_http (1.0.1)
-    faraday-net_http_persistent (1.2.0)
-    faraday-patron (1.0.0)
-    faraday-rack (1.0.0)
-    faraday_middleware (1.2.0)
-      faraday (~> 1.0)
+    faraday (2.9.0)
+      faraday-net_http (>= 2.0, < 3.2)
+    faraday-net_http (3.1.0)
+      net-http
     ffi (1.15.5)
     foreman (0.87.2)
     formatador (0.3.0)
@@ -343,8 +326,9 @@ GEM
     minitest (5.21.2)
     msgpack (1.4.2)
     multi_test (0.1.2)
-    multipart-post (2.1.1)
     nenv (0.3.0)
+    net-http (0.4.1)
+      uri
     net-imap (0.4.2)
       date
       net-protocol
@@ -505,7 +489,6 @@ GEM
     ruby-rc4 (0.1.5)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
-    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     rufus-scheduler (3.8.2)
       fugit (~> 1.1, >= 1.1.6)
@@ -567,6 +550,7 @@ GEM
     unf_ext (0.0.9.1)
     unicode-display_width (2.5.0)
     uniform_notifier (1.16.0)
+    uri (0.13.0)
     view_component (2.83.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
@@ -618,8 +602,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  faraday
-  faraday_middleware
+  faraday (~> 2)
   foreman
   govuk_design_system_formbuilder
   grover

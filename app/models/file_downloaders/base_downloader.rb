@@ -40,7 +40,7 @@ module FileDownloaders
           request.options.open_timeout = open_timeout
           request.options.read_timeout = read_timeout
 
-          request.options.on_data = ->(chunk, size) {
+          request.options.on_data = ->(chunk, size, _env) {
             file.write(chunk)
           }
         end
