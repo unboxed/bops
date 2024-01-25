@@ -10,7 +10,7 @@ module FileDownloaders
     end
 
     def authenticate(connection)
-      connection.request :basic_auth, username, password
+      connection.request :authorization, :basic, username, password
     end
   end
 end
