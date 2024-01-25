@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_24_113618) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_25_104547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -577,6 +577,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_24_113618) do
     t.boolean "valid_ownership_certificate"
     t.boolean "valid_description"
     t.string "reporting_type"
+    t.jsonb "neighbour_boundary_geojson"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
