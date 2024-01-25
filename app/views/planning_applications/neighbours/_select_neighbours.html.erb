@@ -29,7 +29,7 @@
     locals: {
       in_accordion: false,
       polygon_search: true,
-      geojson: consultation.polygon_search_and_boundary_geojson || planning_application.boundary_geojson,
+      geojson: planning_application.neighbour_boundary_geojson,
       geojson_field: "consultation-polygon-geojson-field",
       draw_color: consultation.polygon_colour,
       draw_fill_color: consultation.polygon_fill_colour
