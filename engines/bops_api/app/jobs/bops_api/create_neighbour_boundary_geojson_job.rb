@@ -12,7 +12,7 @@ module BopsApi
         [result["DPA"]["LNG"], result["DPA"]["LAT"]]
       end
       
-      feature = latlons.map do |coordinates|
+      features = latlons.map do |coordinates|
         {
           type: "Feature",
           geometry: {
@@ -25,12 +25,12 @@ module BopsApi
         }
       end
 
-      feature.push(planning_application.boundary_geojson)
+      features.push(planning_application.boundary_geojson)
 
       planning_application.update(neighbour_boundary_geojson:
         {
           type: "FeatureCollection",
-          features: blah
+          features: features
         }
       )
     end

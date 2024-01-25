@@ -6,7 +6,9 @@ module Apis
   module OsPlaces
     class Query
       MAX_RESULTS = 20
-      SRS = "EPSG:27700" # https://epsg.io/27700
+      SRS_27700 = "EPSG:27700" # https://epsg.io/27700
+      SRS_4258 = "EPSG:4258" # https://epsg.io/4258
+      RADIUS = 50
 
       def find_addresses(query)
         handle_request { client.get("find", find_addresses_params(query)) }
@@ -17,10 +19,7 @@ module Apis
       end
 
       def find_addresses_by_radius(latitude, longitude)
-        handle_request { client.get("radius", {
-          point:"#{latitude},#{longitude}",
-          radius:50,
-          output_srs: "EPSG:4258", srs: "EPSG:4258"}) }
+        handle_request { client.get("radius", find_addresses_by_radius_params(latitude, longitude)) }
       end
 
       private
@@ -49,8 +48,17 @@ module Apis
 
       def find_addresses_by_polygon_params
         {
-          output_srs: SRS,
-          srs: SRS
+          output_srs: SRS_27700,
+          srs: SRS_27700
+        }
+      end
+
+      def find_addresses_by_radius_params(latitude, longitude)
+        {
+          output_srs: SRS_4258,
+          srs: SRS_4258,
+          radius: RADIUS,
+          point: "#{latitude},#{longitude}"
         }
       end
     end
