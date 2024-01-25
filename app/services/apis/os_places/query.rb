@@ -16,6 +16,13 @@ module Apis
         handle_request { client.post(body, find_addresses_by_polygon_params, uprn) }
       end
 
+      def find_addresses_by_radius(latitude, longitude)
+        handle_request { client.get("radius", {
+          point:"#{latitude},#{longitude}",
+          radius:50,
+          output_srs: "EPSG:4258", srs: "EPSG:4258"}) }
+      end
+
       private
 
       def handle_request
