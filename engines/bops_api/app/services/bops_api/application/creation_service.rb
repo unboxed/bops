@@ -82,10 +82,9 @@ module BopsApi
             process_immunity_details(planning_application) if possibly_immune?(planning_application)
 
             planning_application.send_receipt_notice_mail if send_email?(planning_application)
-
-            CreateNeighbourBoundaryGeojsonJob.perform(planning_application:)
           end
         end
+        CreateNeighbourBoundaryGeojsonJob.perform_later(planning_application) if planning_application.consultation
 
         planning_application
       end

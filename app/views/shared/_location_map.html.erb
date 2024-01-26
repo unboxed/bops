@@ -18,11 +18,13 @@
     latitude='<%= @planning_application.latitude %>'
     longitude='<%= @planning_application.longitude %>'
   <% end %>
+  <% if show_map_pin?(@planning_application, locals) || locals[:polygon_search] %>
     showCentreMarker
     showGeojsonDataMarkers
     markerLatitude="<%= @planning_application.latitude %>"
     markerLongitude="<%= @planning_application.longitude %>"
     markerImage="circle"
+  <% end %>
   <% if locals[:geojson_field].present?  %>
     drawMode="true"
   <% end %>
@@ -30,7 +32,7 @@
     hideResetControl="true"
     staticMode="true"
   <% end %>
-  <% if locals[:polygon_search] == true %>
+  <% if locals[:polygon_search] %>
     id="polygon-search-map"
     drawMode="true"
     geojsonBuffer=30

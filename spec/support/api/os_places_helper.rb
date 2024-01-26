@@ -13,6 +13,11 @@ module OsPlacesHelper
       .to_return(status: 200, body: Rails.root.join("spec/fixtures/os_places/#{results}.json").read, headers: {})
   end
 
+  def stub_os_places_api_request_for_radius(lat, long)
+    stub_request(:get, "https://api.os.uk/search/places/v1/radius?key=testtest&output_srs=EPSG:4258&point=#{lat},#{long}&radius=50&srs=EPSG:4258")
+      .to_return(status: 200, body: Rails.root.join("spec/fixtures/os_places/radius_search.json").read, headers: {})
+  end
+
   def stub_any_os_places_api_request
     stub_request(:get, "https://api.os.uk/search/places/v1/find").with(query: hash_including({}))
   end
