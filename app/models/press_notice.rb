@@ -3,6 +3,7 @@
 class PressNotice < ApplicationRecord
   include Auditable
   include DateValidateable
+  include Consultable
 
   REASONS = %i[
     conservation_area
@@ -43,7 +44,6 @@ class PressNotice < ApplicationRecord
 
   before_validation :reset_reasons, unless: :required?
   before_validation :reset_other_reason, unless: :other_selected?
-  before_validation :start_deadline, unless: :consultation_started?
 
   after_update :extend_consultation!, if: :saved_change_to_published_at?
   after_save :audit_press_notice!, if: :audit_required?
@@ -51,15 +51,6 @@ class PressNotice < ApplicationRecord
   delegate :audits, to: :planning_application
   delegate :local_authority, to: :planning_application
   delegate :press_notice_email, to: :local_authority
-
-  with_options allow_nil: true do
-    delegate :consultation, to: :planning_application
-    delegate :environment_impact_assessment, to: :planning_application
-    delegate :start_date, to: :consultation, prefix: true
-    delegate :end_date, to: :consultation, prefix: true
-    delegate :started?, to: :consultation, prefix: true
-    delegate :start_deadline, to: :consultation
-  end
 
   scope :required, -> { where(required: true) }
 
@@ -105,13 +96,5 @@ class PressNotice < ApplicationRecord
 
   def audit_press_notice!
     audit!(activity_type: "press_notice", audit_comment: audit_comment)
-  end
-
-  def new_consultation_end_date
-    [published_at && (published_at + consultation.period_days).end_of_day, consultation_end_date].compact.max
-  end
-
-  def extend_consultation!
-    consultation.update!(end_date: new_consultation_end_date)
   end
 end

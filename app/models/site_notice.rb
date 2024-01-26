@@ -2,6 +2,7 @@
 
 class SiteNotice < ApplicationRecord
   include DateValidateable
+  include Consultable
 
   belongs_to :planning_application
   has_many :documents, as: :owner, dependent: :destroy, autosave: true
@@ -19,13 +20,6 @@ class SiteNotice < ApplicationRecord
       }
   end
 
-  delegate :consultation, to: :planning_application
-  delegate :start_date, to: :consultation, prefix: true
-  delegate :end_date, to: :consultation, prefix: true
-  delegate :started?, to: :consultation, prefix: true
-  delegate :start_deadline, to: :consultation
-
-  before_validation :start_deadline, unless: :consultation_started?
   after_update :extend_consultation!, if: :saved_change_to_displayed_at?
 
   attr_reader :method
@@ -66,14 +60,6 @@ class SiteNotice < ApplicationRecord
     else
       "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
     end
-  end
-
-  def new_consultation_end_date
-    [displayed_at && (displayed_at + Consultation::DEFAULT_PERIOD).end_of_day, consultation_end_date].compact.max
-  end
-
-  def extend_consultation!
-    consultation.update!(end_date: new_consultation_end_date)
   end
 
   def eia_statement
