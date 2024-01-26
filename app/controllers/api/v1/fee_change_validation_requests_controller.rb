@@ -47,7 +47,7 @@ module Api
       private
 
       def file_params
-        params[:supporting_documents]
+        params[:data][:supporting_documents]
       end
 
       def set_fee_change_validation_request
