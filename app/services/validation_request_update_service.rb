@@ -28,7 +28,7 @@ class ValidationRequestUpdateService
 
   def ownership_certificate_params
     params.require(:data).permit(
-      params: [:certificate_type, land_owners: %i[name address_1 address_2 town city postcode notice_given notice_given_at]]
+      params: [:certificate_type, land_owners_attributes: %i[name address_1 address_2 town city postcode notice_given notice_given_at]]
     )
   end
 
