@@ -768,6 +768,22 @@ class PlanningApplication < ApplicationRecord
     reporting_type.blank? ? :not_started : :complete
   end
 
+  def updated_neighbour_boundary_geojson
+    return if neighbour_boundary_geojson.nil?
+
+    if consultation&.polygon_geojson.present?
+      consultation.polygon_search_and_boundary_geojson["features"].each do |value|
+        neighbour_boundary_geojson["features"].push(value)
+      end
+    end
+
+    neighbour_boundary_geojson
+  end
+
+  def neighbour_geojson
+    updated_neighbour_boundary_geojson || consultation.polygon_search_and_boundary_geojson || boundary_geojson
+  end
+
   private
 
   def create_fee_calculation

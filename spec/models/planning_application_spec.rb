@@ -2362,4 +2362,114 @@ RSpec.describe PlanningApplication do
       })
     end
   end
+
+  describe "#neighbour_geojson" do
+    let(:feature_collection) do
+      {
+        type: "FeatureCollection",
+        features: [
+          {
+            "type" => "Feature",
+            "properties" => {},
+            "geometry" => {
+              "type" => "Polygon",
+              "coordinates" => [
+                [[10, 10], [30, 30], [20, 20], [20, 10], [20, 30]]
+              ]
+            }
+          }
+        ]
+      }
+    end
+
+    context "when the neighbour boundary geojson is present" do
+      before do
+        planning_application.update(
+          neighbour_boundary_geojson: {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                properties: {},
+                geometry: {
+                  coordinates: [
+                    -0.13708768238623747,
+                    51.51141463106259
+                  ],
+                  type: "Point"
+                }
+              }
+            ]
+          }
+        )
+      end
+
+      it "returns the geojson" do
+        expect(planning_application.neighbour_geojson).to eq(planning_application.neighbour_boundary_geojson)
+      end
+
+      it "returns the geojson with drawn polygon if it's been drawn" do
+        create(:consultation, planning_application:, polygon_geojson: feature_collection.to_json)
+
+        expect(planning_application.reload.neighbour_geojson).to eq(
+          {
+            "features" => [
+              {
+                "geometry" => {
+                  "coordinates" => [
+                    -0.13708768238623747,
+                    51.51141463106259
+                  ],
+                  "type" => "Point"
+                },
+                "properties" => {},
+                "type" => "Feature"
+              },
+              {
+                "type" => "Feature",
+                "properties" => {
+                  color: "#d870fc"
+                },
+                "geometry" => {
+                  "coordinates" => [[[10.0, 10.0], [30.0, 30.0], [20.0, 20.0], [20.0, 10.0], [20.0, 30.0], [10.0, 10.0]]],
+                  "type" => "Polygon"
+                }
+              }
+            ],
+            "type" => "FeatureCollection"
+          }
+        )
+      end
+    end
+
+    context "when the neighbour boundary geojson isn't present" do
+      it "returns geojson with drawn polygon if it's been drawn" do
+        create(:consultation, planning_application:, polygon_geojson: feature_collection.to_json)
+
+        expect(planning_application.reload.neighbour_geojson).to eq(
+          {
+            "features" => [
+              {
+                "type" => "Feature",
+                "properties" => {
+                  color: "#d870fc"
+                },
+                "geometry" => {
+                  "coordinates" => [[[10.0, 10.0], [30.0, 30.0], [20.0, 20.0], [20.0, 10.0], [20.0, 30.0], [10.0, 10.0]]],
+                  "type" => "Polygon"
+                }
+              }
+            ],
+            "type" => "FeatureCollection"
+          }
+        )
+      end
+
+      it "returns boundary geojson if drawn polygon is not present" do
+        create(:consultation, planning_application:)
+
+        expect(planning_application.reload.neighbour_geojson).to eq(planning_application.boundary_geojson)
+      end
+    end
+  end
 end

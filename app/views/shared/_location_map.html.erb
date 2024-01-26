@@ -18,12 +18,14 @@
     latitude='<%= @planning_application.latitude %>'
     longitude='<%= @planning_application.longitude %>'
   <% end %>
-  <% if show_map_pin?(@planning_application, locals) || locals[:polygon_search] %>
+  <% if (show_map_pin?(@planning_application, locals) || locals[:polygon_search]) %>
     showCentreMarker
-    showGeojsonDataMarkers
     markerLatitude="<%= @planning_application.latitude %>"
     markerLongitude="<%= @planning_application.longitude %>"
     markerImage="circle"
+    <% if @planning_application.neighbour_boundary_geojson %>
+      showGeojsonDataMarkers
+    <% end %>
   <% end %>
   <% if locals[:geojson_field].present?  %>
     drawMode="true"
