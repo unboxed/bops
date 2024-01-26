@@ -73,6 +73,7 @@ RSpec.describe Consultation do
     let(:consultation) { create(:consultation) }
 
     before do
+      create(:environment_impact_assessment, planning_application: consultation.planning_application, required: false)
       travel_to date
     end
 
@@ -102,6 +103,19 @@ RSpec.describe Consultation do
 
       it "returns the day 21 days after the next working day" do
         expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 12).end_of_day)
+      end
+    end
+
+    context "when it's an EIA application" do
+      # Wed, 20 Sep 2023 13:00:00
+      let(:date) { Time.zone.local(2023, 9, 20, 13) }
+
+      before do
+        create(:environment_impact_assessment, planning_application: consultation.planning_application)
+      end
+
+      it "sets the end date to 30 days instead of 21" do
+        expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 21).end_of_day)
       end
     end
   end

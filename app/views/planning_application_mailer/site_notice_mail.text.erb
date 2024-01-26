@@ -26,7 +26,7 @@ Send an email to <%= @planning_application.user.email %> including:
 
 Make sure that the text of the site notice is clear in the photo.
 
-You can remove the site notice 21 days from the date you put it up.
+You can remove the site notice <%= @planning_application.environment_impact_assessment&.required? ? "30" : "21" %> days from the date you put it up.
 
 If you are not able to print or display the site notice, contact me at <%= @planning_application.user.email %>. This may delay our decision about your application.
 

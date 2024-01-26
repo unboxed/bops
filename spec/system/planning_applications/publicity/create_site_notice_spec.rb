@@ -51,6 +51,7 @@ RSpec.describe "Create a site notice", js: true do
       "Download site notice PDF",
       href: "#"
     )
+    expect(planning_application.site_notice.content).not_to include "This application is subject to an Environmental Impact Assessment (EIA)."
   end
 
   it "allows officers to create a site notice and email it to the agent" do
@@ -128,5 +129,62 @@ RSpec.describe "Create a site notice", js: true do
     click_button "Save and mark as complete", visible: true
 
     expect(page).not_to have_content "Confirm site notice is in place"
+  end
+
+  context "when it's an EIA application" do
+    before do
+      create(:environment_impact_assessment, planning_application:)
+    end
+
+    it "has different content" do
+      click_link "Send site notice"
+      expect(page).to have_content("Send site notice")
+      expect(page).to have_content("Subject to EIA")
+
+      choose "Yes"
+
+      expect(page).to have_content("Print the site notice")
+
+      fill_in "Day", with: "1"
+      fill_in "Month", with: "2"
+      fill_in "Year", with: "2023"
+
+      click_button "Create site notice", visible: true
+
+      expect(page).to have_content "Site notice was successfully created"
+      expect(page).to have_link(
+        "Download site notice PDF",
+        href: "#"
+      )
+
+      expect(planning_application.site_notice.content).to include "This application is subject to an Environmental Impact Assessment (EIA)."
+      expect(planning_application.site_notice.content).not_to include "View a hard copy of the Environment Statement"
+    end
+
+    it "contains the address and fee to get hard copy if included in EIA" do
+      planning_application.environment_impact_assessment.update(address: "123 street", fee: 19, email_address: "planner@council.com")
+      click_link "Send site notice"
+      expect(page).to have_content("Send site notice")
+      expect(page).to have_content("Subject to EIA")
+
+      choose "Yes"
+
+      expect(page).to have_content("Print the site notice")
+
+      fill_in "Day", with: "1"
+      fill_in "Month", with: "2"
+      fill_in "Year", with: "2023"
+
+      click_button "Create site notice", visible: true
+
+      expect(page).to have_content "Site notice was successfully created"
+      expect(page).to have_link(
+        "Download site notice PDF",
+        href: "#"
+      )
+
+      expect(planning_application.site_notice.content).to include "This application is subject to an Environmental Impact Assessment (EIA)."
+      expect(planning_application.site_notice.content).to include "You can request a hard copy for a fee of £19 by emailing planner@council.com or in person at 123 street."
+    end
   end
 end
