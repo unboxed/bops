@@ -357,6 +357,7 @@ en:
       description_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'
       description_change_validation_request_cancelled: 'Cancelled: validation request (applicant approval for description change #%{args})'
+      description_change_validation_request_cancelled_post_validation: 'Cancelled: validation request (applicant approval for description change #%{args})'
       description_change_validation_request_received: 'Received: request for change (description#%{args})'
       description_change_validation_request_sent: 'Sent: description change request (description#%{args})'
       description_change_validation_request_sent_post_validation: 'Sent: description change request (description#%{args})'
