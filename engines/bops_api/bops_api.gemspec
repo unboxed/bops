@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*"]
   end
 
-  spec.add_dependency "rails", ">= 7.0.8", "< 7.1"
+  spec.add_dependency "rails", ">= 7.1.3", "< 7.2"
   spec.add_dependency "rswag-api", "~> 2.11"
   spec.add_dependency "rswag-specs", "~> 2.11"
   spec.add_dependency "rswag-ui", "~> 2.11"
