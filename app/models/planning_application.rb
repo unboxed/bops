@@ -725,7 +725,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def generate_document_tabs(tabs = Document::DEFAULT_TABS)
-    all_documents = documents.with_file_attachment
+    all_documents = documents.active.with_file_attachment
 
     tabs.map do |tab|
       documents = (tab == "All") ? all_documents : filter_documents_for_tab(all_documents, tab)

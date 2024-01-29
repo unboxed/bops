@@ -2313,6 +2313,7 @@ RSpec.describe PlanningApplication do
     let!(:document_supporting_tag) { create(:document, tags: ["Noise Impact Assessment"], planning_application:) }
     let!(:document_evidence_and_plan_tags) { create(:document, tags: ["Photograph", "Proposed"], planning_application:) }
     let!(:document_plan_and_supporting_tags) { create(:document, tags: ["Proposed", "Other Supporting Document"], planning_application:) }
+    let!(:document_archived) { create(:document, :archived, tags: [], planning_application:) }
 
     def find_tab(title)
       planning_application.generate_document_tabs.find { |tab| tab[:title] == title }
@@ -2360,6 +2361,12 @@ RSpec.describe PlanningApplication do
         content: "Supporting documents",
         records: [document_supporting_tag, document_plan_and_supporting_tags]
       })
+    end
+
+    it "filters out archived documents" do
+      all_tab = find_tab("All")
+
+      expect(all_tab[:records]).not_to include(document_archived)
     end
   end
 end
