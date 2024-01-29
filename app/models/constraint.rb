@@ -37,11 +37,7 @@ class Constraint < ApplicationRecord
   end
 
   def type_code
-    if I18n.t("constraint_type_codes.#{type}").include?("translation missing")
-      type.titleize.capitalize
-    else
-      I18n.t("constraint_type_codes.#{type}")
-    end
+    I18n.t("constraint_type_codes.#{type}", default: type.titleize.capitalize)
   end
 
   def start_date
