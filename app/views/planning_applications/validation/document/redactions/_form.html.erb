@@ -12,7 +12,7 @@
         <th class="govuk-table__header govuk-!-width-one-half">Upload redacted</th>
       </tr>
     </thead>
-  <%= form.fields_for :documents, @planning_application.documents.not_redacted do |ff| %>
+  <%= form.fields_for :documents, @planning_application.documents.active.not_redacted do |ff| %>
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-!-padding-top-3 govuk-!-padding-bottom-3">
