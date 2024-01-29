@@ -1,6 +1,6 @@
-<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
+<%= activity(audit.activity_type, audit.activity_information) %>
 <p class="govuk-body">
-  <% activity_type = get_relevant_audit_information(locals[:item]) %>
+  <% activity_type = get_relevant_audit_information(audit) %>
 
   <% if valid_json?(activity_type) %>
     <% JSON.parse(activity_type).each do |key, value| %>

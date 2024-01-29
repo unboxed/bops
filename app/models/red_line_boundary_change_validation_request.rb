@@ -67,7 +67,7 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
   end
 
   def audit_comment
-    reason
+    {reason: reason}.to_json
   end
 
   def update_planning_application_for_auto_closed_request!

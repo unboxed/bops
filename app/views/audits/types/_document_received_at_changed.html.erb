@@ -1,14 +1,14 @@
-<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
+<%= activity(audit.activity_type, audit.activity_information) %>
 
-<% if JSON.parse(locals[:item].audit_comment)["previous_received_date"].present? %>
+<% if JSON.parse(audit.audit_comment)["previous_received_date"].present? %>
   <p class="govuk-body">
-    from: <%= JSON.parse(locals[:item].audit_comment)["previous_received_date"].to_datetime.to_fs %>
+    from: <%= JSON.parse(audit.audit_comment)["previous_received_date"].to_datetime.to_fs %>
   </p>
 <% end %>
 
-<% if JSON.parse(locals[:item].audit_comment)["updated_received_date"].present? %>
+<% if JSON.parse(audit.audit_comment)["updated_received_date"].present? %>
   <p class="govuk-body">
-    to: <%= JSON.parse(locals[:item].audit_comment)["updated_received_date"].to_datetime.to_fs %>
+    to: <%= JSON.parse(audit.audit_comment)["updated_received_date"].to_datetime.to_fs %>
   </p>
 <% end %>
 
