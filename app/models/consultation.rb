@@ -239,8 +239,37 @@ class Consultation < ApplicationRecord
       max_height: planning_application&.proposal_measurement&.max_height,
       eaves_height: planning_application&.proposal_measurement&.eaves_height,
       current_user: Current.user.name,
+      view_application: view_application,
       council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
       application_link:)
+  end
+
+  def view_application
+    if planning_application.environment_impact_assessment.present?
+      environment_impact_content
+    else
+      I18n.t("neighbour_letter_template.view_application_paragraph",
+        application_link:)
+    end
+  end
+
+  def environment_impact_content
+    if planning_application.environment_impact_assessment.with_address_email_and_fee?
+      I18n.t("neighbour_letter_template.eia_both_fields_content",
+        eia_email: planning_application.environment_impact_assessment.email_address,
+        eia_address: planning_application.environment_impact_assessment.address,
+        eia_fee: planning_application.environment_impact_assessment.fee,
+        application_link:)
+    elsif planning_application.environment_impact_assessment.with_address_and_fee?
+      I18n.t("neighbour_letter_template.eia_address_content",
+        eia_address: planning_application.environment_impact_assessment.address,
+        eia_fee: planning_application.environment_impact_assessment.fee,
+        application_link:)
+    else
+      I18n.t("neighbour_letter_template.eia_email_content",
+        eia_email: planning_application.environment_impact_assessment.email_address,
+        application_link:)
+    end
   end
 
   def neighbour_letter_content

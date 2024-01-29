@@ -160,6 +160,46 @@ RSpec.describe Consultation do
     end
   end
 
+  describe "#view_application" do
+    let(:eia_planning_application) { create(:planning_application, :planning_permission) }
+    let(:consultation) { eia_planning_application.consultation }
+
+    context "when there is no environment impact assessment" do
+      it "should not include content about the environment impact assessment" do
+        Current.user = create(:user)
+
+        expect(consultation.neighbour_letter_body).not_to include("You can request a hard copy for a fee of 48")
+      end
+    end
+
+    context "when eia has address and email" do
+      it "includes address and email in neighbour letter" do
+        Current.user = create(:user)
+        create(:environment_impact_assessment, planning_application: eia_planning_application, address: "4 Sand Street", email_address: "eia@example.com", fee: 48)
+
+        expect(consultation.neighbour_letter_body).to include("You can request a hard copy for a fee of £48 by emailing eia@example.com or in person at 4 Sand Street")
+      end
+    end
+
+    context "when eia has address only" do
+      it "includes address in neighbour letter" do
+        Current.user = create(:user)
+        create(:environment_impact_assessment, planning_application: eia_planning_application, address: "4 Sand Street", fee: 48)
+
+        expect(consultation.neighbour_letter_body).to include("You can request a hard copy for a fee of £48 in person at 4 Sand Street")
+      end
+    end
+
+    context "when eia has email only" do
+      it "includes email in neighbour letter" do
+        Current.user = create(:user)
+        create(:environment_impact_assessment, planning_application: eia_planning_application, email_address: "eia@example.com")
+
+        expect(consultation.neighbour_letter_body).to include("You can request a copy by emailing eia@example.com")
+      end
+    end
+  end
+
   describe "#neighbour_responses_by_summary_tag" do
     let!(:consultation) { create(:consultation) }
     let!(:neighbour1) { create(:neighbour, address: "1, Random Lane, AAA111", consultation:) }
