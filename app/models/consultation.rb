@@ -223,7 +223,8 @@ class Consultation < ApplicationRecord
 
   def neighbour_letter_header
     I18n.t("neighbour_letter_header.#{planning_application.application_type.name}",
-      closing_date: end_date_from_now.to_date.to_fs)
+      closing_date: end_date_from_now.to_date.to_fs,
+      default: "")
   end
 
   def neighbour_letter_body
