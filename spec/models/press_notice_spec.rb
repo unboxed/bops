@@ -96,7 +96,7 @@ RSpec.describe PressNotice do
         end
       end
 
-      describe "::after_update #update_consultation_end_date!" do
+      describe "::after_update #extend_consultation!" do
         let(:default_local_authority) { create(:local_authority, :default) }
         let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
         let!(:consultation) { create(:consultation, planning_application:) }
@@ -159,6 +159,25 @@ RSpec.describe PressNotice do
             end.to change(consultation, :end_date)
               .from(Time.zone.local(2023, 3, 28, 23, 59, 59, 999999))
               .to(Time.zone.local(2023, 4, 5, 23, 59, 59, 999999))
+          end
+        end
+
+        context "when application has been marked as requiring an EIA and there is an update to the published_at date" do
+          let!(:environment_impact_assessment) { create(:environment_impact_assessment, planning_application:) }
+
+          before do
+            consultation.update!(
+              start_date: Time.zone.local(2023, 3, 28),
+              end_date: Time.zone.local(2023, 3, 28, 23, 59, 59, 999999)
+            )
+          end
+
+          it "there is an update of 30 days added to the consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15))
+            end.to change(consultation, :end_date)
+              .from(Time.zone.local(2023, 3, 28, 23, 59, 59, 999999))
+              .to(Time.zone.local(2023, 4, 14, 23, 59, 59, 999999))
           end
         end
       end
