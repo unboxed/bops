@@ -1,5 +1,12 @@
 <%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
 <p class="govuk-body">
-  <i><%= locals[:item].audit_comment %></i>
-  <i><%= locals[:item].activity_information if locals[:item].audit_comment.nil? %></i>
+  <% activity_type = get_relevant_audit_information(locals[:item]) %>
+
+  <% if valid_json?(activity_type) %>
+    <% JSON.parse(activity_type).each do |key, value| %>
+      <i><%= key.humanize %>: <%= value %></i><br>
+    <% end %>
+  <% else %>
+    <%= activity_type %>
+  <% end %>
 </p>

@@ -44,15 +44,14 @@ module AuditHelper
     ]
   end
 
-  def audit_entry_template(audit)
-    if audit.activity_type.match?("/*_validation_request_cancelled")
-      "validation_request_cancelled"
-    elsif audit.activity_type.include?("request") ||
-        audit.activity_type.include?("document_received_at_changed") ||
-        audit.activity_type.include?("submitted")
-      audit.activity_type
-    else
-      "generic_audit_entry"
-    end
+  def get_relevant_audit_information(audit)
+    audit.audit_comment.nil? ? audit.activity_information : audit.audit_comment
+  end
+
+  def valid_json?(comment)
+    JSON.parse(comment)
+    true
+  rescue JSON::ParserError, TypeError
+    false
   end
 end

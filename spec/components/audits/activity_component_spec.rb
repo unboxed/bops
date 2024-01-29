@@ -19,31 +19,21 @@ RSpec.describe Audits::ActivityComponent, type: :component do
     end
   end
 
-  context "when there is an activity type for an added other change validation request" do
-    let(:audit) { create(:audit, activity_type: "other_change_validation_request_added") }
+  context "when there is an activity type for an auto closed request" do
+    let(:audit) { create(:audit, activity_type: "red_line_boundary_change_validation_request_auto_closed") }
 
     it "returns the correct other_change_validation_request_added template" do
-      expect(audit_template).to eq("other_change_validation_request_added")
+      expect(audit_template).to eq("red_line_boundary_change_validation_request_auto_closed")
     end
   end
 
-  context "when there is an activity type for a document received at change" do
-    let(:audit) { create(:audit, activity_type: "document_received_at_changed") }
-
-    it "returns the correct document_received_at_changed template" do
-      expect(audit_template).to eq("document_received_at_changed")
-    end
-  end
-
-  context "when there is an activity type for submitting a planning application" do
+  context "all others return a generic audit entry" do
     let(:audit) { create(:audit, activity_type: "submitted") }
 
     it "returns the submitted template" do
-      expect(audit_template).to eq("submitted")
+      expect(audit_template).to eq("generic_audit_entry")
     end
-  end
 
-  context "when there is an activity type that will return a generic audit entry" do
     let(:audit) { create(:audit, activity_type: "created") }
 
     it "returns the generic template" do
