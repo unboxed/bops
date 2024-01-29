@@ -302,6 +302,7 @@ en:
       users: Users
   application_type_codes:
     lawfulness_certificate:
+      bad_status: bad status
       existing: LDCE
       proposed: LDCP
     planning_permission:
@@ -309,6 +310,7 @@ en:
     prior_approval:
       existing: PA
       proposed: PA
+    proposed: Proposed
   application_types:
     lawfulness_certificate: Lawful Development Certificate
     lawfulness_certificate_abbr: LDC
@@ -552,6 +554,11 @@ en:
     header: 1) Select the consultees to consult
     not_consulted: Not consulted
     select_consultee: Select consultee
+  council_addresses:
+    planx: n/a
+  council_documents:
+    planx:
+      planning_policy_and_guidance: http://example.com
   date:
     formats:
       default: "%-d %B %Y"
