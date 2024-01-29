@@ -6,7 +6,7 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% @planning_application.documents.redacted.each do |document| %>
+    <% @planning_application.documents.active.redacted.each do |document| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-!-width-one-half">
           <p class="govuk-body govuk-!-margin-bottom-1">

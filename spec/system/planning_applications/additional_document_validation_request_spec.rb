@@ -161,6 +161,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       create(:document, :with_file, planning_application:)
       create(:document, :with_other_file, planning_application:)
+      create(:document, :archived, :with_file, planning_application:)
     end
 
     it "I can see the list of active documents when I go to validate" do
@@ -183,6 +184,8 @@ RSpec.describe "Requesting a new document for a planning application" do
       within("#all .govuk-table.current-documents") do
         within(".govuk-table__body") do
           rows = page.all(".govuk-table__row")
+
+          expect(rows.size).to eq(2)
 
           within(rows[0]) do
             cells = page.all(".govuk-table__cell")

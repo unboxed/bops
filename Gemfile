@@ -57,7 +57,7 @@ group :development, :test do
   gem "guard-rspec", require: false
   gem "pry-byebug"
   gem "rails-controller-testing"
-  gem "rspec-rails", "~> 4.0.0"
+  gem "rspec-rails"
   gem "rswag-specs", require: false
   gem "standard", "~> 1.31", require: false
   gem "standard-custom", require: false

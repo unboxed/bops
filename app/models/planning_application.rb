@@ -23,15 +23,9 @@ class PlanningApplication < ApplicationRecord
   enum decision: {granted: "granted", refused: "refused", granted_not_required: "granted_not_required"}
 
   with_options dependent: :destroy do
-    has_many :audits, -> { by_created_at }, inverse_of: :planning_application
-    has_many :documents, -> { by_created_at }, inverse_of: :planning_application
-
-    has_many(
-      :recommendations,
-      -> { order :created_at },
-      inverse_of: :planning_application
-    )
-
+    has_many :audits, -> { by_created_at }
+    has_many :documents, -> { by_created_at }
+    has_many :recommendations, -> { order :created_at }
     has_many :description_change_validation_requests
     has_many :replacement_document_validation_requests
     has_many :other_change_validation_requests
@@ -39,14 +33,16 @@ class PlanningApplication < ApplicationRecord
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
     has_many :ownership_certificate_validation_requests
-    has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
+    has_many :notes, -> { by_created_at_desc }
     has_many :validation_requests
-    has_many :assessment_details, -> { by_created_at_desc }, inverse_of: :planning_application
-    has_many :permitted_development_rights, -> { order :created_at }, inverse_of: :planning_application
+    has_many :assessment_details, -> { by_created_at_desc }
+    has_many :permitted_development_rights, -> { order :created_at }
     has_many :planning_application_constraints
     has_many :planning_application_constraints_queries
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_many :site_notices
+    has_many :policy_classes, -> { order(:section) }
+
     has_one :immunity_detail, required: false
     has_one :condition_set, required: false
     has_one :consultation, required: false
@@ -57,15 +53,7 @@ class PlanningApplication < ApplicationRecord
     has_one :fee_calculation, required: false
     has_one :ownership_certificate, required: false
     has_one :environment_impact_assessment, required: false
-
-    has_many(
-      :policy_classes,
-      -> { order(:section) },
-      dependent: :destroy,
-      inverse_of: :planning_application
-    )
-
-    has_one :consistency_checklist, dependent: :destroy
+    has_one :consistency_checklist
   end
 
   delegate :consultation?, to: :application_type
@@ -737,7 +725,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def generate_document_tabs(tabs = Document::DEFAULT_TABS)
-    all_documents = documents.with_file_attachment
+    all_documents = documents.active.with_file_attachment
 
     tabs.map do |tab|
       documents = (tab == "All") ? all_documents : filter_documents_for_tab(all_documents, tab)

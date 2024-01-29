@@ -80,6 +80,10 @@ Rails/ApplicationRecord:
   Exclude:
     - db/migrate/*
 
+# Ignore scopes as Rails 7.0+ will find the inverse of automatically
+Rails/InverseOf:
+  IgnoreScopes: true
+
 Rails/SaveBang:
   Exclude:
     # past migrations ignored, see above

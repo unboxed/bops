@@ -13,17 +13,17 @@ RSpec.describe "Redact documents" do
     )
   end
 
-  let!(:document1) do
-    create(:document, :with_file, planning_application:)
-  end
-
-  let!(:document2) do
-    create(:document, :with_file, planning_application:)
-  end
+  let(:file1) { fixture_file_upload("documents/existing-floorplan.png", "image/png", true) }
+  let(:file2) { fixture_file_upload("documents/proposed-floorplan.png", "image/png", true) }
+  let(:file3) { fixture_file_upload("documents/archived-floorplan.png", "image/png", true) }
 
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   before do
+    create(:document, file: file1, planning_application:)
+    create(:document, file: file2, planning_application:)
+    create(:document, :archived, file: file3, planning_application:)
+
     sign_in assessor
     visit "/planning_applications/#{planning_application.id}/validation/tasks"
   end
@@ -31,8 +31,9 @@ RSpec.describe "Redact documents" do
   it "allows assessor to upload redacted documents" do
     click_link "Upload redacted documents"
 
-    expect(page).to have_content(document1.name)
-    expect(page).to have_content(document2.name)
+    expect(page).to have_content("existing-floorplan.png")
+    expect(page).to have_content("proposed-floorplan.png")
+    expect(page).not_to have_content("archived-floorplan.png")
 
     within(all(".govuk-table__row")[1]) do
       attach_file("Upload a file", "spec/fixtures/images/existing-floorplan.png")
