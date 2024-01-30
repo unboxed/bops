@@ -57,6 +57,15 @@ module Bops
     # Don't log certain requests that spam the log files
     config.middleware.insert_before Rails::Rack::Logger, QuietLogger, paths: ["/healthcheck"]
 
+    # don't fail tests in this case
+    config.active_record.raise_on_assign_to_attr_readonly = false
+
+    # use rails 7.0 encryption method
+    config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA256
+
+    # changing this breaks some creation_service tests
+    config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction = true
+
     config.os_vector_tiles_api_key = ENV["OS_VECTOR_TILES_API_KEY"]
     config.feedback_fish_id = ENV["FEEDBACK_FISH_ID"]
     config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
