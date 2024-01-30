@@ -23,9 +23,14 @@ Bundler.require(*Rails.groups)
 module Bops
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     config.middleware.use Grover::Middleware
+
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    # config.autoload_lib(ignore: %w[assets tasks])
 
     # Settings in config/environments/* take precedence over those specified
     # here. Application configuration can go into files in config/initializers
@@ -51,6 +56,15 @@ module Bops
 
     # Don't log certain requests that spam the log files
     config.middleware.insert_before Rails::Rack::Logger, QuietLogger, paths: ["/healthcheck"]
+
+    # don't fail tests in this case
+    config.active_record.raise_on_assign_to_attr_readonly = false
+
+    # use rails 7.0 encryption method
+    config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA256
+
+    # changing this breaks some creation_service tests
+    config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction = true
 
     config.os_vector_tiles_api_key = ENV["OS_VECTOR_TILES_API_KEY"]
     config.feedback_fish_id = ENV["FEEDBACK_FISH_ID"]
