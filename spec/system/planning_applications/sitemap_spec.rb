@@ -43,7 +43,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         map_selector = find("my-map")
         expect(map_selector["latitude"]).to eq(planning_application.latitude.to_s)
         expect(map_selector["longitude"]).to eq(planning_application.longitude.to_s)
-        expect(map_selector["showMarker"]).to eq("true")
+        expect(map_selector["showCentreMarker"]).to eq("true")
 
         # JS to emulate a polygon drawn on the map
         execute_script 'document.getElementById("planning_application_boundary_geojson").setAttribute("value", \'{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}\')'
@@ -66,7 +66,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(page).to have_content("Site map drawn by applicant")
         expect(page).not_to have_content("No digital sitemap provided")
         map = find("my-map")
-        expect(map["showMarker"]).to eq("false")
+        expect(map["showCentreMarker"]).to eq("false")
 
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
         expect(page).not_to have_link("Draw red line boundary")
@@ -153,7 +153,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content(planning_application.reference)
       map = find("my-map")
-      expect(map["showMarker"]).to eq("true")
+      expect(map["showCentreMarker"]).to eq("true")
 
       find(".govuk-visually-hidden",
         visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
@@ -298,7 +298,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       click_button "Site map"
       click_link "Request approval for a change to red line boundary"
       map = find("my-map")
-      expect(map["showMarker"]).to eq("true")
+      expect(map["showCentreMarker"]).to eq("true")
 
       # Draw proposed red line boundary
       find(".govuk-visually-hidden", visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
@@ -377,7 +377,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(page).to have_content("Applicant approved proposed digital red line boundary")
         expect(page).to have_content("Change to red line boundary has been approved by the applicant")
         map = find("my-map")
-        expect(map["showMarker"]).to eq("false")
+        expect(map["showCentreMarker"]).to eq("false")
       end
     end
 
@@ -394,7 +394,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(page).to have_content("Applicant rejected this proposed red line boundary")
         expect(page).to have_content("Reason: disagree")
         map = find("my-map")
-        expect(map["showMarker"]).to eq("false")
+        expect(map["showCentreMarker"]).to eq("false")
       end
     end
 
@@ -414,7 +414,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
         expect(page).to have_content("Change to red line boundary was auto closed and approved after being open for more than 5 business days")
         map = find("my-map")
-        expect(map["showMarker"]).to eq("false")
+        expect(map["showCentreMarker"]).to eq("false")
 
         visit "/planning_applications/#{planning_application.id}/audits"
 

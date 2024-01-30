@@ -43,6 +43,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             headers: {"Content-Type" => content_type}
           )
       end
+      Rails.configuration.os_vector_tiles_api_key = "testtest"
+      stub_os_places_api_request_for_radius(51.4656522, -0.1185926)
     end
 
     context "when successfully calling the service with params" do
@@ -377,6 +379,11 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "doesn't create any constraints" do
           expect { create_planning_application }.not_to change(PlanningApplicationConstraint, :count)
+        end
+
+        it "creates neighbour boundary geojson" do
+          create_planning_application
+          expect(PlanningApplication.last.neighbour_boundary_geojson).not_to be nil
         end
       end
 

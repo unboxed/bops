@@ -29,7 +29,7 @@
     locals: {
       in_accordion: false,
       polygon_search: true,
-      geojson: consultation.polygon_search_and_boundary_geojson || planning_application.boundary_geojson,
+      geojson: planning_application.neighbour_geojson,
       geojson_field: "consultation-polygon-geojson-field",
       draw_color: consultation.polygon_colour,
       draw_fill_color: consultation.polygon_fill_colour
@@ -40,9 +40,9 @@
 <div id="map-legend" class="govuk-!-padding-top-2">
   <svg width="100%" height="50" xmlns="http://www.w3.org/2000/svg">
     <rect x="10" y="10" width="30" height="30" stroke="red" fill="none" stroke-width="2"/>
-    <text x="50" y="30" font-size="16">Red line boundary</text>
+    <text x="50" y="30" font-size="16" class="govuk-body-s">Red line boundary</text>
 
     <rect x="200" y="10" width="30" height="30" stroke="#d870fc" fill="none" stroke-width="2"/>
-    <text x="240" y="30" font-size="16">Area of selected neighbours</text>
+    <text x="240" y="30" font-size="16" class="govuk-body-s">Area of selected neighbours</text>
   </svg>
 </div>

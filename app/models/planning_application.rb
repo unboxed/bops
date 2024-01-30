@@ -756,6 +756,32 @@ class PlanningApplication < ApplicationRecord
     reporting_type.blank? ? :not_started : :complete
   end
 
+  def updated_neighbour_boundary_geojson
+    return if neighbour_boundary_geojson.nil?
+
+    features = neighbour_boundary_geojson.map do |geometry|
+      {
+        "type" => "Feature",
+        "geometry" => RGeo::GeoJSON.encode(geometry)
+      }
+    end
+
+    if consultation&.polygon_geojson.present?
+      consultation.polygon_search_and_boundary_geojson["features"].each do |value|
+        features.push(value)
+      end
+    end
+
+    {
+      "type" => "FeatureCollection",
+      "features" => features
+    }
+  end
+
+  def neighbour_geojson
+    updated_neighbour_boundary_geojson || consultation.polygon_search_and_boundary_geojson || boundary_geojson
+  end
+
   private
 
   def create_fee_calculation
