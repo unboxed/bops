@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup ruby and install gems
         uses: ruby/setup-ruby@v1
@@ -67,7 +67,7 @@ jobs:
           bundler-cache: true
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         if: hashFiles('yarn.lock') != ''
         with:
           node-version-file: .node-version
@@ -139,11 +139,11 @@ jobs:
           bundle exec cucumber
 
       - name: Expose GitHub Runtime for Docker build
-        uses: crazy-max/ghaction-github-runtime@v2
+        uses: crazy-max/ghaction-github-runtime@v3
         if: ${{ inputs.test-runner == 'docker' }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         if: ${{ inputs.test-runner == 'docker' }}
 
       - name: Ensure ${{ inputs.dockerfile }} builds
