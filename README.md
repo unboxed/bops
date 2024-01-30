@@ -154,7 +154,7 @@ API documentation is available at /api/docs/index.html.
 
 Do this through the provided Swagger documentation at /api/docs/index.html
 
-* Click Authorize and fill in the API key ('123' if not otherwise specified at db:seed)
+* Click Authorize and fill in the API key (both v1 and v2 are scoped per user and thus to local authority)
 * POST /api/v1/planning_applications > Try it out > Choose 'Full' example > Click Execute.
 
 [1]: https://www.docker.com/products/docker-desktop

@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Confirm site notice", js: true do
-  let!(:api_user) { create(:api_user, name: "PlanX") }
-  let!(:default_local_authority) { create(:local_authority, :default) }
+  let(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, name: "PlanX", local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:application_type) { create(:application_type, :prior_approval) }
 

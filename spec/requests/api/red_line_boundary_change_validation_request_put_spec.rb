@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "API request to patch document validation requests", show_exceptions: true do
   include ActionDispatch::TestProcess::FixtureFile
   let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
 
   let(:path) do
     "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
@@ -21,8 +22,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     {Authorization: "Bearer #{api_user.token}"}
   end
 
-  let!(:api_user) { create(:api_user) }
-  let(:user) { create(:user) }
+  let(:user) { create(:user, local_authority: default_local_authority) }
 
   let!(:planning_application) do
     create(

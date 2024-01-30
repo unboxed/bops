@@ -3,7 +3,7 @@
 class ApiUser < ApplicationRecord
   attribute :file_downloader, FileDownloaders.to_type
 
-  belongs_to :local_authority, optional: true
+  belongs_to :local_authority
   has_many :audits, dependent: :nullify
 
   has_secure_token :token, length: 36

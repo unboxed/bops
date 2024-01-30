@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "API request to list planning applications", show_exceptions: true do
-  let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer) }
 
   describe "format" do

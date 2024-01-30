@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Creating a planning application via the API", show_exceptions: true do
-  let!(:api_user) { create(:api_user) }
-  let!(:local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, local_authority:) }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
+  let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
   let!(:consultation) { create(:consultation, planning_application:) }
 
   let(:path) do

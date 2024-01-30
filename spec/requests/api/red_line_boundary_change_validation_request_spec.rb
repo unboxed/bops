@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Red line boundary change validation requests API", show_exceptions: true do
-  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
   let!(:planning_application) { create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority) }
   let!(:red_line_boundary_change_validation_request) do
     travel_to(DateTime.new(2023, 12, 15)) { create(:red_line_boundary_change_validation_request, planning_application:) }

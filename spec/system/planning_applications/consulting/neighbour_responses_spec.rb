@@ -5,8 +5,8 @@ require "rails_helper"
 RSpec.describe "View neighbour responses", js: true do
   include ActionDispatch::TestProcess::FixtureFile
 
-  let!(:api_user) { create(:api_user, name: "PlanX") }
-  let!(:default_local_authority) { create(:local_authority, :default) }
+  let(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, name: "PlanX", local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:application_type) { create(:application_type, :prior_approval) }
 
