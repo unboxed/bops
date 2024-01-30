@@ -139,7 +139,7 @@ jobs:
           bundle exec cucumber
 
       - name: Expose GitHub Runtime for Docker build
-        uses: crazy-max/ghaction-github-runtime@v2
+        uses: crazy-max/ghaction-github-runtime@v3
         if: ${{ inputs.test-runner == 'docker' }}
 
       - name: Set up Docker Buildx
