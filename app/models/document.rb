@@ -29,7 +29,7 @@ class Document < ApplicationRecord
 
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
-  before_update :reset_replacement_document_validation_request_update_counter!
+  before_update :reset_replacement_document_validation_request_update_counter!, if: :owner_is_validation_request?
   after_update :audit_updated!
 
   PLAN_TAGS = %w[
@@ -315,9 +315,12 @@ class Document < ApplicationRecord
      updated_received_date: saved_change_to_received_at.second}.to_json
   end
 
+  def owner_is_validation_request?
+    owner.present? && owner.is_a?(ValidationRequest)
+  end
+
   def reset_replacement_document_validation_request_update_counter!
     return unless validated? || archived?
-    return if owner.nil?
 
     owner.reset_update_counter!
   end
