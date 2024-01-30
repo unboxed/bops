@@ -30,6 +30,7 @@
                 <%= days_left > 0 ? t("planning_applications.days_left", count: days_left) : t("planning_applications.overdue", count: days_left.abs) %>
               </span>
             </span>
+            <span id="edit-consultation-end-date"><%= link_to "Change", edit_planning_application_consultation_path(@planning_application), class: "govuk-link" %></span>
           <% end %>
 
           <% if display_or_publish_required?(@planning_application, :site) %>

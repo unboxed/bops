@@ -1,0 +1,26 @@
+<% content_for :page_title do %>
+  Edit consultation
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Consultation" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Consultation" }
+) %>
+
+<%= form_with(
+  model: @consultation,
+  url: planning_application_consultation_path(@planning_application)
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_date_field :end_date, legend: { text: "Set consultation end date", size: "m" } %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Save", class: "govuk-button" %>
+    <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+<% end %>

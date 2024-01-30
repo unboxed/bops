@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Press notice" do
+RSpec.describe "Consultation" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
   let!(:planning_application) do
@@ -12,7 +12,7 @@ RSpec.describe "Press notice" do
   before do
     sign_in assessor
 
-    planning_application.consultation.update(end_date: Time.zone.local(2023, 9, 15, 12))
+    planning_application.consultation.update(start_date: Time.zone.local(2023, 8, 15, 12), end_date: Time.zone.local(2023, 9, 15, 12))
     visit "/planning_applications/#{planning_application.id}"
   end
 
@@ -21,6 +21,38 @@ RSpec.describe "Press notice" do
       click_link "Consultees, neighbours and publicity"
 
       expect(page).to have_content("Consultation end date: 15 September 2023")
+    end
+
+    it "I can edit the consultation end date" do
+      click_link "Consultees, neighbours and publicity"
+
+      within("#edit-consultation-end-date") do
+        click_link "Change"
+      end
+
+      fill_in "Day", with: "03"
+      fill_in "Month", with: ""
+      fill_in "Year", with: ""
+
+      click_button "Save"
+      within(".govuk-error-summary") do
+        expect(page).to have_content("End date is not a valid date")
+      end
+
+      fill_in "Day", with: "03"
+      fill_in "Month", with: "01"
+      fill_in "Year", with: "2023"
+      click_button "Save"
+      within(".govuk-error-summary") do
+        expect(page).to have_content("End date is not on or after 15/08/2023")
+      end
+
+      fill_in "Day", with: "20"
+      fill_in "Month", with: "09"
+      fill_in "Year", with: "2023"
+      click_button "Save"
+      expect(page).to have_content("Consultation was successfully updated.")
+      expect(page).to have_content("Consultation end date: 20 September 2023")
     end
   end
 

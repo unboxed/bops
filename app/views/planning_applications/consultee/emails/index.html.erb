@@ -32,6 +32,21 @@
       <%= render ConsulteeEmailComponent.new(form: form) %>
       <%= render ReconsultConsulteesComponent.new(form: form) if @consultees.consulted? %>
 
+      <div class="govuk-form-group" id="response-period">
+        <h2 class="govuk-heading-m">
+          <div class="govuk-hint govuk-!-margin-bottom-0">Step <%= @consultees.consulted? ? "4" : "3" %></div>
+          <%= form.label :consultee_response_period, "Set response period", class: "govuk-label govuk-label--m" %>
+        </h2>
+
+        <p class="govuk-hint">Enter the number of days that consultees have to respond.</p>
+
+        <div class="govuk-input__wrapper">
+          <%= form.govuk_text_field :consultee_response_period, placeholder: "", class: "govuk-input", label: -> {}, required: true %>
+
+          <div class="govuk-input__suffix" aria-hidden="true">days</div>
+        </div>
+      </div>
+
       <div class="govuk-button-group">
         <%= form.submit "Send emails to consultees", id: "send-emails-button", class: "govuk-button", data: { consultees_target: "submit" } %>
         <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

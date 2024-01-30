@@ -12,8 +12,10 @@ class Consultation < ApplicationRecord
     signatory_name signatory_job_title local_authority
   ].freeze
 
-  DEFAULT_PERIOD = 21.days
-  EIA_PERIOD = 30.days
+  DEFAULT_PERIOD = 21
+  DEFAULT_PERIOD_DAYS = DEFAULT_PERIOD.days
+  EIA_PERIOD = 30
+  EIA_PERIOD_DAYS = EIA_PERIOD.days
 
   attribute :consultee_message_subject, :string, default: -> { default_consultee_message_subject }
   attribute :consultee_message_body, :string, default: -> { default_consultee_message_body }
@@ -22,7 +24,7 @@ class Consultation < ApplicationRecord
   attribute :email_reason, :string, default: "send"
   attribute :resend_message, :string
   attribute :reconsult_message, :string
-  attribute :reconsult_date, :date, default: -> { Date.current + DEFAULT_PERIOD }
+  attribute :consultee_response_period, :integer, default: DEFAULT_PERIOD
 
   belongs_to :planning_application
 
@@ -47,14 +49,22 @@ class Consultation < ApplicationRecord
     has_many :neighbour_responses
   end
 
+  with_options if: :start_date do
+    validates :end_date,
+      presence: true,
+      date: {
+        on_or_after: :start_date
+      }
+  end
+
   with_options on: :send_consultee_emails do
     validates :consultee_message_subject, presence: true
     validates :consultee_message_body, presence: true
+    validates :consultee_response_period, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 99}
     validates :email_reason, inclusion: {in: EMAIL_REASONS}
 
     with_options if: :reconsult? do
       validates :reconsult_message, presence: true
-      validates :reconsult_date, presence: true, date: {on_or_after: ->(c) { Date.current + 7.days }}
     end
 
     validate do
@@ -85,8 +95,11 @@ class Consultation < ApplicationRecord
     end
   end
 
+  with_options on: :apply_deadline_extension do
+    validates :deadline_extension, presence: true, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 99}
+  end
+
   before_save :apply_deadline_extension, if: -> { deadline_extension.present? }
-  validates :deadline_extension, presence: true, on: :apply_deadline_extension
 
   accepts_nested_attributes_for :consultees, :neighbours
 
@@ -137,9 +150,7 @@ class Consultation < ApplicationRecord
       start_deadline
     end
 
-    if reconsult?
-      extend_deadline(reconsult_date)
-    end
+    extend_deadline(consultee_response_required_by) if reconsult?
 
     enqueue_send_consultee_email_jobs
 
@@ -165,7 +176,7 @@ class Consultation < ApplicationRecord
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
-    default_start_date(now) + period_days
+    default_start_date(now) + [consultee_response_period.days, period_days].max
   end
 
   def end_date_from_now
@@ -328,9 +339,9 @@ class Consultation < ApplicationRecord
 
   def period_days
     if environment_impact_assessment.try(:required?)
-      Consultation::EIA_PERIOD
+      Consultation::EIA_PERIOD_DAYS
     else
-      Consultation::DEFAULT_PERIOD
+      Consultation::DEFAULT_PERIOD_DAYS
     end
   end
 
@@ -366,7 +377,7 @@ class Consultation < ApplicationRecord
 
     if reconsult?
       body = reconsult_message + divider + body
-      defaults[:closing_date] = reconsult_date.to_fs
+      defaults[:closing_date] = consultee_response_required_by.to_fs
     elsif resend? && resend_message.present?
       body = resend_message + divider + body
     end
@@ -381,12 +392,7 @@ class Consultation < ApplicationRecord
         body: replace_placeholders(body, variables)
       )
 
-      expires_at =
-        if reconsult?
-          [end_date, reconsult_date].max
-        else
-          end_date
-        end
+      expires_at = [end_date, consultee_response_required_by].max
 
       consultee.update!(
         selected: false,
@@ -398,6 +404,10 @@ class Consultation < ApplicationRecord
 
       SendConsulteeEmailJob.perform_later(self, consultee_email)
     end
+  end
+
+  def consultee_response_required_by(now = Time.zone.today)
+    (now + consultee_response_period.days)
   end
 
   def audit_letter_copy_sent!

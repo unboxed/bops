@@ -466,6 +466,8 @@ RSpec.describe "Press notice" do
       end
 
       it "I can confirm the press notice details" do
+        expect(consultation.end_date.to_date).to eq("Thu, 12 Oct 2023".to_date)
+
         click_link "Consultees, neighbours and publicity"
         click_link "Confirm press notice"
 
