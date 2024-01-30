@@ -13,47 +13,17 @@ RSpec.describe BopsApi::CreateNeighbourBoundaryGeojsonJob, type: :job do
     it "creates geojson for planning application" do
       stub_os_places_api_request_for_radius(planning_application.latitude, planning_application.longitude)
 
+      factory = RGeo::Geographic.spherical_factory(srid: 4326)
+      point1 = factory.point(-0.1185926, 51.4656522)
+      point2 = factory.point(-0.1185343, 51.4656693)
+      point3 = factory.point(-0.1186801, 51.4656266)
+      geometry_collection = factory.collection([point1, point2, point3])
+
       expect {
         described_class.perform_now(planning_application)
       }.to change {
         planning_application.neighbour_boundary_geojson
-      }.from(nil).to(
-        {
-          "type" => "FeatureCollection",
-          "features" => [
-            {
-              "type" => "Feature",
-              "geometry" => {
-                "coordinates" => [
-                  -0.1185926,
-                  51.4656522
-                ],
-                "type" => "Point"
-              }
-            },
-            {
-              "type" => "Feature",
-              "geometry" => {
-                "coordinates" => [
-                  -0.1185343,
-                  51.4656693
-                ],
-                "type" => "Point"
-              }
-            },
-            {
-              "type" => "Feature",
-              "geometry" => {
-                "coordinates" => [
-                  -0.1186801,
-                  51.4656266
-                ],
-                "type" => "Point"
-              }
-            }
-          ]
-        }
-      )
+      }.from(nil).to(geometry_collection)
     end
   end
 

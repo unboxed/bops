@@ -2384,28 +2384,31 @@ RSpec.describe PlanningApplication do
 
     context "when the neighbour boundary geojson is present" do
       before do
-        planning_application.update(
-          neighbour_boundary_geojson: {
-            type: "FeatureCollection",
-            features: [
+        factory = RGeo::Geographic.spherical_factory(srid: 4326)
+        point = factory.point(-0.01, 51.0)
+        geometry_collection = factory.collection([point])
+
+        planning_application.update(neighbour_boundary_geojson: geometry_collection)
+      end
+
+      it "returns the geojson" do
+        expect(planning_application.neighbour_geojson).to eq(
+          {
+            "type" => "FeatureCollection",
+            "features" => [
               {
-                type: "Feature",
-                properties: {},
-                geometry: {
-                  coordinates: [
-                    -0.13708768238623747,
-                    51.51141463106259
+                "geometry" => {
+                  "coordinates" => [
+                    -0.01,
+                    51.0
                   ],
-                  type: "Point"
-                }
+                  "type" => "Point"
+                },
+                "type" => "Feature"
               }
             ]
           }
         )
-      end
-
-      it "returns the geojson" do
-        expect(planning_application.neighbour_geojson).to eq(planning_application.neighbour_boundary_geojson)
       end
 
       it "returns the geojson with drawn polygon if it's been drawn" do
@@ -2413,16 +2416,16 @@ RSpec.describe PlanningApplication do
 
         expect(planning_application.reload.neighbour_geojson).to eq(
           {
+            "type" => "FeatureCollection",
             "features" => [
               {
                 "geometry" => {
                   "coordinates" => [
-                    -0.13708768238623747,
-                    51.51141463106259
+                    -0.01,
+                    51.0
                   ],
                   "type" => "Point"
                 },
-                "properties" => {},
                 "type" => "Feature"
               },
               {
@@ -2435,8 +2438,7 @@ RSpec.describe PlanningApplication do
                   "type" => "Polygon"
                 }
               }
-            ],
-            "type" => "FeatureCollection"
+            ]
           }
         )
       end

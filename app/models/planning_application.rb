@@ -771,13 +771,23 @@ class PlanningApplication < ApplicationRecord
   def updated_neighbour_boundary_geojson
     return if neighbour_boundary_geojson.nil?
 
+    features = neighbour_boundary_geojson.map do |geometry|
+      {
+        "type" => "Feature",
+        "geometry" => RGeo::GeoJSON.encode(geometry)
+      }
+    end
+
     if consultation&.polygon_geojson.present?
       consultation.polygon_search_and_boundary_geojson["features"].each do |value|
-        neighbour_boundary_geojson["features"].push(value)
+        features.push(value)
       end
     end
 
-    neighbour_boundary_geojson
+    {
+      "type" => "FeatureCollection",
+      "features" => features
+    }
   end
 
   def neighbour_geojson

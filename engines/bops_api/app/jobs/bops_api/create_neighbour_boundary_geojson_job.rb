@@ -17,11 +17,12 @@ module BopsApi
 
       features.push(planning_application.boundary_geojson) if planning_application.boundary_geojson
 
-      planning_application.update!(neighbour_boundary_geojson:
-        {
-          type: "FeatureCollection",
-          features: features
-        })
+      collection = {
+        type: "FeatureCollection",
+        features: features
+      }.to_json
+
+      planning_application.update!(neighbour_boundary_geojson: geometry_collection(collection))
     rescue JSON::ParserError => exception
       AppSignal.send_error(exception)
     end
@@ -39,6 +40,18 @@ module BopsApi
           }
         }
       end
+    end
+
+    def geometry_collection(geojson)
+      parsed = JSON.parse(geojson)
+      decoded = RGeo::GeoJSON.decode(parsed)
+      geometries = decoded.map(&:geometry)
+
+      factory.collection(geometries)
+    end
+
+    def factory
+      @factory ||= RGeo::Geographic.spherical_factory(srid: 4326)
     end
   end
 end
