@@ -291,7 +291,7 @@ RSpec.describe "Requesting document changes to a planning application" do
         expect(page).to have_content("Sent: validation request (replacement document#1)")
         expect(page).to have_content(assessor.name)
         expect(page).to have_content(document1.name.to_s)
-        expect(page).to have_content("Invalid reason: Not readable")
+        expect(page).to have_content("Reason: Not readable")
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)

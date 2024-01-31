@@ -1,8 +1,0 @@
-<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
-<p class="govuk-body">
-  <%= t(".document") %>
-  <i><%= JSON.parse(locals[:item].audit_comment)["document"] %></i>
-  <br/>
-  <%= t(".reason") %>
-  <i><%= JSON.parse(locals[:item].audit_comment)["reason"] %></i>
-</p
