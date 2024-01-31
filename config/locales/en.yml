@@ -1637,6 +1637,8 @@ en:
     rejected: Rejected
     removed: Removed
     required: Required
+    review_complete: Completed
+    review_not_started: Not started
     submitted: Submitted
     supportive: Supportive
     technical_failure: Technical failure

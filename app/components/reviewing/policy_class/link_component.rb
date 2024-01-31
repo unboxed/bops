@@ -10,7 +10,7 @@ module Reviewing
       attr_reader :policy_class
 
       def link_path
-        case policy_class&.review_policy_class&.status
+        case policy_class&.review&.status
         when "complete"
           planning_application_review_policy_class_path(policy_class.planning_application, policy_class)
         else

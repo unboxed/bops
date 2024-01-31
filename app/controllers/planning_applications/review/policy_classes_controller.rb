@@ -12,7 +12,7 @@ module PlanningApplications
       end
 
       def edit
-        @policy_class.build_review_policy_class if @policy_class.review_policy_class.nil?
+        @policy_class.build_review if @policy_class.review.nil?
       end
 
       def update
@@ -36,14 +36,16 @@ module PlanningApplications
         params
           .require(:policy_class)
           .permit(policies_attributes: %i[id status],
-            review_policy_class_attributes: %i[id mark comment])
+            review_attributes: %i[id action comment])
           .to_h
-          .deep_merge(status: policy_class_status,
-            review_policy_class_attributes: {status: review_status})
+          .deep_merge(
+            status: policy_class_status,
+            review_attributes: {review_status: review_status, status: policy_class_status}
+          )
       end
 
       def review_status
-        mark_as_complete? ? :complete : :not_started
+        mark_as_complete? ? :review_complete : :review_not_started
       end
 
       def policy_class_status
@@ -51,7 +53,7 @@ module PlanningApplications
       end
 
       def return_to_officer?
-        params.dig(:policy_class, :review_policy_class_attributes, :mark) == "return_to_officer_with_comment"
+        params.dig(:policy_class, :review_attributes, :action) == "rejected"
       end
     end
   end

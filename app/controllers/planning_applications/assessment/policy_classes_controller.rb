@@ -52,7 +52,7 @@ module PlanningApplications
 
       def update
         if @policy_class.update(policy_class_params)
-          @policy_class&.review_policy_class&.status_updated!
+          @policy_class&.review&.update(status: "updated")
           redirect_to(post_update_path, notice: t(".successfully_updated_policy"))
         else
           render :edit

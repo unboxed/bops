@@ -54,7 +54,7 @@
         ) do |form| %>
       <%= render(Reviewing::PolicyClass::NavigationComponent.new(policy_class: @policy_class)) %>
 
-      <%= form.fields_for :review_policy_class, @policy_class.review_policy_class do |review_form| %>
+      <%= form.fields_for :review, @policy_class.review do |review_form| %>
         <div class="govuk-form-group <%= review_form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
           <fieldset class="govuk-fieldset">
             <% if review_form.object.errors.any? %>
@@ -66,9 +66,9 @@
             <% end %>
 
             <div class="govuk-radios" data-module="govuk-radios">
-              <%= review_form.govuk_radio_button(:mark, :accept, label: { text: "Accept" }) %>
+              <%= review_form.govuk_radio_button(:action, "accepted", label: { text: "Accept" }) %>
               <%= review_form.govuk_radio_button(
-                :mark, :return_to_officer_with_comment, label: { text: "Return to officer with comment" }
+                :action, "rejected", label: { text: "Return to officer with comment" }
               ) do %>
                 <%= review_form.govuk_text_area(
                       :comment,

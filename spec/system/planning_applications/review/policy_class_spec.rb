@@ -31,8 +31,8 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "can make the policy class reviewed" do
-      policy_class = create(:policy_class, section: "A", planning_application:)
-      create(:policy, policy_class:)
+      policy_class = create(:policy_class, section: "A", planning_application:, status: :complete)
+      create(:policy, :complies, policy_class:)
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -243,7 +243,7 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "can display errors" do
-      policy_class = create(:policy_class, section: "A", planning_application:)
+      policy_class = create(:policy_class, section: "A", planning_application:, status: :complete)
       create(:policy, policy_class:)
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
@@ -252,7 +252,7 @@ RSpec.describe "Reviewing Policy Class" do
 
       click_on "Save and mark as complete"
 
-      expect(page).to have_text("can't be blank")
+      expect(page).to have_text("All policies must be assessed")
     end
   end
 end

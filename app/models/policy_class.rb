@@ -3,9 +3,9 @@
 class PolicyClass < ApplicationRecord
   belongs_to :planning_application
   has_many :policies, dependent: :destroy
-  has_one :review_policy_class, dependent: :destroy
+  has_one :review, as: :owner, dependent: :destroy, class_name: "Review"
 
-  accepts_nested_attributes_for :policies, :review_policy_class
+  accepts_nested_attributes_for :policies, :review
 
   validates :name, :part, :section, :schedule, presence: true
 
@@ -14,7 +14,7 @@ class PolicyClass < ApplicationRecord
   enum status: {in_assessment: 0, complete: 1, to_be_reviewed: 2}, _default: :in_assessment
 
   def update_required?
-    to_be_reviewed? && review_policy_class&.status_complete?
+    to_be_reviewed? && review&.review_complete?
   end
 
   class << self
