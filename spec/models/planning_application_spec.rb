@@ -220,6 +220,16 @@ RSpec.describe PlanningApplication do
         end
       end
 
+      describe "#ownership_certificate_awaiting_validation?" do
+        it "sets planning application status to updated when certificate is added" do
+          certificate_request = create(:ownership_certificate_validation_request)
+          planning_application = certificate_request.planning_application
+
+          planning_application.update!(valid_ownership_certificate: true)
+          expect(planning_application.ownership_certificate_awaiting_validation?).to be(true)
+        end
+      end
+
       describe "#reference" do
         let(:planning_application) do
           build(:planning_application, work_status: "proposed")
