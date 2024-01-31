@@ -51,7 +51,7 @@ module Api
 
       def authenticate
         api_user = authenticate_or_request_with_http_token do |token, _options|
-          ApiUser.find_by(token:)
+          current_local_authority.api_users.find_by(token:)
         end
 
         Current.api_user = api_user

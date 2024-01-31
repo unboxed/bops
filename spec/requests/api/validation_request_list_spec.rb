@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "API request to list validation requests", show_exceptions: true do
-  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:description_change_validation_request) do
     create(:description_change_validation_request, planning_application:)

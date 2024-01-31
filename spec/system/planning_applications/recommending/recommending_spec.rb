@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment" do
-  let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) do
     create(
       :local_authority,
@@ -11,6 +10,8 @@ RSpec.describe "Planning Application Assessment" do
       reviewer_group_email: "reviewers@example.com"
     )
   end
+
+  let!(:api_user) { create(:api_user, name: "PlanX") }
 
   let!(:assessor) do
     create(

@@ -4,10 +4,11 @@ require "swagger_helper"
 
 RSpec.describe "BOPS API" do
   let(:local_authority) { create(:local_authority, :default) }
+  let(:southwark) { create(:local_authority, :southwark) }
 
   before do
     create(:api_user, :planx, token: "bRPkCPjaZExpUYptBJDVFzss", local_authority:)
-    create(:api_user, name: "other", token: "pUYptBJDVFzssbRPkCPjaZEx")
+    create(:api_user, name: "other", token: "pUYptBJDVFzssbRPkCPjaZEx", local_authority: southwark)
     create(:api_user, :swagger, token: "tBJDVFzPjabRPkCUYpZExpss", local_authority:)
   end
 

@@ -2,6 +2,9 @@
 
 FactoryBot.define do
   factory :api_user do
+    local_authority do
+      LocalAuthority.find_by(subdomain: "planx") || create(:local_authority, subdomain: "planx")
+    end
     name { Faker::Name.name }
     service { "PlanX" }
 

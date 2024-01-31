@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe "API request to show document file", show_exceptions: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
   let!(:planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
   let!(:document) { create(:document, :with_file, :public, planning_application:) }
 

@@ -5,9 +5,9 @@ require "rails_helper"
 RSpec.describe "API request to patch document validation requests", show_exceptions: true do
   include ActionDispatch::TestProcess::FixtureFile
 
-  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let(:user) { create(:user) }
+  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
+  let(:user) { create(:user, local_authority: default_local_authority) }
 
   let!(:planning_application) do
     create(

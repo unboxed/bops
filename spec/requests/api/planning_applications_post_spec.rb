@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "Creating a planning application via the API", show_exceptions: true do
-  let!(:api_user) { create(:api_user) }
+  let!(:local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, local_authority: local_authority) }
 
   before do
-    create(:local_authority, :default)
     create(:application_type)
   end
 
@@ -45,6 +45,15 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
 
       it "returns 401 if user is not authenticated" do
         post_with(params: json, headers: {Authorization: "Bearer dasfdsafdsaf"})
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "returns 401 if user belongs to another local authority" do
+        southwark = create(:local_authority, :southwark)
+        southwark_api_user = create(:api_user, local_authority: southwark)
+
+        post_with(params: json, headers: {Authorization: "Bearer #{southwark_api_user.token}"})
 
         expect(response).to have_http_status(:unauthorized)
       end
