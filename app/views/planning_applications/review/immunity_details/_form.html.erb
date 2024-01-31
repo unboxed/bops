@@ -17,14 +17,14 @@
         <%= form.govuk_radio_button(
               :action,
               "accepted",
-              checked: @review_immunity_detail.action == "accepted" && !@review_immunity_detail.reviewed_at.nil?,
+              checked: @review_immunity_detail.accepted? && !@review_immunity_detail.reviewed_at.nil?,
               label: { text: "Accept" }, 
               disabled: !editable
             ) %>
         <%= form.govuk_radio_button(
               :action,
               "rejected",
-              checked: @review_immunity_detail.action == "rejected" && !@review_immunity_detail.reviewed_at.nil?,
+              checked: @review_immunity_detail.rejected? && !@review_immunity_detail.reviewed_at.nil?,
               label: { text: "Return to officer with comment" }, 
               disabled: !editable
         ) do %>

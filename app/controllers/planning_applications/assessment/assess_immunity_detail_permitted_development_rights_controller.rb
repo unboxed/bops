@@ -7,7 +7,7 @@ module PlanningApplications
       include PermittedDevelopmentRights
       include CommitMatchable
 
-      rescue_from ReviewImmunityDetail::NotCreatableError, with: :redirect_failed_create_error
+      rescue_from ::Review::NotCreatableError, with: :redirect_failed_create_error
 
       before_action :ensure_planning_application_is_validated
       before_action :ensure_planning_application_is_possibly_immune
@@ -25,7 +25,7 @@ module PlanningApplications
 
       def new
         @permitted_development_right = @planning_application.permitted_development_rights.new
-        @review_immunity_detail = @planning_application.immunity_detail.review_immunity_details.new
+        @review_immunity_detail = @planning_application.immunity_detail.reviews.new
 
         @form = AssessImmunityDetailPermittedDevelopmentRightForm.new(
           planning_application: @planning_application
@@ -104,7 +104,7 @@ module PlanningApplications
 
       def set_review_immunity_details
         @review_immunity_details =
-          @planning_application.immunity_detail.review_immunity_details.enforcement.reviewer_not_accepted
+          @planning_application.immunity_detail.reviews.enforcement.reviewer_not_accepted
       end
 
       def set_review_immunity_detail

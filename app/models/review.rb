@@ -40,6 +40,8 @@ class Review < ApplicationRecord
 
   scope :evidence, -> {where("specific_attributes->>'review_type' = ?", "evidence")}
   scope :enforcement, -> {where("specific_attributes->>'review_type' = ?", "enforcement")}
+  scope :not_accepted, -> { where(action: "rejected").order(created_at: :asc) }
+  scope :reviewer_not_accepted, -> { not_accepted.where.not(reviewed_at: nil) }
 
   validates :comment, presence: true, if: :rejected?
 

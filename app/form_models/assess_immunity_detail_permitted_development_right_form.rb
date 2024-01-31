@@ -34,7 +34,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
     @permitted_development_right_params = params[:permitted_development_right]
 
     @review_immunity_detail =
-      review_immunity_detail || planning_application.immunity_detail.review_immunity_details.new(
+      review_immunity_detail || planning_application.immunity_detail.reviews.new(
         review_immunity_detail_params
       )
     @permitted_development_right =
