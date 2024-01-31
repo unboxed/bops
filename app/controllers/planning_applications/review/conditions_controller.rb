@@ -44,10 +44,10 @@ module PlanningApplications
           .deep_merge(
             status: condition_set_status,
             review_attributes: {
-              reviewed_at: Time.current, 
-              reviewer: current_user, 
+              reviewed_at: Time.current,
+              reviewer: current_user,
               status: status,
-              review_status: 
+              review_status:
             }
           )
       end

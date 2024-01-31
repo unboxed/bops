@@ -35,11 +35,11 @@ class Review < ApplicationRecord
   enum review_status: {
     review_complete: "review_complete",
     review_in_progress: "review_in_progress",
-    review_not_started: "review_not_started",
+    review_not_started: "review_not_started"
   }
 
-  scope :evidence, -> {where("specific_attributes->>'review_type' = ?", "evidence")}
-  scope :enforcement, -> {where("specific_attributes->>'review_type' = ?", "enforcement")}
+  scope :evidence, -> { where("specific_attributes->>'review_type' = ?", "evidence") }
+  scope :enforcement, -> { where("specific_attributes->>'review_type' = ?", "enforcement") }
   scope :not_accepted, -> { where(action: "rejected").order(created_at: :asc) }
   scope :reviewer_not_accepted, -> { not_accepted.where.not(reviewed_at: nil) }
 
@@ -62,7 +62,8 @@ class Review < ApplicationRecord
 
   def set_reviewer_edited
     return if reviewer_edited
-    return unless reviewer && (accepted? || edited_and_accepted?)
+    return unless reviewer
+    return if rejected?
 
     update!(reviewer_edited: true)
   end

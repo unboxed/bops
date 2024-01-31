@@ -28,7 +28,7 @@ class ConditionSet < ApplicationRecord
   end
 
   def create_review
-    Review.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: self.id)
+    Review.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: id)
   end
 
   def set_review_updated

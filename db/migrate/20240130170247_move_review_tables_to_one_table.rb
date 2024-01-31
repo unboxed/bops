@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
   class Review < ApplicationRecord
     store_accessor :specific_attributes, %w[decision decision_reason summary decision_type removed review_type]
@@ -5,7 +7,7 @@ class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
     belongs_to :owner, polymorphic: true
   end
 
-  def change
+  def up
     change_table :reviews, bulk: true do |t|
       t.string :review_status, default: "review_not_started", null: false
       t.boolean :reviewer_edited, null: false, default: false
@@ -16,9 +18,9 @@ class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
 
     Review.find_each do |review|
       review.assign_attributes(
-        review_status: review.owner.status,
+        review_status: review.owner.status
       )
-      review.save(validate: false)
+      review.save!(validate: false)
     end
 
     ReviewPolicyClass.find_each do |review|
@@ -73,5 +75,8 @@ class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
     drop_table :review_local_policies
     drop_table :review_policy_classes
     drop_table :review_immunity_details
+  end
+
+  def down
   end
 end

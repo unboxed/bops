@@ -53,7 +53,7 @@ class LocalPolicy < ApplicationRecord
   end
 
   def create_review
-    Review.create!(assessor: Current.user, owner_type: "LocalPolicy", owner_id: self.id)
+    Review.create!(assessor: Current.user, owner_type: "LocalPolicy", owner_id: id)
   end
 
   def completed?
