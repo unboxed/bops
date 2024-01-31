@@ -5,9 +5,10 @@ class LocalPolicy < ApplicationRecord
 
   has_many :local_policy_areas, dependent: :destroy
   has_many :review_local_policies, dependent: :destroy
+  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
 
-  after_create :create_review_local_policy
-  before_update :maybe_create_review_local_policy
+  after_create :create_review
+  before_update :maybe_create_review
 
   AREAS = %w[design impact_on_neighbours other].freeze
 
@@ -35,24 +36,24 @@ class LocalPolicy < ApplicationRecord
     validates :status, :review_status
   end
 
-  def current_review_local_policy
-    review_local_policies.where.not(id: nil).order(:created_at).last
+  def current_review
+    reviews.where.not(id: nil).order(:created_at).last
   end
 
   def review_local_polices_with_comments
-    review_local_policies.where.not("reviewer_comment = '' OR reviewer_comment IS NULL").order(:created_at)
+    reviews.where.not("comment = '' OR comment IS NULL").order(:created_at)
   end
 
   private
 
-  def maybe_create_review_local_policy
+  def maybe_create_review
     return unless status_changed? && status_change == %w[to_be_reviewed complete]
 
-    create_review_local_policy
+    create_review
   end
 
-  def create_review_local_policy
-    ReviewLocalPolicy.create!(assessor: Current.user, local_policy: self)
+  def create_review
+    Review.create!(assessor: Current.user, owner_type: "LocalPolicy", owner_id: self.id)
   end
 
   def completed?

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class ConditionSet < ApplicationRecord
-  include Reviewable
-
   belongs_to :planning_application
+  has_one :review, as: :owner, dependent: :destroy, class_name: "Review"
   has_many :conditions, extend: ConditionsExtension, dependent: :destroy
 
   before_save :set_review_updated
@@ -23,6 +22,10 @@ class ConditionSet < ApplicationRecord
   end
 
   private
+
+  def create_review!
+    Review.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: self.id)
+  end
 
   def set_review_updated
     review.updated! if complete? && review.to_be_reviewed?

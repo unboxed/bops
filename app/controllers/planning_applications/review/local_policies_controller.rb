@@ -25,17 +25,13 @@ module PlanningApplications
       end
 
       def update
-        respond_to do |format|
-          if update_local_policies
-            format.html do
-              redirect_to planning_application_review_tasks_path(@planning_application),
-                notice: I18n.t("local_policies.successfully_updated")
-            end
-          else
-            set_local_policy
-            set_review_local_policy
-            format.html { render :edit }
-          end
+        if update_local_policies
+          redirect_to planning_application_review_tasks_path(@planning_application),
+            notice: I18n.t("local_policies.successfully_updated")
+        else
+          set_local_policy
+          set_review_local_policy
+          render :edit
         end
       end
 
@@ -43,15 +39,15 @@ module PlanningApplications
 
       def update_local_policies
         ActiveRecord::Base.transaction do
-          @review_local_policy.update(review_local_policy_params) &&
-            @local_policy.update(local_policy_areas_params[:local_policy].merge(status: local_policy_status,
+          @review_local_policy.update!(review_local_policy_params) &&
+            @local_policy.update!(local_policy_areas_params.merge(status: local_policy_status,
               review_status:))
         end
       end
 
       def review_local_policy_params
-        params.require(:review_local_policy)
-          .permit(:reviewer_comment, :accepted)
+        params.require(:review)
+          .permit(:comment, :action)
           .to_h
           .deep_merge(
             reviewed_at: Time.current,
@@ -66,9 +62,8 @@ module PlanningApplications
       end
 
       def local_policy_areas_params
-        params.require(:review_local_policy)
-          .permit(local_policy:
-                [local_policy_areas_attributes: %i[area policies guidance assessment id]])
+        params.require(:review)
+          .permit(local_policy_areas_attributes: %i[area policies guidance assessment id])
       end
 
       def set_local_policy
@@ -76,7 +71,7 @@ module PlanningApplications
       end
 
       def set_review_local_policy
-        @review_local_policy = @local_policy.current_review_local_policy
+        @review_local_policy = @local_policy.current_review
       end
 
       def local_policy_status
@@ -84,7 +79,7 @@ module PlanningApplications
       end
 
       def return_to_officer?
-        params.dig(:review_local_policy, :accepted) == "false"
+        params.dig(:review, :action) == "rejected"
       end
 
       def ensure_user_is_reviewer

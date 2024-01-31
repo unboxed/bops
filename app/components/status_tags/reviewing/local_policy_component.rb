@@ -15,7 +15,7 @@ module StatusTags
       def status
         if review_local_policy.review_complete?
           :complete
-        elsif review_local_policy.review_in_progress?
+        elsif review_local_policy.in_progress?
           :in_progress
         else
           :not_started

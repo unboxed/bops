@@ -2,15 +2,19 @@
 
 class Review < ApplicationRecord
   class NotCreatableError < StandardError; end
+  
+  belongs_to :owner, polymorphic: true, autosave: true
 
-  belongs_to :reviewable, polymorphic: true
+  has_many :local_policy_areas, through: :owner
 
   with_options class_name: "User", optional: true do
     belongs_to :assessor
     belongs_to :reviewer
   end
+  accepts_nested_attributes_for :local_policy_areas
 
   before_update :set_status_to_be_reviewed, if: :comment?
+  before_update :set_reviewer_edited, if: :assessment_changed?
 
   enum action: {
     accepted: "accepted",
@@ -24,6 +28,12 @@ class Review < ApplicationRecord
     not_started: "not_started",
     to_be_reviewed: "to_be_reviewed",
     updated: "updated"
+  }
+
+  enum review_status: {
+    review_complete: "review_complete",
+    review_in_progress: "review_in_progress",
+    review_not_started: "review_not_started",
   }
 
   validates :comment, presence: true, if: :rejected?
@@ -41,5 +51,18 @@ class Review < ApplicationRecord
     return if updated?
 
     update!(status: "to_be_reviewed")
+  end
+
+  def set_reviewer_edited
+    return if reviewer_edited
+    return unless reviewer && (accepted? || edited_and_accepted?)
+
+    update!(reviewer_edited: true)
+  end
+
+  def assessment_changed?
+    owner.local_policy_areas.each do |local_policy_area|
+      local_policy_area.saved_changes.any?
+    end
   end
 end

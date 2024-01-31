@@ -18,7 +18,7 @@ module TaskListItems
       end
 
       def review_local_policy
-        local_policy.current_review_local_policy
+        local_policy.current_review
       end
 
       def link_path

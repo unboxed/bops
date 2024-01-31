@@ -42,10 +42,7 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content(local_policy_area2.guidance)
         expect(page).to have_content(local_policy_area2.assessment)
 
-        radio_buttons = find_all(".govuk-radios__item")
-        within(radio_buttons[1]) do
-          choose "Accept"
-        end
+        choose "Accept"
 
         click_button "Save and mark as complete"
 
@@ -56,11 +53,11 @@ RSpec.describe "Permitted development right" do
           with: "Completed"
         )
 
-        review_local_policy = ReviewLocalPolicy.last
+        review_local_policy = Review.where(owner_type: "LocalPolicy").last
         expect(review_local_policy.review_status).to eq "review_complete"
-        expect(review_local_policy.local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.owner.review_status).to eq "review_complete"
         expect(review_local_policy.status).to eq "complete"
-        expect(review_local_policy.local_policy.status).to eq "complete"
+        expect(review_local_policy.owner.status).to eq "complete"
       end
 
       it "I can edit to accept the planning officer's decision" do
@@ -76,7 +73,7 @@ RSpec.describe "Permitted development right" do
           choose "Edit to accept"
         end
 
-        within("#review-local-policy-local-policy-local-policy-areas-attributes-0-areas-design-conditional") do
+        within("#review-local-policy-areas-attributes-0-areas-design-conditional") do
           fill_in "Enter your assessment", with: "It's all fine actually"
         end
 
@@ -89,12 +86,12 @@ RSpec.describe "Permitted development right" do
           with: "Completed"
         )
 
-        review_local_policy = ReviewLocalPolicy.last
+        review_local_policy = Review.where(owner_type: "LocalPolicy").last
         expect(review_local_policy.review_status).to eq "review_complete"
-        expect(review_local_policy.local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.owner.review_status).to eq "review_complete"
         expect(review_local_policy.status).to eq "complete"
-        expect(review_local_policy.local_policy.status).to eq "complete"
-        expect(review_local_policy.local_policy.local_policy_areas.where(area: "Design").first.assessment).to eq "It's all fine actually"
+        expect(review_local_policy.owner.status).to eq "complete"
+        expect(review_local_policy.owner.local_policy_areas.where(area: "Design").first.assessment).to eq "It's all fine actually"
       end
 
       it "I can return to officer with comment" do
@@ -152,10 +149,7 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_content "A better response"
 
-        radio_buttons = find_all(".govuk-radios__item")
-        within(radio_buttons[1]) do
-          choose "Accept"
-        end
+        choose "Accept"
 
         click_button "Save and mark as complete"
 
@@ -166,11 +160,11 @@ RSpec.describe "Permitted development right" do
           with: "Completed"
         )
 
-        review_local_policy = ReviewLocalPolicy.last
+        review_local_policy = Review.where(owner_type: "LocalPolicy").last
         expect(review_local_policy.review_status).to eq "review_complete"
-        expect(review_local_policy.local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.owner.review_status).to eq "review_complete"
         expect(review_local_policy.status).to eq "complete"
-        expect(review_local_policy.local_policy.status).to eq "complete"
+        expect(review_local_policy.owner.status).to eq "complete"
       end
     end
   end

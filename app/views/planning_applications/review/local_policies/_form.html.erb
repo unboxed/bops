@@ -3,39 +3,37 @@
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-  <%= form.govuk_radio_buttons_fieldset :accepted, legend: { text: "Actions" } do %>
+  <%= form.govuk_radio_buttons_fieldset :action, legend: { text: "Actions" } do %>
     <%= form.govuk_radio_button(
-      :accepted, true, disabled: !editable, checked: @review_local_policy.accepted && !@review_local_policy.reviewer_edited, label: { text: "Accept" }
+      :action, "accepted", disabled: !editable, checked: @review_local_policy.accepted? && !@review_local_policy.reviewer_edited, label: { text: "Accept" }
     ) %>
 
     <%= form.govuk_radio_button(
-      :accepted, true, disabled: !editable, checked: @review_local_policy.accepted && @review_local_policy.reviewer_edited, label: { text: "Edit to accept", id: "edit-to-accept" }
+      :action, "edited_and_accepted", disabled: !editable, checked: @review_local_policy.edited_and_accepted?, label: { text: "Edit to accept", id: "edit-to-accept" }
     ) do %>
       <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" } do %>
-        <%= form.fields_for :local_policy, @review_local_policy.local_policy do |ff| %>
-          <%= ff.fields_for :local_policy_areas, ff.object.local_policy_areas do |fff| %>
-            <%= fff.govuk_check_box :areas, :"#{fff.object.area}", label: { text: "#{fff.object.area.to_s.humanize}" }, checked: @local_policy.local_policy_areas.any? { |local_policy_area| local_policy_area.area == "#{fff.object.area}" } do %>
-              <%= fff.hidden_field :area, value: fff.object.area.to_s %>
-              <%= fff.hidden_field :id, value: fff.object.id %>
-              <%= fff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
-              <%= fff.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
-                <%= fff.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: fff.object.guidance.present? do %>
-                  <%= fff.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
-                <% end %>
-                <%= fff.govuk_radio_button :policy, 'No', label: { text: 'No' }, checked: fff.object.id.present? && !fff.object.guidance.present? %>
+        <%= form.fields_for :local_policy_areas, form.object.owner.local_policy_areas do |ff| %>
+          <%= ff.govuk_check_box :areas, :"#{ff.object.area}", label: { text: "#{ff.object.area.to_s.humanize}" }, checked: @local_policy.local_policy_areas.any? { |local_policy_area| local_policy_area.area == "#{ff.object.area}" }, disabled: !editable do %>
+            <%= ff.hidden_field :area, value: ff.object.area.to_s %>
+            <%= ff.hidden_field :id, value: ff.object.id %>
+            <%= ff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
+            <%= ff.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
+              <%= ff.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: ff.object.guidance.present? do %>
+                <%= ff.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
               <% end %>
-              <%= fff.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
+              <%= ff.govuk_radio_button :policy, 'No', label: { text: 'No' }, checked: ff.object.id.present? && !ff.object.guidance.present? %>
             <% end %>
+            <%= ff.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
           <% end %>
         <% end %>
       <% end %>
     <% end %>
 
     <%= form.govuk_radio_button(
-      :accepted, false, disabled: !editable, checked: !@review_local_policy.accepted && @review_local_policy.reviewer_comment?, label: { text: "Return to officer with comment" }
+      :action, "rejected", disabled: !editable, checked: !@review_local_policy.status == "accepted" && @review_local_policy.comment?, label: { text: "Return to officer with comment" }
     ) do %>
       <%= form.govuk_text_area(
-        :reviewer_comment, readonly: !editable, rows: 6, label: { text: "Comment" }
+        :comment, readonly: !editable, rows: 6, label: { text: "Comment" }
       ) %>
     <% end %>
   <% end %>
