@@ -7,7 +7,7 @@
     <% c.with_tag do %>
       <%= render(
             StatusTags::BaseComponent.new(
-              status: policy_class.review&.status == "updated" ? :updated : policy_class.review&.review_status
+              status: policy_class.review&.status == "updated" ? :updated : policy_class.review.present? ? policy_class.review.review_status : :not_started
             )
       )%>
     <% end %>

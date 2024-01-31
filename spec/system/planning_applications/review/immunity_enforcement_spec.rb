@@ -40,7 +40,7 @@ RSpec.describe "Reviewing immunity enforcement" do
 
   context "when there's an immunity enforcement" do
     before do
-      create(:review, specific_attributes: { review_type: "enforcement", decision: "Yes", decision_reason: "it looks immune to me", summary: "they have enough bills to show it's immune" }, owner: planning_application.immunity_detail, assessor:)
+      create(:review, :enforcement, owner: planning_application.immunity_detail, assessor:)
 
       sign_in reviewer
       visit "/planning_applications/#{planning_application.id}/review/tasks"

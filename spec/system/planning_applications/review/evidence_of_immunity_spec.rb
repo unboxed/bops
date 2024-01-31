@@ -40,7 +40,7 @@ RSpec.describe "Reviewing evidence of immunity" do
 
   context "when there's an evidence of immunity" do
     before do
-      create(:review, specific_attributes: {review_type: "evidence"}, owner: planning_application.immunity_detail, assessor:)
+      create(:review, :evidence, owner: planning_application.immunity_detail, assessor:)
       create(:evidence_group, :with_document, tag: "utility_bill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
       create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
 
