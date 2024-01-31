@@ -51,8 +51,8 @@ module PlanningApplications
       end
 
       def review_immunity_detail_params
-        params.require(:review_immunity_detail)
-          .permit(:reviewer_comment, :accepted)
+        params.require(:review)
+          .permit(:comment, :action)
           .to_h
           .deep_merge(reviewed_at: Time.current, reviewer: current_user)
       end
@@ -74,7 +74,7 @@ module PlanningApplications
       end
 
       def return_to_officer?
-        params.dig(:review_immunity_detail, :accepted) == "false"
+        params.dig(:review, :action) == "rejected"
       end
 
       def ensure_user_is_reviewer

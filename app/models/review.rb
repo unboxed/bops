@@ -2,7 +2,8 @@
 
 class Review < ApplicationRecord
   class NotCreatableError < StandardError; end
-  
+  store_accessor :specific_attributes, %w[decision decision_reason summary decision_type removed review_type]
+
   belongs_to :owner, polymorphic: true, autosave: true
 
   has_many :local_policy_areas, through: :owner
@@ -36,6 +37,9 @@ class Review < ApplicationRecord
     review_in_progress: "review_in_progress",
     review_not_started: "review_not_started",
   }
+
+  scope :evidence, -> {where("specific_attributes->>'review_type' = ?", "evidence")}
+  scope :enforcement, -> {where("specific_attributes->>'review_type' = ?", "enforcement")}
 
   validates :comment, presence: true, if: :rejected?
 

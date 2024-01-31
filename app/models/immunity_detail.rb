@@ -5,7 +5,7 @@ class ImmunityDetail < ApplicationRecord
   has_many :evidence_groups, dependent: :destroy
   has_many :comments, as: :commentable, through: :evidence_groups, dependent: :destroy
 
-  has_many :review_immunity_details, dependent: :destroy
+  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
 
   accepts_nested_attributes_for :evidence_groups
   accepts_nested_attributes_for :comments
@@ -48,11 +48,11 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def current_enforcement_review_immunity_detail
-    review_immunity_details.enforcement.where.not(id: nil).order(:created_at).last
+    reviews.enforcement.where.not(id: nil).order(:created_at).last
   end
 
   def current_evidence_review_immunity_detail
-    review_immunity_details.evidence.where.not(id: nil).order(:created_at).last
+    reviews.evidence.where.not(id: nil).order(:created_at).last
   end
 
   def earliest_evidence_cover
@@ -72,6 +72,6 @@ class ImmunityDetail < ApplicationRecord
   def create_evidence_review_immunity_detail
     return if current_evidence_review_immunity_detail.try(:review_not_started?)
 
-    review_immunity_details.create!(review_type: "evidence", assessor: Current.user)
+    reviews.create!(specific_attributes: { review_type: "evidence" }.to_json, assessor: Current.user, owner: "ImmunityDetail", owner_id: self.id)
   end
 end

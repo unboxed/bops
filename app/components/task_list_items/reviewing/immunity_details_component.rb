@@ -37,10 +37,19 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::Reviewing::ImmunityDetailComponent.new(
-          planning_application:,
-          review_immunity_detail:
-        )
+        StatusTags::BaseComponent.new(status:)
+      end
+
+      def status
+        if immunity_detail.current_evidence_review_immunity_detail.reviewed_at.present? &&
+            immunity_detail.review_status == "review_complete"
+          :complete
+        elsif immunity_detail.current_evidence_review_immunity_detail.reviewed_at.present? &&
+            immunity_detail.review_status == "review_in_progress"
+          :in_progress
+        else
+          :not_started
+        end
       end
     end
   end
