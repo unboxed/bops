@@ -11,10 +11,11 @@ class Review < ApplicationRecord
     belongs_to :assessor
     belongs_to :reviewer
   end
+
   accepts_nested_attributes_for :local_policy_areas
 
   before_update :set_status_to_be_reviewed, if: :comment?
-  before_update :set_reviewer_edited, if: :assessment_changed?
+  before_update :set_reviewer_edited, if: -> { :owner_is_local_policy? && :assessment_changed? }
 
   enum action: {
     accepted: "accepted",
@@ -58,6 +59,10 @@ class Review < ApplicationRecord
     return unless reviewer && (accepted? || edited_and_accepted?)
 
     update!(reviewer_edited: true)
+  end
+
+  def owner_is_local_policy?
+    owner_type == "LocalPolicy"
   end
 
   def assessment_changed?

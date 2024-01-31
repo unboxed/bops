@@ -43,7 +43,12 @@ module PlanningApplications
           .to_h
           .deep_merge(
             status: condition_set_status,
-            review_attributes: {reviewed_at: Time.current, reviewer: current_user, status: status}
+            review_attributes: {
+              reviewed_at: Time.current, 
+              reviewer: current_user, 
+              status: status,
+              review_status: 
+            }
           )
       end
 
@@ -63,6 +68,10 @@ module PlanningApplications
         else
           @condition_set.status
         end
+      end
+
+      def review_status
+        save_progress? ? "review_in_progress" : "review_complete"
       end
 
       def return_to_officer?

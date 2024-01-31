@@ -10,6 +10,8 @@ class ConditionSet < ApplicationRecord
   accepts_nested_attributes_for :conditions, allow_destroy: true
   accepts_nested_attributes_for :review, update_only: true
 
+  after_create :create_review
+
   enum :status, {
     not_started: "not_started",
     in_progress: "in_progress",
@@ -17,13 +19,15 @@ class ConditionSet < ApplicationRecord
     complete: "complete"
   }, default: "not_started"
 
-  def review
-    super || create_review!
-  end
-
   private
 
-  def create_review!
+  def maybe_create_review
+    return unless status_changed? && status_change == %w[to_be_reviewed complete]
+
+    create_review
+  end
+
+  def create_review
     Review.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: self.id)
   end
 

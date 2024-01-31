@@ -37,10 +37,17 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::Reviewing::LocalPolicyComponent.new(
-          planning_application:,
-          review_local_policy:
-        )
+        StatusTags::BaseComponent.new(status:)
+      end
+
+      def status
+        if review_local_policy.review_complete?
+          :complete
+        elsif review_local_policy.in_progress?
+          :in_progress
+        else
+          :not_started
+        end
       end
     end
   end
