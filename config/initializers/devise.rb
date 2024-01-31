@@ -5,6 +5,8 @@ Devise.setup do |config|
     manager.default_strategies(scope: :user).unshift :two_factor_authenticatable
   end
 
+  config.secret_key = Rails.application.secret_key_base
+
   config.sign_in_after_reset_password = false
 
   config.timeout_in = 6.hours

@@ -50,7 +50,7 @@ module Bops
     config.active_job.queue_adapter = :sidekiq
     config.action_mailer.deliver_later_queue_name = "low_priority"
 
-    config.action_mailer.preview_path = Rails.root.join("spec/mailer/previews")
+    config.action_mailer.preview_paths = [Rails.root.join("spec/mailer/previews")]
 
     config.active_storage.variant_processor = :mini_magick
 
