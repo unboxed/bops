@@ -1655,7 +1655,7 @@ en:
     withdrawn: Withdrawn
   task_list_items:
     additional_document_component:
-      check_required_documents: Check required documents are on application
+      check_required_documents: Check provided documents
     assessment:
       assess_immunity_detail_permitted_development_right_component:
         immune_permitted_development_rights: Immunity/permitted development rights
@@ -1684,7 +1684,7 @@ en:
     description_change:
       check_description: Check description
     document_component:
-      check_document: Check document - %{document}
+      check_document: Check supplied document - %{document}
     email_consultees_component:
       email_consultees: Send emails to consultees
     fee_component:

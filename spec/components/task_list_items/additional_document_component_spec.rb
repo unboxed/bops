@@ -13,7 +13,7 @@ RSpec.describe TaskListItems::AdditionalDocumentComponent, type: :component do
 
   it "renders link" do
     expect(page).to have_link(
-      "Check required documents are on application",
+      "Check provided documents",
       href: "/planning_applications/#{planning_application.id}/validation_documents"
     )
   end

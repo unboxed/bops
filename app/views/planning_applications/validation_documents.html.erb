@@ -1,13 +1,13 @@
 <% content_for :page_title do %>
-  Check documents - <%= t('page_title') %>
+  Provided documents - <%= t('page_title') %>
 <% end %>
 
 <%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
-<% content_for :title, "Check documents" %>
+<% content_for :title, "Provided documents" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Check the documents provided"  }
+  locals: { heading: "Check provided documents"  }
 ) %>
 
 <div class="govuk-grid-row">
@@ -30,7 +30,7 @@
     <% end %>
 
     <%= render TabsComponent.new(
-      partial: "documents/active_documents_table", 
+      partial: "documents/active_documents_table",
       tabs: @planning_application.generate_document_tabs,
       collection_key: :documents
     ) %>

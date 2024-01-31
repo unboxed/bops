@@ -74,9 +74,9 @@ RSpec.describe "Validation tasks" do
         end
 
         within("#document-validation-tasks") do
-          expect(page).to have_content("Check supplied documents")
+          expect(page).to have_content("Supplied documents")
           expect(page).to have_link(
-            "Check document - #{document.name}",
+            "Check supplied document - #{document.name}",
             href: edit_planning_application_document_path(planning_application, document, validate: "yes")
           )
           within(".govuk-tag--grey") do
@@ -170,9 +170,9 @@ RSpec.describe "Validation tasks" do
         end
 
         within("#document-validation-tasks") do
-          expect(page).to have_content("Check supplied documents")
+          expect(page).to have_content("Supplied documents")
           expect(page).to have_content("Planning application has already been validated")
-          expect(page).not_to have_link("Check document - #{document.name}")
+          expect(page).not_to have_link("Check supplied document - #{document.name}")
         end
 
         within("#constraints-validation-tasks") do

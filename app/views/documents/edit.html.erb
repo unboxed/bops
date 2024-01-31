@@ -2,9 +2,9 @@
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% if @validate_document %>
   <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
-  <% content_for :title, "Validate document" %>
+  <% content_for :title, "Check supplied document" %>
   <% content_for :page_title do %>
-    Validate document - <%= t('page_title') %>
+    Check supplied document - <%= t('page_title') %>
   <% end %>
 <% else %>
   <% add_parent_breadcrumb_link "Documents", planning_application_documents_path(@planning_application) %>
@@ -17,7 +17,7 @@
 <% if @validate_document %>
   <%= render(
     partial: "shared/proposal_header",
-    locals: { heading: "Check document"  }
+    locals: { heading: "Check supplied document"  }
   ) %>
 <% else %>
   <%= render(
