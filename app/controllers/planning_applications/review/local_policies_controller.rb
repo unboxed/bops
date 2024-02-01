@@ -39,8 +39,8 @@ module PlanningApplications
 
       def update_local_policies
         ActiveRecord::Base.transaction do
-          @review_local_policy.update!(review_local_policy_params) &&
-            @local_policy.update!(local_policy_areas_params.merge(status: local_policy_status,
+          @review_local_policy.update(review_local_policy_params) &&
+            @local_policy.update(local_policy_areas_params.merge(status: local_policy_status,
               review_status:))
         end
       end
