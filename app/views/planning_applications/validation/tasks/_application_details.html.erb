@@ -1,0 +1,71 @@
+<li id="application-details-tasks">
+  <h2 class="app-task-list__section">
+    Check application details
+  </h2>
+  <ul class="app-task-list__items">
+    <li id="draw_red_line_boundary" class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to_unless(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?, "Draw red line boundary", planning_application_validation_sitemap_path(@planning_application), class: "govuk-link" ) %>
+      </span>
+      <%= render(
+        StatusTags::DrawRedLineBoundaryComponent.new(
+          boundary_geojson: @planning_application.boundary_geojson
+        )
+      ) %>
+    </li>
+    <%= render(
+      TaskListItems::CheckRedLineBoundaryComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
+    <li id="constraints-validation-tasks" class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to "Check constraints", planning_application_validation_constraints_path(@planning_application), class: "govuk-link" %>
+      </span>
+      <%= render(
+        StatusTags::ConstraintsComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    </li>
+    <% if @planning_application.validated? %>
+      <li id="check-description" class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% else %>
+      <%= render(
+        TaskListItems::DescriptionChange.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% end %>
+    <li id="development-type-for-reporting-task" class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to "Select development type for reporting", edit_planning_application_validation_reporting_type_path(@planning_application), class: "govuk-link" %>
+      </span>
+
+      <%= render(
+        StatusTags::BaseComponent.new(
+          status: @planning_application.reporting_type_status
+        )
+      ) %>
+    </li>
+    <% if @planning_application.application_type.legislation_description %>
+      <% if @planning_application.validated? %>
+        <li id="check-legislative-requirements" class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            Planning application has already been validated
+          </span>
+        </li>
+      <% else %>
+        <%= render(
+          TaskListItems::Validating::LegislationComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+      <% end %>
+    <% end %>
+  </ul>
+</li>

@@ -26,29 +26,13 @@
           )
         ) %>
     <ol class="app-task-list govuk-!-margin-top-8">
-      <%= render "red_line_boundary" %>
+      <%= render "application_details" %>
 
-      <%= render "constraints" %>
+      <%= render "check_tag_documents" %>
 
-      <%= render "description" %>
+      <%= render "application_requirements" %>
 
-      <%= render "reporting_type" %>
-
-      <%= render "document_validation" %>
-
-      <%= render "fee_validation" %>
-
-      <%= render "cil_liability" %>
-
-      <%= render "environment_impact_assessment" %>
-
-      <%= render "ownership_certificate" %>
-
-      <%= render "additional_document_validation" %>
-
-      <%= render "redact_documents" %>
-
-      <%= render "legislation" if @planning_application.application_type.legislation_description %>
+      <%= render "confirm_documents" %>
 
       <%= render "other_validation_request" %>
 

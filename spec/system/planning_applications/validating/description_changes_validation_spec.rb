@@ -20,7 +20,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
     it "I can validate the description" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
-      within("#description-validation-task") do
+      within("#check-description") do
         expect(page).to have_content("Not started")
       end
 
@@ -36,7 +36,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
       expect(page).to have_content("Description was marked as valid")
 
-      within("#description-validation-task") do
+      within("#check-description") do
         expect(page).to have_content("Valid")
       end
 
@@ -90,7 +90,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
       expect(page).to have_content("Description change request successfully sent.")
 
-      within("#description-validation-task") do
+      within("#check-description") do
         expect(page).to have_content("Invalid")
       end
 
@@ -120,7 +120,7 @@ RSpec.describe "DescriptionChangesValidation" do
     it "does not allow you to validate documents" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
-      within("#description-validation-task") do
+      within("#check-description") do
         expect(page).to have_content("Planning application has already been validated")
       end
     end

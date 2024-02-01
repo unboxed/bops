@@ -1,0 +1,53 @@
+<li id="application-requirements-tasks">
+  <h2 class="app-task-list__section">
+    Confirm application requirements
+  </h2>
+  <ul id="fee-validation-task" class="app-task-list__items">
+    <% if @planning_application.validated? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% else %>
+      <%= render(
+        TaskListItems::FeeComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% end %>
+    <li id="cil-liability-validation-tasks" class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to "CIL liability", edit_planning_application_validation_cil_liability_path(@planning_application), class: "govuk-link" %>
+      </span>
+      <%= render(
+            StatusTags::CilLiabilityComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    </li>
+    <li id="environment-impact-assessment-task" class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to "Check Environment Impact Assessment",
+         @planning_application.environment_impact_assessment.nil? ? new_planning_application_validation_environment_impact_assessment_path(@planning_application) : planning_application_validation_environment_impact_assessment_path(@planning_application),
+         class: "govuk-link" %>
+      </span>
+
+      <%= render(
+        StatusTags::BaseComponent.new(
+          status: @planning_application.environment_impact_assessment_status
+        )
+      ) %>
+    </li>
+    <li id="ownership-certificate-validation-task" class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to "Check ownership certificate", edit_planning_application_validation_ownership_certificate_path(@planning_application), class: "govuk-link" %>
+      </span>
+      <%= render(
+            StatusTags::OwnershipCertificateComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    </li>
+  </ul>
+</li>
