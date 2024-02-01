@@ -425,6 +425,13 @@ class PlanningApplication < ApplicationRecord
     raise SubmitRecommendationError, e.message
   end
 
+  def ownership_certificate_awaiting_validation?
+    certificate_present = valid_ownership_certificate?
+    has_requests = ownership_certificate_validation_requests.any?
+
+    certificate_present && has_requests && ownership_certificate_validation_requests.last.approved.nil?
+  end
+
   def withdraw_last_recommendation!
     transaction do
       withdraw_recommendation!
