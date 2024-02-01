@@ -16,18 +16,18 @@ RSpec.describe Reviewing::PolicyClass::LinkComponent, type: :component do
   end
 
   it "displays edit link when status not checked yet" do
-    review_policy_class = create(:review_policy_class, status: :not_started, policy_class:)
+    review_policy_class = create(:review, status: :not_started, owner: policy_class)
 
-    render_inline(described_class.new(policy_class: review_policy_class.policy_class))
+    render_inline(described_class.new(policy_class: review_policy_class.owner))
 
     expect(page).to have_link("Review assessment of Part 1, Class D",
       href: edit_planning_application_review_policy_class_path(policy_class.planning_application, policy_class))
   end
 
   it "displays show link when status complete" do
-    review_policy_class = create(:review_policy_class, status: :complete, policy_class:)
+    review_policy_class = create(:review, status: :complete, owner: policy_class)
 
-    render_inline(described_class.new(policy_class: review_policy_class.policy_class))
+    render_inline(described_class.new(policy_class: review_policy_class.owner))
 
     expect(page).to have_link("Review assessment of Part 1, Class D",
       href: planning_application_review_policy_class_path(policy_class.planning_application, policy_class))

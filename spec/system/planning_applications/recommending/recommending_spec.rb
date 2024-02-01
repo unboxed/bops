@@ -634,7 +634,7 @@ RSpec.describe "Planning Application Assessment" do
       let!(:past_applications) { create(:assessment_detail, :past_applications, entry: "An entry for planning history", additional_information: "REF123", planning_application:) }
       let!(:permitted_development_right) { create(:permitted_development_right, :removed, planning_application:) }
       let!(:immunity_detail) { create(:immunity_detail, planning_application:) }
-      let!(:review_immunity_detail) { create(:review_immunity_detail, decision: "Yes", decision_reason: "no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development", immunity_detail:) }
+      let!(:review_immunity_detail) { create(:review, :enforcement, owner: immunity_detail) }
       let!(:evidence_group1) { create(:evidence_group, start_date: "2010-05-02 12:13:41.501488206 +0000", end_date: "2015-05-02 12:13:41.501488206 +0000", missing_evidence: true, immunity_detail:) }
       let!(:evidence_group2) { create(:evidence_group, start_date: "2009-05-02 12:13:41.501488206 +0000", end_date: nil, immunity_detail:) }
 
@@ -657,7 +657,7 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).to have_content("Immunity from enforcement")
           expect(page).to have_content("Evidence cover: 02/05/2009 to 02/05/2015")
           expect(page).to have_content("Missing evidence (gap in time): Yes")
-          expect(page).to have_content("no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development")
+          expect(page).to have_content("it looks immune to me")
         end
 
         within("#summary-of-works-section") do

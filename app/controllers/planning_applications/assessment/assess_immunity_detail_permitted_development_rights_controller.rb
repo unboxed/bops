@@ -83,11 +83,12 @@ module PlanningApplications
       private
 
       def assess_immunity_detail_permitted_development_right_form_params
-        params.require(:assess_immunity_detail_permitted_development_right_form).permit(
-          review_immunity_detail: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type
-            summary],
-          permitted_development_right: %i[removed removed_reason]
-        ).merge(review_immunity_detail_status:, permitted_development_right_status:)
+        params.require(:assess_immunity_detail_permitted_development_right_form)
+          .permit(
+            review: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type summary],
+            permitted_development_right: %i[removed removed_reason]
+          )
+          .merge(status:, permitted_development_right_status:)
       end
 
       def ensure_planning_application_is_possibly_immune
@@ -111,7 +112,7 @@ module PlanningApplications
         @review_immunity_detail = @planning_application.immunity_detail.current_enforcement_review_immunity_detail
       end
 
-      def review_immunity_detail_status
+      def status
         save_progress? ? "in_progress" : "complete"
       end
 

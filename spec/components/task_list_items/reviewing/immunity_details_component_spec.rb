@@ -15,9 +15,9 @@ RSpec.describe TaskListItems::Reviewing::ImmunityDetailsComponent, type: :compon
 
   let!(:review_immunity_detail) do
     create(
-      :review_immunity_detail,
+      :review,
       :evidence,
-      immunity_detail:,
+      owner: immunity_detail,
       reviewed_at: 1.day.ago
     )
   end

@@ -72,6 +72,6 @@ class ImmunityDetail < ApplicationRecord
   def create_evidence_review_immunity_detail
     return if current_evidence_review_immunity_detail.try(:review_not_started?)
 
-    reviews.create!(specific_attributes: {review_type: "evidence"}.to_json, assessor: Current.user, owner_type: "ImmunityDetail", owner_id: id)
+    reviews.create!(specific_attributes: {review_type: "evidence"}, assessor: Current.user, owner_type: "ImmunityDetail", owner_id: id)
   end
 end

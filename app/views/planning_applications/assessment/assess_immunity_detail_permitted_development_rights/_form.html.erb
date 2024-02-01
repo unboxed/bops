@@ -6,7 +6,7 @@
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
-      <%= form.fields_for :review_immunity_detail do |review_immunity_detail| %>
+      <%= form.fields_for :review do |review_immunity_detail| %>
         <%= review_immunity_detail.govuk_radio_buttons_fieldset(
           :decision,
           legend: { text: "Is the application immune from enforcement?", size: "s" },

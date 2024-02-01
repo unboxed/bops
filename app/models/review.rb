@@ -25,6 +25,7 @@ class Review < ApplicationRecord
   before_create :ensure_no_open_enforcement_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_update :set_status_to_be_reviewed, if: :comment?
   before_update :set_reviewer_edited, if: -> { owner_is_local_policy? && assessment_changed? }
+  before_update :set_reviewed_at, if: :reviewer_present?
 
   enum action: {
     accepted: "accepted",
@@ -57,7 +58,29 @@ class Review < ApplicationRecord
     complete? || to_be_reviewed?
   end
 
+  def decision_is_immune?
+    return if specific_attributes.nil?
+
+    specific_attributes["decision"] == "Yes"
+  end
+
+  def decision_is_not_immune?
+    return if specific_attributes.nil?
+
+    specific_attributes["decision"] == "No"
+  end
+
   private
+
+  def set_reviewed_at
+    Time.zone.now
+  end
+
+  def reviewer_present?
+    return if reviewer.nil?
+
+    action_was.nil?
+  end
 
   def set_status_to_be_reviewed
     return if to_be_reviewed?
@@ -88,12 +111,6 @@ class Review < ApplicationRecord
     owner.local_policy_areas.each do |local_policy_area|
       local_policy_area.saved_changes.any?
     end
-  end
-
-  def decision_is_immune?
-    return if specific_attributes.nil?
-
-    specific_attributes["decision"] == "Yes"
   end
 
   def enforcement?
