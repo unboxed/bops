@@ -17,22 +17,11 @@ module Consultable
     private
 
     def new_consultation_end_date
-      [event_at && (event_at + consultation.period_days).end_of_day, consultation_end_date].compact.max
+      [consultable_event_at && (consultable_event_at + consultation.period_days).end_of_day, consultation_end_date].compact.max
     end
 
     def extend_consultation!
       consultation.update!(end_date: new_consultation_end_date)
-    end
-
-    def event_at
-      case self.class.name
-      when "PressNotice"
-        published_at
-      when "SiteNotice"
-        displayed_at
-      else
-        raise ArgumentError "Method not supported for class: #{self.class.name}"
-      end
     end
   end
 end

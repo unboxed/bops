@@ -24,6 +24,8 @@ class SiteNotice < ApplicationRecord
 
   attr_reader :method
 
+  alias_attribute :consultable_event_at, :displayed_at
+
   def documents=(files)
     files.select(&:present?).each do |file|
       documents.new(file: file, planning_application: planning_application, tags: ["Site Notice"])
