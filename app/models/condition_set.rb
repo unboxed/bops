@@ -11,6 +11,7 @@ class ConditionSet < ApplicationRecord
   accepts_nested_attributes_for :review, update_only: true
 
   after_create :create_review
+  before_update :maybe_create_review
 
   enum :status, {
     not_started: "not_started",

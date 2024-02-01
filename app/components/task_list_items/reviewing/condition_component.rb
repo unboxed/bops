@@ -25,7 +25,7 @@ module TaskListItems
       end
 
       def status
-        condition_set.review.status
+        condition_set.review&.status || :not_started
       end
 
       def link_active?
