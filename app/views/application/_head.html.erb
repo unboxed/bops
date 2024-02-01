@@ -16,7 +16,10 @@
   <%= javascript_include_tag 'application' %>
 
   <% if feedback_fish_id = Rails.configuration.feedback_fish_id %>
-    <%= tag.script(src: "https://feedback.fish/ff.js?pid=#{feedback_fish_id}", defer: "defer", nonce: request.content_security_policy_nonce) %>
+    <%= tag.script(src: "https://feedback.fish/ff.js?pid=#{feedback_fish_id}",
+          defer: "defer",
+          nonce: request.content_security_policy_nonce,
+          integrity: "sha512-HdG7a/XxJ6TQmGcje0DXdv3L76WRANcR1EU2aN+R6p+Uq8A6mUP/z8XLSMRCLGxE0WS4Q2gndGfVsqGgfjN19A==") %>
   <% end %>
 
   <% if gtmid = Rails.configuration.google_tag_manager_id %>
