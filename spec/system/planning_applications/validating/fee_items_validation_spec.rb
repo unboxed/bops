@@ -58,7 +58,7 @@ RSpec.describe "FeeItemsValidation" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check fee"
 
-      expect(page).to have_content("Check the fee")
+      expect(page).to have_content("Check fee")
 
       table = find_all(".govuk-table").first
 
