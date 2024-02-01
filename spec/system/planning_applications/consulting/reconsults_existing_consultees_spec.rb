@@ -280,7 +280,7 @@ RSpec.describe "Consultation", js: true do
 
     perform_enqueued_jobs(at: Time.current)
     expect(external).to have_been_requested
-    expect(consultation.reload.end_date).to eq(future.end_of_day.floor(6))
+    expect(consultation.reload.end_date).to eq(future)
     expect(UpdateConsulteeEmailStatusJob).to have_been_enqueued.exactly(:once)
 
     click_link "Send emails to consultees"

@@ -83,7 +83,7 @@ RSpec.describe Consultation do
         let(:date) { Time.zone.local(2023, 9, 23, 13) }
 
         it "returns the day 21 days after the next working day" do
-          expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 17).end_of_day)
+          expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 17).to_date)
         end
       end
 
@@ -92,7 +92,7 @@ RSpec.describe Consultation do
         let(:date) { Time.zone.local(2023, 9, 24, 13) }
 
         it "returns the day 21 days after the next working day" do
-          expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 17).end_of_day)
+          expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 17).to_date)
         end
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe Consultation do
       let(:date) { Time.zone.local(2023, 9, 20, 13) }
 
       it "returns the day 21 days after the next working day" do
-        expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 12).end_of_day)
+        expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 12).to_date)
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe Consultation do
       end
 
       it "sets the end date to 30 days instead of 21" do
-        expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 21).end_of_day)
+        expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 21).to_date)
       end
     end
   end
@@ -135,11 +135,11 @@ RSpec.describe Consultation do
       end
 
       it "sets the start date to tomorrow" do
-        expect(consultation.start_date).to eq(Time.zone.local(2023, 9, 21).beginning_of_day)
+        expect(consultation.start_date).to eq(Time.zone.local(2023, 9, 21).to_date)
       end
 
       it "sets the end date to the future" do
-        expect(consultation.end_date).to eq(Time.zone.local(2023, 10, 12).end_of_day.floor(6))
+        expect(consultation.end_date).to eq(Time.zone.local(2023, 10, 12).to_date)
       end
     end
 
@@ -151,11 +151,11 @@ RSpec.describe Consultation do
       end
 
       it "leaves the start date alone" do
-        expect(consultation.start_date).to eq(2.days.ago.beginning_of_day)
+        expect(consultation.start_date).to eq(2.days.ago.to_date)
       end
 
       it "sets the end date to the future" do
-        expect(consultation.end_date).to eq(Time.zone.local(2023, 10, 12).end_of_day.floor(6))
+        expect(consultation.end_date).to eq(Time.zone.local(2023, 10, 12).to_date)
       end
     end
   end

@@ -37,8 +37,8 @@ RSpec.describe SiteNotice do
             expect do
               site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
-              .from(Time.zone.local(2023, 3, 28, 23, 59, 59, 999999))
-              .to(Time.zone.local(2023, 4, 5, 23, 59, 59, 999999))
+              .from(Time.zone.local(2023, 3, 28).to_date)
+              .to(Time.zone.local(2023, 4, 5).to_date)
           end
         end
 
@@ -80,8 +80,8 @@ RSpec.describe SiteNotice do
             expect do
               site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
-              .from(Time.zone.local(2023, 3, 28, 23, 59, 59, 999999))
-              .to(Time.zone.local(2023, 4, 5, 23, 59, 59, 999999))
+              .from(Time.zone.local(2023, 3, 28).to_date)
+              .to(Time.zone.local(2023, 4, 5).to_date)
           end
         end
 
@@ -99,8 +99,8 @@ RSpec.describe SiteNotice do
             expect do
               site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
-              .from(Time.zone.local(2023, 3, 28, 23, 59, 59, 999999))
-              .to(Time.zone.local(2023, 4, 14, 23, 59, 59, 999999))
+              .from(Time.zone.local(2023, 3, 28).to_date)
+              .to(Time.zone.local(2023, 4, 14).to_date)
           end
         end
       end
