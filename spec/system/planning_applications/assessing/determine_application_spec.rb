@@ -36,7 +36,7 @@ RSpec.describe "Planning Application Assessment" do
           reviewer:
         )
 
-        travel_to Time.zone.local(2024, 2, 1)
+        travel_to Time.zone.local(2025, 4, 2)
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.id}"
       end
@@ -56,14 +56,14 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).to have_content("Enter determination date")
 
           # Date form field is prefilled with today's date
-          expect(find_by_id("planning_application_determination_date_3i").value).to eq("1")
-          expect(find_by_id("planning_application_determination_date_2i").value).to eq("2")
-          expect(find_by_id("planning_application_determination_date_1i").value).to eq("2024")
+          expect(find_by_id("planning_application_determination_date_3i").value).to eq("2")
+          expect(find_by_id("planning_application_determination_date_2i").value).to eq("4")
+          expect(find_by_id("planning_application_determination_date_1i").value).to eq("2025")
 
           # Enter date in the future
           fill_in "Day", with: "03"
           fill_in "Month", with: "12"
-          fill_in "Year", with: "2024"
+          fill_in "Year", with: "2025"
         end
 
         click_button("Publish determination")
@@ -79,15 +79,15 @@ RSpec.describe "Planning Application Assessment" do
         within("#determination-date") do
           # Enter date today
           fill_in "Day", with: "2"
-          fill_in "Month", with: "1"
-          fill_in "Year", with: "2024"
+          fill_in "Month", with: "4"
+          fill_in "Year", with: "2025"
         end
 
         click_button("Publish determination")
 
         expect(page).to have_content("Decision Notice sent to applicant")
 
-        expect(page).to have_content("Granted at: 2 January 2024")
+        expect(page).to have_content("Granted at: 2 April 2025")
         expect(page).to have_link(
           "View decision notice",
           href: decision_notice_planning_application_path(planning_application)
@@ -111,10 +111,10 @@ RSpec.describe "Planning Application Assessment" do
 
         expect(page).to have_content("Decision Published")
         expect(page).to have_text("Alice Smith")
-        expect(page).to have_text("1 February 2024 at 00:00")
+        expect(page).to have_text("2 April 2025 at 00:00")
 
         expect(page).to have_text(
-          "Application granted on 2 January 2024 (manually inputted date)"
+          "Application granted on 2 April 2025 (manually inputted date)"
         )
 
         click_link("View all audits")
@@ -122,7 +122,7 @@ RSpec.describe "Planning Application Assessment" do
         # Check audit logs
         within("#audit_#{Audit.last.id}") do
           expect(page).to have_content("Decision Published")
-          expect(page).to have_text("Application granted on 2 January 2024 (manually inputted date)")
+          expect(page).to have_text("Application granted on 2 April 2025 (manually inputted date)")
           expect(page).to have_text(reviewer.name)
           expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
         end
