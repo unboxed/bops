@@ -54,7 +54,7 @@ class PressNotice < ApplicationRecord
 
   scope :required, -> { where(required: true) }
 
-  alias_attribute :consultable_event_at, :published_at
+  alias_method :consultable_event_at, :published_at
 
   def reasons
     Array.wrap(super)
