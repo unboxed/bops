@@ -30,13 +30,13 @@ RSpec.describe ImmunityDetail do
 
       context "when there is already an evidence review immunity detail record pending review" do
         before do
-          create(:review_immunity_detail, :evidence, immunity_detail:)
+          create(:review, :evidence, owner: immunity_detail)
         end
 
         it "does not create a new evidence review immunity detail record" do
           expect do
             immunity_detail.update(end_date: Time.zone.now)
-          end.not_to change(ReviewImmunityDetail, :count)
+          end.not_to change(Review, :count)
         end
       end
 
@@ -44,7 +44,7 @@ RSpec.describe ImmunityDetail do
         it "creates a new evidence review immunity detail record" do
           expect do
             immunity_detail.update(end_date: Time.zone.now)
-          end.to change(ReviewImmunityDetail, :count).by(1)
+          end.to change(Review, :count).by(1)
         end
       end
     end

@@ -148,9 +148,9 @@ RSpec.describe PolicyClass do
 
       before do
         create(
-          :review_policy_class,
-          policy_class:,
-          status: :complete
+          :review,
+          owner: policy_class,
+          review_status: :review_complete
         )
       end
 
@@ -164,9 +164,9 @@ RSpec.describe PolicyClass do
 
       before do
         create(
-          :review_policy_class,
-          policy_class:,
-          status: :not_started
+          :review,
+          owner: policy_class,
+          review_status: :review_not_started
         )
       end
 
@@ -180,9 +180,9 @@ RSpec.describe PolicyClass do
 
       before do
         create(
-          :review_policy_class,
-          policy_class:,
-          status: :complete
+          :review,
+          owner: policy_class,
+          review_status: :review_complete
         )
       end
 

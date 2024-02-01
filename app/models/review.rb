@@ -13,10 +13,18 @@ class Review < ApplicationRecord
     belongs_to :reviewer
   end
 
+  with_options presence: true do
+    validates :status, :review_status
+    validates :decision, :decision_reason, if: -> { owner_is_immunity_detail? && enforcement? }
+    validates :summary, if: -> { owner_is_immunity_detail? && decision_is_immune? }
+  end
+
   accepts_nested_attributes_for :local_policy_areas
 
+  before_create :ensure_no_open_evidence_review_immunity_detail_response!, if: :owner_is_immunity_detail?
+  before_create :ensure_no_open_enforcement_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_update :set_status_to_be_reviewed, if: :comment?
-  before_update :set_reviewer_edited, if: -> { :owner_is_local_policy? && :assessment_changed? }
+  before_update :set_reviewer_edited, if: -> { owner_is_local_policy? && assessment_changed? }
 
   enum action: {
     accepted: "accepted",
@@ -72,9 +80,53 @@ class Review < ApplicationRecord
     owner_type == "LocalPolicy"
   end
 
+  def owner_is_immunity_detail?
+    owner_type == "ImmunityDetail"
+  end
+
   def assessment_changed?
     owner.local_policy_areas.each do |local_policy_area|
       local_policy_area.saved_changes.any?
     end
+  end
+
+  def decision_is_immune?
+    return if specific_attributes.nil?
+
+    specific_attributes["decision"] == "Yes"
+  end
+
+  def enforcement?
+    return if specific_attributes.nil?
+
+    specific_attributes["review_type"] == "enforcement"
+  end
+
+  def evidence?
+    return if specific_attributes.nil?
+
+    specific_attributes["review_type"] == "evidence"
+  end
+
+  def ensure_no_open_evidence_review_immunity_detail_response!
+    return if enforcement?
+
+    last_evidence_review_immunity_detail = owner.current_evidence_review_immunity_detail
+    return unless last_evidence_review_immunity_detail
+    return if last_evidence_review_immunity_detail.reviewed_at?
+
+    raise NotCreatableError,
+      "Cannot create an evidence review immunity detail response when there is already an open response"
+  end
+
+  def ensure_no_open_enforcement_review_immunity_detail_response!
+    return if evidence?
+
+    last_enforcement_review_immunity_detail = owner.current_enforcement_review_immunity_detail
+    return unless last_enforcement_review_immunity_detail
+    return if last_enforcement_review_immunity_detail.reviewed_at?
+
+    raise NotCreatableError,
+      "Cannot create an enforcement review immunity detail response when there is already an open response"
   end
 end
