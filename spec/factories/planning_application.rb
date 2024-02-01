@@ -295,8 +295,8 @@ FactoryBot.define do
     trait :consulting do
       after(:create) do |planning_application|
         planning_application.consultation.update!(
-          start_date: 7.days.ago.beginning_of_day,
-          end_date: 14.days.from_now.end_of_day
+          start_date: 7.days.ago,
+          end_date: 14.days.from_now
         )
       end
     end
