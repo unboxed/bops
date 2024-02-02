@@ -539,7 +539,7 @@ class PlanningApplication < ApplicationRecord
   def review_in_progress?
     recommendation.review_in_progress? ||
       assessment_details_for_review.any?(&:reviewer_verdict) ||
-      policy_classes.any?(&:review) ||
+      policy_classes.any?(&:reviews) ||
       permitted_development_right&.review_started?
   end
 

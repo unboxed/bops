@@ -121,7 +121,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(Review.last).to have_attributes(
+        expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
           assessor_id: assessor.id,
           status: "complete",
@@ -160,7 +160,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(Review.last).to have_attributes(
+        expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
           assessor_id: assessor.id,
           status: "complete",
@@ -224,7 +224,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(Review.last).to have_attributes(
+        expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
           assessor_id: assessor.id,
           specific_attributes: {
@@ -256,7 +256,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and come back later"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(Review.last).to have_attributes(
+        expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
           assessor_id: assessor.id,
           status: "in_progress",
@@ -348,7 +348,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
 
-        expect(Review.last).to have_attributes(
+        expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
           assessor_id: assessor.id,
           specific_attributes: {

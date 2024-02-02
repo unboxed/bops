@@ -2069,8 +2069,7 @@ RSpec.describe PlanningApplication do
       let(:policy_class) do
         create(
           :policy_class,
-          planning_application:,
-          status: :to_be_reviewed
+          planning_application:
         )
       end
 
@@ -2078,7 +2077,8 @@ RSpec.describe PlanningApplication do
         create(
           :review,
           owner: policy_class,
-          review_status: :review_complete
+          review_status: :review_complete,
+          status: :to_be_reviewed
         )
       end
 

@@ -11,9 +11,9 @@ class LocalPolicy < ApplicationRecord
   AREAS = %w[design impact_on_neighbours other].freeze
 
   accepts_nested_attributes_for :local_policy_areas, :reviews
-  
+
   validates_associated :local_policy_areas
-  validates_presence_of :local_policy_areas
+  validates :local_policy_areas, presence: true, if: :completed?
 
   def current_review
     reviews.where.not(id: nil).order(:created_at).last
@@ -26,16 +26,19 @@ class LocalPolicy < ApplicationRecord
   private
 
   def maybe_create_review
-    return unless status_changed? && status_change == %w[to_be_reviewed complete]
+    return if current_review.nil?
+    return unless current_review.status_changed? && current_review.status_change == %w[to_be_reviewed complete]
 
-    create_review_local_policy
+    create_review
   end
 
   def create_review
-    Review.create!(assessor: Current.user, owner_type: "LocalPolicy", owner_id: id)
+    Review.create!(assessor: Current.user, owner_type: "LocalPolicy", owner_id: id, status: "complete")
   end
 
   def completed?
-    review.status == "complete"
+    return if reviews.none?
+
+    current_review&.status == "complete" || reviews.last.status == "complete"
   end
 end

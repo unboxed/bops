@@ -12,7 +12,7 @@ module StatusTags
       def status
         if @review_policy_class&.status == "updated"
           :updated
-        elsif @review_policy_class.present? 
+        else
           @review_policy_class&.review_status&.to_sym
         end
       end

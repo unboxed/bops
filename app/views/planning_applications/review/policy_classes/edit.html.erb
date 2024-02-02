@@ -54,11 +54,11 @@
         ) do |form| %>
       <%= render(Reviewing::PolicyClass::NavigationComponent.new(policy_class: @policy_class)) %>
 
-      <%= form.fields_for :review, @policy_class.review do |review_form| %>
-        <div class="govuk-form-group <%= review_form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <%= form.fields_for :reviews, @policy_class.current_review do |review_form| %>
+        <div class="govuk-form-group <%= review_form.object.owner.errors.any? ? 'govuk-form-group--error' : '' %>">
           <fieldset class="govuk-fieldset">
-            <% if review_form.object.errors.any? %>
-              <% review_form.object.errors.each do |error| %>
+            <% if review_form.object.owner.errors.any? %>
+              <% review_form.object.owner.errors.each do |error| %>
                 <p id="status-error" class="govuk-error-message">
                   <span class="govuk-visually-hidden">Error:</span><%= error.message %>
                 </p>

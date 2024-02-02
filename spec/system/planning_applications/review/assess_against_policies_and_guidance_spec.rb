@@ -16,7 +16,9 @@ RSpec.describe "Permitted development right" do
 
   context "when signed in as a reviewer" do
     before do
-      local_policy_area1.local_policy.update(planning_application:)
+      local_policy_area1.local_policy.reload.update!(planning_application:)
+      create(:review, owner: local_policy_area1.local_policy)
+
       sign_in(reviewer)
       visit "/planning_applications/#{planning_application.id}/review/tasks"
     end
@@ -55,9 +57,7 @@ RSpec.describe "Permitted development right" do
 
         review_local_policy = Review.where(owner_type: "LocalPolicy").last
         expect(review_local_policy.review_status).to eq "review_complete"
-        expect(review_local_policy.owner.review_status).to eq "review_complete"
         expect(review_local_policy.status).to eq "complete"
-        expect(review_local_policy.owner.status).to eq "complete"
       end
 
       it "I can edit to accept the planning officer's decision" do
@@ -88,9 +88,7 @@ RSpec.describe "Permitted development right" do
 
         review_local_policy = Review.where(owner_type: "LocalPolicy").last
         expect(review_local_policy.review_status).to eq "review_complete"
-        expect(review_local_policy.owner.review_status).to eq "review_complete"
         expect(review_local_policy.status).to eq "complete"
-        expect(review_local_policy.owner.status).to eq "complete"
         expect(review_local_policy.owner.local_policy_areas.where(area: "Design").first.assessment).to eq "It's all fine actually"
       end
 
@@ -162,9 +160,7 @@ RSpec.describe "Permitted development right" do
 
         review_local_policy = Review.where(owner_type: "LocalPolicy").last
         expect(review_local_policy.review_status).to eq "review_complete"
-        expect(review_local_policy.owner.review_status).to eq "review_complete"
         expect(review_local_policy.status).to eq "complete"
-        expect(review_local_policy.owner.status).to eq "complete"
       end
     end
   end

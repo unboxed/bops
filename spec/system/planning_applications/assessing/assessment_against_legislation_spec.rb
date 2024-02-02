@@ -216,9 +216,12 @@ RSpec.describe "assessment against legislation" do
           click_link("Part 1, Class A")
 
           within(row_with_content("A.1A")) do
-            expect(page).to have_field(
-              "Comment updated on 1 October 2022 by Alice Smith",
-              with: "Updated comment"
+            expect(page).to have_content(
+              "Comment updated on 1 October 2022 by Alice Smith"
+            )
+
+            expect(page).to have_content(
+              "Updated comment"
             )
 
             find("span", text: "Previous comments").click

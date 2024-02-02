@@ -1638,6 +1638,7 @@ en:
     removed: Removed
     required: Required
     review_complete: Completed
+    review_in_progress: In progress
     review_not_started: Not started
     submitted: Submitted
     supportive: Supportive

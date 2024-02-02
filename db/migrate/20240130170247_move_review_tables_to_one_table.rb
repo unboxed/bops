@@ -110,6 +110,7 @@ class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
     end
 
     remove_column :policy_classes, :status
+    remove_column :condition_sets, :status
 
     drop_table :review_local_policies
     drop_table :review_policy_classes

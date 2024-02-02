@@ -3,16 +3,18 @@
 class PolicyClass < ApplicationRecord
   belongs_to :planning_application
   has_many :policies, dependent: :destroy
-  has_one :review, as: :owner, dependent: :destroy, class_name: "Review"
+  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
 
-  accepts_nested_attributes_for :policies, :review
+  accepts_nested_attributes_for :policies, :reviews
 
   validates :name, :part, :section, :schedule, presence: true
 
   validate :all_policies_are_determined, if: :complete?
 
+  before_update :maybe_create_review
+
   def update_required?
-    review&.to_be_reviewed? && review&.review_complete?
+    current_review&.to_be_reviewed? && current_review&.review_complete?
   end
 
   class << self
@@ -50,10 +52,31 @@ class PolicyClass < ApplicationRecord
   end
 
   def complete?
-    review&.status == "complete"
+    return if reviews.empty?
+
+    reviews.last.status == "complete"
+  end
+
+  def current_review
+    reviews.order(:created_at).last
+  end
+
+  def build_review
+    Review.build(assessor: Current.user, owner_type: "PolicyClass", owner_id: id)
   end
 
   private
+
+  def maybe_create_review
+    return if current_review.nil?
+    return unless current_review.status_changed? && current_review.status_change == %w[to_be_reviewed complete]
+
+    create_review
+  end
+
+  def create_review
+    Review.create!(assessor: Current.user, owner_type: "PolicyClass", owner_id: id, status: "complete")
+  end
 
   def all_policies_are_determined
     return if policies.none?(&:to_be_determined?)

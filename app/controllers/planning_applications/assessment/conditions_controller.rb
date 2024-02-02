@@ -49,11 +49,19 @@ module PlanningApplications
           .permit(
             conditions_attributes: %i[_destroy id standard title text reason]
           )
-          .to_h.merge(review_attributes: [status:])
+          .to_h.merge(reviews_attributes: [status:, id: (@condition_set&.current_review&.id if !mark_as_complete?)])
       end
 
       def status
-        mark_as_complete? ? :complete : :in_progress
+        if mark_as_complete?
+          if @condition_set.current_review.present? && @condition_set.current_review.status == "to_be_reviewed"
+            "updated"
+          else
+            "complete"
+          end
+        else
+          "in_progress"
+        end
       end
     end
   end

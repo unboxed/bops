@@ -23,6 +23,8 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
       end
 
       it "returns show path" do
+        policy_class.reload
+
         expect(
           presenter.default_path
         ).to eq(

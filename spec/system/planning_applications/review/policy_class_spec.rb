@@ -31,8 +31,9 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "can make the policy class reviewed" do
-      policy_class = create(:policy_class, section: "A", planning_application:, status: :complete)
+      policy_class = create(:policy_class, section: "A", planning_application:)
       create(:policy, :complies, policy_class:)
+      create(:review, owner: policy_class)
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -62,11 +63,11 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "can return legislation to officer and be updated when corrected" do
-      create(:policy_class,
+      policy_class = create(:policy_class,
         :complies,
         section: "A",
-        status: :complete,
         planning_application:)
+      create(:review, owner: policy_class)
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -160,6 +161,8 @@ RSpec.describe "Reviewing Policy Class" do
           updated_at: Time.zone.local(2020, 10, 15)
         )
 
+        create(:review, owner: policy_class)
+
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.id}/review/tasks"
         click_on("Review assessment of Part 1, Class A")
@@ -243,8 +246,10 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "can display errors" do
-      policy_class = create(:policy_class, section: "A", planning_application:, status: :complete)
+      policy_class = create(:policy_class, section: "A", planning_application:)
       create(:policy, policy_class:)
+      create(:review, owner: policy_class, status: "complete")
+
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")

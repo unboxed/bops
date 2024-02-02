@@ -22,8 +22,7 @@ module TaskListItems
       end
 
       def link_path
-        if review_local_policy&.reviewed_at.present? &&
-            local_policy.review_status == "review_complete"
+        if review_local_policy&.reviewed_at.present? && review_local_policy.review_status == "review_complete"
           planning_application_review_local_policy_path(
             planning_application,
             review_local_policy

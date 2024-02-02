@@ -420,7 +420,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
           expect(immunity_detail).to have_attributes(
             planning_application_id: planning_application.id,
-            status: "not_started",
             end_date: "1959-01-01".to_date
           )
 

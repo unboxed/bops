@@ -40,8 +40,7 @@ module PlanningApplications
       def update_local_policies
         ActiveRecord::Base.transaction do
           @review_local_policy.update(review_local_policy_params) &&
-            @local_policy.update(local_policy_areas_params.merge(status: local_policy_status,
-              review_status:))
+            @local_policy.update(local_policy_areas_params)
         end
       end
 
@@ -53,7 +52,8 @@ module PlanningApplications
             reviewed_at: Time.current,
             reviewer: current_user,
             review_status:,
-            status: local_policy_status
+            status: local_policy_status,
+            id: @local_policy&.current_review&.id
           )
       end
 

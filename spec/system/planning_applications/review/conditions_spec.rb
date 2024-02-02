@@ -11,12 +11,13 @@ RSpec.describe "Reviewing conditions" do
     create(:planning_application, :awaiting_determination, :planning_permission, local_authority: default_local_authority)
   end
 
-  let!(:condition_set) { create(:condition_set, planning_application:, status: "complete") }
+  let!(:condition_set) { create(:condition_set, planning_application:) }
   let!(:standard_condition) { create(:condition, condition_set:) }
   let!(:other_condition) { create(:condition, :other, condition_set:) }
 
   context "when signed in as a reviewer" do
     before do
+      create(:review, owner: condition_set, status: "complete")
       sign_in(reviewer)
       visit "/planning_applications/#{planning_application.id}/review/tasks"
     end
@@ -51,8 +52,8 @@ RSpec.describe "Reviewing conditions" do
         )
 
         condition_set = ConditionSet.last
-        expect(condition_set.review.action).to eq "accepted"
-        expect(condition_set.review.review_status).to eq "review_complete"
+        expect(condition_set.current_review.action).to eq "accepted"
+        expect(condition_set.current_review.review_status).to eq "review_complete"
       end
 
       it "I can edit to accept the planning officer's decision" do
@@ -79,9 +80,9 @@ RSpec.describe "Reviewing conditions" do
         )
 
         condition_set = ConditionSet.last
-        expect(condition_set.review.action).to eq "edited_and_accepted"
+        expect(condition_set.current_review.action).to eq "edited_and_accepted"
         expect(condition_set.conditions.last.reason).to eq "This is different reason"
-        expect(condition_set.review.review_status).to eq "review_complete"
+        expect(condition_set.current_review.review_status).to eq "review_complete"
       end
 
       it "I can return to officer with comment" do
@@ -106,10 +107,9 @@ RSpec.describe "Reviewing conditions" do
         )
 
         condition_set = ConditionSet.last
-        expect(condition_set.review.action).to eq "rejected"
-        expect(condition_set.review.comment).to eq "I don't think you've assessed conditions correctly"
-        expect(condition_set.review.status).to eq "to_be_reviewed"
-        expect(condition_set.status).to eq "to_be_reviewed"
+        expect(condition_set.current_review.action).to eq "rejected"
+        expect(condition_set.current_review.comment).to eq "I don't think you've assessed conditions correctly"
+        expect(condition_set.current_review.status).to eq "to_be_reviewed"
 
         sign_out(reviewer)
         sign_in(assessor)
@@ -159,9 +159,9 @@ RSpec.describe "Reviewing conditions" do
         )
 
         condition_set = ConditionSet.last
-        expect(condition_set.review.action).to eq "accepted"
-        expect(condition_set.review.review_status).to eq "review_complete"
-        expect(condition_set.status).to eq "complete"
+        expect(condition_set.current_review.action).to eq "accepted"
+        expect(condition_set.current_review.review_status).to eq "review_complete"
+        expect(condition_set.current_review.status).to eq "complete"
       end
     end
   end

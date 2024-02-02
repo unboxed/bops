@@ -17,8 +17,8 @@ module TaskListItems
       end
 
       def link_path
-        if @planning_application.local_policy.present?
-          if local_policy.status == "complete"
+        if local_policy&.current_review&.present?
+          if local_policy.current_review.status == "complete"
             planning_application_assessment_local_policy_path(planning_application, local_policy)
           else
             edit_planning_application_assessment_local_policy_path(planning_application, local_policy)
@@ -35,7 +35,7 @@ module TaskListItems
       end
 
       def status
-        if @planning_application.local_policy.current_review.present?
+        if local_policy&.current_review&.present?
           local_policy.current_review.status
         else
           "not_started"

@@ -7,16 +7,6 @@ RSpec.describe ImmunityDetail do
     it "has a valid factory" do
       expect(create(:immunity_detail)).to be_valid
     end
-
-    it "validates presence of status" do
-      immunity_detail = build(:immunity_detail, status: "", review_status: "review_not_started")
-      expect { immunity_detail.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Status can't be blank")
-    end
-
-    it "validates presence of review status" do
-      immunity_detail = build(:immunity_detail, status: "not_started", review_status: "")
-      expect { immunity_detail.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Review status can't be blank")
-    end
   end
 
   describe "callbacks" do
@@ -37,14 +27,6 @@ RSpec.describe ImmunityDetail do
           expect do
             immunity_detail.update(end_date: Time.zone.now)
           end.not_to change(Review, :count)
-        end
-      end
-
-      context "when there is no existing evidence review immunity detail" do
-        it "creates a new evidence review immunity detail record" do
-          expect do
-            immunity_detail.update(end_date: Time.zone.now)
-          end.to change(Review, :count).by(1)
         end
       end
     end

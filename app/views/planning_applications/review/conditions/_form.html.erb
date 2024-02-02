@@ -3,14 +3,14 @@
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-  <%= form.fields_for :review_attributes, @condition_set.review do |review_form| %>
+  <%= form.fields_for :reviews_attributes, @condition_set.current_review do |review_form| %>
     <%= review_form.govuk_radio_buttons_fieldset :action, legend: { text: "Actions" } do %>
       <%= review_form.govuk_radio_button(
-        :action, :accepted, disabled: disabled, checked: @condition_set.review.accepted?, label: { text: "Accept" }
+        :action, :accepted, disabled: disabled, checked: @condition_set.current_review.accepted?, label: { text: "Accept" }
       ) %>
 
       <%= review_form.govuk_radio_button(
-        :action, :edited_and_accepted, disabled: disabled, checked: @condition_set.review.edited_and_accepted?, label: { text: "Edit to accept", id: "edit-to-accept" }
+        :action, :edited_and_accepted, disabled: disabled, checked: @condition_set.current_review.edited_and_accepted?, label: { text: "Edit to accept", id: "edit-to-accept" }
       ) do %>
       <%= form.govuk_check_boxes_fieldset :conditions, multiple: false, legend: { text: "Conditions" } do %>
         <%= form.fields_for :conditions, @condition_set.conditions do |fields| %>
@@ -29,10 +29,10 @@
       <% end %>
 
       <%= review_form.govuk_radio_button(
-        :action, :rejected, disabled: disabled, checked: @condition_set.review.rejected?, label: { text: "Return to officer with comment" }
+        :action, :rejected, disabled: disabled, checked: @condition_set.current_review.rejected?, label: { text: "Return to officer with comment" }
       ) do %>
         <%= review_form.govuk_text_area(
-          :comment, value: @condition_set.review.comment, readonly: disabled, rows: 6, label: { text: "Comment" }
+          :comment, value: @condition_set.current_review.comment, readonly: disabled, rows: 6, label: { text: "Comment" }
         ) %>
       <% end %>
     <% end %>

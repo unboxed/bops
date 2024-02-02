@@ -58,7 +58,7 @@ class Review < ApplicationRecord
   validates :comment, presence: true, if: :rejected?
 
   def complete_or_to_be_reviewed?
-    complete? || to_be_reviewed?
+    review_complete? || to_be_reviewed?
   end
 
   def decision_is_immune?

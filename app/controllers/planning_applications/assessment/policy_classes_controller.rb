@@ -52,7 +52,7 @@ module PlanningApplications
 
       def update
         if @policy_class.update(policy_class_params)
-          @policy_class&.review&.update!(status: "updated")
+          @policy_class.current_review&.update!(status: "updated") if @policy_class.current_review&.review_status == "review_complete"
           redirect_to(post_update_path, notice: t(".successfully_updated_policy"))
         else
           render :edit
@@ -85,7 +85,10 @@ module PlanningApplications
         params
           .require(:policy_class)
           .permit(policies_attributes: [:id, :status, {comments_attributes: [:text]}])
-          .merge(review_attributes: {status:})
+          .merge(reviews_attributes: [
+            status:,
+            id: (@policy_class&.current_review&.id if same_review?)
+          ])
       end
 
       def set_policy_class
@@ -99,12 +102,24 @@ module PlanningApplications
       end
 
       def status
-        mark_as_complete? ? "complete" : "in_assessment"
+        if mark_as_complete?
+          if @policy_class.current_review.present? && @policy_class.current_review.status == "to_be_reviewed"
+            "updated"
+          else
+            "complete"
+          end
+        else
+          "in_progress"
+        end
       end
 
       def success_redirect_url
         redirect_to planning_application_assessment_tasks_path(@planning_application),
           notice: t(".success")
+      end
+
+      def same_review?
+        mark_as_complete? && @policy_class&.current_review&.status != "to_be_reviewed"
       end
     end
   end

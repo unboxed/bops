@@ -3,6 +3,8 @@
 module TaskListItems
   module Reviewing
     class ConditionComponent < TaskListItems::BaseComponent
+      include Recommendable
+
       def initialize(condition_set:)
         @condition_set = condition_set
       end
@@ -25,7 +27,11 @@ module TaskListItems
       end
 
       def status
-        condition_set.review&.status || :not_started
+        if condition_set.current_review&.status == "to_be_reviewed" || condition_set.current_review&.status == "updated"
+          condition_set.current_review.status
+        else
+          condition_set.current_review&.review_status
+        end
       end
 
       def link_active?

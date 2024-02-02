@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe TaskListItems::Assessment::ImmunityDetailsComponent, type: :component do
   let(:planning_application) { create(:planning_application, :with_immunity) }
+  let!(:review) { create(:review, owner: planning_application.immunity_detail, specific_attributes: {review_type: "evidence"}) }
 
   context "when the assessment has not been started" do
     before do
@@ -28,8 +29,7 @@ RSpec.describe TaskListItems::Assessment::ImmunityDetailsComponent, type: :compo
 
   context "when review status is 'complete'" do
     before do
-      planning_application.immunity_detail.update(status: "complete")
-
+      planning_application.immunity_detail.current_evidence_review_immunity_detail.update(status: "complete")
       render_inline(
         described_class.new(
           planning_application:
@@ -51,7 +51,7 @@ RSpec.describe TaskListItems::Assessment::ImmunityDetailsComponent, type: :compo
 
   context "when review status is not 'complete'" do
     before do
-      planning_application.immunity_detail.update(status: "in_progress")
+      planning_application.immunity_detail.current_evidence_review_immunity_detail.update(status: "in_progress")
 
       render_inline(
         described_class.new(

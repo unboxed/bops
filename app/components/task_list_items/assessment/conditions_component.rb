@@ -25,7 +25,11 @@ module TaskListItems
       end
 
       def status
-        condition_set.status
+        if condition_set.current_review.present?
+          condition_set.current_review.status.to_sym
+        else
+          :not_started
+        end
       end
     end
   end

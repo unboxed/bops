@@ -60,7 +60,11 @@ module PlanningApplications
                 {comments_attributes: [:text]}
               ]
           )
-          .merge(reviews_attributes: [status:, specific_attributes: {"review_type"=>"evidence"}])
+          .merge(reviews_attributes: [
+            status:,
+            specific_attributes: {"review_type" => "evidence"},
+            id: (@immunity_detail&.current_evidence_review_immunity_detail&.id if !mark_as_complete?)
+          ])
       end
 
       def status
