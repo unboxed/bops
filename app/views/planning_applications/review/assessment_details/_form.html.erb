@@ -21,7 +21,7 @@
       <% if assessment_detail == "site_description" %>
         <p><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %></p>
       <% end %>
-      <% if assessment_detail == "consultation_summary" %>
+      <% if assessment_detail == "consultation_summary" && @planning_application.consultation&.consultees&.any? %>
         <%= render(
           partial: "consultees",
           locals: { consultees: @consultation&.consultees }
