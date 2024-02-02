@@ -437,8 +437,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
           expect(council_tax_bill).to have_attributes(
             immunity_detail_id: planning_application.immunity_detail.id,
-            start_date: Time.zone.parse("2013-03-02 00:00:00.000000000 +0000"),
-            end_date: Time.zone.parse("2019-04-01 00:00:00.000000000 +0100"),
+            start_date: "2013-03-02".to_date,
+            end_date: "2019-04-01".to_date,
             applicant_comment: "That I was paying council tax"
           )
 

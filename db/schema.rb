@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_02_113712) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -292,8 +292,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_113712) do
 
   create_table "evidence_groups", force: :cascade do |t|
     t.integer "tag"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.date "start_date"
+    t.date "end_date"
     t.boolean "missing_evidence"
     t.string "missing_evidence_entry"
     t.string "applicant_comment"
