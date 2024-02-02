@@ -33,13 +33,16 @@ class Review < ApplicationRecord
     rejected: "rejected"
   }
 
-  enum status: {
-    complete: "complete",
-    in_progress: "in_progress",
-    not_started: "not_started",
-    to_be_reviewed: "to_be_reviewed",
-    updated: "updated"
-  }
+  enum(
+    status: {
+      not_started: "not_started",
+      in_progress: "in_progress",
+      to_be_reviewed: "to_be_reviewed",
+      complete: "complete",
+      updated: "updated"
+    },
+    _default: "not_started"
+  )
 
   enum review_status: {
     review_complete: "review_complete",

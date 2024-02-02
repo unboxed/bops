@@ -37,10 +37,10 @@ module TaskListItems
       end
 
       def status
-        if to_be_reviewed?
-          :to_be_reviewed
+        if (review_immunity_detail = immunity_detail.current_evidence_review_immunity_detail)
+          review_immunity_detail.status.to_sym
         else
-          immunity_detail.status.to_sym
+          :not_started
         end
       end
 

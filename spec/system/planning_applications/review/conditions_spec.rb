@@ -11,7 +11,7 @@ RSpec.describe "Reviewing conditions" do
     create(:planning_application, :awaiting_determination, :planning_permission, local_authority: default_local_authority)
   end
 
-  let!(:condition_set) { create(:condition_set, planning_application:) }
+  let!(:condition_set) { create(:condition_set, planning_application:, status: "complete") }
   let!(:standard_condition) { create(:condition, condition_set:) }
   let!(:other_condition) { create(:condition, :other, condition_set:) }
 

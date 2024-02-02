@@ -20,6 +20,7 @@ class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
   end
 
   class ReviewPolicyClass < ApplicationRecord
+    belongs_to :policy_class, optional: true
   end
 
   class ReviewImmunityDetail < ApplicationRecord
@@ -51,6 +52,7 @@ class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
         owner_id: review.policy_class_id,
         action: review.mark,
         review_status: review.status,
+        status: review.policy_class.status,
         comment: review.comment
       )
       r.update!(created_at: review.created_at, updated_at: review.updated_at)
@@ -93,6 +95,21 @@ class MoveReviewTablesToOneTable < ActiveRecord::Migration[7.1]
       )
       r.update!(created_at: review.created_at, updated_at: review.updated_at)
     end
+
+    change_table :local_policies, bulk: true do |t|
+      t.remove :status
+      t.remove :review_status
+      t.remove :assessor_id
+      t.remove :reviewer_id
+      t.remove :reviewed_at
+    end
+
+    change_table :immunity_details, bulk: true do |t|
+      t.remove :status
+      t.remove :review_status
+    end
+
+    remove_column :policy_classes, :status
 
     drop_table :review_local_policies
     drop_table :review_policy_classes

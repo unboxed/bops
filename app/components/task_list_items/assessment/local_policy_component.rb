@@ -35,8 +35,8 @@ module TaskListItems
       end
 
       def status
-        if @planning_application.local_policy.present?
-          local_policy.status
+        if @planning_application.local_policy.current_review.present?
+          local_policy.current_review.status
         else
           "not_started"
         end

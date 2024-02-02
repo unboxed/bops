@@ -11,10 +11,8 @@ class PolicyClass < ApplicationRecord
 
   validate :all_policies_are_determined, if: :complete?
 
-  enum status: {in_assessment: 0, complete: 1, to_be_reviewed: 2}, _default: :in_assessment
-
   def update_required?
-    to_be_reviewed? && review&.review_complete?
+    review&.to_be_reviewed? && review&.review_complete?
   end
 
   class << self
@@ -51,11 +49,15 @@ class PolicyClass < ApplicationRecord
     @next ||= planning_application.policy_classes.where("section > ?", section).first
   end
 
+  def complete?
+    review&.status == "complete"
+  end
+
   private
 
   def all_policies_are_determined
     return if policies.none?(&:to_be_determined?)
 
-    errors.add(:status, :policies_to_be_determined)
+    errors.add(:base, :policies_to_be_determined)
   end
 end

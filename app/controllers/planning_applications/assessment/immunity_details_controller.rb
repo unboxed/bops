@@ -60,7 +60,7 @@ module PlanningApplications
                 {comments_attributes: [:text]}
               ]
           )
-          .merge(status:)
+          .merge(reviews_attributes: [status:, specific_attributes: {"review_type"=>"evidence"}])
       end
 
       def status

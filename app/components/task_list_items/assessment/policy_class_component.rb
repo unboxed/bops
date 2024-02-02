@@ -31,9 +31,9 @@ module TaskListItems
       def status
         if to_be_reviewed?
           :to_be_reviewed
-        elsif policy_class.in_assessment?
+        elsif policy_class&.review&.status == "in_assessment" || policy_class.review.nil?
           :in_progress
-        elsif policy_class.complete?
+        elsif policy_class.complete? || policy_class.review&.status == "updated"
           :complete
         end
       end

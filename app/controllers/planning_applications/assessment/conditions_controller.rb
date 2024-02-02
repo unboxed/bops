@@ -49,7 +49,7 @@ module PlanningApplications
           .permit(
             conditions_attributes: %i[_destroy id standard title text reason]
           )
-          .to_h.merge(status:)
+          .to_h.merge(review_attributes: [status:])
       end
 
       def status

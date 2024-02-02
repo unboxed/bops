@@ -39,7 +39,6 @@ module PlanningApplications
             review_attributes: %i[id action comment])
           .to_h
           .deep_merge(
-            status: policy_class_status,
             review_attributes: {review_status: review_status, status: policy_class_status}
           )
       end
@@ -49,7 +48,7 @@ module PlanningApplications
       end
 
       def policy_class_status
-        return_to_officer? ? :to_be_reviewed : @policy_class.status.to_sym
+        return_to_officer? ? "to_be_reviewed" : "complete"
       end
 
       def return_to_officer?

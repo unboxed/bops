@@ -85,7 +85,7 @@ module PlanningApplications
         params
           .require(:policy_class)
           .permit(policies_attributes: [:id, :status, {comments_attributes: [:text]}])
-          .merge(status:)
+          .merge(review_attributes: {status:})
       end
 
       def set_policy_class
@@ -99,7 +99,7 @@ module PlanningApplications
       end
 
       def status
-        mark_as_complete? ? :complete : :in_assessment
+        mark_as_complete? ? "complete" : "in_assessment"
       end
 
       def success_redirect_url

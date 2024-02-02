@@ -10,7 +10,11 @@ module StatusTags
       private
 
       def status
-        @review_policy_class&.status&.to_sym || :not_started
+        if @review_policy_class&.status == "updated"
+          :updated
+        elsif @review_policy_class.present? 
+          @review_policy_class&.review_status&.to_sym
+        end
       end
     end
   end

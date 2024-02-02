@@ -7,33 +7,12 @@ class ImmunityDetail < ApplicationRecord
 
   has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
 
-  accepts_nested_attributes_for :evidence_groups
-  accepts_nested_attributes_for :comments
+  accepts_nested_attributes_for :evidence_groups, :comments, :reviews
 
-  after_update :create_evidence_review_immunity_detail
-
-  enum(
-    status: {
-      not_started: "not_started",
-      in_progress: "in_progress",
-      to_be_reviewed: "to_be_reviewed",
-      complete: "complete"
-    },
-    _default: "not_started"
-  )
-
-  enum review_status: {
-    review_not_started: "review_not_started",
-    review_in_progress: "review_in_progress",
-    review_complete: "review_complete"
-  }
-
-  with_options presence: true do
-    validates :status, :review_status
-  end
+  # after_update :create_evidence_review_immunity_detail
 
   def update_required?
-    complete? && !accepted?
+    current_evidence_review_immunity_detail.status == "complete" && !accepted?
   end
 
   def add_document(document)
@@ -44,7 +23,8 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def accepted?
-    status == "complete" && (review_status == "review_complete" || review_status == "review_in_progress")
+    current_evidence_review_immunity_detail.status == "complete" && 
+      (current_evidence_review_immunity_detail.review_status == "review_complete" || current_evidence_review_immunity_detail.review_status == "review_in_progress")
   end
 
   def current_enforcement_review_immunity_detail

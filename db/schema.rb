@@ -318,10 +318,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
   create_table "immunity_details", force: :cascade do |t|
     t.date "end_date"
     t.bigint "planning_application_id"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "review_status", default: "review_not_started", null: false
     t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
   end
 
@@ -369,14 +367,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "review_status", default: "review_not_started", null: false
-    t.string "status", default: "not_started", null: false
-    t.bigint "assessor_id"
-    t.bigint "reviewer_id"
-    t.datetime "reviewed_at"
-    t.index ["assessor_id"], name: "ix_local_policies_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_local_policies_on_planning_application_id"
-    t.index ["reviewer_id"], name: "ix_local_policies_on_reviewer_id"
   end
 
   create_table "local_policy_areas", force: :cascade do |t|
@@ -622,7 +613,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", null: false
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
@@ -799,8 +789,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
   add_foreign_key "local_policies", "planning_applications"
-  add_foreign_key "local_policies", "users", column: "assessor_id"
-  add_foreign_key "local_policies", "users", column: "reviewer_id"
   add_foreign_key "local_policy_areas", "local_policies"
   add_foreign_key "neighbour_letters", "neighbours"
   add_foreign_key "neighbour_responses", "consultations"

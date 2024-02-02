@@ -213,7 +213,7 @@ en:
               coordinate_method_not_present: Select at least one coordinate method
         policy_class:
           attributes:
-            status:
+            base:
               policies_to_be_determined: All policies must be assessed
         press_notice:
           attributes:

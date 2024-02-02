@@ -22,8 +22,8 @@ module TaskListItems
       end
 
       def link_path
-        if immunity_detail.current_evidence_review_immunity_detail&.reviewed_at.present? &&
-            immunity_detail.review_status == "review_complete"
+        if review_immunity_detail&.reviewed_at.present? &&
+          review_immunity_detail.review_status == "review_complete"
           planning_application_review_immunity_detail_path(
             planning_application,
             review_immunity_detail
@@ -41,14 +41,10 @@ module TaskListItems
       end
 
       def status
-        if immunity_detail.current_evidence_review_immunity_detail.reviewed_at.present? &&
-            immunity_detail.review_status == "review_complete"
-          :complete
-        elsif immunity_detail.current_evidence_review_immunity_detail.reviewed_at.present? &&
-            immunity_detail.review_status == "review_in_progress"
-          :in_progress
+        if review_immunity_detail&.status == "updated"
+          :updated
         else
-          :not_started
+          review_immunity_detail&.review_status
         end
       end
     end
