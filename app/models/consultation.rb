@@ -150,7 +150,7 @@ class Consultation < ApplicationRecord
     )
   end
 
-  def start_deadline(now = Time.zone.now)
+  def start_deadline(now = Time.zone.today)
     update!(end_date: [end_date, end_date_from(now)].compact.max, start_date: start_date || default_start_date(now))
   end
 
@@ -161,7 +161,7 @@ class Consultation < ApplicationRecord
     update!(end_date: new_date)
   end
 
-  def end_date_from(now = Time.zone.now)
+  def end_date_from(now = Time.zone.today)
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
@@ -169,11 +169,11 @@ class Consultation < ApplicationRecord
   end
 
   def end_date_from_now
-    end_date_from(Time.zone.now)
+    end_date_from(Time.zone.today)
   end
 
-  def days_left(now = Time.zone.now)
-    (end_date - now.to_date).floor
+  def days_left(now = Time.zone.today)
+    (end_date - now).floor
   end
 
   def neighbour_letters_status
@@ -230,7 +230,7 @@ class Consultation < ApplicationRecord
 
   def neighbour_letter_header
     I18n.t("neighbour_letter_header.#{planning_application.application_type.name}",
-      closing_date: end_date_from_now.to_date.to_fs,
+      closing_date: end_date_from_now.to_fs,
       default: "")
   end
 
@@ -242,7 +242,7 @@ class Consultation < ApplicationRecord
       applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
       description: planning_application.description,
       reference: planning_application.reference,
-      closing_date: end_date_from_now.to_date.to_fs,
+      closing_date: end_date_from_now.to_fs,
       rear_wall: planning_application&.proposal_measurement&.depth,
       max_height: planning_application&.proposal_measurement&.max_height,
       eaves_height: planning_application&.proposal_measurement&.eaves_height,
@@ -278,7 +278,7 @@ class Consultation < ApplicationRecord
   def publicity_active?
     return false unless end_date
 
-    end_date > Time.zone.now || (end_date.to_date == Time.zone.now.to_date)
+    end_date >= Time.zone.today
   end
 
   def polygon_geojson=(value)
@@ -315,11 +315,11 @@ class Consultation < ApplicationRecord
   end
 
   def started?
-    start_date? && start_date < Time.zone.now
+    start_date? && start_date <= Time.zone.today
   end
 
   def complete?
-    started? && end_date < Time.zone.now
+    started? && end_date < Time.zone.today
   end
 
   def application_link
@@ -344,8 +344,8 @@ class Consultation < ApplicationRecord
     string.to_s.gsub(EMAIL_PLACEHOLDER) { variables.fetch($1.to_sym) }
   end
 
-  def default_start_date(now = Time.zone.now)
-    1.business_day.since(now).to_date
+  def default_start_date(now = Time.zone.today)
+    1.business_day.since(now)
   end
 
   def enqueue_send_consultee_email_jobs
