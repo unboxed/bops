@@ -113,6 +113,32 @@ RSpec.describe "Send letters to neighbours", js: true do
         .to include("This is some content I'm putting in")
     end
 
+    it "allows overriding the response period" do
+      sign_in assessor
+      visit "/planning_applications/#{planning_application.id}"
+
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      expect(find("#consultation-deadline-extension-field").value).to eq("21")
+      fill_in "consultation-deadline-extension-field", with: "48"
+      click_button "Confirm and send letters"
+      expect(planning_application.consultation.reload.end_date).to be_within(1.second).of(48.days.from_now.end_of_day)
+    end
+
+    it "fails if no response period is set" do
+      sign_in assessor
+      visit "/planning_applications/#{planning_application.id}"
+
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      fill_in "consultation-deadline-extension-field", with: " "
+      click_button "Confirm and send letters"
+      expect(page).to have_content("Deadline extension can't be blank")
+      expect(planning_application.consultation.reload.end_date).to be nil
+    end
+
     context "when planning application has not been made public on the BOPS Public Portal" do
       let(:planning_application) do
         create(:planning_application,

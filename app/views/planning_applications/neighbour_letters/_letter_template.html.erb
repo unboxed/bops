@@ -1,9 +1,9 @@
 <div data-controller="neighbours">
    <div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-8">Step 3</div>
-  <%= form.govuk_collection_select :template, 
-    ["Notification", "Renotification"], 
-    :itself, 
-    :itself, 
+  <%= form.govuk_collection_select :template,
+    ["Notification", "Renotification"],
+    :itself,
+    :itself,
     label: { text: "Choose which letter to send", size: "m" },
     data: {
       action: "change->neighbours#toggleTemplates"
@@ -37,3 +37,13 @@
   </div>
 </details>
 
+<div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-8">Step 4</div>
+<div class="govuk-form-group">
+  <%= form.label :deadline_extension, "Set response period", class: "govuk-label govuk-label--m" %>
+  <p class="govuk-hint">Enter the number of days that neighbours have to respond.</p>
+
+ <div class="govuk-input__wrapper">
+    <%= form.govuk_text_field :deadline_extension, placeholder: "", class: "govuk-input", label: -> {}, value: 21, required: true %>
+    <div class="govuk-input__suffix" aria-hidden="true">days</div>
+  </div>
+</div>

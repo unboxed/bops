@@ -18,6 +18,7 @@ class Consultation < ApplicationRecord
   attribute :consultee_message_subject, :string, default: -> { default_consultee_message_subject }
   attribute :consultee_message_body, :string, default: -> { default_consultee_message_body }
 
+  attribute :deadline_extension, :integer
   attribute :email_reason, :string, default: "send"
   attribute :resend_message, :string
   attribute :reconsult_message, :string
@@ -84,6 +85,9 @@ class Consultation < ApplicationRecord
     end
   end
 
+  before_save :apply_deadline_extension, if: -> { deadline_extension.present? }
+  validates :deadline_extension, presence: true, on: :apply_deadline_extension
+
   accepts_nested_attributes_for :consultees, :neighbours
 
   enum status: {
@@ -147,11 +151,13 @@ class Consultation < ApplicationRecord
   end
 
   def start_deadline(now = Time.zone.now)
-    update!(end_date: end_date_from(now), start_date: start_date || default_start_date(now))
+    update!(end_date: [end_date, end_date_from(now)].compact.max, start_date: start_date || default_start_date(now))
   end
 
   def extend_deadline(new_date)
-    update!(end_date: [end_date, new_date.end_of_day].max)
+    return unless new_date > end_date
+
+    update!(end_date: new_date.end_of_day)
   end
 
   def end_date_from(now = Time.zone.now)
@@ -428,5 +434,13 @@ class Consultation < ApplicationRecord
       "type" => "FeatureCollection",
       "features" => features
     }
+  end
+
+  def apply_deadline_extension
+    unless start_date?
+      start_deadline
+    end
+
+    extend_deadline(deadline_extension.days.from_now)
   end
 end
