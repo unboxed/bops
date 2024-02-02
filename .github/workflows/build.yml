@@ -43,12 +43,17 @@ jobs:
           - { group: "models", pattern: "[q-z]*_spec.rb" }
           - { group: "controllers", pattern: "*_spec.rb" }
           - { group: "requests", pattern: "*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "a[a-s]*_spec.rb", want_pdf: true }
+          - { group: "system", pattern: "a[a-f]*_spec.rb", want_pdf: true }
+          - { group: "system", pattern: "a[g-s]*_spec.rb", want_pdf: true }
           - { group: "system", pattern: "a[t-z]*_spec.rb" }
-          - { group: "system", pattern: "[b-f]*_spec.rb", want_pdf: true }
+          - { group: "system", pattern: "[b-c]*_spec.rb", want_pdf: true }
+          - { group: "system", pattern: "[d-f]*_spec.rb", want_pdf: true }
           - { group: "system", pattern: "[g-k]*_spec.rb" }
-          - { group: "system", pattern: "[l-r]*_spec.rb" }
-          - { group: "system", pattern: "[s-z]*_spec.rb" }
+          - { group: "system", pattern: "[l-m]*_spec.rb" }
+          - { group: "system", pattern: "[n-p]*_spec.rb" }
+          - { group: "system", pattern: "[q-r]*_spec.rb" }
+          - { group: "system", pattern: "[s-t]*_spec.rb" }
+          - { group: "system", pattern: "[u-z]*_spec.rb" }
           - {
               group: "other",
               pattern: "*_spec.rb",
