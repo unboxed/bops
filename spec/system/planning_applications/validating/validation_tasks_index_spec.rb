@@ -125,7 +125,7 @@ RSpec.describe "Validation tasks" do
 
           within("#cil-liability-validation-tasks") do
             expect(page).to have_link(
-              "CIL liability",
+              "Confirm Community Infrastructure Levy (CIL)",
               href: edit_planning_application_validation_cil_liability_path(planning_application)
             )
             within(".govuk-tag--grey") do
@@ -291,7 +291,7 @@ RSpec.describe "Validation tasks" do
 
           within("#cil-liability-validation-tasks") do
             expect(page).to have_link(
-              "CIL liability",
+              "Confirm Community Infrastructure Levy (CIL)",
               href: edit_planning_application_validation_cil_liability_path(planning_application)
             )
             within(".govuk-tag--grey") do
