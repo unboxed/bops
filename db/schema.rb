@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_01_134422) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_02_113712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -316,7 +316,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_134422) do
   end
 
   create_table "immunity_details", force: :cascade do |t|
-    t.datetime "end_date"
+    t.date "end_date"
     t.bigint "planning_application_id"
     t.string "status"
     t.datetime "created_at", null: false
