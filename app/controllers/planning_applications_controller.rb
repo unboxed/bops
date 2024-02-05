@@ -236,6 +236,14 @@ class PlanningApplicationsController < AuthenticationController
     redirect_failed_clone_planning_application(e)
   end
 
+  def supply_documents
+    @documents = @planning_application.documents.active
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
 
   def search

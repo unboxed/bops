@@ -99,13 +99,27 @@ RSpec.describe "Validation tasks" do
           expect(page).not_to have_css("#check-legislative-requirements")
         end
 
-        within("#check-tag-documents-tasks") do
-          expect(page).to have_content("Check and tag supplied documents")
+        within("#confirm-documents-tasks") do
+          expect(page).to have_content("Check, tag and confirm documents")
 
-          within("#check-supplied-document-#{document.name.parameterize}") do
+          within("#check-supplied-document") do
             expect(page).to have_link(
-              "Check supplied document - #{document.name}",
-              href: edit_planning_application_document_path(planning_application, document, validate: "yes")
+              "Check supplied documents",
+              href: supply_documents_planning_application_path(planning_application)
+            )
+          end
+
+          within("#check-missing-documents") do
+            expect(page).to have_link(
+              "Check missing documents",
+              href: validation_documents_planning_application_path(planning_application)
+            )
+          end
+
+          within("#upload-redacted-documents") do
+            expect(page).to have_link(
+              "Upload redacted documents",
+              href: planning_application_validation_documents_redactions_path(planning_application)
             )
             within(".govuk-tag--grey") do
               expect(page).to have_content("Not started")
@@ -147,27 +161,6 @@ RSpec.describe "Validation tasks" do
             expect(page).to have_link(
               "Check ownership certificate",
               href: edit_planning_application_validation_ownership_certificate_path(planning_application)
-            )
-            within(".govuk-tag--grey") do
-              expect(page).to have_content("Not started")
-            end
-          end
-        end
-
-        within("#confirm-documents-tasks") do
-          expect(page).to have_content("Confirm documents")
-
-          within("#check-provided-documents") do
-            expect(page).to have_link(
-              "Check provided documents",
-              href: validation_documents_planning_application_path(planning_application)
-            )
-          end
-
-          within("#upload-redacted-documents") do
-            expect(page).to have_link(
-              "Upload redacted documents",
-              href: planning_application_validation_documents_redactions_path(planning_application)
             )
             within(".govuk-tag--grey") do
               expect(page).to have_content("Not started")
@@ -272,12 +265,27 @@ RSpec.describe "Validation tasks" do
           expect(page).not_to have_css("#check-legislative-requirements")
         end
 
-        within("#check-tag-documents-tasks") do
-          expect(page).to have_content("Check and tag supplied documents")
+        within("#confirm-documents-tasks") do
+          expect(page).to have_content("Check, tag and confirm documents")
 
           within("#check-supplied-document") do
             expect(page).to have_content("Planning application has already been validated")
             expect(page).not_to have_link("Check supplied document")
+          end
+
+          within("#check-missing-documents") do
+            expect(page).to have_content("Planning application has already been validated")
+            expect(page).not_to have_link("Check missing documents")
+          end
+
+          within("#upload-redacted-documents") do
+            expect(page).to have_link(
+              "Upload redacted documents",
+              href: planning_application_validation_documents_redactions_path(planning_application)
+            )
+            within(".govuk-tag--grey") do
+              expect(page).to have_content("Not started")
+            end
           end
         end
 
@@ -313,25 +321,6 @@ RSpec.describe "Validation tasks" do
             expect(page).to have_link(
               "Check ownership certificate",
               href: edit_planning_application_validation_ownership_certificate_path(planning_application)
-            )
-            within(".govuk-tag--grey") do
-              expect(page).to have_content("Not started")
-            end
-          end
-        end
-
-        within("#confirm-documents-tasks") do
-          expect(page).to have_content("Confirm documents")
-
-          within("#check-provided-documents") do
-            expect(page).to have_content("Planning application has already been validated")
-            expect(page).not_to have_link("Check supplied document - #{document.name}")
-          end
-
-          within("#upload-redacted-documents") do
-            expect(page).to have_link(
-              "Upload redacted documents",
-              href: planning_application_validation_documents_redactions_path(planning_application)
             )
             within(".govuk-tag--grey") do
               expect(page).to have_content("Not started")

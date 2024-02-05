@@ -48,6 +48,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
     it "I can mark documents as invalid and edit/delete the validation request" do
       click_link "Check and validate"
+      click_link "Check supplied documents"
 
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
@@ -103,6 +104,9 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 1")
       end
+
+      click_link "Check supplied documents"
+
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
           "Check supplied document - proposed-floorplan.png",
@@ -132,6 +136,8 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Update request"
       expect(page).to have_content("Replacement document request successfully updated")
 
+      click_link "Check supplied documents"
+
       # Delete the request
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
@@ -153,6 +159,8 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(document1.reload.replacement_document_validation_request).to be_nil
       expect(document1.invalidated_document_reason).to be_nil
       expect(document1.validated).to be_nil
+
+      click_link "Check supplied documents"
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
           "Check supplied document - proposed-roofplan.png",
@@ -170,22 +178,29 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Save request"
       expect(page).to have_content("Replacement document validation request successfully created.")
       expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 1")
+      end
+
+      click_link "Check supplied documents"
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
           "Check supplied document - proposed-roofplan.png",
           with: "Invalid"
         )
       end
-      within("#invalid-items-count") do
-        expect(page).to have_content("Invalid items 1")
-      end
 
-      click_link "Send validation decision"
+      click_link "Back"
+
+      within("#review-tasks") do
+        click_link "Send validation decision"
+      end
       expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
     end
 
     it "I can mark documents as valid" do
       click_link "Check and validate"
+      click_link "Check supplied documents"
 
       within("#check-tag-documents-tasks") do
         click_link("Check supplied document - proposed-roofplan.png")
@@ -201,6 +216,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       expect(page).to have_content "Sustainability and Energy Statement"
 
+      click_link "Check supplied documents"
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
           "Check supplied document - proposed-roofplan.png",
@@ -212,6 +228,8 @@ RSpec.describe "Requesting document changes to a planning application" do
           with: "Not started"
         )
       end
+
+      click_link "Back"
 
       click_link "Send validation decision"
       expect(page).to have_content("The application has not been marked as valid or invalid yet.")
@@ -237,6 +255,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       delivered_emails = ActionMailer::Base.deliveries.count
 
       click_link "Check and validate"
+      click_link "Check supplied documents"
 
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
@@ -268,6 +287,8 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 1")
       end
+
+      click_link "Check supplied documents"
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
           "Check supplied document - proposed-roofplan.png",
@@ -279,6 +300,8 @@ RSpec.describe "Requesting document changes to a planning application" do
           with: "Not started"
         )
       end
+
+      click_link "Back"
 
       click_link "Send validation decision"
       expect(page).to have_content("This application has 1 unresolved validation request and 0 resolved validation requests")
@@ -298,6 +321,8 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       # Cancel request
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
+
+      click_link "Check supplied documents"
       within("#check-tag-documents-tasks") do
         click_link("Check supplied document - proposed-roofplan.png")
       end
@@ -335,12 +360,16 @@ RSpec.describe "Requesting document changes to a planning application" do
         expect(page).to have_content("Invalid items 0")
       end
       expect(page).not_to have_content("Invalid documents")
+
+      click_link "Check supplied documents"
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(
           "Check supplied document - proposed-roofplan.png",
           with: "Not started"
         )
       end
+
+      click_link "Back"
 
       click_link "Send validation decision"
       expect(page).to have_content("This application has 0 unresolved validation requests and 0 resolved validation requests")
@@ -388,6 +417,8 @@ RSpec.describe "Requesting document changes to a planning application" do
           expect(page).to have_content("Updated items 0")
         end
 
+        click_link "Check supplied documents"
+
         within("#check-tag-documents-tasks") do
           expect(page).to have_list_item_for(
             "Check supplied document - proposed-roofplan.png",
@@ -404,20 +435,25 @@ RSpec.describe "Requesting document changes to a planning application" do
         click_button "Send request"
         expect(page).to have_content("Replacement document validation request successfully created.")
 
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 1")
+        end
+
+        click_link "Check supplied documents"
+
         within("#check-tag-documents-tasks") do
           expect(page).to have_list_item_for(
             "Check supplied document - proposed-roofplan.png",
             with: "Invalid"
           )
         end
-        within("#invalid-items-count") do
-          expect(page).to have_content("Invalid items 1")
-        end
 
         request = ReplacementDocumentValidationRequest.last
         expect(document_response.replacement_document_validation_request).to eq(request)
         expect(request.old_document).to eq(document_response)
         expect(request.new_document).to be_nil
+
+        click_link "Back"
 
         click_link "Review validation requests"
 
@@ -442,6 +478,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       it "can see reason why a replacement document was requested once the request is complete" do
         click_link "Check and validate"
+        click_link "Check supplied documents"
         click_link "Check supplied document - #{replacement_document_validation_request.reload.new_document.name.to_s.truncate(25)}"
 
         expect(page).to have_content("This document replaced: #{replacement_document_validation_request.old_document.name}")
@@ -464,7 +501,7 @@ RSpec.describe "Requesting document changes to a planning application" do
     it "does not allow you to validate documents" do
       click_link "Check and validate"
 
-      within("#check-tag-documents-tasks") do
+      within("#check-supplied-document") do
         expect(page).to have_content("Planning application has already been validated")
       end
     end
@@ -553,6 +590,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
     it "does not appear in the validate document list" do
       click_link "Check and validate"
+      click_link "Check supplied documents"
 
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(

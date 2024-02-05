@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       get :validation_notice
       get :validation_decision
       get :validation_documents
+      get :supply_documents
       patch :validate_documents
       post :clone
       get :make_public

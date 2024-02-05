@@ -11,7 +11,7 @@ module TaskListItems
     attr_reader :planning_application
 
     def link_text
-      t(".check_required_documents")
+      t(".check_missing_documents")
     end
 
     def link_path

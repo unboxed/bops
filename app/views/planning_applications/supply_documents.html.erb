@@ -1,0 +1,51 @@
+<% content_for :page_title do %>
+  Supplied documents - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Supplied documents" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Check and validate supplied documents"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div id="check-tag-documents-tasks" >
+      <h2 class="app-task-list__section">
+        Check supplied documents
+      </h2>
+
+      <ul class="app-task-list__items">
+        <% if !@planning_application.validated? %>
+          <% if @planning_application.documents.active.empty? %>
+            <li id="check-supplied-document" class="app-task-list__item">
+              <span class="app-task-list__task-name">
+                There are no active documents
+              </span>
+            </li>
+          <% else %>
+            <% @planning_application.documents.active.each_with_index do |document, index| %>
+              <% next unless document.representable? %>
+              <%= render(
+                TaskListItems::DocumentComponent.new(
+                  planning_application: @planning_application,
+                  document: document
+                )
+              ) %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <li id="check-supplied-document" class="app-task-list__item">
+            <span class="app-task-list__task-name">
+              Planning application has already been validated
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+</div>
