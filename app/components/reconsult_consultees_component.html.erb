@@ -1,7 +1,10 @@
 <div class="govuk-form-group" id="resend-consultees">
   <fieldset class="govuk-fieldset" aria-describedby="reconsult-hint">
     <legend class="govuk-fieldset__legend">
-      <h2 class="govuk-heading-m"><%= t(".legend") %></h2>
+      <h2 class="govuk-heading-m">
+        <div class="govuk-hint govuk-!-margin-bottom-0">Step 3</div>
+        <%= t(".legend") %>
+      </h2>
     </legend>
     <div id="reconsult-hint" class="govuk-hint">
       <%= t(".hint") %>
@@ -17,7 +20,6 @@
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-reconsult">
         <%= form.govuk_text_area :reconsult_message, label: { text: t(".reconsult_message_label") }, rows: 5 %>
         <p class="govuk-hint"><%= t(".formatting_hint_html") %></p>
-        <%= form.govuk_date_field :reconsult_date, legend: { text: t(".reconsult_date_label"), size: "s" } %>
       </div>
     </div>
   </fieldset>

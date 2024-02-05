@@ -85,12 +85,14 @@ module PlanningApplications
     end
 
     def update_letter_statuses
-      return if @consultation.neighbour_letters.none?
+      letters = @consultation.neighbour_letters.includes(:neighbour).where.not(status: "received")
+
+      notify_key = @planning_application.local_authority.notify_api_key || Rails.configuration.default_notify_api_key
 
       # This is not ideal for now as will block the page loading, if it becomes a problem this would be
       # a good place for optimisation
-      @consultation.neighbour_letters.each do |letter|
-        letter.update_status unless letter.status == "received"
+      letters.each do |letter|
+        letter.update_status(notify_key)
       end
     end
 

@@ -21,11 +21,11 @@ class NeighbourLetter < ApplicationRecord
   scope :failed, -> { where(status: FAILURE_STATUSES) }
   scope :sent, -> { where.not(status: FAILURE_STATUSES) }
 
-  def update_status
+  def update_status(notify_key)
     return false if notify_id.blank?
 
     begin
-      response = Notifications::Client.new(notify_api_key).get_notification(notify_id)
+      response = Notifications::Client.new(notify_key).get_notification(notify_id)
     rescue Notifications::Client::RequestError
       return
     end

@@ -32,7 +32,7 @@ class Neighbour < ApplicationRecord
                        }
 
   def last_letter
-    neighbour_letters.last
+    neighbour_letters.order(created_at: :desc).first
   end
 
   def letter_created?

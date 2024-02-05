@@ -17,7 +17,7 @@ RSpec.describe NeighbourLetter do
     it "updates the letter's status from notify" do
       notify_request = stub_get_notify_status(notify_id: neighbour_letter.notify_id)
 
-      neighbour_letter.update_status
+      neighbour_letter.update_status(Rails.configuration.default_notify_api_key)
       expect(notify_request).to have_been_requested
 
       expect(neighbour_letter.status).to eq("received")

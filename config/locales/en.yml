@@ -160,10 +160,6 @@ en:
               invalidated: Emails can’t be sent out when a planning application is invalid
               not_public: Emails can’t be sent out when a planning application has not been made public
               not_started: Emails can’t be sent out when a planning application has not been started
-            reconsult_date:
-              date_blank: Please enter the date by which consultees need to respond by
-              date_invalid: Please enter a valid date
-              date_not_on_or_after: Please enter a date at least seven days from today
             reconsult_message:
               blank: Please enter the reasons for the reconsultation
               invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'
@@ -448,7 +444,7 @@ en:
     toggle_selection: Toggle selection
   consultee_email_component:
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>{{name}}</code> will be substituted when the email is sent.
-    header: 2) Send email to selected consultees
+    header: Send email to selected consultees
     message_body_label: Message body
     message_subject_label: Message subject
     reset_message_to_default: Reset message to default content
@@ -551,7 +547,7 @@ en:
     update:
       success: Consultee response has been updated
   consultees_component:
-    header: 1) Select the consultees to consult
+    header: Select the consultees to consult
     not_consulted: Not consulted
     select_consultee: Select consultee
   council_addresses:
@@ -996,6 +992,9 @@ en:
       success: Planning application was successfully cloned.
     confirm_validation:
       validate_application: Validate application
+    consultations:
+      update:
+        success: Consultation was successfully updated.
     consultee:
       emails:
         index:
@@ -1435,7 +1434,7 @@ en:
   reconsult_consultees_component:
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>{{closing_date}}</code></nobr> will be substituted when the email is sent.
     hint: Choosing 'Yes' will allow you to add the reasons why this application is being reconsulted.
-    legend: 3) Is this a reconsultation?
+    legend: Is this a reconsultation?
     reconsult: Yes, I’m reconsulting existing consultees
     reconsult_date_label: Consultee reponse required by
     reconsult_message_hint: This text will go at the top of the new email

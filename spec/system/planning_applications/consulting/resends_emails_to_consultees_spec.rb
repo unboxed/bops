@@ -139,9 +139,9 @@ RSpec.describe "Consultation", js: true do
 
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
-    expect(page).to have_selector("h2", text: "1) Select the consultees to consult")
-    expect(page).to have_selector("h2", text: "2) Send email to selected consultees")
-    expect(page).to have_selector("h2", text: "3) Is this a reconsultation?")
+    expect(page).to have_selector("h2", text: "Step 1 Select the consultees to consult")
+    expect(page).to have_selector("h2", text: "Step 2 Send email to selected consultees")
+    expect(page).to have_selector("h2", text: "Step 3 Is this a reconsultation?")
 
     within "#external-consultees" do
       within "table tbody tr:first-child" do
@@ -191,6 +191,10 @@ RSpec.describe "Consultation", js: true do
 
     within "#resend-consultees" do
       fill_in "Additional message to include in the email", with: "Please respond to the message below by {{closing_date}}"
+    end
+
+    within "#response-period" do
+      fill_in "consultation[consultee_response_period]", with: 7
     end
 
     expect do

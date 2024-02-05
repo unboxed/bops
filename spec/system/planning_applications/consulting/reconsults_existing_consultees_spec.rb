@@ -143,9 +143,10 @@ RSpec.describe "Consultation", js: true do
 
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
-    expect(page).to have_selector("h2", text: "1) Select the consultees to consult")
-    expect(page).to have_selector("h2", text: "2) Send email to selected consultees")
-    expect(page).to have_selector("h2", text: "3) Is this a reconsultation?")
+    expect(page).to have_selector("h2", text: "Step 1 Select the consultees to consult")
+    expect(page).to have_selector("h2", text: "Step 2 Send email to selected consultees")
+    expect(page).to have_selector("h2", text: "Step 3 Is this a reconsultation?")
+    expect(page).to have_selector("h2", text: "Step 4 Set response period")
 
     within "#external-consultees" do
       within "table tbody tr:first-child" do
@@ -183,10 +184,9 @@ RSpec.describe "Consultation", js: true do
 
     within "#resend-consultees" do
       choose "Yes, I’m reconsulting existing consultees"
-
-      fill_in "Day", with: ""
-      fill_in "Month", with: ""
-      fill_in "Year", with: ""
+    end
+    within "#response-period" do
+      fill_in "consultation[consultee_response_period]", with: 100
     end
 
     accept_confirm(text: "Send emails to consultees?") do
@@ -194,34 +194,13 @@ RSpec.describe "Consultation", js: true do
     end
 
     expect(page).to have_selector("[role=alert] li", text: "Please enter the reasons for the reconsultation")
-    expect(page).to have_selector("[role=alert] li", text: "Please enter the date by which consultees need to respond by")
-
-    within "#resend-consultees" do
-      fill_in "Day", with: today.day
-      fill_in "Month", with: today.month
-      fill_in "Year", with: today.year
-    end
-
-    accept_confirm(text: "Send emails to consultees?") do
-      click_button "Send emails to consultees"
-    end
-
-    expect(page).to have_selector("[role=alert] li", text: "Please enter a date at least seven days from today")
-
-    within "#resend-consultees" do
-      fill_in "Day", with: "50"
-      fill_in "Month", with: today.month
-      fill_in "Year", with: today.year
-    end
-
-    accept_confirm(text: "Send emails to consultees?") do
-      click_button "Send emails to consultees"
-    end
-
-    expect(page).to have_selector("[role=alert] li", text: "Please enter a valid date")
+    expect(page).to have_selector("[role=alert] li", text: "Consultee response period must be less than or equal to 99")
 
     within "#resend-consultees" do
       fill_in "Reasons for reconsultation", with: "Application has changes - please respond by {{close_date}}"
+    end
+    within "#response-period" do
+      fill_in "consultation[consultee_response_period]", with: "not an integer"
     end
 
     accept_confirm(text: "Send emails to consultees?") do
@@ -229,12 +208,14 @@ RSpec.describe "Consultation", js: true do
     end
 
     expect(page).to have_selector("[role=alert] li", text: "The reasons for reconsultation contains an invalid placeholder '{{close_date}}'")
+    expect(page).to have_selector("[role=alert] li", text: "Consultee response period is not a number")
 
     within "#resend-consultees" do
       fill_in "Reasons for reconsultation", with: "Application has changes - please respond by {{closing_date}}"
-      fill_in "Day", with: future.day
-      fill_in "Month", with: future.month
-      fill_in "Year", with: future.year
+    end
+
+    within "#response-period" do
+      fill_in "consultation[consultee_response_period]", with: 14
     end
 
     expect do
