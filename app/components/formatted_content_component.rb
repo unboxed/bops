@@ -21,10 +21,10 @@ class FormattedContentComponent < ViewComponent::Base
   end
 
   def simple_format_content
-    simple_format(auto_link_content, {class: classname}, sanitize: false)
+    simple_format(auto_link_content, { class: classname }, sanitize: false)
   end
 
   def auto_link_content
-    auto_link(text.to_s, html: {target: "_blank"}, sanitize: false)
+    auto_link(text.to_s, html: { target: "_blank" }, sanitize: false)
   end
 end
