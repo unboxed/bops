@@ -7,9 +7,6 @@ on:
       brakeman:
         type: boolean
         default: false
-      rubocop:
-        type: boolean
-        default: false
       biome:
         type: boolean
         default: false
@@ -44,12 +41,6 @@ jobs:
         if: ${{ inputs.brakeman == true }}
         run: |
           bundle exec brakeman
-
-      - name: Analyse code for formatting
-        if: ${{ inputs.rubocop == true }}
-        run: |
-          ${{ inputs.run-before-linters }}
-          bundle exec rubocop
 
       - name: Run linters - Biome
         if: ${{ inputs.biome == true }}
