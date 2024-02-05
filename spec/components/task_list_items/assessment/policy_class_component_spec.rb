@@ -10,16 +10,17 @@ RSpec.describe TaskListItems::Assessment::PolicyClassComponent, type: :component
       :policy_class,
       section: "A",
       part: 1,
-      planning_application:,
-      status:
+      planning_application:
     )
   end
+
+  let!(:review) { create(:review, owner: policy_class, status:) }
 
   before do
     render_inline(
       described_class.new(
         planning_application:,
-        policy_class:
+        policy_class: policy_class.reload
       )
     )
   end
@@ -36,7 +37,7 @@ RSpec.describe TaskListItems::Assessment::PolicyClassComponent, type: :component
   end
 
   context "when status is not 'complete'" do
-    let(:status) { :in_assessment }
+    let(:status) { :in_progress }
 
     it "renders link edit to policy_class" do
       expect(page).to have_link(

@@ -35,6 +35,6 @@
       <% end %>
     </ol>
 
-    <%= render "form", disabled: @condition_set.review.complete_or_to_be_reviewed? %>
+    <%= render "form", disabled: @condition_set.current_review.complete_or_to_be_reviewed? %>
   </div>
 </div>

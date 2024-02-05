@@ -209,7 +209,7 @@ en:
               coordinate_method_not_present: Select at least one coordinate method
         policy_class:
           attributes:
-            status:
+            base:
               policies_to_be_determined: All policies must be assessed
         press_notice:
           attributes:
@@ -1636,6 +1636,9 @@ en:
     rejected: Rejected
     removed: Removed
     required: Required
+    review_complete: Completed
+    review_in_progress: In progress
+    review_not_started: Not started
     submitted: Submitted
     supportive: Supportive
     technical_failure: Technical failure

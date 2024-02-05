@@ -18,12 +18,11 @@ module TaskListItems
       end
 
       def review_local_policy
-        local_policy.current_review_local_policy
+        local_policy.current_review
       end
 
       def link_path
-        if review_local_policy&.reviewed_at.present? &&
-            local_policy.review_status == "review_complete"
+        if review_local_policy&.reviewed_at.present? && review_local_policy.review_status == "review_complete"
           planning_application_review_local_policy_path(
             planning_application,
             review_local_policy
@@ -37,10 +36,17 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::Reviewing::LocalPolicyComponent.new(
-          planning_application:,
-          review_local_policy:
-        )
+        StatusTags::BaseComponent.new(status:)
+      end
+
+      def status
+        if review_local_policy.review_complete?
+          :complete
+        elsif review_local_policy.in_progress?
+          :in_progress
+        else
+          :not_started
+        end
       end
     end
   end

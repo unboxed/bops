@@ -188,7 +188,6 @@ RSpec.describe "Immunity" do
         expect(page).to have_content("Never good enough")
       end
 
-      click_link "Edit review immunity details"
       choose "Accept"
       click_button "Save and mark as complete"
       expect(page).to have_content("Review immunity details was successfully updated")
@@ -210,8 +209,8 @@ RSpec.describe "Immunity" do
       click_button "Save and mark as complete"
       expect(page).to have_content("Permitted development rights response was successfully updated")
 
-      expect(immunity_detail.current_evidence_review_immunity_detail.accepted).to be(true)
-      expect(immunity_detail.current_enforcement_review_immunity_detail.accepted).to be(true)
+      expect(immunity_detail.current_evidence_review_immunity_detail.accepted?).to be(true)
+      expect(immunity_detail.current_enforcement_review_immunity_detail.accepted?).to be(true)
     end
   end
 end

@@ -15,8 +15,9 @@ RSpec.describe StatusTags::Reviewing::ImmunityEnforcementComponent, type: :compo
 
     let(:review_immunity_detail) do
       create(
-        :review_immunity_detail,
-        immunity_detail:,
+        :review,
+        :enforcement,
+        owner: immunity_detail,
         review_status: :review_complete,
         reviewed_at: 1.day.ago
       )
@@ -46,8 +47,9 @@ RSpec.describe StatusTags::Reviewing::ImmunityEnforcementComponent, type: :compo
 
     let(:review_immunity_detail) do
       create(
-        :review_immunity_detail,
-        immunity_detail:,
+        :review,
+        :enforcement,
+        owner: immunity_detail,
         review_status: :review_in_progress,
         reviewed_at: 1.day.ago
       )
@@ -77,8 +79,9 @@ RSpec.describe StatusTags::Reviewing::ImmunityEnforcementComponent, type: :compo
 
     let(:review_immunity_detail) do
       create(
-        :review_immunity_detail,
-        immunity_detail:,
+        :review,
+        :enforcement,
+        owner: immunity_detail,
         review_status: :review_not_started
       )
     end

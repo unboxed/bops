@@ -20,14 +20,14 @@
       <p class="govuk-body">Reason: <%= @review_immunity_detail.decision_reason %></p>
       <p class="govuk-body">Summary: <%= @review_immunity_detail.summary %></p>
 
-      <% unless @review_immunity_detail.reviewed_at %>
-          <div class="govuk-button-group govuk-!-padding-top-5">
-        <%= link_to(
-          "Edit immunity/permitted development rights",
-          edit_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(@planning_application),
-          class: "govuk-link"
-        ) %>
-      </div>
+      <% if @review_immunity_detail.reviewed_at.nil? %>
+        <div class="govuk-button-group govuk-!-padding-top-5">
+          <%= link_to(
+            "Edit immunity/permitted development rights",
+            edit_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(@planning_application),
+            class: "govuk-link"
+          ) %>
+        </div>
       <% end %>
     <% end %>
 

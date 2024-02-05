@@ -26,7 +26,6 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
 
           expect(immunity_detail).to have_attributes(
             planning_application_id: planning_application.id,
-            status: "not_started",
             end_date: "2015-02-01".to_date
           )
 

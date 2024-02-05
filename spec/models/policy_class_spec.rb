@@ -59,11 +59,11 @@ RSpec.describe PolicyClass do
     end
 
     context "when some policies are to be determined" do
-      let(:policy) { build(:policy, :to_be_determined) }
+      let(:policy) { create(:policy, :to_be_determined) }
 
       context "when status is complete" do
         let(:policy_class) do
-          build(:policy_class, :complete, policies: [policy])
+          create(:policy_class, :complete, policies: [policy])
         end
 
         it "returns false" do
@@ -72,7 +72,7 @@ RSpec.describe PolicyClass do
 
         it "sets error message" do
           policy_class.valid?
-          expect(policy_class.errors.messages[:status]).to contain_exactly(
+          expect(policy_class.errors.messages[:base]).to contain_exactly(
             "All policies must be assessed"
           )
         end
@@ -144,50 +144,53 @@ RSpec.describe PolicyClass do
 
   describe "#update_required?" do
     context "when review_policy_class status is 'complete' and status is 'to_be_reviewed'" do
-      let(:policy_class) { create(:policy_class, status: :to_be_reviewed) }
+      let(:policy_class) { create(:policy_class) }
 
       before do
         create(
-          :review_policy_class,
-          policy_class:,
-          status: :complete
+          :review,
+          owner: policy_class,
+          status: "to_be_reviewed",
+          review_status: "review_complete"
         )
       end
 
       it "returns true" do
-        expect(policy_class.update_required?).to be(true)
+        expect(policy_class.reload.update_required?).to be(true)
       end
     end
 
     context "when review_policy_class status is not 'complete' and status is 'to_be_reviewed'" do
-      let(:policy_class) { create(:policy_class, status: :to_be_reviewed) }
+      let(:policy_class) { create(:policy_class) }
 
       before do
         create(
-          :review_policy_class,
-          policy_class:,
-          status: :not_started
+          :review,
+          owner: policy_class,
+          review_status: "review_not_started",
+          status: "to_be_reviewed"
         )
       end
 
       it "returns false" do
-        expect(policy_class.update_required?).to be(false)
+        expect(policy_class.reload.update_required?).to be(false)
       end
     end
 
     context "when review_policy_class status is 'complete' but status is not 'to_be_reviewed'" do
-      let(:policy_class) { create(:policy_class, status: :complete) }
+      let(:policy_class) { create(:policy_class) }
 
       before do
         create(
-          :review_policy_class,
-          policy_class:,
-          status: :complete
+          :review,
+          owner: policy_class,
+          review_status: "review_complete",
+          status: "complete"
         )
       end
 
       it "returns false" do
-        expect(policy_class.update_required?).to be(false)
+        expect(policy_class.reload.update_required?).to be(false)
       end
     end
   end

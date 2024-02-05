@@ -40,7 +40,7 @@ RSpec.describe "Reviewing immunity enforcement" do
 
   context "when there's an immunity enforcement" do
     before do
-      create(:review_immunity_detail, :enforcement, immunity_detail: planning_application.immunity_detail, assessor:)
+      create(:review, :enforcement, owner: planning_application.immunity_detail, assessor:)
 
       sign_in reviewer
       visit "/planning_applications/#{planning_application.id}/review/tasks"
@@ -61,7 +61,7 @@ RSpec.describe "Reviewing immunity enforcement" do
         end
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/review/immunity_enforcements/#{ReviewImmunityDetail.last.id}/edit"
+          "/planning_applications/#{planning_application.id}/review/immunity_enforcements/#{Review.where(owner_type: "ImmunityDetail").last.id}/edit"
         )
 
         expect(page).to have_content("Review assessment of immunity")
@@ -84,10 +84,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       it "I can save and come back later when adding my review or editing the immunity enforcement" do
         click_link "Review assessment of immunity"
 
-        radio_buttons = find_all(".govuk-radios__item")
-        within(radio_buttons[1]) do
-          choose "Accept"
-        end
+        choose "Accept"
 
         click_button "Save and come back later"
         expect(page).to have_content("Review immunity details was successfully updated for enforcement")
@@ -123,10 +120,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       it "I can save and mark as complete when adding my review to accept the review evidence of immunity response" do
         click_link "Review assessment of immunity"
 
-        radio_buttons = find_all(".govuk-radios__item")
-        within(radio_buttons[1]) do
-          choose "Accept"
-        end
+        choose "Accept"
 
         click_button "Save and mark as complete"
 

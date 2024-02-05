@@ -21,7 +21,7 @@ module PlanningApplications
       end
 
       def set_condition_set_review
-        @condition_set_review = @condition_set.review
+        @condition_set_review = @condition_set.current_review
       end
     end
   end

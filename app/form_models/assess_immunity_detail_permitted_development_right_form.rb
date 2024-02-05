@@ -32,9 +32,10 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
     @params = params
     @review_immunity_detail_params = build_review_immunity_detail_params
     @permitted_development_right_params = params[:permitted_development_right]
+    @planning_application = planning_application
 
     @review_immunity_detail =
-      review_immunity_detail || planning_application.immunity_detail.review_immunity_details.new(
+      review_immunity_detail || planning_application.immunity_detail.reviews.new(
         review_immunity_detail_params
       )
     @permitted_development_right =
@@ -59,7 +60,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
 
   def update
     review_immunity_detail.assign_attributes(
-      **review_immunity_detail_params, status: params[:review_immunity_detail_status]
+      **review_immunity_detail_params, status: params[:status]
     )
     permitted_development_right.assign_attributes(
       **permitted_development_right_params, status: params[:permitted_development_right_status]
@@ -70,6 +71,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
     ActiveRecord::Base.transaction do
       review_immunity_detail.save!
       permitted_development_right.save! if decision_is_no?
+      review_immunity_detail.update!(owner: @planning_application.immunity_detail)
 
       true
     end
@@ -91,7 +93,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
   def build_review_immunity_detail_params
     return if params.blank?
 
-    review_immunity_detail_params = params[:review_immunity_detail]
+    review_immunity_detail_params = params[:review]
 
     review_immunity_detail_params["decision_reason"] = if review_immunity_detail_params["decision_type"] == "other"
       review_immunity_detail_params["yes_decision_reason"]
@@ -108,7 +110,8 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
     review_immunity_detail.tap do |record|
       record.assessor = Current.user
       record.decision_reason = (decision_reason.presence || decision_type)
-      record.status = params[:review_immunity_detail_status]
+      record.status = params[:status]
+      record.review_type = "enforcement"
     end
   end
 

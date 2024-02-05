@@ -38,35 +38,36 @@ module PlanningApplications
 
       def condition_set_review_params
         params.require(:condition_set)
-          .permit(review_attributes: %i[action comment],
+          .permit(reviews_attributes: %i[action comment],
             conditions_attributes: %i[_destroy id standard title text reason])
           .to_h
           .deep_merge(
-            status: condition_set_status,
-            review_attributes: {reviewed_at: Time.current, reviewer: current_user, status: status}
+            reviews_attributes: {
+              reviewed_at: Time.current,
+              reviewer: current_user,
+              status: status,
+              review_status:,
+              id: @condition_set&.current_review&.id
+            }
           )
       end
 
       def status
-        if mark_as_complete?
-          :complete
-        elsif save_progress? || return_to_officer?
-          :in_progress
-        elsif return_to_officer?
-          :to_be_reviewed
+        if return_to_officer?
+          "to_be_reviewed"
+        elsif save_progress?
+          "in_progress"
+        elsif mark_as_complete?
+          "complete"
         end
       end
 
-      def condition_set_status
-        if return_to_officer?
-          :to_be_reviewed
-        else
-          @condition_set.status
-        end
+      def review_status
+        save_progress? ? "review_in_progress" : "review_complete"
       end
 
       def return_to_officer?
-        params.dig(:condition_set, :review_attributes, :action) == "rejected"
+        params.dig(:condition_set, :reviews_attributes, :action) == "rejected"
       end
     end
   end

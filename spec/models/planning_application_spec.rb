@@ -2069,16 +2069,16 @@ RSpec.describe PlanningApplication do
       let(:policy_class) do
         create(
           :policy_class,
-          planning_application:,
-          status: :to_be_reviewed
+          planning_application:
         )
       end
 
       before do
         create(
-          :review_policy_class,
-          policy_class:,
-          status: :complete
+          :review,
+          owner: policy_class,
+          review_status: :review_complete,
+          status: :to_be_reviewed
         )
       end
 
@@ -2143,7 +2143,7 @@ RSpec.describe PlanningApplication do
         create(:policy_class, planning_application:)
       end
 
-      before { create(:review_policy_class, policy_class:) }
+      before { create(:review, owner: policy_class) }
 
       it "returns true" do
         expect(planning_application.review_in_progress?).to be(true)

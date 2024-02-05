@@ -43,17 +43,20 @@
         url: planning_application_review_policy_class_path(@planning_application, @policy_class),
         html: { data: unsaved_changes_data }
       ) do |form| %>
-      <%= form.fields_for :review_policy_class, @policy_class.review_policy_class do |review_form| %>
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset">
-            <div class="govuk-radios" data-module="govuk-radios">
-              <div class="govuk-radios__item">
-                <%= review_form.radio_button :mark, true, class: "govuk-radios__input", "aria-controls": "conditional-mark-#{@policy_class.review_policy_class.mark}-conditional", "aria-expanded": "false", disabled: true, checked: "checked" %>
-                <%= review_form.label :show, @policy_class.review_policy_class.mark.humanize , class: "govuk-label govuk-radios__label", for: "show" %>
-              </div>
-            </div>
-          </fieldset>
-        </div>
+      <%= form.fields_for :reviews, @policy_class.current_review do |review_form| %>
+        <fieldset class="govuk-fieldset">
+          <div class="govuk-radios" data-module="govuk-radios">
+            <%= review_form.govuk_radio_button :action, "accepted", label: { text: "Accept" }, checked: review_form.object.accepted?, disabled: true %>
+            <%= review_form.govuk_radio_button :action, "rejected", label: { text: "Return to officer with comment" }, checked: review_form.object.rejected?, disabled: true do %>
+              <%= review_form.govuk_text_area(
+                :comment,
+                label: { text: "Explain to the assessor why this needs reviewing" },
+                rows: 6,
+                disabled: true
+              ) %>
+            <% end %>
+          </div>
+        </fieldset>
       <% end %>
     <% end %>
 

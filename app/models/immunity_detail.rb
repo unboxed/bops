@@ -5,35 +5,14 @@ class ImmunityDetail < ApplicationRecord
   has_many :evidence_groups, dependent: :destroy
   has_many :comments, as: :commentable, through: :evidence_groups, dependent: :destroy
 
-  has_many :review_immunity_details, dependent: :destroy
+  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
 
-  accepts_nested_attributes_for :evidence_groups
-  accepts_nested_attributes_for :comments
+  accepts_nested_attributes_for :evidence_groups, :comments, :reviews
 
-  after_update :create_evidence_review_immunity_detail
-
-  enum(
-    status: {
-      not_started: "not_started",
-      in_progress: "in_progress",
-      to_be_reviewed: "to_be_reviewed",
-      complete: "complete"
-    },
-    _default: "not_started"
-  )
-
-  enum review_status: {
-    review_not_started: "review_not_started",
-    review_in_progress: "review_in_progress",
-    review_complete: "review_complete"
-  }
-
-  with_options presence: true do
-    validates :status, :review_status
-  end
+  before_update :maybe_create_review
 
   def update_required?
-    complete? && !accepted?
+    current_evidence_review_immunity_detail.status == "complete" && !accepted?
   end
 
   def add_document(document)
@@ -44,15 +23,16 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def accepted?
-    status == "complete" && (review_status == "review_complete" || review_status == "review_in_progress")
+    current_evidence_review_immunity_detail.status == "complete" &&
+      (current_evidence_review_immunity_detail.review_status == "review_complete" || current_evidence_review_immunity_detail.review_status == "review_in_progress")
   end
 
   def current_enforcement_review_immunity_detail
-    review_immunity_details.enforcement.where.not(id: nil).order(:created_at).last
+    reviews.enforcement.where.not(id: nil).order(:created_at).last
   end
 
   def current_evidence_review_immunity_detail
-    review_immunity_details.evidence.where.not(id: nil).order(:created_at).last
+    reviews.evidence.where.not(id: nil).order(:created_at).last
   end
 
   def earliest_evidence_cover
@@ -69,9 +49,12 @@ class ImmunityDetail < ApplicationRecord
     evidence_groups.any?(&:missing_evidence?)
   end
 
-  def create_evidence_review_immunity_detail
-    return if current_evidence_review_immunity_detail.try(:review_not_started?)
+  private
 
-    review_immunity_details.create!(review_type: "evidence", assessor: Current.user)
+  def maybe_create_review
+    return if current_evidence_review_immunity_detail.nil?
+    return unless current_evidence_review_immunity_detail.status_changed? && current_evidence_review_immunity_detail_review.status_change == %w[to_be_reviewed complete]
+
+    reviews.create!(owner: self, specific_attributes: {review_type: "evidence"}, assessor: Current.owner)
   end
 end

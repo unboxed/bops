@@ -6,7 +6,7 @@ module PlanningApplications
       include CommitMatchable
 
       before_action :set_planning_application
-      before_action :set_consultation
+      before_action :set_consultation, if: :has_consultation?
       before_action :set_assessment_detail_review
 
       def show
@@ -55,6 +55,10 @@ module PlanningApplications
 
       def status
         mark_as_complete? ? :complete : :in_progress
+      end
+
+      def has_consultation?
+        @planning_application.application_type.consultation?
       end
     end
   end

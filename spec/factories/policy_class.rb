@@ -16,7 +16,15 @@ FactoryBot.define do
     end
 
     trait :in_assessment do
-      status { :in_assessment }
+      after(:create) do |policy_class|
+        create(:review, status: "in_progress", owner: policy_class)
+      end
+    end
+
+    trait :complete do
+      after(:create) do |policy_class|
+        create(:review, status: "complete", owner: policy_class)
+      end
     end
   end
 end

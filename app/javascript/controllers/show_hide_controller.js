@@ -11,7 +11,7 @@ export default class extends Controller {
 
   handleEventForDecision(_event) {
     const selectedDecisionHtml = document.querySelector(
-      'input[name="assess_immunity_detail_permitted_development_right_form[review_immunity_detail][decision]"]:checked',
+      'input[name="assess_immunity_detail_permitted_development_right_form[review][decision]"]:checked',
     )
     const selectedDecisionValue = selectedDecisionHtml.value
     let oppositeValue = "Yes"

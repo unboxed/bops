@@ -40,7 +40,7 @@ RSpec.describe "Reviewing evidence of immunity" do
 
   context "when there's an evidence of immunity" do
     before do
-      create(:review_immunity_detail, :evidence, immunity_detail: planning_application.immunity_detail, assessor:)
+      create(:review, :evidence, owner: planning_application.immunity_detail, assessor:)
       create(:evidence_group, :with_document, tag: "utility_bill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
       create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
 
@@ -63,7 +63,7 @@ RSpec.describe "Reviewing evidence of immunity" do
         end
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/review/immunity_details/#{ReviewImmunityDetail.last.id}/edit"
+          "/planning_applications/#{planning_application.id}/review/immunity_details/#{Review.where(owner_type: "ImmunityDetail").last.id}/edit"
         )
 
         expect(page).to have_content("Review evidence of immunity")

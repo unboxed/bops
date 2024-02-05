@@ -25,10 +25,22 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::PolicyClassComponent.new(
-          policy_class:,
-          planning_application:
-        )
+        StatusTags::BaseComponent.new(status:)
+      end
+
+      def status
+        if to_be_reviewed?
+          :to_be_reviewed
+        elsif policy_class&.current_review&.status == "in_progress" || policy_class.current_review.nil?
+          :in_progress
+        elsif policy_class&.current_review&.status == "complete" || policy_class.current_review&.status == "updated"
+          :complete
+        end
+      end
+
+      def to_be_reviewed?
+        planning_application.recommendation&.rejected? &&
+          policy_class.update_required?
       end
     end
   end

@@ -49,7 +49,7 @@ module PlanningApplications
       end
 
       def status
-        mark_as_complete? ? :complete : :in_progress
+        mark_as_complete? ? "complete" : "in_progress"
       end
 
       def local_policy_params
@@ -58,7 +58,7 @@ module PlanningApplications
             areas: [],
             local_policy_areas_attributes: %i[area policies guidance assessment id]
           )
-          .to_h.merge(status:)
+          .to_h.merge(reviews_attributes: [status:, id: (@local_policy&.current_review&.id if !mark_as_complete?)])
       end
 
       def assign_params

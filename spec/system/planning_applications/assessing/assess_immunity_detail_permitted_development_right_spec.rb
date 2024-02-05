@@ -121,14 +121,19 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(ReviewImmunityDetail.last).to have_attributes(
-          immunity_detail_id: immunity_detail.id,
+        expect(Review.enforcement.last).to have_attributes(
+          owner_id: immunity_detail.id,
           assessor_id: assessor.id,
-          decision: "Yes",
-          decision_reason: "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
-          decision_type: "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
           status: "complete",
-          summary: "A summary"
+          review_status: "review_not_started",
+          action: nil,
+          specific_attributes: {
+            "decision" => "Yes",
+            "decision_reason" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
+            "decision_type" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
+            "summary" => "A summary",
+            "review_type" => "enforcement"
+          }
         )
 
         within("#immunity-permitted-development-rights") do
@@ -155,13 +160,18 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(ReviewImmunityDetail.last).to have_attributes(
-          immunity_detail_id: immunity_detail.id,
+        expect(Review.enforcement.last).to have_attributes(
+          owner_id: immunity_detail.id,
           assessor_id: assessor.id,
-          decision: "Yes",
-          decision_reason: "A reason for my decision",
-          decision_type: "other",
-          summary: "A summary"
+          status: "complete",
+          review_status: "review_not_started",
+          specific_attributes: {
+            "decision" => "Yes",
+            "decision_reason" => "A reason for my decision",
+            "decision_type" => "other",
+            "summary" => "A summary",
+            "review_type" => "enforcement"
+          }
         )
         expect(PermittedDevelopmentRight.all.length).to eq(0)
       end
@@ -193,7 +203,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(ReviewImmunityDetail.all.length).to eq(1)
+        expect(Review.where(owner_type: "ImmunityDetail").length).to eq(1)
         # No permitted development right response is created
         expect(PermittedDevelopmentRight.all.length).to eq(0)
       end
@@ -214,11 +224,15 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(ReviewImmunityDetail.last).to have_attributes(
-          immunity_detail_id: immunity_detail.id,
+        expect(Review.enforcement.last).to have_attributes(
+          owner_id: immunity_detail.id,
           assessor_id: assessor.id,
-          decision: "No",
-          decision_reason: "Application is not immune"
+          specific_attributes: {
+            "decision" => "No",
+            "decision_reason" => "Application is not immune",
+            "review_type" => "enforcement",
+            "summary" => ""
+          }
         )
         expect(PermittedDevelopmentRight.last).to have_attributes(
           assessor_id: assessor.id,
@@ -242,13 +256,17 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_button "Save and come back later"
         expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
-        expect(ReviewImmunityDetail.last).to have_attributes(
-          immunity_detail_id: immunity_detail.id,
+        expect(Review.enforcement.last).to have_attributes(
+          owner_id: immunity_detail.id,
           assessor_id: assessor.id,
-          decision: "Yes",
-          decision_reason: "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
           status: "in_progress",
-          summary: "A summary"
+          specific_attributes: {
+            "decision" => "Yes",
+            "decision_reason" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
+            "decision_type" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
+            "summary" => "A summary",
+            "review_type" => "enforcement"
+          }
         )
 
         within("#immunity-permitted-development-rights") do
@@ -296,10 +314,10 @@ RSpec.describe "Assess immunity detail permitted development right" do
 
         # View edit page
         click_link "Edit immunity/permitted development rights"
-        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-yes-field").selected?).to be(false)
-        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-no-field").selected?).to be(true)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-decision-yes-field").selected?).to be(false)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-decision-no-field").selected?).to be(true)
 
-        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-no-decision-reason-field").value).to eq("Application is not immune")
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-no-decision-reason-field").value).to eq("Application is not immune")
         expect(find_by_id("assess-immunity-detail-permitted-development-right-form-permitted-development-right-removed-true-field").selected?).to be(true)
         expect(find_by_id("assess-immunity-detail-permitted-development-right-form-permitted-development-right-removed-field").selected?).to be(false)
         expect(find_by_id("assess-immunity-detail-permitted-development-right-form-permitted-development-right-removed-reason-field").value).to eq("A reason")
@@ -318,24 +336,28 @@ RSpec.describe "Assess immunity detail permitted development right" do
         click_link "Immunity/permitted development rights"
         click_link "Edit immunity/permitted development rights"
 
-        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-yes-field").selected?).to be(true)
-        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-no-field").selected?).to be(false)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-decision-yes-field").selected?).to be(true)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-decision-no-field").selected?).to be(false)
         expect(
           find_by_id(
-            "assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-type-no-action-is-taken-within-4-years-for-an-unauthorised-change-of-use-to-a-single-dwellinghouse-field"
+            "assess-immunity-detail-permitted-development-right-form-review-decision-type-no-action-is-taken-within-4-years-for-an-unauthorised-change-of-use-to-a-single-dwellinghouse-field"
           ).selected?
         ).to be(true)
-        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-summary-field").value).to eq("A summary")
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-summary-field").value).to eq("A summary")
 
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
 
-        expect(ReviewImmunityDetail.last).to have_attributes(
-          immunity_detail_id: immunity_detail.id,
+        expect(Review.enforcement.last).to have_attributes(
+          owner_id: immunity_detail.id,
           assessor_id: assessor.id,
-          decision: "Yes",
-          decision_reason: "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
-          summary: "A summary"
+          specific_attributes: {
+            "decision" => "Yes",
+            "decision_reason" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
+            "decision_type" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
+            "review_type" => "enforcement",
+            "summary" => "A summary"
+          }
         )
 
         click_link "Immunity/permitted development rights"
@@ -353,7 +375,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
 
   context "when there is an open review" do
     before do
-      create(:review_immunity_detail, immunity_detail:)
+      create(:review, :enforcement, owner: immunity_detail)
 
       sign_in assessor
     end
@@ -370,7 +392,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
       click_button "Save and mark as complete"
       expect(page).to have_text("Cannot create an enforcement review immunity detail response when there is already an open response")
 
-      expect(ReviewImmunityDetail.count).to eq(1)
+      expect(Review.where(owner_type: "ImmunityDetail").count).to eq(1)
     end
   end
 

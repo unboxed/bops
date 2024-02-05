@@ -7,7 +7,7 @@ module PlanningApplications
       include PermittedDevelopmentRights
       include CommitMatchable
 
-      rescue_from ReviewImmunityDetail::NotCreatableError, with: :redirect_failed_create_error
+      rescue_from ::Review::NotCreatableError, with: :redirect_failed_create_error
 
       before_action :ensure_planning_application_is_validated
       before_action :ensure_planning_application_is_possibly_immune
@@ -25,7 +25,7 @@ module PlanningApplications
 
       def new
         @permitted_development_right = @planning_application.permitted_development_rights.new
-        @review_immunity_detail = @planning_application.immunity_detail.review_immunity_details.new
+        @review_immunity_detail = @planning_application.immunity_detail.reviews.new
 
         @form = AssessImmunityDetailPermittedDevelopmentRightForm.new(
           planning_application: @planning_application
@@ -83,11 +83,12 @@ module PlanningApplications
       private
 
       def assess_immunity_detail_permitted_development_right_form_params
-        params.require(:assess_immunity_detail_permitted_development_right_form).permit(
-          review_immunity_detail: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type
-            summary],
-          permitted_development_right: %i[removed removed_reason]
-        ).merge(review_immunity_detail_status:, permitted_development_right_status:)
+        params.require(:assess_immunity_detail_permitted_development_right_form)
+          .permit(
+            review: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type summary],
+            permitted_development_right: %i[removed removed_reason]
+          )
+          .merge(status:, permitted_development_right_status:)
       end
 
       def ensure_planning_application_is_possibly_immune
@@ -104,14 +105,14 @@ module PlanningApplications
 
       def set_review_immunity_details
         @review_immunity_details =
-          @planning_application.immunity_detail.review_immunity_details.enforcement.reviewer_not_accepted
+          @planning_application.immunity_detail.reviews.enforcement.reviewer_not_accepted
       end
 
       def set_review_immunity_detail
         @review_immunity_detail = @planning_application.immunity_detail.current_enforcement_review_immunity_detail
       end
 
-      def review_immunity_detail_status
+      def status
         save_progress? ? "in_progress" : "complete"
       end
 

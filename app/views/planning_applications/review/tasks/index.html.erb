@@ -33,14 +33,14 @@
     ) %>
     </span>
     <ul class="app-task-list__items" id="review-assessment-section">
-      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.evidence.any? %>
+      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.evidence.any? %>
           <%= render(
             TaskListItems::Reviewing::ImmunityDetailsComponent.new(
               planning_application: @planning_application
             )
           ) %>
       <% end %>
-      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.enforcement.any? %>
+      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.enforcement.any? %>
           <%= render(
             TaskListItems::Reviewing::ImmunityEnforcementComponent.new(
               planning_application: @planning_application
@@ -66,7 +66,7 @@
           )
         )%>
       <% end %>
-      <% if @planning_application.condition_set.present? %>
+      <% if @planning_application.condition_set.present? && @planning_application.condition_set.current_review&.status != "not_started" %>
         <%= render(
           TaskListItems::Reviewing::ConditionComponent.new(
             condition_set: @planning_application.condition_set,

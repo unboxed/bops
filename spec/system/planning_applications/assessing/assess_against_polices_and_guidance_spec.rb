@@ -136,7 +136,7 @@ RSpec.describe "assess against policies and guidance" do
 
     click_button "Save and mark as complete"
 
-    expect(page).to have_content("Local policy areas can't be blank ")
+    expect(page).to have_content("Local policy areas can't be blank")
 
     click_button "Save and come back later"
 

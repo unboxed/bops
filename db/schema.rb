@@ -318,10 +318,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
   create_table "immunity_details", force: :cascade do |t|
     t.date "end_date"
     t.bigint "planning_application_id"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "review_status", default: "review_not_started", null: false
     t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
   end
 
@@ -369,14 +367,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "review_status", default: "review_not_started", null: false
-    t.string "status", default: "not_started", null: false
-    t.bigint "assessor_id"
-    t.bigint "reviewer_id"
-    t.datetime "reviewed_at"
-    t.index ["assessor_id"], name: "ix_local_policies_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_local_policies_on_planning_application_id"
-    t.index ["reviewer_id"], name: "ix_local_policies_on_reviewer_id"
   end
 
   create_table "local_policy_areas", force: :cascade do |t|
@@ -622,7 +613,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", null: false
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
@@ -667,69 +657,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
-  create_table "review_immunity_details", force: :cascade do |t|
-    t.bigint "immunity_detail_id"
-    t.bigint "assessor_id"
-    t.bigint "reviewer_id"
-    t.string "decision"
-    t.text "decision_reason"
-    t.text "summary"
-    t.boolean "accepted", default: false, null: false
-    t.text "reviewer_comment"
-    t.datetime "reviewed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "decision_type"
-    t.string "status", default: "in_progress", null: false
-    t.boolean "removed"
-    t.boolean "reviewer_edited", default: false, null: false
-    t.string "review_status", default: "review_not_started", null: false
-    t.string "review_type", default: "enforcement", null: false
-    t.index ["assessor_id"], name: "ix_review_immunity_details_on_assessor_id"
-    t.index ["immunity_detail_id"], name: "ix_review_immunity_details_on_immunity_detail_id"
-    t.index ["reviewer_id"], name: "ix_review_immunity_details_on_reviewer_id"
-  end
-
-  create_table "review_local_policies", force: :cascade do |t|
-    t.bigint "assessor_id"
-    t.bigint "reviewer_id"
-    t.boolean "accepted", default: false, null: false
-    t.string "status", default: "in_progress", null: false
-    t.string "review_status", default: "review_not_started", null: false
-    t.boolean "reviewer_edited", default: false, null: false
-    t.text "reviewer_comment"
-    t.datetime "reviewed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "local_policy_id"
-    t.index ["assessor_id"], name: "ix_review_local_policies_on_assessor_id"
-    t.index ["local_policy_id"], name: "ix_review_local_policies_on_local_policy_id"
-    t.index ["reviewer_id"], name: "ix_review_local_policies_on_reviewer_id"
-  end
-
-  create_table "review_policy_classes", force: :cascade do |t|
-    t.bigint "policy_class_id", null: false
-    t.integer "mark", null: false
-    t.string "comment"
-    t.integer "status", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
-  end
-
   create_table "reviews", force: :cascade do |t|
     t.string "action"
     t.bigint "assessor_id"
-    t.string "reviewable_type", null: false
-    t.bigint "reviewable_id", null: false
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
     t.datetime "reviewed_at"
     t.bigint "reviewer_id"
     t.text "comment"
     t.string "status", default: "not_started", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "review_status", default: "review_not_started", null: false
+    t.boolean "reviewer_edited", default: false, null: false
+    t.jsonb "specific_attributes"
     t.index ["assessor_id"], name: "ix_reviews_on_assessor_id"
-    t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable"
+    t.index ["owner_type", "owner_id"], name: "index_reviews_on_reviewable"
     t.index ["reviewer_id"], name: "ix_reviews_on_reviewer_id"
   end
 
@@ -846,8 +789,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
   add_foreign_key "local_policies", "planning_applications"
-  add_foreign_key "local_policies", "users", column: "assessor_id"
-  add_foreign_key "local_policies", "users", column: "reviewer_id"
   add_foreign_key "local_policy_areas", "local_policies"
   add_foreign_key "neighbour_letters", "neighbours"
   add_foreign_key "neighbour_responses", "consultations"
@@ -875,13 +816,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_02_143929) do
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
-  add_foreign_key "review_immunity_details", "immunity_details"
-  add_foreign_key "review_immunity_details", "users", column: "assessor_id"
-  add_foreign_key "review_immunity_details", "users", column: "reviewer_id"
-  add_foreign_key "review_local_policies", "local_policies"
-  add_foreign_key "review_local_policies", "users", column: "assessor_id"
-  add_foreign_key "review_local_policies", "users", column: "reviewer_id"
-  add_foreign_key "review_policy_classes", "policy_classes"
   add_foreign_key "reviews", "users", column: "assessor_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "site_notices", "planning_applications"

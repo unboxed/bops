@@ -25,10 +25,8 @@ module PlanningApplications
       end
 
       def update
-        @immunity_detail.assign_attributes(review_status:)
-
         respond_to do |format|
-          if update_immunity_details
+          if @review_immunity_detail.update(review_immunity_detail_params)
             format.html do
               redirect_to planning_application_review_tasks_path(@planning_application),
                 notice: I18n.t("planning_applications.review..immunity_details.successfully_updated")
@@ -43,18 +41,11 @@ module PlanningApplications
 
       private
 
-      def update_immunity_details
-        ActiveRecord::Base.transaction do
-          @immunity_detail.update(status: immunity_detail_status) &&
-            @review_immunity_detail.update(review_immunity_detail_params)
-        end
-      end
-
       def review_immunity_detail_params
-        params.require(:review_immunity_detail)
-          .permit(:reviewer_comment, :accepted)
+        params.require(:review)
+          .permit(:comment, :action)
           .to_h
-          .deep_merge(reviewed_at: Time.current, reviewer: current_user)
+          .deep_merge(reviewed_at: Time.current, reviewer: current_user, review_status:, status: immunity_detail_status)
       end
 
       def review_status
@@ -74,7 +65,7 @@ module PlanningApplications
       end
 
       def return_to_officer?
-        params.dig(:review_immunity_detail, :accepted) == "false"
+        params.dig(:review, :action) == "rejected"
       end
 
       def ensure_user_is_reviewer

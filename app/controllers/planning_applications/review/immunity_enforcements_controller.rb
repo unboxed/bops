@@ -44,7 +44,7 @@ module PlanningApplications
       private
 
       def review_immunity_detail_params
-        params.require(:review_immunity_detail).permit(:decision_reason, :accepted, :reviewer_comment)
+        params.require(:review).permit(:decision_reason, :action, :comment)
       end
 
       def set_review_immunity_detail

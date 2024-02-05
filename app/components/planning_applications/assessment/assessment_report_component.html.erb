@@ -50,11 +50,13 @@
 <% if consultation_summary.present? %>
   <section id="consultation-summary-section" class="govuk-!-padding-bottom-5">
     <h3 class="govuk-heading-s"><%= t(".consultation_documents") %></h3>
-    <ul class="govuk-list govuk-list--bullet">
-      <% consultation.consultees.each do |consultee| %>
-        <li><%= "#{consultee.name} (#{consultee.origin})" %></li>
-      <% end %>
-    </ul>
+    <% if planning_application.consultation&.consultees&.any? %>
+      <ul class="govuk-list govuk-list--bullet">
+        <% consultation.consultees.each do |consultee| %>
+          <li><%= "#{consultee.name} (#{consultee.origin})" %></li>
+        <% end %>
+      </ul>
+    <% end %>
     <%= render(FormattedContentComponent.new(text: consultation_summary.entry)) %>
   </section>
 <% end %>
