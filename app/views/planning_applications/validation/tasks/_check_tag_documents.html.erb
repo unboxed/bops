@@ -1,12 +1,12 @@
-<li id="document-validation-tasks">
+<li id="check-tag-documents-tasks">
   <h2 class="app-task-list__section">
-    Check supplied documents
+    Check and tag supplied documents
   </h2>
 
   <ul class="app-task-list__items">
     <% if !@planning_application.validated? %>
       <% if @planning_application.documents.active.empty? %>
-        <li class="app-task-list__item">
+        <li id="check-supplied-document" class="app-task-list__item">
           <span class="app-task-list__task-name">
             There are no active documents
           </span>
@@ -23,7 +23,7 @@
         <% end %>
       <% end %>
     <% else %>
-      <li class="app-task-list__item">
+      <li id="check-supplied-document" class="app-task-list__item">
         <span class="app-task-list__task-name">
           Planning application has already been validated
         </span>

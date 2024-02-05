@@ -3,7 +3,7 @@
 <% end %>
 
 <%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
-<% content_for :title, "Check ownership certificate" %>
+<% content_for :title, "Ownership certificate" %>
 
 <%= render(
   partial: "shared/proposal_header",
@@ -13,7 +13,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
-  
+
     <%= render "relevant_documents_accordion" %>
   </div>
 

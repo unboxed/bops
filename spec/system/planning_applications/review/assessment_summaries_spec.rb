@@ -363,7 +363,9 @@ RSpec.describe "Reviewing assessment summaries" do
 
         find_button("Save and mark as complete").click
 
-        expect(page).to have_selector("h1", text: "Review and sign-off")
+        within("#planning-application-details") do
+          expect(page).to have_selector("h1", text: "Review and sign-off")
+        end
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Checked"

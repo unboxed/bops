@@ -10,16 +10,12 @@
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Redact documents" }
+  locals: { heading: "Upload redacted documents" }
 ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <% if @planning_application.documents.active.redacted.any? %>
-      <h2 class="govuk-header-m">
-        Redacted documents
-      </h2>
-
       <%= render "redacted_table" %>
 
       <details class="govuk-details" data-module="govuk-details">
@@ -33,9 +29,6 @@
         </div>
       </details>
     <% else %>
-      <h2 class="govuk-heading-m">
-        Upload redacted documents
-      </h2>
       <p class="govuk-body govuk-!-margin-bottom-1">
         To add a redacted document
       </p>
