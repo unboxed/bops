@@ -53,8 +53,8 @@ RSpec.describe "Consultation", js: true do
   before do
     consultation.update(
       status: "in_progress",
-      start_date: 14.days.ago.beginning_of_day,
-      end_date: 7.days.from_now.end_of_day
+      start_date: 14.days.ago,
+      end_date: 7.days.from_now
     )
 
     create(

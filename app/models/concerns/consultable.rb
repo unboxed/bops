@@ -17,7 +17,7 @@ module Consultable
     private
 
     def new_consultation_end_date
-      [consultable_event_at && (consultable_event_at + consultation.period_days).end_of_day, consultation_end_date].compact.max
+      [consultable_event_at && (consultable_event_at + consultation.period_days), consultation_end_date].compact.max
     end
 
     def extend_consultation!

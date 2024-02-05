@@ -123,7 +123,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(find("#consultation-deadline-extension-field").value).to eq("21")
       fill_in "consultation-deadline-extension-field", with: "48"
       click_button "Confirm and send letters"
-      expect(planning_application.consultation.reload.end_date).to be_within(1.second).of(48.days.from_now.end_of_day)
+      expect(planning_application.consultation.reload.end_date).to eq(48.days.from_now.to_date)
     end
 
     it "fails if no response period is set" do
