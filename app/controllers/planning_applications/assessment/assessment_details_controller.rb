@@ -10,7 +10,7 @@ module PlanningApplications
       before_action :ensure_planning_application_is_validated
       before_action :set_assessment_detail, only: %i[show edit update]
       before_action :set_category, :set_rejected_assessment_detail, only: %i[new create edit update show]
-      before_action :set_consultation, if: :consultation_summary?
+      before_action :set_consultation, if: :has_consultation_and_summary?
 
       def show
         respond_to do |format|
@@ -101,6 +101,10 @@ module PlanningApplications
       def created_notice
         action = @rejected_assessment_detail.present? ? :updated : :created
         I18n.t("planning_applications.assessment.assessment_details.#{@category}.#{action}.success")
+      end
+
+      def has_consultation_and_summary?
+        consultation_summary? && @planning_application.application_type.consultation?
       end
     end
   end
