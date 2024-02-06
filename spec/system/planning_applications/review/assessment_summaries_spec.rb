@@ -361,11 +361,12 @@ RSpec.describe "Reviewing assessment summaries" do
           choose("Accept")
         end
 
-        click_button("Save and mark as complete")
+        find_button("Save and mark as complete").click
 
         visit "/planning_applications/#{planning_application.id}/review/tasks"
+
         within("#planning-application-details") do
-          expect(page).to have_selector("h1", text: "Review and sign-off")
+          expect(page).to have_selector("h1.govuk-heading-l", text: "Review and sign-off")
         end
 
         expect(page).to have_list_item_for(
