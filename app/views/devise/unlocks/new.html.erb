@@ -2,7 +2,7 @@
   Resend unlock instructions - <%= t('page_title') %>
 <% end %>
 
-<h2>Resend unlock instructions</h2>
+<h2 class="govuk-heading-m">Resend unlock instructions</h2>
 
 <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>

@@ -24,7 +24,7 @@
   </div>
 
   <div class="govuk-!-margin-bottom-7">
-    <h2>Other conditions</h2>
+    <h2 class="govuk-heading-m">Other conditions</h2>
     <div id="other-conditions" data-conditions-target="conditions">
       <%= form.fields_for :conditions, @conditions.other do |fields| %>
         <%= content_tag :div, class: "condition govuk-!-margin-bottom-5", data: { index: fields.index } do %>
