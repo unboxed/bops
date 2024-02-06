@@ -38,13 +38,15 @@ class ImmunityDetailsCreationService
   def fill_in_evidence_group_information
     @planning_application.immunity_detail.evidence_groups.each do |eg|
       Document::EVIDENCE_QUESTIONS[eg.tag.to_sym].each do |question|
+        value = @planning_application.find_proposal_detail(question).first&.response_values&.first
+
         case question
         when /show/
-          eg.applicant_comment = @planning_application.find_proposal_detail(question).first.response_values.first
+          eg.applicant_comment = value
         when /(start|issued)/
-          eg.start_date = @planning_application.find_proposal_detail(question).first.response_values.first
+          eg.start_date = value
         when /run/
-          eg.end_date = @planning_application.find_proposal_detail(question).first.response_values.first
+          eg.end_date = value
         end
         eg.save!
       end
