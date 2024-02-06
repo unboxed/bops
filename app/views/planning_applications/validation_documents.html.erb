@@ -1,13 +1,13 @@
 <% content_for :page_title do %>
-  Provided documents - <%= t('page_title') %>
+  Missing documents - <%= t('page_title') %>
 <% end %>
 
 <%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
-<% content_for :title, "Provided documents" %>
+<% content_for :title, "Missing documents" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Check provided documents"  }
+  locals: { heading: "Check missing documents"  }
 ) %>
 
 <div class="govuk-grid-row">

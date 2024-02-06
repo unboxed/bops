@@ -1657,7 +1657,7 @@ en:
     withdrawn: Withdrawn
   task_list_items:
     additional_document_component:
-      check_required_documents: Check provided documents
+      check_missing_documents: Check missing documents
     assessment:
       assess_immunity_detail_permitted_development_right_component:
         immune_permitted_development_rights: Immunity/permitted development rights

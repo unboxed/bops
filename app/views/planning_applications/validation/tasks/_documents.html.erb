@@ -1,0 +1,38 @@
+<li id="confirm-documents-tasks">
+  <h2 class="app-task-list__section">
+    Check, tag and confirm documents
+  </h2>
+  <ul class="app-task-list__items">
+    <% if @planning_application.validated? %>
+      <li id="check-supplied-document" class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% else %>
+      <li id="check-supplied-document" class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= link_to "Check supplied documents", supply_documents_planning_application_path(@planning_application), class: "govuk-link" %>
+        </span>
+      </li>
+    <% end %>
+    <% if @planning_application.validated? %>
+      <li id="check-missing-documents" class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% else %>
+      <%= render(
+        TaskListItems::AdditionalDocumentComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% end %>
+    <%= render(
+      TaskListItems::RedactDocumentsComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
+  </ul>
+</li>
