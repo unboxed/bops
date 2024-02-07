@@ -1685,8 +1685,6 @@ en:
       consultee_responses: View consultee responses
     description_change:
       check_description: Check description
-    document_component:
-      check_document: Check supplied document - %{document}
     email_consultees_component:
       email_consultees: Send emails to consultees
     fee_component:

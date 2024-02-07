@@ -17,11 +17,11 @@ module TaskListItems
     )
 
     def link_text
-      t(".check_document", document: truncated_document_name)
+      truncated_document_name
     end
 
     def truncated_document_name
-      truncate(document_name.to_s, length: 25)
+      truncate(document_name.to_s, length: 50)
     end
 
     def document_name
