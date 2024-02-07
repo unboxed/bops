@@ -15,7 +15,7 @@ module TaskListItems
     end
 
     def link_path
-      validation_documents_planning_application_path(planning_application)
+      edit_planning_application_validation_documents_path(planning_application)
     end
 
     def status_tag_component

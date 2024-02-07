@@ -112,7 +112,7 @@ RSpec.describe "Validation tasks" do
           within("#check-missing-documents") do
             expect(page).to have_link(
               "Check missing documents",
-              href: validation_documents_planning_application_path(planning_application)
+              href: edit_planning_application_validation_documents_path(planning_application)
             )
           end
 

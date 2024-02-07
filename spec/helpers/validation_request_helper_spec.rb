@@ -40,7 +40,7 @@ RSpec.describe ValidationRequestHelper do
           expect(
             helper.show_validation_request_link(planning_application, request)
           ).to eq(
-            "<a href=\"/planning_applications/#{planning_application.id}/validation_documents\">View and update</a>"
+            "<a href=\"/planning_applications/#{planning_application.id}/validation/documents/edit\">View and update</a>"
           )
         end
       end

@@ -32,7 +32,7 @@ module ValidationRequestHelper
     if request.post_validation?
       planning_application_documents_path(application)
     else
-      validation_documents_planning_application_path(application)
+      edit_planning_application_validation_documents_path(application)
     end
   end
 

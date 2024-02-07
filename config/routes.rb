@@ -57,9 +57,7 @@ Rails.application.routes.draw do
       get :decision_notice
       get :validation_notice
       get :validation_decision
-      get :validation_documents
       get :supply_documents
-      patch :validate_documents
       post :clone
       get :make_public
     end
@@ -152,6 +150,8 @@ Rails.application.routes.draw do
         resource :reporting_type, only: %i[edit update]
 
         resource :constraints, only: %i[show update]
+
+        resource :documents, only: %i[edit update]
 
         namespace :document, as: :documents do
           resources :redactions, only: %i[index create]
