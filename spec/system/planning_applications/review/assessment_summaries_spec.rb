@@ -361,8 +361,9 @@ RSpec.describe "Reviewing assessment summaries" do
           choose("Accept")
         end
 
-        find_button("Save and mark as complete").click
+        click_button("Save and mark as complete")
 
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
         within("#planning-application-details") do
           expect(page).to have_selector("h1", text: "Review and sign-off")
         end
@@ -375,9 +376,14 @@ RSpec.describe "Reviewing assessment summaries" do
   end
 
   context "when planning application is an LDC" do
-    before do
-      ldc = create(:application_type)
-      planning_application.update(application_type: ldc)
+    let!(:planning_application) do
+      create(
+        :planning_application,
+        :awaiting_determination,
+        :lawfulness_certificate,
+        local_authority:,
+        decision: :granted
+      )
     end
 
     context "when assessor filled out summaries" do
@@ -409,8 +415,6 @@ RSpec.describe "Reviewing assessment summaries" do
           user: assessor,
           entry: "site description"
         )
-
-        create(:consultee, consultation:)
 
         create(
           :assessment_detail,
