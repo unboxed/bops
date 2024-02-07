@@ -24,7 +24,7 @@
     <hr>
     <% for evidence_group in evidence_groups %>
     <div class="display-flex align-items-center">
-      <h3>
+      <h3 class="govuk-heading-s">
         <%= link_to sanitize("#{evidence_group.name} (#{evidence_group.documents.count})<br>#{evidence_group.date_range}"),
                     new_planning_application_assessment_immunity_detail_path(planning_application) + "#accordion-default-heading-#{evidence_group.id}",
                     class: "govuk-link govuk-link--no-underline" %>

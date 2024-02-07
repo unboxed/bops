@@ -26,7 +26,7 @@
           partial: "consultees",
           locals: { consultees: @consultation&.consultees }
         ) %>
-        <h3><%= t(".summary_of_consultee") %><h3>
+        <h3 class="govuk-heading-s"><%= t(".summary_of_consultee") %></h3>
       <% end %>
       <% if assessment_detail == "amenity" || assessment_detail == "publicity_summary" %>
         <% if consultation = @planning_application.consultation %>

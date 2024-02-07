@@ -1,7 +1,7 @@
 <% if resource.errors.any? %>
 <span id="status-error" class="govuk-error-message">
   <span class="govuk-visually-hidden">
-    <h2>
+    <h2 class="govuk-heading-m">
       <%= t("errors.messages.not_saved",
       count: resource.errors.count,
       resource: resource.class.model_name.human.downcase) %>
