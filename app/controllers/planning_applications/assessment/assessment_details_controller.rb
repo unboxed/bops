@@ -33,7 +33,7 @@ module PlanningApplications
       end
 
       def create
-        @assessment_detail = @planning_application.assessment_details.new(assessment_details_params)
+        @assessment_detail = @planning_application.assessment_details.new(set_params)
 
         respond_to do |format|
           if @assessment_detail.save
@@ -52,7 +52,7 @@ module PlanningApplications
 
       def update
         respond_to do |format|
-          if @assessment_detail.update(assessment_details_params)
+          if @assessment_detail.update(set_params)
             format.html do
               redirect_to planning_application_assessment_tasks_path(@planning_application),
                 notice: I18n.t("planning_applications.assessment.assessment_details.#{@assessment_detail.category}.updated.success")
@@ -73,6 +73,10 @@ module PlanningApplications
         @category == "consultation_summary"
       end
 
+      def publicity_summary?
+        @category == "publicity_summary"
+      end
+
       def set_rejected_assessment_detail
         return unless @planning_application.recommendation&.rejected?
 
@@ -90,8 +94,30 @@ module PlanningApplications
       def assessment_details_params
         params
           .require(:assessment_detail)
-          .permit(:entry, :category, :additional_information)
+          .permit(:entry, :category, :additional_information, NeighbourResponse::TAGS, :untagged)
           .merge(assessment_status:)
+      end
+
+      def neighbour_response_params
+        new_params = assessment_details_params
+
+        tag_array = NeighbourResponse::TAGS.dup
+
+        new_params[:entry] = tag_array.push(:untagged).map do |tag|
+          next unless assessment_details_params[tag]
+
+          "#{tag.to_s.humanize}: #{assessment_details_params[tag]}\n"
+        end.join
+
+        NeighbourResponse::TAGS.each do |tag|
+          new_params.delete tag
+        end
+
+        new_params.except(:untagged)
+      end
+
+      def set_params
+        publicity_summary? ? neighbour_response_params : assessment_details_params
       end
 
       def assessment_status

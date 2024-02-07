@@ -1,0 +1,148 @@
+<%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+  <%= form.govuk_error_summary(
+    presenter: assessment_detail_error_presenter(category)
+  ) %>
+
+  <% neighbour_responses.with_tags.group_by(&:tags).sort_by { |key, _value| key[0] }.reverse.each_with_index do |(tag, responses), index| %>
+    <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="neighbour-response-accordion">
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <span class="govuk-accordion__section-button" id=<%= "accordion-default-heading-#{index}" %>>
+              <%= "#{tag.first.humanize} responses (#{responses.count})" %>
+            </span>
+          </h2>
+        </div>
+        <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-#{index}" %>>
+          <% responses.group_by { |response| response.neighbour.selected? }.sort_by { |key, _value| key ? 0 : 1 }.each do |selected, sorted_responses| %>
+            <% sorted_responses.group_by { |response| response.summary_tag }.each do |opinion, resp| %>
+              <div class="neighbour-response">
+                <% resp.each do |response| %>
+                  <div class="neighbour-response-section">
+                    <div class="govuk-inset-text">
+                      <div class="neighbour-response-top-section">
+                        <div class="neighbour-response-content">
+                          <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
+                          <% if response.neighbour.selected? %>
+                            <strong class="govuk-tag app-task-list__task-tag govuk-!-margin-left-1">Adjoining neighbour</strong>
+                          <% end %>
+                          <br><br>
+                          <ul class="govuk-list">
+                            <li>
+                              <strong><%= response.name %></strong> <span class="govuk-hint" style="display: inline;"><%= response.email %></span>
+                            </li>
+                            <li class="govuk-hint">
+                              <%= response.neighbour.address %>
+                            </li>
+                            <li class="govuk-hint">
+                              Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+                            </li>
+                          </ul>
+                          <div data-controller="show-more-text">
+                            <span class="truncated-comment">
+                              <%= simple_format(response.truncated_comment) %>
+                            </span>
+
+                            <% if response_been_truncated?(response) %>
+                              <span class="govuk-!-display-none hidden-comment">
+                                <%= simple_format(response.comment[truncated_length(response)..-1]) %>
+                              </span>
+                              <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+                            <% end %>
+                          </div>
+                        </div>
+                        <div class="neighbour-tags">
+                          <% response.tags.each do |tag| %>
+                            <div class="govuk-!-margin-bottom-3">
+                              <strong class="govuk-tag govuk-tag--grey"><%= tag.humanize.upcase %></strong>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%= form.govuk_text_area(
+      :"#{tag.first}",
+      label: { text: "Summary of #{tag.first.humanize.downcase} comments", size: "m" },
+      rows: 10,
+      value: (@assessment_detail.entry[/(?<=#{tag.first.humanize}:)(.*)/] unless @assessment_detail.entry.nil?)
+    ) %>
+
+    <%= form.hidden_field :category, value: category %>
+  <% end %>
+
+  <% if neighbour_responses.without_tags.any? %>
+    <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="neighbour-response-accordion">
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <span class="govuk-accordion__section-button" id=<%= "accordion-default-heading-no-tag" %>>
+              <%= "Untagged responses (#{neighbour_responses.without_tags.count})" %>
+            </span>
+          </h2>
+        </div>
+        <% neighbour_responses.without_tags.each_with_index do |response, index| %>
+          <div class="neighbour-response">
+            <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-no-tag" %>>
+              <div class="neighbour-response-section">
+                <div class="govuk-inset-text">
+                  <div class="neighbour-response-top-section">
+                    <div class="neighbour-response-content">
+                      <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
+                      <% if response.neighbour.selected? %>
+                        <strong class="govuk-tag app-task-list__task-tag govuk-!-margin-left-1">Adjoining neighbour</strong>
+                      <% end %>
+                      <br><br>
+                      <ul class="govuk-list">
+                        <li>
+                          <strong><%= response.name %></strong> <span class="govuk-hint" style="display: inline;"><%= response.email %></span>
+                        </li>
+                        <li class="govuk-hint">
+                          <%= response.neighbour.address %>
+                        </li>
+                        <li class="govuk-hint">
+                          Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+                        </li>
+                      </ul>
+                      <div data-controller="show-more-text">
+                        <span class="truncated-comment">
+                          <%= simple_format(response.truncated_comment) %>
+                        </span>
+
+                        <% if response_been_truncated?(response) %>
+                          <span class="govuk-!-display-none hidden-comment">
+                            <%= simple_format(response.comment[truncated_length(response)..-1]) %>
+                          </span>
+                          <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= form.govuk_text_area(
+      :untagged,
+      label: { text: "Summary of untagged comments", size: "m" },
+      rows: 10,
+      value: (@assessment_detail.entry[/(?<=untagged:)(.*)/] unless @assessment_detail.entry.nil?)
+    ) %>
+
+    <%= form.hidden_field :category, value: category %>
+  <% end %>
+
+  <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+<% end %>

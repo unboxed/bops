@@ -43,6 +43,7 @@ class AssessmentDetail < ApplicationRecord
 
   validates :assessment_status, presence: true
   validates :entry, presence: true, if: :validate_entry_presence?
+  validate :tagged_entry, if: :publicity_summary?
 
   validates(
     :additional_information,
@@ -86,5 +87,15 @@ class AssessmentDetail < ApplicationRecord
 
   def set_user
     self.user = user || Current.user
+  end
+
+  def tagged_entry
+    return unless assessment_status == "complete"
+
+    tag_array = NeighbourResponse::TAGS.dup
+
+    entries = tag_array.push(:untagged).map { |tag| entry[/(?<=#{tag.to_s.humanize}:)\s\n/] }
+
+    errors.add(:entry, "Fill in all summaries of comments") if entries.any?
   end
 end
