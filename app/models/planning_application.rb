@@ -428,8 +428,9 @@ class PlanningApplication < ApplicationRecord
   def ownership_certificate_awaiting_validation?
     certificate_present = valid_ownership_certificate?
     has_requests = ownership_certificate_validation_requests.any?
+    not_yet_validated = ownership_certificate_validation_requests&.last&.not_yet_validated?
 
-    certificate_present && has_requests && ownership_certificate_validation_requests.last.approved.nil?
+    certificate_present && has_requests && not_yet_validated
   end
 
   def withdraw_last_recommendation!
