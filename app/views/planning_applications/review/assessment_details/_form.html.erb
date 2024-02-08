@@ -19,7 +19,7 @@
         )
       ) %>
       <% if assessment_detail == "site_description" %>
-        <p><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %></p>
+        <p class="govuk-body govuk-!-margin-top-2"><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %></p>
       <% end %>
       <% if assessment_detail == "consultation_summary" && @consultation&.consultees&.any? %>
         <%= render(
@@ -30,10 +30,10 @@
       <% end %>
       <% if assessment_detail == "amenity" || assessment_detail == "publicity_summary" %>
         <% if consultation = @planning_application.consultation %>
-          <p>View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
-          <p><%= link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application) %></p>
+          <p class="govuk-body govuk-!-margin-top-2">View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
+          <p class="govuk-body govuk-!-margin-top-2"><%= link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application), class: "govuk-link" %></p>
         <% else %>
-          <p>There is no existing consultation for this planning application.</p>
+          <p class="govuk-body govuk-!-margin-top-2">There is no existing consultation for this planning application.</p>
         <% end %>
       <% end %>
       <% if assessment_detail == "past_applications" %>
