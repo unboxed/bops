@@ -250,6 +250,42 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Consent to display an advertisement
+            type: string
+          value:
+            const: advertConsent
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Consent to move and dispose of hazardous substances
+            type: string
+          value:
+            const: hazardousSubstanceConsent
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Notice to remove a hedge
+            type: string
+          value:
+            const: hedgerowRemovalNotice
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Lawful Development Certificate
             type: string
           value:
@@ -303,6 +339,30 @@ components:
             type: string
           value:
             const: ldc.condition
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Consent to do works to a Listed Building
+            type: string
+          value:
+            const: listed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Consent to make small changes to a project with Planning Permission
+            type: string
+          value:
+            const: nonMaterialAmendment
             type: string
         required:
         - value
@@ -396,6 +456,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Prior Approval - Convert a light industrial building into a home
+            type: string
+          value:
+            const: pa.part3.classPA
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Prior Approval - Convert an agricultural building into a home
             type: string
           value:
@@ -461,6 +533,19 @@ components:
             type: string
           value:
             const: pa.part4.classE
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Alter or add new buildings to agricultural or
+              forestry sites
+            type: string
+          value:
+            const: pa.part6
             type: string
         required:
         - value
@@ -653,6 +738,32 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Permission in Principle - Consent for the principle of a project
+              with less than 1,000 square metres floor area on a site of less than
+              1 hectare
+            type: string
+          value:
+            const: pip
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Permission in Principle - Approval of technical details
+            type: string
+          value:
+            const: pip.technicalDetails
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Planning Permission
             type: string
           value:
@@ -665,10 +776,61 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Planning Permission for development, including all householder,
+              minor, and major applications
+            type: string
+          value:
+            const: pp.full
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Full Planning Permission and consent to display an advert
+            type: string
+          value:
+            const: pp.full.advertConsent
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Full Planning Permission including demolition in a Conservation
+              Area
+            type: string
+          value:
+            const: pp.full.demolition
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Planning Permission - Full householder
             type: string
           value:
             const: pp.full.householder
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission - Full householder with consent to do works
+              to a Listed Building
+            type: string
+          value:
+            const: pp.full.householder.listed
             type: string
         required:
         - value
@@ -705,6 +867,107 @@ components:
             type: string
           value:
             const: pp.full.minor
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission - Minor application and consent to do works
+              to a Listed Building
+            type: string
+          value:
+            const: pp.full.minor.listed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission - Consent to extract minerals and related development,
+              such as temporary buildings and roads
+            type: string
+          value:
+            const: pp.mineralExtraction
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission - Consent to extract oil and gas
+            type: string
+          value:
+            const: pp.onshoreExtractionOilAndGas
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning permission - Outline for proposed development
+            type: string
+          value:
+            const: pp.outline
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Consent for the principle of a project
+              witholding all details
+            type: string
+          value:
+            const: pp.outline.allReserved
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Approval of reserved matters
+            type: string
+          value:
+            const: pp.outline.reservedMatters
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Consent for the principle of a project
+              specifying some details
+            type: string
+          value:
+            const: pp.outline.someReserved
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Consent to carry out works to a tree in a Conservation Area or
+              with a Tree Preservation Order
+            type: string
+          value:
+            const: treeWorksConsent
             type: string
         required:
         - value
@@ -1966,6 +2229,8 @@ components:
           - "$ref": "#/components/definitions/OSAddress"
         boundary:
           additionalProperties: false
+          description: HM Land Registry Index polygon for this property, commonly
+            referred to as the blue line boundary, sourced from planning.data.gov.uk/dataset/title-boundary
           properties:
             area:
               "$ref": "#/components/definitions/Area"
@@ -2205,6 +2470,8 @@ components:
           type: string
         noticeGiven:
           type: boolean
+        noticeReason:
+          type: string
         owners:
           items:
             additionalProperties: false
@@ -2359,6 +2626,22 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Brownfield site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: brownfieldSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Designated land
               type: string
             intersects:
@@ -2398,6 +2681,22 @@ components:
               type: boolean
             value:
               const: designated.conservationArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Green Belt
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: designated.greenBelt
               type: string
           required:
           - description
@@ -2590,6 +2889,22 @@ components:
               type: boolean
             value:
               const: nature.ASNW
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Ramsar site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.ramsarSite
               type: string
           required:
           - description
@@ -2752,6 +3067,41 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Brownfield site
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      "$ref": "#/components/definitions/URL"
+                  required:
+                  - name
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: brownfieldSite
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Designated land
               type: string
             entities:
@@ -2847,6 +3197,41 @@ components:
               type: boolean
             value:
               const: designated.conservationArea
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Green Belt
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      "$ref": "#/components/definitions/URL"
+                  required:
+                  - name
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: designated.greenBelt
               type: string
           required:
           - description
@@ -3267,6 +3652,41 @@ components:
               type: boolean
             value:
               const: nature.ASNW
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Ramsar site
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      "$ref": "#/components/definitions/URL"
+                  required:
+                  - name
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.ramsarSite
               type: string
           required:
           - description
@@ -3677,6 +4097,30 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Change a fence, wall or gate
+            type: string
+          value:
+            const: alter.boundary.alter
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Remove a fence, wall, or gate
+            type: string
+          value:
+            const: alter.boundary.remove
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Repair a fence, wall or gate
             type: string
           value:
@@ -3833,10 +4277,34 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add a high verandah or deck
+            type: string
+          value:
+            const: alter.decksHigh
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Work on drains
             type: string
           value:
             const: alter.drains
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Install equipment
+            type: string
+          value:
+            const: alter.equipment
             type: string
         required:
         - value
@@ -4073,6 +4541,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Install internet equipment
+            type: string
+          value:
+            const: alter.equipment.wifi
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Install a wind turbine
             type: string
           value:
@@ -4089,6 +4569,18 @@ components:
             type: string
           value:
             const: alter.facades
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the insulation of the facade
+            type: string
+          value:
+            const: alter.facades.insulation
             type: string
         required:
         - value
@@ -4126,6 +4618,18 @@ components:
             type: string
           value:
             const: alter.facades.reclad
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Repair the facade
+            type: string
+          value:
+            const: alter.facades.repair
             type: string
         required:
         - value
@@ -4173,6 +4677,18 @@ components:
             const: Changes to a dropped kerb
             type: string
           value:
+            const: alter.highways.dropKerb
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Changes to a dropped kerb
+            type: string
+          value:
             const: alter.highways.droppedKerb
             type: string
         required:
@@ -4198,6 +4714,54 @@ components:
             type: string
           value:
             const: alter.highways.droppedKerb.remove
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Changes to a road
+            type: string
+          value:
+            const: alter.highways.road
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add a road
+            type: string
+          value:
+            const: alter.highways.road.add
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Remove a road
+            type: string
+          value:
+            const: alter.highways.road.remove
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Changes to internal walls or layout
+            type: string
+          value:
+            const: alter.internal
             type: string
         required:
         - value
@@ -4326,10 +4890,22 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add one or more new windows
+            type: string
+          value:
+            const: alter.openings.add.windows
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add new windows to the front of the building
             type: string
           value:
-            const: alter.openings.add.window.front
+            const: alter.openings.add.windows.front
             type: string
         required:
         - value
@@ -4341,7 +4917,7 @@ components:
             const: Add new windows 1.7m up or higher
             type: string
           value:
-            const: alter.openings.add.window.high
+            const: alter.openings.add.windows.high
             type: string
         required:
         - value
@@ -4353,7 +4929,7 @@ components:
             const: Add new windows to the rear of the building
             type: string
           value:
-            const: alter.openings.add.window.rear
+            const: alter.openings.add.windows.rear
             type: string
         required:
         - value
@@ -4365,7 +4941,7 @@ components:
             const: Add new shutters to windows
             type: string
           value:
-            const: alter.openings.add.window.shutters
+            const: alter.openings.add.windows.shutters
             type: string
         required:
         - value
@@ -4377,7 +4953,7 @@ components:
             const: Add new windows to the side of the building
             type: string
           value:
-            const: alter.openings.add.window.side
+            const: alter.openings.add.windows.side
             type: string
         required:
         - value
@@ -4446,6 +5022,42 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Enlarge a window opening on the front of a building
+            type: string
+          value:
+            const: alter.openings.alter.enlarge.window.front
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Enlarge a window opening on the rear of a building
+            type: string
+          value:
+            const: alter.openings.alter.enlarge.window.rear
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Enlarge a window opening on the side of a building
+            type: string
+          value:
+            const: alter.openings.alter.enlarge.window.side
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Reduce the size of a door opening
             type: string
           value:
@@ -4470,10 +5082,70 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Reduce the size of a window opening on the front of a building
+            type: string
+          value:
+            const: alter.openings.alter.reduce.window.front
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Reduce the size of a window opening on the rear of a building
+            type: string
+          value:
+            const: alter.openings.alter.reduce.window.rear
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Reduce the size of a window opening on the side of a building
+            type: string
+          value:
+            const: alter.openings.alter.reduce.window.side
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Block up doorways or windows
             type: string
           value:
             const: alter.openings.remove
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Block up doorways
+            type: string
+          value:
+            const: alter.openings.remove.door
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Block up windows
+            type: string
+          value:
+            const: alter.openings.remove.window
             type: string
         required:
         - value
@@ -4522,6 +5194,18 @@ components:
             type: string
           value:
             const: alter.remove.deck
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Remove a drain
+            type: string
+          value:
+            const: alter.remove.drain
             type: string
         required:
         - value
@@ -4638,10 +5322,82 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Replace door with door on the front of a building
+            type: string
+          value:
+            const: alter.replace.doorsToDoors.front
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace door with door on the rear of a building
+            type: string
+          value:
+            const: alter.replace.doorsToDoors.rear
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace door with door on the side of a building
+            type: string
+          value:
+            const: alter.replace.doorsToDoors.side
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Replace door with window
             type: string
           value:
             const: alter.replace.doorsToWindows
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace door with window on the front of a building
+            type: string
+          value:
+            const: alter.replace.doorsToWindows.front
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace door with winoow on the rear of a building
+            type: string
+          value:
+            const: alter.replace.doorsToWindows.rear
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace door with window on the side of a building
+            type: string
+          value:
+            const: alter.replace.doorsToWindows.side
             type: string
         required:
         - value
@@ -4662,10 +5418,82 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Replace window with door on the front of a building
+            type: string
+          value:
+            const: alter.replace.windowsToDoors.front
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace window with door on the rear of a building
+            type: string
+          value:
+            const: alter.replace.windowsToDoors.rear
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace window with door on the side of a building
+            type: string
+          value:
+            const: alter.replace.windowsToDoors.side
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Replace window with window
             type: string
           value:
             const: alter.replace.windowsToWindows
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace window with window on the front ofa building
+            type: string
+          value:
+            const: alter.replace.windowsToWindows.front
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace window with window on the rear of a building
+            type: string
+          value:
+            const: alter.replace.windowsToWindows.rear
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace window with window on the side of a building
+            type: string
+          value:
+            const: alter.replace.windowsToWindows.side
             type: string
         required:
         - value
@@ -4818,6 +5646,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add a low surface
+            type: string
+          value:
+            const: alter.surfaceLow
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add a decked area or patio
             type: string
           value:
@@ -4830,10 +5670,106 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add a decked area
+            type: string
+          value:
+            const: alter.surfaces.deck
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add a driveway or parking area
             type: string
           value:
             const: alter.surfaces.parking
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Extend a driveway or parking area
+            type: string
+          value:
+            const: alter.surfaces.parking.extend
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add a new driveway or parking area
+            type: string
+          value:
+            const: alter.surfaces.parking.new
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace a driveway or parking area
+            type: string
+          value:
+            const: alter.surfaces.parking.replace
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add a patio
+            type: string
+          value:
+            const: alter.surfaces.patio
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Extend a patio
+            type: string
+          value:
+            const: alter.surfaces.patio.extend
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add a new patio
+            type: string
+          value:
+            const: alter.surfaces.patio.new
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Replace a patio
+            type: string
+          value:
+            const: alter.surfaces.patio.replace
             type: string
         required:
         - value
@@ -4890,6 +5826,114 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Changes to hedges
+            type: string
+          value:
+            const: alter.trees.hedge
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Let hedges grow
+            type: string
+          value:
+            const: alter.trees.hedge.letGrow
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: New hedges
+            type: string
+          value:
+            const: alter.trees.hedge.new
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prune hedges
+            type: string
+          value:
+            const: alter.trees.hedge.prune
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Remove hedges
+            type: string
+          value:
+            const: alter.trees.hedge.remove
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Changes to trees
+            type: string
+          value:
+            const: alter.trees.tree
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: New trees
+            type: string
+          value:
+            const: alter.trees.tree.new
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prune trees
+            type: string
+          value:
+            const: alter.trees.tree.prune
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Remove trees
+            type: string
+          value:
+            const: alter.trees.tree.remove
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Change the use of a building
             type: string
           value:
@@ -4918,6 +5962,18 @@ components:
             type: string
           value:
             const: changeOfUse.caravans
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Convert an extension
+            type: string
+          value:
+            const: changeOfUse.extension
             type: string
         required:
         - value
@@ -4987,10 +6043,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Convert a home to bedsits or a shared home
+            const: Change the use of a property
             type: string
           value:
-            const: changeOfUse.whole.homeToHMO
+            const: changeOfUse.whole
             type: string
         required:
         - value
@@ -4999,10 +6055,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Change the use of a property
+            const: Convert a home to bedsits or a shared home
             type: string
           value:
-            const: changeOfUse.whole
+            const: changeOfUse.whole.homeToHMO
             type: string
         required:
         - value
@@ -5062,6 +6118,18 @@ components:
             const: Demolish an outbuilding (such as a garage or barn)
             type: string
           value:
+            const: demolish.outbuilding
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Demolish an outbuilding (such as a garage or barn)
+            type: string
+          value:
             const: demolish.outbuildings
             type: string
         required:
@@ -5075,6 +6143,18 @@ components:
             type: string
           value:
             const: demolish.part
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Demolish part of a conservatory
+            type: string
+          value:
+            const: demolish.part.conservatory
             type: string
         required:
         - value
@@ -5099,6 +6179,18 @@ components:
             type: string
           value:
             const: extend
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Enlarge a balcony
+            type: string
+          value:
+            const: extend.balcony
             type: string
         required:
         - value
@@ -5143,10 +6235,262 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add a new basement extension
+            type: string
+          value:
+            const: extend.basement.new
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add a front extension
             type: string
           value:
             const: extend.front
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding (such as a shed, garage or garden office)
+            type: string
+          value:
+            const: extend.outbuilding
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - animal enclosure, aviary or beehive
+            type: string
+          value:
+            const: extend.outbuilding.animals
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - residential (or "granny") annexe
+            type: string
+          value:
+            const: extend.outbuilding.annexe
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - bedroom or guest room
+            type: string
+          value:
+            const: extend.outbuilding.bedroom
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - games room
+            type: string
+          value:
+            const: extend.outbuilding.games
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - garage
+            type: string
+          value:
+            const: extend.outbuilding.garage
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - greenhouse
+            type: string
+          value:
+            const: extend.outbuilding.greenhouse
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - gym
+            type: string
+          value:
+            const: extend.outbuilding.gym
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - office
+            type: string
+          value:
+            const: extend.outbuilding.office
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - something else
+            type: string
+          value:
+            const: extend.outbuilding.other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - play house
+            type: string
+          value:
+            const: extend.outbuilding.play
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - sauna
+            type: string
+          value:
+            const: extend.outbuilding.sauna
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - shed
+            type: string
+          value:
+            const: extend.outbuilding.shed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - car parking or smoking shelter
+            type: string
+          value:
+            const: extend.outbuilding.shelter
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - storage
+            type: string
+          value:
+            const: extend.outbuilding.store
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - studio
+            type: string
+          value:
+            const: extend.outbuilding.studio
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - summer house
+            type: string
+          value:
+            const: extend.outbuilding.summerHouse
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - swimming pool
+            type: string
+          value:
+            const: extend.outbuilding.swimmingPool
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - tank
+            type: string
+          value:
+            const: extend.outbuilding.tank
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - workshop
+            type: string
+          value:
+            const: extend.outbuilding.workshop
             type: string
         required:
         - value
@@ -5267,6 +6611,18 @@ components:
             type: string
           value:
             const: extend.outbuildings.other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add an outbuilding - play house
+            type: string
+          value:
+            const: extend.outbuildings.play
             type: string
         required:
         - value
@@ -5479,6 +6835,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Join two roofs
+            type: string
+          value:
+            const: extend.roof.connect
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add a roof dormer
             type: string
           value:
@@ -5551,7 +6919,19 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Hip-to-gable roof enlargement
+            const: Convert a hip roof to a gable
+            type: string
+          value:
+            const: extend.roof.hiptogable
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Convert a hip roof to a gable
             type: string
           value:
             const: extend.roof.hipToGable
@@ -5563,10 +6943,58 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Convert to a mansard roof
+            type: string
+          value:
+            const: extend.roof.mansard
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add one or more new storeys
             type: string
           value:
-            const: exend.roof.newStorey
+            const: extend.roof.newstorey
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add one or more new storeys
+            type: string
+          value:
+            const: extend.roof.newStorey
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Convert to a sloping roof
+            type: string
+          value:
+            const: extend.roof.slope
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add a side extension
+            type: string
+          value:
+            const: extend.side
             type: string
         required:
         - value
@@ -5695,7 +7123,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Add another type of building
+            const: Add a new separate building or self-contained units
             type: string
           value:
             const: new
@@ -5707,7 +7135,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Agricultural buildings
+            const: New agricultural buildings
             type: string
           value:
             const: new.agriculture
@@ -5719,7 +7147,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Agricultural buildings - glass house
+            const: New agricultural buildings - glass house
             type: string
           value:
             const: new.agriculture.glassHouse
@@ -5731,7 +7159,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Agricultural buildings - mining
+            const: New agricultural buildings - mining
             type: string
           value:
             const: new.agriculture.mining
@@ -5743,7 +7171,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Agricultural buildings - pigs
+            const: New agricultural buildings - pigs
             type: string
           value:
             const: new.agriculture.pigs
@@ -5755,7 +7183,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Agricultural buildings - poultry
+            const: New agricultural buildings - poultry
             type: string
           value:
             const: new agriculture.poultry
@@ -5827,7 +7255,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Industrial premises
+            const: New industrial premises
             type: string
           value:
             const: new.industrial
@@ -5839,7 +7267,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Leisure premises
+            const: New leisure premises
             type: string
           value:
             const: new.leisure
@@ -5851,10 +7279,22 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Offices
+            const: New offices
             type: string
           value:
             const: new.office
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add another type of building - something else
+            type: string
+          value:
+            const: new.other
             type: string
         required:
         - value
@@ -5875,7 +7315,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Retail premises
+            const: New retail premises
             type: string
           value:
             const: new.retail
@@ -5912,10 +7352,46 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Storage or distribution premises
+            const: New storage or distribution premises
             type: string
           value:
             const: new.warehouse
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Negate a project type
+            type: string
+          value:
+            const: not
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Do not add or change windows or doors
+            type: string
+          value:
+            const: not.alter.replace
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Do not add or change a rooflight
+            type: string
+          value:
+            const: not.alter.rooflight
             type: string
         required:
         - value
@@ -11548,6 +13024,8 @@ components:
       properties:
         boundary:
           additionalProperties: false
+          description: Location plan boundary proposed by the user, commonly referred
+            to as the red line boundary
           properties:
             area:
               "$ref": "#/components/definitions/Area"
@@ -12110,6 +13588,8 @@ components:
           - "$ref": "#/components/definitions/OSAddress"
         boundary:
           additionalProperties: false
+          description: HM Land Registry Index polygon for this property, commonly
+            referred to as the blue line boundary, sourced from planning.data.gov.uk/dataset/title-boundary
           properties:
             area:
               "$ref": "#/components/definitions/Area"
@@ -12728,7 +14208,7 @@ paths:
       - bearerAuth: []
       responses:
         '200':
-          description: with valid credentials
+          description: with valid swagger credentials
           content:
             application/json:
               examples:
@@ -12739,7 +14219,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/Healthcheck"
         '401':
-          description: with missing or invalid credentials
+          description: with a token from another api user
           content:
             application/json:
               examples:
@@ -12790,7 +14270,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/BadRequestError"
         '401':
-          description: with missing or invalid credentials
+          description: with a token from another api user
           content:
             application/json:
               examples:
