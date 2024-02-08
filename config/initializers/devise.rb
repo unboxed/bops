@@ -40,4 +40,32 @@ Devise.setup do |config|
   config.sign_out_via = :delete
 
   config.otp_allowed_drift = 300
+
+  # ==> Warden configuration
+  # Reset the token after logging in so that other sessions are logged out
+  Warden::Manager.after_set_user except: :fetch do |user, warden, options|
+    if warden.authenticated?(:user)
+      session = warden.session(:user)
+      session["persistence_token"] = user.reset_persistence_token!
+    end
+  end
+
+  # Logout the user if the token doesn't match what's in the session
+  Warden::Manager.after_set_user only: :fetch do |user, warden, options|
+    if warden.authenticated?(:user) && options[:store] != false
+      session = warden.session(:user)
+
+      unless user.valid_persistence_token?(session["persistence_token"])
+        warden.raw_session.clear
+        warden.logout(:user)
+
+        throw :warden, scope: :user, message: :other_login
+      end
+    end
+  end
+
+  # Reset the token after logging out
+  Warden::Manager.before_logout do |user, warden, options|
+    user&.reset_persistence_token!
+  end
 end
