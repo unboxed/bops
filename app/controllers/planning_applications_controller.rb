@@ -201,31 +201,6 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def validation_documents
-    @documents = @planning_application.documents.active
-    @additional_document_validation_requests = @planning_application
-      .additional_document_validation_requests
-      .pre_validation
-      .open_or_pending
-
-    respond_to do |format|
-      format.html
-    end
-  end
-
-  def validate_documents
-    respond_to do |format|
-      if @planning_application.update(validate_documents_params)
-        format.html do
-          redirect_to planning_application_validation_tasks_path(@planning_application),
-            notice: validate_documents_notice(@planning_application)
-        end
-      else
-        format.html { render :validation_documents }
-      end
-    end
-  end
-
   def clone
     planning_application = create_cloned_application
 
@@ -290,10 +265,6 @@ class PlanningApplicationsController < AuthenticationController
     params.require(:planning_application).permit(:determination_date)
   end
 
-  def validate_documents_params
-    params.require(:planning_application).permit(:documents_missing)
-  end
-
   def validation_date_fields
     [params[:planning_application]["validated_at(3i)"],
       params[:planning_application]["validated_at(2i)"],
@@ -336,14 +307,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def after_update_url
     params.dig(:planning_application, :return_to) || @planning_application
-  end
-
-  def validate_documents_notice(planning_application)
-    if planning_application.documents_missing?
-      "Documents required are marked as invalid"
-    else
-      "Documents required are marked as valid"
-    end
   end
 
   def ensure_no_open_post_validation_requests

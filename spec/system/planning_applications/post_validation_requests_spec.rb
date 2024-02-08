@@ -114,7 +114,7 @@ RSpec.describe "post validation requests" do
       end
 
       it "does not show request on validation documents page" do
-        visit "/planning_applications/#{planning_application.id}/validation_documents"
+        visit "/planning_applications/#{planning_application.id}/validation/documents/edit"
         expect(page).not_to have_content("Document requested: Floor plan")
       end
     end
