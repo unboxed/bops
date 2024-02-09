@@ -221,6 +221,10 @@ RSpec.describe "Send letters to neighbours", js: true do
     click_link "Consultees, neighbours and publicity"
     click_link "Send letters to neighbours"
 
+    # TODO the page does not get automatically updated with the result of the job, so here it needs to be refreshed
+    perform_enqueued_jobs
+    visit current_path
+
     expect(page).to have_content(neighbour.address)
     expect(page).to have_content("Posted")
   end
