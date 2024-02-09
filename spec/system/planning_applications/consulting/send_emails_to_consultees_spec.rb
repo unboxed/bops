@@ -166,6 +166,10 @@ RSpec.describe "Consultation", js: true do
 
     click_button "Reset message to default content"
 
+    within "#response-period" do
+      fill_in "consultation[consultee_response_period]", with: 10
+    end
+
     expect do
       accept_confirm(text: "Send emails to consultees?") do
         click_button "Send emails to consultees"
@@ -312,7 +316,7 @@ RSpec.describe "Consultation", js: true do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Chris Wood")
         expect(page).to have_selector("td:nth-child(2)", text: "Tree Officer, PlanX Council")
-        expect(page).to have_selector("td:nth-child(3)", text: "#{period} days")
+        expect(page).to have_selector("td:nth-child(3)", text: "10 days")
         expect(page).to have_selector("td:nth-child(4)", text: current_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end
@@ -327,6 +331,10 @@ RSpec.describe "Consultation", js: true do
     toggle "View/edit email template"
 
     fill_in "Message subject", with: "Resend: Consultation for planning application {{reference}}"
+
+    within "#response-period" do
+      fill_in "consultation[consultee_response_period]", with: 15
+    end
 
     expect do
       accept_confirm(text: "Send emails to consultees?") do
@@ -417,7 +425,7 @@ RSpec.describe "Consultation", js: true do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
         expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
-        expect(page).to have_selector("td:nth-child(3)", text: "#{period} days")
+        expect(page).to have_selector("td:nth-child(3)", text: "15 days")
         expect(page).to have_selector("td:nth-child(4)", text: current_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end

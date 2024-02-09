@@ -70,6 +70,10 @@ RSpec.describe "Consultation", js: true do
     Time.current
   end
 
+  let(:consultee_response_date) do
+    (today + 5.days).to_fs
+  end
+
   let(:consultee) do
     Consultee.find_by!(email_address: "planning@london.gov.uk")
   end
@@ -190,11 +194,11 @@ RSpec.describe "Consultation", js: true do
     expect(page).to have_selector("[role=alert] li", text: "The additional message contains an invalid placeholder '{{close_date}}'")
 
     within "#resend-consultees" do
-      fill_in "Additional message to include in the email", with: "Please respond to the message below by {{closing_date}}"
+      fill_in "Additional message to include in the email", with: "Please respond to the message below by #{consultee_response_date}"
     end
 
     within "#response-period" do
-      fill_in "consultation[consultee_response_period]", with: 7
+      fill_in "consultation[consultee_response_period]", with: 5
     end
 
     expect do
@@ -224,7 +228,7 @@ RSpec.describe "Consultation", js: true do
             email_address: "planning@london.gov.uk",
             email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
-              "body" => a_string_starting_with("Please respond to the message below by #{existing_date}")
+              "body" => a_string_starting_with("Please respond to the message below by #{consultee_response_date}")
             )
           }
         ))
@@ -250,7 +254,7 @@ RSpec.describe "Consultation", js: true do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
         expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
-        expect(page).to have_selector("td:nth-child(3)", text: "7 days")
+        expect(page).to have_selector("td:nth-child(3)", text: "5 days")
         expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Sending")
       end
@@ -275,6 +279,10 @@ RSpec.describe "Consultation", js: true do
     expect(consultee.email_delivered_at).to be_within(1.second).of(email_delivered_at)
     expect(consultee.last_email_sent_at).to be_within(1.minute).of(now)
     expect(consultee.last_email_delivered_at).to be_within(1.minute).of(now)
+    expect(consultee.expires_at.to_date).to eq(today + 5.days)
+
+    expect(consultee.emails.last.body).to include("Please respond to the message below by #{consultee_response_date}")
+    expect(consultee.emails.last.body).to include("Please submit your comments by #{consultee_response_date} by replying to this email.")
 
     click_link "Back"
     expect(page).to have_selector("h1", text: "Consultation")
@@ -298,7 +306,7 @@ RSpec.describe "Consultation", js: true do
         expect(page).to have_unchecked_field("Select consultee")
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
         expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
-        expect(page).to have_selector("td:nth-child(3)", text: "7 days")
+        expect(page).to have_selector("td:nth-child(3)", text: "5 days")
         expect(page).to have_selector("td:nth-child(4)", text: start_date)
         expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end

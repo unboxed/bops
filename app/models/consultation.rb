@@ -368,7 +368,7 @@ class Consultation < ApplicationRecord
       description: planning_application.description,
       address: planning_application.address,
       link: application_link,
-      closing_date: end_date.to_fs
+      closing_date: consultee_response_required_by.to_fs
     }
 
     subject = consultee_message_subject
@@ -392,12 +392,10 @@ class Consultation < ApplicationRecord
         body: replace_placeholders(body, variables)
       )
 
-      expires_at = [end_date, consultee_response_required_by].max
-
       consultee.update!(
         selected: false,
         status: "sending",
-        expires_at: expires_at.end_of_day,
+        expires_at: consultee_response_required_by.end_of_day,
         last_email_sent_at: nil,
         last_email_delivered_at: nil
       )
