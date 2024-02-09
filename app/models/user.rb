@@ -81,6 +81,18 @@ class User < ApplicationRecord
     6.hours
   end
 
+  def reset_persistence_token
+    self.persistence_token = SecureRandom.hex(64)
+  end
+
+  def reset_persistence_token!
+    SecureRandom.hex(64).tap { |token| update_column(:persistence_token, token) }
+  end
+
+  def valid_persistence_token?(token)
+    persistence_token == token
+  end
+
   private
 
   def generate_otp_secret
