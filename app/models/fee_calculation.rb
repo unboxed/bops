@@ -17,6 +17,11 @@ class FeeCalculation < ApplicationRecord
         exemptions: odp_data[:exemption]&.select { |k, v| v }&.keys,
         reductions: odp_data[:reduction]&.select { |k, v| v }&.keys
       )
+    # FIXME
+    rescue ActionView::Template::Error
+      Appsignal.send_error(error) do |transaction|
+        transaction.params = {params: odp_data}
+      end
     end
 
     def from_planx_data(planx_data)
