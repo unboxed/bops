@@ -18,7 +18,7 @@ ENV LANG=en_US.UTF-8
 RUN locale-gen
 
 # Install NodeJS
-ARG NODE_VERSION=18.16.1
+ARG NODE_VERSION=20.11.0
 ARG YARN_VERSION=1.22.19
 ENV PATH=/usr/local/node/bin:$PATH
 RUN bash -c "curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \

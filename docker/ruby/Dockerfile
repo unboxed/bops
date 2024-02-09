@@ -22,7 +22,7 @@ RUN bash -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg ma
     apt-get install -y --no-install-recommends postgresql-client-14"
 
 # Install NodeJS
-ARG NODE_VERSION=18.16.1
+ARG NODE_VERSION=20.11.0
 ARG YARN_VERSION=1.22.19
 ARG SWAGGER_CLI_VERSION=4.0.4
 ENV PATH=/usr/local/node/bin:$PATH
