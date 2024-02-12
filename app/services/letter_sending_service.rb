@@ -32,7 +32,7 @@ class LetterSendingService
 
     begin
       response = client.send_letter(
-        template_id: @local_authority.notify_letter_template,
+        template_id: @local_authority.letter_template_id,
         personalisation:
       )
     rescue Notifications::Client::RequestError => e
