@@ -1,6 +1,6 @@
 <% if @consultation&.consultees&.present? %>
   <h3 class="govuk-heading-s">Consultation responses</h3>
-  <div class="govuk-accordion" data-module="govuk-accordion" data-remember-expanded="false" id="consultation-responses">
+  <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="consultation-responses">
     <% @consultation.consultees.each do |consultee| %>
       <div class="govuk-accordion__section">
         <div class="govuk-accordion__section-header">

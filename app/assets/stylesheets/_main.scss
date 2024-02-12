@@ -4,6 +4,7 @@ $govuk-page-width: 1100px;
 
 @import "govuk-frontend/dist/govuk/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
+@import "components/accordion";
 @import "components/buttons";
 @import "components/flashes";
 @import "components/loading_spinner";
