@@ -53,7 +53,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       let(:planning_application_constraints) { planning_application.planning_application_constraints }
 
       context "when application type is LDCE" do
-        let(:params) { json_fixture("v2/valid_lawful_development_certificate_existing.json").with_indifferent_access }
+        let(:params) { json_fixture("v2/valid_ldce_with_council_tax_document.json").with_indifferent_access }
 
         before do
           stub_planning_data_entity_request("1000005")
@@ -135,6 +135,11 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
               name: "Test document.pdf",
               tags: ["Construction Invoice"],
               applicant_description: "Nothing, it's a test document. "
+            ),
+            an_object_having_attributes(
+              name: "Test document.pdf",
+              tags: ["Council Tax Document"],
+              applicant_description: "Council tax bill"
             )
           )
         end
@@ -396,7 +401,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       end
 
       context "when application may be immune" do
-        let(:params) { json_fixture("v2/valid_lawful_development_certificate_existing.json").with_indifferent_access }
+        let(:params) { json_fixture("v2/valid_ldce_with_council_tax_document.json").with_indifferent_access }
         let(:service) { described_class.new(local_authority:, user:, params:) }
 
         before do
