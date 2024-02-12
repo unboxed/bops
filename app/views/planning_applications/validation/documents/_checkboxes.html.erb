@@ -1,0 +1,20 @@
+<div class="govuk-form-group" id="renotification-form" >
+  <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+    <div class="govuk-checkboxes__item">
+      <div class="govuk-checkboxes__item">
+        <%= check_box_tag(
+          "document__ids[]",
+          document.id,
+          document.id,
+          class: "govuk-checkboxes__input",
+          id: "document_id_#{document.id}",
+          ) %>
+        <%= label_tag(
+          "document_id_#{document.id}",
+          "",
+          class: "govuk-label govuk-checkboxes__label",
+        ) %>
+      </div>
+    </div>
+  </div>
+</div>

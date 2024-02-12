@@ -1,0 +1,72 @@
+<table class="govuk-table missing-documents-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        Selected
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Document type
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Document name
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Status
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @planning_application.documents.active.with_file_attachment.each do |document| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= render "checkboxes", document: document %>
+        </td>
+        <td class="govuk-table__cell">
+          <p class="govuk-body">
+            <% document.tags.each do |tag| %>
+              <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+            <% end %>
+          </p>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to "#{truncate(document.name.to_s, length: 50)}", edit_planning_application_document_path(@planning_application, document), class: "govuk-link" %>
+        </td>
+        <td class="govuk-table__cell">
+          <p class="govuk-body">
+            <%= render(
+              StatusTags::DocumentComponent.new(
+                planning_application: @planning_application,
+                document:
+              )
+            ) %>
+          </p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="govuk-!-display-inline-block" data-controller="neighbours">
+  <%= form.govuk_collection_select(
+    :action,
+    ["Archive", "Request replacement"],
+    :itself,
+    :itself,
+    label: { text: "Select document and choose an action"},
+    data: {
+      action: "change->neighbours#toggleTemplates"
+    })
+  %>
+  <%= form.button(
+    "Confirm",
+    type: "button",
+    class: "govuk-button govuk-button--secondary",
+    data: {
+      consultees_target: "addConsultee",
+      action: %w[
+        click->consultees#addConsulteeClick
+      ].join(" ")
+    })
+  %>
+</div>
