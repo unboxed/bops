@@ -3,8 +3,6 @@
 require "notifications/client"
 
 class LetterSendingService
-  DEFAULT_NOTIFY_TEMPLATE_ID = "7a7c541e-be0a-490b-8165-8e44dc9d13ad"
-
   attr_reader :neighbour, :consultation, :letter_content, :resend_reason
 
   def initialize(neighbour, letter_content, resend_reason: nil)
@@ -34,7 +32,7 @@ class LetterSendingService
 
     begin
       response = client.send_letter(
-        template_id: notify_template_id,
+        template_id: @local_authority.notify_letter_template,
         personalisation:
       )
     rescue Notifications::Client::RequestError => e
@@ -50,23 +48,7 @@ class LetterSendingService
   private
 
   def client
-    @client ||= Notifications::Client.new(notify_api_key)
-  end
-
-  def notify_api_key
-    if Bops.env.production?
-      @notify_api_key ||= @local_authority.notify_api_key || Rails.configuration.default_notify_api_key
-    else
-      @notify_api_key = Rails.configuration.notify_letter_api_key
-    end
-  end
-
-  def notify_template_id
-    if Bops.env.production?
-      @notify_template_id ||= @local_authority.notify_letter_template || DEFAULT_NOTIFY_TEMPLATE_ID
-    else
-      @notify_template_id = DEFAULT_NOTIFY_TEMPLATE_ID
-    end
+    @client ||= Notifications::Client.new(@local_authority.notify_api_key)
   end
 
   def update_letter!(letter_record, response)
