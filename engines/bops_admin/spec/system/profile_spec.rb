@@ -26,7 +26,6 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_content("BOPS lead email")
     expect(page).to have_content("Press notice email")
     expect(page).to have_content("Notify API key")
-    expect(page).to have_content("'Reply to' Notify ID")
     expect(page).to have_content("'Email to' Notify ID")
   end
 
@@ -42,7 +41,6 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_content("who will prepare press notices")
     expect(page).to have_content("ID number of the letter template you will use in Notify")
     expect(page).to have_content("API key used by the GOV.UK Notify service for sending emails")
-    expect(page).to have_content("Find this in your Notify account.")
   end
 
   it "allows the administrator to edit council's profile" do
@@ -60,7 +58,6 @@ RSpec.describe "Profile", type: :system do
     fill_in("BOPS lead email", with: "manager_email@buckinghamshire.gov.uk")
     fill_in("Press notice email", with: "press_notice_email@buckinghamshire.gov.uk")
     fill_in("Notify API key", with: "fake-fd74e59d-8939-4d28-bc1b-95b8a6c7d413")
-    fill_in("'Reply to' Notify ID", with: "ddff1650-ab33-496d-b731-ff8e65bc836f")
     fill_in("'Email to' Notify ID", with: "550e8400-e29b-41d4-a716-446655440000")
 
     click_button("Submit")

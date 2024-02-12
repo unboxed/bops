@@ -56,7 +56,7 @@ en:
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: "'Email to' Notify ID"
-        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account.
+        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account, by clicking Manage in the Reply-to email addresses under Email settings section in Settings.
         enquiries_paragraph: Contact address
         enquiries_paragraph_hint: This is the contact address that will appear on decision notices and other correspondence.
         feedback_email: Feedback email
@@ -69,8 +69,6 @@ en:
         notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
-        reply_to_notify_id: "'Reply to' Notify ID"
-        reply_to_notify_id_hint: Find this in your Notify account.
         reviewer_group_email: BOPS lead email
         reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
         signatory_job_title: Job title
@@ -82,7 +80,7 @@ en:
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: "'Email to' Notify ID"
-        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account.
+        email_reply_to_id_hint: This is the ID for the email address that applicants and consultees can reply to. It may be included in letters or emails sent out by your local authority through BOPS. Find this key in your Notify account, by clicking Manage in the Reply-to email addresses under Email settings section in Settings.
         enquiries_paragraph: Contact address
         enquiries_paragraph_hint: This is the contact address that will appear on decision notices and other correspondence.
         feedback_email: Feedback email
@@ -96,8 +94,6 @@ en:
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         profile: Profile
-        reply_to_notify_id: "'Reply to' Notify ID"
-        reply_to_notify_id_hint: Find this in your Notify account.
         reviewer_group_email: BOPS lead email
         reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
         signatory_job_title: Job title
