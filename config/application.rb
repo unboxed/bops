@@ -71,6 +71,7 @@ module Bops
     config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
 
     config.default_notify_api_key = ENV["NOTIFY_API_KEY"]
+    config.default_letter_template_id = ENV.fetch("DEFAULT_NOTIFY_TEMPLATE_ID", "7a7c541e-be0a-490b-8165-8e44dc9d13ad")
     config.notify_letter_api_key = ENV["NOTIFY_LETTER_API_KEY"]
     config.otp_secret_encryption_key = ENV["OTP_SECRET_ENCRYPTION_KEY"]
     config.paapi_url = ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1")

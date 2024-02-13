@@ -26,7 +26,7 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_content("BOPS lead email")
     expect(page).to have_content("Press notice email")
     expect(page).to have_content("Notify API key")
-    expect(page).to have_content("'Email to' Notify ID")
+    expect(page).to have_content("Reply-to email address ID")
   end
 
   it "shows the correct hint text for the council's profile" do
@@ -58,7 +58,7 @@ RSpec.describe "Profile", type: :system do
     fill_in("BOPS lead email", with: "manager_email@buckinghamshire.gov.uk")
     fill_in("Press notice email", with: "press_notice_email@buckinghamshire.gov.uk")
     fill_in("Notify API key", with: "fake-fd74e59d-8939-4d28-bc1b-95b8a6c7d413")
-    fill_in("'Email to' Notify ID", with: "550e8400-e29b-41d4-a716-446655440000")
+    fill_in("Reply-to email address ID", with: "550e8400-e29b-41d4-a716-446655440000")
 
     click_button("Submit")
     expect(page).to have_content("Council information successfully updated")

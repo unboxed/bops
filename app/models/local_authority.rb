@@ -43,6 +43,14 @@ class LocalAuthority < ApplicationRecord
     I18n.exists?("council_documents.#{subdomain}.document_checklist")
   end
 
+  def notify_api_key
+    super || set_notify_api_key
+  end
+
+  def letter_template_id
+    super || Rails.configuration.default_letter_template_id
+  end
+
   private
 
   def council_code_exists
@@ -68,6 +76,14 @@ class LocalAuthority < ApplicationRecord
     self.active = active_attributes?
   end
 
+  def set_notify_api_key
+    if Bops.env.production?
+      Rails.configuration.default_notify_api_key
+    else
+      Rails.configuration.notify_letter_api_key
+    end
+  end
+
   def active_attributes?
     attributes.select { |k, v| active_attributes.include?(k) }.values.all?(&:present?)
   end
@@ -81,7 +97,7 @@ class LocalAuthority < ApplicationRecord
       press_notice_email
       reviewer_group_email
       notify_api_key
-      notify_letter_template
+      letter_template_id
       email_reply_to_id]
   end
 end

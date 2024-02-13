@@ -38,7 +38,7 @@ module BopsAdmin
         :press_notice_email,
         :reviewer_group_email,
         :notify_api_key,
-        :notify_letter_template,
+        :letter_template_id,
         :email_reply_to_id
       )
     end

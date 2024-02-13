@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_12_134818) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_12_203749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -352,7 +352,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_12_134818) do
     t.string "reviewer_group_email"
     t.string "council_code", null: false
     t.string "notify_api_key"
-    t.string "notify_letter_template"
+    t.uuid "letter_template_id"
     t.string "press_notice_email"
     t.string "short_name", null: false
     t.string "council_name", null: false
