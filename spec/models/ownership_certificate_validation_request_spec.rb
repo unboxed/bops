@@ -45,4 +45,21 @@ RSpec.describe OwnershipCertificateValidationRequest do
       end
     end
   end
+
+  describe "#not_yet_validated?" do
+    let(:planning_application) { create(:planning_application, :not_started) }
+    let!(:ownership_certificate_validation_request) do
+      create(:ownership_certificate_validation_request, planning_application:, state: "open")
+    end
+
+    it "returns true when post_validation is false" do
+      expect(ownership_certificate_validation_request.not_yet_validated?).to eq(true)
+    end
+
+    it "returns false when post_validation is true" do
+      ownership_certificate_validation_request.update!(post_validation: true)
+
+      expect(ownership_certificate_validation_request.not_yet_validated?).to eq(false)
+    end
+  end
 end

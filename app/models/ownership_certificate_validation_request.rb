@@ -14,6 +14,10 @@ class OwnershipCertificateValidationRequest < ValidationRequest
     ).call
   end
 
+  def not_yet_validated?
+    post_validation == false
+  end
+
   private
 
   def audit_api_comment
