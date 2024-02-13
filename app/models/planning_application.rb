@@ -790,6 +790,15 @@ class PlanningApplication < ApplicationRecord
     updated_neighbour_boundary_geojson || consultation.polygon_search_and_boundary_geojson || boundary_geojson
   end
 
+  def boundary_geojson=(value)
+    if value.is_a?(String)
+      return if value.blank?
+      super(JSON.parse(value))
+    else
+      super(value)
+    end
+  end
+
   private
 
   def create_fee_calculation
