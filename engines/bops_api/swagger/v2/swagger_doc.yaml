@@ -1243,10 +1243,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Evidence for application fee exemption - disability
+            const: Affordable housing statement
             type: string
           value:
-            const: applicant.disability.evidence
+            const: affordableHousingStatement
             type: string
         required:
         - value
@@ -1255,190 +1255,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Elevations - existing
+            const: Arboriculturist report
             type: string
           value:
-            const: property.drawing.elevation
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Floor plan - existing
-            type: string
-          value:
-            const: property.drawing.floorPlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Roof plan - existing
-            type: string
-          value:
-            const: property.drawing.roofPlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Sections - existing
-            type: string
-          value:
-            const: property.drawing.section
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Site plan - existing
-            type: string
-          value:
-            const: property.drawing.sitePlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Use plan - existing
-            type: string
-          value:
-            const: property.drawing.usePlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Photographs
-            type: string
-          value:
-            const: property.photograph
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Elevations - proposed
-            type: string
-          value:
-            const: proposal.drawing.elevation
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Floor plan - proposed
-            type: string
-          value:
-            const: proposal.drawing.floorPlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Location plan
-            type: string
-          value:
-            const: proposal.drawing.locationPlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Other - drawing
-            type: string
-          value:
-            const: proposal.drawing.other
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Roof plan - proposed
-            type: string
-          value:
-            const: proposal.drawing.roofPlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Sections - proposed
-            type: string
-          value:
-            const: proposal.drawing.section
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Site plan - proposed
-            type: string
-          value:
-            const: proposal.drawing.sitePlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Unit plan - proposed
-            type: string
-          value:
-            const: proposal.drawing.unitPlan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Use plan - proposed
-            type: string
-          value:
-            const: proposal.drawing.usePlan
+            const: arboriculturistReport
             type: string
         required:
         - value
@@ -1450,7 +1270,55 @@ components:
             const: Bank statement
             type: string
           value:
-            const: proposal.document.bankStatement
+            const: bankStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Basement impact statement
+            type: string
+          value:
+            const: basementImpactStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Bio-aerosol assessment
+            type: string
+          value:
+            const: bioaerosolAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Birdstrike risk management plan
+            type: string
+          value:
+            const: birdstrikeRiskManagementPlan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Borehole or trial pit analysis
+            type: string
+          value:
+            const: boreholeOrTrialPitAnalysis
             type: string
         required:
         - value
@@ -1462,7 +1330,19 @@ components:
             const: Building control certificate
             type: string
           value:
-            const: proposal.document.buildingControl.certificate
+            const: buildingControlCertificate
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Structural or building condition survey
+            type: string
+          value:
+            const: conditionSurvey
             type: string
         required:
         - value
@@ -1474,7 +1354,7 @@ components:
             const: Construction invoice
             type: string
           value:
-            const: proposal.document.construction.invoice
+            const: constructionInvoice
             type: string
         required:
         - value
@@ -1486,7 +1366,7 @@ components:
             const: Contamination report
             type: string
           value:
-            const: proposal.document.contamination
+            const: contaminationReport
             type: string
         required:
         - value
@@ -1498,7 +1378,7 @@ components:
             const: Council tax bill
             type: string
           value:
-            const: proposal.document.councilTaxBill
+            const: councilTaxBill
             type: string
         required:
         - value
@@ -1507,10 +1387,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Statuatory declaration
+            const: Crime prevention strategy
             type: string
           value:
-            const: proposal.document.declaration
+            const: crimePreventionStrategy
             type: string
         required:
         - value
@@ -1522,7 +1402,92 @@ components:
             const: Design and Access Statement
             type: string
           value:
-            const: proposal.document.designAndAccess
+            const: designAndAccessStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Evidence for application fee exemption - disability
+            type: string
+          value:
+            const: disabilityExemptionEvidence
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Ecology report
+            type: string
+          value:
+            const: ecologyReport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Elevations - existing
+            type: string
+          value:
+            const: elevations.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Elevations - proposed
+            type: string
+          value:
+            const: elevations.proposed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Scheme for mitigation and monitoring of emissions (dust, odour
+              and vibrations)
+            type: string
+          value:
+            const: emissionsMitigationAndMonitoringScheme
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Energy statement
+            type: string
+          value:
+            const: energyStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Environmental Impact Assessment (EIA)
+            type: string
+          value:
+            const: environmentalImpactAssessment
             type: string
         required:
         - value
@@ -1534,7 +1499,7 @@ components:
             const: Fire safety report
             type: string
           value:
-            const: proposal.document.fireSafety
+            const: fireSafetyReport
             type: string
         required:
         - value
@@ -1543,10 +1508,58 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Flood risk assessment
+            const: Flood risk assessment (FRA)
             type: string
           value:
-            const: proposal.document.floodRisk
+            const: floodRiskAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Floor plan - existing
+            type: string
+          value:
+            const: floorPlan.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Floor plan - proposed
+            type: string
+          value:
+            const: floorPlan.proposed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Foul drainage assessment
+            type: string
+          value:
+            const: foulDrainageAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Geodiversity assessment
+            type: string
+          value:
+            const: geodiversityAssessment
             type: string
         required:
         - value
@@ -1558,7 +1571,175 @@ components:
             const: Heritage Statement
             type: string
           value:
-            const: proposal.document.heritageStatement
+            const: heritageStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Hydrological and hydrogeological assessment
+            type: string
+          value:
+            const: hydrologicalAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Hydrology report
+            type: string
+          value:
+            const: hydrologyReport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Internal elevations
+            type: string
+          value:
+            const: internalElevations
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Internal sections
+            type: string
+          value:
+            const: internalSections
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Joiner's report
+            type: string
+          value:
+            const: joinersReport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Joinery section report
+            type: string
+          value:
+            const: joinerySections
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Land contamination assessment
+            type: string
+          value:
+            const: landContaminationAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Landscape and visual impact assessment (LVIA)
+            type: string
+          value:
+            const: landscapeAndVisualImpactAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Landscape strategy or landscape plan
+            type: string
+          value:
+            const: landscapeStrategy
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Lighting assessment
+            type: string
+          value:
+            const: lightingAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Details of litter, vermin and bird control
+            type: string
+          value:
+            const: litterVerminAndBirdControlDetails
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Location plan
+            type: string
+          value:
+            const: locationPlan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Minerals and waste assessment
+            type: string
+          value:
+            const: mineralsAndWasteAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: New dwellings schedule
+            type: string
+          value:
+            const: newDwellingsSchedule
             type: string
         required:
         - value
@@ -1570,7 +1751,19 @@ components:
             const: Noise assessment
             type: string
           value:
-            const: proposal.document.noise
+            const: noiseAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Open space assessment
+            type: string
+          value:
+            const: openSpaceAssessment
             type: string
         required:
         - value
@@ -1582,7 +1775,7 @@ components:
             const: Other - document
             type: string
           value:
-            const: proposal.document.other
+            const: otherDocument
             type: string
         required:
         - value
@@ -1591,10 +1784,214 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Other - correspondence
+            const: Other - drawing
             type: string
           value:
-            const: proposal.document.other.evidence
+            const: otherDrawing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other - evidence or correspondence
+            type: string
+          value:
+            const: otherEvidence
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Parking plan
+            type: string
+          value:
+            const: parkingPlan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Photographs - existing
+            type: string
+          value:
+            const: photographs.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Photographs - proposed
+            type: string
+          value:
+            const: photographs.proposed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning statement
+            type: string
+          value:
+            const: planningStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Roof plan - existing
+            type: string
+          value:
+            const: roofPlan.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Roof plan - proposed
+            type: string
+          value:
+            const: roofPlan.proposed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Sections - existing
+            type: string
+          value:
+            const: sections.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Sections - proposed
+            type: string
+          value:
+            const: sections.proposed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Site plan - existing
+            type: string
+          value:
+            const: sitePlan.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Site plan - proposed
+            type: string
+          value:
+            const: sitePlan.proposed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Sketch plan
+            type: string
+          value:
+            const: sketchPlan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Statement of community involvement
+            type: string
+          value:
+            const: statementOfCommunityInvolvement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Statutory declaration
+            type: string
+          value:
+            const: statutoryDeclaration
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Details of storage treatment or disposal of waste
+            type: string
+          value:
+            const: storageTreatmentAndWasteDisposalDetails
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Street scene drawing
+            type: string
+          value:
+            const: streetScene
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Subsidence report
+            type: string
+          value:
+            const: subsidenceReport
             type: string
         required:
         - value
@@ -1606,7 +2003,31 @@ components:
             const: Sunlight and daylight report
             type: string
           value:
-            const: proposal.document.sunAndDaylight
+            const: sunlightAndDaylightReport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Sustainability statement
+            type: string
+          value:
+            const: sustainabilityStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Technical evidence
+            type: string
+          value:
+            const: technicalEvidence
             type: string
         required:
         - value
@@ -1618,7 +2039,7 @@ components:
             const: Tenancy agreement
             type: string
           value:
-            const: proposal.document.tenancyAgreement
+            const: tenancyAgreement
             type: string
         required:
         - value
@@ -1630,7 +2051,31 @@ components:
             const: Tenancy invoice
             type: string
           value:
-            const: proposal.document.tenancyInvoice
+            const: tenancyInvoice
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Town centre uses - Impact assessment
+            type: string
+          value:
+            const: townCentreImpactAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Town centre uses - Sequential assessment
+            type: string
+          value:
+            const: townCentreSequentialAssessment
             type: string
         required:
         - value
@@ -1642,7 +2087,103 @@ components:
             const: Transport assessment
             type: string
           value:
-            const: proposal.document.transport
+            const: transportAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Travel plan
+            type: string
+          value:
+            const: travelPlan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Tree canopy calculator
+            type: string
+          value:
+            const: treeCanopyCalculator
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Tree condition report
+            type: string
+          value:
+            const: treeConditionReport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Trees report
+            type: string
+          value:
+            const: treesReport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Unit plan - existing
+            type: string
+          value:
+            const: unitPlan.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Unit plan - proposed
+            type: string
+          value:
+            const: unitPlan.proposed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Use plan - existing
+            type: string
+          value:
+            const: usePlan.existing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Use plan - proposed
+            type: string
+          value:
+            const: usePlan.proposed
             type: string
         required:
         - value
@@ -1654,7 +2195,7 @@ components:
             const: Utility bill
             type: string
           value:
-            const: proposal.document.utility.bill
+            const: utilityBill
             type: string
         required:
         - value
@@ -1663,10 +2204,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Photographs
+            const: Utilities statement
             type: string
           value:
-            const: proposal.photograph
+            const: utilitiesStatement
             type: string
         required:
         - value
@@ -1675,10 +2216,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Photographs - evidence
+            const: Ventilation or extraction statement
             type: string
           value:
-            const: proposal.photograph.evidence
+            const: ventilationStatement
             type: string
         required:
         - value
@@ -1690,7 +2231,31 @@ components:
             const: Visualisations
             type: string
           value:
-            const: proposal.visualisation
+            const: visualisations
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Waste and recycling strategy
+            type: string
+          value:
+            const: wasteAndRecyclingStrategy
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Water environment assessment
+            type: string
+          value:
+            const: waterEnvironmentAssessment
             type: string
         required:
         - value
@@ -2511,6 +3076,8 @@ components:
         service:
           additionalProperties: false
           properties:
+            files:
+              "$ref": "#/components/definitions/RequestedFiles"
             flowId:
               "$ref": "#/components/definitions/UUID"
             url:
@@ -2518,6 +3085,7 @@ components:
           required:
           - flowId
           - url
+          - files
           type: object
         source:
           const: PlanX
@@ -2841,6 +3409,54 @@ components:
               type: boolean
             value:
               const: listed
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed Building - Grade I
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: listed.grade.I
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed Building - Grade II
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: listed.grade.II
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed Building - Grade II*
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: listed.grade.II*
               type: string
           required:
           - description
@@ -3547,6 +4163,111 @@ components:
               type: boolean
             value:
               const: listed
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed Building - Grade I
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      "$ref": "#/components/definitions/URL"
+                  required:
+                  - name
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: listed.grade.I
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed Building - Grade II
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      "$ref": "#/components/definitions/URL"
+                  required:
+                  - name
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: listed.grade.II
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed Building - Grade II*
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      "$ref": "#/components/definitions/URL"
+                  required:
+                  - name
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: listed.grade.II*
               type: string
           required:
           - description
@@ -13134,6 +13855,29 @@ components:
         sectionName:
           type: string
       type: object
+    RequestedFiles:
+      "$id": "#RequestedFiles"
+      additionalProperties: false
+      description: File types requested by this service. Schema["files"] will be a
+        subset of this list based on the user's journey through the service.
+      properties:
+        optional:
+          items:
+            "$ref": "#/components/definitions/FileType"
+          type: array
+        recommended:
+          items:
+            "$ref": "#/components/definitions/FileType"
+          type: array
+        required:
+          items:
+            "$ref": "#/components/definitions/FileType"
+          type: array
+      required:
+      - required
+      - recommended
+      - optional
+      type: object
     Response:
       additionalProperties: false
       properties:
@@ -15284,27 +16028,27 @@ paths:
                   files:
                   - name: https://api.editor.planx.dev/file/private/vg0av01p/RoofPlan.pdf
                     type:
-                    - value: property.drawing.roofPlan
+                    - value: roofPlan.existing
                       description: Roof plan - existing
-                    - value: proposal.drawing.roofPlan
+                    - value: roofPlan.proposed
                       description: Roof plan - proposed
                   - name: https://api.editor.planx.dev/file/private/ka97yl2c/Site%20plan.pdf
                     type:
-                    - value: property.drawing.sitePlan
+                    - value: sitePlan.existing
                       description: Site plan - existing
-                    - value: proposal.drawing.sitePlan
+                    - value: sitePlan.proposed
                       description: Site plan - proposed
                   - name: https://api.editor.planx.dev/file/private/osprppqo/Elevations.pdf
                     type:
-                    - value: property.drawing.elevation
+                    - value: elevations.existing
                       description: Elevations - existing
-                    - value: proposal.drawing.elevation
+                    - value: elevations.proposed
                       description: Elevations - proposed
                   - name: https://api.editor.planx.dev/file/private/cri3ziaj/Plan.pdf
                     type:
-                    - value: property.drawing.floorPlan
+                    - value: floorPlan.existing
                       description: Floor plan - existing
-                    - value: proposal.drawing.floorPlan
+                    - value: floorPlan.proposed
                       description: Floor plan - proposed
                   metadata:
                     organisation: LBH
@@ -15313,5 +16057,9 @@ paths:
                     service:
                       flowId: 01e38c5d-e701-4e44-acdc-4d6b5cc3b854
                       url: https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview
+                      files:
+                        required: []
+                        recommended: []
+                        optional: []
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schema.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json

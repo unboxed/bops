@@ -1710,11 +1710,11 @@
       "name": "https://api.editor.planx.dev/file/private/vg0av01p/RoofPlan.pdf",
       "type": [
         {
-          "value": "roofPlan.existing",
+          "value": "property.drawing.roofPlan",
           "description": "Roof plan - existing"
         },
         {
-          "value": "roofPlan.proposed",
+          "value": "proposal.drawing.roofPlan",
           "description": "Roof plan - proposed"
         }
       ]
@@ -1723,11 +1723,11 @@
       "name": "https://api.editor.planx.dev/file/private/ka97yl2c/Site%20plan.pdf",
       "type": [
         {
-          "value": "sitePlan.existing",
+          "value": "property.drawing.sitePlan",
           "description": "Site plan - existing"
         },
         {
-          "value": "sitePlan.proposed",
+          "value": "proposal.drawing.sitePlan",
           "description": "Site plan - proposed"
         }
       ]
@@ -1736,11 +1736,11 @@
       "name": "https://api.editor.planx.dev/file/private/osprppqo/Elevations.pdf",
       "type": [
         {
-          "value": "elevations.existing",
+          "value": "property.drawing.elevation",
           "description": "Elevations - existing"
         },
         {
-          "value": "elevations.proposed",
+          "value": "proposal.drawing.elevation",
           "description": "Elevations - proposed"
         }
       ]
@@ -1749,11 +1749,11 @@
       "name": "https://api.editor.planx.dev/file/private/cri3ziaj/Plan.pdf",
       "type": [
         {
-          "value": "floorPlan.existing",
+          "value": "property.drawing.floorPlan",
           "description": "Floor plan - existing"
         },
         {
-          "value": "floorPlan.proposed",
+          "value": "proposal.drawing.floorPlan",
           "description": "Floor plan - proposed"
         }
       ]
@@ -1765,14 +1765,9 @@
     "source": "PlanX",
     "service": {
       "flowId": "01e38c5d-e701-4e44-acdc-4d6b5cc3b854",
-      "url": "https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview",
-      "files": {
-        "required": [],
-        "recommended": [],
-        "optional": []
-      }
+      "url": "https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview"
     },
     "submittedAt": "2023-10-02T00:00:00.00Z",
-    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json"
+    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.3/schema.json"
   }
 }

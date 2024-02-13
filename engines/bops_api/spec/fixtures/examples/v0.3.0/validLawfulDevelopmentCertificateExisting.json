@@ -1862,6 +1862,6 @@
       }
     },
     "submittedAt": "2023-10-02t00:00:00z",
-    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.3/schema.json"
+    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json"
   }
 }

@@ -8,7 +8,7 @@ RSpec.configure do |config|
   config.openapi_root = BopsApi::Engine.root.join("swagger").to_s
   config.openapi_format = :yaml
 
-  json = BopsApi::Schemas.find!("submission").value
+  json = BopsApi::Schemas.find!("submission", version: "odp/v0.3.0").value
 
   keys = %w[
     additionalProperties

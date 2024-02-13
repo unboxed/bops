@@ -58,7 +58,13 @@ RSpec.describe "BOPS API" do
           }
         }
 
-        let(:planning_application) { {} }
+        let(:planning_application) do
+          {
+            "metadata" => {
+              "schema" => "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json"
+            }
+          }
+        end
 
         run_test!
       end

@@ -1064,7 +1064,7 @@
       }
     },
     {
-      "question": "What type of prior approval application is it?",
+      "question": "What type of prior approval application is it?application.type",
       "responses": [
         {
           "value": "Install or change solar panels"
@@ -1081,7 +1081,7 @@
       "name": "https://api.editor.planx.dev/file/private/vab4d0k6/Test%20document.pdf",
       "type": [
         {
-          "value": "otherDrawing",
+          "value": "proposal.drawing.other",
           "description": "Other - drawing"
         }
       ]
@@ -1090,7 +1090,7 @@
       "name": "https://api.editor.planx.dev/file/private/es3w6dgi/Elevations.pdf",
       "type": [
         {
-          "value": "sitePlan.proposed",
+          "value": "proposal.drawing.sitePlan",
           "description": "Site plan - proposed"
         }
       ]
@@ -1102,14 +1102,9 @@
     "source": "PlanX",
     "service": {
       "flowId": "c6628103-c648-4663-81e1-bfa0a1a18340",
-      "url": "https://www.editor.planx.dev/southwark/apply-for-prior-approval/preview",
-      "files": {
-        "required": [],
-        "recommended": [],
-        "optional": []
-      }
+      "url": "https://www.editor.planx.dev/southwark/apply-for-prior-approval/preview"
     },
     "submittedAt": "2023-10-02T00:00:00Z",
-    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json"
+    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.3/schema.json"
   }
 }

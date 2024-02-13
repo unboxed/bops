@@ -1795,8 +1795,8 @@
       "name": "https://api.editor.planx.dev/file/private/r34zxe3x/RoaldDahlHut.jpg",
       "type": [
         {
-          "value": "photographs.proposed",
-          "description": "Photographs - proposed"
+          "value": "proposal.photograph",
+          "description": "Photographs"
         }
       ]
     },
@@ -1804,7 +1804,7 @@
       "name": "https://api.editor.planx.dev/file/private/kopklkj9/Site%20plan.pdf",
       "type": [
         {
-          "value": "sitePlan.proposed",
+          "value": "proposal.drawing.sitePlan",
           "description": "Site plan - proposed"
         }
       ]
@@ -1813,7 +1813,7 @@
       "name": "https://api.editor.planx.dev/file/private/u2vjw69h/Elevations.pdf",
       "type": [
         {
-          "value": "elevations.proposed",
+          "value": "proposal.drawing.elevation",
           "description": "Elevations - proposed"
         }
       ]
@@ -1822,7 +1822,7 @@
       "name": "https://api.editor.planx.dev/file/private/gbaur05c/Plan.pdf",
       "type": [
         {
-          "value": "floorPlan.proposed",
+          "value": "proposal.drawing.floorPlan",
           "description": "Floor plan - proposed"
         }
       ]
@@ -1831,8 +1831,8 @@
       "name": "https://api.editor.planx.dev/file/private/4vhzu4c5/Roald-Dahl-letter-one-use.pdf",
       "type": [
         {
-          "value": "otherEvidence",
-          "description": "Other - evidence or correspondence"
+          "value": "proposal.document.other.evidence",
+          "description": "Other - correspondence"
         }
       ],
       "description": "Nothing really, this is just a test. "
@@ -1841,7 +1841,7 @@
       "name": "https://api.editor.planx.dev/file/private/uz72iu40/Test%20document.pdf",
       "type": [
         {
-          "value": "constructionInvoice",
+          "value": "proposal.document.construction.invoice",
           "description": "Construction invoice"
         }
       ],
@@ -1854,12 +1854,7 @@
     "source": "PlanX",
     "service": {
       "flowId": "824628b2-deeb-48b0-92b1-2ca7f3b17163",
-      "url": "https://www.editor.planx.dev/buckinghamshire/apply-for-a-lawful-development-certificate/preview",
-      "files": {
-        "required": [],
-        "recommended": [],
-        "optional": []
-      }
+      "url": "https://www.editor.planx.dev/buckinghamshire/apply-for-a-lawful-development-certificate/preview"
     },
     "submittedAt": "2023-10-02t00:00:00z",
     "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.3/schema.json"

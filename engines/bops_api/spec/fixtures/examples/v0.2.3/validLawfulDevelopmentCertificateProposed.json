@@ -1141,7 +1141,7 @@
       "name": "https://api.editor.planx.dev/file/private/ha2qdn2z/RoofPlan.pdf",
       "type": [
         {
-          "value": "roofPlan.existing",
+          "value": "property.drawing.roofPlan",
           "description": "Roof plan - existing"
         }
       ]
@@ -1150,7 +1150,7 @@
       "name": "https://api.editor.planx.dev/file/private/3u00rjyw/Site%20plan.pdf",
       "type": [
         {
-          "value": "sitePlan.existing",
+          "value": "property.drawing.sitePlan",
           "description": "Site plan - existing"
         }
       ]
@@ -1159,7 +1159,7 @@
       "name": "https://api.editor.planx.dev/file/private/g92g9w65/RoofPlan.pdf",
       "type": [
         {
-          "value": "roofPlan.proposed",
+          "value": "proposal.drawing.roofPlan",
           "description": "Roof plan - proposed"
         }
       ]
@@ -1168,7 +1168,7 @@
       "name": "https://api.editor.planx.dev/file/private/i7tag96k/Site%20plan.pdf",
       "type": [
         {
-          "value": "sitePlan.proposed",
+          "value": "proposal.drawing.sitePlan",
           "description": "Site plan - proposed"
         }
       ]
@@ -1177,7 +1177,7 @@
       "name": "https://api.editor.planx.dev/file/private/tw50m88n/Elevations.pdf",
       "type": [
         {
-          "value": "elevations.existing",
+          "value": "property.drawing.elevation",
           "description": "Elevations - existing"
         }
       ]
@@ -1186,7 +1186,7 @@
       "name": "https://api.editor.planx.dev/file/private/diahn9ft/Plan.pdf",
       "type": [
         {
-          "value": "floorPlan.existing",
+          "value": "property.drawing.floorPlan",
           "description": "Floor plan - existing"
         }
       ]
@@ -1195,7 +1195,7 @@
       "name": "https://api.editor.planx.dev/file/private/0rpf43jj/Elevations.pdf",
       "type": [
         {
-          "value": "elevations.proposed",
+          "value": "proposal.drawing.elevation",
           "description": "Elevations - proposed"
         }
       ]
@@ -1204,7 +1204,7 @@
       "name": "https://api.editor.planx.dev/file/private/iio7ok5g/Plan.pdf",
       "type": [
         {
-          "value": "floorPlan.proposed",
+          "value": "proposal.drawing.floorPlan",
           "description": "Floor plan - proposed"
         }
       ]
@@ -1216,14 +1216,9 @@
     "source": "PlanX",
     "service": {
       "flowId": "824628b2-deeb-48b0-92b1-2ca7f3b17163",
-      "url": "https://www.editor.planx.dev/buckinghamshire/apply-for-a-lawful-development-certificate/preview",
-      "files": {
-        "required": [],
-        "recommended": [],
-        "optional": []
-      }
+      "url": "https://www.editor.planx.dev/buckinghamshire/apply-for-a-lawful-development-certificate/preview"
     },
     "submittedAt": "2023-10-02T00:00:00+01:00",
-    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json"
+    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.3/schema.json"
   }
 }

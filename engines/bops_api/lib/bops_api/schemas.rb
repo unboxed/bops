@@ -2,11 +2,20 @@
 
 module BopsApi
   class Schemas
-    ODP_VERSION = "odp/v0.2.3"
+    ODP_VERSIONS = {
+      "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.1/schema.json" => "odp/v0.2.1",
+      "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.2/schema.json" => "odp/v0.2.2",
+      "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.3/schema.json" => "odp/v0.2.3",
+      "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json" => "odp/v0.3.0"
+    }.freeze
+
+    DEFAULT_ODP_VERSION = "odp/v0.3.0"
 
     class << self
-      def find!(name, version: ODP_VERSION)
-        cache.find!("#{version}/#{name}.json")
+      def find!(name, version: nil, schema: nil)
+        cache.find!("#{version || ODP_VERSIONS.fetch(schema)}/#{name}.json")
+      rescue KeyError
+        raise BopsApi::Errors::SchemaNotFoundError, "Unable to find schema '#{schema}'"
       end
 
       private
