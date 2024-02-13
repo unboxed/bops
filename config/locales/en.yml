@@ -383,6 +383,7 @@ en:
       ownership_certificate_validation_request_cancelled: 'Cancelled: validation request (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
+      ownership_certificate_validation_request_sent_post_validation: 'Sent: request for change (ownership certificate validation#%{args})'
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
       proposal_measurements_updated: Proposal measurements were updated
@@ -616,6 +617,7 @@ en:
     publish_decision: Publish decision
     review_and_publish_decision: Review and publish decision
     save_and_come_back_later: Save and come back later
+    save_and_mark_as_checked: Save and mark as checked
     save_and_mark_as_complete: Save and mark as complete
   helpers:
     hint:
@@ -879,6 +881,9 @@ en:
       immunity_details:
         update:
           success: Evidence of immunity successfully updated
+      ownership_certificates:
+        update:
+          success: Ownership certificate was checked
       policy_classes:
         comment:
           delete_comment: Delete comment

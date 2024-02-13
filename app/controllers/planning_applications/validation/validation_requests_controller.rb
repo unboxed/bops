@@ -172,7 +172,7 @@ module PlanningApplications
           params.dig(:validation_request, :return_to) ||
             @planning_application
         elsif @planning_application.validated?
-          @planning_application
+          planning_application_assessment_tasks_path(@planning_application)
         else
           planning_application_validation_tasks_path(@planning_application)
         end

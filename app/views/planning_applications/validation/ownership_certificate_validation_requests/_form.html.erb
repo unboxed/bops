@@ -33,8 +33,7 @@
           class: "govuk-label govuk-label--s",
           text: "Tell the applicant why their ownership certificate type is wrong"
         },
-        rows: 5,
-        readonly: @planning_application.validated?
+        rows: 5
       ) %>
 
       <%= form.hidden_field :type, value: "OwnershipCertificateValidationRequest" %>

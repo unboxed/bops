@@ -2,8 +2,14 @@
   Ownership certificate - <%= t('page_title') %>
 <% end %>
 
-<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
-<% content_for :title, "Ownership certificate" %>
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title do %>
+  Check ownership certificate
+<% end %>
 
 <%= render(
   partial: "shared/proposal_header",
@@ -59,14 +65,46 @@
         <% end %>
       </tbody>
     </table>
-    <%= form_with model: @planning_application, url: planning_application_validation_ownership_certificate_path(@planning_application) do |form| %>
-      <%= form.govuk_radio_buttons_fieldset :ownership_certificate_type, legend: { text: "Is this declaration correct?" } do %>
-        <%= form.govuk_radio_button :valid_ownership_certificate, true, label: { text: "Yes"} %>
-        <%= form.govuk_radio_button :valid_ownership_certificate, false, label: { text: "No" } %>
-      <% end %>
 
+    <table class="govuk-table">
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Activity log</th>
+          <td scope="row" class="govuk-table__header">&nbsp</td>
+        </tr>
+        <% if @planning_application.ownership_certificate.present? && @validation_requests.any? %>
+          <% @validation_requests.sort_by(&:created_at).each_with_index do |request, i| %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Amendments requested: <%= request.reason %></th>
+              <td class="govuk-table__cell"><%= request.approved? ? "Approved" : "Rejected" %></td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">State:</th>
+              <td class="govuk-table__cell"><%= request.state %></td>
+            </tr>
+            <% if request.rejection_reason.present? %>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Amendments rejected</th>
+                <td class="govuk-table__cell"><%= request.rejection_reason %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        <% else %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">No validation requests were made</th>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= form_with model: @planning_application,
+      url: planning_application_assessment_ownership_certificate_path(@planning_application),
+      method: :patch do |form| %>
       <div class="govuk-button-group">
-        <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= form.hidden_field :ownership_certificate_valid %>
+
+        <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= form.submit "Request a new ownership certificate", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
 
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>
