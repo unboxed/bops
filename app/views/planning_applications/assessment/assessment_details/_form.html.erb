@@ -5,20 +5,32 @@
   rejected_assessment_detail: rejected_assessment_detail
 ) %>
 
-<%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
-  <%= form.govuk_error_summary(
-    presenter: assessment_detail_error_presenter(category)
-  ) %>
+<% if @category == "publicity_summary" %>
+  <% if @planning_application.consultation.neighbour_responses.any? %>
+    <%= render "planning_applications/assessment/assessment_details/publicity_summary/responses",
+      neighbour_responses: @planning_application.consultation.neighbour_responses,
+      rejected_assessment_detail: rejected_assessment_detail,
+      category: "publicity_summary"
+    %>
+  <% else %>
+    <p class="govuk-body">There are no neighbour responses</p>
+  <% end %>
+<% else %>
+  <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+    <%= form.govuk_error_summary(
+      presenter: assessment_detail_error_presenter(category)
+    ) %>
 
-  <%= render(
-    partial: "#{assessment_detail_fields_partial_path(category)}/form_fields",
-    locals: {
-      form: form,
-      rejected_assessment_detail: rejected_assessment_detail
-    }
-  ) %>
+    <%= render(
+      partial: "#{assessment_detail_fields_partial_path(category)}/form_fields",
+      locals: {
+        form: form,
+        rejected_assessment_detail: rejected_assessment_detail
+      }
+    ) %>
 
-  <%= form.hidden_field :category, value: category %>
+    <%= form.hidden_field :category, value: category %>
 
-  <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+  <% end %>
 <% end %>

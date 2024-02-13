@@ -134,3 +134,29 @@
   border: 1px solid $govuk-border-colour;
   padding: 0 5px;
 }
+
+#neighbour-response-accordion {
+  .govuk-accordion__controls {
+    display: none;
+  }
+
+  .govuk-accordion__section {
+    border-bottom: 1px solid $govuk-border-colour;
+  }
+
+  .neighbour-response {
+    border-bottom: 1px solid $govuk-border-colour;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+
+  .neighbour-response-section {
+    border-bottom: none;
+  }
+
+  .govuk-accordion__section-content {
+    padding-bottom: 0px;
+  }
+}

@@ -4,23 +4,12 @@
       banner_class: "govuk-notification-banner",
       role: "region",
       title: "View neighbour responses",
-      heading: neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
-
-    <p><%= link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application) %></p>
+      heading: updated_neighbour_responses_summary_text(consultation.neighbour_responses, @assessment_detail) %>
   <% else %>
     <p>There is no existing consultation for this planning application.</p>
   <% end %>
 
   <% if action_name == "show" %>
-    <p><strong>Summary</strong></p>
-  <% end %>
-
-  <%= render "shared/warning_text",
-             message: "This information will be made publicly available." %>
-  <%= render(
-        partial: "comment",
-        locals: { comment: rejected_assessment_detail&.comment }
-      ) %>
-  <% unless action_name == "show" %>
+    <h3 class="govuk-heading-s">Summary</h3>
   <% end %>
 </div>

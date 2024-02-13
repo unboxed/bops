@@ -685,6 +685,10 @@ en:
   neighbour_letter_header:
     planning_permission: Submit your comments by %{closing_date}
     prior_approval: Submit your comments by %{closing_date}
+  neighbour_responses_by_summary_tag:
+    one: There is 1 %{tag}
+    other: There are %{count} %{tag}s
+    zero: There are 0 %{tag}s
   no_consultees_component:
     no_consultees_yet: No consultees have been added to the consultation yet.
   page_title: BETA BOPs - GOV.UK
