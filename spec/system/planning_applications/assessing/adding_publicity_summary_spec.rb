@@ -22,7 +22,7 @@ RSpec.describe "neighbour responses" do
     let!(:neighbour1) { create(:neighbour, address: "1, Test Lane, AAA111", consultation:) }
     let!(:neighbour2) { create(:neighbour, address: "2, Test Lane, AAA111", consultation:) }
     let!(:neighbour3) { create(:neighbour, address: "3, Test Lane, AAA111", consultation:) }
-    let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection", tags: ["design"]) }
+    let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection", tags: ["design", "disabled_access"]) }
     let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["design"]) }
     let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["disabled_access"]) }
     let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
@@ -60,9 +60,10 @@ RSpec.describe "neighbour responses" do
       expect(page).to have_content(supportive_response1.redacted_response)
       click_button "Design responses (2)"
 
-      click_button "Disabled access responses (1)"
+      click_button "Disabled access responses (2)"
       expect(page).to have_content(supportive_response2.redacted_response)
-      click_button "Disabled access responses (1)"
+      expect(page).to have_content(objection_response.redacted_response)
+      click_button "Disabled access responses (2)"
 
       click_button "Untagged responses (1)"
       expect(page).to have_content(neutral_response.redacted_response)

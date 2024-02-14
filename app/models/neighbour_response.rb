@@ -15,13 +15,13 @@ class NeighbourResponse < ApplicationRecord
   enum(summary_tag: {supportive: "supportive", neutral: "neutral", objection: "objection"})
 
   scope :redacted, -> { where.not(redacted_response: "") }
-  scope :with_tags, -> { where.not("tags = '[]'") }
-  scope :without_tags, -> { where("tags = '[]'") }
+  scope :with_tags, -> { where.not(tags: []) }
+  scope :without_tags, -> { where(tags: []) }
 
   TAGS = %i[design new_use privacy disabled_access noise traffic other].freeze
 
   summary_tags.each do |tag|
-    scope :"#{tag}", -> { where(tag:) }
+    scope :"#{tag}", -> { where(tags: [tag]) }
   end
 
   before_save do
