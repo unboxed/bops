@@ -38,7 +38,7 @@ class NeighbourLetter < ApplicationRecord
   private
 
   def notify_api_key
-    neighbour.consultation.planning_application.local_authority.notify_api_key || Rails.configuration.default_notify_api_key
+    neighbour.consultation.planning_application.local_authority.notify_api_key_for_letters
   end
 
   def resend?
