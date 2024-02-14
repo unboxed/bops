@@ -85,7 +85,7 @@ module PlanningApplications
     end
 
     def update_letter_statuses
-      notify_key = @planning_application.local_authority.notify_api_key || Rails.configuration.default_notify_api_key
+      notify_key = @planning_application.local_authority.notify_api_key_for_letters
 
       NeighbourLetterStatusUpdateJob.perform_later(@consultation, notify_key)
     end

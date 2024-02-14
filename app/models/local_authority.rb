@@ -44,11 +44,19 @@ class LocalAuthority < ApplicationRecord
   end
 
   def notify_api_key
-    super || set_notify_api_key
+    super || Rails.configuration.default_notify_api_key
   end
 
   def letter_template_id
     super || Rails.configuration.default_letter_template_id
+  end
+
+  def notify_api_key_for_letters
+    if Bops.env.production?
+      notify_api_key
+    else
+      Rails.configuration.notify_letter_api_key
+    end
   end
 
   private
@@ -74,14 +82,6 @@ class LocalAuthority < ApplicationRecord
 
   def set_active
     self.active = active_attributes?
-  end
-
-  def set_notify_api_key
-    if Bops.env.production?
-      Rails.configuration.default_notify_api_key
-    else
-      Rails.configuration.notify_letter_api_key
-    end
   end
 
   def active_attributes?
