@@ -50,6 +50,7 @@ class PlanningApplication < ApplicationRecord
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
     has_one :immunity_detail, required: false
     has_one :consultation, required: false
+    has_one :document_checklist, required: false
     has_one :proposal_measurement, required: false
     has_one :planx_planning_data, required: false
     has_one :press_notice, required: false

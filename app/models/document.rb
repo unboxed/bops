@@ -8,6 +8,7 @@ class Document < ApplicationRecord
   with_options optional: true do
     belongs_to :user
     belongs_to :api_user
+    belongs_to :document_checklist_item
     belongs_to :owner, polymorphic: true
     belongs_to :evidence_group
     belongs_to :site_visit
