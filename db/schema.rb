@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_12_203749) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_14_122132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -405,9 +405,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_12_203749) do
     t.datetime "updated_at", null: false
     t.string "summary_tag"
     t.text "redacted_response"
-    t.jsonb "tags", default: [], null: false
     t.bigint "consultation_id"
     t.bigint "redacted_by_id"
+    t.string "tags", default: [], array: true
     t.index ["consultation_id"], name: "ix_neighbour_responses_on_consultation_id"
     t.index ["neighbour_id"], name: "ix_neighbour_responses_on_neighbour_id"
     t.index ["redacted_by_id"], name: "ix_neighbour_responses_on_redacted_by_id"
