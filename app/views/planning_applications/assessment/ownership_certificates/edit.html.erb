@@ -24,7 +24,7 @@
   </div>
 
   <div class="govuk-grid-column-two-thirds govuk-!-margin-top-6">
-    <table class="govuk-table">
+    <table class="govuk-table govuk-!-margin-bottom-6">
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Certificate type</th>
@@ -34,64 +34,89 @@
         </tr>
         <% if @planning_application.ownership_certificate.present? && @planning_application.ownership_certificate.land_owners.any? %>
           <% @planning_application.ownership_certificate.land_owners.each_with_index do |owner, i| %>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header" style="font-weight: normal;">Owner <%= i + 1 %></th>
-              <td class="govuk-table__cell">&nbsp</td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">Name</th>
-              <td class="govuk-table__cell"><%= owner.name %></td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">Address</th>
-              <td class="govuk-table__cell"><%= owner.address %></td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">Notice given</th>
-              <td class="govuk-table__cell"><%= owner.notice_given? ? "Yes" : "No" %></td>
-            </tr>
-            <% if owner.notice_given? %>
+            <div class="govuk-margin-bottom-3">
               <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Notice date</th>
-                <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs(:day_month_year_slashes) %></td>
+                <th scope="row" class="govuk-table__header" style="font-weight: normal;">Owner <%= i + 1 %></th>
+                <td class="govuk-table__cell">&nbsp</td>
               </tr>
-            <% else %>
               <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Reason no notice given</th>
-                <td class="govuk-table__cell"><%= owner.notice_reason %></td>
+                <th scope="row" class="govuk-table__header">Name</th>
+                <td class="govuk-table__cell"><%= owner.name %></td>
               </tr>
-            <% end %>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Address</th>
+                <td class="govuk-table__cell"><%= owner.address %></td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Notice given</th>
+                <td class="govuk-table__cell"><%= owner.notice_given? ? "Yes" : "No" %></td>
+              </tr>
+              <% if owner.notice_given? %>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">Notice date</th>
+                  <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs(:day_month_year_slashes) %></td>
+                </tr>
+              <% else %>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">Reason no notice given</th>
+                  <td class="govuk-table__cell"><%= owner.notice_reason %></td>
+                </tr>
+              <% end %>
+            </div>
           <% end %>
         <% end %>
       </tbody>
     </table>
+  </div>
 
+  <div class="govuk-grid-column-full">
     <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--m">Activity log</caption>
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Activity log</th>
-          <td scope="row" class="govuk-table__header">&nbsp</td>
+          <th scope="row" class="govuk-table__header">Completed actions</th>
+          <td scope="row" class="govuk-table__header">Status</td>
+          <td scope="row" class="govuk-table__header">User</td>
+          <td scope="row" class="govuk-table__header">Date</td>
         </tr>
         <% if @planning_application.ownership_certificate.present? && @validation_requests.any? %>
-          <% @validation_requests.sort_by(&:created_at).each_with_index do |request, i| %>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">Amendments requested: <%= request.reason %></th>
-              <td class="govuk-table__cell"><%= request.approved? ? "Approved" : "Rejected" %></td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">State:</th>
-              <td class="govuk-table__cell"><%= request.state %></td>
-            </tr>
-            <% if request.rejection_reason.present? %>
+          <% @validation_requests.sort_by(&:created_at).reverse.each do |request| %>
+            <% if request.cancel_reason.present? %>
               <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Amendments rejected</th>
-                <td class="govuk-table__cell"><%= request.rejection_reason %></td>
+                <td scope="row" class="govuk-table__cell">Request was cancelled</td>
+                <td scope="row" class="govuk-table__cell">Cancelled</td>
+                <td scope="row" class="govuk-table__cell"><%= request.user.name %></td>
+                <td scope="row" class="govuk-table__cell"><%= request.cancelled_at.to_fs(:day_month_year_slashes) %></td>
               </tr>
             <% end %>
+            <% if request.approved.nil? %>
+              <tr class="govuk-table__row">
+                <td scope="row" class="govuk-table__cell">Applicant has not responded</td>
+                <td scope="row" class="govuk-table__cell">&nbsp</td>
+                <td scope="row" class="govuk-table__cell">&nbsp</td>
+                <td scope="row" class="govuk-table__cell">&nbsp</td>
+              </tr>
+            <% else %>
+              <tr class="govuk-table__row">
+                <td scope="row" class="govuk-table__cell"><%= request.approved? ? "Certificate submitted by applicant" : "Request rejected by applicant" %></td>
+                <td class="govuk-table__cell"><%= request.approved? ? "Submitted" : "Rejected" %></td>
+                <td class="govuk-table__cell">Applicant</td>
+                <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>
+              </tr>
+            <% end %>
+            <tr class="govuk-table__row">
+              <td scope="row" class="govuk-table__cell">New ownership certificate requested</td>
+              <td class="govuk-table__cell">Status</td>
+              <td class="govuk-table__cell"><%= request.user.name %></td>
+              <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>
+            </tr>
           <% end %>
         <% else %>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">No validation requests were made</th>
+            <td scope="row" class="govuk-table__cell">No validation requests were made</td>
+            <td scope="row" class="govuk-table__cell">&nbsp</td>
+            <td scope="row" class="govuk-table__cell">&nbsp</td>
+            <td scope="row" class="govuk-table__cell">&nbsp</td>
           </tr>
         <% end %>
       </tbody>
