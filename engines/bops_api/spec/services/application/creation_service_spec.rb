@@ -394,6 +394,58 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           )
         end
 
+        it "creates the document checklist" do
+          expect { create_planning_application }.to change(DocumentChecklist, :count).by(1)
+          expect(DocumentChecklist.last.document_checklist_items.length).to eq 8
+
+          expect(DocumentChecklist.last).to have_attributes(
+            planning_application_id: PlanningApplication.last.id
+          )
+
+          expect(DocumentChecklist.last.document_checklist_items).to include(
+            an_object_having_attributes(
+              category: "required",
+              tags: "roofPlan.existing",
+              description: "Roof plan - existing"
+            ),
+            an_object_having_attributes(
+              category: "required",
+              tags: "roofPlan.proposed",
+              description: "Roof plan - proposed"
+            ),
+            an_object_having_attributes(
+              category: "required",
+              tags: "sitePlan.existing",
+              description: "Site plan - existing"
+            ),
+            an_object_having_attributes(
+              category: "required",
+              tags: "sitePlan.proposed",
+              description: "Site plan - proposed"
+            ),
+            an_object_having_attributes(
+              category: "required",
+              tags: "elevations.existing",
+              description: "Elevations - existing"
+            ),
+            an_object_having_attributes(
+              category: "required",
+              tags: "elevations.proposed",
+              description: "Elevations - proposed"
+            ),
+            an_object_having_attributes(
+              category: "recommended",
+              tags: "floorPlan.existing",
+              description: "Floor plan - existing"
+            ),
+            an_object_having_attributes(
+              category: "recommended",
+              tags: "floorPlan.proposed",
+              description: "Floor plan - proposed"
+            )
+          )
+        end
+
         it "doesn't create any constraints" do
           expect { create_planning_application }.not_to change(PlanningApplicationConstraint, :count)
         end

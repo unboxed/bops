@@ -17,6 +17,10 @@ module BopsApi
         document.tags = tags
         document.applicant_description = description
         document.file.attach(io: file.open, filename: name)
+
+        tags.any? do |tag|
+          document.document_checklist_items_id = planning_application.document_checklist.document_checklist_items.find_by(tags: tag).id
+        end
       end
     end
   end
