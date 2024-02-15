@@ -17,7 +17,7 @@
   <% if @planning_application.overdue_validation_requests.any? %>
     <%= render "shared/overdue_banner" %>
   <% end %>
-  <% if @planning_application.validation_requests.closed.any? %>
+  <% if @planning_application.closed_pre_validation_requests.any? %>
     <%= render "shared/response_banner" %>
   <% end %>
 <% end %>

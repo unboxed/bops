@@ -684,6 +684,10 @@ class PlanningApplication < ApplicationRecord
     validation_requests.open.post_validation
   end
 
+  def closed_pre_validation_requests
+    validation_requests.closed - validation_requests.closed.post_validation
+  end
+
   def open_post_validation_requests?
     validation_requests.open.post_validation.any?
   end
