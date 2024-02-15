@@ -19,7 +19,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">Certificate type: <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type : "Not specified" %></p>
+    <p class="govuk-body">Certificate type: <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %></p>
     <h2 class="govuk-heading-m">Officer request</h2>
     <div class="govuk-inset-text">
       <p class="govuk-body">
@@ -30,7 +30,7 @@
       </p>
     </div>
 
-    <% if @validation_request.closed? && @planning_application.invalidated?  %>
+    <% if @validation_request.closed? %>
       <h2 class="govuk-heading-m">Applicant response</h2>
       <% if @validation_request.approved? %>
         <p class="govuk-body">The applicant provided this information:</p>

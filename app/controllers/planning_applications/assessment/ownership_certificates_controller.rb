@@ -21,15 +21,22 @@ module PlanningApplications
       end
 
       def update
-        if mark_as_complete?
-          @planning_application.update!(valid_ownership_certificate: true)
-          @planning_application.ownership_certificate&.update!(status:)
-          redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
-        else
-          @planning_application.update!(valid_ownership_certificate: false)
-          @planning_application.ownership_certificate&.update!(status:)
-          redirect_to new_planning_application_validation_validation_request_path(@planning_application, type: "ownership_certificate")
+        ActiveRecord::Base.transaction do
+          @planning_application.update!(valid_ownership_certificate:)
+          @planning_application.ownership_certificate&.current_review&.update!(status:)
         end
+
+        respond_to do |format|
+          if @planning_application.valid_ownership_certificate
+            format.html { redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success") }
+          else
+            format.html { redirect_to new_planning_application_validation_validation_request_path(@planning_application, type: "ownership_certificate") }
+          end
+        end
+      rescue ActiveRecord::RecordInvalid
+        set_error_messages
+
+        render :edit
       end
 
       private
@@ -44,6 +51,10 @@ module PlanningApplications
 
       def valid_ownership_certificate
         mark_as_complete?
+      end
+
+      def set_error_messages
+        flash.now[:alert] = @planning_application.ownership_certificate.errors.full_messages.join("\n") if @planning_application&.ownership_certificate&.errors&.any?
       end
     end
   end

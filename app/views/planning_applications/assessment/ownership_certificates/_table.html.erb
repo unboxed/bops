@@ -1,0 +1,43 @@
+<table class="govuk-table govuk-!-margin-bottom-6">
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Certificate type</th>
+      <td class="govuk-table__cell">
+        <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %>
+      </td>
+    </tr>
+    <% if @planning_application.ownership_certificate.present? && @planning_application.ownership_certificate.land_owners.any? %>
+      <% @planning_application.ownership_certificate.land_owners.each_with_index do |owner, i| %>
+        <div class="govuk-margin-bottom-3">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header" style="font-weight: normal;">Owner <%= i + 1 %></th>
+            <td class="govuk-table__cell">&nbsp</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">Name</th>
+            <td class="govuk-table__cell"><%= owner.name %></td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">Address</th>
+            <td class="govuk-table__cell"><%= owner.address %></td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">Notice given</th>
+            <td class="govuk-table__cell"><%= owner.notice_given? ? "Yes" : "No" %></td>
+          </tr>
+          <% if owner.notice_given? %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Notice date</th>
+              <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs(:day_month_year_slashes) %></td>
+            </tr>
+          <% else %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Reason no notice given</th>
+              <td class="govuk-table__cell"><%= owner.notice_reason %></td>
+            </tr>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

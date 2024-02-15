@@ -23,20 +23,11 @@
         category: :past_applications
       )
     ) %>
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= link_to(
-        "Check ownership certificate",
-        edit_planning_application_assessment_ownership_certificate_path(@planning_application),
-        class: "govuk-link"
-        ) %>
-      </span>
-      <%= render(
-        StatusTags::OwnershipCertificateComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
-    </li>
+    <%= render(
+      TaskListItems::Assessment::OwnershipCertificateComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
     <% if @planning_application.planning_history_enabled? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
