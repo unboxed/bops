@@ -478,7 +478,6 @@ RSpec.describe "checking consistency" do
       "Validation request for red line boundary successfully created."
     )
 
-    click_link("Check and assess")
     click_link("Check description, documents and proposal details")
 
     form_group = form_group_with_legend(
