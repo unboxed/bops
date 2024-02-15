@@ -683,8 +683,8 @@ en:
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
   neighbour_letter_header:
-    planning_permission: Submit your comments by %{closing_date}
-    prior_approval: Submit your comments by %{closing_date}
+    planning_permission: Submit your comments by {{closing_date}}
+    prior_approval: Submit your comments by {{closing_date}}
   neighbour_responses_by_summary_tag:
     one: There is 1 %{tag}
     other: There are %{count} %{tag}s

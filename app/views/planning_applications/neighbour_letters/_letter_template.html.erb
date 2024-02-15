@@ -33,7 +33,7 @@
         </p>
       <% end %>
     </div>
-    <%= form.text_area :neighbour_letter_text, rows: 25, class: "govuk-body neighbour-letter-template" %>
+    <%= form.text_area :neighbour_letter_text, value: I18n.t("neighbour_letter_template.#{planning_application.application_type.name}"), rows: 25, class: "govuk-body neighbour-letter-template" %>
   </div>
 </details>
 

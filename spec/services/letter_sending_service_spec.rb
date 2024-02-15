@@ -3,8 +3,9 @@
 require "rails_helper"
 
 RSpec.describe LetterSendingService do
+  let!(:planning_application) { create(:planning_application, :planning_permission) }
+  let(:neighbour) { create(:neighbour, consultation: planning_application.consultation) }
   let(:letter_sender) { described_class }
-  let(:neighbour) { create(:neighbour) }
 
   describe "#deliver!" do
     let(:user) { create(:user) }
