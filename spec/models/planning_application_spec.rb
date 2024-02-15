@@ -1018,6 +1018,22 @@ RSpec.describe PlanningApplication do
     end
   end
 
+  describe "#closed_pre_validation_requests" do
+    let(:planning_application) { create(:planning_application, :not_started) }
+    let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :closed, planning_application:) }
+    let!(:other_change_validation_request) { create(:other_change_validation_request, :pending, planning_application:) }
+
+    before do
+      planning_application.validate!
+    end
+
+    it "returns closed validation requests made in validation, rather than assessment" do
+      create(:description_change_validation_request, :closed, post_validation: true, planning_application:)
+
+      expect(planning_application.closed_pre_validation_requests).to contain_exactly(red_line_boundary_change_validation_request)
+    end
+  end
+
   describe "#overdue_validation_requests" do
     let(:planning_application) { create(:planning_application, :invalidated) }
     let!(:not_overdue_validation_request1) { create(:red_line_boundary_change_validation_request, :open, created_at: Time.zone.now, planning_application:) }

@@ -32,14 +32,12 @@ module StatusTags
     def validation_status
       if planning_application.valid_ownership_certificate.nil?
         :not_started
-      elsif planning_application.valid_ownership_certificate?
+      elsif ownership_certificate.present?
         if planning_application.ownership_certificate_awaiting_validation?
           :updated
         else
-          :valid
+          planning_application.valid_ownership_certificate? ? :valid : :invalid
         end
-      else
-        :invalid
       end
     end
   end
