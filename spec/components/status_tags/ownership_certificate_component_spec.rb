@@ -54,6 +54,22 @@ RSpec.describe StatusTags::OwnershipCertificateComponent, type: :component do
       end
     end
 
+    context "when ownership certificate is missing and has been marked as invalid" do
+      let(:valid_ownership_certificate) { false }
+
+      before do
+        create(:ownership_certificate_validation_request, planning_application:, reason: "invalid")
+
+        render_inline(
+          described_class.new(planning_application:)
+        )
+      end
+
+      it "renders 'Invalid' status" do
+        expect(page).to have_content("Invalid")
+      end
+    end
+
     context "when ownership certificate has an updated validation request" do
       let(:valid_ownership_certificate) { false }
 

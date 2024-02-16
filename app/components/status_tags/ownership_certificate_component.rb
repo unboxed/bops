@@ -38,6 +38,8 @@ module StatusTags
         else
           planning_application.valid_ownership_certificate? ? :valid : :invalid
         end
+      else
+        :invalid
       end
     end
   end
