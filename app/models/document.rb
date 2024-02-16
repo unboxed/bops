@@ -6,14 +6,14 @@ class Document < ApplicationRecord
   belongs_to :planning_application
 
   with_options optional: true do
-    belongs_to :user
     belongs_to :api_user
     belongs_to :document_checklist_item
-    belongs_to :owner, polymorphic: true
     belongs_to :evidence_group
-    belongs_to :site_visit
-    belongs_to :site_notice
     belongs_to :neighbour_response
+    belongs_to :owner, polymorphic: true
+    belongs_to :site_notice
+    belongs_to :site_visit
+    belongs_to :user
   end
 
   has_one :replacement_document_validation_request,
