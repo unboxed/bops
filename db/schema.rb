@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_14_122132) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_19_104723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -115,7 +115,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_122132) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "not_started", null: false
     t.index ["planning_application_id"], name: "ix_condition_sets_on_planning_application_id"
   end
 
@@ -472,7 +471,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_122132) do
     t.jsonb "data"
     t.jsonb "metadata"
     t.boolean "identified", default: false, null: false
-    t.string "identified_by"
+    t.string "identified_by", null: false
     t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
     t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"
     t.index ["planning_application_id"], name: "ix_planning_application_constraints_on_planning_application_id"
