@@ -145,4 +145,20 @@ json.data do
     end
     json.type "pre_commencement_condition_validation_request"
   end
+
+  json.heads_of_terms_validation_requests @planning_application
+    .heads_of_terms_validation_requests do |heads_of_terms_validation_request|
+    json.extract! heads_of_terms_validation_request,
+      :id,
+      :state,
+      :response_due,
+      :response,
+      :reason,
+      :suggestion,
+      :reason,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
+    json.type "heads_of_terms_validation_request"
+  end
 end

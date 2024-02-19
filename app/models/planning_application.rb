@@ -34,6 +34,7 @@ class PlanningApplication < ApplicationRecord
     has_many :red_line_boundary_change_validation_requests
     has_many :ownership_certificate_validation_requests
     has_many :pre_commencement_condition_validation_requests
+    has_many :heads_of_terms_validation_requests
     has_many :notes, -> { by_created_at_desc }
     has_many :validation_requests
     has_many :assessment_details, -> { by_created_at_desc }
