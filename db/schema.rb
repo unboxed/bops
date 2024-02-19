@@ -249,7 +249,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_20_085552) do
     t.datetime "updated_at", null: false
     t.datetime "archived_at", precision: nil
     t.string "archive_reason"
-    t.jsonb "tags", default: []
     t.string "numbers", default: "", null: false
     t.boolean "publishable", default: false
     t.boolean "referenced_in_decision_notice", default: false
@@ -267,6 +266,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_20_085552) do
     t.bigint "press_notice_id"
     t.string "owner_type"
     t.bigint "owner_id"
+    t.string "tags", default: [], array: true
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
