@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment" do
+  let(:review_date) { Time.zone.local(2025, 4, 2) }
+
   let(:default_local_authority) do
     create(
       :local_authority,
@@ -13,9 +15,11 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   let!(:planning_application) do
-    create(:planning_application, :awaiting_determination,
-      local_authority: default_local_authority,
-      decision: "granted")
+    travel_to 1.month.before review_date do
+      create(:planning_application, :awaiting_determination,
+        local_authority: default_local_authority,
+        decision: "granted")
+    end
   end
 
   context "when the planning application is awaiting determination" do
@@ -36,7 +40,7 @@ RSpec.describe "Planning Application Assessment" do
           reviewer:
         )
 
-        travel_to Time.zone.local(2025, 4, 2)
+        travel_to review_date
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.id}"
       end
