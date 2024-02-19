@@ -169,11 +169,11 @@ class Document < ApplicationRecord
   scope :for_publication, -> { active.publishable }
   scope :for_display, -> { active.referenced_in_decision_notice }
 
-  scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
+  scope :with_tag, ->(tag) { where(arel_table[:tags].contains(Array.wrap(tag))) }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
   scope :for_fee_exemption, -> { with_tag("Fee Exemption") }
-  scope :not_for_fee_exemption, -> { where("NOT (tags @> ?)", "\"Fee Exemption\"") }
+  scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(["Fee Exemption"])) }
 
   before_validation on: :create do
     if owner.present?
