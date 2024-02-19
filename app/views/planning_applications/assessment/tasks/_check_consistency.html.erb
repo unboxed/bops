@@ -69,14 +69,12 @@
         ) %>
       <% end %>
     <% end %>
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= link_to(
-          "Send heads of terms",
-          planning_application_assessment_validation_request_path(@planning_application, ValidationRequest.last),
-          class: "govuk-link"
-        ) %>
-      </span>
-    </li>
+    <!-- >Only show if it's a minor application<!-->
+     <%= render(
+        TaskListItems::Assessment::ValidationRequestComponent.new(
+          planning_application: @planning_application,
+          request_type: "HeadsOfTermsValidationRequest"
+        )
+      ) %>
   </ul>
 </li>
