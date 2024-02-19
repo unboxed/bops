@@ -20,6 +20,8 @@ module Apis
         end
       rescue Faraday::ResourceNotFound, Faraday::ClientError
         {}
+      rescue Faraday::TimeoutError => e
+        raise e
       rescue Faraday::Error => e
         Appsignal.send_exception(e)
         {}
