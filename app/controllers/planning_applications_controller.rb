@@ -76,9 +76,9 @@ class PlanningApplicationsController < AuthenticationController
   def validate
     if validation_date_fields_invalid?
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
-    elsif @planning_application.validation_requests.open.any?
+    elsif @planning_application.validation_requests.pending.any?
       @planning_application.errors.add(:planning_application,
-        "Planning application cannot be validated if open validation requests exist.")
+        "Planning application cannot be validated if pending validation requests exist.")
     elsif @planning_application.invalid_documents.present?
       @planning_application.errors.add(
         :planning_application,
