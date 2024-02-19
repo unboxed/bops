@@ -33,9 +33,7 @@ class HeadsOfTermsValidationRequest < ValidationRequest
   end
 
   def audit_comment
-    def audit_comment
-      {created_at:}.to_json
-    end
+    {created_at:}.to_json
   end
 
   def allows_only_one_open_heads_of_terms_request

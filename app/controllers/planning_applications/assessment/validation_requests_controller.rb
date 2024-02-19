@@ -17,7 +17,6 @@ module PlanningApplications
       before_action :set_type, only: %i[new]
       before_action :set_document, only: %i[show]
 
-
       def index
         validation_requests = @planning_application.validation_requests.where(post_validation: true)
         @cancelled_validation_requests = validation_requests.cancelled
