@@ -15,11 +15,13 @@ module BopsApi
     private
 
     def fetch_entities(entities)
-      entities.map { |entity| fetch_entity(entity) }
+      entities.map { |entity| fetch_entity(entity.fetch(:source)) }.compact
     end
 
-    def fetch_entity(entity)
-      uri = URI.parse(entity_url(entity))
+    def fetch_entity(source)
+      return unless entity_url?(source)
+
+      uri = URI.parse(entity_url(source))
 
       connection = Faraday.new(uri.origin) do |faraday|
         faraday.response :raise_error
@@ -33,10 +35,30 @@ module BopsApi
       end
 
       response.body
+    rescue Faraday::ResourceNotFound
+      nil
     end
 
-    def entity_url(entity)
-      "#{entity.fetch(:source)}.json"
+    def entity_url(source)
+      case source
+      when Hash
+        "#{source.fetch(:url)}.json"
+      when String
+        "#{source}.json"
+      else
+        raise ArgumentError, "Invalid entity source: #{source.inspect}"
+      end
+    end
+
+    def entity_url?(source)
+      case source
+      when Hash
+        source.fetch(:url, nil).present?
+      when String
+        source.start_with?("https://www.planning.data.gov.uk/entity")
+      else
+        false
+      end
     end
   end
 end

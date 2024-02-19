@@ -27,4 +27,90 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
       )
     end
   end
+
+  context "when the source url isn't www.planning.data.gov.uk" do
+    let(:planning_application_constraint) { create(:planning_application_constraint) }
+    let(:entities) { [source: "https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads"] }
+
+    it "sets the data to an empty array" do
+      expect {
+        described_class.perform_now(*arguments)
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([])
+    end
+  end
+
+  context "when the source url returns a 404" do
+    let(:planning_application_constraint) { create(:planning_application_constraint) }
+    let(:entities) { [source: "https://www.planning.data.gov.uk/entity/999"] }
+
+    it "sets the data to an empty array" do
+      stub_request(:get, "https://www.planning.data.gov.uk/entity/999.json")
+        .to_return(
+          status: 404,
+          headers: {"Content-Type" => "text/html"},
+          body: "<p>Not Found</p>"
+        )
+
+      expect {
+        described_class.perform_now(*arguments)
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([])
+    end
+  end
+
+  context "when the source is a string" do
+    let(:planning_application_constraint) { create(:planning_application_constraint) }
+    let(:entities) { [source: "https://www.planning.data.gov.uk/entity/999"] }
+
+    it "sets the data to the returned JSON" do
+      stub_request(:get, "https://www.planning.data.gov.uk/entity/999.json")
+        .to_return(
+          status: 200,
+          headers: {"Content-Type" => "application/json"},
+          body: %({"name":"Somewhere Road Tree Protection Zone"})
+        )
+
+      expect {
+        described_class.perform_now(*arguments)
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([{"name" => "Somewhere Road Tree Protection Zone"}])
+    end
+  end
+
+  context "when the source is a hash with a url" do
+    let(:planning_application_constraint) { create(:planning_application_constraint) }
+    let(:entities) { [source: {text: "Planning Data", url: "https://www.planning.data.gov.uk/entity/999"}] }
+
+    it "sets the data to the returned JSON" do
+      stub_request(:get, "https://www.planning.data.gov.uk/entity/999.json")
+        .to_return(
+          status: 200,
+          headers: {"Content-Type" => "application/json"},
+          body: %({"name":"Somewhere Road Tree Protection Zone"})
+        )
+
+      expect {
+        described_class.perform_now(*arguments)
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([{"name" => "Somewhere Road Tree Protection Zone"}])
+    end
+  end
+
+  context "when the source is a hash without a url" do
+    let(:planning_application_constraint) { create(:planning_application_constraint) }
+    let(:entities) { [source: {text: "Ordnance Survey MasterMap Highways"}] }
+
+    it "sets the data to an empty array" do
+      expect {
+        described_class.perform_now(*arguments)
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([])
+    end
+  end
 end
