@@ -1,0 +1,67 @@
+<% content_for :page_title do %>
+  Other validation request - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Heads of terms request" %>
+
+<% if @validation_request.closed? %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "Check the response to heads of terms request" }
+  ) %>
+<% else %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "View heads of terms request" }
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Officer request</h2>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        Request was sent on <%= @validation_request.created_at.to_fs %>
+      </p>
+      <%= render(
+        partial: "documents/document_row_image",
+        locals: {
+          planning_application: @planning_application,
+          document: @validation_request.document,
+          resize: "200x110",
+          width: 90,
+          height: 110,
+          edit_and_archive: false
+        }
+      ) %>
+
+    </div>
+    <%= form_with model: @planning_application do |form| %>
+      <% if @validation_request.closed?  %>
+        <h3 class="govuk-heading-s">Applicant response</h3>
+        <p class="govuk-body">
+          <% if @validation_request.approved? %>
+            <% if @validation_request.auto_closed? %>
+              The heads of terms were auto closed and approved after being open for more than 10 business days
+            <% else %>
+              The heads of terms have been approved by the applicant
+            <% end %>
+          <% else %>
+            The applicant rejected the heads of terms<br>
+            Reason: <%= @validation_request.rejection_reason %>
+          <% end %>
+        </p>
+      <% else %>
+        <h3 class="govuk-heading-s">Applicant has not responded yet</h3>
+      <% end %>
+
+      <%= render "shared/validation_request_show_actions",
+        planning_application: @planning_application, validation_request: @validation_request, form: form %>
+    <% end %>
+  </div>
+</div>

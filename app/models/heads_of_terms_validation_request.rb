@@ -17,7 +17,6 @@ class HeadsOfTermsValidationRequest < ValidationRequest
 
   def rejected_reason_is_present?
     return if planning_application.nil?
-    return unless planning_application.invalidated?
     return unless approved == false && rejection_reason.blank?
 
     errors.add(:base,
