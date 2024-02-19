@@ -39,7 +39,7 @@
     <% elsif @planning_application.invalidated? %>
       <p class="govuk-body">
         <strong>
-          <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at}" %>
+          <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at.to_fs}" %>
         </strong>
       </p>
       <h2 class="govuk-heading-m">
@@ -62,7 +62,7 @@
       <p class="govuk-body">
         <strong>
           The application is marked as valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
-          The applicant was notified on <%= @planning_application.validated_at %>
+          The applicant was notified on <%= @planning_application.validated_at.to_fs %>
         </strong>
       </p>
       <p class="govuk-body">
