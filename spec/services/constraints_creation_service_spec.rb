@@ -54,6 +54,21 @@ RSpec.describe ConstraintsCreationService, type: :service do
       end
     end
 
+    context "when the planning application was created from within BOPS" do
+      let!(:api_user) { nil }
+      let!(:constraint1) { create(:constraint, local_authority: local_authority1) }
+
+      subject { planning_application.planning_application_constraints.first }
+
+      it "sets the constraint identified_by to BOPS" do
+        expect do
+          create_constraints
+        end.to change(PlanningApplicationConstraint, :count).by(1)
+
+        expect(subject.identified_by).to eq("BOPS")
+      end
+    end
+
     [ActiveRecord::RecordInvalid, NoMethodError].each do |error|
       context "when there is an error of type: #{error} creating the planning application constraints" do
         let(:planning_application_constraints) { double }
