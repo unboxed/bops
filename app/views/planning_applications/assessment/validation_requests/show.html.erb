@@ -1,0 +1,37 @@
+<% content_for :page_title do %>
+  Heads of terms - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Heads of terms" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Heads of terms" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">Heads of terms sent</p>
+    <%= render(
+            partial: "documents/document_row_image",
+            locals: {
+              planning_application: @planning_application,
+              document: @document,
+              resize: "200x110",
+              width: 90,
+              height: 110,
+              edit_and_archive: false
+            }
+          ) %>
+
+    <h2 class="govuk-heading-m">Applicant has not responded yet</h2>
+
+    <%= render "shared/validation_request_show_actions",
+        planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+  </div>
+</div>

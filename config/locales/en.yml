@@ -375,6 +375,7 @@ en:
       fee_change_validation_request_cancelled: 'Cancelled: validation request (fee change from applicant#%{args})'
       fee_change_validation_request_received: 'Received: request for change (fee validation#%{args})'
       fee_change_validation_request_sent: 'Sent: validation request (fee validation#%{args})'
+      heads_of_terms_validation_request_cancelled_post_validation: 'Cancelled: Post-validation request (heads of terms#%{args})'
       invalidated: Application invalidated
       legislation_checked: Legislative requirements checked
       neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
@@ -1175,6 +1176,13 @@ en:
           permitted_development_rights: Permitted development rights
         index:
           application_details: Application details
+      validation_requests:
+        cancel:
+          heads_of_terms_validation_request:
+            success: Heads of terms successfully cancelled
+        create:
+          heads_of_terms_validation_request:
+            success: Heads of terms successfully created and sent to applicant
     clone:
       failure: 'Error cloning application with message: %{message}.'
       success: Planning application was successfully cloned.

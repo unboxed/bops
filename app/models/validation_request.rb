@@ -12,6 +12,7 @@ class ValidationRequest < ApplicationRecord
     OtherChangeValidationRequest
     FeeChangeValidationRequest
     PreCommencementConditionValidationRequest
+    HeadsOfTermsValidationRequest
   ].freeze
 
   with_options to: :planning_application do

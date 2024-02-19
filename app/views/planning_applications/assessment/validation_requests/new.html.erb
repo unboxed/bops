@@ -1,0 +1,32 @@
+<% content_for :page_title do %>
+  Heads of terms - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Heads of terms" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Heads of terms" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: [@planning_application, :assessment, @validation_request], scope: :validation_request,
+      url: planning_application_assessment_validation_requests_path(@planning_application, type: "heads_of_terms"),
+      method: :post do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+        <%= form.hidden_field :type, value: "HeadsOfTermsValidationRequest" %>
+        <%= form.govuk_file_field(
+          :file,
+          label: { text: "Upload heads of terms" }
+        ) %>
+
+        <%= form.submit "Submit", class: "govuk-button", data: { module: "govuk-button" } %>
+    <% end %>
+  </div>
+</div>

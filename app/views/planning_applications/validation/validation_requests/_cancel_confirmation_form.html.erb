@@ -1,7 +1,7 @@
 <%= form_with model:
   [@planning_application, validation_request],
   scope: :validation_request,
-  url: cancel_planning_application_validation_validation_request_path(@planning_application, validation_request) do |form| %>
+  url: @planning_application.in_assessment? ? cancel_planning_application_assessment_validation_request_path(@planning_application, validation_request) : cancel_planning_application_validation_validation_request_path(@planning_application, validation_request) do |form| %>
 
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
