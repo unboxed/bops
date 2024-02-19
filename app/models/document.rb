@@ -170,6 +170,7 @@ class Document < ApplicationRecord
   scope :for_display, -> { active.referenced_in_decision_notice }
 
   scope :with_tag, ->(tag) { where(arel_table[:tags].contains(Array.wrap(tag))) }
+  scope :with_plan_tags, -> { where(arel_table[:tags].overlaps(PLAN_TAGS)) }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
   scope :for_fee_exemption, -> { with_tag("Fee Exemption") }
