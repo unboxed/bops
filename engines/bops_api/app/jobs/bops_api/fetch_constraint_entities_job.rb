@@ -15,7 +15,7 @@ module BopsApi
     private
 
     def fetch_entities(entities)
-      entities.map { |entity| fetch_entity(entity) }
+      entities.map { |entity| fetch_entity(entity) }.compact
     end
 
     def fetch_entity(entity)
@@ -33,6 +33,8 @@ module BopsApi
       end
 
       response.body
+    rescue Faraday::ResourceNotFound
+      nil
     end
 
     def entity_url(entity)

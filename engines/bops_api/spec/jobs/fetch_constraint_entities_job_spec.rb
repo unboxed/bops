@@ -27,4 +27,24 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
       )
     end
   end
+
+  context "when the source url isn't a www.planning.data.gov.uk url" do
+    let(:planning_application_constraint) { create(:planning_application_constraint) }
+    let(:entities) { [source: "https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads"] }
+
+    it "sets the data to an empty array" do
+      stub_request(:get, "https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads.json")
+        .to_return(
+          status: 404,
+          headers: {"Content-Type" => "text/html"},
+          body: "<p>Not Found</p>"
+        )
+
+      expect {
+        described_class.perform_now(*arguments)
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([])
+    end
+  end
 end
