@@ -140,7 +140,7 @@ FactoryBot.define do
     trait :planning_permission do
       name { "planning_permission" }
       steps { %w[validation consultation assessment review] }
-      features { {"permitted_development_rights" => false} }
+      features { {"planning_conditions" => true, "permitted_development_rights" => false} }
 
       assessment_details do
         %w[

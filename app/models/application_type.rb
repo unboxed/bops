@@ -11,6 +11,11 @@ class ApplicationType < ApplicationRecord
 
   attribute :features, ApplicationTypeFeature.to_type
 
+  with_options to: :features do
+    delegate :planning_conditions?
+    delegate :permitted_development_rights?
+  end
+
   def full_name
     name.humanize
   end
