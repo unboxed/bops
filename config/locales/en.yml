@@ -682,6 +682,11 @@ en:
   local_policies:
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
+    custom_areas: ["Loss of light", "Overshadowing", "Overlooking", "Loss of privacy", "Visual amenity", "Adequacy of parking/loading/turning",
+                   "Parking", "Traffic", "Noise and disturbance resulting from use", "Loss of trees", "Effect on listed building, conservation area or archaeological interest",
+                   "Design, appearance and materials", "Nature conservation & biodiversity issues", "Landscaping"]
+  local_policies_component:
+    header: Text goes here
   neighbour_letter_header:
     planning_permission: Submit your comments by %{closing_date}
     prior_approval: Submit your comments by %{closing_date}

@@ -102,7 +102,11 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :local_policies, except: %i[destroy index]
+        resources :local_policies, except: %i[destroy index] do
+          member do
+            post 'add_local_policy_areas'
+          end
+        end
 
         resources :permitted_development_rights, except: %i[destroy index]
 

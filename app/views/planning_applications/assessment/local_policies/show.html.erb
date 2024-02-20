@@ -19,7 +19,7 @@
 <%= render "comment" %>
 
 <div class="govuk-!-margin-top-6">
-  <% @local_policy.local_policy_areas.each do |local_policy_area| %>
+  <% @local_policy.enabled_local_policy_areas.each do |local_policy_area| %>
     <h2 class="govuk-heading-m"><%= local_policy_area.area.humanize %></h2>
     <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
     <% if local_policy_area.guidance.present? %>

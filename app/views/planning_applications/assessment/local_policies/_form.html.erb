@@ -6,9 +6,10 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" }, hint: { text: "Make sure you refer to the most up to date policy" } do %>
     <%= form.fields_for :local_policy_areas, local_policy_areas do |ff| %>
-      <%= ff.govuk_check_box :areas, :"#{ff.object.area}", label: { text: "#{ff.object.area.to_s.humanize}" }, checked: @local_policy.local_policy_areas.any? { |local_policy_area| local_policy_area.area == "#{ff.object.area}" } do %>
+      <%= ff.govuk_check_box :areas, :"#{ff.object.area}", label: { text: "#{ff.object.area.to_s.humanize}" }, checked: @local_policy.local_policy_areas.any? { |local_policy_area| local_policy_area.area == "#{ff.object.area}" && local_policy_area.enabled? }, id: "checkbox" do %>
         <%= ff.hidden_field :area, value: ff.object.area.to_s %>
         <%= ff.hidden_field :id, value: ff.object.id %>
+        <%= ff.hidden_field :enabled, value: "false" %>
         <%= ff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
         <%= ff.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
           <%= ff.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: ff.object.guidance.present? do %>
@@ -23,3 +24,48 @@
 
   <%= render(partial: "shared/submit_buttons", locals: { form: }) %>
 <% end %>
+
+<details class="govuk-details govuk-!-margin-top-3">
+  <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Search for topic
+        </span>
+  </summary>
+
+  <div class="govuk-details__text" data-controller="local-policies">
+    <div data-local-policies-array-value="<%= I18n.t("local_policies.custom_areas").to_json %>">
+    </div>
+    <div class="govuk-!-padding-bottom-5">
+      <label for="local-policies" class="govuk-heading-s">Add a consideration</label>
+      <span id="local-policies-hint" class="govuk-hint">
+            Start typing name of consideration
+      </span>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <div id="lpcontainer" data-local-policies-target="select">
+          </div>
+          <%= form_with(url: add_local_policy_areas_planning_application_assessment_local_policy_path(@local_policy),
+                class: "govuk-!-margin-top-5"
+              ) do |form| %>
+              <%= form.hidden_field :enabled, value: "true" %>
+              <%= form.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
+              <%= form.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
+                <%= form.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: false do %>
+                  <%= form.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
+                <% end %>
+                <%= form.govuk_radio_button :policy, 'No', label: { text: 'No' }, checked: false %>
+              <% end %>
+              <%= form.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
+            </div>
+            <div class="govuk-grid-column-one-third">
+              <%= form.hidden_field :area, value: "", id: "hidden-field" %>
+              <button class="govuk-button govuk-button--secondary" data-action="click->local-policies#addArea" id="add-custom-area" type="button">
+                Add consideration
+              </button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</details>
+

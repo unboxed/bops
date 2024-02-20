@@ -7,6 +7,10 @@ class LocalPolicyArea < ApplicationRecord
 
   attr_reader :policy
 
+  def enabled?
+    enabled == true
+  end
+
   private
 
   def completed?

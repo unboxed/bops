@@ -42,6 +42,19 @@ module PlanningApplications
         end
       end
 
+      def add_local_policy_areas
+        set_local_policy
+        local_policy_area = LocalPolicyArea.create!(area: policy_params[:area], policies: policy_params[:policies], assessment: policy_params[:assessment], enabled: policy_params[:enabled], local_policy: @local_policy)
+
+        if local_policy_area.save
+          set_local_policy_areas
+          render :edit, notice: 'Policy was successfully added'
+        else
+          set_local_policy_areas
+          render :edit
+        end
+      end
+
       private
 
       def set_local_policy
@@ -56,14 +69,18 @@ module PlanningApplications
         params.require(:local_policy)
           .permit(
             areas: [],
-            local_policy_areas_attributes: %i[area policies guidance assessment id]
+            local_policy_areas_attributes: %i[area policies guidance assessment enabled id]
           )
           .to_h.merge(reviews_attributes: [status:, id: (@local_policy&.current_review&.id if !mark_as_complete?)])
       end
 
+      def policy_params
+        params.permit([:area, :id, :policies, :assessment, :guidance, :enabled])
+      end
+
       def assign_params
         local_policy_areas_attributes = local_policy_params[:local_policy_areas_attributes].select do |_key, value|
-          value[:policies].present? || value[:guidance].present? || value[:assessment].present?
+          value[:enabled].present? || value[:policies].present? || value[:guidance].present? || value[:assessment].present?
         end
 
         new_params = local_policy_params

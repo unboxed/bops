@@ -8,7 +8,7 @@ class LocalPolicy < ApplicationRecord
 
   before_update :maybe_create_review
 
-  AREAS = %w[design impact_on_neighbours other].freeze
+  AREAS = %w[design impact_on_neighbours].freeze
 
   accepts_nested_attributes_for :local_policy_areas, :reviews
 
@@ -21,6 +21,10 @@ class LocalPolicy < ApplicationRecord
 
   def review_local_polices_with_comments
     reviews.where.not("comment = '' OR comment IS NULL").order(:created_at)
+  end
+
+  def enabled_local_policy_areas
+    local_policy_areas.select { |area| area.enabled == true }
   end
 
   private
