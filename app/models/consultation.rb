@@ -183,6 +183,10 @@ class Consultation < ApplicationRecord
     end_date_from(Time.zone.today)
   end
 
+  def letter_closing_date
+    end_date_from(Time.next_immediate_business_day(Time.zone.now).to_date)
+  end
+
   def days_left(now = Time.zone.today)
     (end_date - now).floor
   end
@@ -243,7 +247,7 @@ class Consultation < ApplicationRecord
     body = I18n.t("neighbour_letter_header.#{planning_application.application_type.name}")
 
     defaults = {
-      closing_date: end_date_from_now.to_fs,
+      closing_date: letter_closing_date.to_fs,
       default: ""
     }
 
@@ -260,7 +264,7 @@ class Consultation < ApplicationRecord
       applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
       description: planning_application.description,
       reference: planning_application.reference,
-      closing_date: end_date_from_now.to_fs,
+      closing_date: letter_closing_date.to_fs,
       rear_wall: planning_application&.proposal_measurement&.depth,
       max_height: planning_application&.proposal_measurement&.max_height,
       eaves_height: planning_application&.proposal_measurement&.eaves_height,

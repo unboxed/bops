@@ -812,6 +812,19 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_first_name)
       expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_last_name)
     end
+
+    context "when the letter is sent outside working hours" do
+      before do
+        travel_to("19:00")
+        consultation.update(start_date: 2.days.ago, end_date: (2.days.ago + 21.days))
+      end
+
+      it "correctly sets the response date based on the next business day" do
+        expect(mail_body).to include(
+          "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs(:day_month_year)}"
+        )
+      end
+    end
   end
 
   describe "#site_notice_mail" do
