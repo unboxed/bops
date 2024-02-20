@@ -23,7 +23,7 @@
         )
       ) %>
     </li>
-    <% if @planning_application.type == "Householder Application for Planning Permission" %>
+    <% if @planning_application.application_type.planning_conditions? %>
       <%= render(
         TaskListItems::Assessment::ConditionsComponent.new(
           condition_set: @planning_application.condition_set

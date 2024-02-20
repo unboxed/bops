@@ -66,12 +66,14 @@
           )
         )%>
       <% end %>
-      <% if @planning_application.condition_set.present? && @planning_application.condition_set.current_review&.status != "not_started" %>
-        <%= render(
-          TaskListItems::Reviewing::ConditionComponent.new(
-            condition_set: @planning_application.condition_set,
-          )
-        )%>
+      <% if @planning_application.application_type.planning_conditions? %>
+        <% if @planning_application.condition_set.present? && @planning_application.condition_set.current_review&.status != "not_started" %>
+          <%= render(
+            TaskListItems::Reviewing::ConditionComponent.new(
+              condition_set: @planning_application.condition_set,
+            )
+          )%>
+        <% end %>
       <% end %>
 
       <%= render partial: "policy_classes", locals: { planning_application: @planning_application, policy_class: @policy_class } %>
