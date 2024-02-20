@@ -797,11 +797,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail_body).to include(
         "This is a copy of your neighbour consultation letter."
       )
-      travel_to(Time.zone.now.change(hour: 16)) do
-        expect(mail_body).to include(
-          "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs(:day_month_year)}"
-        )
-      end
+      expect(mail_body).to include(
+        "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs(:day_month_year)}"
+      )
       expect(mail_body).to include(
         "A prior approval application has been made for the development described below:"
       )

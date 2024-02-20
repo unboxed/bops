@@ -408,11 +408,9 @@ RSpec.describe "Consultation", js: true do
     expect(page).to have_selector("h1", text: "Consultation")
 
     within "#dates-and-assignment-details" do
-      travel_to(Time.zone.now.change(hour: 16)) do
-        expect(page).to have_text("Consultation start date: #{start_date.to_date.to_fs}")
-        expect(page).to have_text("Consultation end date: #{end_date.to_date.to_fs}")
-        expect(page).to have_text("#{period} days remaining")
-      end
+      expect(page).to have_text("Consultation start date: #{start_date.to_date.to_fs}")
+      expect(page).to have_text("Consultation end date: #{end_date.to_date.to_fs}")
+      expect(page).to have_text("#{period} days remaining")
     end
 
     within "#consultee-tasks" do
