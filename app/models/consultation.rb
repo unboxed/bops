@@ -240,13 +240,20 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_letter_header
-    I18n.t("neighbour_letter_header.#{planning_application.application_type.name}",
+    body = I18n.t("neighbour_letter_header.#{planning_application.application_type.name}")
+
+    defaults = {
       closing_date: end_date_from_now.to_fs,
-      default: "")
+      default: ""
+    }
+
+    replace_placeholders(body, defaults)
   end
 
   def neighbour_letter_body
-    I18n.t("neighbour_letter_template.#{planning_application.application_type.name}",
+    body = I18n.t("neighbour_letter_template.#{planning_application.application_type.name}")
+
+    defaults = {
       expiry_date: planning_application.expiry_date.to_date.to_fs,
       address: planning_application.full_address,
       council: local_authority.short_name,
@@ -259,7 +266,10 @@ class Consultation < ApplicationRecord
       eaves_height: planning_application&.proposal_measurement&.eaves_height,
       current_user: Current.user.name,
       council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
-      application_link:)
+      application_link:
+    }
+
+    replace_placeholders(body, defaults)
   end
 
   def neighbour_letter_content
@@ -267,7 +277,11 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_letter_text
-    super.presence || neighbour_letter_content
+    if super.presence&.include?("{{")
+      neighbour_letter_content
+    else
+      super.presence
+    end
   end
 
   def site_visit
