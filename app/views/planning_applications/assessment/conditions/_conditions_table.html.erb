@@ -1,0 +1,45 @@
+<h2 class="govuk-heading-m">Officer request</h2>
+
+<div class="govuk-inset-text">
+  <p class="govuk-body">
+    Please read and agree to the following pre-commencement conditions:
+  <p>
+  <p class="govuk-body"> 
+    <% @conditions.each_with_index do |condition, index| %>
+      <strong>Condition <%= index + 1 %></strong><br>
+      <%= condition.title %>
+    <% end %>
+  </p>
+</div>
+
+<% if @planning_application.pre_commencement_condition_validation_requests.closed.any? %>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Applicant response</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Condition</th>
+        <th scope="col" class="govuk-table__header">Applicant comment</th>
+        <th scope="col" class="govuk-table__header">Status</th>
+        <th scope="col" class="govuk-table__header">Action</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @conditions.each do |condition| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= condition.title %></td>
+          <td class="govuk-table__cell"><%= condition.validation_request.approved? ? "No comment" : condition.validation_request.rejection_reason %></td>
+          <td class="govuk-table__cell"><%= condition.validation_request.approved %></td>
+          <td class="govuk-table__cell"><%= condition.validation_request.approved ? "Update condition" : "&nbsp" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">
+    Applicant has not responded yet
+  </p>
+<% end %>
+
+<div class="govuk-button-group">
+  <%= back_link %>
+</div>

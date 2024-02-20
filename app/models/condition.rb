@@ -2,8 +2,11 @@
 
 class Condition < ApplicationRecord
   belongs_to :condition_set
+  belongs_to :validation_request, optional: true, dependent: :destroy
 
   validates :text, :reason, presence: true
+
+  after_create :create_validation_request, if: :pre_commencement?
 
   def checked?
     persisted? || errors.present?
@@ -29,5 +32,13 @@ class Condition < ApplicationRecord
 
   def timestamp_key
     created_at&.to_i
+  end
+
+  def create_validation_request
+    update!(validation_request: ValidationRequest.create(type: "PreCommencementConditionValidationRequest", planning_application: condition_set.planning_application, post_validation: true, user: Current.user))
+  end
+
+  def pre_commencement?
+    condition_set.pre_commencement?
   end
 end

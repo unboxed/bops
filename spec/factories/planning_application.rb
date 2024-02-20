@@ -315,6 +315,7 @@ FactoryBot.define do
     trait :with_condition_set do
       after(:create) do |planning_application|
         planning_application.condition_set || planning_application.create_condition_set!
+        planning_application.pre_commencement_condition_set
       end
     end
 

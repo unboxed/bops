@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Add conditions - <%= t("page_title") %>
+  Add <%= "pre-commencement" if @condition_set.pre_commencement? %> conditions - <%= t("page_title") %>
 <% end %>
 
 <%= render(
@@ -7,11 +7,11 @@
       locals: { planning_application: @planning_application }
     ) %>
 
-<% content_for :title, "Add conditions" %>
+<% content_for :title, "Add #{"pre-commencement" if @condition_set.pre_commencement?} conditions" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Add conditions" }
+      locals: { heading: "Add #{"pre-commencement" if @condition_set.pre_commencement?} conditions" }
     ) %>
 
 <div class="govuk-grid-row">
@@ -24,7 +24,11 @@
         ) %>
 
     <% if @conditions.present? %>
-      <%= render "conditions" %>
+      <% if @condition_set.pre_commencement? %>
+        <%= render "conditions_table" %>
+      <% else %>
+        <%= render "conditions" %>
+      <% end %>
     <% else %>
       <%= render "new" %>
     <% end %>

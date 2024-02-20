@@ -11,6 +11,7 @@ class ValidationRequest < ApplicationRecord
     OwnershipCertificateValidationRequest
     OtherChangeValidationRequest
     FeeChangeValidationRequest
+    PreCommencementConditionValidationRequest
   ].freeze
 
   with_options to: :planning_application do
