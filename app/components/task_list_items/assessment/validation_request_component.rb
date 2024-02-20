@@ -17,7 +17,7 @@ module TaskListItems
       end
 
       def link_path
-        if planning_application.validation_requests.where(type: request_type).any?
+        if planning_application.validation_requests.where(type: request_type).active.any?
           planning_application_assessment_validation_request_path(@planning_application, validation_request)
         else
           new_planning_application_assessment_validation_request_path(@planning_application, type: "heads_of_terms")

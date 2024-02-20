@@ -61,6 +61,7 @@ class Audit < ApplicationRecord
       "replacement_document_validation_request_sent_post_validation",
     heads_of_terms_validation_request_sent_post_validation: "heads_of_terms_validation_request_sent_post_validation",
     heads_of_terms_validation_request_auto_closed: "heads_of_terms_validation_request_auto_closed",
+    heads_of_terms_validation_request_added: "heads_of_terms_validation_request_added",
     heads_of_terms_validation_request_cancelled_post_validation: "heads_of_terms_validation_request_cancelled_post_validation",
     additional_document_validation_request_sent: "additional_document_validation_request_sent",
     additional_document_validation_request_sent_post_validation:

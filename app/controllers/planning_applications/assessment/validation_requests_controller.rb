@@ -51,8 +51,6 @@ module PlanningApplications
         @validation_request.user = current_user
 
         if @validation_request.save
-          Document.create!(file: params[:validation_request][:file], owner: @validation_request)
-
           redirect_to(
             create_request_redirect_url,
             notice: t(".#{@validation_request.type.underscore}.success")
@@ -150,7 +148,7 @@ module PlanningApplications
 
       def validation_request_params
         params.require(:validation_request)
-          .permit(:type, file: [])
+          .permit(:type, document_attributes: [:file])
       end
 
       def cancel_validation_request_params
