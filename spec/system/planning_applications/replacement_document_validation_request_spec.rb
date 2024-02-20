@@ -528,6 +528,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       fill_in "List all issues with the document", with: "This is very invalid"
       click_button "Send request"
+      click_link "Application"
       click_link "Review non-validation requests"
 
       within ".validation-requests-table" do
@@ -566,7 +567,6 @@ RSpec.describe "Requesting document changes to a planning application" do
       request.save!
       request.old_document.archive("replaced by new document")
 
-      click_link "Check and assess"
       click_button "Documents"
       click_link "Manage documents"
 

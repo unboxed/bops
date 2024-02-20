@@ -9,15 +9,34 @@ module StatusTags
     private
 
     attr_reader :planning_application
+    delegate :ownership_certificate, to: :planning_application
 
     def status
+      planning_application.in_assessment? ? assessment_status : validation_status
+    end
+
+    def assessment_status
+      if planning_application.validation_requests.ownership_certificates.open.any?
+        :invalid
+      elsif ownership_certificate.present?
+        if ownership_certificate.current_review.complete?
+          planning_application.valid_ownership_certificate? ? :valid : :invalid
+        else
+          :not_started
+        end
+      else
+        :not_started
+      end
+    end
+
+    def validation_status
       if planning_application.valid_ownership_certificate.nil?
         :not_started
-      elsif planning_application.valid_ownership_certificate?
+      elsif ownership_certificate.present?
         if planning_application.ownership_certificate_awaiting_validation?
           :updated
         else
-          :valid
+          planning_application.valid_ownership_certificate? ? :valid : :invalid
         end
       else
         :invalid

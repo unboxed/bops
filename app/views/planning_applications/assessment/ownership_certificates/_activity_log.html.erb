@@ -1,0 +1,54 @@
+<div class="activity-log govuk-!-margin-bottom-6">
+  <table class="govuk-table govuk-!-margin-bottom-0">
+    <caption class="govuk-table__caption govuk-table__caption--m">Activity log</caption>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Completed actions</th>
+        <td scope="row" class="govuk-table__header">Status</td>
+        <td scope="row" class="govuk-table__header">User</td>
+        <td scope="row" class="govuk-table__header">Date</td>
+      </tr>
+      <% if @validation_requests.any? %>
+        <% @validation_requests.sort_by(&:created_at).reverse.each do |request| %>
+          <% if request.cancel_reason.present? %>
+            <tr class="govuk-table__row">
+              <td scope="row" class="govuk-table__cell">Request was cancelled</td>
+              <td scope="row" class="govuk-table__cell">Cancelled</td>
+              <td scope="row" class="govuk-table__cell"><%= request.user.name %></td>
+              <td scope="row" class="govuk-table__cell"><%= request.cancelled_at.to_fs(:day_month_year_slashes) %></td>
+            </tr>
+          <% else %>
+            <% if request.approved.nil? %>
+              <tr class="govuk-table__row">
+                <td scope="row" class="govuk-table__cell">Applicant has not responded</td>
+                <td scope="row" class="govuk-table__cell">&nbsp</td>
+                <td scope="row" class="govuk-table__cell">&nbsp</td>
+                <td scope="row" class="govuk-table__cell">&nbsp</td>
+              </tr>
+            <% else %>
+              <tr class="govuk-table__row">
+                <td scope="row" class="govuk-table__cell"><%= request.approved? ? "Certificate submitted by applicant" : "Request rejected by applicant" %></td>
+                <td class="govuk-table__cell"><%= request.approved? ? "Submitted" : "Rejected" %></td>
+                <td class="govuk-table__cell">Applicant</td>
+                <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>
+              </tr>
+            <% end %>
+            <tr class="govuk-table__row">
+              <td scope="row" class="govuk-table__cell">New ownership certificate requested</td>
+              <td class="govuk-table__cell">Status</td>
+              <td class="govuk-table__cell"><%= request.user.name %></td>
+              <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% else %>
+        <tr class="govuk-table__row">
+          <td scope="row" class="govuk-table__cell">No validation requests were made</td>
+          <td scope="row" class="govuk-table__cell">&nbsp</td>
+          <td scope="row" class="govuk-table__cell">&nbsp</td>
+          <td scope="row" class="govuk-table__cell">&nbsp</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

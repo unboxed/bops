@@ -1,0 +1,46 @@
+<% content_for :page_title do %>
+  Ownership certificate - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title do %>
+  Check ownership certificate
+<% end %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Check the ownership certificate" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
+
+    <%= render "relevant_documents_accordion" %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds govuk-!-margin-top-6">
+    <%= render "table" %>
+  </div>
+
+  <div class="govuk-grid-column-full">
+    <%= render "activity_log" %>
+
+    <%= form_with model: @planning_application,
+      url: planning_application_assessment_ownership_certificate_path(@planning_application),
+      method: :patch do |form| %>
+      <div class="govuk-button-group">
+        <%= form.hidden_field :ownership_certificate_valid %>
+
+        <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= form.submit "Request a new ownership certificate", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+
+        <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

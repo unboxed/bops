@@ -1,0 +1,43 @@
+<div class="bops-accordion govuk-!-margin-top-6" data-module="bops-accordion" data-remember-expanded="false">
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+      <h3 class="govuk-accordion__section-heading">
+        <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-documents">
+          Documents
+        </button>
+        <span class="govuk-accordion__icon"></span>
+      </h3>
+    </div>
+    <div class="govuk-accordion__section-content">
+      <div class="govuk-!-padding-left-2 govuk-!-padding-right-2">
+        <div class="scroll-docs">
+          <% @planning_application.documents.where("tags ?| array[:tags]", tags: Document::PLAN_TAGS).each do |document| %>
+            <hr>
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-one-third">
+                <%= render(
+                  partial: "documents/document_row_image",
+                  locals: {
+                    planning_application: @planning_application,
+                    document: document,
+                    resize: "200x110",
+                    width: 90,
+                    height: 110,
+                    edit_and_archive: true
+                  }
+                ) %>
+              </div>
+              <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+                <%= render(
+                  partial: "documents/document_row_info",
+                  locals: { document: document }
+                ) %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

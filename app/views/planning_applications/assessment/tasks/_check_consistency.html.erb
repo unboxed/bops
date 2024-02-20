@@ -23,6 +23,11 @@
         category: :past_applications
       )
     ) %>
+    <%= render(
+      TaskListItems::Assessment::OwnershipCertificateComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
     <% if @planning_application.planning_history_enabled? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">

@@ -6,6 +6,12 @@ class OwnershipCertificateValidationRequest < ValidationRequest
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :allows_only_one_open_ownership_certificate_change, on: :create
 
+  after_update do
+    if approved_changed? && owner.planning_application.post_validation?
+      owner.current_review.update!(status: "in_progress")
+    end
+  end
+
   def update_planning_application!(params)
     planning_application.update!(valid_ownership_certificate: true)
 
