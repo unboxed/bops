@@ -39,25 +39,29 @@ RSpec.describe "assess against policies and guidance" do
 
     expect(page).to have_content("Assess against policies and guidance")
 
-    expect(page).to have_content "Design"
-    expect(page).to have_content "Impact on neighbours"
-    expect(page).to have_content "Other"
+    expect(page).to have_content "You have not added any considerations"
 
-    check "Design"
-    within("#local-policy-local-policy-areas-attributes-0-areas-design-conditional") do
-      fill_in "Which policies are relevant", with: "Q1, Q2"
-      choose "Yes"
-      fill_in "Which guidance? (e.g. the design code)", with: "P1, P2"
-      fill_in "Enter your assessment", with: "It's all fine"
-    end
+    click_link "Add new consideration"
 
-    check "Other"
-    within("#local-policy-local-policy-areas-attributes-2-areas-other-conditional") do
-      fill_in "Which policies are relevant", with: "S1, S2"
-      choose "No"
-    end
+    expect(page).to have_content("Create a new consideration")
 
-    click_button "Save and come back later"
+    choose "policy-2"
+    fill_in "manual-policy-input", with: "Consistency with local architecture"
+
+    fill_in "Which policies are relevant", with: "P2, P3"
+
+    choose "No"
+
+    fill_in "Enter your assessment", with: "It appears to meet these criteria"
+
+    click_button "Add consideration"
+
+    expect(page).to have_content("Assess against policies and guidance")
+    expect(page).to have_content("Consistency with local architecture")
+    expect(page).to have_content("P2, P3")
+    expect(page).to have_content("It appears to meet these criteria")
+
+    click_link "Back"
 
     within("#assess-against-legislation-tasks") do
       expect(page).to have_content "In progress"
@@ -65,11 +69,14 @@ RSpec.describe "assess against policies and guidance" do
     end
 
     expect(page).to have_content("Assess against policies and guidance")
+    expect(page).to have_content("Consistency with local architecture")
 
-    within("#local-policy-local-policy-areas-attributes-2-areas-other-conditional") do
-      fill_in "Enter your assessment", with: "It's also all fine"
-    end
+    click_link("Consistency with local architecture")
+    click_link("Edit consideration")
 
+    fill_in "Enter your assessment", with: "It's also all fine"
+
+    click_button "Update consideration"
     click_button "Save and mark as complete"
 
     within("#assess-against-legislation-tasks") do
@@ -83,20 +90,24 @@ RSpec.describe "assess against policies and guidance" do
       click_link "Assess against policies and guidance"
     end
 
-    check "Design"
-    within("#local-policy-local-policy-areas-attributes-0-areas-design-conditional") do
-      fill_in "Which policies are relevant", with: "Q1, Q2"
-      choose "Yes"
-      fill_in "Which guidance? (e.g. the design code)", with: "P1, P2"
-      fill_in "Enter your assessment", with: "It's all fine"
-    end
+    expect(page).to have_content "You have not added any considerations"
 
-    check "Other"
-    within("#local-policy-local-policy-areas-attributes-2-areas-other-conditional") do
-      fill_in "Which policies are relevant", with: "S1, S2"
-      choose "No"
-      fill_in "Enter your assessment", with: "It's also all fine"
-    end
+    click_link "Add new consideration"
+
+    expect(page).to have_content("Add a custom policy area if it does not appear in the list above")
+
+    choose "policy-2"
+    fill_in "manual-policy-input", with: "Consistency with local architecture"
+
+    fill_in "Which policies are relevant", with: "P2, P3"
+
+    choose "No"
+
+    fill_in "Enter your assessment", with: "It appears to meet these criteria"
+
+    click_button "Add consideration"
+
+    expect(page).to have_content("Assess against policies and guidance")
 
     click_button "Save and mark as complete"
 
@@ -105,23 +116,21 @@ RSpec.describe "assess against policies and guidance" do
       click_link "Assess against policies and guidance"
     end
 
-    expect(page).to have_content("Design")
-    expect(page).to have_content("Q1, Q2")
-    expect(page).to have_content("P1, P2")
-    expect(page).to have_content("It's all fine")
-    expect(page).to have_content("Other")
-    expect(page).to have_content("S1, S2")
-    expect(page).to have_content("It's also all fine")
+    expect(page).to have_content("Consistency with local architecture")
+    expect(page).to have_content("P2, P3")
+    expect(page).to have_content("It appears to meet these criteria")
 
     expect(page).not_to have_content("Save and mark as complete")
 
     click_link "Edit Assess against policies and guidance"
 
-    within("#local-policy-local-policy-areas-attributes-0-areas-design-conditional") do
-      fill_in "Which policies are relevant", with: "Q1, Q2, Q3"
-    end
+    click_link "Consistency with local architecture"
+    click_link "Edit consideration"
 
-    click_button "Save and mark as complete"
+    fill_in "Which policies are relevant", with: "Q1, Q2, Q3"
+
+    click_button "Update consideration"
+    click_link "Back"
 
     within("#assess-against-legislation-tasks") do
       expect(page).to have_content "Completed"
@@ -134,12 +143,12 @@ RSpec.describe "assess against policies and guidance" do
   it "shows errors" do
     click_link "Assess against policies and guidance"
 
-    click_button "Save and mark as complete"
+    expect(page).to have_content "You have not added any considerations"
 
-    expect(page).to have_content("Local policy areas can't be blank")
+    click_link "Add new consideration"
 
-    click_button "Save and come back later"
+    click_button "Add consideration"
 
-    expect(page).to have_content("Check against policy and guidance response was sucessfully created")
+    expect(page).to have_content("There is a problem")
   end
 end

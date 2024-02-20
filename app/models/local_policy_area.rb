@@ -3,15 +3,9 @@
 class LocalPolicyArea < ApplicationRecord
   belongs_to :local_policy
 
-  validates :assessment, :policies, :area, presence: true, if: :completed?
+  validates :assessment, :policies, :area, presence: true
 
-  attr_reader :policy
-
-  private
-
-  def completed?
-    return if local_policy.reviews.none?
-
-    local_policy.current_review&.status == "complete" || local_policy.reviews.last.status == "complete"
+  def enabled?
+    enabled == true
   end
 end

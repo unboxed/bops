@@ -1,0 +1,22 @@
+<%= form_with(model: @local_policy_area,
+              url: planning_application_assessment_local_policy_area_path(@planning_application, @local_policy_area),
+              class: "govuk-!-margin-top-5"
+    ) do |form| %>
+  <%= form.govuk_error_summary(
+        presenter: ErrorPresenter
+      ) %>
+  <%= form.govuk_text_field :area, label: { text: "Area text", size: "s" }, hint: { text: "Enter a title for your custom local policy topic if it does not appear in the list below" } %>
+  <%= form.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
+  <%= form.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
+    <%= form.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: false do %>
+      <%= form.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
+    <% end %>
+    <%= form.govuk_radio_button :policy, 'No', label: { text: 'No' }, checked: false %>
+  <% end %>
+  <%= form.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
+  <div class="govuk-button-group">
+    <%= link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), class: "govuk-button govuk-button--secondary" %>
+    <%= form.submit "Update consideration", class: "govuk-button govuk-button--primary" %>
+    <%#= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+  </div>
+<% end %>
