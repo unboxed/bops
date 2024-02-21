@@ -43,6 +43,8 @@ class Audit < ApplicationRecord
     closed: "closed",
     pre_commencement_condition_validation_request_sent_post_validation: "pre_commencement_condition_validation_request_sent_post_validation",
     pre_commencement_condition_validation_request_auto_closed: "pre_commencement_condition_validation_request_auto_closed",
+    pre_commencement_condition_validation_request_added: "pre_commencement_condition_validation_request_added",
+    pre_commencement_condition_validation_request_cancelled_post_validation: "pre_commencement_condition_validation_request_cancelled_post_validation",
     red_line_boundary_change_validation_request_auto_closed: "red_line_boundary_change_validation_request_auto_closed",
     description_change_validation_request_auto_closed: "description_change_validation_request_auto_closed",
     document_invalidated: "document_invalidated",

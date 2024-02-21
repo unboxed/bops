@@ -44,8 +44,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
   end
 
   create_table "api_users", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "token", null: false
+    t.string "name"
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
@@ -542,12 +542,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
     t.string "longitude"
     t.datetime "closed_at", precision: nil
     t.datetime "determination_date", precision: nil
-    t.integer "user_role"
     t.boolean "updated_address_or_boundary_geojson", default: false
+    t.integer "user_role"
     t.boolean "constraints_checked", default: false, null: false
     t.boolean "valid_fee"
-    t.boolean "documents_missing"
     t.boolean "valid_red_line_boundary"
+    t.boolean "documents_missing"
     t.decimal "invalid_payment_amount", precision: 10, scale: 2
     t.bigint "application_number", null: false
     t.string "parish_name"

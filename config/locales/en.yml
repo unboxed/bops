@@ -127,6 +127,8 @@ en:
               no_consultees_added: Consultees must be added
         condition:
           attributes:
+            title:
+              blank: Enter the title of this condition
             reason:
               blank: Enter the reason for this condition
             text:
@@ -384,6 +386,8 @@ en:
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent_post_validation: 'Sent: request for change (ownership certificate validation#%{args})'
+      pre_commencement_condition_validation_request_sent_post_validation: "Sent: pre-commencement conditions for applicant's approval (#%{args})"
+      pre_commencement_condition_validation_request_cancelled_post_validation: "Cancelled: validation request (pre-commencement condition validation#%{args})"
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
       proposal_measurements_updated: Proposal measurements were updated
@@ -1330,6 +1334,8 @@ en:
             success: Change request successfully cancelled.
           ownership_certificate_validation_request:
             success: Ownership certificate request successfully cancelled
+          pre_commencement_condition_validation_request: 
+            success: Pre-commencement condition agreement request was successully cancelled
           red_line_boundary_change_validation_request:
             success: Red line boundary change request was successfully cancelled.
           replacement_document_validation_request:

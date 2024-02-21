@@ -22,7 +22,7 @@ export default class extends Controller {
       element.name = `${namePrefix}[${input}]`
     }
 
-    const labels = ["text", "reason"]
+    const labels = ["title", "text", "reason"]
 
     for (const label of labels) {
       const element = condition.querySelector(`#${label}Label`)
