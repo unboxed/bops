@@ -49,6 +49,7 @@ class ValidationRequest < ApplicationRecord
   scope :open_or_pending, -> { open.or(pending) }
   scope :post_validation, -> { where(post_validation: true) }
   scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
+  scope :open_change_created_over_10_business_days_ago, -> { open.where("created_at <= ?", 10.business_days.ago) }
   scope :pre_validation, -> { where(post_validation: false) }
   scope :responded, -> { where.not(response: nil).or(where(approved: true)) }
   scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }

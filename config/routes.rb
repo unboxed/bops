@@ -250,6 +250,7 @@ Rails.application.routes.draw do
         resources :ownership_certificate_validation_requests, only: %i[index update show]
         resources :ownership_certificates, only: %i[create]
         resources :red_line_boundary_change_validation_requests, only: %i[index update show]
+        resources :pre_commencement_condition_validation_requests, only: %i[index update show]
         resources :neighbour_responses, only: :create
       end
 

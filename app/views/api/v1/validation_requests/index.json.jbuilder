@@ -123,4 +123,20 @@ json.data do
       :cancelled_at
     json.type "ownership_certificate_validation_request"
   end
+
+  json.pre_commencement_condition_validation_requests @planning_application
+    .pre_commencement_condition_validation_requests do |pre_commencement_condition_validation_request|
+    json.extract! pre_commencement_condition_validation_request,
+      :id,
+      :state,
+      :response_due,
+      :response,
+      :reason,
+      :suggestion,
+      :reason,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
+    json.type "pre_commencement_condition_validation_request"
+  end
 end
