@@ -930,7 +930,8 @@ RSpec.describe PlanningApplication do
             "UserMailer",
             "update_notification_mail",
             "deliver_now",
-            args: [planning_application, "reviewers@example.com"]
+            args: [planning_application, "reviewers@example.com"],
+            current_user: Current.user
           )
       end
     end
