@@ -2,6 +2,6 @@
 
 class AddValidationRequestToCondition < ActiveRecord::Migration[7.1]
   def change
-    add_reference :conditions, :validation_request, null: true
+    add_reference :validation_requests, :condition, null: true
   end
 end

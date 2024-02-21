@@ -25,11 +25,16 @@
     </thead>
     <tbody class="govuk-table__body">
       <% @conditions.each do |condition| %>
+        <% next unless condition.current_validation_request.closed? %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= condition.title %></td>
-          <td class="govuk-table__cell"><%= condition.validation_request.approved? ? "No comment" : condition.validation_request.rejection_reason %></td>
-          <td class="govuk-table__cell"><%= condition.validation_request.approved %></td>
-          <td class="govuk-table__cell"><%= condition.validation_request.approved ? "Update condition" : "&nbsp" %></td>
+          <td class="govuk-table__cell"><%= condition.current_validation_request.approved? ? "No comment" : condition.current_validation_request.rejection_reason %></td>
+          <td class="govuk-table__cell"><%= condition.current_validation_request.approved %></td>
+          <td class="govuk-table__cell">
+            <% unless condition.current_validation_request.approved %>
+              <%= link_to "Update condition", edit_planning_application_assessment_conditions_path(@planning_application, pre_commencement: true) %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

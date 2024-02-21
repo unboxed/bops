@@ -127,9 +127,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "condition_set_id"
-    t.bigint "validation_request_id"
     t.index ["condition_set_id"], name: "ix_conditions_on_condition_set_id"
-    t.index ["validation_request_id"], name: "ix_conditions_on_validation_request_id"
   end
 
   create_table "consistency_checklists", force: :cascade do |t|
@@ -755,6 +753,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
     t.bigint "old_document_id"
     t.integer "sequence"
     t.jsonb "specific_attributes"
+    t.bigint "condition_id"
+    t.index ["condition_id"], name: "ix_validation_requests_on_condition_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_validation_requests_on_user_id"

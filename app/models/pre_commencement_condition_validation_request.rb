@@ -5,7 +5,7 @@ class PreCommencementConditionValidationRequest < ValidationRequest
 
   validates :cancel_reason, presence: true, if: :cancelled?
 
-  has_one :condition, dependent: :restrict_with_error
+  belongs_to :condition
 
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
