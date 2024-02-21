@@ -375,7 +375,7 @@ $govuk-page-width: 1100px;
 }
 
 .status-panel {
-  background-color: govuk-colour("light-grey", $legacy: "grey-3");
+  background-color: govuk-colour("light-grey");
   margin-top: 1rem;
   margin-bottom: 1rem;
 
@@ -409,12 +409,12 @@ body {
 }
 
 .grey-box {
-  background-color: govuk-colour("light-grey", $legacy: "grey-3");
+  background-color: govuk-colour("light-grey");
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 2rem;
 }
 
 .background-light-grey {
-  background-color: govuk-colour("light-grey", $legacy: "grey-3");
+  background-color: govuk-colour("light-grey");
 }
