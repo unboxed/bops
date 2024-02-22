@@ -17,8 +17,8 @@ RSpec.describe ConstraintQueryUpdateJob do
 
   describe "#perform" do
     before do
-      expect(ConstraintQueryUpdateService).to receive(:new).and_return(query_service)
-      expect(query_service).to receive(:call).and_call_original
+      allow(ConstraintQueryUpdateService).to receive(:new).and_return(query_service)
+      allow(query_service).to receive(:call).and_call_original
 
       described_class.perform_later(planning_application:)
     end
@@ -49,6 +49,14 @@ RSpec.describe ConstraintQueryUpdateJob do
           .with(planning_application:)
           .on_queue("high_priority")
           .at(5.minutes.from_now)
+      end
+
+      it "doesn't raise an error when the maximum number of attempts has been exceeded" do
+        expect {
+          13.times {
+            perform_enqueued_jobs
+          }
+        }.not_to raise_error
       end
     end
   end
