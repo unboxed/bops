@@ -21,6 +21,9 @@ module PlanningApplications
       end
     end
 
+    def index
+    end
+
     private
 
     def set_consultees

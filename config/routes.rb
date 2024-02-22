@@ -135,7 +135,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :consultees, only: %i[create show] do
+        resources :consultees, only: %i[index create show] do
           resources :responses, controller: "consultee/responses", except: %i[show destroy]
         end
 

@@ -65,15 +65,20 @@
         <h2 class="govuk-heading-m">Consultees</h2>
         <ul class="app-task-list__items" id="consultation-section">
           <%= render(
-            TaskListItems::EmailConsulteesComponent.new(
-              planning_application: @planning_application
-            )
-          ) %>
+                TaskListItems::SelectConsulteesComponent.new(
+                  planning_application: @planning_application
+                )
+              ) %>
           <%= render(
-            TaskListItems::ConsulteeResponsesComponent.new(
-              planning_application: @planning_application
-            )
-          ) %>
+                TaskListItems::EmailConsulteesComponent.new(
+                  planning_application: @planning_application
+                )
+              ) %>
+          <%= render(
+                TaskListItems::ConsulteeResponsesComponent.new(
+                  planning_application: @planning_application
+                )
+              ) %>
         </ul>
       </li>
       <li id="publicity-tasks">

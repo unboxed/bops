@@ -1,0 +1,19 @@
+<h3 class="govuk-body">Assign consultees based on identified constraints</h3>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">Reason/constraint</th>
+      <th class="govuk-table__header">Consultee</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @consultation.planning_application.constraints.each do |constraint| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell"><%= constraint.type_code %></td>
+        <td class="govuk-table__cell">
+          <%= link_to "Assign consultee", "#", class: "govuk-link" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
