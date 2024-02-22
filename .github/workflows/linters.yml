@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUNDLE_WITHOUT: development
+      PUPPETEER_SKIP_DOWNLOAD: true
       RAILS_ENV: test
 
     steps:

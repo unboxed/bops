@@ -88,6 +88,10 @@ WORKDIR /app
 # Add Javascript files
 COPY package.json yarn.lock /app/
 
+# Skip puppeteer downloading chrome during installation
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
+# Install npm dependencies
 RUN bash -c "bundle exec yarn install"
 
 # Build image for application

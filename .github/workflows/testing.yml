@@ -41,6 +41,8 @@ jobs:
   tests:
     name: ${{ inputs.name }}
     runs-on: ubuntu-latest
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
 
     services:
       postgres:
