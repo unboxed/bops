@@ -5,7 +5,7 @@ module ActiveStorage
     extend ActiveSupport::Concern
 
     included do
-      before_action :verify_request, only: %i[set_disk_blob]
+      before_action :verify_request
       before_action :set_disk_blob, if: :not_from_bops?
     end
 
