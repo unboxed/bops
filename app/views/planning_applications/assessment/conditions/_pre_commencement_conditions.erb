@@ -34,7 +34,7 @@
         </td>
         <td class="govuk-table__cell">
           <% if condition.current_validation_request.approved == false %>
-            <%= link_to "Update condition", edit_planning_application_assessment_conditions_path(@planning_application, pre_commencement: true) %>
+            <%= link_to "Update condition", planning_application_assessment_condition_edit_path(@planning_application, condition, pre_commencement: true) %>
           <% elsif condition.current_validation_request.approved.nil? %>
             <%= link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, condition.current_validation_request) %>
           <% end %>

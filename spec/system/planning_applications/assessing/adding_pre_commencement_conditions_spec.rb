@@ -23,7 +23,6 @@ RSpec.describe "Add pre-commencement conditions" do
 
       expect(page).to have_content("Add pre-commencement conditions")
 
-      click_link "+ Add condition"
       within(:css, "#other-conditions .condition:nth-of-type(1)") do
         fill_in "Enter a title", with: "Title 1"
         fill_in "Enter condition", with: "Custom condition 1"
@@ -85,7 +84,7 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_content "Rejected"
         expect(page).to have_link(
           "Update condition",
-          href: "/planning_applications/#{planning_application.id}/assessment/conditions/edit?pre_commencement=true"
+          href: "/planning_applications/#{planning_application.id}/assessment/conditions/#{condition1.id}/edit?pre_commencement=true"
         )
       end
 

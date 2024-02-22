@@ -136,7 +136,9 @@ json.data do
       :reason,
       :days_until_response_due,
       :cancel_reason,
-      :cancelled_at
+      :cancelled_at,
+      :created_at,
+      :condition_id
     json.type "pre_commencement_condition_validation_request"
   end
 end

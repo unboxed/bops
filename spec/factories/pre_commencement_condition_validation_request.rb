@@ -2,12 +2,16 @@
 
 FactoryBot.define do
   factory :pre_commencement_condition_validation_request do
-    planning_application { create(:planning_application, :in_assessment) }
+    planning_application { create(:planning_application, :not_started) }
     user
     state { "open" }
     approved { nil }
     post_validation { true }
     condition
+
+    trait :pending do
+      state { "pending" }
+    end
 
     trait :open do
       state { "open" }

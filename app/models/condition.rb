@@ -42,7 +42,7 @@ class Condition < ApplicationRecord
 
   def maybe_create_validation_request
     return unless current_validation_request.closed?
-    return unless title_changed? && text_changed? && reason_changed?
+    return unless title_changed? || text_changed? || reason_changed?
 
     create_validation_request
   end

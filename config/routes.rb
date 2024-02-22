@@ -92,6 +92,7 @@ Rails.application.routes.draw do
         resources :tasks, only: :index
         resources :conditions, only: %i[index] do
           get :edit, on: :collection
+          get :edit
           patch :update, on: :collection
         end
         resource :consistency_checklist, except: %i[destroy index]

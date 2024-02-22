@@ -20,6 +20,14 @@ class PreCommencementConditionValidationRequest < ValidationRequest
     }.to_json
   end
 
+  def audit_api_comment
+    if approved?
+      {response: "approved"}.to_json
+    else
+      {response: "rejected", reason: rejection_reason}.to_json
+    end
+  end
+
   def rejected_reason_is_present?
     return if planning_application.nil?
     return unless planning_application.invalidated?

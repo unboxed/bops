@@ -9,6 +9,7 @@ module PlanningApplications
       before_action :set_pre_commencement
       before_action :set_condition_set
       before_action :set_conditions
+      before_action :set_condition, only: %i[edit]
 
       def index
         respond_to do |format|
@@ -60,6 +61,12 @@ module PlanningApplications
             conditions_attributes: %i[_destroy id standard title text reason]
           )
           .to_h.merge(reviews_attributes: [status:, id: (@condition_set&.current_review&.id if !mark_as_complete?)])
+      end
+
+      def set_condition
+        if @pre_commencement
+          @condition = @condition_set.conditions.find(params[:condition_id])
+        end
       end
 
       def status

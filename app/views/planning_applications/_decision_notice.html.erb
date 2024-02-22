@@ -55,7 +55,21 @@
         <%= @planning_application.assessment_details.find { |ad| ad.category == "amenity" }.entry %>
       </p>
     <% end %>
-    <% if @planning_application.condition_set.present? %>
+    <% if @planning_application.pre_commencement_condition_set.conditions.any? %>
+      <h3 class="govuk-heading-s">
+        Pre-commencement conditions:
+      </h3>
+      <ul class="govuk-list">
+        <% @planning_application.pre_commencement_condition_set.conditions.each do |condition| %>
+          <li>
+            <%= condition.title %><br>
+            <%= condition.text %><br>
+            <%= condition.reason %>
+          </li>
+        <% end %>
+      </p>
+    <% end %>
+    <% if @planning_application.condition_set.conditions.any? %>
       <h3 class="govuk-heading-s">
         Conditions:
       </h3>
