@@ -18,7 +18,7 @@
     <caption class="govuk-table__caption govuk-table__caption--m">Applicant response</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Condition</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Condition</th>
         <th scope="col" class="govuk-table__header">Applicant comment</th>
         <th scope="col" class="govuk-table__header">Status</th>
         <th scope="col" class="govuk-table__header">Action</th>
@@ -27,7 +27,23 @@
     <tbody class="govuk-table__body">
       <% @conditions.each do |condition| %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= condition.title %></td>
+          <td class="govuk-table__cell">
+            <strong>
+              <%= condition.title %>
+            </strong><br>
+            <div data-controller="show-more-text">
+              <span class="truncated-comment">
+                <%= simple_format(condition.truncated_comment) %>
+              </span>
+
+              <% if response_been_truncated?(condition, (condition.text + condition.reason + "Reason: \n\n")) %>
+                <span class="govuk-!-display-none hidden-comment">
+                  <%= condition.text[truncated_length(condition)..-1] %><br><br><%= "Reason: #{condition.reason}" %>
+                </span>
+                <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+              <% end %>
+            </div>
+          </td>
           <td class="govuk-table__cell">
             <%= condition.current_validation_request.approved? ? "No comment" : condition.current_validation_request.rejection_reason %>
           </td>

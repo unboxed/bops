@@ -26,6 +26,10 @@ class Condition < ApplicationRecord
     validation_requests.order(:created_at).last
   end
 
+  def truncated_comment
+    (text + "\n\nReason: #{reason}").truncate(100, separator: "Reason")
+  end
+
   private
 
   def titles

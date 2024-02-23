@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module NeighbourResponseHelper
-  def response_been_truncated?(response)
-    response.truncated_comment.length != response.comment.length
+  def response_been_truncated?(response, text)
+    response.truncated_comment.length != text.length
   end
 
   def truncated_length(response)
