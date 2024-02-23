@@ -59,11 +59,11 @@ RSpec.describe "Add pre-commencement conditions" do
       expect(page).to have_content "Title 2"
 
       within("tr", text: "Title 1") do
-        expect(page).to have_content "Not responded"
+        expect(page).to have_content "Awaiting response"
       end
 
       within("tr", text: "Title 2") do
-        expect(page).to have_content "Not responded"
+        expect(page).to have_content "Awaiting response"
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe "Add pre-commencement conditions" do
       end
 
       within("tr", text: condition2.title) do
-        expect(page).to have_content "Approved"
+        expect(page).to have_content "Accepted"
       end
 
       click_link "Update condition"
@@ -107,7 +107,7 @@ RSpec.describe "Add pre-commencement conditions" do
       expect(page).to have_content "new title"
 
       within("tr", text: "new title") do
-        expect(page).to have_content "Not responded"
+        expect(page).to have_content "Awaiting response"
         expect(page).to have_link(
           "Cancel",
           href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{condition1.current_validation_request.id}/cancel_confirmation"
@@ -115,7 +115,7 @@ RSpec.describe "Add pre-commencement conditions" do
       end
 
       within("tr", text: condition2.title) do
-        expect(page).to have_content "Approved"
+        expect(page).to have_content "Accepted"
       end
     end
 
@@ -129,7 +129,7 @@ RSpec.describe "Add pre-commencement conditions" do
       click_link "Add pre-commencement conditions"
 
       within("tr", text: condition1.title) do
-        expect(page).to have_content "Not responded"
+        expect(page).to have_content "Awaiting response"
         expect(page).to have_link(
           "Cancel",
           href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{condition1.current_validation_request.id}/cancel_confirmation"

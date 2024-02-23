@@ -1627,7 +1627,9 @@ en:
       review_application: Review
   status_tag_component:
     accepted: Printing
+    approved: Accepted
     awaiting_determination: Awaiting determination
+    awaiting_response: Awaiting response
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
     checked: Checked

@@ -75,6 +75,12 @@
     </div>
   </template>
 
+  <% if @pre_commencement %>
+    <p class="govuk-body">
+      Requests will be sent immediately. The applicant will be asked to respond within 10 working days (excluding bank holidays).
+    </p>
+  <% end %>
+
   <div class="govuk-button-group">
     <%= form.submit(
           t("form_actions.save_and_mark_as_complete"),

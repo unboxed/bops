@@ -139,6 +139,10 @@ json.data do
       :cancelled_at,
       :created_at,
       :condition_id
+
+    json.condition do
+      json.title pre_commencement_condition_validation_request.condition.title
+    end
     json.type "pre_commencement_condition_validation_request"
   end
 end

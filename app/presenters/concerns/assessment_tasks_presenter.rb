@@ -9,7 +9,9 @@ module AssessmentTasksPresenter
       assessment_details.any? ||
       permitted_development_right.present? ||
       recommendation.present? ||
-      immunity_validation_in_progress?
+      immunity_validation_in_progress? ||
+      pre_commencement_condition_set.conditions.any? ||
+      condition_set.conditions.any?
   end
 
   def multiple_policy_classes?

@@ -1,49 +1,60 @@
-<h2 class="govuk-heading-m">Officer request</h2>
+  <h2 class="govuk-heading-m">Officer request</h2>
 
-<div class="govuk-inset-text">
-  <p class="govuk-body">
-    Please read and agree to the following pre-commencement conditions:
-  <p>
-  <% @conditions.each_with_index do |condition, index| %>
-    <p class="govuk-body"> 
-      <strong>Condition <%= index + 1 %></strong><br>
-      <%= condition.title %>
-    </p>
-  <% end %>
+  <div class="govuk-inset-text">
+    <p class="govuk-body">
+      Please read and agree to the following pre-commencement conditions:
+    <p>
+    <% @conditions.each_with_index do |condition, index| %>
+      <p class="govuk-body"> 
+        <strong>Condition <%= index + 1 %></strong><br>
+        <%= condition.title %>
+      </p>
+    <% end %>
+  </div>
 </div>
 
-<table class="govuk-table">
-  <caption class="govuk-table__caption govuk-table__caption--m">Applicant response</caption>
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Condition</th>
-      <th scope="col" class="govuk-table__header">Applicant comment</th>
-      <th scope="col" class="govuk-table__header">Status</th>
-      <th scope="col" class="govuk-table__header">Action</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <% @conditions.each do |condition| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= condition.title %></td>
-        <td class="govuk-table__cell">
-          <%= condition.current_validation_request.approved? ? "No comment" : condition.current_validation_request.rejection_reason %>
-        </td>
-        <td class="govuk-table__cell">
-          <%= condition.current_validation_request.approved.nil? ? "Not responded" : condition.current_validation_request.approved ? "Approved" : "Rejected" %>
-        </td>
-        <td class="govuk-table__cell">
-          <% if condition.current_validation_request.approved == false %>
-            <%= link_to "Update condition", planning_application_assessment_condition_edit_path(@planning_application, condition, pre_commencement: true) %>
-          <% elsif condition.current_validation_request.approved.nil? %>
-            <%= link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, condition.current_validation_request) %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="govuk-grid-column-full">
 
-<div class="govuk-button-group">
-  <%= back_link %>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Applicant response</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Condition</th>
+        <th scope="col" class="govuk-table__header">Applicant comment</th>
+        <th scope="col" class="govuk-table__header">Status</th>
+        <th scope="col" class="govuk-table__header">Action</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @conditions.each do |condition| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= condition.title %></td>
+          <td class="govuk-table__cell">
+            <%= condition.current_validation_request.approved? ? "No comment" : condition.current_validation_request.rejection_reason %>
+          </td>
+          <td class="govuk-table__cell">
+            <% status = condition.current_validation_request.approved.nil? ? "awaiting_response" : condition.current_validation_request.approved ? "approved" : "rejected" %>
+            <div style="float: left">
+              <%= render(StatusTags::BaseComponent.new(status:)) %>
+            </div>
+          </td>
+          <td class="govuk-table__cell">
+            <% if condition.current_validation_request.approved == false %>
+              <%= link_to "Update condition", planning_application_assessment_condition_edit_path(@planning_application, condition, pre_commencement: true) %>
+            <% elsif condition.current_validation_request.approved.nil? %>
+              <%= link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, condition.current_validation_request) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p class="govuk-body">
+    Updated conditions will be sent to the applicant immediately
+  </p>
+
+  <div class="govuk-button-group">
+    <%= back_link %>
+  </div>
 </div>
