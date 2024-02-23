@@ -34,7 +34,15 @@ module TaskListItems
 
       def status
         if condition_set.current_review.present?
-          condition_set.current_review.status.to_sym
+          if condition_set.pre_commencement?
+            if condition_set.validation_requests.any? { |validation_request| !validation_request.approved.nil? } && !condition_set.current_review.complete?
+              "updated"
+            else
+              condition_set.current_review.status.to_sym
+            end
+          else
+            condition_set.current_review.status.to_sym
+          end
         else
           :not_started
         end

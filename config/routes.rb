@@ -90,7 +90,7 @@ Rails.application.routes.draw do
         resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
         resources :assessment_details, except: %i[destroy index]
         resources :tasks, only: :index
-        resources :conditions, only: %i[index] do
+        resources :conditions, only: %i[index new] do
           get :edit, on: :collection
           get :edit
           patch :update, on: :collection

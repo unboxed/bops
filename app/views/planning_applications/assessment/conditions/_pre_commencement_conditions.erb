@@ -14,8 +14,7 @@
 </div>
 
 <div class="govuk-grid-column-full">
-
-  <table class="govuk-table">
+  <table class="govuk-table govuk-!-margin-bottom-1">
     <caption class="govuk-table__caption govuk-table__caption--m">Applicant response</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
@@ -33,7 +32,21 @@
             <%= condition.current_validation_request.approved? ? "No comment" : condition.current_validation_request.rejection_reason %>
           </td>
           <td class="govuk-table__cell">
-            <% status = condition.current_validation_request.approved.nil? ? "awaiting_response" : condition.current_validation_request.approved ? "approved" : "rejected" %>
+            <% status = if condition.current_validation_request.cancelled? %>
+              <% "cancelled" %>
+            <% elsif condition.current_validation_request.approved.nil? %>
+              <% "awaiting_response" %>
+            <% else %>
+              <% if condition.current_validation_request.approved? %>
+                <% if condition.current_validation_request.auto_closed? %>
+                  <% "auto_approved" %>
+                <% else %>
+                  <% "approved" %>
+                <% end %>
+              <% else %>
+                <% "rejected" %>
+              <% end %>
+            <% end %>
             <div style="float: left">
               <%= render(StatusTags::BaseComponent.new(status:)) %>
             </div>
@@ -41,7 +54,7 @@
           <td class="govuk-table__cell">
             <% if condition.current_validation_request.approved == false %>
               <%= link_to "Update condition", planning_application_assessment_condition_edit_path(@planning_application, condition, pre_commencement: true) %>
-            <% elsif condition.current_validation_request.approved.nil? %>
+            <% elsif condition.current_validation_request.approved.nil? && !condition.current_validation_request.cancelled? %>
               <%= link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, condition.current_validation_request) %>
             <% end %>
           </td>
@@ -49,12 +62,26 @@
       <% end %>
     </tbody>
   </table>
+  <%= link_to "+ Add condition", new_planning_application_assessment_condition_path(@planning_application.id, pre_commencement: true), class: "govuk-body govuk-link" %>
 
-  <p class="govuk-body">
+  <p class="govuk-body govuk-!-margin-top-5">
     Updated conditions will be sent to the applicant immediately
   </p>
 
-  <div class="govuk-button-group">
+  <div class="govuk-button-group align-items-center">
+    <% if (@condition_set.current_review.status != "complete" && @condition_set.latest_active_validation_requests.all?(&:approved?)) || (@condition_set.latest_validation_request.notified_at > 10.business_days.from_now) %>
+      <%= form_with model: @condition_set,
+              url: planning_application_assessment_conditions_path(@planning_application, pre_commencement: @condition_set.pre_commencement),
+              html: { data: { controller: "conditions" } },
+              method: :patch do |form| %>
+      <%= form.hidden_field :id, value: @condition_set.id %>
+      <%= form.submit(
+            t("form_actions.save_and_mark_as_complete"),
+            class: "govuk-button",
+            data: { module: "govuk-button" }
+          ) %>
+      <% end %>
+    <% end %>
     <%= back_link %>
   </div>
 </div>

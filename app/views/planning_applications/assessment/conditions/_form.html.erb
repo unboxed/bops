@@ -1,7 +1,7 @@
 <%= form_with model: @condition_set,
               class: "govuk-!-margin-top-7",
               url: planning_application_assessment_conditions_path(@planning_application, pre_commencement: @condition_set.pre_commencement),
-              html: { data: { controller: "conditions" } },
+              html: { data: { controller: "conditions reset-text" } },
               method: :patch do |form| %>
 
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -25,7 +25,13 @@
   <% end %>
 
   <div class="govuk-!-margin-bottom-7">
-    <h2 class="govuk-heading-m"><%= @pre_commencement ? "Add pre-commencement condition" : "Other conditions" %></h2>
+    <h2 class="govuk-heading-m">
+      <% if @pre_commencement %>
+       <%= @condition && @condition.persisted? ? "Update" : "Add" %> pre-commencement condition
+      <% else %>
+        Other conditions
+      <% end %>
+    </h2>
     <div id="other-conditions" data-conditions-target="conditions">
       <%= form.fields_for :conditions, (@pre_commencement ? (@condition || @conditions.new) : @conditions.other) do |fields| %>
         <%= content_tag :div, class: "condition govuk-!-margin-bottom-5", data: { index: fields.index } do %>
@@ -33,12 +39,18 @@
           <%= fields.hidden_field :id %>
           <%= fields.hidden_field :standard, value: false %>
           <% if @pre_commencement %>
-            <%= fields.govuk_text_field :title, label: { text: "Enter a title" } %>
+            <%= fields.hidden_field :title_source, value: fields.object.title, data: {reset_text_target: "source"} %>
+            <%= fields.govuk_text_field :title, label: { text: "Enter a title" }, data: {reset_text_target: "destination"} %>
+            <%= button_tag "Reset title", type: "button", class: "button-as-link govuk-!-margin-bottom-6", value: "title", data: {action: "click->reset-text#reset"} %>
           <% else %>
             <%= fields.hidden_field :title, value: "" %>
           <% end %>
-          <%= fields.govuk_text_area :text, label: { text: "Enter condition" } %>
-          <%= fields.govuk_text_area :reason, label: { text: "Enter a reason for this condition" } %>
+          <%= fields.hidden_field :text_source, value: fields.object.text, data: {reset_text_target: "source"} %>
+          <%= fields.govuk_text_area :text, label: { text: "Enter condition" }, data: {reset_text_target: "destination"} %>
+          <%= button_tag "Reset condition", type: "button", class: "button-as-link govuk-!-margin-bottom-6", value: "text", data: {action: "click->reset-text#reset"} %>
+          <%= fields.hidden_field :reason_source, value: fields.object.reason, data: {reset_text_target: "source"} %>
+          <%= fields.govuk_text_area :reason, label: { text: "Enter a reason for this condition" }, data: {reset_text_target: "destination"} %>
+          <%= button_tag "Reset reason", type: "button", class: "button-as-link govuk-!-margin-bottom-6", value: "reason", data: {action: "click->reset-text#reset"} %><br>
           <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", data: { action: "click->conditions#removeCondition" } %>
         <% end %>
       <% end %>
@@ -83,7 +95,7 @@
 
   <div class="govuk-button-group">
     <%= form.submit(
-          t("form_actions.save_and_mark_as_complete"),
+          t("form_actions.#{@pre_commencement ? "pre_commencement_condition" : "condition"}.save_and_mark_as_complete"),
           class: "govuk-button",
           data: { module: "govuk-button" }
         ) %>

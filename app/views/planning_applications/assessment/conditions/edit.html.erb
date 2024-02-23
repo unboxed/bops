@@ -7,11 +7,11 @@
       locals: { planning_application: @planning_application }
     ) %>
 
-<% content_for :title, "Add #{"pre-commencement" if @condition_set.pre_commencement?} conditions" %>
+<% content_for :title, "Update #{"pre-commencement" if @condition_set.pre_commencement?} conditions" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Add #{"pre-commencement" if @condition_set.pre_commencement?} conditions" }
+      locals: { heading: "Update #{"pre-commencement" if @condition_set.pre_commencement?} conditions" }
     ) %>
 
 <div class="govuk-grid-row">
@@ -23,7 +23,11 @@
           )
         ) %>
     <p class="govuk-body govuk-!-margin-top-5">
-      Select all the conditions that apply, to support your approval
+      <% if @pre_commencement %>
+        Update pre-commencement conditions. These will be sent to the applicant for approval. If the applicant does not respond within 10 days these conditions will be auto-approved.
+      <% else %>
+        Select and add the relevant conditions
+      <% end %>
     </p>
     <%= render "shared/warning_text", message: "This information WILL be made publicly available." %>
     <%= render "form" %>

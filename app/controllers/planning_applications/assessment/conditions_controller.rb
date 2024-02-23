@@ -17,6 +17,10 @@ module PlanningApplications
         end
       end
 
+      def new
+        @condition_set.conditions.new
+      end
+
       def edit
         respond_to do |format|
           format.html
