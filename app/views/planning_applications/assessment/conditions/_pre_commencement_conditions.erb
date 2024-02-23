@@ -5,6 +5,7 @@
       Please read and agree to the following pre-commencement conditions:
     <p>
     <% @conditions.each_with_index do |condition, index| %>
+      <% next if condition.current_validation_request.cancelled? %>
       <p class="govuk-body"> 
         <strong>Condition <%= index + 1 %></strong><br>
         <%= condition.title %>
@@ -85,17 +86,17 @@
   </p>
 
   <div class="govuk-button-group align-items-center">
-    <% if (@condition_set.current_review.status != "complete" && @condition_set.latest_active_validation_requests.all?(&:approved?)) || (@condition_set.latest_validation_request.notified_at > 10.business_days.from_now) %>
+    <% if @condition_set.current_review.status != "complete" && @condition_set.latest_active_validation_requests.all?(&:approved?) %>
       <%= form_with model: @condition_set,
               url: planning_application_assessment_conditions_path(@planning_application, pre_commencement: @condition_set.pre_commencement),
               html: { data: { controller: "conditions" } },
               method: :patch do |form| %>
-      <%= form.hidden_field :id, value: @condition_set.id %>
-      <%= form.submit(
-            t("form_actions.save_and_mark_as_complete"),
-            class: "govuk-button",
-            data: { module: "govuk-button" }
-          ) %>
+        <%= form.hidden_field :id, value: @condition_set.id %>
+        <%= form.submit(
+              t("form_actions.save_and_mark_as_complete"),
+              class: "govuk-button",
+              data: { module: "govuk-button" }
+            ) %>
       <% end %>
     <% end %>
     <%= back_link %>

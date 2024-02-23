@@ -44,12 +44,12 @@ RSpec.describe "Add pre-commencement conditions" do
         click_link "Remove condition"
       end
 
-      click_button "Save and mark as complete"
+      click_button "Submit"
 
       expect(page).to have_content "Conditions successfully updated"
 
       within("#add-pre-commencement-conditions") do
-        expect(page).to have_content "Completed"
+        expect(page).to have_content "In progress"
         click_link "Add pre-commencement conditions"
       end
 
@@ -65,19 +65,64 @@ RSpec.describe "Add pre-commencement conditions" do
       within("tr", text: "Title 2") do
         expect(page).to have_content "Awaiting response"
       end
+
+      expect(page).not_to have_content "Save and mark as complete"
+    end
+
+    context "when marking the task as complete" do
+      it "you can do it if all requests are approved" do
+        condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
+        validation_request = create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+        create(:review, owner: condition1.condition_set)
+
+        condition2 = create(:condition, :other, title: "Title 2", condition_set: condition1.condition_set)
+        create(:pre_commencement_condition_validation_request, condition: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
+        create(:review, owner: condition2.condition_set)
+
+        visit "/planning_applications/#{planning_application.id}"
+        click_link "Check and assess"
+
+        within("#add-pre-commencement-conditions") do
+          expect(page).to have_content "Updated"
+          click_link "Add pre-commencement conditions"
+        end
+
+        expect(page).not_to have_content("Save and mark as complete")
+
+        validation_request.update(approved: true)
+
+        visit "/planning_applications/#{planning_application.id}"
+        click_link "Check and assess"
+
+        click_link "Add pre-commencement conditions"
+
+        click_button "Save and mark as complete"
+
+        within("#add-pre-commencement-conditions") do
+          expect(page).to have_content "Complete"
+
+          click_link "Add pre-commencement conditions"
+        end
+
+        expect(page).not_to have_content("Save and mark as complete")
+      end
     end
 
     it "you can edit conditions once they've been rejected" do
       condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo")
+      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+      create(:review, owner: condition1.condition_set)
 
       condition2 = create(:condition, :other, title: "Title 2", condition_set: condition1.condition_set)
-      create(:pre_commencement_condition_validation_request, condition: condition2, planning_application:, state: "closed", approved: true)
+      create(:pre_commencement_condition_validation_request, condition: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
+      create(:review, owner: condition2.condition_set)
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
 
       click_link "Add pre-commencement conditions"
+
+      expect(page).not_to have_content("Save and mark as complete")
 
       within("tr", text: condition1.title) do
         expect(page).to have_content "Typo"
@@ -100,7 +145,7 @@ RSpec.describe "Add pre-commencement conditions" do
         fill_in "Enter a reason for this condition", with: "Custom reason 1"
       end
 
-      click_button "Save and mark as complete"
+      click_button "Submit"
 
       click_link "Add pre-commencement conditions"
 
@@ -121,7 +166,8 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "you can cancel conditions" do
       condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "open")
+      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
+      create(:review, owner: condition1.condition_set)
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
@@ -149,6 +195,36 @@ RSpec.describe "Add pre-commencement conditions" do
       end
     end
 
+    it "you can add new conditions" do
+      condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
+      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
+      create(:review, owner: condition1.condition_set)
+
+      visit "/planning_applications/#{planning_application.id}"
+      click_link "Check and assess"
+
+      click_link "Add pre-commencement conditions"
+
+      click_link "Add condition"
+
+      fill_in "Enter a title", with: "A new condition"
+      fill_in "Enter condition", with: "You must do this"
+      fill_in "Enter a reason for this condition", with: "This is the reason"
+
+      click_button "Submit"
+
+      expect(page).to have_content "Conditions successfully updated"
+
+      within("#add-pre-commencement-conditions") do
+        expect(page).to have_content "In progress"
+        click_link "Add pre-commencement conditions"
+      end
+
+      within("tr", text: "A new condition") do
+        expect(page).to have_content "Awaiting response"
+      end
+    end
+
     it "shows errors" do
       click_link "Add pre-commencement conditions"
 
@@ -164,7 +240,7 @@ RSpec.describe "Add pre-commencement conditions" do
         fill_in "Enter a reason for this condition", with: "Custom reason 1"
       end
 
-      click_button "Save and mark as complete"
+      click_button "Submit"
 
       expect(page).to have_content "Enter the text of this condition"
       expect(page).to have_content "Enter the title of this condition"

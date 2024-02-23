@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PreCommencementConditionValidationRequest < ValidationRequest
-  RESPONSE_TIME_IN_DAYS = 5
+  RESPONSE_TIME_IN_DAYS = 10
 
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :rejected_reason_is_present?

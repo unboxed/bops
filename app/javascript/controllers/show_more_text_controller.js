@@ -13,8 +13,12 @@ export default class extends Controller {
       "truncated-comment",
     )[0].innerText = replaceText
 
-    event.target.parentElement.getElementsByClassName("truncated-comment")[0].innerHTML += 
-      event.target.parentElement.getElementsByClassName("hidden-comment")[0].innerHTML
+    event.target.parentElement.getElementsByClassName(
+      "truncated-comment",
+    )[0].innerHTML +=
+      event.target.parentElement.getElementsByClassName(
+        "hidden-comment",
+      )[0].innerHTML
 
     event.target.classList.add("govuk-!-display-none")
   }
