@@ -49,23 +49,8 @@
             <%= condition.current_validation_request.approved? ? "No comment" : condition.current_validation_request.rejection_reason %>
           </td>
           <td class="govuk-table__cell">
-            <% status = if condition.current_validation_request.cancelled? %>
-              <% "cancelled" %>
-            <% elsif condition.current_validation_request.approved.nil? %>
-              <% "awaiting_response" %>
-            <% else %>
-              <% if condition.current_validation_request.approved? %>
-                <% if condition.current_validation_request.auto_closed? %>
-                  <% "auto_approved" %>
-                <% else %>
-                  <% "approved" %>
-                <% end %>
-              <% else %>
-                <% "rejected" %>
-              <% end %>
-            <% end %>
             <div style="float: left">
-              <%= render(StatusTags::BaseComponent.new(status:)) %>
+              <%= render(StatusTags::BaseComponent.new(status: status(condition))) %>
             </div>
           </td>
           <td class="govuk-table__cell">
