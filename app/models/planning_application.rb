@@ -33,6 +33,7 @@ class PlanningApplication < ApplicationRecord
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
     has_many :ownership_certificate_validation_requests
+    has_many :pre_commencement_condition_validation_requests
     has_many :notes, -> { by_created_at_desc }
     has_many :validation_requests
     has_many :assessment_details, -> { by_created_at_desc }
@@ -43,8 +44,9 @@ class PlanningApplication < ApplicationRecord
     has_many :site_notices
     has_many :policy_classes, -> { order(:section) }
 
+    has_one :condition_set, -> { where(pre_commencement: false) }, required: false
+    has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
     has_one :immunity_detail, required: false
-    has_one :condition_set, required: false
     has_one :consultation, required: false
     has_one :proposal_measurement, required: false
     has_one :planx_planning_data, required: false
@@ -643,6 +645,10 @@ class PlanningApplication < ApplicationRecord
 
   def condition_set
     super || create_condition_set!
+  end
+
+  def pre_commencement_condition_set
+    super || ConditionSet.create!(planning_application: self, pre_commencement: true)
   end
 
   def pending_validation_requests?

@@ -71,5 +71,20 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
         expect(presenter.assessment_tasklist_in_progress?).to be(true)
       end
     end
+
+    context "when conditions are present" do
+      before do
+        condition_set = create(
+          :condition_set,
+          planning_application:
+        )
+
+        create(:condition, condition_set:)
+      end
+
+      it "returns true" do
+        expect(presenter.assessment_tasklist_in_progress?).to be(true)
+      end
+    end
   end
 end

@@ -36,9 +36,9 @@
                         <%= simple_format(response.truncated_comment) %>
                       </span>
 
-                      <% if response_been_truncated?(response) %>
+                      <% if response_been_truncated?(response, response.comment) %>
                         <span class="govuk-!-display-none hidden-comment">
-                          <%= simple_format(response.comment[truncated_length(response)..-1]) %>
+                          <%= response.comment[truncated_length(response)..-1] %>
                         </span>
                         <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
                       <% end %>
@@ -80,6 +80,7 @@
                     <% end %>
                   </tbody>
                 <% end %>
+                <br>
                 <p class="govuk-body">
                   <%= link_to "Redact and publish", edit_planning_application_consultation_redact_neighbour_response_path(@planning_application, response), class: "govuk-link" %>
                   <% if response.redacted_by.try(:name) %>

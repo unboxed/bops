@@ -131,6 +131,8 @@ en:
               blank: Enter the reason for this condition
             text:
               blank: Enter the text of this condition
+            title:
+              blank: Enter the title of this condition
         consistency_checklist:
           attributes:
             description_matches_documents:
@@ -384,6 +386,9 @@ en:
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent_post_validation: 'Sent: request for change (ownership certificate validation#%{args})'
+      pre_commencement_condition_validation_request_cancelled_post_validation: 'Cancelled: validation request (pre-commencement condition validation#%{args})'
+      pre_commencement_condition_validation_request_received: 'Received: validation request for pre-commencement condition #%{args}'
+      pre_commencement_condition_validation_request_sent_post_validation: 'Sent: pre-commencement conditions for applicant''s approval (#%{args})'
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
       proposal_measurements_updated: Proposal measurements were updated
@@ -594,6 +599,7 @@ en:
       neighbour_consultation_letter_copy_mail: Neighbour consultation letter copy
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: "%{application_type_name} application - changes needed"
+      pre_commencement_condition_closure_notification_mail: Changes to your %{application_type_name} application
       press_notice_mail: Request for press notice
       receipt_notice_mail: "%{application_type_name} application received"
       site_notice_mail: Display site notice for your application %{reference}
@@ -614,6 +620,10 @@ en:
       date_not_on_or_after: is not on or after %{date}
       date_not_on_or_before: is not on or before %{date}
   form_actions:
+    condition:
+      save_and_mark_as_complete: Save and mark as complete
+    pre_commencement_condition:
+      save_and_mark_as_complete: Submit
     publish_decision: Publish decision
     review_and_publish_decision: Review and publish decision
     save_and_come_back_later: Save and come back later
@@ -1330,6 +1340,8 @@ en:
             success: Change request successfully cancelled.
           ownership_certificate_validation_request:
             success: Ownership certificate request successfully cancelled
+          pre_commencement_condition_validation_request:
+            success: Pre-commencement condition agreement request was successully cancelled
           red_line_boundary_change_validation_request:
             success: Red line boundary change request was successfully cancelled.
           replacement_document_validation_request:
@@ -1620,7 +1632,10 @@ en:
       review_application: Review
   status_tag_component:
     accepted: Printing
+    approved: Accepted
+    auto_approved: Auto accepted
     awaiting_determination: Awaiting determination
+    awaiting_response: Awaiting response
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
     checked: Checked

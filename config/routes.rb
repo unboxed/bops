@@ -90,8 +90,9 @@ Rails.application.routes.draw do
         resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
         resources :assessment_details, except: %i[destroy index]
         resources :tasks, only: :index
-        resources :conditions, only: %i[index] do
+        resources :conditions, only: %i[index new] do
           get :edit, on: :collection
+          get :edit
           patch :update, on: :collection
         end
         resource :consistency_checklist, except: %i[destroy index]
@@ -250,6 +251,7 @@ Rails.application.routes.draw do
         resources :ownership_certificate_validation_requests, only: %i[index update show]
         resources :ownership_certificates, only: %i[create]
         resources :red_line_boundary_change_validation_requests, only: %i[index update show]
+        resources :pre_commencement_condition_validation_requests, only: %i[index update show]
         resources :neighbour_responses, only: :create
       end
 

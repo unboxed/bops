@@ -23,5 +23,5 @@
 
 <div class="govuk-button-group">
   <%= back_link %>
-  <%= link_to "Edit conditions", edit_planning_application_assessment_conditions_path(@planning_application), class: "govuk-link govuk-body" %>
+  <%= link_to "Edit conditions", edit_planning_application_assessment_conditions_path(@planning_application, pre_commencement: @condition_set.pre_commencement), class: "govuk-link govuk-body" %>
 </div>

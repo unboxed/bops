@@ -29,6 +29,11 @@
           condition_set: @planning_application.condition_set
         )
       ) %>
+      <%= render(
+        TaskListItems::Assessment::ConditionsComponent.new(
+          condition_set: @planning_application.pre_commencement_condition_set
+        )
+      ) %>
     <% end %>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">

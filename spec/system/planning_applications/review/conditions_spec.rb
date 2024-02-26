@@ -128,7 +128,7 @@ RSpec.describe "Reviewing conditions" do
         click_link "Edit conditions"
 
         within("#condition-set-conditions-attributes-0--destroy-conditional") do
-          fill_in "Reason", with: "A better response"
+          fill_in "Enter a reason for this condition", with: "A better response"
         end
 
         click_button "Save and mark as complete"
@@ -158,7 +158,7 @@ RSpec.describe "Reviewing conditions" do
           with: "Completed"
         )
 
-        condition_set = ConditionSet.last
+        condition_set = planning_application.condition_set
         expect(condition_set.current_review.action).to eq "accepted"
         expect(condition_set.current_review.review_status).to eq "review_complete"
         expect(condition_set.current_review.status).to eq "complete"

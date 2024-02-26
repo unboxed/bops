@@ -22,7 +22,13 @@ export default class extends Controller {
       element.name = `${namePrefix}[${input}]`
     }
 
-    const labels = ["text", "reason"]
+    let labels = []
+
+    if (window.location.href.includes("pre_commencement=true")) {
+      labels = ["title", "text", "reason"]
+    } else {
+      labels = ["text", "reason"]
+    }
 
     for (const label of labels) {
       const element = condition.querySelector(`#${label}Label`)

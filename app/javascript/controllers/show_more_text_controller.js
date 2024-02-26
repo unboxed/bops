@@ -8,14 +8,18 @@ export default class extends Controller {
     const replaceText = event.target.parentElement
       .getElementsByClassName("truncated-comment")[0]
       .innerText.slice(0, -3)
+
     event.target.parentElement.getElementsByClassName(
       "truncated-comment",
     )[0].innerText = replaceText
 
-    // Show the rest of the comment and hide "show more"
-    event.target.parentElement
-      .getElementsByClassName("hidden-comment govuk-!-display-none")[0]
-      .classList.remove("govuk-!-display-none")
+    event.target.parentElement.getElementsByClassName(
+      "truncated-comment",
+    )[0].innerHTML +=
+      event.target.parentElement.getElementsByClassName(
+        "hidden-comment",
+      )[0].innerHTML
+
     event.target.classList.add("govuk-!-display-none")
   }
 }

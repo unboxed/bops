@@ -1,0 +1,61 @@
+<% content_for :page_title do %>
+  View pre-commencement condition request - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+<% content_for :title, "Pre-commencement condition request" %>
+
+<% if @validation_request.closed? %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "Check the response to pre-commencement condition request" }
+  ) %>
+<% else %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "View pre-commencement condition request" }
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Officer request</h2>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        <strong>Condition: <%= @validation_request.condition.title %></strong>
+      </p>
+      <p class="govuk-body">
+        <%= @validation_request.condition.text %>
+      </p>
+      <p class="govuk-body">
+        Reason: <%= @validation_request.condition.reason %>
+      </p>
+      <p class="govuk-body">
+      <%= @validation_request.created_at.to_fs %>
+      </p>
+    </div>
+
+    <% if @validation_request.closed? %>
+      <h2 class="govuk-heading-m">Applicant response</h2>
+      <% if @validation_request.approved? %>
+        <p class="govuk-body">Applicant approved this condition</p>
+      <% elsif !@validation_request.approved? %>
+        <p class="govuk-body">Applicant rejected this ownership pre-commencement</p>
+        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s  %></p>
+      <% end %>
+
+      <%= form_with model: @planning_application do |form| %>
+        <%= render "shared/validation_request_show_actions", planning_application: @planning_application, validation_request: @validation_request, form: form %>
+      <% end %>
+    <% else %>
+      <% if @planning_application.invalidated? %>
+        <h2 class="govuk-heading-m">Applicant has not responded yet</h2>
+      <% end %>
+
+      <%= render "shared/validation_request_show_actions", planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+    <% end %>
+  </div>
+</div>

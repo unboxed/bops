@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_20_085552) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -115,6 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_20_085552) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "pre_commencement", default: false, null: false
     t.index ["planning_application_id"], name: "ix_condition_sets_on_planning_application_id"
   end
 
@@ -752,6 +753,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_20_085552) do
     t.bigint "old_document_id"
     t.integer "sequence"
     t.jsonb "specific_attributes"
+    t.bigint "condition_id"
+    t.index ["condition_id"], name: "ix_validation_requests_on_condition_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_validation_requests_on_user_id"

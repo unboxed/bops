@@ -25,26 +25,26 @@ RSpec.describe "Add conditions" do
 
       check "Time limit"
       within(:css, "#standard-conditions .condition:nth-of-type(1)") do
-        fill_in "Condition", with: "New condition"
+        fill_in "Enter condition", with: "New condition"
       end
       check "Materials to match"
 
       click_link "+ Add condition"
       within(:css, "#other-conditions .condition:nth-of-type(1)") do
-        fill_in "Condition", with: "Custom condition 1"
-        fill_in "Reason", with: "Custom reason 1"
+        fill_in "Enter condition", with: "Custom condition 1"
+        fill_in "Enter a reason for this condition", with: "Custom reason 1"
       end
 
       click_link "+ Add condition"
       within(:css, "#other-conditions .condition:nth-of-type(2)") do
-        fill_in "Condition", with: "Custom condition 2"
-        fill_in "Reason", with: "Custom reason 2"
+        fill_in "Enter condition", with: "Custom condition 2"
+        fill_in "Enter a reason for this condition", with: "Custom reason 2"
       end
 
       click_link "+ Add condition"
       within(:css, "#other-conditions .condition:nth-of-type(3)") do
-        fill_in "Condition", with: "Custom condition 3"
-        fill_in "Reason", with: "Custom reason 3"
+        fill_in "Enter condition", with: "Custom condition 3"
+        fill_in "Enter a reason for this condition", with: "Custom reason 3"
         click_link "Remove condition"
       end
 
@@ -91,8 +91,8 @@ RSpec.describe "Add conditions" do
 
       click_link "+ Add condition"
       within(:css, "#other-conditions .condition:nth-of-type(2)") do
-        fill_in "Condition", with: "Custom condition 1"
-        fill_in "Reason", with: "Custom reason 1"
+        fill_in "Enter condition", with: "Custom condition 1"
+        fill_in "Enter a reason for this condition", with: "Custom reason 1"
       end
 
       click_button "Save and mark as complete"
@@ -140,12 +140,12 @@ RSpec.describe "Add conditions" do
 
       check "Time limit"
       within(:css, "#standard-conditions .condition:nth-of-type(1)") do
-        fill_in "Condition", with: ""
+        fill_in "Enter condition", with: ""
       end
 
       click_link "+ Add condition"
       within(:css, "#other-conditions .condition:nth-of-type(1)") do
-        fill_in "Condition", with: "Custom condition 1"
+        fill_in "Enter condition", with: "Custom condition 1"
       end
 
       click_button "Save and mark as complete"

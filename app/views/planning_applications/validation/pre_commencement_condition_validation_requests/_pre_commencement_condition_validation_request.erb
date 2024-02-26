@@ -1,0 +1,7 @@
+<td class="govuk-table__cell change-request-list">
+  Pre-commencement condition<br>
+  <%= pre_commencement_condition_validation_request.condition.title %>
+</td>
+<td class="govuk-table__cell change-request-list">
+  <%= render(FormattedContentComponent.new(text: pre_commencement_condition_validation_request.reason)) %>
+</td>
