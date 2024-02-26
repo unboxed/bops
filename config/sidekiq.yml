@@ -22,10 +22,6 @@ production:
       cron: '0 9 * * *'   # Runs at 9am every morning
       class: ClosePreCommencementConditionValidationRequestJob
       queue: low_priority
-    close_heads_of_terms_validation_change_request:
-      cron: '0 9 * * *'   # Runs at 9am every morning
-      class: CloseHeadsOfTermsValidationRequestJob
-      queue: low_priority
     enqueue_update_consultee_email_status:
       cron: '9 * * * *'   # Runs every hour at 9 minutes past
       class: EnqueueUpdateConsulteeEmailStatusJob

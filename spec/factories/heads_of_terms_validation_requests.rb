@@ -5,7 +5,6 @@ FactoryBot.define do
     planning_application { create(:planning_application, :in_assessment) }
     user
     state { "open" }
-    document factory: :document
     post_validation { true }
 
     trait :pending do
