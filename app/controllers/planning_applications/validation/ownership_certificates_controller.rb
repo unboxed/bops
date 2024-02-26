@@ -11,6 +11,12 @@ module PlanningApplications
         end
       end
 
+      def show
+        respond_to do |format|
+          format.html
+        end
+      end
+
       def update
         if @planning_application.update(planning_application_params)
           if @planning_application.valid_ownership_certificate?
