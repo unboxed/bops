@@ -113,6 +113,19 @@ class PlanningApplicationMailer < ApplicationMailer
     )
   end
 
+  def pre_commencement_condition_closure_notification_mail(planning_application, change_request)
+    @planning_application = planning_application
+    @change_request = change_request
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:pre_commencement_condition_closure_notification_mail,
+        application_type_name: @planning_application.application_type.human_name),
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.email_reply_to_id
+    )
+  end
+
   def validation_request_closure_mail(planning_application)
     @planning_application = planning_application
 

@@ -1,0 +1,13 @@
+Dear <%= @planning_application.agent_or_applicant_name %>,
+
+Application reference number: <%= @planning_application.reference_in_full %>
+
+Address: <%= @planning_application.full_address %>
+
+We have accepted the pre-commencement conditions on your application for a <%= @planning_application.application_type.human_name %>. The changes were made automatically because you did not review them by <%= @change_request.request_expiry_date.to_fs %>.
+
+If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
+
+Regards,
+
+<%= @planning_application.local_authority.council_name %>

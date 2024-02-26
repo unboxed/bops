@@ -9,7 +9,7 @@ class ClosePreCommencementConditionValidationRequestJob < ApplicationJob
     pre_commencement_condition_validation_requests.each do |change_request|
       change_request.auto_close_request!
 
-      PlanningApplicationMailer.description_closure_notification_mail(
+      PlanningApplicationMailer.pre_commencement_condition_closure_notification_mail(
         change_request.planning_application,
         change_request
       ).deliver_now

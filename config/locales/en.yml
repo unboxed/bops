@@ -599,6 +599,7 @@ en:
       neighbour_consultation_letter_copy_mail: Neighbour consultation letter copy
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: "%{application_type_name} application - changes needed"
+      pre_commencement_condition_closure_notification_mail: Changes to your %{application_type_name} application
       press_notice_mail: Request for press notice
       receipt_notice_mail: "%{application_type_name} application received"
       site_notice_mail: Display site notice for your application %{reference}
