@@ -1745,6 +1745,8 @@ en:
     validating:
       legislation_component:
         check_legislation: Check legislative requirements
+      ownership_certificate_component:
+        link_text: Check ownership certificate
     validation_decision_component:
       send_validation_decision: Send validation decision
   time:

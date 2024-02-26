@@ -157,7 +157,7 @@ RSpec.describe "Validation tasks" do
             end
           end
 
-          within("#ownership-certificate-validation-task") do
+          within("#check-ownership-certificate") do
             expect(page).to have_link(
               "Check ownership certificate",
               href: edit_planning_application_validation_ownership_certificate_path(planning_application)
@@ -317,7 +317,7 @@ RSpec.describe "Validation tasks" do
             end
           end
 
-          within("#ownership-certificate-validation-task") do
+          within("#check-ownership-certificate") do
             expect(page).to have_link(
               "Check ownership certificate",
               href: edit_planning_application_validation_ownership_certificate_path(planning_application)

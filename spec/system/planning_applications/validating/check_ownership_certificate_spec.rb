@@ -46,9 +46,13 @@ RSpec.describe "Check ownership certificate type" do
 
         expect(page).to have_content "Ownership certificate successfully updated"
 
-        within("#ownership-certificate-validation-task") do
+        within("#check-ownership-certificate") do
           expect(page).to have_content("Valid")
         end
+
+        click_link "Check ownership certificate"
+
+        expect(page).not_to have_content("Save")
       end
     end
 
@@ -67,6 +71,10 @@ RSpec.describe "Check ownership certificate type" do
         click_button "Save request"
 
         expect(page).to have_content "Ownership certificate request successfully created"
+
+        click_link "Check ownership certificate"
+
+        expect(page).to have_content "Request for more information about ownership certificate will be sent once application has been made invalid"
       end
     end
   end

@@ -1,0 +1,85 @@
+<% content_for :page_title do %>
+  Ownership certificate - <%= t('page_title') %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Ownership certificate" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Check the ownership certificate" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
+
+    <%= render "relevant_documents_accordion" %>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds govuk-!-margin-top-6">
+    <table class="govuk-table">
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Certificate type</th>
+          <td class="govuk-table__cell">
+            <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %>
+          </td>
+        </tr>
+        <% if @planning_application.ownership_certificate.present? && @planning_application.ownership_certificate.land_owners.any? %>
+          <% @planning_application.ownership_certificate.land_owners.each_with_index do |owner, i| %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header" style="font-weight: normal;">Owner <%= i + 1 %></th>
+              <td class="govuk-table__cell">&nbsp</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Name</th>
+              <td class="govuk-table__cell"><%= owner.name %></td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Address</th>
+              <td class="govuk-table__cell"><%= owner.address %></td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Notice given</th>
+              <td class="govuk-table__cell"><%= owner.notice_given? ? "Yes" : "No" %></td>
+            </tr>
+            <% if owner.notice_given? %>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Notice date</th>
+                <td class="govuk-table__cell"><%= owner.notice_given_at&.to_fs(:day_month_year_slashes) %></td>
+              </tr>
+            <% else %>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Reason no notice given</th>
+                <td class="govuk-table__cell"><%= owner.notice_reason %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <% if @planning_application.ownership_certificate_validation_requests.open_or_pending.any? %>
+      <% if @planning_application.ownership_certificate_validation_requests.open.any? %>
+        <p class="govuk-body">Request for more information about ownership certificate has been sent to applicant</p>
+      <% else %>
+        <p class="govuk-body">Request for more information about ownership certificate will be sent once application has been made invalid</p>
+      <% end %>
+
+      <div class="govuk-button-group">
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <%  %>
+    <% elsif @planning_application.ownership_certificate_validation_requests.closed.any? %>
+      <div class="govuk-button-group">
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Edit ownership certificate", edit_planning_application_validation_ownership_certificate_path(@planning_application), class: "govuk-link govuk-body" %>
+      </div>
+    <% else %>
+      <div class="govuk-button-group">
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Edit ownership certificate", edit_planning_application_validation_ownership_certificate_path(@planning_application), class: "govuk-link govuk-body" %>
+      </div>
+    <% end %>
+  </div>
+</div>
