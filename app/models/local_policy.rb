@@ -8,8 +8,6 @@ class LocalPolicy < ApplicationRecord
 
   before_update :maybe_create_review
 
-  AREAS = %w[design impact_on_neighbours].freeze
-
   accepts_nested_attributes_for :local_policy_areas, :reviews
 
   validates_associated :local_policy_areas

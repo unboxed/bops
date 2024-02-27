@@ -1,4 +1,4 @@
-import { Controller } from "@hotwired/stimulus"
+import {Controller} from "@hotwired/stimulus"
 import accessibleAutocomplete from 'accessible-autocomplete'
 
 export default class extends Controller {
@@ -23,10 +23,10 @@ export default class extends Controller {
     }
 
     connect() {
-        let dataArrayElement = this.element.querySelector('[data-local-policies-array-value]')
-        let dataArrayJson = dataArrayElement.getAttribute('data-local-policies-array-value')
+        const dataArrayElement = this.element.querySelector('[data-local-policies-array-value]')
+        const dataArrayJson = dataArrayElement.getAttribute('data-local-policies-array-value')
 
-        let policiesArray = JSON.parse(dataArrayJson)
+        const policiesArray = JSON.parse(dataArrayJson)
 
         accessibleAutocomplete({
             element: document.querySelector('#considerations-container'),
@@ -40,6 +40,7 @@ export default class extends Controller {
             showAllValues: true,
         })
     }
+
     onConfirm(selected) {
         this.selected = selected
         const hiddenField = document.getElementById('hidden-field');

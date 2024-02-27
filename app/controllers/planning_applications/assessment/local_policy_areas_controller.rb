@@ -61,10 +61,6 @@ module PlanningApplications
         @local_policy_area = LocalPolicyArea.find(params[:id])
       end
 
-      def policy_params
-        params.permit([:area, :id, :policies, :policy, :assessment, :guidance])
-      end
-
       def local_policy_params
         params.require(:local_policy_area).permit([:area, :id, :policies, :policy, :assessment, :guidance, :local_policy_id])
       end

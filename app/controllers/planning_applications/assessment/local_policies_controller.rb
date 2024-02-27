@@ -57,23 +57,12 @@ module PlanningApplications
           .to_h.merge(reviews_attributes: [status:, id: (@local_policy&.current_review&.id if !mark_as_complete?)])
       end
 
-      def policy_params
-        params.permit([:area, :id, :policies, :assessment, :guidance, :enabled])
-      end
-
       def set_reviewer_comment
         @reviewer_comment = @planning_application&.local_policy&.review_local_policies_with_comments&.last
       end
 
       def set_local_policy_areas
-        areas = @local_policy.present? ? @local_policy.local_policy_areas.map(&:area) : []
-        current_local_policy_areas = @local_policy.present? ? @local_policy.local_policy_areas : []
-
-        local_policy_areas = (LocalPolicy::AREAS - areas).map do |area|
-          LocalPolicyArea.new(area:)
-        end
-
-        @local_policy_areas = (local_policy_areas + current_local_policy_areas).sort_by(&:area)
+        @local_policy_areas = @local_policy.present? ? @local_policy.local_policy_areas.map(&:area) : []
       end
     end
   end
