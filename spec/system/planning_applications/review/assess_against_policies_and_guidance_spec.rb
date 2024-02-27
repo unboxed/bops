@@ -127,9 +127,13 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_content("I don't think you've assessed Policy 1 correctly")
 
-        within("#local-policy-local-policy-areas-attributes-0-areas-design-conditional") do
-          fill_in "Enter your assessment", with: "A better response"
-        end
+        click_link "Design"
+
+        click_link "Edit consideration"
+
+        fill_in "Enter your assessment", with: "A better response"
+
+        click_button "Update consideration"
 
         click_button "Save and mark as complete"
 

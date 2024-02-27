@@ -45,7 +45,6 @@ RSpec.describe "assess against policies and guidance" do
 
     expect(page).to have_content("Create a new consideration")
 
-    choose "policy-2"
     fill_in "manual-policy-input", with: "Consistency with local architecture"
 
     fill_in "Which policies are relevant", with: "P2, P3"
@@ -96,7 +95,6 @@ RSpec.describe "assess against policies and guidance" do
 
     expect(page).to have_content("Add a custom policy area if it does not appear in the list above")
 
-    choose "policy-2"
     fill_in "manual-policy-input", with: "Consistency with local architecture"
 
     fill_in "Which policies are relevant", with: "P2, P3"

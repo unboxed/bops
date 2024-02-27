@@ -8,30 +8,16 @@
     <%= form.govuk_error_summary(
           presenter: ErrorPresenter
         ) %>
-    <fieldset class="govuk-fieldset">
-      <div class="govuk-radios" data-module="govuk-radios">
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="policy-1" name="policy-1" type="radio" value="autocomplete" data-aria-controls="conditional-policy">
-          <label class="govuk-label govuk-radios__label">
-            Start typing to select a policy area from a list
-          </label>
-        </div>
-        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-policy">
-          <div id="considerations-container" data-local-policies-target="select" class="govuk-!-text-align-left">
-          </div>
-        </div>
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="policy-2" name="policy-2" type="radio" value="custom" data-aria-controls="conditional-policy-2">
-          <label class="govuk-label govuk-radios__label">
-            Add a custom policy area if it does not appear in the list above
-          </label>
-        </div>
-        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-policy-2">
-          <%= form.govuk_text_field :area, label: { text: "Policy area title", size: "s" }, hint: { text: "Enter a title for your custom local policy topic if it does not appear in the list above" }, id: "manual-policy-input" %>
-        </div>
-      </div>
-    </fieldset>
-
+    <h3 class="govuk-heading-s">Choose policy area from a list</h3>
+    <label class="govuk-label">
+        Start typing to choose a policy area from a list
+    </label>
+    <div id="considerations-container" data-local-policies-target="select" class="govuk-!-text-align-left">
+    </div>
+    <label class="govuk-label">
+      or
+    </label>
+    <%= form.govuk_text_field :area, label: { text: "Add a new policy area", size: "s" }, hint: { text: "Add a custom policy area if it does not appear in the list above" }, id: "manual-policy-input" %>
     <%= form.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
     <%= form.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
       <%= form.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: false do %>
