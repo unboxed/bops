@@ -6,6 +6,7 @@ x-bops: &bops
   init: true
   stdin_open: true
   tty: true
+  restart: always
   depends_on:
     - db
     - dnsmasq
@@ -44,6 +45,7 @@ x-applicants: &applicants
   init: true
   stdin_open: true
   tty: true
+  restart: always
   depends_on:
     - web
   dns:
