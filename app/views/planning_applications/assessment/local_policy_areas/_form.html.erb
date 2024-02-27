@@ -14,9 +14,9 @@
     </label>
     <div id="considerations-container" data-local-policies-target="select" class="govuk-!-text-align-left">
     </div>
-    <label class="govuk-label">
+    <div class="govuk-label govuk-!-padding-top-3 govuk-!-padding-bottom-3">
       or
-    </label>
+    </div>
     <%= form.govuk_text_field :area, label: { text: "Add a new policy area", size: "s" }, hint: { text: "Add a custom policy area if it does not appear in the list above" }, id: "manual-policy-input" %>
     <%= form.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
     <%= form.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
