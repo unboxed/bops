@@ -23,7 +23,7 @@
 <h3 class="govuk-heading-s">Draw the red line site boundary</h3>
 
 <%= form_with model: @planning_application, url: planning_application_validation_sitemap_path(@planning_application) do |form| %>
-  <%= form.hidden_field :boundary_geojson %>
+  <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json %>
   <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson, geojson_field: 'planning_application_boundary_geojson' } %>
   <div class="govuk-button-group govuk-!-margin-top-3">
     <%= form.govuk_submit "Save" %>
