@@ -48,10 +48,6 @@ module PlanningApplications
             render :show
           end
         end
-      rescue ConstraintQueryUpdateService::SaveError => e
-        Appsignal.send_error(e)
-        redirect_to planning_application_validation_sitemap_path(@planning_application),
-          alert: t(".error")
       end
 
       private
