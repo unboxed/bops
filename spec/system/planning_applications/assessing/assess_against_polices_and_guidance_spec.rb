@@ -71,11 +71,16 @@ RSpec.describe "assess against policies and guidance" do
     expect(page).to have_content("Consistency with local architecture")
 
     click_link("Consistency with local architecture")
+
+    expect(page).to have_link("Edit consideration")
+
     click_link("Edit consideration")
 
     fill_in "Enter your assessment", with: "It's also all fine"
 
     click_button "Update consideration"
+
+    expect(page).to have_content("Assess against policies and guidance")
     click_button "Save and mark as complete"
 
     within("#assess-against-legislation-tasks") do
@@ -122,12 +127,20 @@ RSpec.describe "assess against policies and guidance" do
 
     click_link "Edit Assess against policies and guidance"
 
+    expect(page).to have_content("Assess against policies and guidance")
+
     click_link "Consistency with local architecture"
+
+    expect(page).to have_link("Edit consideration")
+
     click_link "Edit consideration"
 
     fill_in "Which policies are relevant", with: "Q1, Q2, Q3"
 
     click_button "Update consideration"
+
+    expect(page).to have_content("Assess against policies and guidance")
+
     click_link "Back"
 
     within("#assess-against-legislation-tasks") do

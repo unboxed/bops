@@ -4,35 +4,39 @@ module PlanningApplications
   module Assessment
     class LocalPolicyAreasController < AuthenticationController
       before_action :set_planning_application
-      before_action :set_local_policy, only: %i[show edit update new destroy]
-      before_action :set_local_policy_area, only: %i[edit show]
+      before_action :set_local_policy
+      before_action :set_local_policy_area, only: %i[edit show update]
 
       def show
+        respond_to do |format|
+          format.html
+        end
       end
 
       def new
         @local_policy_area = @local_policy.local_policy_areas.new
+        respond_to do |format|
+          format.html
+        end
       end
 
       def edit
+        respond_to do |format|
+          format.html
+        end
       end
 
       def destroy
-        @local_policy.local_policy_areas.destroy(params[:id])
+        @local_policy_area.destroy!
 
         redirect_to new_planning_application_assessment_local_policy_path(@planning_application)
       end
 
       def create
-        set_local_policy
-        @local_policy_area = LocalPolicyArea.new(local_policy_params.except(:policy))
+        @local_policy_area = @local_policy.local_policy_areas.new(local_policy_params.except(:policy))
 
         if @local_policy_area.save
-          if @planning_application.local_policy.present?
-            redirect_to edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy)
-          else
-            redirect_to new_planning_application_assessment_local_policy_path(@planning_application)
-          end
+          redirect_to edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy)
         else
           respond_to do |format|
             format.html { render :new }
@@ -41,10 +45,9 @@ module PlanningApplications
       end
 
       def update
-        set_local_policy_area
         if @local_policy_area.update(local_policy_params)
           redirect_to edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy),
-            notice: I18n.t("local_policies.successfully_updated")
+            notice: t(".successfully_updated")
         else
           respond_to do |format|
             format.html { render :new }
@@ -63,7 +66,7 @@ module PlanningApplications
       end
 
       def local_policy_params
-        params.require(:local_policy_area).permit([:area, :id, :policies, :policy, :assessment, :guidance, :local_policy_id])
+        params.require(:local_policy_area).permit([:area, :policies, :policy, :assessment, :guidance])
       end
     end
   end

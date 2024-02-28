@@ -100,8 +100,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :local_policies, except: %i[destroy index] do
-        end
+        resources :local_policies, except: %i[destroy index]
 
         resources :local_policy_areas, except: %i[index]
 

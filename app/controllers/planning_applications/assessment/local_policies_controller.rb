@@ -37,7 +37,7 @@ module PlanningApplications
       def update
         if @local_policy.update(local_policy_params)
           redirect_to planning_application_assessment_tasks_path(@planning_application),
-            notice: I18n.t("local_policies.successfully_updated")
+            notice: t(".successfully_updated")
         else
           set_local_policy_areas
           respond_to do |format|

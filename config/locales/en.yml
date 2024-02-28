@@ -724,8 +724,6 @@ en:
     - Landscaping
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
-  local_policies_component:
-    header: Text goes here
   neighbour_letter_header:
     planning_permission: Submit your comments by {{closing_date}}
     prior_approval: Submit your comments by {{closing_date}}
@@ -1056,6 +1054,12 @@ en:
       immunity_details:
         update:
           success: Evidence of immunity successfully updated
+      local_policies:
+        update:
+          successfully_updated: Check against policy and guidance response was successfully updated
+      local_policy_areas:
+        update:
+          successfully_updated: Check against policy and guidance response was successfully updated
       ownership_certificates:
         update:
           success: Ownership certificate was checked
