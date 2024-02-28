@@ -26,7 +26,7 @@ FactoryBot.define do
   end
 
   trait :with_tags do
-    tags { %w[Side Elevation Proposed Photograph] }
+    tags { %w[elevations.proposed photographs.proposed] }
   end
 
   trait :referenced do
@@ -39,6 +39,6 @@ FactoryBot.define do
   end
 
   trait :evidence do
-    tags { ["Proposed", "Utility Bill"] }
+    tags { ["photographs.proposed", "utilityBill"] }
   end
 end

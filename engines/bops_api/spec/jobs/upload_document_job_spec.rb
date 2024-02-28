@@ -11,7 +11,7 @@ RSpec.describe BopsApi::UploadDocumentJob, type: :job do
     let(:planning_application) { create(:planning_application) }
     let(:user) { create(:api_user, file_downloader: nil) }
     let(:url) { "https://example.com/path/to/file.pdf" }
-    let(:tags) { %w[Site Proposed] }
+    let(:tags) { %w[sitePlan.proposed] }
     let(:description) { "Proposed site plan" }
 
     it "raises an error" do

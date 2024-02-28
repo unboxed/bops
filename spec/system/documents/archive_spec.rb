@@ -124,7 +124,7 @@ RSpec.describe "Documents index page" do
         expect(page).to have_text("proposed-floorplan.png")
 
         document_tags.each do |tag|
-          expect(page).to have_css(".govuk-tag", text: tag)
+          expect(page).to have_css(".govuk-tag", text: I18n.t(:"#{tag}", scope: :document_tags))
         end
       end
     end

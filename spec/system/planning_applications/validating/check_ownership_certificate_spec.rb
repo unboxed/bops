@@ -14,8 +14,8 @@ RSpec.describe "Check ownership certificate type" do
   context "when application is not started" do
     let!(:planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
 
-    let!(:document1) { create(:document, planning_application:, tags: ["Proposed"]) }
-    let!(:document2) { create(:document, planning_application:, tags: ["Planning Statement"]) }
+    let!(:document1) { create(:document, planning_application:, tags: ["floorPlan.proposed"]) }
+    let!(:document2) { create(:document, planning_application:, tags: ["planningStatement"]) }
 
     let!(:ownership_certificate) { create(:ownership_certificate, planning_application:) }
     let!(:land_owner1) { create(:land_owner, ownership_certificate:) }
@@ -27,8 +27,8 @@ RSpec.describe "Check ownership certificate type" do
 
         click_button "Documents"
 
-        expect(page).to have_content("Proposed")
-        expect(page).not_to have_content("Planning Statement")
+        expect(page).to have_content("Floor plan - proposed")
+        expect(page).not_to have_content("Planning statement")
 
         expect(page).to have_content("Certificate type B")
 

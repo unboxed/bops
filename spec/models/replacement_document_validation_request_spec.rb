@@ -161,7 +161,7 @@ RSpec.describe ReplacementDocumentValidationRequest do
         file: file1,
         planning_application:,
         numbers: "DOC123",
-        tags: ["Front"]
+        tags: ["floorPlan.proposed"]
       )
     end
 
@@ -214,7 +214,7 @@ RSpec.describe ReplacementDocumentValidationRequest do
         replacement_document_validation_request.reload.new_document
       ).to have_attributes(
         numbers: "DOC123",
-        tags: ["Front"]
+        tags: ["floorPlan.proposed"]
       )
     end
 

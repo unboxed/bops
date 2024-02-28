@@ -74,7 +74,7 @@ class PressNotice < ApplicationRecord
 
   def documents=(files)
     files.select(&:present?).each do |file|
-      documents.new(file: file, planning_application: planning_application, tags: ["Press Notice"])
+      documents.new(file: file, planning_application: planning_application, tags: ["internal.pressNotice"])
     end
   end
 

@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe EvidenceGroup do
   describe "#comments" do
     let(:immunity_detail) { create(:immunity_detail) }
-    let(:document) { create(:document, tags: ["Photograph"]) }
+    let(:document) { create(:document, tags: ["photographs.existing"]) }
 
     before do
       immunity_detail.add_document document

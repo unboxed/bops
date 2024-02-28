@@ -108,37 +108,37 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect(documents).to include(
             an_object_having_attributes(
               name: "RoaldDahlHut.jpg",
-              tags: %w[Photograph],
+              tags: %w[photographs.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Site plan.pdf",
-              tags: %w[Site Proposed],
+              tags: %w[sitePlan.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Elevations.pdf",
-              tags: %w[Elevation Proposed],
+              tags: %w[elevations.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Plan.pdf",
-              tags: %w[Floor Proposed],
+              tags: %w[floorPlan.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Roald-Dahl-letter-one-use.pdf",
-              tags: %w[Other],
+              tags: %w[otherEvidence],
               applicant_description: "Nothing really, this is just a test. "
             ),
             an_object_having_attributes(
               name: "Test document.pdf",
-              tags: ["Construction Invoice"],
+              tags: ["constructionInvoice"],
               applicant_description: "Nothing, it's a test document. "
             ),
             an_object_having_attributes(
               name: "Test document.pdf",
-              tags: ["Council Tax Document"],
+              tags: ["councilTaxBill"],
               applicant_description: "Council tax bill"
             )
           )
@@ -255,42 +255,42 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect(documents).to include(
             an_object_having_attributes(
               name: "RoofPlan.pdf",
-              tags: %w[Roof Existing],
+              tags: %w[roofPlan.existing],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Site plan.pdf",
-              tags: %w[Site Existing],
+              tags: %w[sitePlan.existing],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "RoofPlan.pdf",
-              tags: %w[Roof Proposed],
+              tags: %w[roofPlan.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Site plan.pdf",
-              tags: %w[Site Proposed],
+              tags: %w[sitePlan.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Elevations.pdf",
-              tags: %w[Elevation Existing],
+              tags: %w[elevations.existing],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Plan.pdf",
-              tags: %w[Floor Existing],
+              tags: %w[floorPlan.existing],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Elevations.pdf",
-              tags: %w[Elevation Proposed],
+              tags: %w[elevations.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Plan.pdf",
-              tags: %w[Floor Proposed],
+              tags: %w[floorPlan.proposed],
               applicant_description: nil
             )
           )
@@ -361,22 +361,22 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect(documents).to include(
             an_object_having_attributes(
               name: "RoofPlan.pdf",
-              tags: %w[Roof Existing Proposed],
+              tags: %w[roofPlan.existing roofPlan.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Site plan.pdf",
-              tags: %w[Site Existing Proposed],
+              tags: %w[sitePlan.existing sitePlan.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Elevations.pdf",
-              tags: %w[Elevation Existing Proposed],
+              tags: %w[elevations.existing elevations.proposed],
               applicant_description: nil
             ),
             an_object_having_attributes(
               name: "Plan.pdf",
-              tags: %w[Floor Existing Proposed],
+              tags: %w[floorPlan.existing floorPlan.proposed],
               applicant_description: nil
             )
           )
