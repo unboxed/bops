@@ -210,8 +210,8 @@ class Document < ApplicationRecord
   scope :with_plan_tags, -> { where(arel_table[:tags].overlaps(PLAN_TAGS)) }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
-  scope :for_fee_exemption, -> { with_tag("Fee Exemption") }
-  scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(["Fee Exemption"])) }
+  scope :for_fee_exemption, -> { with_tag("disabilityExemptionEvidence") }
+  scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(["disabilityExemptionEvidence"])) }
 
   before_validation on: :create do
     if owner.present?
