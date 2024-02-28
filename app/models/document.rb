@@ -32,66 +32,103 @@ class Document < ApplicationRecord
   before_update :reset_replacement_document_validation_request_update_counter!, if: :owner_is_validation_request?
   after_update :audit_updated!
 
-  PLAN_TAGS = %w[
-    Front
-    Rear
-    Side
-    Roof
-    Floor
-    Site
-    Plan
-    Elevation
-    Section
-    Proposed
-    Existing
+  PLAN_TAGS = [
+    "elevations.existing",
+    "elevations.proposed",
+    "floorPlan.existing",
+    "floorPlan.proposed",
+    "internalElevations",
+    "internalSections",
+    "locationPlan",
+    "otherDrawing",
+    "roofPlan.existing",
+    "roofPlan.proposed",
+    "sections.existing",
+    "sections.proposed",
+    "sitePlan.existing",
+    "sitePlan.proposed",
+    "sketchPlan",
+    "streetScene",
+    "unitPlan.existing",
+    "unitPlan.proposed",
+    "usePlan.existing",
+    "usePlan.proposed"
   ].freeze
 
   EVIDENCE_TAGS = [
-    "Photograph",
-    "Utility Bill",
-    "Building Control Certificate",
-    "Construction Invoice",
-    "Council Tax Document",
-    "Tenancy Agreement",
-    "Tenancy Invoice",
-    "Bank Statement",
-    "Statutory Declaration",
-    "Discounts",
-    "Other"
+    "bankStatement",
+    "buildingControlCertificate",
+    "constructionInvoice",
+    "councilTaxBill",
+    "otherEvidence",
+    "photographs.existing",
+    "photographs.proposed",
+    "statutoryDeclaration",
+    "tenancyAgreement",
+    "tenancyInvoice",
+    "utilitiesStatement",
+    "utilityBill"
   ].freeze
 
   SUPPORTING_DOCUMENT_TAGS = [
-    "Site Visit",
-    "Site Notice",
-    "Press Notice",
-    "Design and Access Statement",
-    "Planning Statement",
-    "Viability Appraisal",
-    "Heritage Statement",
-    "Agricultural, Forestry or Occupational Worker Dwelling Justification",
-    "Arboricultural Assessment",
-    "Structural Survey/report",
-    "Air Quality Assessment",
-    "Basement Impact Assessment",
-    "Biodiversity Net Gain (from April)",
-    "Contaminated Land Assessment",
-    "Daylight and Sunlight Assessment",
-    "Flood Risk Assessment/Drainage and SuDs Report",
-    "Environment Impact Assessment",
-    "Landscape and Visual Impact Assessment",
-    "Noise Impact Assessment",
-    "Open Space Assessment",
-    "Sustainability and Energy Statement",
-    "Transport Statement",
-    "NDSS Compliance Statement",
-    "Ventilation/Extraction Statement",
-    "Community Infrastructure Levy (CIL) form",
-    "Gypsy and Traveller Statement",
-    "HMO statement",
-    "Specialist Accommodation Statement",
-    "Student Accommodation Statement",
-    "Fee Exemption",
-    "Other Supporting Document"
+    "affordableHousingStatement",
+    "arboriculturistReport",
+    "basementImpactStatement",
+    "bioaerosolAssessment",
+    "bioaerosolAssessment",
+    "birdstrikeRiskManagementPlan",
+    "boreholeOrTrialPitAnalysis",
+    "conditionSurvey",
+    "contaminationReport",
+    "crimePreventionStrategy",
+    "designAndAccessStatement",
+    "disabilityExemptionEvidence",
+    "ecologyReport",
+    "emissionsMitigationAndMonitoringScheme",
+    "energyStatement",
+    "environmentalImpactAssessment",
+    "fireSafetyReport",
+    "floodRiskAssessment",
+    "foulDrainageAssessment",
+    "geodiversityAssessment",
+    "heritageStatement",
+    "hydrologicalAssessment",
+    "hydrologyReport",
+    "internal.pressNotice",
+    "internal.siteNotice",
+    "internal.siteVisit",
+    "joinersReport",
+    "joinerySections",
+    "landContaminationAssessment",
+    "landscapeAndVisualImpactAssessment",
+    "landscapeStrategy",
+    "lightingAssessment",
+    "litterVerminAndBirdControlDetails",
+    "mineralsAndWasteAssessment",
+    "newDwellingsSchedule",
+    "noiseAssessment",
+    "openSpaceAssessment",
+    "otherDocument",
+    "parkingPlan",
+    "planningStatement",
+    "statementOfCommunityInvolvement",
+    "storageTreatmentAndWasteDisposalDetails",
+    "subsidenceReport",
+    "sunlightAndDaylightReport",
+    "sustainabilityStatement",
+    "technicalEvidence",
+    "townCentreImpactAssessment",
+    "townCentreSequentialAssessment",
+    "transportAssessment",
+    "travelPlan",
+    "treeCanopyCalculator",
+    "treeConditionReport",
+    "treesReport",
+    "ventilationStatement",
+    "viabilityAppraisal",
+    "visualisations",
+    "wasteAndRecyclingStrategy",
+    "waterEnvironmentAssessment"
   ].freeze
 
   ## Needs to be better

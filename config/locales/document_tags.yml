@@ -6,6 +6,10 @@ en:
     basementImpactStatement: 'Basement impact statement'
     bioaerosolAssessment: 'Bio-aerosol assessment'
     birdstrikeRiskManagementPlan: 'Birdstrike risk management plan'
+    internal:
+      pressNotice: Press Notice
+      siteNotice: Site Notice
+      siteVisit: Site Visit
     boreholeOrTrialPitAnalysis: 'Borehole or trial pit analysis'
     buildingControlCertificate: 'Building control certificate'
     conditionSurvey: 'Structural or building condition survey'
@@ -90,6 +94,7 @@ en:
     utilityBill: 'Utility bill'
     utilitiesStatement: 'Utilities statement'
     ventilationStatement: 'Ventilation or extraction statement'
+    viabilityAppraisal: 'Viability Appraisal'
     visualisations: 'Visualisations'
     wasteAndRecyclingStrategy: 'Waste and recycling strategy'
     waterEnvironmentAssessment: 'Water environment assessment'
