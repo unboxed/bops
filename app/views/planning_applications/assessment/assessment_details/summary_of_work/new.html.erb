@@ -1,0 +1,46 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% content_for :title, t(".breadcrumb") %>
+
+<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+<%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(partial: "shared/warning_text", locals: {message: t(".warning")}) %>
+    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
+
+    <p class="govuk-body">You can include:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        A list of the works involved in the project, such as alterations and extensions
+      </li>
+      <li>
+        Key dimensions
+        <% if @planning_application.proposal_measurement %>
+          <br>
+          Max height: <%= @planning_application.proposal_measurement.max_height %>m<br>
+          Eaves height: <%= @planning_application.proposal_measurement.eaves_height %>m<br>
+          Depth: <%= @planning_application.proposal_measurement.depth %>m
+        <% end %>
+      </li>
+      <li>Materials used in external works</li>
+      <li>Specific features you want to draw attention to</li>
+      <% if @planning_application.application_type.name == "lawfulness_certificate" %>
+        <li>Details of a proposed use, such as opening hours</li>
+      <% end %>
+    </ul>
+
+    <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.govuk_text_area(:entry, label: nil, rows: 10, value: @rejected_assessment_detail&.entry) %>
+      <%= form.hidden_field(:category, value: @category) %>
+
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <% end %>
+  </div>
+</div>

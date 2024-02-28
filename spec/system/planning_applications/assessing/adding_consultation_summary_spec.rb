@@ -72,7 +72,7 @@ RSpec.describe "adding consultation summary" do
 
     expect(page).to have_content("Lorem ipsum")
 
-    click_link("Edit consultation details")
+    click_link("Edit consultation summary")
     fill_in("Summary of consultation responses", with: "dolor sit amet")
     click_button("Save and mark as complete")
 

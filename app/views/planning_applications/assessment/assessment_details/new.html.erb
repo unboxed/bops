@@ -1,29 +1,16 @@
-<% content_for :page_title do %>
-  <%= new_assessment_detail_title(category: @category, update: @rejected_assessment_detail.present?) %> - <%= t("page_title") %>
+<% case @category %>
+<% when "additional_evidence" %>
+<%= render template: "planning_applications/assessment/assessment_details/additional_evidence/new" %>
+<% when "amenity" %>
+<%= render template: "planning_applications/assessment/assessment_details/amenity/new" %>
+<% when "consultation_summary" %>
+<%= render template: "planning_applications/assessment/assessment_details/consultation_summary/new" %>
+<% when "neighbour_summary" %>
+<%= render template: "planning_applications/assessment/assessment_details/neighbour_summary/new" %>
+<% when "past_applications" %>
+<%= render template: "planning_applications/assessment/assessment_details/past_applications/new" %>
+<% when "site_description" %>
+<%= render template: "planning_applications/assessment/assessment_details/site_description/new" %>
+<% when "summary_of_work" %>
+<%= render template: "planning_applications/assessment/assessment_details/summary_of_work/new" %>
 <% end %>
-
-<%= render(
-  partial: "shared/assessment_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
-
-<% content_for :title, t("planning_applications.assessment.assessment_details.#{@category}.title") %>
-
-<%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "#{new_assessment_detail_title(
-    category: @category,
-    update: @rejected_assessment_detail.present?
-  )}"  }
-) %>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render(
-      "form",
-      planning_application: @planning_application,
-      category: @category,
-      rejected_assessment_detail: @rejected_assessment_detail
-    ) %>
-  </div>
-</div>

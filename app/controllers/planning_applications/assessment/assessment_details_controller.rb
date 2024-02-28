@@ -11,6 +11,7 @@ module PlanningApplications
       before_action :set_assessment_detail, only: %i[show edit update]
       before_action :set_category, :set_rejected_assessment_detail, only: %i[new create edit update show]
       before_action :set_consultation, if: :has_consultation_and_summary?
+      before_action :set_neighbour_responses, if: :neighbour_summary?
 
       def show
         respond_to do |format|
@@ -67,6 +68,10 @@ module PlanningApplications
 
       def set_category
         @category = params[:category] || assessment_details_params[:category]
+      end
+
+      def set_neighbour_responses
+        @neighbour_responses = @planning_application.consultation.neighbour_responses
       end
 
       def consultation_summary?

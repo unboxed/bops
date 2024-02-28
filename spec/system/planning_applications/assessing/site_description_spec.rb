@@ -39,13 +39,13 @@ RSpec.describe "Site description" do
         href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
       )
 
-      expect(page).to have_content("Create a desciption of the site")
+      expect(page).to have_content("Create a description of the site")
       expect(page).to have_content(planning_application.reference)
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content("You can include:")
 
       within(".govuk-warning-text") do
-        expect(page).to have_content("This information will be made publicly available.")
+        expect(page).to have_content("This information WILL be made publicly available.")
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe "Site description" do
       expect(page).to have_content("A draft entry for the site description")
 
       within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Edit site description")
+        expect(page).to have_content("Site description")
       end
 
       click_button "Save and come back later"

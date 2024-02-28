@@ -63,25 +63,4 @@ module ApplicationHelper
       planning_application_assessment_consistency_checklist_path
     end
   end
-
-  def assessment_detail_error_presenter(category)
-    if %w[past_applications consultation_summary].include?(category)
-      "#{category.camelize}ErrorPresenter".constantize
-    else
-      ErrorPresenter
-    end
-  end
-
-  def assessment_detail_fields_partial_path(category)
-    if %w[past_applications consultation_summary].include?(category)
-      "planning_applications/assessment/assessment_details/#{category}"
-    else
-      "planning_applications/assessment/assessment_details"
-    end
-  end
-
-  def new_assessment_detail_title(category:, update:)
-    action = update ? :update : :new
-    t("planning_applications.assessment.assessment_details.#{category}.#{action}")
-  end
 end

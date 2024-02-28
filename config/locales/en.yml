@@ -722,95 +722,151 @@ en:
         additional_evidence:
           created:
             success: Additional evidence was successfully created.
-          edit: Edit additional evidence
-          new: Add detail of additional evidence
-          show: Detail of additional evidence
-          title: Summary of additional evidence
-          update: Update additional evidence
+          edit:
+            breadcrumb: Summary of additional evidence
+            heading: What is the impact of any additional evidence on the application?
+            title: Edit additional evidence
+          new:
+            breadcrumb: Summary of additional evidence
+            heading: What is the impact of any additional evidence on the application?
+            title: Add detail of additional evidence
+          show:
+            breadcrumb: Summary of additional evidence
+            edit: Edit additional evidence
+            heading: What is the impact of any additional evidence on the application?
+            title: Detail of additional evidence
           updated:
             success: Additional evidence was successfully updated.
         amenity:
           created:
             success: Amenity assessment was successfully created.
-          edit: Edit amenity assessment
-          information:
-            summary_of_the: Assess impact on neighbouring amenity
-            this_information_will: This information WILL be made public
-          new: Assess impact on neighbouring amenity
-          show: Amenity
-          title: Amenity
-          update: Update amenity
+          edit:
+            breadcrumb: Amenity
+            heading: Assess impact on neighbouring amenity
+            title: Edit amenity assessment
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Amenity
+            heading: Assess impact on neighbouring amenity
+            title: Assess impact on neighbouring amenity
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Amenity
+            edit: Edit amenity assessment
+            heading: Assess impact on neighbouring amenity
+            title: Amenity
+            warning: This information WILL be made publicly available.
           updated:
             success: Amenity assessment was successfully updated.
         comment:
           user_marked_this: "%{user} marked this for review"
         consultation_summary:
-          consultee_form:
-            add_consultee: Add consultee
-            external_consultee: External consultee
-            internal_consultee: Internal consultee
-          consultee_table:
-            external: External
-            internal: Internal
-            remove_from_list: Remove from list
           created:
             success: Consultation summary successfully added.
-          edit: Edit consultation details
-          fields:
-            summary_of_consultation: Summary of consultation responses
-            this_information_will: This information will be made publicly available.
-          form_fields:
-            summary_of_consultation: Summary of consultation responses
-            this_information_will: This information will be made publicly available.
-          new: Add consultation summary
-          show: Consultation details
-          title: Consultation details
-          update: Update consultation details
+          edit:
+            breadcrumb: Summary of consultation
+            heading: Summary of consultation responses
+            responses: Consultation responses
+            title: Edit summary of consultation responses
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Summary of consultation
+            heading: Summary of consultation responses
+            responses: Consultation responses
+            title: Add consultation summary
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Summary of consultation
+            edit: Edit consultation summary
+            heading: Summary of consultation responses
+            responses: Consultation responses
+            title: Summary of consultation
+            warning: This information WILL be made publicly available.
           updated:
             success: Consultation summary successfully updated.
         neighbour_summary:
           created:
             success: Summary of neighbour responses was successfully created.
-          edit: Edit summary of neighbour responses
-          new: Add summary of neighbour responses
-          show: Summary of neighbour responses
-          title: Summary of neighbour responses
+          edit:
+            breadcrumb: Summary of neighbour responses
+            title: Edit summary of neighbour responses
+          new:
+            breadcrumb: Summary of neighbour responses
+            title: Add summary of neighbour responses
+          show:
+            breadcrumb: Summary of neighbour responses
+            edit: Edit summary of neighbour responses
+            heading: Summary
+            title: Summary of neighbour responses
           updated:
             success: Summary of neighbour responses was successfully updated.
         not_started: Not started
         past_applications:
           created:
             success: History successfully added.
-          edit: Edit history
-          form_fields:
+          edit:
             application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
+            breadcrumb: History
+            heading: Summary of the relevant historical applications
             relevant_information: 'Provide relevant information about the planning history of the application site. You should also check for any historic conditions, enforcement notices, and the appeal history at this site using the Planning Register or in your back-office planning system:'
-          information:
-            summary_of_the: Summary of the relevant historical applications
-            this_information_will: This information will be made publicly available.
-          new: History
-          show: History
-          title: History
+            title: Edit history
+            warning: This information WILL be made publicly available.
+          new:
+            application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
+            breadcrumb: History
+            heading: Summary of the relevant historical applications
+            relevant_information: 'Provide relevant information about the planning history of the application site. You should also check for any historic conditions, enforcement notices, and the appeal history at this site using the Planning Register or in your back-office planning system:'
+            title: History
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: History
+            edit: Edit history
+            heading: Summary of the relevant historical applications
+            title: History
+            warning: This information WILL be made publicly available.
           updated:
             success: History successfully updated.
         site_description:
           created:
             success: Site description was successfully created.
-          edit: Edit site description
-          new: Create a description of the site
-          show: Site description
-          title: Site description
-          update: Update site description
+          edit:
+            breadcrumb: Site description
+            heading: Description of the site
+            title: Edit site description
+            view_site_on_map: View site on Google Maps
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Site description
+            heading: Description of the site
+            title: Create a description of the site
+            view_site_on_map: View site on Google Maps
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Site description
+            edit: Edit site description
+            heading: Description of the site
+            title: Site description
+            view_site_on_map: View site on Google Maps
+            warning: This information WILL be made publicly available.
           updated:
             success: Site description was successfully updated.
         summary_of_work:
           created:
             success: Summary of works was successfully created.
-          edit: Edit summary of works
-          new: Create a summary of the works
-          show: Summary of works
-          title: Summary
-          update: Update summary of works
+          edit:
+            breadcrumb: Summary of works
+            title: Edit summary of works
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Summary of works
+            title: Create a summary of the works
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Summary of works
+            edit: Edit summary of works
+            heading: Summary
+            title: Summary of works
+            warning: This information WILL be made publicly available.
           updated:
             success: Summary of works was successfully updated.
       assessment_report_component:
@@ -1582,12 +1638,16 @@ en:
         see_previous_summaries: See previous summaries
       previous_summary_component:
         user_created_additional_evidence: "%{user} created additional evidence"
+        user_created_amenity: "%{user} created amenity assessment"
         user_created_consultation_summary: "%{user} created consultation summary"
+        user_created_neighbour_summary: "%{user} created neighbour summary"
         user_created_site_description: "%{user} created site description"
         user_created_summary_of_work: "%{user} created summary of works"
         user_marked_this: "%{user} marked this for review"
         user_updated_additional_evidence: "%{user} updated additional evidence"
+        user_updated_amenity: "%{user} updated amenity assessment"
         user_updated_consultation_summary: "%{user} updated consultation summary"
+        user_updated_neighbour_summary: "%{user} updated neighbour summary"
         user_updated_site_description: "%{user} updated site description"
         user_updated_summary_of_work: "%{user} updated summary of works"
     policy_class:

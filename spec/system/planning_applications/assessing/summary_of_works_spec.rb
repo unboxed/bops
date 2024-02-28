@@ -25,7 +25,7 @@ RSpec.describe "Summary of works" do
       end
 
       within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Summary")
+        expect(page).to have_content("Summary of works")
       end
 
       expect(page).to have_current_path(
@@ -37,7 +37,7 @@ RSpec.describe "Summary of works" do
       expect(page).to have_content("You can include:")
 
       within(".govuk-warning-text") do
-        expect(page).to have_content("This information will be made publicly available.")
+        expect(page).to have_content("This information WILL be made publicly available.")
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe "Summary of works" do
       expect(page).to have_content("A draft entry for the summary of works")
 
       within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Edit summary of works")
+        expect(page).to have_content("Summary of works")
       end
 
       click_button "Save and come back later"

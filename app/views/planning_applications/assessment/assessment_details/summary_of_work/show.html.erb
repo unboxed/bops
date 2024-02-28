@@ -1,0 +1,25 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% content_for :title, t(".breadcrumb") %>
+
+<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+<%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m"><%= t(".heading") %></h2>
+
+    <%= render(partial: "shared/warning_text", locals: {message: t(".warning")}) %>
+
+    <p class="govuk-body">
+      <%= render(FormattedContentComponent.new(text: @assessment_detail.entry)) %>
+    </p>
+
+    <div class="govuk-button-group">
+      <%= back_link %>
+      <%= link_to(t(".edit"), [:edit, @planning_application, :assessment, @assessment_detail, category: @category], class: "govuk-link") %>
+    </div>
+  </div>
+</div>

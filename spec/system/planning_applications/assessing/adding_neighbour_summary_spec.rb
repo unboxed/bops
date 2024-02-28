@@ -94,7 +94,7 @@ RSpec.describe "neighbour responses" do
       expect(page).to have_content("A draft entry for the neighbour responses")
 
       within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Edit summary of neighbour responses")
+        expect(page).to have_content("Summary of neighbour responses")
       end
 
       within(".govuk-notification-banner") do
