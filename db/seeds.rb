@@ -93,7 +93,7 @@ application_types = [
       summary_of_work
       site_description
       additional_evidence
-      publicity_summary
+      neighbour_summary
       amenity
       past_applications
     ],
@@ -114,7 +114,7 @@ application_types = [
       site_description
       additional_evidence
       consultation_summary
-      publicity_summary
+      neighbour_summary
       past_applications
     ],
     consistency_checklist: %w[

@@ -5,12 +5,12 @@
   rejected_assessment_detail: rejected_assessment_detail
 ) %>
 
-<% if @category == "publicity_summary" %>
+<% if @category == "neighbour_summary" %>
   <% if @planning_application.consultation.neighbour_responses.any? %>
-    <%= render "planning_applications/assessment/assessment_details/publicity_summary/responses",
+    <%= render "planning_applications/assessment/assessment_details/neighbour_summary/responses",
       neighbour_responses: @planning_application.consultation.neighbour_responses,
       rejected_assessment_detail: rejected_assessment_detail,
-      category: "publicity_summary"
+      category: "neighbour_summary"
     %>
   <% else %>
     <p class="govuk-body">There are no neighbour responses</p>

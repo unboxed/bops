@@ -57,12 +57,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
         )
       end
 
-      let!(:publicity_summary) do
+      let!(:neighbour_summary) do
         create(
           :assessment_detail,
-          :publicity_summary,
+          :neighbour_summary,
           planning_application:,
-          entry: "publicity summary",
+          entry: "neighbour summary",
           assessment_status: :complete
         )
       end
@@ -88,7 +88,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               additional_evidence_reviewer_verdict: :accepted,
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
-              publicity_summary_reviewer_verdict: :accepted
+              neighbour_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -120,8 +120,8 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "updates publicity summmary" do
-            expect(publicity_summary.reload).to have_attributes(
+          it "updates neighbour summary" do
+            expect(neighbour_summary.reload).to have_attributes(
               reviewer_verdict: "accepted",
               review_status: "in_progress"
             )
@@ -140,7 +140,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_comment_text: "site description comment",
               additional_evidence_comment_text: "additional evidence comment",
               consultation_summary_comment_text: "consultation summary comment",
-              publicity_summary_comment_text: "publicity summary comment"
+              neighbour_summary_comment_text: "neighbour summary comment"
             }
           end
 
@@ -209,7 +209,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_comment_text: "",
               additional_evidence_comment_text: "",
               consultation_summary_comment_text: "",
-              publicity_summary_comment_text: ""
+              neighbour_summary_comment_text: ""
             }
           end
 
@@ -254,12 +254,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :edited_and_accepted,
               additional_evidence_reviewer_verdict: :edited_and_accepted,
               consultation_summary_reviewer_verdict: :edited_and_accepted,
-              publicity_summary_reviewer_verdict: :edited_and_accepted,
+              neighbour_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "edited summary of work",
               site_description_entry: "edited site description",
               additional_evidence_entry: "edited additional evidence",
               consultation_summary_entry: "edited consultation summary",
-              publicity_summary_entry: "edited publicity summary"
+              neighbour_summary_entry: "edited neighbour summary"
             }
           end
 
@@ -295,11 +295,11 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "updates publicity summary" do
-            expect(publicity_summary.reload).to have_attributes(
+          it "updates neighbour summary" do
+            expect(neighbour_summary.reload).to have_attributes(
               reviewer_verdict: "edited_and_accepted",
               review_status: "in_progress",
-              entry: "edited publicity summary"
+              entry: "edited neighbour summary"
             )
           end
         end
@@ -312,12 +312,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :edited_and_accepted,
               additional_evidence_reviewer_verdict: :edited_and_accepted,
               consultation_summary_reviewer_verdict: :edited_and_accepted,
-              publicity_summary_reviewer_verdict: :edited_and_accepted,
+              neighbour_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "",
               site_description_entry: "",
               additional_evidence_entry: "",
               consultation_summary_entry: "",
-              publicity_summary_entry: ""
+              neighbour_summary_entry: ""
             }
           end
 
@@ -353,9 +353,9 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "sets publicity summary error message" do
+          it "sets neighbour summary error message" do
             expect(
-              review_assessment_details.errors.messages[:publicity_summary_entry]
+              review_assessment_details.errors.messages[:neighbour_summary_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -370,12 +370,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :edited_and_accepted,
               additional_evidence_reviewer_verdict: :edited_and_accepted,
               consultation_summary_reviewer_verdict: :edited_and_accepted,
-              publicity_summary_reviewer_verdict: :edited_and_accepted,
+              neighbour_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "summary of work",
               site_description_entry: "site description",
               additional_evidence_entry: "additional evidence",
               consultation_summary_entry: "consultation summary",
-              publicity_summary_entry: "publicity summary"
+              neighbour_summary_entry: "neighbour summary"
             }
           end
 
@@ -411,9 +411,9 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "sets publicity summary error message" do
+          it "sets neighbour summary error message" do
             expect(
-              review_assessment_details.errors.messages[:publicity_summary_entry]
+              review_assessment_details.errors.messages[:neighbour_summary_entry]
             ).to contain_exactly(
               "must be edited"
             )
@@ -428,7 +428,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               additional_evidence_reviewer_verdict: :accepted,
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
-              publicity_summary_reviewer_verdict: :accepted
+              neighbour_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -447,7 +447,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               additional_evidence_reviewer_verdict: :accepted,
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
-              publicity_summary_reviewer_verdict: :accepted,
+              neighbour_summary_reviewer_verdict: :accepted,
               amenity_reviewer_verdict: :accepted,
               past_applications_reviewer_verdict: :accepted
             }
@@ -469,7 +469,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               additional_evidence_reviewer_verdict: :accepted,
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
-              publicity_summary_reviewer_verdict: :accepted
+              neighbour_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -496,7 +496,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               additional_evidence_reviewer_verdict: :accepted,
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
-              publicity_summary_reviewer_verdict: :accepted
+              neighbour_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -538,7 +538,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
 
           it "creates publicity summmary" do
             expect(
-              planning_application.reload.publicity_summary
+              planning_application.reload.neighbour_summary
             ).to have_attributes(
               reviewer_verdict: "accepted",
               review_status: "in_progress"
@@ -554,12 +554,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :rejected,
               additional_evidence_reviewer_verdict: :rejected,
               consultation_summary_reviewer_verdict: :rejected,
-              publicity_summary_reviewer_verdict: :rejected,
+              neighbour_summary_reviewer_verdict: :rejected,
               summary_of_work_comment_text: "summary of work comment",
               site_description_comment_text: "site description comment",
               additional_evidence_comment_text: "additional evidence comment",
               consultation_summary_comment_text: "consultation summary comment",
-              publicity_summary_comment_text: "publicity summary comment"
+              neighbour_summary_comment_text: "neighbour summary comment"
             }
           end
 
@@ -631,11 +631,11 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "creates comment for publicity summary" do
+          it "creates comment for neighbour summary" do
             expect(
-              planning_application.reload.publicity_summary.comment
+              planning_application.reload.neighbour_summary.comment
             ).to have_attributes(
-              text: "publicity summary comment"
+              text: "neighbour summary comment"
             )
           end
         end
@@ -648,12 +648,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :rejected,
               additional_evidence_reviewer_verdict: :rejected,
               consultation_summary_reviewer_verdict: :rejected,
-              publicity_summary_reviewer_verdict: :rejected,
+              neighbour_summary_reviewer_verdict: :rejected,
               summary_of_work_comment_text: "",
               site_description_comment_text: "",
               additional_evidence_comment_text: "",
               consultation_summary_comment_text: "",
-              publicity_summary_comment_text: ""
+              neighbour_summary_comment_text: ""
             }
           end
 
@@ -689,9 +689,9 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "sets publicity summary error message" do
+          it "sets neighbour summary error message" do
             expect(
-              review_assessment_details.errors.messages[:publicity_summary_comment_text]
+              review_assessment_details.errors.messages[:neighbour_summary_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -706,12 +706,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :edited_and_accepted,
               additional_evidence_reviewer_verdict: :edited_and_accepted,
               consultation_summary_reviewer_verdict: :edited_and_accepted,
-              publicity_summary_reviewer_verdict: :edited_and_accepted,
+              neighbour_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "edited summary of work",
               site_description_entry: "edited site description",
               additional_evidence_entry: "edited additional evidence",
               consultation_summary_entry: "edited consultation summary",
-              publicity_summary_entry: "edited publicity summary"
+              neighbour_summary_entry: "edited neighbour summary"
             }
           end
 
@@ -755,13 +755,13 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "creates publicity summary" do
+          it "creates neighbour summary" do
             expect(
-              planning_application.reload.publicity_summary
+              planning_application.reload.neighbour_summary
             ).to have_attributes(
               reviewer_verdict: "edited_and_accepted",
               review_status: "in_progress",
-              entry: "edited publicity summary"
+              entry: "edited neighbour summary"
             )
           end
         end
@@ -774,12 +774,12 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :edited_and_accepted,
               additional_evidence_reviewer_verdict: :edited_and_accepted,
               consultation_summary_reviewer_verdict: :edited_and_accepted,
-              publicity_summary_reviewer_verdict: :edited_and_accepted,
+              neighbour_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "",
               site_description_entry: "",
               additional_evidence_entry: "",
               consultation_summary_entry: "",
-              publicity_summary_entry: ""
+              neighbour_summary_entry: ""
             }
           end
 
@@ -815,9 +815,9 @@ RSpec.describe ReviewAssessmentDetailsForm do
             )
           end
 
-          it "sets publicity summary error message" do
+          it "sets neighbour summary error message" do
             expect(
-              review_assessment_details.errors.messages[:publicity_summary_entry]
+              review_assessment_details.errors.messages[:neighbour_summary_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -832,7 +832,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               additional_evidence_reviewer_verdict: :accepted,
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
-              publicity_summary_reviewer_verdict: :accepted
+              neighbour_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -851,7 +851,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               additional_evidence_reviewer_verdict: :accepted,
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
-              publicity_summary_reviewer_verdict: :accepted,
+              neighbour_summary_reviewer_verdict: :accepted,
               amenity_reviewer_verdict: :accepted,
               past_applications_reviewer_verdict: :accepted
             }
@@ -898,7 +898,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
           site_description_reviewer_verdict: :accepted,
           consultation_summary_reviewer_verdict: :rejected,
           consultation_summary_comment_text: "consultation summary comment",
-          publicity_summary_comment_text: "publicity summary comment"
+          neighbour_summary_comment_text: "neighbour summary comment"
         }
       end
 

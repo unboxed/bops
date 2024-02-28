@@ -73,8 +73,8 @@ module PlanningApplications
         @category == "consultation_summary"
       end
 
-      def publicity_summary?
-        @category == "publicity_summary"
+      def neighbour_summary?
+        @category == "neighbour_summary"
       end
 
       def set_rejected_assessment_detail
@@ -117,7 +117,7 @@ module PlanningApplications
       end
 
       def set_params
-        publicity_summary? ? neighbour_response_params : assessment_details_params
+        neighbour_summary? ? neighbour_response_params : assessment_details_params
       end
 
       def assessment_status

@@ -35,7 +35,7 @@ class AssessmentDetail < ApplicationRecord
     site_description: "site_description",
     past_applications: "past_applications",
     consultation_summary: "consultation_summary",
-    publicity_summary: "publicity_summary",
+    neighbour_summary: "neighbour_summary",
     amenity: "amenity"
   }
 
@@ -43,7 +43,7 @@ class AssessmentDetail < ApplicationRecord
 
   validates :assessment_status, presence: true
   validates :entry, presence: true, if: :validate_entry_presence?
-  validate :tagged_entry, if: :publicity_summary?
+  validate :tagged_entry, if: :neighbour_summary?
 
   validates(
     :additional_information,
@@ -81,7 +81,7 @@ class AssessmentDetail < ApplicationRecord
     return false if accepted? || rejected?
 
     summary_of_work? ||
-      site_description? || amenity? || publicity_summary? ||
+      site_description? || amenity? || neighbour_summary? ||
       (assessment_complete? && consultation_summary?)
   end
 
