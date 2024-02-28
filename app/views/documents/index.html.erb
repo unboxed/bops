@@ -114,7 +114,7 @@
           <td class="govuk-table__cell govuk-!-width-one-quarter">
             <% if document.tags.present? %>
               <% document.tags.each do |tag| %>
-                <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+                <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
               <% end %>
             <% else %>
               <p class="govuk-body govuk govuk-!-margin-bottom-1">

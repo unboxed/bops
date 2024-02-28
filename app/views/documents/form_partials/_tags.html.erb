@@ -26,7 +26,9 @@
                 <%= form.collection_check_boxes :tags, tags, :itself, :itself do |b| %>
                   <div class="govuk-checkboxes__item">
                     <%= b.check_box class: "govuk-checkboxes__input" %>
-                    <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                    <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" do %>
+                      <%= I18n.t(:"#{b.value}", scope: :document_tags) %>
+                    <% end %>
                   </div>
                 <% end %>
               </div>
@@ -45,7 +47,9 @@
                     <%= form.collection_check_boxes :tags, tags, :itself, :itself do |b| %>
                       <div class="govuk-checkboxes__item">
                         <%= b.check_box class: "govuk-checkboxes__input" %>
-                        <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+                        <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" do %>
+                          <%= I18n.t(:"#{b.value}", scope: :document_tags) %>
+                        <% end %>
                       </div>
                     <% end %>
                   </div>

@@ -47,7 +47,7 @@
                 <td class="govuk-table__cell">
                   <% if document.tags.present? %>
                     <% document.tags.each do |tag| %>
-                      <strong class="govuk-tag govuk-tag--turquoise govuk-!-margin-bottom-1"><%= tag %></strong>
+                      <strong class="govuk-tag govuk-tag--turquoise govuk-!-margin-bottom-1"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
                     <% end %>
                   <% else %>
                     <p class="govuk-body govuk govuk-!-margin-bottom-1">
