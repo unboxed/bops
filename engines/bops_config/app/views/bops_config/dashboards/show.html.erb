@@ -1,0 +1,16 @@
+<% content_for :page_title do %>
+  <%= t(".administrator_dashboard") %> - <%= t('page_title') %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      BOPS config
+    </h1>
+    <p class="govuk-body">
+      <strong><%= t(".welcome_message", name: current_user.name) %></strong>
+    </p>
+
+    <p class="govuk-body">Use this global admin portal to manage BOPS config and global admin users.</p>
+  </div>
+</div>

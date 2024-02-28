@@ -35,8 +35,13 @@ RSpec.configure do |config|
     Capybara.server = :puma, {Silent: true}
   end
 
-  config.before type: :system do
+  config.before type: :system do |example|
     driven_by(ENV.fetch("JS_DRIVER", "chrome_headless").to_sym)
-    Capybara.app_host = "http://planx.example.com"
+
+    Capybara.app_host = if example.metadata[:bops_config]
+      "http://config.bops.services"
+    else
+      "http://planx.example.com"
+    end
   end
 end

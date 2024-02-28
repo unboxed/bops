@@ -1,0 +1,34 @@
+---
+en:
+  bops_config:
+    application:
+      navigation_items:
+        users: Users
+    dashboards:
+      show:
+        administrator_dashboard: Administrator dashboard
+        welcome_message: Welcome %{name}
+    users:
+      create:
+        user_successfully_created: User successfully created
+      edit:
+        edit_user: Edit user
+      form:
+        email: Email
+        sms: SMS
+        submit: Submit
+      index:
+        add_user: Add user
+        users: Manage global admin users
+      new:
+        add_user: Add a new user
+      resend_invite:
+        confirmation_failed_to_resend: Unable to send a reminder email - please contact support
+        confirmation_resent: User will receive a reminder email
+      table:
+        email: Email
+        'false': 'No'
+        sms: SMS
+        'true': 'Yes'
+      update:
+        user_successfully_updated: User successfully updated

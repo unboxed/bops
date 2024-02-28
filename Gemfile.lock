@@ -14,6 +14,12 @@ PATH
       rswag-specs (~> 2.11)
       rswag-ui (~> 2.11)
 
+PATH
+  remote: engines/bops_config
+  specs:
+    bops_config (0.1.0)
+      rails (>= 7.1.3, < 7.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -628,6 +634,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   bops_admin!
   bops_api!
+  bops_config!
   brakeman
   bullet
   business_time

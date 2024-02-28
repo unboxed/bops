@@ -35,8 +35,10 @@ RSpec.describe "Accessing correct local authority" do
     end
 
     it "visit non existing path" do
-      visit "/"
-      expect(page).to have_content("No Local Authority Found")
+      expect do
+        visit "/"
+        expect(page).to have_selector("h1", text: "Does not exist")
+      end.to raise_error(ActionController::RoutingError)
     end
   end
 end

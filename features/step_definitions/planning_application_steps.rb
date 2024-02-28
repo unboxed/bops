@@ -9,18 +9,14 @@ Given("I am logged out") do
 end
 
 Given("I am logged in as a(n) {}") do |role|
-  step("I am logged out")
-
   southwark = LocalAuthority.find_by(subdomain: "southwark")
   @officer = FactoryBot.create(:user, role.to_sym, local_authority: southwark, mobile_number: "07788446542")
   @api_user = FactoryBot.create(:api_user, name: "PlanX")
 
   domain = @officer.local_authority.subdomain
-
-  visit "/"
-
   Capybara.app_host = "http://#{domain}.#{domain}.localhost:#{Capybara.server_port}"
 
+  step("I am logged out")
   visit "/users/sign_in"
 
   fill_in "Email", with: @officer.email

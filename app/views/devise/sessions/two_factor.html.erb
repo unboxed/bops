@@ -19,11 +19,13 @@
 
         <%= link_to "Resend code", resend_code_path, class: "govuk-link" %>
 
-        <p class="govuk-phase-banner__content govuk-!-padding-top-3 govuk-!-padding-bottom-3">
-          <span class="govuk-phase-banner__text">
-            If you have an issue logging in, please send an email to <%= mail_to @user.local_authority.email_address, @user.local_authority.email_address, class: "govuk-link" %>
-          </span>
-        </p>
+        <% if @user.local_authority %>
+          <p class="govuk-phase-banner__content govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+            <span class="govuk-phase-banner__text">
+              If you have an issue logging in, please send an email to <%= mail_to @user.local_authority.email_address, @user.local_authority.email_address, class: "govuk-link" %>
+            </span>
+          </p>
+        <% end %>
 
         <%= form.submit "Enter code", class: "govuk-button", data: { module: "govuk-button" } %>
       <% end %>
