@@ -28,7 +28,9 @@ module PlanningApplications
             notice: I18n.t("local_policies.successfully_created")
         else
           set_local_policy_areas
-          render :new
+          respond_to do |format|
+            format.html { render :new }
+          end
         end
       end
 
@@ -38,7 +40,9 @@ module PlanningApplications
             notice: I18n.t("local_policies.successfully_updated")
         else
           set_local_policy_areas
-          render :edit
+          respond_to do |format|
+            format.html { render :edit }
+          end
         end
       end
 
