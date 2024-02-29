@@ -735,6 +735,14 @@ class PlanningApplication < ApplicationRecord
     replacement_document_validation_requests.order(:created_at).last
   end
 
+  def time_extension_request
+    time_extension_requests.order(:created_at).last
+  end
+
+  def latest_rejected_time_extension
+    time_extension_requests.order(created_at: :desc).find(&:rejected?)
+  end
+
   def overdue_validation_requests
     validation_requests.open.select(&:overdue?)
   end

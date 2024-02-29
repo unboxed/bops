@@ -13,6 +13,7 @@ class ValidationRequest < ApplicationRecord
     FeeChangeValidationRequest
     PreCommencementConditionValidationRequest
     HeadsOfTermsValidationRequest
+    TimeExtensionValidationRequest
   ].freeze
 
   with_options to: :planning_application do
@@ -334,6 +335,10 @@ class ValidationRequest < ApplicationRecord
 
   def fee_change?
     type == "FeeChangeValidationRequest"
+  end
+
+  def time_extension_request?
+    type == "TimeExtensionValidationRequest"
   end
 
   def reset_columns
