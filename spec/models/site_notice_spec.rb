@@ -40,6 +40,14 @@ RSpec.describe SiteNotice do
               .from(Time.zone.local(2023, 3, 28).to_date)
               .to(Time.zone.local(2023, 4, 5).to_date)
           end
+
+          it "sets the expiry date to the new consultation end date" do
+            expect do
+              site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
+            end.to change(site_notice, :expiry_date)
+              .from(nil)
+              .to(Time.zone.local(2023, 4, 5).to_date)
+          end
         end
 
         context "when there is an update to another field" do
@@ -53,6 +61,10 @@ RSpec.describe SiteNotice do
           it "there is no update to the consultation end date" do
             expect { site_notice.update(content: "bla") }.not_to change(consultation, :end_date)
           end
+
+          it "does not update the expiry date" do
+            expect { site_notice.update(content: "bla") }.not_to change(site_notice, :expiry_date).from(nil)
+          end
         end
 
         context "when consultation end date is later than the displayed at date + 21 days" do
@@ -65,6 +77,14 @@ RSpec.describe SiteNotice do
 
           it "there is no update to the consultation end date" do
             expect { site_notice.update(displayed_at: Time.zone.local(2023, 3, 15)) }.not_to change(consultation, :end_date)
+          end
+
+          it "sets the expiry date to the existing consultation end date" do
+            expect do
+              site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
+            end.to change(site_notice, :expiry_date)
+              .from(nil)
+              .to(consultation.end_date)
           end
         end
 
@@ -81,6 +101,14 @@ RSpec.describe SiteNotice do
               site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
               .from(Time.zone.local(2023, 3, 28).to_date)
+              .to(Time.zone.local(2023, 4, 5).to_date)
+          end
+
+          it "sets the expiry date to the new consultation end date" do
+            expect do
+              site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
+            end.to change(site_notice, :expiry_date)
+              .from(nil)
               .to(Time.zone.local(2023, 4, 5).to_date)
           end
         end
@@ -100,6 +128,14 @@ RSpec.describe SiteNotice do
               site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
               .from(Time.zone.local(2023, 3, 28).to_date)
+              .to(Time.zone.local(2023, 4, 14).to_date)
+          end
+
+          it "sets the expiry date to the new consultation end date" do
+            expect do
+              site_notice.update(displayed_at: Time.zone.local(2023, 3, 15))
+            end.to change(site_notice, :expiry_date)
+              .from(nil)
               .to(Time.zone.local(2023, 4, 14).to_date)
           end
         end

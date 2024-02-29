@@ -117,6 +117,14 @@ RSpec.describe PressNotice do
               .from(Time.zone.local(2023, 3, 28).to_date)
               .to(Time.zone.local(2023, 4, 5, 23).to_date)
           end
+
+          it "sets the expiry date to the new consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15))
+            end.to change(press_notice, :expiry_date)
+              .from(nil)
+              .to(Time.zone.local(2023, 4, 5, 23).to_date)
+          end
         end
 
         context "when there is an update to another field" do
@@ -130,6 +138,10 @@ RSpec.describe PressNotice do
           it "there is no update to the consultation end date" do
             expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15)) }.not_to change(consultation, :end_date)
           end
+
+          it "does not update the expiry date" do
+            expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15)) }.not_to change(press_notice, :expiry_date).from(nil)
+          end
         end
 
         context "when consultation end date is later than the published at date + 21 days" do
@@ -142,6 +154,14 @@ RSpec.describe PressNotice do
 
           it "there is no update to the consultation end date" do
             expect { press_notice.update(published_at: Time.zone.local(2023, 3, 15)) }.not_to change(consultation, :end_date)
+          end
+
+          it "sets the expiry date to the existing consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15))
+            end.to change(press_notice, :expiry_date)
+              .from(nil)
+              .to(consultation.end_date)
           end
         end
 
@@ -158,6 +178,14 @@ RSpec.describe PressNotice do
               press_notice.update(published_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
               .from(Time.zone.local(2023, 3, 28).to_date)
+              .to(Time.zone.local(2023, 4, 5).to_date)
+          end
+
+          it "sets the expiry date to the new consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15))
+            end.to change(press_notice, :expiry_date)
+              .from(nil)
               .to(Time.zone.local(2023, 4, 5).to_date)
           end
         end
@@ -177,6 +205,14 @@ RSpec.describe PressNotice do
               press_notice.update(published_at: Time.zone.local(2023, 3, 15))
             end.to change(consultation, :end_date)
               .from(Time.zone.local(2023, 3, 28).to_date)
+              .to(Time.zone.local(2023, 4, 14).to_date)
+          end
+
+          it "sets the expiry date to the new consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15))
+            end.to change(press_notice, :expiry_date)
+              .from(nil)
               .to(Time.zone.local(2023, 4, 14).to_date)
           end
         end
