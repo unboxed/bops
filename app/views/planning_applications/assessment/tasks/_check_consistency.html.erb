@@ -17,6 +17,14 @@
         )
       ) %>
     </li>
+    <% if @planning_application.check_publicity? %>
+      <%= render(
+        TaskListItems::Assessment::AssessmentDetailComponent.new(
+          planning_application: @planning_application,
+          category: :check_publicity
+        )
+      ) %>
+    <% end %>
     <%= render(
       TaskListItems::Assessment::AssessmentDetailComponent.new(
         planning_application: @planning_application,

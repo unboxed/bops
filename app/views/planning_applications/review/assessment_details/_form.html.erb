@@ -5,6 +5,7 @@
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <% planning_application.application_type.assessment_details.each_with_index do |assessment_detail, index| %>
+    <% next if assessment_detail == "check_publicity" %>
     <% unless index == 0 %>
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>

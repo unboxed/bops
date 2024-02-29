@@ -12,6 +12,7 @@ module PlanningApplications
       before_action :set_category, :set_rejected_assessment_detail, only: %i[new create edit update show]
       before_action :set_consultation, if: :has_consultation_and_summary?
       before_action :set_neighbour_responses, if: :neighbour_summary?
+      before_action :set_site_and_press_notices, if: :check_publicity?
 
       def show
         respond_to do |format|
@@ -72,6 +73,15 @@ module PlanningApplications
 
       def set_neighbour_responses
         @neighbour_responses = @planning_application.consultation.neighbour_responses
+      end
+
+      def set_site_and_press_notices
+        @site_notice = @planning_application.site_notices.last
+        @press_notice = @planning_application.press_notice
+      end
+
+      def check_publicity?
+        @category == "check_publicity"
       end
 
       def consultation_summary?

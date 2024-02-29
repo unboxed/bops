@@ -41,7 +41,7 @@ class ApplicationType < ApplicationRecord
   end
 
   def assessor_remarks
-    assessment_details.excluding("past_applications")
+    assessment_details.excluding("past_applications", "check_publicity")
   end
 
   def irrelevant_tags(key)

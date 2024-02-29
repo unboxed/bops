@@ -36,7 +36,8 @@ class AssessmentDetail < ApplicationRecord
     past_applications: "past_applications",
     consultation_summary: "consultation_summary",
     neighbour_summary: "neighbour_summary",
-    amenity: "amenity"
+    amenity: "amenity",
+    check_publicity: "check_publicity"
   }
 
   before_validation :set_user
