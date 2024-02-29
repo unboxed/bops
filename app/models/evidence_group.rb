@@ -11,16 +11,18 @@ class EvidenceGroup < ApplicationRecord
   )
 
   enum tag: {
-    photograph: 0,
-    utility_bill: 1,
-    building_control_certificate: 2,
-    construction_invoice: 3,
-    council_tax_document: 4,
-    tenancy_agreement: 5,
-    tenancy_invoice: 6,
-    bank_statement: 7,
-    statutory_declaration: 8,
-    other: 9
+    "photographs.existing": 0,
+    utilityBill: 1,
+    buildingControlCertificate: 2,
+    constructionInvoice: 3,
+    councilTaxBill: 4,
+    tenancyAgreement: 5,
+    tenancyInvoice: 6,
+    bankStatement: 7,
+    statutoryDeclaration: 8,
+    otherEvidence: 9,
+    "photographs.proposed": 10,
+    utilitiesStatement: 11
   }
 
   def comment

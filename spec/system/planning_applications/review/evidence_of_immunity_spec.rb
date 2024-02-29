@@ -41,8 +41,8 @@ RSpec.describe "Reviewing evidence of immunity" do
   context "when there's an evidence of immunity" do
     before do
       create(:review, :evidence, owner: planning_application.immunity_detail, assessor:)
-      create(:evidence_group, :with_document, tag: "utility_bill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
-      create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
+      create(:evidence_group, :with_document, tag: "utilityBill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
+      create(:evidence_group, :with_document, tag: "buildingControlCertificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
 
       sign_in reviewer
       visit "/planning_applications/#{planning_application.id}/review/tasks"
@@ -77,7 +77,7 @@ RSpec.describe "Reviewing evidence of immunity" do
         expect(page).to have_content("Has enforcement action been taken about these changes? No")
 
         click_button "Utility bills (1)"
-        utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
+        utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utilityBill").first
 
         within(open_accordion_section) do
           expect(page).to have_content(utility_bill_group.start_date.to_fs(:day_month_year_slashes))
@@ -168,7 +168,7 @@ RSpec.describe "Reviewing evidence of immunity" do
       end
 
       it "I can edit comments" do
-        utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
+        utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utilityBill").first
 
         comment = create(
           :comment,

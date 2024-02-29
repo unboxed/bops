@@ -437,7 +437,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             planning_application = service.call!
           end.to change(EvidenceGroup, :count).by(4)
 
-          council_tax_bill = planning_application.immunity_detail.evidence_groups.where(tag: "council_tax_document").first
+          council_tax_bill = planning_application.immunity_detail.evidence_groups.where(tag: "councilTaxBill").first
 
           expect(council_tax_bill).to have_attributes(
             immunity_detail_id: planning_application.immunity_detail.id,
@@ -446,7 +446,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             applicant_comment: "That I was paying council tax"
           )
 
-          other_document = planning_application.immunity_detail.evidence_groups.where(tag: "other").first
+          other_document = planning_application.immunity_detail.evidence_groups.where(tag: "otherEvidence").first
 
           expect(other_document).to have_attributes(
             immunity_detail_id: planning_application.immunity_detail.id,

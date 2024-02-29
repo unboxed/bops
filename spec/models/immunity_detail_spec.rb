@@ -39,7 +39,7 @@ RSpec.describe ImmunityDetail do
     it "can have a document added" do
       immunity_detail.add_document document
       expect(immunity_detail.evidence_groups).not_to be_empty
-      expect(immunity_detail.evidence_groups.first.tag).to eq("council_tax_document")
+      expect(immunity_detail.evidence_groups.first.tag).to eq("councilTaxBill")
       expect(immunity_detail.evidence_groups.first.documents.first).to eq(document)
     end
 
@@ -47,14 +47,14 @@ RSpec.describe ImmunityDetail do
       document.tags = ["elevations.existing", "councilTaxBill"]
       document.save!
       immunity_detail.add_document document
-      expect(immunity_detail.evidence_groups.first.tag).to eq("council_tax_document")
+      expect(immunity_detail.evidence_groups.first.tag).to eq("councilTaxBill")
     end
 
     it "ignores multiple evidence tags on a document" do
       document.tags = ["councilTaxBill", "photographs.existing"]
       document.save!
       immunity_detail.add_document document
-      expect(immunity_detail.evidence_groups.first.tag).to eq("council_tax_document")
+      expect(immunity_detail.evidence_groups.first.tag).to eq("councilTaxBill")
     end
   end
 
