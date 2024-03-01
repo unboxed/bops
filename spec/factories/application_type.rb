@@ -72,6 +72,7 @@ FactoryBot.define do
           neighbour_summary
           amenity
           past_applications
+          check_publicity
         ]
       end
 
@@ -150,6 +151,7 @@ FactoryBot.define do
           consultation_summary
           neighbour_summary
           past_applications
+          check_publicity
         ]
       end
 

@@ -224,6 +224,10 @@ GEM
       railties (>= 3.2)
     drb (2.2.0)
       ruby2_keywords
+    email_spec (2.2.2)
+      htmlentities (~> 4.3.3)
+      launchy (~> 2.1)
+      mail (~> 2.7)
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
@@ -276,6 +280,7 @@ GEM
     highline (2.0.3)
     html-attributes-utils (0.9.2)
       activesupport (>= 6.1.4.4)
+    htmlentities (4.3.4)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.0.12)
@@ -311,6 +316,8 @@ GEM
       simpleidn (~> 0.2)
     jwt (2.7.0)
     language_server-protocol (3.17.0.3)
+    launchy (2.5.2)
+      addressable (~> 2.8)
     lint_roller (1.1.0)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -632,6 +639,7 @@ DEPENDENCIES
   devise
   devise-two-factor
   dotenv-rails
+  email_spec
   factory_bot_rails
   faker
   faraday (~> 2)
