@@ -10,9 +10,9 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
       let!(:planning_application) { create(:planning_application, :from_planx_immunity, api_user:) }
 
       # Documents have already been created by the time this service is called
-      let!(:document1) { create(:document, tags: ["floorPlan.proposed", "utilityBill"], planning_application:) }
-      let!(:document2) { create(:document, tags: ["floorPlan.proposed", "utilityBill"], planning_application:) }
-      let!(:document3) { create(:document, tags: ["floorPlan.proposed", "buildingControlCertificate"], planning_application:) }
+      let!(:document1) { create(:document, tags: %w[floorPlan.proposed utilityBill], planning_application:) }
+      let!(:document2) { create(:document, tags: %w[floorPlan.proposed utilityBill], planning_application:) }
+      let!(:document3) { create(:document, tags: %w[floorPlan.proposed buildingControlCertificate], planning_application:) }
 
       context "when successful" do
         it "creates a the immunity details for the planning application" do

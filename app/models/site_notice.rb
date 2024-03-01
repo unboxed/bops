@@ -28,7 +28,7 @@ class SiteNotice < ApplicationRecord
 
   def documents=(files)
     files.select(&:present?).each do |file|
-      documents.new(file: file, planning_application: planning_application, tags: ["internal.siteNotice"])
+      documents.new(file: file, planning_application: planning_application, tags: %w[internal.siteNotice])
     end
   end
 

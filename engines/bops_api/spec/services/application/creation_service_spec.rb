@@ -133,12 +133,12 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             ),
             an_object_having_attributes(
               name: "Test document.pdf",
-              tags: ["constructionInvoice"],
+              tags: %w[constructionInvoice],
               applicant_description: "Nothing, it's a test document. "
             ),
             an_object_having_attributes(
               name: "Test document.pdf",
-              tags: ["councilTaxBill"],
+              tags: %w[councilTaxBill],
               applicant_description: "Council tax bill"
             )
           )

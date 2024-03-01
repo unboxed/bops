@@ -14,8 +14,8 @@ RSpec.describe "Check ownership certificate type" do
   context "when application is not started" do
     let!(:planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
 
-    let!(:document1) { create(:document, planning_application:, tags: ["floorPlan.proposed"]) }
-    let!(:document2) { create(:document, planning_application:, tags: ["planningStatement"]) }
+    let!(:document1) { create(:document, planning_application:, tags: %w[floorPlan.proposed]) }
+    let!(:document2) { create(:document, planning_application:, tags: %w[planningStatement]) }
 
     let!(:ownership_certificate) { create(:ownership_certificate, planning_application:) }
     let!(:land_owner1) { create(:land_owner, ownership_certificate:) }

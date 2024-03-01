@@ -32,103 +32,103 @@ class Document < ApplicationRecord
   before_update :reset_replacement_document_validation_request_update_counter!, if: :owner_is_validation_request?
   after_update :audit_updated!
 
-  PLAN_TAGS = [
-    "elevations.existing",
-    "elevations.proposed",
-    "floorPlan.existing",
-    "floorPlan.proposed",
-    "internalElevations",
-    "internalSections",
-    "locationPlan",
-    "otherDrawing",
-    "roofPlan.existing",
-    "roofPlan.proposed",
-    "sections.existing",
-    "sections.proposed",
-    "sitePlan.existing",
-    "sitePlan.proposed",
-    "sketchPlan",
-    "streetScene",
-    "unitPlan.existing",
-    "unitPlan.proposed",
-    "usePlan.existing",
-    "usePlan.proposed"
+  PLAN_TAGS = %w[
+    elevations.existing
+    elevations.proposed
+    floorPlan.existing
+    floorPlan.proposed
+    internalElevations
+    internalSections
+    locationPlan
+    otherDrawing
+    roofPlan.existing
+    roofPlan.proposed
+    sections.existing
+    sections.proposed
+    sitePlan.existing
+    sitePlan.proposed
+    sketchPlan
+    streetScene
+    unitPlan.existing
+    unitPlan.proposed
+    usePlan.existing
+    usePlan.proposed
   ].freeze
 
-  EVIDENCE_TAGS = [
-    "bankStatement",
-    "buildingControlCertificate",
-    "constructionInvoice",
-    "councilTaxBill",
-    "otherEvidence",
-    "photographs.existing",
-    "photographs.proposed",
-    "statutoryDeclaration",
-    "tenancyAgreement",
-    "tenancyInvoice",
-    "utilitiesStatement",
-    "utilityBill"
+  EVIDENCE_TAGS = %w[
+    bankStatement
+    buildingControlCertificate
+    constructionInvoice
+    councilTaxBill
+    otherEvidence
+    photographs.existing
+    photographs.proposed
+    statutoryDeclaration
+    tenancyAgreement
+    tenancyInvoice
+    utilitiesStatement
+    utilityBill
   ].freeze
 
-  SUPPORTING_DOCUMENT_TAGS = [
-    "affordableHousingStatement",
-    "arboriculturistReport",
-    "basementImpactStatement",
-    "bioaerosolAssessment",
-    "bioaerosolAssessment",
-    "birdstrikeRiskManagementPlan",
-    "boreholeOrTrialPitAnalysis",
-    "conditionSurvey",
-    "contaminationReport",
-    "crimePreventionStrategy",
-    "designAndAccessStatement",
-    "disabilityExemptionEvidence",
-    "ecologyReport",
-    "emissionsMitigationAndMonitoringScheme",
-    "energyStatement",
-    "environmentalImpactAssessment",
-    "fireSafetyReport",
-    "floodRiskAssessment",
-    "foulDrainageAssessment",
-    "geodiversityAssessment",
-    "heritageStatement",
-    "hydrologicalAssessment",
-    "hydrologyReport",
-    "internal.pressNotice",
-    "internal.siteNotice",
-    "internal.siteVisit",
-    "joinersReport",
-    "joinerySections",
-    "landContaminationAssessment",
-    "landscapeAndVisualImpactAssessment",
-    "landscapeStrategy",
-    "lightingAssessment",
-    "litterVerminAndBirdControlDetails",
-    "mineralsAndWasteAssessment",
-    "newDwellingsSchedule",
-    "noiseAssessment",
-    "openSpaceAssessment",
-    "otherDocument",
-    "parkingPlan",
-    "planningStatement",
-    "statementOfCommunityInvolvement",
-    "storageTreatmentAndWasteDisposalDetails",
-    "subsidenceReport",
-    "sunlightAndDaylightReport",
-    "sustainabilityStatement",
-    "technicalEvidence",
-    "townCentreImpactAssessment",
-    "townCentreSequentialAssessment",
-    "transportAssessment",
-    "travelPlan",
-    "treeCanopyCalculator",
-    "treeConditionReport",
-    "treesReport",
-    "ventilationStatement",
-    "viabilityAppraisal",
-    "visualisations",
-    "wasteAndRecyclingStrategy",
-    "waterEnvironmentAssessment"
+  SUPPORTING_DOCUMENT_TAGS = %w[
+    affordableHousingStatement
+    arboriculturistReport
+    basementImpactStatement
+    bioaerosolAssessment
+    bioaerosolAssessment
+    birdstrikeRiskManagementPlan
+    boreholeOrTrialPitAnalysis
+    conditionSurvey
+    contaminationReport
+    crimePreventionStrategy
+    designAndAccessStatement
+    disabilityExemptionEvidence
+    ecologyReport
+    emissionsMitigationAndMonitoringScheme
+    energyStatement
+    environmentalImpactAssessment
+    fireSafetyReport
+    floodRiskAssessment
+    foulDrainageAssessment
+    geodiversityAssessment
+    heritageStatement
+    hydrologicalAssessment
+    hydrologyReport
+    internal.pressNotice
+    internal.siteNotice
+    internal.siteVisit
+    joinersReport
+    joinerySections
+    landContaminationAssessment
+    landscapeAndVisualImpactAssessment
+    landscapeStrategy
+    lightingAssessment
+    litterVerminAndBirdControlDetails
+    mineralsAndWasteAssessment
+    newDwellingsSchedule
+    noiseAssessment
+    openSpaceAssessment
+    otherDocument
+    parkingPlan
+    planningStatement
+    statementOfCommunityInvolvement
+    storageTreatmentAndWasteDisposalDetails
+    subsidenceReport
+    sunlightAndDaylightReport
+    sustainabilityStatement
+    technicalEvidence
+    townCentreImpactAssessment
+    townCentreSequentialAssessment
+    transportAssessment
+    travelPlan
+    treeCanopyCalculator
+    treeConditionReport
+    treesReport
+    ventilationStatement
+    viabilityAppraisal
+    visualisations
+    wasteAndRecyclingStrategy
+    waterEnvironmentAssessment
   ].freeze
 
   ## Needs to be better
@@ -212,7 +212,7 @@ class Document < ApplicationRecord
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
   scope :for_fee_exemption, -> { with_tag("disabilityExemptionEvidence") }
-  scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(["disabilityExemptionEvidence"])) }
+  scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(%w[disabilityExemptionEvidence])) }
 
   before_validation on: :create do
     if owner.present?

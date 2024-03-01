@@ -11,7 +11,7 @@ RSpec.describe UploadDocumentsService, type: :service do
         {
           filename: "https://example.com/proposed-floorplan.png",
           applicant_description: "first floor plan",
-          tags: ["floorPlan.proposed"]
+          tags: %w[floorPlan.proposed]
         }
       ]
     end
@@ -46,7 +46,7 @@ RSpec.describe UploadDocumentsService, type: :service do
         .by(1)
 
       expect(planning_application.documents.last).to have_attributes(
-        tags: ["floorPlan.proposed"],
+        tags: %w[floorPlan.proposed],
         applicant_description: "first floor plan"
       )
     end

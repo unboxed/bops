@@ -431,7 +431,7 @@ RSpec.describe "FeeItemsValidation" do
     end
 
     context "when applicant has responded" do
-      let(:fee_exemption_document) { create(:document, :with_file, planning_application:, tags: ["disabilityExemptionEvidence"]) }
+      let(:fee_exemption_document) { create(:document, :with_file, planning_application:, tags: %w[disabilityExemptionEvidence]) }
 
       before do
         travel_to Time.zone.local(2021, 1, 1)

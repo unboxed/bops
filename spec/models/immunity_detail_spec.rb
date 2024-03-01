@@ -34,7 +34,7 @@ RSpec.describe ImmunityDetail do
 
   describe "#add_document" do
     let(:immunity_detail) { create(:immunity_detail) }
-    let(:document) { create(:document, tags: ["councilTaxBill"]) }
+    let(:document) { create(:document, tags: %w[councilTaxBill]) }
 
     it "can have a document added" do
       immunity_detail.add_document document
