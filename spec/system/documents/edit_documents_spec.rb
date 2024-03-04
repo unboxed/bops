@@ -41,14 +41,14 @@ RSpec.describe "Edit document" do
     it "archives and replaces existing document when new file is uploaded" do
       visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
-      check("Front")
+      check("Roof plan - proposed")
       fill_in("Document reference(s)", with: "DOC123")
       click_button("Save")
       click_link("Edit")
 
       expect(page).to have_content("proposed-floorplan.png")
       expect(page).to have_field("Document reference(s)", with: "DOC123")
-      expect(page).to have_field("Front", checked: true)
+      expect(page).to have_field("Roof plan - proposed", checked: true)
 
       attach_file(
         "Upload a replacement file",
@@ -65,7 +65,7 @@ RSpec.describe "Edit document" do
 
       expect(page).to have_content("proposed-roofplan.png")
       expect(page).to have_field("Document reference(s)", with: "DOC123")
-      expect(page).to have_field("Front", checked: true)
+      expect(page).to have_field("Roof plan - proposed", checked: true)
     end
 
     context "when there is an open replacement request" do

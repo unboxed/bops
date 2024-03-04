@@ -51,7 +51,7 @@ class ApplicationType < ApplicationRecord
     when "evidence"
       Document::EVIDENCE_TAGS - document_tags[key]
     when "supporting_documents"
-      (Document::SUPPORTING_DOCUMENT_TAGS - ["Fee Exemption"]) - document_tags[key]
+      (Document::SUPPORTING_DOCUMENT_TAGS - ["disabilityExemptionEvidence"]) - document_tags[key]
     when "other"
       []
     else

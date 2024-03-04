@@ -18,7 +18,7 @@ class FeeChangeValidationRequest < ValidationRequest
 
   def supporting_documents=(files)
     files.select(&:present?).each do |file|
-      supporting_documents.new(file: file, planning_application: planning_application, tags: ["Fee Exemption"])
+      supporting_documents.new(file: file, planning_application: planning_application, tags: %w[disabilityExemptionEvidence])
     end
   end
 

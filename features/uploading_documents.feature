@@ -9,9 +9,9 @@ Feature: Uploading documents for an application
     Given I press "Upload document"
     And I upload "spec/fixtures/images/proposed-floorplan.png" for the "file" input
     And I set the date inputs to "5/7/2021"
-    And I check "Floor"
-    And I check "Side"
-    And I check "Utility Bill"
+    And I check "Floor plan - existing"
+    And I check "Roof plan - existing"
+    And I check "Utility bill"
     And I choose "Yes" for "Do you want to list this document on the decision notice?"
     And I choose "Yes" for "Should this document be made publicly available?"
     And I fill in "Document reference(s)" with "Floorplan"
@@ -22,9 +22,9 @@ Feature: Uploading documents for an application
     And the page contains "Public: Yes"
     When I view the document with reference "Floorplan"
     Then the page contains "This document was manually uploaded by Morisuke"
-    And the option "Floor" is checked
-    And the option "Side" is checked
-    And the option "Utility Bill" is checked
+    And the option "Floor plan - existing" is checked
+    And the option "Roof plan - existing" is checked
+    And the option "Utility bill" is checked
 
 
  Scenario: I can upload a new document with no tags and it defaults to not public

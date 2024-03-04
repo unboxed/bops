@@ -450,32 +450,32 @@ RSpec.describe "Assess immunity detail permitted development right" do
     end
 
     it "lists the evidence in a single group for a single document" do
-      document = create(:document, tags: ["Council Tax Document"])
+      document = create(:document, tags: %w[councilTaxBill])
       immunity_detail.add_document(document)
       visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
-      expect(page).to have_content("Council tax documents (1)")
+      expect(page).to have_content("Council tax bills (1)")
     end
 
     it "lists the evidence in a single group for multiple documents of the same kind" do
-      document1 = create(:document, tags: ["Council Tax Document"])
-      document2 = create(:document, tags: ["Council Tax Document"])
+      document1 = create(:document, tags: %w[councilTaxBill])
+      document2 = create(:document, tags: %w[councilTaxBill])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
       visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
-      expect(page).to have_content("Council tax documents (2)")
+      expect(page).to have_content("Council tax bills (2)")
     end
 
     it "lists the evidence in multiple groups for multiple documents of different kind" do
-      document1 = create(:document, tags: ["Council Tax Document"])
-      document2 = create(:document, tags: ["Photograph"])
+      document1 = create(:document, tags: %w[councilTaxBill])
+      document2 = create(:document, tags: %w[photographs.existing])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
       visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
-      expect(page).to have_content("Council tax documents (1)")
-      expect(page).to have_content("Photographs (1)")
+      expect(page).to have_content("Council tax bills (1)")
+      expect(page).to have_content("Photographs - existings (1)")
     end
   end
 end

@@ -1566,20 +1566,20 @@
 	"files": [{
 			"filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
 			"tags": [
-				"Utility Bill"
+				"utilityBill"
 			]
 		},
 		{
 			"filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
 			"tags": [
-				"Utility Bill"
+				"utilityBill"
 			]
 		}
 ,
 		{
 			"filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
 			"tags": [
-				"Building Control Certificate"
+				"buildingControlCertificate"
 			]
 		}
 	],

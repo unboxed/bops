@@ -96,7 +96,7 @@ RSpec.describe "Review documents for recommendation" do
       within("#document_#{document_with_reference_and_tags.id}") do
         expect(page).to have_content(document_with_reference_and_tags.numbers)
         expect(page).not_to have_content(document_with_reference_and_tags.file.filename)
-        expect(page).to have_content("Side Elevation Proposed Photograph")
+        expect(page).to have_content("Elevations - proposed Photographs - proposed")
       end
 
       within("#document_#{document_without_reference.id}") do

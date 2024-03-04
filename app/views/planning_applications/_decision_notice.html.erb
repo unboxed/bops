@@ -67,7 +67,7 @@
             <%= condition.reason %>
           </li>
         <% end %>
-      </p>
+      </ul>
     <% end %>
     <% if @planning_application.condition_set.conditions.any? %>
       <h3 class="govuk-heading-s">
@@ -80,7 +80,7 @@
             <%= condition.reason %>
           </li>
         <% end %>
-      </p>
+      </ul>
     <% end %>
     <h3 class="govuk-heading-s">
       This decision is based on the following approved plans:
@@ -102,7 +102,7 @@
                 <td class="govuk-table__cell"><%= number %></td>
                 <td class="govuk-table__cell">
                   <% document.tags.each do |tag| %>
-                    <%= tag.upcase %>
+                    <%= I18n.t(:"#{tag}", scope: :document_tags) %>
                   <% end %>
                 </td>
                 <td class="govuk-table__cell"><%= document.created_at.to_fs %></td>

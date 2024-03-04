@@ -34,27 +34,27 @@ RSpec.describe ImmunityDetail do
 
   describe "#add_document" do
     let(:immunity_detail) { create(:immunity_detail) }
-    let(:document) { create(:document, tags: ["Council Tax Document"]) }
+    let(:document) { create(:document, tags: %w[councilTaxBill]) }
 
     it "can have a document added" do
       immunity_detail.add_document document
       expect(immunity_detail.evidence_groups).not_to be_empty
-      expect(immunity_detail.evidence_groups.first.tag).to eq("council_tax_document")
+      expect(immunity_detail.evidence_groups.first.tag).to eq("councilTaxBill")
       expect(immunity_detail.evidence_groups.first.documents.first).to eq(document)
     end
 
     it "uses only evidence tags on a document" do
-      document.tags = ["Elevation", "Council Tax Document"]
+      document.tags = ["elevations.existing", "councilTaxBill"]
       document.save!
       immunity_detail.add_document document
-      expect(immunity_detail.evidence_groups.first.tag).to eq("council_tax_document")
+      expect(immunity_detail.evidence_groups.first.tag).to eq("councilTaxBill")
     end
 
     it "ignores multiple evidence tags on a document" do
-      document.tags = ["Council Tax Document", "Photograph"]
+      document.tags = ["councilTaxBill", "photographs.existing"]
       document.save!
       immunity_detail.add_document document
-      expect(immunity_detail.evidence_groups.first.tag).to eq("council_tax_document")
+      expect(immunity_detail.evidence_groups.first.tag).to eq("councilTaxBill")
     end
   end
 

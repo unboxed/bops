@@ -5,7 +5,7 @@ FactoryBot.define do
     immunity_detail
     start_date { 6.years.ago }
     end_date { 4.years.ago }
-    tag { "utility_bill" }
+    tag { "utilityBill" }
     applicant_comment { "This is my proof" }
 
     trait :with_document do

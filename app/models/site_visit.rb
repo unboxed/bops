@@ -32,7 +32,7 @@ class SiteVisit < ApplicationRecord
 
   def documents=(files)
     files.select(&:present?).each do |file|
-      documents.new(file: file, planning_application: planning_application, tags: ["Site Visit"])
+      documents.new(file: file, planning_application: planning_application, tags: %w[internal.siteVisit])
     end
   end
 end

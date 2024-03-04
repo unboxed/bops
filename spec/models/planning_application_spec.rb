@@ -2335,11 +2335,11 @@ RSpec.describe PlanningApplication do
 
   describe "#generate_document_tabs" do
     let!(:document_no_tag) { create(:document, tags: [], planning_application:) }
-    let!(:document_evidence_tag) { create(:document, tags: ["Photograph"], planning_application:) }
-    let!(:document_plan_tag) { create(:document, tags: ["Proposed"], planning_application:) }
-    let!(:document_supporting_tag) { create(:document, tags: ["Noise Impact Assessment"], planning_application:) }
-    let!(:document_evidence_and_plan_tags) { create(:document, tags: ["Photograph", "Proposed"], planning_application:) }
-    let!(:document_plan_and_supporting_tags) { create(:document, tags: ["Proposed", "Other Supporting Document"], planning_application:) }
+    let!(:document_evidence_tag) { create(:document, tags: %w[photographs.existing], planning_application:) }
+    let!(:document_plan_tag) { create(:document, tags: %w[floorPlan.proposed], planning_application:) }
+    let!(:document_supporting_tag) { create(:document, tags: %w[noiseAssessment], planning_application:) }
+    let!(:document_evidence_and_plan_tags) { create(:document, tags: %w[photographs.proposed floorPlan.proposed], planning_application:) }
+    let!(:document_plan_and_supporting_tags) { create(:document, tags: %w[floorPlan.proposed otherDocument], planning_application:) }
     let!(:document_archived) { create(:document, :archived, tags: [], planning_application:) }
 
     def find_tab(title)

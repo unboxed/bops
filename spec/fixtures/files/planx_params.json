@@ -982,9 +982,7 @@
     {
       "filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
       "applicant_description": "This is the side plan",
-      "tags": [
-        "Side"
-      ]
+      "tags": ["floorPlan.proposed"]
     }
   ],
   "boundary_geojson":

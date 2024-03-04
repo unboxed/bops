@@ -54,7 +54,7 @@ RSpec.describe "Immunity" do
     let!(:immunity_detail) { create(:immunity_detail, planning_application:) }
 
     before do
-      create(:evidence_group, :with_document, tag: "utility_bill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
+      create(:evidence_group, :with_document, tag: "utilityBill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
 
       sign_in assessor
       visit "/planning_applications/#{planning_application.id}"

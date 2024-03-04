@@ -15,7 +15,7 @@ FactoryBot.define do
           :document,
           2,
           planning_application: request.planning_application,
-          tags: ["Site Visit"]
+          tags: %w[internal.siteVisit]
         )
 
         request.documents << documents

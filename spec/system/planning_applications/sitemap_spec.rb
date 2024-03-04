@@ -90,7 +90,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     let!(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end
-    let!(:document_notsitemap) { create(:document, tags: %w[Plan], planning_application:) }
+    let!(:document_notsitemap) { create(:document, tags: %w[floorPlan.proposed], planning_application:) }
 
     context "with 0 documents tagged with sitemap" do
       it "links to all documents" do
@@ -103,7 +103,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     end
 
     context "with 1 document tagged with sitemap" do
-      let!(:document1) { create(:document, tags: %w[Site], planning_application:) }
+      let!(:document1) { create(:document, tags: %w[sitePlan.existing], planning_application:) }
 
       it "links to that documents" do
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
@@ -115,8 +115,8 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     end
 
     context "with 2 document tagged with sitemap" do
-      let!(:document1) { create(:document, tags: %w[Site], planning_application:) }
-      let!(:document2) { create(:document, tags: %w[Site], planning_application:) }
+      let!(:document1) { create(:document, tags: %w[sitePlan.existing], planning_application:) }
+      let!(:document2) { create(:document, tags: %w[sitePlan.proposed], planning_application:) }
 
       it "links to all documents" do
         visit "/planning_applications/#{planning_application.id}/validation/tasks"

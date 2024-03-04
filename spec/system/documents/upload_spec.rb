@@ -23,7 +23,7 @@ RSpec.describe "Document uploads" do
 
         click_link("Upload document")
         attach_file("Upload a file", "spec/fixtures/images/image.gif")
-        check("Floor")
+        check("Floor plan - existing")
 
         click_button("Save")
 
@@ -34,7 +34,7 @@ RSpec.describe "Document uploads" do
         visit "/planning_applications/#{planning_application.id}/documents"
 
         click_link("Upload document")
-        check("Floor")
+        check("Floor plan - existing")
         click_button("Save")
 
         expect(page).to have_content("Please choose a file")

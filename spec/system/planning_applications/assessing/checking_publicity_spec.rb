@@ -57,7 +57,7 @@ RSpec.describe "checking publicity" do
         owner: site_notice,
         user: uploader,
         file: fixture_file_upload("site-notice.jpg", "image/jpeg", true),
-        tags: ["Site Notice"])
+        tags: ["internal.siteNotice"])
     end
 
     let!(:press_notice_evidence) do
@@ -66,7 +66,7 @@ RSpec.describe "checking publicity" do
         owner: press_notice,
         user: uploader,
         file: fixture_file_upload("press-notice.jpg", "image/jpeg", true),
-        tags: ["Press Notice"])
+        tags: ["internal.pressNotice"])
     end
 
     it "allows an assessor to mark the publicity check as complete" do
@@ -316,7 +316,7 @@ RSpec.describe "checking publicity" do
         owner: site_notice,
         user: uploader,
         file: fixture_file_upload("site-notice.jpg", "image/jpeg", true),
-        tags: ["Site Notice"])
+        tags: ["internal.siteNotice"])
     end
 
     let!(:press_notice_evidence) do
@@ -325,7 +325,7 @@ RSpec.describe "checking publicity" do
         owner: press_notice,
         user: uploader,
         file: fixture_file_upload("press-notice.jpg", "image/jpeg", true),
-        tags: ["Press Notice"])
+        tags: ["internal.pressNotice"])
     end
 
     let!(:assessment_detail) do

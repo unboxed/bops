@@ -33,101 +33,138 @@ class Document < ApplicationRecord
   after_update :audit_updated!
 
   PLAN_TAGS = %w[
-    Front
-    Rear
-    Side
-    Roof
-    Floor
-    Site
-    Plan
-    Elevation
-    Section
-    Proposed
-    Existing
+    elevations.existing
+    elevations.proposed
+    floorPlan.existing
+    floorPlan.proposed
+    internalElevations
+    internalSections
+    locationPlan
+    otherDrawing
+    roofPlan.existing
+    roofPlan.proposed
+    sections.existing
+    sections.proposed
+    sitePlan.existing
+    sitePlan.proposed
+    sketchPlan
+    streetScene
+    unitPlan.existing
+    unitPlan.proposed
+    usePlan.existing
+    usePlan.proposed
   ].freeze
 
-  EVIDENCE_TAGS = [
-    "Photograph",
-    "Utility Bill",
-    "Building Control Certificate",
-    "Construction Invoice",
-    "Council Tax Document",
-    "Tenancy Agreement",
-    "Tenancy Invoice",
-    "Bank Statement",
-    "Statutory Declaration",
-    "Discounts",
-    "Other"
+  EVIDENCE_TAGS = %w[
+    bankStatement
+    buildingControlCertificate
+    constructionInvoice
+    councilTaxBill
+    otherEvidence
+    photographs.existing
+    photographs.proposed
+    statutoryDeclaration
+    tenancyAgreement
+    tenancyInvoice
+    utilitiesStatement
+    utilityBill
   ].freeze
 
-  SUPPORTING_DOCUMENT_TAGS = [
-    "Site Visit",
-    "Site Notice",
-    "Press Notice",
-    "Design and Access Statement",
-    "Planning Statement",
-    "Viability Appraisal",
-    "Heritage Statement",
-    "Agricultural, Forestry or Occupational Worker Dwelling Justification",
-    "Arboricultural Assessment",
-    "Structural Survey/report",
-    "Air Quality Assessment",
-    "Basement Impact Assessment",
-    "Biodiversity Net Gain (from April)",
-    "Contaminated Land Assessment",
-    "Daylight and Sunlight Assessment",
-    "Flood Risk Assessment/Drainage and SuDs Report",
-    "Environment Impact Assessment",
-    "Landscape and Visual Impact Assessment",
-    "Noise Impact Assessment",
-    "Open Space Assessment",
-    "Sustainability and Energy Statement",
-    "Transport Statement",
-    "NDSS Compliance Statement",
-    "Ventilation/Extraction Statement",
-    "Community Infrastructure Levy (CIL) form",
-    "Gypsy and Traveller Statement",
-    "HMO statement",
-    "Specialist Accommodation Statement",
-    "Student Accommodation Statement",
-    "Fee Exemption",
-    "Other Supporting Document"
+  SUPPORTING_DOCUMENT_TAGS = %w[
+    affordableHousingStatement
+    arboriculturistReport
+    basementImpactStatement
+    bioaerosolAssessment
+    bioaerosolAssessment
+    birdstrikeRiskManagementPlan
+    boreholeOrTrialPitAnalysis
+    conditionSurvey
+    contaminationReport
+    crimePreventionStrategy
+    designAndAccessStatement
+    disabilityExemptionEvidence
+    ecologyReport
+    emissionsMitigationAndMonitoringScheme
+    energyStatement
+    environmentalImpactAssessment
+    fireSafetyReport
+    floodRiskAssessment
+    foulDrainageAssessment
+    geodiversityAssessment
+    heritageStatement
+    hydrologicalAssessment
+    hydrologyReport
+    internal.pressNotice
+    internal.siteNotice
+    internal.siteVisit
+    joinersReport
+    joinerySections
+    landContaminationAssessment
+    landscapeAndVisualImpactAssessment
+    landscapeStrategy
+    lightingAssessment
+    litterVerminAndBirdControlDetails
+    mineralsAndWasteAssessment
+    newDwellingsSchedule
+    noiseAssessment
+    openSpaceAssessment
+    otherDocument
+    parkingPlan
+    planningStatement
+    statementOfCommunityInvolvement
+    storageTreatmentAndWasteDisposalDetails
+    subsidenceReport
+    sunlightAndDaylightReport
+    sustainabilityStatement
+    technicalEvidence
+    townCentreImpactAssessment
+    townCentreSequentialAssessment
+    transportAssessment
+    travelPlan
+    treeCanopyCalculator
+    treeConditionReport
+    treesReport
+    ventilationStatement
+    viabilityAppraisal
+    visualisations
+    wasteAndRecyclingStrategy
+    waterEnvironmentAssessment
   ].freeze
 
   ## Needs to be better
   EVIDENCE_QUESTIONS = {
-    utility_bill: [
+    utilityBill: [
       "What do these utility bills show?",
       "What date do these utility bills start from?",
       "What date do these utility bills run until?"
     ],
-    photograph: ["What do these photographs show?"],
-    building_control_certificate: [
+    "photographs.existing": ["What do these photographs show?"],
+    buildingControlCertificate: [
       "When was this building control certificate issued?",
       "What do these building control certificates show?"
     ],
-    construction_invoice: ["What do these construction invoices show?"],
-    council_tax_document: [
+    constructionInvoice: ["What do these construction invoices show?"],
+    councilTaxBill: [
       "What date do these council tax bills start from?",
       "When do these councils tax bills run until?",
       "What do these Council Tax documents show?"
     ],
-    tenancy_agreement: [
+    tenancyAgreement: [
       "What date do these tenancy agreements start from?",
       "When do these tenancy agreements run until?",
       "What do these tenancy agreements show?"
     ],
-    tenancy_invoice: [
+    tenancyInvoice: [
       "What date do these tenancy invoices start from?",
       "When do these tenancy invoices run until?",
       "What do these tenancy invoices show?"
     ],
-    bank_statement: [
+    bankStatement: [
       "What date do these bank statements start from?",
       "When do these bank statements run until?",
       "What do these bank statements show?"
     ],
-    other: ["What do these documents show?"]
+    otherEvidence: ["What do these documents show?"]
   }.freeze
 
   DEFAULT_TABS = ["All", "Plans", "Supporting documents", "Evidence"].freeze
@@ -170,11 +207,12 @@ class Document < ApplicationRecord
   scope :for_display, -> { active.referenced_in_decision_notice }
 
   scope :with_tag, ->(tag) { where(arel_table[:tags].contains(Array.wrap(tag))) }
+  scope :with_siteplan_tags, -> { where(arel_table[:tags].overlaps(%w[sitePlan.existing sitePlan.proposed])) }
   scope :with_plan_tags, -> { where(arel_table[:tags].overlaps(PLAN_TAGS)) }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
-  scope :for_fee_exemption, -> { with_tag("Fee Exemption") }
-  scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(["Fee Exemption"])) }
+  scope :for_fee_exemption, -> { with_tag("disabilityExemptionEvidence") }
+  scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(%w[disabilityExemptionEvidence])) }
 
   before_validation on: :create do
     if owner.present?

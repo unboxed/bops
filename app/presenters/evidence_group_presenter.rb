@@ -10,7 +10,7 @@ class EvidenceGroupPresenter
   end
 
   def name
-    evidence_group.tag.humanize.pluralize
+    I18n.t(:"#{evidence_group.tag}", scope: :document_tags).pluralize
   end
 
   def date_range

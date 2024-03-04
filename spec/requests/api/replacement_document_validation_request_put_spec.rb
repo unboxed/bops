@@ -26,7 +26,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
       planning_application:,
       validated: false,
       invalidated_document_reason: "Not readable",
-      tags: ["Front"],
+      tags: %w[floorPlan.proposed],
       numbers: "DOC123"
     )
   end
@@ -77,7 +77,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     expect(
       replacement_document_validation_request.reload.new_document
     ).to have_attributes(
-      tags: ["Front"],
+      tags: %w[floorPlan.proposed],
       numbers: "DOC123"
     )
   end

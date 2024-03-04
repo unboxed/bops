@@ -10,9 +10,9 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
       let!(:planning_application) { create(:planning_application, :from_planx_immunity, api_user:) }
 
       # Documents have already been created by the time this service is called
-      let!(:document1) { create(:document, tags: ["Proposed", "Utility Bill"], planning_application:) }
-      let!(:document2) { create(:document, tags: ["Proposed", "Utility Bill"], planning_application:) }
-      let!(:document3) { create(:document, tags: ["Proposed", "Building Control Certificate"], planning_application:) }
+      let!(:document1) { create(:document, tags: %w[floorPlan.proposed utilityBill], planning_application:) }
+      let!(:document2) { create(:document, tags: %w[floorPlan.proposed utilityBill], planning_application:) }
+      let!(:document3) { create(:document, tags: %w[floorPlan.proposed buildingControlCertificate], planning_application:) }
 
       context "when successful" do
         it "creates a the immunity details for the planning application" do
@@ -39,7 +39,7 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
             ).call
           end.to change(EvidenceGroup, :count).by(2)
 
-          utility_bills = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
+          utility_bills = planning_application.immunity_detail.evidence_groups.where(tag: "utilityBill").first
 
           expect(utility_bills).to have_attributes(
             immunity_detail_id: planning_application.immunity_detail.id,
@@ -50,7 +50,7 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
 
           expect(utility_bills.documents).to include(document1, document2)
 
-          building_certificate = planning_application.immunity_detail.evidence_groups.where(tag: "building_control_certificate").first
+          building_certificate = planning_application.immunity_detail.evidence_groups.where(tag: "buildingControlCertificate").first
 
           expect(building_certificate).to have_attributes(
             immunity_detail_id: planning_application.immunity_detail.id,
