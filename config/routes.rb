@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# require "rswag-api"
-
 Rails.application.routes.draw do
+  get :healthcheck, to: proc { [200, {}, %w[OK]] }
+
   constraints Constraints::DeviseSubdomain do
     devise_for :users, controllers: {
       sessions: "users/sessions",
@@ -220,7 +220,6 @@ Rails.application.routes.draw do
         end
       end
     end
-
     namespace :public, path: "/" do
       scope "/planning_guides" do
         get "/", to: "planning_guides#index", as: :planning_guides
@@ -263,8 +262,6 @@ Rails.application.routes.draw do
         end
       end
     end
-
-    get :healthcheck, to: proc { [200, {}, %w[OK]] }
   end
 
   constraints Constraints::ConfigSubdomain do
