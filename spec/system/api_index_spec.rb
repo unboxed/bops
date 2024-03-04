@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Swagger index file" do
+  let!(:local_authority) { create(:local_authority, :default) }
+
   before do
     visit "/api/docs/index.html"
   end

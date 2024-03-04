@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  enum role: {assessor: 0, reviewer: 1, administrator: 2}
+  enum role: {assessor: 0, reviewer: 1, administrator: 2, global_administrator: 3}
 
   enum otp_delivery_method: {sms: 0, email: 1}
 
@@ -15,7 +15,7 @@ class User < ApplicationRecord
   has_many :planning_applications, dependent: :nullify
   has_many :audits, dependent: :nullify
   has_many :comments, dependent: :nullify
-  belongs_to :local_authority, optional: false
+  belongs_to :local_authority, optional: true
 
   before_create :generate_otp_secret
 
@@ -28,6 +28,7 @@ class User < ApplicationRecord
   validate :password_complexity
 
   scope :non_administrator, -> { where.not(role: "administrator") }
+  scope :global_administrator, -> { where(local_authority_id: nil, role: "global_administrator") }
   scope :confirmed, -> { where.not(confirmed_at: nil) }
   scope :unconfirmed, -> { where(confirmed_at: nil) }
 
@@ -44,8 +45,15 @@ class User < ApplicationRecord
   end
 
   def self.find_for_authentication(tainted_conditions)
-    local_authority = LocalAuthority.find_by!(subdomain: tainted_conditions[:subdomain])
-    local_authority.users.find_first_by_auth_conditions(email: tainted_conditions[:email])
+    subdomain = tainted_conditions[:subdomain]
+    email = tainted_conditions[:email]
+
+    if subdomain == "config"
+      User.global_administrator.find_first_by_auth_conditions(email:)
+    else
+      local_authority = LocalAuthority.find_by!(subdomain:)
+      local_authority.users.find_first_by_auth_conditions(email:)
+    end
   end
 
   def assign_mobile_number!(number)

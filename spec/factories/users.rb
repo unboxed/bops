@@ -24,6 +24,10 @@ FactoryBot.define do
     role { :administrator }
   end
 
+  trait :global_administrator do
+    role { :global_administrator }
+  end
+
   trait :unconfirmed do
     confirmed_at { nil }
   end

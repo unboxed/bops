@@ -8,16 +8,6 @@ RSpec.describe User do
     let(:attribute) { :mobile_number }
   end
 
-  describe "validations" do
-    subject(:user) { described_class.new }
-
-    describe "#local_authority" do
-      it "validates presence" do
-        expect { user.valid? }.to change { user.errors[:local_authority] }.to ["must exist"]
-      end
-    end
-  end
-
   describe "scopes" do
     before do
       create(:user, :administrator)
@@ -107,11 +97,6 @@ RSpec.describe User do
   it "is not created without an email" do
     email = build(:user, email: nil)
     expect(email).not_to be_valid
-  end
-
-  it "is not created without a local authority" do
-    user_without_local_authority = build(:user, local_authority: nil)
-    expect(user_without_local_authority).not_to be_valid
   end
 
   it "does not allow for duplicate users within the same domain" do

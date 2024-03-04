@@ -48,6 +48,7 @@ gem "view_component"
 
 gem "bops_admin", path: "engines/bops_admin"
 gem "bops_api", path: "engines/bops_api"
+gem "bops_config", path: "engines/bops_config"
 
 group :development, :test do
   gem "brakeman", require: false

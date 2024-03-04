@@ -73,9 +73,17 @@ module AuthenticateWithOtpTwoFactor
 
   def find_user
     if session[:otp_user_id]
-      find_current_local_authority.users.find(session[:otp_user_id])
+      users_scope.find(session[:otp_user_id])
     elsif user_params[:email]
-      find_current_local_authority.users.find_for_authentication(email: user_params[:email], subdomain: request.subdomain)
+      users_scope.find_for_authentication(email: user_params[:email], subdomain: request.subdomain)
+    end
+  end
+
+  def users_scope
+    if request.subdomain == "config"
+      User.global_administrator
+    else
+      find_current_local_authority_from_subdomain.users
     end
   end
 
@@ -89,9 +97,5 @@ module AuthenticateWithOtpTwoFactor
 
   def otp_input?
     user_params[:otp_attempt].present? && session[:otp_user_id]
-  end
-
-  def find_current_local_authority
-    @find_current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)
   end
 end
