@@ -10,7 +10,7 @@ class ReviewAssessmentDetailsForm
     site_description
     consultation_summary
     additional_evidence
-    publicity_summary
+    neighbour_summary
     amenity
     past_applications
   ].freeze

@@ -31,11 +31,11 @@ RSpec.describe "Consultation", js: true do
   end
 
   let(:current_date) do
-    Date.current.to_fs(:day_month_year_slashes)
+    now.to_fs(:day_month_year_slashes)
   end
 
   let(:start_date) do
-    1.business_day.from_now.to_date
+    1.business_day.since(now)
   end
 
   let(:end_date) do
@@ -43,7 +43,7 @@ RSpec.describe "Consultation", js: true do
   end
 
   let(:now) do
-    Time.current.to_date
+    Time.zone.today
   end
 
   let(:period) do

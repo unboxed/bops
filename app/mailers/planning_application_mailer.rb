@@ -162,6 +162,20 @@ class PlanningApplicationMailer < ApplicationMailer
     )
   end
 
+  def site_notice_confirmation_request_mail(site_notice, user)
+    @planning_application = site_notice.planning_application
+    @local_authority = @planning_application.local_authority
+    @site_notice = site_notice
+    @user = user
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:site_notice_confirmation_request_mail, reference: @planning_application.reference),
+      to: @site_notice.internal_team_email,
+      reply_to_id: @planning_application.local_authority.email_reply_to_id
+    )
+  end
+
   def internal_team_site_notice_mail(planning_application, email)
     @planning_application = planning_application
     @site_notice = @planning_application.site_notices.last
@@ -182,6 +196,20 @@ class PlanningApplicationMailer < ApplicationMailer
       NOTIFY_TEMPLATE_ID,
       subject: subject(:press_notice_mail),
       to: press_notice.press_notice_email,
+      reply_to_id: @planning_application.local_authority.email_reply_to_id
+    )
+  end
+
+  def press_notice_confirmation_request_mail(press_notice, user)
+    @planning_application = press_notice.planning_application
+    @local_authority = @planning_application.local_authority
+    @press_notice = press_notice
+    @user = user
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:press_notice_confirmation_request_mail, reference: @planning_application.reference),
+      to: @press_notice.press_notice_email,
       reply_to_id: @planning_application.local_authority.email_reply_to_id
     )
   end

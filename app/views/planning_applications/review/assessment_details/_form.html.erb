@@ -5,6 +5,7 @@
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <% planning_application.application_type.assessment_details.each_with_index do |assessment_detail, index| %>
+    <% next if assessment_detail == "check_publicity" %>
     <% unless index == 0 %>
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>
@@ -28,7 +29,7 @@
         ) %>
         <h3 class="govuk-heading-s"><%= t(".summary_of_consultee") %></h3>
       <% end %>
-      <% if assessment_detail == "amenity" || assessment_detail == "publicity_summary" %>
+      <% if assessment_detail == "amenity" || assessment_detail == "neighbour_summary" %>
         <% if consultation = @planning_application.consultation %>
           <p class="govuk-body govuk-!-margin-top-2">View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
           <p class="govuk-body govuk-!-margin-top-2"><%= link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application), class: "govuk-link" %></p>

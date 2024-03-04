@@ -1,0 +1,9 @@
+## Application reference number: <%= @planning_application.reference %>
+
+Address: <%= @planning_application.address %>
+
+Please use this link to upload evidence of a press notice for this application:
+
+<%= planning_application_press_notice_confirmation_url(@planning_application, subdomain: @local_authority.subdomain) %>
+
+Case officer: <%= @user.name %>

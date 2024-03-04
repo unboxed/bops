@@ -112,7 +112,7 @@ en:
               recommendation_accepted: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
             consultation_summary_entry:
               not_changed: must be edited
-            publicity_summary_entry:
+            neighbour_summary_entry:
               not_changed: must be edited
             site_description_entry:
               not_changed: must be edited
@@ -600,8 +600,10 @@ en:
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: "%{application_type_name} application - changes needed"
       pre_commencement_condition_closure_notification_mail: Changes to your %{application_type_name} application
+      press_notice_confirmation_request_mail: Request for confirmation of a press notice for %{reference}
       press_notice_mail: Request for press notice
       receipt_notice_mail: "%{application_type_name} application received"
+      site_notice_confirmation_request_mail: Request for confirmation of a site notice for %{reference}
       site_notice_mail: Display site notice for your application %{reference}
       update_notification_mail: BOPS case %{reference} has a new update
       validation_notice_mail: Your application for a %{application_type_name}
@@ -722,95 +724,228 @@ en:
         additional_evidence:
           created:
             success: Additional evidence was successfully created.
-          edit: Edit additional evidence
-          new: Add detail of additional evidence
-          show: Detail of additional evidence
-          title: Summary of additional evidence
-          update: Update additional evidence
+          edit:
+            breadcrumb: Summary of additional evidence
+            heading: What is the impact of any additional evidence on the application?
+            title: Edit additional evidence
+          new:
+            breadcrumb: Summary of additional evidence
+            heading: What is the impact of any additional evidence on the application?
+            title: Add detail of additional evidence
+          show:
+            breadcrumb: Summary of additional evidence
+            edit: Edit additional evidence
+            heading: What is the impact of any additional evidence on the application?
+            title: Detail of additional evidence
           updated:
             success: Additional evidence was successfully updated.
         amenity:
           created:
             success: Amenity assessment was successfully created.
-          edit: Edit amenity assessment
-          information:
-            summary_of_the: Assess impact on neighbouring amenity
-            this_information_will: This information WILL be made public
-          new: Assess impact on neighbouring amenity
-          show: Amenity
-          title: Amenity
-          update: Update amenity
+          edit:
+            breadcrumb: Amenity
+            heading: Assess impact on neighbouring amenity
+            title: Edit amenity assessment
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Amenity
+            heading: Assess impact on neighbouring amenity
+            title: Assess impact on neighbouring amenity
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Amenity
+            edit: Edit amenity assessment
+            heading: Assess impact on neighbouring amenity
+            title: Amenity
+            warning: This information WILL be made publicly available.
           updated:
             success: Amenity assessment was successfully updated.
+        check_publicity:
+          created:
+            success: Publicity check was successfully created.
+          edit:
+            breadcrumb: Check site notice and press notice
+            check_press_notice: Check press notice
+            check_site_notice: Check site notice
+            confirm_press_notice: Confirm press notice
+            confirm_site_notice: Confirm site notice
+            create_press_notice: Create press notice
+            create_site_notice: Create site notice
+            display_date: Display date
+            evidence_of_press_notice: Evidence of press notice
+            evidence_of_site_notice: Evidence of site notice
+            expiry_date: Expiry date
+            mark_press_notice_as_required: Mark press notice as required
+            mark_site_notice_as_required: Mark site notice as required
+            no_documents_uploaded: No documents uploaded
+            press_notice_incomplete: Press notice task incomplete.
+            press_notice_not_required: Press notice marked as not required for this application.
+            publication_date: Publication date
+            reasons_for_press_notice: Reasons for press notice
+            request_press_notice_confirmation: Request new document
+            request_site_notice_confirmation: Request document from internal team
+            site_notice_incomplete: Site notice task incomplete.
+            site_notice_not_required: Site notice marked as not required for this application.
+            title: Check site notice and press notice
+            upload_evidence: Upload evidence
+            uploaded_by: Uploaded by
+            view_in_new_window: View in new window
+            view_more_documents: View more documents
+          new:
+            breadcrumb: Check site notice and press notice
+            check_press_notice: Check press notice
+            check_site_notice: Check site notice
+            confirm_press_notice: Confirm press notice
+            confirm_site_notice: Confirm site notice
+            create_press_notice: Create press notice
+            create_site_notice: Create site notice
+            display_date: Display date
+            evidence_of_press_notice: Evidence of press notice
+            evidence_of_site_notice: Evidence of site notice
+            expiry_date: Expiry date
+            mark_press_notice_as_required: Mark press notice as required
+            mark_site_notice_as_required: Mark site notice as required
+            no_documents_uploaded: No documents uploaded
+            press_notice_incomplete: Press notice task incomplete.
+            press_notice_not_required: Press notice marked as not required for this application.
+            publication_date: Publication date
+            reasons_for_press_notice: Reasons for press notice
+            request_press_notice_confirmation: Request new document
+            request_site_notice_confirmation: Request document from internal team
+            site_notice_incomplete: Site notice task incomplete.
+            site_notice_not_required: Site notice marked as not required for this application.
+            title: Check site notice and press notice
+            upload_evidence: Upload evidence
+            uploaded_by: Uploaded by
+            view_in_new_window: View in new window
+            view_more_documents: View more documents
+          show:
+            breadcrumb: Site notice and press notice
+            display_date: Display date
+            edit: Edit site notice and press notice check
+            evidence_of_press_notice: Evidence of press notice
+            evidence_of_site_notice: Evidence of site notice
+            expiry_date: Expiry date
+            no_documents_uploaded: No documents uploaded
+            press_notice: Press notice
+            publication_date: Publication date
+            reasons_for_press_notice: Reasons for press notice
+            site_notice: Site notice
+            title: Site notice and press notice
+            uploaded_by: Uploaded by
+            view_in_new_window: View in new window
+            view_more_documents: View more documents
+          updated:
+            success: Publicity check was successfully updated.
         comment:
           user_marked_this: "%{user} marked this for review"
         consultation_summary:
-          consultee_form:
-            add_consultee: Add consultee
-            external_consultee: External consultee
-            internal_consultee: Internal consultee
-          consultee_table:
-            external: External
-            internal: Internal
-            remove_from_list: Remove from list
           created:
             success: Consultation summary successfully added.
-          edit: Edit consultation details
-          fields:
-            summary_of_consultation: Summary of consultation responses
-            this_information_will: This information will be made publicly available.
-          form_fields:
-            summary_of_consultation: Summary of consultation responses
-            this_information_will: This information will be made publicly available.
-          new: Add consultation summary
-          show: Consultation details
-          title: Consultation details
-          update: Update consultation details
+          edit:
+            breadcrumb: Summary of consultation
+            heading: Summary of consultation responses
+            responses: Consultation responses
+            title: Edit summary of consultation responses
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Summary of consultation
+            heading: Summary of consultation responses
+            responses: Consultation responses
+            title: Add consultation summary
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Summary of consultation
+            edit: Edit consultation summary
+            heading: Summary of consultation responses
+            responses: Consultation responses
+            title: Summary of consultation
+            warning: This information WILL be made publicly available.
           updated:
             success: Consultation summary successfully updated.
+        neighbour_summary:
+          created:
+            success: Summary of neighbour responses was successfully created.
+          edit:
+            breadcrumb: Summary of neighbour responses
+            title: Edit summary of neighbour responses
+          new:
+            breadcrumb: Summary of neighbour responses
+            title: Add summary of neighbour responses
+          show:
+            breadcrumb: Summary of neighbour responses
+            edit: Edit summary of neighbour responses
+            heading: Summary
+            title: Summary of neighbour responses
+          updated:
+            success: Summary of neighbour responses was successfully updated.
         not_started: Not started
         past_applications:
           created:
             success: History successfully added.
-          edit: Edit history
-          form_fields:
+          edit:
             application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
+            breadcrumb: History
+            heading: Summary of the relevant historical applications
             relevant_information: 'Provide relevant information about the planning history of the application site. You should also check for any historic conditions, enforcement notices, and the appeal history at this site using the Planning Register or in your back-office planning system:'
-          information:
-            summary_of_the: Summary of the relevant historical applications
-            this_information_will: This information will be made publicly available.
-          new: History
-          show: History
-          title: History
+            title: Edit history
+            warning: This information WILL be made publicly available.
+          new:
+            application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
+            breadcrumb: History
+            heading: Summary of the relevant historical applications
+            relevant_information: 'Provide relevant information about the planning history of the application site. You should also check for any historic conditions, enforcement notices, and the appeal history at this site using the Planning Register or in your back-office planning system:'
+            title: History
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: History
+            edit: Edit history
+            heading: Summary of the relevant historical applications
+            title: History
+            warning: This information WILL be made publicly available.
           updated:
             success: History successfully updated.
-        publicity_summary:
-          created:
-            success: Summary of neighbour responses was successfully created.
-          edit: Edit summary of neighbour responses
-          new: Add summary of neighbour responses
-          show: Summary of neighbour responses
-          title: Summary of neighbour responses
-          updated:
-            success: Summary of neighbour responses was successfully updated.
         site_description:
           created:
             success: Site description was successfully created.
-          edit: Edit site description
-          new: Create a description of the site
-          show: Site description
-          title: Site description
-          update: Update site description
+          edit:
+            breadcrumb: Site description
+            heading: Description of the site
+            title: Edit site description
+            view_site_on_map: View site on Google Maps
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Site description
+            heading: Description of the site
+            title: Create a description of the site
+            view_site_on_map: View site on Google Maps
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Site description
+            edit: Edit site description
+            heading: Description of the site
+            title: Site description
+            view_site_on_map: View site on Google Maps
+            warning: This information WILL be made publicly available.
           updated:
             success: Site description was successfully updated.
         summary_of_work:
           created:
             success: Summary of works was successfully created.
-          edit: Edit summary of works
-          new: Create a summary of the works
-          show: Summary of works
-          title: Summary
-          update: Update summary of works
+          edit:
+            breadcrumb: Summary of works
+            title: Edit summary of works
+            warning: This information WILL be made publicly available.
+          new:
+            breadcrumb: Summary of works
+            title: Create a summary of the works
+            warning: This information WILL be made publicly available.
+          show:
+            breadcrumb: Summary of works
+            edit: Edit summary of works
+            heading: Summary
+            title: Summary of works
+            warning: This information WILL be made publicly available.
           updated:
             success: Summary of works was successfully updated.
       assessment_report_component:
@@ -1095,6 +1230,9 @@ en:
     policy_consideration_list:
       proposal_details: Proposal details
     press_notices:
+      confirmation_requests:
+        create:
+          success: Request for confirmation of the press notice sent to the press team
       confirmations:
         show:
           back: Back
@@ -1139,8 +1277,8 @@ en:
           edit_review: Edit review
           edit_to_accept: Edit to accept
           explain_to_the: Explain to the assessor why this needs reviewing
+          neighbour_summary: Summary of neighbour responses
           past_applications: Summary of relevant historical applications
-          publicity_summary: Summary of neighbour responses
           return_to_officer: Return to officer with comment
           site_description: Site description
           summary_of_consultee: Summary of consultee responses
@@ -1148,8 +1286,8 @@ en:
           update_additional_evidence: Update additional evidence
           update_amenity: Update amenity
           update_consultation_summary: Update consultation summary
+          update_neighbour_summary: Update summary of neighbour responses
           update_past_applications: Update summary of relevant historical applications
-          update_publicity_summary: Update summary of neighbour responses
           update_site_description: Update site description
           update_summary_of_work: Update summary of works
         information:
@@ -1198,6 +1336,9 @@ en:
       search: Search
       you_can_search: You can search by application number or description
     site_notices:
+      confirmation_requests:
+        create:
+          success: Request for confirmation of the site notice sent to the internal team
       create:
         assign_user_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">assigned to an officer</a> before you can create a site notice.
         make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BOPS Public Portal</a> before you can create a site notice.
@@ -1582,12 +1723,16 @@ en:
         see_previous_summaries: See previous summaries
       previous_summary_component:
         user_created_additional_evidence: "%{user} created additional evidence"
+        user_created_amenity: "%{user} created amenity assessment"
         user_created_consultation_summary: "%{user} created consultation summary"
+        user_created_neighbour_summary: "%{user} created neighbour summary"
         user_created_site_description: "%{user} created site description"
         user_created_summary_of_work: "%{user} created summary of works"
         user_marked_this: "%{user} marked this for review"
         user_updated_additional_evidence: "%{user} updated additional evidence"
+        user_updated_amenity: "%{user} updated amenity assessment"
         user_updated_consultation_summary: "%{user} updated consultation summary"
+        user_updated_neighbour_summary: "%{user} updated neighbour summary"
         user_updated_site_description: "%{user} updated site description"
         user_updated_summary_of_work: "%{user} updated summary of works"
     policy_class:
@@ -1688,9 +1833,10 @@ en:
       assessment_detail_component:
         additional_evidence: Summary of additional evidence
         amenity: Amenity
+        check_publicity: Check site notice and press notice
         consultation_summary: Summary of consultation
+        neighbour_summary: Summary of neighbour responses
         past_applications: History (manual)
-        publicity_summary: Summary of neighbour responses
         site_description: Site description
         summary_of_work: Summary of works
       immunity_details_component:

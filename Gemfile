@@ -76,6 +76,7 @@ group :test do
   gem "capybara"
   gem "cucumber-rails", require: false
   gem "database_cleaner"
+  gem "email_spec"
   gem "factory_bot_rails"
   gem "openapi3_parser", require: false
   gem "webmock"

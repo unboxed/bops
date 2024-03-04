@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -626,6 +626,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
     t.datetime "updated_at", null: false
     t.text "comment"
     t.text "other_reason"
+    t.date "expiry_date"
     t.index ["planning_application_id"], name: "ix_press_notices_on_planning_application_id"
   end
 
@@ -682,6 +683,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_104321) do
     t.datetime "displayed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "expiry_date"
+    t.string "internal_team_email"
     t.index ["planning_application_id"], name: "ix_site_notices_on_planning_application_id"
   end
 

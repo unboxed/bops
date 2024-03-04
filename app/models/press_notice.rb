@@ -56,6 +56,10 @@ class PressNotice < ApplicationRecord
 
   alias_method :consultable_event_at, :published_at
 
+  def reason
+    ((reasons - %w[other]) + [other_reason]).compact.to_sentence.humanize
+  end
+
   def reasons
     Array.wrap(super)
   end
@@ -72,6 +76,22 @@ class PressNotice < ApplicationRecord
     files.select(&:present?).each do |file|
       documents.new(file: file, planning_application: planning_application, tags: ["Press Notice"])
     end
+  end
+
+  def incomplete?
+    required? && !published_at?
+  end
+
+  def complete?
+    !incomplete?
+  end
+
+  def last_document
+    @last_document ||= documents.preload(:user).order(created_at: :desc).first
+  end
+
+  def uploaded_by
+    last_document&.user
   end
 
   private

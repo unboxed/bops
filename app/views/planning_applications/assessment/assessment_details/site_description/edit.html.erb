@@ -1,0 +1,40 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% content_for :title, t(".breadcrumb") %>
+
+<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+<%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      <%= link_to t(".view_site_on_map"), map_link(@planning_application.full_address), target: "_blank", class: "govuk-link" %>
+    </p>
+
+    <h2 class="govuk-heading-m"><%= t(".heading") %></h2>
+
+    <%= render(partial: "shared/warning_text", locals: {message: t(".warning")}) %>
+
+    <p class="govuk-body">You can include:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        Describe buildings already on the site
+      </li>
+      <li>Relationships to neighbouring buildings</li>
+      <li>Relevant constraints, such as trees or classified roads</li>
+      <li>Main uses of land in the surrounding area</li>
+    </ul>
+
+    <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.govuk_text_area(:entry, label: nil, rows: 10) %>
+      <%= form.hidden_field(:category, value: @category) %>
+
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <% end %>
+  </div>
+</div>

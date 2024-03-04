@@ -98,11 +98,11 @@ RSpec.describe "Reviewing assessment summaries" do
 
         create(
           :assessment_detail,
-          :publicity_summary,
+          :neighbour_summary,
           assessment_status: :complete,
           planning_application:,
           user: assessor,
-          entry: "publicity summary"
+          entry: "neighbour summary"
         )
 
         create(
@@ -161,7 +161,7 @@ RSpec.describe "Reviewing assessment summaries" do
         )
 
         expect(page).to have_content(
-          "Publicity summary reviewer verdict can't be blank"
+          "Neighbour summary reviewer verdict can't be blank"
         )
 
         expect(page).to have_content(
@@ -895,11 +895,11 @@ RSpec.describe "Reviewing assessment summaries" do
 
         create(
           :assessment_detail,
-          :publicity_summary,
+          :neighbour_summary,
           assessment_status: :complete,
           planning_application:,
           user: assessor,
-          entry: "publicity summary"
+          entry: "neighbour summary"
         )
 
         create(
@@ -954,7 +954,7 @@ RSpec.describe "Reviewing assessment summaries" do
         )
 
         expect(page).to have_content(
-          "Publicity summary reviewer verdict can't be blank"
+          "Neighbour summary reviewer verdict can't be blank"
         )
 
         expect(page).to have_content(
@@ -1104,7 +1104,7 @@ RSpec.describe "Reviewing assessment summaries" do
         )
 
         expect(page).to have_content(
-          "Publicity summary reviewer verdict can't be blank"
+          "Neighbour summary reviewer verdict can't be blank"
         )
 
         expect(page).to have_content(

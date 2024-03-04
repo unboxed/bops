@@ -44,7 +44,7 @@ RSpec.describe "neighbour responses" do
       end
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=publicity_summary"
+        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=neighbour_summary"
       )
 
       within(".govuk-breadcrumbs__list") do
@@ -94,7 +94,7 @@ RSpec.describe "neighbour responses" do
       expect(page).to have_content("A draft entry for the neighbour responses")
 
       within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Edit summary of neighbour responses")
+        expect(page).to have_content("Summary of neighbour responses")
       end
 
       within(".govuk-notification-banner") do
@@ -138,7 +138,7 @@ RSpec.describe "neighbour responses" do
       expect(page).to have_link(
         "Edit summary of neighbour responses",
         href: edit_planning_application_assessment_assessment_detail_path(planning_application,
-          AssessmentDetail.publicity_summary.last, category: "publicity_summary")
+          AssessmentDetail.neighbour_summary.last, category: "neighbour_summary")
       )
     end
 

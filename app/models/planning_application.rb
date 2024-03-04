@@ -725,6 +725,10 @@ class PlanningApplication < ApplicationRecord
     validation_requests.open.select(&:overdue?)
   end
 
+  def check_publicity?
+    application_type.assessment_details.include?("check_publicity")
+  end
+
   def check_permitted_development_rights?
     application_type.features.permitted_development_rights?
   end

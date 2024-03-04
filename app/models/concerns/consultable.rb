@@ -22,6 +22,10 @@ module Consultable
 
     def extend_consultation!
       consultation.update!(end_date: new_consultation_end_date)
+
+      if respond_to?(:expiry_date)
+        update_column(:expiry_date, consultation.end_date)
+      end
     end
   end
 end

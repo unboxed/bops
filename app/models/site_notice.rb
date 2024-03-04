@@ -54,6 +54,22 @@ class SiteNotice < ApplicationRecord
       eia_statement: eia_statement)
   end
 
+  def incomplete?
+    required? && !displayed_at?
+  end
+
+  def complete?
+    !incomplete?
+  end
+
+  def last_document
+    @last_document ||= documents.preload(:user).order(created_at: :desc).first
+  end
+
+  def uploaded_by
+    last_document&.user
+  end
+
   private
 
   def application_link(planning_application)

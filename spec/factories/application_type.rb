@@ -69,9 +69,10 @@ FactoryBot.define do
           summary_of_work
           site_description
           additional_evidence
-          publicity_summary
+          neighbour_summary
           amenity
           past_applications
+          check_publicity
         ]
       end
 
@@ -148,8 +149,9 @@ FactoryBot.define do
           site_description
           additional_evidence
           consultation_summary
-          publicity_summary
+          neighbour_summary
           past_applications
+          check_publicity
         ]
       end
 

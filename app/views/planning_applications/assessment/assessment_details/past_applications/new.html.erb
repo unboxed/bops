@@ -1,0 +1,27 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% content_for :title, t(".breadcrumb") %>
+
+<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+<%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m"><%= t(".heading") %></h2>
+
+    <%= render(partial: "shared/warning_text", locals: {message: t(".warning")}) %>
+    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
+
+    <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+      <%= form.govuk_error_summary(presenter: PastApplicationsErrorPresenter) %>
+
+      <%= form.govuk_text_field(:entry, label: {text: t(".application_reference_numbers")}, value: @rejected_assessment_detail&.entry) %>
+      <%= form.govuk_text_area(:additional_information, label: {text: t(".relevant_information")}, rows: 8, value: @rejected_assessment_detail&.additional_information) %>
+      <%= form.hidden_field(:category, value: @category) %>
+
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <% end %>
+  </div>
+</div>

@@ -63,7 +63,7 @@ RSpec.describe "Additional evidence" do
       expect(page).to have_content("A draft entry for the additional evidence")
 
       within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Edit additional evidence")
+        expect(page).to have_content("Summary of additional evidence")
       end
 
       click_button "Save and come back later"

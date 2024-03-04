@@ -27,7 +27,7 @@ module PlanningApplications
     end
 
     def create
-      @site_notice.assign_attributes(site_notice_params.except(:method, :internal_team_email))
+      @site_notice.assign_attributes(site_notice_params.except(:method))
       @site_notice.assign_attributes(content: @site_notice.preview_content)
 
       if @site_notice.save

@@ -1,0 +1,31 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% content_for :title, t(".breadcrumb") %>
+
+<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+<%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m"><%= t(".heading") %></h2>
+
+    <p class="govuk-body">
+      This information will <strong>NOT</strong> be made publicly available.
+    </p>
+
+    <p class="govuk-body">
+      This task is optional. Provide any additional information that will impact the assessment of this application.
+    </p>
+
+    <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.govuk_text_area(:entry, label: nil, rows: 10) %>
+      <%= form.hidden_field(:category, value: @category) %>
+
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <% end %>
+  </div>
+</div>
