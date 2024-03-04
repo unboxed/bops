@@ -1,0 +1,53 @@
+<% content_for :page_title do %>
+  Add informatives - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title, "Add informatives" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Add informatives" }
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Title</th>
+          <th scope="col" class="govuk-table__header">Detail</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Action</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% if @informatives.any? %>
+          <% @informatives.each do |informative| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><%= informative.title %></td>
+              <td class="govuk-table__cell"><%= informative.text %></td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">
+                <%= link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative), class: "govuk-link" %>
+                <%= link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete, class: "govuk-link" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><strong>No informatives added yet</strong></td>
+            <td class="govuk-table__cell">&nbsp</td>
+            <td class="govuk-table__cell">&nbsp</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "form", url: new_planning_application_assessment_informative_path(@planning_application), text: "Add informative" %>
+  </div>
+</div>

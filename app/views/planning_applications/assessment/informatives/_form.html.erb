@@ -1,0 +1,24 @@
+<%= form_with model: @informative,
+              class: "govuk-!-margin-top-7",
+              url:,
+              method: :patch do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <h2 class="govuk-heading-m">Add informative</h2>
+
+  <%= form.hidden_field :id %>
+  <%= form.govuk_text_field :title, label: { text: "Enter a title" } %>
+  <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" } %>
+
+  <div class="govuk-button-group">
+    <%= form.submit(
+          text,
+          class: "govuk-button govuk-button--secondary",
+          data: { module: "govuk-button" }
+        ) %>
+    <% if text == "Save informative" %>
+      <%= back_link %>
+    <% end %>
+  </div>
+<% end %>
+

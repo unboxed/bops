@@ -43,6 +43,7 @@ class PlanningApplication < ApplicationRecord
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_many :site_notices
     has_many :policy_classes, -> { order(:section) }
+    has_many :informatives
 
     has_one :condition_set, -> { where(pre_commencement: false) }, required: false
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
@@ -111,6 +112,7 @@ class PlanningApplication < ApplicationRecord
   accepts_nested_attributes_for :constraints
   accepts_nested_attributes_for :proposal_measurement
   accepts_nested_attributes_for :planx_planning_data
+  accepts_nested_attributes_for :informatives
 
   WORK_STATUSES = %w[proposed existing].freeze
 

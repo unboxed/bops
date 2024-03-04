@@ -183,6 +183,12 @@ en:
               blank: You have entered a fee but not provided an address. Enter an address where the fee can be paid.
             fee:
               blank: Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee.
+        informative:
+          attributes:
+            text:
+              blank: Fill in the text of the informative
+            title:
+              blank: Fill in the title of the informative
         local_policy_area:
           attributes:
             assessment:
@@ -693,6 +699,11 @@ en:
       review_immunity_detail:
         accepted: Is the application immune from enforcement?
         removed: Is the application immune from enforcement?
+  informatives:
+    destroy:
+      success: Informative was successfully removed
+    update:
+      success: Informative successfully added
   local_policies:
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated

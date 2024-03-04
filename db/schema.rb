@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_111101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -43,9 +43,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "additional_document_validation_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.string "document_request_type"
+    t.string "document_request_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sequence"
+    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
+  end
+
   create_table "api_users", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "token", null: false
+    t.string "name"
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
@@ -244,6 +259,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
     t.index ["search"], name: "ix_contacts_on_search", using: :gin
   end
 
+  create_table "description_change_validation_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.string "state", default: "open", null: false
+    t.text "proposed_description"
+    t.boolean "approved"
+    t.string "rejection_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "previous_description"
+    t.integer "sequence"
+    t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_description_change_requests_on_user_id"
+  end
+
   create_table "documents", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
@@ -315,12 +345,28 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
     t.index ["planning_application_id"], name: "ix_fee_calculations_on_planning_application_id"
   end
 
+  create_table "heads_of_terms", force: :cascade do |t|
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_heads_of_terms_on_planning_application_id"
+  end
+
   create_table "immunity_details", force: :cascade do |t|
     t.date "end_date"
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
+  end
+
+  create_table "informatives", force: :cascade do |t|
+    t.string "title"
+    t.text "text"
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_informatives_on_planning_application_id"
   end
 
   create_table "land_owners", force: :cascade do |t|
@@ -657,6 +703,34 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
+  create_table "red_line_boundary_change_validation_requests", force: :cascade do |t|
+    t.integer "planning_application_id", null: false
+    t.integer "user_id", null: false
+    t.string "state", default: "open", null: false
+    t.string "new_geojson"
+    t.string "reason"
+    t.string "rejection_reason"
+    t.boolean "approved"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sequence"
+  end
+
+  create_table "replacement_document_validation_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "old_document_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sequence"
+    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "action"
     t.bigint "assessor_id"
@@ -701,6 +775,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
     t.index ["consultation_id"], name: "ix_site_visits_on_consultation_id"
     t.index ["created_by_id"], name: "ix_site_visits_on_created_by_id"
     t.index ["neighbour_id"], name: "ix_site_visits_on_neighbour_id"
+  end
+
+  create_table "terms", force: :cascade do |t|
+    t.string "title"
+    t.text "text"
+    t.bigint "heads_of_term_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["heads_of_term_id"], name: "ix_terms_on_heads_of_term_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -756,9 +839,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_153828) do
     t.bigint "old_document_id"
     t.integer "sequence"
     t.jsonb "specific_attributes"
-    t.bigint "condition_id"
-    t.index ["condition_id"], name: "ix_validation_requests_on_condition_id"
+    t.string "owner_type"
+    t.bigint "owner_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
+    t.index ["owner_type", "owner_id"], name: "index_validation_requests_on_owner"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_validation_requests_on_user_id"
   end
