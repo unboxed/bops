@@ -135,13 +135,14 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :consultees, only: %i[index create show] do
+        resources :consultees, only: %i[index create show new] do
           resources :responses, controller: "consultee/responses", except: %i[show destroy]
         end
 
         namespace :consultee, as: :consultees do
           resources :emails, only: %i[index create]
           resources :responses, only: %i[index]
+          resource :assign_constraint, only: %i[create]
         end
 
         resource :consultation, only: %i[show edit update] do

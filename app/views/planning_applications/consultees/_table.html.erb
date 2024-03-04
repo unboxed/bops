@@ -7,11 +7,15 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% @consultation.planning_application.constraints.each do |constraint| %>
+    <% @planning_application.planning_application_constraints.each do |constraint| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= constraint.type_code %></td>
         <td class="govuk-table__cell">
-          <%= link_to "Assign consultee", "#", class: "govuk-link" %>
+          <% if constraint.consultee.present? %>
+            <%= constraint.consultee.name %>
+          <% else %>
+          <%= link_to "Assign consultee", new_planning_application_consultee_path(@planning_application, constraint: constraint), class: "govuk-link" %>
+        <% end %>
         </td>
       </tr>
     <% end %>
