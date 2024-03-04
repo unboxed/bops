@@ -22,7 +22,11 @@ module TaskListItems
       end
 
       def status
-        :not_started
+        if @planning_application.informative_set.current_review
+          @planning_application.informative_set.current_review.status.to_sym
+        else
+          :not_started
+        end
       end
     end
   end

@@ -7,6 +7,7 @@
   <h2 class="govuk-heading-m">Add informative</h2>
 
   <%= form.hidden_field :id %>
+  <%= form.hidden_field :informative_set_id, value: @informative_set.id %>
   <%= form.govuk_text_field :title, label: { text: "Enter a title" } %>
   <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" } %>
 

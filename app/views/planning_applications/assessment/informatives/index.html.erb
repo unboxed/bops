@@ -25,8 +25,8 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <% if @informatives.any? %>
-          <% @informatives.each do |informative| %>
+        <% if @informative_set.informatives.select(&:persisted?).any? %>
+          <% @informative_set.informatives.select(&:persisted?).each do |informative| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><%= informative.title %></td>
               <td class="govuk-table__cell"><%= informative.text %></td>
@@ -48,6 +48,15 @@
   </div>
 
   <div class="govuk-grid-column-two-thirds">
-    <%= render "form", url: new_planning_application_assessment_informative_path(@planning_application), text: "Add informative" %>
+    <% unless @informative_set.current_review&.complete? %>
+      <%= render "form", url: new_planning_application_assessment_informative_path(@planning_application), text: "Add informative" %>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <% unless @informative_set.current_review&.complete? %>
+        <%= link_to "Save and mark as complete", complete_planning_application_assessment_informatives_path(@planning_application), class: "govuk-button", method: :post %>
+      <% end %>
+      <%= back_link %>
+    </div>
   </div>
 </div>

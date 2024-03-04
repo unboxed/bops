@@ -11,7 +11,8 @@ module AssessmentTasksPresenter
       recommendation.present? ||
       immunity_validation_in_progress? ||
       pre_commencement_condition_set.conditions.any? ||
-      condition_set.conditions.any?
+      condition_set.conditions.any? ||
+      informative_set.informatives.any?
   end
 
   def multiple_policy_classes?

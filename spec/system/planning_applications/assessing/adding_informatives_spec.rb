@@ -12,6 +12,8 @@ RSpec.describe "Add informatives" do
   end
 
   before do
+    allow(Current).to receive(:user).and_return assessor
+
     sign_in assessor
     visit "/planning_applications/#{planning_application.id}"
     click_link "Check and assess"
@@ -46,14 +48,25 @@ RSpec.describe "Add informatives" do
       expect(page).to have_content "Consider the park"
     end
 
-    # Check in progress
+    click_link "Assess application"
+
+    within("#add-informatives") do
+      expect(page).to have_content "In progress"
+    end
+
+    click_link "Add informatives"
+
+    click_link "Save and mark as complete"
+
+    within("#add-informatives") do
+      expect(page).to have_content "Completed"
+    end
   end
 
   it "I can edit informatives" do
-    informative = create(:informative, planning_application:)
+    informative = create(:informative, informative_set: planning_application.informative_set)
 
     within("#add-informatives") do
-      # expect(page).to have_content "Not started"
       click_link "Add informatives"
     end
 
@@ -78,10 +91,9 @@ RSpec.describe "Add informatives" do
   end
 
   it "I can delete informatives" do
-    informative = create(:informative, planning_application:)
+    informative = create(:informative, informative_set: planning_application.informative_set)
 
     within("#add-informatives") do
-      # expect(page).to have_content "Not started"
       click_link "Add informatives"
     end
 
@@ -141,17 +153,27 @@ RSpec.describe "Add informatives" do
   end
 
   it "I can mark the task as complete" do
-    informative = create(:informative, planning_application:)
-
     within("#add-informatives") do
-      expect(page).to have_content "In progress"
       click_link "Add informatives"
     end
 
-    click_button "Save and mark as complete"
+    click_link "Save and mark as complete"
 
     within("#add-informatives") do
       expect(page).to have_content "Complete"
     end
+  end
+
+  it "shows informatives on the decision notice" do
+    create(:recommendation, :assessment_in_progress, planning_application:)
+    informative = create(:informative, informative_set: planning_application.informative_set)
+
+    visit "/planning_applications/#{planning_application.id}"
+    click_link "Check and assess"
+    click_link "Review and submit recommendation"
+
+    expect(page).to have_content "Informatives"
+    expect(page).to have_content informative.title
+    expect(page).to have_content informative.text
   end
 end
