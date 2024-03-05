@@ -56,7 +56,7 @@
       <% unless @informative_set.current_review&.complete? %>
         <%= link_to "Save and mark as complete", complete_planning_application_assessment_informatives_path(@planning_application), class: "govuk-button", method: :post %>
       <% end %>
-      <%= back_link %>
+      <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     </div>
   </div>
 </div>
