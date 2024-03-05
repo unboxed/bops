@@ -430,6 +430,8 @@ en:
       site_notice_created: Site notice created
       started: Application validated
       submitted: Recommendation submitted
+      time_extension_validation_request_added: 'Added: time extension request'
+      time_extension_validation_request_sent_post_validation: 'Sent: time extension request'
       unarchived: Document unarchived
       updated: "%{args} updated"
       uploaded: Document uploaded
@@ -1523,6 +1525,11 @@ en:
       tasks:
         index:
           application_details: Application details
+      time_extension_validation_requests:
+        time_extension_validation_request:
+          change_expiry_date: Change expiry date
+          new_expiry_date: 'New expiry date:'
+          proposed_expiry_date: 'Proposed expiry date:'
       validation_requests:
         cancel:
           additional_document_validation_request:
