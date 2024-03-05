@@ -56,6 +56,7 @@ class PlanningApplication < ApplicationRecord
     has_one :ownership_certificate, required: false
     has_one :environment_impact_assessment, required: false
     has_one :consistency_checklist
+    has_one :informative_set
   end
 
   delegate :consultation?, to: :application_type
@@ -649,6 +650,10 @@ class PlanningApplication < ApplicationRecord
 
   def pre_commencement_condition_set
     super || ConditionSet.create!(planning_application: self, pre_commencement: true)
+  end
+
+  def informative_set
+    super || create_informative_set!
   end
 
   def pending_validation_requests?

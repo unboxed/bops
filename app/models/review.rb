@@ -4,7 +4,7 @@ class Review < ApplicationRecord
   class NotCreatableError < StandardError; end
   store_accessor :specific_attributes, %w[decision decision_reason summary decision_type removed review_type]
 
-  belongs_to :owner, polymorphic: true, autosave: true
+  belongs_to :owner, polymorphic: true
 
   has_many :local_policy_areas, through: :owner
 

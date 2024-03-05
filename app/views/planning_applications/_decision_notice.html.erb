@@ -82,6 +82,19 @@
         <% end %>
       </ul>
     <% end %>
+    <% if @planning_application.informative_set.informatives.any? %>
+      <h3 class="govuk-heading-s">
+        Informatives:
+      </h3>
+      <ol class="govuk-list govuk-list--number">
+        <% @planning_application.informative_set.informatives.each do |informative| %>
+          <li>
+            <%= informative.title %><br>
+            <%= informative.text %>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
     <h3 class="govuk-heading-s">
       This decision is based on the following approved plans:
     </h3>

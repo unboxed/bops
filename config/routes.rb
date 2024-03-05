@@ -120,6 +120,10 @@ Rails.application.routes.draw do
           end
           resources :recommendations, only: %i[new create update]
           resource :recommendations, only: %i[edit]
+
+          resources :informatives, except: %i[show] do
+            post :complete, on: :collection
+          end
         end
 
         resources :consultees, only: %i[create show] do
