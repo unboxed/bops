@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "page": 1,
+    "results": 10,
+    "from": 1,
+    "to": 1,
+    "total_pages": 1,
+    "total_results": 1
+  },
+  "data": [
+    {
+      "agent_first_name": "Jennifer",
+      "agent_last_name": "Harper",
+      "agent_phone": "237878889",
+      "agent_email": "agent@example.com",
+      "applicant_first_name": "Albert",
+      "applicant_last_name": "Manteras",
+      "user_role": "agent",
+      "awaiting_determination_at": "2023-08-04T13:24:17.885+01:00",
+      "to_be_reviewed_at": null,
+      "created_at": "2023-06-06T16:50:37.821+01:00",
+      "description": "Add a chimney stack",
+      "determined_at": "2023-11-03T08:59:02.345+00:00",
+      "determination_date": "2023-11-03T00:00:00.000+00:00",
+      "id": 9,
+      "invalidated_at": null,
+      "in_assessment_at": "2023-08-04T13:24:06.829+01:00",
+      "payment_reference": "PAY1",
+      "payment_amount": "0.0",
+      "result_flag": "Planning permission / Permission needed",
+      "result_heading": "It looks like these changes will need planning permission",
+      "result_description": "Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate",
+      "result_override": "This was my reason for rejecting the result",
+      "returned_at": null,
+      "started_at": null,
+      "status": "determined",
+      "target_date": "2023-07-11",
+      "withdrawn_at": null,
+      "work_status": "proposed",
+      "boundary_geojson": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -0.06490596313800803,
+                    51.48755549852538
+                  ],
+                  [
+                    -0.059369862724262965,
+                    51.47873543108233
+                  ],
+                  [
+                    -0.04230263161519729,
+                    51.48184350168782
+                  ],
+                  [
+                    -0.046500983178215674,
+                    51.49453137017866
+                  ],
+                  [
+                    -0.06490596313800803,
+                    51.48755549852538
+                  ]
+                ]
+              ]
+            },
+            "properties": null
+          }
+        ]
+      },
+      "site_notice_content": "<div style=\"font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;\">\n<div style=\"width: 420px; text-align: center\">\n  <h1 style=\"margin-bottom: 5px;\">Planning notice</h1>\n  <h2 style=\"margin-bottom: 5px;\">Southwark Council</h2>\n  <h3>Town and country Planning Act 1990</h3>\n  <p>We have received an application for the following development:</p>\n</div>\n<h3>Application number 23-00108-LDCP</h3>\n<h3>Proposed development</h3>\n<p>Add a chimney stack</p>\n<h3>Location</h3>\n<p>11 Abbey Gardens, London, SE16 3RQ</p>\n<h3>Applicant name</h3>\n<p>Albert Manteras</p>\n<hr style=\"border-top: 1px solid #B1B4B6; border-bottom: none;\">\n<h2>View and comment on this application</h2>\n<p>Use this link to:</p>\n<ul>\n<li>view the application documents</li>\n<li>submit a comment about the application</li>\n</ul>\n<p>https://southwark.bops-applicants.services/planning_applications/9</p>\n<p>Your comments will be published on our website. If the Council’s decision is appealed, all comments will be shared with the Planning Inspectorate. You will not be able to make any further comments.</p>\n<p>Comment by post to Planning department Southwark Council PO BOX 64529 London SE1P 5LX.</p>\n<h2>Submit your comments by 4 November 2023</h2>\n<h3>Site notice displayed on 12 October 2023</h3>\n</div>",
+      "assigned_user_name": "Bradford Reynolds",
+      "assigned_user_role": "assessor",
+      "application_type": "prior_approval",
+      "reference": "23-00108-LDCP",
+      "reference_in_full": "SWK-23-00108-LDCP",
+      "site": {
+        "address_1": "11 Abbey Gardens",
+        "address_2": "Southwark",
+        "county": null,
+        "town": "London",
+        "postcode": "SE16 3RQ",
+        "uprn": "100081043511",
+        "latitude": "51.4842536",
+        "longitude": "-0.0764165"
+      },
+      "received_date": "2023-06-06T16:50:37.821+01:00",
+      "decision": "granted_not_required",
+      "constraints": [
+        "Conservation area",
+        "Caz",
+        "Tpo",
+        "Listed",
+        "Conservation area",
+        "Article4",
+        "Designated",
+        "Registered park",
+        "Tpo",
+        "Listed",
+        "Registered park",
+        "Tpo",
+        "Listed",
+        "Conservation area",
+        "Article4",
+        "Designated"
+      ],
+      "documents": [],
+      "published_comments": [
+        {
+          "comment": "etet",
+          "received_at": "2020-12-01T00:00:00.000+00:00",
+          "summary_tag": "objection"
+        },
+        {
+          "comment": "sdg",
+          "received_at": "2020-12-01T00:00:00.000+00:00",
+          "summary_tag": "supportive"
+        }
+      ],
+      "consultee_comments": [],
+      "consultation": {
+        "end_date": "2023-12-22"
+      },
+      "make_public": true
+    }
+  ]
+}

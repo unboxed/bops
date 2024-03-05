@@ -14,6 +14,7 @@ RSpec.describe "BOPS API" do
 
   path "/api/v2/ping" do
     get "Returns a healthcheck" do
+      tags "Healthcheck"
       security [bearerAuth: []]
       produces "application/json"
 

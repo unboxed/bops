@@ -16,8 +16,15 @@ RSpec.describe "BOPS API" do
   let(:planning_application) { json_fixture("v2/valid_planning_permission.json") }
   let(:send_email) { "true" }
 
+  let!(:planning_applications) { create_list(:planning_application, 8, local_authority: local_authority) }
+  let!(:determined_planning_applications) { create_list(:planning_application, 3, :determined, local_authority: local_authority) }
+  let(:page) { 2 }
+  let(:maxresults) { 5 }
+  let("ids[]") { [] }
+
   path "/api/v2/planning_applications" do
     post "Creates a new plannning application" do
+      tags "Planning applications"
       security [bearerAuth: []]
       consumes "application/json"
       produces "application/json"
@@ -170,6 +177,233 @@ RSpec.describe "BOPS API" do
             detail: "Couldn’t connect to the database"
           }
         }
+
+        run_test!
+      end
+    end
+  end
+
+  path "/api/v2/planning_applications" do
+    get "Retrieves planning applications" do
+      tags "Planning applications"
+      security [bearerAuth: []]
+      produces "application/json"
+
+      parameter name: :page, in: :query, schema: {
+        type: :integer,
+        default: 1
+      }
+
+      parameter name: :maxresults, in: :query, schema: {
+        type: :integer,
+        default: 10
+      }
+
+      parameter name: "ids[]", in: :query, schema: {
+        type: :array,
+        items: {
+          type: :integer
+        }
+      }
+
+      response "200", "returns planning applications" do
+        example "application/json", :default, api_json_fixture("planning_applications/index.json")
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 2,
+              "results" => 5,
+              "from" => 6,
+              "to" => 10,
+              "total_pages" => 3,
+              "total_results" => 11
+            }
+          )
+        end
+      end
+
+      response "200", "returns planning applications with given ids" do
+        example "application/json", :ids, api_json_fixture("planning_applications/index.json")
+
+        let(:page) { 1 }
+        let("ids[]") { planning_applications.take(4).map(&:id) }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 1,
+              "results" => 5,
+              "from" => 1,
+              "to" => 4,
+              "total_pages" => 1,
+              "total_results" => 4
+            }
+          )
+        end
+      end
+
+      response "401", "with missing or invalid credentials" do
+        schema "$ref" => "#/components/schemas/UnauthorizedError"
+
+        example "application/json", :default, {
+          error: {
+            code: 401,
+            message: "Unauthorized"
+          }
+        }
+
+        let(:Authorization) { "Bearer invalid-credentials" }
+
+        run_test!
+      end
+
+      response "500", "when an internal server error occurs" do
+        schema "$ref" => "#/components/schemas/InternalServerError"
+
+        example "application/json", :default, {
+          error: {
+            code: 500,
+            message: "Internal Server Error",
+            detail: "expected :page in 1..3; got 4"
+          }
+        }
+
+        let(:page) { 4 }
+
+        run_test!
+      end
+    end
+  end
+
+  path "/api/v2/planning_applications/determined" do
+    get "Retrieves determined planning applications" do
+      tags "Planning applications"
+      produces "application/json"
+
+      parameter name: :page, in: :query, schema: {
+        type: :integer,
+        default: 1
+      }
+
+      parameter name: :maxresults, in: :query, schema: {
+        type: :integer,
+        default: 10
+      }
+
+      parameter name: "ids[]", in: :query, style: :form, explode: true, schema: {
+        type: :array,
+        items: {
+          type: :integer
+        }
+      }
+
+      response "200", "returns determined planning applications" do
+        example "application/json", :default, api_json_fixture("planning_applications/determined.json")
+
+        let(:page) { 1 }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 1,
+              "results" => 5,
+              "from" => 1,
+              "to" => 3,
+              "total_pages" => 1,
+              "total_results" => 3
+            }
+          )
+
+          statuses = data["data"].pluck("status").uniq
+          expect(statuses).to eq(["determined"])
+        end
+      end
+
+      response "200", "returns determined planning applications with given ids" do
+        example "application/json", :ids, api_json_fixture("planning_applications/determined.json")
+
+        let(:page) { 1 }
+        let("ids[]") { determined_planning_applications[0, 2].map(&:id) }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 1,
+              "results" => 5,
+              "from" => 1,
+              "to" => 2,
+              "total_pages" => 1,
+              "total_results" => 2
+            }
+          )
+        end
+      end
+
+      response "500", "when an internal server error occurs" do
+        schema "$ref" => "#/components/schemas/InternalServerError"
+
+        example "application/json", :default, {
+          error: {
+            code: 500,
+            message: "Internal Server Error",
+            detail: "expected :page in 1..8; got 20"
+          }
+        }
+
+        run_test!
+      end
+    end
+  end
+
+  path "/api/v2/planning_applications/{id}" do
+    get "Retrieves a planning application" do
+      tags "Planning applications"
+      security [bearerAuth: []]
+      produces "application/json"
+
+      parameter name: :id, in: :path, schema: {
+        type: :integer,
+        description: "The planning application ID"
+      }
+
+      response "200", "returns a planning application" do
+        example "application/json", :default, api_json_fixture("planning_applications/show.json")
+
+        let(:planning_application) { planning_applications.first }
+        let(:id) { planning_application.id }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["id"]).to eq(id)
+          expect(data["description"]).to eq(planning_application.description)
+        end
+      end
+
+      response "404", "when no planning application can be found" do
+        schema "$ref" => "#/components/schemas/NotFoundError"
+
+        example "application/json", :default, {
+          error: {
+            code: 404,
+            message: "Not Found",
+            detail: "Couldn't find PlanningApplication with 'id'=734837"
+          }
+        }
+
+        let(:id) { 734837 }
 
         run_test!
       end

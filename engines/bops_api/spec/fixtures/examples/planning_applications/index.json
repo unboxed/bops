@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "page": 1,
+    "results": 2,
+    "from": 1,
+    "to": 2,
+    "total_pages": 36,
+    "total_results": 72
+  },
+  "data": [
+    {
+      "agent_first_name": "Jennifer",
+      "agent_last_name": "Harper",
+      "agent_phone": "237878889",
+      "agent_email": "agent@example.com",
+      "applicant_first_name": "Albert",
+      "applicant_last_name": "Manteras",
+      "user_role": "agent",
+      "awaiting_determination_at": "2024-02-06T17:23:44.428+00:00",
+      "to_be_reviewed_at": null,
+      "created_at": "2023-09-08T11:24:29.682+01:00",
+      "description": "Add a chimney stack",
+      "determined_at": null,
+      "determination_date": "2024-03-06",
+      "id": 49,
+      "invalidated_at": "2023-09-08T17:04:37.705+01:00",
+      "in_assessment_at": "2024-02-06T17:22:35.013+00:00",
+      "payment_reference": "PAY1",
+      "payment_amount": "0.0",
+      "result_flag": "Planning permission / Permission needed",
+      "result_heading": "It looks like these changes will need planning permission",
+      "result_description": "Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate",
+      "result_override": "This was my reason for rejecting the result",
+      "returned_at": null,
+      "started_at": null,
+      "status": "awaiting_determination",
+      "target_date": "2023-10-16",
+      "withdrawn_at": null,
+      "work_status": "proposed",
+      "boundary_geojson": {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -0.07716178894042969,
+                51.50094238217541
+              ],
+              [
+                -0.07645905017852783,
+                51.50053497847238
+              ],
+              [
+                -0.07615327835083008,
+                51.50115276135022
+              ],
+              [
+                -0.07716178894042969,
+                51.50094238217541
+              ]
+            ]
+          ]
+        }
+      },
+      "application_type": "planning_permission",
+      "reference": "23-00141-HAPP",
+      "reference_in_full": "SWK-23-00141-HAPP",
+      "site": {
+        "address_1": "11 Abbey Gardens",
+        "address_2": "Southwark",
+        "county": null,
+        "town": "London",
+        "postcode": "SE16 3RQ",
+        "uprn": "100081043511",
+        "latitude": null,
+        "longitude": null
+      },
+      "received_date": "2023-09-08T11:24:29.682+01:00",
+      "constraints": [
+        "Conservation area"
+      ],
+      "documents": [],
+      "published_comments": [],
+      "consultee_comments": [],
+      "consultation": {
+        "end_date": "2024-01-11"
+      },
+      "make_public": true
+    },
+    {
+      "agent_first_name": "Ziggy",
+      "agent_last_name": "Stardust",
+      "agent_phone": "01100 0110 0011",
+      "agent_email": "ziggy@example.com",
+      "applicant_first_name": "David",
+      "applicant_last_name": "Bowie",
+      "user_role": null,
+      "awaiting_determination_at": null,
+      "to_be_reviewed_at": null,
+      "created_at": "2024-01-03T16:28:37.986+00:00",
+      "description": "Roof extension to the rear of the property, incorporating starship launchpad.",
+      "determined_at": null,
+      "determination_date": "2024-03-06",
+      "id": 98,
+      "invalidated_at": "2024-01-04T22:30:31.634+00:00",
+      "in_assessment_at": null,
+      "payment_reference": "sandbox-ref-456",
+      "payment_amount": "206.0",
+      "result_flag": null,
+      "result_heading": null,
+      "result_description": null,
+      "result_override": null,
+      "returned_at": null,
+      "started_at": null,
+      "status": "invalidated",
+      "target_date": "2024-02-07",
+      "withdrawn_at": null,
+      "work_status": "proposed",
+      "boundary_geojson": {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -0.1186569035053321,
+                51.465703531871384
+              ],
+              [
+                -0.1185938715934822,
+                51.465724418998775
+              ],
+              [
+                -0.1184195280075143,
+                51.46552473766957
+              ],
+              [
+                -0.11848390102387167,
+                51.4655038504508
+              ],
+              [
+                -0.1186569035053321,
+                51.465703531871384
+              ]
+            ]
+          ]
+        },
+        "properties": null
+      },
+      "application_type": "planning_permission",
+      "reference": "24-00173-HAPP",
+      "reference_in_full": "SWK-24-00173-HAPP",
+      "site": {
+        "address_1": "40, STANSFIELD ROAD",
+        "address_2": null,
+        "county": null,
+        "town": "LONDON",
+        "postcode": "SW9 9RZ",
+        "uprn": "100021892955",
+        "latitude": 51.4656522,
+        "longitude": -0.1185926
+      },
+      "received_date": "2024-01-03T16:28:37.986+00:00",
+      "documents": [],
+      "published_comments": [],
+      "consultee_comments": [],
+      "consultation": {
+        "end_date": null
+      },
+      "make_public": false
+    }
+  ]
+}

@@ -12,6 +12,11 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
   let!(:lambeth) { build(:local_authority, :lambeth) }
   let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
   let!(:planning_application_not_validated) { create(:planning_application, :not_started, local_authority: default_local_authority) }
+  let(:token) { "Bearer #{api_user.token}" }
+  let(:headers) do
+    {"CONTENT-TYPE": "application/json",
+     Authorization: "Bearer #{api_user.token}"}
+  end
 
   describe "format" do
     let(:access_control_allow_origin) { response.headers["Access-Control-Allow-Origin"] }
@@ -19,12 +24,12 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
     let(:access_control_allow_headers) { response.headers["Access-Control-Allow-Headers"] }
 
     it "responds to JSON" do
-      get "/api/v1/planning_applications/#{planning_application.id}"
+      get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
       expect(response).to be_successful
     end
 
     it "sets CORS headers" do
-      get "/api/v1/planning_applications/#{planning_application.id}"
+      get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
 
       expect(response).to be_successful
       expect(access_control_allow_origin).to eq("*")
@@ -37,20 +42,20 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
     let(:planning_application_json) { json }
 
     it "returns a 404 if no planning application" do
-      get "/api/v1/planning_applications/xxx"
+      get("/api/v1/planning_applications/xxx", headers:)
       expect(response.code).to eq("404")
       expect(planning_application_json).to eq({"message" => "Unable to find record"})
     end
 
     it "returns 404 if planning application is from another authority" do
-      get "/api/v1/planning_applications/#{planning_application_lambeth.id}"
+      get("/api/v1/planning_applications/#{planning_application_lambeth.id}", headers:)
       expect(response.code).to eq("404")
       expect(planning_application_json).to eq({"message" => "Unable to find record"})
     end
 
     context "with a new planning application" do
       it "returns the accurate data" do
-        get "/api/v1/planning_applications/#{planning_application.id}"
+        get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
         expect(planning_application_json["status"]).to eq("in_assessment")
         expect(planning_application_json["id"]).to eq(planning_application.id)
         expect(planning_application_json["reference"]).to eq(planning_application.reference)
@@ -99,7 +104,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
         let!(:neighbour_response) { create(:neighbour_response, neighbour:, redacted_response: "It's fine", received_at: 1.day.ago, summary_tag: "supportive") }
 
         it "returns the accurate data" do
-          get "/api/v1/planning_applications/#{planning_application.id}"
+          get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
           expect(planning_application_json["status"]).to eq("determined")
           expect(planning_application_json["id"]).to eq(planning_application.id)
           expect(planning_application_json["reference"]).to eq(planning_application.reference)
