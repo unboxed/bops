@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! description_change_validation_request,
+json.extract! time_extension_validation_request,
   :id,
   :state,
   :response_due,

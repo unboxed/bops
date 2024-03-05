@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_11_111430) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_111101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -821,11 +821,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_111430) do
     t.bigint "old_document_id"
     t.integer "sequence"
     t.jsonb "specific_attributes"
+    t.datetime "proposed_expiry_date"
     t.string "owner_type"
     t.bigint "owner_id"
-    t.bigint "condition_id"
-    t.datetime "proposed_expiry_date"
-    t.index ["condition_id"], name: "ix_validation_requests_on_condition_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["owner_type", "owner_id"], name: "index_validation_requests_on_owner"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"

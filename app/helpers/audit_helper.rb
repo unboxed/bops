@@ -41,6 +41,7 @@ module AuditHelper
       red_line_boundary_change_validation_request_received
       other_change_validation_request_received
       fee_change_validation_request_received
+      time_extension_validation_request_received
     ]
   end
 

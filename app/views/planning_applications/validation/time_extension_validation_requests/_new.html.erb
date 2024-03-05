@@ -29,21 +29,6 @@
             </div>
           </div>
         <% end %>
-        <% if @planning_application.latest_rejected_time_extension.present? %>
-          <p class="govuk-body">
-            <strong>
-              Rejected proposed expiry date
-            </strong>
-          </p>
-          <p class="govuk-body">
-            <%= render(FormattedContentComponent.new(text: @planning_application.latest_rejected_time_extension.proposed_description)) %>
-          </p>
-          <p class="govuk-body">
-                <span class="govuk-caption-m">
-                  Applicant rejected this time extension because: <%= @planning_application.latest_rejected_time_extension.rejection_reason %>
-                </span>
-          </p>
-        <% end %>
         <%= form.hidden_field(:type, value: "TimeExtensionValidationRequest") %>
 
         <%= form.govuk_date_field :proposed_expiry_date, legend: { text: "Enter the proposed expiry date" }, hint: { text: "The proposed date must be after the planning application's current expiry date" } %>
@@ -63,3 +48,12 @@
     </div>
   </div>
 </div>
+
+<div class="govuk-grid-row govuk-!-margin-bottom-4 govuk-!-margin-top-2">
+  <hr/>
+</div>
+
+<%= render(
+      partial: "activity_log",
+      locals: { validation_requests: @planning_application.time_extension_validation_requests }
+    ) %>

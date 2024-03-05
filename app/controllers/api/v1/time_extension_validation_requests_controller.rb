@@ -5,7 +5,7 @@ module Api
     class TimeExtensionValidationRequestsController < Api::V1::ApplicationController
       skip_before_action :verify_authenticity_token
       before_action :check_token_and_set_application
-      before_action :set_description_change_validation_request, only: %i[show update]
+      before_action :set_time_extension_validation_request, only: %i[show update]
 
       rescue_from ValidationRequestUpdateService::UpdateError do |error|
         render json: {message: error.message}, status: :bad_request

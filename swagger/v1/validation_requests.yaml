@@ -80,6 +80,18 @@
                             url: document.blob./new_document.jpg
                         cancel_reason: null
                         cancelled_at: null
+                    time_extension_validation_requests:
+                      - id: 1
+                        type: time_extension_validation_request
+                        proposed_expiry_date: '2024-07-14T05:18:17.540Z'
+                        previous_expiry_date: '2024-07-14T05:18:17.540Z'
+                        state: open
+                        response_due: '2024-05-14T05:18:17.540Z'
+                        days_until_response_due: 10
+                        approved: true
+                        rejection_reason: null
+                        cancel_reason: null
+                        cancelled_at: null
 
 # Other change validation requests
 '/api/v1/planning_applications/{planning_application_id}/other_change_validation_requests':
@@ -110,3 +122,9 @@
   $ref: './replacement_document_validation_request/index.yaml'
 '/api/v1/planning_applications/{planning_application_id}/replacement_document_validation_requests/{replacement_document_validation_request_id}':
   $ref: './replacement_document_validation_request/id.yaml'
+
+# Time extension validation requests
+'/api/v1/planning_applications/{planning_application_id}/time_extension_validation_requests':
+  $ref: './time_extension_validation_request/index.yaml'
+'/api/v1/planning_applications/{planning_application_id}/time_extension_validation_requests/{time_extension_validation_request_id}':
+  $ref: './time_extension_validation_request/id.yaml'

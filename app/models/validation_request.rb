@@ -242,6 +242,10 @@ class ValidationRequest < ApplicationRecord
     !approved && rejection_reason.present?
   end
 
+  def time_extension_request?
+    type == "TimeExtensionValidationRequest"
+  end
+
   def update_planning_application!(params)
     # Specific types of validation request use this method, which is overwritten in those models.
     #  A couple don't hence the empty method
@@ -335,10 +339,6 @@ class ValidationRequest < ApplicationRecord
 
   def fee_change?
     type == "FeeChangeValidationRequest"
-  end
-
-  def time_extension_request?
-    type == "TimeExtensionValidationRequest"
   end
 
   def reset_columns

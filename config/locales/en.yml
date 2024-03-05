@@ -432,6 +432,7 @@ en:
       submitted: Recommendation submitted
       time_extension_validation_request_added: 'Added: time extension request'
       time_extension_validation_request_sent_post_validation: 'Sent: time extension request'
+      time_extension_validation_request_received: 'Received: time extension request'
       unarchived: Document unarchived
       updated: "%{args} updated"
       uploaded: Document uploaded
