@@ -63,8 +63,8 @@
         <% @planning_application.pre_commencement_condition_set.approved_conditions.each do |condition| %>
           <li>
             <%= condition.title %><br>
-            <%= condition.text %><br>
-            <%= condition.reason %>
+            <%= render(FormattedContentComponent.new(text: condition.text)) %>
+            <%= render(FormattedContentComponent.new(text: condition.reason)) %>
           </li>
         <% end %>
       </ol>
@@ -76,8 +76,8 @@
       <ol class="govuk-list govuk-list--number">
         <% @planning_application.condition_set.conditions.each do |condition| %>
           <li>
-            <%= condition.text %><br>
-            <%= condition.reason %>
+            <%= render(FormattedContentComponent.new(text: condition.text)) %>
+            <%= render(FormattedContentComponent.new(text: condition.reason)) %>
           </li>
         <% end %>
       </ol>
