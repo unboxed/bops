@@ -16,6 +16,12 @@ class PreCommencementConditionValidationRequest < ValidationRequest
     10.business_days.after(created_at)
   end
 
+  def email_and_timestamp
+    send_post_validation_request_email if owner.condition_set.send_notification?
+
+    mark_as_sent!
+  end
+
   private
 
   def audit_comment
