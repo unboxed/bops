@@ -55,12 +55,12 @@
         <%= @planning_application.assessment_details.find { |ad| ad.category == "amenity" }.entry %>
       </p>
     <% end %>
-    <% if @planning_application.pre_commencement_condition_set.conditions.any? %>
+    <% if @planning_application.pre_commencement_condition_set.approved_conditions.any? %>
       <h3 class="govuk-heading-s">
         Pre-commencement conditions:
       </h3>
       <ol class="govuk-list govuk-list--number">
-        <% @planning_application.pre_commencement_condition_set.conditions.each do |condition| %>
+        <% @planning_application.pre_commencement_condition_set.approved_conditions.each do |condition| %>
           <li>
             <%= condition.title %><br>
             <%= condition.text %><br>
@@ -161,7 +161,7 @@
   <p class="govuk-body">
     <%= planning_application.local_authority.signatory %>, <br>
     <%= planning_application.local_authority.council_name %>, <br>
-    <%= render(FormattedContentComponent.new(text: planning_application.local_authority.enquiries_paragraph)) %>.
+    <%= planning_application.local_authority.enquiries_paragraph %>
   </p>
   <% if @planning_application.refused? %>
     <h3 class="govuk-heading-s">

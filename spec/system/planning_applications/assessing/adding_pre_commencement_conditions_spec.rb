@@ -249,6 +249,7 @@ RSpec.describe "Add pre-commencement conditions" do
     it "shows conditions on the decision notice" do
       create(:recommendation, :assessment_in_progress, planning_application:)
       condition = create(:condition, :other, condition_set: planning_application.pre_commencement_condition_set, title: "title 1")
+      create(:pre_commencement_condition_validation_request, owner: condition, approved: true, state: "closed")
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
