@@ -65,7 +65,7 @@
         </span>
       <% end %>
 
-      <%= link_to "Request extension", new_planning_application_validation_description_change_validation_request_path(@planning_application, type: "time_extension"), class: "govuk-link" %>
+      <%= link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension"), class: "govuk-link" %>
     </p>
 
     <% if @planning_application.environment_impact_assessment_required? %>

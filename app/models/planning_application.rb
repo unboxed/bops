@@ -28,6 +28,7 @@ class PlanningApplication < ApplicationRecord
     has_many :recommendations, -> { order :created_at }
     has_many :description_change_validation_requests
     has_many :replacement_document_validation_requests
+    has_many :time_extension_validation_requests
     has_many :other_change_validation_requests
     has_many :fee_change_validation_requests
     has_many :additional_document_validation_requests
@@ -736,11 +737,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def time_extension_request
-    time_extension_requests.order(:created_at).last
+    time_extension_validation_requests.order(:created_at).last
   end
 
   def latest_rejected_time_extension
-    time_extension_requests.order(created_at: :desc).find(&:rejected?)
+    time_extension_validation_requests.order(created_at: :desc).find(&:rejected?)
   end
 
   def overdue_validation_requests

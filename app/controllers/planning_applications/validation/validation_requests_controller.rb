@@ -180,7 +180,7 @@ module PlanningApplications
       def validation_request_params
         params.require(:validation_request)
           .permit(
-            :new_geojson, :reason, :type, :suggestion, :planning_application_id,
+            :new_geojson, :reason, :type, :suggestion, :planning_application_id, :proposed_expiry_date,
             :document_request_type, :old_document_id, :proposed_description, :return_to
           )
       end

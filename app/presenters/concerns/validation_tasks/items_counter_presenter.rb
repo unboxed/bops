@@ -21,8 +21,12 @@ module ValidationTasks
 
     attr_reader :validation_requests
 
+    def validation_requests_not_time_extension
+      validation_requests.select { |request| request.type != "TimeExtensionValidationRequest" }
+    end
+
     def invalid_items_count
-      validation_requests.count(&:open_or_pending?)
+      validation_requests_not_time_extension.count(&:open_or_pending?)
     end
 
     def updated_items_count

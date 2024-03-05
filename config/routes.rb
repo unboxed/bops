@@ -182,15 +182,15 @@ Rails.application.routes.draw do
             patch :validate
           end
 
-          resource :time_extension_requests, only: %i[edit index new show] do
-            patch :validate
-          end
-
           resource :fee_items, only: %i[show] do
             patch :validate
           end
 
           resource :sitemap, only: %i[show edit update] do
+            patch :validate
+          end
+
+          resource :time_extensions, only: %i[show] do
             patch :validate
           end
 
@@ -211,6 +211,7 @@ Rails.application.routes.draw do
           resources :red_line_boundary_change_validation_requests, controller: :validation_requests
           resources :description_change_validation_requests, controller: :validation_requests
           resources :ownership_certificate_validation_requests, controller: :validation_requests
+          resources :time_extension_validation_requests, controller: :validation_requests
 
           resource :legislation, only: %i[show update]
         end
@@ -269,9 +270,9 @@ Rails.application.routes.draw do
           resources :ownership_certificate_validation_requests, only: %i[index update show]
           resources :ownership_certificates, only: %i[create]
           resources :red_line_boundary_change_validation_requests, only: %i[index update show]
-          resources :time_extension_validation_requests, only: %i[index update show]
           resources :pre_commencement_condition_validation_requests, only: %i[index update show]
           resources :heads_of_terms_validation_requests, only: %i[index update show]
+          resources :time_extension_validation_requests, only: %i[index update show]
           resources :neighbour_responses, only: :create
         end
 

@@ -1458,6 +1458,9 @@ en:
       description_changes:
         validate:
           success: Description was marked as valid
+      time_extensions:
+        validate:
+          success: Time extension request was sent
       document:
         redactions:
           create:
@@ -1555,6 +1558,8 @@ en:
             success: Validation request for red line boundary successfully created.
           replacement_document_validation_request:
             success: Replacement document validation request successfully created.
+          time_extension_validation_request:
+            success: Time extension request successfully sent.
         destroy:
           additional_document_validation_request:
             success: Additional document request was successfully deleted.
