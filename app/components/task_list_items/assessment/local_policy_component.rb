@@ -37,6 +37,8 @@ module TaskListItems
       def status
         if local_policy&.current_review&.present?
           local_policy.current_review.status
+        elsif local_policy&.local_policy_areas&.present?
+          "in_progress"
         else
           "not_started"
         end

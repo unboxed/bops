@@ -8,8 +8,6 @@ class LocalPolicy < ApplicationRecord
 
   before_update :maybe_create_review
 
-  AREAS = %w[design impact_on_neighbours other].freeze
-
   accepts_nested_attributes_for :local_policy_areas, :reviews
 
   validates_associated :local_policy_areas
@@ -19,7 +17,7 @@ class LocalPolicy < ApplicationRecord
     reviews.where.not(id: nil).order(:created_at).last
   end
 
-  def review_local_polices_with_comments
+  def review_local_policies_with_comments
     reviews.where.not("comment = '' OR comment IS NULL").order(:created_at)
   end
 

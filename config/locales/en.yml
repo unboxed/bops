@@ -705,6 +705,23 @@ en:
     update:
       success: Informative successfully added
   local_policies:
+    custom_areas:
+    - Design
+    - Impact on Neighbours
+    - Loss of light
+    - Overshadowing
+    - Overlooking
+    - Loss of privacy
+    - Visual amenity
+    - Adequacy of parking/loading/turning
+    - Parking
+    - Traffic
+    - Noise and disturbance resulting from use
+    - Loss of trees
+    - Effect on listed building, conservation area or archaeological interest
+    - Design, appearance and materials
+    - Nature conservation & biodiversity issues
+    - Landscaping
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
   neighbour_letter_header:
@@ -1037,6 +1054,12 @@ en:
       immunity_details:
         update:
           success: Evidence of immunity successfully updated
+      local_policies:
+        update:
+          successfully_updated: Check against policy and guidance response was successfully updated
+      local_policy_areas:
+        update:
+          successfully_updated: Check against policy and guidance response was successfully updated
       ownership_certificates:
         update:
           success: Ownership certificate was checked

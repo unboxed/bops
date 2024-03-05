@@ -105,6 +105,8 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :local_policy_areas, except: %i[index]
+
           resources :local_policies, except: %i[destroy index]
 
           resources :permitted_development_rights, except: %i[destroy index]
