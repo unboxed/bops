@@ -108,23 +108,18 @@ module PlanningApplications
 
       def cancel
         respond_to do |format|
-          if @validation_request.may_cancel?
-            @validation_request.assign_attributes(cancel_validation_request_params)
-            @validation_request.cancel_request!
+          @validation_request.assign_attributes(cancel_validation_request_params)
+          @validation_request.cancel_request!
 
-            @validation_request.send_cancelled_validation_request_mail unless @planning_application.not_started?
+          @validation_request.send_cancelled_validation_request_mail unless @planning_application.not_started?
 
-            format.html do
-              redirect_to cancel_redirect_url,
-                notice: t(".#{@validation_request.type.underscore}.success")
-            end
-          else
-            format.html do
-              @validation_request = @planning_application.validation_requests.find(params[:id].to_i)
-              render :cancel_confirmation
-            end
+          format.html do
+            redirect_to cancel_redirect_url,
+              notice: t(".#{@validation_request.type.underscore}.success")
           end
         end
+      rescue ValidationRequest::RecordCancelError
+        render :cancel_confirmation
       end
 
       def post_validation_requests
