@@ -9,7 +9,7 @@ class ImmunityDetail < ApplicationRecord
 
   accepts_nested_attributes_for :evidence_groups, :comments, :reviews
 
-  before_update :maybe_create_review
+  before_update :create_review, if: :should_create_review?
 
   def update_required?
     current_evidence_review_immunity_detail.status == "complete" && !accepted?
@@ -51,10 +51,12 @@ class ImmunityDetail < ApplicationRecord
 
   private
 
-  def maybe_create_review
+  def should_create_review?
     return if current_evidence_review_immunity_detail.nil?
-    return unless current_evidence_review_immunity_detail.status_changed? && current_evidence_review_immunity_detail_review.status_change == %w[to_be_reviewed complete]
+    current_evidence_review_immunity_detail.status_changed? && current_evidence_review_immunity_detail_review.status_change == %w[to_be_reviewed complete]
+  end
 
+  def create_review
     reviews.create!(owner: self, specific_attributes: {review_type: "evidence"}, assessor: Current.owner)
   end
 end

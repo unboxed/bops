@@ -158,7 +158,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
       before do
         create(:review, owner: condition_set, status: "in_progress")
         condition = create(:condition, condition_set:)
-        create(:pre_commencement_condition_validation_request, condition:, state: "closed", approved: false)
+        create(:pre_commencement_condition_validation_request, owner: condition, state: "closed", approved: false)
 
         render_inline(
           described_class.new(

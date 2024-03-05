@@ -54,6 +54,7 @@ class ValidationRequest < ApplicationRecord
   scope :pre_validation, -> { where(post_validation: false) }
   scope :responded, -> { where.not(response: nil).or(where(approved: true)) }
   scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
+  scope :requests_created_later, ->(review) { where("validation_requests.created_at >= ?", review.created_at) }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 

@@ -69,12 +69,5 @@
         ) %>
       <% end %>
     <% end %>
-    <!-- >Only show if it's a minor application<!-->
-     <%= render(
-        TaskListItems::Assessment::ValidationRequestComponent.new(
-          planning_application: @planning_application,
-          request_type: "HeadsOfTermsValidationRequest"
-        )
-      ) %>
   </ul>
 </li>

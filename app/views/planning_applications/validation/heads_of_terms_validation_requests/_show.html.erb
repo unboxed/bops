@@ -26,20 +26,14 @@
     <h2 class="govuk-heading-m">Officer request</h2>
     <div class="govuk-inset-text">
       <p class="govuk-body">
+        <strong><%= @validation_request.owner.title %></strong>
+      </p>
+      <p class="govuk-body">
+        <%= @validation_request.owner.text %>
+      </p>
+      <p class="govuk-body">
         Request was sent on <%= @validation_request.created_at.to_fs %>
       </p>
-      <%= render(
-        partial: "documents/document_row_image",
-        locals: {
-          planning_application: @planning_application,
-          document: @validation_request.document,
-          resize: "200x110",
-          width: 90,
-          height: 110,
-          edit_and_archive: false
-        }
-      ) %>
-
     </div>
     <%= form_with model: @planning_application do |form| %>
       <% if @validation_request.closed?  %>

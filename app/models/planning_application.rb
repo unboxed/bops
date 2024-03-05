@@ -44,6 +44,7 @@ class PlanningApplication < ApplicationRecord
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_many :site_notices
     has_many :policy_classes, -> { order(:section) }
+    has_one :heads_of_term
 
     has_one :condition_set, -> { where(pre_commencement: false) }, required: false
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
@@ -655,6 +656,10 @@ class PlanningApplication < ApplicationRecord
 
   def informative_set
     super || create_informative_set!
+  end
+
+  def heads_of_term
+    super || HeadsOfTerm.create!(planning_application: self)
   end
 
   def pending_validation_requests?

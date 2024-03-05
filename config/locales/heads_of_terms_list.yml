@@ -1,0 +1,10 @@
+en:
+  heads_of_terms_list:
+    cars:
+      title: Car free development
+    cycle:
+      title: Cycle hire club memberships
+    highway:
+      title: Highway and public transport
+    employment: 
+      title: Employment and training

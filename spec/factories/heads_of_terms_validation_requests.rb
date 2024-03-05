@@ -2,14 +2,13 @@
 
 FactoryBot.define do
   factory :heads_of_terms_validation_request do
-    planning_application { create(:planning_application, :in_assessment) }
+    planning_application
     user
     state { "open" }
     post_validation { true }
+    owner { create(:term, :skip_validation_request) }
 
     trait :pending do
-      planning_application { create(:planning_application, :not_started) }
-
       state { "pending" }
     end
 

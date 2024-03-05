@@ -315,6 +315,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_111101) do
     t.index ["planning_application_id"], name: "ix_fee_calculations_on_planning_application_id"
   end
 
+  create_table "heads_of_terms", force: :cascade do |t|
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_heads_of_terms_on_planning_application_id"
+  end
+
   create_table "immunity_details", force: :cascade do |t|
     t.date "end_date"
     t.bigint "planning_application_id"
@@ -719,6 +726,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_111101) do
     t.index ["neighbour_id"], name: "ix_site_visits_on_neighbour_id"
   end
 
+  create_table "terms", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "text", null: false
+    t.bigint "heads_of_term_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["heads_of_term_id"], name: "ix_terms_on_heads_of_term_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -772,9 +788,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_111101) do
     t.bigint "old_document_id"
     t.integer "sequence"
     t.jsonb "specific_attributes"
-    t.bigint "condition_id"
-    t.index ["condition_id"], name: "ix_validation_requests_on_condition_id"
+    t.string "owner_type"
+    t.bigint "owner_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
+    t.index ["owner_type", "owner_id"], name: "index_validation_requests_on_owner"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_validation_requests_on_user_id"
   end

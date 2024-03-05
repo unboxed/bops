@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-class ConditionSet < ApplicationRecord
+class HeadsOfTerm < ApplicationRecord
   belongs_to :planning_application
   has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
-  has_many :conditions, extend: ConditionsExtension, dependent: :destroy
-  has_many :validation_requests, through: :conditions
+  has_many :terms, extend: TermsExtension, dependent: :destroy
+  has_many :validation_requests, through: :terms
 
-  accepts_nested_attributes_for :conditions, allow_destroy: true
+  accepts_nested_attributes_for :terms, allow_destroy: true
   accepts_nested_attributes_for :reviews
 
   after_update :create_review, if: :should_create_review?
@@ -27,6 +27,15 @@ class ConditionSet < ApplicationRecord
     latest_validation_requests.select { |vr| vr.state != "cancelled" }
   end
 
+  def send_notification?
+    validation_requests.open.none? { |request| request.notified_at.present? } ||
+      (validation_requests.open.any? && (validation_requests.open.order(:created_at).last&.notified_at&.<= 1.business_day.ago))
+  end
+
+  def any_new_updated_validation_requests?
+    validation_requests.requests_created_later(current_review).any? { |validation_request| !validation_request.approved.nil? }
+  end
+
   private
 
   def should_create_review?
@@ -35,6 +44,6 @@ class ConditionSet < ApplicationRecord
   end
 
   def create_review
-    reviews.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: id, status: "complete")
+    reviews.create(assessor: Current.user, status: "complete")
   end
 end

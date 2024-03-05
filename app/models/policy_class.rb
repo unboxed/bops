@@ -11,7 +11,7 @@ class PolicyClass < ApplicationRecord
 
   validate :all_policies_are_determined, if: :complete?
 
-  before_update :maybe_create_review
+  before_update :create_review, if: :should_create_review?
 
   def update_required?
     current_review&.to_be_reviewed? && current_review&.review_complete?
@@ -67,15 +67,13 @@ class PolicyClass < ApplicationRecord
 
   private
 
-  def maybe_create_review
+  def should_create_review?
     return if current_review.nil?
-    return unless current_review.status_changed? && current_review.status_change == %w[to_be_reviewed complete]
-
-    create_review
+    current_review.status_changed? && current_review.status_change == %w[to_be_reviewed complete]
   end
 
   def create_review
-    Review.create!(assessor: Current.user, owner_type: "PolicyClass", owner_id: id, status: "complete")
+    reviews.create!(assessor: Current.user, owner_type: "PolicyClass", owner_id: id, status: "complete")
   end
 
   def all_policies_are_determined

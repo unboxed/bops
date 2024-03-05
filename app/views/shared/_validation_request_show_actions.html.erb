@@ -9,9 +9,7 @@
   <%= back_link(classname: "govuk-button #{"govuk-button--secondary" if show_continue_link}") %>
 
   <% if validation_request.open_or_pending? %>
-    <% if planning_application.validation_complete? && validation_request.post_validation? %>
-      <%= link_to "Cancel request", cancel_confirmation_planning_application_assessment_validation_request_path(planning_application, validation_request), class: "govuk-button govuk-button--secondary" %>
-    <% else %>
+    <% if planning_application.validation_complete? %>
       <%= link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request), class: "govuk-button govuk-button--secondary" %>
     <% end %>
 

@@ -7,7 +7,7 @@ FactoryBot.define do
     state { "open" }
     approved { nil }
     post_validation { true }
-    condition
+    owner { create(:condition) }
 
     trait :pending do
       state { "pending" }

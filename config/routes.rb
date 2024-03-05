@@ -120,6 +120,13 @@ Rails.application.routes.draw do
               resources :comments, only: %i[create update]
             end
           end
+
+          resources :heads_of_terms, only: %i[index new] do
+            get :edit, on: :collection
+            get :edit
+            patch :update, on: :collection
+          end
+
           resources :recommendations, only: %i[new create update]
           resource :recommendations, only: %i[edit]
 

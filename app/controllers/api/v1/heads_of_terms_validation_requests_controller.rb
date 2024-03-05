@@ -42,7 +42,7 @@ module Api
       private
 
       def set_heads_of_terms_validation_request
-        @heads_of_terms_validation_request = @planning_application.heads_of_terms_validation_requests.find(params[:id])
+        @heads_of_terms_validation_request = @planning_application.heads_of_terms_validation_requests.find(Integer(params[:id]))
       end
     end
   end

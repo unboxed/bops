@@ -1,0 +1,88 @@
+  <h2 class="govuk-heading-m">Officer request</h2>
+
+  <div class="govuk-inset-text">
+    <p class="govuk-body">
+      Please read and agree to the following heads of terms:
+    <p>
+    <% @heads_of_term.terms.each_with_index do |term, index| %>
+      <% next if term.current_validation_request.cancelled? %>
+      <p class="govuk-body"> 
+        <strong>Heads of terms <%= index + 1 %></strong><br>
+        <%= term.title %>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<div class="govuk-grid-column-full">
+  <table class="govuk-table govuk-!-margin-bottom-1">
+    <caption class="govuk-table__caption govuk-table__caption--m">Applicant response</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Heads of terms</th>
+        <th scope="col" class="govuk-table__header">Applicant comment</th>
+        <th scope="col" class="govuk-table__header">Status</th>
+        <th scope="col" class="govuk-table__header">Action</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @heads_of_term.terms.each do |term| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong>
+              <%= term.title %>
+            </strong><br>
+            <div data-controller="show-more-text">
+              <span class="truncated-comment">
+                <%= simple_format(term.truncated_comment) %>
+              </span>
+
+              <% if response_been_truncated?(term, term.text) %>
+                <span class="govuk-!-display-none hidden-comment">
+                  <%= term.text[truncated_length(term)..-1] %>
+                </span>
+                <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+              <% end %>
+            </div>
+          </td>
+          <td class="govuk-table__cell">
+            <%= term.current_validation_request.approved? ? "No comment" : term.current_validation_request.rejection_reason %>
+          </td>
+          <td class="govuk-table__cell">
+            <div style="float: left">
+              <%= render(StatusTags::BaseComponent.new(status: status(term))) %>
+            </div>
+          </td>
+          <td class="govuk-table__cell">
+            <% if term.current_validation_request.approved == false %>
+              <%= link_to "Update term", planning_application_assessment_heads_of_term_edit_path(@planning_application, term) %>
+            <% elsif term.current_validation_request.approved.nil? && !term.current_validation_request.cancelled? %>
+              <%= link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, term.current_validation_request) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "+ Add heads of terms", new_planning_application_assessment_heads_of_term_path(@planning_application.id), class: "govuk-body govuk-link" %>
+
+  <p class="govuk-body govuk-!-margin-top-5">
+    Updated heads of terms will be sent to the applicant immediately
+  </p>
+
+  <div class="govuk-button-group align-items-center">
+    <% if @heads_of_term.current_review.status != "complete" && @heads_of_term.latest_active_validation_requests.all?(&:approved?) %>
+      <%= form_with model: @heads_of_term,
+              url: planning_application_assessment_heads_of_terms_path(@planning_application),
+              method: :patch do |form| %>
+        <%= form.hidden_field :id, value: @heads_of_term.id %>
+        <%= form.submit(
+              t("form_actions.save_and_mark_as_complete"),
+              class: "govuk-button",
+              data: { module: "govuk-button" }
+            ) %>
+      <% end %>
+    <% end %>
+    <%= back_link %>
+  </div>
+</div>

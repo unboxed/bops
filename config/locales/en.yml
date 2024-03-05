@@ -273,6 +273,12 @@ en:
               date_invalid: The date the site visit took place must be a valid date
               date_not_on_or_after: The date the site visit took place must be on or after the consultation start date
               date_not_on_or_before: The date the site visit took place must be on or before today
+        term:
+          attributes:
+            text:
+              blank: Enter the detail of this term
+            title:
+              blank: Enter the title of this term
         user:
           attributes:
             reset_password_token:
@@ -376,6 +382,7 @@ en:
       fee_change_validation_request_received: 'Received: request for change (fee validation#%{args})'
       fee_change_validation_request_sent: 'Sent: validation request (fee validation#%{args})'
       heads_of_terms_validation_request_cancelled_post_validation: 'Cancelled: request (heads of terms#%{args})'
+      heads_of_terms_validation_request_received: 'Received: validation request for heads of terms #%{args}'
       heads_of_terms_validation_request_sent_post_validation: 'Sent: request (heads of terms#%{args})'
       invalidated: Application invalidated
       legislation_checked: Legislative requirements checked
@@ -639,6 +646,9 @@ en:
     save_and_come_back_later: Save and come back later
     save_and_mark_as_checked: Save and mark as checked
     save_and_mark_as_complete: Save and mark as complete
+  heads_of_terms:
+    update:
+      success: Heads of terms successfully updated
   helpers:
     hint:
       neighbour_response:
@@ -1177,13 +1187,6 @@ en:
           permitted_development_rights: Permitted development rights
         index:
           application_details: Application details
-      validation_requests:
-        cancel:
-          heads_of_terms_validation_request:
-            success: Heads of terms successfully cancelled
-        create:
-          heads_of_terms_validation_request:
-            success: Heads of terms successfully created and sent to applicant
     clone:
       failure: 'Error cloning application with message: %{message}.'
       success: Planning application was successfully cloned.
@@ -1520,6 +1523,8 @@ en:
             success: Description change request successfully cancelled.
           fee_change_validation_request:
             success: Fee change request successfully cancelled.
+          heads_of_terms_validation_request:
+            success: Heads of term request successfully cancelled.
           other_change_validation_request:
             success: Change request successfully cancelled.
           ownership_certificate_validation_request:

@@ -32,6 +32,7 @@ RSpec.describe ValidationRequest do
             OtherChangeValidationRequest
             FeeChangeValidationRequest
             PreCommencementConditionValidationRequest
+            HeadsOfTermsValidationRequest
           ]
         )
       end
@@ -48,7 +49,7 @@ RSpec.describe ValidationRequest do
     end
 
     %w[additional_document other_change red_line_boundary_change fee_change ownership_certificate
-      replacement_document pre_commencement_condition heads_of_terms].each do |request_type|
+      replacement_document pre_commencement_condition].each do |request_type|
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "pending", %i[open cancelled]
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "open", %i[cancelled closed]
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "cancelled", %i[]

@@ -40,6 +40,21 @@
         )
       ) %>
     <% end %>
+    <!-- >Only show if it's a minor application<!-->
+    <li class="app-task-list__item" id="add-heads-of-terms">
+      <span class="app-task-list__task-name">
+        <%= link_to(
+          "Add heads of terms",
+          planning_application_assessment_heads_of_terms_path(@planning_application),
+          class: "govuk-link"
+        ) %>
+      </span>
+      <%= render(
+      StatusTags::HeadsOfTermsComponent.new(
+        heads_of_term: @planning_application.heads_of_term
+      )
+    ) %>
+    </li>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_submit_recommendation? %>
