@@ -131,18 +131,31 @@ json.data do
       :state,
       :response_due,
       :response,
-      :reason,
-      :suggestion,
-      :reason,
       :days_until_response_due,
       :cancel_reason,
       :cancelled_at,
       :created_at,
-      :condition_id
+      :owner_id
 
     json.condition do
-      json.title pre_commencement_condition_validation_request.condition.title
+      json.title pre_commencement_condition_validation_request.owner.title
     end
     json.type "pre_commencement_condition_validation_request"
+  end
+
+  json.heads_of_terms_validation_requests @planning_application
+    .heads_of_terms_validation_requests do |heads_of_terms_validation_request|
+    json.extract! heads_of_terms_validation_request,
+      :id,
+      :state,
+      :cancel_reason,
+      :cancelled_at,
+      :owner_id,
+      :created_at
+
+    json.term do
+      json.title heads_of_terms_validation_request.owner.title
+    end
+    json.type "heads_of_terms_validation_request"
   end
 end

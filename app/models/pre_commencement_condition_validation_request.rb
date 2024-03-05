@@ -6,7 +6,7 @@ class PreCommencementConditionValidationRequest < ValidationRequest
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :rejected_reason_is_present?
 
-  belongs_to :condition
+  belongs_to :owner, polymorphic: true
 
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date

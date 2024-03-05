@@ -2,13 +2,13 @@
 
 class Condition < ApplicationRecord
   belongs_to :condition_set
-  has_many :validation_requests, class_name: "ValidationRequest", dependent: :destroy
+  has_many :validation_requests, as: :owner, class_name: "ValidationRequest", dependent: :destroy
 
   validates :text, :reason, presence: true
   validates :title, presence: true, if: :pre_commencement?
 
   after_create :create_validation_request, if: :pre_commencement?
-  before_update :maybe_create_validation_request, if: :pre_commencement?
+  before_update :create_validation_request, if: -> { pre_commencement? && should_create_validation_request? }
 
   def checked?
     persisted? || errors.present?
@@ -44,11 +44,9 @@ class Condition < ApplicationRecord
     created_at&.to_i
   end
 
-  def maybe_create_validation_request
+  def should_create_validation_request?
     return unless current_validation_request.closed?
-    return unless title_changed? || text_changed? || reason_changed?
-
-    create_validation_request
+    title_changed? || text_changed? || reason_changed?
   end
 
   def create_validation_request

@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :pre_commencement_condition_validation_request do
-    planning_application { create(:planning_application, :not_started) }
+  factory :heads_of_terms_validation_request do
+    planning_application
     user
     state { "open" }
-    approved { nil }
     post_validation { true }
-    owner { create(:condition) }
+    owner { create(:term, :skip_validation_request) }
 
     trait :pending do
       state { "pending" }

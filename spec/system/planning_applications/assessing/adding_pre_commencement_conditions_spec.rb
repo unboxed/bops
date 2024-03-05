@@ -72,11 +72,11 @@ RSpec.describe "Add pre-commencement conditions" do
     context "when marking the task as complete" do
       it "you can do it if all requests are approved" do
         condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-        validation_request = create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+        validation_request = create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
         create(:review, owner: condition1.condition_set)
 
         condition2 = create(:condition, :other, title: "Title 2", condition_set: condition1.condition_set)
-        create(:pre_commencement_condition_validation_request, condition: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
+        create(:pre_commencement_condition_validation_request, owner: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
         create(:review, owner: condition2.condition_set)
 
         visit "/planning_applications/#{planning_application.id}"
@@ -110,11 +110,11 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "you can edit conditions once they've been rejected" do
       condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+      create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
       create(:review, owner: condition1.condition_set)
 
       condition2 = create(:condition, :other, title: "Title 2", condition_set: condition1.condition_set)
-      create(:pre_commencement_condition_validation_request, condition: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
+      create(:pre_commencement_condition_validation_request, owner: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
       create(:review, owner: condition2.condition_set)
 
       visit "/planning_applications/#{planning_application.id}"
@@ -166,7 +166,7 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "you can cancel conditions" do
       condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
+      create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
       create(:review, owner: condition1.condition_set)
 
       visit "/planning_applications/#{planning_application.id}"
@@ -197,7 +197,7 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "you can add new conditions" do
       condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, condition: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
+      create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
       create(:review, owner: condition1.condition_set)
 
       visit "/planning_applications/#{planning_application.id}"

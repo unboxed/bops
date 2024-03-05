@@ -1,0 +1,60 @@
+<%= form_with model: @heads_of_term,
+  url: planning_application_assessment_heads_of_terms_path(@planning_application),
+  html: { data: { controller: "heads-of-terms" }},
+  method: :patch do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <div id="standard-terms">
+    <%= form.govuk_check_boxes_fieldset :heads_of_term, multiple: false, legend: { text: "Suggested heads of terms" } do %>
+      <%= form.fields_for :terms, @heads_of_term.terms.standard do |fields| %>
+        <% next if fields.object.persisted? %>
+        <%= fields.hidden_field :_destroy, value: true %>
+        <%= fields.govuk_check_box :_destroy, false, multiple: false, label: { text: fields.object.title }, checked: fields.object.checked?, class: "term", link_errors: true do %>
+          <%= fields.hidden_field :id %>
+          <%= fields.govuk_text_field :title, label: { text: "Enter a title" }, disabled: fields.object&.current_validation_request&.open? %>
+          <%= fields.govuk_text_area :text, label: { text: "Enter detail" }, disabled: fields.object&.current_validation_request&.open? %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="govuk-!-margin-bottom-7">
+    <h2 class="govuk-heading-m">
+      Other heads of terms
+    </h2>
+
+    <div id="other-terms" data-heads-of-terms-target="terms">
+      <%= form.fields_for :terms, @planning_application.heads_of_term.terms.other do |fields| %>
+        <%= content_tag :div, class: "term govuk-!-margin-bottom-5", data: { index: fields.index } do %>
+          <%= fields.hidden_field :_destroy, value: false %>
+          <%= fields.hidden_field :id %>
+          <%= fields.govuk_text_field :title, label: { text: "Enter a title" }, data: {reset_text_target: "destination"}, disabled: fields.object&.current_validation_request&.open? %>
+          <%= fields.govuk_text_area :text, label: { text: "Enter detail" }, data: {reset_text_target: "destination"}, disabled: fields.object&.current_validation_request&.open? %>
+          <%= link_to "Remove term", "#", class: "govuk-body govuk-link", data: { action: "click->heads-of-terms#removeTerm" } %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= link_to "+ Add term", "#", class: "govuk-body govuk-link", data: { action: "click->heads-of-terms#addTerm" } %>
+  </div>
+
+  <template id="heads-of-term-template" data-heads-of-terms-target="template">
+    <div class="term govuk-!-margin-bottom-5">
+      <input value="false" autocomplete="off" type="hidden" id="_destroyInput">
+      <input value="false" autocomplete="off" type="hidden" id="standardInput">
+      <div class="govuk-form-group">
+        <label class="govuk-label" id="titleLabel">Enter a title</label>
+        <input class="govuk-input" rows="5" id="titleInput">
+      </div>
+      <div class="govuk-form-group">
+        <label class="govuk-label" id="textLabel">Enter detail</label>
+        <textarea class="govuk-textarea" rows="5" id="textInput"></textarea>
+      </div>
+      <a class="govuk-body govuk-link" href="#">
+        Remove term
+      </a>
+    </div>
+  </template>
+
+  <%= form.submit "Submit", class: "govuk-button", data: { module: "govuk-button" } %>
+<% end %>
