@@ -5,6 +5,7 @@ class Consultee < ApplicationRecord
 
   belongs_to :consultation
   has_many :emails, dependent: :destroy
+  has_many :planning_application_constraints, dependent: :destroy
   has_many :responses, dependent: :destroy
 
   validates :name, presence: true
