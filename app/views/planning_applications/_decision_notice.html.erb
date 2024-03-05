@@ -59,7 +59,7 @@
       <h3 class="govuk-heading-s">
         Pre-commencement conditions:
       </h3>
-      <ul class="govuk-list">
+      <ol class="govuk-list govuk-list--number">
         <% @planning_application.pre_commencement_condition_set.conditions.each do |condition| %>
           <li>
             <%= condition.title %><br>
@@ -67,20 +67,20 @@
             <%= condition.reason %>
           </li>
         <% end %>
-      </ul>
+      </ol>
     <% end %>
     <% if @planning_application.condition_set.conditions.any? %>
       <h3 class="govuk-heading-s">
         Conditions:
       </h3>
-      <ul class="govuk-list">
+      <ol class="govuk-list govuk-list--number">
         <% @planning_application.condition_set.conditions.each do |condition| %>
           <li>
             <%= condition.text %><br>
             <%= condition.reason %>
           </li>
         <% end %>
-      </ul>
+      </ol>
     <% end %>
     <% if @planning_application.informative_set.informatives.any? %>
       <h3 class="govuk-heading-s">
