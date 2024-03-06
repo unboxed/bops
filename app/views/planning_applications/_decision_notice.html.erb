@@ -55,32 +55,32 @@
         <%= @planning_application.assessment_details.find { |ad| ad.category == "amenity" }.entry %>
       </p>
     <% end %>
-    <% if @planning_application.pre_commencement_condition_set.conditions.any? %>
+    <% if @planning_application.pre_commencement_condition_set.approved_conditions.any? %>
       <h3 class="govuk-heading-s">
         Pre-commencement conditions:
       </h3>
-      <ul class="govuk-list">
-        <% @planning_application.pre_commencement_condition_set.conditions.each do |condition| %>
+      <ol class="govuk-list govuk-list--number">
+        <% @planning_application.pre_commencement_condition_set.approved_conditions.each do |condition| %>
           <li>
             <%= condition.title %><br>
-            <%= condition.text %><br>
-            <%= condition.reason %>
+            <%= render(FormattedContentComponent.new(text: condition.text)) %>
+            <%= render(FormattedContentComponent.new(text: condition.reason)) %>
           </li>
         <% end %>
-      </ul>
+      </ol>
     <% end %>
     <% if @planning_application.condition_set.conditions.any? %>
       <h3 class="govuk-heading-s">
         Conditions:
       </h3>
-      <ul class="govuk-list">
+      <ol class="govuk-list govuk-list--number">
         <% @planning_application.condition_set.conditions.each do |condition| %>
           <li>
-            <%= condition.text %><br>
-            <%= condition.reason %>
+            <%= render(FormattedContentComponent.new(text: condition.text)) %>
+            <%= render(FormattedContentComponent.new(text: condition.reason)) %>
           </li>
         <% end %>
-      </ul>
+      </ol>
     <% end %>
     <% if @planning_application.informative_set.informatives.any? %>
       <h3 class="govuk-heading-s">
@@ -161,7 +161,7 @@
   <p class="govuk-body">
     <%= planning_application.local_authority.signatory %>, <br>
     <%= planning_application.local_authority.council_name %>, <br>
-    <%= render(FormattedContentComponent.new(text: planning_application.local_authority.enquiries_paragraph)) %>.
+    <%= planning_application.local_authority.enquiries_paragraph %>
   </p>
   <% if @planning_application.refused? %>
     <h3 class="govuk-heading-s">

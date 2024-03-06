@@ -32,6 +32,10 @@ class ConditionSet < ApplicationRecord
       (validation_requests.open.any? && (validation_requests.open.order(:created_at).last&.notified_at&.<= 1.business_day.ago))
   end
 
+  def approved_conditions
+    conditions.joins(:validation_requests).where(validation_requests: {approved: true})
+  end
+
   private
 
   def should_create_review?

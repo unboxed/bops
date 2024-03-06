@@ -11,8 +11,8 @@ json.extract! pre_commencement_condition_validation_request,
   :rejection_reason
 
 json.condition do
-  json.title pre_commencement_condition_validation_request.condition.title
-  json.text pre_commencement_condition_validation_request.condition.text
-  json.reason pre_commencement_condition_validation_request.condition.reason
-  json.condition_set_id pre_commencement_condition_validation_request.condition.condition_set.id
+  json.title pre_commencement_condition_validation_request.owner.title
+  json.text pre_commencement_condition_validation_request.owner.text
+  json.reason pre_commencement_condition_validation_request.owner.reason
+  json.condition_set_id pre_commencement_condition_validation_request.owner.condition_set.id
 end
