@@ -2,7 +2,7 @@
 
 module BopsApi
   class UploadDocumentJob < ApplicationJob
-    queue_as :low_priority
+    queue_as :submissions
     discard_on ActiveJob::DeserializationError
 
     def perform(planning_application, user, url, tags, description)

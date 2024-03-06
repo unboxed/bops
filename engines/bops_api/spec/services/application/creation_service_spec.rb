@@ -21,7 +21,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
     around do |example|
       travel_to("2023-12-13") do
-        perform_enqueued_jobs { example.run }
+        example.run
       end
     end
 
@@ -103,7 +103,11 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "uploads the documents" do
-          expect { create_planning_application }.to change(Document, :count).by(7)
+          expect {
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
+              create_planning_application
+            }
+          }.to change(Document, :count).by(7)
 
           expect(documents).to include(
             an_object_having_attributes(
@@ -169,7 +173,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates the expected constraints" do
           expect {
-            perform_enqueued_jobs {
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
               create_planning_application
             }
           }.to change(PlanningApplicationConstraint, :count).by(3)
@@ -250,7 +254,11 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "uploads the documents" do
-          expect { create_planning_application }.to change(Document, :count).by(8)
+          expect {
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
+              create_planning_application
+            }
+          }.to change(Document, :count).by(8)
 
           expect(documents).to include(
             an_object_having_attributes(
@@ -356,7 +364,11 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "uploads the documents" do
-          expect { create_planning_application }.to change(Document, :count).by(4)
+          expect {
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
+              create_planning_application
+            }
+          }.to change(Document, :count).by(4)
 
           expect(documents).to include(
             an_object_having_attributes(
@@ -387,7 +399,10 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "creates neighbour boundary geojson" do
-          create_planning_application
+          perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
+            create_planning_application
+          }
+
           expect(PlanningApplication.last.neighbour_boundary_geojson).not_to be nil
         end
       end
@@ -417,8 +432,11 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates the immunity details for the planning application" do
           planning_application = nil
+
           expect do
-            planning_application = service.call!
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) do
+              planning_application = service.call!
+            end
           end.to change(ImmunityDetail, :count).by(1)
 
           immunity_detail = ImmunityDetail.last
@@ -433,8 +451,11 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates the evidence groups for the planning application" do
           planning_application = nil
+
           expect do
-            planning_application = service.call!
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) do
+              planning_application = service.call!
+            end
           end.to change(EvidenceGroup, :count).by(4)
 
           council_tax_bill = planning_application.immunity_detail.evidence_groups.where(tag: "councilTaxBill").first

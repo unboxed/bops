@@ -5,7 +5,7 @@ require "uri"
 
 module BopsApi
   class FetchConstraintEntitiesJob < ApplicationJob
-    queue_as :low_priority
+    queue_as :submissions
     discard_on ActiveJob::DeserializationError
 
     def perform(planning_application_constraint, entities)
