@@ -19,5 +19,13 @@
         </td>
       </tr>
     <% end %>
+    <% @planning_application.consultation.consultees.unassigned.find_each do |consultee| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Other</td>
+        <td class="govuk-table__cell">
+          <%= consultee.name %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

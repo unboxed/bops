@@ -29,6 +29,8 @@ class Consultee < ApplicationRecord
     end
   end
 
+  scope :unassigned, -> { where.not(id: PlanningApplicationConstraint.pluck(:consultee_id)) } # rubocop:disable Rails/PluckInWhere
+
   def suffix?
     role? || organisation?
   end
