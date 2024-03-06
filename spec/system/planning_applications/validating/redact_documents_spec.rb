@@ -28,7 +28,7 @@ RSpec.describe "Redact documents" do
     visit "/planning_applications/#{planning_application.id}/validation/tasks"
   end
 
-  it "allows assessor to upload redacted documents" do
+  it "allows an assessor to upload redacted documents" do
     click_link "Upload redacted documents"
 
     expect(page).to have_content("existing-floorplan.png")
@@ -39,9 +39,14 @@ RSpec.describe "Redact documents" do
       attach_file("Upload a file", "spec/fixtures/images/existing-floorplan.png")
     end
 
-    click_button "Save and mark as complete"
+    click_button "Save and come back later"
 
     expect(page).to have_content "Redacted documents successfully uploaded"
+
+    within("#confirm-documents-tasks") do
+      expect(page).to have_selector("li:nth-of-type(3) > span", text: "Upload redacted documents")
+      expect(page).to have_selector("li:nth-of-type(3) > span + strong", text: "In progress")
+    end
 
     click_button "Documents"
 
@@ -64,6 +69,11 @@ RSpec.describe "Redact documents" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content "Redacted documents successfully uploaded"
+
+    within("#confirm-documents-tasks") do
+      expect(page).to have_selector("li:nth-of-type(3) > span", text: "Upload redacted documents")
+      expect(page).to have_selector("li:nth-of-type(3) > span + strong", text: "Completed")
+    end
   end
 
   it "shows an error" do

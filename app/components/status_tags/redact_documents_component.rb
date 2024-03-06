@@ -11,11 +11,7 @@ module StatusTags
     attr_reader :planning_application
 
     def status
-      if planning_application.documents.redacted.any?
-        :complete
-      else
-        :not_started
-      end
+      planning_application.documents_status.to_sym
     end
   end
 end

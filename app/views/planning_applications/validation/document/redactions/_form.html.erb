@@ -34,6 +34,21 @@
     </tbody>
   <% end %>
   </table>
-  <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
-  <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <div class="govuk-button-group">
+    <%= form.button "Save and mark as complete",
+      name: "planning_application[documents_status]",
+      value: "complete", type: "submit",
+      class: "govuk-button",
+      data: { module: "govuk-button" } %>
+
+    <%= form.button "Save and come back later",
+      name: "planning_application[documents_status]",
+      value: "in_progress",
+      class: "govuk-button govuk-button--secondary",
+      data: { module: "govuk-button" } %>
+
+    <%= link_to "Back",
+      planning_application_validation_tasks_path(@planning_application),
+      class: "govuk-button govuk-button--secondary" %>
+  </div>
 <% end %>

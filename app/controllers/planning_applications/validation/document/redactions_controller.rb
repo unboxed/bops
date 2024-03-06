@@ -30,7 +30,7 @@ module PlanningApplications
 
         def planning_application_params
           params.require(:planning_application)
-            .permit({documents_attributes: documents_params})
+            .permit(:documents_status, documents_attributes: documents_params)
         end
 
         def documents_params
