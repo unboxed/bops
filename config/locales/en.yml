@@ -615,6 +615,7 @@ en:
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: "%{application_type_name} application - changes needed"
       pre_commencement_condition_closure_notification_mail: Changes to your %{application_type_name} application
+      pre_commencement_condition_notification: "%{application_type_name} application - response needed"
       press_notice_confirmation_request_mail: Request for confirmation of a press notice for %{reference}
       press_notice_mail: Request for press notice
       receipt_notice_mail: "%{application_type_name} application received"
@@ -648,7 +649,7 @@ en:
     save_and_mark_as_complete: Save and mark as complete
   heads_of_terms:
     update:
-      success: Heads of terms successfully updated
+      success: Heads of terms successfully updated and sent to applicant
   helpers:
     hint:
       neighbour_response:
