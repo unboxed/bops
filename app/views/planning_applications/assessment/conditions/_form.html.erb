@@ -27,13 +27,13 @@
   <div class="govuk-!-margin-bottom-7">
     <h2 class="govuk-heading-m">
       <% if @pre_commencement %>
-       <%= @condition && @condition.persisted? ? "Update" : "Add" %> pre-commencement condition
+        <%= @condition && @condition.persisted? ? "Update" : "Add" %> pre-commencement condition
       <% else %>
         Other conditions
       <% end %>
     </h2>
     <div id="other-conditions" data-conditions-target="conditions">
-      <%= form.fields_for :conditions, (@pre_commencement ? (@condition || @conditions.new) : @conditions.other) do |fields| %>
+      <%= form.fields_for :conditions, (@conditions.other unless @pre_commencement) do |fields| %>
         <%= content_tag :div, class: "condition govuk-!-margin-bottom-5", data: { index: fields.index } do %>
           <%= fields.hidden_field :_destroy, value: false %>
           <%= fields.hidden_field :id %>
