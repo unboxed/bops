@@ -1,5 +1,5 @@
 <% if @planning_application.local_policy&.local_policy_areas&.any? %>
-  <table class="govuk-table">
+  <table class="govuk-table govuk-!-margin-top-5">
     <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Topic name</th>
@@ -26,7 +26,7 @@
         </td>
         <td class="govuk-table__cell govuk-!-padding-top-4">
           <%= link_to "Edit", edit_planning_application_assessment_local_policy_area_path(@planning_application, policy_area) %>
-          <%= link_to "Remove", planning_application_assessment_local_policy_area_path(@planning_application, policy_area), data: { confirm: "Are you sure?" }, method: :delete %>
+          <%= link_to "Remove", planning_application_assessment_local_policy_area_path(@planning_application, policy_area), method: :delete %>
         </td>
       </tr>
     <% end %>
