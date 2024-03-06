@@ -84,7 +84,9 @@ module BopsApi
             planning_application.send_receipt_notice_mail if send_email?(planning_application)
           end
         end
+
         CreateNeighbourBoundaryGeojsonJob.perform_later(planning_application) if planning_application.consultation
+        MarkAcceptedJob.set(wait: 5.minutes).perform_later(planning_application)
 
         planning_application
       end

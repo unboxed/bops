@@ -7,6 +7,7 @@ production:
 :queues:
   - low_priority
   - high_priority
+  - submissions
 
 :scheduler:
   :schedule:
