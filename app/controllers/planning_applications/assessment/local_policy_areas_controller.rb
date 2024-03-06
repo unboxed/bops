@@ -5,7 +5,7 @@ module PlanningApplications
     class LocalPolicyAreasController < AuthenticationController
       before_action :set_planning_application
       before_action :set_local_policy
-      before_action :set_local_policy_area, only: %i[edit show update]
+      before_action :set_local_policy_area, only: %i[edit show update destroy]
 
       def show
         respond_to do |format|
