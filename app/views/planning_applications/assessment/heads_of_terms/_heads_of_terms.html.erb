@@ -22,7 +22,7 @@
       Applicant response<br>
       <% if @heads_of_term.validation_requests.closed.any? %>
         <span class="govuk-body govuk-hint">
-          Latest request received on <%= @heads_of_term.validation_requests.max_by(&:closed_at).closed_at.to_fs %>
+          Latest request received on <%= @heads_of_term.validation_requests.closed.max_by(&:closed_at).closed_at.to_fs %>
         </span>
       <% end %>
     </caption>

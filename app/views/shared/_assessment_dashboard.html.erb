@@ -21,9 +21,9 @@
     <%= render "shared/response_banner" %>
   <% end %>
 <% end %>
-<% if @planning_application.description_change_validation_requests.any? %>
-  <% if @planning_application.description_change_validation_requests.responded.any? %>
-    <%= render "shared/description_response_banner" %>
+<% if @planning_application.validation_requests.post_validation.any? %>
+  <% if @planning_application.validation_requests.post_validation.responded.any? %>
+    <%= render "shared/post_validation_response_banner" %>
   <% end %>
 <% end %>
 <% if @planning_application.description_change_validation_requests.where(auto_closed: true).present? %>
