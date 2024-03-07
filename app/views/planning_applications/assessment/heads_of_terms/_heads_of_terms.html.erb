@@ -1,5 +1,7 @@
   <h2 class="govuk-heading-m">Officer request</h2>
-
+  <p class="govuk-body govuk-hint">
+    Latest request sent on <%= @heads_of_term.latest_validation_request.notified_at.to_fs %>
+  </p>
   <div class="govuk-inset-text">
     <p class="govuk-body">
       Please read and agree to the following heads of terms:
@@ -16,7 +18,14 @@
 
 <div class="govuk-grid-column-full">
   <table class="govuk-table govuk-!-margin-bottom-1">
-    <caption class="govuk-table__caption govuk-table__caption--m">Applicant response</caption>
+    <caption class="govuk-table__caption govuk-table__caption--m">
+      Applicant response<br>
+      <% if @heads_of_term.validation_requests.closed.any? %>
+        <span class="govuk-body govuk-hint">
+          Latest request received on <%= @heads_of_term.validation_requests.closed.max_by(&:closed_at).closed_at.to_fs %>
+        </span>
+      <% end %>
+    </caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header govuk-!-width-one-half">Heads of terms</th>

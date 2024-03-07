@@ -48,7 +48,7 @@ Feature: Creating a description change on the application
     Given I create a description change request with "Add a golden fence"
     And the request has been responded to
     When I view the planning application
-    Then the page contains "new response to a description change request."
+    Then the page contains "new response to a validation request"
 
   Scenario: After a request auto-closed I can see an updated planning application description
     Given I create a description change request with "Add a ball pit"

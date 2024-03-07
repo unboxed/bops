@@ -66,11 +66,11 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "you can edit terms once they've been rejected" do
       term1 = create(:term, title: "Title 1", heads_of_term: planning_application.heads_of_term)
-      term1.current_validation_request.update(state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+      term1.current_validation_request.update(state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago, closed_at: Time.zone.now)
       create(:review, owner: planning_application.heads_of_term)
 
       term2 = create(:term, title: "Title 2", heads_of_term: planning_application.heads_of_term)
-      term2.current_validation_request.update(state: "closed", approved: true, notified_at: 1.day.ago)
+      term2.current_validation_request.update(state: "closed", approved: true, notified_at: 1.day.ago, closed_at: Time.zone.now)
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
@@ -179,11 +179,11 @@ RSpec.describe "Add pre-commencement conditions" do
     context "when marking the task as complete" do
       it "you can do it if all requests are approved" do
         term1 = create(:term, title: "Title 1", heads_of_term: planning_application.heads_of_term)
-        term1.current_validation_request.update(state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+        term1.current_validation_request.update(state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago, closed_at: Time.zone.now)
         create(:review, owner: planning_application.heads_of_term)
 
         term2 = create(:term, title: "Title 2", heads_of_term: planning_application.heads_of_term)
-        term2.current_validation_request.update(state: "closed", approved: true, notified_at: 1.day.ago)
+        term2.current_validation_request.update(state: "closed", approved: true, notified_at: 1.day.ago, closed_at: Time.zone.now)
 
         visit "/planning_applications/#{planning_application.id}"
         click_link "Check and assess"
