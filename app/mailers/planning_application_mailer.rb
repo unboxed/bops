@@ -75,6 +75,19 @@ class PlanningApplicationMailer < ApplicationMailer
     )
   end
 
+  def pre_commencement_condition_request_mail(planning_application, validation_request)
+    @planning_application = planning_application
+    @validation_request = validation_request
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:pre_commencement_condition_notification,
+        application_type_name: @planning_application.application_type.human_name),
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.email_reply_to_id
+    )
+  end
+
   def cancelled_validation_request_mail(planning_application)
     @planning_application = planning_application
 
