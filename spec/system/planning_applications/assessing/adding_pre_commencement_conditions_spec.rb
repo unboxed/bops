@@ -23,6 +23,7 @@ RSpec.describe "Add pre-commencement conditions" do
 
       expect(page).to have_content("Add pre-commencement conditions")
 
+      click_link "+ Add condition"
       within(:css, "#other-conditions .condition:nth-of-type(1)") do
         fill_in "Enter a title", with: "Title 1"
         fill_in "Enter condition", with: "Custom condition 1"
@@ -207,9 +208,11 @@ RSpec.describe "Add pre-commencement conditions" do
 
       click_link "Add condition"
 
-      fill_in "Enter a title", with: "A new condition"
-      fill_in "Enter condition", with: "You must do this"
-      fill_in "Enter a reason for this condition", with: "This is the reason"
+      within(:css, "#other-conditions .condition:nth-of-type(2)") do
+        fill_in "Enter a title", with: "A new condition"
+        fill_in "Enter condition", with: "You must do this"
+        fill_in "Enter a reason for this condition", with: "This is the reason"
+      end
 
       click_button "Submit"
 
@@ -242,8 +245,13 @@ RSpec.describe "Add pre-commencement conditions" do
 
       click_button "Submit"
 
-      expect(page).to have_content "Enter the text of this condition"
-      expect(page).to have_content "Enter the title of this condition"
+      within(:css, "#other-conditions .condition:nth-of-type(1)") do
+        expect(page).to have_content "Enter the text of this condition"
+      end
+
+      within(:css, "#other-conditions .condition:nth-of-type(2)") do
+        expect(page).to have_content "Enter the title of this condition"
+      end
     end
 
     it "shows conditions on the decision notice" do
