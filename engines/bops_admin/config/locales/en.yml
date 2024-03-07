@@ -76,6 +76,8 @@ en:
         signatory_name: Signatory
         signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
         submit: Submit
+        telephone_number: Contact telephone (optional)
+        telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       show:
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
@@ -100,6 +102,8 @@ en:
         signatory_job_title_hint: This is the job title of the person whose signature appears at the bottom of decision notices.
         signatory_name: Signatory
         signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
+        telephone_number: Contact telephone
+        telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       update:
         profile_successfully_updated: Council information successfully updated
     users:

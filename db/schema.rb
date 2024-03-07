@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_05_154930) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_07_130239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -382,6 +382,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_154930) do
     t.string "applicants_url", null: false
     t.uuid "email_reply_to_id"
     t.boolean "active", default: false, null: false
+    t.string "telephone_number"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

@@ -37,7 +37,14 @@
      class: "govuk-input--width-30"
   ) %>
 
-   <%= form.govuk_text_field(
+  <%= form.govuk_text_field(
+     :telephone_number,
+     label: { text: t(".telephone_number"), class: "govuk-label govuk-label--m" },
+     hint: { text: t(".telephone_number_hint") },
+     class: "govuk-input--width-30"
+  ) %>
+
+  <%= form.govuk_text_field(
      :press_notice_email,
      label: { text: t(".press_notice_email"), class: "govuk-label govuk-label--m" },
      hint: { text: t(".press_notice_email_hint") },
