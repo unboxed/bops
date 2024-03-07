@@ -672,6 +672,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pry-byebug
   puma (~> 5)
+  rack (< 3)
   rails (~> 7.1)
   rails-controller-testing
   rails_autolink
