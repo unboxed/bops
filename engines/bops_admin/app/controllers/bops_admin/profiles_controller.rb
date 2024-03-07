@@ -34,6 +34,7 @@ module BopsAdmin
         :signatory_job_title,
         :enquiries_paragraph,
         :email_address,
+        :telephone_number,
         :feedback_email,
         :press_notice_email,
         :reviewer_group_email,
