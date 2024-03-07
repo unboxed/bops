@@ -127,9 +127,10 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_content("I don't think you've assessed Policy 1 correctly")
 
-        click_link "Design"
-
-        click_link "Edit consideration"
+        design_table_row = page.all("tr")[1]
+        within(design_table_row) do
+          click_link "Edit"
+        end
 
         fill_in "Enter your assessment", with: "A better response"
 
