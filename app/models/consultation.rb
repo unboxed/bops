@@ -363,6 +363,10 @@ class Consultation < ApplicationRecord
     end
   end
 
+  def needs_site_visit?
+    planning_application.prior_approval? ? neighbour_responses.objection.any? : true
+  end
+
   private
 
   def unknown_placeholders(string)
