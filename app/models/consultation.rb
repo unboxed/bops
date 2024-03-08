@@ -364,7 +364,7 @@ class Consultation < ApplicationRecord
   end
 
   def needs_site_visit?
-    planning_application.prior_approval? ? neighbour_responses.objection.any? : true
+    planning_application.prior_approval? ? neighbour_responses.objection.any? : planning_application.application_type.site_visits?
   end
 
   private

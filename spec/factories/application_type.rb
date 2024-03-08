@@ -72,6 +72,7 @@ FactoryBot.define do
 
     trait :prior_approval do
       name { "prior_approval" }
+      features { {"site_visits" => true} }
       steps { %w[validation consultation assessment review] }
 
       assessment_details do
@@ -190,7 +191,7 @@ FactoryBot.define do
     trait :planning_permission do
       name { "planning_permission" }
       steps { %w[validation consultation assessment review] }
-      features { {"planning_conditions" => true, "permitted_development_rights" => false} }
+      features { {"planning_conditions" => true, "permitted_development_rights" => false, "site_visits" => true} }
 
       assessment_details do
         %w[

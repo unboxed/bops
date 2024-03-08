@@ -5,4 +5,5 @@ class ApplicationTypeFeature
 
   attribute :planning_conditions, :boolean, default: false
   attribute :permitted_development_rights, :boolean, default: true
+  attribute :site_visits, :boolean, default: false
 end
