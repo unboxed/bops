@@ -18,19 +18,19 @@
 
 <%= render "table" %>
 
-<div class="govuk-button-group">
-  <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-  <%= link_to "Add new consideration", new_planning_application_assessment_local_policy_area_path(@planning_application), class: "govuk-link govuk-body", class: "govuk-button govuk-button--primary" %>
-</div>
+<%= link_to "+ Add new consideration", new_planning_application_assessment_local_policy_area_path(@planning_application), class: "govuk-link govuk-body" %>
 
-<%= form_with(
-      model: [@planning_application, @local_policy],
-      url: planning_application_assessment_local_policy_path(@planning_application, @local_policy)
-    ) do |form| %>
-  <%= form.submit(
-        t("form_actions.save_and_mark_as_complete"),
-        class: "govuk-button",
-        data: { module: "govuk-button" },
-        disabled: local_assigns.fetch(:disabled, false)
-      ) %>
-<% end %>
+<div class="govuk-button-group govuk-!-margin-top-6">
+  <%= form_with(
+        model: [@planning_application, @local_policy],
+        url: planning_application_assessment_local_policy_path(@planning_application, @local_policy)
+      ) do |form| %>
+    <%= form.submit(
+          t("form_actions.save_and_mark_as_complete"),
+          class: "govuk-button",
+          data: { module: "govuk-button" },
+          disabled: local_assigns.fetch(:disabled, false)
+        ) %>
+    <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <% end %>
+</div>
