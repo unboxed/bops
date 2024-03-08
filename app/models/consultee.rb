@@ -5,6 +5,7 @@ class Consultee < ApplicationRecord
 
   belongs_to :consultation
   has_many :emails, dependent: :destroy
+  has_many :planning_application_constraints, dependent: :destroy
   has_many :responses, dependent: :destroy
 
   validates :name, presence: true
@@ -27,6 +28,8 @@ class Consultee < ApplicationRecord
       preload(:responses)
     end
   end
+
+  scope :unassigned, -> { where.not(id: PlanningApplicationConstraint.pluck(:consultee_id)) } # rubocop:disable Rails/PluckInWhere
 
   def suffix?
     role? || organisation?

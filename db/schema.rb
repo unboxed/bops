@@ -497,7 +497,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_130239) do
     t.jsonb "metadata"
     t.boolean "identified", default: false, null: false
     t.string "identified_by", null: false
+    t.bigint "consultee_id"
     t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
+    t.index ["consultee_id"], name: "ix_planning_application_constraints_on_consultee_id"
     t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"
     t.index ["planning_application_id"], name: "ix_planning_application_constraints_on_planning_application_id"
   end
@@ -841,6 +843,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_130239) do
   add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
   add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"
   add_foreign_key "planning_application_constraints", "constraints"
+  add_foreign_key "planning_application_constraints", "consultees"
   add_foreign_key "planning_application_constraints", "planning_application_constraints_queries"
   add_foreign_key "planning_application_constraints", "planning_applications"
   add_foreign_key "planning_application_constraints_queries", "planning_applications"

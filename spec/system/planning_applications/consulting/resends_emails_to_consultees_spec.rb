@@ -137,8 +137,8 @@ RSpec.describe "Consultation", js: true do
     end
 
     within "#consultee-tasks" do
-      expect(page).to have_selector("li:first-child a", text: "Send emails to consultees")
-      expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
+      expect(page).to have_selector("li:nth-child(2) a", text: "Send emails to consultees")
+      expect(page).to have_selector("li:nth-child(2) .govuk-tag", text: "Awaiting responses")
     end
 
     click_link "Send emails to consultees"
@@ -216,8 +216,8 @@ RSpec.describe "Consultation", js: true do
       )).to exist
 
       within "#consultee-tasks" do
-        expect(page).to have_selector("li:first-child a", text: "Send emails to consultees")
-        expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
+        expect(page).to have_selector("li:nth-child(2) a", text: "Send emails to consultees")
+        expect(page).to have_selector("li:nth-child(2) .govuk-tag", text: "Awaiting responses")
       end
     end.to have_enqueued_job(SendConsulteeEmailJob).exactly(:once)
 
@@ -295,7 +295,7 @@ RSpec.describe "Consultation", js: true do
     end
 
     within "#consultee-tasks" do
-      expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
+      expect(page).to have_selector("li:nth-child(2) .govuk-tag", text: "Awaiting responses")
     end
 
     click_link "Send emails to consultees"

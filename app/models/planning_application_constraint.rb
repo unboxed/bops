@@ -6,6 +6,7 @@ class PlanningApplicationConstraint < ApplicationRecord
   belongs_to :planning_application
   belongs_to :planning_application_constraints_query, optional: true
   belongs_to :constraint
+  belongs_to :consultee, optional: true
 
   after_create :audit_constraint_added!
   after_update :audit_constraint_removed!, if: :identified_and_removed?

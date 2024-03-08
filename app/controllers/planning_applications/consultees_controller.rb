@@ -21,6 +21,13 @@ module PlanningApplications
       end
     end
 
+    def index
+    end
+
+    def new
+      @constraint = Constraint.find(Integer(params[:constraint]))
+    end
+
     private
 
     def set_consultees
@@ -40,7 +47,7 @@ module PlanningApplications
     end
 
     def consultee_attributes
-      %i[origin name email_address role organisation]
+      %i[origin name email_address role organisation constraint]
     end
   end
 end
