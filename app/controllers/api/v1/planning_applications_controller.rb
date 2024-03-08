@@ -3,16 +3,10 @@
 module Api
   module V1
     class PlanningApplicationsController < Api::V1::ApplicationController
-      before_action :set_cors_headers, only: %i[index show create], if: :json_request?
+      before_action :set_cors_headers, only: %i[show create], if: :json_request?
 
-      skip_before_action :authenticate, only: %i[index show decision_notice]
+      skip_before_action :authenticate, only: %i[decision_notice]
       skip_before_action :set_default_format, only: %i[decision_notice]
-
-      def index
-        @planning_applications = current_local_authority.planning_applications.all.includes([:user])
-
-        respond_to(:json)
-      end
 
       def show
         @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first

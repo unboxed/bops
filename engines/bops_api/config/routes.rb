@@ -8,7 +8,9 @@ BopsApi::Engine.routes.draw do
     namespace :v2 do
       get "/ping", to: "ping#index"
 
-      resources :planning_applications, only: :create
+      resources :planning_applications, only: [:index, :show, :create] do
+        get :determined, on: :collection
+      end
     end
   end
 end

@@ -11,9 +11,11 @@ components:
 paths:
   '/api/v1/planning_applications/{id}':
     get:
-      summary: Retrieves all determined planning applications
+      summary: Retrieves a planning application
       tags:
         - Planning application
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -88,21 +90,6 @@ paths:
                         tags: ['floorPlan.proposed', 'elevations.proposed']
                         numbers: PLAN01
                         applicant_description: 'This is the proposed side elevation'
-  '/api/v1/planning_applications':
-    get:
-      summary: Retrieves all determined planning applications
-      tags:
-        - Planning application
-      responses:
-        '200':
-          description: All determined planning applications
-          content:
-            application/json:
-              examples:
-                ldc_proposed:
-                  value:
-                    data:
-                      - <<: *planning_application
 
     post:
       summary: Create new planning application
@@ -4255,8 +4242,6 @@ paths:
       summary: Retrieves permitted document tags
       tags:
         - Document tags
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Retrieves all the permitted document tags (evidence and plan)
@@ -4280,8 +4265,6 @@ paths:
             type: string
             minimum: 1
           description: The local authority's subdomain on BOPS
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Retrieves local authorities

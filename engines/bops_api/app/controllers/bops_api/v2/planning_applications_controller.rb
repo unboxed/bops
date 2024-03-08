@@ -3,7 +3,36 @@
 module BopsApi
   module V2
     class PlanningApplicationsController < AuthenticatedController
-      validate_schema! "submission"
+      skip_before_action :authenticate, only: :determined
+
+      validate_schema! "submission", only: :create
+
+      def index
+        @pagy, @planning_applications = query_service.call
+
+        respond_to do |format|
+          format.json
+        end
+      end
+
+      def determined
+        # This endpoint is unauthenticated for public access
+        @pagy, @planning_applications = query_service(
+          determined_planning_applications_scope
+        ).call
+
+        respond_to do |format|
+          format.json
+        end
+      end
+
+      def show
+        @planning_application = planning_applications_scope.find(Integer(params[:id]))
+
+        respond_to do |format|
+          format.json
+        end
+      end
 
       def create
         @planning_application = creation_service.call!
@@ -26,6 +55,22 @@ module BopsApi
           params: request_parameters,
           send_email: send_email
         )
+      end
+
+      def query_service(scope = planning_applications_scope.by_created_at_desc)
+        @query_service ||= Application::QueryService.new(scope, query_params)
+      end
+
+      def planning_applications_scope
+        @local_authority.planning_applications.includes(:user)
+      end
+
+      def determined_planning_applications_scope
+        planning_applications_scope.determined.by_determined_at_desc
+      end
+
+      def query_params
+        params.permit(:page, :maxresults, ids: [])
       end
     end
   end

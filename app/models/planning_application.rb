@@ -80,6 +80,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :application_type
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
+  scope :by_determined_at_desc, -> { order(determined_at: :desc) }
   scope :by_application_type, -> { joins(:application_type).in_order_of(:name, ApplicationType::NAME_ORDER) }
   scope :by_status_order, -> { in_order_of(:status, PlanningApplication.aasm.states.map(&:name)) }
   scope :with_user, -> { preload(:user) }

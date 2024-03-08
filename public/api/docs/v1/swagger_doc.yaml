@@ -10,9 +10,11 @@ components:
 paths:
   '/api/v1/planning_applications/{id}':
     get:
-      summary: Retrieves all determined planning applications
+      summary: Retrieves a planning application
       tags:
         - Planning application
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -93,84 +95,6 @@ paths:
                           - elevations.proposed
                         numbers: PLAN01
                         applicant_description: This is the proposed side elevation
-  /api/v1/planning_applications:
-    get:
-      summary: Retrieves all determined planning applications
-      tags:
-        - Planning application
-      responses:
-        '200':
-          description: All determined planning applications
-          content:
-            application/json:
-              examples:
-                ldc_proposed:
-                  value:
-                    data:
-                      - id: 10000
-                        reference: 20-00100-LDCP
-                        reference_in_full: PlanX-20-00100-LDCP
-                        site:
-                          address_1: 11 Abbey Gardens
-                          address_2: Southwark
-                          town: nil
-                          county: London
-                          postcode: SE16 3RQ
-                          latitude: '51.4842536'
-                          longitude: '-0.0764165'
-                          uprn: '100081043511'
-                        status: not_started
-                        application_type: lawfulness_certificate
-                        description: Add chimnney stack
-                        created_at: '2020-05-14T06:18:17.540+01:00'
-                        received_date: '2020-05-14T09:00:00.000+01:00'
-                        determined_at: '2020-05-14T06:18:17.540+01:00'
-                        determination_date: '2020-05-14T06:18:17.540+01:00'
-                        target_date: '2020-06-18'
-                        started_at: '2020-05-15T06:18:17.540+01:00'
-                        invalidated_at: null
-                        withdrawn_at: null
-                        returned_at: null
-                        work_status: proposed
-                        payment_reference: PAY1
-                        payment_amount: '105.12'
-                        awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
-                        in_assessment_at: '2020-05-16T06:18:17.540+01:00'
-                        to_be_reviewed_at: null
-                        applicant_first_name: Albert
-                        applicant_last_name: Manteras
-                        agent_first_name: Jennifer
-                        agent_last_name: Harper
-                        agent_phone: '237878889'
-                        agent_email: agent@example.com
-                        user_role: agent
-                        result_flag: Planning permission / Permission needed
-                        result_heading: It looks like these changes will need planning permission
-                        result_description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
-                        result_override: This was my reason for rejecting the result
-                        make_public: true
-                        boundary_geojson:
-                          type: Feature
-                          geometry:
-                            type: Polygon
-                            coordinates:
-                              - - - -0.07716178894042969
-                                  - 51.50094238217541
-                                - - -0.07645905017852783
-                                  - 51.50053497847238
-                                - - -0.07615327835083008
-                                  - 51.50115276135022
-                                - - -0.07716178894042969
-                                  - 51.50094238217541
-                        documents:
-                          - url: 'http://example.com/document_path.pdf'
-                            blob_url: rails/active_storage/representations/redirect/123/docoument_name
-                            created_at: '2020-05-16T06:18:17.540+01:00'
-                            tags:
-                              - floorPlan.proposed
-                              - elevations.proposed
-                            numbers: PLAN01
-                            applicant_description: This is the proposed side elevation
     post:
       summary: Create new planning application
       tags:
@@ -4116,8 +4040,6 @@ paths:
       summary: Retrieves permitted document tags
       tags:
         - Document tags
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Retrieves all the permitted document tags (evidence and plan)
@@ -4140,8 +4062,6 @@ paths:
             type: string
             minimum: 1
           description: The local authority's subdomain on BOPS
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Retrieves local authorities

@@ -49,7 +49,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
       )
     expect do
       post "/api/v1/planning_applications",
-        params: example_request_json_for("/api/v1/planning_applications", "post", "ldc_proposed"),
+        params: example_request_json_for("/api/v1/planning_applications/{id}", "post", "ldc_proposed"),
         headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
     end.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq("200")
@@ -86,39 +86,6 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     expect(result.fee_calculation.requested_fee).to be_nil
   end
 
-  it "successfully returns the listing of applications as specified" do
-    travel_to(DateTime.new(2020, 5, 14))
-    planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200,
-      "ldc_proposed")["data"].first
-
-    planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
-      "received_date", "documents", "site", "constraints",
-      "application_type").merge(
-        local_authority:
-        default_local_authority,
-        application_type_id: ApplicationType.first.id
-      )
-
-    planning_application.update!(planning_application_hash["site"])
-    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url", "blob_url")) do |document|
-      document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
-        filename: "roofplan")
-      document.publishable = true
-    end
-
-    get "/api/v1/planning_applications"
-
-    expected_response = example_response_hash_for("/api/v1/planning_applications", "get", 200, "ldc_proposed")
-    expected_response["data"].first["documents"].first["url"] =
-      api_v1_planning_application_document_url(planning_application, planning_application_document)
-
-    expected_response["data"].first["documents"].first["blob_url"] =
-      url_for(planning_application_document.file.representation(resize_to_limit: [1000, 1000])).to_s[/(?<=com).+/]
-
-    expect(JSON.parse(response.body)).to eq(expected_response)
-    travel_back
-  end
-
   it "successfully returns an application as specified" do
     travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
@@ -137,7 +104,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
       document.publishable = true
     end
 
-    get "/api/v1/planning_applications/#{planning_application_hash["id"]}"
+    get("/api/v1/planning_applications/#{planning_application_hash["id"]}", headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"})
 
     expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
     expected_response["status"] = "in_assessment"
