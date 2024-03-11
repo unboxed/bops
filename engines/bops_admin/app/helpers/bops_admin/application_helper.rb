@@ -17,5 +17,29 @@ module BopsAdmin
     def otp_delivery_method_options
       User.otp_delivery_methods.keys.map { |key| [key, t(".#{key}")] }
     end
+
+    def active_page_key
+      case controller_name
+      when "dashboard"
+        "dashboard"
+      when "users"
+        "users"
+      when "consultees"
+        "consultees"
+      when "profiles"
+        "profile"
+      else
+        "dashboard"
+      end
+    end
+
+    def nav_items
+      [
+        {name: "Dashboard", url: root_path, key: "dashboard"},
+        {name: "Consultees", url: consultees_path, key: "consultees"},
+        {name: "Users", url: users_path, key: "users"},
+        {name: "Profile", url: profile_path, key: "profile"}
+      ]
+    end
   end
 end

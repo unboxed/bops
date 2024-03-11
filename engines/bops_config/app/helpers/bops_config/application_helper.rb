@@ -17,5 +17,23 @@ module BopsConfig
     def otp_delivery_method_options
       User.otp_delivery_methods.keys.map { |key| [key, t(".#{key}")] }
     end
+
+    def active_page_key
+      case controller_name
+      when "dashboard"
+        "dashboard"
+      when "users"
+        "users"
+      else
+        "dashboard"
+      end
+    end
+
+    def nav_items
+      [
+        {name: "Dashboard", url: root_path, key: "dashboard"},
+        {name: "Users", url: users_path, key: "users"}
+      ]
+    end
   end
 end
