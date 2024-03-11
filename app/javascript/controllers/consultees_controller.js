@@ -6,6 +6,7 @@ export default class extends Controller {
   static targets = [
     "form",
     "accordian",
+    "allConsultees",
     "externalConsultees",
     "externalCount",
     "internalConsultees",
@@ -150,25 +151,38 @@ export default class extends Controller {
 
   appendConsultee(data) {
     const consultee = this.buildConsultee(data)
+    let consulteesTarget = null
+    if (data.origin === "external" && this.hasExternalConsulteesTarget) {
+      consulteesTarget = this.externalConsulteesTarget
+    } else if (data.origin === "internal" && this.hasInternalConsulteesTarget) {
+      consulteesTarget = this.internalConsulteesTarget
+    } else {
+      consulteesTarget = this.allConsulteesTarget
+    }
 
-    const consulteesTarget =
-      data.origin === "external"
-        ? this.externalConsulteesTarget
-        : this.internalConsulteesTarget
-
-    const countTarget =
-      data.origin === "external"
-        ? this.externalCountTarget
-        : this.internalCountTarget
+    let countTarget = null
+    if (data.origin === "external" && this.hasExternalCountTarget) {
+      countTarget = this.externalCountTarget
+    } else if (data.origin === "internal" && this.hasInternalCountTarget) {
+      countTarget = this.internalCountTarget
+    }
 
     const tableBody = consulteesTarget.querySelector("tbody")
     tableBody.appendChild(consultee)
 
     const newCount = tableBody.querySelectorAll("tr").length
-    countTarget.textContent = newCount
+    if (countTarget !== null) {
+      countTarget.textContent = newCount
+    }
 
-    this.noConsulteesTarget.style.display = "none"
-    this.accordianTarget.style.display = ""
+    if (this.hasNoConsulteesTarget) {
+      this.noConsulteesTarget.style.display = "none"
+    }
+
+    if (this.hasAccordionTarget) {
+      this.accordianTarget.style.display = ""
+    }
+
     consulteesTarget.style.display = ""
   }
 
@@ -193,13 +207,25 @@ export default class extends Controller {
     const domId = `consultation_consultees_attributes_${data.id}_selected`
 
     consultee.id = `consultee_${data.id}`
-    idInput.id = `consultation_consultees_attributes_${data.id}_id`
-    idInput.name = `consultation[consultees_attributes][${data.id}][id]`
-    idInput.value = data.id
-    hiddenInput.name = fieldName
-    checkboxInput.name = fieldName
-    checkboxInput.id = domId
-    inputLabel.htmlFor = domId
+
+    if (idInput !== null) {
+      idInput.id = `consultation_consultees_attributes_${data.id}_id`
+      idInput.name = `consultation[consultees_attributes][${data.id}][id]`
+      idInput.value = data.id
+    }
+
+    if (hiddenInput !== null) {
+      hiddenInput.name = fieldName
+    }
+
+    if (checkboxInput !== null) {
+      checkboxInput.name = fieldName
+      checkboxInput.id = domId
+    }
+
+    if (inputLabel !== null) {
+      inputLabel.htmlFor = domId
+    }
 
     const consulteeWrapper = document.createElement("div")
 
@@ -249,15 +275,17 @@ export default class extends Controller {
   }
 
   get externalConsulteeCheckboxes() {
-    return this.externalConsulteesTarget.querySelectorAll(
-      "input[type=checkbox]",
-    )
+    const element = this.hasExternalConsulteesTarget
+      ? this.externalConsulteesTarget
+      : this.allConsulteesTarget
+    return element.querySelectorAll("input[type=checkbox]")
   }
 
   get internalConsulteeCheckboxes() {
-    return this.internalConsulteesTarget.querySelectorAll(
-      "input[type=checkbox]",
-    )
+    const element = this.hasInternalConsulteesTarget
+      ? this.internalConsulteesTarget
+      : this.allConsulteesTarget
+    return element.querySelectorAll("input[type=checkbox]")
   }
 
   get autocompleteInput() {

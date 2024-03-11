@@ -13,7 +13,15 @@
     ) %>
 
 <div class="govuk-grid-row">
-  <%= content_tag :div, class: "govuk-grid-column-full", data: {} do %>
+  <%= content_tag :div, class: "govuk-grid-column-full", data: {
+        controller: "consultees",
+        consultees_planning_application_id: @planning_application.id,
+        consultees_confirmation_message: "Send emails to consulttes",
+        consultees_prompt_message: "Select a consultee",
+        consultees_error_message: "Unable to add consultee",
+        consultees_target: "allConsultees"
+
+      } do %>
     <% if @consultation.errors.any? %>
       <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
         <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -29,7 +37,14 @@
       </div>
     <% end %>
 
-    <%= render "table", planning_application: @planning_application, consultation: @consultation %>
+    <%= form_with(model: @consultation,
+          url: planning_application_consultees_emails_path(@planning_application),
+          data: {
+            consultees_target: "form"
+          }) do |form| %>
+      <%= render "table", planning_application: @planning_application, consultation: @consultation %>
+      <%= render AddConsulteeComponent.new(consultees: @consultees, form: form) %>
+    <% end %>
 
     <div class="submit-buttons display-flex">
       <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary back-button" %>

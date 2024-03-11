@@ -25,7 +25,7 @@ module PlanningApplications
     end
 
     def new
-      @constraint = Constraint.find(Integer(params[:constraint]))
+      @constraint = PlanningApplicationConstraint.find(Integer(params[:constraint]))
     end
 
     private

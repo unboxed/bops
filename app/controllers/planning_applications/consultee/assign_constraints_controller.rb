@@ -33,7 +33,7 @@ module PlanningApplications
       end
 
       def permitted_params
-        params.require(:constraint).permit([:constraint, :consultee])
+        params.require(:planning_application_constraint).permit([:constraint, :consultee])
       end
     end
   end
