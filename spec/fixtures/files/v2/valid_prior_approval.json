@@ -1104,8 +1104,18 @@
       "flowId": "c6628103-c648-4663-81e1-bfa0a1a18340",
       "url": "https://www.editor.planx.dev/southwark/apply-for-prior-approval/preview",
       "files": {
-        "required": [],
-        "recommended": [],
+        "required": [
+          {
+            "value": "otherDrawing",
+            "description": "Other - drawing"
+          }
+        ],
+        "recommended": [
+          {
+            "value": "sitePlan.proposed",
+            "description": "Site plan - proposed"
+          }
+        ],
         "optional": []
       }
     },

@@ -47,18 +47,19 @@ class PlanningApplication < ApplicationRecord
     has_one :heads_of_term
 
     has_one :condition_set, -> { where(pre_commencement: false) }, required: false
-    has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
-    has_one :immunity_detail, required: false
-    has_one :consultation, required: false
-    has_one :proposal_measurement, required: false
-    has_one :planx_planning_data, required: false
-    has_one :press_notice, required: false
-    has_one :local_policy, required: false
-    has_one :fee_calculation, required: false
-    has_one :ownership_certificate, required: false
-    has_one :environment_impact_assessment, required: false
     has_one :consistency_checklist
+    has_one :consultation, required: false
+    has_one :document_checklist, required: false
+    has_one :environment_impact_assessment, required: false
+    has_one :fee_calculation, required: false
+    has_one :immunity_detail, required: false
     has_one :informative_set
+    has_one :local_policy, required: false
+    has_one :ownership_certificate, required: false
+    has_one :planx_planning_data, required: false
+    has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
+    has_one :press_notice, required: false
+    has_one :proposal_measurement, required: false
   end
 
   delegate :consultation?, to: :application_type

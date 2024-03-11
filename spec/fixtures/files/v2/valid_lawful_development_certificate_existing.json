@@ -1856,12 +1856,42 @@
       "flowId": "824628b2-deeb-48b0-92b1-2ca7f3b17163",
       "url": "https://www.editor.planx.dev/buckinghamshire/apply-for-a-lawful-development-certificate/preview",
       "files": {
-        "required": [],
-        "recommended": [],
+        "required": [
+          {
+            "value": "photographs.proposed",
+            "description": "Photographs - proposed"
+          },
+          {
+            "value": "sitePlan.proposed",
+            "description": "Site plan - proposed"
+          },
+          {
+            "value": "elevations.proposed",
+            "description": "Elevations - proposed"
+          },
+          {
+            "value": "floorPlan.proposed",
+            "description": "Floor plan - proposed"
+          },
+          {
+            "value": "floorPlan.proposed",
+            "description": "Floor plan - proposed"
+          }
+        ],
+        "recommended": [
+          {
+            "value": "otherEvidence",
+            "description": "Other - evidence or correspondence"
+          },
+          {
+            "value": "constructionInvoice",
+            "description": "Construction invoice"
+          }
+        ],
         "optional": []
       }
     },
     "submittedAt": "2023-10-02t00:00:00z",
-    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.2.3/schema.json"
+    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json"
   }
 }

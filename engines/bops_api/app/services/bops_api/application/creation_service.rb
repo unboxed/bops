@@ -30,6 +30,10 @@ module BopsApi
         @files ||= params.fetch(:files)
       end
 
+      def document_checklist_items
+        @document_checklist_items ||= params.dig(:metadata, :service, :files)
+      end
+
       def build_planning_application
         PlanningApplication.new(planning_application_params).tap do |pa|
           pa.api_user_id = user.id
@@ -75,6 +79,7 @@ module BopsApi
         PlanningApplication.transaction do
           if planning_application.save!
             AnonymisationService.new(planning_application:).call! if planning_application.from_production?
+            process_document_checklist_items(planning_application)
             DocumentsService.new(planning_application:, user:, files:).call!
 
             process_planning_designations(planning_application)
@@ -123,6 +128,19 @@ module BopsApi
             if entities.present?
               BopsApi::FetchConstraintEntitiesJob.perform_later(planning_application_constraint, entities)
             end
+          end
+        end
+      end
+
+      def process_document_checklist_items(planning_application)
+        document_checklist = DocumentChecklist.create!(planning_application:)
+
+        document_checklist_items.each do |category, document_item|
+          document_item.each do |document|
+            tags = document["value"]
+            description = document["description"]
+
+            document_checklist.document_checklist_items.create!(category:, tags:, description:)
           end
         end
       end

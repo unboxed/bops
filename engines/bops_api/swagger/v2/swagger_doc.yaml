@@ -15174,7 +15174,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -15265,7 +15265,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -16062,8 +16062,24 @@ paths:
                       flowId: 01e38c5d-e701-4e44-acdc-4d6b5cc3b854
                       url: https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview
                       files:
-                        required: []
-                        recommended: []
+                        required:
+                        - value: roofPlan.existing
+                          description: Roof plan - existing
+                        - value: roofPlan.proposed
+                          description: Roof plan - proposed
+                        - value: sitePlan.existing
+                          description: Site plan - existing
+                        - value: sitePlan.proposed
+                          description: Site plan - proposed
+                        - value: elevations.existing
+                          description: Elevations - existing
+                        - value: elevations.proposed
+                          description: Elevations - proposed
+                        recommended:
+                        - value: floorPlan.existing
+                          description: Floor plan - existing
+                        - value: floorPlan.proposed
+                          description: Floor plan - proposed
                         optional: []
                     submittedAt: '2023-10-02T00:00:00.00Z'
                     schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json

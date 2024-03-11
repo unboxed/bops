@@ -244,6 +244,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_151556) do
     t.index ["search"], name: "ix_contacts_on_search", using: :gin
   end
 
+  create_table "document_checklist_items", force: :cascade do |t|
+    t.string "category", null: false
+    t.jsonb "tags", default: [], null: false
+    t.string "description", null: false
+    t.bigint "document_checklist_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_checklist_id"], name: "ix_document_checklist_items_on_document_checklist_id"
+  end
+
+  create_table "document_checklists", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_document_checklists_on_planning_application_id"
+  end
+
   create_table "documents", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
@@ -268,7 +285,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_151556) do
     t.string "owner_type"
     t.bigint "owner_id"
     t.string "tags", default: [], array: true
+    t.bigint "document_checklist_items_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
+    t.index ["document_checklist_items_id"], name: "ix_documents_on_document_checklist_items_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
     t.index ["owner_type", "owner_id"], name: "index_documents_on_owner"
@@ -819,7 +838,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_151556) do
   add_foreign_key "consultee_responses", "users", column: "redacted_by_id"
   add_foreign_key "consultees", "consultations"
   add_foreign_key "contacts", "local_authorities"
+  add_foreign_key "document_checklists", "planning_applications"
   add_foreign_key "documents", "api_users"
+  add_foreign_key "documents", "document_checklist_items", column: "document_checklist_items_id"
   add_foreign_key "documents", "evidence_groups"
   add_foreign_key "documents", "neighbour_responses"
   add_foreign_key "documents", "planning_applications"
