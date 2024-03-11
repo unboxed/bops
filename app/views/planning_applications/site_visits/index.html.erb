@@ -12,8 +12,10 @@
   locals: { heading: "View site visits" }
 ) %>
 
-<h2 class="govuk-heading-m">Objected neighbour responses</h2>
-<%= render "planning_applications/neighbour_responses/responses", neighbour_responses: @consultation.neighbour_responses.objection %>
+<% if @consultation.neighbour_responses.objection.any? %>
+  <h2 class="govuk-heading-m">Objected neighbour responses</h2>
+  <%= render "planning_applications/neighbour_responses/responses", neighbour_responses: @consultation.neighbour_responses.objection %>
+<% end %>
 
 <% if @site_visits.any? %>
   <h2 class="govuk-heading-m">Site visits</h2>

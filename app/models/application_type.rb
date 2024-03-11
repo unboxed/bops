@@ -14,6 +14,7 @@ class ApplicationType < ApplicationRecord
   with_options to: :features do
     delegate :planning_conditions?
     delegate :permitted_development_rights?
+    delegate :site_visits?
   end
 
   def full_name

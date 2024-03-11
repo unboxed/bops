@@ -88,6 +88,7 @@ application_types = [
   },
   {
     name: "prior_approval", part: 1, section: "A",
+    features: {"site_visits" => true},
     steps: %w[validation consultation assessment review],
     assessment_details: %w[
       summary_of_work
@@ -107,7 +108,7 @@ application_types = [
   },
   {
     name: "planning_permission",
-    features: {"permitted_development_rights" => false},
+    features: {"permitted_development_rights" => false, "site_visits" => true},
     steps: %w[validation consultation assessment review],
     assessment_details: %w[
       summary_of_work

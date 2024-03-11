@@ -58,6 +58,18 @@ RSpec.describe "Site visit" do
         expect(page).not_to have_css("#site-visit")
       end
     end
+
+    context "when it is not a prior approval application" do
+      let!(:planning_application) { create(:planning_application, :planning_permission, local_authority:) }
+      let!(:consultation) { planning_application.consultation }
+
+      it "allows officers to upload site visits any time" do
+        visit "/planning_applications/#{planning_application.id}"
+        click_link "Consultees, neighbours and publicity"
+
+        expect(page).to have_css("#site-visit")
+      end
+    end
   end
 
   describe "viewing site visits" do
