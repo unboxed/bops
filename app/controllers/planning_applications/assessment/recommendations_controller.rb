@@ -8,6 +8,7 @@ module PlanningApplications
       before_action :set_planning_application
       before_action :ensure_user_is_reviewer_checking_assessment, only: %i[update edit]
       before_action :set_recommendations, only: %i[update edit]
+      before_action :set_committee_decision
       before_action :set_recommendation, only: :update
 
       rescue_from Recommendation::ReviewRecommendationError do |error|
@@ -77,6 +78,10 @@ module PlanningApplications
         @recommendation = @planning_application.recommendations.find(recommendation_id)
       end
 
+      def set_committee_decision
+        @committee_decision = @planning_application.committee_decision
+      end
+
       def recommendation_id
         Integer(params[:id])
       end
@@ -95,7 +100,7 @@ module PlanningApplications
       def recommendation_form_params
         params
           .require(:recommendation_form)
-          .permit(:decision, :public_comment, :assessor_comment)
+          .permit(:decision, :public_comment, :assessor_comment, :recommend, :other_reason, reasons: [])
           .merge(assessor: current_user, status: recommendation_form_status)
       end
 

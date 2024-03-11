@@ -19,7 +19,7 @@
       locals: { planning_application: @planning_application }
     ) %>
     <h2 class="govuk-heading-m"><%= t(".decision_notice") %></h2>
-    <p class="govuk-body"><%= t(".the_following_decision") %></p>
+    <p class="govuk-body"><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
     <%= render "decision_notice", planning_application: @planning_application %>
     <p class="govuk-body">
       <%= link_to(
@@ -32,7 +32,7 @@
       ) %>
     </p>
     <h2 class="govuk-heading-m"><%= t(".submit_recommendation") %></h2>
-    <p class="govuk-body"><%= t(".if_you_agree") %></p>
+    <p class="govuk-body"><%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %></p>
     <p class="govuk-body"><%= t(".if_your_manager") %></p>
     <div class="govuk-button-group">
       <%= form_with(

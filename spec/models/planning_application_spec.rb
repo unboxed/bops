@@ -954,6 +954,7 @@ RSpec.describe PlanningApplication do
       context "when there are open post validation requests" do
         before do
           create(:red_line_boundary_change_validation_request, :post_validation, planning_application:)
+          create(:committee_decision, planning_application:)
         end
 
         it "raises PlanningApplication::SubmitRecommendationError" do
