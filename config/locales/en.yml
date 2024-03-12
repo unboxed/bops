@@ -101,7 +101,7 @@ en:
         recommendation_form:
           attributes:
             decision:
-              blank: Select Yes or No
+              blank: Select an option to record your recommendation
             public_comment:
               blank: State the reasons why this application is, or is not lawful
         review_assessment_details_form:

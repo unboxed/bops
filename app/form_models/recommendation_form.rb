@@ -65,7 +65,7 @@ class RecommendationForm
   end
 
   def updated_reasons
-    reasons.push(other_reason).reject(&:empty?)
+    reasons&.push(other_reason)&.reject(&:empty?)
   end
 
   private

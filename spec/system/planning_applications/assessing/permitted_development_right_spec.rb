@@ -203,7 +203,9 @@ RSpec.describe "Permitted development right" do
           expect(page).to have_text("Removal reason")
           expect(page).to have_text("Reviewer comment: Comment")
 
-          choose "No"
+          within_fieldset("Have the permitted development rights relevant for this application been removed?") do
+            choose "No"
+          end
           click_button "Save and mark as complete"
 
           expect(page).to have_list_item_for(
@@ -222,7 +224,9 @@ RSpec.describe "Permitted development right" do
 
           expect(PermittedDevelopmentRight.count).to eq(2)
 
-          choose("Yes")
+          within_fieldset("Have the permitted development rights relevant for this application been removed?") do
+            choose "Yes"
+          end
 
           fill_in(
             "Describe how permitted development rights have been removed",
@@ -231,7 +235,9 @@ RSpec.describe "Permitted development right" do
 
           click_button("Save and mark as complete")
           click_link("Make draft recommendation")
-          choose("Yes")
+          within_fieldset("Is the use or operation lawful") do
+            choose "Yes"
+          end
           click_button("Update assessment")
           click_link("Review and submit recommendation")
           click_button("Submit recommendation")

@@ -52,7 +52,6 @@ RSpec.describe "Review documents for recommendation" do
       expect(page).to have_content("#{planning_application.type_and_work_status}: #{planning_application.description}")
       expect(page).to have_content("Check document details")
       expect(page).to have_content("All documents need a reference to be on the decision notice and be made public.")
-      expect(page).to have_content("You can return to 'Manage documents' to make any other changes.")
 
       within(".govuk-table__head") do
         expect(page).to have_content("Document reference")

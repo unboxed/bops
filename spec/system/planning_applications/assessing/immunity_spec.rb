@@ -92,7 +92,9 @@ RSpec.describe "Immunity" do
       expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
       click_link "Make draft recommendation"
-      choose "Yes"
+      within_fieldset("Is the use or operation lawful?") do
+        choose "Yes"
+      end
       fill_in "State the reasons why this application is, or is not lawful.", with: "A public comment"
       fill_in "Provide supporting information for your manager.", with: "A private comment"
       click_button "Save and mark as complete"

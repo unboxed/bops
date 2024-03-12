@@ -81,7 +81,7 @@ RSpec.describe RecommendationForm do
           expect(
             recommendation_form.errors.messages[:public_comment]
           ).to contain_exactly(
-            "Please state the reasons why this application is, or is not lawful"
+            "State the reasons why this application is, or is not lawful"
           )
         end
 
@@ -123,7 +123,7 @@ RSpec.describe RecommendationForm do
           expect(
             recommendation_form.errors.messages[:decision]
           ).to contain_exactly(
-            "Please select Yes or No"
+            "Select an option to record your recommendation"
           )
         end
 
