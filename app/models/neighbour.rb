@@ -30,6 +30,10 @@ class Neighbour < ApplicationRecord
                            .joins(:neighbour_letters)
                            .where.not(neighbour_letters: {neighbour_id: nil})
                        }
+  scope :with_responses, lambda {
+                        includes([:neighbour_responses])
+                          .joins(:neighbour_responses)
+                      }
 
   def last_letter
     neighbour_letters.order(created_at: :desc).first

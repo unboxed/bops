@@ -124,6 +124,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_172721) do
     t.datetime "date_of_committee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "location"
+    t.string "link"
+    t.string "time"
     t.index ["planning_application_id"], name: "ix_committee_decisions_on_planning_application_id", unique: true
   end
 
