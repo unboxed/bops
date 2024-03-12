@@ -93,7 +93,7 @@ Given("the planning application is assessed") do
     Given I view the planning application
     And I press "Check and assess"
     And I press "Make draft recommendation"
-    And I choose "Yes"
+    And I choose "Yes" from a fieldset "Is the use or operation lawful?"
     And I fill in "State the reasons why" with "a valid reason"
     And I fill in "Provide supporting information for your manager." with "looks legit"
     And I press "Save and mark as complete"
@@ -106,6 +106,12 @@ Given("a recommendation is submitted for the planning application") do
     And I press "Review and submit recommendation"
     And I press "Submit recommendation"
   )
+end
+
+When("I choose {string} from a fieldset {string}") do |option, fieldset|
+  within_fieldset(fieldset) do
+    choose option
+  end
 end
 
 When("I view the planning application") do

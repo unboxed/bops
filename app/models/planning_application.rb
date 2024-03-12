@@ -60,6 +60,7 @@ class PlanningApplication < ApplicationRecord
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
     has_one :press_notice, required: false
     has_one :proposal_measurement, required: false
+    has_one :committee_decision, required: false
   end
 
   delegate :consultation?, to: :application_type
@@ -823,6 +824,10 @@ class PlanningApplication < ApplicationRecord
     else
       super(value)
     end
+  end
+
+  def recommend_for_committee?
+    committee_decision.present? && committee_decision.recommend?
   end
 
   private

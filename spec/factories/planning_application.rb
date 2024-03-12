@@ -321,6 +321,7 @@ FactoryBot.define do
     trait :with_recommendation do
       after(:create) do |planning_application|
         create(:recommendation, planning_application:)
+        create(:committee_decision, planning_application:, recommend: false)
       end
     end
 

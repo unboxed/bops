@@ -55,7 +55,10 @@ RSpec.describe "Planning Application Assessment" do
       expect(list_item("Make draft recommendation")).to have_content("Not started")
 
       click_link("Make draft recommendation")
-      choose("Yes")
+
+      within_fieldset("Is the use or operation lawful?") do
+        choose("Yes")
+      end
 
       fill_in(
         "State the reasons why this application is, or is not lawful.",
@@ -179,7 +182,9 @@ RSpec.describe "Planning Application Assessment" do
 
           click_link("Check and assess")
           click_link("Make draft recommendation")
-          choose "Yes"
+          within_fieldset("Is the use or operation lawful?") do
+            choose("Yes")
+          end
           fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
           fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
           click_button "Save and mark as complete"
@@ -194,7 +199,9 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).to have_checked_field("Yes")
           expect(page).to have_field("Provide supporting information for your manager.",
             with: "This is a private assessor comment")
-          choose "No"
+          within_fieldset("Is the use or operation lawful?") do
+            choose("No")
+          end
           fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
           fill_in "Provide supporting information for your manager.", with: "Edited private assessor comment"
           click_button "Update assessment"
@@ -259,10 +266,10 @@ RSpec.describe "Planning Application Assessment" do
         visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
         click_button("Save and mark as complete")
 
-        expect(page).to have_content("Please select Yes or No")
+        expect(page).to have_content("Select an option to record your recommendation")
 
         expect(page).to have_content(
-          "Please state the reasons why this application is, or is not lawful"
+          "State the reasons why this application is, or is not lawful"
         )
       end
     end
@@ -290,7 +297,9 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).to have_content("This looks good")
         end
 
-        choose "Yes"
+        within_fieldset("Is the use or operation lawful?") do
+          choose("Yes")
+        end
         fill_in "State the reasons why this application is, or is not lawful.",
           with: "This is so granted and GDPO everything"
         fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
@@ -329,7 +338,9 @@ RSpec.describe "Planning Application Assessment" do
           "There is no legislation assessment for this application."
         )
 
-        choose("Yes")
+        within_fieldset("Is the use or operation lawful?") do
+          choose("Yes")
+        end
         fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
         fill_in("Provide supporting information for your manager.", with: "This is a private assessor comment")
         click_button("Save and mark as complete")
@@ -379,7 +390,9 @@ RSpec.describe "Planning Application Assessment" do
         click_link("Check and assess")
         click_link("Make draft recommendation")
 
-        choose("Yes")
+        within_fieldset("Is the use or operation lawful?") do
+          choose("Yes")
+        end
         fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
         click_button("Save and mark as complete")
 
@@ -398,7 +411,9 @@ RSpec.describe "Planning Application Assessment" do
         click_link("Check and assess")
         click_link("Make draft recommendation")
 
-        choose("Yes")
+        within_fieldset("Is the use or operation lawful?") do
+          choose("Yes")
+        end
         fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
         click_button("Save and mark as complete")
 
@@ -420,7 +435,9 @@ RSpec.describe "Planning Application Assessment" do
 
           click_link("Check and assess")
           click_link("Make draft recommendation")
-          choose("Yes")
+          within_fieldset("Is the use or operation lawful?") do
+            choose("Yes")
+          end
           fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
           fill_in("Provide supporting information for your manager.", with: "This is a private assessor comment")
           click_button("Save and mark as complete")
@@ -436,6 +453,89 @@ RSpec.describe "Planning Application Assessment" do
 
           expect(planning_application).to be_in_assessment
         end
+      end
+    end
+
+    context "when it needs to go to committee" do
+      it "I can recommend the application go to committee" do
+        within(selected_govuk_tab) do
+          click_link(planning_application.reference)
+        end
+
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
+
+        within_fieldset("Does this planning application need to be decided by committee?") do
+          choose "Yes"
+        end
+
+        check "The application is on council owned land"
+        check "Other"
+        fill_in "Tell reviewer and the public why the application needs to go to committee.", with: "Another reason"
+
+        within_fieldset("Is the use or operation lawful?") do
+          choose "Yes"
+        end
+
+        fill_in "State the reasons why this application is, or is not lawful", with: "My reason"
+
+        click_button("Save and mark as complete")
+
+        click_link("Make draft recommendation")
+
+        within_fieldset("Does this planning application need to be decided by committee?") do
+          expect(page).to have_content("Another reason")
+          expect(page).to have_checked_field("The application is on council owned land")
+
+          uncheck "The application is on council owned land"
+          uncheck "Other"
+
+          check "The application was made by the local authority"
+        end
+
+        click_button("Update")
+
+        click_link("Make draft recommendation")
+
+        within_fieldset("Does this planning application need to be decided by committee?") do
+          expect(page).to have_checked_field("The application was made by the local authority")
+          expect(page).to have_checked_field("Other")
+        end
+      end
+
+      it "shows the right thing when I submit my recommendation" do
+        within(selected_govuk_tab) do
+          click_link(planning_application.reference)
+        end
+
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
+
+        within_fieldset("Does this planning application need to be decided by committee?") do
+          choose "Yes"
+        end
+
+        check "The application is on council owned land"
+        check "Other"
+        fill_in "Tell reviewer and the public why the application needs to go to committee.", with: "Another reason"
+
+        within_fieldset("Is the use or operation lawful?") do
+          choose "Yes"
+        end
+
+        fill_in "State the reasons why this application is, or is not lawful", with: "My reason"
+
+        click_button("Save and mark as complete")
+
+        click_link "Review and submit recommendation"
+
+        expect(page).to have_content "The following decision report has been created based on your answers."
+        expect(page).to have_content "If you agree with this decision report, submit it to your line manager."
+
+        click_button "Submit recommendation"
+
+        expect(page).to have_content "Recommendation was successfully submitted."
+        expect(page).to have_content "Awaiting determination"
       end
     end
 
@@ -490,7 +590,9 @@ RSpec.describe "Planning Application Assessment" do
 
           click_link("Check and assess")
           click_link("Make draft recommendation")
-          choose "Yes"
+          within_fieldset("Is the use or operation lawful?") do
+            choose("Yes")
+          end
           fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
           fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
           click_button "Save and come back later"
@@ -529,7 +631,9 @@ RSpec.describe "Planning Application Assessment" do
 
           visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
-          choose("Yes")
+          within_fieldset("Is the use or operation lawful?") do
+            choose("Yes")
+          end
 
           fill_in(
             "State the reasons why this application is, or is not lawful.",
@@ -684,7 +788,9 @@ RSpec.describe "Planning Application Assessment" do
 
       it "does not show additional evidence when reviewing and submitting the recommendation" do
         visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
-        choose "Yes"
+        within_fieldset("Is the use or operation lawful?") do
+          choose("Yes")
+        end
 
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
         fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"

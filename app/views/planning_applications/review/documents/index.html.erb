@@ -19,7 +19,7 @@
     <h3 class="govuk-heading-s">Check document details</h3>
 
     <p class="govuk-body">All documents need a reference to be on the decision notice and be made public.</p>
-    <p class="govuk-body">You can return to 'Manage documents' to make any other changes.</p>
+    <p class="govuk-body">You can return to <%= link_to "Manage documments", planning_application_documents_path(@planning_application) %> to make any other changes.</p>
 
     <% if @documents.empty? %>
       <p class="govuk-body">There are no active documents.</p>

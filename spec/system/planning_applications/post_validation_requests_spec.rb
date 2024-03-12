@@ -64,7 +64,9 @@ RSpec.describe "post validation requests" do
         click_link("Check and assess")
         click_link("Make draft recommendation")
 
-        choose("Yes")
+        within_fieldset("Is the use or operation lawful?") do
+          choose "Yes"
+        end
 
         fill_in(
           "State the reasons why this application is, or is not lawful.",

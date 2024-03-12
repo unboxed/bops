@@ -25,7 +25,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
 
         within(".govuk-error-summary") do
           expect(page).to have_content("There is a problem")
-          expect(page).to have_content("Please select Yes or No for whether the application is immune from enforcement")
+          expect(page).to have_content("Select Yes or No for whether the application is immune from enforcement")
           expect(page).to have_content("Decision reason for why the application is immune can't be blank")
         end
       end
@@ -50,7 +50,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
 
         within(".govuk-error-summary") do
           expect(page).to have_content("Decision reason for why the application is immune can't be blank")
-          expect(page).to have_content("Please select Yes or No for the permitted development rights")
+          expect(page).to have_content("Select Yes or No for the permitted development rights")
         end
       end
 

@@ -3,7 +3,7 @@
 class RecommendationForm
   include ActiveModel::Model
 
-  attr_accessor :recommendation
+  attr_accessor :recommendation, :other_reason, :reasons, :recommend
 
   validates :decision, :public_comment, presence: true
 
@@ -36,6 +36,13 @@ class RecommendationForm
       else
         planning_application.save!
         recommendation.save!
+
+        if committee_decision_present?
+          planning_application.committee_decision.update!(reasons: updated_reasons, recommend:)
+        else
+          committee_decision.save!
+        end
+
         planning_application.assess!
       end
     end
@@ -51,6 +58,14 @@ class RecommendationForm
 
   def reason_text
     I18n.t(".planning_applications.assessment.recommendations.new.state_the_reason.#{application_type_name}")
+  end
+
+  def committee_decision
+    CommitteeDecision.build(planning_application:, recommend:, reasons: updated_reasons)
+  end
+
+  def updated_reasons
+    reasons&.push(other_reason)&.reject(&:empty?)
   end
 
   private
@@ -72,5 +87,9 @@ class RecommendationForm
 
   def granted_not_required
     [:granted_not_required, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type_name}.granted_not_required")]
+  end
+
+  def committee_decision_present?
+    planning_application.committee_decision.present?
   end
 end
