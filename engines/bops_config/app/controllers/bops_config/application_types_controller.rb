@@ -3,7 +3,14 @@
 module BopsConfig
   class ApplicationTypesController < ApplicationController
     before_action :build_application_type, only: %i[new create]
+    before_action :set_application_types, only: %i[index]
     before_action :set_application_type, only: %i[show edit update]
+
+    def index
+      respond_to do |format|
+        format.html
+      end
+    end
 
     def new
       respond_to do |format|
@@ -65,6 +72,10 @@ module BopsConfig
 
     def next_path
       application_type_path(@application_type)
+    end
+
+    def set_application_types
+      @application_types = ApplicationType.all
     end
 
     def set_application_type

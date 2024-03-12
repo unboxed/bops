@@ -24,6 +24,8 @@ module BopsConfig
         "dashboard"
       when "users"
         "users"
+      when "application_types"
+        "application_types"
       else
         "dashboard"
       end
@@ -32,7 +34,8 @@ module BopsConfig
     def nav_items
       [
         {name: "Dashboard", url: root_path, key: "dashboard"},
-        {name: "Users", url: users_path, key: "users"}
+        {name: "Users", url: users_path, key: "users"},
+        {name: "Application types", url: application_types_path, key: "application_types"}
       ]
     end
   end
