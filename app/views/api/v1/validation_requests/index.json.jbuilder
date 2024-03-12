@@ -167,6 +167,7 @@ json.data do
       :response_due,
       :proposed_expiry_date,
       :rejection_reason,
+      :reason,
       :approved,
       :days_until_response_due,
       :cancel_reason,

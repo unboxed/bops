@@ -33,6 +33,7 @@ RSpec.describe ValidationRequest do
             FeeChangeValidationRequest
             PreCommencementConditionValidationRequest
             HeadsOfTermsValidationRequest
+            TimeExtensionValidationRequest
           ]
         )
       end

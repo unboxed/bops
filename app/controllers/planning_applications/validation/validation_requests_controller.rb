@@ -22,7 +22,7 @@ module PlanningApplications
       before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
 
       def index
-        validation_requests = @planning_application.validation_requests.where(type: "time_extension_request").where(post_validation: false)
+        validation_requests = @planning_application.validation_requests.where(post_validation: false)
         @cancelled_validation_requests = validation_requests.cancelled
         @active_validation_requests = validation_requests.active
 

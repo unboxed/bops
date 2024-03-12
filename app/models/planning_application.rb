@@ -744,6 +744,14 @@ class PlanningApplication < ApplicationRecord
     time_extension_validation_requests.where(state: "closed")
   end
 
+  def has_only_time_extension_requests?
+    validation_requests.length == time_extension_validation_requests.length
+  end
+
+  def open_time_extension_requests
+    time_extension_validation_requests.where(state: "open")
+  end
+
   def closed_time_extension_request
     time_extension_validation_requests.where(state: "closed").order(:created_at).last
   end
@@ -797,8 +805,7 @@ class PlanningApplication < ApplicationRecord
   def modify_expiry_date
     if environment_impact_assessment.present? && environment_impact_assessment.required?
       self.expiry_date = DAYS_TO_EXPIRE_EIA.days.after(validated_at || received_at)
-    elsif self.time_extension_validation_requests.any?
-      puts "yay"
+    elsif time_extension_validation_requests.any?
       self.expiry_date = DAYS_TO_EXPIRE_EIA.days.after(validated_at || received_at)
     else
       set_key_dates

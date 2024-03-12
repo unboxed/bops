@@ -2,13 +2,12 @@
 
 FactoryBot.define do
   factory :time_extension_validation_request do
-    planning_application { create(:planning_application, :not_started) }
+    planning_application { create(:planning_application, :not_started, expiry_date: 30.days.from_now) }
     user
     state { "open" }
+    reason { "It is taking too long" }
     proposed_expiry_date { 200.days.from_now }
     approved { nil }
-    post_validation { true }
-    condition
 
     trait :pending do
       state { "pending" }

@@ -107,6 +107,9 @@ class Audit < ApplicationRecord
     time_extension_validation_request_sent_post_validation:
       "time_extension_validation_request_sent_post_validation",
     time_extension_validation_request_received: "time_extension_validation_request_received",
+    time_extension_validation_request_cancelled_post_validation:
+      "time_extension_validation_request_cancelled_post_validation",
+    time_extension_validation_request_sent: "time_extension_validation_request_sent",
     constraints_checked: "constraints_checked",
     neighbour_letters_sent: "neighbour_letters_sent",
     neighbour_letter_copy_mail_sent: "neighbour_letter_copy_mail_sent",

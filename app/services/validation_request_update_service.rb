@@ -18,7 +18,7 @@ class ValidationRequestUpdateService
       validation_request.create_api_audit!
       if validation_request.time_extension_request?
         validation_request.update_planning_application!(params)
-        puts "true" if validation_request_params[:approved]
+        Rails.logger.debug "true" if validation_request_params[:approved]
       end
       planning_application.send_update_notification_to_assessor
 

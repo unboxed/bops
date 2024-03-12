@@ -10,14 +10,15 @@ RSpec.describe "Time extension validation requests API", show_exceptions: true d
     create(
       :planning_application,
       local_authority: default_local_authority,
-      description: "Current description"
     )
   end
 
   let!(:time_extension_validation_request) do
     create(
       :time_extension_validation_request,
-      planning_application:
+      planning_application:,
+      proposed_expiry_date: "2028-06-27",
+      created_at: "2022-06-20"
     )
   end
 
@@ -51,16 +52,16 @@ RSpec.describe "Time extension validation requests API", show_exceptions: true d
 
           expect(json["data"]).to contain_exactly(
             {
-              "id" => description_change_validation_request.id,
+              "id" => time_extension_validation_request.id,
               "state" => "open",
-              "response_due" => "2022-06-27",
-              "proposed_description" => "New description",
-              "previous_description" => "Current description",
+              "response_due" => "2022-07-11",
+              "proposed_expiry_date" => "2028-06-27T00:00:00.000+01:00",
               "rejection_reason" => nil,
               "approved" => nil,
-              "days_until_response_due" => 5,
+              "days_until_response_due" => 15,
               "cancel_reason" => nil,
-              "cancelled_at" => nil
+              "cancelled_at" => nil,
+              "reason" => "It is taking too long"
             }
           )
         end
@@ -111,13 +112,14 @@ RSpec.describe "Time extension validation requests API", show_exceptions: true d
             {
               "id" => time_extension_validation_request.id,
               "state" => "open",
-              "response_due" => "2022-06-27",
-              "proposed_expiry date" => "2022-06-27",
+              "response_due" => "2022-07-11",
+              "proposed_expiry_date" => "2028-06-27T00:00:00.000+01:00",
               "rejection_reason" => nil,
               "approved" => nil,
-              "days_until_response_due" => 5,
+              "days_until_response_due" => 15,
               "cancel_reason" => nil,
-              "cancelled_at" => nil
+              "cancelled_at" => nil,
+              "reason" => "It is taking too long"
             }
           )
         end
@@ -131,7 +133,7 @@ RSpec.describe "Time extension validation requests API", show_exceptions: true d
     context "when the request is not found" do
       describe "when the planning request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id + 1}/time_extension_validation_requests/#{description_change_validation_request.id}"
+          "/api/v1/planning_applications/#{planning_application.id + 1}/time_extension_validation_requests/#{time_extension_validation_request.id}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "planning_application"
@@ -139,7 +141,7 @@ RSpec.describe "Time extension validation requests API", show_exceptions: true d
 
       describe "when the time extension validation request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id}/time_extension_validation_requests/#{description_change_validation_request.id + 1}"
+          "/api/v1/planning_applications/#{planning_application.id}/time_extension_validation_requests/#{time_extension_validation_request.id + 1}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "time_extension_validation_request"
