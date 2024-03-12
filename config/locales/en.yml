@@ -125,6 +125,10 @@ en:
           attributes:
             base:
               no_consultees_added: Consultees must be added
+        committee_decision:
+          attributes:
+            recommend:
+              exclusion: Select whether the application needs to go to committee
         condition:
           attributes:
             reason:
