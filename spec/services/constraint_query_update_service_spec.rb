@@ -98,5 +98,15 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
         expect(planning_application.planning_application_constraints).to be_empty
       end
     end
+
+    context "when the application has no geodata" do
+      it "does not throw an exception" do
+        planning_application.update(boundary_geojson: {})
+
+        expect {
+          perform_enqueued_jobs
+        }.not_to raise_error
+      end
+    end
   end
 end
