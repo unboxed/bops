@@ -236,6 +236,8 @@ Rails.application.routes.draw do
           resources :policy_classes, only: %i[edit update show]
 
           resources :tasks, only: :index
+
+          resources :committee_decisions
         end
       end
     end

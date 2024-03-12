@@ -351,6 +351,7 @@ en:
     system: Automated by the system
   audits:
     types:
+      committee_details_sent: Committee details sent to neighbours
       additional_document_validation_request_added: 'Added: validation request (new document#%{args})'
       additional_document_validation_request_cancelled: 'Cancelled: validation request (new document#%{args})'
       additional_document_validation_request_cancelled_post_validation: 'Cancelled: Post-validation request (new document#%{args})'

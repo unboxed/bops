@@ -124,7 +124,8 @@ class Audit < ApplicationRecord
     consultee_emails_resent: "consultee_emails_resent",
     consultees_reconsulted: "consultees_reconsulted",
     consultee_response_uploaded: "consultee_response_uploaded",
-    consultee_response_edited: "consultee_response_edited"
+    consultee_response_edited: "consultee_response_edited",
+    committee_details_sent: "committee_details_sent"
   }
 
   validates :activity_type, presence: true
