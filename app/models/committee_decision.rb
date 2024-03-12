@@ -5,6 +5,10 @@ class CommitteeDecision < ApplicationRecord
 
   validates :recommend, exclusion: {in: [nil]}
 
+  before_commit do
+    errors.add(:reasons, "Choose reasons why this application should go to committee") if reasons.blank? && recommend
+  end
+
   REASONS = [
     "The application is on council owned land",
     "The application was made by the local authority",

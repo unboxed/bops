@@ -100,6 +100,49 @@ RSpec.describe RecommendationForm do
         end
       end
 
+      context "when reasons are blank" do
+        let(:recommendation_form) do
+          build(
+            :recommendation_form,
+            recommendation:,
+            recommend: "true",
+            reasons: [],
+            public_comment: "yes",
+            assessor_comment: "LGTM",
+            assessor:,
+            status: :assessment_complete
+          )
+        end
+
+        it "returns false" do
+          expect(recommendation_form.save).to be(false)
+        end
+
+        it "sets error message" do
+          recommendation_form.save
+
+          expect(
+            recommendation_form.errors.messages[:reasons]
+          ).to contain_exactly(
+            "Choose reasons why this application should go to committee"
+          )
+        end
+
+        it "does not update planning_application" do
+          recommendation_form.save
+
+          expect(planning_application.reload).to have_attributes(
+            status: "assessment_in_progress",
+            decision: nil,
+            public_comment: nil
+          )
+        end
+
+        it "does not create a committee detail" do
+          expect(planning_application.reload.committee_decision).to be_nil
+        end
+      end
+
       context "when decision is blank" do
         let(:recommendation_form) do
           build(

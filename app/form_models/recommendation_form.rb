@@ -7,6 +7,10 @@ class RecommendationForm
 
   validates :decision, :public_comment, presence: true
 
+  validate do
+    errors.add(:reasons, "Choose reasons why this application should go to committee") if updated_reasons.empty? && recommend == "true"
+  end
+
   delegate(
     :planning_application,
     :assessor_comment,
@@ -65,7 +69,9 @@ class RecommendationForm
   end
 
   def updated_reasons
-    reasons&.push(other_reason)&.reject(&:empty?)
+    return [] if reasons.nil?
+
+    reasons.push(other_reason).compact_blank
   end
 
   private
