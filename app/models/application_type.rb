@@ -5,6 +5,8 @@ class ApplicationType < ApplicationRecord
 
   default_scope { in_order_of(:name, NAME_ORDER).order(:name) }
 
+  enum :status, {inactive: "inactive", active: "active", retired: "retired"}
+
   has_many :planning_applications, dependent: :restrict_with_exception
 
   validates :name, presence: true

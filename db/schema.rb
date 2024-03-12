@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_11_111430) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_12_092625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -67,6 +67,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_111430) do
     t.string "consistency_checklist", array: true
     t.jsonb "document_tags"
     t.jsonb "features", default: {}
+    t.string "status", default: "inactive", null: false
   end
 
   create_table "assessment_details", force: :cascade do |t|

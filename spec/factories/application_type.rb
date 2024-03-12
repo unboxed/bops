@@ -68,6 +68,8 @@ FactoryBot.define do
           supporting_documents: []
         }
       end
+
+      status { "active" }
     end
 
     trait :prior_approval do
@@ -186,6 +188,8 @@ FactoryBot.define do
           ]
         }
       end
+
+      status { "active" }
     end
 
     trait :planning_permission do
@@ -303,6 +307,8 @@ FactoryBot.define do
           ]
         }
       end
+
+      status { "active" }
     end
 
     initialize_with { ApplicationType.find_or_create_by(name:) }
