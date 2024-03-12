@@ -6,7 +6,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
   describe "#call" do
     let(:user) { create(:api_user) }
     let(:local_authority) { create(:local_authority) }
-    let!(:application_type_ldc) { create(:application_type) }
+    let!(:application_type_ldce) { create(:application_type, :ldc_existing) }
+    let!(:application_type_ldcp) { create(:application_type, :ldc_proposed) }
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
 
     let!(:article4_constraint) { create(:constraint, type: "article4", category: "general_policy") }

@@ -5,7 +5,8 @@ require "rails_helper"
 RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
   describe "#parse" do
     let!(:application_type_pa) { create(:application_type, :prior_approval) }
-    let!(:application_type_ldc) { create(:application_type) }
+    let!(:application_type_ldce) { create(:application_type, :ldc_existing) }
+    let!(:application_type_ldcp) { create(:application_type, :ldc_proposed) }
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
 
     let(:parse_application_type) do
@@ -21,7 +22,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
 
       it "returns the correct application type" do
         expect(parse_application_type).to eq(
-          application_type: application_type_ldc,
+          application_type: application_type_ldce,
           work_status: "existing"
         )
       end
@@ -36,7 +37,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
 
       it "returns the correct application type" do
         expect(parse_application_type).to eq(
-          application_type: application_type_ldc,
+          application_type: application_type_ldcp,
           work_status: "proposed"
         )
       end

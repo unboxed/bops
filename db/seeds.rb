@@ -71,6 +71,27 @@ end
 application_types = [
   {
     name: "lawfulness_certificate",
+    code: "ldc.existing",
+    suffix: "LDCE",
+    steps: %w[validation assessment review],
+    assessment_details: %w[
+      summary_of_work
+      site_description
+      consultation_summary
+      additional_evidence
+      past_applications
+    ],
+    consistency_checklist: %w[
+      description_matches_documents
+      documents_consistent
+      proposal_details_match_documents
+      site_map_correct
+    ]
+  },
+  {
+    name: "lawfulness_certificate",
+    code: "ldc.proposed",
+    suffix: "LDCP",
     steps: %w[validation assessment review],
     assessment_details: %w[
       summary_of_work
@@ -88,6 +109,8 @@ application_types = [
   },
   {
     name: "prior_approval", part: 1, section: "A",
+    code: "pa.part1.classA",
+    suffix: "PA",
     features: {"site_visits" => true},
     steps: %w[validation consultation assessment review],
     assessment_details: %w[
@@ -108,6 +131,8 @@ application_types = [
   },
   {
     name: "planning_permission",
+    code: "pp.full.householder",
+    suffix: "HAPP",
     features: {"permitted_development_rights" => false, "site_visits" => true},
     steps: %w[validation consultation assessment review],
     assessment_details: %w[
