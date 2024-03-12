@@ -63,4 +63,8 @@ module ApplicationHelper
       planning_application_assessment_consistency_checklist_path
     end
   end
+
+  def nav_items
+    []
+  end
 end

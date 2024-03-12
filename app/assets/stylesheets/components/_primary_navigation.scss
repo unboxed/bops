@@ -1,0 +1,54 @@
+// https://github.com/x-govuk/govuk-prototype-components/releases/tag/v3.0.4
+
+.x-govuk-primary-navigation {
+  @include govuk-font(19, $weight: bold);
+  background-color: govuk-colour("light-grey");
+  border-bottom: 1px solid transparent;
+  margin-bottom: -1px;
+}
+
+.x-govuk-primary-navigation__list {
+  @include govuk-clearfix;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: calc(100% + #{govuk-spacing(6)});
+}
+
+.x-govuk-primary-navigation__item {
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  height: 55px;
+  line-height: 55px;
+  margin-right: govuk-spacing(6);
+  position: relative;
+}
+
+.x-govuk-primary-navigation__item--current {
+  border-bottom: $govuk-border-width-narrow solid $govuk-brand-colour;
+}
+
+.x-govuk-primary-navigation__item--align-right {
+  @include govuk-media-query($from: tablet) {
+    float: right;
+  }
+}
+
+.x-govuk-primary-navigation__link {
+  @include govuk-link-common;
+  @include govuk-link-style-no-visited-state;
+  @include govuk-link-style-no-underline;
+  @include govuk-typography-weight-bold;
+
+  // Extend the touch area of the link to the list
+  &::after {
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
