@@ -23,6 +23,7 @@
     "@biomejs/biome": "1.0.0"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --minify"
+    "build:dev": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build": "yarn build:dev --minify"
   }
 }
