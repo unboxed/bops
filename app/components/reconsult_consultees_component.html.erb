@@ -8,7 +8,6 @@
     </legend>
     <div id="reconsult-hint" class="govuk-hint">
       <%= t(".hint") %>
-      "Do you want to ask the applicant to extend the planning application expiry date?" <%= link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension"), class: "govuk-link" %>
     </div>
     <div class="govuk-radios" data-module="govuk-radios">
       <%= form.govuk_radio_button(:email_reason, "send", label: { text: t(".send") }) %>

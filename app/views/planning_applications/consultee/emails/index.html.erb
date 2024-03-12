@@ -30,8 +30,11 @@
 
       <%= render ConsulteesComponent.new(consultees: @consultees, form: form) %>
       <%= render ConsulteeEmailComponent.new(form: form) %>
-      <%= render ReconsultConsulteesComponent.new(form: form) if @consultees.consulted? %>
-
+      <% if @consultees.consulted? %>
+        <%= render ReconsultConsulteesComponent.new(form: form) %>
+        <h3 class="govuk-heading-s">Do you want to ask the applicant to extend the planning application expiry date?</h3>
+        <%= link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension"), class: "govuk-link" %>
+       <% end %>
       <div class="govuk-form-group" id="response-period">
         <h2 class="govuk-heading-m">
           <div class="govuk-hint govuk-!-margin-bottom-0">Step <%= @consultees.consulted? ? "4" : "3" %></div>

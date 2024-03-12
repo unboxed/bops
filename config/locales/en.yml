@@ -431,8 +431,8 @@ en:
       started: Application validated
       submitted: Recommendation submitted
       time_extension_validation_request_added: 'Added: time extension request'
-      time_extension_validation_request_sent_post_validation: 'Sent: time extension request'
       time_extension_validation_request_received: 'Received: time extension request'
+      time_extension_validation_request_sent_post_validation: 'Sent: time extension request'
       unarchived: Document unarchived
       updated: "%{args} updated"
       uploaded: Document uploaded
@@ -1461,9 +1461,6 @@ en:
       description_changes:
         validate:
           success: Description was marked as valid
-      time_extensions:
-        validate:
-          success: Time extension request was sent
       document:
         redactions:
           create:
@@ -1531,6 +1528,9 @@ en:
           change_expiry_date: Change expiry date
           new_expiry_date: 'New expiry date:'
           proposed_expiry_date: 'Proposed expiry date:'
+      time_extensions:
+        validate:
+          success: Time extension request was sent
       validation_requests:
         cancel:
           additional_document_validation_request:
