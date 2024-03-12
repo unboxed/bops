@@ -30,11 +30,6 @@
       <%= render "shared/time_extension_response_banner" %>
     <% end %>
   <% end %>
-  <% if @planning_application.description_change_validation_requests.any? %>
-    <% if @planning_application.description_change_validation_requests.responded.any? %>
-      <%= render "shared/description_response_banner" %>
-    <% end %>
-  <% end %>
   <% if @planning_application.description_change_validation_requests.where(auto_closed: true).present? %>
     <%= render "shared/description_change_auto_closed_banner" %>
   <% end %>

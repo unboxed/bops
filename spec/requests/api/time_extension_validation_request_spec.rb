@@ -9,7 +9,7 @@ RSpec.describe "Time extension validation requests API", show_exceptions: true d
   let(:planning_application) do
     create(
       :planning_application,
-      local_authority: default_local_authority,
+      local_authority: default_local_authority
     )
   end
 

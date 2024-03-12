@@ -51,6 +51,7 @@ paths:
                     determined_at: '2020-05-14T06:18:17.540+01:00'
                     determination_date: '2020-05-14T06:18:17.540+01:00'
                     target_date: '2020-06-18'
+                    expiry_date: '2020-07-09'
                     started_at: '2020-05-15T06:18:17.540+01:00'
                     invalidated_at: null
                     withdrawn_at: null

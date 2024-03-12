@@ -107,6 +107,7 @@ class Audit < ApplicationRecord
     time_extension_validation_request_sent_post_validation:
       "time_extension_validation_request_sent_post_validation",
     time_extension_validation_request_received: "time_extension_validation_request_received",
+    time_extension_validation_request_cancelled: "time_extension_validation_request_cancelled",
     time_extension_validation_request_cancelled_post_validation:
       "time_extension_validation_request_cancelled_post_validation",
     time_extension_validation_request_sent: "time_extension_validation_request_sent",
