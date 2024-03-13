@@ -232,7 +232,7 @@ RSpec.describe PlanningApplication do
 
       describe "#reference" do
         let(:planning_application) do
-          build(:planning_application, work_status: "proposed")
+          build(:planning_application, :ldc_proposed, work_status: "proposed")
         end
 
         it "is set when application is created" do
@@ -245,8 +245,7 @@ RSpec.describe PlanningApplication do
         end
 
         it "works for other planning application types" do
-          prior_approval_type = create(:application_type, :prior_approval)
-          planning_application = build(:planning_application, work_status: "proposed", application_type: prior_approval_type)
+          planning_application = build(:planning_application, :prior_approval, work_status: "proposed")
 
           travel_to(DateTime.new(2022, 1, 1)) do
             expect { planning_application.save }
@@ -368,7 +367,7 @@ RSpec.describe PlanningApplication do
         travel_to("2023-01-01") { create(:planning_application, :prior_approval, local_authority:) }
       end
       let!(:ldc_planning_application) do
-        travel_to("2023-01-01") { create(:planning_application, local_authority:) }
+        travel_to("2023-01-01") { create(:planning_application, :ldc_proposed, local_authority:) }
       end
 
       before { Current.user = assessor }
@@ -478,9 +477,8 @@ RSpec.describe PlanningApplication do
 
   describe "#reference_in_full" do
     let(:local_authority) { create(:local_authority, :southwark) }
-    let(:application_type) { create(:application_type) }
-    let(:planning_application1) { create(:planning_application, application_type:, local_authority:, work_status: "proposed") }
-    let(:planning_application2) { create(:planning_application, application_type:, local_authority:, work_status: "existing") }
+    let(:planning_application1) { create(:planning_application, :ldc_proposed, local_authority:, work_status: "proposed") }
+    let(:planning_application2) { create(:planning_application, :ldc_existing, local_authority:, work_status: "existing") }
 
     before do
       travel_to Time.zone.local(2022, 10, 10)

@@ -37,6 +37,7 @@ RSpec.describe "Planning Application Assessment" do
         create(
           :planning_application,
           :with_constraints,
+          :ldc_proposed,
           local_authority: default_local_authority,
           public_comment: nil,
           api_user:

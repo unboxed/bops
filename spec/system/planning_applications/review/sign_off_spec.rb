@@ -22,6 +22,7 @@ RSpec.describe "Reviewing sign-off" do
       create(
         :planning_application,
         :awaiting_determination,
+        :ldc_proposed,
         local_authority: default_local_authority,
         decision: "granted",
         user:

@@ -71,6 +71,7 @@ class PlanningApplication < ApplicationRecord
     delegate :required?, to: :press_notice
     delegate :required?, to: :site_notice
     delegate :required?, to: :environment_impact_assessment
+    delegate :suffix, to: :application_type
   end
   delegate :params_v1, to: :planx_planning_data, allow_nil: true
   delegate :params_v2, to: :planx_planning_data, allow_nil: true
@@ -859,7 +860,7 @@ class PlanningApplication < ApplicationRecord
     self.reference = [
       Date.current.strftime("%y"),
       application_number,
-      application_type_code
+      application_type_suffix
     ].join("-")
   end
 
@@ -984,10 +985,6 @@ class PlanningApplication < ApplicationRecord
     else
       100
     end
-  end
-
-  def application_type_code
-    I18n.t(work_status, scope: "application_type_codes.#{application_type&.name}")
   end
 
   def valid_from_date

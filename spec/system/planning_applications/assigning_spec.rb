@@ -18,6 +18,7 @@ RSpec.describe "assigning planning application" do
   let(:planning_application) do
     create(
       :planning_application,
+      :ldc_proposed,
       local_authority:
     )
   end

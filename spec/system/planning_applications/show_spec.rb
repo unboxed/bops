@@ -31,7 +31,7 @@ RSpec.describe "Planning Application show page" do
     ]
   end
 
-  let(:application_type) { create(:application_type) }
+  let(:application_type) { create(:application_type, :ldc_proposed) }
 
   let!(:planning_application) do
     create(

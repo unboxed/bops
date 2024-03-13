@@ -17,17 +17,17 @@ RSpec.describe "Planning application updated tab spec" do
   let!(:audit7) { create(:audit, created_at: 5.days.ago, planning_application: planning_application4, user:) }
 
   let(:planning_application1) do
-    travel_to(10.days.ago) { create(:planning_application, local_authority:) }
+    travel_to(10.days.ago) { create(:planning_application, :ldc_proposed, local_authority:) }
   end
   let(:planning_application2) do
-    travel_to(10.days.ago) { create(:planning_application, local_authority:) }
+    travel_to(10.days.ago) { create(:planning_application, :ldc_proposed, local_authority:) }
   end
   let(:planning_application3) do
-    travel_to(10.days.ago) { create(:planning_application, local_authority:) }
+    travel_to(10.days.ago) { create(:planning_application, :ldc_proposed, local_authority:) }
   end
   # Create planning application that has an officer assigned
   let(:planning_application4) do
-    travel_to(10.days.ago) { create(:planning_application, user:) }
+    travel_to(10.days.ago) { create(:planning_application, :ldc_proposed, user:) }
   end
 
   before do

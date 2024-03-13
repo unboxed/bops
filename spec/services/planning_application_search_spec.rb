@@ -16,6 +16,7 @@ RSpec.describe PlanningApplicationSearch do
       create(
         :planning_application,
         :not_started,
+        :ldc_proposed,
         work_status: "proposed",
         description: "Add a chimney stack.",
         local_authority:,
@@ -29,6 +30,7 @@ RSpec.describe PlanningApplicationSearch do
       create(
         :planning_application,
         :in_assessment,
+        :ldc_proposed,
         description: "Something else entirely",
         local_authority:,
         received_at: nil
@@ -41,6 +43,7 @@ RSpec.describe PlanningApplicationSearch do
       create(
         :planning_application,
         :in_assessment,
+        :ldc_proposed,
         description: "Skylight",
         local_authority:,
         user: assessor,

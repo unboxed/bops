@@ -10,6 +10,7 @@ RSpec.describe "editing planning application" do
     create(
       :planning_application,
       :in_assessment,
+      :ldc_proposed,
       local_authority:
     )
   end

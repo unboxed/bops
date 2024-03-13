@@ -310,17 +310,6 @@ en:
     navigation_items:
       profile: Profile
       users: Users
-  application_type_codes:
-    lawfulness_certificate:
-      bad_status: bad status
-      existing: LDCE
-      proposed: LDCP
-    planning_permission:
-      proposed: HAPP
-    prior_approval:
-      existing: PA
-      proposed: PA
-    proposed: Proposed
   application_types:
     lawfulness_certificate: Lawful Development Certificate
     lawfulness_certificate_abbr: LDC

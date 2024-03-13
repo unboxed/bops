@@ -296,6 +296,14 @@ FactoryBot.define do
       application_type { association :application_type, :lawfulness_certificate }
     end
 
+    trait :ldc_proposed do
+      application_type { association :application_type, :ldc_proposed }
+    end
+
+    trait :ldc_existing do
+      application_type { association :application_type, :ldc_existing }
+    end
+
     trait :consulting do
       after(:create) do |planning_application|
         planning_application.consultation.update!(
