@@ -34,7 +34,7 @@
               </tr>
             <% end %>
             <tr class="govuk-table__row">
-              <td scope="row" class="govuk-table__cell">Request an extension until <%= request.proposed_expiry_date.strftime("%-d %B %Y") %></td>
+              <td scope="row" class="govuk-table__cell">Request an extension until <%= request.proposed_expiry_date.to_fs %></td>
               <td class="govuk-table__cell">Sent</td>
               <td class="govuk-table__cell"><%= request.user.name %></td>
               <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>

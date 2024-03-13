@@ -66,7 +66,7 @@
       <% end %>
 
       <% if @planning_application.open_time_extension_requests.any? %>
-        <%= link_to "Extension requested", planning_application_validation_validation_request_path(@planning_application, @planning_application.time_extension_validation_requests.last), class: "govuk-link" %>
+        <%= link_to "Extension requested", planning_application_validation_validation_request_path(@planning_application, @planning_application.time_extension_request), class: "govuk-link" %>
       <% else %>
         <%= link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension"), class: "govuk-link" %>
       <% end %>

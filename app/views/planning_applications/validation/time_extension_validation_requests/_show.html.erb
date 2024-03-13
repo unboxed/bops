@@ -22,7 +22,7 @@
         <%= @planning_application.expiry_date.strftime("%-d %B %Y")  %>
       </p>
       <p class="govuk-body"> <strong> Proposed expiry date:</strong><br>
-        <%= @validation_request.proposed_expiry_date.strftime("%-d %B %Y") %>
+        <%= @validation_request.proposed_expiry_date.to_fs %>
       </p>
     </div>
     <p class="govuk-body">

@@ -22,7 +22,7 @@ module ValidationTasks
     attr_reader :validation_requests
 
     def validation_requests_not_time_extension
-      validation_requests.select { |request| request.type != "TimeExtensionValidationRequest" }
+      validation_requests.reject { |request| request.time_extension_request? }
     end
 
     def invalid_items_count

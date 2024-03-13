@@ -705,7 +705,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def closed_pre_validation_requests
-    validation_requests.where.not(type: "time_extension_validation_request").closed - validation_requests.closed.post_validation
+    requests_excluding_time_extension.closed - requests_excluding_time_extension.closed.post_validation
   end
 
   def open_post_validation_requests?
@@ -740,6 +740,10 @@ class PlanningApplication < ApplicationRecord
     time_extension_validation_requests.order(:created_at).last
   end
 
+  def closed_time_extension_request
+    closed_time_extension_requests.order(:created_at).last
+  end
+
   def closed_time_extension_requests
     time_extension_validation_requests.where(state: "closed")
   end
@@ -752,8 +756,8 @@ class PlanningApplication < ApplicationRecord
     time_extension_validation_requests.where(state: "open")
   end
 
-  def closed_time_extension_request
-    time_extension_validation_requests.where(state: "closed").order(:created_at).last
+  def requests_excluding_time_extension
+    validation_requests.excluding_time_extension
   end
 
   def latest_rejected_time_extension
