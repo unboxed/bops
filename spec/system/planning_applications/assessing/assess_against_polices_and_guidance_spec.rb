@@ -126,7 +126,7 @@ RSpec.describe "assess against policies and guidance" do
 
     expect(page).not_to have_content("Save and mark as complete")
 
-    click_link "Edit Assess against policies and guidance"
+    click_link "Edit considerations"
 
     expect(page).to have_content("Assess against policies and guidance")
 
