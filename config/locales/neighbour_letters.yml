@@ -52,7 +52,7 @@ en:
 
       Yours
       
-      {{current_user}}
+      {{assigned_officer}}
       Planning officer
     prior_approval: |-
       Dear Resident
@@ -110,5 +110,5 @@ en:
 
       Yours
       
-      {{current_user}}
+      {{assigned_officer}}
       Planning officer
