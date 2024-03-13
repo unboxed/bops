@@ -32,10 +32,13 @@ RSpec.describe SiteVisit do
 
     describe "#visited_at" do
       context "when decision is 'true'" do
-        subject(:site_visit) { described_class.new(decision: true) }
+        let!(:planning_application) { create(:planning_application, :planning_permission) }
 
-        it "validates presence" do
-          expect { site_visit.valid? }.to change { site_visit.errors[:visited_at] }.to ["Provide the date when the site visit took place"]
+        it "validates presence if consultation has started" do
+          planning_application.consultation.update!(start_date: Time.zone.now, end_date: 21.days.from_now)
+          site_visit = described_class.build(decision: true, consultation: planning_application.consultation)
+
+          expect { site_visit.save }.to change { site_visit.errors[:visited_at] }.to ["Provide the date when the site visit took place"]
         end
       end
 
@@ -44,6 +47,14 @@ RSpec.describe SiteVisit do
 
         it "does not validate presence" do
           expect { site_visit.valid? }.not_to(change { site_visit.errors[:visited_at] })
+        end
+      end
+
+      describe "consultation_started" do
+        subject(:site_visit) { described_class.new(decision: true, visited_at: Time.zone.now, comment: "comment") }
+
+        it "you can't create a site visit without a consultation start date" do
+          expect { site_visit.save }.to change { site_visit.errors[:base] }.to ["Start the consultation before creating a site visit"]
         end
       end
     end
