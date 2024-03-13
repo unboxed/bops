@@ -1,0 +1,39 @@
+get:
+  summary: Retrieves all time extension validation requests for a given planning application
+  tags:
+    - Time extension validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+
+  responses:
+    '200':
+      description: All time extension validation requests for a planning application
+      content:
+        application/json:
+          example:
+            data:
+              - id: 1
+                state: closed
+                response_due: '2024-05-14T05:18:17.540Z'
+                proposed_expiry_date: '2024-06-14T05:18:17.540Z'
+                previous_expiry_date: '2024-06-12T05:18:17.540Z'
+                rejection_reason: I need it sooner
+                approved: false
+                days_until_response_due: 10
+                cancel_reason: null
+                cancelled_at: null
+              - id: 2
+                state: open
+            response_due: '2024-05-14T05:18:17.540Z'
+            proposed_expiry_date: '2024-06-14T05:18:17.540Z'
+            previous_expiry_date: '2024-06-12T05:18:17.540Z'
+            rejection_reason: null
+            approved: true
+            days_until_response_due: 10
+            cancel_reason: null
+            cancelled_at: null

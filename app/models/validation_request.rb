@@ -13,6 +13,7 @@ class ValidationRequest < ApplicationRecord
     FeeChangeValidationRequest
     PreCommencementConditionValidationRequest
     HeadsOfTermsValidationRequest
+    TimeExtensionValidationRequest
   ].freeze
 
   with_options to: :planning_application do
@@ -55,6 +56,7 @@ class ValidationRequest < ApplicationRecord
   scope :responded, -> { where.not(response: nil).or(where(approved: true)) }
   scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
   scope :requests_created_later, ->(review) { where("validation_requests.created_at >= ?", review.created_at) }
+  scope :excluding_time_extension, -> { where.not(type: "TimeExtensionValidationRequest") }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
@@ -239,6 +241,10 @@ class ValidationRequest < ApplicationRecord
 
   def rejected?
     !approved && rejection_reason.present?
+  end
+
+  def time_extension_request?
+    type == "TimeExtensionValidationRequest"
   end
 
   def update_planning_application!(params)

@@ -8,4 +8,9 @@ module DescriptionChangeValidationRequestHelper
   def sequence_description(description_change_validation_request)
     "description##{description_change_validation_request.sequence}"
   end
+
+  def format_datetime(datetime_str)
+    datetime = DateTime.parse(datetime_str)
+    datetime.strftime("%-d %B %Y")
+  end
 end

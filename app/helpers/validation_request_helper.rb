@@ -14,6 +14,14 @@ module ValidationRequestHelper
       method: :delete, data: {confirm: "Are you sure?"}, class: classname
   end
 
+  def validation_request_review_header(planning_application)
+    if planning_application.has_only_time_extension_requests?
+      "Review time extension requests"
+    else
+      "Review validation requests"
+    end
+  end
+
   def show_validation_request_link(application, request)
     text = (!application.validated?) ? t("planning_applications.validation.validation_requests.table.view_and_update") : t("planning_applications.validation.validation_requests.table.view")
     url = show_validation_request_url(application, request)

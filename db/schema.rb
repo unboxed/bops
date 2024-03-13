@@ -823,6 +823,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_111430) do
     t.jsonb "specific_attributes"
     t.string "owner_type"
     t.bigint "owner_id"
+    t.date "proposed_expiry_date"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["owner_type", "owner_id"], name: "index_validation_requests_on_owner"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"

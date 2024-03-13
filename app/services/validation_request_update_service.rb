@@ -16,6 +16,9 @@ class ValidationRequestUpdateService
       validation_request.update!(validation_request_params)
       validation_request.close!
       validation_request.create_api_audit!
+      if validation_request.time_extension_request?
+        validation_request.update_planning_application!(params)
+      end
       planning_application.send_update_notification_to_assessor
 
       validation_request.update_planning_application!(ownership_certificate_params) if validation_request.approved?

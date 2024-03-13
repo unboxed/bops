@@ -64,6 +64,12 @@
           <%= @planning_application.days_status_tag %>
         </span>
       <% end %>
+
+      <% if @planning_application.open_time_extension_requests.any? %>
+        <%= link_to "Extension requested", planning_application_validation_validation_request_path(@planning_application, @planning_application.time_extension_request), class: "govuk-link" %>
+      <% else %>
+        <%= link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension"), class: "govuk-link" %>
+      <% end %>
     </p>
 
     <% if @planning_application.environment_impact_assessment_required? %>

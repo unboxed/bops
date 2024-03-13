@@ -190,6 +190,10 @@ Rails.application.routes.draw do
             patch :validate
           end
 
+          resource :time_extensions, only: %i[show] do
+            patch :validate
+          end
+
           resources :validation_requests do
             get :post_validation_requests, on: :collection
 
@@ -207,6 +211,7 @@ Rails.application.routes.draw do
           resources :red_line_boundary_change_validation_requests, controller: :validation_requests
           resources :description_change_validation_requests, controller: :validation_requests
           resources :ownership_certificate_validation_requests, controller: :validation_requests
+          resources :time_extension_validation_requests, controller: :validation_requests
 
           resource :legislation, only: %i[show update]
         end
@@ -267,6 +272,7 @@ Rails.application.routes.draw do
           resources :red_line_boundary_change_validation_requests, only: %i[index update show]
           resources :pre_commencement_condition_validation_requests, only: %i[index update show]
           resources :heads_of_terms_validation_requests, only: %i[index update show]
+          resources :time_extension_validation_requests, only: %i[index update show]
           resources :neighbour_responses, only: :create
         end
 

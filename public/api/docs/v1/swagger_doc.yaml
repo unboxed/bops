@@ -51,6 +51,7 @@ paths:
                     determined_at: '2020-05-14T06:18:17.540+01:00'
                     determination_date: '2020-05-14T06:18:17.540+01:00'
                     target_date: '2020-06-18'
+                    expiry_date: '2020-07-09'
                     started_at: '2020-05-15T06:18:17.540+01:00'
                     invalidated_at: null
                     withdrawn_at: null
@@ -4253,6 +4254,18 @@ paths:
                               url: document.blob./new_document.jpg
                           cancel_reason: null
                           cancelled_at: null
+                      time_extension_validation_requests:
+                        - id: 1
+                          type: time_extension_validation_request
+                          proposed_expiry_date: '2024-07-14T05:18:17.540Z'
+                          previous_expiry_date: '2024-07-14T05:18:17.540Z'
+                          state: open
+                          response_due: '2024-05-14T05:18:17.540Z'
+                          days_until_response_due: 10
+                          approved: true
+                          rejection_reason: null
+                          cancel_reason: null
+                          cancelled_at: null
   '/api/v1/planning_applications/{planning_application_id}/other_change_validation_requests':
     get:
       summary: Retrieves all other change validation requests for a given planning application
@@ -5075,6 +5088,157 @@ paths:
       responses:
         '200':
           description: Update replacement document change validation request
+          content:
+            application/json:
+              example:
+                message:
+                  - Validation request updated
+  '/api/v1/planning_applications/{planning_application_id}/time_extension_validation_requests':
+    get:
+      summary: Retrieves all time extension validation requests for a given planning application
+      tags:
+        - Time extension validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: All time extension validation requests for a planning application
+          content:
+            application/json:
+              example:
+                data:
+                  - id: 1
+                    state: closed
+                    response_due: '2024-05-14T05:18:17.540Z'
+                    proposed_expiry_date: '2024-06-14T05:18:17.540Z'
+                    previous_expiry_date: '2024-06-12T05:18:17.540Z'
+                    rejection_reason: I need it sooner
+                    approved: false
+                    days_until_response_due: 10
+                    cancel_reason: null
+                    cancelled_at: null
+                  - id: 2
+                    state: open
+                response_due: '2024-05-14T05:18:17.540Z'
+                proposed_expiry_date: '2024-06-14T05:18:17.540Z'
+                previous_expiry_date: '2024-06-12T05:18:17.540Z'
+                rejection_reason: null
+                approved: true
+                days_until_response_due: 10
+                cancel_reason: null
+                cancelled_at: null
+  '/api/v1/planning_applications/{planning_application_id}/time_extension_validation_requests/{time_extension_validation_request_id}':
+    get:
+      summary: Retrieves a time extension validation request
+      tags:
+        - Time extension validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: time_extension_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The time extension validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: A time extension validation request
+          content:
+            application/json:
+              example:
+                id: 1
+                state: closed
+                response_due: '2024-05-14T05:18:17.540Z'
+                proposed_expiry_date: '2024-06-14T05:18:17.540Z'
+                previous_expiry_date: '2024-06-12T05:18:17.540Z'
+                rejection_reason: I need a decision sooner
+                approved: 'false,'
+                days_until_response_due: 10
+                cancel_reason: null
+                cancelled_at: null
+    patch:
+      summary: Update a time extension validation request
+      tags:
+        - Time extension validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: time_extension_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The time extension validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+                  example: true
+                rejection_reason:
+                  type: string
+                  example: Refusal reason
+              required:
+                - approved
+            examples:
+              Accept:
+                value:
+                  data:
+                    approved: true
+              Reject:
+                value:
+                  data:
+                    approved: false
+                    rejection_reason: Refusal reason
+      responses:
+        '200':
+          description: Update time extension validation request
           content:
             application/json:
               example:

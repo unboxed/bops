@@ -158,4 +158,20 @@ json.data do
     end
     json.type "heads_of_terms_validation_request"
   end
+
+  json.time_extension_validation_requests @planning_application
+    .time_extension_validation_requests do |time_extension_validation_request|
+    json.extract! time_extension_validation_request,
+      :id,
+      :state,
+      :response_due,
+      :proposed_expiry_date,
+      :rejection_reason,
+      :reason,
+      :approved,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
+    json.type "time_extension_validation_request"
+  end
 end
