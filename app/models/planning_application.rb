@@ -89,6 +89,7 @@ class PlanningApplication < ApplicationRecord
   scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
   scope :prior_approvals, -> { joins(:application_type).where(application_type: {name: :prior_approval}) }
   scope :accepted, -> { where.not(status: "pending") }
+  scope :determined, -> { where(status: "determined") }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create

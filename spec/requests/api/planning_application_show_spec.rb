@@ -7,10 +7,13 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer) }
   let!(:planning_application) do
-    create(:planning_application, :in_assessment, :with_constraints, local_authority: default_local_authority, decision: "granted", api_user:)
+    create(:planning_application, :determined, :with_constraints, local_authority: default_local_authority, decision: "granted", api_user:)
   end
   let!(:lambeth) { build(:local_authority, :lambeth) }
   let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
+  let!(:planning_application_in_assessment) do
+    create(:planning_application, :in_assessment, :with_constraints, local_authority: lambeth, decision: "granted", api_user:)
+  end
   let!(:planning_application_not_validated) { create(:planning_application, :not_started, local_authority: default_local_authority) }
   let(:token) { "Bearer #{api_user.token}" }
   let(:headers) do
@@ -53,19 +56,24 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
       expect(planning_application_json).to eq({"message" => "Unable to find record"})
     end
 
+    it "returns 404 if planning application is not determined" do
+      get("/api/v1/planning_applications/#{planning_application_in_assessment.id}", headers:)
+      expect(response.code).to eq("404")
+      expect(planning_application_json).to eq({"message" => "Unable to find record"})
+    end
+
     context "with a new planning application" do
       it "returns the accurate data" do
         get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
-        expect(planning_application_json["status"]).to eq("in_assessment")
+        expect(planning_application_json["status"]).to eq("determined")
         expect(planning_application_json["id"]).to eq(planning_application.id)
         expect(planning_application_json["reference"]).to eq(planning_application.reference)
         expect(planning_application_json["reference_in_full"]).to eq(planning_application.reference_in_full)
         expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
         expect(planning_application_json["description"]).to eq(planning_application.description)
         expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.received_at))
-        expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
-        expect(planning_application_json["determination_date"]).to eq(planning_application.determination_date.to_fs(:db))
-        expect(planning_application_json["decision"]).to be_nil
+        expect(planning_application_json["determination_date"]).to eq(planning_application.determination_date.as_json)
+        expect(planning_application_json["decision"]).to eq("granted")
         expect(planning_application_json["target_date"]).to eq(planning_application.target_date.to_fs(:db))
         expect(planning_application_json["started_at"]).to eq(json_time_format(planning_application.started_at))
         expect(planning_application_json["created_at"]).to eq(json_time_format(planning_application.created_at))

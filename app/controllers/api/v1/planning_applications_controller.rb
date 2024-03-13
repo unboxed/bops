@@ -9,7 +9,7 @@ module Api
       skip_before_action :set_default_format, only: %i[decision_notice]
 
       def show
-        @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
+        @planning_application = current_local_authority.planning_applications.determined.where(id: params[:id]).first
         if @planning_application
           respond_to(:json)
         else
