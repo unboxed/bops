@@ -15,7 +15,7 @@ module BopsApi
           tags = file["type"].flat_map { |type| Array(type["value"]) }
           description = file["description"]
 
-          UploadDocumentJob.perform_later(planning_application, user, url, tags, description)
+          UploadDocumentJob.set(wait: 5.minutes).perform_later(planning_application, user, url, tags, description)
         end
       end
 
