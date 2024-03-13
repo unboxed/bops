@@ -9,6 +9,8 @@ class ConstraintQueryUpdateService
   attr_reader :planning_application, :geojson
 
   def call
+    return if geojson.blank?
+
     results = Apis::PlanX::Query.query(geojson:)
 
     return if results[:constraints].blank?
