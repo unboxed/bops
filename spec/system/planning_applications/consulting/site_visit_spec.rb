@@ -167,6 +167,25 @@ RSpec.describe "Site visit" do
       expect(page).to have_content("I like it *****")
     end
 
+    it "I can't add a site visit before the consultation has started" do
+      planning_application = create(:planning_application, :planning_permission, local_authority:)
+
+      visit "/planning_applications/#{planning_application.id}"
+      click_link "Consultees, neighbours and publicity"
+      within("#site-visit") do
+        click_link "Site visit"
+      end
+
+      choose "Yes"
+      fill_in "Day", with: "1"
+      fill_in "Month", with: "1"
+      fill_in "Year", with: "2023"
+      fill_in "Comment", with: "Comment"
+      click_button("Save")
+
+      expect(page).to have_content "Start the consultation before creating a site visit"
+    end
+
     context "when a site visit is taking place" do
       it "I choose yes and provide some information" do
         choose "Yes"
