@@ -396,7 +396,7 @@ RSpec.describe PlanningApplicationSearch do
 
   describe "APPLICATION_TYPES" do
     it "returns the application type names" do
-      expect(described_class::APPLICATION_TYPES).to eq(ApplicationType.pluck(:name))
+      expect(described_class::APPLICATION_TYPES).to eq(ApplicationType.by_name.pluck(:name))
     end
   end
 end

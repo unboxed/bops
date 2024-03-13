@@ -3,8 +3,6 @@
 class ApplicationType < ApplicationRecord
   NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate].freeze
 
-  default_scope { in_order_of(:name, NAME_ORDER).order(:name) }
-
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
   has_many :planning_applications, dependent: :restrict_with_exception
@@ -63,7 +61,11 @@ class ApplicationType < ApplicationRecord
   end
 
   class << self
-    def menu(scope = all)
+    def by_name
+      in_order_of(:name, NAME_ORDER).order(:name)
+    end
+
+    def menu(scope = by_name)
       scope.order(name: :asc).select(:name, :id).map do |application_type|
         [application_type.full_name, application_type.id]
       end
