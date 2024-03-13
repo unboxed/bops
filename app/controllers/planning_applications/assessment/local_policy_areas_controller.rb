@@ -66,7 +66,7 @@ module PlanningApplications
       end
 
       def local_policy_params
-        params.require(:local_policy_area).permit([:area, :policies, :policy, :assessment, :guidance])
+        params.require(:local_policy_area).permit([:area, :policies, :assessment, :guidance])
       end
     end
   end

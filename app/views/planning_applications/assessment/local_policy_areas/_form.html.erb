@@ -31,16 +31,16 @@
     <%= form.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
 
     <div class="govuk-button-group">
-      <% if @planning_application.local_policy.present? %>
-        <%= link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), class: "govuk-button govuk-button--secondary" %>
-      <% else %>
-        <%= link_to "Back", new_planning_application_assessment_local_policy_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-      <% end %>
       <%= form.hidden_field :area, value: "", id: "hidden-field" %>
       <%= form.hidden_field :local_policy_id, value: @local_policy.id %>
       <button class="govuk-button govuk-button--primary" data-action="click->local-policies#addArea" type="button">
         Add consideration
       </button>
+      <% if @planning_application.local_policy.present? %>
+        <%= link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), class: "govuk-button govuk-button--secondary" %>
+      <% else %>
+        <%= link_to "Back", new_planning_application_assessment_local_policy_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% end %>
     </div>
   <% end %>
 </div>
