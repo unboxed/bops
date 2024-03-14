@@ -11,20 +11,19 @@ class FeeCalculation < ApplicationRecord
 
   class << self
     def from_odp_data(odp_data)
+      return unless odp_data.present? && odp_data.is_a?(Hash)
+
       FeeCalculation.new(
         payable_fee: odp_data[:payable],
         total_fee: odp_data[:calculated],
         exemptions: odp_data[:exemption]&.select { |k, v| v }&.keys,
         reductions: odp_data[:reduction]&.select { |k, v| v }&.keys
       )
-    # FIXME
-    rescue ActionView::Template::Error
-      Appsignal.send_error(error) do |transaction|
-        transaction.params = {params: odp_data}
-      end
     end
 
     def from_planx_data(planx_data)
+      return unless planx_data.present? && planx_data.is_a?(Hash)
+
       planx_passport_data = planx_data.dig(:planx_debug_data, :passport, :data)
 
       return FeeCalculation.new if planx_passport_data.blank?

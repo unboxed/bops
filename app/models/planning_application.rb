@@ -864,7 +864,7 @@ class PlanningApplication < ApplicationRecord
   private
 
   def create_fee_calculation
-    calc = if planx_planning_data&.params_v2.present?
+    calc = if planx_planning_data&.params_v2.present? && planx_planning_data.params_v2.is_a?(Hash)
       FeeCalculation.from_odp_data(planx_planning_data.params_v2)
     elsif planx_planning_data&.params_v1.present?
       FeeCalculation.from_planx_data(JSON.parse(planx_planning_data.params_v1, symbolize_names: true))

@@ -79,4 +79,27 @@ RSpec.describe FeeCalculation, type: :model do
       expect(calculation.reductions).to eq ["parishCouncil"]
     end
   end
+
+  context "when given invalid or missing data" do
+    it "returns nothing from ODP data" do
+      data = []
+      expect {
+        FeeCalculation.from_odp_data(data)
+      }.not_to raise_error
+    end
+
+    it "returns nothing from v1 planx data" do
+      data = []
+      expect {
+        FeeCalculation.from_planx_data(data)
+      }.not_to raise_error
+    end
+  end
+
+  context "when accessing a fee calculation as a property of a planning application" do
+    let(:planning_application) { create(:planning_application) }
+    it "has a fee calculation" do
+      expect(planning_application.fee_calculation).not_to be nil
+    end
+  end
 end
