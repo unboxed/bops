@@ -5,29 +5,30 @@ require "notifications/client"
 class LetterSendingService
   attr_reader :neighbour, :consultation, :letter_content, :resend_reason
 
-  def initialize(neighbour, letter_content, resend_reason: nil)
+  def initialize(neighbour, letter_content, resend_reason: nil, letter_type:)
     @local_authority = neighbour.consultation.planning_application.local_authority
     @neighbour = neighbour
     @consultation = neighbour.consultation
     @letter_content = letter_content
     @resend_reason = resend_reason
+    @letter_type = letter_type
   end
 
   def deliver!
-    return if resend_reason.nil? && NeighbourLetter.find_by(neighbour:).present?
+    return if resend_reason.nil? && NeighbourLetter.find_by(neighbour:).present? && consultation_letter?
 
     letter_record = NeighbourLetter.new(neighbour:, text: letter_content, resend_reason:)
 
     ActiveRecord::Base.transaction do
       letter_record.save!
-      consultation.start_deadline
+      consultation.start_deadline if consultation_letter?
     end
 
     if resend_reason.present?
       letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
     end
 
-    personalisation = {message: letter_content, heading: @consultation.neighbour_letter_header}
+    personalisation = {message: letter_content, heading:}
     personalisation.merge! neighbour.format_address_lines
 
     begin
@@ -46,6 +47,18 @@ class LetterSendingService
   end
 
   private
+
+  def heading
+    if consultation_letter?
+      @consultation.neighbour_letter_header
+    else
+      "Town and Country"
+    end
+  end
+
+  def consultation_letter?
+    @letter_type == :consultation
+  end
 
   def client
     @client ||= Notifications::Client.new(@local_authority.notify_api_key_for_letters)
