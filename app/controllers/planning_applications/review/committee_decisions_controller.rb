@@ -32,15 +32,15 @@ module PlanningApplications
       end
 
       def update_committee_decision!
-        @committee_decision.update!(committee_decision_params)
+        @committee_decision.update!(committee_decision_params.except(:neighbour_letter_text))
       end
 
       def deliver_letters!
         neighbours_to_contact.each do |neighbour|
           if neighbour.neighbour_responses.last.email.present?
-            SendCommitteeDecisionEmailJob.perform_later(neighbour)
+            SendCommitteeDecisionEmailJob.perform_later(neighbour, @planning_application.planning_application)
           else
-            LetterSendingService.new(neighbour, @planning_application.consultation.neighbour_letter_text).deliver!
+            LetterSendingService.new(neighbour, @committee_decision.notification_content).deliver!
           end
         end
       end
@@ -60,7 +60,9 @@ module PlanningApplications
           :date_of_committee,
           :location,
           :link,
-          :time
+          :time,
+          :late_comments_deadline,
+          :notification_content
         )
       end
 
