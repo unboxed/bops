@@ -5,7 +5,7 @@ require "notifications/client"
 class LetterSendingService
   attr_reader :neighbour, :consultation, :letter_content, :resend_reason
 
-  def initialize(neighbour, letter_content, resend_reason: nil, letter_type:)
+  def initialize(neighbour, letter_content, letter_type:, resend_reason: nil)
     @local_authority = neighbour.consultation.planning_application.local_authority
     @neighbour = neighbour
     @consultation = neighbour.consultation

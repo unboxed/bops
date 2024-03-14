@@ -68,7 +68,7 @@ module PlanningApplications
 
       def redirect_after_rescue(error)
         redirect_to new_planning_application_committee_decision_path(@planning_application), alert: error
-      end  
+      end
 
       def record_audit_for_letters_sent!
         Audit.create!(
