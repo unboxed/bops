@@ -33,11 +33,11 @@
           url: planning_application_consultees_assign_constraint_path(@planning_application),
           method: "POST",
           class: "govuk-!-margin-top-7" do |form| %>
-    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-    <%= form.label "Select consultee for #{@constraint.type_code}", class: "govuk-label" %>
-    <%= form.hidden_field :constraint, value: @constraint.id %>
-    <%= form.govuk_select :consultee, options_for_select(@consultation.consultees.map { |c| [c.name, c.id] }) %>
+      <%= form.label "Select consultee for #{@constraint.type_code}", class: "govuk-label" %>
+      <%= form.hidden_field :constraint, value: @constraint.id %>
+      <%= form.govuk_select :consultee, options_for_select(@consultation.consultees.map { |c| [c.name, c.id] }) %>
 
       <div class="govuk-button-group">
         <%= form.submit "Assign consultee", class: "govuk-button", data: {module: "govuk-button"} %>
