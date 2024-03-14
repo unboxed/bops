@@ -15,49 +15,99 @@ RSpec.describe LetterSendingService do
       allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
     end
 
-    context "when the request is successful" do
-      let(:status) { 200 }
+    context "when it's a consultation letter" do
+      context "when the request is successful" do
+        let(:status) { 200 }
 
-      before do
-        travel_to(Time.utc(2023, 1, 5, 5))
+        before do
+          travel_to(Time.utc(2023, 1, 5, 5))
+        end
+
+        it "makes a request and records it in the model" do
+          letter_content = "Application received: #{neighbour.consultation.planning_application.received_at.to_fs(:day_month_year_slashes)}"
+          notify_request = stub_send_letter(status: 200)
+          letter_sender.new(neighbour, letter_content, letter_type: :consultation).deliver!
+
+          expect(notify_request).to have_been_requested
+
+          letter = NeighbourLetter.last
+          expect(letter.neighbour).to eq neighbour
+          expect(letter.notify_response).not_to be_nil
+          expect(letter.sent_at).not_to be_nil
+          expect(letter.id).not_to be_nil
+          expect(letter.status).not_to be_nil
+          expect(neighbour.consultation.end_date).to eq(Time.utc(2023, 1, 27).to_date)
+          expect(neighbour.consultation.start_date).to eq(Time.utc(2023, 1, 6).to_date)
+          expect(letter.text).to include(letter_content)
+        end
       end
 
-      it "makes a request and records it in the model" do
-        letter_content = "Application received: #{neighbour.consultation.planning_application.received_at.to_fs(:day_month_year_slashes)}"
-        notify_request = stub_send_letter(status: 200)
-        letter_sender.new(neighbour, letter_content).deliver!
+      context "when the request is unsuccessful" do
+        let(:status) { 500 }
 
-        expect(notify_request).to have_been_requested
+        it "makes a request but does not record a sending date" do
+          expect(Appsignal).to receive(:send_error)
 
-        letter = NeighbourLetter.last
-        expect(letter.neighbour).to eq neighbour
-        expect(letter.notify_response).not_to be_nil
-        expect(letter.sent_at).not_to be_nil
-        expect(letter.id).not_to be_nil
-        expect(letter.status).not_to be_nil
-        expect(neighbour.consultation.end_date).to eq(Time.utc(2023, 1, 27).to_date)
-        expect(neighbour.consultation.start_date).to eq(Time.utc(2023, 1, 6).to_date)
-        expect(letter.text).to include(letter_content)
+          notify_request = stub_send_letter(status:)
+          letter_sender.new(neighbour, "Hi", letter_type: :consultation).deliver!
+
+          expect(notify_request).to have_been_requested
+
+          letter = NeighbourLetter.last
+          expect(letter.neighbour).to eq neighbour
+          expect(letter.notify_response).to be_nil
+          expect(letter.sent_at).to be_nil
+          expect(letter.status).to eq("rejected")
+          expect(letter.failure_reason).to eq("Exception: Internal server error")
+        end
       end
     end
 
-    context "when the request is unsuccessful" do
-      let(:status) { 500 }
+    context "when it's a committee letter" do
+      context "when the request is successful" do
+        let(:status) { 200 }
 
-      it "makes a request but does not record a sending date" do
-        expect(Appsignal).to receive(:send_error)
+        before do
+          travel_to(Time.utc(2023, 1, 5, 5))
+        end
 
-        notify_request = stub_send_letter(status:)
-        letter_sender.new(neighbour, "Hi").deliver!
+        it "makes a request and records it in the model" do
+          letter_content = "Application is going to committee"
+          notify_request = stub_send_letter(status: 200)
+          letter_sender.new(neighbour, letter_content, letter_type: :committee).deliver!
 
-        expect(notify_request).to have_been_requested
+          expect(notify_request).to have_been_requested
 
-        letter = NeighbourLetter.last
-        expect(letter.neighbour).to eq neighbour
-        expect(letter.notify_response).to be_nil
-        expect(letter.sent_at).to be_nil
-        expect(letter.status).to eq("rejected")
-        expect(letter.failure_reason).to eq("Exception: Internal server error")
+          letter = NeighbourLetter.last
+          expect(letter.neighbour).to eq neighbour
+          expect(letter.notify_response).not_to be_nil
+          expect(letter.sent_at).not_to be_nil
+          expect(letter.id).not_to be_nil
+          expect(letter.status).not_to be_nil
+          expect(neighbour.consultation.start_date).to eq(nil)
+          expect(neighbour.consultation.end_date).to eq(nil)
+          expect(letter.text).to include(letter_content)
+        end
+      end
+
+      context "when the request is unsuccessful" do
+        let(:status) { 500 }
+
+        it "makes a request but does not record a sending date" do
+          expect(Appsignal).to receive(:send_error)
+
+          notify_request = stub_send_letter(status:)
+          letter_sender.new(neighbour, "Hi", letter_type: :committee).deliver!
+
+          expect(notify_request).to have_been_requested
+
+          letter = NeighbourLetter.last
+          expect(letter.neighbour).to eq neighbour
+          expect(letter.notify_response).to be_nil
+          expect(letter.sent_at).to be_nil
+          expect(letter.status).to eq("rejected")
+          expect(letter.failure_reason).to eq("Exception: Internal server error")
+        end
       end
     end
   end

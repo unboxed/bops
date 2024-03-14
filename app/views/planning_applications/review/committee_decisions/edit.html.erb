@@ -54,7 +54,7 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
       <%= form.govuk_date_field :date_of_committee, legend: { text: "Enter date of meeting", size: "s" } %>
       <%= form.govuk_text_field :location, label: { text: "Enter location" }, hint: { text: "Enter the address where the meeting will be held. Include the name of the room, building number or hame, street, town and postcode." } %>
-      <%= form.govuk_text_field :link, label: { text: "Enter link (optional)" }, hint: { text: "Add a URL where neighbours can view agendas and more information about committee meetings." } %>
+      <%= form.govuk_text_field :link, label: { text: "Enter link" }, hint: { text: "Add a URL where neighbours can view agendas and more information about committee meetings." } %>
       <%= form.govuk_text_field :time, label: { text: "Enter time of meeting" }, hint: { text: "For example, 10:30am or 7pm. For midday enter 12pm." }, width: 5 %>
       <%= form.govuk_date_field :late_comments_deadline, legend: { text: "Enter deadline for late comments to be received by", size: "s" } %>
     </div>

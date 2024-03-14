@@ -351,7 +351,6 @@ en:
     system: Automated by the system
   audits:
     types:
-      committee_details_sent: Committee details sent to neighbours
       additional_document_validation_request_added: 'Added: validation request (new document#%{args})'
       additional_document_validation_request_cancelled: 'Cancelled: validation request (new document#%{args})'
       additional_document_validation_request_cancelled_post_validation: 'Cancelled: Post-validation request (new document#%{args})'
@@ -366,6 +365,7 @@ en:
       assigned: Application assigned to %{args}
       challenged: Recommendation challenged
       closed: Application closed
+      committee_details_sent: Committee details sent to neighbours
       constraint_added: Constraint added
       constraint_removed: Constraint removed
       constraints_checked: Constraints Checked
@@ -1352,6 +1352,9 @@ en:
           assessor_remarks: Assessor's remarks
           review_assessment_summaries: Review assessment summaries
           this_information_will: This information will be made publicly available.
+      committee_decisions:
+        update:
+          success: Notifications sent to neighbours and application in committee
       documents:
         update:
           success: Documents were successfully updated.

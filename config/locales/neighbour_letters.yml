@@ -114,8 +114,6 @@ en:
         {{assigned_officer}}
         Planning officer
     committee: |-
-      # Town and Country Planning Act 1990
-      
       Dear Resident
       
       Application number: {{reference}}
@@ -145,5 +143,5 @@ en:
 
       Yours
       
-      {{current_officer}}
+      {{assigned_officer}}
       Planning officer

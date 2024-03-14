@@ -30,7 +30,11 @@ module TaskListItems
       end
 
       def status
-        :not_started
+        if planning_application.in_committee_at.present?
+          :complete
+        else
+          :not_started
+        end
       end
     end
   end

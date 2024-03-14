@@ -22,13 +22,13 @@ module PlanningApplications
           update_committee_decision!
           deliver_letters!
           record_audit_for_letters_sent!
-          @planning_application.send_to_committee!
+          @planning_application.send_to_committee! unless @planning_application.in_committee?
         end
 
         respond_to do |format|
           format.html do
             redirect_to(planning_application_review_tasks_path(@planning_application),
-              notice: t(".successfully_updated_policy_class"))
+              notice: t(".success"))
           end
         end
       rescue ActiveRecord::RecordInvalid => e
@@ -71,7 +71,7 @@ module PlanningApplications
       end
 
       def redirect_after_rescue(error)
-        redirect_to new_planning_application_committee_decision_path(@planning_application), alert: error
+        redirect_to edit_planning_application_review_committee_decision_path(@planning_application, @committee_decision), alert: error
       end
 
       def record_audit_for_letters_sent!
