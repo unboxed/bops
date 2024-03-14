@@ -95,4 +95,11 @@ RSpec.describe FeeCalculation, type: :model do
       }.not_to raise_error
     end
   end
+
+  context "when accessing a fee calculation as a property of a planning application" do
+    let(:planning_application) { create(:planning_application) }
+    it "has a fee calculation" do
+      expect(planning_application.fee_calculation).not_to be nil
+    end
+  end
 end
