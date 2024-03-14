@@ -121,6 +121,20 @@ en:
   activerecord:
     errors:
       models:
+        application_type:
+          attributes:
+            code:
+              blank: Select an application type name
+              inclusion: Select a valid application type name
+              readonly: The name can't be changed when the application type is %{status}
+              taken: There is already an application type for that name
+            suffix:
+              blank: Enter a suffix for the application number
+              invalid: The suffix must only use uppercase letters
+              readonly: The suffix can't be changed when the application type is %{status}
+              taken: There is already an application type with that suffix
+              too_long: The suffix must be at most %{count} characters long
+              too_short: The suffix must be at least %{count} characters long
         assessment_detail:
           attributes:
             base:
@@ -213,8 +227,6 @@ en:
               blank: State the reasons why this application is, or is not lawful
             review_documents_for_recommendation_status:
               inclusion: "%{attribute} must be Not started, In progress or Complete"
-            work_status:
-              inclusion: Work Status should be proposed or existing
         planning_application_constraints_query:
           attributes:
             base:
@@ -314,17 +326,6 @@ en:
     navigation_items:
       profile: Profile
       users: Users
-  application_type_codes:
-    lawfulness_certificate:
-      bad_status: bad status
-      existing: LDCE
-      proposed: LDCP
-    planning_permission:
-      proposed: HAPP
-    prior_approval:
-      existing: PA
-      proposed: PA
-    proposed: Proposed
   application_types:
     lawfulness_certificate: Lawful Development Certificate
     lawfulness_certificate_abbr: LDC
@@ -335,6 +336,7 @@ en:
           link: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made
           link_text: The Town and Country Planning (General Permitted Development) (England) Order 2015
     planning_permission: Householder Application for Planning Permission
+    planning_permission_abbr: PP
     prior_approval: Prior approval
     prior_approval_abbr: PA
   archive_reasons:

@@ -254,10 +254,11 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
   end
 
   describe "#application_type_with_status" do
-    let(:planning_application) { create(:planning_application) }
     let(:presenter) { described_class.new(view, planning_application) }
 
     context "when the status is proposed" do
+      let(:planning_application) { create(:planning_application, :ldc_proposed) }
+
       it "is reflected in the type" do
         expect(presenter.application_type_with_status).to include("LDC Proposed")
         expect(presenter.application_type_with_status).to include("Lawful Development Certificate Proposed")
@@ -265,8 +266,9 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
 
     context "when the work status is existing" do
+      let(:planning_application) { create(:planning_application, :ldc_existing) }
+
       it "is reflected in the type" do
-        planning_application.work_status = "existing"
         expect(presenter.application_type_with_status).to include("LDC Existing")
         expect(presenter.application_type_with_status).to include("Lawful Development Certificate Existing")
       end

@@ -4,6 +4,25 @@ en:
     application:
       navigation_items:
         users: Users
+    application_types:
+      edit:
+        application_profile: Application profile
+        update_application_type: Update the application type
+      form:
+        code_hint: Enter the name of this application type, such as 'Prior Approval - change of use from takeaway to dwelling'
+        code_label: Name
+        continue: Continue
+        suffix_hint: Set the application suffix, such as 'HAPP' (Householder application) or 'PA' (Prior Approvals). This will be added to all application numbers for this application type.
+        suffix_label: Suffix
+      new:
+        application_profile: Application profile
+        create_application_type: Create a new application type
+      show:
+        change: Change
+        continue: Continue
+        name: Name
+        review_application_type: Review the application type
+        suffix: Suffix
     dashboards:
       show:
         administrator_dashboard: Administrator dashboard

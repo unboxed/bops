@@ -255,7 +255,6 @@ class PlanningApplicationsController < AuthenticationController
       received_at
       town
       uprn
-      work_status
       make_public]
     # rubocop:enable Naming/VariableNumber
     params.require(:planning_application).permit permitted_keys

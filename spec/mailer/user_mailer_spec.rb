@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe UserMailer, type: :mailer do
   describe "#update_notification_mail" do
-    let(:planning_application) { create(:planning_application) }
+    let(:planning_application) { create(:planning_application, :ldc_proposed) }
 
     let(:mail) do
       described_class.update_notification_mail(

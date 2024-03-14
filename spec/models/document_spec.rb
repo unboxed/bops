@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe Document do
+  let!(:application_type) { create(:application_type) }
+
   subject(:document) { build(:document) }
 
   it_behaves_like("Auditable") do

@@ -16,7 +16,7 @@ RSpec.describe PlanningApplicationSearch do
       create(
         :planning_application,
         :not_started,
-        work_status: "proposed",
+        :ldc_proposed,
         description: "Add a chimney stack.",
         local_authority:,
         received_at: nil
@@ -29,6 +29,7 @@ RSpec.describe PlanningApplicationSearch do
       create(
         :planning_application,
         :in_assessment,
+        :ldc_proposed,
         description: "Something else entirely",
         local_authority:,
         received_at: nil
@@ -41,6 +42,7 @@ RSpec.describe PlanningApplicationSearch do
       create(
         :planning_application,
         :in_assessment,
+        :ldc_proposed,
         description: "Skylight",
         local_authority:,
         user: assessor,
@@ -396,7 +398,7 @@ RSpec.describe PlanningApplicationSearch do
 
   describe "APPLICATION_TYPES" do
     it "returns the application type names" do
-      expect(described_class::APPLICATION_TYPES).to eq(ApplicationType.pluck(:name))
+      expect(described_class::APPLICATION_TYPES).to eq(ApplicationType.by_name.pluck(:name))
     end
   end
 end

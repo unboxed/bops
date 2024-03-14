@@ -7,6 +7,8 @@ RSpec.describe HeadsOfTermsValidationRequest do
 
   include_examples "ValidationRequest", described_class, "heads_of_terms_validation_request"
 
+  let!(:application_type) { create(:application_type) }
+
   it_behaves_like("Auditable") do
     subject { create(:heads_of_terms_validation_request) }
   end

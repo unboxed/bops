@@ -6,7 +6,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
   describe "#call" do
     let(:user) { create(:api_user) }
     let(:local_authority) { create(:local_authority) }
-    let!(:application_type_ldc) { create(:application_type) }
+    let!(:application_type_ldce) { create(:application_type, :ldc_existing) }
+    let!(:application_type_ldcp) { create(:application_type, :ldc_proposed) }
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
 
     let!(:article4_constraint) { create(:constraint, type: "article4", category: "general_policy") }
@@ -68,7 +69,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             description: "Construction of a small outbuilding for use as a writing studio.",
             payment_reference: "sandbox-ref-123",
             payment_amount: 0.206e3,
-            work_status: "existing",
             agent_first_name: "F",
             agent_last_name: "Fox",
             agent_phone: "0234 567 8910",
@@ -219,7 +219,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             description: "Rear extension of a home",
             payment_reference: nil,
             payment_amount: 0.0,
-            work_status: "proposed",
             agent_first_name: nil,
             agent_last_name: nil,
             agent_phone: nil,

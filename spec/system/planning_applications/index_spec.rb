@@ -4,10 +4,10 @@ require "rails_helper"
 
 RSpec.describe "Planning Application index page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application_1) { create(:planning_application, :in_assessment, local_authority: default_local_authority) }
-  let!(:planning_application_2) { create(:planning_application, :in_assessment, local_authority: default_local_authority) }
+  let!(:planning_application_1) { create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority) }
+  let!(:planning_application_2) { create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority) }
   let!(:planning_application_started) do
-    create(:planning_application, :awaiting_determination, user: assessor, local_authority: default_local_authority)
+    create(:planning_application, :ldc_proposed, :awaiting_determination, user: assessor, local_authority: default_local_authority)
   end
   let!(:reviewer_planning_application_started) do
     create(:planning_application, :awaiting_determination, user: reviewer, local_authority: default_local_authority)
@@ -445,6 +445,7 @@ RSpec.describe "Planning Application index page" do
         create(
           :planning_application,
           :not_started,
+          :ldc_proposed,
           local_authority: default_local_authority
         )
       end
@@ -463,8 +464,6 @@ RSpec.describe "Planning Application index page" do
       end
 
       it "sorts planning first" do
-        take_screenshot
-
         within(selected_govuk_tab) do
           within(".govuk-table.planning-applications-table") do
             within(".govuk-table__head") do

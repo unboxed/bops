@@ -47,19 +47,6 @@
     <%= form.label :uprn, "UPRN", class: "govuk-label" %>
     <%= form.text_field :uprn, class: "govuk-textarea govuk-input--width-10" %>
   </div>
-  <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-      <h2 class="govuk-fieldset__heading">
-        Has the work been started?
-    </h2>
-    </legend>
-      <div class="govuk-form-group">
-        <div class="govuk-radios--inline">
-          <%= form.govuk_radio_button :work_status, "existing", label: { text: 'Yes' } %>
-          <%= form.govuk_radio_button :work_status, "proposed", label: { text: 'No' } %>
-        </div>
-      </div>
-  </fieldset>
 
   <% ["applicant", "agent"].each do |role| %>
     <fieldset class="govuk-fieldset">

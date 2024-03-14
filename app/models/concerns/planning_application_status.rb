@@ -13,13 +13,15 @@ module PlanningApplicationStatus
     include AASM
 
     scope :not_started_and_invalid, lambda {
-      where("status = 'not_started' OR status = 'invalidated'")
+      where(status: %w[not_started invalidated])
     }
+
     scope :under_assessment, lambda {
-      where("status = 'in_assessment' OR status = 'assessment_in_progress' OR status = 'to_be_reviewed'")
+      where(status: %w[in_assessment assessment_in_progress to_be_reviewed])
     }
+
     scope :closed, lambda {
-      where("status = 'determined' OR status = 'withdrawn' OR status = 'returned' OR status = 'closed'")
+      where(status: %w[determined withdrawn returned closed])
     }
 
     aasm.attribute_name :status

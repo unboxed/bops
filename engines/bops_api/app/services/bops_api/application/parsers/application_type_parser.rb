@@ -11,32 +11,13 @@ module BopsApi
         end
 
         def parse
-          {
-            application_type: ApplicationType.find_by!(name: application_type),
-            work_status: work_status
-          }.compact
+          {application_type:}
         end
 
         private
 
         def application_type
-          case params[:value]
-          when "pp.full.householder"
-            "planning_permission"
-          when "pa.part1.classA"
-            "prior_approval"
-          when "ldc.existing", "ldc.proposed"
-            "lawfulness_certificate"
-          end
-        end
-
-        def work_status
-          case params[:value]
-          when "ldc.existing"
-            "existing"
-          when "ldc.proposed"
-            "proposed"
-          end
+          ApplicationType.active.find_by!(code: params[:value])
         end
       end
     end

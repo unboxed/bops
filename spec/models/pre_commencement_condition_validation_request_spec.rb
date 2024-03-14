@@ -5,6 +5,8 @@ require "rails_helper"
 RSpec.describe PreCommencementConditionValidationRequest do
   include_examples "ValidationRequest", described_class, "pre_commencement_condition_validation_request"
 
+  let!(:application_type) { create(:application_type) }
+
   it_behaves_like("Auditable") do
     subject { create(:pre_commencement_condition_validation_request) }
   end

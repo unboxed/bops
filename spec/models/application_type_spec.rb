@@ -11,6 +11,146 @@ RSpec.describe ApplicationType do
         expect { application_type.valid? }.to change { application_type.errors[:name] }.to ["can't be blank"]
       end
     end
+
+    describe "#code" do
+      it "validates presence" do
+        expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["Select an application type name"]
+      end
+
+      context "when the code isn't in the allowed list" do
+        subject(:application_type) { described_class.new(code: "pp.invalid") }
+
+        it "validates inclusion" do
+          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["Select a valid application type name"]
+        end
+      end
+
+      context "when the code already exists" do
+        subject(:application_type) { described_class.new(code: "pp.full.householder") }
+
+        before do
+          create(:application_type, :planning_permission)
+        end
+
+        it "validates uniqueness" do
+          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["There is already an application type for that name"]
+        end
+      end
+
+      context "when an application type is inactive" do
+        subject(:application_type) { create(:application_type, :ldc_proposed, status: "inactive") }
+
+        before do
+          application_type.code = "ldc"
+        end
+
+        it "allows the updating of the code" do
+          expect { application_type.valid? }.not_to change { application_type.errors[:code] }.from []
+        end
+      end
+
+      context "when an application type is active" do
+        subject(:application_type) { create(:application_type, :ldc_proposed, status: "active") }
+
+        before do
+          application_type.code = "ldc"
+        end
+
+        it "prevents the updating of the code" do
+          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["The name can't be changed when the application type is active"]
+        end
+      end
+
+      context "when an application type is retired" do
+        subject(:application_type) { create(:application_type, :ldc_proposed, status: "retired") }
+
+        before do
+          application_type.code = "ldc"
+        end
+
+        it "prevents the updating of the code" do
+          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["The name can't be changed when the application type is retired"]
+        end
+      end
+    end
+
+    describe "#suffix" do
+      it "validates presence" do
+        expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["Enter a suffix for the application number"]
+      end
+
+      context "when the suffix is too short" do
+        subject(:application_type) { described_class.new(suffix: "P") }
+
+        it "validates length" do
+          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must be at least 2 characters long"]
+        end
+      end
+
+      context "when the suffix is too long" do
+        subject(:application_type) { described_class.new(suffix: "PPPPPPP") }
+
+        it "validates length" do
+          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must be at most 6 characters long"]
+        end
+      end
+
+      context "when the suffix uses invalid characters" do
+        subject(:application_type) { described_class.new(suffix: "pppp") }
+
+        it "validates format" do
+          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must only use uppercase letters"]
+        end
+      end
+
+      context "when the suffix already exists" do
+        subject(:application_type) { described_class.new(suffix: "LDCP") }
+
+        before do
+          create(:application_type, :ldc_proposed)
+        end
+
+        it "validates uniqueness" do
+          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["There is already an application type with that suffix"]
+        end
+      end
+
+      context "when an application type is inactive" do
+        subject(:application_type) { create(:application_type, :ldc_proposed, status: "inactive") }
+
+        before do
+          application_type.suffix = "LDC"
+        end
+
+        it "allows the updating of the suffix" do
+          expect { application_type.valid? }.not_to change { application_type.errors[:suffix] }.from []
+        end
+      end
+
+      context "when an application type is active" do
+        subject(:application_type) { create(:application_type, :ldc_proposed, status: "active") }
+
+        before do
+          application_type.suffix = "LDC"
+        end
+
+        it "prevents the updating of the suffix" do
+          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix can't be changed when the application type is active"]
+        end
+      end
+
+      context "when an application type is retired" do
+        subject(:application_type) { create(:application_type, :ldc_proposed, status: "retired") }
+
+        before do
+          application_type.suffix = "LDC"
+        end
+
+        it "prevents the updating of the suffix" do
+          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix can't be changed when the application type is retired"]
+        end
+      end
+    end
   end
 
   describe "class methods" do
@@ -20,7 +160,10 @@ RSpec.describe ApplicationType do
 
       it "returns an array of application type names (humanized) and ids" do
         expect(described_class.menu).to eq(
-          [["Prior approval", prior_approval.id], ["Lawfulness certificate", lawfulness_certificate.id]]
+          [
+            ["Prior Approval - Larger extension to a house", prior_approval.id],
+            ["Lawful Development Certificate - Existing use", lawfulness_certificate.id]
+          ]
         )
       end
     end

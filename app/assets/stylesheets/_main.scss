@@ -419,3 +419,7 @@ body {
 .background-light-grey {
   background-color: govuk-colour("light-grey");
 }
+
+.autocomplete__menu {
+  font-family: $govuk-font-family;
+}

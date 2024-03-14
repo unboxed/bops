@@ -15,6 +15,8 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplication::Notification
 
+  self.ignored_columns += %i[work_status]
+
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112
 
@@ -72,9 +74,11 @@ class PlanningApplication < ApplicationRecord
     delegate :required?, to: :press_notice
     delegate :required?, to: :site_notice
     delegate :required?, to: :environment_impact_assessment
+    delegate :suffix, to: :application_type
   end
   delegate :params_v1, to: :planx_planning_data, allow_nil: true
   delegate :params_v2, to: :planx_planning_data, allow_nil: true
+  delegate :work_status, to: :application_type
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
@@ -119,8 +123,6 @@ class PlanningApplication < ApplicationRecord
   accepts_nested_attributes_for :proposal_measurement
   accepts_nested_attributes_for :planx_planning_data
 
-  WORK_STATUSES = %w[proposed existing].freeze
-
   PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
     address_2
     applicant_first_name
@@ -142,8 +144,7 @@ class PlanningApplication < ApplicationRecord
     postcode
     public_comment
     town
-    uprn
-    work_status].freeze
+    uprn].freeze
 
   ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS = %w[address_1
     address_2
@@ -157,8 +158,6 @@ class PlanningApplication < ApplicationRecord
 
   private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
 
-  validates :work_status,
-    inclusion: {in: WORK_STATUSES}
   validates :review_documents_for_recommendation_status,
     inclusion: {in: PROGRESS_STATUSES}
   validates :application_number, :reference, presence: true
@@ -890,7 +889,7 @@ class PlanningApplication < ApplicationRecord
     self.reference = [
       Date.current.strftime("%y"),
       application_number,
-      application_type_code
+      application_type_suffix
     ].join("-")
   end
 
@@ -1015,10 +1014,6 @@ class PlanningApplication < ApplicationRecord
     else
       100
     end
-  end
-
-  def application_type_code
-    I18n.t(work_status, scope: "application_type_codes.#{application_type&.name}")
   end
 
   def valid_from_date

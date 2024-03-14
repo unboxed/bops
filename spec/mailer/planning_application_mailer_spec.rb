@@ -16,7 +16,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let!(:reviewer) { create(:user, :reviewer, local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
-  let(:application_type) { create(:application_type) }
+  let(:application_type) { create(:application_type, :ldc_proposed) }
 
   let(:planning_application) do
     create(
@@ -155,6 +155,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       create(
         :planning_application,
         :invalidated,
+        :ldc_proposed,
         local_authority:,
         address_1: "123 High Street",
         town: "Big City",
@@ -631,6 +632,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let(:planning_application) do
       create(
         :planning_application,
+        :ldc_proposed,
         agent_email: "agent@example.com",
         local_authority:,
         address_1: "123 High Street",

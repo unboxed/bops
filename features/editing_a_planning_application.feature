@@ -24,11 +24,6 @@ Feature: Editing an application's details
     And there is an audit entry containing "Address 1 updated"
     And there is an audit entry containing "Changed to: 2 Streatham High Road"
 
-  Scenario: I can edit the application's proposed or completed status
-    Given I choose "Yes" for "Has the work been started?"
-    When I press "Save"
-    Then the page contains "Work already started: Yes"
-
   Scenario: I can edit the application's applicant details
     Given I am focused on the "Applicant information" fieldset
     And I fill in "First name" with "Pearly"

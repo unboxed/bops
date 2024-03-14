@@ -10,6 +10,7 @@ RSpec.describe "editing planning application" do
     create(
       :planning_application,
       :in_assessment,
+      :ldc_proposed,
       local_authority:
     )
   end
@@ -40,7 +41,7 @@ RSpec.describe "editing planning application" do
 
     expect(page).to have_content("An applicant or agent email is required.")
 
-    select("Prior approval")
+    select("Prior Approval - Larger extension to a house")
 
     within(find(:fieldset, text: "Agent information")) do
       fill_in("Email address", with: "alice@example.com")
@@ -68,7 +69,7 @@ RSpec.describe "editing planning application" do
     click_link("Edit details")
 
     expect(page).to have_content("Application number: 23-00101-PA")
-    expect(page).to have_select("planning-application-application-type-id-field", selected: "Prior approval")
+    expect(page).to have_select("planning-application-application-type-id-field", selected: "Prior Approval - Larger extension to a house")
     fill_in("Address 1", with: "125 High Street")
     click_button("Save")
 

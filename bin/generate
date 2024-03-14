@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+docker compose --profile console run --rm console rails generate "$@"

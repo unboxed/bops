@@ -6,7 +6,8 @@ RSpec.describe "Creating a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor1) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
   let!(:reviewer1) { create(:user, :reviewer, local_authority: default_local_authority, name: "Reviewer 1") }
-  let!(:application_type) { create(:application_type) }
+  let!(:ldc_existing) { create(:application_type, :ldc_existing) }
+  let!(:ldc_proposed) { create(:application_type, :ldc_proposed) }
 
   before do
     sign_in assessor1
@@ -25,7 +26,7 @@ RSpec.describe "Creating a planning application" do
 
     expect(page).to have_text("New Application")
 
-    select("Lawfulness certificate")
+    select("Lawful Development Certificate - Proposed use")
     fill_in "Description", with: "Back shack"
 
     within_fieldset "Applicant information" do
@@ -43,7 +44,7 @@ RSpec.describe "Creating a planning application" do
   it "displays an error when both agent and applicant emails are missing" do
     click_link "Add new application"
 
-    select("Lawfulness certificate")
+    select("Lawful Development Certificate - Proposed use")
     fill_in "Description", with: "Bad bad application"
 
     click_button "Save"
@@ -73,7 +74,7 @@ RSpec.describe "Creating a planning application" do
 
     click_link "Add new application"
 
-    select("Lawfulness certificate")
+    select("Lawful Development Certificate - Proposed use")
     fill_in "Description", with: "Bird house"
     within_fieldset "Applicant information" do
       fill_in "Email address", with: "mah@mah.com"
@@ -91,7 +92,7 @@ RSpec.describe "Creating a planning application" do
     before do
       click_link "Add new application"
 
-      select("Lawfulness certificate")
+      select("Lawful Development Certificate - Proposed use")
       fill_in "Description", with: "Backyard bird hotel"
       fill_in "Day", with: "3"
       fill_in "Month", with: "3"
@@ -153,19 +154,6 @@ RSpec.describe "Creating a planning application" do
       click_link "Edit details"
 
       expect(page).to have_field("planning_application[payment_amount]", with: "104.00")
-    end
-
-    it "with existing status" do
-      within "form", text: "Has the work been started?" do
-        choose "Yes"
-      end
-
-      click_button "Save"
-
-      visit "/planning_applications/#{PlanningApplication.last.id}"
-      click_link("Check and validate")
-
-      expect(page).to have_text("Work already started: Yes")
     end
   end
 end
