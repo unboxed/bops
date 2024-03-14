@@ -20,9 +20,22 @@ en:
       show:
         change: Change
         continue: Continue
+        edit: Edit
         name: Name
         review_application_type: Review the application type
+        status: Status
         suffix: Suffix
+      statuses:
+        edit:
+          active: Active
+          active_hint: Application type can be used to submit new planning application.
+          cancel: Cancel
+          continue: Continue
+          inactive: Inactive
+          inactive_hint: Application type is in the process of being configured and can't be used to submit planning applications.
+          retired: Retired
+          retired_hint: Application type was previously used to submit planning application but has been retired due to legislation changes, etc.
+          update_application_type_status: Update status
     dashboards:
       show:
         administrator_dashboard: Administrator dashboard
