@@ -18,7 +18,7 @@ module TaskListItems
       end
 
       def link_path
-        new_planning_application_review_committee_decision_path(planning_application)
+        edit_planning_application_review_committee_decision_path(planning_application, planning_application.committee_decision)
       end
 
       def status_tag_component
