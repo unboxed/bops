@@ -126,6 +126,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_170428) do
     t.string "location"
     t.string "link"
     t.string "time"
+    t.datetime "late_comments_deadline"
+    t.text "notification_content"
     t.index ["planning_application_id"], name: "ix_committee_decisions_on_planning_application_id", unique: true
   end
 
