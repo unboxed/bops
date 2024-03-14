@@ -1,0 +1,56 @@
+<% content_for :page_title do %>
+  <%= t(".review_application_type") %> - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".review_application_type") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".review_application_type") %>
+    </h1>
+
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          <%= t(".name") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_type.description %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <% if @application_type.inactive? %>
+            <%= link_to [:edit, @application_type], class: "govuk-link" do %>
+              <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".name") %></span>
+            <% end %>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          <%= t(".suffix") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_type.suffix %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <% if @application_type.inactive? %>
+            <%= link_to [:edit, @application_type], class: "govuk-link" do %>
+              <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".suffix") %></span>
+            <% end %>
+          <% end %>
+        </dd>
+      </div>
+    </dl>
+
+    <div class="govuk-button-group">
+      <%= link_to application_types_path, class: "govuk-button" do %>
+        <%= t(".continue") %>
+      <% end %>
+    </div>
+  </div>
+</div>

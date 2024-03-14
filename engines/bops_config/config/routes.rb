@@ -11,6 +11,8 @@ BopsConfig::Engine.routes.draw do
 
   resource :dashboard, only: %i[show]
 
+  resources :application_types
+
   resources :users, except: %i[show destroy] do
     get :resend_invite, on: :member
   end

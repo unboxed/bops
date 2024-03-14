@@ -121,6 +121,20 @@ en:
   activerecord:
     errors:
       models:
+        application_type:
+          attributes:
+            code:
+              blank: Select an application type name
+              inclusion: Select a valid application type name
+              readonly: The name can't be changed when the application type is %{status}
+              taken: There is already an application type for that name
+            suffix:
+              blank: Enter a suffix for the application number
+              invalid: The suffix must only use uppercase letters
+              readonly: The suffix can't be changed when the application type is %{status}
+              taken: There is already an application type with that suffix
+              too_long: The suffix must be at most %{count} characters long
+              too_short: The suffix must be at least %{count} characters long
         assessment_detail:
           attributes:
             base:
