@@ -52,7 +52,7 @@ class CommitteeDecision < ApplicationRecord
       location: planning_application.committee_decision.location,
       decision: planning_application.decision,
       link: planning_application.committee_decision.link,
-      current_user: Current.user.name,
+      current_user: assigned_officer,
       late_comments_deadline: planning_application.committee_decision.late_comments_deadline.to_date.to_fs,
       application_link: application_link(planning_application)
     }
@@ -61,6 +61,10 @@ class CommitteeDecision < ApplicationRecord
   end
 
   private
+
+  def assigned_officer
+    planning_application.user.present? ? planning_application.user.name : Current.user.name
+  end
 
   def replace_placeholders(string, variables)
     string.to_s.gsub(EMAIL_PLACEHOLDER) { variables.fetch($1.to_sym) }

@@ -122,7 +122,7 @@ module PlanningApplications
 
     def deliver_letters!
       neighbours_to_contact.each do |neighbour|
-        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text, resend_reason:).deliver!
+        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text, resend_reason:, letter_type: :consultation).deliver!
       end
     end
 

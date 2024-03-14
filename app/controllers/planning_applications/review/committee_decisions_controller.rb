@@ -40,7 +40,7 @@ module PlanningApplications
           if neighbour.neighbour_responses.last.email.present?
             SendCommitteeDecisionEmailJob.perform_later(neighbour, @planning_application.planning_application)
           else
-            LetterSendingService.new(neighbour, @committee_decision.notification_content).deliver!
+            LetterSendingService.new(neighbour, @committee_decision.notification_content, letter_type: :committee).deliver!
           end
         end
       end
