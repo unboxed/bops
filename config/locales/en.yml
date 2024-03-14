@@ -320,6 +320,7 @@ en:
           link: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made
           link_text: The Town and Country Planning (General Permitted Development) (England) Order 2015
     planning_permission: Householder Application for Planning Permission
+    planning_permission_abbr: PP
     prior_approval: Prior approval
     prior_approval_abbr: PA
   archive_reasons:
