@@ -78,7 +78,7 @@ module PlanningApplicationStatus
       event :send_to_committee do
         transitions from: :awaiting_determination, to: :in_committee do
           guard do
-            committee_decision.recommend?
+            committee_decision&.recommend?
           end
         end
 
