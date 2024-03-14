@@ -14,11 +14,15 @@ module PlanningApplications
       def edit
       end
 
+      def show
+      end
+
       def update
         ActiveRecord::Base.transaction do
           update_committee_decision!
           deliver_letters!
           record_audit_for_letters_sent!
+          @planning_application.send_to_committee!
         end
 
         respond_to do |format|
