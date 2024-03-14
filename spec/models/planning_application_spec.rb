@@ -73,18 +73,6 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    describe "#work_status" do
-      it "validates the type of status" do
-        planning_application = build(:planning_application, work_status: "bad_status")
-
-        expect do
-          planning_application.valid?
-        end.to change {
-          planning_application.errors[:work_status]
-        }.to ["Work Status should be proposed or existing"]
-      end
-    end
-
     describe "#user_is_non_administrator" do
       it "validates that a user assigned to the planning application is not an administrator" do
         planning_application = build(:planning_application, user: create(:user, :administrator))
@@ -232,7 +220,7 @@ RSpec.describe PlanningApplication do
 
       describe "#reference" do
         let(:planning_application) do
-          build(:planning_application, :ldc_proposed, work_status: "proposed")
+          build(:planning_application, :ldc_proposed)
         end
 
         it "is set when application is created" do
@@ -245,7 +233,7 @@ RSpec.describe PlanningApplication do
         end
 
         it "works for other planning application types" do
-          planning_application = build(:planning_application, :prior_approval, work_status: "proposed")
+          planning_application = build(:planning_application, :prior_approval)
 
           travel_to(DateTime.new(2022, 1, 1)) do
             expect { planning_application.save }
@@ -477,8 +465,8 @@ RSpec.describe PlanningApplication do
 
   describe "#reference_in_full" do
     let(:local_authority) { create(:local_authority, :southwark) }
-    let(:planning_application1) { create(:planning_application, :ldc_proposed, local_authority:, work_status: "proposed") }
-    let(:planning_application2) { create(:planning_application, :ldc_existing, local_authority:, work_status: "existing") }
+    let(:planning_application1) { create(:planning_application, :ldc_proposed, local_authority:) }
+    let(:planning_application2) { create(:planning_application, :ldc_existing, local_authority:) }
 
     before do
       travel_to Time.zone.local(2022, 10, 10)

@@ -17,7 +17,6 @@ RSpec.describe PlanningApplicationSearch do
         :planning_application,
         :not_started,
         :ldc_proposed,
-        work_status: "proposed",
         description: "Add a chimney stack.",
         local_authority:,
         received_at: nil

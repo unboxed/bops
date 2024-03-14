@@ -11,19 +11,10 @@ module BopsApi
         end
 
         def parse
-          {application_type:, work_status:}.compact
+          {application_type:}
         end
 
         private
-
-        def work_status
-          case params[:value]
-          when "ldc.existing"
-            "existing"
-          when "ldc.proposed"
-            "proposed"
-          end
-        end
 
         def application_type
           ApplicationType.active.find_by!(code: params[:value])

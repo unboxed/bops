@@ -43,7 +43,6 @@ RSpec.describe "Planning Application show page" do
       local_authority: default_local_authority,
       payment_reference: "PAY123",
       payment_amount: 103.00,
-      work_status: "proposed",
       uprn: "00773377",
       address_1: "7 Elm Grove",
       town: "London",

@@ -84,25 +84,6 @@ RSpec.describe PlanningApplicationStatus do
       end
     end
 
-    describe "work_status" do
-      subject(:planning_application) { create(:planning_application, :not_started) }
-
-      let(:proposed_drawing1) do
-        create(:document, :with_tags,
-          planning_application:,
-          numbers: "number")
-      end
-
-      it "sets work_status to proposed" do
-        expect(planning_application.work_status).to eq "proposed"
-      end
-
-      it "allows the work status to be updated" do
-        planning_application.update!(work_status: "existing")
-        expect(planning_application.work_status).to eql("existing")
-      end
-    end
-
     context "when I return the application from invalidated" do
       subject(:planning_application) { create(:planning_application, :invalidated) }
 

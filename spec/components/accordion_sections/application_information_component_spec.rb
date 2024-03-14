@@ -3,24 +3,25 @@
 require "rails_helper"
 
 RSpec.describe AccordionSections::ApplicationInformationComponent, type: :component do
+  let(:application_type) { create(:application_type, :ldc_proposed) }
+
   let(:planning_application) do
     create(
       :planning_application,
       description: "Test description",
-      work_status:,
       address_1: "123 Long Lane",
       town: "Big City",
       postcode: "AB34EF",
       uprn: "123456789",
       payment_reference:,
       payment_amount: 100,
+      application_type:,
       user:
     )
   end
 
   let(:user) { create(:user, name: "Alice Smith") }
   let(:payment_reference) { "123" }
-  let(:work_status) { :proposed }
 
   let(:component) do
     described_class.new(planning_application:)
@@ -164,7 +165,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
   end
 
   context "when the work has been started" do
-    let(:work_status) { :existing }
+    let(:application_type) { create(:application_type, :ldc_existing) }
 
     it "renders 'Yes'" do
       render_inline(component)

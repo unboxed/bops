@@ -22,6 +22,18 @@ class ApplicationType < ApplicationRecord
     ODP_APPLICATION_TYPES[code]
   end
 
+  def existing?
+    code.include?(".existing")
+  end
+
+  def retrospective?
+    code.include?(".retro")
+  end
+
+  def work_status
+    existing? ? "existing" : "proposed"
+  end
+
   def full_name
     name.humanize
   end

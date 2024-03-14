@@ -21,10 +21,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
       }
 
       it "returns the correct application type" do
-        expect(parse_application_type).to eq(
-          application_type: application_type_ldce,
-          work_status: "existing"
-        )
+        expect(parse_application_type).to eq(application_type: application_type_ldce)
       end
     end
 
@@ -36,10 +33,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
       }
 
       it "returns the correct application type" do
-        expect(parse_application_type).to eq(
-          application_type: application_type_ldcp,
-          work_status: "proposed"
-        )
+        expect(parse_application_type).to eq(application_type: application_type_ldcp)
       end
     end
 

@@ -209,8 +209,6 @@ en:
               blank: State the reasons why this application is, or is not lawful
             review_documents_for_recommendation_status:
               inclusion: "%{attribute} must be Not started, In progress or Complete"
-            work_status:
-              inclusion: Work Status should be proposed or existing
         planning_application_constraints_query:
           attributes:
             base:

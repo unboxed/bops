@@ -11,7 +11,6 @@ FactoryBot.define do
     status { :in_assessment }
     in_assessment_at { Time.zone.now }
     validated_at { Time.zone.today }
-    work_status { :proposed }
     agent_first_name { Faker::Name.first_name }
     agent_last_name { Faker::Name.last_name }
     agent_phone { Faker::Base.numerify("+44 7### ######") }

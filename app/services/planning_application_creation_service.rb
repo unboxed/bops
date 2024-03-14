@@ -94,7 +94,6 @@ class PlanningApplicationCreationService
       :user_role,
       :files,
       :payment_reference,
-      :work_status,
       :planx_debug_data,
       :from_production,
       :boundary_geojson,
