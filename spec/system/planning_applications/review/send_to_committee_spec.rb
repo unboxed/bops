@@ -37,7 +37,7 @@ RSpec.describe "Reviewing sign-off" do
     sign_in reviewer
   end
 
-  context "when the assessor has not recommended the application go to committee" do 
+  context "when the assessor has not recommended the application go to committee" do
     it "does not show the option to send to committee" do
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
