@@ -2,6 +2,7 @@
 
 class ApplicationType < ApplicationRecord
   NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate].freeze
+  ODP_APPLICATION_TYPES = I18n.t(:"odp.application_types").to_h.freeze
 
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
@@ -15,6 +16,10 @@ class ApplicationType < ApplicationRecord
     delegate :planning_conditions?
     delegate :permitted_development_rights?
     delegate :site_visits?
+  end
+
+  def description
+    ODP_APPLICATION_TYPES[code]
   end
 
   def full_name
@@ -66,8 +71,8 @@ class ApplicationType < ApplicationRecord
     end
 
     def menu(scope = by_name)
-      scope.order(name: :asc).select(:name, :id).map do |application_type|
-        [application_type.full_name, application_type.id]
+      scope.order(code: :asc).map do |application_type|
+        [application_type.description, application_type.id]
       end
     end
   end

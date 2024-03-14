@@ -20,7 +20,10 @@ RSpec.describe ApplicationType do
 
       it "returns an array of application type names (humanized) and ids" do
         expect(described_class.menu).to eq(
-          [["Prior approval", prior_approval.id], ["Lawfulness certificate", lawfulness_certificate.id]]
+          [
+            ["Prior Approval - Larger extension to a house", prior_approval.id],
+            ["Lawful Development Certificate - Existing use", lawfulness_certificate.id]
+          ]
         )
       end
     end
