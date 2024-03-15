@@ -14,13 +14,11 @@ RSpec.describe "Send notification to neighbours of committee" do
       :assessor,
       local_authority: default_local_authority)
   end
+  let!(:planning_application) do
+    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor)
+  end
 
   before do
-    planning_application = create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor)
-    create(:consultation, planning_application:)
-
-    planning_application.update(decision: "granted", status: "awaiting_determination")
-
     allow(Current).to receive(:user).and_return(reviewer)
 
     sign_in reviewer
@@ -38,11 +36,9 @@ RSpec.describe "Send notification to neighbours of committee" do
 
   context "when the assessor has recommended the application go to committee" do
     before do
-      planning_application = create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor)
-      create(:committee_decision, planning_application: PlanningApplication.last, recommend: true, reasons: ["The first reason"])
       consultation = create(:consultation, planning_application:)
-
-      planning_application.update(decision: "granted", status: "awaiting_determination")
+      planning_application.committee_decision.update(recommend: true, reasons: ["The first reason"])
+      planning_application.committee_decision.current_review.update(review_status: "review_complete")
 
       neighbour = create(:neighbour, consultation:)
       create(:neighbour_response, email: "my.email@example.com", neighbour:)
@@ -78,6 +74,8 @@ RSpec.describe "Send notification to neighbours of committee" do
       click_button "Send notification"
 
       expect(page).to have_content "Notifications sent to neighbours and application in committee"
+
+      expect(page).to have_content "In committee"
 
       expect(SendCommitteeDecisionEmailJob).to have_been_enqueued
       # Did try testing letter sending service had been called, but was too difficult given the order of tests and when data got saved

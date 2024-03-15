@@ -20,21 +20,27 @@
       Assessor recommendation
     </h2>
 
-    <p class="govuk-body">
-      The case officer has marked this application as requiring decision by Committee for the following reasons:
-    </p>
+    <% if @committee_decision.recommend? %>
+      <p class="govuk-body">
+        The case officer has marked this application as requiring decision by Committee for the following reasons:
+      </p>
 
-    <div class="grey-box">
-      <h3 class="govuk-heading-s">
-        Reasons selected:
-      </h3>
+      <div class="grey-box">
+        <h3 class="govuk-heading-s">
+          Reasons selected:
+        </h3>
 
-      <ul class="govuk-list">
-        <% @committee_decision.reasons.each do |reason| %>
-          <li><%= reason %></li>
-        <% end %>
-      </ul>
-    </div>
+        <ul class="govuk-list">
+          <% @committee_decision.reasons.each do |reason| %>
+            <li><%= reason %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <p class="govuk-body">
+        The case officer has marked this application as not requiring decision by Committee.
+      </p>
+    <% end %>
 
     <h3 class="govuk-heading-s">
       Submitted recommendation

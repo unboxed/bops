@@ -52,7 +52,7 @@ class LetterSendingService
     if consultation_letter?
       @consultation.neighbour_letter_header
     else
-      "Town and Country"
+      "Town and Country Planning Act 1990"
     end
   end
 

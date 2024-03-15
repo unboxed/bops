@@ -237,7 +237,7 @@ Rails.application.routes.draw do
 
           resources :tasks, only: :index
 
-          resources :committee_decisions do
+          resources :committee_decisions, only: %i[edit show update] do
             resources :notifications do
               get :edit, on: :collection
               get :show, on: :collection

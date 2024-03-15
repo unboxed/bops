@@ -24,11 +24,11 @@ module StatusTags
 
     def colour_class
       case status.to_sym
-      when :not_started, :new
+      when :not_started, :new, :review_not_started
         "govuk-tag--grey"
       when :in_progress, :awaiting_responses
         "govuk-tag--blue"
-      when :checked, :granted, :valid, :completed, :posted, :supportive, :approved, :auto_approved
+      when :checked, :granted, :valid, :completed, :posted, :supportive, :approved, :auto_approved, :review_complete
         "govuk-tag--green"
       when :updated, :to_be_reviewed, :submitted, :neutral
         "govuk-tag--yellow"

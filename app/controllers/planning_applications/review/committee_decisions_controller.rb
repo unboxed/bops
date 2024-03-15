@@ -15,10 +15,14 @@ module PlanningApplications
       end
 
       def update
-        if @committee_decision.update!(committee_decision_params)
-          redirect_to planning_application_review_tasks_path(@planning_application)
-        else
-          render :edit
+        respond_to do |format|
+          format.html do
+            if @committee_decision.update(committee_decision_params)
+              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+            else
+              render :edit
+            end
+          end
         end
       end
 
@@ -36,9 +40,9 @@ module PlanningApplications
             reviews_attributes: {
               reviewed_at: Time.current,
               reviewer: current_user,
-              status: status,
+              status:,
               review_status:,
-              id: @condition_set&.current_review&.id
+              id: @committee_decision.current_review.id
             }
           )
       end
@@ -46,8 +50,6 @@ module PlanningApplications
       def status
         if return_to_officer?
           "to_be_reviewed"
-        elsif save_progress?
-          "in_progress"
         elsif mark_as_complete?
           "complete"
         end
