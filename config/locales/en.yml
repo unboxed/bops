@@ -431,6 +431,8 @@ en:
       started: Application validated
       submitted: Recommendation submitted
       time_extension_validation_request_added: 'Added: time extension request'
+      time_extension_validation_request_cancelled: 'Cancelled: time extension request'
+      time_extension_validation_request_cancelled_post_validation: 'Cancelled: time extension request'
       time_extension_validation_request_received: 'Received: time extension request'
       time_extension_validation_request_sent_post_validation: 'Sent: time extension request'
       unarchived: Document unarchived
@@ -1551,6 +1553,8 @@ en:
             success: Red line boundary change request was successfully cancelled.
           replacement_document_validation_request:
             success: Replacement document validation request successfully cancelled.
+          time_extension_validation_request:
+            success: Time extension request successfully cancelled.
         create:
           additional_document_validation_request:
             success: Additional document request successfully created.
