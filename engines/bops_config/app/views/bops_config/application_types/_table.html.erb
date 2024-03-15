@@ -1,0 +1,39 @@
+<table class="govuk-table application-types-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        Suffix
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Application type
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Status
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Action
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @application_types.each do |application_type| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= application_type.suffix %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= application_type.description %>
+        </td>
+        <td class="govuk-table__cell">
+          <span class="govuk-tag <%= "govuk-tag--#{tag_colour(application_type.status)}" %>">
+            <%= application_type.status.capitalize %>
+          </span>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to "View and/or edit", edit_application_type_path(application_type) , class: "govuk-link" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

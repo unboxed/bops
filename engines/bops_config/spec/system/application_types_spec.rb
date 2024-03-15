@@ -159,4 +159,122 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(3) dd", text: "Active")
   end
+
+  it "allows showning application types" do
+    ldc_existing = create(:application_type, :ldc_existing, status: "active")
+    ldc_proposed = create(:application_type, :ldc_proposed, status: "retired")
+    prior_approval = create(:application_type, :prior_approval, status: "active")
+    planning_permission = create(:application_type, :planning_permission, status: "inactive")
+
+    visit "/application_types"
+    expect(page).to have_selector("h1", text: "Application Types")
+
+    expect(page).to have_link(
+      "Create new application type",
+      href: "/application_types/new"
+    )
+
+    within(".govuk-table.application-types-table") do
+      within(".govuk-table__head") do
+        within(all(".govuk-table__row").first) do
+          expect(page).to have_content("Suffix")
+          expect(page).to have_content("Application type")
+          expect(page).to have_content("Status")
+          expect(page).to have_content("Action")
+        end
+      end
+
+      within(".govuk-table__body") do
+        rows = page.all(".govuk-table__row")
+
+        within(rows[0]) do
+          cells = page.all(".govuk-table__cell")
+
+          within(cells[0]) do
+            expect(page).to have_content("LDCE")
+          end
+          within(cells[1]) do
+            expect(page).to have_content("Lawful Development Certificate - Existing use")
+          end
+          within(cells[2]) do
+            within(".govuk-tag.govuk-tag--green") do
+              expect(page).to have_content("Active")
+            end
+          end
+          within(cells[3]) do
+            expect(page).to have_link(
+              "View and/or edit",
+              href: "/application_types/#{ldc_existing.id}/edit"
+            )
+          end
+        end
+
+        within(rows[1]) do
+          cells = page.all(".govuk-table__cell")
+
+          within(cells[0]) do
+            expect(page).to have_content("LDCP")
+          end
+          within(cells[1]) do
+            expect(page).to have_content("Lawful Development Certificate - Proposed use")
+          end
+          within(cells[2]) do
+            within(".govuk-tag.govuk-tag--red") do
+              expect(page).to have_content("Retired")
+            end
+          end
+          within(cells[3]) do
+            expect(page).to have_link(
+              "View and/or edit",
+              href: "/application_types/#{ldc_proposed.id}/edit"
+            )
+          end
+        end
+
+        within(rows[2]) do
+          cells = page.all(".govuk-table__cell")
+
+          within(cells[0]) do
+            expect(page).to have_content("PA")
+          end
+          within(cells[1]) do
+            expect(page).to have_content("Prior Approval - Larger extension to a house")
+          end
+          within(cells[2]) do
+            within(".govuk-tag.govuk-tag--green") do
+              expect(page).to have_content("Active")
+            end
+          end
+          within(cells[3]) do
+            expect(page).to have_link(
+              "View and/or edit",
+              href: "/application_types/#{prior_approval.id}/edit"
+            )
+          end
+        end
+
+        within(rows[3]) do
+          cells = page.all(".govuk-table__cell")
+
+          within(cells[0]) do
+            expect(page).to have_content("HAPP")
+          end
+          within(cells[1]) do
+            expect(page).to have_content("Planning Permission - Full householder")
+          end
+          within(cells[2]) do
+            within(".govuk-tag.govuk-tag--grey") do
+              expect(page).to have_content("Inactive")
+            end
+          end
+          within(cells[3]) do
+            expect(page).to have_link(
+              "View and/or edit",
+              href: "/application_types/#{planning_permission.id}/edit"
+            )
+          end
+        end
+      end
+    end
+  end
 end

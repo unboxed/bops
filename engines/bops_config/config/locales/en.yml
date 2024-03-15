@@ -14,6 +14,8 @@ en:
         continue: Continue
         suffix_hint: Set the application suffix, such as 'HAPP' (Householder application) or 'PA' (Prior Approvals). This will be added to all application numbers for this application type.
         suffix_label: Suffix
+      index:
+        title: Application Types
       new:
         application_profile: Application profile
         create_application_type: Create a new application type
