@@ -2123,6 +2123,20 @@ RSpec.describe PlanningApplication do
         expect(planning_application.updates_required?).to be(true)
       end
     end
+
+    context "when changes committee decision requested" do
+      before do
+        committee_decision = create(
+          :committee_decision,
+          planning_application:
+        )
+        committee_decision.current_review.update(action: "rejected", comment: "no")
+      end
+
+      it "returns true" do
+        expect(planning_application.updates_required?).to be(true)
+      end
+    end
   end
 
   describe "#review_in_progress?" do

@@ -542,7 +542,7 @@ class PlanningApplication < ApplicationRecord
     assessment_details_for_review.any?(&:update_required?) ||
       permitted_development_right&.update_required? ||
       policy_classes.any?(&:update_required?) ||
-      committee_decision.current_review.rejected?
+      (committee_decision.present? && committee_decision.current_review.rejected?)
   end
 
   def review_in_progress?

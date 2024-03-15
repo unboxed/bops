@@ -20,21 +20,27 @@
       Assessor recommendation
     </h2>
 
-    <p class="govuk-body">
-      The case officer has marked this application as requiring decision by Committee for the following reasons:
-    </p>
+    <% if @committee_decision.recommend? %>
+      <p class="govuk-body">
+        The case officer has marked this application as requiring decision by Committee for the following reasons:
+      </p>
 
-    <div class="grey-box">
-      <h3 class="govuk-heading-s">
-        Reasons selected:
-      </h3>
+      <div class="grey-box">
+        <h3 class="govuk-heading-s">
+          Reasons selected:
+        </h3>
 
-      <ul class="govuk-list">
-        <% @committee_decision.reasons.each do |reason| %>
-          <li><%= reason %></li>
-        <% end %>
-      </ul>
-    </div>
+        <ul class="govuk-list">
+          <% @committee_decision.reasons.each do |reason| %>
+            <li><%= reason %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <p class="govuk-body">
+        The case officer has marked this application as not requiring decision by Committee.
+      </p>
+    <% end %>
 
     <h3 class="govuk-heading-s">
       Submitted recommendation
@@ -48,7 +54,8 @@
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
 <div class="govuk-!-margin-bottom-8">
-  <% if @committee_decision.current_review.review_complete? && @committee_decision.current_review.complete? %>
+    <h3 class="govuk-heading-s">Reviewer decision:</h3>
+  <% if (!@committee_decision.recommend? && @committee_decision.current_review.to_be_reviewed?) || (@committee_decision.recommend? && @committee_decision.current_review.complete?) %>
     <p class="govuk-body">The application should go to committee</p>
   <% else %>
     <p class="govuk-body">The application should not go to committee</p>

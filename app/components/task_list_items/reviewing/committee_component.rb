@@ -14,7 +14,7 @@ module TaskListItems
       delegate(:committee_decision, to: :planning_application)
 
       def link_text
-        "Committee decision"
+        t(".link_text")
       end
 
       def link_path

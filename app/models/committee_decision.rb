@@ -11,7 +11,7 @@ class CommitteeDecision < ApplicationRecord
     presence: {if: -> { review_complete? && planning_application_awaiting_determination? && recommend? }}
 
   after_create :create_review
-  after_update :create_review, if: :should_create_review?
+  before_update :create_review, if: :should_create_review?
 
   accepts_nested_attributes_for :reviews
 
@@ -100,9 +100,7 @@ class CommitteeDecision < ApplicationRecord
   def should_create_review?
     return if current_review.nil?
 
-    current_review.status == "to_be_reviewed" &&
-      current_review.review_status == "review_complete" &&
-      planning_application.recommendation.assessment_complete?
+    recommend_changed? && current_review.to_be_reviewed? && current_review.review_complete?
   end
 
   def create_review

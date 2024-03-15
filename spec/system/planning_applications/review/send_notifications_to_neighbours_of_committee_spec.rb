@@ -20,6 +20,8 @@ RSpec.describe "Send notification to neighbours of committee" do
 
   before do
     allow(Current).to receive(:user).and_return(reviewer)
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
     sign_in reviewer
   end

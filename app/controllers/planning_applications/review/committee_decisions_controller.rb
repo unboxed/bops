@@ -49,9 +49,9 @@ module PlanningApplications
 
       def status
         if return_to_officer?
-          "to_be_reviewed"
+          :to_be_reviewed
         elsif mark_as_complete?
-          "complete"
+          :complete
         end
       end
 
@@ -60,7 +60,7 @@ module PlanningApplications
       end
 
       def review_status
-        save_progress? ? "review_in_progress" : "review_complete"
+        save_progress? ? :review_in_progress : :review_complete
       end
     end
   end
