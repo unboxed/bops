@@ -430,6 +430,7 @@ en:
       replacement_document_validation_request_sent: 'Sent: validation request (replacement document#%{args})'
       replacement_document_validation_request_sent_post_validation: 'Sent: Post-validation request (replacement document#%{args})'
       returned: Application returned
+      sent_to_committee: Application sent to committee
       site_notice_created: Site notice created
       started: Application validated
       submitted: Recommendation submitted
@@ -1352,14 +1353,14 @@ en:
           assessor_remarks: Assessor's remarks
           review_assessment_summaries: Review assessment summaries
           this_information_will: This information will be made publicly available.
-      committee_decisions:
-        update:
-          success: Notifications sent to neighbours and application in committee
       documents:
         update:
           success: Documents were successfully updated.
       immunity_details:
         successfully_updated: Review immunity details was successfully updated
+      notifications:
+        update:
+          success: Notifications sent to neighbours and application in committee
       policy_classes:
         comment:
           edit_comment: Edit comment

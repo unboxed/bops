@@ -237,7 +237,13 @@ Rails.application.routes.draw do
 
           resources :tasks, only: :index
 
-          resources :committee_decisions
+          resources :committee_decisions do
+            resources :notifications do
+              get :edit, on: :collection
+              get :show, on: :collection
+              patch :update, on: :collection
+            end
+          end
         end
       end
     end

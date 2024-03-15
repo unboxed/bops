@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Notify neighbours of committee meeting - <%= t('page_title') %>
+  Committee Decision - <%= t('page_title') %>
 <% end %>
 
 <%= render(
@@ -7,17 +7,17 @@
   locals: { planning_application: @planning_application  }
 ) %>
 
-<% content_for :title, "Notify neighbours of committee meeting" %>
+<% content_for :title, "Committee Decision" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Notify neighbours of committee meeting" }
+  locals: { heading: "Committee Decision" }
 ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">
-      Application going to committee
+      Assessor recommendation
     </h2>
 
     <p class="govuk-body">
@@ -35,6 +35,13 @@
         <% end %>
       </ul>
     </div>
+
+    <h3 class="govuk-heading-s">
+      Submitted recommendation
+    </h3>
+    <p class="govuk-body">
+      by <%= @planning_application.user&.name %>, <%= @planning_application.in_assessment_at.to_fs %>
+    </p>
   </div>
 </div>
 
@@ -44,46 +51,23 @@
   url: planning_application_review_committee_decision_path(@planning_application, @committee_decision)
 ) do |form| %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">1. Enter committee meeting details</h2>
-      <div class="govuk-!-margin-bottom-3">
-        <span class="govuk-hint">These details will be included in the notification.</span>
-      </div>
+    <%= form.fields_for :reviews_attributes, @committee_decision.current_review do |review_form| %>
+    <%= review_form.govuk_radio_buttons_fieldset :action, legend: { text: "Do you agree with the recommendation?" } do %>
+      <%= review_form.govuk_radio_button(
+        :action, :accepted, checked: @committee_decision.current_review.accepted?, label: { text: "Yes" }
+      ) %>
 
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-      <%= form.govuk_date_field :date_of_committee, legend: { text: "Enter date of meeting", size: "s" } %>
-      <%= form.govuk_text_field :location, label: { text: "Enter location" }, hint: { text: "Enter the address where the meeting will be held. Include the name of the room, building number or hame, street, town and postcode." } %>
-      <%= form.govuk_text_field :link, label: { text: "Enter link" }, hint: { text: "Add a URL where neighbours can view agendas and more information about committee meetings." } %>
-      <%= form.govuk_text_field :time, label: { text: "Enter time of meeting" }, hint: { text: "For example, 10:30am or 7pm. For midday enter 12pm." }, width: 5 %>
-      <%= form.govuk_date_field :late_comments_deadline, legend: { text: "Enter deadline for late comments to be received by", size: "s" } %>
-    </div>
-  </div>
-
-  <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">2. Check and send notification to neighbours</h2>
-      <p class="govuk-body">This will be sent to anyone who submitted a comment on this application</p>
-
-      <details class="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            View/edit letter template
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <%= form.label :notification_content, "Neighbour letter", class: "govuk-!-display-none" %>
-          <div class="govuk-inset-text">
-            <p class="govuk-body">Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
-            <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
-          </div>
-          <%= form.text_area :notification_content, value: I18n.t("neighbour_letter_template.committee"), rows: 25, class: "govuk-body neighbour-letter-template" %>
-        </div>
-      </details>
-
-      <%= form.submit "Send notification", class: "govuk-button" %>
-    </div>
+      <%= review_form.govuk_radio_button(
+        :action, :rejected, checked: @committee_decision.current_review.rejected?, label: { text: "No (return the case for assessment)" }
+      ) do %>
+        <%= review_form.govuk_text_area(
+          :comment, value: @committee_decision.current_review.comment, rows: 6, label: { text: "Explain why you do not agree with the recommendation" }
+        ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <div class="govuk-button-group">
+    <%= form.submit "Save and mark as complete", class: "govuk-button" %>
+    <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>

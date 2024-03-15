@@ -14,11 +14,11 @@ module TaskListItems
       delegate(:committee_decision, to: :planning_application)
 
       def link_text
-        "Notify neighbours of committee meeting"
+        "Committee decision"
       end
 
       def link_path
-        if planning_application.in_committee?
+        if committee_decision.current_review.review_complete?
           planning_application_review_committee_decision_path(planning_application, planning_application.committee_decision)
         else
           edit_planning_application_review_committee_decision_path(planning_application, planning_application.committee_decision)
@@ -30,11 +30,7 @@ module TaskListItems
       end
 
       def status
-        if planning_application.in_committee_at.present?
-          :complete
-        else
-          :not_started
-        end
+        committee_decision.current_review.review_status
       end
     end
   end

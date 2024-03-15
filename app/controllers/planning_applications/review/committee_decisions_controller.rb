@@ -8,9 +8,6 @@ module PlanningApplications
       before_action :ensure_user_is_reviewer
       before_action :set_committee_decision
 
-      def new
-      end
-
       def edit
       end
 
@@ -18,42 +15,14 @@ module PlanningApplications
       end
 
       def update
-        ActiveRecord::Base.transaction do
-          update_committee_decision!
-          deliver_letters!
-          record_audit_for_letters_sent!
-          @planning_application.send_to_committee! unless @planning_application.in_committee?
-        end
-
-        respond_to do |format|
-          format.html do
-            redirect_to(planning_application_review_tasks_path(@planning_application),
-              notice: t(".success"))
-          end
-        end
-      rescue ActiveRecord::RecordInvalid => e
-        redirect_after_rescue(e)
-      end
-
-      def update_committee_decision!
-        @committee_decision.update!(committee_decision_params.except(:neighbour_letter_text))
-      end
-
-      def deliver_letters!
-        neighbours_to_contact.each do |neighbour|
-          if neighbour.neighbour_responses.last.email.present?
-            SendCommitteeDecisionEmailJob.perform_later(neighbour, @planning_application.planning_application)
-          else
-            LetterSendingService.new(neighbour, @committee_decision.notification_content, letter_type: :committee).deliver!
-          end
+        if @committee_decision.update!(committee_decision_params)
+          redirect_to planning_application_review_tasks_path(@planning_application)
+        else
+          render :edit
         end
       end
 
       private
-
-      def neighbours_to_contact
-        @planning_application.consultation.neighbours.with_responses
-      end
 
       def set_committee_decision
         @committee_decision = @planning_application.committee_decision
@@ -61,25 +30,35 @@ module PlanningApplications
 
       def committee_decision_params
         params.require(:committee_decision).permit(
-          :date_of_committee,
-          :location,
-          :link,
-          :time,
-          :late_comments_deadline,
-          :notification_content
-        )
+          reviews_attributes: %i[comment action]
+        ).to_h
+          .deep_merge(
+            reviews_attributes: {
+              reviewed_at: Time.current,
+              reviewer: current_user,
+              status: status,
+              review_status:,
+              id: @condition_set&.current_review&.id
+            }
+          )
       end
 
-      def redirect_after_rescue(error)
-        redirect_to edit_planning_application_review_committee_decision_path(@planning_application, @committee_decision), alert: error
+      def status
+        if return_to_officer?
+          "to_be_reviewed"
+        elsif save_progress?
+          "in_progress"
+        elsif mark_as_complete?
+          "complete"
+        end
       end
 
-      def record_audit_for_letters_sent!
-        Audit.create!(
-          planning_application_id: @planning_application.id,
-          user: Current.user,
-          activity_type: "committee_details_sent"
-        )
+      def return_to_officer?
+        params.dig(:committee_decision, :reviews_attributes, :action) == "rejected"
+      end
+
+      def review_status
+        save_progress? ? "review_in_progress" : "review_complete"
       end
     end
   end

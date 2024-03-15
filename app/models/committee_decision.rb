@@ -7,8 +7,9 @@ class CommitteeDecision < ApplicationRecord
 
   validates :recommend, exclusion: {in: [nil]}
 
-  validates :date_of_committee, :location, :link, :time, :late_comments_deadline, presence: {if: -> { planning_application_not_in_assessment? && recommend? }}
+  validates :date_of_committee, :location, :link, :time, :late_comments_deadline, presence: {if: -> { review_complete? && recommend? }}
 
+  after_create :create_review
   after_update :create_review, if: :should_create_review?
 
   accepts_nested_attributes_for :reviews
@@ -86,13 +87,13 @@ class CommitteeDecision < ApplicationRecord
     "#{planning_application.local_authority.applicants_url}/planning_applications/#{planning_application.id}"
   end
 
-  def planning_application_not_in_assessment?
-    planning_application.awaiting_determination? || planning_application.in_committee?
+  def review_complete?
+    current_review.review_complete? && planning_application.awaiting_determination?
   end
 
   def should_create_review?
     return if current_review.nil?
-    current_review.status == "updated" && current_review.review_status == "to_be_reviewed"
+    current_review.status == "to_be_reviewed" && current_review.review_status == "review_complete"
   end
 
   def create_review

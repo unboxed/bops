@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Notify neighbours of committee meeting - <%= t('page_title') %>
+  Committee Decision - <%= t('page_title') %>
 <% end %>
 
 <%= render(
@@ -7,17 +7,17 @@
   locals: { planning_application: @planning_application  }
 ) %>
 
-<% content_for :title, "Notify neighbours of committee meeting" %>
+<% content_for :title, "Committee Decision" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Notify neighbours of committee meeting" }
+  locals: { heading: "Committee Decision" }
 ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">
-      Application going to committee
+      Assessor recommendation
     </h2>
 
     <p class="govuk-body">
@@ -35,49 +35,27 @@
         <% end %>
       </ul>
     </div>
+
+    <h3 class="govuk-heading-s">
+      Submitted recommendation
+    </h3>
+    <p class="govuk-body">
+      by <%= @committee_decision.current_review.assessor&.name %>, <%= @planning_application.in_assessment_at.to_fs %>
+    </p>
   </div>
 </div>
 
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Committee meeting details</h2>
-    <div class="govuk-!-margin-bottom-3">
-      <span class="govuk-hint">Updated on <%= @planning_application.in_committee_at.to_fs %></span>
-    </div>
+<div class="govuk-!-margin-bottom-8">
+  <% if @committee_decision.current_review.review_complete? && @committee_decision.current_review.complete? %>
+    <p class="govuk-body">The application should go to committee</p>
+  <% else %>
+    <p class="govuk-body">The application should not go to committee</p>
+  <% end %>
+</div>
 
-    <div class="govuk-inset-text">
-      <h3 class="govuk-heading-s">
-        Date of meeting
-      </h3>
-      <p class="govuk-body">
-        <%= @committee_decision.date_of_committee.to_date.to_fs %>
-      </p>
-
-      <h3 class="govuk-heading-s">
-        Location
-      </h3>
-      <p class="govuk-body">
-        <%= @committee_decision.location %>
-      </p>
-
-      <h3 class="govuk-heading-s">
-        Time
-      </h3>
-      <p class="govuk-body">
-        <%= @committee_decision.time %>
-      </p>
-
-      <h3 class="govuk-heading-s">
-        Link to more information
-      </h3>
-      <p class="govuk-body">
-        <%= @committee_decision.link %>
-      </p>
-    </div>
-
-    <%= link_to "Update meeting details", edit_planning_application_review_committee_decision_path(@planning_application, @committee_decision), class: "govuk-button" %>
-    <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-  </div>
+<div class="govuk-button-group">
+  <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <%= link_to "Edit recommendation", edit_planning_application_review_committee_decision_path(@planning_application, @planning_application.committee_decision), class: "govuk-link govuk-body" %>
 </div>

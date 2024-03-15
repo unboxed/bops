@@ -269,7 +269,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_review_assessment?
-    awaiting_determination? && Current.user.reviewer?
+    (awaiting_determination? || in_committee?) && Current.user.reviewer?
   end
 
   def review_assessment_complete?
@@ -541,7 +541,8 @@ class PlanningApplication < ApplicationRecord
   def updates_required?
     assessment_details_for_review.any?(&:update_required?) ||
       permitted_development_right&.update_required? ||
-      policy_classes.any?(&:update_required?)
+      policy_classes.any?(&:update_required?) ||
+      committee_decision.current_review.rejected?
   end
 
   def review_in_progress?
