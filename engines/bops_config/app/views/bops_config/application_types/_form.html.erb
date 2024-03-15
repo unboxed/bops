@@ -12,5 +12,8 @@
     label: {text: t(".suffix_label"), tag: "h2", size: "m"},
     hint: {text: t(".suffix_hint")} %>
 
-  <%= form.govuk_submit(t(".continue")) %>
+  <div class="govuk-button-group">
+    <%= form.govuk_submit(t(".continue")) %>
+    <%= back_link %>
+  </div>
 <% end %>

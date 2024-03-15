@@ -2,7 +2,7 @@
 
 module BopsConfig
   module ApplicationTypes
-    class StatusesController < ApplicationController
+    class DeterminationPeriodsController < ApplicationController
       before_action :set_application_type
 
       def edit
@@ -13,8 +13,10 @@ module BopsConfig
 
       def update
         respond_to do |format|
-          if @application_type.update(application_type_params)
-            format.html { redirect_to @application_type }
+          if @application_type.update(application_type_params, :update_determination_period)
+            format.html do
+              redirect_to next_path, notice: t(".determination_period_successfully_updated")
+            end
           else
             format.html { render :edit }
           end
@@ -24,11 +26,15 @@ module BopsConfig
       private
 
       def application_type_params
-        params.require(:application_type).permit(:status)
+        params.require(:application_type).permit(:determination_period_days)
       end
 
       def set_application_type
         @application_type = ApplicationType.find(application_type_id)
+      end
+
+      def next_path
+        application_type_path(@application_type)
       end
     end
   end

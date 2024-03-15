@@ -48,6 +48,22 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          <%= t(".determination_period") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <% if @application_type.determination_period_days %>
+            <%= @application_type.determination_period_days %> days - bank holidays included
+          <% end %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :determination_period], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".determination_period") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           <%= t(".status") %>
         </dt>
         <dd class="govuk-summary-list__value">

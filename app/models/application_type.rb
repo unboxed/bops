@@ -27,12 +27,17 @@ class ApplicationType < ApplicationRecord
     end
   end
 
+  with_options on: :update_determination_period do
+    validates :determination_period_days, presence: true, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 99}
+  end
+
   attribute :features, ApplicationTypeFeature.to_type
 
   with_options to: :features do
     delegate :planning_conditions?
     delegate :permitted_development_rights?
     delegate :site_visits?
+    delegate :include_bank_holidays?
   end
 
   before_validation if: :code_changed? do
