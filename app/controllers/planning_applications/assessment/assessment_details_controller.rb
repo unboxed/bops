@@ -88,6 +88,10 @@ module PlanningApplications
         @category == "consultation_summary"
       end
 
+      def confirm_consultees?
+        @category == "confirm_consultees"
+      end
+
       def neighbour_summary?
         @category == "neighbour_summary"
       end

@@ -12,33 +12,20 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= constraint.type_code %></td>
         <td class="govuk-table__cell">
-          <%= constraint.consultee.name if constraint.consultee.present? %>
+          <% if constraint.consultee.present? %>
+            <%= constraint.consultee.name %>
+          <% else %>
+          <%= link_to "Assign consultee", new_planning_application_consultee_path(@planning_application, constraint: constraint), class: "govuk-link" %>
+        <% end %>
         </td>
         <td class="govuk-table__cell">
           <% if constraint.consultee.present? %>
             <%= render ConsulteeStatusComponent.new(consultee: constraint.consultee) %>
-          <% elsif !constraint.consultee_required %>
-            <%= "Consultee not required" %>
           <% else %>
             <%= "Not consulted" %>
           <% end %>
         </td>
       </tr>
     <% end %>
-    <% @planning_application.consultation.consultees.unassigned.find_each do |consultee| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Other</td>
-        <td class="govuk-table__cell">
-          <%= consultee.name %>
-        </td>
-      </tr>
-    <% end %>
   </tbody>
 </table>
-    <template id="consultee-template" data-consultees-target="template">
-      <tr class=" govuk-table__row just=added">
-        <td class=" govuk-table__cell ">Other</td>
-        <td class=" govuk-table__cell consultee-name">
-        </td>
-      </tr>
-    </template>

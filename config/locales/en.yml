@@ -461,6 +461,8 @@ en:
       time_extension_validation_request_received: 'Received: time extension request'
       time_extension_validation_request_sent: Time extension request sent
       time_extension_validation_request_sent_post_validation: 'Sent: time extension request'
+      time_extension_validation_request_cancelled_post_validation: 'Cancelled: time extension request'
+      time_extension_validation_request_cancelled: 'Cancelled: time extension request'
       unarchived: Document unarchived
       updated: "%{args} updated"
       uploaded: Document uploaded
@@ -584,6 +586,21 @@ en:
     responded: Responded
     select_consultee: Select consultee
     sending: Sending
+  consultee_status_component:
+    amendments_needed: Amendments needed
+    approved: Approved
+    awaiting_response: Awaiting response
+    consulted_on: Consulted on
+    email_address: Email address
+    failed: Failed
+    heading: Consultee
+    last_received_on: Last received on
+    name: Name
+    objected: Objected
+    organisation: Organisation
+    role: Role
+    sending: Sending
+    status: Status
   consultee_summary_component:
     amendments_needed: Amendments needed
     approved: Approved
@@ -2054,6 +2071,7 @@ en:
         amenity: Amenity
         check_publicity: Check site notice and press notice
         consultation_summary: Summary of consultation
+        confirm_consultees: Confirm consultees contacted
         neighbour_summary: Summary of neighbour responses
         past_applications: History (manual)
         site_description: Site description

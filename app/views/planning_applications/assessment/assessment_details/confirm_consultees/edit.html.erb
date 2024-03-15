@@ -1,0 +1,25 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% content_for :title, t(".breadcrumb") %>
+
+<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+<%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-m">
+
+    </h2>
+
+    <%= render "table", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <% end %>
+  </div>
+</div>

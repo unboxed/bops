@@ -175,6 +175,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_110154) do
     t.bigint "local_authority_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "consultee_required"
     t.index ["local_authority_id", "type"], name: "ix_constraints_on_local_authority_id__type", unique: true
     t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end
@@ -648,6 +649,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_110154) do
     t.geography "neighbour_boundary_geojson", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
     t.string "documents_status", default: "not_started", null: false
     t.datetime "in_committee_at"
+    t.boolean "consultees_checked"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

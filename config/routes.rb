@@ -97,6 +97,7 @@ Rails.application.routes.draw do
             patch :update, on: :collection
           end
           resource :consistency_checklist, except: %i[destroy index]
+          resources :consultees, only: %i[index]
           resource :ownership_certificate, except: %i[destroy index]
 
           resources :immunity_details, except: %i[destroy index] do
