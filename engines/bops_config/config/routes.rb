@@ -11,7 +11,11 @@ BopsConfig::Engine.routes.draw do
 
   resource :dashboard, only: %i[show]
 
-  resources :application_types
+  resources :application_types do
+    scope module: "application_types" do
+      resource :status, only: %i[edit update]
+    end
+  end
 
   resources :users, except: %i[show destroy] do
     get :resend_invite, on: :member

@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= t(".review_application_type") %> - <%= t('page_title') %>
+  <%= t(".review_application_type") %> - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -42,6 +42,20 @@
             <%= link_to [:edit, @application_type], class: "govuk-link" do %>
               <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".suffix") %></span>
             <% end %>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          <%= t(".status") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_type.status.humanize %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :status], class: "govuk-link" do %>
+            <%= t(".edit") %><span class="govuk-visually-hidden"> <%= t(".status") %></span>
           <% end %>
         </dd>
       </div>

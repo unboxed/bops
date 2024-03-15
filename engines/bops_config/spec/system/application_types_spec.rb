@@ -97,4 +97,66 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     expect(page).to have_selector("[role=alert] li", text: "The name can't be changed when the application type is retired")
     expect(page).to have_selector("[role=alert] li", text: "The suffix can't be changed when the application type is retired")
   end
+
+  it "allows activation of a new application type" do
+    application_type = create(:application_type, :ldc_proposed, status: "inactive")
+
+    visit "/application_types/#{application_type.id}"
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(3)" do
+      expect(page).to have_selector("dd", text: "Inactive")
+      click_link "Edit"
+    end
+
+    expect(page).to have_selector("h1", text: "Update status")
+
+    choose "Active"
+    click_button "Continue"
+
+    expect(page).to have_selector("h1", text: "Review the application type")
+    expect(page).to have_selector("dl div:nth-child(3) dd", text: "Active")
+  end
+
+  it "allows retirement of an application type" do
+    application_type = create(:application_type, :ldc_proposed, status: "active")
+
+    visit "/application_types/#{application_type.id}"
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(3)" do
+      expect(page).to have_selector("dd", text: "Active")
+      click_link "Edit"
+    end
+
+    expect(page).to have_selector("h1", text: "Update status")
+    expect(page).to have_no_field("Inactive")
+
+    choose "Retired"
+    click_button "Continue"
+
+    expect(page).to have_selector("h1", text: "Review the application type")
+    expect(page).to have_selector("dl div:nth-child(3) dd", text: "Retired")
+  end
+
+  it "allows an application type to be brought out of retirement" do
+    application_type = create(:application_type, :ldc_proposed, status: "retired")
+
+    visit "/application_types/#{application_type.id}"
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(3)" do
+      expect(page).to have_selector("dd", text: "Retired")
+      click_link "Edit"
+    end
+
+    expect(page).to have_selector("h1", text: "Update status")
+    expect(page).to have_no_field("Inactive")
+
+    choose "Active"
+    click_button "Continue"
+
+    expect(page).to have_selector("h1", text: "Review the application type")
+    expect(page).to have_selector("dl div:nth-child(3) dd", text: "Active")
+  end
 end

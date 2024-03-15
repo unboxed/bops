@@ -122,7 +122,7 @@ class ApplicationType < ApplicationRecord
     end
 
     def menu(scope = by_name)
-      scope.order(code: :asc).map do |application_type|
+      scope.active.order(code: :asc).map do |application_type|
         [application_type.description, application_type.id]
       end
     end
