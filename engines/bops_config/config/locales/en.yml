@@ -5,6 +5,13 @@ en:
       navigation_items:
         users: Users
     application_types:
+      determination_periods:
+        edit:
+          continue: Continue
+          hint: Choose the length of the determination period for this type of application.
+          set_determination_period: Set determination period
+        update:
+          determination_period_successfully_updated: Determination period successfully updated
       edit:
         application_profile: Application profile
         update_application_type: Update the application type
@@ -22,6 +29,7 @@ en:
       show:
         change: Change
         continue: Continue
+        determination_period: Determination period
         edit: Edit
         name: Name
         review_application_type: Review the application type

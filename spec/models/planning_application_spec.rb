@@ -599,6 +599,24 @@ RSpec.describe PlanningApplication do
             .to eq(PlanningApplication::DAYS_TO_EXPIRE.days.after(planning_application.validated_at).to_date)
         end
       end
+
+      context "when application type has set the determination period days" do
+        let(:application_type) { create(:application_type, :planning_permission, determination_period_days: 20) }
+        let(:planning_application) { create(:planning_application, :not_started, application_type:) }
+
+        it "is set to received_at + application type determination period days" do
+          expect(planning_application.expiry_date).to eq(20.days.after(planning_application.received_at).to_date)
+        end
+
+        context "when planning application has been validated" do
+          before { planning_application.update!(validated_at: 5.days.from_now) }
+
+          it "is set to validated_at + application type determination period days" do
+            expect(planning_application.expiry_date).not_to eq(20.days.after(planning_application.received_at).to_date)
+            expect(planning_application.expiry_date).to eq(20.days.after(planning_application.validated_at).to_date)
+          end
+        end
+      end
     end
   end
 

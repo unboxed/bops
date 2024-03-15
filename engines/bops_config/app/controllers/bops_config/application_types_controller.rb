@@ -56,12 +56,6 @@ module BopsConfig
 
     private
 
-    def application_type_id
-      Integer(params[:id])
-    rescue
-      raise ActionController::BadRequest, "Invalid application type id: #{params[:id]}"
-    end
-
     def application_type_params
       params.require(:application_type).permit(:code, :suffix)
     end
@@ -71,7 +65,7 @@ module BopsConfig
     end
 
     def next_path
-      application_type_path(@application_type)
+      edit_application_type_determination_period_path(@application_type)
     end
 
     def set_application_types

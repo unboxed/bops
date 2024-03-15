@@ -896,8 +896,12 @@ class PlanningApplication < ApplicationRecord
   def set_key_dates
     return if environment_impact_assessment_required? || time_extension_validation_requests.any?(:accepted)
 
-    self.expiry_date = DAYS_TO_EXPIRE.days.after(validated_at || received_at)
+    self.expiry_date = application_type_determination_period.days.after(validated_at || received_at)
     self.target_date = 35.days.after(validated_at || received_at)
+  end
+
+  def application_type_determination_period
+    application_type.determination_period_days || DAYS_TO_EXPIRE
   end
 
   def set_change_access_id

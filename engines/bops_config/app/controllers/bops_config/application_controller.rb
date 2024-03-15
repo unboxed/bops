@@ -22,5 +22,12 @@ module BopsConfig
       session[:back_path] = request.referer if request.get?
       @back_path = session[:back_path]
     end
+
+    def application_type_id
+      param_value = params[request.path_parameters.key?(:application_type_id) ? :application_type_id : :id]
+      Integer(param_value)
+    rescue
+      raise ActionController::BadRequest, "Invalid application type id: #{param_value}"
+    end
   end
 end

@@ -22,9 +22,32 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     fill_in "Suffix", with: "MAJR"
 
     click_button "Continue"
+    # Set determination period
+    expect(page).to have_selector("h1", text: "Set determination period")
+    expect(page).to have_selector("p.govuk-hint", text: "Choose the length of the determination period for this type of application.")
+
+    fill_in "application_type[determination_period_days]", with: "not an integer"
+    click_button "Continue"
+    expect(page).to have_selector("[role=alert] li", text: "Determination period days is not a number")
+
+    fill_in "application_type[determination_period_days]", with: "0"
+    click_button "Continue"
+    expect(page).to have_selector("[role=alert] li", text: "Determination period days must be greater than or equal to 1")
+
+    fill_in "application_type[determination_period_days]", with: "100"
+    click_button "Continue"
+    expect(page).to have_selector("[role=alert] li", text: "Determination period days must be less than or equal to 99")
+
+    fill_in "application_type[determination_period_days]", with: "25"
+    click_button "Continue"
+    expect(page).to have_content("Determination period successfully updated")
+
+    # Review application type
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(1) dd", text: "Planning Permission - Major application")
     expect(page).to have_selector("dl div:nth-child(2) dd", text: "MAJR")
+    expect(page).to have_selector("dl div:nth-child(3) dd", text: "25 days - bank holidays included")
+    expect(page).to have_selector("dl div:nth-child(4) dd", text: "Inactive")
   end
 
   it "allows editing of an inactive application type" do
@@ -104,7 +127,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(3)" do
+    within "dl div:nth-child(4)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Edit"
     end
@@ -115,7 +138,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(3) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(4) dd", text: "Active")
   end
 
   it "allows retirement of an application type" do
@@ -124,7 +147,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(3)" do
+    within "dl div:nth-child(4)" do
       expect(page).to have_selector("dd", text: "Active")
       click_link "Edit"
     end
@@ -136,7 +159,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(3) dd", text: "Retired")
+    expect(page).to have_selector("dl div:nth-child(4) dd", text: "Retired")
   end
 
   it "allows an application type to be brought out of retirement" do
@@ -145,7 +168,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(3)" do
+    within "dl div:nth-child(4)" do
       expect(page).to have_selector("dd", text: "Retired")
       click_link "Edit"
     end
@@ -157,10 +180,29 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(3) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(4) dd", text: "Active")
   end
 
-  it "allows showning application types" do
+  it "allows editing of the determination period days" do
+    application_type = create(:application_type, :ldc_proposed, determination_period_days: 25)
+
+    visit "/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(3)" do
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Set determination period")
+
+    fill_in "application_type[determination_period_days]", with: "35"
+    click_button "Continue"
+
+    expect(page).to have_content("Determination period successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+    expect(page).to have_selector("dl div:nth-child(3) dd", text: "35 days - bank holidays included")
+  end
+
+  it "displays application types" do
     ldc_existing = create(:application_type, :ldc_existing, status: "active")
     ldc_proposed = create(:application_type, :ldc_proposed, status: "retired")
     prior_approval = create(:application_type, :prior_approval, status: "active")
