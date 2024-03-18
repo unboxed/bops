@@ -408,6 +408,8 @@ en:
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent_post_validation: 'Sent: request for change (ownership certificate validation#%{args})'
+      pre_commencement_condition_validation_request_auto_closed:
+        auto_closed_validation: 'Auto-closed: validation request (pre-commencement condition)'
       pre_commencement_condition_validation_request_cancelled_post_validation: 'Cancelled: validation request (pre-commencement condition validation#%{args})'
       pre_commencement_condition_validation_request_received: 'Received: validation request for pre-commencement condition #%{args}'
       pre_commencement_condition_validation_request_sent_post_validation: 'Sent: pre-commencement conditions for applicant''s approval (#%{args})'
