@@ -119,7 +119,7 @@ class ApplicationType < ApplicationRecord
 
   class << self
     def by_name
-      in_order_of(:name, NAME_ORDER).order(:name)
+      in_order_of(:name, NAME_ORDER).order(:name, :code)
     end
 
     def code_menu
