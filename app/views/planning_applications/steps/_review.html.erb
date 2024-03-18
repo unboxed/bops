@@ -4,7 +4,7 @@
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if current_user.reviewer? %>
-          <% if @planning_application.awaiting_determination? %>
+          <% if @planning_application.awaiting_determination? || @planning_application.in_committee? %>
             <%= link_to "Review and sign-off", planning_application_review_tasks_path(@planning_application), aria: { describedby: "review_assessment-completed" }, class: "govuk-link" %>
           <% else %>
             Review and sign-off

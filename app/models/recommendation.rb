@@ -46,9 +46,11 @@ class Recommendation < ApplicationRecord
       update!(reviewed_at: Time.current, reviewer: Current.user)
 
       if challenged?
-        planning_application.request_correction!(reviewer_comment)
+        planning_application.request_correction!(reviewer_comment) unless committee_overturned?
+      elsif planning_application.committee_decision&.recommend? && planning_application.awaiting_determination?
+        planning_application.send_to_committee!
       else
-        planning_application.submit!
+        planning_application.submit! if planning_application.in_committee?
         audit!(activity_type: "approved", audit_comment: reviewer_comment)
       end
     end
@@ -81,9 +83,9 @@ class Recommendation < ApplicationRecord
   end
 
   def reviewer_comment_is_present?
-    return unless challenged? && !reviewer_comment?
+    return unless challenged? && !reviewer_comment? && !committee_overturned?
 
     errors.add(:base,
-      "Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+      "Explain to the case officer why the recommendation has been challenged.")
   end
 end

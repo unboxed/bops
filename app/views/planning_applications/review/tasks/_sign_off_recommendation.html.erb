@@ -1,16 +1,15 @@
 <li class="app-task-list__item">
   <span class="app-task-list__task-name">
     <%= link_to_if(
-          (@planning_application.awaiting_determination? || @planning_application.in_committee?),
-          @planning_application.in_committee? ? "Sign off committee decision" : "Sign off recommendation",
-          @planning_application.in_committee? ? new_planning_application_review_recommendation_path(@planning_application) : edit_planning_application_review_recommendations_path(@planning_application),
+          @planning_application.awaiting_determination? && @planning_application.recommendation.committee_overturned?,
+          "Sign off recommendation",
+          edit_planning_application_review_recommendation_path(@planning_application, @planning_application.recommendation),
           aria: { describedby: "review_assessment-completed" },
           class: "govuk-link") %>
   </span>
   <%= render(
         StatusTags::SignoffRecommendationComponent.new(
-          planning_application: @planning_application,
-          user: current_user
+          planning_application: @planning_application
         )
   )%>
 </li>

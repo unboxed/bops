@@ -245,8 +245,7 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :recommendations, only: %i[new create update]
-          resource :recommendations, only: %i[edit]
+          resources :recommendations, only: %i[new create update edit]
         end
       end
     end

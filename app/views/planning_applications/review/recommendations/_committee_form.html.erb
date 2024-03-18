@@ -14,19 +14,27 @@
     <%= form.govuk_radio_button(
       :challenged,
       :false,
-      label: { text: t(".#{planning_application.committee_decision&.recommend? ? "committee" : "non_committee"}.yes") },
+      label: { text: t(".yes") },
       link_errors: true
     ) %>
     <%= form.govuk_radio_button(
       :challenged,
       :true,
-      label: { text: t(".#{planning_application.committee_decision&.recommend? ? "committee" : "non_committee"}.no") }
+      label: { text: t(".yes_with_amendments") }
     ) do %>
       <p class="govuk-body">
         Case currently assigned to: <span class="govuk-!-font-weight-bold"><%= recommendation.assessor.name %></span>
       </p>
       <%= form.govuk_text_area(:reviewer_comment) %>
     <% end %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :committee_overturned,
+      label: { text: t(".no") }
+    ) %>
   <% end %>
+  <p class="govuk-body">
+    If the committee did not agree, you can add details of their decision in the next step.
+  </p>
   <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
 <% end %>

@@ -1313,47 +1313,6 @@ en:
       update:
         success: Neighbour response was successully updated.
     review:
-      recommendations:
-        new:
-          make_draft_recommendation: Upload Committee decision
-          assess_proposal: Assess the proposal
-          assess_recommendation: Assess recommendation
-          decision:
-            lawfulness_certificate:
-              granted: 'Yes'
-              refused: 'No'
-            planning_permission:
-              granted: Granted
-              refused: Refused
-            prior_approval:
-              granted: Prior approval required and approved
-              granted_not_required: Prior approval not required
-              refused: Prior approval required and refused
-        events:
-          assessor_reviewer_audit: Assessor and reviewer audit
-          new: Assess recommendation
-          recommendation_queried: Recommendation queried
-          submitted_recommendation: Submitted recommendation
-        edit:
-          edit_information_on: Edit information on the decision notice
-          recommendation: Recommendation
-          review_changes: Review changes
-          in_committee:
-            recommendation: Committee recommendation
-            sign_off_recommendation: Sign off Committee decision
-          not_in_committee:
-            recommendation: Assessor recommendation
-            sign_off_recommendation: Sign off recommendation
-          this_information_will: This information will appear on the decision notice.
-          you_have_not: You haven't suggested changes to be made by the officer.
-          you_have_suggested: You have suggested changes to be made by the officer.
-        form:
-          do_you_agree: Do you agree with the recommendation?
-          'no': No (return the case for assessment)
-          'yes': Yes (decision is ready to be published)
-        legislation:
-          legislation: Legislation
-          no_legislation_assessed: There is no legislation assessment for this application.
       assessment_details:
         breadcrumbs:
           application: Application
@@ -1427,6 +1386,63 @@ en:
           review_heading: Review - Part%{part}, Class %{class}
         update:
           successfully_updated_policy_class: Successfully updated policy class
+      recommendations:
+        committee_form:
+          do_you_agree: Did the committee agree with the recommendation?
+          'no': 'No'
+          'yes': 'Yes'
+          yes_with_amendments: Yes, with amendments (return to case officer)
+        create:
+          success: Details of committee decisison successully added
+        documents_table:
+          add_and_edit: Add and edit documents
+          documents_included_in: Documents included in the decision notice
+        edit:
+          edit_information_on: Edit information on the decision notice
+          in_committee:
+            recommendation: Committee recommendation
+            sign_off_recommendation: Add committee decision
+          not_in_committee:
+            recommendation: Assessor recommendation
+            sign_off_recommendation: Sign off recommendation
+          recommendation: Recommendation
+          review_changes: Review changes
+          this_information_will: This information will appear on the decision notice.
+          you_have_not: You haven't suggested changes to be made by the officer.
+          you_have_suggested: You have suggested changes to be made by the officer.
+        events:
+          assessor_reviewer_audit: Assessor and reviewer audit
+          new: Assess recommendation
+          recommendation_queried: Recommendation queried
+          submitted_recommendation: Submitted recommendation
+        form:
+          committee:
+            'no': No (return the case for assessment)
+            'yes': Yes (decision is ready to go to committee)
+          do_you_agree: Do you agree with the recommendation?
+          non_committee:
+            'no': No (return the case for assessment)
+            'yes': Yes (decision is ready to be published)
+        legislation:
+          legislation: Legislation
+          no_legislation_assessed: There is no legislation assessment for this application.
+        new:
+          assess_proposal: Assess the proposal
+          assess_recommendation: Assess recommendation
+          decision:
+            lawfulness_certificate:
+              granted: 'Yes'
+              refused: 'No'
+            planning_permission:
+              granted: Granted
+              refused: Refused
+            prior_approval:
+              granted: Prior approval required and approved
+              granted_not_required: Prior approval not required
+              refused: Prior approval required and refused
+          make_draft_recommendation: Add committee decision details
+        update:
+          success: Recommendation was successfully reviewed.
       tasks:
         index:
           application_details: Application details

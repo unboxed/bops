@@ -103,6 +103,18 @@ FactoryBot.define do
       end
     end
 
+    trait :in_committee do
+      status { :in_committee }
+      in_committee_at { Time.zone.now }
+      awaiting_determination_at { Time.zone.now }
+      decision { "granted" }
+
+      after(:create) do |pa|
+        create(:committee_decision, planning_application: pa, recommend: true, reasons: ["The first reason"])
+        create(:recommendation, :reviewed, planning_application: pa)
+      end
+    end
+
     trait :not_started do
       status { :not_started }
       validated_at { nil }

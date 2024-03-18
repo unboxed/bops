@@ -11,11 +11,11 @@
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.sign_off_recommendation") }
+  locals: { heading: t(".sign_off_recommendation")  }
 ) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds application">
-    <h2 class="govuk-heading-m"><%= t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.recommendation") %></h2>
+    <h2 class="govuk-heading-m"><%= t(".assessor_recommendation") %></h2>
     <%= render(
       StatusTags::DecisionComponent.new(
         planning_application: @planning_application
@@ -66,22 +66,12 @@
         }
       ) %>
     <% end %>
-    <% if @planning_application.in_committee? %>
-      <%= render(
-        partial: "committee_form",
-        locals: {
-          planning_application: @planning_application,
-          recommendation: @recommendation
-        }
-      ) %>
-    <% else %>
-      <%= render(
-        partial: "form",
-        locals: {
-          planning_application: @planning_application,
-          recommendation: @recommendation
-        }
-      ) %>
-    <% end %>
+    <%= render(
+      partial: "form",
+      locals: {
+        planning_application: @planning_application,
+        recommendation: @recommendation
+      }
+    ) %>
   </div>
 </div>

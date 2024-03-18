@@ -2,14 +2,13 @@
 
 module StatusTags
   class SignoffRecommendationComponent < StatusTags::BaseComponent
-    def initialize(planning_application:, user:)
+    def initialize(planning_application:)
       @planning_application = planning_application
-      @user = user
     end
 
     private
 
-    attr_reader :planning_application, :user
+    attr_reader :planning_application
 
     def status
       if planning_application.recommendation_review_complete?

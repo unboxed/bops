@@ -6,14 +6,10 @@ module PlanningApplications
       include CommitMatchable
 
       before_action :set_planning_application
+      before_action :ensure_user_is_reviewer_checking_assessment, only: %i[update edit]
       before_action :set_recommendations, only: %i[update edit]
       before_action :set_committee_decision
       before_action :set_recommendation, only: :update
-      before_action :set_committee, only: :edit
-
-      rescue_from Recommendation::ReviewRecommendationError do |error|
-        render_failed_edit(error)
-      end
 
       def new
         @recommendation = Recommendation.new
@@ -28,11 +24,16 @@ module PlanningApplications
       end
 
       def create
-        @recommendation = Recommendation.new(recommendation_params.except(:decision, :public_comment))
+        @recommendation = Recommendation.new(
+          planning_application: @planning_application.planning_application,
+          status: "review_complete",
+          reviewer: Current.user
+        )
 
-        if @recommendation.save && @recommendation.review_complete?
-          @recommendation.review!
-          redirect_to planning_application_review_tasks_path(@planning_application)
+        if @recommendation.save
+          @planning_application.update!(decision: recommendation_form_params[:decision], public_comment: recommendation_form_params[:public_comment])
+          @planning_application.submit!
+          redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
         else
           render :new
         end
@@ -40,32 +41,32 @@ module PlanningApplications
 
       def update
         respond_to do |format|
-          @recommendation.assign_attributes(recommendation_params)
-          render :edit and return unless @recommendation.valid?
-
-          if @recommendation.review_complete?
-            @planning_application.update!(decision: recommendation_params[:decision], public_comment: recommendation_params[:public_comment])
-            @recommendation.review!
-          else
-            @recommendation.save!
-          end
-
           format.html do
-            redirect_to planning_application_review_tasks_path(@planning_application),
-              notice: t(".success")
+            @recommendation.assign_attributes(recommendation_params)
+            render :edit and return unless @recommendation.valid?
+
+            if @recommendation.review_complete?
+              @recommendation.review!
+            else
+              @recommendation.save!
+            end
+
+            if @recommendation.challenged?
+              if @recommendation.committee_overturned?
+                redirect_to new_planning_application_review_recommendation_path(@planning_application)
+              else
+                redirect_to planning_application_review_tasks_path(@planning_application),
+                  notice: t(".success")
+              end
+            else
+              redirect_to planning_application_review_tasks_path(@planning_application),
+                notice: t(".success")
+            end
           end
         end
       end
 
       private
-
-      def planning_applications_scope
-        if action_name.in?(%w[edit update])
-          super.includes(:recommendations)
-        else
-          super
-        end
-      end
 
       def set_recommendations
         @recommendations = @planning_application.recommendations
@@ -86,17 +87,19 @@ module PlanningApplications
       def recommendation_params
         params
           .require(:recommendation)
-          .permit(:reviewer_comment, :challenged, :decision, :public_comment)
-          .merge(
-            status: recommendation_status, 
-            planning_application_id: @planning_application.id,
-            assessor: Current.user,
-            reviewer: Current.user
-          )
+          .permit(:reviewer_comment, :challenged)
+          .merge(status: recommendation_status, committee_overturned: committee_overturned_status)
       end
 
       def recommendation_status
         save_progress? ? :review_in_progress : :review_complete
+      end
+
+      def recommendation_form_params
+        params
+          .require(:recommendation)
+          .permit(:decision, :public_comment)
+          .merge(assessor: current_user, status: :review_complete)
       end
 
       def render_failed_edit(error)
@@ -105,8 +108,8 @@ module PlanningApplications
         render :edit
       end
 
-      def set_committee
-        @in_committee = @planning_application.in_committee?
+      def committee_overturned_status
+        params[:recommendation][:challenged] == "committee_overturned"
       end
     end
   end

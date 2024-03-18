@@ -50,10 +50,10 @@
         :decision,
         ["granted", "refused"],
         :to_s,
-        :to_s,
+        :humanize,
         legend: { text: "What was the committee's decision?", size: "s" }
       ) %>
-      <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
+      <div class="govuk-form-group">
         <%= form.govuk_text_area(
           :public_comment,
           label: { text: "Public comment" },

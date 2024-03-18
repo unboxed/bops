@@ -63,7 +63,7 @@ RSpec.describe Recommendation do
             expect(
               recommendation.errors.messages[:base]
             ).to contain_exactly(
-              "Please include a comment for the case officer to indicate why the recommendation has been challenged."
+              "Explain to the case officer why the recommendation has been challenged."
             )
           end
         end

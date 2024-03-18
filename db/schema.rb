@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_15_145933) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -67,6 +67,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_15_145933) do
     t.string "consistency_checklist", array: true
     t.jsonb "document_tags"
     t.jsonb "features", default: {}
+    t.integer "determination_period_days"
     t.string "status", default: "inactive", null: false
     t.string "code", null: false
     t.string "suffix", null: false
@@ -720,6 +721,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_15_145933) do
     t.boolean "challenged"
     t.boolean "submitted"
     t.integer "status", default: 0, null: false
+    t.boolean "committee_overturned", default: false, null: false
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
