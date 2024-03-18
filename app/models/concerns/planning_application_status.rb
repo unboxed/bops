@@ -130,7 +130,7 @@ module PlanningApplicationStatus
       end
 
       event :submit do
-        transitions from: :in_assessment, to: :awaiting_determination,
+        transitions from: [:in_assessment, :in_committee], to: :awaiting_determination,
           guards: %i[decision_present? no_open_post_validation_requests?] do
           after { recommendation.update!(submitted: true) }
         end

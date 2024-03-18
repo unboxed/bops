@@ -48,6 +48,7 @@ class Recommendation < ApplicationRecord
       if challenged?
         planning_application.request_correction!(reviewer_comment)
       else
+        planning_application.submit!
         audit!(activity_type: "approved", audit_comment: reviewer_comment)
       end
     end

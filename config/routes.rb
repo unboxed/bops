@@ -244,6 +244,9 @@ Rails.application.routes.draw do
               patch :update, on: :collection
             end
           end
+
+          resources :recommendations, only: %i[new create update]
+          resource :recommendations, only: %i[edit]
         end
       end
     end
