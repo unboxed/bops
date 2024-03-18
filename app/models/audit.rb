@@ -42,7 +42,6 @@ class Audit < ApplicationRecord
     withdrawn: "withdrawn",
     closed: "closed",
     heads_of_terms_validation_request_sent_post_validation: "heads_of_terms_validation_request_sent_post_validation",
-    heads_of_terms_validation_request_auto_closed: "heads_of_terms_validation_request_auto_closed",
     heads_of_terms_validation_request_added: "heads_of_terms_validation_request_added",
     heads_of_terms_validation_request_cancelled_post_validation: "heads_of_terms_validation_request_cancelled_post_validation",
     heads_of_terms_validation_request_received: "heads_of_terms_validation_request_received",
