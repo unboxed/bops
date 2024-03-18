@@ -217,77 +217,20 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     )
 
     within(".govuk-table.application-types-table") do
-      within(".govuk-table__head") do
-        within(all(".govuk-table__row").first) do
-          expect(page).to have_content("Suffix")
-          expect(page).to have_content("Application type")
-          expect(page).to have_content("Status")
-          expect(page).to have_content("Action")
-        end
+      within "thead > tr:first-child" do
+        expect(page).to have_selector("th:nth-child(1)", text: "Suffix")
+        expect(page).to have_selector("th:nth-child(2)", text: "Application type")
+        expect(page).to have_selector("th:nth-child(3)", text: "Status")
+        expect(page).to have_selector("th:nth-child(4)", text: "Action")
       end
 
-      within(".govuk-table__body") do
-        rows = page.all(".govuk-table__row")
+      within "tbody" do
+        within "tr:nth-child(1)" do
+          expect(page).to have_selector("td:nth-child(1)", text: "PA")
+          expect(page).to have_selector("td:nth-child(2)", text: "Prior Approval - Larger extension to a house")
+          expect(page).to have_selector("td:nth-child(3) .govuk-tag--green", text: "Active")
 
-        within(rows[0]) do
-          cells = page.all(".govuk-table__cell")
-
-          within(cells[0]) do
-            expect(page).to have_content("LDCE")
-          end
-          within(cells[1]) do
-            expect(page).to have_content("Lawful Development Certificate - Existing use")
-          end
-          within(cells[2]) do
-            within(".govuk-tag.govuk-tag--green") do
-              expect(page).to have_content("Active")
-            end
-          end
-          within(cells[3]) do
-            expect(page).to have_link(
-              "View and/or edit",
-              href: "/application_types/#{ldc_existing.id}/edit"
-            )
-          end
-        end
-
-        within(rows[1]) do
-          cells = page.all(".govuk-table__cell")
-
-          within(cells[0]) do
-            expect(page).to have_content("LDCP")
-          end
-          within(cells[1]) do
-            expect(page).to have_content("Lawful Development Certificate - Proposed use")
-          end
-          within(cells[2]) do
-            within(".govuk-tag.govuk-tag--red") do
-              expect(page).to have_content("Retired")
-            end
-          end
-          within(cells[3]) do
-            expect(page).to have_link(
-              "View and/or edit",
-              href: "/application_types/#{ldc_proposed.id}/edit"
-            )
-          end
-        end
-
-        within(rows[2]) do
-          cells = page.all(".govuk-table__cell")
-
-          within(cells[0]) do
-            expect(page).to have_content("PA")
-          end
-          within(cells[1]) do
-            expect(page).to have_content("Prior Approval - Larger extension to a house")
-          end
-          within(cells[2]) do
-            within(".govuk-tag.govuk-tag--green") do
-              expect(page).to have_content("Active")
-            end
-          end
-          within(cells[3]) do
+          within "td:nth-child(4)" do
             expect(page).to have_link(
               "View and/or edit",
               href: "/application_types/#{prior_approval.id}/edit"
@@ -295,24 +238,41 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
           end
         end
 
-        within(rows[3]) do
-          cells = page.all(".govuk-table__cell")
+        within "tr:nth-child(2)" do
+          expect(page).to have_selector("td:nth-child(1)", text: "HAPP")
+          expect(page).to have_selector("td:nth-child(2)", text: "Planning Permission - Full householder")
+          expect(page).to have_selector("td:nth-child(3) .govuk-tag--grey", text: "Inactive")
 
-          within(cells[0]) do
-            expect(page).to have_content("HAPP")
-          end
-          within(cells[1]) do
-            expect(page).to have_content("Planning Permission - Full householder")
-          end
-          within(cells[2]) do
-            within(".govuk-tag.govuk-tag--grey") do
-              expect(page).to have_content("Inactive")
-            end
-          end
-          within(cells[3]) do
+          within "td:nth-child(4)" do
             expect(page).to have_link(
               "View and/or edit",
               href: "/application_types/#{planning_permission.id}/edit"
+            )
+          end
+        end
+
+        within "tr:nth-child(3)" do
+          expect(page).to have_selector("td:nth-child(1)", text: "LDCE")
+          expect(page).to have_selector("td:nth-child(2)", text: "Lawful Development Certificate - Existing use")
+          expect(page).to have_selector("td:nth-child(3) .govuk-tag--green", text: "Active")
+
+          within "td:nth-child(4)" do
+            expect(page).to have_link(
+              "View and/or edit",
+              href: "/application_types/#{ldc_existing.id}/edit"
+            )
+          end
+        end
+
+        within "tr:nth-child(4)" do
+          expect(page).to have_selector("td:nth-child(1)", text: "LDCP")
+          expect(page).to have_selector("td:nth-child(2)", text: "Lawful Development Certificate - Proposed use")
+          expect(page).to have_selector("td:nth-child(3) .govuk-tag--red", text: "Retired")
+
+          within "td:nth-child(4)" do
+            expect(page).to have_link(
+              "View and/or edit",
+              href: "/application_types/#{ldc_proposed.id}/edit"
             )
           end
         end

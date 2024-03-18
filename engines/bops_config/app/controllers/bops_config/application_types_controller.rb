@@ -69,7 +69,7 @@ module BopsConfig
     end
 
     def set_application_types
-      @application_types = ApplicationType.all
+      @application_types = ApplicationType.by_name
     end
 
     def set_application_type
