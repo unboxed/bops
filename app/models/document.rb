@@ -72,6 +72,7 @@ class Document < ApplicationRecord
   ].freeze
 
   SUPPORTING_DOCUMENT_TAGS = %w[
+    accessRoadsRightsOfWayDetails
     affordableHousingStatement
     arboriculturistReport
     basementImpactStatement
@@ -88,6 +89,7 @@ class Document < ApplicationRecord
     emissionsMitigationAndMonitoringScheme
     energyStatement
     environmentalImpactAssessment
+    externalMaterialsDetails
     fireSafetyReport
     floodRiskAssessment
     foulDrainageAssessment
@@ -122,6 +124,8 @@ class Document < ApplicationRecord
     townCentreSequentialAssessment
     transportAssessment
     travelPlan
+    treeAndHedgeLocation
+    treeAndHedgeRemovedOrPruned
     treeCanopyCalculator
     treeConditionReport
     treesReport
