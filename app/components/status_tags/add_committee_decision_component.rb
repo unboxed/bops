@@ -15,7 +15,7 @@ module StatusTags
     def status
       if planning_application.in_committee?
         :not_started
-      elsif planning_application.recommendation_review_complete? && recommendation.assessor_id.nil?
+      elsif (planning_application.recommendation_review_complete? && planning_application.committee_decision&.recommend?) || planning_application.to_be_reviewed?
         :complete
       end
     end

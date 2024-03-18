@@ -24,7 +24,15 @@ RSpec.describe "Add committee decision" do
     sign_in reviewer
   end
 
-  xcontext "when the assessor has not recommended the application go to committee" do
+  context "when the assessor has not recommended the application go to committee" do
+    let!(:planning_application) do
+      create(:planning_application, :awaiting_determination, local_authority: default_local_authority, user: assessor)
+    end
+
+    before do
+      create(:recommendation, planning_application:)
+    end
+
     it "does not show the option to add committee decision" do
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
@@ -39,6 +47,11 @@ RSpec.describe "Add committee decision" do
       it "can add what the committee decided" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 
+        expect(page).to have_list_item_for(
+          "Add committee decision",
+          with: "Not started"
+        )
+
         click_link "Add committee decision"
 
         expect(page).to have_content "Add committee decision"
@@ -49,12 +62,22 @@ RSpec.describe "Add committee decision" do
 
         expect(page).to have_content "Recommendation was successfully reviewed"
         expect(page).to have_content "Awaiting determination"
+
+        expect(page).to have_list_item_for(
+          "Add committee decision",
+          with: "Completed"
+        )
       end
     end
 
     context "when the committee agrees with the assessor but needs amendments" do
       it "can add what the committee decided" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
+
+        expect(page).to have_list_item_for(
+          "Add committee decision",
+          with: "Not started"
+        )
 
         click_link "Add committee decision"
 
@@ -68,12 +91,22 @@ RSpec.describe "Add committee decision" do
 
         expect(page).to have_content "Recommendation was successfully reviewed"
         expect(page).to have_content "To be reviewed"
+
+        expect(page).to have_list_item_for(
+          "Add committee decision",
+          with: "Completed"
+        )
       end
     end
 
     context "when the committee disagrees with the assessor's recommendation" do
       it "can add what the committee decided" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
+
+        expect(page).to have_list_item_for(
+          "Add committee decision",
+          with: "Not started"
+        )
 
         click_link "Add committee decision"
 
@@ -92,6 +125,11 @@ RSpec.describe "Add committee decision" do
 
         expect(page).to have_content "Details of committee decisison successully added"
         expect(page).to have_content "Awaiting determination"
+
+        expect(page).to have_list_item_for(
+          "Add committee decision",
+          with: "Completed"
+        )
       end
     end
   end

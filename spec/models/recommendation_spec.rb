@@ -23,11 +23,13 @@ RSpec.describe Recommendation do
         planning_application:,
         status:,
         challenged:,
-        reviewer_comment:
+        reviewer_comment:,
+        committee_overturned:
       )
     end
 
     let(:reviewer_comment) { "comment" }
+    let(:committee_overturned) { false }
 
     context "when status is 'review_complete'" do
       let(:status) { :review_complete }
@@ -74,6 +76,16 @@ RSpec.describe Recommendation do
           it "returns true" do
             expect(recommendation.valid?).to be(true)
           end
+        end
+      end
+
+      context "when it is a committee decision" do
+        let(:challenged) { true }
+        let(:reviewer_comment) { nil }
+        let(:committee_overturned) { true }
+
+        it "returns true" do
+          expect(recommendation.valid?).to be(true)
         end
       end
 
@@ -196,11 +208,12 @@ RSpec.describe Recommendation do
         it "raises a Recommendation::ReviewRecommendationError" do
           recommendation.assign_attributes(
             challenged: true,
-            status: :review_complete
+            status: :review_complete,
+            committee_overturned: false
           )
 
           expect { recommendation.review! }
-            .to raise_error(Recommendation::ReviewRecommendationError, "Validation failed: Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+            .to raise_error(Recommendation::ReviewRecommendationError, "Validation failed: Explain to the case officer why the recommendation has been challenged.")
             .and not_change(Audit, :count)
 
           recommendation.reload

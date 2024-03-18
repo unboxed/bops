@@ -77,7 +77,7 @@ RSpec.describe "Review committee decision" do
       with: "Completed"
     )
 
-    click_link "Sign-off recommendation"
+    click_link "Sign off recommendation"
 
     expect(page).to have_content "You have suggested changes to be made by the officer."
 

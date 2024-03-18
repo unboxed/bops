@@ -84,7 +84,7 @@ RSpec.describe PermittedDevelopmentRight do
         context "when planning application has a recommendation that is challenged by the reviewer" do
           let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
-          before { create(:recommendation, challenged: true, planning_application:) }
+          before { create(:recommendation, challenged: true, reviewer_comment: "bad", planning_application:) }
 
           it "validates that planning_application can review assessment and does not raise an error" do
             expect do
@@ -98,7 +98,7 @@ RSpec.describe PermittedDevelopmentRight do
         let(:planning_application) { create(:planning_application, :to_be_reviewed) }
         let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
-        before { create(:recommendation, challenged: true, planning_application:) }
+        before { create(:recommendation, challenged: true, reviewer_comment: "bad", planning_application:) }
 
         it "validates that planning_application can review assessment and does not raise an error" do
           expect do

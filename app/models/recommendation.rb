@@ -13,10 +13,8 @@ class Recommendation < ApplicationRecord
   scope :reviewed, -> { where.not(reviewer_id: nil) }
   scope :submitted, -> { where(submitted: true) }
 
-  with_options if: :review_complete? do
-    validate :reviewer_comment_is_present?
-    validate :no_updates_required
-  end
+  validate :reviewer_comment_is_present?, if: -> { challenged? && review_complete? }
+  validate :no_updates_required, if: :review_complete?
 
   delegate :audits, to: :planning_application
 
@@ -83,7 +81,7 @@ class Recommendation < ApplicationRecord
   end
 
   def reviewer_comment_is_present?
-    return unless challenged? && !reviewer_comment? && !committee_overturned?
+    return if reviewer_comment? || committee_overturned?
 
     errors.add(:base,
       "Explain to the case officer why the recommendation has been challenged.")

@@ -100,9 +100,9 @@ RSpec.describe "Planning Application Assessment" do
 
       click_link("Review and sign-off")
 
-      expect(list_item("Sign-off recommendation")).to have_content("Not started")
+      expect(list_item("Sign off recommendation")).to have_content("Not started")
 
-      click_link("Sign-off recommendation")
+      click_link("Sign off recommendation")
       choose("No (return the case for assessment)")
 
       fill_in(
@@ -112,15 +112,15 @@ RSpec.describe "Planning Application Assessment" do
 
       click_button("Save and come back later")
 
-      expect(list_item("Sign-off recommendation")).to have_content("In progress")
+      expect(list_item("Sign off recommendation")).to have_content("In progress")
       click_link("Back")
       expect(list_item("Review and sign-off")).to have_content("In progress")
 
       click_link("Review and sign-off")
-      click_link("Sign-off recommendation")
+      click_link("Sign off recommendation")
       click_button("Save and mark as complete")
 
-      expect(list_item("Sign-off recommendation")).to have_content("Completed")
+      expect(list_item("Sign off recommendation")).to have_content("Completed")
       click_link("Back")
       expect(list_item("Review and sign-off")).to have_content("Completed")
 
@@ -157,11 +157,11 @@ RSpec.describe "Planning Application Assessment" do
       expect(list_item("Review and sign-off")).to have_content("Not started")
 
       click_link("Review and sign-off")
-      click_link("Sign-off recommendation")
+      click_link("Sign off recommendation")
       choose("Yes (decision is ready to be published)")
       click_button("Save and mark as complete")
 
-      expect(list_item("Sign-off recommendation")).to have_content("Completed")
+      expect(list_item("Sign off recommendation")).to have_content("Completed")
       click_link("Back")
       expect(list_item("Review and sign-off")).to have_content("Completed")
 
@@ -650,7 +650,7 @@ RSpec.describe "Planning Application Assessment" do
           click_link("Review and submit recommendation")
           click_button("Submit recommendation")
           sign_in(reviewer)
-          visit "/planning_applications/#{planning_application.id}/assessment/recommendations/edit"
+          visit "/planning_applications/#{planning_application.id}/review/recommendations/#{planning_application.recommendation.id}/edit"
           choose("No (return the case for assessment)")
 
           expect(page).to have_text "Case currently assigned to: Alice Aplin"

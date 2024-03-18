@@ -87,7 +87,7 @@ RSpec.describe "Reviewing Policy Class" do
       expect(page).to have_text "Return to officer with comment"
 
       click_on "Back"
-      click_link("Sign-off recommendation")
+      click_link("Sign off recommendation")
       choose("No (return the case for assessment)")
 
       fill_in(
