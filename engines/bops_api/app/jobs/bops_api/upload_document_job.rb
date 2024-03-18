@@ -13,6 +13,8 @@ module BopsApi
       file = user.file_downloader.get(url)
       name = URI.decode_uri_component(File.basename(URI.parse(url).path))
 
+      tags = tags.compact
+
       planning_application.documents.create! do |document|
         document.tags = tags
         document.applicant_description = description
