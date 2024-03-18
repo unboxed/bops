@@ -20,7 +20,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
     expect(creation_service).to receive(:call!).and_return(planning_application)
   end
 
-  %w[v0.2.1 v0.2.2 v0.2.3 v0.3.0 v0.4.0].each do |version|
+  %w[v0.2.1 v0.2.2 v0.2.3 v0.3.0 v0.4.0 v0.4.1].each do |version|
     describe "ODP Schema #{version}" do
       %w[
         validLawfulDevelopmentCertificateExisting.json

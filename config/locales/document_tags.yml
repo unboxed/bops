@@ -1,5 +1,6 @@
 en:
   document_tags:
+    accessRoadsRightsOfWayDetails: 'Details of impact on access, roads, and rights of way'
     affordableHousingStatement: 'Affordable housing statement'
     arboriculturistReport: 'Arboriculturist report'
     bankStatement: 'Bank statement'
@@ -26,6 +27,7 @@ en:
     emissionsMitigationAndMonitoringScheme: 'Scheme for mitigation and monitoring of emissions (dust odour and vibrations)'
     energyStatement: 'Energy statement'
     environmentalImpactAssessment: 'Environmental Impact Assessment (EIA)'
+    externalMaterialsDetails: 'External materials details'
     fireSafetyReport: 'Fire safety report'
     floodRiskAssessment: 'Flood risk assessment (FRA)'
     floorPlan:
@@ -82,6 +84,8 @@ en:
     townCentreSequentialAssessment: 'Town centre uses - Sequential assessment'
     transportAssessment: 'Transport assessment'
     travelPlan: 'Travel plan'
+    treeAndHedgeLocation: 'Location of trees and hedges'
+    treeAndHedgeRemovedOrPruned: 'Removed or pruned trees and hedges'
     treeCanopyCalculator: 'Tree canopy calculator'
     treeConditionReport: 'Tree condition report'
     treesReport: 'Trees report'
