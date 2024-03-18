@@ -7,7 +7,7 @@ module PlanningApplicationStatus
 
   include Auditable
 
-  IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination to_be_reviewed].freeze
+  IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination in_committee to_be_reviewed].freeze
 
   included do
     include AASM
@@ -33,6 +33,7 @@ module PlanningApplicationStatus
       state :assessment_in_progress
       state :in_assessment
       state :awaiting_determination
+      state :in_committee
       state :to_be_reviewed
       state :determined
       state :returned
@@ -74,8 +75,23 @@ module PlanningApplicationStatus
         end
       end
 
+      event :send_to_committee do
+        transitions from: :awaiting_determination, to: :in_committee do
+          guard do
+            committee_decision&.recommend?
+          end
+        end
+
+        after do
+          audit!(
+            activity_type: "sent_to_committee",
+            audit_comment: "Application was sent to committee"
+          )
+        end
+      end
+
       event :determine do
-        transitions from: :awaiting_determination, to: :determined
+        transitions from: %i[awaiting_determination in_committee], to: :determined
 
         after do
           audit!(

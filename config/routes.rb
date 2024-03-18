@@ -236,6 +236,14 @@ Rails.application.routes.draw do
           resources :policy_classes, only: %i[edit update show]
 
           resources :tasks, only: :index
+
+          resources :committee_decisions, only: %i[edit show update] do
+            resources :notifications do
+              get :edit, on: :collection
+              get :show, on: :collection
+              patch :update, on: :collection
+            end
+          end
         end
       end
     end

@@ -46,10 +46,14 @@ class NeighbourLetter < ApplicationRecord
   end
 
   def needs_resend_reason?
-    resend? && !neighbour.sent_comment?
+    resend? && !neighbour.sent_comment? && planning_application_in_assessment?
   end
 
   def allowed_resend_reason?
     resend? || neighbour.sent_comment?
+  end
+
+  def planning_application_in_assessment?
+    neighbour.consultation.planning_application.in_assessment?
   end
 end

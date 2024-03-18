@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_12_172721) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_14_121609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -124,6 +124,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_172721) do
     t.datetime "date_of_committee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "location"
+    t.string "link"
+    t.string "time"
+    t.datetime "late_comments_deadline"
+    t.text "notification_content"
     t.index ["planning_application_id"], name: "ix_committee_decisions_on_planning_application_id", unique: true
   end
 
@@ -630,6 +635,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_172721) do
     t.string "reporting_type"
     t.geography "neighbour_boundary_geojson", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
     t.string "documents_status", default: "not_started", null: false
+    t.datetime "in_committee_at"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

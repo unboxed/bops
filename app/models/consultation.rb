@@ -255,7 +255,7 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_letter_body
-    body = I18n.t("neighbour_letter_template.#{planning_application.application_type.name}")
+    body = I18n.t("neighbour_letter_template.consultation.#{planning_application.application_type.name}")
 
     defaults = {
       expiry_date: planning_application.expiry_date.to_date.to_fs,

@@ -365,6 +365,7 @@ en:
       assigned: Application assigned to %{args}
       challenged: Recommendation challenged
       closed: Application closed
+      committee_details_sent: Committee details sent to neighbours
       constraint_added: Constraint added
       constraint_removed: Constraint removed
       constraints_checked: Constraints Checked
@@ -429,6 +430,7 @@ en:
       replacement_document_validation_request_sent: 'Sent: validation request (replacement document#%{args})'
       replacement_document_validation_request_sent_post_validation: 'Sent: Post-validation request (replacement document#%{args})'
       returned: Application returned
+      sent_to_committee: Application sent to committee
       site_notice_created: Site notice created
       started: Application validated
       submitted: Recommendation submitted
@@ -1351,11 +1353,17 @@ en:
           assessor_remarks: Assessor's remarks
           review_assessment_summaries: Review assessment summaries
           this_information_will: This information will be made publicly available.
+      committee_decisions:
+        update:
+          success: Review of committee decision recommendation updated successfully
       documents:
         update:
           success: Documents were successfully updated.
       immunity_details:
         successfully_updated: Review immunity details was successfully updated
+      notifications:
+        update:
+          success: Notifications sent to neighbours and application in committee
       policy_classes:
         comment:
           edit_comment: Edit comment
@@ -1936,6 +1944,8 @@ en:
     reviewing:
       assessment_details_component:
         review_assessment_summaries: Review assessment summaries
+      committee_component:
+        link_text: Committee decision
       condition_component:
         link_text: Review conditions
       documents_component:
@@ -1946,6 +1956,8 @@ en:
         review_immunity_enforcement: Review assessment of immunity
       local_policy_component:
         link_text: Review assessment against policies and guidance
+      notify_committee_component:
+        link_text: Notify neighbours of committee meeting
       permitted_development_right_component:
         review_permitted_development_rights: Review permitted development rights
     select_consultees_component:
