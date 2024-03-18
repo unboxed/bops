@@ -43,8 +43,14 @@ module PlanningApplications
         @heads_of_term = @planning_application.heads_of_term
       end
 
+      def heads_of_term_id
+        Integer(params[:heads_of_term_id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid heads of terms id: #{params[:heads_of_term_id].inspect}"
+      end
+
       def set_heads_of_term
-        @term = @heads_of_term.terms.find(Integer(params[:heads_of_term_id]))
+        @term = @heads_of_term.terms.find(heads_of_term_id)
       end
 
       def heads_of_terms_params

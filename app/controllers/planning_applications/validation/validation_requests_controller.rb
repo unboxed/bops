@@ -218,7 +218,9 @@ module PlanningApplications
       end
 
       def validation_request_id
-        Integer(params[:id].to_s)
+        Integer(params[:id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid validation request ids: #{params[:id].inspect}"
       end
 
       def set_type

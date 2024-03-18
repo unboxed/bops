@@ -41,8 +41,14 @@ module Api
 
       private
 
+      def validation_request_id
+        Integer(params[:id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid validation request id: #{params[:id].inspect}"
+      end
+
       def set_heads_of_terms_validation_request
-        @heads_of_terms_validation_request = @planning_application.heads_of_terms_validation_requests.find(Integer(params[:id]))
+        @heads_of_terms_validation_request = @planning_application.heads_of_terms_validation_requests.find(validation_request_id)
       end
     end
   end

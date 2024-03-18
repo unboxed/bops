@@ -26,10 +26,14 @@ module PlanningApplications
 
       def constraint_id
         Integer(permitted_params[:constraint])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid constraint id: #{permitted_params[:constraint].inspect}"
       end
 
       def consultee_id
         Integer(permitted_params[:consultee])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid consultee id: #{permitted_params[:consultee].inspect}"
       end
 
       def permitted_params

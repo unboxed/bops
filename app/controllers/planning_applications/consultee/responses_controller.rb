@@ -55,6 +55,8 @@ module PlanningApplications
 
       def consultee_id
         Integer(params[:consultee_id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid consultee id: #{params[:consultee_id].inspect}"
       end
 
       def set_consultees
@@ -67,6 +69,8 @@ module PlanningApplications
 
       def consultee_response_id
         Integer(params[:id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid consultee response id: #{params[:id].inspect}"
       end
 
       def consultee_response_params

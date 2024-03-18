@@ -111,8 +111,14 @@ class DocumentsController < AuthenticationController
     @document = @planning_application.documents.find(document_id)
   end
 
+  def document_param
+    request.path_parameters.key?(:document_id) ? :document_id : :id
+  end
+
   def document_id
-    Integer(params[:document_id] || params[:id])
+    Integer(params[document_param])
+  rescue ArgumentError
+    raise ActionController::BadRequest, "Invalid document id: #{params[document_param].inspect}"
   end
 
   def ensure_document_edits_unlocked

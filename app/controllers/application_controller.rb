@@ -39,12 +39,14 @@ class ApplicationController < ActionController::Base
     current_local_authority.planning_applications.accepted
   end
 
+  def planning_application_param
+    request.path_parameters.key?(:planning_application_id) ? :planning_application_id : :id
+  end
+
   def planning_application_id
-    if request.path_parameters.key?(:planning_application_id)
-      Integer(params[:planning_application_id].to_s)
-    else
-      Integer(params[:id].to_s)
-    end
+    Integer(params[planning_application_param])
+  rescue ArgumentError
+    raise ActionController::BadRequest, "Invalid planning application id: #{params[planning_application_param].inspect}"
   end
 
   def set_consultation
