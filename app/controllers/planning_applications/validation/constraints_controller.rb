@@ -66,6 +66,8 @@ module PlanningApplications
 
       def constraint_ids
         @constraint_ids ||= Array.wrap(params[:constraint_ids]).map { |id| Integer(id) }
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid constraint ids: #{params[:constraint_ids].inspect}"
       end
 
       def existing_constraint_ids

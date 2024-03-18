@@ -22,10 +22,17 @@ module PlanningApplications
     end
 
     def index
+      respond_to do |format|
+        format.html
+      end
     end
 
     def new
-      @constraint = PlanningApplicationConstraint.find(Integer(params[:constraint]))
+      @constraint = PlanningApplicationConstraint.find(constraint_id)
+
+      respond_to do |format|
+        format.html
+      end
     end
 
     private
@@ -38,8 +45,16 @@ module PlanningApplications
       @consultee = @consultees.find(consultee_id)
     end
 
+    def constraint_id
+      Integer(params[:constraint])
+    rescue ArgumentError
+      raise ActionController::BadRequest, "Invalid constraint id: #{params[:constraint].inspect}"
+    end
+
     def consultee_id
       Integer(params[:id])
+    rescue ArgumentError
+      raise ActionController::BadRequest, "Invalid consultee id: #{params[:id].inspect}"
     end
 
     def consultee_params

@@ -104,6 +104,8 @@ module PlanningApplications
 
       def assessment_detail_id
         Integer(params[:id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid assessment detail id: #{params[:id].inspect}"
       end
 
       def assessment_details_params

@@ -23,7 +23,13 @@ class OsPlacesApiController < ApplicationController
 
   private
 
+  def planning_application_id
+    Integer(params[:planning_application])
+  rescue ArgumentError
+    raise ActionController::BadRequest, "Invalid planning application id: #{params[:planning_application].inspect}"
+  end
+
   def set_planning_application
-    @planning_application = current_local_authority.planning_applications.find_by(id: Integer(params[:planning_application].to_s))
+    @planning_application = current_local_authority.planning_applications.find_by(id: planning_application_id)
   end
 end

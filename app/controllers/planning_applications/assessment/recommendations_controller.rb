@@ -84,6 +84,8 @@ module PlanningApplications
 
       def recommendation_id
         Integer(params[:id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid recommendation id: #{params[:id].inspect}"
       end
 
       def recommendation_params

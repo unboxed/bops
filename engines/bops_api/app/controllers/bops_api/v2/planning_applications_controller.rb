@@ -27,7 +27,7 @@ module BopsApi
       end
 
       def show
-        @planning_application = planning_applications_scope.find(Integer(params[:id]))
+        @planning_application = planning_applications_scope.find(planning_application_id)
 
         respond_to do |format|
           format.json
@@ -43,6 +43,12 @@ module BopsApi
       end
 
       private
+
+      def planning_application_id
+        Integer(params[:id])
+      rescue ArgumentError
+        raise ActionController::BadRequest, "Invalid planning application id: #{params[:id].inspect}"
+      end
 
       def send_email
         query_parameters[:send_email] == "true"

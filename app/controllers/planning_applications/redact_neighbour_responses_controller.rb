@@ -34,8 +34,14 @@ module PlanningApplications
       )
     end
 
+    def neighbour_response_id
+      Integer(params[:id])
+    rescue ArgumentError
+      raise ActionController::BadRequest, "Invalid neighbour response id: #{params[:id].inspect}"
+    end
+
     def set_neighbour_response
-      @neighbour_response = @consultation.neighbour_responses.find(Integer(params[:id]))
+      @neighbour_response = @consultation.neighbour_responses.find(neighbour_response_id)
     end
 
     def neighbour_responses_path

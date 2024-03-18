@@ -54,7 +54,9 @@ module PlanningApplications
     private
 
     def neighbour_id
-      Integer(params[:id].to_s)
+      Integer(params[:id])
+    rescue ArgumentError
+      raise ActionController::BadRequest, "Invalid neighbour id: #{params[:id].inspect}"
     end
 
     def set_neighbour
