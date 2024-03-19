@@ -23,7 +23,7 @@
     markerLatitude="<%= @planning_application.latitude %>"
     markerLongitude="<%= @planning_application.longitude %>"
     markerImage="circle"
-    <% if @planning_application.neighbour_boundary_geojson %>
+    <% if @planning_application.neighbour_boundary_geojson && !locals[:invalid_red_line_boundary].present? %>
       showGeojsonDataMarkers
     <% end %>
   <% end %>
