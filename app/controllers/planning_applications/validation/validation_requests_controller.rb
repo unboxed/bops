@@ -201,7 +201,9 @@ module PlanningApplications
       end
 
       def cancel_redirect_url
-        if params.dig(:validation_request, :return_to)
+        if @validation_request.time_extension_request?
+          planning_application_path(@planning_application)
+        elsif params.dig(:validation_request, :return_to)
           params.dig(:validation_request, :return_to) ||
             @planning_application
         elsif @planning_application.validated?

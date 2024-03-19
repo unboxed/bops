@@ -34,24 +34,10 @@
     </p>
 
     <% if @validation_request.open? %>
-      <%= form_with(
-        model: [@planning_application, @validation_request],
-        url: cancel_planning_application_validation_validation_request_path(
-          @planning_application,
-          @validation_request
-        ),
-        scope: :validation_request,
-        method: :patch
-      ) do |form| %>
-        <%= form.hidden_field(:return_to, value: @back_path) %>
-        <div class="govuk-button-group">
-          <%= link_to("Back", @back_path, class: "govuk-button") %>
-          <%= form.submit(
-            "Cancel this request",
-            class: "govuk-button govuk-button--secondary"
-          ) %>
-        </div>
-      <% end %>
+      <div class="govuk-button-group">
+        <%= link_to("Back", @back_path, class: "govuk-button") %>
+        <%= link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, @validation_request), class: "govuk-button govuk-button--secondary" %>
+      </div>
     <% end %>
   </div>
 </div>

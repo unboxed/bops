@@ -27,7 +27,7 @@ RSpec.describe "Requesting time extension to a planning application" do
     expect(page).to have_content(planning_application.reference)
   end
 
-  it "lets user create request" do
+  it "lets user create and cancel request" do
     visit "/planning_applications/#{planning_application.id}/assessment/tasks"
     click_button("Application information")
     click_link("Request extension")
@@ -51,6 +51,15 @@ RSpec.describe "Requesting time extension to a planning application" do
     click_link("Extension requested")
 
     expect(page).to have_content("Review time extension request")
+
+    click_link("Cancel request")
+
+    expect(page).to have_content("You requested an extension")
+
+    fill_in "Explain to the applicant why this request is being cancelled", with: "We need more time"
+    click_button "Confirm cancellation"
+
+    expect(page).to have_content("Time extension request successfully cancelled.")
   end
 
   it "displays the expected error message when there is a time extension request already open" do
