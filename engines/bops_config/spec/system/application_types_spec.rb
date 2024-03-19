@@ -233,7 +233,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
           within "td:nth-child(4)" do
             expect(page).to have_link(
               "View and/or edit",
-              href: "/application_types/#{prior_approval.id}/edit"
+              href: "/application_types/#{prior_approval.id}"
             )
           end
         end
@@ -246,7 +246,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
           within "td:nth-child(4)" do
             expect(page).to have_link(
               "View and/or edit",
-              href: "/application_types/#{planning_permission.id}/edit"
+              href: "/application_types/#{planning_permission.id}"
             )
           end
         end
@@ -259,7 +259,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
           within "td:nth-child(4)" do
             expect(page).to have_link(
               "View and/or edit",
-              href: "/application_types/#{ldc_existing.id}/edit"
+              href: "/application_types/#{ldc_existing.id}"
             )
           end
         end
@@ -272,7 +272,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
           within "td:nth-child(4)" do
             expect(page).to have_link(
               "View and/or edit",
-              href: "/application_types/#{ldc_proposed.id}/edit"
+              href: "/application_types/#{ldc_proposed.id}"
             )
           end
         end
