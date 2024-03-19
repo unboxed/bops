@@ -24,15 +24,12 @@ module PlanningApplications
       end
 
       def create
-        @recommendation = Recommendation.new(
-          planning_application: @planning_application.planning_application,
+        @recommendation = @planning_application.recommendations.new(
           status: "review_complete",
           reviewer: Current.user
         )
 
-        if @recommendation.save
-          @planning_application.update!(decision: recommendation_form_params[:decision], public_comment: recommendation_form_params[:public_comment])
-          @planning_application.submit!
+        if @recommendation.save_and_submit(recommendation_form_params)
           redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
         else
           render :new
@@ -42,25 +39,10 @@ module PlanningApplications
       def update
         respond_to do |format|
           format.html do
-            @recommendation.assign_attributes(recommendation_params)
-            render :edit and return unless @recommendation.valid?
-
-            if @recommendation.review_complete?
-              @recommendation.review!
+            if @recommendation.save_and_review(recommendation_params)
+              redirect_to after_save_and_review_location_url, notice: t(".success")
             else
-              @recommendation.save!
-            end
-
-            if @recommendation.challenged?
-              if @recommendation.committee_overturned?
-                redirect_to new_planning_application_review_recommendation_path(@planning_application)
-              else
-                redirect_to planning_application_review_tasks_path(@planning_application),
-                  notice: t(".success")
-              end
-            else
-              redirect_to planning_application_review_tasks_path(@planning_application),
-                notice: t(".success")
+              render :edit
             end
           end
         end
@@ -110,6 +92,14 @@ module PlanningApplications
 
       def committee_overturned_status
         params[:recommendation][:challenged] == "committee_overturned"
+      end
+
+      def after_save_and_review_location_url
+        if @recommendation.committee_overturned?
+          new_planning_application_review_recommendation_path(@planning_application)
+        else
+          planning_application_review_tasks_path(@planning_application)
+        end
       end
     end
   end

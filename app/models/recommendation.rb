@@ -72,6 +72,31 @@ class Recommendation < ApplicationRecord
     review_complete? && challenged?
   end
 
+  def save_and_submit(params)
+    transaction do
+      save!
+      planning_application.update!(params.slice(:decision, :public_comment))
+      planning_application.submit!
+    end
+
+    true
+  rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+    false
+  end
+
+  def save_and_review(params)
+    transaction do
+      assign_attributes(params)
+      save!
+
+      review! if review_complete?
+    end
+
+    true
+  rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+    false
+  end
+
   private
 
   def no_updates_required

@@ -97,6 +97,20 @@ RSpec.describe "Add committee decision" do
           with: "Completed"
         )
       end
+
+      it "shows errors" do
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
+
+        click_link "Add committee decision"
+
+        expect(page).to have_content "Add committee decision"
+
+        choose "Yes, with amendments (return to case officer)"
+
+        click_button "Save and mark as complete"
+
+        expect(page).to have_content "Explain to the case officer why the recommendation has been challenged."
+      end
     end
 
     context "when the committee disagrees with the assessor's recommendation" do
@@ -130,6 +144,29 @@ RSpec.describe "Add committee decision" do
           "Add committee decision",
           with: "Completed"
         )
+      end
+
+      it "shows errors" do
+        visit "/planning_applications/#{planning_application.id}/review/tasks"
+
+        expect(page).to have_list_item_for(
+          "Add committee decision",
+          with: "Not started"
+        )
+
+        click_link "Add committee decision"
+
+        expect(page).to have_content "Add committee decision"
+
+        choose "No"
+
+        click_button "Save and mark as complete"
+
+        expect(page).to have_content "Add committee decision details"
+
+        click_button "Save and mark as complete"
+
+        expect(page).to have_content "Select 'refused' or 'granted' to record your recommendation"
       end
     end
   end

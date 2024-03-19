@@ -111,7 +111,7 @@ FactoryBot.define do
 
       after(:create) do |pa|
         create(:committee_decision, planning_application: pa, recommend: true, reasons: ["The first reason"])
-        create(:recommendation, :reviewed, challenged: true, planning_application: pa)
+        create(:recommendation, :reviewed, challenged: false, planning_application: pa, reviewer_comment: nil)
       end
     end
 
