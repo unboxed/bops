@@ -30,7 +30,6 @@ en:
         change: Change
         continue: Continue
         determination_period: Determination period
-        edit: Edit
         name: Name
         review_application_type: Review the application type
         status: Status
@@ -46,6 +45,12 @@ en:
           retired: Retired
           retired_hint: Application type was previously used to submit planning application but has been retired due to legislation changes, etc.
           update_application_type_status: Update status
+      table:
+        action: Action
+        name: Name
+        status: Status
+        suffix: Suffix
+        view_and_or_edit: View and/or edit
     dashboards:
       show:
         administrator_dashboard: Administrator dashboard

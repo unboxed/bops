@@ -67,11 +67,13 @@
           <%= t(".status") %>
         </dt>
         <dd class="govuk-summary-list__value">
-          <%= @application_type.status.humanize %>
+          <span class="govuk-tag <%= "govuk-tag--#{tag_colour(@application_type.status)}" %>">
+            <%= @application_type.status.humanize %>
+          </span>
         </dd>
         <dd class="govuk-summary-list__actions">
           <%= link_to [:edit, @application_type, :status], class: "govuk-link" do %>
-            <%= t(".edit") %><span class="govuk-visually-hidden"> <%= t(".status") %></span>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".status") %></span>
           <% end %>
         </dd>
       </div>
