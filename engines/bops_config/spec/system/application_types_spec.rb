@@ -129,7 +129,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     within "dl div:nth-child(4)" do
       expect(page).to have_selector("dd", text: "Inactive")
-      click_link "Edit"
+      click_link "Change"
     end
 
     expect(page).to have_selector("h1", text: "Update status")
@@ -149,7 +149,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     within "dl div:nth-child(4)" do
       expect(page).to have_selector("dd", text: "Active")
-      click_link "Edit"
+      click_link "Change"
     end
 
     expect(page).to have_selector("h1", text: "Update status")
@@ -170,7 +170,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     within "dl div:nth-child(4)" do
       expect(page).to have_selector("dd", text: "Retired")
-      click_link "Edit"
+      click_link "Change"
     end
 
     expect(page).to have_selector("h1", text: "Update status")
@@ -219,7 +219,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     within(".govuk-table.application-types-table") do
       within "thead > tr:first-child" do
         expect(page).to have_selector("th:nth-child(1)", text: "Suffix")
-        expect(page).to have_selector("th:nth-child(2)", text: "Application type")
+        expect(page).to have_selector("th:nth-child(2)", text: "Name")
         expect(page).to have_selector("th:nth-child(3)", text: "Status")
         expect(page).to have_selector("th:nth-child(4)", text: "Action")
       end

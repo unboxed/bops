@@ -2,16 +2,16 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">
-        Suffix
+        <%= t(".suffix") %>
       </th>
       <th scope="col" class="govuk-table__header">
-        Application type
+        <%= t(".name") %>
       </th>
       <th scope="col" class="govuk-table__header">
-        Status
+        <%= t(".status") %>
       </th>
       <th scope="col" class="govuk-table__header">
-        Action
+        <%= t(".action") %>
       </th>
     </tr>
   </thead>
@@ -27,11 +27,11 @@
         </td>
         <td class="govuk-table__cell">
           <span class="govuk-tag <%= "govuk-tag--#{tag_colour(application_type.status)}" %>">
-            <%= application_type.status.capitalize %>
+            <%= application_type.status.humanize %>
           </span>
         </td>
         <td class="govuk-table__cell">
-          <%= link_to "View and/or edit", application_type_path(application_type) , class: "govuk-link" %>
+          <%= link_to t(".view_and_or_edit"), application_type_path(application_type) , class: "govuk-link" %>
         </td>
       </tr>
     <% end %>
