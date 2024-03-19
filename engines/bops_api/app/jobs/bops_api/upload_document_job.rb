@@ -13,15 +13,18 @@ module BopsApi
       file = user.file_downloader.get(url)
       name = URI.decode_uri_component(File.basename(URI.parse(url).path))
 
-      tags = tags.compact
-
       planning_application.documents.create! do |document|
         document.tags = tags
         document.applicant_description = description
         document.file.attach(io: file.open, filename: name)
 
-        tags.any? do |tag|
-          document.document_checklist_items_id = planning_application.document_checklist.document_checklist_items.find_by(tags: tag).id
+        document_checklist = planning_application.document_checklist
+
+        tags.each do |tag|
+          next if tag.blank?
+          next unless (item = document_checklist.document_checklist_items.find_by(tags: tag))
+
+          document.document_checklist_items_id = item.id
         end
       end
     end
