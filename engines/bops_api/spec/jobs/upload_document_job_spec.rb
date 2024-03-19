@@ -7,7 +7,7 @@ RSpec.describe BopsApi::UploadDocumentJob, type: :job do
     [planning_application, user, url, tags, description]
   end
 
-  let(:planning_application) { create(:planning_application, document_checklist: DocumentChecklist.new) }
+  let(:planning_application) { create(:planning_application) }
   let(:user) { create(:api_user) }
   let(:url) { "https://example.com/path/to/file.pdf" }
   let(:tags) { %w[sitePlan.proposed] }
