@@ -28,8 +28,6 @@ RSpec.describe BopsApi::UploadDocumentJob, type: :job do
       stub_request(:get, url).to_return(status: 200, body: "")
     end
 
-    let(:tags) { [nil] }
-
     it "does not raise an error" do
       expect {
         described_class.perform_now(*arguments)

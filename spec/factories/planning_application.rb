@@ -87,6 +87,11 @@ FactoryBot.define do
       ]
     end
 
+    after(:create) do |planning_application|
+      planning_application.document_checklist = create(:document_checklist, planning_application:)
+      planning_application.save!
+    end
+
     trait :awaiting_determination do
       status { :awaiting_determination }
       awaiting_determination_at { Time.zone.now }
