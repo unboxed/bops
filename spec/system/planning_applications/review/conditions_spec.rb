@@ -17,6 +17,7 @@ RSpec.describe "Reviewing conditions" do
 
   context "when signed in as a reviewer" do
     before do
+      create(:recommendation, status: "assessment_complete", planning_application:)
       create(:review, owner: condition_set, status: "complete")
       sign_in(reviewer)
       visit "/planning_applications/#{planning_application.id}/review/tasks"

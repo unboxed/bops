@@ -1,0 +1,40 @@
+<%= form_with(
+  model: recommendation,
+  method: :patch,
+  url: planning_application_review_recommendation_path(
+    planning_application,
+    recommendation
+  )
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_radio_buttons_fieldset(
+    :challenged,
+    legend: { text: t(".do_you_agree"), size: "s" }
+  ) do %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :false,
+      label: { text: t(".yes") },
+      link_errors: true
+    ) %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :true,
+      label: { text: t(".yes_with_amendments") }
+    ) do %>
+      <p class="govuk-body">
+        Case currently assigned to: <span class="govuk-!-font-weight-bold"><%= recommendation.assessor.name %></span>
+      </p>
+      <%= form.govuk_text_area(:reviewer_comment) %>
+    <% end %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :committee_overturned,
+      label: { text: t(".no") }
+    ) %>
+  <% end %>
+  <p class="govuk-body">
+    If the committee did not agree, you can add details of their decision in the next step.
+  </p>
+  <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+<% end %>

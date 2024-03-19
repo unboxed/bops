@@ -53,9 +53,9 @@ RSpec.describe "Reviewing sign-off" do
 
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review and sign-off"
-    expect(list_item("Sign-off recommendation")).to have_content("Not started")
+    expect(list_item("Sign off recommendation")).to have_content("Not started")
 
-    click_link "Sign-off recommendation"
+    click_link "Sign off recommendation"
 
     expect(page).to have_content("Sign off recommendation")
 
@@ -70,10 +70,10 @@ RSpec.describe "Reviewing sign-off" do
 
     expect(page).to have_selector("h1", text: "Review and sign-off")
     expect(page).to have_content("Recommendation was successfully reviewed.")
-    expect(page).to have_link("Sign-off recommendation",
-      href: edit_planning_application_assessment_recommendations_path(planning_application))
+    expect(page).to have_link("Sign off recommendation",
+      href: edit_planning_application_review_recommendation_path(planning_application, planning_application.recommendation))
 
-    expect(list_item("Sign-off recommendation")).to have_content("Completed")
+    expect(list_item("Sign off recommendation")).to have_content("Completed")
 
     click_on "Review and publish decision"
 
@@ -105,9 +105,9 @@ RSpec.describe "Reviewing sign-off" do
     visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
 
-    expect(list_item("Sign-off recommendation")).to have_content("Not started")
+    expect(list_item("Sign off recommendation")).to have_content("Not started")
 
-    click_link "Sign-off recommendation"
+    click_link "Sign off recommendation"
 
     choose("No (return the case for assessment)")
 
@@ -119,9 +119,9 @@ RSpec.describe "Reviewing sign-off" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
-    expect(list_item("Sign-off recommendation")).to have_content("Completed")
-    expect(page).to have_text("Sign-off recommendation")
-    expect(page).not_to have_link("Sign-off recommendation",
+    expect(list_item("Sign off recommendation")).to have_content("Completed")
+    expect(page).to have_text("Sign off recommendation")
+    expect(page).not_to have_link("Sign off recommendation",
       href: edit_planning_application_assessment_recommendations_path(planning_application))
 
     expect(page).to have_text "Application is now in assessment and assigned to The name of assessor"
@@ -162,14 +162,14 @@ RSpec.describe "Reviewing sign-off" do
 
     visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
-    click_link "Sign-off recommendation"
+    click_link "Sign off recommendation"
 
     choose("No")
     click_button "Save and mark as complete"
 
     find_all(".govuk-error-summary").each do |error|
       within(error) do
-        expect(page).to have_content("Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+        expect(page).to have_content("Explain to the case officer why the recommendation has been challenged.")
       end
     end
   end
@@ -182,13 +182,13 @@ RSpec.describe "Reviewing sign-off" do
 
     visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
-    click_link "Sign-off recommendation"
+    click_link "Sign off recommendation"
 
     choose("Yes")
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
-    expect(list_item("Sign-off recommendation")).to have_content("Completed")
+    expect(list_item("Sign off recommendation")).to have_content("Completed")
 
     click_link "Back"
 
@@ -205,7 +205,7 @@ RSpec.describe "Reviewing sign-off" do
 
     visit "/planning_applications/#{planning_application.id}"
     click_link "Review and sign-off"
-    click_link "Sign-off recommendation"
+    click_link "Sign off recommendation"
 
     within ".recommendations" do
       expect(page).not_to have_content("Reviewer private comment")
@@ -226,7 +226,7 @@ RSpec.describe "Reviewing sign-off" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
-    expect(list_item("Sign-off recommendation")).to have_content("Completed")
+    expect(list_item("Sign off recommendation")).to have_content("Completed")
 
     recommendation.reload
     expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")
@@ -241,7 +241,7 @@ RSpec.describe "Reviewing sign-off" do
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Review and sign-off"
-      click_link "Sign-off recommendation"
+      click_link "Sign off recommendation"
 
       expect(page).to have_content("Sign off recommendation")
       expect(page).to have_content("To grant")
@@ -271,7 +271,7 @@ RSpec.describe "Reviewing sign-off" do
       expect(page).to have_current_path("/planning_applications/#{planning_application.id}/assessment/recommendations/edit")
 
       click_link "Review"
-      click_link "Sign-off recommendation"
+      click_link "Sign off recommendation"
 
       expect(page).to have_content("This text will appear on the decision notice.")
 
@@ -322,7 +322,7 @@ RSpec.describe "Reviewing sign-off" do
       )
 
       click_button("Save and mark as complete")
-      click_link("Sign-off recommendation")
+      click_link("Sign off recommendation")
 
       expect(page).to have_content(
         "You have suggested changes to be made by the officer"
@@ -384,6 +384,65 @@ RSpec.describe "Reviewing sign-off" do
 
         expect(page).not_to have_css(".moj-banner__message")
       end
+    end
+  end
+
+  context "when application is going to committee" do
+    it "I can mark it ready to go to committee" do
+      create(:recommendation, planning_application:)
+
+      create(:committee_decision, planning_application:, recommend: true)
+
+      visit "/planning_applications/#{planning_application.id}"
+
+      click_link "Review and sign-off"
+      expect(list_item("Sign off recommendation")).to have_content("Not started")
+
+      click_link "Sign off recommendation"
+
+      expect(page).to have_content "You haven't suggested changes to be made by the officer."
+
+      choose "Yes (decision is ready to go to committee)"
+
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content "Recommendation was successfully reviewed."
+
+      expect(list_item("Sign off recommendation")).to have_content("Complete")
+    end
+
+    it "can be rejected" do
+      create(:recommendation,
+        assessor:,
+        planning_application:,
+        assessor_comment: "New assessor comment",
+        submitted: true)
+
+      create(:committee_decision, planning_application:, recommend: true)
+
+      visit "/planning_applications/#{planning_application.id}"
+      click_link "Review and sign-off"
+
+      expect(list_item("Sign off recommendation")).to have_content("Not started")
+
+      click_link "Sign off recommendation"
+
+      choose("No (return the case for assessment)")
+
+      fill_in(
+        "Explain to the officer why the case is being returned",
+        with: "Reviewer private comment"
+      )
+
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Recommendation was successfully reviewed.")
+      expect(list_item("Sign off recommendation")).to have_content("Completed")
+      expect(page).to have_text("Sign off recommendation")
+      expect(page).not_to have_link("Sign off recommendation",
+        href: edit_planning_application_assessment_recommendations_path(planning_application))
+
+      expect(page).to have_text "Application is now in assessment and assigned to The name of assessor"
     end
   end
 end

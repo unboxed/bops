@@ -102,7 +102,7 @@ module PlanningApplicationStatus
       end
 
       event :request_correction do
-        transitions from: :awaiting_determination, to: :to_be_reviewed,
+        transitions from: %i[awaiting_determination in_committee], to: :to_be_reviewed,
           after: proc { |comment| audit!(activity_type: "challenged", audit_comment: comment) }
 
         after { send_update_notification_to_assessor }
@@ -130,7 +130,7 @@ module PlanningApplicationStatus
       end
 
       event :submit do
-        transitions from: :in_assessment, to: :awaiting_determination,
+        transitions from: %i[in_assessment in_committee], to: :awaiting_determination,
           guards: %i[decision_present? no_open_post_validation_requests?] do
           after { recommendation.update!(submitted: true) }
         end

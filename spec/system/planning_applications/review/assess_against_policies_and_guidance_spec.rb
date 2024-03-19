@@ -16,6 +16,7 @@ RSpec.describe "Permitted development right" do
 
   context "when signed in as a reviewer" do
     before do
+      create(:recommendation, planning_application:, status: "assessment_complete")
       local_policy_area1.local_policy.reload.update!(planning_application:)
       create(:review, owner: local_policy_area1.local_policy)
 

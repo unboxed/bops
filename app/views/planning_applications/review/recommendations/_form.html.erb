@@ -1,0 +1,32 @@
+<%= form_with(
+  model: recommendation,
+  method: :patch,
+  url: planning_application_review_recommendation_path(
+    planning_application,
+    recommendation
+  )
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_radio_buttons_fieldset(
+    :challenged,
+    legend: { text: t(".do_you_agree"), size: "s" }
+  ) do %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :false,
+      label: { text: t(".#{planning_application.committee_decision&.recommend? ? "committee" : "non_committee"}.yes") },
+      link_errors: true
+    ) %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :true,
+      label: { text: t(".#{planning_application.committee_decision&.recommend? ? "committee" : "non_committee"}.no") }
+    ) do %>
+      <p class="govuk-body">
+        Case currently assigned to: <span class="govuk-!-font-weight-bold"><%= recommendation.assessor.name %></span>
+      </p>
+      <%= form.govuk_text_area(:reviewer_comment) %>
+    <% end %>
+  <% end %>
+  <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+<% end %>

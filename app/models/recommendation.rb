@@ -13,10 +13,8 @@ class Recommendation < ApplicationRecord
   scope :reviewed, -> { where.not(reviewer_id: nil) }
   scope :submitted, -> { where(submitted: true) }
 
-  with_options if: :review_complete? do
-    validate :reviewer_comment_is_present?
-    validate :no_updates_required
-  end
+  validate :reviewer_comment_is_present?, if: -> { challenged? && review_complete? }
+  validate :no_updates_required, if: :review_complete?
 
   delegate :audits, to: :planning_application
 
@@ -46,8 +44,11 @@ class Recommendation < ApplicationRecord
       update!(reviewed_at: Time.current, reviewer: Current.user)
 
       if challenged?
-        planning_application.request_correction!(reviewer_comment)
+        planning_application.request_correction!(reviewer_comment) unless committee_overturned?
+      elsif planning_application.committee_decision&.recommend? && planning_application.awaiting_determination?
+        planning_application.send_to_committee!
       else
+        planning_application.submit! if planning_application.in_committee?
         audit!(activity_type: "approved", audit_comment: reviewer_comment)
       end
     end
@@ -71,6 +72,31 @@ class Recommendation < ApplicationRecord
     review_complete? && challenged?
   end
 
+  def save_and_submit(params)
+    transaction do
+      save!
+      planning_application.update!(params.slice(:decision, :public_comment))
+      planning_application.submit!
+    end
+
+    true
+  rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+    false
+  end
+
+  def save_and_review(params)
+    transaction do
+      assign_attributes(params)
+      save!
+
+      review! if review_complete?
+    end
+
+    true
+  rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
+    false
+  end
+
   private
 
   def no_updates_required
@@ -80,9 +106,9 @@ class Recommendation < ApplicationRecord
   end
 
   def reviewer_comment_is_present?
-    return unless challenged? && !reviewer_comment?
+    return if reviewer_comment? || committee_overturned?
 
     errors.add(:base,
-      "Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+      "Explain to the case officer why the recommendation has been challenged.")
   end
 end

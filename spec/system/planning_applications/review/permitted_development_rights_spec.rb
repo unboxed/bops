@@ -213,7 +213,7 @@ RSpec.describe "Permitted development right" do
 
         it "I cannot edit the permitted development right" do
           click_link "Review and sign-off"
-          click_link "Sign-off recommendation"
+          click_link "Sign off recommendation"
           choose("Yes")
           click_button "Save and mark as complete"
 

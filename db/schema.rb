@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_14_121609) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -129,6 +129,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_14_121609) do
     t.string "time"
     t.datetime "late_comments_deadline"
     t.text "notification_content"
+    t.text "comments"
     t.index ["planning_application_id"], name: "ix_committee_decisions_on_planning_application_id", unique: true
   end
 
@@ -720,6 +721,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_14_121609) do
     t.boolean "challenged"
     t.boolean "submitted"
     t.integer "status", default: 0, null: false
+    t.boolean "committee_overturned", default: false, null: false
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"

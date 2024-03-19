@@ -23,6 +23,7 @@ RSpec.describe "Reviewing Tasks Index" do
 
   context "with a reviewer" do
     before do
+      create(:recommendation, planning_application:)
       sign_in reviewer
     end
 

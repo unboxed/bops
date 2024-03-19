@@ -243,7 +243,7 @@ RSpec.describe "Reviewing assessment summaries" do
           "Review assessment summaries", with: "Checked"
         )
 
-        click_link("Sign-off recommendation")
+        click_link("Sign off recommendation")
         choose("No (return the case for assessment)")
 
         fill_in(
@@ -273,7 +273,7 @@ RSpec.describe "Reviewing assessment summaries" do
         visit "/planning_applications/#{planning_application.id}"
 
         click_link("Review and sign-off")
-        click_link("Sign-off recommendation")
+        click_link("Sign off recommendation")
         choose("Yes")
         click_button("Save and mark as complete")
         click_link("Review assessment summaries")
@@ -575,7 +575,7 @@ RSpec.describe "Reviewing assessment summaries" do
           "Review assessment summaries", with: "Checked"
         )
 
-        click_link("Sign-off recommendation")
+        click_link("Sign off recommendation")
         choose("No (return the case for assessment)")
 
         fill_in(
@@ -679,7 +679,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         click_link("Review")
-        click_link("Sign-off recommendation")
+        click_link("Sign off recommendation")
         choose("Yes")
         click_button("Save and mark as complete")
 
@@ -702,7 +702,7 @@ RSpec.describe "Reviewing assessment summaries" do
         )
 
         click_link("Review")
-        click_link("Sign-off recommendation")
+        click_link("Sign off recommendation")
         choose("No (return the case for assessment)")
 
         fill_in(
@@ -1033,7 +1033,7 @@ RSpec.describe "Reviewing assessment summaries" do
           "Review assessment summaries", with: "Checked"
         )
 
-        click_link("Sign-off recommendation")
+        click_link("Sign off recommendation")
         choose("No (return the case for assessment)")
 
         fill_in(
@@ -1063,7 +1063,7 @@ RSpec.describe "Reviewing assessment summaries" do
         visit "/planning_applications/#{planning_application.id}"
 
         click_link("Review and sign-off")
-        click_link("Sign-off recommendation")
+        click_link("Sign off recommendation")
         choose("Yes")
         click_button("Save and mark as complete")
         click_link("Review assessment summaries")
