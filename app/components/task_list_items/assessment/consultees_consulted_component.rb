@@ -11,18 +11,12 @@ module TaskListItems
 
       attr_reader :planning_application
 
-      # delegate :ownership_certificate, to: :planning_application
-
       def link_text
         "Check consultees consulted"
       end
 
       def link_path
-        # if ownership_certificate.present? && ownership_certificate.current_review.status == "complete"
         planning_application_assessment_consultees_path(planning_application)
-        # else
-        #   edit_planning_application_assessment_ownership_certificate_path(planning_application)
-        # end
       end
 
       def status_tag_component

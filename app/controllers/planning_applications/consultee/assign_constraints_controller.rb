@@ -8,7 +8,7 @@ module PlanningApplications
 
       def create
         respond_to do |format|
-          if planning_application_constraint.update(consultee_id: consultee_id)
+          if planning_application_constraint.update(consultee_id: consultee_id) || planning_application_constraint.update(consultee_required: false)
             format.html do
               redirect_to planning_application_consultees_url(@planning_application)
             end

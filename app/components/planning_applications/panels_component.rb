@@ -23,7 +23,7 @@ module PlanningApplications
     end
 
     def closed_planning_applications
-      search.current_planning_applications.closed
+      search.current_planning_applications
     end
 
     def local_authority_most_recent_audits_for_planning_applications

@@ -19,6 +19,8 @@ class ConsulteeStatusComponent < ViewComponent::Base
 
   def consultee_status
     case status
+    when "not_consulted"
+      content_tag(:span, t(".not_consulted"), class: "govuk-tag govuk-tag--grey")
     when "sending"
       content_tag(:span, t(".sending"), class: "govuk-tag govuk-tag--grey")
     when "failed"

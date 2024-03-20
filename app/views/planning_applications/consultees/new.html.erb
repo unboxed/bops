@@ -33,14 +33,20 @@
           url: planning_application_consultees_assign_constraint_path(@planning_application),
           method: "POST",
           class: "govuk-!-margin-top-7" do |form| %>
+
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.label "Select consultee for #{@constraint.type_code}", class: "govuk-label" %>
       <%= form.hidden_field :constraint, value: @constraint.id %>
       <%= form.govuk_select :consultee, options_for_select(@consultation.consultees.map { |c| [c.name, c.id] }) %>
 
+          OR
+
+        <%= form.govuk_check_boxes_fieldset :consultee_required, multiple: false, legend: { text: "Mark #{@constraint.type_code} as no consultee required", size: 's' } do %>
+          <%= form.govuk_check_box :consultee_required, "false", multiple: false, link_errors: true, label: { text: "This constraint will be marked as not needing a consultee" } %>
+        <% end %>
       <div class="govuk-button-group">
-        <%= form.submit "Assign consultee", class: "govuk-button", data: {module: "govuk-button"} %>
+        <%= form.submit "Update constraint", class: "govuk-button", data: {module: "govuk-button"} %>
         <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>

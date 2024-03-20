@@ -29,7 +29,7 @@
       </div>
     <% end %>
 
-    <%= render "table", planning_application: @planning_application, consultation: @consultation %>
+    <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation %>
 
     <%= form_with model: @planning_application,
                   method: :patch do |form| %>
@@ -37,7 +37,7 @@
         <%= form.hidden_field :consultees_checked, value: true %>
 
         <%= form.submit "Confirm as checked", class: "govuk-button" %>
-        <%= link_to "Add consultees", planning_application_consultees_assign_constraint_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Add consultees", planning_application_consultees_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
 
         <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>
