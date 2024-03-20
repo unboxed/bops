@@ -650,7 +650,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_19_161736) do
     t.string "documents_status", default: "not_started", null: false
     t.datetime "in_committee_at"
     t.boolean "consultees_checked"
-    t.datetime "in_committee_at"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

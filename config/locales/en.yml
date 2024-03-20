@@ -596,6 +596,7 @@ en:
     heading: Consultee
     last_received_on: Last received on
     name: Name
+    not_consulted: Not consulted
     objected: Objected
     organisation: Organisation
     role: Role
