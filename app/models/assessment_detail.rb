@@ -48,8 +48,7 @@ class AssessmentDetail < ApplicationRecord
     consultation_summary: "consultation_summary",
     neighbour_summary: "neighbour_summary",
     amenity: "amenity",
-    check_publicity: "check_publicity",
-    confirm_consultees: "confirm_consultees"
+    check_publicity: "check_publicity"
   }
 
   before_validation :set_user
@@ -98,7 +97,7 @@ class AssessmentDetail < ApplicationRecord
 
     summary_of_work? ||
       site_description? || amenity? || neighbour_summary? ||
-      (assessment_complete? && consultation_summary? && confirm_consultees?)
+      (assessment_complete? && consultation_summary?)
   end
 
   def set_user

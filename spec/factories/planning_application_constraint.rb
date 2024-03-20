@@ -7,5 +7,6 @@ FactoryBot.define do
     planning_application_constraints_query
 
     identified_by { "BOPS" }
+    consultee_required { true }
   end
 end
