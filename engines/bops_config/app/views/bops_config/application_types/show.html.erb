@@ -161,6 +161,20 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          <%= t(".decisions") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_type.decisions.map(&:humanize).join(", ") %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :decisions], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".decisions") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           <%= t(".status") %>
         </dt>
         <dd class="govuk-summary-list__value">

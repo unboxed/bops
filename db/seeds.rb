@@ -68,12 +68,29 @@ local_authorities.each do |authority|
   end
 end
 
+DECISIONS = [
+  ["granted", "Granted", "certificate-of-lawfulness"],
+  ["refused", "Refused", "certificate-of-lawfulness"],
+  ["granted", "Prior approval required and approved", "prior-approval"],
+  ["not_required", "Prior approval not required", "prior-approval"],
+  ["refused", "Prior approval required and refused", "prior-approval"],
+  ["granted", "Granted", "full"],
+  ["refused", "Refused", "full"],
+  ["granted", "Granted", "householder"],
+  ["refused", "Refused", "householder"]
+]
+
+DECISIONS.each do |code, description, category|
+  Decision.create!(code:, description:, category:)
+end
+
 application_types = [
   {
     name: "lawfulness_certificate",
     code: "ldc.existing",
     suffix: "LDCE",
     steps: %w[validation assessment review],
+    decisions: %w[granted refused],
     assessment_details: %w[
       summary_of_work
       site_description
@@ -93,6 +110,7 @@ application_types = [
     code: "ldc.proposed",
     suffix: "LDCP",
     steps: %w[validation assessment review],
+    decisions: %w[granted refused],
     assessment_details: %w[
       summary_of_work
       site_description
@@ -113,6 +131,7 @@ application_types = [
     suffix: "PA",
     features: {"site_visits" => true},
     steps: %w[validation consultation assessment review],
+    decisions: %w[granted not_required refused],
     assessment_details: %w[
       summary_of_work
       site_description
@@ -135,6 +154,7 @@ application_types = [
     suffix: "HAPP",
     features: {"permitted_development_rights" => false, "site_visits" => true},
     steps: %w[validation consultation assessment review],
+    decisions: %w[granted refused],
     assessment_details: %w[
       summary_of_work
       site_description
@@ -156,6 +176,7 @@ application_types = [
     suffix: "HRET",
     features: {"permitted_development_rights" => false, "site_visits" => true},
     steps: %w[validation consultation assessment review],
+    decisions: %w[granted refused],
     assessment_details: %w[
       summary_of_work
       site_description

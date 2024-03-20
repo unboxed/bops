@@ -46,6 +46,9 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     before do
+      create(:decision, :ldc_granted)
+      create(:decision, :ldc_refused)
+
       sign_in assessor
       visit "/planning_applications"
     end
@@ -912,6 +915,10 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     before do
+      create(:decision, :pa_granted)
+      create(:decision, :pa_not_required)
+      create(:decision, :pa_refused)
+
       sign_in assessor
       visit "/planning_applications"
     end

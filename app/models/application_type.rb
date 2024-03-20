@@ -92,6 +92,10 @@ class ApplicationType < ApplicationRecord
     delegate :link
   end
 
+  with_options on: :decision do
+    validates :decisions, presence: true
+  end
+
   before_validation if: :code_changed? do
     self.name =
       case code
@@ -143,7 +147,7 @@ class ApplicationType < ApplicationRecord
       end
   end
 
-  before_validation on: :document_tags, unless: :configured? do
+  before_validation on: :decision, unless: :configured? do
     self.configured = true
   end
 
@@ -221,6 +225,18 @@ class ApplicationType < ApplicationRecord
 
   def selected_reporting_types?
     selected_reporting_types.present?
+  end
+
+  def decisions=(values)
+    super(Array.wrap(values).compact_blank)
+  end
+
+  def all_decisions
+    @all_decisions ||= Decision.for_category(category)
+  end
+
+  def all_decision_codes
+    all_decisions.map(&:code)
   end
 
   class << self

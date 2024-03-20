@@ -29,6 +29,7 @@ module BopsConfig
         "determination_periods" => "application_types",
         "legislation" => "application_types",
         "features" => "application_types",
+        "decisions" => "decisions",
         "statuses" => "application_types",
         "reporting_types" => "reporting_types"
       }
@@ -42,7 +43,8 @@ module BopsConfig
         {name: "Users", url: users_path, key: "users"},
         {name: "Application types", url: application_types_path, key: "application_types"},
         {name: "Legislation", url: legislation_index_path, key: "legislation"},
-        {name: "Reporting types", url: reporting_types_path, key: "reporting_types"}
+        {name: "Reporting types", url: reporting_types_path, key: "reporting_types"},
+        {name: "Decisions", url: decisions_path, key: "decisions"}
       ]
     end
   end

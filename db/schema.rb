@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_03_120056) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_04_113623) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -75,6 +75,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_03_120056) do
     t.boolean "configured", default: false, null: false
     t.string "category"
     t.string "reporting_types", default: [], null: false, array: true
+    t.string "decisions", default: [], null: false, array: true
     t.index ["code"], name: "ix_application_types_on_code", unique: true
     t.index ["legislation_id"], name: "ix_application_types_on_legislation_id"
     t.index ["suffix"], name: "ix_application_types_on_suffix", unique: true
@@ -269,6 +270,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_03_120056) do
     t.index ["local_authority_id"], name: "ix_contacts_on_local_authority_id"
     t.index ["name"], name: "ix_contacts_on_name"
     t.index ["search"], name: "ix_contacts_on_search", using: :gin
+  end
+
+  create_table "decisions", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "description", null: false
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "document_checklist_items", force: :cascade do |t|

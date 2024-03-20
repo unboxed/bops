@@ -132,6 +132,8 @@ en:
               inclusion: Select a valid application type name
               readonly: The name can't be changed when the application type is %{status}
               taken: There is already an application type for that name
+            decisions:
+              blank: You must choose at least one decision
             determination_period_days:
               blank: Enter a number of days for the determination period
               greater_than_or_equal_to: The determination period must be at least 1 day

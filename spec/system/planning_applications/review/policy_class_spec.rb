@@ -27,6 +27,9 @@ RSpec.describe "Reviewing Policy Class" do
 
   context "with a reviewer" do
     before do
+      create(:decision, :ldc_granted)
+      create(:decision, :ldc_refused)
+
       sign_in reviewer
     end
 
