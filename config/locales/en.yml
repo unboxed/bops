@@ -261,8 +261,10 @@ en:
               updates_required: You have requested officer changes, resolve these before agreeing with the recommendation
         review:
           attributes:
-            reviewer_comment:
-              blank: Reviewer comment must be added
+            action:
+              blank: Select an option
+            comment:
+              blank: Explain to the case officer why
         review_policy_class:
           attributes:
             base:
@@ -1357,6 +1359,11 @@ en:
           success: Documents were successfully updated.
       immunity_details:
         successfully_updated: Review immunity details was successfully updated
+      neighbour_responses:
+        create:
+          success: Review of neighbour responses successfully added
+        update:
+          success: Review of neighbour responses successfully added
       notifications:
         update:
           success: Notifications sent to neighbours and application in committee

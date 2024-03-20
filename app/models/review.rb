@@ -2,7 +2,7 @@
 
 class Review < ApplicationRecord
   class NotCreatableError < StandardError; end
-  store_accessor :specific_attributes, %w[decision decision_reason summary decision_type removed review_type]
+  store_accessor :specific_attributes, %w[decision decision_reason summary decision_type removed review_type consultation_type]
 
   belongs_to :owner, polymorphic: true
 
@@ -14,6 +14,8 @@ class Review < ApplicationRecord
   end
 
   with_options presence: true do
+    validates :action, if: :review_complete?
+    validates :comment, if: :rejected?
     validates :status, :review_status
     validates :decision, :decision_reason, if: -> { owner_is_immunity_detail? && enforcement? }
     validates :summary, if: -> { owner_is_immunity_detail? && decision_is_immune? }
@@ -23,6 +25,7 @@ class Review < ApplicationRecord
 
   before_create :ensure_no_open_evidence_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_create :ensure_no_open_enforcement_review_immunity_detail_response!, if: :owner_is_immunity_detail?
+  before_commit :ensure_consultation_has_finished!, if: :owner_is_consultation?
   before_update :set_status_to_be_reviewed, if: :comment?
   before_update :set_reviewer_edited, if: -> { owner_is_local_policy? && assessment_changed? }
   before_update :set_reviewed_at, if: :reviewer_present?
@@ -54,8 +57,6 @@ class Review < ApplicationRecord
   scope :enforcement, -> { where("specific_attributes->>'review_type' = ?", "enforcement") }
   scope :not_accepted, -> { where(action: "rejected").order(created_at: :asc) }
   scope :reviewer_not_accepted, -> { not_accepted.where.not(reviewed_at: nil) }
-
-  validates :comment, presence: true, if: :rejected?
 
   def complete_or_to_be_reviewed?
     review_complete? || to_be_reviewed?
@@ -110,6 +111,10 @@ class Review < ApplicationRecord
     owner_type == "ImmunityDetail"
   end
 
+  def owner_is_consultation?
+    owner_type == "Consultation"
+  end
+
   def assessment_changed?
     owner.local_policy_areas.each do |local_policy_area|
       local_policy_area.saved_changes.any?
@@ -148,5 +153,13 @@ class Review < ApplicationRecord
 
     raise NotCreatableError,
       "Cannot create an enforcement review immunity detail response when there is already an open response"
+  end
+
+  def ensure_consultation_has_finished!
+    return unless owner.planning_application.awaiting_determination?
+    return if owner.end_date.nil? || owner.end_date <= Time.zone.now
+
+    raise NotCreatableError,
+      "Consultation expiry date must be in the past. You cannot mark this as complete until the consultation period is complete."
   end
 end
