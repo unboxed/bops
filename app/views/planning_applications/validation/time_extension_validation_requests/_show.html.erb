@@ -35,7 +35,7 @@
     </p>
 
     <p class="govuk-body">
-      <% if @validation_request.rejected? && @validation_request.reason.present? %>
+      <% if @validation_request.rejected? %>
         <strong>Rejection reason:</strong><br>
         <%= @validation_request.rejection_reason %>
       <% end %>
