@@ -111,7 +111,8 @@ class Consultation < ApplicationRecord
   enum status: {
     not_started: "not_started",
     in_progress: "in_progress",
-    complete: "complete"
+    complete: "complete",
+    to_be_reviewed: "to_be_reviewed"
   }
 
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?

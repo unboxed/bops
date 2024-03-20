@@ -17,7 +17,7 @@ module PlanningApplications
       def update
         respond_to do |format|
           format.html do
-            if @neighbour_review.update(review_params)
+            if @neighbour_review.update(review_params) && @consultation.update(status: consultation_status)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
               render :index
@@ -31,7 +31,7 @@ module PlanningApplications
 
         respond_to do |format|
           format.html do
-            if @neighbour_review.save
+            if @neighbour_review.save && @consultation.update(status: consultation_status)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
               render :index
@@ -59,6 +59,14 @@ module PlanningApplications
           :to_be_reviewed
         elsif mark_as_complete?
           :complete
+        end
+      end
+
+      def consultation_status
+        if return_to_officer?
+          :to_be_reviewed
+        else
+          @consultation.status
         end
       end
 

@@ -114,10 +114,10 @@ RSpec.describe "Check neighbour notifications" do
 
         click_link "Application"
 
-        # expect(page).to have_list_item_for(
-        #   "Consultation",
-        #   with: "To be reviewed"
-        # )
+        expect(page).to have_list_item_for(
+          "Consultees, neighbours and publicity",
+          with: "To be reviewed"
+        )
 
         click_link "Consultees, neighbours and publicity"
 
