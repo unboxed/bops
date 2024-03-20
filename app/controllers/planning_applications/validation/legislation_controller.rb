@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class LegislationsController < AuthenticationController
+    class LegislationController < AuthenticationController
       include PlanningApplicationAssessable
 
       before_action :set_planning_application

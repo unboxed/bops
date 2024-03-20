@@ -21,10 +21,9 @@
         <%= form.govuk_radio_button :status, "retired", label: {text: t(".retired")}, hint: {text: t(".retired_hint")} %>
       <% end %>
 
-      <div class="button-row-group">
-        <%= form.govuk_submit t(".continue") %>
+      <%= form.govuk_submit(t(".continue")) do %>
         <%= link_to t(".cancel"), @application_type, class: "govuk-button govuk-button--secondary" %>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>

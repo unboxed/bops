@@ -48,6 +48,22 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          <%= t(".legislation") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <% if @application_type.legislation %>
+            <%= @application_type.legislation.title %>
+          <% end %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :legislation], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".legislation") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           <%= t(".determination_period") %>
         </dt>
         <dd class="govuk-summary-list__value">
@@ -80,9 +96,7 @@
     </dl>
 
     <div class="govuk-button-group">
-      <%= link_to application_types_path, class: "govuk-button" do %>
-        <%= t(".continue") %>
-      <% end %>
+      <%= link_to t(".continue"), :application_types, class: "govuk-button" %>
     </div>
   </div>
 </div>

@@ -5,6 +5,8 @@ en:
       navigation_items:
         users: Users
     application_types:
+      create:
+        success: Application profile successfully created
       determination_periods:
         edit:
           continue: Continue
@@ -16,7 +18,6 @@ en:
           success: Determination period successfully updated
       edit:
         application_profile: Application profile
-        update_application_type: Update the application type
       form:
         code_hint: Enter the name of this application type, such as 'Prior Approval - change of use from takeaway to dwelling'
         code_label: Name
@@ -25,9 +26,28 @@ en:
         suffix_label: Suffix
       index:
         title: Application Types
+      legislation:
+        edit:
+          back: Back
+          continue: Continue
+          enter_legislation: Enter legislation
+          existing_legislation: Choose an existing legislation
+          legislation_description_hint: Enter an optional description
+          legislation_description_label: Description
+          legislation_hint: |
+            Enter either the name of an existing legislation that relates to this application type
+            or a create a new one. This will appear in consultation letters, decision notices and
+            other places that need to specify what the relevant legislation is.
+          legislation_id_label: Legislation title
+          legislation_link_hint: Enter an optional link to legislation.gov.uk
+          legislation_link_label: Link
+          legislation_title_hint: Enter a title – this is usually the name of the act and the relevant section
+          legislation_title_label: Title
+          new_legislation: Enter a new legislation
+        update:
+          success: Legislation successfully updated
       new:
         application_profile: Application profile
-        create_application_type: Create a new application type
       show:
         change: Change
         continue: Continue
@@ -36,6 +56,7 @@ en:
           one: 1 day - bank holidays included
           other: "%{count} days - bank holidays included"
         edit: Edit
+        legislation: Legislation
         name: Name
         review_application_type: Review the application type
         status: Status
@@ -51,12 +72,16 @@ en:
           retired: Retired
           retired_hint: Application type was previously used to submit planning application but has been retired due to legislation changes, etc.
           update_application_type_status: Update status
+        update:
+          success: Status successfully updated
       table:
         action: Action
         name: Name
         status: Status
         suffix: Suffix
         view_and_or_edit: View and/or edit
+      update:
+        success: Application profile successfully updated
     dashboards:
       show:
         administrator_dashboard: Administrator dashboard

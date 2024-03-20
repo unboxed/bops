@@ -12,8 +12,11 @@
     label: {text: t(".suffix_label"), tag: "h2", size: "m"},
     hint: {text: t(".suffix_hint")} %>
 
-  <div class="govuk-button-group">
-    <%= form.govuk_submit(t(".continue")) %>
-    <%= back_link %>
-  </div>
+  <%= form.govuk_submit(t(".continue")) do %>
+    <% if @application_type.new_record? %>
+      <%= link_to(t("back"), :application_types, class: "govuk-button govuk-button--secondary") %>
+    <% else %>
+      <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+    <% end %>
+  <% end %>
 <% end %>

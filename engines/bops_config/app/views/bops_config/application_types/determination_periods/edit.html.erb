@@ -18,7 +18,7 @@
         suffix_text: t(".days") %>
 
       <%= form.govuk_submit(t(".continue")) do %>
-        <%= back_link %>
+        <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
       <% end %>
     <% end %>
   </div>

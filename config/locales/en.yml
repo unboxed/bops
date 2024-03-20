@@ -132,7 +132,10 @@ en:
               blank: Enter a number of days for the determination period
               greater_than_or_equal_to: The determination period must be at least 1 day
               less_than_or_equal_to: The determination period must be no more than 99 days
+              not_a_number: The determination period must be a number of days
               not_an_integer: The determination period must be a whole number of days
+            legislation_id:
+              blank: An existing legislation must be chosen
             suffix:
               blank: Enter a suffix for the application number
               invalid: The suffix must only use uppercase letters
@@ -212,6 +215,12 @@ en:
               blank: Fill in the text of the informative
             title:
               blank: Fill in the title of the informative
+        legislation:
+          attributes:
+            link:
+              invalid: Enter a valid url for the legislation
+            title:
+              blank: Enter a title for the legislation
         local_policy_area:
           attributes:
             assessment:
@@ -1569,7 +1578,7 @@ en:
           related_questions: Related questions and answers from PlanX
         validate:
           success: Fee item was marked as valid.
-      legislations:
+      legislation:
         update:
           alert: Couldn't mark legislative requirements as checked - please contact support.
           success: Legislative requirements have been marked as checked.

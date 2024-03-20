@@ -14,7 +14,7 @@ module BopsConfig
       def update
         respond_to do |format|
           if @application_type.update(application_type_params)
-            format.html { redirect_to @application_type }
+            format.html { redirect_to @application_type, notice: t(".success") }
           else
             format.html { render :edit }
           end

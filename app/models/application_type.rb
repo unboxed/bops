@@ -1,12 +1,19 @@
 # frozen_string_literal: true
 
 class ApplicationType < ApplicationRecord
-  NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate].freeze
+  NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate other].freeze
   ODP_APPLICATION_TYPES = I18n.t(:"odp.application_types").to_h.freeze
+
+  attribute :legislation_type, :string, default: "existing"
 
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
+  belongs_to :legislation, optional: true
   has_many :planning_applications, dependent: :restrict_with_exception
+
+  accepts_nested_attributes_for :legislation
+
+  default_scope { preload(:legislation) }
 
   validates :name, :code, :suffix, presence: true
   validates :code, :suffix, uniqueness: true
@@ -24,6 +31,12 @@ class ApplicationType < ApplicationRecord
 
     validate if: :suffix_changed? do
       errors.add(:suffix, :readonly, status:) unless inactive?
+    end
+  end
+
+  with_options on: :legislation do
+    validate if: :existing_legislation? do
+      errors.add(:legislation_id, :blank) unless legislation&.persisted?
     end
   end
 
@@ -55,6 +68,10 @@ class ApplicationType < ApplicationRecord
       else
         "other"
       end
+  end
+
+  def existing_or_new_legislation
+    (legislation_type == "new") ? legislation : Legislation.new
   end
 
   def description
@@ -144,5 +161,13 @@ class ApplicationType < ApplicationRecord
 
   def fetch_legislation_translation(key)
     I18n.t("application_types.legislation.#{name}.#{part_and_section}.#{key}", default: false)
+  end
+
+  def existing_legislation?
+    legislation_type == "existing"
+  end
+
+  def new_legislation?
+    legislation_type == "new"
   end
 end
