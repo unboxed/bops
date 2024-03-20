@@ -26,7 +26,7 @@ RSpec.describe Reviewing::PolicyClass::LinkComponent, type: :component do
   end
 
   it "displays show link when status complete" do
-    review_policy_class.update(review_status: "review_complete")
+    review_policy_class.update(review_status: "review_complete", action: "accepted")
     render_inline(described_class.new(policy_class: policy_class.reload))
 
     expect(page).to have_link("Review assessment of Part 1, Class D",

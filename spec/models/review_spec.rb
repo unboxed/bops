@@ -18,7 +18,7 @@ RSpec.describe Review do
       it "validates presence when returning to officer" do
         review.action = :rejected
 
-        expect { review.valid? }.to change { review.errors[:comment] }.to ["can't be blank"]
+        expect { review.valid? }.to change { review.errors[:comment] }.to ["Explain to the case officer why"]
       end
 
       it "does not validates presence when accepting" do
@@ -123,6 +123,34 @@ RSpec.describe Review do
           it "does not raise an error" do
             expect do
               new_review_immunity_detail
+            end.not_to raise_error
+          end
+        end
+      end
+    end
+
+    context "when owner is consultation" do
+      describe "::before_create #ensure_consultation_has_finished!" do
+        let(:planning_application) { create(:planning_application, :awaiting_determination) }
+
+        context "when the consultation has not yet finished" do
+          let(:consultation) { create(:consultation, end_date: 1.day.from_now, planning_application:) }
+          let(:new_review) { create(:review, owner: consultation) }
+
+          it "raises an error" do
+            expect do
+              new_review
+            end.to raise_error(described_class::NotCreatableError, "Consultation expiry date must be in the past. You cannot mark this as complete until the consultation period is complete.")
+          end
+        end
+
+        context "when the consultation end date has passed" do
+          let(:consultation) { create(:consultation, end_date: 1.day.ago, planning_application:) }
+          let(:new_review) { create(:review, owner: consultation) }
+
+          it "does not raise an error" do
+            expect do
+              new_review
             end.not_to raise_error
           end
         end

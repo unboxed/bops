@@ -5,6 +5,12 @@ FactoryBot.define do
     assessor { association :user, :assessor }
     owner { association :policy_class }
 
+    before :create do |review|
+      if review.review_complete?
+        review.action = "accepted"
+      end
+    end
+
     trait :evidence do
       specific_attributes do
         {
