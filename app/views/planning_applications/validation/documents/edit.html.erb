@@ -29,28 +29,25 @@
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <% end %>
 
-    <%= render TabsComponent.new(
-      partial: "documents/active_documents_table",
-      tabs: @planning_application.generate_document_tabs,
-      collection_key: :documents
-    ) %>
-
-    <% if @additional_document_validation_requests.any? %>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-      <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
-          validation_requests: @additional_document_validation_requests %>
-    <% else %>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <% end %>
-
-    <p class="govuk-!-margin-bottom-6 govuk-!-margin-top-0">
-      <%= link_to "Add a request for a missing document",
-        new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"), class: "govuk-link govuk-body-m" %>
-    </p>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
     <%= form_with model: @planning_application, url: planning_application_validation_documents_path(@planning_application) do |form| %>
+
+      <%= render "table", form: form  %>
+
+      <% if @additional_document_validation_requests.any? %>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
+            validation_requests: @additional_document_validation_requests %>
+      <% else %>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <% end %>
+
+      <p class="govuk-!-margin-bottom-6 govuk-!-margin-top-0">
+        <%= link_to "Add a request for a missing document",
+          new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"), class: "govuk-link govuk-body-m" %>
+      </p>
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
       <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
 
       <div class="govuk-button-group">

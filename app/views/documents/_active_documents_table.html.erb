@@ -11,14 +11,13 @@
               resize: "500x500",
               width: 180,
               height: 120,
-              edit_and_archive: false
+              edit_and_archive: true
             }
           ) %>
         </td>
 
         <td class="govuk-table__cell govuk-!-width-one-half">
-          <%= render "documents/document_row_info", document: document %>
-        </div>
+        <%= render "documents/document_row_info", document: document %>
 
         <% unless action_name == "validation_documents" %>
           <td class="govuk-table__cell">

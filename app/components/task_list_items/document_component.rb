@@ -29,7 +29,7 @@ module TaskListItems
     end
 
     def link_path
-      if status == :invalid
+      if replacement_document_validation_request&.open_or_pending?
         planning_application_validation_replacement_document_validation_request_path(
           planning_application,
           replacement_document_validation_request
@@ -43,16 +43,11 @@ module TaskListItems
       end
     end
 
-    def status
-      @status ||= if document.validated?
-        :valid
-      elsif replacement_document_validation_request&.open_or_pending?
-        :invalid
-      elsif ReplacementDocumentValidationRequest.find_by(new_document: document).present?
-        :updated
-      else
-        :not_started
-      end
+    def status_tag_component
+      StatusTags::DocumentComponent.new(
+        planning_application:,
+        document:
+      )
     end
   end
 end
