@@ -67,10 +67,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
     t.string "consistency_checklist", array: true
     t.jsonb "document_tags"
     t.jsonb "features", default: {}
-    t.integer "determination_period_days"
     t.string "status", default: "inactive", null: false
     t.string "code", null: false
     t.string "suffix", null: false
+    t.integer "determination_period_days"
     t.index ["code"], name: "ix_application_types_on_code", unique: true
     t.index ["suffix"], name: "ix_application_types_on_suffix", unique: true
   end
