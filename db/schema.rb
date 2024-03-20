@@ -550,7 +550,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_19_161736) do
     t.boolean "identified", default: false, null: false
     t.string "identified_by", null: false
     t.bigint "consultee_id"
-    t.boolean "consultee_required"
+    t.boolean "consultee_required", default: true, null: false
     t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
     t.index ["consultee_id"], name: "ix_planning_application_constraints_on_consultee_id"
     t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"
@@ -649,7 +649,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_19_161736) do
     t.geography "neighbour_boundary_geojson", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
     t.string "documents_status", default: "not_started", null: false
     t.datetime "in_committee_at"
-    t.boolean "consultees_checked"
+    t.boolean "consultees_checked", default: false, null: false
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

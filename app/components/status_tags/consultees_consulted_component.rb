@@ -9,7 +9,6 @@ module StatusTags
     private
 
     attr_reader :planning_application
-    delegate :ownership_certificate, to: :planning_application
 
     def status
       assessment_status

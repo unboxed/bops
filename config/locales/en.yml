@@ -461,8 +461,6 @@ en:
       time_extension_validation_request_received: 'Received: time extension request'
       time_extension_validation_request_sent: Time extension request sent
       time_extension_validation_request_sent_post_validation: 'Sent: time extension request'
-      time_extension_validation_request_cancelled_post_validation: 'Cancelled: time extension request'
-      time_extension_validation_request_cancelled: 'Cancelled: time extension request'
       unarchived: Document unarchived
       updated: "%{args} updated"
       uploaded: Document uploaded
@@ -2071,8 +2069,8 @@ en:
         additional_evidence: Summary of additional evidence
         amenity: Amenity
         check_publicity: Check site notice and press notice
-        consultation_summary: Summary of consultation
         confirm_consultees: Confirm consultees contacted
+        consultation_summary: Summary of consultation
         neighbour_summary: Summary of neighbour responses
         past_applications: History (manual)
         site_description: Site description

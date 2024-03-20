@@ -32,10 +32,6 @@ class PlanningApplicationConstraint < ApplicationRecord
     (identified? && !removed_at?) || !identified?
   end
 
-  def consultee_consulted?
-    consultee.consulted?
-  end
-
   def consultee_responded?
     consultee.responses?
   end
