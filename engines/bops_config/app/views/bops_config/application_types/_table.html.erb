@@ -4,7 +4,7 @@
       <th scope="col" class="govuk-table__header">
         <%= t(".suffix") %>
       </th>
-      <th scope="col" class="govuk-table__header">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-half">
         <%= t(".name") %>
       </th>
       <th scope="col" class="govuk-table__header">
@@ -26,9 +26,9 @@
           <%= application_type.description %>
         </td>
         <td class="govuk-table__cell">
-          <span class="govuk-tag <%= "govuk-tag--#{tag_colour(application_type.status)}" %>">
+          <%= tag.span(class: "govuk-tag govuk-tag--#{tag_colour(application_type.status)}") do %>
             <%= application_type.status.humanize %>
-          </span>
+          <% end %>
         </td>
         <td class="govuk-table__cell">
           <%= link_to t(".view_and_or_edit"), application_type_path(application_type) , class: "govuk-link" %>

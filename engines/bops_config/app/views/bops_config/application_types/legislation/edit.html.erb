@@ -1,0 +1,55 @@
+<% content_for :page_title do %>
+  <%= t(".enter_legislation") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".enter_legislation") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @application_type, url: [@application_type, :legislation] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.govuk_radio_buttons_fieldset(:legislation_type,
+        hint: {text: t(".legislation_hint")},
+        legend: {text: t(".enter_legislation"), size: "l", tag: "h1"}) do %>
+
+        <%= form.govuk_radio_button(:legislation_type, "existing",
+          label: {text: t(".existing_legislation")}) do %>
+
+          <div data-controller="autocomplete-select">
+            <%= form.govuk_select :legislation_id, Legislation.menu,
+              label: {text: t(".legislation_id_label"), hidden: true},
+              options: {include_blank: true} %>
+          </div>
+        <% end %>
+
+        <%= form.govuk_radio_divider %>
+
+        <%= form.govuk_radio_button(:legislation_type, "new",
+          label: {text: t(".new_legislation")}) do %>
+
+          <% form.fields :legislation, model: @legislation do |fields| %>
+            <%= fields.govuk_text_field :title,
+              label: {text: t(".legislation_title_label")},
+              hint: {text: t(".legislation_title_hint")} %>
+
+            <%= fields.govuk_text_area :description, rows: 3,
+              label: {text: t(".legislation_description_label")},
+              hint: {text: t(".legislation_description_hint")} %>
+
+            <%= fields.govuk_text_field :link,
+              label: {text: t(".legislation_link_label")},
+              hint: {text: t(".legislation_link_hint")} %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= form.govuk_submit(t(".continue")) do %>
+        <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

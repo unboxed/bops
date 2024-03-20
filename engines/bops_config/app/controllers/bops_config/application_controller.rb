@@ -23,11 +23,14 @@ module BopsConfig
       @back_path = session[:back_path]
     end
 
+    def application_type_param
+      request.path_parameters.key?(:application_type_id) ? :application_type_id : :id
+    end
+
     def application_type_id
-      param_value = params[request.path_parameters.key?(:application_type_id) ? :application_type_id : :id]
-      Integer(param_value)
+      Integer(params[application_type_param])
     rescue
-      raise ActionController::BadRequest, "Invalid application type id: #{param_value}"
+      raise ActionController::BadRequest, "Invalid application type id: #{params[application_type_param].inspect}"
     end
   end
 end

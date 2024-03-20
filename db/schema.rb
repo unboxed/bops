@@ -67,11 +67,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
     t.string "consistency_checklist", array: true
     t.jsonb "document_tags"
     t.jsonb "features", default: {}
-    t.integer "determination_period_days"
     t.string "status", default: "inactive", null: false
     t.string "code", null: false
     t.string "suffix", null: false
+    t.integer "determination_period_days"
+    t.bigint "legislation_id"
     t.index ["code"], name: "ix_application_types_on_code", unique: true
+    t.index ["legislation_id"], name: "ix_application_types_on_legislation_id"
     t.index ["suffix"], name: "ix_application_types_on_suffix", unique: true
   end
 
@@ -402,6 +404,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
     t.datetime "updated_at", null: false
     t.string "notice_reason"
     t.index ["ownership_certificate_id"], name: "ix_land_owners_on_ownership_certificate_id"
+  end
+
+  create_table "legislation", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "local_authorities", force: :cascade do |t|
@@ -847,6 +857,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_users", "local_authorities"
+  add_foreign_key "application_types", "legislation"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"
   add_foreign_key "audits", "api_users"

@@ -23,7 +23,7 @@ module BopsConfig
 
       respond_to do |format|
         if @application_type.save
-          format.html { redirect_to next_path }
+          format.html { redirect_to next_path, notice: t(".success") }
         else
           format.html { render :new }
         end
@@ -47,7 +47,7 @@ module BopsConfig
 
       respond_to do |format|
         if @application_type.save
-          format.html { redirect_to summary_path }
+          format.html { redirect_to next_path, notice: t(".success") }
         else
           format.html { render :new }
         end
@@ -65,7 +65,11 @@ module BopsConfig
     end
 
     def next_path
-      edit_application_type_determination_period_path(@application_type)
+      if @application_type.previously_new_record?
+        edit_application_type_legislation_path(@application_type)
+      else
+        application_type_path(@application_type)
+      end
     end
 
     def set_application_types
@@ -74,10 +78,6 @@ module BopsConfig
 
     def set_application_type
       @application_type = ApplicationType.find(application_type_id)
-    end
-
-    def summary_path
-      application_type_path(@application_type)
     end
   end
 end

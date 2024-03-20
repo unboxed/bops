@@ -13,8 +13,11 @@ BopsConfig::Engine.routes.draw do
 
   resources :application_types do
     scope module: "application_types" do
-      resource :status, only: %i[edit update]
-      resource :determination_period, only: [:edit, :update]
+      with_options only: %i[edit update] do
+        resource :determination_period
+        resource :legislation
+        resource :status
+      end
     end
   end
 
