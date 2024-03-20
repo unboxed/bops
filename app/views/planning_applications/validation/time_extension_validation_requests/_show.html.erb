@@ -29,7 +29,15 @@
       <% if @validation_request.open? %>
         Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
       <% else %>
+        <strong>Status:</strong><br>
         <%= @validation_request.approved? ? 'Approved' : 'Rejected' %>
+      <% end %>
+    </p>
+
+    <p class="govuk-body">
+      <% if @validation_request.rejected? && @validation_request.reason.present? %>
+        <strong>Rejection reason:</strong><br>
+        <%= @validation_request.rejection_reason %>
       <% end %>
     </p>
 
