@@ -52,7 +52,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <% if @application_type.determination_period_days %>
-            <%= @application_type.determination_period_days %> days - bank holidays included
+            <%= t(".determination_period_including_bank_holidays", count: @application_type.determination_period_days) %>
           <% end %>
         </dd>
         <dd class="govuk-summary-list__actions">

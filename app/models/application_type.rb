@@ -27,8 +27,11 @@ class ApplicationType < ApplicationRecord
     end
   end
 
-  with_options on: :update_determination_period do
-    validates :determination_period_days, presence: true, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 99}
+  with_options on: :determination_period do
+    validates :determination_period_days, presence: true
+    validates :determination_period_days, numericality: {only_integer: true}
+    validates :determination_period_days, numericality: {greater_than_or_equal_to: 1}
+    validates :determination_period_days, numericality: {less_than_or_equal_to: 99}
   end
 
   attribute :features, ApplicationTypeFeature.to_type

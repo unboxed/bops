@@ -128,6 +128,11 @@ en:
               inclusion: Select a valid application type name
               readonly: The name can't be changed when the application type is %{status}
               taken: There is already an application type for that name
+            determination_period_days:
+              blank: Enter a number of days for the determination period
+              greater_than_or_equal_to: The determination period must be at least 1 day
+              less_than_or_equal_to: The determination period must be no more than 99 days
+              not_an_integer: The determination period must be a whole number of days
             suffix:
               blank: Enter a suffix for the application number
               invalid: The suffix must only use uppercase letters

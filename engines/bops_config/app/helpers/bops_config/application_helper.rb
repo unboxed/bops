@@ -26,6 +26,8 @@ module BopsConfig
         "users"
       when "application_types"
         "application_types"
+      when "determination_periods"
+        "application_types"
       else
         "dashboard"
       end

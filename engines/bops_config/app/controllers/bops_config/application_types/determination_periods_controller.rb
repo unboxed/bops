@@ -13,9 +13,9 @@ module BopsConfig
 
       def update
         respond_to do |format|
-          if @application_type.update(application_type_params, :update_determination_period)
+          if @application_type.update(application_type_params, :determination_period)
             format.html do
-              redirect_to next_path, notice: t(".determination_period_successfully_updated")
+              redirect_to next_path, notice: t(".success")
             end
           else
             format.html { render :edit }
