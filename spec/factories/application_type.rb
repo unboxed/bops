@@ -71,6 +71,12 @@ FactoryBot.define do
         }
       end
 
+      decision_set do
+        {
+          decisions: %w[granted refused]
+        }
+      end
+
       status { "active" }
     end
 
@@ -221,6 +227,12 @@ FactoryBot.define do
         }
       end
 
+      decision_set do
+        {
+          decisions: %w[granted granted_not_required refused]
+        }
+      end
+
       status { "active" }
     end
 
@@ -355,6 +367,12 @@ FactoryBot.define do
             "wasteAndRecyclingStrategy",
             "waterEnvironmentAssessment"
           ]
+        }
+      end
+
+      decision_set do
+        {
+          decisions: %w[granted refused]
         }
       end
 

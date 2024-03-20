@@ -7,6 +7,17 @@ en:
     application_types:
       create:
         success: Application profile successfully created
+      decision_sets:
+        edit:
+          back: Back
+          choose_decisions: Choose decisions
+          continue: Continue
+          decisions:
+            granted: Granted
+            granted_not_required: Granted not required
+            refused: Refused
+        update:
+          success: Decisions successfully updated
       determination_periods:
         edit:
           continue: Continue
@@ -72,6 +83,7 @@ en:
       show:
         change: Change
         continue: Continue
+        decisions: Decisions
         determination_period: Determination period
         determination_period_including_bank_holidays:
           one: 1 day - bank holidays included

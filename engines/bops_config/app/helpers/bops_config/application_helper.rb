@@ -26,6 +26,7 @@ module BopsConfig
         "determination_periods" => "application_types",
         "legislation" => "application_types",
         "features" => "application_types",
+        "decisions" => "application_types",
         "statuses" => "application_types"
       }
 
