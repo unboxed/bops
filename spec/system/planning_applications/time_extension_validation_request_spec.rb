@@ -102,4 +102,13 @@ RSpec.describe "Requesting time extension to a planning application" do
     expect(page).to have_content("Activity log")
     expect(page).to have_content("Sent")
   end
+
+  it "displays the rejection reason when applicant rejects the request" do
+    rejected_request = create(:time_extension_validation_request, :closed, approved: false, planning_application: planning_application, reason: "Took too long", rejection_reason: "I can't wait any longer")
+
+    visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{rejected_request.id}"
+
+    expect(page).to have_content("Rejected")
+    expect(page).to have_content("I can't wait any longer")
+  end
 end
