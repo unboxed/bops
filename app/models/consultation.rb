@@ -17,6 +17,10 @@ class Consultation < ApplicationRecord
   EIA_PERIOD = 30
   EIA_PERIOD_DAYS = EIA_PERIOD.days
 
+  STEPS = %w[
+    neighbour consultee publicity
+  ].freeze
+
   attribute :consultee_message_subject, :string, default: -> { default_consultee_message_subject }
   attribute :consultee_message_body, :string, default: -> { default_consultee_message_body }
 

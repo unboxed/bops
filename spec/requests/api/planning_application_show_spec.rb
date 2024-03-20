@@ -94,12 +94,12 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
 
       context "when granted planning application" do
         let!(:planning_application) do
-          create(:planning_application, :determined, :with_constraints, local_authority: default_local_authority, decision: "granted", api_user:)
+          create(:planning_application, :determined, :planning_permission, :with_constraints, local_authority: default_local_authority, decision: "granted", api_user:)
         end
         let!(:document_with_number) { create(:document, :public, planning_application:) }
         let!(:document_without_number) { create(:document, planning_application:) }
         let!(:document_archived) { create(:document, :public, :archived, planning_application:) }
-        let!(:consultation) { create(:consultation, planning_application:) }
+        let!(:consultation) { planning_application.consultation }
         let!(:neighbour) { create(:neighbour, consultation:) }
         let!(:neighbour_response) { create(:neighbour_response, neighbour:, redacted_response: "It's fine", received_at: 1.day.ago, summary_tag: "supportive") }
 
@@ -109,7 +109,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
           expect(planning_application_json["id"]).to eq(planning_application.id)
           expect(planning_application_json["reference"]).to eq(planning_application.reference)
           expect(planning_application_json["reference_in_full"]).to eq(planning_application.reference_in_full)
-          expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
+          expect(planning_application_json["application_type"]).to eq("planning_permission")
           expect(planning_application_json["description"]).to eq(planning_application.description)
           expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.received_at))
           expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))

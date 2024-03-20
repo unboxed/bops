@@ -65,10 +65,10 @@ module BopsConfig
     end
 
     def next_path
-      if @application_type.previously_new_record?
-        edit_application_type_legislation_path(@application_type)
-      else
+      if @application_type.configured?
         application_type_path(@application_type)
+      else
+        edit_application_type_legislation_path(@application_type)
       end
     end
 

@@ -76,6 +76,12 @@ FactoryBot.define do
 
     trait :ldc_existing do
       lawfulness_certificate
+
+      features {
+        {
+          consultation_steps: []
+        }
+      }
     end
 
     trait :ldc_proposed do
@@ -83,13 +89,24 @@ FactoryBot.define do
 
       code { "ldc.proposed" }
       suffix { "LDCP" }
+
+      features {
+        {
+          consultation_steps: []
+        }
+      }
     end
 
     trait :prior_approval do
       name { "prior_approval" }
       code { "pa.part1.classA" }
       suffix { "PA" }
-      features { {"site_visits" => true} }
+      features {
+        {
+          "site_visits" => true,
+          :consultation_steps => ["neighbour", "publicity", "consultee"]
+        }
+      }
       steps { %w[validation consultation assessment review] }
 
       assessment_details do
@@ -221,7 +238,14 @@ FactoryBot.define do
       code { "pp.full.householder" }
       suffix { "HAPP" }
       steps { %w[validation consultation assessment review] }
-      features { {"planning_conditions" => true, "permitted_development_rights" => false, "site_visits" => true} }
+      features {
+        {
+          "planning_conditions" => true,
+          "permitted_development_rights" => false,
+          "site_visits" => true,
+          :consultation_steps => ["neighbour", "publicity", "consultee"]
+        }
+      }
 
       assessment_details do
         %w[
@@ -346,6 +370,18 @@ FactoryBot.define do
 
       code { "pp.full.householder.retro" }
       suffix { "HRET" }
+    end
+
+    trait :without_consultation do
+      features {
+        {
+          consultation_steps: []
+        }
+      }
+    end
+
+    trait :configured do
+      configured { true }
     end
 
     initialize_with { ApplicationType.find_or_create_by(code:) }

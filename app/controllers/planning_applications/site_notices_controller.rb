@@ -2,7 +2,10 @@
 
 module PlanningApplications
   class SiteNoticesController < AuthenticationController
+    include PublicityPermittable
+
     before_action :set_planning_application
+    before_action :ensure_publicity_is_permitted
     before_action :build_site_notice, only: %i[new create]
     before_action :set_site_notice, except: %i[new create]
     before_action :ensure_public_portal_is_active, only: :create

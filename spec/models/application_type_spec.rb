@@ -151,6 +151,16 @@ RSpec.describe ApplicationType do
         end
       end
     end
+
+    describe "#features" do
+      describe "#consultation_steps" do
+        let(:application_type) { described_class.new(features: {consultation_steps: ["Invalid"]}) }
+
+        it "validates the steps" do
+          expect { application_type.valid? }.to change { application_type.features.errors[:consultation_steps] }.to ["contains invalid steps: Invalid"]
+        end
+      end
+    end
   end
 
   describe "class methods" do

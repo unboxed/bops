@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PressNotice < ApplicationRecord
+  class NotCreatableError < StandardError; end
+
   include Auditable
   include DateValidateable
   include Consultable
@@ -44,6 +46,7 @@ class PressNotice < ApplicationRecord
 
   before_validation :reset_reasons, unless: :required?
   before_validation :reset_other_reason, unless: :other_selected?
+  before_create :ensure_publicity_feature!
 
   after_update :extend_consultation!, if: :saved_change_to_published_at?
   after_save :audit_press_notice!, if: :audit_required?
@@ -118,5 +121,12 @@ class PressNotice < ApplicationRecord
 
   def audit_press_notice!
     audit!(activity_type: "press_notice", audit_comment: audit_comment)
+  end
+
+  def ensure_publicity_feature!
+    return if planning_application.publicity_consultation_feature?
+
+    raise NotCreatableError,
+      "Cannot create press notice when application type does not permit this feature."
   end
 end

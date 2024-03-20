@@ -6,8 +6,8 @@ RSpec.describe NeighbourResponseCreationService, type: :service do
   include ActionDispatch::TestProcess::FixtureFile
 
   describe "#call" do
-    let!(:planning_application) { create(:planning_application) }
-    let!(:consultation) { create(:consultation, planning_application:) }
+    let!(:planning_application) { create(:planning_application, :planning_permission) }
+    let!(:consultation) { planning_application.consultation }
 
     let!(:params) do
       ActionController::Parameters.new(

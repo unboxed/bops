@@ -54,10 +54,12 @@ RSpec.describe "assigning planning application" do
   end
 
   context "when a prior approval type" do
-    before do
-      prior_approval = create(:application_type, :prior_approval)
-      planning_application.update(application_type: prior_approval)
-      planning_application.create_consultation!
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :prior_approval,
+        local_authority:
+      )
     end
 
     it "lets a planning application be assigned to a user" do

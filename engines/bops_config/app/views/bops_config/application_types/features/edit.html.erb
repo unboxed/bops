@@ -1,0 +1,64 @@
+<% content_for :page_title do %>
+  <%= t(".choose_features") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".choose_features") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l"><%= t(".choose_features") %></h1>
+    <h2 class="govuk-heading-m"><%= @application_type.description %></h2>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <%= form_with model: @application_type, url: [@application_type, :features] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.fields_for :features, @application_type.features do |ff| %>
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <%= t("legends.check_application_details", scope: :application_type_features) %>
+            </legend>
+
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <%= ff.check_box :planning_conditions, class: "govuk-checkboxes__input" %>
+                <%= ff.label :planning_conditions, t("labels.planning_conditions", scope: :application_type_features), class: "govuk-label govuk-checkboxes__label" %>
+              </div>
+
+              <div class="govuk-checkboxes__item">
+                <%= ff.check_box :permitted_development_rights, class: "govuk-checkboxes__input" %>
+                <%= ff.label :permitted_development_rights, t("labels.permitted_development_rights", scope: :application_type_features), class: "govuk-label govuk-checkboxes__label" %>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <%= t("legends.consultation", scope: :application_type_features) %>
+            </legend>
+                          
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <% Consultation::STEPS.each do |step| %>
+                <div class="govuk-checkboxes__item">
+                  <%= check_box_tag "application_type[features][consultation_steps][]", step, @application_type.features.consultation_steps.include?(step), id: "application_type_features_consultation_steps_#{step}", class: "govuk-checkboxes__input" %>
+                  <%= label_tag "application_type_features_consultation_steps_#{step}", t("labels.consultation_steps.#{step}", scope: :application_type_features), class: "govuk-label govuk-checkboxes__label" %>
+                </div>
+              <% end %>
+            </div>
+          </fieldset>
+        </div>
+      <% end %>
+
+      <%= form.govuk_submit(t(".continue")) do %>
+        <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

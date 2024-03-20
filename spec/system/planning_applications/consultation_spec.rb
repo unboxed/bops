@@ -5,8 +5,9 @@ require "rails_helper"
 RSpec.describe "Consultation" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
+  let!(:application_type) { create(:application_type, :prior_approval) }
   let!(:planning_application) do
-    create(:planning_application, :prior_approval, local_authority:)
+    create(:planning_application, application_type:, local_authority:)
   end
 
   before do
@@ -85,6 +86,73 @@ RSpec.describe "Consultation" do
           href: "/planning_applications/#{planning_application.id}/press_notice/confirmation"
         )
       end
+    end
+  end
+
+  context "when the application type does not enable publicity" do
+    let(:application_type) {
+      create(:application_type, :planning_permission, features: {
+        consultation_steps: ["neighbour", "consultee"]
+      })
+    }
+
+    it "does not show the publicity section" do
+      click_link "Consultees, neighbours and publicity"
+
+      expect(page).to have_css("#consultee-tasks")
+      expect(page).to have_css("#neighbour-tasks")
+      expect(page).not_to have_css("#publicity-tasks")
+    end
+
+    it "returns 404 when navigating to the site notice urls directly" do
+      expect do
+        visit "/planning_applications/#{planning_application.id}/site_notices/new"
+        expect(page).to have_selector("h1", text: "Does not exist")
+      end.to raise_error(ActionController::RoutingError, "Not found")
+    end
+
+    it "returns 404 when navigating to the press notice urls directly" do
+      expect do
+        visit "/planning_applications/#{planning_application.id}/press_notice"
+        expect(page).to have_selector("h1", text: "Does not exist")
+      end.to raise_error(ActionController::RoutingError, "Not found")
+
+      expect do
+        visit "/planning_applications/#{planning_application.id}/press_notice/confirmation"
+        expect(page).to have_selector("h1", text: "Does not exist")
+      end.to raise_error(ActionController::RoutingError, "Not found")
+    end
+  end
+
+  context "when the application type does not enable neighbour consultation" do
+    let(:application_type) {
+      create(:application_type, :planning_permission, features: {
+        consultation_steps: ["publicity", "consultee"]
+      })
+    }
+
+    it "does not show the neighbour section" do
+      click_link "Consultees, neighbours and publicity"
+
+      expect(page).to have_css("#consultee-tasks")
+      expect(page).to have_css("#publicity-tasks")
+      expect(page).not_to have_css("#neighbour-tasks")
+    end
+  end
+
+  context "when the application type does not enable consultee consultation" do
+    let(:application_type) {
+      create(:application_type, :planning_permission, features: {
+        consultation_steps: ["neighbour", "publicity"]
+      })
+    }
+
+    it "does not show the consultee section" do
+      click_link "Consultees, neighbours and publicity"
+
+      expect(page).to have_css("#neighbour-tasks")
+      expect(page).to have_css("#publicity-tasks")
+      expect(page).not_to have_css("#consultee-tasks")
     end
   end
 end

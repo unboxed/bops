@@ -19,20 +19,17 @@ module BopsConfig
     end
 
     def active_page_key
-      case controller_name
-      when "dashboard"
-        "dashboard"
-      when "users"
-        "users"
-      when "application_types"
-        "application_types"
-      when "determination_periods"
-        "application_types"
-      when "legislation"
-        "application_types"
-      else
-        "dashboard"
-      end
+      page_keys = {
+        "dashboard" => "dashboard",
+        "users" => "users",
+        "application_types" => "application_types",
+        "determination_periods" => "application_types",
+        "legislation" => "application_types",
+        "features" => "application_types",
+        "statuses" => "application_types"
+      }
+
+      page_keys.fetch(controller_name, "dashboard")
     end
 
     def nav_items

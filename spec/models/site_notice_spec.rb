@@ -19,10 +19,37 @@ RSpec.describe SiteNotice do
     end
 
     describe "callbacks" do
+      describe "::before_create #ensure_publicity_feature!" do
+        context "when the application type enables publicity" do
+          let(:application_type) { create(:application_type, :planning_permission) }
+          let(:planning_application) { create(:planning_application, application_type:) }
+          let(:site_notice) { create(:site_notice, planning_application:) }
+
+          it "allows a site notice to be created" do
+            expect do
+              site_notice
+            end.not_to raise_error(described_class::NotCreatableError)
+          end
+        end
+
+        context "when the application type does not enable publicity" do
+          let(:application_type) { create(:application_type, :without_consultation) }
+          let(:planning_application) { create(:planning_application, application_type:) }
+          let(:site_notice) { create(:site_notice, planning_application:) }
+
+          it "allows a site notice to be created" do
+            expect do
+              site_notice
+            end.to raise_error(described_class::NotCreatableError,
+              "Cannot create site notice when application type does not permit this feature.")
+          end
+        end
+      end
+
       describe "::after_update #extend_consultation!" do
         let(:default_local_authority) { create(:local_authority, :default) }
-        let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
-        let!(:consultation) { create(:consultation, planning_application:) }
+        let!(:planning_application) { create(:planning_application, :planning_permission, local_authority: default_local_authority) }
+        let!(:consultation) { planning_application.consultation }
         let(:site_notice) { create(:site_notice, planning_application:) }
 
         context "when there is an update to the displayed_at date" do
