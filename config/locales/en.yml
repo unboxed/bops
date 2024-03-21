@@ -147,6 +147,8 @@ en:
           attributes:
             base:
               no_consultees_added: Consultees must be added
+            reviewer_verdict:
+              blank: Determine whether this is correct
         committee_decision:
           attributes:
             recommend:
@@ -1409,6 +1411,63 @@ en:
           review_heading: Review - Part%{part}, Class %{class}
         update:
           successfully_updated_policy_class: Successfully updated policy class
+      publicities:
+        create:
+          success: Review of publicity successfully added.
+        edit:
+          breadcrumb: Check site notice and press notice
+          check_press_notice: Check press notice
+          check_site_notice: Check site notice
+          confirm_press_notice: Confirm press notice
+          confirm_site_notice: Confirm site notice
+          create_press_notice: Create press notice
+          create_site_notice: Create site notice
+          display_date: Display date
+          evidence_of_press_notice: Evidence of press notice
+          evidence_of_site_notice: Evidence of site notice
+          expiry_date: Expiry date
+          no_documents_uploaded: No documents uploaded
+          press_notice_incomplete: Press notice task incomplete.
+          press_notice_not_required: Press notice marked as not required for this application.
+          publication_date: Publication date
+          reasons_for_press_notice: Reasons for press notice
+          request_press_notice_confirmation: Request new document
+          site_notice_incomplete: Site notice task incomplete.
+          site_notice_not_required: Site notice marked as not required for this application.
+          title: Check site notice and press notice
+          uploaded_by: Uploaded by
+          view_in_new_window: View in new window
+          view_more_documents: View more documents
+        form:
+          accept: Accept
+          explain_to_the: Explain to the assessor why this needs reviewing
+          return_to_officer: Return to officer with comment
+        show:
+          breadcrumb: Check site notice and press notice
+          check_press_notice: Check press notice
+          check_site_notice: Check site notice
+          confirm_press_notice: Confirm press notice
+          confirm_site_notice: Confirm site notice
+          create_press_notice: Create press notice
+          create_site_notice: Create site notice
+          display_date: Display date
+          evidence_of_press_notice: Evidence of press notice
+          evidence_of_site_notice: Evidence of site notice
+          expiry_date: Expiry date
+          no_documents_uploaded: No documents uploaded
+          press_notice_incomplete: Press notice task incomplete.
+          press_notice_not_required: Press notice marked as not required for this application.
+          publication_date: Publication date
+          reasons_for_press_notice: Reasons for press notice
+          request_press_notice_confirmation: Request new document
+          site_notice_incomplete: Site notice task incomplete.
+          site_notice_not_required: Site notice marked as not required for this application.
+          title: Check site notice and press notice
+          uploaded_by: Uploaded by
+          view_in_new_window: View in new window
+          view_more_documents: View more documents
+        update:
+          success: Review of publicity successfully added.
       recommendations:
         committee_form:
           do_you_agree: Did the committee agree with the recommendation?

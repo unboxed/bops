@@ -17,4 +17,20 @@
           )
     )%>
   </li>
+
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
+      <%= link_to(
+            "Check publicity",
+            (@planning_application.check_publicity&.review_complete? ?
+              planning_application_review_consultation_publicities_path(@planning_application, @planning_application.consultation) :
+              edit_planning_application_review_consultation_publicities_path(@planning_application.id, @planning_application.consultation.id)),
+            class: "govuk-link") %>
+    </span>
+    <%= render(
+          StatusTags::BaseComponent.new(
+            status: (@planning_application.check_publicity&.review_status.present? ? @planning_application.check_publicity.review_status : :not_started)
+          )
+    )%>
+  </li>
 </ul>

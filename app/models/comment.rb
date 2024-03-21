@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :commentable, polymorphic: true
 
-  validates :text, presence: true
+  validates :text, presence: true, if: :needs_text?
 
   before_save :set_user
 
@@ -26,5 +26,15 @@ class Comment < ApplicationRecord
 
   def set_user
     self.user = Current.user
+  end
+
+  def needs_text?
+    if commentable_type == "AssessmentDetail"
+      commentable.reviewer_verdict.present? &&
+        commentable.reviewer_verdict != "accepted" &&
+        commentable.review_complete?
+    else
+      true
+    end
   end
 end

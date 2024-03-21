@@ -4,54 +4,18 @@
 
 <% content_for :title, t(".breadcrumb") %>
 
-<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
-
-<% unless @site_notice&.complete? && @press_notice&.complete? %>
-  <div class="govuk-notification-banner" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-    <div class="govuk-notification-banner__header">
-      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-        Important
-      </h2>
-    </div>
-    <div class="govuk-notification-banner__content">
-      <% if @site_notice.nil? %>
-        <p class="govuk-notification-banner__heading">
-          <%= t(".site_notice_incomplete") %>
-          <%= link_to(t(".create_site_notice"), new_planning_application_site_notice_path(@planning_application), class: "govuk-link govuk-link--no-visited-state") %>
-        </p>
-      <% elsif @site_notice.incomplete? %>
-        <p class="govuk-notification-banner__heading">
-          <%= t(".site_notice_incomplete") %>
-          <%= link_to(t(".confirm_site_notice"), edit_planning_application_site_notice_path(@planning_application, @site_notice), class: "govuk-link govuk-link--no-visited-state") %>
-        </p>
-      <% end %>
-      <% if @press_notice.nil? %>
-        <p class="govuk-notification-banner__heading">
-          <%= t(".press_notice_incomplete") %>
-          <%= link_to(t(".create_press_notice"), planning_application_press_notice_path(@planning_application), class: "govuk-link govuk-link--no-visited-state") %>
-        </p>
-      <% elsif @press_notice.incomplete? %>
-        <p class="govuk-notification-banner__heading">
-          <%= t(".press_notice_incomplete") %>
-          <%= link_to(t(".confirm_press_notice"), planning_application_press_notice_confirmation_path(@planning_application), class: "govuk-link govuk-link--no-visited-state") %>
-        </p>
-      <% end %>
-    </div>
-  </div>
-<% end %>
+<%= render(partial: "shared/review_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
 
 <%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
     <div class="govuk-!-margin-top-5" id="site-notice-check">
       <h2 class="govuk-heading-m"><%= t(".check_site_notice") %></h2>
 
       <% if @site_notice.nil? %>
         <p class="govuk-body">
           <%= t(".site_notice_incomplete") %>
-          <%= link_to(t(".create_site_notice"), new_planning_application_site_notice_path(@planning_application), class: "govuk-link govuk-link--no-visited-state") %>
         </p>
       <% elsif @site_notice.required? %>
         <table class="govuk-table">
@@ -100,24 +64,11 @@
         <% else %>
           <p class="govuk-body">
             <%= t(".no_documents_uploaded") %><br>
-            <%= link_to(t(".upload_evidence"), edit_planning_application_site_notice_path(@planning_application, @site_notice), class: "govuk-link govuk-link--no-visited-state govuk-body-s") %>
           </p>
-        <% end %>
-
-        <% if @site_notice.internal_team_email? %>
-          <%= button_to(
-            t(".request_site_notice_confirmation"),
-            planning_application_site_notice_confirmation_requests_path(@planning_application, @site_notice),
-            class: "govuk-button govuk-button--secondary",
-            form_class: "govuk-button-group",
-            data_module: "govuk-button",
-            params: { assessment_detail_id: @assessment_detail.id }
-          ) %>
         <% end %>
       <% else %>
         <p class="govuk-body">
           <%= t(".site_notice_not_required") %><br>
-          <%= link_to(t(".mark_site_notice_as_required"), new_planning_application_site_notice_path(@planning_application), class: "govuk-link govuk-link--no-visited-state govuk-body-s") %>
         </p>
       <% end %>
     </div>
@@ -129,8 +80,7 @@
 
       <% if @press_notice.nil? %>
         <p class="govuk-body">
-          <%= t(".site_notice_incomplete") %>
-          <%= link_to(t(".create_press_notice"), planning_application_press_notice_path(@planning_application), class: "govuk-link govuk-link--no-visited-state") %>
+          <%= t(".press_notice_incomplete") %>
         </p>
       <% elsif @press_notice.required? %>
         <table class="govuk-table">
@@ -181,20 +131,9 @@
         <% else %>
           <p class="govuk-body">
             <%= t(".no_documents_uploaded") %><br>
-            <%= link_to(t(".upload_evidence"), planning_application_press_notice_confirmation_path(@planning_application), class: "govuk-link govuk-link--no-visited-state govuk-body-s") %>
           </p>
         <% end %>
 
-        <% if current_local_authority.press_notice_email? %>
-          <%= button_to(
-            t(".request_press_notice_confirmation"),
-            planning_application_press_notice_confirmation_requests_path(@planning_application),
-            class: "govuk-button govuk-button--secondary",
-            form_class: "govuk-button-group",
-            data_module: "govuk-button",
-            params: { assessment_detail_id: @assessment_detail.id }
-          ) %>
-        <% end %>
       <% else %>
         <p class="govuk-body">
           <%= t(".press_notice_not_required") %><br>
@@ -203,12 +142,6 @@
       <% end %>
     </div>
 
-    <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-
-      <%= form.hidden_field(:category, value: @category) %>
-
-      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
-    <% end %>
+    <%= render "form", disabled: false %>
   </div>
 </div>

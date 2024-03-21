@@ -11,6 +11,7 @@ RSpec.describe TaskListItems::Reviewing::AssessmentDetailsComponent, type: :comp
     create(
       :assessment_detail,
       review_status:,
+      reviewer_verdict: "accepted",
       planning_application:
     )
   end

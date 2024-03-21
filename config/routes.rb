@@ -226,6 +226,13 @@ Rails.application.routes.draw do
           end
 
           resources :consultation do
+            resources :publicities do
+              get :edit, on: :collection
+              get :show, on: :collection
+              patch :update, on: :collection
+              post :create, on: :collection
+            end
+
             resource :neighbour_responses do
               get :edit, on: :collection
               get :show, on: :collection

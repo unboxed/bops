@@ -96,6 +96,9 @@ class ReviewAssessmentDetailsForm
           next if assessment_detail.reviewer_verdict.blank?
 
           assessment_detail.save!
+
+          # The comment text wasn't getting updated if the reviewer edited it
+          assessment_detail.comment.save! if assessment_detail.comment&.text_changed?
         end
       end
     end
