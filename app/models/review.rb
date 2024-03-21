@@ -2,7 +2,7 @@
 
 class Review < ApplicationRecord
   class NotCreatableError < StandardError; end
-  store_accessor :specific_attributes, %w[decision decision_reason summary decision_type removed review_type consultation_type]
+  store_accessor :specific_attributes, %w[decision decision_reason summary decision_type removed review_type]
 
   belongs_to :owner, polymorphic: true
 
@@ -53,11 +53,12 @@ class Review < ApplicationRecord
     review_not_started: "review_not_started"
   }
 
-  scope :evidence, -> { where("specific_attributes->>'review_type' = ?", "evidence") }
-  scope :enforcement, -> { where("specific_attributes->>'review_type' = ?", "enforcement") }
+  scope :review_type, ->(type) { create_with(review_type: type).where("specific_attributes->>'review_type' = ?", type) }
+  scope :evidence, -> { review_type("evidence") }
+  scope :enforcement, -> { review_type("enforcement") }
+  scope :neighbour_reviews, -> { review_type("neighbour") }
   scope :not_accepted, -> { where(action: "rejected").order(created_at: :asc) }
   scope :reviewer_not_accepted, -> { not_accepted.where.not(reviewed_at: nil) }
-  scope :neighbour_reviews, -> { where("specific_attributes->>'consultation_type' = ?", "neighbour") }
 
   def complete_or_to_be_reviewed?
     review_complete? || to_be_reviewed?
