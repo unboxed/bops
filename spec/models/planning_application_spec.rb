@@ -2137,6 +2137,17 @@ RSpec.describe PlanningApplication do
         expect(planning_application.updates_required?).to be(true)
       end
     end
+
+    context "when changes to the neighbour responses requested" do
+      before do
+        consultation = create(:consultation, planning_application:)
+        create(:review, owner: consultation, status: "to_be_reviewed")
+      end
+
+      it "returns true" do
+        expect(planning_application.updates_required?).to be(true)
+      end
+    end
   end
 
   describe "#review_in_progress?" do

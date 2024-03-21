@@ -2,6 +2,8 @@
 
 module PlanningApplications
   class NeighbourLettersController < AuthenticationController
+    include CommitMatchable
+
     before_action :set_planning_application
     before_action :set_consultation
     before_action :set_neighbour, only: %i[update destroy]
@@ -44,6 +46,7 @@ module PlanningApplications
         update_consultation!
         deliver_letters!
         send_neighbour_consultation_letter_copy
+        create_review!
         record_audit_for_letters_sent!
       end
 
@@ -142,6 +145,10 @@ module PlanningApplications
 
     def resend_reason
       consultation_params[:resend_reason] if resend_existing?
+    end
+
+    def create_review!
+      @consultation.create_neighbour_review! if @consultation.neighbour_review.blank? || @consultation.neighbour_review.to_be_reviewed?
     end
 
     def redirect_after_rescue(error)

@@ -225,6 +225,15 @@ Rails.application.routes.draw do
             patch :update, on: :collection
           end
 
+          resources :consultation do
+            resource :neighbour_responses do
+              get :edit, on: :collection
+              get :show, on: :collection
+              patch :update, on: :collection
+              post :create, on: :collection
+            end
+          end
+
           resources :immunity_details, only: %i[edit update show]
 
           resources :immunity_enforcements, only: %i[show edit update]

@@ -40,7 +40,7 @@ RSpec.describe "Send notification to neighbours of committee" do
     before do
       consultation = create(:consultation, planning_application:)
       planning_application.committee_decision.update(recommend: true, reasons: ["The first reason"])
-      planning_application.committee_decision.current_review.update(review_status: "review_complete")
+      planning_application.committee_decision.current_review.update(review_status: "review_complete", action: "accepted")
 
       neighbour = create(:neighbour, consultation:)
       create(:neighbour_response, email: "my.email@example.com", neighbour:)

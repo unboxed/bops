@@ -1,0 +1,80 @@
+<% content_for :page_title do %>
+  Check neighbour notifications - <%= t("page_title") %>
+<% end %>
+<% render(
+  partial: "shared/review_task_breadcrumbs",
+  locals: {
+    planning_application: @planning_application,
+    current_page: "Check neighbour notifications"
+  }
+) %>
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Check neighbour notifications" }
+) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <%= render(
+      partial: "shared/location_map",
+      locals: {
+        locals: {
+          in_accordion: false,
+          geojson: @planning_application.neighbour_geojson,
+          geojson_field: "consultation-polygon-geojson-field"
+        }
+      }
+    ) %>
+
+    <% if @consultation.neighbours.any? %>
+      <table class="govuk-table govuk-!-margin-top-6">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-half">Address list</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Source</th>
+            <th scope="col" class="govuk-table__header">Status</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Last contacted</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @consultation.neighbours.each do |neighbour| %>
+            <% next if neighbour.sent_comment? %>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-width-one-third">
+                  <%= neighbour.address %>
+                </td>
+                <td class="govuk-table__cell">
+                  <%= neighbour.source&.humanize %>
+                </td>
+                <td class="govuk-table__cell">
+                  <% if neighbour.last_letter.blank? %>
+                    <%= render(StatusTags::LetterComponent.new(status: "new")) %>
+                  <% else %>
+                    <%= render(StatusTags::LetterComponent.new(status: NeighbourLetter::STATUSES[neighbour.last_letter.status&.to_sym])) %>
+                  <% end %>
+                </td>
+                <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-width-one-quarter">
+                  <% if neighbour.last_letter.blank? %>
+                    -
+                  <% elsif neighbour.last_letter.status_updated_at.present? %>
+                    <%= neighbour.last_letter.status_updated_at.to_date.to_fs(:day_month_year_slashes) %>
+                  <% else %>
+                    <%= neighbour.last_letter.created_at.to_fs(:day_month_year_slashes) %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      No neighbours were consulted
+    <% end %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "form", disabled: false %>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<h2 class="app-task-list__section govuk-!-margin-top-8">
+  Review consultation
+</h2>
+<ul class="app-task-list__items" id="review-consultation-section">
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
+      <%= link_to(
+            "Check neighbour notifications",
+            (@planning_application.consultation&.neighbour_review&.review_complete? ?
+              planning_application_review_consultation_neighbour_responses_path(@planning_application, @planning_application.consultation) :
+              edit_planning_application_review_consultation_neighbour_responses_path(@planning_application, @planning_application.consultation)),
+            class: "govuk-link") %>
+    </span>
+    <%= render(
+          StatusTags::BaseComponent.new(
+            status: (@planning_application.consultation.neighbour_review.present? ? @planning_application.consultation.neighbour_review.review_status : :not_started)
+          )
+    )%>
+  </li>
+</ul>

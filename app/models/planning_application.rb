@@ -542,7 +542,8 @@ class PlanningApplication < ApplicationRecord
     assessment_details_for_review.any?(&:update_required?) ||
       permitted_development_right&.update_required? ||
       policy_classes.any?(&:update_required?) ||
-      (committee_decision.present? && committee_decision.current_review.rejected?)
+      (committee_decision.present? && committee_decision.current_review.rejected?) ||
+      neighbour_review_requested?
   end
 
   def review_in_progress?
@@ -1054,5 +1055,9 @@ class PlanningApplication < ApplicationRecord
     tags = Document::TAGS_MAP[tab]
 
     documents.select { |document| (tags & document.tags).any? }
+  end
+
+  def neighbour_review_requested?
+    consultation.present? && consultation.reviews.any? { |review| review.to_be_reviewed? }
   end
 end

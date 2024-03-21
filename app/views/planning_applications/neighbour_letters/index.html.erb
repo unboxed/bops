@@ -30,6 +30,18 @@
   </div>
 <% end %>
 
+<% if @consultation.neighbour_review&.to_be_reviewed? %>
+  <div class="govuk-inset-text" %>
+    <h3 class="govuk-heading-s">
+      Reviewer requested changes
+    </h3>
+
+    <p class="govuk-body">
+      <%= @consultation.neighbour_review.comment %>
+    </p>
+  </div>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= form_with(

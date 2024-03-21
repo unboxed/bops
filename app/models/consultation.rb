@@ -49,6 +49,11 @@ class Consultation < ApplicationRecord
     has_many :neighbour_responses
   end
 
+  has_many :reviews, as: :owner, dependent: :destroy
+  has_many :neighbour_reviews, -> { where(specific_attributes: {consultation_type: "neighbour"}) }, as: :owner, class_name: "Review", dependent: :destroy
+
+  accepts_nested_attributes_for :reviews
+
   with_options if: :start_date do
     validates :end_date,
       presence: true,
@@ -106,7 +111,8 @@ class Consultation < ApplicationRecord
   enum status: {
     not_started: "not_started",
     in_progress: "in_progress",
-    complete: "complete"
+    complete: "complete",
+    to_be_reviewed: "to_be_reviewed"
   }
 
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
@@ -192,7 +198,9 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_letters_status
-    if neighbour_letters.failed.present?
+    if neighbour_review&.to_be_reviewed?
+      "to_be_reviewed"
+    elsif neighbour_letters.failed.present?
       "failed"
     elsif neighbour_letters.sent.present?
       "complete"
@@ -369,6 +377,14 @@ class Consultation < ApplicationRecord
 
   def needs_site_visit?
     planning_application.prior_approval? ? neighbour_responses.objection.any? : planning_application.application_type.site_visits?
+  end
+
+  def neighbour_review
+    neighbour_reviews.order(:created_at).last
+  end
+
+  def create_neighbour_review!
+    reviews.create!(specific_attributes: {consultation_type: "neighbour"}, status: "complete", assessor: Current.user)
   end
 
   private
