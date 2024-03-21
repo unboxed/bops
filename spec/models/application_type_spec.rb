@@ -99,7 +99,7 @@ RSpec.describe ApplicationType do
         subject(:application_type) { described_class.new(suffix: "pppp") }
 
         it "validates format" do
-          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must only use uppercase letters"]
+          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must only use uppercase letters and numbers"]
         end
       end
 

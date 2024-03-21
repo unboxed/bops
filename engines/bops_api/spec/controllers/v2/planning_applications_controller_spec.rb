@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
-  let(:examples_root) { BopsApi::Engine.root.join("spec", "fixtures", "examples") }
+  let(:examples_root) { BopsApi::Engine.root.join("spec", "fixtures", "examples", "odp") }
   let(:southwark) { create(:local_authority, :southwark) }
   let(:creation_service) { instance_double(BopsApi::Application::CreationService) }
   let(:planning_application) { instance_double(PlanningApplication) }
@@ -27,6 +27,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
         validLawfulDevelopmentCertificateProposed.json
         validPlanningPermission.json
         validPriorApproval.json
+        validRetrospectivePlanningPermission.json
       ].each do |example|
         it "#{example} can be submitted successfully" do
           post :create, as: :json, body: examples_root.join(version, example).read

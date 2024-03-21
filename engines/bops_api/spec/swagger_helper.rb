@@ -3,6 +3,8 @@
 require "rails_helper"
 require "rswag/specs"
 
+Dir[BopsApi::Engine.root.join("spec/support/**/*.rb")].each { |f| require f }
+
 RSpec.configure do |config|
   config.openapi_strict_schema_validation = true
   config.openapi_root = BopsApi::Engine.root.join("swagger").to_s
