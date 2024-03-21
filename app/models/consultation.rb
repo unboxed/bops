@@ -49,8 +49,11 @@ class Consultation < ApplicationRecord
     has_many :neighbour_responses
   end
 
-  has_many :reviews, as: :owner, dependent: :destroy
-  has_many :neighbour_reviews, -> { where(specific_attributes: {consultation_type: "neighbour"}) }, as: :owner, class_name: "Review", dependent: :destroy
+  with_options as: :owner do
+    has_many :reviews, dependent: :destroy
+    has_many :neighbour_reviews, -> { neighbour_reviews }, class_name: "Review" # rubocop:disable Rails/HasManyOrHasOneDependent
+    has_one :neighbour_review, class_name: "Review" # rubocop:disable Rails/HasManyOrHasOneDependent
+  end
 
   accepts_nested_attributes_for :reviews
 
@@ -380,11 +383,11 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_review
-    neighbour_reviews.order(:created_at).last
+    neighbour_reviews.max_by(&:created_at)
   end
 
   def create_neighbour_review!
-    reviews.create!(specific_attributes: {consultation_type: "neighbour"}, status: "complete", assessor: Current.user)
+    neighbour_reviews.create!(status: "complete", assessor: Current.user)
   end
 
   private

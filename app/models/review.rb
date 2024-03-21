@@ -57,6 +57,7 @@ class Review < ApplicationRecord
   scope :enforcement, -> { where("specific_attributes->>'review_type' = ?", "enforcement") }
   scope :not_accepted, -> { where(action: "rejected").order(created_at: :asc) }
   scope :reviewer_not_accepted, -> { not_accepted.where.not(reviewed_at: nil) }
+  scope :neighbour_reviews, -> { where("specific_attributes->>'consultation_type' = ?", "neighbour") }
 
   def complete_or_to_be_reviewed?
     review_complete? || to_be_reviewed?

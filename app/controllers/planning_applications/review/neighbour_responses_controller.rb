@@ -36,7 +36,7 @@ module PlanningApplications
       end
 
       def create
-        @neighbour_review = @consultation.reviews.new(review_params.merge(specific_attributes: {consultation_type: "neighbour"}))
+        @neighbour_review = @consultation.neighbour_reviews.new(review_params)
 
         respond_to do |format|
           format.html do
@@ -54,13 +54,12 @@ module PlanningApplications
       def review_params
         params.require(:review).permit(
           :action, :comment, :id
-        ).to_h
-          .deep_merge(
-            reviewed_at: Time.current,
-            reviewer: current_user,
-            status:,
-            review_status:
-          )
+        ).merge(
+          reviewed_at: Time.current,
+          reviewer: current_user,
+          status:,
+          review_status:
+        )
       end
 
       def status
