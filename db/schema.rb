@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_19_161736) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -550,7 +550,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_19_161736) do
     t.boolean "identified", default: false, null: false
     t.string "identified_by", null: false
     t.bigint "consultee_id"
-    t.boolean "consultee_required", default: true, null: false
     t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
     t.index ["consultee_id"], name: "ix_planning_application_constraints_on_consultee_id"
     t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"
