@@ -11,7 +11,16 @@ module PlanningApplications
       before_action :set_consultation
       before_action :set_neighbour_review
 
-      def index
+      def show
+        respond_to do |format|
+          format.html
+        end
+      end
+
+      def edit
+        respond_to do |format|
+          format.html
+        end
       end
 
       def update
@@ -20,7 +29,7 @@ module PlanningApplications
             if @neighbour_review.update(review_params) && @consultation.update(status: consultation_status)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              render :index
+              render :edit
             end
           end
         end
@@ -34,7 +43,7 @@ module PlanningApplications
             if @neighbour_review.save && @consultation.update(status: consultation_status)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              render :index
+              render :edit
             end
           end
         end

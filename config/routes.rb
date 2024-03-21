@@ -226,7 +226,9 @@ Rails.application.routes.draw do
           end
 
           resources :consultation do
-            resources :neighbour_responses, only: %i[index] do
+            resource :neighbour_responses do
+              get :edit, on: :collection
+              get :show, on: :collection
               patch :update, on: :collection
               post :create, on: :collection
             end
