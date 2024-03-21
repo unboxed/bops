@@ -1058,6 +1058,6 @@ class PlanningApplication < ApplicationRecord
   end
 
   def neighbour_review_requested?
-    consultation.present? && consultation.reviews.any? { |review| review.to_be_reviewed? }
+    consultation&.reviews&.any?(&:to_be_reviewed?)
   end
 end

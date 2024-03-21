@@ -2067,8 +2067,8 @@ RSpec.describe PlanningApplication do
     let(:planning_application) { create(:planning_application) }
 
     context "when no changes requested" do
-      it "returns false" do
-        expect(planning_application.updates_required?).to be(false)
+      it "returns nil" do
+        expect(planning_application.updates_required?).to be(nil)
       end
     end
 
