@@ -901,9 +901,11 @@ en:
             expiry_date: Expiry date
             no_documents_uploaded: No documents uploaded
             press_notice: Press notice
+            press_notice_incomplete: Press notice task incomplete.
             publication_date: Publication date
             reasons_for_press_notice: Reasons for press notice
             site_notice: Site notice
+            site_notice_incomplete: Site notice task incomplete.
             title: Site notice and press notice
             uploaded_by: Uploaded by
             view_in_new_window: View in new window
