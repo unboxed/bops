@@ -138,7 +138,7 @@ en:
               blank: An existing legislation must be chosen
             suffix:
               blank: Enter a suffix for the application number
-              invalid: The suffix must only use uppercase letters
+              invalid: The suffix must only use uppercase letters and numbers
               readonly: The suffix can't be changed when the application type is %{status}
               taken: There is already an application type with that suffix
               too_long: The suffix must be at most %{count} characters long

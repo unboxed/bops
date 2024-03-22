@@ -207,6 +207,15 @@ FactoryBot.define do
       status { "active" }
     end
 
+    trait :pa_part_14_class_j do
+      prior_approval
+
+      code { "pa.part14.classJ" }
+      suffix { "PA14J" }
+      part { 14 }
+      section { "J" }
+    end
+
     trait :planning_permission do
       name { "planning_permission" }
       code { "pp.full.householder" }
@@ -326,6 +335,17 @@ FactoryBot.define do
       end
 
       status { "active" }
+    end
+
+    trait :householder do
+      planning_permission
+    end
+
+    trait :householder_retrospective do
+      planning_permission
+
+      code { "pp.full.householder.retro" }
+      suffix { "HRET" }
     end
 
     initialize_with { ApplicationType.find_or_create_by(code:) }

@@ -149,6 +149,27 @@ application_types = [
       proposal_details_match_documents
       site_map_correct
     ]
+  },
+  {
+    name: "planning_permission",
+    code: "pp.full.householder.retro",
+    suffix: "HRET",
+    features: {"permitted_development_rights" => false, "site_visits" => true},
+    steps: %w[validation consultation assessment review],
+    assessment_details: %w[
+      summary_of_work
+      site_description
+      additional_evidence
+      consultation_summary
+      neighbour_summary
+      past_applications
+    ],
+    consistency_checklist: %w[
+      description_matches_documents
+      documents_consistent
+      proposal_details_match_documents
+      site_map_correct
+    ]
   }
 ]
 

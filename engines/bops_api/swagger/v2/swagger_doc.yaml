@@ -14993,13 +14993,29 @@ paths:
           default: 'true'
       responses:
         '200':
-          description: when the application is created
+          description: with a valid request
           content:
             application/json:
               examples:
-                default:
+                Lawful Development Certificate - Existing use:
+                  value:
+                    id: BUC-23-00100-LDCE
+                    message: Application successfully created
+                Lawful Development Certificate - Proposed use:
+                  value:
+                    id: BUC-23-00100-LDCP
+                    message: Application successfully created
+                Planning Permission - Full householder:
                   value:
                     id: BUC-23-00100-HAPP
+                    message: Application successfully created
+                Prior Approval - Install or change solar panels:
+                  value:
+                    id: BUC-23-00100-PA14J
+                    message: Application successfully created
+                Planning Permission - Full householder retrospective:
+                  value:
+                    id: BUC-23-00100-HRET
                     message: Application successfully created
               schema:
                 "$ref": "#/components/schemas/SubmissionResponse"
@@ -15088,8 +15104,1715 @@ paths:
             schema:
               "$ref": "#/components/schemas/Submission"
             examples:
-              Planning application:
-                summary: Valid planning permission - full householder
+              ldc.existing:
+                summary: Lawful Development Certificate - Existing use
+                value:
+                  data:
+                    application:
+                      type:
+                        value: ldc.existing
+                        description: Lawful Development Certificate - Existing use
+                      fee:
+                        calculated: 258
+                        payable: 258
+                        exemption:
+                          disability: false
+                          resubmission: false
+                        reduction:
+                          sports: false
+                          parishCouncil: false
+                          alternative: false
+                        reference:
+                          govPay: sandbox-ref-123
+                      declaration:
+                        accurate: true
+                        connection:
+                          value: none
+                    user:
+                      role: agent
+                    applicant:
+                      type: individual
+                      name:
+                        first: Roald
+                        last: Dahl
+                      email: f.fox@boggischickenshed.com
+                      phone:
+                        primary: Not provided by agent
+                      address:
+                        sameAsSiteAddress: true
+                      siteContact:
+                        role: applicant
+                      interest: owner.co
+                      ownership:
+                        certificate: b
+                        noticeGiven: true
+                        owners:
+                        - name: Matilda Wormwood
+                          address:
+                            town: Reading
+                            line1: 9, Library Way
+                            line2: ''
+                            county: ''
+                            country: ''
+                            postcode: L1T3R8Y
+                          noticeDate: '1988-04-01'
+                      agent:
+                        name:
+                          first: F
+                          last: Fox
+                        email: f.fox@boggischickenshed.com
+                        phone:
+                          primary: 0234 567 8910
+                        address:
+                          line1: The Tree
+                          line2: One Tree Hill
+                          town: Great Tunnelling
+                          county: ''
+                          postcode: F0XH0L3
+                          country: ''
+                    property:
+                      address:
+                        latitude: 51.6994957
+                        longitude: -0.708966
+                        x: 489320
+                        "y": 200872
+                        title: GIPSY HOUSE, WHITEFIELD LANE, GREAT MISSENDEN
+                        singleLine: GIPSY HOUSE, WHITEFIELD LANE, GREAT MISSENDEN,
+                          HP16 0BP
+                        source: Ordnance Survey
+                        uprn: '100081174436'
+                        usrn: '07300709'
+                        pao: ''
+                        street: WHITEFIELD LANE
+                        town: GREAT MISSENDEN
+                        postcode: HP16 0BP
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.7085376977920632
+                                - 51.699564621757816
+                              - - -0.7086127996444802
+                                - 51.69965605327502
+                              - - -0.708982944488535
+                                - 51.699654390885456
+                              - - -0.7089909911155797
+                                - 51.699673508361855
+                              - - -0.7089319825172521
+                                - 51.699683482694184
+                              - - -0.7089520990848638
+                                - 51.69973002954916
+                              - - -0.7091867923736667
+                                - 51.69968930105364
+                              - - -0.7092216610908603
+                                - 51.699688469859495
+                              - - -0.709239095449457
+                                - 51.69968514508267
+                              - - -0.709253847599039
+                                - 51.6997134056779
+                              - - -0.7093128561973666
+                                - 51.69970176896433
+                              - - -0.7092699408531282
+                                - 51.699610337539525
+                              - - -0.7096253335476013
+                                - 51.699648572521454
+                              - - -0.7098613679409116
+                                - 51.69958457046823
+                              - - -0.7098962366581053
+                                - 51.69955049141595
+                              - - -0.7098090648651213
+                                - 51.6994216557425
+                              - - -0.7099243998527616
+                                - 51.699390070166544
+                              - - -0.7098264992237182
+                                - 51.699238791576136
+                              - - -0.7097460329532714
+                                - 51.699236297968724
+                              - - -0.7095716893673034
+                                - 51.69927536446852
+                              - - -0.7095421850681398
+                                - 51.69927619567025
+                              - - -0.7092954218387698
+                                - 51.69931941814053
+                              - - -0.7090929150581455
+                                - 51.69937427737031
+                              - - -0.709021836519251
+                                - 51.69938923896689
+                              - - -0.7089574635028936
+                                - 51.6994008757608
+                              - - -0.7088904082775213
+                                - 51.69942082454341
+                              - - -0.7086691260337761
+                                - 51.699501450783515
+                              - - -0.7086181640624932
+                                - 51.699517243535354
+                              - - -0.7085457444191079
+                                - 51.699541348251245
+                              - - -0.7085350155830483
+                                - 51.69954799782576
+                              - - -0.7085376977920632
+                                - 51.699564621757816
+                          properties: 
+                        area:
+                          hectares: 0.299367
+                          squareMetres: 2993.67
+                      planning:
+                        sources:
+                        - https://api.editor.planx.dev/gis/buckinghamshire?geom=POLYGON+%28%28-0.7085376977920632+51.699564621757816%2C+-0.7086127996444802+51.69965605327502%2C+-0.708982944488535+51.699654390885456%2C+-0.7089909911155797+51.699673508361855%2C+-0.7089319825172521+51.699683482694184%2C+-0.7089520990848638+51.69973002954916%2C+-0.7091867923736667+51.69968930105364%2C+-0.7092216610908603+51.699688469859495%2C+-0.709239095449457+51.69968514508267%2C+-0.709253847599039+51.6997134056779%2C+-0.7093128561973666+51.69970176896433%2C+-0.7092699408531282+51.699610337539525%2C+-0.7096253335476013+51.699648572521454%2C+-0.7098613679409116+51.69958457046823%2C+-0.7098962366581053+51.69955049141595%2C+-0.7098090648651213+51.6994216557425%2C+-0.7099243998527616+51.699390070166544%2C+-0.7098264992237182+51.699238791576136%2C+-0.7097460329532714+51.699236297968724%2C+-0.7095716893673034+51.69927536446852%2C+-0.7095421850681398+51.69927619567025%2C+-0.7092954218387698+51.69931941814053%2C+-0.7090929150581455+51.69937427737031%2C+-0.709021836519251+51.69938923896689%2C+-0.7089574635028936+51.6994008757608%2C+-0.7088904082775213+51.69942082454341%2C+-0.7086691260337761+51.699501450783515%2C+-0.7086181640624932+51.699517243535354%2C+-0.7085457444191079+51.699541348251245%2C+-0.7085350155830483+51.69954799782576%2C+-0.7085376977920632+51.699564621757816%29%29&analytics=false&sessionId=95f90e21-93f5-4761-90b3-815c673e041f
+                        - https://api.editor.planx.dev/roads?usrn=07300709
+                        designations:
+                        - value: article4
+                          description: Article 4 Direction area
+                          intersects: true
+                          entities:
+                          - name: Whole District excluding the Town of Chesham - Poultry
+                              production.
+                            description: Bucks County Council Town and Country Planning
+                              Act 1947 Town and Country Planning General Development
+                              Order 1950. Re Whole District excluding the Town of
+                              Chesham. In relation to poultry production.
+                            source:
+                              text: Planning Data
+                              url: https://www.planning.data.gov.uk/entity/7010002192
+                        - value: article4.caz
+                          description: Central Activities Zone (CAZ)
+                          intersects: false
+                        - value: tpo
+                          description: Tree Preservation Order (TPO) or zone
+                          intersects: false
+                        - value: listed
+                          description: Listed Building
+                          intersects: false
+                        - value: monument
+                          description: Site of a Scheduled Monument
+                          intersects: false
+                        - value: designated
+                          description: Designated land
+                          intersects: true
+                          entities: []
+                        - value: nature.SAC
+                          description: Special Area of Conservation (SAC)
+                          intersects: false
+                        - value: nature.ASNW
+                          description: Ancient Semi-Natural Woodland (ASNW)
+                          intersects: false
+                        - value: nature.SSSI
+                          description: Site of Special Scientific Interest (SSSI)
+                          intersects: false
+                        - value: locallyListed
+                          description: Locally Listed Building
+                          intersects: false
+                        - value: nature.SPA
+                          description: Special Protection Area (SPA)
+                          intersects: false
+                        - value: designated.WHS
+                          description: UNESCO World Heritage Site or buffer zone
+                          intersects: false
+                        - value: registeredPark
+                          description: Historic Park or Garden
+                          intersects: false
+                        - value: designated.AONB
+                          description: Area of Outstanding Natural Beauty (AONB)
+                          intersects: true
+                          entities:
+                          - name: Chilterns
+                            source:
+                              text: Planning Data
+                              url: https://www.planning.data.gov.uk/entity/1000005
+                        - value: designated.nationalPark
+                          description: National Park
+                          intersects: false
+                        - value: designated.conservationArea
+                          description: Conservation Area
+                          intersects: false
+                        - value: designated.nationalPark.broads
+                          description: National Park - Broads
+                          intersects: false
+                        - value: road.classified
+                          description: Classified Road
+                          intersects: false
+                      localAuthorityDistrict:
+                      - Buckinghamshire
+                      - Chiltern
+                      region: South East
+                      type:
+                        value: residential.dwelling.house.detached
+                        description: Detached
+                    proposal:
+                      projectType:
+                      - value: extend.outbuilding.studio
+                        description: Add an outbuilding - studio
+                      description: Construction of a small outbuilding for use as
+                        a writing studio.
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.7085376977920632
+                                - 51.699564621757816
+                              - - -0.7086127996444802
+                                - 51.69965605327502
+                              - - -0.708982944488535
+                                - 51.699654390885456
+                              - - -0.7089909911155797
+                                - 51.699673508361855
+                              - - -0.7089319825172521
+                                - 51.699683482694184
+                              - - -0.7089520990848638
+                                - 51.69973002954916
+                              - - -0.7091867923736667
+                                - 51.69968930105364
+                              - - -0.7092216610908603
+                                - 51.699688469859495
+                              - - -0.709239095449457
+                                - 51.69968514508267
+                              - - -0.709253847599039
+                                - 51.6997134056779
+                              - - -0.7093128561973666
+                                - 51.69970176896433
+                              - - -0.7092699408531282
+                                - 51.699610337539525
+                              - - -0.7096253335476013
+                                - 51.699648572521454
+                              - - -0.7098613679409116
+                                - 51.69958457046823
+                              - - -0.7098962366581053
+                                - 51.69955049141595
+                              - - -0.7098090648651213
+                                - 51.6994216557425
+                              - - -0.7099243998527616
+                                - 51.699390070166544
+                              - - -0.7098264992237182
+                                - 51.699238791576136
+                              - - -0.7097460329532714
+                                - 51.699236297968724
+                              - - -0.7095716893673034
+                                - 51.69927536446852
+                              - - -0.7095421850681398
+                                - 51.69927619567025
+                              - - -0.7092954218387698
+                                - 51.69931941814053
+                              - - -0.7090929150581455
+                                - 51.69937427737031
+                              - - -0.709021836519251
+                                - 51.69938923896689
+                              - - -0.7089574635028936
+                                - 51.6994008757608
+                              - - -0.7088904082775213
+                                - 51.69942082454341
+                              - - -0.7086691260337761
+                                - 51.699501450783515
+                              - - -0.7086181640624932
+                                - 51.699517243535354
+                              - - -0.7085457444191079
+                                - 51.699541348251245
+                              - - -0.7085350155830483
+                                - 51.69954799782576
+                              - - -0.7085376977920632
+                                - 51.699564621757816
+                          properties: 
+                        area:
+                          hectares: 0.299367
+                          squareMetres: 2993.67
+                      date: {}
+                  preAssessment:
+                  - value: Planning permission / Immune
+                    description: It looks like the changes may now be beyond the time
+                      limit for enforcement action. This does not apply if the changes
+                      have been deliberately concealed.
+                  responses:
+                  - question: List the changes involved in the project
+                    responses:
+                    - value: Outbuildings (such as sheds, garages or garden offices)
+                    metadata: {}
+                  - question: What type of changes were they?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Were the works carried out more than 4 years ago?
+                    responses:
+                    - value: 'Yes'
+                      metadata:
+                        flags:
+                        - Planning permission / Immune
+                    metadata:
+                      policyRefs:
+                      - text: Town and Country Planning Act 1990 Section 171B
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/171B
+                  - question: Have the works been completed?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      policyRefs:
+                      - text: Town and Country Planning Act 1990 Section 171B
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/171B
+                  - question: When were the works completed?
+                    responses:
+                    - value: '1959-01-01'
+                    metadata:
+                      policyRefs:
+                      - text: Town and Country Planning Act 1990 Section 171B
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/171B
+                  - question: Has anyone ever attempted to conceal the changes?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Immune
+                    metadata:
+                      policyRefs:
+                      - text: Secretary of State for Communities and Local Government
+                          and another v Welwyn Hatfield Borough Council and Bonsall
+                          / Jackson v Secretary of State for Communities and Local
+                          Government
+                        url: https://www.supremecourt.uk/cases/docs/uksc-2010-0036-judgment.pdf
+                  - question: Has enforcement action been taken about these changes?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Immune
+                    metadata:
+                      policyRefs:
+                      - text: Town and Country Planning Act 1990 Section 171A
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/171A
+                      - text: Town and Country Planning Act 1990 Section 191
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/191
+                  - question: List the changes involved in the project
+                    responses:
+                    - value: Add an outbuilding (such as a shed, garage or garden
+                        office)
+                    - value: Outbuildings (such as a shed, garage or garden office)
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: Town and Country Planning Act 1990 (Section 55)
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/55
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015
+                        url: https://www.legislation.gov.uk/uksi/2015/596/contents
+                  - question: What type of house is it?
+                    responses:
+                    - value: Detached
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of property is it?
+                    responses:
+                    - value: House
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Development Order 2015
+                        url: https://www.legislation.gov.uk/uksi/2015/596/contents
+                      - text: Section 336 of the Town and Country Planning Act
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/336/enacted
+                  - question: Is any part of the property listed?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town The Town and Country Planning (General Permitted
+                          Development) (England) Order 2015 Schedule 2, Part 1, Class
+                          E.
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
+                  - question: Was the house originally built as a house?
+                    responses:
+                    - value: Yes, it was built as a house
+                    metadata: {}
+                  - question: Was the house built before 2020?
+                    responses:
+                    - value: Yes, it was built before 2020
+                    metadata: {}
+                  - question: What is the new outbuilding used for?
+                    responses:
+                    - value: Studio
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
+                  - question: How will the studio be used?
+                    responses:
+                    - value: Personal use
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Section 2, Part 1. Class E
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
+                  - question: How many storeys does the new outbuilding have?
+                    responses:
+                    - value: 1 storey
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Section 2, Part 1. Class E.1 (d) (h)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
+                  - question: Does the outbuilding include any balconies, decks, verandahs
+                      or platforms that are more than 30cm above ground level?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Section 2, Part 1. Class E.1 (d)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
+                  - question: Is any part of the new outbuilding in front of the original
+                      house?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E.1 (c)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: Is the property on designated land?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is any part of the new outbuilding between a side wall
+                      of the original house and the boundary?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E.3
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: Is any part of the new structure within 2m of the boundary?
+                    responses:
+                    - value: No, it is 2m or more from the boundary
+                    metadata: {}
+                  - question: What type of roof does the new outbuilding have?
+                    responses:
+                    - value: Dual pitch roof
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
+                  - question: How high is the new outbuilding?
+                    responses:
+                    - value: 4m or lower
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E.1 (e)(ii)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
+                  - question: Is the property on designated land?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property in any of the following?
+                    responses:
+                    - value: An area of outstanding natural beauty
+                      metadata:
+                        flags:
+                        - Planning permission / Permission needed
+                    metadata:
+                      autoAnswered: true
+                  - question: How far from the house is the new outbuilding?
+                    responses:
+                    - value: More than 20m from the house
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: What is the total footprint of all outbuildings more
+                      than 20m from the house?
+                    responses:
+                    - value: 10m² or less
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E.2
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: How much of the property is covered by extensions and
+                      outbuildings?
+                    responses:
+                    - value: 50% or less of the available area around the original
+                        house
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E.1 (b)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: Does the new outbuilding have a satellite dish or antenna
+                      on it?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class E.1 (i)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: Is the new outbuilding air conditioned?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Not development
+                    metadata: {}
+                  - question: What types of changes does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Have you already told us that you are doing works to
+                      a tree or hedge?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Are there any protected trees on the property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the site in a conservation area?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Works to trees & hedges / Not required
+                    metadata:
+                      autoAnswered: true
+                  - question: What are you applying about?
+                    responses:
+                    - value: Existing changes I have made in the past
+                    metadata:
+                      autoAnswered: true
+                  - question: What do the works involve?
+                    responses:
+                    - value: Works to extend a property
+                    metadata:
+                      autoAnswered: true
+                  - question: What does the project involve?
+                    responses:
+                    - value: Add an outbuilding (such as sheds, shelters or garden
+                        offices)
+                    metadata:
+                      autoAnswered: true
+                  - question: Is it a residential property?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: Do the changes involve the creation of any new homes?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Do the changes involve creating any new bedrooms or
+                      bathrooms?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: What is the internal floor area of the new outbuilding?
+                    responses:
+                    - value: '9'
+                    metadata: {}
+                  - question: Do the changes involve the creation of any new homes?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property in the Greater London Authority area?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                  - question: Your contact details
+                    responses:
+                    - value: Mr F Fox 0234 567 8910 f.fox@boggischickenshed.com
+                    metadata: {}
+                  - question: Did you already provide the applicant's email address?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Applicant's email address
+                    responses:
+                    - value: r.dahl@example.com
+                    metadata: {}
+                  - question: Did you already provide the applicant's telephone number?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Applicant's telephone number
+                    responses:
+                    - value: '01098 765 432'
+                    metadata: {}
+                  - question: Which of these best describes you?
+                    responses:
+                    - value: Agent acting on the applicant's behalf
+                    metadata:
+                      autoAnswered: true
+                  - question: Have you notified the other owners?
+                    responses:
+                    - value: 'Yes'
+                    metadata: {}
+                  - question: Which of these best describes the applicant's interest
+                      in the land?
+                    responses:
+                    - value: Co-owner
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) Order 2015
+                        url: https://www.legislation.gov.uk/uksi/2015/595/article/39/made
+                  - question: How many other owners are there?
+                    responses:
+                    - value: Two or more other owners
+                    metadata: {}
+                  - question: Do you know who the other owners of the site are?
+                    responses:
+                    - value: Yes, all of them
+                    metadata: {}
+                  - question: How many owners are there in total?
+                    responses:
+                    - value: '3'
+                    metadata:
+                      autoAnswered: true
+                  - question: Full name of Owner 2
+                    responses:
+                    - value: William Wonka
+                    metadata: {}
+                  - question: Address of Owner 2
+                    responses:
+                    - value: The Factory, 10, Scrumdiddlyumptious Avenue, Oomaph upon
+                        Ouse, CH0C0L8
+                    metadata: {}
+                  - question: Have you already notified the other owners?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: Date on which notice was given to Owner 2
+                    responses:
+                    - value: '1964-04-01'
+                    metadata: {}
+                  - question: Full name of Owner 3
+                    responses:
+                    - value: Matilda Wormwood
+                    metadata: {}
+                  - question: Address of Owner 3
+                    responses:
+                    - value: 9, Library Way, Reading, L1T3R8Y
+                    metadata: {}
+                  - question: Have you already notified the other owners?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: Date on which notice was given to Owner 3
+                    responses:
+                    - value: '1988-04-01'
+                    metadata: {}
+                  - question: What types of changes did the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Would you like to upload any photographs of the property
+                      as it is today?
+                    responses:
+                    - value: 'Yes'
+                    metadata: {}
+                  - question: What type of extension have you added?
+                    responses:
+                    - value: Outbuilding
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the roof of the outbuilding shown on a drawing you
+                      have already uploaded?
+                    responses:
+                    - value: 'Yes'
+                    metadata: {}
+                  - question: Did the works involve any alterations to ground levels?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Would you like to upload any photographs of the property
+                      before the changes?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Would you like to upload any other additional drawings
+                      or documents?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Provide evidence of completion date
+                    responses:
+                    - value: Construction invoices
+                    - value: Other documents or correspondence
+                    metadata: {}
+                  - question: What do these construction invoices show?
+                    responses:
+                    - value: 'Nothing, it''s a test document. '
+                    metadata: {}
+                  - question: What do these documents show?
+                    responses:
+                    - value: 'Nothing really, this is just a test. '
+                    metadata: {}
+                  - question: What type of planning application are you making?
+                    responses:
+                    - value: Lawful Development Certificate
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of changes are you applying for?
+                    responses:
+                    - value: Existing changes
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property a home?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: What types of changes does the application relate to?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: How many homes does this application relate to?
+                    responses:
+                    - value: '1'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 Schedule 1, Part 2
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/contents
+                  - question: What type of extension did you build?
+                    responses:
+                    - value: Outbuilding (such as shed, shelter or garden office
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property a home?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: What works does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the sole purpose of the project to support the needs
+                      of a disabled resident?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 14
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
+                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 4
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
+                      - text: Equalities Act 2010, Section 6
+                        url: https://www.legislation.gov.uk/ukpga/2010/15/section/6
+                      - text: Children Act 1989, Part 3
+                        url: https://www.legislation.gov.uk/ukpga/1989/41/part/III
+                  - question: Is this application a resubmission?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 9
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/9
+                  - question: Does the application qualify for a disability exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Does the application qualify for a resubmission exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the site a sports field?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 Chapter 2, Paragraph 3
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
+                  - question: Is the application being made by (or on behalf of) a
+                      parish or community council?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 - Regulation 11
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
+                  - question: Are you also submitting another proposal for the same
+                      site today?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 Chapter 2, Paragraph 10
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
+                  - question: Does the application qualify for the sports club fee
+                      reduction?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Does the application qualify for the parish council
+                      reduction?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 - Regulation 11
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
+                  - question: Does the application qualify for the alternative application
+                      reduction?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Did you get any pre-application advice before making
+                      this application?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: What local planning authority is this application being
+                      sent to?
+                    responses:
+                    - value: Chiltern
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of application is it?
+                    responses:
+                    - value: Lawful Development Certificate
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of works are you applying about?
+                    responses:
+                    - value: Existing
+                    metadata:
+                      autoAnswered: true
+                  - question: What is the applicant's interest in the land?
+                    responses:
+                    - value: Owner
+                    metadata:
+                      autoAnswered: true
+                  - question: What is the user's role?
+                    responses:
+                    - value: Other
+                    metadata:
+                      autoAnswered: true
+                  - question: What is the applicant's declared connections?
+                    responses:
+                    - value: None
+                    metadata:
+                      autoAnswered: true
+                  files:
+                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
+                    type:
+                    - value: photographs.proposed
+                      description: Photographs - proposed
+                    - value: sitePlan.proposed
+                      description: Site plan - proposed
+                    - value: elevations.proposed
+                      description: Elevations - proposed
+                    - value: floorPlan.proposed
+                      description: Floor plan - proposed
+                  - name: https://api.editor.planx.dev/file/private/vyyogkcf/correspondence.pdf
+                    type:
+                    - value: otherEvidence
+                      description: Other - evidence or correspondence
+                    description: 'Nothing really, this is just a test. '
+                  - name: https://api.editor.planx.dev/file/private/97ltnrxr/invoice.pdf
+                    type:
+                    - value: constructionInvoice
+                      description: Construction invoice
+                    description: 'Nothing, it''s a test document. '
+                  metadata:
+                    organisation: BKM
+                    id: 95f90e21-93f5-4761-90b3-815c673e041f
+                    source: PlanX
+                    service:
+                      flowId: 824628b2-deeb-48b0-92b1-2ca7f3b17163
+                      url: https://www.editor.planx.dev/buckinghamshire/apply-for-a-lawful-development-certificate/preview
+                      files:
+                        required:
+                        - value: photographs.proposed
+                          description: Photographs - proposed
+                        - value: sitePlan.proposed
+                          description: Site plan - proposed
+                        - value: elevations.proposed
+                          description: Elevations - proposed
+                        - value: floorPlan.proposed
+                          description: Floor plan - proposed
+                        - value: floorPlan.proposed
+                          description: Floor plan - proposed
+                        recommended:
+                        - value: otherEvidence
+                          description: Other - evidence or correspondence
+                        - value: constructionInvoice
+                          description: Construction invoice
+                        optional: []
+                      fee:
+                        calculated:
+                        - description: The planning fee for an application for a Certificate
+                            of Lawfulness relating to existing alterations or extensions
+                            of a single home is £258.
+                          policyRefs:
+                          - text: UK Stuatory Instruments 2023 No. 1197
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                        payable:
+                        - description: The planning fee for an application for a Certificate
+                            of Lawfulness relating to existing alterations or extensions
+                            of a single home is £258.
+                          policyRefs:
+                          - text: UK Stuatory Instruments 2023 No. 1197
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                    submittedAt: 2023-10-02t00:00:00z
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+              ldc.proposed:
+                summary: Lawful Development Certificate - Proposed use
+                value:
+                  data:
+                    application:
+                      type:
+                        value: ldc.proposed
+                        description: Lawful Development Certificate - Proposed use
+                      fee:
+                        calculated: 129
+                        payable: 0
+                        exemption:
+                          disability: true
+                          resubmission: true
+                        reduction:
+                          sports: false
+                          parishCouncil: false
+                          alternative: false
+                      declaration:
+                        accurate: true
+                        connection:
+                          value: none
+                    user:
+                      role: applicant
+                    applicant:
+                      type: individual
+                      name:
+                        first: Enid
+                        last: Blyton
+                      email: famousfive@example.com
+                      phone:
+                        primary: 05555 555 555
+                      address:
+                        sameAsSiteAddress: true
+                      siteContact:
+                        role: applicant
+                      interest: owner.sole
+                      ownership:
+                        certificate: a
+                    property:
+                      address:
+                        latitude: 51.6154458
+                        longitude: -0.6463271
+                        x: 493822
+                        "y": 191603
+                        title: 7, BLYTON CLOSE, BEACONSFIELD
+                        singleLine: 7, BLYTON CLOSE, BEACONSFIELD, HP9 2LX
+                        source: Ordnance Survey
+                        uprn: '100080482163'
+                        usrn: '35200844'
+                        pao: '7'
+                        street: BLYTON CLOSE
+                        town: BEACONSFIELD
+                        postcode: HP9 2LX
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.646633654832832
+                                - 51.61556919642334
+                              - - -0.6466296315193095
+                                - 51.61554504700152
+                              - - -0.6465049088001171
+                                - 51.61551173743314
+                              - - -0.6464512646198194
+                                - 51.61522027766699
+                              - - -0.6463131308555524
+                                - 51.61522943785954
+                              - - -0.6463037431240002
+                                - 51.61520695374722
+                              - - -0.6462487578391951
+                                - 51.615222775901515
+                              - - -0.6462393701076429
+                                - 51.61520861923739
+                              - - -0.6459456682205124
+                                - 51.615292726412235
+                              - - -0.6460489332675857
+                                - 51.61561499701554
+                              - - -0.646633654832832
+                                - 51.61556919642334
+                          properties: 
+                        area:
+                          hectares: 0.141826
+                          squareMetres: 1418.26
+                      planning:
+                        sources:
+                        - https://api.editor.planx.dev/gis/buckinghamshire?geom=POLYGON+%28%28-0.646633654832832+51.61556919642334%2C+-0.6466296315193095+51.61554504700152%2C+-0.6465049088001171+51.61551173743314%2C+-0.6464512646198194+51.61522027766699%2C+-0.6463131308555524+51.61522943785954%2C+-0.6463037431240002+51.61520695374722%2C+-0.6462487578391951+51.615222775901515%2C+-0.6462393701076429+51.61520861923739%2C+-0.6459456682205124+51.615292726412235%2C+-0.6460489332675857+51.61561499701554%2C+-0.646633654832832+51.61556919642334%29%29&analytics=false&sessionId=8da51c5b-a2a0-4386-a15d-29d66f9c121c
+                        - https://api.editor.planx.dev/roads?usrn=35200844
+                        designations:
+                        - value: article4
+                          description: Article 4 Direction area
+                          intersects: false
+                        - value: article4.caz
+                          description: Central Activities Zone (CAZ)
+                          intersects: false
+                        - value: tpo
+                          description: Tree Preservation Order (TPO) or zone
+                          intersects: false
+                        - value: listed
+                          description: Listed Building
+                          intersects: false
+                        - value: monument
+                          description: Site of a Scheduled Monument
+                          intersects: false
+                        - value: designated
+                          description: Designated land
+                          intersects: false
+                        - value: nature.SAC
+                          description: Special Area of Conservation (SAC)
+                          intersects: false
+                        - value: nature.ASNW
+                          description: Ancient Semi-Natural Woodland (ASNW)
+                          intersects: false
+                        - value: nature.SSSI
+                          description: Site of Special Scientific Interest (SSSI)
+                          intersects: false
+                        - value: locallyListed
+                          description: Locally Listed Building
+                          intersects: false
+                        - value: nature.SPA
+                          description: Special Protection Area (SPA)
+                          intersects: false
+                        - value: designated.WHS
+                          description: UNESCO World Heritage Site or buffer zone
+                          intersects: false
+                        - value: registeredPark
+                          description: Historic Park or Garden
+                          intersects: false
+                        - value: designated.AONB
+                          description: Area of Outstanding Natural Beauty (AONB)
+                          intersects: false
+                        - value: designated.nationalPark
+                          description: National Park
+                          intersects: false
+                        - value: designated.conservationArea
+                          description: Conservation Area
+                          intersects: false
+                        - value: designated.nationalPark.broads
+                          description: National Park - Broads
+                          intersects: false
+                        - value: road.classified
+                          description: Classified Road
+                          intersects: false
+                      localAuthorityDistrict:
+                      - Buckinghamshire
+                      - South Bucks
+                      region: South East
+                      type:
+                        value: residential.dwelling.house.detached
+                        description: Detached
+                    proposal:
+                      projectType:
+                      - value: extend.rear
+                        description: Add a rear or side extension (or conservatory)
+                      description: Rear extension of a home
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.646633654832832
+                                - 51.61556919642334
+                              - - -0.6466296315193095
+                                - 51.61554504700152
+                              - - -0.6465049088001171
+                                - 51.61551173743314
+                              - - -0.6464512646198194
+                                - 51.61522027766699
+                              - - -0.6463131308555524
+                                - 51.61522943785954
+                              - - -0.6463037431240002
+                                - 51.61520695374722
+                              - - -0.6462487578391951
+                                - 51.615222775901515
+                              - - -0.6462393701076429
+                                - 51.61520861923739
+                              - - -0.6459456682205124
+                                - 51.615292726412235
+                              - - -0.6460489332675857
+                                - 51.61561499701554
+                              - - -0.646633654832832
+                                - 51.61556919642334
+                          properties: 
+                        area:
+                          hectares: 0.141826
+                          squareMetres: 1418.26
+                      date: {}
+                      details:
+                        extend:
+                          area:
+                            squareMetres: 24
+                  preAssessment:
+                  - value: Planning permission / Permitted development
+                    description: It looks like the proposed changes may fall within
+                      the rules for Permitted Development and therefore would not
+                      need planning permission.
+                  responses:
+                  - question: List the changes involved in the project
+                    responses:
+                    - value: Add a rear or side extension (or conservatory)
+                    metadata:
+                      policyRefs:
+                      - text: Town and Country Planning Act 1990 (Section 55)
+                        url: https://www.legislation.gov.uk/ukpga/1990/8/section/55
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015
+                        url: https://www.legislation.gov.uk/uksi/2015/596/contents
+                  - question: What type of property is it?
+                    responses:
+                    - value: House
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015
+                        url: https://www.legislation.gov.uk/uksi/2015/596/contents/made
+                  - question: What type of house is it?
+                    responses:
+                    - value: Detached
+                    metadata:
+                      autoAnswered: true
+                  - question: How many storeys does the original house have?
+                    responses:
+                    - value: 2 or more
+                    metadata: {}
+                  - question: Does the original house have a projection to the rear?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Was the house always a house?
+                    responses:
+                    - value: Yes, it was built as a house
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015, Schedule 2, Part 1, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: Was the house built before 2020?
+                    responses:
+                    - value: Yes, it was built before 2020
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class 1 A.
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: How many storeys does the extension have?
+                    responses:
+                    - value: 1 storey
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Section 2, Part 1, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: Does the original house have a projection to the rear?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Which of these best describes your project?
+                    responses:
+                    - value: Rear only
+                    metadata:
+                      policyRefs:
+                      - text: General Permitted Development Order 2015, Technical
+                          guidance
+                        url: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/830643/190910_Tech_Guide_for_publishing.pdf
+                  - question: Is the property on designated land?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property a site of special scientific interest?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of house is it?
+                    responses:
+                    - value: Detached
+                    metadata:
+                      autoAnswered: true
+                  - question: How far does the new addition extend beyond the back
+                      wall of the original house?
+                    responses:
+                    - value: Less than 4m
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class A.1 (f)(i)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: What is the shortest distance to the property boundary?
+                    responses:
+                    - value: 2m or more
+                    metadata: {}
+                  - question: Are the materials of the extension similar to the original
+                      house?
+                    responses:
+                    - value: 'Yes'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: Is the property on designated land?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: How much of the property is covered by extensions and
+                      outbuildings?
+                    responses:
+                    - value: 50% or less of the available area around the original
+                        house
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 1, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1
+                  - question: What types of changes does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Have you already told us that you are doing works to
+                      a tree or hedge?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Are there any protected trees on the property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the site in a conservation area?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Works to trees & hedges / Not required
+                    metadata:
+                      autoAnswered: true
+                  - question: What are you applying about?
+                    responses:
+                    - value: Proposed changes I want to make in the future
+                    metadata:
+                      autoAnswered: true
+                  - question: What do the works involve?
+                    responses:
+                    - value: Works to extend a property
+                    metadata:
+                      autoAnswered: true
+                  - question: What does the project involve?
+                    responses:
+                    - value: Add a rear or side extension (or conservatory)
+                    metadata:
+                      autoAnswered: true
+                  - question: How much is the internal floor area of the property
+                      increasing by?
+                    responses:
+                    - value: '24'
+                    metadata: {}
+                  - question: Is it a residential property?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: Do the changes involve the creation of any new homes?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Do the changes involve creating any new bedrooms or
+                      bathrooms?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Do the changes involve the creation of any new homes?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property in the Greater London Authority area?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                  - question: Which of these best describes you?
+                    responses:
+                    - value: Applicant
+                    metadata:
+                      autoAnswered: true
+                  - question: Which of these best describes your interest in the land?
+                    responses:
+                    - value: Sole owner
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) Order 2015
+                        url: https://www.legislation.gov.uk/uksi/2015/595/article/39/made
+                  - question: What types of changes does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Does the work involve any alterations to ground or floor
+                      levels?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Would you like to upload any photographs?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: What types of extension are being added?
+                    responses:
+                    - value: Rear or side
+                    metadata:
+                      autoAnswered: true
+                  - question: Do you also want to add existing internal floor plans?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Is the roof of the extension already shown on another
+                      set of drawings?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: Would you like to upload any additional drawings, documents
+                      or images?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: What type of planning application are you making?
+                    responses:
+                    - value: Lawful Development Certificate
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of changes are you applying for?
+                    responses:
+                    - value: Proposed changes
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property a home?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: What types of changes does the application relate to?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: How many homes does this application relate to?
+                    responses:
+                    - value: '1'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 Schedule 1, Part 2
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/contents
+                  - question: What type of extension is it?
+                    responses:
+                    - value: Rear or side extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the property a home?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: What works does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                  - question: Is the sole purpose of the project to support the needs
+                      of a disabled resident?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 14
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
+                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 4
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
+                      - text: Equalities Act 2010, Section 6
+                        url: https://www.legislation.gov.uk/ukpga/2010/15/section/6
+                      - text: Children Act 1989, Part 3
+                        url: https://www.legislation.gov.uk/ukpga/1989/41/part/III
+                  - question: Is this application a resubmission?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 9
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/9
+                  - question: Is this the first time you have resubmitted an application
+                      for this site?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 8
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8
+                  - question: What type of application is this?
+                    responses:
+                    - value: Lawful Development Certificate
+                    metadata:
+                      autoAnswered: true
+                  - question: What was the original application's reference number?
+                    responses:
+                    - value: M8AG1C F4R4WAY TR33
+                    metadata: {}
+                  - question: To qualify for a fee exemption, the proposed works must
+                      be of a similar description to the original application
+                    responses:
+                    - value: I understand
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 14
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
+                  - question: What was the result of the original application?
+                    responses:
+                    - value: Withdrawn
+                    metadata: {}
+                  - question: When did you submit the original application?
+                    responses:
+                    - value: Within the last 12 months
+                    metadata:
+                      policyRefs:
+                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 8
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
+                  - question: Does the application qualify for a disability exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                  - question: Does the application qualify for a resubmission exemption?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                  - question: Did you get any pre-application advice before making
+                      this application?
+                    responses:
+                    - value: 'No'
+                    metadata: {}
+                  - question: What local planning authority is this application being
+                      sent to?
+                    responses:
+                    - value: South Buckinghamshire
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of application is it?
+                    responses:
+                    - value: Lawful Development Certificate
+                    metadata:
+                      autoAnswered: true
+                  - question: What type of works are you applying about?
+                    responses:
+                    - value: Proposed
+                    metadata:
+                      autoAnswered: true
+                  - question: What is the applicant's interest in the land?
+                    responses:
+                    - value: Owner
+                    metadata:
+                      autoAnswered: true
+                  - question: What is the user's role?
+                    responses:
+                    - value: Applicant
+                    metadata:
+                      autoAnswered: true
+                  - question: What is the applicant's declared connections?
+                    responses:
+                    - value: None
+                    metadata:
+                      autoAnswered: true
+                  files:
+                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
+                    type:
+                    - value: roofPlan.existing
+                      description: Roof plan - existing
+                    - value: roofPlan.proposed
+                      description: Roof plan - proposed
+                    - value: sitePlan.existing
+                      description: Site plan - existing
+                    - value: sitePlan.proposed
+                      description: Site plan - proposed
+                    - value: elevations.existing
+                      description: Elevations - existing
+                    - value: elevations.proposed
+                      description: Elevations - proposed
+                  - name: https://api.editor.planx.dev/file/private/311w2id6/floor_plans.pdf
+                    type:
+                    - value: floorPlan.existing
+                      description: Floor plan - existing
+                    - value: floorPlan.proposed
+                      description: Floor plan - proposed
+                  metadata:
+                    organisation: BKM
+                    id: 8da51c5b-a2a0-4386-a15d-29d66f9c121c
+                    source: PlanX
+                    service:
+                      flowId: 824628b2-deeb-48b0-92b1-2ca7f3b17163
+                      url: https://www.editor.planx.dev/buckinghamshire/apply-for-a-lawful-development-certificate/preview
+                      files:
+                        required:
+                        - value: roofPlan.existing
+                          description: Roof plan - existing
+                        - value: sitePlan.existing
+                          description: Site plan - existing
+                        - value: roofPlan.proposed
+                          description: Roof plan - proposed
+                        - value: sitePlan.proposed
+                          description: Site plan - proposed
+                        - value: elevations.existing
+                          description: Elevations - existing
+                        - value: floorPlan.existing
+                          description: Floor plan - existing
+                        - value: elevations.proposed
+                          description: Elevations - proposed
+                        - value: floorPlan.proposed
+                          description: Floor plan - proposed
+                        recommended: []
+                        optional: []
+                      fee:
+                        calculated:
+                        - description: The plannning fee for an application for a
+                            Certificate of Lawfulness relating to the proposed alteration
+                            or extension of a single home is £129
+                          policyRefs:
+                          - text: UK Stuatory Instruments 2023 No. 1197
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                        payable:
+                        - description: If the proposed works (to either a home or
+                            within the curtilage of a home) is for the sole purpose
+                            of - providing either a means of access to (or within)
+                            the dwellinghouse for a disabled resident (current or
+                            future); providing facilities that are designed to ensure
+                            the disabled persons safety, health or comfort; or providing
+                            disabled access to a public building - then no planning
+                            fee will be payable for this application.
+                          policyRefs:
+                          - text: UK Statutory Instruments 2012 No. 2920 Regulation
+                              4
+                            url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
+                        - description: In the case of an application that is the first
+                            resubmission of an application on the same site that is
+                            similar in character and description, no planning fee
+                            is payable.
+                          policyRefs:
+                          - text: UK Statutory Instruments 2012 No. 2920 Regulation
+                              8
+                            url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
+                    submittedAt: '2023-10-02T00:00:00+01:00'
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+              pp.full.householder:
+                summary: Planning Permission - Full householder
                 value:
                   data:
                     application:
@@ -15097,15 +16820,15 @@ paths:
                         value: pp.full.householder
                         description: Planning Permission - Full householder
                       fee:
-                        calculated: 206
-                        payable: 206
+                        calculated: 258
+                        payable: 258
                         exemption:
-                          disability: true
-                          resubmission: true
+                          disability: false
+                          resubmission: false
                         reduction:
-                          sports: true
-                          parishCouncil: true
-                          alternative: true
+                          sports: false
+                          parishCouncil: false
+                          alternative: false
                         reference:
                           govPay: sandbox-ref-456
                       declaration:
@@ -15174,7 +16897,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -15213,7 +16936,7 @@ paths:
                         - value: locallyListed
                           description: Locally Listed Building
                           intersects: false
-                        - value: designated.SPA
+                        - value: nature.SPA
                           description: Special Protection Area (SPA)
                           intersects: false
                         - value: designated.WHS
@@ -15265,7 +16988,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -16030,25 +17753,25 @@ paths:
                       autoAnswered: true
                       sectionName: Pay and send
                   files:
-                  - name: https://api.editor.planx.dev/file/private/vg0av01p/RoofPlan.pdf
+                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
                     type:
                     - value: roofPlan.existing
                       description: Roof plan - existing
                     - value: roofPlan.proposed
                       description: Roof plan - proposed
-                  - name: https://api.editor.planx.dev/file/private/ka97yl2c/Site%20plan.pdf
+                  - name: https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf
                     type:
                     - value: sitePlan.existing
                       description: Site plan - existing
                     - value: sitePlan.proposed
                       description: Site plan - proposed
-                  - name: https://api.editor.planx.dev/file/private/osprppqo/Elevations.pdf
+                  - name: https://api.editor.planx.dev/file/private/7nrefxnn/elevations.pdf
                     type:
                     - value: elevations.existing
                       description: Elevations - existing
                     - value: elevations.proposed
                       description: Elevations - proposed
-                  - name: https://api.editor.planx.dev/file/private/cri3ziaj/Plan.pdf
+                  - name: https://api.editor.planx.dev/file/private/311w2id6/floor_plans.pdf
                     type:
                     - value: floorPlan.existing
                       description: Floor plan - existing
@@ -16081,8 +17804,1695 @@ paths:
                         - value: floorPlan.proposed
                           description: Floor plan - proposed
                         optional: []
+                      fee:
+                        calculated:
+                        - description: The fee to apply for planning permission to
+                            alter or extend a single home is £258.
+                          policyRefs:
+                          - text: UK Stuatory Instruments 2023 No. 1197
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                        payable:
+                        - description: The fee to apply for planning permission to
+                            alter or extend a single home is £258.
+                          policyRefs:
+                          - text: UK Stuatory Instruments 2023 No. 1197
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.3.0/schema.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+              pa.part14.classJ:
+                summary: Prior Approval - Install or change solar panels
+                value:
+                  data:
+                    application:
+                      type:
+                        value: pa.part14.classJ
+                        description: Prior Approval - Install or change solar panels
+                      fee:
+                        calculated: 120
+                        payable: 120
+                        exemption:
+                          disability: false
+                          resubmission: false
+                        reduction:
+                          sports: false
+                          parishCouncil: false
+                          alternative: false
+                        reference:
+                          govPay: sandbox-ref-789
+                      declaration:
+                        accurate: true
+                        connection:
+                          value: relation.electedMember
+                          description: I think the King is but a man, as I am. The
+                            violet smells to him as it doth to me. The element shows
+                            to him as it doth to me. All his senses have but human
+                            conditions. His ceremonies laid by, in his nakedness he
+                            appears but a man.
+                    user:
+                      role: applicant
+                    applicant:
+                      type: company
+                      name:
+                        first: William
+                        last: Shakespeare
+                      email: thebard@example.com
+                      phone:
+                        primary: '2830407283'
+                      company:
+                        name: Lord Chamberlain's Men
+                      address:
+                        sameAsSiteAddress: true
+                      siteContact:
+                        role: applicant
+                    property:
+                      address:
+                        latitude: 51.5081109
+                        longitude: -0.0965974
+                        x: 532192
+                        "y": 180515
+                        title: INTERNATIONAL SHAKESPEARE GLOBE CENTRE LTD, SHAKESPEARE
+                          GLOBE THEATRE, 21, NEW GLOBE WALK, LONDON
+                        singleLine: INTERNATIONAL SHAKESPEARE GLOBE CENTRE LTD, SHAKESPEARE
+                          GLOBE THEATRE, 21, NEW GLOBE WALK, LONDON, SE1 9DT
+                        source: Ordnance Survey
+                        uprn: '200003377200'
+                        usrn: '22503078'
+                        pao: '21'
+                        street: NEW GLOBE WALK
+                        town: LONDON
+                        postcode: SE1 9DT
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.0967472791671659
+                                - 51.50830340605074
+                              - - -0.09676337242125525
+                                - 51.50830507546084
+                              - - -0.09689748287199977
+                                - 51.50831926544436
+                              - - -0.09693503379820824
+                                - 51.50790775412855
+                              - - -0.09666681289671919
+                                - 51.50789439872946
+                              - - -0.09645719784644384
+                                - 51.507889747624404
+                              - - -0.09639290535660058
+                                - 51.50828278342658
+                              - - -0.0967472791671659
+                                - 51.50830340605074
+                          properties: 
+                        area:
+                          hectares: 0.152757
+                          squareMetres: 1527.57
+                      planning:
+                        sources:
+                        - https://api.editor.planx.dev/gis/southwark?geom=POLYGON+%28%28-0.0967472791671659+51.50830340605074%2C+-0.09676337242125525+51.50830507546084%2C+-0.09689748287199977+51.50831926544436%2C+-0.09693503379820824+51.50790775412855%2C+-0.09666681289671919+51.50789439872946%2C+-0.09645719784644384+51.507889747624404%2C+-0.09639290535660058+51.50828278342658%2C+-0.0967472791671659+51.50830340605074%29%29&analytics=false&sessionId=b18c301b-9d44-4c6c-8d27-5b5bf33c570b
+                        - https://api.editor.planx.dev/roads?usrn=22503078
+                        designations:
+                        - value: article4
+                          description: Article 4 Direction area
+                          intersects: true
+                          entities:
+                          - name: Central Activities Zone
+                            description: Change of use from offices to dwelling houses
+                              is restricted
+                            source:
+                              text: Planning Data
+                              url: https://www.planning.data.gov.uk/entity/7010000942
+                          - name: Central Activities Zone
+                            description: Demolition of commercial buildings and construction
+                              of new dwellinghouses is restricted
+                            source:
+                              text: Planning Data
+                              url: https://www.planning.data.gov.uk/entity/7010000944
+                          - name: Bankside and Borough District Town Centre
+                            description: Demolition of commercial buildings and construction
+                              of new dwellinghouses is restricted
+                            source:
+                              text: Planning Data
+                              url: https://www.planning.data.gov.uk/entity/7010001042
+                          - name: Central Activities Zone
+                            description: Change of use from Class E to residential
+                              is restricted
+                            source:
+                              text: Planning Data
+                              url: https://www.planning.data.gov.uk/entity/7010001055
+                          - name: Bankside and Borough District Town Centre
+                            description: Change of use from Class E to residential
+                              is restricted
+                            source:
+                              text: Planning Data
+                              url: https://www.planning.data.gov.uk/entity/7010001153
+                        - value: article4.caz
+                          description: Central Activities Zone (CAZ)
+                          intersects: true
+                          entities: []
+                        - value: tpo
+                          description: Tree Preservation Order (TPO) or zone
+                          intersects: false
+                        - value: listed
+                          description: Listed Building
+                          intersects: false
+                        - value: monument
+                          description: Site of a Scheduled Monument
+                          intersects: false
+                        - value: designated
+                          description: Designated land
+                          intersects: false
+                        - value: nature.SAC
+                          description: Special Area of Conservation (SAC)
+                          intersects: false
+                        - value: nature.ASNW
+                          description: Ancient Semi-Natural Woodland (ASNW)
+                          intersects: false
+                        - value: nature.SSSI
+                          description: Site of Special Scientific Interest (SSSI)
+                          intersects: false
+                        - value: locallyListed
+                          description: Locally Listed Building
+                          intersects: false
+                        - value: nature.SPA
+                          description: Special Protection Area (SPA)
+                          intersects: false
+                        - value: designated.WHS
+                          description: UNESCO World Heritage Site or buffer zone
+                          intersects: false
+                        - value: registeredPark
+                          description: Historic Park or Garden
+                          intersects: false
+                        - value: designated.AONB
+                          description: Area of Outstanding Natural Beauty (AONB)
+                          intersects: false
+                        - value: designated.conservationArea
+                          description: Conservation Area
+                          intersects: false
+                        - value: designated.nationalPark.broads
+                          description: National Park - Broads
+                          intersects: false
+                        - value: road.classified
+                          description: Classified Road
+                          intersects: false
+                      localAuthorityDistrict:
+                      - Southwark
+                      region: London
+                      type:
+                        value: commercial.leisure.entertainment
+                        description: Bingo Hall / Cinema / Conference / Exhibition
+                          Centre / Theatre / Concert Hall
+                    proposal:
+                      projectType:
+                      - value: alter.equipment.solar
+                        description: Install solar panels
+                      description: "@todo not provided in Prior Approval"
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.0967472791671659
+                                - 51.50830340605074
+                              - - -0.09676337242125525
+                                - 51.50830507546084
+                              - - -0.09689748287199977
+                                - 51.50831926544436
+                              - - -0.09693503379820824
+                                - 51.50790775412855
+                              - - -0.09666681289671919
+                                - 51.50789439872946
+                              - - -0.09645719784644384
+                                - 51.507889747624404
+                              - - -0.09639290535660058
+                                - 51.50828278342658
+                              - - -0.0967472791671659
+                                - 51.50830340605074
+                          properties: 
+                        area:
+                          hectares: 0.152757
+                          squareMetres: 1527.57
+                  preAssessment:
+                  - value: Planning permission / Prior approval
+                    description: It looks like the proposed changes do not require
+                      planning permission, however the applicant must apply for Prior
+                      Approval before proceeding.
+                  responses:
+                  - question: Is the property in Southwark?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The property
+                  - question: What type of property is it?
+                    responses:
+                    - value: Something else
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The property
+                  - question: Which of these best describes the use of the property?
+                    responses:
+                    - value: Leisure and sport
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The property
+                  - question: What type of leisure property is it?
+                    responses:
+                    - value: Entertainment
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The property
+                  - question: Have the works already started?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About the project
+                  - question: Describe the project.
+                    responses:
+                    - value: Addition of solar panels in order to power the globe
+                        with green energy.
+                    metadata:
+                      sectionName: About the project
+                  - question: What type of property is it?
+                    responses:
+                    - value: Commercial building
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: What type of property is it?
+                    responses:
+                    - value: Neither a house nor a flat
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: What do you want to install?
+                    responses:
+                    - value: Solar photovoltaics (PV)
+                    metadata:
+                      sectionName: About the project
+                  - question: Are there any other locations where the equipment could
+                      be installed?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14/crossheading/class-a-installation-or-alteration-etc-of-solar-equipment-on-domestic-premises
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class K
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14/crossheading/class-k-installation-or-alteration-etc-of-standalone-solar-equipment-on-nondomestic-premises
+                      sectionName: About the project
+                  - question: Would the solar panels would be less visible from the
+                      highway in these other locations?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14/crossheading/class-a-installation-or-alteration-etc-of-solar-equipment-on-domestic-premises
+                      sectionName: About the project
+                  - question: Is the building listed?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class J
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14/crossheading/class-j-installation-or-alteration-etc-of-solar-equipment-on-nondomestic-premises
+                      sectionName: About the project
+                  - question: Is the property a scheduled monument?
+                    responses:
+                    - value: 'No'
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class J
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14/crossheading/class-j-installation-or-alteration-etc-of-solar-equipment-on-nondomestic-premises
+                      sectionName: About the project
+                  - question: Where are the new solar panels?
+                    responses:
+                    - value: On roofs
+                    metadata:
+                      sectionName: About the project
+                  - question: What type of roofs are they?
+                    responses:
+                    - value: Both pitched and flat
+                    metadata:
+                      sectionName: About the project
+                  - question: Is the property in a conservation area?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 S.2.P.14. .A.1 (c)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14
+                      sectionName: About the project
+                  - question: Is the property in a world heritage site?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class A.1 (c)
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14
+                      sectionName: About the project
+                  - question: How far do the new solar panels stick out from the pitched
+                      roofs?
+                    responses:
+                    - value: 0.2m or less
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class J
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14
+                      sectionName: About the project
+                  - question: How high are the new solar panels compared to the flat
+                      roofs?
+                    responses:
+                    - value: 1m or less higher than the roof
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14
+                      sectionName: About the project
+                  - question: How far are the new solar panels from the edge of the
+                      roof?
+                    responses:
+                    - value: 1m or more from the edge of the roof
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class J
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14
+                      sectionName: About the project
+                  - question: What do you want to install?
+                    responses:
+                    - value: Solar photovoltaics (PV)
+                    metadata:
+                      sectionName: About the project
+                  - question: What is the total capacity of all solar photovoltaics
+                      (PV)?
+                    responses:
+                    - value: Between 50kW and 1,000kW (1 MW)
+                      metadata:
+                        flags:
+                        - Planning permission / Prior approval
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class J.3
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14
+                      sectionName: About the project
+                  - question: The solar panels must be removed when no longer needed.
+                    responses:
+                    - value: OK
+                      metadata:
+                        flags:
+                        - Planning permission / Permitted development
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class A
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14/crossheading/class-a-installation-or-alteration-etc-of-solar-equipment-on-domestic-premises
+                      - text: The Town and Country Planning (General Permitted Development)
+                          (England) Order 2015 Schedule 2, Part 14, Class K
+                        url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/14/crossheading/class-k-installation-or-alteration-etc-of-standalone-solar-equipment-on-nondomestic-premises
+                      sectionName: About the project
+                  - question: What type of property is it?
+                    responses:
+                    - value: Another use
+                    metadata:
+                      sectionName: About the project
+                  - question: Select your project
+                    responses:
+                    - value: Install solar panels
+                    metadata:
+                      sectionName: About the project
+                  - question: What type of application is being applied for?
+                    responses:
+                    - value: Part 14 Class J
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: Is the property subject to any Article 4 directions?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: List all the changes involved in the project
+                    responses:
+                    - value: Install solar panels
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: What type of prior approval application is it?
+                    responses:
+                    - value: Install or change solar panels
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: Are you applying on behalf of someone else?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About you
+                  - question: Which of these best describes you?
+                    responses:
+                    - value: Company
+                    metadata:
+                      sectionName: About you
+                  - question: Your contact details
+                    responses:
+                    - value: Mr William Shakespeare Lord Chamberlain's Men 2830407283
+                        thebard@example.com
+                    metadata:
+                      sectionName: About you
+                  - question: Is your contact address the same as the property address?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: About you
+                  - question: We may need to visit the site to assess your application.
+                      If we do, who should we contact to arrange the visit?
+                    responses:
+                    - value: Me, the applicant
+                    metadata:
+                      sectionName: About you
+                  - question: What type of prior approval application is it?
+                    responses:
+                    - value: Install or change solar panels
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Upload drawings
+                  - question: Where will the solar panels be installed?
+                    responses:
+                    - value: On roofs
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Upload drawings
+                  - question: Your planning officer will need to check how far the
+                      solar panels stick out beyond the surface of the roof. What
+                      do you have that shows this?
+                    responses:
+                    - value: Manufacturer's specification document
+                    metadata:
+                      sectionName: Upload drawings
+                  - question: Do you want to upload any photographs?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: Upload drawings
+                  - question: Would you like to upload any additional drawings, documents
+                      or images?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: Upload drawings
+                  - question: What type of planning application are you making?
+                    responses:
+                    - value: Prior approval
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: What type of prior approval application is it?
+                    responses:
+                    - value: Install or change solar panels
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: Is the property a home?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: What type of changes does the project involve?
+                    responses:
+                    - value: Alteration
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: Are the public allowed to access the building?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: Check your application
+                  - question: Is the sole purpose of the project to provide disabled
+                      access to (or within) the building?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 14
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
+                      - text: Regulation 4 (1)(b)
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4
+                      sectionName: Check your application
+                  - question: What type of prior approval application is it?
+                    responses:
+                    - value: Install or change solar panels
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: Does the application qualify for a disability exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: Does the application qualify for a resubmission exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: Does the application qualify to the same-day-planning-application
+                      exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 14
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
+                      sectionName: Check your application
+                  - question: Which Local Planning authority is it?
+                    responses:
+                    - value: Southwark
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check your application
+                  - question: Describe your connection
+                    responses:
+                    - value: I think the King is but a man, as I am. The violet smells
+                        to him as it doth to me. The element shows to him as it doth
+                        to me. All his senses have but human conditions. His ceremonies
+                        laid by, in his nakedness he appears but a man.
+                    metadata:
+                      sectionName: Check your application
+                  - question: Connections with Southwark Council
+                    responses:
+                    - value: I am related to, or partnered with, an elected member
+                        for Southwark Council
+                    metadata:
+                      sectionName: Check your application
+                  - question: 'I confirm that:'
+                    responses:
+                    - value: The information contained in this application is truthful,
+                        accurate and complete, to the best of my knowledge
+                    metadata:
+                      sectionName: Check your application
+                  - question: Which Local Planning authority is it?
+                    responses:
+                    - value: Southwark
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Pay and submit
+                  - question: What type of prior approval application is it?
+                    responses:
+                    - value: Install or change solar panels
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Pay and submit
+                  files:
+                  - name: https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf
+                    type:
+                    - value: otherDrawing
+                      description: Other - drawing
+                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
+                    type:
+                    - value: sitePlan.proposed
+                      description: Site plan - proposed
+                  metadata:
+                    organisation: SWK
+                    id: b18c301b-9d44-4c6c-8d27-5b5bf33c570b
+                    source: PlanX
+                    service:
+                      flowId: c6628103-c648-4663-81e1-bfa0a1a18340
+                      url: https://www.editor.planx.dev/southwark/apply-for-prior-approval/preview
+                      files:
+                        required:
+                        - value: otherDrawing
+                          description: Other - drawing
+                        recommended:
+                        - value: sitePlan.proposed
+                          description: Site plan - proposed
+                        optional: []
+                      fee:
+                        calculated:
+                        - policyRefs:
+                          - text: The Town and Country Planning (Fees for Applications,
+                              Deemed Applications, Requests and Site Visits) (England)
+                              (Amendment) Regulations 2023
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                        payable:
+                        - policyRefs:
+                          - text: The Town and Country Planning (Fees for Applications,
+                              Deemed Applications, Requests and Site Visits) (England)
+                              (Amendment) Regulations 2023
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                    submittedAt: '2023-10-02T00:00:00Z'
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+              pp.full.householder.retro:
+                summary: Planning Permission - Full householder retrospective
+                value:
+                  data:
+                    application:
+                      type:
+                        value: pp.full.householder.retro
+                        description: Planning Permission - Full householder retrospective
+                      fee:
+                        calculated: 258
+                        payable: 258
+                        exemption:
+                          disability: false
+                          resubmission: false
+                        reduction:
+                          sports: false
+                          parishCouncil: false
+                          alternative: false
+                        reference:
+                          govPay: sandbox-ref-456
+                      declaration:
+                        accurate: true
+                        connection:
+                          value: none
+                    user:
+                      role: proxy
+                    applicant:
+                      type: individual
+                      name:
+                        first: David
+                        last: Bowie
+                      email: ziggy@example.com
+                      phone:
+                        primary: Not provided by agent
+                      address:
+                        sameAsSiteAddress: true
+                      siteContact:
+                        role: proxy
+                      interest: owner.sole
+                      ownership:
+                        certificate: a
+                      agent:
+                        name:
+                          first: Ziggy
+                          last: Stardust
+                        email: ziggy@example.com
+                        phone:
+                          primary: 01100 0110 0011
+                        address:
+                          line1: 40 Stansfield Road
+                          line2: Brixton
+                          town: London
+                          county: Greater London
+                          postcode: SW9 9RZ
+                          country: UK
+                    property:
+                      address:
+                        latitude: 51.4656522
+                        longitude: -0.1185926
+                        x: 530787
+                        "y": 175754
+                        title: 40, STANSFIELD ROAD, LONDON
+                        singleLine: 40, STANSFIELD ROAD, LONDON, SW9 9RZ
+                        source: Ordnance Survey
+                        uprn: '100021892955'
+                        usrn: '21901294'
+                        pao: '40'
+                        street: STANSFIELD ROAD
+                        town: LONDON
+                        postcode: SW9 9RZ
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.1186569035053321
+                                - 51.465703531871384
+                              - - -0.1185938715934822
+                                - 51.465724418998775
+                              - - -0.1184195280075143
+                                - 51.46552473766957
+                              - - -0.11848390102387167
+                                - 51.4655038504508
+                              - - -0.1186569035053321
+                                - 51.465703531871384
+                          properties: 
+                        area:
+                          hectares: 0.012592
+                          squareMetres: 125.92
+                      planning:
+                        sources:
+                        - https://api.editor.planx.dev/gis/lambeth?geom=POLYGON+%28%28-0.1186569035053321+51.465703531871384%2C+-0.1185938715934822+51.465724418998775%2C+-0.1184195280075143+51.46552473766957%2C+-0.11848390102387167+51.4655038504508%2C+-0.1186569035053321+51.465703531871384%29%29&analytics=false&sessionId=81bcaa0f-baf5-4573-ba0a-ea868c573faf
+                        - https://api.editor.planx.dev/roads?usrn=21901294
+                        designations:
+                        - value: article4
+                          description: Article 4 Direction area
+                          intersects: false
+                        - value: article4.caz
+                          description: Central Activities Zone (CAZ)
+                          intersects: false
+                        - value: tpo
+                          description: Tree Preservation Order (TPO) or zone
+                          intersects: false
+                        - value: listed
+                          description: Listed Building
+                          intersects: false
+                        - value: monument
+                          description: Site of a Scheduled Monument
+                          intersects: false
+                        - value: designated
+                          description: Designated land
+                          intersects: false
+                        - value: nature.SAC
+                          description: Special Area of Conservation (SAC)
+                          intersects: false
+                        - value: nature.ASNW
+                          description: Ancient Semi-Natural Woodland (ASNW)
+                          intersects: false
+                        - value: nature.SSSI
+                          description: Site of Special Scientific Interest (SSSI)
+                          intersects: false
+                        - value: locallyListed
+                          description: Locally Listed Building
+                          intersects: false
+                        - value: nature.SPA
+                          description: Special Protection Area (SPA)
+                          intersects: false
+                        - value: designated.WHS
+                          description: UNESCO World Heritage Site or buffer zone
+                          intersects: false
+                        - value: registeredPark
+                          description: Historic Park or Garden
+                          intersects: false
+                        - value: designated.AONB
+                          description: Area of Outstanding Natural Beauty (AONB)
+                          intersects: false
+                        - value: designated.nationalPark
+                          description: National Park
+                          intersects: false
+                        - value: designated.conservationArea
+                          description: Conservation Area
+                          intersects: false
+                        - value: designated.nationalPark.broads
+                          description: National Park - Broads
+                          intersects: false
+                        - value: road.classified
+                          description: Classified Road
+                          intersects: false
+                      localAuthorityDistrict:
+                      - Lambeth
+                      region: London
+                      type:
+                        value: residential.dwelling.house.terrace
+                        description: Terrace
+                    proposal:
+                      projectType:
+                      - value: extend.roof.dormer
+                        description: Add a roof dormer
+                      description: Roof extension to the rear of the property, incorporating
+                        starship launchpad.
+                      boundary:
+                        site:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.1186569035053321
+                                - 51.465703531871384
+                              - - -0.1185938715934822
+                                - 51.465724418998775
+                              - - -0.1184195280075143
+                                - 51.46552473766957
+                              - - -0.11848390102387167
+                                - 51.4655038504508
+                              - - -0.1186569035053321
+                                - 51.465703531871384
+                          properties: 
+                        area:
+                          hectares: 0.012592
+                          squareMetres: 125.92
+                      date:
+                        start: '2024-05-01'
+                        completion: '2024-05-02'
+                      details:
+                        extend:
+                          area:
+                            squareMetres: 45
+                        vehicleParking:
+                          type:
+                          - value: cars.offStreet.residents
+                            description: Off-street parking for residents only
+                          - value: bicycles.offStreet
+                            description: Off-street parking for bicycles
+                          cars:
+                            count:
+                              existing: 1
+                              proposed: 1
+                            offStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                              club:
+                                count:
+                                  existing: 0
+                                  proposed: 0
+                              disabled:
+                                count:
+                                  existing: 0
+                                  proposed: 0
+                              other:
+                                count:
+                                  existing: 0
+                                  proposed: 0
+                              residents:
+                                count:
+                                  existing: 1
+                                  proposed: 1
+                            onStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                              club:
+                                count:
+                                  existing: 0
+                                  proposed: 0
+                              disabled:
+                                count:
+                                  existing: 0
+                                  proposed: 0
+                              other:
+                                count:
+                                  existing: 0
+                                  proposed: 0
+                              residents:
+                                count:
+                                  existing: 0
+                                  proposed: 0
+                          vans:
+                            count:
+                              existing: 0
+                              proposed: 0
+                            offStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                            onStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                          motorcycles:
+                            count:
+                              existing: 0
+                              proposed: 0
+                            offStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                            onStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                          bicycles:
+                            count:
+                              existing: 2
+                              proposed: 2
+                            offStreet:
+                              count:
+                                existing: 2
+                                proposed: 2
+                            onStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                          buses:
+                            count:
+                              existing: 0
+                              proposed: 0
+                            offStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                            onStreet:
+                              count:
+                                existing: 0
+                                proposed: 0
+                  preAssessment: []
+                  responses:
+                  - question: Is the property in Lambeth?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The property
+                  - question: What type of property is it?
+                    responses:
+                    - value: House
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The property
+                  - question: What type of house it is?
+                    responses:
+                    - value: Terrace
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The property
+                  - question: Is the property in a flood zone?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: The property
+                  - question: What type of property is it?
+                    responses:
+                    - value: House
+                      metadata:
+                        flags:
+                        - Listed building consent / Not required
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: List the changes involved in the project
+                    responses:
+                    - value: Add a roof extension
+                      metadata:
+                        flags:
+                        - Listed building consent / Not required
+                    metadata:
+                      sectionName: About the project
+                  - question: Have works already started?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About the project
+                  - question: Is the property in a flood zone?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: What type of changes does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: Is the project to add an outbuilding?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: How much new floor area is being added to the house?
+                    responses:
+                    - value: Less than 100m²
+                    metadata:
+                      sectionName: About the project
+                  - question: How much exactly is the internal floor area of the property
+                      increasing by?
+                    responses:
+                    - value: '45'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Does the project involve creating any new bedrooms or
+                      bathrooms?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the wall materials of the existing house
+                    responses:
+                    - value: London stock brick
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the wall materials of the new extension
+                    responses:
+                    - value: Metallic cladding, reflective. Multiple colours.
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the material of the roof of the existing house
+                    responses:
+                    - value: Grey slate
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the material for the new roof of the extension
+                    responses:
+                    - value: Zinc panels
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the window materials of the existing house
+                    responses:
+                    - value: Wooden sash windows, painted white
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the window materials of the extension
+                    responses:
+                    - value: Brushed steel.
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the door materials of the existing house
+                    responses:
+                    - value: Wood, painted.
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Describe the door materials of the extension
+                    responses:
+                    - value: No door present
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Are there any trees that could fall within the property
+                      or the areas affected by the project (the previously drawn outline)?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About the project
+                  - question: Does the project involve any of these?
+                    responses:
+                    - value: No, none of these
+                    metadata:
+                      sectionName: About the project
+                  - question: Is the property in Greater London?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: Does the site include more than one property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Do you know the title number of the property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About the project
+                  - question: Does the property have an Energy Performance Certificate
+                      (EPC)?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: What type of application is this?
+                    responses:
+                    - value: Planning permission for a home
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: When will the works start?
+                    responses:
+                    - value: '2024-05-01'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: When will the works be completed?
+                    responses:
+                    - value: '2024-05-02'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Does the site include parking spaces for any of these?
+                    responses:
+                    - value: Cars
+                    - value: Bicycles
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Total number of car parking spaces before
+                    responses:
+                    - value: '1'
+                    metadata:
+                      sectionName: About the project
+                  - question: Total number of car parking spaces after
+                    responses:
+                    - value: '1'
+                    metadata:
+                      sectionName: About the project
+                  - question: What types of car parking space are present?
+                    responses:
+                    - value: Off-street parking for residents only
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Off-street, residents-only car spaces before
+                    responses:
+                    - value: '1'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Off-street, residents-only car spaces after
+                    responses:
+                    - value: '1'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: What type of bicycle parking is there?
+                    responses:
+                    - value: Off-street cycle parking
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Off-street bicycle spaces before
+                    responses:
+                    - value: '2'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Off-street bicycle spaces after
+                    responses:
+                    - value: '2'
+                    metadata:
+                      policyRefs:
+                      - text: Greater London Authority Act 1999
+                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                      sectionName: About the project
+                  - question: Is the property on designated land?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: Does the property include any of these?
+                    responses:
+                    - value: None of these
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended
+                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                      sectionName: About the project
+                  - question: Heritage Statement needed?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: Is the property in a flood zone?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About the project
+                  - question: What type of application is it?
+                    responses:
+                    - value: Apply for planning permission
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About you
+                  - question: Your contact details
+                    responses:
+                    - value: Mx Ziggy Stardust 01100 0110 0011 ziggy@example.com
+                    metadata:
+                      sectionName: About you
+                  - question: Is this a test?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About you
+                  - question: Are you applying on behalf of someone else?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: About you
+                  - question: Which of these best describes you?
+                    responses:
+                    - value: Friend or relative
+                    metadata:
+                      sectionName: About you
+                  - question: Your contact address
+                    responses:
+                    - value: 40 Stansfield Road, Brixton, London, Greater London,
+                        SW9 9RZ, UK
+                    metadata:
+                      sectionName: About you
+                  - question: Which of these best describes the applicant?
+                    responses:
+                    - value: Private individual
+                    metadata:
+                      sectionName: About you
+                  - question: Applicant's title
+                    responses:
+                    - value: Mr
+                    metadata:
+                      sectionName: About you
+                  - question: Do you want to provide an email address for the applicant?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About you
+                  - question: Do you want to provide a telephone number for the applicant?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About you
+                  - question: Is the applicant's contact address the same as the property
+                      address?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: About you
+                  - question: Which of these best describes you?
+                    responses:
+                    - value: Friend or relative
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About you
+                  - question: We may need to visit your site to assess your application.
+                      If we do, who should we contact to arrange the visit?
+                    responses:
+                    - value: Me
+                    metadata:
+                      sectionName: About you
+                  - question: Which of these best describes you?
+                    responses:
+                    - value: Friend or relative acting on the applicant's behalf
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About you
+                  - question: Which of these best describes the applicant's interest
+                      in the land?
+                    responses:
+                    - value: Sole owner
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Development Management
+                          Procedure) (England) Order 2015
+                        url: https://www.legislation.gov.uk/uksi/2015/595/article/39/made
+                      sectionName: About you
+                  - question: Did you get any pre-application advice from the council
+                      before making this application?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: About this application
+                  - question: What type of planning application are you making?
+                    responses:
+                    - value: Full planning permission
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: Is the property a home?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: What types of changes does the application relate to?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: What type of extension is it?
+                    responses:
+                    - value: Roof extension
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: List the changes involved in the roof extension
+                    responses:
+                    - value: Add dormer
+                    metadata:
+                      sectionName: About this application
+                  - question: Is the purpose of the project to support the needs of
+                      a disabled resident?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 14
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
+                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 4
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
+                      - text: Equalities Act 2010, Section 6
+                        url: https://www.legislation.gov.uk/ukpga/2010/15/section/6
+                      - text: Children Act 1989, Part 3
+                        url: https://www.legislation.gov.uk/ukpga/1989/41/part/III
+                      sectionName: About this application
+                  - question: Is it a prior approval application?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: Is the property a home?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: What works does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: Is this application a resubmission?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012, Regulation 9
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/9
+                      sectionName: About this application
+                  - question: Does the application qualify for a disability exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: Does the application qualify for a resubmission exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: Is the site a sports field?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 Chapter 2, Paragraph 3
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
+                      sectionName: About this application
+                  - question: Is the application being made by (or on behalf of) a
+                      parish or community council?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 - Regulation 11
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
+                      sectionName: About this application
+                  - question: Are you also submitting another proposal for the same
+                      site today?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 Chapter 2, Paragraph 10
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
+                      sectionName: About this application
+                  - question: Does the application qualify for the sports club fee
+                      reduction?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: Does the application qualify for the parish council
+                      reduction?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 - Regulation 11
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
+                      sectionName: About this application
+                  - question: Does the application qualify for the alternative application
+                      reduction?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Town and Country Planning (Fees for Applications,
+                          Deemed Applications, Requests and Site Visits) (England)
+                          Regulations 2012 Chapter 2, Paragraph 10
+                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
+                      sectionName: About this application
+                  - question: What type of application is it?
+                    responses:
+                    - value: Full planning permission
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: What does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About this application
+                  - question: How much new floor area is being created?
+                    responses:
+                    - value: Less than 100m²
+                      metadata:
+                        flags:
+                        - Community infrastructure levy / Not liable
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Community Infrastructure Levy Regulations 2010,
+                          Regulation 42
+                        url: https://www.legislation.gov.uk/uksi/2010/948/regulation/42
+                      sectionName: About this application
+                  - question: Is this a householder planning application?
+                    responses:
+                    - value: 'Yes'
+                      metadata:
+                        flags:
+                        - Community infrastructure levy / Not liable
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - text: The Community Infrastructure Levy Regulations 2010,
+                          Regulation 42
+                        url: https://www.legislation.gov.uk/uksi/2010/948/regulation/42
+                      sectionName: About this application
+                  - question: Have the works already started?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Upload drawings
+                  - question: What changes does the project involve?
+                    responses:
+                    - value: Extension
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Upload drawings
+                  - question: Is the project to add an outbuilding?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Upload drawings
+                  - question: Which Local Planning authority is it?
+                    responses:
+                    - value: Lambeth
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Check
+                  - question: Connections with London Borough of Lambeth
+                    responses:
+                    - value: None of the above apply to me
+                    metadata:
+                      sectionName: Check
+                  - question: 'I confirm that:'
+                    responses:
+                    - value: The information contained in this application is truthful,
+                        accurate and complete, to the best of my knowledge
+                    metadata:
+                      sectionName: Check
+                  - question: Does the application qualify for a disability exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Pay and send
+                  - question: Does the application qualify for a resubmission exemption?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Pay and send
+                  - question: Which Local Planning authority is it?
+                    responses:
+                    - value: Lambeth
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Pay and send
+                  files:
+                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
+                    type:
+                    - value: roofPlan.existing
+                      description: Roof plan - existing
+                    - value: roofPlan.proposed
+                      description: Roof plan - proposed
+                  - name: https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf
+                    type:
+                    - value: sitePlan.existing
+                      description: Site plan - existing
+                    - value: sitePlan.proposed
+                      description: Site plan - proposed
+                  - name: https://api.editor.planx.dev/file/private/7nrefxnn/elevations.pdf
+                    type:
+                    - value: elevations.existing
+                      description: Elevations - existing
+                    - value: elevations.proposed
+                      description: Elevations - proposed
+                  - name: https://api.editor.planx.dev/file/private/311w2id6/floor_plans.pdf
+                    type:
+                    - value: floorPlan.existing
+                      description: Floor plan - existing
+                    - value: floorPlan.proposed
+                      description: Floor plan - proposed
+                  metadata:
+                    organisation: LBH
+                    id: 81bcaa0f-baf5-4573-ba0a-ea868c573faf
+                    source: PlanX
+                    service:
+                      flowId: 01e38c5d-e701-4e44-acdc-4d6b5cc3b854
+                      url: https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview
+                      files:
+                        required:
+                        - value: roofPlan.existing
+                          description: Roof plan - existing
+                        - value: roofPlan.proposed
+                          description: Roof plan - proposed
+                        - value: sitePlan.existing
+                          description: Site plan - existing
+                        - value: sitePlan.proposed
+                          description: Site plan - proposed
+                        - value: elevations.existing
+                          description: Elevations - existing
+                        - value: elevations.proposed
+                          description: Elevations - proposed
+                        recommended:
+                        - value: floorPlan.existing
+                          description: Floor plan - existing
+                        - value: floorPlan.proposed
+                          description: Floor plan - proposed
+                        optional: []
+                      fee:
+                        calculated:
+                        - description: The fee to apply for planning permission to
+                            alter or extend a single home is £258.
+                          policyRefs:
+                          - text: UK Stuatory Instruments 2023 No. 1197
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                        payable:
+                        - description: The fee to apply for planning permission to
+                            alter or extend a single home is £258.
+                          policyRefs:
+                          - text: UK Stuatory Instruments 2023 No. 1197
+                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                    submittedAt: '2023-10-02T00:00:00.00Z'
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
     get:
       summary: Retrieves planning applications
       tags:

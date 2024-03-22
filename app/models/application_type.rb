@@ -21,7 +21,7 @@ class ApplicationType < ApplicationRecord
   with_options allow_blank: true do
     validates :code, inclusion: {in: ODP_APPLICATION_TYPES.keys}
     validates :suffix, length: {within: 2..6}
-    validates :suffix, format: {with: /\A[A-Z]+\z/}
+    validates :suffix, format: {with: /\A[A-Z0-9]+\z/}
   end
 
   with_options on: :update do
@@ -87,7 +87,13 @@ class ApplicationType < ApplicationRecord
   end
 
   def work_status
-    existing? ? "existing" : "proposed"
+    if retrospective?
+      "retrospective"
+    elsif existing?
+      "existing"
+    else
+      "proposed"
+    end
   end
 
   def full_name

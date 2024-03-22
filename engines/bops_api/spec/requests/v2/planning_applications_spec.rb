@@ -9,11 +9,15 @@ RSpec.describe "BOPS API" do
   before do
     create(:api_user, token: "bRPkCPjaZExpUYptBJDVFzss", local_authority:)
     create(:api_user, name: "other", token: "pUYptBJDVFzssbRPkCPjaZEx", local_authority: southwark)
-    create(:application_type, :planning_permission)
+    create(:application_type, :ldc_existing)
+    create(:application_type, :ldc_proposed)
+    create(:application_type, :pa_part_14_class_j)
+    create(:application_type, :householder)
+    create(:application_type, :householder_retrospective)
   end
 
   let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
-  let(:planning_application) { json_fixture("v2/valid_planning_permission.json") }
+  let(:planning_application) { example_fixture("validPlanningPermission.json") }
   let(:send_email) { "true" }
 
   let!(:planning_applications) { create_list(:planning_application, 8, local_authority: local_authority) }
@@ -38,20 +42,31 @@ RSpec.describe "BOPS API" do
         default: "true"
       }
 
-      request_body_example \
-        value: json_fixture("v2/valid_planning_permission.json", symbolize_names: true),
-        name: "Planning application",
-        summary: "Valid planning permission - full householder"
+      [
+        %w[validLawfulDevelopmentCertificateExisting.json LDCE],
+        %w[validLawfulDevelopmentCertificateProposed.json LDCP],
+        %w[validPlanningPermission.json HAPP],
+        %w[validPriorApproval.json PA14J],
+        %w[validRetrospectivePlanningPermission.json HRET]
+      ].each do |fixture, suffix|
+        value = example_fixture(fixture, symbolize_names: true)
+        name = value.dig(:data, :application, :type, :value)
+        summary = value.dig(:data, :application, :type, :description)
 
-      response "200", "when the application is created" do
-        schema "$ref" => "#/components/schemas/SubmissionResponse"
+        request_body_example(value:, name:, summary:)
 
-        example "application/json", :default, {
-          id: "BUC-23-00100-HAPP",
-          message: "Application successfully created"
-        }
+        response "200", "with a valid request" do
+          schema "$ref" => "#/components/schemas/SubmissionResponse"
 
-        run_test!
+          example "application/json", summary, {
+            id: "BUC-23-00100-#{suffix}",
+            message: "Application successfully created"
+          }
+
+          let(:planning_application) { example_fixture(fixture) }
+
+          run_test!
+        end
       end
 
       response "400", "with an invalid request" do

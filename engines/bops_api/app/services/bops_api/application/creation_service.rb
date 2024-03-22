@@ -160,6 +160,7 @@ module BopsApi
       end
 
       def process_ownership_certificate_details(planning_application)
+        return unless data_params[:applicant].key?(:ownership)
         ownership_details = data_params[:applicant][:ownership]
 
         ActiveRecord::Base.transaction do
