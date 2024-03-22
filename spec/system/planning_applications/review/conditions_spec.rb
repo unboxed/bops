@@ -52,7 +52,7 @@ RSpec.describe "Reviewing conditions" do
           with: "Completed"
         )
 
-        condition_set = ConditionSet.last
+        condition_set = planning_application.condition_set
         expect(condition_set.current_review.action).to eq "accepted"
         expect(condition_set.current_review.review_status).to eq "review_complete"
       end
@@ -80,7 +80,7 @@ RSpec.describe "Reviewing conditions" do
           with: "Completed"
         )
 
-        condition_set = ConditionSet.last
+        condition_set = planning_application.condition_set
         expect(condition_set.current_review.action).to eq "edited_and_accepted"
         expect(condition_set.conditions.last.reason).to eq "This is different reason"
         expect(condition_set.current_review.review_status).to eq "review_complete"
@@ -107,7 +107,7 @@ RSpec.describe "Reviewing conditions" do
           with: "To be reviewed"
         )
 
-        condition_set = ConditionSet.last
+        condition_set = planning_application.condition_set
         expect(condition_set.current_review.action).to eq "rejected"
         expect(condition_set.current_review.comment).to eq "I don't think you've assessed conditions correctly"
         expect(condition_set.current_review.status).to eq "to_be_reviewed"
