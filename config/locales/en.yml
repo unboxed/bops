@@ -744,11 +744,6 @@ en:
       review_immunity_detail:
         accepted: Is the application immune from enforcement?
         removed: Is the application immune from enforcement?
-  informatives:
-    destroy:
-      success: Informative was successfully removed
-    update:
-      success: Informative successfully added
   local_policies:
     custom_areas:
     - Design
@@ -1099,6 +1094,13 @@ en:
       immunity_details:
         update:
           success: Evidence of immunity successfully updated
+      informatives:
+        complete:
+          success: Informatives successfully saved
+        destroy:
+          success: Informative was successfully removed
+        update:
+          success: Informative successfully added
       local_policies:
         update:
           successfully_updated: Check against policy and guidance response was successfully updated
