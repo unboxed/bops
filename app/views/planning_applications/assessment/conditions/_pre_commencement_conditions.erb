@@ -1,3 +1,7 @@
+  <% if review = @condition_set.current_review %>
+    <%= render "comment", review: review %>
+  <% end %>
+
   <h2 class="govuk-heading-m">Officer request</h2>
 
   <div class="govuk-inset-text">
@@ -6,7 +10,7 @@
     <p>
     <% @conditions.each_with_index do |condition, index| %>
       <% next if condition.current_validation_request.cancelled? %>
-      <p class="govuk-body"> 
+      <p class="govuk-body">
         <strong>Condition <%= index + 1 %></strong><br>
         <%= condition.title %>
       </p>
@@ -39,7 +43,7 @@
 
               <% if response_been_truncated?(condition, (condition.text + condition.reason + "Reason: \n\n")) %>
                 <span class="govuk-!-display-none hidden-comment">
-                  <%= condition.text[truncated_length(condition)..-1] %><br><br><%= "Reason: #{condition.reason}" %>
+                  <%= condition.text[truncated_length(condition)..] %><br><br><%= "Reason: #{condition.reason}" %>
                 </span>
                 <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
               <% end %>
@@ -73,14 +77,14 @@
   <div class="govuk-button-group align-items-center">
     <% if @condition_set.current_review.status != "complete" && @condition_set.latest_active_validation_requests.all?(&:approved?) %>
       <%= form_with model: @condition_set,
-              url: planning_application_assessment_conditions_path(@planning_application, pre_commencement: @condition_set.pre_commencement),
-              html: { data: { controller: "conditions" } },
-              method: :patch do |form| %>
+            url: planning_application_assessment_conditions_path(@planning_application, pre_commencement: @condition_set.pre_commencement),
+            html: {data: {controller: "conditions"}},
+            method: :patch do |form| %>
         <%= form.hidden_field :id, value: @condition_set.id %>
         <%= form.submit(
               t("form_actions.save_and_mark_as_complete"),
               class: "govuk-button",
-              data: { module: "govuk-button" }
+              data: {module: "govuk-button"}
             ) %>
       <% end %>
     <% end %>
