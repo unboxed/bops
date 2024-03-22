@@ -262,6 +262,8 @@ Rails.application.routes.draw do
           end
 
           resources :recommendations, only: %i[new create update edit]
+
+          resource :pre_commencement_conditions, only: %i[edit update show]
         end
       end
     end
