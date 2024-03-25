@@ -5,6 +5,17 @@ class AssessmentDetail < ApplicationRecord
   belongs_to :user
   has_one :comment, as: :commentable, dependent: :destroy
 
+  CATEGORIES = %i[
+    summary_of_work
+    site_description
+    consultation_summary
+    additional_evidence
+    neighbour_summary
+    amenity
+    past_applications
+    check_publicity
+  ].freeze
+
   enum(
     assessment_status: {
       not_started: "not_started",
@@ -45,6 +56,7 @@ class AssessmentDetail < ApplicationRecord
   validates :assessment_status, presence: true
   validates :entry, presence: true, if: :validate_entry_presence?
   validate :tagged_entry, if: :neighbour_summary?
+  validates :reviewer_verdict, presence: true, if: :review_complete?
 
   validates(
     :additional_information,
@@ -55,6 +67,8 @@ class AssessmentDetail < ApplicationRecord
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
   delegate :consultees, to: :planning_application
+
+  accepts_nested_attributes_for :comment
 
   categories.each do |category|
     scope :"#{category}", -> { where(category:) }

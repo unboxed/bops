@@ -44,6 +44,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
     <div class="govuk-!-margin-top-5" id="site-notice-check">
       <h2 class="govuk-heading-m"><%= t(".check_site_notice") %></h2>
 

@@ -9,6 +9,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
     <div class="govuk-!-margin-top-5" id="site-notice">
       <h2 class="govuk-heading-m"><%= t(".site_notice") %></h2>
 
@@ -79,7 +80,7 @@
 
       <% if @press_notice.nil? %>
         <p class="govuk-body">
-          <%= t(".site_notice_incomplete") %>
+          <%= t(".press_notice_incomplete") %>
         </p>
       <% elsif @press_notice.required? %>
         <table class="govuk-table">

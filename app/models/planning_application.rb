@@ -512,7 +512,7 @@ class PlanningApplication < ApplicationRecord
 
   AssessmentDetail.categories.each_key do |category|
     define_method(category) do
-      assessment_details.where(category:).first
+      assessment_details.where(category:).max_by(&:created_at)
     end
 
     define_method(:"existing_or_new_#{category}") do
@@ -554,7 +554,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def assessment_details_for_review
-    ReviewAssessmentDetailsForm::ASSESSMENT_DETAILS.filter_map do |assessment_detail|
+    AssessmentDetail::CATEGORIES.filter_map do |assessment_detail|
       send(assessment_detail)
     end
   end
