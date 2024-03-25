@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SiteNotice < ApplicationRecord
+  class NotCreatableError < StandardError; end
+
   include DateValidateable
   include Consultable
 
@@ -19,6 +21,8 @@ class SiteNotice < ApplicationRecord
         on_or_after: :consultation_start_date
       }
   end
+
+  before_create :ensure_publicity_feature!
 
   after_update :extend_consultation!, if: :saved_change_to_displayed_at?
 
@@ -85,5 +89,12 @@ class SiteNotice < ApplicationRecord
     if eia&.required? && eia&.with_address_email_and_fee?
       "<p>You can request a hard copy for a fee of £#{eia.fee} by emailing #{eia.email_address} or in person at #{eia.address}.</p>"
     end
+  end
+
+  def ensure_publicity_feature!
+    return if planning_application.publicity_consultation_feature?
+
+    raise NotCreatableError,
+      "Cannot create site notice when application type does not permit this feature."
   end
 end

@@ -15,7 +15,7 @@ RSpec.describe "Send notification to neighbours of committee" do
       local_authority: default_local_authority)
   end
   let!(:planning_application) do
-    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor)
+    create(:planning_application, :planning_permission, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor)
   end
 
   before do
@@ -38,7 +38,7 @@ RSpec.describe "Send notification to neighbours of committee" do
 
   context "when the assessor has recommended the application go to committee" do
     before do
-      consultation = create(:consultation, planning_application:)
+      consultation = planning_application.consultation
       planning_application.committee_decision.update(recommend: true, reasons: ["The first reason"])
       planning_application.committee_decision.current_review.update(review_status: "review_complete", action: "accepted")
 

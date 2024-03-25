@@ -17,6 +17,7 @@ RSpec.describe "viewing assessment report" do
   let!(:planning_application) do
     create(
       :planning_application,
+      :prior_approval,
       :in_assessment,
       :with_constraints,
       local_authority:,
@@ -32,10 +33,6 @@ RSpec.describe "viewing assessment report" do
       referenced_in_decision_notice: true,
       numbers: "REF1"
     )
-  end
-
-  let!(:consultation) do
-    create(:consultation, planning_application:)
   end
 
   before do
@@ -75,7 +72,7 @@ RSpec.describe "viewing assessment report" do
 
     create(
       :consultee,
-      consultation:,
+      consultation: planning_application.consultation,
       name: "Alice Smith",
       origin: :external
     )

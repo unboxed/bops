@@ -2,7 +2,7 @@
 
 module BopsConfig
   module ApplicationTypes
-    class DeterminationPeriodsController < ApplicationController
+    class FeaturesController < ApplicationController
       before_action :set_application_type
 
       def edit
@@ -13,7 +13,7 @@ module BopsConfig
 
       def update
         respond_to do |format|
-          if @application_type.update(application_type_params, :determination_period)
+          if @application_type.update(application_type_features_params.merge(configured: true))
             format.html do
               redirect_to next_path, notice: t(".success")
             end
@@ -25,8 +25,8 @@ module BopsConfig
 
       private
 
-      def application_type_params
-        params.require(:application_type).permit(:determination_period_days)
+      def application_type_features_params
+        params.require(:application_type).permit(features: [:planning_conditions, :permitted_development_rights, {consultation_steps: []}])
       end
 
       def set_application_type
@@ -34,11 +34,7 @@ module BopsConfig
       end
 
       def next_path
-        if @application_type.configured?
-          application_type_path(@application_type)
-        else
-          edit_application_type_features_path(@application_type)
-        end
+        application_type_path(@application_type)
       end
     end
   end

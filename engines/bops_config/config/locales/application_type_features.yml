@@ -1,0 +1,12 @@
+en:
+  application_type_features:
+    labels:
+      planning_conditions: "Check planning conditions"
+      permitted_development_rights: "Check permitted development rights"
+      consultation_steps:
+        neighbour: Neighbours consultation
+        consultee: Consultees
+        publicity: Publicity (site notice and press notice)
+    legends:
+      check_application_details: "Check application details"
+      consultation: "Consultation"

@@ -17,6 +17,7 @@ class ApplicationType < ApplicationRecord
 
   validates :name, :code, :suffix, presence: true
   validates :code, :suffix, uniqueness: true
+  validates :features, store_model: {merge_errors: true}
 
   with_options allow_blank: true do
     validates :code, inclusion: {in: ODP_APPLICATION_TYPES.keys}
@@ -54,6 +55,7 @@ class ApplicationType < ApplicationRecord
     delegate :permitted_development_rights?
     delegate :site_visits?
     delegate :include_bank_holidays?
+    delegate :consultation_steps
   end
 
   before_validation if: :code_changed? do
@@ -117,7 +119,13 @@ class ApplicationType < ApplicationRecord
   end
 
   def consultation?
-    steps.include?("consultation")
+    consultation_steps.any?
+  end
+
+  Consultation::STEPS.each do |feature|
+    define_method(:"#{feature}_consultation_feature?") do
+      consultation_steps.include?(feature)
+    end
   end
 
   def assessor_remarks

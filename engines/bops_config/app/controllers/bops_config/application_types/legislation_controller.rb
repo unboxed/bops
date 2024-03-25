@@ -57,7 +57,7 @@ module BopsConfig
       end
 
       def next_path
-        if @application_type.determination_period_days?
+        if @application_type.configured?
           application_type_path(@application_type)
         else
           edit_application_type_determination_period_path(@application_type)

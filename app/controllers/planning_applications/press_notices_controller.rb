@@ -2,7 +2,10 @@
 
 module PlanningApplications
   class PressNoticesController < AuthenticationController
+    include PublicityPermittable
+
     before_action :set_planning_application
+    before_action :ensure_publicity_is_permitted
     before_action :set_press_notice
 
     def show

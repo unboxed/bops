@@ -18,6 +18,13 @@ en:
           success: Determination period successfully updated
       edit:
         application_profile: Application profile
+        update_application_type: Update the application type
+      features:
+        edit:
+          choose_features: Choose features
+          continue: Continue
+        update:
+          success: Features successfully updated
       form:
         code_hint: Enter the name of this application type, such as 'Prior Approval - change of use from takeaway to dwelling'
         code_label: Name
@@ -56,6 +63,7 @@ en:
           one: 1 day - bank holidays included
           other: "%{count} days - bank holidays included"
         edit: Edit
+        features: Features
         legislation: Legislation
         name: Name
         review_application_type: Review the application type

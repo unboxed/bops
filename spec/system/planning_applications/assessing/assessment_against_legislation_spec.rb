@@ -449,6 +449,17 @@ RSpec.describe "assessment against legislation" do
   end
 
   context "when planning application is planning permission" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :planning_permission,
+        :in_assessment,
+        :with_constraints,
+        local_authority:,
+        api_user:
+      )
+    end
+
     before do
       assessor =
         create(
@@ -457,10 +468,6 @@ RSpec.describe "assessment against legislation" do
           local_authority:,
           name: "Alice Smith"
         )
-
-      planning_permission = create(:application_type, :planning_permission)
-      planning_application.update(application_type: planning_permission)
-      planning_application.create_consultation!
 
       sign_in(assessor)
       visit "/planning_applications/#{planning_application.id}"

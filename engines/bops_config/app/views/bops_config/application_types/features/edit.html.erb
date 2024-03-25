@@ -1,0 +1,40 @@
+<% content_for :page_title do %>
+  <%= t(".choose_features") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".choose_features") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l"><%= t(".choose_features") %></h1>
+    <h2 class="govuk-heading-m"><%= @application_type.description %></h2>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <%= form_with model: @application_type, url: [@application_type, :features] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.fields_for :features, @application_type.features do |ff| %>
+        <%= ff.govuk_fieldset legend: { text: t("legends.check_application_details", scope: :application_type_features), size: "s" } do %>
+          <%= ff.govuk_check_box :planning_conditions, 1, 0, multiple: false, label: { text: t("labels.planning_conditions", scope: :application_type_features) } %>
+
+          <%= ff.govuk_check_box :permitted_development_rights, 1, 0, multiple: false, label: { text: t("labels.permitted_development_rights", scope: :application_type_features) } %>
+        <% end %>
+
+        <%= ff.govuk_fieldset legend: { text: t("legends.consultation", scope: :application_type_features), size: "s" } do %>
+          <%= ff.govuk_collection_check_boxes :consultation_steps,
+              Consultation::STEPS.map { |step| OpenStruct.new(id: step, name: t("labels.consultation_steps.#{step}", scope: :application_type_features)) }, 
+              :id, :name,
+              legend: { text: "Consultation steps", tag: "span", class: "govuk-visually-hidden" } %>
+        <% end %>
+      <% end %>
+
+      <%= form.govuk_submit(t(".continue")) do %>
+        <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

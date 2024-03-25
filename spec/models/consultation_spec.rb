@@ -36,11 +36,9 @@ RSpec.describe Consultation do
   describe "callbacks" do
     describe "::after_update #audit_letter_copy_sent!" do
       let!(:planning_application) do
-        create(:planning_application, :not_started, agent_email: "agent@example.com", applicant_email: "applicant@example.com")
+        create(:planning_application, :prior_approval, :not_started, agent_email: "agent@example.com", applicant_email: "applicant@example.com")
       end
-      let!(:consultation) do
-        create(:consultation, planning_application:)
-      end
+      let(:consultation) { planning_application.consultation }
 
       context "when the letter copy sent at is updated" do
         before { Current.user = planning_application.user }
@@ -128,7 +126,8 @@ RSpec.describe Consultation do
     end
 
     context "when there isn't already a start date" do
-      let(:consultation) { create(:consultation) }
+      let(:planning_application) { create(:planning_application, :prior_approval) }
+      let(:consultation) { planning_application.consultation }
 
       before do
         consultation.start_deadline
@@ -161,7 +160,8 @@ RSpec.describe Consultation do
   end
 
   describe "#neighbour_responses_by_summary_tag" do
-    let!(:consultation) { create(:consultation) }
+    let!(:planning_application) { create(:planning_application, :planning_permission) }
+    let!(:consultation) { planning_application.consultation }
     let!(:neighbour1) { create(:neighbour, address: "1, Random Lane, AAA111", consultation:) }
     let!(:neighbour2) { create(:neighbour, address: "2, Random Lane, AAA111", consultation:) }
     let!(:neighbour3) { create(:neighbour, address: "3, Random Lane, AAA111", consultation:) }

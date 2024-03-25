@@ -80,6 +80,37 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          <%= t(".features") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p class="govuk-body"><strong>Application details</strong></p>
+          <ul class="govuk-list govuk-list--bullet">
+            <% if @application_type.permitted_development_rights? %>
+              <li>Check permitted development rights</li>
+            <% end %>
+            <% if @application_type.planning_conditions? %>
+              <li>Check planning conditions</li>
+            <% end %>
+          </ul>
+
+          <% if @application_type.consultation? %>
+            <p class="govuk-body"><strong>Consultation</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+              <% @application_type.consultation_steps.each do |step| %>
+                <li><%= step.humanize %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :features], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".features") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           <%= t(".status") %>
         </dt>
         <dd class="govuk-summary-list__value">

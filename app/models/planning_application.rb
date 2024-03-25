@@ -66,7 +66,13 @@ class PlanningApplication < ApplicationRecord
     has_one :committee_decision, required: false
   end
 
-  delegate :consultation?, to: :application_type
+  with_options to: :application_type do
+    delegate :consultation?
+    delegate :neighbour_consultation_feature?
+    delegate :consultee_consultation_feature?
+    delegate :publicity_consultation_feature?
+  end
+
   delegate :reviewer_group_email, to: :local_authority
   with_options prefix: true, allow_nil: true do
     delegate :email, to: :user
@@ -770,6 +776,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def check_publicity?
+    return unless application_type.publicity_consultation_feature?
+
     application_type.assessment_details.include?("check_publicity")
   end
 

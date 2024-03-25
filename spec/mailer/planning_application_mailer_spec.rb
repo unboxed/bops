@@ -1342,6 +1342,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         press_notice_email: "pressnotice@example.com"
       )
     end
+    let(:application_type) { create(:application_type, :planning_permission) }
     let(:press_notice) do
       create(
         :press_notice,
@@ -1370,7 +1371,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application reference number: PlanX-22-00100-LDCP"
+          "Application reference number: PlanX-22-00100-HAPP"
         )
       end
     end

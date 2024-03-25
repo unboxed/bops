@@ -4,8 +4,8 @@ require "rails_helper"
 
 RSpec.describe ReviewAssessmentDetailsForm do
   describe "#save" do
-    let(:planning_application) { create(:planning_application) }
-    let(:consultation) { create(:consultation, planning_application:) }
+    let(:planning_application) { create(:planning_application, :prior_approval) }
+    let(:consultation) { planning_application.consultation }
     let(:user) { create(:user) }
 
     let(:review_assessment_details) do

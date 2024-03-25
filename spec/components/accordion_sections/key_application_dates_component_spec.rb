@@ -6,10 +6,12 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
   let(:planning_application) do
     create(
       :planning_application,
+      :prior_approval,
       validated_at: Date.new(2022, 11, 12),
       received_at: Date.new(2022, 11, 11)
     )
   end
+  let(:consultation) { planning_application.consultation }
 
   let(:component) do
     described_class.new(planning_application:)
@@ -50,12 +52,8 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
   end
 
   context "when there's a consultation" do
-    let(:consultation) { create(:consultation) }
-
     before do
       consultation.start_deadline
-      planning_application.consultation = consultation
-      planning_application.save!
 
       render_inline(component)
     end
@@ -70,18 +68,20 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
   end
 
   context "when there's no consultation" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :ldc_proposed
+      )
+    end
+
     it "does not render consultation deadline" do
       expect(page).not_to have_content("Publicity deadline:")
     end
   end
 
   context "when the consultation has not started" do
-    let(:consultation) { create(:consultation, start_date: nil) }
-
     before do
-      planning_application.consultation = consultation
-      planning_application.save!
-
       render_inline(component)
     end
 
@@ -91,11 +91,8 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
   end
 
   context "when the consultation has finished" do
-    let(:consultation) { create(:consultation, start_date: 4.weeks.ago, end_date: 1.week.ago) }
-
     before do
-      planning_application.consultation = consultation
-      planning_application.save!
+      consultation.update!(start_date: 4.weeks.ago, end_date: 1.week.ago)
 
       render_inline(component)
     end
