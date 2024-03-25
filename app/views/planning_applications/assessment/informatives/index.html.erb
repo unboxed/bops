@@ -29,7 +29,7 @@
           <% @informative_set.informatives.select(&:persisted?).each do |informative| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><%= informative.title %></td>
-              <td class="govuk-table__cell"><%= informative.text %></td>
+              <td class="govuk-table__cell"><%= render(FormattedContentComponent.new(text: informative.text)) %></td>
               <td class="govuk-table__cell govuk-table__cell--numeric">
                 <%= link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative), class: "govuk-link" %>
                 <%= link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete, class: "govuk-link" %>
@@ -45,10 +45,13 @@
         <% end %>
       </tbody>
     </table>
+    <% if @informative_set.current_review&.complete?  %>
+      <%= link_to "+ Add informative", planning_application_assessment_informatives_path(@planning_application, show_form: true), class: "govuk-link govuk-body" %>
+    <% end %>
   </div>
 
-  <div class="govuk-grid-column-two-thirds">
-    <% unless @informative_set.current_review&.complete? %>
+  <div class="govuk-grid-column-two-thirds govuk-!-margin-top-5">
+    <% if !@informative_set.current_review&.complete? || params[:show_form] == "true" %>
       <%= render "form", url: new_planning_application_assessment_informative_path(@planning_application), text: "Add informative" %>
     <% end %>
 

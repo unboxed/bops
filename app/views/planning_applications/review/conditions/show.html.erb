@@ -17,7 +17,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h2 class="govuk-heading-m">Conditions</h2>
-    <% if @conditon_set&.conditions.present? %>
+    <% if @condition_set&.conditions.present? %>
       <ol class="govuk-list govuk-list--number">
         <% @condition_set.conditions.sorted.each do |condition| %>
           <li>

@@ -24,7 +24,7 @@ module PlanningApplications
           format.html do
             if @informative.destroy
               redirect_to planning_application_assessment_informatives_path(@planning_application),
-                notice: I18n.t("informatives.destroy.success")
+                notice: t(".success")
             else
               render :index
             end
@@ -37,7 +37,7 @@ module PlanningApplications
           format.html do
             if @informative.update(informatives_params) && @informative_set.update(informative_set_params)
               redirect_to planning_application_assessment_informatives_path(@planning_application),
-                notice: I18n.t("informatives.update.success")
+                notice: t(".success")
             elsif request.referrer.include? "edit"
               render :edit
             else
@@ -51,7 +51,7 @@ module PlanningApplications
         review = @informative_set.current_review || @informative_set.reviews.create!(assessor: Current.user)
 
         if review.update(status:)
-          redirect_to planning_application_assessment_tasks_path(@planning_application)
+          redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
         else
           render :index
         end

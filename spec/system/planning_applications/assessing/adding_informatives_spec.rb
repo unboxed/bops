@@ -164,6 +164,39 @@ RSpec.describe "Add informatives" do
     end
   end
 
+  it "I can mark the task as complete and then add more informatives if I need to" do
+    within("#add-informatives") do
+      click_link "Add informatives"
+    end
+
+    click_link "Save and mark as complete"
+
+    within("#add-informatives") do
+      expect(page).to have_content "Complete"
+    end
+
+    click_link "Add informatives"
+
+    click_link "+ Add informative"
+
+    fill_in "Enter a title", with: "Informative 1"
+    fill_in "Enter details of the informative", with: "Consider the trees"
+
+    click_button "Add informative"
+
+    expect(page).to have_content "Informative successfully added"
+    expect(page).to have_content "Informative 1"
+    expect(page).to have_content "Consider the trees"
+
+    click_link "Save and mark as complete"
+
+    expect(page).to have_content "Informatives successfully saved"
+
+    within("#add-informatives") do
+      expect(page).to have_content "Complete"
+    end
+  end
+
   it "shows informatives on the decision notice" do
     create(:recommendation, :assessment_in_progress, planning_application:)
     informative = create(:informative, informative_set: planning_application.informative_set)
