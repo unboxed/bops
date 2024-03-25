@@ -278,7 +278,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
       features: {
         "planning_conditions" => true,
         "permitted_development_rights" => false,
-        :consultation_steps => ["neighbour", "publicity"]
+        "consultation_steps" => ["neighbour", "publicity"]
       }
     )
 

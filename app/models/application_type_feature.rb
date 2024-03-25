@@ -7,7 +7,7 @@ class ApplicationTypeFeature
   attribute :permitted_development_rights, :boolean, default: true
   attribute :site_visits, :boolean, default: false
   attribute :include_bank_holidays, :boolean, default: true
-  attribute :consultation_steps, default: -> { [] }
+  attribute :consultation_steps, :list, default: -> { [] }
 
   validate :consultation_steps_are_valid
 

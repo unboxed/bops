@@ -104,7 +104,7 @@ FactoryBot.define do
       features {
         {
           "site_visits" => true,
-          :consultation_steps => ["neighbour", "publicity", "consultee"]
+          "consultation_steps" => ["neighbour", "publicity", "consultee"]
         }
       }
       steps { %w[validation consultation assessment review] }
@@ -243,7 +243,7 @@ FactoryBot.define do
           "planning_conditions" => true,
           "permitted_development_rights" => false,
           "site_visits" => true,
-          :consultation_steps => ["neighbour", "publicity", "consultee"]
+          "consultation_steps" => ["neighbour", "publicity", "consultee"]
         }
       }
 
