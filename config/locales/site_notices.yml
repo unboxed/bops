@@ -5,7 +5,7 @@ en:
       <div style="width: 420px; text-align: center">
         <h1 style="margin-bottom: 5px;">Planning notice</h1>
         <h2 style="margin-bottom: 3px;">%{council} Council</h2>
-        <h3 style="margin-bottom: 3px;">Town and Country Planning Act 1990</h3>
+        <h3 style="margin-bottom: 3px;">%{legislation_title}</h3>
         <p>We have received an application for the following development:</p>
       </div>
       <table>
@@ -40,7 +40,7 @@ en:
       <div style="width: 420px; text-align: center">
         <h1 style="margin-bottom: 5px;">Planning notice</h1>
         <h2 style="margin-bottom: 3px;">%{council} Council</h2>
-        <h3 style="margin-bottom: 3px;">Town and Country Planning Act 1990</h3>
+        <h3 style="margin-bottom: 3px;">%{legislation_title}</h3>
         <p>We have received an application for the following development:</p>
       </div>
       <table>

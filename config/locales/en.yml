@@ -134,6 +134,8 @@ en:
               less_than_or_equal_to: The determination period must be no more than 99 days
               not_a_number: The determination period must be a number of days
               not_an_integer: The determination period must be a whole number of days
+            legislation:
+              blank: must be set when application type is made active
             legislation_id:
               blank: An existing legislation must be chosen
             suffix:
@@ -347,12 +349,6 @@ en:
   application_types:
     lawfulness_certificate: Lawful Development Certificate
     lawfulness_certificate_abbr: LDC
-    legislation:
-      prior_approval:
-        1A:
-          description: Review Condition A.4 of GPDO 2015 (as amended) Schedule 2, Part 1, Class A.
-          link: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made
-          link_text: The Town and Country Planning (General Permitted Development) (England) Order 2015
     planning_permission: Householder Application for Planning Permission
     planning_permission_abbr: PP
     prior_approval: Prior approval
@@ -1796,12 +1792,10 @@ en:
         refused: The proposal does not comply due to the following reason(s)
     lawfulness_certificate:
       granted_html: Certificate of Lawful Use or Development <br> <strong>Granted</strong>
-      legislation_html: 'Town and Country Planning Act 1990 (as amended): sections 191 and 192<br>Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39'
       refused_html: Certificate of Lawful Use or Development <br> Decision Notice <strong>Refused</strong>
     planning_permission:
       granted: Planning permission approved
       granted_html: "<strong>Planning permission approved</strong>"
-      legislation_html: Town and Country Planning Act 1990 (as amended)<br><br>Town and Country Planning (Development Management Procedure) (England) Order 2015
       refused: Planning permission refused
       refused_html: "<strong>Planning permission refused</strong>"
     prior_approval:
@@ -1809,7 +1803,6 @@ en:
       granted_html: "<strong>Prior approval required and approved</strong>"
       granted_not_required: Prior approval not required
       granted_not_required_html: "<strong>Prior approval not required</strong>"
-      legislation_html: Town and Country Planning Act 1990 (as amended)
       refused: Prior approval required and refused
       refused_html: "<strong>Prior approval required and refused</strong>"
   reconsult_consultees_component:

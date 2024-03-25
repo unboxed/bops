@@ -10,7 +10,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_type, url: [@application_type, :status] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+       <%= form.govuk_error_summary(presenter: ApplicationTypeStatusErrorPresenter.new(@application_type.errors.messages, @application_type)) %>
 
       <%= form.govuk_radio_buttons_fieldset :status, legend: {size: "l", tag: "h1", text: t(".update_application_type_status")} do %>
         <% if @application_type.inactive? %>

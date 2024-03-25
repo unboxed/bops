@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class ErrorPresenter
-  def initialize(error_messages)
+  def initialize(error_messages, record = nil)
     @error_messages = error_messages
+    @record = record
   end
 
   def formatted_error_messages
@@ -13,7 +14,7 @@ class ErrorPresenter
 
   private
 
-  attr_reader :error_messages
+  attr_reader :error_messages, :record
 
   def formatted_message(message, attribute)
     attribute = attributes_map[attribute] || attribute
@@ -21,11 +22,17 @@ class ErrorPresenter
     if message.match?(/\A[A-Z].+\Z/)
       message
     else
-      "#{attribute.to_s.humanize.tr(".", " ")} #{message}"
+      text = "#{attribute.to_s.humanize.tr(".", " ")} #{message}"
+
+      link? ? link_tag(text) : text
     end
   end
 
   def attributes_map
     {}
+  end
+
+  def link?
+    false
   end
 end

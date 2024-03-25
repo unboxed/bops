@@ -51,10 +51,11 @@ class SiteNotice < ApplicationRecord
       application_description: planning_application.description,
       site_address: planning_application.full_address,
       applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
-      application_link: application_link(planning_application),
+      application_link:,
       council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
       consultation_end_date: consultation_end_date.to_date.to_fs,
       site_notice_display_date: displayed_at&.to_date&.to_fs || Time.zone.today.to_fs,
+      legislation_title: planning_application.application_type.legislation_title,
       eia_statement: eia_statement)
   end
 
@@ -76,7 +77,7 @@ class SiteNotice < ApplicationRecord
 
   private
 
-  def application_link(planning_application)
+  def application_link
     if Bops.env.production?
       "https://planningapplications.#{planning_application.local_authority.subdomain}.gov.uk/planning_applications/#{planning_application.id}"
     else

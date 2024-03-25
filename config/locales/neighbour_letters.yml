@@ -2,7 +2,7 @@ en:
   neighbour_letter_template:
     consultation:
       planning_permission: |-
-        # Town and Country Planning Act 1990
+        # {{legislation_title}}
         
         Dear Resident
         
@@ -56,6 +56,8 @@ en:
         {{assigned_officer}}
         Planning officer
       prior_approval: |-
+        # {{legislation_title}}
+
         Dear Resident
         
         A prior approval application has been made for the development described below: 

@@ -81,9 +81,10 @@ RSpec.describe "Check legislation" do
     end
   end
 
-  context "when planning application type has no legislation en.yml translation details" do
-    let!(:planning_application) do
-      create(:planning_application, :not_started, local_authority: default_local_authority)
+  context "when planning application type has no legislation details" do
+    let(:application_type) { create(:application_type, :inactive, :without_legislation) }
+    let(:planning_application) do
+      create(:planning_application, :not_started, local_authority: default_local_authority, application_type:)
     end
 
     before do

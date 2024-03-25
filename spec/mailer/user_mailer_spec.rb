@@ -71,7 +71,7 @@ RSpec.describe UserMailer, type: :mailer do
 
   describe "#assigned_notification_mail" do
     let!(:prior_approval) { create(:application_type, :prior_approval) }
-    let(:planning_application) { create(:planning_application, :prior_approval) }
+    let(:planning_application) { create(:planning_application, :prior_approval, application_type: prior_approval) }
 
     let(:mail) do
       described_class.assigned_notification_mail(

@@ -47,7 +47,7 @@ class CommitteeDecision < ApplicationRecord
   end
 
   def header
-    "Town and Country Planning Act 1990"
+    planning_application.application_type.legislation_title
   end
 
   def body
@@ -64,7 +64,7 @@ class CommitteeDecision < ApplicationRecord
       link: planning_application.committee_decision.link,
       assigned_officer:,
       late_comments_deadline: planning_application.committee_decision.late_comments_deadline.to_date.to_fs,
-      application_link: application_link(planning_application)
+      application_link:
     }
 
     replace_placeholders(new_body, defaults)
@@ -84,7 +84,7 @@ class CommitteeDecision < ApplicationRecord
     string.to_s.gsub(EMAIL_PLACEHOLDER) { variables.fetch($1.to_sym) }
   end
 
-  def application_link(planning_application)
+  def application_link
     "#{planning_application.local_authority.applicants_url}/planning_applications/#{planning_application.id}"
   end
 

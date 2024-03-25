@@ -28,7 +28,8 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     # Enter legislation
     expect(page).to have_selector("h1", text: "Enter legislation")
-    expect(page).to have_selector("div.govuk-hint", text: "Enter either the name of an existing legislation that relates to this application type or a create a new one.")
+    expect(page).to have_selector("div.govuk-hint", text: "Enter either the name of an existing legislation that relates to this application type or create a new one.")
+    expect(page).to have_selector("div.govuk-hint", text: "The title will appear in consultation letters, decision notices and other places that need to specify what the relevant legislation is.")
 
     choose "Choose an existing legislation"
     click_button "Continue"
@@ -214,6 +215,30 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(9) dd", text: "Active")
+  end
+
+  it "prevents activation of a new application type when legislation has not been set" do
+    application_type = create(:application_type, :without_legislation, status: "inactive")
+
+    visit "/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(9)" do
+      expect(page).to have_selector("dd", text: "Inactive")
+      click_link "Change"
+    end
+
+    choose "Active"
+    click_button "Continue"
+
+    expect(page).to have_selector("[role=alert] li", text: "Legislation must be set when application type is made active")
+    expect(page).to have_link(
+      "Legislation must be set when application type is made active",
+      href: "/application_types/#{application_type.id}/legislation/edit"
+    )
+
+    click_link "Legislation must be set when application type is made active"
+
+    expect(page).to have_selector("h1", text: "Enter legislation")
   end
 
   it "allows retirement of an application type" do

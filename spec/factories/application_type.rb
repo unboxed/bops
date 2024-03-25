@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :application_type do
     lawfulness_certificate
+    legislation
 
     trait :lawfulness_certificate do
       name { "lawfulness_certificate" }
@@ -82,6 +83,8 @@ FactoryBot.define do
           consultation_steps: []
         }
       }
+
+      legislation { association :legislation, :ldc_existing }
     end
 
     trait :ldc_proposed do
@@ -95,6 +98,8 @@ FactoryBot.define do
           consultation_steps: []
         }
       }
+
+      legislation { association :legislation, :ldc_proposed }
     end
 
     trait :prior_approval do
@@ -221,6 +226,7 @@ FactoryBot.define do
         }
       end
 
+      legislation { association :legislation, :pa_part1_classA }
       status { "active" }
     end
 
@@ -363,6 +369,8 @@ FactoryBot.define do
 
     trait :householder do
       planning_permission
+
+      legislation { association :legislation, :pp_full_householder }
     end
 
     trait :householder_retrospective do
@@ -382,6 +390,18 @@ FactoryBot.define do
 
     trait :configured do
       configured { true }
+    end
+
+    trait :without_legislation do
+      legislation { nil }
+    end
+
+    trait :active do
+      status { "active" }
+    end
+
+    trait :inactive do
+      status { "inactive" }
     end
 
     initialize_with { ApplicationType.find_or_create_by(code:) }

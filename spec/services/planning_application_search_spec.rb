@@ -11,6 +11,10 @@ RSpec.describe PlanningApplicationSearch do
     create(:user, :assessor, local_authority:)
   end
 
+  let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed) }
+  let!(:application_type_prior_approval) { create(:application_type, :prior_approval) }
+  let!(:application_type_householder) { create(:application_type, :householder) }
+
   let!(:ldc_not_started) do
     travel_to("2022-01-01") do
       create(
@@ -19,7 +23,8 @@ RSpec.describe PlanningApplicationSearch do
         :ldc_proposed,
         description: "Add a chimney stack.",
         local_authority:,
-        received_at: nil
+        received_at: nil,
+        application_type: application_type_ldc_proposed
       )
     end
   end
@@ -32,7 +37,8 @@ RSpec.describe PlanningApplicationSearch do
         :ldc_proposed,
         description: "Something else entirely",
         local_authority:,
-        received_at: nil
+        received_at: nil,
+        application_type: application_type_ldc_proposed
       )
     end
   end
@@ -46,7 +52,8 @@ RSpec.describe PlanningApplicationSearch do
         description: "Skylight",
         local_authority:,
         user: assessor,
-        received_at: nil
+        received_at: nil,
+        application_type: application_type_ldc_proposed
       )
     end
   end
@@ -57,7 +64,8 @@ RSpec.describe PlanningApplicationSearch do
       :not_started,
       :prior_approval,
       local_authority:,
-      received_at: nil
+      received_at: nil,
+      application_type: application_type_prior_approval
     )
   end
 
@@ -67,7 +75,8 @@ RSpec.describe PlanningApplicationSearch do
       :in_assessment,
       :prior_approval,
       local_authority:,
-      received_at: nil
+      received_at: nil,
+      application_type: application_type_prior_approval
     )
   end
 
@@ -77,7 +86,8 @@ RSpec.describe PlanningApplicationSearch do
       :in_assessment,
       :planning_permission,
       local_authority:,
-      received_at: nil
+      received_at: nil,
+      application_type: application_type_householder
     )
   end
 
