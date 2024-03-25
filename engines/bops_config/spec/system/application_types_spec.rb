@@ -22,8 +22,9 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     fill_in "Name", with: "Planning Permission - Major application"
     fill_in "Suffix", with: "MAJR"
-
     click_button "Continue"
+
+    expect(page).to have_content("Application profile successfully created")
 
     # Enter legislation
     expect(page).to have_selector("h1", text: "Enter legislation")
@@ -68,12 +69,44 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     fill_in "Set determination period", with: "25"
     click_button "Continue"
+
     expect(page).to have_content("Determination period successfully updated")
+
+    # Choose features
+    expect(page).to have_selector("h1", text: "Choose features")
+    expect(page).to have_selector("h2", text: "Planning Permission - Major application")
 
     check "Check permitted development rights"
     check "Neighbours consultation"
     click_button "Continue"
+
     expect(page).to have_content("Features successfully updated")
+
+    # Manage document tags
+    expect(page).to have_selector("h1", text: "Manage document tags")
+    expect(page).to have_selector("h2", text: "Planning Permission - Major application")
+    expect(page).to have_selector("legend", text: "Plans")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for plans")
+
+    check "Elevations - proposed"
+    check "Elevations - existing"
+    click_link "Evidence"
+
+    expect(page).to have_selector("legend", text: "Evidence")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for evidence documents")
+
+    check "Utility bill"
+    check "Bank statement"
+    click_link "Supporting documents"
+
+    expect(page).to have_selector("legend", text: "Evidence")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for evidence documents")
+
+    check "Sustainability statement"
+    check "Environmental Impact Assessment (EIA)"
+    click_button "Continue"
+
+    expect(page).to have_content("Document tags successfully updated")
 
     # Review application type
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -81,11 +114,15 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     expect(page).to have_selector("dl div:nth-child(2) dd", text: "MAJR")
     expect(page).to have_selector("dl div:nth-child(3) dd", text: "Town and Country Planning Act 1990")
     expect(page).to have_selector("dl div:nth-child(4) dd", text: "25 days - bank holidays included")
-    within "dl div:nth-child(5) dd.govuk-summary-list__value" do
-      expect(page).to have_selector("li", text: "Check permitted development rights")
-      expect(page).to have_selector("li", text: "Neighbour")
-    end
-    expect(page).to have_selector("dl div:nth-child(6) dd", text: "Inactive")
+    expect(page).to have_selector("dl div:nth-child(5) dd li", text: "Check permitted development rights")
+    expect(page).to have_selector("dl div:nth-child(5) dd li", text: "Neighbour")
+    expect(page).to have_selector("dl div:nth-child(6) dd span:nth-child(1)", text: "Elevations - existing")
+    expect(page).to have_selector("dl div:nth-child(6) dd span:nth-child(2)", text: "Elevations - proposed")
+    expect(page).to have_selector("dl div:nth-child(7) dd span:nth-child(1)", text: "Bank statement")
+    expect(page).to have_selector("dl div:nth-child(7) dd span:nth-child(2)", text: "Utility bill")
+    expect(page).to have_selector("dl div:nth-child(8) dd span:nth-child(1)", text: "Environmental Impact Assessment (EIA)")
+    expect(page).to have_selector("dl div:nth-child(8) dd span:nth-child(2)", text: "Sustainability statement")
+    expect(page).to have_selector("dl div:nth-child(9) dd", text: "Inactive")
   end
 
   it "allows editing of an inactive application type" do
@@ -165,7 +202,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(6)" do
+    within "dl div:nth-child(9)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -176,7 +213,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(6) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(9) dd", text: "Active")
   end
 
   it "allows retirement of an application type" do
@@ -185,7 +222,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(6)" do
+    within "dl div:nth-child(9)" do
       expect(page).to have_selector("dd", text: "Active")
       click_link "Change"
     end
@@ -197,7 +234,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(6) dd", text: "Retired")
+    expect(page).to have_selector("dl div:nth-child(9) dd", text: "Retired")
   end
 
   it "allows an application type to be brought out of retirement" do
@@ -206,7 +243,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(6)" do
+    within "dl div:nth-child(9)" do
       expect(page).to have_selector("dd", text: "Retired")
       click_link "Change"
     end
@@ -218,7 +255,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(6) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(9) dd", text: "Active")
   end
 
   it "allows editing of the legislation" do
@@ -335,6 +372,108 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     expect(application_type.planning_conditions?).to eq(false)
     expect(application_type.permitted_development_rights?).to eq(true)
     expect(application_type.consultation_steps).to eq(["neighbour", "consultee", "publicity"])
+  end
+
+  it "allows editing of the tags for plans" do
+    application_type = create(
+      :application_type, :configured, :ldc_proposed,
+      document_tags: {
+        "plans" => %w[elevations.existing]
+      }
+    )
+
+    visit "/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(6) dd:nth-child(2)" do
+      expect(page).to have_selector("span", text: "Elevations - existing")
+      expect(page).not_to have_selector("span", text: "Elevations - proposed")
+    end
+
+    within "dl div:nth-child(6) dd:nth-child(3)" do
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Manage document tags")
+    expect(page).to have_selector("h2", text: "Lawful Development Certificate - Proposed use")
+    expect(page).to have_selector("legend", text: "Plans")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for plans")
+
+    uncheck "Elevations - existing"
+    check "Elevations - proposed"
+    click_button "Continue"
+
+    expect(page).to have_content("Document tags successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+    expect(page).to have_selector("dl div:nth-child(6) dd span", text: "Elevations - proposed")
+    expect(page).not_to have_selector("dl div:nth-child(6) dd span", text: "Elevations - existing")
+  end
+
+  it "allows editing of the tags for evidence" do
+    application_type = create(
+      :application_type, :configured, :ldc_proposed,
+      document_tags: {
+        "evidence" => %w[bankStatement]
+      }
+    )
+
+    visit "/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(7) dd:nth-child(2)" do
+      expect(page).to have_selector("span", text: "Bank statement")
+      expect(page).not_to have_selector("span", text: "Utility bill")
+    end
+
+    within "dl div:nth-child(7) dd:nth-child(3)" do
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Manage document tags")
+    expect(page).to have_selector("h2", text: "Lawful Development Certificate - Proposed use")
+    expect(page).to have_selector("legend", text: "Evidence")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for evidence documents")
+
+    uncheck "Bank statement"
+    check "Utility bill"
+    click_button "Continue"
+
+    expect(page).to have_content("Document tags successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+    expect(page).to have_selector("dl div:nth-child(7) dd span", text: "Utility bill")
+    expect(page).not_to have_selector("dl div:nth-child(7) dd span", text: "Bank statement")
+  end
+
+  it "allows editing of the tags for supporting documents" do
+    application_type = create(
+      :application_type, :configured, :ldc_proposed,
+      document_tags: {
+        "supporting_documents" => %w[environmentalImpactAssessment]
+      }
+    )
+
+    visit "/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(8) dd:nth-child(2)" do
+      expect(page).to have_selector("span", text: "Environmental Impact Assessment (EIA)")
+      expect(page).not_to have_selector("span", text: "Sustainability statement")
+    end
+
+    within "dl div:nth-child(8) dd:nth-child(3)" do
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Manage document tags")
+    expect(page).to have_selector("h2", text: "Lawful Development Certificate - Proposed use")
+    expect(page).to have_selector("legend", text: "Supporting documents")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for supporting documents")
+
+    uncheck "Environmental Impact Assessment (EIA)"
+    check "Sustainability statement"
+    click_button "Continue"
+
+    expect(page).to have_content("Document tags successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+    expect(page).to have_selector("dl div:nth-child(8) dd span", text: "Sustainability statement")
+    expect(page).not_to have_selector("dl div:nth-child(8) dd span", text: "Environmental Impact Assessment (EIA)")
   end
 
   it "displays application types" do

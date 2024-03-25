@@ -16,6 +16,20 @@ en:
           set_determination_period: Set determination period
         update:
           success: Determination period successfully updated
+      document_tags:
+        edit:
+          continue: Continue
+          groups:
+            evidence: Evidence
+            plans: Plans
+            supporting_documents: Supporting documents
+          hints:
+            evidence: Select the relevant tags for evidence documents
+            plans: Select the relevant tags for plans
+            supporting_documents: Select the relevant tags for supporting documents
+          manage_document_tags: Manage document tags
+        update:
+          success: Document tags successfully updated
       edit:
         application_profile: Application profile
         update_application_type: Update the application type
@@ -64,11 +78,20 @@ en:
           other: "%{count} days - bank holidays included"
         edit: Edit
         features: Features
+        groups:
+          evidence: Evidence
+          plans: Plans
+          supporting_documents: Supporting documents
         legislation: Legislation
+        links:
+          evidence: evidence tags
+          plans: plan tags
+          supporting_documents: supporting document tags
         name: Name
         review_application_type: Review the application type
         status: Status
         suffix: Suffix
+        tags: Tags
       statuses:
         edit:
           active: Active

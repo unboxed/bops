@@ -34,6 +34,9 @@ application.register("heads-of-terms", HeadsofTermsController)
 import LocalPoliciesController from "./local_policies_controller.js"
 application.register("local-policies", LocalPoliciesController)
 
+import MaxLinesController from "./max_lines_controller.js"
+application.register("max-lines", MaxLinesController)
+
 import NeighboursController from "./neighbours_controller.js"
 application.register("neighbours", NeighboursController)
 

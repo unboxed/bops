@@ -39,6 +39,9 @@ api-docs:
 api-specs:
 	$(DOCKER-RUN) console rspec engines/bops_api/spec
 
+config-specs:
+	$(DOCKER-RUN) console rspec engines/bops_config/spec
+
 rspec:
 	$(DOCKER-RUN) console rspec
 

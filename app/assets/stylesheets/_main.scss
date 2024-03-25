@@ -423,3 +423,33 @@ body {
 .autocomplete__menu {
   font-family: $govuk-font-family;
 }
+
+.max-lines {
+  cursor: pointer;
+  user-select: none;
+
+  &--clamped {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+.ga-document-tag {
+  margin: 0.25rem 0.25rem 0.25rem 0;
+}
+
+.ga-document-tags {
+  column-count: 2;
+  column-fill: balance;
+
+  & > .govuk-checkboxes__item {
+    break-inside: avoid;
+  }
+
+  .govuk-checkboxes__label {
+    text-wrap: balance;
+  }
+}

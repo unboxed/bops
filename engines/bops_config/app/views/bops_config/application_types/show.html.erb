@@ -109,6 +109,26 @@
         </dd>
       </div>
 
+      <% @application_type.document_tags.tag_groups.each do |group| %>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <%= t(".tags") %> – <%= t(".groups.#{group}") %>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <p class="govuk-body max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
+              <% group.translated_tags.each do |tag| %>
+                <span class="govuk-tag govuk-tag--grey ga-document-tag"><%= tag %></span>
+              <% end %>
+            </p>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <%= link_to [:edit, @application_type, :document_tags, anchor: "#{group}-tags"], class: "govuk-link" do %>
+              <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".links.#{group}") %></span>
+            <% end %>
+          </dd>
+        </div>
+      <% end %>
+
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           <%= t(".status") %>
