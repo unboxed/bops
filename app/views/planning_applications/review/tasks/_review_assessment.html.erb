@@ -10,6 +10,19 @@
 ) %>
 </span>
 <ul class="app-task-list__items" id="review-assessment-section">
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
+      <%= link_to(
+        "Check Community Infrastructure Levy (CIL)",
+        planning_application_review_cil_liability_path(@planning_application),
+        class: "govuk-link") %>
+    </span>
+    <%= render(
+      StatusTags::BaseComponent.new(
+        status: (@planning_application.audits.review_cil_liability.any? ? :complete : :not_started)
+      )
+    )%>
+  </li>
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.evidence.any? %>
       <%= render(
         TaskListItems::Reviewing::ImmunityDetailsComponent.new(

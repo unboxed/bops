@@ -1,0 +1,31 @@
+<% content_for :page_title do %>
+  CIL Liability - <%= t("page_title") %>
+<% end %>
+
+<%= render(partial: "shared/review_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+
+<% content_for :title, "Check Community Infrastructure Levy (CIL)" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Check Community Infrastructure Levy (CIL)" }
+    ) %>
+
+<p class="govuk-body">
+  <% if @planning_application.cil_liability_planx_answer? %>
+    According to PlanX the new floor area being added is:
+    <strong><%= @planning_application.cil_liability_proposal_detail.response_values.to_sentence %></strong>.
+    <br>
+    This might mean that the application is
+    <% unless @planning_application.likely_cil_liable? %>
+      not
+    <% end %>
+    liable for CIL.
+  <% else %>
+    No information on potential CIL liability from PlanX.
+  <% end %>
+</p>
+
+<%= render "audit_trail" %>
+
+<%= render partial: "form" %>
