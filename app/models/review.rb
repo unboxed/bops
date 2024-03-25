@@ -160,6 +160,7 @@ class Review < ApplicationRecord
   def ensure_consultation_has_finished!
     return unless owner.planning_application.awaiting_determination?
     return if owner.end_date.nil? || owner.end_date <= Time.zone.now
+    return unless review_complete? && complete?
 
     raise NotCreatableError,
       "Consultation expiry date must be in the past. You cannot mark this as complete until the consultation period is complete."

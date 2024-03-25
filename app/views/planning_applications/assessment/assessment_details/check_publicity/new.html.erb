@@ -128,7 +128,7 @@
 
       <% if @press_notice.nil? %>
         <p class="govuk-body">
-          <%= t(".site_notice_incomplete") %>
+          <%= t(".press_notice_incomplete") %>
           <%= link_to(t(".create_press_notice"), planning_application_press_notice_path(@planning_application), class: "govuk-link govuk-link--no-visited-state") %>
         </p>
       <% elsif @press_notice.required? %>
