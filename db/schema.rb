@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_21_155240) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_22_110154) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -65,7 +65,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_21_155240) do
     t.string "assessment_details", array: true
     t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
     t.string "consistency_checklist", array: true
-    t.jsonb "document_tags"
+    t.jsonb "document_tags", default: {}, null: false
     t.jsonb "features", default: {}
     t.string "status", default: "inactive", null: false
     t.string "code", null: false

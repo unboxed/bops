@@ -230,6 +230,23 @@ class Document < ApplicationRecord
     self.user ||= Current.user
   end
 
+  class << self
+    def tags(key)
+      case key.to_s
+      when "plans"
+        PLAN_TAGS
+      when "evidence"
+        EVIDENCE_TAGS
+      when "supporting_documents"
+        (SUPPORTING_DOCUMENT_TAGS - ["disabilityExemptionEvidence"])
+      when "other"
+        []
+      else
+        raise ArgumentError, "Unexpected document tag type: #{key}"
+      end
+    end
+  end
+
   def name
     file.filename.to_s if file.attached?
   end

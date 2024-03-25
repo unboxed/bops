@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
 class ApplicationType < ApplicationRecord
+  include StoreModel::NestedAttributes
+
   NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate other].freeze
   ODP_APPLICATION_TYPES = I18n.t(:"odp.application_types").to_h.freeze
 
   attribute :legislation_type, :string, default: "existing"
+  attribute :document_tags, ApplicationTypeDocumentTags.to_type
+  attribute :features, ApplicationTypeFeature.to_type
 
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
   belongs_to :legislation, optional: true
   has_many :planning_applications, dependent: :restrict_with_exception
 
-  accepts_nested_attributes_for :legislation
+  accepts_nested_attributes_for :legislation, :document_tags
 
   default_scope { preload(:legislation) }
 
@@ -48,8 +52,6 @@ class ApplicationType < ApplicationRecord
     validates :determination_period_days, numericality: {less_than_or_equal_to: 99}
   end
 
-  attribute :features, ApplicationTypeFeature.to_type
-
   with_options to: :features do
     delegate :planning_conditions?
     delegate :permitted_development_rights?
@@ -70,6 +72,47 @@ class ApplicationType < ApplicationRecord
       else
         "other"
       end
+  end
+
+  before_validation if: :code_changed? do
+    if code =~ /^pa.part(\d+).class(\w+)$/
+      self.part = $1
+      self.section = $2
+    elsif code =~ /^pa.part(\d+)$/
+      self.part = $1
+    end
+  end
+
+  before_update unless: :assessment_details? do
+    self.assessment_details = \
+      case name
+      when "lawfulness_certificate"
+        %w[summary_of_work site_description consultation_summary additional_evidence past_applications]
+      when "prior_approval"
+        %w[summary_of_work site_description additional_evidence neighbour_summary amenity past_applications check_publicity]
+      when "planning_permission"
+        %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary past_applications check_publicity]
+      else
+        %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary past_applications check_publicity]
+      end
+  end
+
+  before_update unless: :consistency_checklist? do
+    self.consistency_checklist = \
+      case name
+      when "lawfulness_certificate"
+        %w[description_matches_documents documents_consistent proposal_details_match_documents site_map_correct]
+      when "prior_approval"
+        %w[description_matches_documents documents_consistent proposal_details_match_documents proposal_measurements_match_documents site_map_correct]
+      when "planning_permission"
+        %w[description_matches_documents documents_consistent proposal_details_match_documents site_map_correct]
+      else
+        %w[description_matches_documents documents_consistent proposal_details_match_documents site_map_correct]
+      end
+  end
+
+  before_validation on: :document_tags, unless: :configured? do
+    self.configured = true
   end
 
   def existing_or_new_legislation
@@ -130,21 +173,6 @@ class ApplicationType < ApplicationRecord
 
   def assessor_remarks
     assessment_details.excluding("past_applications", "check_publicity")
-  end
-
-  def irrelevant_tags(key)
-    case key
-    when "plans"
-      Document::PLAN_TAGS - document_tags[key]
-    when "evidence"
-      Document::EVIDENCE_TAGS - document_tags[key]
-    when "supporting_documents"
-      (Document::SUPPORTING_DOCUMENT_TAGS - ["disabilityExemptionEvidence"]) - document_tags[key]
-    when "other"
-      []
-    else
-      raise ArgumentError, "Unexpected document tag type: #{key}"
-    end
   end
 
   def type_name
