@@ -5,7 +5,7 @@ module AssessmentDetailable
 
   included do
     def assessment_details
-      @assessment_details ||= planning_application.assessment_details_for_review.reject { |detail| detail.category == "check_publicity" }
+      @assessment_details ||= planning_application.assessment_details_for_review.reject(&:check_publicity?)
     end
 
     def assessment_details_updated?
