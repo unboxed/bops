@@ -1996,6 +1996,7 @@ en:
       review_application: Review
   status_tag_component:
     accepted: Printing
+    amendments_needed: Amendments needed
     approved: Accepted
     auto_approved: Auto accepted
     awaiting_determination: Awaiting determination
@@ -2014,6 +2015,7 @@ en:
     neutral: Neutral
     new: New
     not_cil_liable: Not liable
+    not_consulted: Not consulted
     not_required: Not required
     not_started: Not started
     objection: Objection
@@ -2027,6 +2029,7 @@ en:
     review_complete: Completed
     review_in_progress: In progress
     review_not_started: Not started
+    sending: Sending
     submitted: Submitted
     supportive: Supportive
     technical_failure: Technical failure
@@ -2058,6 +2061,8 @@ en:
         past_applications: History (manual)
         site_description: Site description
         summary_of_work: Summary of works
+      consultees_consulted_component:
+        consultees_consulted: Check consultees consulted
       immunity_details_component:
         evidence_of_immunity: Evidence of immunity
       local_policy_component:

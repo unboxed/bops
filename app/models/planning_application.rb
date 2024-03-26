@@ -314,6 +314,10 @@ class PlanningApplication < ApplicationRecord
     recommendation || recommendations.build
   end
 
+  def consultees_checked?
+    consultation&.consultees_checked?
+  end
+
   def proposal_details
     Array(super).each_with_index.map do |hash, index|
       ProposalDetail.new(hash, index)

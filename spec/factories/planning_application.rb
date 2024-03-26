@@ -369,6 +369,23 @@ FactoryBot.define do
       end
     end
 
+    trait :with_constraints_and_consultees do
+      after(:create) do |planning_application|
+        constraint1 = create(:constraint, :listed)
+        constraint2 = create(:constraint, :tpo)
+        constraint3 = create(:constraint)
+        consultation = create(:consultation)
+        consultee_1 = create(:consultee, :internal, consultation: consultation, name: "Harriet Historian")
+        consultee_2 = create(:consultee, :external, consultation: consultation, name: "Chris Wood")
+
+        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint1, identified: true, identified_by: planning_application.api_user.name).save!
+        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint2, identified: true, identified_by: planning_application.api_user.name).save!
+        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint3, identified: true, identified_by: planning_application.api_user.name).save!
+        planning_application.planning_application_constraints.first.update!(consultee_id: consultee_1.id)
+        planning_application.planning_application_constraints.last.update!(consultee_id: consultee_2.id)
+      end
+    end
+
     factory :not_started_planning_application do
       status { :not_started }
 

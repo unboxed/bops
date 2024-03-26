@@ -11,6 +11,16 @@ RSpec.describe Consultation do
     end
   end
 
+  describe "#consultees_checked?" do
+    let(:consultation) { build(:consultation) }
+
+    it "returns true when consultees are checked" do
+      consultation.save!
+      consultation.create_consultees_review!
+      expect(consultation.reviews.present?).to be(true)
+    end
+  end
+
   describe "validations" do
     describe "address" do
       let!(:consultation) { create(:consultation) }

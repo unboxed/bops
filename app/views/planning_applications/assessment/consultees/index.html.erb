@@ -1,0 +1,47 @@
+<% content_for :page_title do %>
+  Confirm all consultees have been consulted - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application  }
+    ) %>
+
+<% content_for :title, "Confirm all consultees have been consulted" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Confirm all consultees have been consulted" }
+    ) %>
+
+<div class="govuk-grid-row">
+  <%= content_tag :div, class: "govuk-grid-column-full", data: {} do %>
+    <% if @consultation.errors.any? %>
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <% @consultation.errors.each do |error| %>
+              <li><%= error.message.html_safe %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= form_with model: @planning_application,
+                  url: check_planning_application_assessment_consultees_path do |form| %>
+      <div class="govuk-button-group">
+
+        <%= form.submit "Confirm as checked", class: "govuk-button" %>
+        <%= link_to "Add consultees", planning_application_consultees_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+
+        <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

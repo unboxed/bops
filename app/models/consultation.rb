@@ -32,6 +32,8 @@ class Consultation < ApplicationRecord
 
   belongs_to :planning_application
 
+  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
+
   with_options to: :planning_application do
     delegate :local_authority
     delegate :environment_impact_assessment, allow_nil: true
@@ -143,6 +145,10 @@ class Consultation < ApplicationRecord
 
   def reconsult?
     email_reason == "reconsult"
+  end
+
+  def current_review
+    reviews.order(:created_at).last
   end
 
   def consultee_activity_type
@@ -392,6 +398,14 @@ class Consultation < ApplicationRecord
 
   def create_neighbour_review!
     neighbour_reviews.create!(status: "complete", assessor: Current.user)
+  end
+
+  def consultees_checked?
+    reviews&.consultees_checked&.any?
+  end
+
+  def create_consultees_review!
+    reviews.create!(assessor: Current.user, owner_type: "Consultation", owner_id: id, specific_attributes: {"review_type" => "consultees_checked"}, status: "complete")
   end
 
   private
