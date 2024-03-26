@@ -135,7 +135,7 @@ RSpec.describe Review do
 
         context "when the consultation has not yet finished" do
           let(:consultation) { create(:consultation, end_date: 1.day.from_now, planning_application:) }
-          let(:new_review) { create(:review, owner: consultation) }
+          let(:new_review) { create(:review, owner: consultation, status: :complete, review_status: :review_complete) }
 
           it "raises an error" do
             expect do
