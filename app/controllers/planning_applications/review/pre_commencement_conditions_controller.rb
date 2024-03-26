@@ -31,7 +31,7 @@ module PlanningApplications::Review
       @planning_application.pre_commencement_condition_set
     end
 
-    def form_disabled?
+    def review_complete?
       condition_set&.current_review&.complete_or_to_be_reviewed?
     end
 
@@ -69,6 +69,6 @@ module PlanningApplications::Review
       params.dig(:condition_set, :reviews_attributes, :action) == "rejected"
     end
 
-    helper_method :condition_set, :form_disabled?
+    helper_method :condition_set, :review_complete?
   end
 end
