@@ -13,7 +13,7 @@
             :action, :edited_and_accepted, disabled: form_disabled?, checked: condition_set&.current_review&.edited_and_accepted?, label: {text: "Edit to accept", id: "edit-to-accept"}
           ) do %>
       <%= form.govuk_check_boxes_fieldset :conditions, multiple: false, legend: {text: "Conditions"} do %>
-        <%= form.fields_for :conditions, condition_set.conditions do |fields| %>
+        <%= form.fields_for :conditions, condition_set.approved_conditions do |fields| %>
           <div class="condition">
             <%= fields.hidden_field :_destroy, value: true %>
             <%= fields.govuk_check_box :_destroy, false, disabled: form_disabled?, multiple: false, label: {text: fields.object.review_title || "Other condition"}, checked: fields.object.checked? do %>
