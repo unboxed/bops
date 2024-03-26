@@ -32,9 +32,8 @@
     <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation %>
 
     <%= form_with model: @planning_application,
-                  method: :patch do |form| %>
+                  url: check_planning_application_assessment_consultees_path do |form| %>
       <div class="govuk-button-group">
-        <%= form.hidden_field :consultees_checked, value: true %>
 
         <%= form.submit "Confirm as checked", class: "govuk-button" %>
         <%= link_to "Add consultees", planning_application_consultees_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

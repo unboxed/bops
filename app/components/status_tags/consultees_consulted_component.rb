@@ -15,7 +15,7 @@ module StatusTags
     end
 
     def assessment_status
-      if @planning_application.consultees_checked
+      if @planning_application.consultation&.consultees_checked?
         :complete
       else
         :not_started

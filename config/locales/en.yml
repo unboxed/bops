@@ -584,22 +584,6 @@ en:
     responded: Responded
     select_consultee: Select consultee
     sending: Sending
-  consultee_status_component:
-    amendments_needed: Amendments needed
-    approved: Approved
-    awaiting_response: Awaiting response
-    consulted_on: Consulted on
-    email_address: Email address
-    failed: Failed
-    heading: Consultee
-    last_received_on: Last received on
-    name: Name
-    not_consulted: Not consulted
-    objected: Objected
-    organisation: Organisation
-    role: Role
-    sending: Sending
-    status: Status
   consultee_summary_component:
     amendments_needed: Amendments needed
     approved: Approved
@@ -2012,6 +1996,7 @@ en:
       review_application: Review
   status_tag_component:
     accepted: Printing
+    amendments_needed: Amendments needed
     approved: Accepted
     auto_approved: Auto accepted
     awaiting_determination: Awaiting determination
@@ -2030,6 +2015,7 @@ en:
     neutral: Neutral
     new: New
     not_cil_liable: Not liable
+    not_consulted: Not consulted
     not_required: Not required
     not_started: Not started
     objection: Objection
@@ -2043,6 +2029,7 @@ en:
     review_complete: Completed
     review_in_progress: In progress
     review_not_started: Not started
+    sending: Sending
     submitted: Submitted
     supportive: Supportive
     technical_failure: Technical failure

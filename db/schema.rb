@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_22_110154) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -648,7 +648,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
     t.geography "neighbour_boundary_geojson", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
     t.string "documents_status", default: "not_started", null: false
     t.datetime "in_committee_at"
-    t.boolean "consultees_checked", default: false, null: false
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
@@ -753,6 +752,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_18_165641) do
     t.string "review_status", default: "review_not_started", null: false
     t.boolean "reviewer_edited", default: false, null: false
     t.jsonb "specific_attributes"
+    t.boolean "consultees_checked", default: false, null: false
     t.index ["assessor_id"], name: "ix_reviews_on_assessor_id"
     t.index ["owner_type", "owner_id"], name: "index_reviews_on_reviewable"
     t.index ["reviewer_id"], name: "ix_reviews_on_reviewer_id"

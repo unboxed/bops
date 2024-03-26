@@ -47,6 +47,8 @@ RSpec.describe "checking consultees", js: true do
   end
 
   it "allows assessor to mark as checked" do
+    expect(page).to have_link("Check consultees consulted")
+    expect(page).to have_selector("#check-consultees-consulted > strong", text: "Not started")
     click_link "Check consultees consulted"
 
     within ".govuk-table" do
@@ -54,10 +56,6 @@ RSpec.describe "checking consultees", js: true do
     end
 
     click_button "Confirm as checked"
-
-    expect(page).to have_link("Check and assess")
-
-    click_link("Check and assess")
 
     expect(page).to have_selector("#check-consultees-consulted > strong", text: "Completed")
   end

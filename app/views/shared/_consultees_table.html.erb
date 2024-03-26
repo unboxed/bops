@@ -20,7 +20,7 @@
       </td>
       <td class="govuk-table__cell">
         <% if constraint.consultee.present? %>
-          <%= render ConsulteeStatusComponent.new(consultee: constraint.consultee) %>
+          <%= render StatusTags::BaseComponent.new(status: constraint.consultee.status) %>
         <% else %>
           <span class="govuk-tag govuk-tag--grey"><%= "Not assigned" %></span>
         <% end %>
@@ -34,7 +34,7 @@
         <%= consultee.name %>
       </td>
       <td class="govuk-table__cell">
-        <%= render ConsulteeStatusComponent.new(consultee: consultee) %>
+        <%= render StatusTags::BaseComponent.new(status: consultee.status) %>
       </td>
     </tr>
   <% end %>

@@ -13,6 +13,12 @@ module PlanningApplications
           format.html
         end
       end
+
+      def check
+        @consultation.create_assessor_consultee_review
+
+        redirect_to planning_application_assessment_tasks_path(@planning_application)
+      end
     end
   end
 end
