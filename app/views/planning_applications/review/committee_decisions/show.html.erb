@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Committee Decision - <%= t('page_title') %>
+  Recommendation to committee - <%= t('page_title') %>
 <% end %>
 
 <%= render(
@@ -7,11 +7,11 @@
   locals: { planning_application: @planning_application  }
 ) %>
 
-<% content_for :title, "Committee Decision" %>
+<% content_for :title, "Recommendation to committee" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Committee Decision" }
+  locals: { heading: "Recommendation to committee" }
 ) %>
 
 <div class="govuk-grid-row">

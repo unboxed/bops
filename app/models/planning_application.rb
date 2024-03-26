@@ -872,6 +872,25 @@ class PlanningApplication < ApplicationRecord
     committee_decision.present? && committee_decision.recommend?
   end
 
+  def recommendation_options
+    prior_approval? ? prior_approval_decisions : granted_and_refused
+  end
+
+  def granted_and_refused
+    [
+      [:refused, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type.name}.refused")],
+      [:granted, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type.name}.granted")]
+    ]
+  end
+
+  def prior_approval_decisions
+    granted_and_refused.push(granted_not_required)
+  end
+
+  def granted_not_required
+    [:granted_not_required, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type.name}.granted_not_required")]
+  end
+
   private
 
   def create_fee_calculation

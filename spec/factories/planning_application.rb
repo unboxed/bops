@@ -110,7 +110,7 @@ FactoryBot.define do
       decision { "granted" }
 
       after(:create) do |pa|
-        create(:committee_decision, planning_application: pa, recommend: true, reasons: ["The first reason"])
+        create(:committee_decision, planning_application: pa, recommend: true, reasons: ["The first reason"], location: "Unboxed", time: "7.30pm", link: "unboxed.co", late_comments_deadline: 1.week.from_now, date_of_committee: 1.week.from_now)
         create(:recommendation, :reviewed, challenged: false, planning_application: pa, reviewer_comment: nil)
       end
     end

@@ -53,7 +53,7 @@ class RecommendationForm
   end
 
   def decisions
-    pa? ? prior_approval_decisions : granted_and_refused
+    planning_application.recommendation_options
   end
 
   def decisions_text
@@ -75,25 +75,6 @@ class RecommendationForm
   end
 
   private
-
-  def pa?
-    application_type_name == "prior_approval"
-  end
-
-  def granted_and_refused
-    [
-      [:refused, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type_name}.refused")],
-      [:granted, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type_name}.granted")]
-    ]
-  end
-
-  def prior_approval_decisions
-    granted_and_refused.push(granted_not_required)
-  end
-
-  def granted_not_required
-    [:granted_not_required, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type_name}.granted_not_required")]
-  end
 
   def committee_decision_present?
     planning_application.committee_decision.present?

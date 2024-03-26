@@ -59,17 +59,26 @@
         </div>
       <% end %>
 
+      <h2 class="govuk-heading-m">Add Committee recommendation</h2>
+
+      <%= render "shared/warning_text", message: "This information will appear on the decision notice." %>
+
+      <p class="govuk-body">
+        This will be reviewed before a decision is published.
+      </p>
+
       <%= form.govuk_collection_radio_buttons(
         :decision,
-        ["granted", "refused"],
-        :to_s,
-        :humanize,
-        legend: { text: "What was the committee's decision?", size: "s" }
+        @planning_application.recommendation_options,
+        :first,
+        :second,
+        legend: { text: "Enter Committee recommendation", size: "s" },
+        hint: {}
       ) %>
       <div class="govuk-form-group">
         <%= form.govuk_text_area(
           :public_comment,
-          label: { text: "Public comment" },
+          label: { text: "Enter the Committee's reasons for this recommendation" },
           rows: 9
         ) %>
       </div>

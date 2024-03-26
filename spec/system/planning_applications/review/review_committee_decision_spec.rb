@@ -30,11 +30,11 @@ RSpec.describe "Review committee decision" do
     visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
 
     expect(page).to have_list_item_for(
-      "Committee decision",
+      "Recommendation to committee",
       with: "Not started"
     )
 
-    click_link "Committee decision"
+    click_link "Recommendation to committee"
 
     expect(page).to have_content "The case officer has marked this application as requiring decision by Committee for the following reasons:"
     expect(page).to have_content "The first reason"
@@ -46,7 +46,7 @@ RSpec.describe "Review committee decision" do
     expect(page).to have_content "Review of committee decision recommendation updated successfully"
 
     expect(page).to have_list_item_for(
-      "Committee decision",
+      "Recommendation to committee",
       with: "Completed"
     )
   end
@@ -55,11 +55,11 @@ RSpec.describe "Review committee decision" do
     visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
 
     expect(page).to have_list_item_for(
-      "Committee decision",
+      "Recommendation to committee",
       with: "Not started"
     )
 
-    click_link "Committee decision"
+    click_link "Recommendation to committee"
 
     expect(page).to have_content "The case officer has marked this application as requiring decision by Committee for the following reasons:"
     expect(page).to have_content "The first reason"
@@ -73,7 +73,7 @@ RSpec.describe "Review committee decision" do
     expect(page).to have_content "Review of committee decision recommendation updated successfully"
 
     expect(page).to have_list_item_for(
-      "Committee decision",
+      "Recommendation to committee",
       with: "Completed"
     )
 
@@ -111,11 +111,11 @@ RSpec.describe "Review committee decision" do
     click_link "Review and sign-off"
 
     expect(page).to have_list_item_for(
-      "Committee decision",
+      "Recommendation to committee",
       with: "Not started"
     )
 
-    click_link "Committee decision"
+    click_link "Recommendation to committee"
 
     expect(page).to have_content "The case officer has marked this application as not requiring decision by Committee."
 
@@ -126,7 +126,7 @@ RSpec.describe "Review committee decision" do
     expect(page).to have_content "Review of committee decision recommendation updated successfully"
 
     expect(page).to have_list_item_for(
-      "Committee decision",
+      "Recommendation to committee",
       with: "Completed"
     )
   end

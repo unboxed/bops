@@ -2538,4 +2538,34 @@ RSpec.describe PlanningApplication do
       end
     end
   end
+
+  describe "#recommendation_options" do
+    context "when householder" do
+      let(:planning_application) { create(:planning_application, :planning_permission) }
+
+      it "returns the right options" do
+        expect(planning_application.recommendation_options).to include([:granted, "Granted"], [:refused, "Refused"])
+      end
+    end
+
+    context "when LDC" do
+      let(:planning_application) { create(:planning_application, :lawfulness_certificate) }
+
+      it "returns the right options" do
+        expect(planning_application.recommendation_options).to include([:granted, "Yes"], [:refused, "No"])
+      end
+    end
+
+    context "when prior approval" do
+      let(:planning_application) { create(:planning_application, :prior_approval) }
+
+      it "returns the right options" do
+        expect(planning_application.recommendation_options).to include(
+          [:refused, "Prior approval required and refused"],
+          [:granted, "Prior approval required and approved"],
+          [:granted_not_required, "Prior approval not required"]
+        )
+      end
+    end
+  end
 end

@@ -5,7 +5,7 @@
   partial: "shared/review_task_breadcrumbs",
   locals: {
     planning_application: @planning_application,
-    current_page: t(".recommendation")
+    current_page: t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.sign_off_recommendation")
   }
 ) %>
 

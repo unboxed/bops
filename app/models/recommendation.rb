@@ -45,8 +45,6 @@ class Recommendation < ApplicationRecord
 
       if challenged?
         planning_application.request_correction!(reviewer_comment) unless committee_overturned?
-      elsif planning_application.committee_decision&.recommend? && planning_application.awaiting_determination?
-        planning_application.send_to_committee!
       else
         planning_application.submit! if planning_application.in_committee?
         audit!(activity_type: "approved", audit_comment: reviewer_comment)

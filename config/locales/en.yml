@@ -1489,7 +1489,7 @@ en:
           edit_information_on: Edit information on the decision notice
           in_committee:
             recommendation: Committee recommendation
-            sign_off_recommendation: Add committee decision
+            sign_off_recommendation: Update decision notice after committee
           not_in_committee:
             recommendation: Assessor recommendation
             sign_off_recommendation: Sign off recommendation
@@ -1528,7 +1528,7 @@ en:
               granted: Prior approval required and approved
               granted_not_required: Prior approval not required
               refused: Prior approval required and refused
-          make_draft_recommendation: Add committee decision details
+          make_draft_recommendation: Update decision notice after committee details
         update:
           success: Recommendation was successfully reviewed.
       tasks:
@@ -2093,7 +2093,7 @@ en:
       assessment_details_component:
         review_assessment_summaries: Review assessment summaries
       committee_component:
-        link_text: Committee decision
+        link_text: Recommendation to committee
       condition_component:
         link_text: Review conditions
       documents_component:
