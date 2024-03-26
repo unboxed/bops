@@ -776,13 +776,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def check_publicity?
-    return unless application_type.publicity_consultation_feature?
-
-    application_type.assessment_details.include?("check_publicity")
+    application_type.publicity_consultation_feature?
   end
 
   def check_permitted_development_rights?
-    application_type.features.permitted_development_rights?
+    application_type.permitted_development_rights?
   end
 
   def review_permitted_development_rights?
