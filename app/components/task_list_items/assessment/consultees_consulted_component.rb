@@ -12,7 +12,7 @@ module TaskListItems
       attr_reader :planning_application
 
       def link_text
-        "Check consultees consulted"
+        t(".consultees_consulted")
       end
 
       def link_path

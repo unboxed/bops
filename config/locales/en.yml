@@ -2061,6 +2061,8 @@ en:
         past_applications: History (manual)
         site_description: Site description
         summary_of_work: Summary of works
+      consultees_consulted_component:
+        consultees_consulted: Check consultees consulted
       immunity_details_component:
         evidence_of_immunity: Evidence of immunity
       local_policy_component:

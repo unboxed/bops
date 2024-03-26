@@ -404,7 +404,7 @@ class Consultation < ApplicationRecord
     reviews&.consultees_checked&.any?
   end
 
-  def create_consultees_review
+  def create_consultees_review!
     reviews.create!(assessor: Current.user, owner_type: "Consultation", owner_id: id, specific_attributes: {"review_type" => "consultees_checked"}, status: "complete")
   end
 
