@@ -7,11 +7,11 @@
       locals: {planning_application: @planning_application}
     ) %>
 
-<% content_for :title, "Review pre-commencement conditions" %>
+<% content_for :title, "Review conditions" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: {heading: "Review pre-commencement conditions"}
+      locals: {heading: "Review conditions"}
     ) %>
 
 <div class="govuk-grid-row">
@@ -36,9 +36,9 @@
         <% end %>
       </ol>
     <% else %>
-      <p class="govuk-body">There are no pre-commencement conditions.</p>
+      <p class="govuk-body">There are no conditions.</p>
     <% end %>
 
-    <%= render "form", disabled: review_complete? %>
+    <%= render "form", disabled: false %>
   </div>
 </div>
