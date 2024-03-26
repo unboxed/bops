@@ -752,7 +752,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_110154) do
     t.string "review_status", default: "review_not_started", null: false
     t.boolean "reviewer_edited", default: false, null: false
     t.jsonb "specific_attributes"
-    t.boolean "consultees_checked", default: false, null: false
     t.index ["assessor_id"], name: "ix_reviews_on_assessor_id"
     t.index ["owner_type", "owner_id"], name: "index_reviews_on_reviewable"
     t.index ["reviewer_id"], name: "ix_reviews_on_reviewer_id"

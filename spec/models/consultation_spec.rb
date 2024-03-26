@@ -16,7 +16,7 @@ RSpec.describe Consultation do
 
     it "returns true when consultees are checked" do
       consultation.save!
-      consultation.create_assessor_consultee_review
+      consultation.create_consultees_review
       expect(consultation.reviews.present?).to be(true)
     end
   end

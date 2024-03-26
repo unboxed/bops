@@ -19,8 +19,16 @@ module TaskListItems
         planning_application_assessment_consultees_path(planning_application)
       end
 
+      def status
+        if @planning_application.consultation&.consultees_checked?
+          :complete
+        else
+          :not_started
+        end
+      end
+
       def status_tag_component
-        StatusTags::ConsulteesConsultedComponent.new(planning_application:)
+        StatusTags::BaseComponent.new(status:)
       end
     end
   end

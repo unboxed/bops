@@ -15,9 +15,11 @@ module PlanningApplications
       end
 
       def check
-        @consultation.create_assessor_consultee_review
-
-        redirect_to planning_application_assessment_tasks_path(@planning_application)
+        if @consultation.create_consultees_review
+          redirect_to planning_application_assessment_tasks_path(@planning_application)
+        else
+          flash.now(alert: "Consultees were not marked as checked for this application")
+        end
       end
     end
   end
