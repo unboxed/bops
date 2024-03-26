@@ -450,6 +450,7 @@ en:
       replacement_document_validation_request_sent: 'Sent: validation request (replacement document#%{args})'
       replacement_document_validation_request_sent_post_validation: 'Sent: Post-validation request (replacement document#%{args})'
       returned: Application returned
+      review_cil_liability: 'Reviewed: CIL liability'
       sent_to_committee: Application sent to committee
       site_notice_created: Site notice created
       started: Application validated
@@ -1371,6 +1372,9 @@ en:
           assessor_remarks: Assessor's remarks
           review_assessment_summaries: Review assessment summaries
           this_information_will: This information will be made publicly available.
+      cil_liability:
+        update:
+          success: Review of CIL liability successfully updated
       committee_decisions:
         update:
           success: Review of committee decision recommendation updated successfully

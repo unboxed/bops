@@ -1,0 +1,53 @@
+<% content_for :page_title do %>
+  CIL Liability - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/review_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title, "Check Community Infrastructure Levy (CIL)" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Check Community Infrastructure Levy (CIL)" }
+    ) %>
+
+<p class="govuk-body">
+  <% if @planning_application.cil_liability_planx_answer? %>
+      According to PlanX the new floor area being added is:
+      <strong><%= @planning_application.cil_liability_proposal_detail.response_values.to_sentence %></strong>.
+      <br>
+      This might mean that the application is
+      <% unless @planning_application.likely_cil_liable? %>
+        not
+      <% end %>
+      liable for CIL.
+  <% else %>
+    No information on potential CIL liability from PlanX.
+  <% end %>
+</p>
+
+<%= render "audit_trail" %>
+
+<%= form_with model: [@planning_application],
+              url: planning_application_review_cil_liability_url(@planning_application),
+              class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.hidden_field :cil_liable, value: @planning_application.cil_liable %>
+
+  <div class="govuk-button-group">
+    <% unless @planning_application.audits.review_cil_liability.any? %>
+      <%= form.submit(
+        t("form_actions.save_and_mark_as_complete"),
+        class: "govuk-button",
+        data: { module: "govuk-button" },
+        disabled: local_assigns.fetch(:disabled, false)
+      ) %>
+    <% end %>
+    <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <%= link_to "Change CIL liability", edit_planning_application_review_cil_liability_path(@planning_application), class: "govuk-link govuk-body" %>
+  </div>
+<% end %>
+
+

@@ -1,0 +1,18 @@
+<div class="govuk-inset-text">
+  <p class="govuk-body">
+    <% if @planning_application.audits.review_cil_liability.any? %>
+      <% @planning_application.audits.review_cil_liability.each do |audit| %>
+        <p class="govuk-body">
+          <strong><%= audit.created_at.to_fs %></strong><br>
+          <%= audit.activity_information %>. <%= audit.audit_comment %>
+        </p>
+      <% end %>
+    <% else %>
+      <% if @planning_application.cil_liable.nil? %>
+        The validation officer did not confirm whether the application is liable for CIL.
+      <% else %>
+        The validation officer marked this application as <%= "not" unless @planning_application.cil_liable %> liable for CIL.
+      <% end %>
+    <% end %>
+  </p>
+</div>

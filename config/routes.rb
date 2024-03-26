@@ -253,6 +253,8 @@ Rails.application.routes.draw do
 
           resources :tasks, only: :index
 
+          resource :cil_liability, only: %i[edit update show], controller: :cil_liability
+
           resources :committee_decisions, only: %i[edit show update] do
             resources :notifications do
               get :edit, on: :collection
