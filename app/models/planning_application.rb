@@ -891,6 +891,15 @@ class PlanningApplication < ApplicationRecord
     [:granted_not_required, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type.name}.granted_not_required")]
   end
 
+  def user_friendly_recommendation
+    I18n.t(".planning_applications.decisions.#{decision}")
+  end
+
+  def committee_details_filled?
+    committee_decision.recommend? &&
+      committee_decision.all_details_present?
+  end
+
   private
 
   def create_fee_calculation

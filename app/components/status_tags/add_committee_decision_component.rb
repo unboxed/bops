@@ -13,7 +13,7 @@ module StatusTags
     delegate :recommendation, to: :planning_application
 
     def status
-      if (planning_application.awaiting_determination? || planning_application.to_be_reviewed?) && planning_application.committee_decision.recommend? && planning_application.committee_decision.location.present?
+      if (planning_application.awaiting_determination? || planning_application.to_be_reviewed?) && planning_application.committee_details_filled?
         :complete
       else
         :not_started

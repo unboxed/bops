@@ -1,0 +1,30 @@
+# Town and Country Planning Act 1990
+
+Dear <%= @planning_application.applicant_name %>
+
+Application number: <%= @planning_application.reference_in_full %>
+
+Site address: <%= @planning_application.full_address %>
+
+This application is scheduled to be determined by <%= @planning_application.local_authority.short_name %>'s Planning Committee. If you would like to speak at the meeting you will need to send a request in advance. Find out more at the link below.
+
+## Meeting details
+
+Date: <%= @planning_application.committee_decision.date_of_committee.to_date.to_fs %>
+Start time: <%= @planning_application.committee_decision.time %>
+Location: <%= @planning_application.committee_decision.location %>
+
+Please visit <%= @planning_application.committee_decision.link %> to: 
+
+* read more about how meetings are run
+* find out how to request to speak at the meeting
+* view the agenda
+* find out if you can join the meeting online
+
+The recommendation for this application is <%= @planning_application.user_friendly_recommendation %>
+
+Yours
+
+<%= @planning_application.user&.name || @user.name %>
+Case officer
+<%= @planning_application.user&.email || @user.email %>

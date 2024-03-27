@@ -1453,4 +1453,75 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
     end
   end
+
+  describe "#send_committee_decision_mail" do
+    let!(:local_authority) do
+      create(
+        :local_authority,
+        :default
+      )
+    end
+    let!(:committee_decision) do
+      create(
+        :committee_decision,
+        planning_application:,
+        recommend: true,
+        reasons: ["Council owned land"],
+        location: "Unboxed consulting",
+        link: "unboxed.co",
+        time: "7:30pm",
+        late_comments_deadline: 1.day.from_now,
+        date_of_committee: 1.day.from_now
+      )
+    end
+
+    let(:send_committee_decision_mail) do
+      described_class.send_committee_decision_mail(planning_application, reviewer)
+    end
+
+    let(:mail_body) { send_committee_decision_mail.body.encoded }
+
+    before do
+      planning_application.update(decision: "granted")
+    end
+
+    it "emails the applicant" do
+      expect(send_committee_decision_mail.to).to eq(["cookie_crackers@example.com"])
+    end
+
+    it "sets the subject" do
+      expect(send_committee_decision_mail.subject).to eq(
+        "Notification of Planning Committee Meeting"
+      )
+    end
+
+    it "includes the reference" do
+      travel_to("2022-01-01") do
+        expect(mail_body).to include(
+          "Application number: PlanX-24-00100-LDCP"
+        )
+      end
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "Site address: 123 High Street, Big City, AB3 4EF"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "This application is scheduled to be determined by #{local_authority.short_name}'s Planning Committee"
+      )
+      expect(mail_body).to include(
+        "Date: #{1.day.from_now.to_date.to_fs}"
+      )
+      expect(mail_body).to include(
+        "Start time: 7:30pm"
+      )
+      expect(mail_body).to include(
+        "The recommendation for this application is to Grant Permission"
+      )
+    end
+  end
 end

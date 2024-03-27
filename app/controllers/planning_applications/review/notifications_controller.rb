@@ -21,6 +21,7 @@ module PlanningApplications
         ActiveRecord::Base.transaction do
           update_committee_decision!
           deliver_letters!
+          send_email_to_applicant!
           record_audit_for_letters_sent!
           @planning_application.send_to_committee! unless @planning_application.in_committee?
         end
@@ -47,6 +48,10 @@ module PlanningApplications
             LetterSendingService.new(neighbour, @committee_decision.notification_content, letter_type: :committee).deliver!
           end
         end
+      end
+
+      def send_email_to_applicant!
+        PlanningApplicationMailer.send_committee_decision_mail(@planning_application, Current.user)
       end
 
       private

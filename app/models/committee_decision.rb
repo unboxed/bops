@@ -74,6 +74,14 @@ class CommitteeDecision < ApplicationRecord
     reviews.order(:created_at).last
   end
 
+  def all_details_present?
+    location.present? &&
+      link.present? &&
+      time.present? &&
+      date_of_committee.present? &&
+      late_comments_deadline.present?
+  end
+
   private
 
   def assigned_officer
