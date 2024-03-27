@@ -36,6 +36,10 @@ class HeadsOfTerm < ApplicationRecord
     validation_requests.requests_created_later(current_review).any? { |validation_request| !validation_request.approved.nil? }
   end
 
+  def create_heads_of_terms_review!
+    reviews.create!(reviewer: Current.user, owner_type: "Heads of Term", owner_id: id, specific_attributes: {"review_type" => "heads_of_term"}, status: "complete")
+  end
+
   private
 
   def should_create_review?
