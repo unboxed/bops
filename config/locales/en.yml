@@ -1381,6 +1381,8 @@ en:
       documents:
         update:
           success: Documents were successfully updated.
+      heads_of_terms:
+        successfully_updated: Review heads of terms was successfully updated
       immunity_details:
         successfully_updated: Review immunity details was successfully updated
       neighbour_responses:
@@ -1932,6 +1934,9 @@ en:
     conditions:
       update:
         success: Review conditions successfully updated
+    heads_of_terms:
+      update:
+        success: Review heads of terms successfully updated
   review_assessment_details:
     saved: Review saved
   review_immunity_enforcements:
@@ -2098,6 +2103,8 @@ en:
         link_text: Review conditions
       documents_component:
         review_documents_for: Review documents for recommendation
+      heads_of_terms_component:
+        heads_of_terms: Review heads of terms
       immunity_details_component:
         evidence_of_immunity: Review evidence of immunity
       immunity_enforcement_component:

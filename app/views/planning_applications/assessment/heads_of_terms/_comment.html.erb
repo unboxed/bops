@@ -1,0 +1,9 @@
+<% if review.comment? %>
+  <div class="govuk-inset-text" id="reviewer_comment">
+    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+      Reviewer comment:
+    </p>
+    <p class="govuk-body govuk-!-margin-top-1"><%= review.reviewed_at.to_fs %></p>
+    <p class="govuk-body italic"><%=  review.comment %></p>
+  </div>
+<% end %>

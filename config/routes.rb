@@ -244,6 +244,12 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :heads_of_terms do
+            get :edit, on: :collection
+            get :show, on: :collection
+            patch :update, on: :collection
+          end
+
           resources :immunity_details, only: %i[edit update show]
 
           resources :immunity_enforcements, only: %i[show edit update]

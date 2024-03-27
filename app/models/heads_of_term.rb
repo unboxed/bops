@@ -9,7 +9,7 @@ class HeadsOfTerm < ApplicationRecord
   accepts_nested_attributes_for :terms, allow_destroy: true
   accepts_nested_attributes_for :reviews
 
-  after_update :create_review, if: :should_create_review?
+  after_update :create_heads_of_terms_review!, if: :should_create_review?
 
   def current_review
     reviews.order(:created_at).last
@@ -36,14 +36,18 @@ class HeadsOfTerm < ApplicationRecord
     validation_requests.requests_created_later(current_review).any? { |validation_request| !validation_request.approved.nil? }
   end
 
+  def create_heads_of_terms_review!
+    reviews.create!(reviewer: Current.user, owner_id: id, specific_attributes: {"review_type" => "heads_of_term"}, status: "complete")
+  end
+
   private
 
   def should_create_review?
     return if current_review.nil?
     current_review.status == "updated" && current_review.review_status == "to_be_reviewed"
   end
-
-  def create_review
-    reviews.create(assessor: Current.user, status: "complete")
-  end
+  #
+  # def create_review
+  #   reviews.create(assessor: Current.user, status: "complete")
+  # end
 end
