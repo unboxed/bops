@@ -22,7 +22,7 @@
         <% if constraint.consultee.present? %>
           <%= render StatusTags::BaseComponent.new(status: constraint.consultee.status) %>
         <% else %>
-          <span class="govuk-tag govuk-tag--grey"><%= "Not assigned" %></span>
+          <span class="govuk-tag govuk-tag--grey app-task-list__task-tag"><%= "Not assigned" %></span>
         <% end %>
       </td>
     </tr>
