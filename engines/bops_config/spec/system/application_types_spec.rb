@@ -108,6 +108,17 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
 
     expect(page).to have_content("Document tags successfully updated")
 
+    # Set decisions
+    expect(page).to have_selector("h1", text: "Choose decisions")
+    click_button "Continue"
+
+    expect(page).to have_content("Decisions can't be blank")
+
+    check "Granted"
+    check "Refused"
+    click_button "Continue"
+    expect(page).to have_content("Decisions successfully updated")
+
     # Review application type
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(1) dd", text: "Planning Permission - Major application")
@@ -123,6 +134,7 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     expect(page).to have_selector("dl div:nth-child(8) dd span:nth-child(1)", text: "Environmental Impact Assessment (EIA)")
     expect(page).to have_selector("dl div:nth-child(8) dd span:nth-child(2)", text: "Sustainability statement")
     expect(page).to have_selector("dl div:nth-child(9) dd", text: "Inactive")
+    expect(page).to have_selector("dl div:nth-child(10) dd", text: "Granted, Refused")
   end
 
   it "allows editing of an inactive application type" do

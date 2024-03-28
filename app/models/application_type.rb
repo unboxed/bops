@@ -9,6 +9,7 @@ class ApplicationType < ApplicationRecord
   attribute :legislation_type, :string, default: "existing"
   attribute :document_tags, ApplicationTypeDocumentTags.to_type
   attribute :features, ApplicationTypeFeature.to_type
+  attribute :decision_set, ApplicationTypeDecisionSet.to_type
 
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
@@ -22,6 +23,7 @@ class ApplicationType < ApplicationRecord
   validates :name, :code, :suffix, presence: true
   validates :code, :suffix, uniqueness: true
   validates :features, store_model: {merge_errors: true}
+  validates :decision_set, store_model: {merge_errors: true}
 
   with_options allow_blank: true do
     validates :code, inclusion: {in: ODP_APPLICATION_TYPES.keys}

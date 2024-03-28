@@ -73,6 +73,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_110154) do
     t.integer "determination_period_days"
     t.bigint "legislation_id"
     t.boolean "configured", default: false, null: false
+    t.jsonb "decision_set", default: {}, null: false
     t.index ["code"], name: "ix_application_types_on_code", unique: true
     t.index ["legislation_id"], name: "ix_application_types_on_legislation_id"
     t.index ["suffix"], name: "ix_application_types_on_suffix", unique: true

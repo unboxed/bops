@@ -74,6 +74,7 @@ application_types = [
     code: "ldc.existing",
     suffix: "LDCE",
     steps: %w[validation assessment review],
+    decision_set: {decisions: %w[granted refused]},
     assessment_details: %w[
       summary_of_work
       site_description
@@ -93,6 +94,7 @@ application_types = [
     code: "ldc.proposed",
     suffix: "LDCP",
     steps: %w[validation assessment review],
+    decision_set: {decisions: %w[granted refused]},
     assessment_details: %w[
       summary_of_work
       site_description
@@ -113,6 +115,7 @@ application_types = [
     suffix: "PA",
     features: {"site_visits" => true},
     steps: %w[validation consultation assessment review],
+    decision_set: {decisions: %w[granted granted_not_required refused]},
     assessment_details: %w[
       summary_of_work
       site_description
@@ -135,6 +138,7 @@ application_types = [
     suffix: "HAPP",
     features: {"permitted_development_rights" => false, "site_visits" => true},
     steps: %w[validation consultation assessment review],
+    decision_set: {decisions: %w[granted refused]},
     assessment_details: %w[
       summary_of_work
       site_description
@@ -156,6 +160,7 @@ application_types = [
     suffix: "HRET",
     features: {"permitted_development_rights" => false, "site_visits" => true},
     steps: %w[validation consultation assessment review],
+    decision_set: {decisions: %w[granted refused]},
     assessment_details: %w[
       summary_of_work
       site_description

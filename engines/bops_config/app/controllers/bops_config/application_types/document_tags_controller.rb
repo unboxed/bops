@@ -43,7 +43,11 @@ module BopsConfig
       end
 
       def next_path
-        application_type_path(@application_type)
+        if @application_type.decision_set?
+          application_type_path(@application_type)
+        else
+          edit_application_type_decision_set_path(@application_type)
+        end
       end
     end
   end
