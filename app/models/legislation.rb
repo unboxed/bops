@@ -7,6 +7,8 @@ class Legislation < ApplicationRecord
   validates :title, uniqueness: true
   validates :link, url: true
 
+  attr_readonly :title
+
   class << self
     def by_title
       order(:title)

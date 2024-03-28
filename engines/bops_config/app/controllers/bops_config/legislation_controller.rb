@@ -2,15 +2,31 @@
 
 module BopsConfig
   class LegislationController < ApplicationController
+    before_action :build_legislation, only: %i[new create]
+    before_action :set_legislations, only: %i[index]
+    before_action :set_legislation, only: %i[edit update]
+
     def index
       respond_to do |format|
         format.html
       end
     end
 
-    def show
+    def new
       respond_to do |format|
         format.html
+      end
+    end
+
+    def create
+      @legislation.attributes = legislation_params
+
+      respond_to do |format|
+        if @legislation.save
+          format.html { redirect_to legislation_index_path, notice: t(".success") }
+        else
+          format.html { render :new }
+        end
       end
     end
 
@@ -22,8 +38,36 @@ module BopsConfig
 
     def update
       respond_to do |format|
-        format.html
+        if @legislation.update(legislation_params)
+          format.html do
+            redirect_to legislation_index_path, notice: t(".success")
+          end
+        else
+          format.html { render :edit }
+        end
       end
+    end
+
+    private
+
+    def set_legislations
+      @legislations = Legislation.all
+    end
+
+    def set_legislation
+      @legislation = Legislation.find(params[:id])
+    end
+
+    def build_legislation
+      @legislation = Legislation.new
+    end
+
+    def legislation_params
+      params.require(:legislation).permit(*legislation_attributes)
+    end
+
+    def legislation_attributes
+      %i[title description link]
     end
   end
 end

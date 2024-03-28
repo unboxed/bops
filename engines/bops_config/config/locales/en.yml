@@ -141,3 +141,30 @@ en:
         'true': 'Yes'
       update:
         user_successfully_updated: User successfully updated
+    legislation:
+      create:
+        success: Legislation successfully created
+      edit:
+        legislation: Edit legislation
+      form:
+        back: Back
+        save: Save
+        legislation_description_hint: Enter an optional description
+        legislation_description_label: Description
+        legislation_link_hint: Enter an optional link to legislation.gov.uk
+        legislation_link_label: Link
+        legislation_title_hint: Enter a title – this is usually the name of the act and the relevant section
+        legislation_title_label: Title
+      index:
+        create_new_legislation: Create new legislation
+        title: Legislation
+      new:
+        legislation: Add new legislation
+      table:
+        action: Action
+        title: Title
+        link: Link
+        description: Description
+        view_and_or_edit: View and/or edit
+      update:
+        success: Legislation successfully updated
