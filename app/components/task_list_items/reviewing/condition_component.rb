@@ -15,11 +15,19 @@ module TaskListItems
       delegate :planning_application, to: :condition_set
 
       def link_text
-        t(".link_text")
+        if @condition_set.pre_commencement?
+          t(".pre_commencement.link_text")
+        else
+          t(".link_text")
+        end
       end
 
       def link_path
-        planning_application_review_conditions_path(planning_application)
+        if @condition_set.pre_commencement?
+          planning_application_review_pre_commencement_conditions_path(planning_application)
+        else
+          planning_application_review_conditions_path(planning_application)
+        end
       end
 
       def status_tag_component

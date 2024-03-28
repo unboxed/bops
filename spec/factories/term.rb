@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :term do
     title { "Time limit" }
-    text { "The development herby permitted shall be commenced within three years of the date of this permission." }
+    text { "The development hereby permitted shall be commenced within three years of the date of this permission." }
 
     heads_of_term
 
