@@ -11,7 +11,11 @@ module StatusTags
     attr_reader :planning_application
 
     def status
-      planning_application.decision&.to_sym
+      if planning_application.heads_of_term&.terms&.any?
+        :"#{planning_application.decision}_legal_agreement"
+      else
+        planning_application.decision&.to_sym
+      end
     end
 
     def task_list?
