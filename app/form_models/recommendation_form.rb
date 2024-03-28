@@ -57,11 +57,11 @@ class RecommendationForm
   end
 
   def decisions_text
-    I18n.t(".planning_applications.assessment.recommendations.new.is_the_use.#{application_type_name}")
+    I18n.t(".planning_applications.assessment.recommendations.new.is_the_use")
   end
 
   def reason_text
-    I18n.t(".planning_applications.assessment.recommendations.new.state_the_reason.#{application_type_name}")
+    I18n.t(".planning_applications.assessment.recommendations.new.state_the_reason")
   end
 
   def committee_decision
