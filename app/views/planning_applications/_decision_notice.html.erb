@@ -1,5 +1,10 @@
 <div class="decision-notice">
   <div class="decision-notice-main-section">
+    <% unless planning_application.determined? %>
+      <span class="govuk-tag govuk-tag--yellow app-task-list__task-tag">
+        Draft
+      </span>
+    <% end %>
     <span class="govuk-caption-xl">
       <%= planning_application.local_authority.council_name %>
     </span>

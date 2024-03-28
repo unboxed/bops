@@ -87,6 +87,7 @@ RSpec.describe "Planning Application Assessment" do
 
       click_link("Check and assess")
       click_link("Review and submit recommendation")
+      expect(page).to have_content "Draft"
       click_button("Submit recommendation")
 
       visit "/planning_applications/#{planning_application.id}"
