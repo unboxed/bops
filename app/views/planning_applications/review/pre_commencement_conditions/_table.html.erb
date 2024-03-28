@@ -5,12 +5,12 @@
       <li>
         <p class="govuk-body govuk-!-margin-bottom-2">
           <% if condition.title? %>
-            <span class="govuk-!-font-weight-bold"><%= condition.title %></span><br>
+            <strong class="govuk-!-font-weight-bold"><%= condition.title %></strong><br>
             <%= render(FormattedContentComponent.new(text: condition.text)) %>
           <% else %>
-            <span class="govuk-!-font-weight-bold">
+            <strong class="govuk-!-font-weight-bold">
               <%= render(FormattedContentComponent.new(text: condition.text)) %>
-            </span>
+            </strong>
           <% end %>
         </p>
         <p class="govuk-body">
