@@ -235,8 +235,8 @@ RSpec.describe "Permitted development right" do
 
           click_button("Save and mark as complete")
           click_link("Make draft recommendation")
-          within_fieldset("Is the use or operation lawful") do
-            choose "Yes"
+          within_fieldset("What is your recommendation?") do
+            choose "Granted"
           end
           click_button("Update assessment")
           click_link("Review and submit recommendation")

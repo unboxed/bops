@@ -101,9 +101,9 @@ en:
         recommendation_form:
           attributes:
             decision:
-              blank: Select an option to record your recommendation
+              blank: Please select an option to record your recommendation
             public_comment:
-              blank: State the reasons why this application is, or is not lawful
+              blank: Please state the reasons for your recommendation
         review_assessment_details_form:
           attributes:
             additional_evidence_entry:
@@ -236,13 +236,13 @@ en:
             base:
               no_boundary_geojson: This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application.
             decision:
-              blank: Select 'refused' or 'granted' to record your recommendation
+              blank: Please select an option to record your recommendation
             payment_amount:
               greater_than_or_equal_to: Payment amount (£) must be greater than or equal to 0
               less_than_or_equal_to: Payment amount (£) must be less than or equal to 1,000,000
               not_a_number: Payment amount must be a number not exceeding 2 decimal places
             public_comment:
-              blank: State the reasons why this application is, or is not lawful
+              blank: Please state the reasons for your recommendation
             review_documents_for_recommendation_status:
               inclusion: "%{attribute} must be Not started, In progress or Complete"
         planning_application_constraints_query:
@@ -1175,8 +1175,8 @@ en:
           assess_recommendation: Assess recommendation
           decision:
             lawfulness_certificate:
-              granted: 'Yes'
-              refused: 'No'
+              granted: Granted
+              refused: Refused
             planning_permission:
               granted: Granted
               refused: Refused
@@ -1185,20 +1185,11 @@ en:
               not_required: Prior approval not required
               refused: Prior approval required and refused
           error: 'Error:'
-          is_the_use:
-            lawfulness_certificate: Is the use or operation lawful?
-            planning_permission: What is your recommendation?
-            prior_approval: What is your recommendation?
+          is_the_use: What is your recommendation?
           make_draft_recommendation: Make draft recommendation
           please_provide_supporting: Provide supporting information for your manager.
-          refer_to_the:
-            lawfulness_certificate: Refer to specific permitted development legislation to support your recommendation.
-            planning_permission: Refer to specific development plan policies you used in your assessment.
-            prior_approval: Refer to specific permitted development legislation, and Local Plan policies in relation to impact on neighbouring amenity.
-          state_the_reason:
-            lawfulness_certificate: State the reasons why this application is, or is not lawful.
-            planning_permission: State the reasons for your recommendation.
-            prior_approval: State the reasons for your recommendation.
+          refer_to_the: Refer to specific development or local plan policies or permitted development legislation to support your recommendation.
+          state_the_reason: State the reasons for your recommendation.
           there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href="%{href}">View all requests</a>.
           this_information_will: This information will appear on the decision notice.
           this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
@@ -1784,32 +1775,8 @@ en:
     summary_component:
       auto_answered: Auto-answered by PlanX
   recommendation:
-    decisions:
-      lawfulness_certificate:
-        granted: The proposal complies due to the following reason(s)
-        refused: The proposal does not comply due to the following reason(s)
-      planning_permission:
-        granted: Permission is granted due to the following reason(s)
-        refused: Permission is refused due to the following reason(s)
-      prior_approval:
-        granted: The proposal complies due to the following reason(s)
-        not_required: The proposal complies due to the following reason(s)
-        refused: The proposal does not comply due to the following reason(s)
-    lawfulness_certificate:
-      granted_html: Certificate of Lawful Use or Development <br> <strong>Granted</strong>
-      refused_html: Certificate of Lawful Use or Development <br> Decision Notice <strong>Refused</strong>
-    planning_permission:
-      granted: Planning permission approved
-      granted_html: "<strong>Planning permission approved</strong>"
-      refused: Planning permission refused
-      refused_html: "<strong>Planning permission refused</strong>"
-    prior_approval:
-      granted: Prior approval required and approved
-      granted_html: "<strong>Prior approval required and approved</strong>"
-      not_required: Prior approval not required
-      not_required_html: "<strong>Prior approval not required</strong>"
-      refused: Prior approval required and refused
-      refused_html: "<strong>Prior approval required and refused</strong>"
+    body: 'The application is %{decision} due to the following reason(s):'
+    title: "%{application_type}: %{decision}"
   reconsult_consultees_component:
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>{{closing_date}}</code></nobr> will be substituted when the email is sent.
     hint: Choosing 'Yes' will allow you to add the reasons why this application is being reconsulted.
@@ -2009,7 +1976,6 @@ en:
     granted: To grant
     granted_legal_agreement: To grant with Legal agreement
     granted_not_required_legal_agreement: Prior approval not required with Legal agreement
-    not_required: Prior approval not required
     in_progress: In progress
     invalid: Invalid
     neutral: Neutral

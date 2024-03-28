@@ -166,7 +166,7 @@ RSpec.describe "Update decision notice after committee" do
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_content "Select 'refused' or 'granted' to record your recommendation"
+        expect(page).to have_content "Please select an option to record your recommendation"
       end
     end
   end

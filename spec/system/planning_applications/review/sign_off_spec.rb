@@ -262,7 +262,7 @@ RSpec.describe "Reviewing sign-off" do
       click_button "Save"
 
       within(".govuk-form-group--error") do
-        expect(page).to have_content("Please state the reasons why this application is, or is not lawful")
+        expect(page).to have_content("Please state the reasons for your recommendation")
       end
 
       fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."

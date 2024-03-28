@@ -100,7 +100,7 @@ RSpec.describe "Planning Application Assessment" do
         click_link("View decision notice")
 
         expect(page).to have_content(
-          "Certificate of Lawful Use or Development Granted"
+          "Lawful Development Certificate - Existing use: Granted"
         )
 
         expect(page).to have_content(planning_application.application_type.legislation_title)
