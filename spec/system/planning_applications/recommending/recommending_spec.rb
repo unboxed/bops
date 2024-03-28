@@ -934,7 +934,7 @@ RSpec.describe "Planning Application Assessment" do
 
           expect(planning_application.recommendations.count).to eq(1)
           expect(planning_application.recommendations.first.assessor_comment).to eq("Edited private assessor comment")
-          expect(planning_application.decision).to eq("granted_not_required")
+          expect(planning_application.decision).to eq("not_required")
           expect(planning_application.public_comment).to eq("This is a new public comment")
 
           click_link "Review and submit recommendation"

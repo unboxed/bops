@@ -1182,7 +1182,7 @@ en:
               refused: Refused
             prior_approval:
               granted: Prior approval required and approved
-              granted_not_required: Prior approval not required
+              not_required: Prior approval not required
               refused: Prior approval required and refused
           error: 'Error:'
           is_the_use:
@@ -1245,7 +1245,7 @@ en:
       zero: "%{count} days overdue"
     decisions:
       granted: to Grant Permission
-      granted_not_required: that Prior Approval should be granted but is not required
+      not_required: that Prior Approval should be granted but is not required
       refused: to Refuse Permission
     determine:
       confirm_press_notice_published_at_html: <a class="govuk-notification-banner__link" href="%{href}">Confirm the press notice published at date</a> before determining the application.
@@ -1527,7 +1527,7 @@ en:
               refused: Refused
             prior_approval:
               granted: Prior approval required and approved
-              granted_not_required: Prior approval not required
+              not_required: Prior approval not required
               refused: Prior approval required and refused
           make_draft_recommendation: Update decision notice after committee details
         update:
@@ -1793,7 +1793,7 @@ en:
         refused: Permission is refused due to the following reason(s)
       prior_approval:
         granted: The proposal complies due to the following reason(s)
-        granted_not_required: The proposal complies due to the following reason(s)
+        not_required: The proposal complies due to the following reason(s)
         refused: The proposal does not comply due to the following reason(s)
     lawfulness_certificate:
       granted_html: Certificate of Lawful Use or Development <br> <strong>Granted</strong>
@@ -1806,8 +1806,8 @@ en:
     prior_approval:
       granted: Prior approval required and approved
       granted_html: "<strong>Prior approval required and approved</strong>"
-      granted_not_required: Prior approval not required
-      granted_not_required_html: "<strong>Prior approval not required</strong>"
+      not_required: Prior approval not required
+      not_required_html: "<strong>Prior approval not required</strong>"
       refused: Prior approval required and refused
       refused_html: "<strong>Prior approval required and refused</strong>"
   reconsult_consultees_component:
@@ -2008,8 +2008,8 @@ en:
     failed: Failed
     granted: To grant
     granted_legal_agreement: To grant with Legal agreement
-    granted_not_required: Prior approval not required
     granted_not_required_legal_agreement: Prior approval not required with Legal agreement
+    not_required: Prior approval not required
     in_progress: In progress
     invalid: Invalid
     neutral: Neutral
