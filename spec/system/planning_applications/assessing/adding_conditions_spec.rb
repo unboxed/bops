@@ -80,7 +80,7 @@ RSpec.describe "Add conditions" do
       click_link "Add conditions"
 
       expect(page).to have_content "Time limit"
-      expect(page).to have_content "The development herby permitted shall be commenced within three years of the date of this permission."
+      expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
       expect(page).to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
       expect(page).to have_content "Condition 1"
       expect(page).to have_content "Reason 1"
@@ -100,10 +100,10 @@ RSpec.describe "Add conditions" do
       click_link "Add conditions"
 
       expect(page).to have_content "Time limit"
-      expect(page).to have_content "The development herby permitted shall be commenced within three years of the date of this permission."
+      expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
       expect(page).to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
       expect(page).to have_content "In accordance with approved plans"
-      expect(page).to have_content "The development herby permitted must be undertaken in accordance with the approved plans and documents."
+      expect(page).to have_content "The development hereby permitted must be undertaken in accordance with the approved plans and documents."
       expect(page).to have_content "For the avoidance of doubt and in the interests of proper planning."
       expect(page).to have_content "Condition 1"
       expect(page).to have_content "Reason 1"
@@ -123,13 +123,13 @@ RSpec.describe "Add conditions" do
       click_link "Add conditions"
 
       expect(page).to have_content "In accordance with approved plans"
-      expect(page).to have_content "The development herby permitted must be undertaken in accordance with the approved plans and documents."
+      expect(page).to have_content "The development hereby permitted must be undertaken in accordance with the approved plans and documents."
       expect(page).to have_content "For the avoidance of doubt and in the interests of proper planning."
       expect(page).to have_content "Custom condition 1"
       expect(page).to have_content "Custom reason 1"
 
       expect(page).not_to have_content "Time limit"
-      expect(page).not_to have_content "The development herby permitted shall be commenced within three years of the date of this permission."
+      expect(page).not_to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
       expect(page).not_to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
       expect(page).not_to have_content "Condition 1"
       expect(page).not_to have_content "Reason 1"
@@ -163,7 +163,7 @@ RSpec.describe "Add conditions" do
       click_link "Review and submit recommendation"
 
       expect(page).to have_content "Conditions"
-      expect(page).to have_content "The development herby permitted shall be commenced within three years of the date of this permission."
+      expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
       expect(page).to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
     end
   end
