@@ -36,7 +36,8 @@ module BopsConfig
       [
         {name: "Dashboard", url: root_path, key: "dashboard"},
         {name: "Users", url: users_path, key: "users"},
-        {name: "Application types", url: application_types_path, key: "application_types"}
+        {name: "Application types", url: application_types_path, key: "application_types"},
+        {name: "Legislation", url: application_types_path, key: "application_types"}
       ]
     end
   end
