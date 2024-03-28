@@ -16,29 +16,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h2 class="govuk-heading-m">Summary of pre-commencement conditions</h2>
-    <% if @planning_application.pre_commencement_condition_set&.approved_conditions.present? %>
-      <ol class="govuk-list govuk-list--number">
-        <% @planning_application.pre_commencement_condition_set.approved_conditions.sorted.each do |condition| %>
-          <li>
-            <p class="govuk-body govuk-!-margin-bottom-2">
-              <% if condition.title? %>
-                <span class="govuk-!-font-weight-bold"><%= condition.title %></span><br>
-                <%= condition.text %><br>
-              <% else %>
-                <span class="govuk-!-font-weight-bold"><%= condition.text %></span>
-              <% end %>
-            </p>
-            <p class="govuk-body">
-              <%= condition.reason %>
-            </p>
-          </li>
-        <% end %>
-      </ol>
-    <% else %>
-      <p class="govuk-body">There are no conditions.</p>
-    <% end %>
-
+    <%= render "table" %>
     <%= render "form", disabled: false %>
   </div>
 </div>
