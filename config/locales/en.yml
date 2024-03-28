@@ -2007,7 +2007,9 @@ en:
     emailed: Emailed
     failed: Failed
     granted: To grant
+    granted_legal_agreement: To grant with Legal agreement
     granted_not_required: Prior approval not required
+    granted_not_required_legal_agreement: Prior approval not required with Legal agreement
     in_progress: In progress
     invalid: Invalid
     neutral: Neutral
@@ -2015,12 +2017,14 @@ en:
     not_cil_liable: Not liable
     not_consulted: Not consulted
     not_required: Not required
+    not_required_legal_agreement: Not required
     not_started: Not started
     objection: Objection
     permanent_failure: Permanent failure
     posted: Posted
     printing: Printing
     refused: To refuse
+    refused_legal_agreement: To refuse with Legal agreement
     rejected: Rejected
     removed: Removed
     required: Required

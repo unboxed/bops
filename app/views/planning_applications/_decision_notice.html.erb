@@ -1,5 +1,10 @@
 <div class="decision-notice">
   <div class="decision-notice-main-section">
+    <% unless planning_application.determined? %>
+      <span class="govuk-tag govuk-tag--yellow app-task-list__task-tag">
+        Draft
+      </span>
+    <% end %>
     <span class="govuk-caption-xl">
       <%= planning_application.local_authority.council_name %>
     </span>
@@ -95,6 +100,21 @@
         <% end %>
       </ol>
     <% end %>
+    <% if @planning_application.committee_decision&.recommend? %>
+      <h3 class="govuk-heading-s">
+        Committee recommendation
+      </h3>
+      <p class="govuk-body">
+        This application requires decision by Committee for the following reasons:
+      </p>
+      <ol class="govuk-list govuk-list--number">
+        <% @planning_application.committee_decision.reasons.each do |reason| %>
+          <li>
+            <%= reason %>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
     <h3 class="govuk-heading-s">
       This decision is based on the following approved plans:
     </h3>
@@ -172,3 +192,6 @@
     </p>
   <% end %>
 </div>
+<p class="govuk-body">
+  <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf'), class: "govuk-link" %>
+</p>
