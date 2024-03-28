@@ -641,6 +641,7 @@ en:
     subjects:
       assigned_notification_mail: You have been assigned to a prior approval case %{reference}
       cancelled_validation_request_mail: Update on your application for a %{application_type_name}
+      committee_decision_mail: Notification of Planning Committee Meeting
       decision_notice_mail: Decision on your %{application_type_name} application
       description_change_mail: "%{application_type_name} application - suggested changes"
       description_closure_notification_mail: Changes to your %{application_type_name} application
@@ -1246,6 +1247,10 @@ en:
       one: 1 day remaining
       other: "%{count} days remaining"
       zero: "%{count} days overdue"
+    decisions:
+      granted: to Grant Permission
+      granted_not_required: that Prior Approval should be granted but is not required
+      refused: to Refuse Permission
     determine:
       confirm_press_notice_published_at_html: <a class="govuk-notification-banner__link" href="%{href}">Confirm the press notice published at date</a> before determining the application.
       confirm_site_notice_displayed_at_html: <a class="govuk-notification-banner__link" href="%{href}">Confirm the site notice displayed at date</a> before determining the application.
@@ -1489,7 +1494,7 @@ en:
           edit_information_on: Edit information on the decision notice
           in_committee:
             recommendation: Committee recommendation
-            sign_off_recommendation: Add committee decision
+            sign_off_recommendation: Update decision notice after committee
           not_in_committee:
             recommendation: Assessor recommendation
             sign_off_recommendation: Sign off recommendation
@@ -1528,7 +1533,7 @@ en:
               granted: Prior approval required and approved
               granted_not_required: Prior approval not required
               refused: Prior approval required and refused
-          make_draft_recommendation: Add committee decision details
+          make_draft_recommendation: Update decision notice after committee details
         update:
           success: Recommendation was successfully reviewed.
       tasks:
@@ -2093,7 +2098,7 @@ en:
       assessment_details_component:
         review_assessment_summaries: Review assessment summaries
       committee_component:
-        link_text: Committee decision
+        link_text: Recommendation to committee
       condition_component:
         link_text: Review conditions
       documents_component:

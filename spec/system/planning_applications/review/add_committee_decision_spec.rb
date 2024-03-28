@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Add committee decision" do
+RSpec.describe "Update decision notice after committee" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) do
     create(:user,
@@ -15,7 +15,7 @@ RSpec.describe "Add committee decision" do
       local_authority: default_local_authority)
   end
   let!(:planning_application) do
-    create(:planning_application, :in_committee, local_authority: default_local_authority, user: assessor)
+    create(:planning_application, :planning_permission, :in_committee, local_authority: default_local_authority, user: assessor)
   end
 
   before do
@@ -33,12 +33,12 @@ RSpec.describe "Add committee decision" do
       create(:recommendation, planning_application:)
     end
 
-    it "does not show the option to add committee decision" do
+    it "does not show the option to Update decision notice after committee" do
       visit "/planning_applications/#{planning_application.id}/review/tasks"
 
       expect(page).to have_content("Review and sign-off")
 
-      expect(page).not_to have_content "Add committee decision"
+      expect(page).not_to have_content "Update decision notice after committee"
     end
   end
 
@@ -48,13 +48,13 @@ RSpec.describe "Add committee decision" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
-          "Add committee decision",
+          "Update decision notice after committee",
           with: "Not started"
         )
 
-        click_link "Add committee decision"
+        click_link "Update decision notice after committee"
 
-        expect(page).to have_content "Add committee decision"
+        expect(page).to have_content "Update decision notice after committee"
 
         choose "Yes"
 
@@ -64,7 +64,7 @@ RSpec.describe "Add committee decision" do
         expect(page).to have_content "Awaiting determination"
 
         expect(page).to have_list_item_for(
-          "Add committee decision",
+          "Update decision notice after committee",
           with: "Completed"
         )
       end
@@ -75,13 +75,13 @@ RSpec.describe "Add committee decision" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
-          "Add committee decision",
+          "Update decision notice after committee",
           with: "Not started"
         )
 
-        click_link "Add committee decision"
+        click_link "Update decision notice after committee"
 
-        expect(page).to have_content "Add committee decision"
+        expect(page).to have_content "Update decision notice after committee"
 
         choose "Yes, with amendments (return to case officer)"
 
@@ -93,7 +93,7 @@ RSpec.describe "Add committee decision" do
         expect(page).to have_content "To be reviewed"
 
         expect(page).to have_list_item_for(
-          "Add committee decision",
+          "Update decision notice after committee",
           with: "Completed"
         )
       end
@@ -101,9 +101,9 @@ RSpec.describe "Add committee decision" do
       it "shows errors" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 
-        click_link "Add committee decision"
+        click_link "Update decision notice after committee"
 
-        expect(page).to have_content "Add committee decision"
+        expect(page).to have_content "Update decision notice after committee"
 
         choose "Yes, with amendments (return to case officer)"
 
@@ -118,22 +118,22 @@ RSpec.describe "Add committee decision" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
-          "Add committee decision",
+          "Update decision notice after committee",
           with: "Not started"
         )
 
-        click_link "Add committee decision"
+        click_link "Update decision notice after committee"
 
-        expect(page).to have_content "Add committee decision"
+        expect(page).to have_content "Update decision notice after committee"
 
         choose "No"
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_content "Add committee decision details"
+        expect(page).to have_content "Update decision notice after committee details"
         choose "Refused"
 
-        fill_in "Public comment", with: "This is the comment"
+        fill_in "Enter the Committee's reasons for this recommendation", with: "This is the comment"
 
         click_button "Save and mark as complete"
 
@@ -141,7 +141,7 @@ RSpec.describe "Add committee decision" do
         expect(page).to have_content "Awaiting determination"
 
         expect(page).to have_list_item_for(
-          "Add committee decision",
+          "Update decision notice after committee",
           with: "Completed"
         )
       end
@@ -150,19 +150,19 @@ RSpec.describe "Add committee decision" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(
-          "Add committee decision",
+          "Update decision notice after committee",
           with: "Not started"
         )
 
-        click_link "Add committee decision"
+        click_link "Update decision notice after committee"
 
-        expect(page).to have_content "Add committee decision"
+        expect(page).to have_content "Update decision notice after committee"
 
         choose "No"
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_content "Add committee decision details"
+        expect(page).to have_content "Update decision notice after committee details"
 
         click_button "Save and mark as complete"
 

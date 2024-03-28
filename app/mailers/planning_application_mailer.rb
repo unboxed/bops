@@ -226,4 +226,16 @@ class PlanningApplicationMailer < ApplicationMailer
       reply_to_id: @planning_application.local_authority.email_reply_to_id
     )
   end
+
+  def send_committee_decision_mail(planning_application, user)
+    @planning_application = planning_application
+    @user = user
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:committee_decision_mail),
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.email_reply_to_id
+    )
+  end
 end

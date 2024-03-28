@@ -73,6 +73,8 @@ RSpec.describe "Send notification to neighbours of committee" do
         fill_in "Year", with: "2022"
       end
 
+      expect(PlanningApplicationMailer).to receive(:send_committee_decision_mail).once.and_call_original
+
       click_button "Send notification"
 
       expect(page).to have_content "Notifications sent to neighbours and application in committee"
@@ -92,6 +94,8 @@ RSpec.describe "Send notification to neighbours of committee" do
 
       fill_in "Enter link", with: "www.unboxed.co"
 
+      expect(PlanningApplicationMailer).to receive(:send_committee_decision_mail).once
+
       click_button "Send notification"
 
       expect(page).to have_content "Notifications sent to neighbours and application in committee"
@@ -105,6 +109,9 @@ RSpec.describe "Send notification to neighbours of committee" do
       visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
 
       click_link "Notify neighbours of committee meeting"
+
+      expect(PlanningApplicationMailer).not_to receive(:send_committee_decision_mail)
+      expect(SendCommitteeDecisionEmailJob).not_to have_been_enqueued
 
       click_button "Send notification"
 
