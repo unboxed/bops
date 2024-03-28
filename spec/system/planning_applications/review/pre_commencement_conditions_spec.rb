@@ -11,12 +11,12 @@ RSpec.describe "Reviewing pre-commencement conditions" do
     create(:planning_application, :awaiting_determination, :planning_permission, local_authority: default_local_authority, pre_commencement_condition_set: condition_set)
   end
 
-  let!(:condition_set) { build(:condition_set, pre_commencement: true, planning_application: nil) }
+  let!(:condition_set) { create(:condition_set, pre_commencement: true) }
   let!(:standard_condition) { create(:condition, condition_set:, title: "foo", validation_requests: [validate]) }
   let!(:other_condition) { create(:condition, :other, condition_set:, title: "bar", validation_requests: [validate]) }
 
   def validate
-    create(:pre_commencement_condition_validation_request, approved: true)
+    create(:pre_commencement_condition_validation_request, approved: true, planning_application:)
   end
 
   context "when signed in as a reviewer" do
@@ -129,6 +129,10 @@ RSpec.describe "Reviewing pre-commencement conditions" do
         click_link "Add pre-commencement conditions"
 
         expect(page).to have_content("I don't think you've assessed conditions correctly")
+
+        within "tbody tr:first-child" do
+          click_link "Cancel"
+        end
       end
     end
   end
