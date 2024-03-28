@@ -19957,7 +19957,7 @@ paths:
                         latitude: '51.4842536'
                         longitude: "-0.0764165"
                       received_date: '2023-06-06T16:50:37.821+01:00'
-                      decision: granted_not_required
+                      decision: not_required
                       constraints:
                       - Conservation area
                       - Caz
@@ -20089,7 +20089,7 @@ paths:
                         latitude: '51.4842536'
                         longitude: "-0.0764165"
                       received_date: '2023-06-06T16:50:37.821+01:00'
-                      decision: granted_not_required
+                      decision: not_required
                       constraints:
                       - Conservation area
                       - Caz

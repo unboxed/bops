@@ -2563,7 +2563,7 @@ RSpec.describe PlanningApplication do
         expect(planning_application.recommendation_options).to include(
           [:refused, "Prior approval required and refused"],
           [:granted, "Prior approval required and approved"],
-          [:granted_not_required, "Prior approval not required"]
+          [:not_required, "Prior approval not required"]
         )
       end
     end

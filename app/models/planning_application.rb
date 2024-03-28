@@ -21,7 +21,7 @@ class PlanningApplication < ApplicationRecord
   DAYS_TO_EXPIRE_EIA = 112
 
   enum :user_role, {applicant: 0, agent: 1, proxy: 2}
-  enum :decision, {granted: "granted", refused: "refused", granted_not_required: "granted_not_required"}
+  enum :decision, {granted: "granted", refused: "refused", not_required: "not_required"}
   enum :documents_status, {not_started: "not_started", in_progress: "in_progress", complete: "complete"}, scopes: false
 
   with_options dependent: :destroy do
@@ -884,11 +884,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def prior_approval_decisions
-    granted_and_refused.push(granted_not_required)
+    granted_and_refused.push(not_required)
   end
 
-  def granted_not_required
-    [:granted_not_required, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type.name}.granted_not_required")]
+  def not_required
+    [:not_required, I18n.t(".planning_applications.assessment.recommendations.new.decision.#{application_type.name}.not_required")]
   end
 
   def user_friendly_recommendation
