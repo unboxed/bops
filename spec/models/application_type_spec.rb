@@ -161,6 +161,24 @@ RSpec.describe ApplicationType do
         end
       end
     end
+
+    describe "#legislation" do
+      context "when status is active" do
+        let(:application_type) { build(:application_type, :active, :without_legislation) }
+
+        it "validates presence" do
+          expect { application_type.valid? }.to change { application_type.errors[:legislation] }.to ["must be set when application type is made active"]
+        end
+      end
+
+      context "when status is not active" do
+        let(:application_type) { build(:application_type, :inactive, :without_legislation) }
+
+        it "does not validate presence" do
+          expect { application_type.valid? }.not_to change { application_type.errors[:legislation] }
+        end
+      end
+    end
   end
 
   describe "class methods" do
@@ -180,18 +198,19 @@ RSpec.describe ApplicationType do
   end
 
   describe "legislation details" do
-    context "when planning application type has legislation details defined in en.yml translation" do
-      let!(:application_type) { create(:application_type, :prior_approval, part: 1, section: "A") }
+    context "when planning application type has legislation details" do
+      let(:legislation) { create(:legislation, :pa_part1_classA) }
+      let(:application_type) { create(:application_type, :prior_approval, part: 1, section: "A", legislation:) }
+
+      describe "legislation_title" do
+        it "returns the legislation title" do
+          expect(application_type.legislation_title).to eq("The Town and Country Planning (General Permitted Development) (England) Order 2015 Part 1, Class A")
+        end
+      end
 
       describe "legislation_link" do
         it "returns the legislation link" do
           expect(application_type.legislation_link).to eq("https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made")
-        end
-      end
-
-      describe "legislation_link_text" do
-        it "returns the legislation link text" do
-          expect(application_type.legislation_link_text).to eq("The Town and Country Planning (General Permitted Development) (England) Order 2015")
         end
       end
 
@@ -202,13 +221,13 @@ RSpec.describe ApplicationType do
       end
     end
 
-    context "when planning application type has no legislation details defined in en.yml translation" do
-      let!(:application_type) { create(:application_type) }
+    context "when planning application type has no legislation details" do
+      let!(:application_type) { create(:application_type, :inactive, :without_legislation) }
 
-      %w[legislation_link legislation_link_text legislation_description].each do |translation|
-        describe translation.to_s do
-          it "returns false" do
-            expect(application_type.send(translation)).to be(false)
+      %w[legislation_link legislation_title legislation_description].each do |legislation_detail|
+        describe legislation_detail.to_s do
+          it "returns nil" do
+            expect(application_type.send(legislation_detail)).to be(nil)
           end
         end
       end

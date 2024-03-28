@@ -22,6 +22,7 @@ class ApplicationType < ApplicationRecord
   validates :name, :code, :suffix, presence: true
   validates :code, :suffix, uniqueness: true
   validates :features, store_model: {merge_errors: true}
+  validates :legislation, presence: true, if: :active?
 
   with_options allow_blank: true do
     validates :code, inclusion: {in: ODP_APPLICATION_TYPES.keys}
@@ -58,6 +59,12 @@ class ApplicationType < ApplicationRecord
     delegate :site_visits?
     delegate :include_bank_holidays?
     delegate :consultation_steps
+  end
+
+  with_options to: :legislation, prefix: true, allow_nil: true do
+    delegate :title
+    delegate :description
+    delegate :link
   end
 
   before_validation if: :code_changed? do
@@ -149,18 +156,6 @@ class ApplicationType < ApplicationRecord
     I18n.t("application_types.#{name}")
   end
 
-  def legislation_link
-    fetch_legislation_translation("link")
-  end
-
-  def legislation_link_text
-    fetch_legislation_translation("link_text")
-  end
-
-  def legislation_description
-    fetch_legislation_translation("description")
-  end
-
   def consultation?
     consultation_steps.any?
   end
@@ -196,14 +191,6 @@ class ApplicationType < ApplicationRecord
   end
 
   private
-
-  def part_and_section
-    "#{part}#{section}"
-  end
-
-  def fetch_legislation_translation(key)
-    I18n.t("application_types.legislation.#{name}.#{part_and_section}.#{key}", default: false)
-  end
 
   def existing_legislation?
     legislation_type == "existing"

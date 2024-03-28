@@ -291,7 +291,8 @@ class Consultation < ApplicationRecord
       eaves_height: planning_application&.proposal_measurement&.eaves_height,
       assigned_officer: assigned_officer,
       council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
-      application_link:
+      application_link:,
+      legislation_title: planning_application.application_type.legislation_title
     }
 
     replace_placeholders(body, defaults)

@@ -4,10 +4,16 @@ require "rails_helper"
 
 RSpec.describe "Planning Application index page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application_1) { create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority) }
-  let!(:planning_application_2) { create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority) }
+  let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed) }
+  let!(:application_type_prior_approval) { create(:application_type, :prior_approval) }
+  let!(:planning_application_1) {
+    create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority, application_type: application_type_ldc_proposed)
+  }
+  let!(:planning_application_2) {
+    create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority, application_type: application_type_ldc_proposed)
+  }
   let!(:planning_application_started) do
-    create(:planning_application, :ldc_proposed, :awaiting_determination, user: assessor, local_authority: default_local_authority)
+    create(:planning_application, :ldc_proposed, :awaiting_determination, user: assessor, local_authority: default_local_authority, application_type: application_type_ldc_proposed)
   end
   let!(:reviewer_planning_application_started) do
     create(:planning_application, :awaiting_determination, user: reviewer, local_authority: default_local_authority)
@@ -17,8 +23,6 @@ RSpec.describe "Planning Application index page" do
   end
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
-
-  let(:application_type_prior_approval) { create(:application_type, :prior_approval) }
 
   context "as an assessor" do
     before do
@@ -118,7 +122,8 @@ RSpec.describe "Planning Application index page" do
           :planning_application,
           :not_started,
           :prior_approval,
-          local_authority: default_local_authority
+          local_authority: default_local_authority,
+          application_type: application_type_prior_approval
         )
       end
 
@@ -127,7 +132,8 @@ RSpec.describe "Planning Application index page" do
           :planning_application,
           :in_assessment,
           :prior_approval,
-          local_authority: default_local_authority
+          local_authority: default_local_authority,
+          application_type: application_type_prior_approval
         )
       end
 
@@ -446,7 +452,8 @@ RSpec.describe "Planning Application index page" do
           :planning_application,
           :not_started,
           :ldc_proposed,
-          local_authority: default_local_authority
+          local_authority: default_local_authority,
+          application_type: application_type_ldc_proposed
         )
       end
 
@@ -455,7 +462,8 @@ RSpec.describe "Planning Application index page" do
           :planning_application,
           :not_started,
           :prior_approval,
-          local_authority: default_local_authority
+          local_authority: default_local_authority,
+          application_type: application_type_prior_approval
         )
       end
 

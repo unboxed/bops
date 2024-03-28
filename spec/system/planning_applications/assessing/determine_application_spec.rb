@@ -103,8 +103,7 @@ RSpec.describe "Planning Application Assessment" do
           "Certificate of Lawful Use or Development Granted"
         )
 
-        expect(page).to have_content("Town and Country Planning Act 1990 (as amended): sections 191 and 192")
-        expect(page).to have_content("Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39")
+        expect(page).to have_content(planning_application.application_type.legislation_title)
 
         expect(page).to have_content("Jane Smith, Director")
 
@@ -189,8 +188,7 @@ RSpec.describe "Planning Application Assessment" do
           click_button("Publish determination")
 
           click_link("View decision notice")
-          expect(page).to have_content("Town and Country Planning Act 1990 (as amended)")
-          expect(page).not_to have_content("Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39")
+          expect(page).to have_content("The Town and Country Planning (General Permitted Development) (England) Order 2015 Part 1, Class A")
         end
       end
 
@@ -247,7 +245,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       context "when the decision is for a householder application" do
-        let(:application_type) { create(:application_type, :planning_permission) }
+        let(:application_type) { create(:application_type, :householder) }
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination,
             :from_planx_prior_approval,
@@ -271,10 +269,7 @@ RSpec.describe "Planning Application Assessment" do
 
         it "lists different legislation in the decision notice" do
           click_link("View decision notice")
-          expect(page).to have_content("Town and Country Planning Act 1990 (as amended)")
-          expect(page).to have_content("Town and Country Planning (Development Management Procedure) (England) Order 2015")
-          expect(page).not_to have_content("sections 191 and 192")
-          expect(page).not_to have_content("Article 39")
+          expect(page).to have_content("The Town and Country Planning (Development Management Procedure) (England) Order 2015")
         end
       end
     end

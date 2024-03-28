@@ -36,7 +36,7 @@ module PlanningApplications
       private
 
       def ensure_legislation_is_defined
-        return if @planning_application.application_type.legislation_description
+        return if @planning_application.application_type.legislation
 
         render plain: "Not found", status: :not_found
       end

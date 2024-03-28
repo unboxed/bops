@@ -57,7 +57,7 @@ en:
           legislation_description_label: Description
           legislation_hint: |
             Enter either the name of an existing legislation that relates to this application type
-            or a create a new one. This will appear in consultation letters, decision notices and
+            or create a new one. The title will appear in consultation letters, decision notices and
             other places that need to specify what the relevant legislation is.
           legislation_id_label: Legislation title
           legislation_link_hint: Enter an optional link to legislation.gov.uk

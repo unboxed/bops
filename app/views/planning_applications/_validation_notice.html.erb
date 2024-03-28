@@ -5,7 +5,7 @@
         <%= planning_application.local_authority.council_name %>
       </span>
       <h3 class="govuk-heading-s">
-        Town and Country Planning Act 1990 (as amended) <br><br>
+        <%= @planning_application.application_type.legislation_title %> <br><br>
       </h3>
       <p class="govuk-body">
         Dear <%= @planning_application.agent_or_applicant_name %>,
