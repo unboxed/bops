@@ -22,9 +22,9 @@ RSpec.describe "neighbour responses" do
     let!(:neighbour1) { create(:neighbour, address: "1, Test Lane, AAA111", consultation:) }
     let!(:neighbour2) { create(:neighbour, address: "2, Test Lane, AAA111", consultation:) }
     let!(:neighbour3) { create(:neighbour, address: "3, Test Lane, AAA111", consultation:) }
-    let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection", tags: ["design", "disabled_access"]) }
+    let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection", tags: ["design", "access"]) }
     let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["design"]) }
-    let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["disabled_access"]) }
+    let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["access"]) }
     let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
 
     it "I can view the information on the neighbour responses page" do
@@ -60,10 +60,10 @@ RSpec.describe "neighbour responses" do
       expect(page).to have_content(supportive_response1.redacted_response)
       click_button "Design responses (2)"
 
-      click_button "Disabled access responses (2)"
+      click_button "Access responses (2)"
       expect(page).to have_content(supportive_response2.redacted_response)
       expect(page).to have_content(objection_response.redacted_response)
-      click_button "Disabled access responses (2)"
+      click_button "Access responses (2)"
 
       click_button "Untagged responses (1)"
       expect(page).to have_content(neutral_response.redacted_response)
@@ -119,7 +119,7 @@ RSpec.describe "neighbour responses" do
       click_link "Summary of neighbour responses"
 
       fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
-      fill_in "assessment_detail[disabled_access]", with: "A complete entry for the disabled access neighbour responses"
+      fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
       fill_in "assessment_detail[untagged]", with: "A complete entry for the untagged neighbour responses"
       click_button "Save and mark as complete"
 
@@ -132,7 +132,7 @@ RSpec.describe "neighbour responses" do
       click_link "Summary of neighbour responses"
       expect(page).to have_content("Summary of neighbour responses")
       expect(page).to have_content("Design: A complete entry for the design neighbour responses")
-      expect(page).to have_content("Disabled access: A complete entry for the disabled access neighbour responses")
+      expect(page).to have_content("Access: A complete entry for the disabled access neighbour responses")
       expect(page).to have_content("Untagged: A complete entry for the untagged neighbour responses")
 
       expect(page).to have_link(
@@ -147,7 +147,7 @@ RSpec.describe "neighbour responses" do
       click_link "Summary of neighbour responses"
 
       fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
-      fill_in "assessment_detail[disabled_access]", with: "A complete entry for the disabled access neighbour responses"
+      fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
       click_button "Save and mark as complete"
 
       expect(page).to have_content "Fill in all summaries of comments"
