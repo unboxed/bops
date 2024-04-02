@@ -48,6 +48,22 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          <%= t(".category") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <% if @application_type.category? %>
+            <%= t(".categories.#{@application_type.category}") %>
+          <% end %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :category], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".category") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           <%= t(".legislation") %>
         </dt>
         <dd class="govuk-summary-list__value">

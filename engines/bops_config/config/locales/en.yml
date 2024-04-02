@@ -5,6 +5,35 @@ en:
       navigation_items:
         users: Users
     application_types:
+      category:
+        edit:
+          category_hint: Select the appropriate category for reporting codes
+          category_labels:
+            advertisment: Advertisment
+            certificate_of_lawfulness: Lawful Development Certificate
+            change_of_use: Change of Use
+            conservation_area: Conservation Area
+            full: Full Planning Permission
+            hedgerows: Hedgerows
+            householder: Householder
+            listed_building: Listed Building
+            non_material_amendment: Non-material Amendment
+            other: Other
+            outline: Outline Planning Permission
+            prior_approval: Prior Approval
+            reserved_matters: Reserved Matters
+            tree_works: Tree Works
+          category_legend_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Choose category
+            </h1>
+          choose_category: Choose category
+          continue: Continue
+        update:
+          success: Category successfully updated
       create:
         success: Application profile successfully created
       determination_periods:
@@ -70,6 +99,22 @@ en:
       new:
         application_profile: Application profile
       show:
+        categories:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category: Category
         change: Change
         continue: Continue
         determination_period: Determination period

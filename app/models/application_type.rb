@@ -10,6 +10,23 @@ class ApplicationType < ApplicationRecord
   attribute :document_tags, ApplicationTypeDocumentTags.to_type
   attribute :features, ApplicationTypeFeature.to_type
 
+  enum :category, {
+    advertisment: "advertisment",
+    certificate_of_lawfulness: "certificate-of-lawfulness",
+    change_of_use: "change-of-use",
+    conservation_area: "conservation-area",
+    full: "full",
+    hedgerows: "hedgerows",
+    householder: "householder",
+    listed_building: "listed-building",
+    non_material_amendment: "non-material-amendment",
+    outline: "outline",
+    prior_approval: "prior-approval",
+    reserved_matters: "reserved-matters",
+    tree_works: "tree-works",
+    other: "other"
+  }, scopes: false, instance_methods: false, validate: { on: :category }
+
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
   belongs_to :legislation, optional: true

@@ -25,6 +25,7 @@ module BopsConfig
         "dashboard" => "dashboard",
         "users" => "users",
         "application_types" => "application_types",
+        "categories" => "application_types",
         "determination_periods" => "application_types",
         "legislation" => "application_types",
         "features" => "application_types",

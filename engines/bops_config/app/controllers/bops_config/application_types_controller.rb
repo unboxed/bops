@@ -68,7 +68,7 @@ module BopsConfig
       if @application_type.configured?
         application_type_path(@application_type)
       else
-        edit_application_type_legislation_path(@application_type)
+        edit_application_type_category_path(@application_type)
       end
     end
 
