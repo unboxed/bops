@@ -437,19 +437,19 @@ body {
   }
 }
 
-.ga-document-tag {
-  margin: 0.25rem 0.25rem 0.25rem 0;
-}
+.govuk-\!-column-count-2 {
+  @include govuk-media-query($from: tablet) {
+    column-count: 2;
+    column-fill: balance;
+  }
 
-.ga-document-tags {
-  column-count: 2;
-  column-fill: balance;
-
+  & > .govuk-checkboxes__item,
   & > .govuk-checkboxes__item {
     break-inside: avoid;
   }
 
-  .govuk-checkboxes__label {
+  .govuk-checkboxes__label,
+  .govuk-radios__label {
     text-wrap: balance;
   }
 }
