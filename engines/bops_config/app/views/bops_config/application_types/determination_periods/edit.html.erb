@@ -13,7 +13,7 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.govuk_text_field :determination_period_days, width: 5,
-        label: {text: t(".set_determination_period"), tag: "h1", size: "l"},
+        label: {text: t(".set_determination_period_html", description: @application_type.description)},
         hint: {text: t(".hint")},
         suffix_text: t(".days") %>
 

@@ -10,11 +10,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l govuk-!-margin-bottom-2">
+        <%= @application_type.description %>
+      </span>
       <%= t(".manage_document_tags") %>
-    </h1>
-
-    <h2 class="govuk-heading-m">
-      <%= @application_type.description %>
     </h1>
 
     <%= form_with model: @application_type, url: [@application_type, :document_tags] do |form| %>
