@@ -233,7 +233,7 @@ RSpec.describe "Reviewing sign-off" do
   end
 
   context "when editing the public comment that appears on the decision notice" do
-    it "as a reviewer I am able to edit", skip: "flaky" do
+    it "as a reviewer I am able to edit" do
       create(:recommendation,
         planning_application:,
         assessor_comment: "New assessor comment",
@@ -268,9 +268,8 @@ RSpec.describe "Reviewing sign-off" do
       fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."
       click_button "Save"
       expect(page).to have_content("The information appearing on the decision notice was successfully updated.")
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/assessment/recommendations/edit")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/review/tasks")
 
-      click_link "Review"
       click_link "Sign off recommendation"
 
       expect(page).to have_content("This text will appear on the decision notice.")

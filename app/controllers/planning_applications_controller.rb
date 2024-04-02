@@ -297,7 +297,7 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to planning_application_validation_fee_items_path(@planning_application),
         notice: t(".edit_payment_amount")
     when :edit_public_comment
-      redirect_to edit_planning_application_assessment_recommendations_path(@planning_application),
+      redirect_to planning_application_review_tasks_path(@planning_application),
         notice: t(".edit_public_comment")
     else
       redirect_to(after_update_url, notice: t(".success"))
