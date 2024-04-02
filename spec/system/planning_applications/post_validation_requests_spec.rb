@@ -64,12 +64,12 @@ RSpec.describe "post validation requests" do
         click_link("Check and assess")
         click_link("Make draft recommendation")
 
-        within_fieldset("Is the use or operation lawful?") do
-          choose "Yes"
+        within_fieldset("What is your recommendation?") do
+          choose "Granted"
         end
 
         fill_in(
-          "State the reasons why this application is, or is not lawful.",
+          "State the reasons for your recommendation.",
           with: "GDPO compliant"
         )
 

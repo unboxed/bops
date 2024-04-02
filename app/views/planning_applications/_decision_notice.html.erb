@@ -13,7 +13,9 @@
       <%= planning_application.application_type.legislation_title %>
     </h3>
     <h2 class="govuk-heading-m">
-      <%= t("recommendation.#{planning_application.application_type.name}.#{planning_application.decision}_html") %>
+      <strong>
+        <%= t("recommendation.title", application_type: planning_application.application_type.description, decision: planning_application.decision.humanize) %>
+      </strong>
     </h2>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <dl class="govuk-summary-list govuk-summary-list--no-border">
@@ -44,7 +46,7 @@
     <% end %>
     <p class="govuk-body">
       <strong>
-        <%= t("recommendation.decisions.#{@planning_application.application_type.name}.#{@planning_application.decision}") %>:
+        <%= t("recommendation.body", decision: planning_application.decision) %>
       </strong>
     </p>
     <p class="govuk-body">

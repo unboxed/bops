@@ -93,8 +93,8 @@ Given("the planning application is assessed") do
     Given I view the planning application
     And I press "Check and assess"
     And I press "Make draft recommendation"
-    And I choose "Yes" from a fieldset "Is the use or operation lawful?"
-    And I fill in "State the reasons why" with "a valid reason"
+    And I choose "Granted" from a fieldset "What is your recommendation?"
+    And I fill in "State the reasons for your recommendation." with "a valid reason"
     And I fill in "Provide supporting information for your manager." with "looks legit"
     And I press "Save and mark as complete"
   )
@@ -195,7 +195,7 @@ Given "a draft assessment on the planning application" do
     And I view the planning application
     And I press "Check and assess"
     And I press "Make draft recommendation"
-    When I fill in "State the reasons why this application is, or is not lawful." with "Lawful as can be"
+    When I fill in "State the reasons for your recommendation." with "Lawful as can be"
     And I fill in "Provide supporting information for your manager." with "I'm hoping you feel supported"
     And I press "Save and come back later"
   )

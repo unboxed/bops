@@ -56,14 +56,6 @@ class RecommendationForm
     planning_application.recommendation_options
   end
 
-  def decisions_text
-    I18n.t(".planning_applications.assessment.recommendations.new.is_the_use.#{application_type_name}")
-  end
-
-  def reason_text
-    I18n.t(".planning_applications.assessment.recommendations.new.state_the_reason.#{application_type_name}")
-  end
-
   def committee_decision
     CommitteeDecision.build(planning_application:, recommend:, reasons: updated_reasons)
   end
