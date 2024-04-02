@@ -46,8 +46,4 @@ class HeadsOfTerm < ApplicationRecord
     return if current_review.nil?
     current_review.status == "updated" && current_review.review_status == "to_be_reviewed"
   end
-  #
-  # def create_review
-  #   reviews.create(assessor: Current.user, status: "complete")
-  # end
 end

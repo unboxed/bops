@@ -791,6 +791,10 @@ class PlanningApplication < ApplicationRecord
     check_permitted_development_rights? && permitted_development_right
   end
 
+  def review_heads_of_terms?
+    heads_of_term.present? && heads_of_term&.current_review.present?
+  end
+
   def payment_amount
     (fee_calculation&.requested_fee || fee_calculation&.payable_fee).to_d
   end

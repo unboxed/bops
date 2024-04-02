@@ -36,7 +36,7 @@
           <li>
             <div class="govuk-!-margin-bottom-7">
               <h2 class="govuk-heading-s"><%= term.title %></h2>
-              <p class="govuk-body govuk"><%= term.text %></p>
+              <p class="govuk-body govuk"><%= render(FormattedContentComponent.new(text: term.text)) %></p>
               </p>
             </div>
           </li>

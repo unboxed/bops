@@ -37,7 +37,7 @@
         )
       ) %>
   <% end %>
-  <% if @planning_application.heads_of_term %>
+  <% if @planning_application.review_heads_of_terms? %>
     <%= render(
           TaskListItems::Reviewing::HeadsOfTermsComponent.new(
             planning_application: @planning_application
