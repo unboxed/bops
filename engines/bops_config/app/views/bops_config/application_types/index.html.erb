@@ -9,10 +9,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
-      Application Types
+      <%= t(".title") %>
     </h1>
     <p class="govuk-body">
-      <%= link_to "Create new application type", new_application_type_path , class: "govuk-button govuk-button--primary" %>
+      <%= link_to t(".create_new_application_type"), new_application_type_path , class: "govuk-button govuk-button--primary" %>
     </p>
     <%= render "table", application_types: @application_types %>
   </div>
