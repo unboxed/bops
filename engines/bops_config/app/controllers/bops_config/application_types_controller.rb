@@ -49,7 +49,7 @@ module BopsConfig
         if @application_type.save
           format.html { redirect_to next_path, notice: t(".success") }
         else
-          format.html { render :new }
+          format.html { render :edit }
         end
       end
     end
