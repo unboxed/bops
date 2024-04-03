@@ -45,5 +45,12 @@ FactoryBot.define do
       description { "Larger householder extensions" }
       legislation { "Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 1, Class A" }
     end
+
+    trait :prior_approval_all_others do
+      code { "PA99" }
+      category { "prior-approval" }
+      description { "All others" }
+      legislation { "Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2" }
+    end
   end
 end

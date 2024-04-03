@@ -240,7 +240,7 @@ FactoryBot.define do
       code { "pa.part14.classJ" }
       suffix { "PA14J" }
       category { "prior-approval" }
-      reporting_types { [] }
+      reporting_types { %w[PA99] }
       part { 14 }
       section { "J" }
     end
