@@ -792,7 +792,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def review_heads_of_terms?
-    heads_of_term.present? && heads_of_term&.current_review.present?
+    heads_of_term&.current_review.present?
   end
 
   def payment_amount
