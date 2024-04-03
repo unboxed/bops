@@ -23,15 +23,15 @@ class ReportingType < ApplicationRecord
 
   class << self
     def by_code
-      order(:code)
+      order(:code_prefix, :code_suffix)
     end
 
     def for_category(category)
-      where(category: category).order(:code)
+      where(category: category).by_code
     end
 
     def for_codes(codes)
-      where(code: Array.wrap(codes)).order(:code)
+      where(code: Array.wrap(codes)).by_code
     end
   end
 

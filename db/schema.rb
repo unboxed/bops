@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_03_111114) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_03_120056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -749,7 +749,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_03_111114) do
     t.string "legislation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.virtual "code_prefix", type: :text, as: "regexp_replace((code)::text, '[0-9]+$'::text, ''::text)", stored: true
+    t.virtual "code_suffix", type: :integer, as: "(regexp_replace((code)::text, '^[A-Z]+'::text, ''::text))::integer", stored: true
     t.index ["code"], name: "ix_reporting_types_on_code", unique: true
+    t.index ["code_prefix", "code_suffix"], name: "ix_reporting_types_on_code_prefix__code_suffix"
   end
 
   create_table "reviews", force: :cascade do |t|
