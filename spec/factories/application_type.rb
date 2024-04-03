@@ -406,6 +406,15 @@ FactoryBot.define do
       legislation { nil }
     end
 
+    trait :without_category do
+      category { nil }
+      reporting_types { [] }
+    end
+
+    trait :without_reporting_types do
+      reporting_types { [] }
+    end
+
     trait :active do
       status { "active" }
     end

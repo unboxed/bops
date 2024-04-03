@@ -167,7 +167,7 @@ RSpec.describe ApplicationType do
         let(:application_type) { build(:application_type, :active, :without_legislation) }
 
         it "validates presence" do
-          expect { application_type.valid? }.to change { application_type.errors[:legislation] }.to ["must be set when application type is made active"]
+          expect { application_type.valid? }.to change { application_type.errors[:legislation] }.to ["The legislation must be set when an application type is made active"]
         end
       end
 

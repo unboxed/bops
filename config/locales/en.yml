@@ -124,6 +124,8 @@ en:
         application_type:
           attributes:
             category:
+              blank: A category must be chosen
+              blank_when_activating: A category must be set when an application type is made active
               inclusion: Choose a category from the list
             code:
               blank: Select an application type name
@@ -137,11 +139,12 @@ en:
               not_a_number: The determination period must be a number of days
               not_an_integer: The determination period must be a whole number of days
             legislation:
-              blank: must be set when application type is made active
+              blank_when_activating: The legislation must be set when an application type is made active
             legislation_id:
               blank: An existing legislation must be chosen
             reporting_types:
               blank: A least one reporting type must be selected
+              blank_when_activating: A least one reporting type must be selected when an application type is made active
             suffix:
               blank: Enter a suffix for the application number
               invalid: The suffix must only use uppercase letters and numbers

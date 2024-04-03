@@ -19,10 +19,10 @@ Rails.application.routes.draw do
   constraints Constraints::LocalAuthoritySubdomain do
     root to: "planning_applications#index"
 
-    mount BopsApi::Engine, at: "/api"
+    mount BopsApi::Engine, at: "/api", as: :bops_api
     get "/api-docs(/index)", to: redirect("/api/docs")
 
-    mount BopsAdmin::Engine, at: "/admin"
+    mount BopsAdmin::Engine, at: "/admin", as: :bops_admin
 
     defaults format: "json" do
       get "/os_places_api",
@@ -325,6 +325,6 @@ Rails.application.routes.draw do
   end
 
   constraints Constraints::ConfigSubdomain do
-    mount BopsConfig::Engine => "/"
+    mount BopsConfig::Engine, at: "/", as: :bops_config
   end
 end

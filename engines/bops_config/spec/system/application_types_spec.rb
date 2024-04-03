@@ -256,7 +256,57 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     expect(page).to have_selector("dl div:nth-child(11) dd", text: "Active")
   end
 
-  it "prevents activation of a new application type when legislation has not been set" do
+  it "prevents activation of a new application type when the category has not been set" do
+    application_type = create(:application_type, :without_category, status: "inactive")
+
+    visit "/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(11)" do
+      expect(page).to have_selector("dd", text: "Inactive")
+      click_link "Change"
+    end
+
+    choose "Active"
+    click_button "Continue"
+
+    expect(page).to have_selector("[role=alert] li", text: "A category must be set when an application type is made active")
+    expect(page).to have_link(
+      "A category must be set when an application type is made active",
+      href: "/application_types/#{application_type.id}/category/edit"
+    )
+
+    click_link "A category must be set when an application type is made active"
+
+    expect(page).to have_selector("h1", text: "Choose category")
+    expect(page).to have_selector("h1 > span", text: "Lawful Development Certificate - Existing use")
+  end
+
+  it "prevents activation of a new application type when a reporting type has not been selected" do
+    application_type = create(:application_type, :without_reporting_types, status: "inactive")
+
+    visit "/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(11)" do
+      expect(page).to have_selector("dd", text: "Inactive")
+      click_link "Change"
+    end
+
+    choose "Active"
+    click_button "Continue"
+
+    expect(page).to have_selector("[role=alert] li", text: "A least one reporting type must be selected when an application type is made active")
+    expect(page).to have_link(
+      "A least one reporting type must be selected when an application type is made active",
+      href: "/application_types/#{application_type.id}/reporting/edit"
+    )
+
+    click_link "A least one reporting type must be selected when an application type is made active"
+
+    expect(page).to have_selector("h1", text: "Select reporting types")
+    expect(page).to have_selector("h1 > span", text: "Lawful Development Certificate - Existing use")
+  end
+
+  it "prevents activation of a new application type when the legislation has not been set" do
     application_type = create(:application_type, :without_legislation, status: "inactive")
 
     visit "/application_types/#{application_type.id}"
@@ -269,13 +319,13 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     choose "Active"
     click_button "Continue"
 
-    expect(page).to have_selector("[role=alert] li", text: "Legislation must be set when application type is made active")
+    expect(page).to have_selector("[role=alert] li", text: "The legislation must be set when an application type is made active")
     expect(page).to have_link(
-      "Legislation must be set when application type is made active",
+      "The legislation must be set when an application type is made active",
       href: "/application_types/#{application_type.id}/legislation/edit"
     )
 
-    click_link "Legislation must be set when application type is made active"
+    click_link "The legislation must be set when an application type is made active"
 
     expect(page).to have_selector("h1", text: "Enter legislation")
     expect(page).to have_selector("h1 > span", text: "Lawful Development Certificate - Existing use")

@@ -39,7 +39,11 @@ class ApplicationType < ApplicationRecord
   validates :name, :code, :suffix, presence: true
   validates :code, :suffix, uniqueness: true
   validates :features, store_model: {merge_errors: true}
-  validates :legislation, presence: true, if: :active?
+
+  with_options presence: {message: :blank_when_activating} do
+    validates :category, :legislation, if: :activating?
+    validates :reporting_types, if: -> { category? && activating? }
+  end
 
   with_options allow_blank: true do
     validates :code, inclusion: {in: ODP_APPLICATION_TYPES.keys}
@@ -141,6 +145,10 @@ class ApplicationType < ApplicationRecord
 
   before_validation on: :document_tags, unless: :configured? do
     self.configured = true
+  end
+
+  def activating?
+    status_changed? && active?
   end
 
   def existing_or_new_legislation
