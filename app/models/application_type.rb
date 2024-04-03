@@ -211,6 +211,10 @@ class ApplicationType < ApplicationRecord
     @selected_reporting_types || ReportingType.for_codes(reporting_types)
   end
 
+  def selected_reporting_types?
+    selected_reporting_types.present?
+  end
+
   class << self
     def by_name
       in_order_of(:name, NAME_ORDER).order(:name, :code)
