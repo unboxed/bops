@@ -378,6 +378,8 @@ FactoryBot.define do
 
       code { "pp.full.householder.retro" }
       suffix { "HRET" }
+
+      legislation { association :legislation, :pp_full_householder_retro }
     end
 
     trait :without_consultation do

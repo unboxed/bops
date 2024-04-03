@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :legislation do
-    title { "Town and Country Planning Act 1990, Section #{rand(9999)}" }
+    sequence(:title, 200) { |n| "Town and Country Planning Act 1990, Section #{n}" }
 
     trait :ldc_existing do
       title { "Town and Country Planning Act 1990, Section 191" }
@@ -22,7 +22,12 @@ FactoryBot.define do
 
     trait :pp_full_householder do
       title { "The Town and Country Planning (Development Management Procedure) (England) Order 2015" }
-      link { "https://www.legislation.gov.uk/uksi/2015/595/article/2/made" }
+      link { "https://www.legislation.gov.uk/uksi/2015/596/contents/made" }
+    end
+
+    trait :pp_full_householder_retro do
+      title { "The Town and Country Planning (Development Management Procedure) (England) Order 2015 retro" }
+      link { "https://www.legislation.gov.uk/uksi/2015/596/contents/made" }
     end
   end
 end

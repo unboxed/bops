@@ -23,6 +23,8 @@ BopsConfig::Engine.routes.draw do
     end
   end
 
+  resources :legislation, except: %i[show]
+
   resources :users, except: %i[show destroy] do
     get :resend_invite, on: :member
   end

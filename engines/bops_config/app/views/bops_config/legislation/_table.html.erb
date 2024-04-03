@@ -1,0 +1,25 @@
+<table class="govuk-table legislation-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        <%= t(".title") %>
+      </th>
+      <th scope="col" class="govuk-table__header">
+        <%= t(".action") %>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @legislations.each do |legislation| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= legislation.title %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to t(".edit"), edit_legislation_path(legislation), class: "govuk-link" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

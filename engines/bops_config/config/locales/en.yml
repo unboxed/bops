@@ -117,6 +117,37 @@ en:
       show:
         administrator_dashboard: Administrator dashboard
         welcome_message: Welcome %{name}
+    legislation:
+      create:
+        success: Legislation successfully created
+      destroy:
+        success: Legislation successfully removed
+      edit:
+        application_types_with: Application types with this legislation
+        legislation: Edit legislation
+      form:
+        back: Back
+        legislation_description_hint: Enter an optional description
+        legislation_description_label: Description
+        legislation_link_hint: Enter an optional link to legislation.gov.uk
+        legislation_link_label: Link
+        legislation_title_hint: Enter a title – this is usually the name of the act and the relevant section
+        legislation_title_label: Title
+        remove: Remove
+        save: Save
+      index:
+        create_new_legislation: Create new legislation
+        title: Legislation
+      new:
+        legislation: Add new legislation
+      table:
+        action: Action
+        description: Description
+        edit: Edit
+        link: Link
+        title: Title
+      update:
+        success: Legislation successfully updated
     users:
       create:
         user_successfully_created: User successfully created

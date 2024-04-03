@@ -19,6 +19,8 @@ module BopsConfig
     end
 
     def active_page_key
+      return "legislation" if controller_path == "bops_config/legislation"
+
       page_keys = {
         "dashboard" => "dashboard",
         "users" => "users",
@@ -36,7 +38,8 @@ module BopsConfig
       [
         {name: "Dashboard", url: root_path, key: "dashboard"},
         {name: "Users", url: users_path, key: "users"},
-        {name: "Application types", url: application_types_path, key: "application_types"}
+        {name: "Application types", url: application_types_path, key: "application_types"},
+        {name: "Legislation", url: legislation_index_path, key: "legislation"}
       ]
     end
   end
