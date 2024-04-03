@@ -215,6 +215,66 @@ en:
         title: Title
       update:
         success: Legislation successfully updated
+    reporting_types:
+      create:
+        success: Reporting type successfully created
+      edit:
+        title: Edit reporting type
+      form:
+        category_hint: Choose what category of application types this option will appear on when selecting the reporting type during validation
+        category_labels:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category_legend: Category
+        code_hint: Enter the code used to identify this reporting type (e.g. Q26 or PA15)
+        code_label: Code
+        description_hint: Enter the description from the district planning matters return
+        description_label: Description
+        guidance_label: Guidance
+        guidance_link_label: Link to the guidance if available
+        legislation_hint: Enter the applicable legislation if the category is prior approval
+        legislation_label: Legislation
+        save_reporting_type: Save reporting type
+      index:
+        create_reporting_type: Create reporting type
+        title: Reporting Types
+      new:
+        title: Create reporting type
+      table:
+        action: Action
+        categories:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category: Category
+        code: Code
+        description: Description
+        edit: Edit
+      update:
+        success: Reporting type successfully updated
     users:
       create:
         user_successfully_created: User successfully created

@@ -1,0 +1,19 @@
+<%= form_with model: @reporting_type do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_text_field :description, label: {text: t(".description_label")}, hint: {text: t(".description_hint")} %>
+  <%= form.govuk_text_field :code, width: 5, label: {text: t(".code_label")}, hint: {text: t(".code_hint")} %>
+
+  <%= form.govuk_collection_radio_buttons :category,
+    ReportingType.categories, :first, ->((k)) { t(".category_labels.#{k}") },
+      legend: {text: t(".category_legend")}, hint: {text: t(".category_hint")},
+      small: false, classes: "govuk-!-column-count-2" %>
+
+  <%= form.govuk_text_area :guidance, label: {text: t(".guidance_label")}, rows: 5 %>
+  <%= form.govuk_text_field :guidance_link, label: {text: t(".guidance_link_label")} %>
+  <%= form.govuk_text_area :legislation, label: {text: t(".legislation_label")}, hint: {text: t(".legislation_hint")}, rows: 3 %>
+
+  <%= form.govuk_submit(t(".save_reporting_type")) do %>
+    <%= link_to(t("back"), :reporting_types, class: "govuk-button govuk-button--secondary") %>
+  <% end %>
+<% end %>

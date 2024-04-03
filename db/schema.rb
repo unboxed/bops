@@ -739,6 +739,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_28_134519) do
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
+  create_table "reporting_types", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "category", null: false
+    t.string "description", null: false
+    t.string "guidance"
+    t.string "guidance_link"
+    t.string "legislation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "ix_reporting_types_on_code", unique: true
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "action"
     t.bigint "assessor_id"

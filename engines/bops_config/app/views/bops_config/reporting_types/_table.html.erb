@@ -1,0 +1,39 @@
+<% if @reporting_types.any? %>
+  <table class="govuk-table application-types-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          <%= t(".code") %>
+        </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          <%= t(".category") %>
+        </th>
+        <th scope="col" class="govuk-table__header">
+          <%= t(".description") %>
+        </th>
+        <th scope="col" class="govuk-table__header">
+          <%= t(".action") %>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+      <% @reporting_types.each do |reporting_type| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= reporting_type.code %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= t(".categories.#{reporting_type.category}") %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= reporting_type.description %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= link_to t(".edit"), edit_reporting_type_path(reporting_type) , class: "govuk-link" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
