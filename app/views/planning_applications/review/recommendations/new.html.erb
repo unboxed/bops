@@ -69,9 +69,9 @@
 
       <%= form.govuk_collection_radio_buttons(
         :decision,
-        @planning_application.recommendation_options,
-        :first,
-        :second,
+        @planning_application.application_type.all_decisions,
+        :code,
+        :description,
         legend: { text: "Enter Committee recommendation", size: "s" },
         hint: {}
       ) %>

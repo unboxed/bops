@@ -52,10 +52,6 @@ class RecommendationForm
     end
   end
 
-  def decisions
-    planning_application.recommendation_options
-  end
-
   def committee_decision
     CommitteeDecision.build(planning_application:, recommend:, reasons: updated_reasons)
   end

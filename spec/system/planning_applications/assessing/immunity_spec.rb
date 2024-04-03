@@ -6,6 +6,7 @@ RSpec.describe "Immunity" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
+  # let!(:decision) {  }
 
   context "when not immune" do
     before do
@@ -55,6 +56,8 @@ RSpec.describe "Immunity" do
 
     before do
       create(:evidence_group, :with_document, tag: "utilityBill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
+      create(:decision, :ldc_granted)
+      create(:decision, :ldc_refused)
 
       sign_in assessor
       visit "/planning_applications/#{planning_application.id}"
