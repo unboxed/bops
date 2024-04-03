@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConvertReportingTypeLocaleDataToRecords < ActiveRecord::Migration[7.1]
   class ReportingType < ActiveRecord::Base; end
 
@@ -31,7 +33,7 @@ class ConvertReportingTypeLocaleDataToRecords < ActiveRecord::Migration[7.1]
     ["PA17", "prior-approval", "Building upwards to create dwellinghouses on detached blocks of flats", "Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class A"],
     ["PA18", "prior-approval", "Building upwards householder extensions", "Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 1, Class AA"],
     ["PA19", "prior-approval", "Demolition of buildings and construction of dwellinghouses", "Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class ZA"],
-    ["PA20", "prior-approval", "Building upwards to create dwellinghouses on commercial or mixed-use buildings in a terrace", "Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class AB"],
+    ["PA20", "prior-approval", "Building upwards to create dwellinghouses on commercial or mixed-use buildings in a terrace", "Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class AB"]
   ]
 
   def change

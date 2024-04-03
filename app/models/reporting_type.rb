@@ -9,12 +9,12 @@ class ReportingType < ApplicationRecord
   end
 
   with_options if: :prior_approval? do
-    validates :code, format: { with: /\APA\d{1,2}\z/, message: :invalid_pa_code }
+    validates :code, format: {with: /\APA\d{1,2}\z/, message: :invalid_pa_code}
     validates :legislation, presence: true
   end
 
   with_options unless: :prior_approval? do
-    validates :code, format: { with: /\AQ\d{2}\z/, message: :invalid_q_code }
+    validates :code, format: {with: /\AQ\d{2}\z/, message: :invalid_q_code}
   end
 
   with_options allow_blank: true do

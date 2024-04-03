@@ -25,7 +25,7 @@ class ApplicationType < ApplicationRecord
     reserved_matters: "reserved-matters",
     tree_works: "tree-works",
     other: "other"
-  }, scopes: false, instance_methods: false, validate: { on: :category }
+  }, scopes: false, instance_methods: false, validate: {on: :category}
 
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
@@ -196,7 +196,7 @@ class ApplicationType < ApplicationRecord
   end
 
   def reporting_types=(values)
-    super(Array.wrap(values).reject(&:blank?))
+    super(Array.wrap(values).compact_blank)
   end
 
   def all_reporting_types

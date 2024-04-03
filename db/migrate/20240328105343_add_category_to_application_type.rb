@@ -8,7 +8,7 @@ class AddCategoryToApplicationType < ActiveRecord::Migration[7.1]
 
     up_only do
       ApplicationType.find_each do |type|
-        type.category = \
+        type.category =
           case type.code
           when /\Aldc\z/, /\Aldc\./
             "certificate-of-lawfulness"

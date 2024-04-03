@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddReportingTypesToApplicationTypes < ActiveRecord::Migration[7.1]
   class ApplicationType < ActiveRecord::Base; end
 
