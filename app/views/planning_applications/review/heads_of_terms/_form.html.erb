@@ -1,0 +1,87 @@
+<%= form_with model: @planning_application.heads_of_term,
+              url: planning_application_review_heads_of_term_path(@planning_application),
+              class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <% if editable %>
+    <%= form.fields_for :reviews_attributes, heads_of_term&.current_review do |review_form| %>
+      <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Actions"} do %>
+        <%= review_form.govuk_radio_button(
+              :action, :accepted, checked: heads_of_term&.current_review&.accepted?, label: {text: "Accept"}
+            ) %>
+        <%= review_form.govuk_radio_button(
+          :action, :edited_and_accepted, checked: heads_of_term&.current_review&.edited_and_accepted?, label: {text: "Edit to accept", id: "edit-to-accept"}, hint: {text: "You can only edit minor changes such as spelling errors which have no effect on the content of the accepted terms. Further changes need to be done by case officers."}
+        ) do %>
+          <%= form.govuk_check_boxes_fieldset :heads_of_term, multiple: false, legend: { text: "Heads of terms" } do %>
+            <%= form.fields_for :terms, heads_of_term.terms do |fields| %>
+              <%= fields.hidden_field :_destroy, value: true %>
+              <%= fields.govuk_check_box :_destroy, false, multiple: false, label: { text: fields.object.title }, checked: fields.object.checked?, class: "term", link_errors: true do %>
+                <%= fields.hidden_field :id %>
+                <%= fields.govuk_text_field :title, label: { text: "Enter a title" }, disabled: fields.object&.current_validation_request&.open? %>
+                <%= fields.govuk_text_area :text, label: { text: "Enter detail" }, disabled: fields.object&.current_validation_request&.open? %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= review_form.govuk_radio_button(
+          :action, :rejected, checked: heads_of_term&.current_review&.rejected?, label: {text: "Return to officer with comment"}
+        ) do %>
+          <%= review_form.govuk_text_area(
+                :comment, value: heads_of_term&.current_review&.comment, rows: 6, label: {text: "Comment"}
+              ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= form.fields_for :reviews_attributes, heads_of_term&.current_review do |review_form| %>
+      <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Actions"} do %>
+        <%= review_form.govuk_radio_button(
+              :action, :accepted, checked: heads_of_term&.current_review&.accepted?, label: {text: "Accept"},
+              disabled: true
+            ) %>
+        <%= review_form.govuk_radio_button(
+          :action, :edited_and_accepted, checked: heads_of_term&.current_review&.edited_and_accepted?, label: {text: "Edit to accept", id: "edit-to-accept"}, hint: {text: "You can only edit minor changes such as spelling errors which have no effect on the content of the accepted terms. Further changes need to be done by case officers."},
+          disabled: true
+        ) do %>
+          <%= form.govuk_check_boxes_fieldset :heads_of_term, multiple: false, legend: { text: "Heads of terms" } do %>
+            <%= form.fields_for :terms, heads_of_term.terms do |fields| %>
+              <%= fields.hidden_field :_destroy, value: true, disabled: true %>
+              <%= fields.govuk_check_box :_destroy, false, multiple: false, label: { text: fields.object.title }, checked: fields.object.checked?, class: "term", link_errors: true do %>
+                <%= fields.hidden_field :id %>
+                <%= fields.govuk_text_field :title, label: { text: "Enter a title" }, disabled: true %>
+                <%= fields.govuk_text_area :text, label: { text: "Enter detail" }, disabled: true %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= review_form.govuk_radio_button(
+          :action, :rejected, checked: heads_of_term&.current_review&.rejected?, label: {text: "Return to officer with comment"},
+          disabled: true
+        ) do %>
+          <%= review_form.govuk_text_area(
+                :comment, value: heads_of_term&.current_review&.comment, rows: 6, label: {text: "Comment"}, disabled: true
+              ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if review_complete? %>
+    <div class="govuk-grid-row govuk-!-margin-bottom-7">
+      <div class="govuk-grid-column-full">
+        <p class="govuk-body govuk">
+          <strong><%= @planning_application.heads_of_term.current_review.action.capitalize %></strong><br/>
+          by <%= @planning_application.heads_of_term.current_review.reviewer.name %> on <%= @planning_application.heads_of_term.current_review.reviewed_at.to_fs %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <% if editable %>
+      <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: {module: "govuk-button"} %>
+    <% end %>
+    <%= back_link %>
+    <%= link_to "Edit recommendation", edit_planning_application_review_heads_of_term_path(@planning_application), class: "govuk-link govuk-body" %>
+  </div>
+<% end %>
