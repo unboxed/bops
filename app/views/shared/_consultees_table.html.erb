@@ -4,7 +4,7 @@
   <tr class="govuk-table__row">
     <th class="govuk-table__header">Reason/constraint</th>
     <th class="govuk-table__header">Consultees</th>
-    <th class="govuk-table__header">Status</th>
+    <th class="govuk-table__header govuk-!-text-align-right">Status</th>
   </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -22,7 +22,7 @@
         <% if constraint.consultee.present? %>
           <%= render StatusTags::BaseComponent.new(status: constraint.consultee.status) %>
         <% else %>
-          <span class="govuk-tag govuk-tag--grey app-task-list__task-tag"><%= "Not assigned" %></span>
+          <%= render StatusTags::BaseComponent.new(status: "not_assigned") %>
         <% end %>
       </td>
     </tr>
@@ -33,7 +33,7 @@
       <td class="govuk-table__cell">
         <%= consultee.name %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--centred">
         <%= render StatusTags::BaseComponent.new(status: consultee.status) %>
       </td>
     </tr>
