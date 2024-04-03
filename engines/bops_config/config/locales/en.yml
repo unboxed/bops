@@ -7,7 +7,7 @@ en:
     application_types:
       category:
         edit:
-          category_hint: Select the appropriate category for reporting codes
+          category_hint: Choose the appropriate category for reporting codes
           category_labels:
             advertisment: Advertisment
             certificate_of_lawfulness: Lawful Development Certificate

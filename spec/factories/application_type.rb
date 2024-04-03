@@ -10,6 +10,8 @@ FactoryBot.define do
       code { "ldc.existing" }
       suffix { "LDCE" }
       steps { %w[validation assessment review] }
+      category { "certificate-of-lawfulness" }
+      reporting_types { %w[Q26] }
 
       assessment_details do
         %w[
@@ -106,6 +108,8 @@ FactoryBot.define do
       name { "prior_approval" }
       code { "pa.part1.classA" }
       suffix { "PA" }
+      category { "prior-approval" }
+      reporting_types { %w[PA1] }
       features {
         {
           "site_visits" => true,
@@ -235,6 +239,8 @@ FactoryBot.define do
 
       code { "pa.part14.classJ" }
       suffix { "PA14J" }
+      category { "prior-approval" }
+      reporting_types { [] }
       part { 14 }
       section { "J" }
     end
@@ -243,6 +249,8 @@ FactoryBot.define do
       name { "planning_permission" }
       code { "pp.full.householder" }
       suffix { "HAPP" }
+      category { "householder" }
+      reporting_types { %w[Q21] }
       steps { %w[validation consultation assessment review] }
       features {
         {

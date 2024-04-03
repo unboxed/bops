@@ -124,7 +124,7 @@ en:
         application_type:
           attributes:
             category:
-              inclusion: Select a category from the list
+              inclusion: Choose a category from the list
             code:
               blank: Select an application type name
               inclusion: Select a valid application type name
