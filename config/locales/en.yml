@@ -140,6 +140,8 @@ en:
               blank: must be set when application type is made active
             legislation_id:
               blank: An existing legislation must be chosen
+            reporting_types:
+              blank: A least one reporting type must be selected
             suffix:
               blank: Enter a suffix for the application number
               invalid: The suffix must only use uppercase letters and numbers

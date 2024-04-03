@@ -57,6 +57,10 @@ class ApplicationType < ApplicationRecord
     end
   end
 
+  with_options on: :reporting do
+    validates :reporting_types, presence: true
+  end
+
   with_options on: :legislation do
     validate if: :existing_legislation? do
       errors.add(:legislation_id, :blank) unless legislation&.persisted?
@@ -189,6 +193,22 @@ class ApplicationType < ApplicationRecord
 
   def type_name
     self.class.type_mapping[code]
+  end
+
+  def reporting_types=(values)
+    super(Array.wrap(values).reject(&:blank?))
+  end
+
+  def all_reporting_types
+    @all_reporting_types ||= ReportingType.for_category(category)
+  end
+
+  def all_reporting_type_codes
+    all_reporting_types.map(&:code)
+  end
+
+  def selected_reporting_types
+    @selected_reporting_types || ReportingType.for_codes(reporting_types)
   end
 
   class << self

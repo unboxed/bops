@@ -113,6 +113,20 @@ en:
           success: Legislation successfully updated
       new:
         application_profile: Application profile
+      reporting:
+        edit:
+          continue: Continue
+          reporting_hint: Select the possible reporting types for this application type on the planning matters return
+          reporting_legend_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Select reporting types
+            </h1>
+          title: Select reporting types
+        update:
+          success: Reporting successfully updated
       show:
         categories:
           advertisment: Advertisment
@@ -148,6 +162,7 @@ en:
           plans: plan tags
           supporting_documents: supporting document tags
         name: Name
+        reporting: Reporting
         review_application_type: Review the application type
         status: Status
         suffix: Suffix

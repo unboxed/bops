@@ -19,6 +19,7 @@ BopsConfig::Engine.routes.draw do
         resource :document_tags
         resource :features
         resource :legislation
+        resource :reporting, controller: "reporting"
         resource :status
       end
     end

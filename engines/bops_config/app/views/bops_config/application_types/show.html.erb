@@ -64,6 +64,20 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          <%= t(".reporting") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_type.reporting_types.join(", ") %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :reporting], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".reporting") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           <%= t(".legislation") %>
         </dt>
         <dd class="govuk-summary-list__value">

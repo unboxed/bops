@@ -34,4 +34,8 @@ class ReportingType < ApplicationRecord
       where(code: Array.wrap(codes)).order(:code)
     end
   end
+
+  def full_description
+    "#{code} – #{description}"
+  end
 end
