@@ -77,6 +77,10 @@ class Review < ApplicationRecord
     specific_attributes["decision"] == "No"
   end
 
+  def started?
+    status != "not_started"
+  end
+
   private
 
   def set_reviewed_at
