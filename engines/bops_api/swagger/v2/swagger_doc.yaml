@@ -16126,7 +16126,7 @@ paths:
                           - text: UK Stuatory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: 2023-10-02t00:00:00z
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.5.0/schema.json
               ldc.proposed:
                 summary: Lawful Development Certificate - Proposed use
                 value:
@@ -16317,10 +16317,9 @@ paths:
                           hectares: 0.141826
                           squareMetres: 1418.26
                       date: {}
-                      details:
-                        extend:
-                          area:
-                            squareMetres: 24
+                      extend:
+                        area:
+                          squareMetres: 24
                   preAssessment:
                   - value: Planning permission / Permitted development
                     description: It looks like the proposed changes may fall within
@@ -16810,7 +16809,7 @@ paths:
                               8
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                     submittedAt: '2023-10-02T00:00:00+01:00'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.5.0/schema.json
               pp.full.householder:
                 summary: Planning Permission - Full householder
                 value:
@@ -16966,6 +16965,15 @@ paths:
                       type:
                         value: residential.dwelling.house.terrace
                         description: Terrace
+                      titleNumber:
+                        known: 'No'
+                      EPC:
+                        known: 'No'
+                      parking:
+                        cars:
+                          count: 1
+                        cycles:
+                          count: 2
                     proposal:
                       projectType:
                       - value: extend.roof.dormer
@@ -16995,108 +17003,16 @@ paths:
                       date:
                         start: '2024-05-01'
                         completion: '2024-05-02'
-                      details:
-                        extend:
-                          area:
-                            squareMetres: 45
-                        vehicleParking:
-                          type:
-                          - value: cars.offStreet.residents
-                            description: Off-street parking for residents only
-                          - value: bicycles.offStreet
-                            description: Off-street parking for bicycles
-                          cars:
-                            count:
-                              existing: 1
-                              proposed: 1
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                              club:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              disabled:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              other:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              residents:
-                                count:
-                                  existing: 1
-                                  proposed: 1
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                              club:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              disabled:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              other:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              residents:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                          vans:
-                            count:
-                              existing: 0
-                              proposed: 0
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                          motorcycles:
-                            count:
-                              existing: 0
-                              proposed: 0
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                          bicycles:
-                            count:
-                              existing: 2
-                              proposed: 2
-                            offStreet:
-                              count:
-                                existing: 2
-                                proposed: 2
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                          buses:
-                            count:
-                              existing: 0
-                              proposed: 0
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
+                      extend:
+                        area:
+                          squareMetres: 45
+                      parking:
+                        cars:
+                          count: 1
+                          difference: 0
+                        cycles:
+                          count: 2
+                          difference: 0
                   preAssessment: []
                   responses:
                   - question: Is the property in Lambeth?
@@ -17818,7 +17734,7 @@ paths:
                           - text: UK Stuatory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.5.0/schema.json
               pa.part14.classJ:
                 summary: Prior Approval - Install or change solar panels
                 value:
@@ -18484,7 +18400,7 @@ paths:
                               (Amendment) Regulations 2023
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.5.0/schema.json
               pp.full.householder.retro:
                 summary: Planning Permission - Full householder retrospective
                 value:
@@ -18640,6 +18556,15 @@ paths:
                       type:
                         value: residential.dwelling.house.terrace
                         description: Terrace
+                      titleNumber:
+                        known: 'No'
+                      EPC:
+                        known: 'No'
+                      parking:
+                        cars:
+                          count: 1
+                        cycles:
+                          count: 2
                     proposal:
                       projectType:
                       - value: extend.roof.dormer
@@ -18669,108 +18594,16 @@ paths:
                       date:
                         start: '2024-05-01'
                         completion: '2024-05-02'
-                      details:
-                        extend:
-                          area:
-                            squareMetres: 45
-                        vehicleParking:
-                          type:
-                          - value: cars.offStreet.residents
-                            description: Off-street parking for residents only
-                          - value: bicycles.offStreet
-                            description: Off-street parking for bicycles
-                          cars:
-                            count:
-                              existing: 1
-                              proposed: 1
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                              club:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              disabled:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              other:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              residents:
-                                count:
-                                  existing: 1
-                                  proposed: 1
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                              club:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              disabled:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              other:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                              residents:
-                                count:
-                                  existing: 0
-                                  proposed: 0
-                          vans:
-                            count:
-                              existing: 0
-                              proposed: 0
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                          motorcycles:
-                            count:
-                              existing: 0
-                              proposed: 0
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                          bicycles:
-                            count:
-                              existing: 2
-                              proposed: 2
-                            offStreet:
-                              count:
-                                existing: 2
-                                proposed: 2
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                          buses:
-                            count:
-                              existing: 0
-                              proposed: 0
-                            offStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
-                            onStreet:
-                              count:
-                                existing: 0
-                                proposed: 0
+                      extend:
+                        area:
+                          squareMetres: 45
+                      parking:
+                        cars:
+                          count: 1
+                          difference: 0
+                        cycles:
+                          count: 2
+                          difference: 0
                   preAssessment: []
                   responses:
                   - question: Is the property in Lambeth?
@@ -19492,7 +19325,7 @@ paths:
                           - text: UK Stuatory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.5.0/schema.json
     get:
       summary: Retrieves planning applications
       tags:
