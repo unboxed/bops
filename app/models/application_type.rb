@@ -10,6 +10,23 @@ class ApplicationType < ApplicationRecord
   attribute :document_tags, ApplicationTypeDocumentTags.to_type
   attribute :features, ApplicationTypeFeature.to_type
 
+  enum :category, {
+    advertisment: "advertisment",
+    certificate_of_lawfulness: "certificate-of-lawfulness",
+    change_of_use: "change-of-use",
+    conservation_area: "conservation-area",
+    full: "full",
+    hedgerows: "hedgerows",
+    householder: "householder",
+    listed_building: "listed-building",
+    non_material_amendment: "non-material-amendment",
+    outline: "outline",
+    prior_approval: "prior-approval",
+    reserved_matters: "reserved-matters",
+    tree_works: "tree-works",
+    other: "other"
+  }, scopes: false, instance_methods: false, validate: {on: :category}
+
   enum :status, {inactive: "inactive", active: "active", retired: "retired"}
 
   belongs_to :legislation, optional: true
@@ -22,7 +39,11 @@ class ApplicationType < ApplicationRecord
   validates :name, :code, :suffix, presence: true
   validates :code, :suffix, uniqueness: true
   validates :features, store_model: {merge_errors: true}
-  validates :legislation, presence: true, if: :active?
+
+  with_options presence: {message: :blank_when_activating} do
+    validates :category, :legislation, if: :activating?
+    validates :reporting_types, if: -> { category? && activating? }
+  end
 
   with_options allow_blank: true do
     validates :code, inclusion: {in: ODP_APPLICATION_TYPES.keys}
@@ -38,6 +59,10 @@ class ApplicationType < ApplicationRecord
     validate if: :suffix_changed? do
       errors.add(:suffix, :readonly, status:) unless inactive?
     end
+  end
+
+  with_options on: :reporting do
+    validates :reporting_types, presence: true
   end
 
   with_options on: :legislation do
@@ -122,6 +147,10 @@ class ApplicationType < ApplicationRecord
     self.configured = true
   end
 
+  def activating?
+    status_changed? && active?
+  end
+
   def existing_or_new_legislation
     (legislation_type == "new") ? legislation : Legislation.new
   end
@@ -174,6 +203,26 @@ class ApplicationType < ApplicationRecord
     self.class.type_mapping[code]
   end
 
+  def reporting_types=(values)
+    super(Array.wrap(values).compact_blank)
+  end
+
+  def all_reporting_types
+    @all_reporting_types ||= ReportingType.for_category(category)
+  end
+
+  def all_reporting_type_codes
+    all_reporting_types.map(&:code)
+  end
+
+  def selected_reporting_types
+    @selected_reporting_types || ReportingType.for_codes(reporting_types)
+  end
+
+  def selected_reporting_types?
+    selected_reporting_types.present?
+  end
+
   class << self
     def by_name
       in_order_of(:name, NAME_ORDER).order(:name, :code)
@@ -187,6 +236,20 @@ class ApplicationType < ApplicationRecord
       scope.active.order(code: :asc).map do |application_type|
         [application_type.description, application_type.id]
       end
+    end
+
+    def reporting_type_used?(codes)
+      where(reporting_types.contains(normalize_codes(codes))).exists?
+    end
+
+    private
+
+    def reporting_types
+      arel_table[:reporting_types]
+    end
+
+    def normalize_codes(codes)
+      Array.wrap(codes).compact_blank
     end
   end
 

@@ -48,6 +48,36 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
+          <%= t(".category") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <% if @application_type.category? %>
+            <%= t(".categories.#{@application_type.category}") %>
+          <% end %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :category], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".category") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          <%= t(".reporting") %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @application_type.reporting_types.join(", ") %>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <%= link_to [:edit, @application_type, :reporting], class: "govuk-link" do %>
+            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".reporting") %></span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
           <%= t(".legislation") %>
         </dt>
         <dd class="govuk-summary-list__value">
@@ -117,7 +147,7 @@
           <dd class="govuk-summary-list__value">
             <p class="govuk-body max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
               <% group.translated_tags.each do |tag| %>
-                <span class="govuk-tag govuk-tag--grey ga-document-tag"><%= tag %></span>
+                <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
               <% end %>
             </p>
           </dd>

@@ -10,11 +10,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l govuk-!-margin-bottom-2">
+        <%= @application_type.description %>
+      </span>
       <%= t(".manage_document_tags") %>
-    </h1>
-
-    <h2 class="govuk-heading-m">
-      <%= @application_type.description %>
     </h1>
 
     <%= form_with model: @application_type, url: [@application_type, :document_tags] do |form| %>
@@ -36,7 +35,7 @@
             <%= tag.div(class: class_names("govuk-tabs__panel", "govuk-tabs__panel--hidden": index != 0), id: "#{group}-tags") do %>
               <%= fields.govuk_collection_check_boxes group.name, group.tag_list, :first, :last,
                 legend: {text: t(".groups.#{group}")}, hint: {text: t(".hints.#{group}")},
-                small: true, classes: "ga-document-tags" %>
+                small: true, classes: "govuk-!-column-count-2" %>
             <% end %>
           <% end %>
         <% end %>

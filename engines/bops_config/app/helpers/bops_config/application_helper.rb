@@ -25,10 +25,12 @@ module BopsConfig
         "dashboard" => "dashboard",
         "users" => "users",
         "application_types" => "application_types",
+        "categories" => "application_types",
         "determination_periods" => "application_types",
         "legislation" => "application_types",
         "features" => "application_types",
-        "statuses" => "application_types"
+        "statuses" => "application_types",
+        "reporting_types" => "reporting_types"
       }
 
       page_keys.fetch(controller_name, "dashboard")
@@ -39,7 +41,8 @@ module BopsConfig
         {name: "Dashboard", url: root_path, key: "dashboard"},
         {name: "Users", url: users_path, key: "users"},
         {name: "Application types", url: application_types_path, key: "application_types"},
-        {name: "Legislation", url: legislation_index_path, key: "legislation"}
+        {name: "Legislation", url: legislation_index_path, key: "legislation"},
+        {name: "Reporting types", url: reporting_types_path, key: "reporting_types"}
       ]
     end
   end

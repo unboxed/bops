@@ -14,7 +14,7 @@
 
       <%= form.govuk_radio_buttons_fieldset(:legislation_type,
         hint: {text: t(".legislation_hint")},
-        legend: {text: t(".enter_legislation"), size: "l", tag: "h1"}) do %>
+        legend: {text: t(".legislation_legend_html", description: @application_type.description)}) do %>
 
         <h2 class="govuk-heading-m"><%= @application_type.description %></h2>
 

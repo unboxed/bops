@@ -5,6 +5,35 @@ en:
       navigation_items:
         users: Users
     application_types:
+      category:
+        edit:
+          category_hint: Choose the appropriate category for reporting codes
+          category_labels:
+            advertisment: Advertisment
+            certificate_of_lawfulness: Lawful Development Certificate
+            change_of_use: Change of Use
+            conservation_area: Conservation Area
+            full: Full Planning Permission
+            hedgerows: Hedgerows
+            householder: Householder
+            listed_building: Listed Building
+            non_material_amendment: Non-material Amendment
+            other: Other
+            outline: Outline Planning Permission
+            prior_approval: Prior Approval
+            reserved_matters: Reserved Matters
+            tree_works: Tree Works
+          category_legend_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Choose category
+            </h1>
+          choose_category: Choose category
+          continue: Continue
+        update:
+          success: Category successfully updated
       create:
         success: Application profile successfully created
       determination_periods:
@@ -14,6 +43,13 @@ en:
           determination_period: Determination period
           hint: Choose the length of the determination period for this type of application.
           set_determination_period: Set determination period
+          set_determination_period_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Set determination period
+            </h1>
         update:
           success: Determination period successfully updated
       document_tags:
@@ -46,6 +82,7 @@ en:
         suffix_hint: Set the application suffix, such as 'HAPP' (Householder application) or 'PA' (Prior Approvals). This will be added to all application numbers for this application type.
         suffix_label: Suffix
       index:
+        create_new_application_type: Create new application type
         title: Application Types
       legislation:
         edit:
@@ -60,6 +97,13 @@ en:
             or create a new one. The title will appear in consultation letters, decision notices and
             other places that need to specify what the relevant legislation is.
           legislation_id_label: Legislation title
+          legislation_legend_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Enter legislation
+            </h1>
           legislation_link_hint: Enter an optional link to legislation.gov.uk
           legislation_link_label: Link
           legislation_title_hint: Enter a title – this is usually the name of the act and the relevant section
@@ -69,7 +113,37 @@ en:
           success: Legislation successfully updated
       new:
         application_profile: Application profile
+      reporting:
+        edit:
+          continue: Continue
+          reporting_hint: Select the possible reporting types for this application type on the planning matters return
+          reporting_legend_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Select reporting types
+            </h1>
+          title: Select reporting types
+        update:
+          success: Reporting successfully updated
       show:
+        categories:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category: Category
         change: Change
         continue: Continue
         determination_period: Determination period
@@ -88,6 +162,7 @@ en:
           plans: plan tags
           supporting_documents: supporting document tags
         name: Name
+        reporting: Reporting
         review_application_type: Review the application type
         status: Status
         suffix: Suffix
@@ -103,6 +178,13 @@ en:
           retired: Retired
           retired_hint: Application type was previously used to submit planning application but has been retired due to legislation changes, etc.
           update_application_type_status: Update status
+          update_application_type_status_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Update status
+            </h1>
         update:
           success: Status successfully updated
       table:
@@ -148,6 +230,69 @@ en:
         title: Title
       update:
         success: Legislation successfully updated
+    reporting_types:
+      create:
+        success: Reporting type successfully created
+      destroy:
+        success: Reporting type successfully removed
+      edit:
+        title: Edit reporting type
+      form:
+        category_hint: Choose what category of application types this option will appear on when selecting the reporting type during validation
+        category_labels:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category_legend: Category
+        code_hint: Enter the code used to identify this reporting type (e.g. Q26 or PA15)
+        code_label: Code
+        description_hint: Enter the description from the district planning matters return
+        description_label: Description
+        guidance_label: Guidance
+        guidance_link_label: Link to the guidance if available
+        legislation_hint: Enter the applicable legislation if the category is prior approval
+        legislation_label: Legislation
+        remove: Remove
+        save: Save
+      index:
+        create_reporting_type: Create reporting type
+        title: Reporting Types
+      new:
+        title: Create reporting type
+      table:
+        action: Action
+        categories:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category: Category
+        code: Code
+        description: Description
+        edit: Edit
+      update:
+        success: Reporting type successfully updated
     users:
       create:
         user_successfully_created: User successfully created

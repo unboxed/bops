@@ -1,0 +1,26 @@
+<% content_for :page_title do %>
+  <%= t(".choose_category") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".choose_category") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= form_with model: @application_type, url: [@application_type, :category] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.govuk_collection_radio_buttons :category,
+        ApplicationType.categories, :first, ->((k)) { t(".category_labels.#{k}") },
+          legend: {text: t(".category_legend_html", description: @application_type.description)},
+          hint: {text: t(".category_hint"), size: "l"},
+          small: false, classes: "govuk-!-column-count-2 govuk-!-margin-top-5" %>
+
+      <%= form.govuk_submit(t(".continue")) do %>
+        <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

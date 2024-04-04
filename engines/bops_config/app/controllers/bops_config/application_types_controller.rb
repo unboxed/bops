@@ -49,7 +49,7 @@ module BopsConfig
         if @application_type.save
           format.html { redirect_to next_path, notice: t(".success") }
         else
-          format.html { render :new }
+          format.html { render :edit }
         end
       end
     end
@@ -68,7 +68,7 @@ module BopsConfig
       if @application_type.configured?
         application_type_path(@application_type)
       else
-        edit_application_type_legislation_path(@application_type)
+        edit_application_type_category_path(@application_type)
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_28_134519) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_03_120056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -73,6 +73,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_28_134519) do
     t.integer "determination_period_days"
     t.bigint "legislation_id"
     t.boolean "configured", default: false, null: false
+    t.string "category"
+    t.string "reporting_types", default: [], null: false, array: true
     t.index ["code"], name: "ix_application_types_on_code", unique: true
     t.index ["legislation_id"], name: "ix_application_types_on_legislation_id"
     t.index ["suffix"], name: "ix_application_types_on_suffix", unique: true
@@ -736,6 +738,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_28_134519) do
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
+  end
+
+  create_table "reporting_types", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "category", null: false
+    t.string "description", null: false
+    t.string "guidance"
+    t.string "guidance_link"
+    t.string "legislation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.virtual "code_prefix", type: :text, as: "regexp_replace((code)::text, '[0-9]+$'::text, ''::text)", stored: true
+    t.virtual "code_suffix", type: :integer, as: "(regexp_replace((code)::text, '^[A-Z]+'::text, ''::text))::integer", stored: true
+    t.index ["code"], name: "ix_reporting_types_on_code", unique: true
+    t.index ["code_prefix", "code_suffix"], name: "ix_reporting_types_on_code_prefix__code_suffix"
   end
 
   create_table "reviews", force: :cascade do |t|

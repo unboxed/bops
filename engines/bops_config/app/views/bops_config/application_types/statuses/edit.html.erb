@@ -12,8 +12,11 @@
     <%= form_with model: @application_type, url: [@application_type, :status] do |form| %>
        <%= form.govuk_error_summary(presenter: ApplicationTypeStatusErrorPresenter.new(@application_type.errors.messages, @application_type)) %>
 
-      <%= form.govuk_radio_buttons_fieldset :status, legend: {size: "l", tag: "h1", text: t(".update_application_type_status")} do %>
-        <% if @application_type.inactive? %>
+      <%= form.govuk_radio_buttons_fieldset :status,
+        legend: {text: t(".update_application_type_status_html",
+        description: @application_type.description)} do %>
+
+        <% if @application_type.status_was == "inactive" %>
           <%= form.govuk_radio_button :status, "inactive", label: {text: t(".inactive")}, hint: {text: t(".inactive_hint")} %>
         <% end %>
 

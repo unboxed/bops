@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "Reporting type validation task" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let!(:reporting_type) { create(:reporting_type, :ldc) }
 
   let!(:planning_application) do
     create(:planning_application, :invalidated, local_authority: default_local_authority)
@@ -39,10 +40,9 @@ RSpec.describe "Reporting type validation task" do
 
       expect(page).to have_content("Select development type for reporting")
 
-      choose "Q26 - Certificate of Lawful Development"
+      choose "Q26 – Certificates of lawful development"
 
-      expect(page).to have_content("Guidance")
-      expect(page).to have_content("Includes both Existing & Proposed applications")
+      expect(page).to have_content("Includes both existing & proposed applications")
 
       click_button "Save and mark as complete"
 

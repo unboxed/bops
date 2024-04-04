@@ -9,10 +9,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-l"><%= t(".choose_features") %></h1>
-    <h2 class="govuk-heading-m"><%= @application_type.description %></h2>
-
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l govuk-!-margin-bottom-2">
+        <%= @application_type.description %>
+      </span>
+      <%= t(".choose_features") %>
+    </h1>
 
     <%= form_with model: @application_type, url: [@application_type, :features] do |form| %>
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -28,7 +30,7 @@
 
         <%= ff.govuk_fieldset legend: { text: t("legends.consultation", scope: :application_type_features), size: "s" } do %>
           <%= ff.govuk_collection_check_boxes :consultation_steps,
-              Consultation::STEPS.map { |step| OpenStruct.new(id: step, name: t("labels.consultation_steps.#{step}", scope: :application_type_features)) }, 
+              Consultation::STEPS.map { |step| OpenStruct.new(id: step, name: t("labels.consultation_steps.#{step}", scope: :application_type_features)) },
               :id, :name,
               legend: { text: "Consultation steps", tag: "span", class: "govuk-visually-hidden" } %>
         <% end %>

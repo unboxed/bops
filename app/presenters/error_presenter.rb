@@ -19,13 +19,11 @@ class ErrorPresenter
   def formatted_message(message, attribute)
     attribute = attributes_map[attribute] || attribute
 
-    if message.match?(/\A[A-Z].+\Z/)
-      message
-    else
-      text = "#{attribute.to_s.humanize.tr(".", " ")} #{message}"
-
-      link? ? link_tag(text) : text
+    unless message.match?(/\A[A-Z].+\Z/)
+      message = "#{attribute.to_s.humanize.tr(".", " ")} #{message}"
     end
+
+    link? ? link_tag(message, attribute) : message
   end
 
   def attributes_map
@@ -34,5 +32,9 @@ class ErrorPresenter
 
   def link?
     false
+  end
+
+  def link_tag(text, attribute)
+    raise NotImplementedError, "Subclasses must implement a link_tag(text, attribute) method"
   end
 end
