@@ -5,7 +5,6 @@ module PlanningApplications
     before_action :set_planning_application
     before_action :set_consultation
     before_action :set_consultees
-    before_action :set_consultee, only: %i[show]
 
     def create
       @consultee = @consultees.create!(consultee_params)
@@ -16,6 +15,8 @@ module PlanningApplications
     end
 
     def show
+      @consultee = @consultees.find(consultee_id)
+
       respond_to do |format|
         format.html
       end
@@ -39,10 +40,6 @@ module PlanningApplications
 
     def set_consultees
       @consultees = @consultation.consultees
-    end
-
-    def set_consultee
-      @consultee = @consultees.find(consultee_id)
     end
 
     def constraint_id
