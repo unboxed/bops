@@ -286,18 +286,20 @@ en:
               updates_required: You have requested officer changes, resolve these before agreeing with the recommendation
         reporting_type:
           attributes:
+            base:
+              used: You can't remove a reporting type that's being used by an application type
             category:
-              blank: You must choose a category for a reporting type
+              blank: Choose a category for this reporting type
             code:
-              blank: You must enter a code for a reporting type
+              blank: Enter a code for this reporting type
               invalid_pa_code: The code must be in the form 'PAX' or 'PAXX' where 'X' is a number
               invalid_q_code: The code must be in the form 'QXX' where 'X' is a number
             description:
-              blank: You must enter a description for a reporting type
+              blank: Enter a description for this reporting type
             guidance_link:
               invalid: The link to the guidance must be a valid URL
             legislation:
-              blank: You must enter the legislation for prior approval reporting types
+              blank: Enter the legislation for prior approval reporting types
         review:
           attributes:
             action:

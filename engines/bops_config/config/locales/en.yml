@@ -233,6 +233,8 @@ en:
     reporting_types:
       create:
         success: Reporting type successfully created
+      destroy:
+        success: Reporting type successfully removed
       edit:
         title: Edit reporting type
       form:
@@ -261,7 +263,8 @@ en:
         guidance_link_label: Link to the guidance if available
         legislation_hint: Enter the applicable legislation if the category is prior approval
         legislation_label: Legislation
-        save_reporting_type: Save reporting type
+        remove: Remove
+        save: Save
       index:
         create_reporting_type: Create reporting type
         title: Reporting Types

@@ -4,7 +4,7 @@ module BopsConfig
   class ReportingTypesController < ApplicationController
     before_action :build_reporting_type, only: %i[new create]
     before_action :set_reporting_types, only: %i[index]
-    before_action :set_reporting_type, only: %i[edit update]
+    before_action :set_reporting_type, only: %i[edit update destroy]
 
     def index
       respond_to do |format|
@@ -41,6 +41,16 @@ module BopsConfig
 
       respond_to do |format|
         if @reporting_type.save
+          format.html { redirect_to reporting_types_path, notice: t(".success") }
+        else
+          format.html { render :edit }
+        end
+      end
+    end
+
+    def destroy
+      respond_to do |format|
+        if @reporting_type.destroy
           format.html { redirect_to reporting_types_path, notice: t(".success") }
         else
           format.html { render :edit }

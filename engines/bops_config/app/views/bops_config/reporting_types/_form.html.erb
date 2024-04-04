@@ -13,7 +13,13 @@
   <%= form.govuk_text_field :guidance_link, label: {text: t(".guidance_link_label")} %>
   <%= form.govuk_text_area :legislation, label: {text: t(".legislation_label")}, hint: {text: t(".legislation_hint")}, rows: 3 %>
 
-  <%= form.govuk_submit(t(".save_reporting_type")) do %>
+  <%= form.govuk_submit(t(".save")) do %>
+    <% if @reporting_type.persisted? %>
+      <%= link_to(t(".remove"), reporting_type_path(@reporting_type),
+        class: "govuk-button govuk-button--warning",
+        method: :delete, data: {confirm: "Are you sure?"}) %>
+    <% end %>
+
     <%= link_to(t("back"), :reporting_types, class: "govuk-button govuk-button--secondary") %>
   <% end %>
 <% end %>

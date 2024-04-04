@@ -237,6 +237,20 @@ class ApplicationType < ApplicationRecord
         [application_type.description, application_type.id]
       end
     end
+
+    def reporting_type_used?(codes)
+      where(reporting_types.contains(normalize_codes(codes))).exists?
+    end
+
+    private
+
+    def reporting_types
+      arel_table[:reporting_types]
+    end
+
+    def normalize_codes(codes)
+      Array.wrap(codes).compact_blank
+    end
   end
 
   private

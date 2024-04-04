@@ -21,6 +21,12 @@ class ReportingType < ApplicationRecord
     validates :guidance_link, url: true
   end
 
+  before_destroy do
+    if ApplicationType.reporting_type_used?(code)
+      errors.add(:base, :used) and throw(:abort)
+    end
+  end
+
   class << self
     def by_code
       order(:code_prefix, :code_suffix)
