@@ -376,6 +376,65 @@ RSpec.describe "Application Types", type: :system, bops_config: true do
     expect(page).to have_selector("dl div:nth-child(11) dd", text: "Active")
   end
 
+  it "allows editing of the category" do
+    application_type = create(:application_type, :configured, :ldc_proposed)
+
+    visit "/application_types/#{application_type.id}"
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(3)" do
+      expect(page).to have_selector("dt", text: "Category")
+      expect(page).to have_selector("dd:nth-child(2)", text: "Lawful Development Certificate")
+
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Choose category")
+    expect(page).to have_selector("h1 > span", text: "Lawful Development Certificate - Proposed use")
+
+    choose "Change of Use"
+    click_button "Continue"
+
+    expect(page).to have_content("Category successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(3)" do
+      expect(page).to have_selector("dt", text: "Category")
+      expect(page).to have_selector("dd:nth-child(2)", text: "Change of Use")
+    end
+  end
+
+  it "allows editing of the reporting types" do
+    create(:reporting_type, :prior_approval_1a)
+    create(:reporting_type, :prior_approval_all_others)
+
+    application_type = create(:application_type, :configured, :prior_approval)
+
+    visit "/application_types/#{application_type.id}"
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(4)" do
+      expect(page).to have_selector("dt", text: "Reporting")
+      expect(page).to have_selector("dd:nth-child(2)", text: "PA1")
+
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Select reporting types")
+    expect(page).to have_selector("h1 > span", text: "Prior Approval - Larger extension to a house")
+
+    check "All others"
+    click_button "Continue"
+
+    expect(page).to have_content("Reporting successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(4)" do
+      expect(page).to have_selector("dt", text: "Reporting")
+      expect(page).to have_selector("dd:nth-child(2)", text: "PA1, PA99")
+    end
+  end
+
   it "allows editing of the legislation" do
     legislation = create(:legislation, title: "Town and Country Planning Act 1990")
     determination_period_days = 25
