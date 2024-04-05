@@ -1,4 +1,4 @@
-ARG RUBY_VERSION=3.2.3
+ARG RUBY_VERSION=3.3.0
 
 FROM ruby:$RUBY_VERSION-bullseye
 
@@ -33,7 +33,7 @@ RUN bash -c "curl --retry 5 --retry-delay 5 --retry-max-time 60 -sL https://gith
     rm -rf /tmp/node-build-master"
 
 # Install Bundler
-ARG BUNDLER_VERSION=2.3.26
+ARG BUNDLER_VERSION=2.5.3
 RUN bash -c "gem update --system && gem install bundler -v $BUNDLER_VERSION"
 
 # Install Chromium and Chromium-Driver

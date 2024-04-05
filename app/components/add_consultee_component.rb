@@ -22,9 +22,9 @@ class AddConsulteeComponent < ViewComponent::Base
     content_tag(:details, **options, &)
   end
 
-  def summary_tag(&)
+  def summary_tag(&block)
     content_tag(:summary, class: "govuk-details__summary") do
-      concat(content_tag(:span, class: "govuk-details__summary-text", &))
+      concat(content_tag(:span, class: "govuk-details__summary-text", &block))
     end
   end
 
