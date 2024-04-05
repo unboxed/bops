@@ -82,4 +82,55 @@ RSpec.describe "Consultation", js: true do
 
     expect(page).to have_selector(".govuk-table__row", text: "Conservation area Chris Wood")
   end
+
+  it "allows marking a constraint as requiring consultation" do
+    click_link "Select and add consultees"
+
+    fill_in "Search for consultees", with: "Tree Officer"
+    pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
+    click_button "Add consultee"
+
+    within "tbody tr:first-child" do
+      click_link "Assign consultee"
+    end
+
+    check "Consultation required"
+    click_button "Assign consultee"
+
+    expect(page).not_to have_selector(".govuk-table__row", text: "Not required")
+  end
+
+  it "allows marking a constraint as not requiring consultation" do
+    click_link "Select and add consultees"
+
+    fill_in "Search for consultees", with: "Tree Officer"
+    pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
+    click_button "Add consultee"
+
+    within "tbody tr:first-child" do
+      click_link "Assign consultee"
+    end
+
+    uncheck "Consultation required"
+    click_button "Assign consultee"
+
+    expect(page).to have_selector(".govuk-table__row", text: "Conservation area Assign consultee Not assigned Not required")
+  end
+
+  it "allows marking a constraint as not requiring consultation even with a consultee associated" do
+    click_link "Select and add consultees"
+
+    fill_in "Search for consultees", with: "Tree Officer"
+    pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
+    click_button "Add consultee"
+
+    within "tbody tr:first-child" do
+      click_link "Assign consultee"
+    end
+    select "Chris Wood", from: "Consultee"
+    uncheck "Consultation required"
+    click_button "Assign consultee"
+
+    expect(page).to have_selector(".govuk-table__row", text: "Conservation area Chris Wood Not consulted Not required")
+  end
 end

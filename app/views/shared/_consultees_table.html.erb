@@ -24,6 +24,9 @@
         <% else %>
           <%= render StatusTags::BaseComponent.new(status: "not_assigned") %>
         <% end %>
+        <% unless constraint.consultation_required? %>
+          <%= render StatusTags::BaseComponent.new(status: "not_required") %>
+        <% end %>
       </td>
     </tr>
   <% end %>
