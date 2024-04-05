@@ -963,7 +963,7 @@ RSpec.describe PlanningApplication do
 
         it "raises PlanningApplication::SubmitRecommendationError" do
           expect { planning_application.submit_recommendation! }
-            .to raise_error(PlanningApplication::SubmitRecommendationError, "Event 'submit' cannot transition from 'in_assessment'. Failed callback(s): [:no_open_post_validation_requests?].")
+            .to raise_error(PlanningApplication::SubmitRecommendationError, "Event 'submit' cannot transition from 'in_assessment'. Failed callback(s): [:no_open_post_validation_requests_excluding_time_extension?].")
             .and not_change(Audit, :count)
 
           expect(planning_application).to be_in_assessment

@@ -456,6 +456,32 @@ RSpec.describe "Planning Application Assessment" do
           expect(planning_application).to be_in_assessment
         end
       end
+
+      context "when there is an open time extension request" do
+        let(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority) }
+        let!(:time_extension_request) { create(:time_extension_validation_request, :open, planning_application:, post_validation: true) }
+
+        it "allows me to submit the planning application" do
+          within(selected_govuk_tab) do
+            click_link(planning_application.reference)
+          end
+
+          click_link("Check and assess")
+          click_link("Make draft recommendation")
+          within_fieldset("What is your recommendation?") do
+            choose("Granted")
+          end
+          fill_in("State the reasons for your recommendation.", with: "This is a public comment")
+          fill_in("Provide supporting information for your manager.", with: "This is a private assessor comment")
+          click_button("Save and mark as complete")
+
+          click_link("Review and submit recommendation")
+          click_button("Submit recommendation")
+
+          expect(page).to have_content("Recommendation was successfully submitted.")
+          expect(page).to have_content("Awaiting determination")
+        end
+      end
     end
 
     context "when it needs to go to committee" do

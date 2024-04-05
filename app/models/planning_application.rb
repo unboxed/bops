@@ -703,12 +703,8 @@ class PlanningApplication < ApplicationRecord
     validation_requests.closed.max_by(&:updated_at).updated_at
   end
 
-  def all_open_post_validation_requests
-    validation_requests.open.post_validation
-  end
-
-  def no_open_post_validation_requests?
-    validation_requests.open.post_validation.none?
+  def no_open_post_validation_requests_excluding_time_extension?
+    open_post_validation_requests.excluding_time_extension.none?
   end
 
   def open_post_validation_requests
@@ -720,7 +716,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def open_post_validation_requests?
-    validation_requests.open.post_validation.any?
+    open_post_validation_requests.any?
   end
 
   def other_change_validation_request
