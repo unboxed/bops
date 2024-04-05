@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require "bops_config_helper"
 
-RSpec.describe "Users", type: :system, bops_config: true do
+RSpec.describe "Users", type: :system do
   let(:user) { create(:user, :global_administrator, name: "Clark Kent", local_authority: nil) }
   let(:last_email) { ActionMailer::Base.deliveries.last }
   let(:secure_password) { PasswordGenerator.call }
