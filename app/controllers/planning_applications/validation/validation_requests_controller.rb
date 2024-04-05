@@ -123,9 +123,7 @@ module PlanningApplications
       end
 
       def post_validation_requests
-        validation_requests = @planning_application.validation_requests.where(
-          post_validation: true
-        ).where.not(type: "TimeExtensionValidationRequest")
+        validation_requests = @planning_application.validation_requests.post_validation.excluding_time_extension
 
         @cancelled_validation_requests = validation_requests.cancelled
         @active_validation_requests = validation_requests.active
