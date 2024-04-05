@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require "bops_config_helper"
 
-RSpec.describe "Dashboard", type: :system, bops_config: true do
+RSpec.describe "Dashboard", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
 
   before do
