@@ -27,7 +27,7 @@ RUN bash -c "curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz
     rm -rf /tmp/node-build-master"
 
 # Install Bundler
-ARG BUNDLER_VERSION=2.3.26
+ARG BUNDLER_VERSION=2.5.3
 RUN bash -c "gem update --system && gem install bundler -v $BUNDLER_VERSION"
 
 # Base image for building dependencies
