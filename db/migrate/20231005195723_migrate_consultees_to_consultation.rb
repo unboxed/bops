@@ -25,7 +25,7 @@ class MigrateConsulteesToConsultation < ActiveRecord::Migration[7.0]
           raise "Detected an orphan consultee: #{consultee.inspect}"
         end
 
-        consultee.consultation = \
+        consultee.consultation =
           planning_application.consultation || planning_application.create_consultation!
 
         consultee.save!

@@ -93,7 +93,7 @@ class ApplicationType < ApplicationRecord
   end
 
   before_validation if: :code_changed? do
-    self.name = \
+    self.name =
       case code
       when /\Apa\./
         "prior_approval"
@@ -116,7 +116,7 @@ class ApplicationType < ApplicationRecord
   end
 
   before_update unless: :assessment_details? do
-    self.assessment_details = \
+    self.assessment_details =
       case name
       when "lawfulness_certificate"
         %w[summary_of_work site_description consultation_summary additional_evidence past_applications]
@@ -130,7 +130,7 @@ class ApplicationType < ApplicationRecord
   end
 
   before_update unless: :consistency_checklist? do
-    self.consistency_checklist = \
+    self.consistency_checklist =
       case name
       when "lawfulness_certificate"
         %w[description_matches_documents documents_consistent proposal_details_match_documents site_map_correct]
