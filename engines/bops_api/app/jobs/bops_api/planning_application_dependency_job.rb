@@ -1,0 +1,151 @@
+# frozen_string_literal: true
+
+module BopsApi
+  class PlanningApplicationDependencyJob < ApplicationJob
+    queue_as :submissions
+    discard_on ActiveJob::DeserializationError
+
+    def document_checklist_items
+      @document_checklist_items ||= params.dig(:metadata, :service, :files)
+    end
+
+    def perform(planning_application:, user:, files:, params:, send_email:)
+      @user = user
+      @params = params
+      @send_email = send_email
+
+      AnonymisationService.new(planning_application:).call! if planning_application.from_production?
+      process_document_checklist_items(planning_application)
+      Application::DocumentsService.new(planning_application:, user:, files:).call!
+
+      process_planning_designations(planning_application)
+      process_ownership_certificate_details(planning_application)
+      process_immunity_details(planning_application) if possibly_immune?(planning_application)
+
+      planning_application.send_receipt_notice_mail if send_email?(planning_application)
+    end
+
+    private
+
+    attr_reader :user, :params
+
+    def data_params
+      @data_params ||= params.fetch(:data)
+    end
+
+    def send_email?(planning_application)
+      @send_email && !planning_application.pending?
+    end
+
+    def process_document_checklist_items(planning_application)
+      document_checklist = DocumentChecklist.create!(planning_application:)
+
+      document_checklist_items.each do |category, document_item|
+        document_item.each do |document|
+          tags = document["value"]
+          description = document["description"]
+
+          document_checklist.document_checklist_items.create!(category:, tags:, description:)
+        end
+      end
+    end
+
+    def create_planning_application_constraint(planning_application, designation, constraint)
+      planning_application.planning_application_constraints.create! do |c|
+        c.constraint = constraint
+        c.identified = true
+        c.identified_by = user.service
+        c.data = []
+        c.metadata = {"description" => designation.fetch(:description)}
+      end
+    end
+
+    def process_planning_designations(planning_application)
+      planning_designations.each do |designation|
+        next unless designation.fetch(:intersects)
+
+        if (constraint = ::Constraint.for_type(designation.fetch(:value)))
+          planning_application_constraint = create_planning_application_constraint(planning_application, designation, constraint)
+          entities = designation.fetch(:entities, [])
+
+          if entities.present?
+            BopsApi::FetchConstraintEntitiesJob.perform_later(planning_application_constraint, entities)
+          end
+        end
+      end
+    end
+
+    def planning_designations
+      Array.wrap(data_params.dig(:property, :planning, :designations))
+    end
+
+    def process_ownership_certificate_details(planning_application)
+      return unless data_params[:applicant].key?(:ownership)
+      ownership_details = data_params[:applicant][:ownership]
+
+      ActiveRecord::Base.transaction do
+        ownership_certificate = OwnershipCertificate.create!(planning_application:, certificate_type: ownership_details[:certificate])
+
+        if ownership_details[:owners].present?
+          ownership_details[:owners].each do |owner|
+            LandOwner.create(
+              ownership_certificate:,
+              name: owner[:name],
+              town: owner[:address][:town],
+              address_1: owner[:address][:line1],
+              address_2: owner[:address][:line2],
+              county: owner[:address][:county],
+              country: owner[:address][:country],
+              postcode: owner[:address][:postcode],
+              notice_given: owner[:noticeDate].present?,
+              notice_given_at: owner[:noticeDate],
+              notice_reason: owner[:noticeReason]
+            )
+          end
+        end
+      end
+    end
+
+    def possibly_immune?(planning_application)
+      planning_application.immune_proposal_details.many?
+    end
+
+    def process_immunity_details(planning_application)
+      ActiveRecord::Base.transaction do
+        immunity_detail = ImmunityDetail.new(planning_application: planning_application)
+
+        immunity_detail.end_date = params.dig("data", "proposal", "date", "completion")
+        immunity_detail.end_date ||= planning_application
+          .find_proposal_detail("When were the works completed?")
+          .first.response_values.first
+        immunity_detail.save!
+      end
+
+      Document::EVIDENCE_TAGS.each do |tag|
+        next if planning_application.documents.with_tag(tag).empty?
+
+        planning_application.documents.with_tag(tag).each do |doc|
+          planning_application.immunity_detail.add_document(doc)
+        end
+      end
+
+      planning_application.immunity_detail.evidence_groups.each do |eg|
+        Document::EVIDENCE_QUESTIONS[eg.tag.to_sym].each do |question|
+          value = planning_application.find_proposal_detail(question).first&.response_values&.first
+
+          case question
+          when /show/
+            eg.applicant_comment = value
+          when /(start|issued)/
+            eg.start_date = value
+          when /run/
+            eg.end_date = value
+          end
+          eg.save!
+        end
+      end
+    rescue ActiveRecord::RecordInvalid, NoMethodError => e
+      Appsignal.send_error(e)
+    end
+  end
+end

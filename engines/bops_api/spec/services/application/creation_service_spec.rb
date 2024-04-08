@@ -104,9 +104,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "uploads the documents" do
           expect {
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
-              create_planning_application
-            }
+            create_planning_application
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
           }.to change(Document, :count).by(7)
 
           expect(documents).to include(
@@ -149,7 +148,10 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "creates the ownership certificate information" do
-          expect { create_planning_application }.to change(OwnershipCertificate, :count).by(1)
+          expect {
+            create_planning_application
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+          }.to change(OwnershipCertificate, :count).by(1)
           expect(OwnershipCertificate.last.land_owners.length).to eq 1
 
           expect(OwnershipCertificate.last).to have_attributes(
@@ -173,9 +175,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates the expected constraints" do
           expect {
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
-              create_planning_application
-            }
+            create_planning_application
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
           }.to change(PlanningApplicationConstraint, :count).by(3)
 
           expect(planning_application_constraints).to match_array([
@@ -254,9 +255,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "uploads the documents" do
           expect {
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
-              create_planning_application
-            }
+            create_planning_application
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
           }.to change(Document, :count).by(8)
 
           expect(documents).to include(
@@ -304,7 +304,10 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "creates the ownership certificate information" do
-          expect { create_planning_application }.to change(OwnershipCertificate, :count).by(1)
+          expect {
+            create_planning_application
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+          }.to change(OwnershipCertificate, :count).by(1)
           expect(OwnershipCertificate.last.land_owners.length).to eq 0
 
           expect(OwnershipCertificate.last).to have_attributes(
@@ -364,9 +367,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "uploads the documents" do
           expect {
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
-              create_planning_application
-            }
+            create_planning_application
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
           }.to change(Document, :count).by(4)
 
           expect(documents).to include(
@@ -394,7 +396,10 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "creates the document checklist" do
-          expect { create_planning_application }.to change(DocumentChecklist, :count).by(1)
+          expect {
+            create_planning_application
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+          }.to change(DocumentChecklist, :count).by(1)
           expect(DocumentChecklist.last.document_checklist_items.length).to eq 8
 
           expect(DocumentChecklist.last).to have_attributes(
@@ -450,10 +455,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
 
         it "creates neighbour boundary geojson" do
-          perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) {
-            create_planning_application
-          }
-
+          create_planning_application
+          perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
           expect(PlanningApplication.last.neighbour_boundary_geojson).not_to be nil
         end
       end
@@ -475,19 +478,12 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           stub_planning_data_entity_request("7010002192")
         end
 
-        it "returns true for possibly_immune?" do
-          # TODO remove this disgusting invasion of privacy
-          planning_application = service.send(:build_planning_application)
-          expect(service.send(:possibly_immune?, planning_application)).to be true
-        end
-
         it "creates the immunity details for the planning application" do
           planning_application = nil
 
           expect do
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) do
-              planning_application = service.call!
-            end
+            planning_application = service.call!
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
           end.to change(ImmunityDetail, :count).by(1)
 
           immunity_detail = ImmunityDetail.last
@@ -504,9 +500,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           planning_application = nil
 
           expect do
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob) do
-              planning_application = service.call!
-            end
+            planning_application = service.call!
+            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
           end.to change(EvidenceGroup, :count).by(4)
 
           council_tax_bill = planning_application.immunity_detail.evidence_groups.where(tag: "councilTaxBill").first
