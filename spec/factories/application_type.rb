@@ -74,6 +74,7 @@ FactoryBot.define do
         }
       end
 
+      decisions { %w[granted refused] }
       status { "active" }
     end
 
@@ -231,6 +232,7 @@ FactoryBot.define do
       end
 
       legislation { association :legislation, :pa_part1_classA }
+      decisions { %w[granted not_required refused] }
       status { "active" }
     end
 
@@ -372,6 +374,7 @@ FactoryBot.define do
         }
       end
 
+      decisions { %w[granted refused] }
       status { "active" }
     end
 

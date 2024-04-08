@@ -114,6 +114,11 @@ RSpec.describe "Update decision notice after committee" do
     end
 
     context "when the committee disagrees with the assessor's recommendation" do
+      before do
+        create(:decision, :householder_granted)
+        create(:decision, :householder_refused)
+      end
+
       it "can add what the committee decided" do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 

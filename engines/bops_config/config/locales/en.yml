@@ -36,6 +36,17 @@ en:
           success: Category successfully updated
       create:
         success: Application profile successfully created
+      decisions:
+        edit:
+          back: Back
+          choose_decisions: Choose decisions
+          continue: Continue
+          decisions:
+            granted: Granted
+            not_required: Not required
+            refused: Refused
+        update:
+          success: Decisions successfully updated
       determination_periods:
         edit:
           continue: Continue
@@ -146,6 +157,7 @@ en:
         category: Category
         change: Change
         continue: Continue
+        decisions: Decisions
         determination_period: Determination period
         determination_period_including_bank_holidays:
           one: 1 day - bank holidays included
@@ -199,6 +211,66 @@ en:
       show:
         administrator_dashboard: Administrator dashboard
         welcome_message: Welcome %{name}
+    decisions:
+      create:
+        success: Decision successfully created
+      edit:
+        title: Edit decision
+      form:
+        category_hint: Choose what category of application types this option will appear on when selecting the reporting type during validation
+        category_labels:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category_legend: Category
+        code_hint: Enter the code used to identify this decision (e.g. granted or refused)
+        code_label: Code
+        description_hint: Enter the description from the district planning matters return
+        description_label: Description
+        save_decision: Save decision
+      index:
+        create_decision: Create decision
+        title: Decisions
+      new:
+        title: Create decision
+      table:
+        action: Action
+        categories:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category: Category
+        code: Code
+        codes:
+          granted: Granted
+          not_required: Not required
+          refused: Refused
+        description: Description
+        edit: Edit
+      update:
+        success: Reporting type successfully updated
     legislation:
       create:
         success: Legislation successfully created

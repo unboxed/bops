@@ -132,6 +132,8 @@ en:
               inclusion: Select a valid application type name
               readonly: The name can't be changed when the application type is %{status}
               taken: There is already an application type for that name
+            decisions:
+              blank: You must choose at least one decision
             determination_period_days:
               blank: Enter a number of days for the determination period
               greater_than_or_equal_to: The determination period must be at least 1 day
@@ -1196,17 +1198,6 @@ en:
         new:
           assess_proposal: Assess the proposal
           assess_recommendation: Assess recommendation
-          decision:
-            lawfulness_certificate:
-              granted: Granted
-              refused: Refused
-            planning_permission:
-              granted: Granted
-              refused: Refused
-            prior_approval:
-              granted: Prior approval required and approved
-              not_required: Prior approval not required
-              refused: Prior approval required and refused
           error: 'Error:'
           is_the_use: What is your recommendation?
           make_draft_recommendation: Make draft recommendation
@@ -1534,17 +1525,6 @@ en:
         new:
           assess_proposal: Assess the proposal
           assess_recommendation: Assess recommendation
-          decision:
-            lawfulness_certificate:
-              granted: 'Yes'
-              refused: 'No'
-            planning_permission:
-              granted: Granted
-              refused: Refused
-            prior_approval:
-              granted: Prior approval required and approved
-              not_required: Prior approval not required
-              refused: Prior approval required and refused
           make_draft_recommendation: Update decision notice after committee details
         update:
           success: Recommendation was successfully reviewed.

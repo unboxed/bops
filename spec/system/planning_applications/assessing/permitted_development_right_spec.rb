@@ -18,6 +18,9 @@ RSpec.describe "Permitted development right" do
 
   context "when signed in as an assessor" do
     before do
+      create(:decision, :ldc_granted)
+      create(:decision, :ldc_refused)
+
       sign_in assessor
       visit "/planning_applications/#{planning_application.id}"
     end

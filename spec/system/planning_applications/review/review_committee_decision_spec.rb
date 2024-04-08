@@ -19,6 +19,9 @@ RSpec.describe "Review committee decision" do
   end
 
   before do
+    create(:decision, :ldc_granted)
+    create(:decision, :ldc_refused)
+
     allow(Current).to receive(:user).and_return(reviewer)
 
     sign_in reviewer

@@ -52,6 +52,9 @@ RSpec.describe "post validation requests" do
 
     context "when additional document request exists" do
       before do
+        create(:decision, :ldc_granted)
+        create(:decision, :ldc_refused)
+
         create(
           :additional_document_validation_request,
           planning_application:,

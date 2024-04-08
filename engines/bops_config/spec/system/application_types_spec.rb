@@ -18,6 +18,9 @@ RSpec.describe "Application Types", type: :system do
     create(:reporting_type, :major_industry)
     create(:reporting_type, :major_retail)
 
+    create(:decision, :full_granted)
+    create(:decision, :full_refused)
+
     visit "/application_types/new"
     expect(page).to have_selector("h1", text: "Application profile")
 
@@ -145,6 +148,17 @@ RSpec.describe "Application Types", type: :system do
 
     expect(page).to have_content("Document tags successfully updated")
 
+    # Set decisions
+    expect(page).to have_selector("h1", text: "Choose decisions")
+    click_button "Continue"
+
+    expect(page).to have_content("You must choose at least one decision")
+
+    check "Granted"
+    check "Refused"
+    click_button "Continue"
+    expect(page).to have_content("Decisions successfully updated")
+
     # Review application type
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(1) dd", text: "Planning Permission - Major application")
@@ -161,7 +175,8 @@ RSpec.describe "Application Types", type: :system do
     expect(page).to have_selector("dl div:nth-child(9) dd span:nth-child(2)", text: "Utility bill")
     expect(page).to have_selector("dl div:nth-child(10) dd span:nth-child(1)", text: "Environmental Impact Assessment (EIA)")
     expect(page).to have_selector("dl div:nth-child(10) dd span:nth-child(2)", text: "Sustainability statement")
-    expect(page).to have_selector("dl div:nth-child(11) dd", text: "Inactive")
+    expect(page).to have_selector("dl div:nth-child(11) dd", text: "Granted, Refused")
+    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Inactive")
   end
 
   it "allows editing of an inactive application type" do
@@ -241,7 +256,7 @@ RSpec.describe "Application Types", type: :system do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(11)" do
+    within "dl div:nth-child(12)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -253,7 +268,7 @@ RSpec.describe "Application Types", type: :system do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(11) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Active")
   end
 
   it "prevents activation of a new application type when the category has not been set" do
@@ -261,7 +276,7 @@ RSpec.describe "Application Types", type: :system do
 
     visit "/application_types/#{application_type.id}"
 
-    within "dl div:nth-child(11)" do
+    within "dl div:nth-child(12)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -286,7 +301,7 @@ RSpec.describe "Application Types", type: :system do
 
     visit "/application_types/#{application_type.id}"
 
-    within "dl div:nth-child(11)" do
+    within "dl div:nth-child(12)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -311,7 +326,7 @@ RSpec.describe "Application Types", type: :system do
 
     visit "/application_types/#{application_type.id}"
 
-    within "dl div:nth-child(11)" do
+    within "dl div:nth-child(12)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -337,7 +352,7 @@ RSpec.describe "Application Types", type: :system do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(11)" do
+    within "dl div:nth-child(12)" do
       expect(page).to have_selector("dd", text: "Active")
       click_link "Change"
     end
@@ -350,7 +365,7 @@ RSpec.describe "Application Types", type: :system do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(11) dd", text: "Retired")
+    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Retired")
   end
 
   it "allows an application type to be brought out of retirement" do
@@ -360,7 +375,7 @@ RSpec.describe "Application Types", type: :system do
 
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(11)" do
+    within "dl div:nth-child(12)" do
       expect(page).to have_selector("dd", text: "Retired")
       click_link "Change"
     end
@@ -373,7 +388,7 @@ RSpec.describe "Application Types", type: :system do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(11) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Active")
   end
 
   it "allows editing of the category" do
@@ -653,6 +668,37 @@ RSpec.describe "Application Types", type: :system do
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(10) dd span", text: "Sustainability statement")
     expect(page).not_to have_selector("dl div:nth-child(10) dd span", text: "Environmental Impact Assessment (EIA)")
+  end
+
+  it "allows editing of the decisions for recommendation" do
+    create(:decision, :pa_granted)
+    create(:decision, :pa_not_required)
+    create(:decision, :pa_refused)
+
+    application_type = create(:application_type, :configured, :prior_approval)
+
+    visit "/application_types/#{application_type.id}"
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(11)" do
+      expect(page).to have_selector("dt", text: "Decisions")
+      expect(page).to have_selector("dd:nth-child(2)", text: "Granted, Not required, Refused")
+
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Choose decisions")
+
+    uncheck "Prior approval not required"
+    click_button "Continue"
+
+    expect(page).to have_content("Decisions successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(11)" do
+      expect(page).to have_selector("dt", text: "Decisions")
+      expect(page).to have_selector("dd:nth-child(2)", text: "Granted, Refused")
+    end
   end
 
   it "displays application types" do

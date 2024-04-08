@@ -2,9 +2,8 @@
 
 module BopsConfig
   module ApplicationTypes
-    class DocumentTagsController < ApplicationController
+    class DecisionsController < ApplicationController
       before_action :set_application_type
-      before_action :set_document_tags
 
       def edit
         respond_to do |format|
@@ -14,7 +13,7 @@ module BopsConfig
 
       def update
         respond_to do |format|
-          if @application_type.update(application_type_params, :document_tags)
+          if @application_type.update(application_type_params, :decision)
             format.html do
               redirect_to next_path, notice: t(".success")
             end
@@ -27,27 +26,15 @@ module BopsConfig
       private
 
       def application_type_params
-        params.require(:application_type).permit(document_tags_attributes: document_tags_params)
-      end
-
-      def document_tags_params
-        {plans: [], evidence: [], supporting_documents: []}
+        params.require(:application_type).permit(decisions: [])
       end
 
       def set_application_type
         @application_type = ApplicationType.find(application_type_id)
       end
 
-      def set_document_tags
-        @document_tags = @application_type.document_tags
-      end
-
       def next_path
-        if @application_type.configured?
-          application_type_path(@application_type)
-        else
-          edit_application_type_decisions_path(@application_type)
-        end
+        application_type_path(@application_type)
       end
     end
   end

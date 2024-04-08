@@ -26,6 +26,9 @@ RSpec.describe "checking publicity" do
   end
 
   before do
+    create(:decision, :householder_granted)
+    create(:decision, :householder_refused)
+
     create(:recommendation, planning_application:)
 
     sign_in reviewer

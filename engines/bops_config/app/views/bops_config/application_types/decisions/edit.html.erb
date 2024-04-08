@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  <%= t(".choose_decisions") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".choose_decisions") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= form_with model: @application_type, url: [@application_type, :decisions] do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= form.govuk_collection_check_boxes :decisions, @application_type.all_decisions, :code, :description,
+          legend: { size: "l", tag: "h1", text: t(".choose_decisions")} %>
+
+      <%= form.govuk_submit(t(".continue")) do %>
+        <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

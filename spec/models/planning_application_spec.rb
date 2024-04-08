@@ -2544,7 +2544,7 @@ RSpec.describe PlanningApplication do
       let(:planning_application) { create(:planning_application, :planning_permission) }
 
       it "returns the right options" do
-        expect(planning_application.recommendation_options).to include([:granted, "Granted"], [:refused, "Refused"])
+        expect(planning_application.application_type.decisions).to eq(["granted", "refused"])
       end
     end
 
@@ -2552,7 +2552,7 @@ RSpec.describe PlanningApplication do
       let(:planning_application) { create(:planning_application, :lawfulness_certificate) }
 
       it "returns the right options" do
-        expect(planning_application.recommendation_options).to include([:granted, "Granted"], [:refused, "Refused"])
+        expect(planning_application.application_type.decisions).to eq(["granted", "refused"])
       end
     end
 
@@ -2560,11 +2560,7 @@ RSpec.describe PlanningApplication do
       let(:planning_application) { create(:planning_application, :prior_approval) }
 
       it "returns the right options" do
-        expect(planning_application.recommendation_options).to include(
-          [:refused, "Prior approval required and refused"],
-          [:granted, "Prior approval required and approved"],
-          [:not_required, "Prior approval not required"]
-        )
+        expect(planning_application.application_type.decisions).to eq(["granted", "not_required", "refused"])
       end
     end
   end

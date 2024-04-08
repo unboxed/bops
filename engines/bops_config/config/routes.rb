@@ -15,6 +15,7 @@ BopsConfig::Engine.routes.draw do
     scope module: "application_types" do
       with_options only: %i[edit update] do
         resource :category, controller: "category"
+        resource :decisions
         resource :determination_period
         resource :document_tags
         resource :features
@@ -27,6 +28,7 @@ BopsConfig::Engine.routes.draw do
 
   with_options except: %i[show] do
     resources :legislation
+    resources :decisions
     resources :reporting_types
   end
 

@@ -50,6 +50,10 @@ RSpec.describe "Reviewing assessment summaries" do
   context "when planning application is a prior approval" do
     context "when assessor filled out summaries" do
       before do
+        create(:decision, :pa_granted)
+        create(:decision, :pa_not_required)
+        create(:decision, :pa_refused)
+
         create(
           :assessment_detail,
           :summary_of_work,
@@ -388,6 +392,9 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor filled out summaries" do
       before do
+        create(:decision, :ldc_granted)
+        create(:decision, :ldc_refused)
+
         create(
           :assessment_detail,
           :summary_of_work,
@@ -848,6 +855,9 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor filled out summaries" do
       before do
+        create(:decision, :householder_granted)
+        create(:decision, :householder_refused)
+
         create(
           :assessment_detail,
           :summary_of_work,
