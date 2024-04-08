@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe BopsApi::UploadDocumentJob, type: :job do
+RSpec.describe BopsApi::Application::DocumentsService, type: :job do
   let(:arguments) do
     [planning_application, user, url, tags, description]
   end
@@ -12,13 +12,14 @@ RSpec.describe BopsApi::UploadDocumentJob, type: :job do
   let(:url) { "https://example.com/path/to/file.pdf" }
   let(:tags) { %w[sitePlan.proposed] }
   let(:description) { "Proposed site plan" }
+  let(:files) { [{"name" => url, "type" => ["something"]}] }
 
   context "when the file downloader isn't configured" do
     let(:user) { create(:api_user, file_downloader: nil) }
 
     it "raises an error" do
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new(planning_application:, user:, files:).call!
       }.to raise_error(BopsApi::Errors::FileDownloaderNotConfiguredError)
     end
   end
@@ -30,7 +31,7 @@ RSpec.describe BopsApi::UploadDocumentJob, type: :job do
 
     it "does not raise an error" do
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new(planning_application:, user:, files:).call!
       }.not_to raise_error
     end
   end
