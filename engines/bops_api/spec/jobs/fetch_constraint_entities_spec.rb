@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
+RSpec.describe BopsApi::PlanningApplicationDependencyJob, type: :job do
   let(:arguments) do
     [planning_application_constraint, entities]
   end
@@ -20,7 +20,7 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
         )
 
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to raise_error(
         BopsApi::Errors::InvalidEntityResponseError,
         "Request for entity https://www.planning.data.gov.uk/entity/999.json returned a non-JSON response"
@@ -34,7 +34,7 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
 
     it "sets the data to an empty array" do
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
       }.from(nil).to([])
@@ -54,7 +54,7 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
         )
 
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
       }.from(nil).to([])
@@ -74,7 +74,7 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
         )
 
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
       }.from(nil).to([{"name" => "Somewhere Road Tree Protection Zone"}])
@@ -94,7 +94,7 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
         )
 
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
       }.from(nil).to([{"name" => "Somewhere Road Tree Protection Zone"}])
@@ -107,7 +107,7 @@ RSpec.describe BopsApi::FetchConstraintEntitiesJob, type: :job do
 
     it "sets the data to an empty array" do
       expect {
-        described_class.perform_now(*arguments)
+        described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
       }.from(nil).to([])
