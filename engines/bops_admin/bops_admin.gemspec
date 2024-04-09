@@ -12,6 +12,5 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*"]
   end
 
-  spec.add_dependency "rails", ">= 7.1.3", "< 7.2"
-  spec.add_dependency "pagy"
+  spec.add_dependency "bops_core", "0.1.0"
 end
