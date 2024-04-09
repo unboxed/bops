@@ -159,9 +159,9 @@ module BopsApi
     end
 
     def fetch_entity(source)
-      return unless entity_url?(source)
+      uri = normalise_url(source)
 
-      uri = URI.parse(entity_url(source))
+      return unless uri
 
       connection = Faraday.new(uri.origin) do |faraday|
         faraday.response :raise_error
@@ -179,26 +179,15 @@ module BopsApi
       nil
     end
 
-    def entity_url(source)
-      case source
-      when Hash
-        "#{source.fetch(:url)}.json"
-      when String
-        "#{source}.json"
-      else
-        raise ArgumentError, "Invalid entity source: #{source.inspect}"
+    def normalise_url(source)
+      if source.is_a? Hash
+        source = source[:url]
       end
-    end
 
-    def entity_url?(source)
-      case source
-      when Hash
-        source.fetch(:url, nil).present?
-      when String
-        source.start_with?("https://www.planning.data.gov.uk/entity")
-      else
-        false
-      end
+      return unless source
+      return unless source.start_with?("https://www.planning.data.gov.uk/entity")
+
+      URI.parse("#{source}.json")
     end
   end
 end
