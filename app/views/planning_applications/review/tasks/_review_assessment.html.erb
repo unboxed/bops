@@ -83,7 +83,7 @@
 
   <%= render partial: "policy_classes", locals: { planning_application: @planning_application, policy_class: @policy_class } %>
 
-  <% if @planning_application.committee_decision.present? %>
+  <% if @planning_application.committee_decision&.current_review %>
     <%= render(
       TaskListItems::Reviewing::CommitteeComponent.new(
         planning_application: @planning_application,
