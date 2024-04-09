@@ -185,9 +185,18 @@ module BopsApi
       end
 
       return unless source
-      return unless source.start_with?("https://www.planning.data.gov.uk/entity")
 
-      URI.parse("#{source}.json")
+      mappings = {
+        "planning.data.gov.uk" => "www.planning.data.gov.uk"
+      }
+
+      uri = URI.parse("#{source}.json")
+
+      uri.host = mappings.fetch(uri.host, uri.host)
+
+      return unless uri.host == "www.planning.data.gov.uk"
+
+      uri
     end
   end
 end
