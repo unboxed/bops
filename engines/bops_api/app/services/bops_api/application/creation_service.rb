@@ -3,14 +3,14 @@
 module BopsApi
   module Application
     class CreationService
-      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil, send_email: false)
+      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil, email_sending_permitted: false)
         if planning_application
           initialize_from_planning_application(planning_application)
         else
           @local_authority = local_authority
           @user = user
           @params = params
-          @send_email = send_email
+          @email_sending_permitted = email_sending_permitted
         end
       end
 
@@ -74,7 +74,7 @@ module BopsApi
       def save!(planning_application)
         PlanningApplication.transaction do
           if planning_application.save!
-            PlanningApplicationDependencyJob.perform_later(planning_application:, user:, files:, params:, send_email: @send_email)
+            PlanningApplicationDependencyJob.perform_later(planning_application:, user:, files:, params:, email_sending_permitted: @email_sending_permitted)
           end
         end
 
@@ -90,7 +90,7 @@ module BopsApi
         @params = params_v2.with_indifferent_access
         @local_authority = planning_application.local_authority
         @user = planning_application.api_user
-        @send_email = false
+        @email_sending_permitted = false
       end
 
       def raise_not_permitted_in_production_error

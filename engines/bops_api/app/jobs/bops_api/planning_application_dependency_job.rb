@@ -9,10 +9,9 @@ module BopsApi
       @document_checklist_items ||= params.dig(:metadata, :service, :files)
     end
 
-    def perform(planning_application:, user:, files:, params:, send_email:)
+    def perform(planning_application:, user:, files:, params:, email_sending_permitted:)
       @user = user
       @params = params
-      @send_email = send_email
 
       AnonymisationService.new(planning_application:).call! if planning_application.from_production?
       process_document_checklist_items(planning_application)
@@ -22,7 +21,7 @@ module BopsApi
       process_ownership_certificate_details(planning_application)
       process_immunity_details(planning_application) if possibly_immune?(planning_application)
 
-      planning_application.send_receipt_notice_mail if send_email?(planning_application)
+      planning_application.send_receipt_notice_mail if email_sending_permitted && !planning_application.pending?
     end
 
     private
@@ -31,10 +30,6 @@ module BopsApi
 
     def data_params
       @data_params ||= params.fetch(:data)
-    end
-
-    def send_email?(planning_application)
-      @send_email && !planning_application.pending?
     end
 
     def process_document_checklist_items(planning_application)
