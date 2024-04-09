@@ -105,7 +105,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "uploads the documents" do
           expect {
             create_planning_application
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           }.to change(Document, :count).by(7)
 
           expect(documents).to include(
@@ -150,7 +150,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "creates the ownership certificate information" do
           expect {
             create_planning_application
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           }.to change(OwnershipCertificate, :count).by(1)
           expect(OwnershipCertificate.last.land_owners.length).to eq 1
 
@@ -176,7 +176,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "creates the expected constraints" do
           expect {
             create_planning_application
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           }.to change(PlanningApplicationConstraint, :count).by(3)
 
           expect(planning_application_constraints).to match_array([
@@ -256,7 +256,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "uploads the documents" do
           expect {
             create_planning_application
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           }.to change(Document, :count).by(8)
 
           expect(documents).to include(
@@ -306,7 +306,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "creates the ownership certificate information" do
           expect {
             create_planning_application
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           }.to change(OwnershipCertificate, :count).by(1)
           expect(OwnershipCertificate.last.land_owners.length).to eq 0
 
@@ -368,7 +368,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "uploads the documents" do
           expect {
             create_planning_application
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           }.to change(Document, :count).by(4)
 
           expect(documents).to include(
@@ -398,7 +398,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "creates the document checklist" do
           expect {
             create_planning_application
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           }.to change(DocumentChecklist, :count).by(1)
           expect(DocumentChecklist.last.document_checklist_items.length).to eq 8
 
@@ -456,7 +456,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates neighbour boundary geojson" do
           create_planning_application
-          perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+          perform_enqueued_jobs
           expect(PlanningApplication.last.neighbour_boundary_geojson).not_to be nil
         end
       end
@@ -483,7 +483,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
           expect do
             planning_application = service.call!
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           end.to change(ImmunityDetail, :count).by(1)
 
           immunity_detail = ImmunityDetail.last
@@ -501,7 +501,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
           expect do
             planning_application = service.call!
-            perform_enqueued_jobs(except: BopsApi::MarkAcceptedJob)
+            perform_enqueued_jobs
           end.to change(EvidenceGroup, :count).by(4)
 
           council_tax_bill = planning_application.immunity_detail.evidence_groups.where(tag: "councilTaxBill").first

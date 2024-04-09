@@ -25,6 +25,10 @@ module BopsApi
       process_immunity_details(planning_application) if possibly_immune?(planning_application)
 
       planning_application.send_receipt_notice_mail if email_sending_permitted && !planning_application.pending?
+
+      if planning_application.pending?
+        planning_application.mark_accepted!
+      end
     end
 
     private

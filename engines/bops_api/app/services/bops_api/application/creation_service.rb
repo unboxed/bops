@@ -79,7 +79,6 @@ module BopsApi
         end
 
         CreateNeighbourBoundaryGeojsonJob.perform_later(planning_application) if planning_application.consultation
-        MarkAcceptedJob.set(wait: 5.minutes).perform_later(planning_application)
 
         planning_application
       end
