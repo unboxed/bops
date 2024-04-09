@@ -3,7 +3,11 @@
     <% if @consultation.start_date && @consultation.end_date %>
       <ul class="govuk-list govuk-list--bullet">
         <li>the consultation period for this application is <%= (@consultation.end_date - @consultation.start_date).to_i %> days</li>
-        <li>the last letter was sent <%= (Date.current - @consultation.neighbour_letters.sent.max_by(&:sent_at).sent_at.to_date).to_i %> days ago</li>
+        <% if (sent_letters = @consultation.neighbour_letters.sent) && sent_letters.present? %>
+          <li>the last letter was sent <%= (Date.current - sent_letters.max_by(&:sent_at).sent_at.to_date).to_i %> days ago</li>
+        <% else %>
+          <li>no letters have been sent yet</li>
+        <% end %>
         <li>the consultation expiry date for this application is <%= @consultation.end_date.to_date.to_fs %></li>
       </ul>
     <% else %>
