@@ -298,12 +298,13 @@ en:
           attributes:
             base:
               used: You can't remove a reporting type that's being used by an application type
-            category:
-              blank: Choose a category for this reporting type
+            categories:
+              blank: Choose at least one category for this reporting type
             code:
               blank: Enter a code for this reporting type
               invalid_pa_code: The code must be in the form 'PAX' or 'PAXX' where 'X' is a number
               invalid_q_code: The code must be in the form 'QXX' where 'X' is a number
+              taken: Enter a unique code for this reporting type
             description:
               blank: Enter a description for this reporting type
             guidance_link:

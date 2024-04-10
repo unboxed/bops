@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_04_113623) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_10_102618) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -751,7 +751,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_113623) do
 
   create_table "reporting_types", force: :cascade do |t|
     t.string "code", null: false
-    t.string "category", null: false
+    t.string "category"
     t.string "description", null: false
     t.string "guidance"
     t.string "guidance_link"
@@ -760,6 +760,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_113623) do
     t.datetime "updated_at", null: false
     t.virtual "code_prefix", type: :text, as: "regexp_replace((code)::text, '[0-9]+$'::text, ''::text)", stored: true
     t.virtual "code_suffix", type: :integer, as: "(regexp_replace((code)::text, '^[A-Z]+'::text, ''::text))::integer", stored: true
+    t.string "categories", default: [], null: false, array: true
     t.index ["code"], name: "ix_reporting_types_on_code", unique: true
     t.index ["code_prefix", "code_suffix"], name: "ix_reporting_types_on_code_prefix__code_suffix"
   end

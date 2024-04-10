@@ -314,8 +314,8 @@ en:
       edit:
         title: Edit reporting type
       form:
-        category_hint: Choose what category of application types this option will appear on when selecting the reporting type during validation
-        category_labels:
+        categories_hint: Choose what category of application types this option will appear on when selecting the reporting type during validation
+        categories_labels:
           advertisment: Advertisment
           certificate_of_lawfulness: Lawful Development Certificate
           change_of_use: Change of Use
@@ -330,7 +330,7 @@ en:
           prior_approval: Prior Approval
           reserved_matters: Reserved Matters
           tree_works: Tree Works
-        category_legend: Category
+        categories_legend: Category
         code_hint: Enter the code used to identify this reporting type (e.g. Q26 or PA15)
         code_label: Code
         description_hint: Enter the description from the district planning matters return
@@ -348,21 +348,6 @@ en:
         title: Create reporting type
       table:
         action: Action
-        categories:
-          advertisment: Advertisment
-          certificate_of_lawfulness: Lawful Development Certificate
-          change_of_use: Change of Use
-          conservation_area: Conservation Area
-          full: Full Planning Permission
-          hedgerows: Hedgerows
-          householder: Householder
-          listed_building: Listed Building
-          non_material_amendment: Non-material Amendment
-          other: Other
-          outline: Outline Planning Permission
-          prior_approval: Prior Approval
-          reserved_matters: Reserved Matters
-          tree_works: Tree Works
         category: Category
         code: Code
         description: Description

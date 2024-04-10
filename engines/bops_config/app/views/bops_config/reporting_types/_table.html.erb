@@ -5,13 +5,13 @@
         <th scope="col" class="govuk-table__header">
           <%= t(".code") %>
         </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">
+          <%= t(".description") %>
+        </th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-third">
           <%= t(".category") %>
         </th>
-        <th scope="col" class="govuk-table__header">
-          <%= t(".description") %>
-        </th>
-        <th scope="col" class="govuk-table__header">
+        <th scope="col" class="govuk-table__header govuk-!-text-align-right">
           <%= t(".action") %>
         </th>
       </tr>
@@ -23,14 +23,18 @@
           <td class="govuk-table__cell">
             <%= reporting_type.code %>
           </td>
-          <td class="govuk-table__cell">
-            <%= t(".categories.#{reporting_type.category}") %>
-          </td>
           <td class="govuk-table__cell govuk-!-text-wrap-balance">
             <%= reporting_type.description %>
           </td>
           <td class="govuk-table__cell">
-            <%= link_to t(".edit"), edit_reporting_type_path(reporting_type) , class: "govuk-link" %>
+            <ul class="govuk-list govuk-!-margin-bottom-0">
+              <% reporting_type.human_categories.each do |category| %>
+                <li class="govuk-!-margin-bottom-0"><%= category %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td class="govuk-table__cell govuk-!-text-align-right">
+            <%= link_to t(".edit"), edit_reporting_type_path(reporting_type), class: "govuk-link" %>
           </td>
         </tr>
       <% end %>

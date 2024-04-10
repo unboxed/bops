@@ -61,7 +61,7 @@ module BopsConfig
     private
 
     def reporting_type_attributes
-      %i[code category description guidance guidance_link legislation]
+      [:code, :description, :guidance, :guidance_link, :legislation, categories: []]
     end
 
     def reporting_type_params

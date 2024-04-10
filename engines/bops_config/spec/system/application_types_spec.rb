@@ -715,7 +715,7 @@ RSpec.describe "Application Types", type: :system do
       href: "/application_types/new"
     )
 
-    within(".govuk-table.application-types-table") do
+    within("table") do
       within "thead > tr:first-child" do
         expect(page).to have_selector("th:nth-child(1)", text: "Suffix")
         expect(page).to have_selector("th:nth-child(2)", text: "Name")
