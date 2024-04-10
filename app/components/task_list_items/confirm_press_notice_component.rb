@@ -28,15 +28,9 @@ module TaskListItems
     end
 
     def status
-      if press_notice.nil?
-        "not_started"
-      elsif press_notice.published_at?
-        "complete"
-      elsif press_notice.press_sent_at?
-        "in_progress"
-      else
-        "not_started"
-      end
+      return "complete" if press_notice&.published_at?
+
+      "not_started"
     end
   end
 end

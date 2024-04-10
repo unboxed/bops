@@ -7,6 +7,8 @@ class PressNotice < ApplicationRecord
   include DateValidateable
   include Consultable
 
+  self.ignored_columns += %w[press_sent_at]
+
   REASONS = %i[
     conservation_area
     listed_building
@@ -30,17 +32,10 @@ class PressNotice < ApplicationRecord
   end
 
   with_options on: :confirmation do
-    validates :press_sent_at,
-      presence: true,
-      date: {
-        on_or_before: :current,
-        on_or_after: :consultation_start_date
-      }
-
     validates :published_at,
       date: {
         on_or_before: :current,
-        on_or_after: :press_sent_at
+        on_or_after: :consultation_start_date
       }
   end
 

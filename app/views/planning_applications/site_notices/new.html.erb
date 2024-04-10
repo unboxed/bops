@@ -38,7 +38,7 @@
       <%= form.govuk_radio_button :required, false, label: { text: "No" }, data: { action: "change->show-hide-form#handleEvent" } %>
     <% end %>
 
-    <div class="govuk-!-display-none" id="site-notice-options">
+    <%= tag.div(id: "site-notice-options", class: class_names("govuk-!-display-none": @site_notice.errors.blank?)) do %>
       <div class="grey-box" id="email-site-notice">
         <%= form.govuk_radio_buttons_fieldset(
           :method,
@@ -64,7 +64,7 @@
       <div class="govuk-button-group govuk-!-padding-top-7">
         <%= back_link %>
       </div>
-    </div>
+    <% end %>
 
     <div class="govuk-button-group govuk-!-padding-top-7 govuk-!-display-none" id="site-notice-form-actions">
       <%= form.submit "Save and mark as complete", class: "govuk-button govuk-button--primary" %>
