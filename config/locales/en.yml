@@ -206,6 +206,14 @@ en:
               invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'
             resend_message:
               invalid: The additional message contains an invalid placeholder '{{%{placeholder}}}'
+        decision:
+          attributes:
+            category:
+              blank: Choose a category for this decision
+            code:
+              blank: Choose a code for this decision
+            description:
+              blank: Enter a description for this decision
         document:
           attributes:
             file:

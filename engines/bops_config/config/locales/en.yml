@@ -217,7 +217,7 @@ en:
       edit:
         title: Edit decision
       form:
-        category_hint: Choose what category of application types this option will appear on when selecting the reporting type during validation
+        category_hint: Choose what category of application types this option will appear on when selecting the decision during assessment and review
         category_labels:
           advertisment: Advertisment
           certificate_of_lawfulness: Lawful Development Certificate
@@ -234,9 +234,13 @@ en:
           reserved_matters: Reserved Matters
           tree_works: Tree Works
         category_legend: Category
-        code_hint: Enter the code used to identify this decision (e.g. granted or refused)
+        code_hint: Enter the code used to identify this decision (e.g. granted, not required or refused)
         code_label: Code
-        description_hint: Enter the description from the district planning matters return
+        codes:
+          granted: Granted
+          not_required: Not required
+          refused: Refused
+        description_hint: Enter the description for this decisions
         description_label: Description
         save_decision: Save decision
       index:
@@ -270,7 +274,7 @@ en:
         description: Description
         edit: Edit
       update:
-        success: Reporting type successfully updated
+        success: Decision successfully updated
     legislation:
       create:
         success: Legislation successfully created

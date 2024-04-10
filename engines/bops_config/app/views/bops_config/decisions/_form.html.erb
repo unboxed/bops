@@ -2,7 +2,10 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.govuk_text_field :description, label: {text: t(".description_label")}, hint: {text: t(".description_hint")} %>
-  <%= form.govuk_text_field :code, width: 5, label: {text: t(".code_label")}, hint: {text: t(".code_hint")} %>
+
+  <%= form.govuk_collection_radio_buttons :code,
+    Decision.codes, :itself, ->((k)) { t(".codes.#{k}") },
+      legend: {text: t(".code_label")}, hint: {text: t(".code_hint")} %>
 
   <%= form.govuk_collection_radio_buttons :category,
     Decision.categories, :first, ->((k)) { t(".category_labels.#{k}") },
