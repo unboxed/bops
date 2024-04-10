@@ -61,7 +61,7 @@ lint:
 	$(DOCKER-RUN) console rubocop
 
 lint-auto-correct:
-	$(DOCKER-RUN) console rubocop --auto-correct-all
+	$(DOCKER-RUN) console rubocop --autocorrect-all
 
 # this regenerates the Rubocop TODO and ensures that cops aren't
 # turned off over a max number of file offenses. Note: we don't want

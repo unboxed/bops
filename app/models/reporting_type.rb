@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class ReportingType < ApplicationRecord
-  enum :category, ApplicationType.categories
-
   with_options presence: true do
     validates :code, uniqueness: true
-    validates :category, :description
+    validates :categories, :description
   end
 
   with_options if: :prior_approval? do
@@ -32,16 +30,60 @@ class ReportingType < ApplicationRecord
       order(:code_prefix, :code_suffix)
     end
 
+    def categories
+      ApplicationType.categories.values
+    end
+
+    def category_menu
+      categories.map(&method(:category_menu_item))
+    end
+
     def for_category(category)
-      where(category: category).by_code
+      where(categories_contains(normalize_category(category))).by_code
     end
 
     def for_codes(codes)
       where(code: Array.wrap(codes)).by_code
     end
+
+    def human_category(category)
+      I18n.t("odp.application_categories.#{category.underscore}")
+    end
+
+    private
+
+    def categories_contains(category)
+      arel_table[:categories].contains(category)
+    end
+
+    def category_menu_item(category)
+      [category, human_category(category)]
+    end
+
+    def normalize_category(category)
+      Array.wrap(category.dasherize).compact_blank
+    end
+  end
+
+  def human_categories
+    categories.map(&method(:human_category))
+  end
+
+  def categories=(values)
+    super(Array.wrap(values).compact_blank)
   end
 
   def full_description
     "#{code} – #{description}"
+  end
+
+  def prior_approval?
+    categories.include?("prior-approval")
+  end
+
+  private
+
+  def human_category(category)
+    self.class.human_category(category)
   end
 end
