@@ -69,7 +69,7 @@ module BopsConfig
     def decision_id
       Integer(params[:id])
     rescue
-      raise ActionController::BadRequest, "Invalid reporting type id: #{params[:id].inspect}"
+      raise ActionController::BadRequest, "Invalid decision type id: #{params[:id].inspect}"
     end
 
     def set_decision
