@@ -21,7 +21,7 @@ class PlanningApplicationConstraint < ApplicationRecord
   scope :removed, -> { where.not({removed_at: nil}) }
 
   def start_date
-    data.first["start-date"] if data
+    data.first["start-date"] if data.present?
   end
 
   def description
