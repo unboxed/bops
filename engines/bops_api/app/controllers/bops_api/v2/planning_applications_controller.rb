@@ -59,7 +59,7 @@ module BopsApi
           local_authority: @local_authority,
           user: @current_user,
           params: request_parameters,
-          send_email: send_email
+          email_sending_permitted: send_email
         )
       end
 
