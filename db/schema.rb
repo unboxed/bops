@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_10_102618) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_10_165750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -751,7 +751,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_10_102618) do
 
   create_table "reporting_types", force: :cascade do |t|
     t.string "code", null: false
-    t.string "category"
     t.string "description", null: false
     t.string "guidance"
     t.string "guidance_link"
