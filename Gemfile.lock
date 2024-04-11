@@ -578,6 +578,8 @@ GEM
     store_model (2.1.2)
       activerecord (>= 5.2)
     stringio (3.1.0)
+    strong_migrations (1.8.0)
+      activerecord (>= 5.2)
     strong_password (0.0.10)
     sys-uname (1.2.2)
       ffi (~> 1.1)
@@ -690,6 +692,7 @@ DEPENDENCIES
   standard-rails
   stimulus-rails
   store_model
+  strong_migrations
   strong_password (~> 0.0.9)
   view_component
   web-console

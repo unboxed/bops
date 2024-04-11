@@ -44,6 +44,7 @@ gem "sidekiq-scheduler"
 gem "sprockets-rails"
 gem "stimulus-rails"
 gem "store_model"
+gem "strong_migrations"
 gem "strong_password", "~> 0.0.9"
 gem "view_component"
 
