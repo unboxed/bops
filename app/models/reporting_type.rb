@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReportingType < ApplicationRecord
+  self.ignored_columns += %w[category]
+
   with_options presence: true do
     validates :code, uniqueness: true
     validates :categories, :description
