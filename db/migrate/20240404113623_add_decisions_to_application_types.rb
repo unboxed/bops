@@ -7,6 +7,8 @@ class AddDecisionsToApplicationTypes < ActiveRecord::Migration[7.1]
     add_column :application_types, :decisions, :string, array: true
 
     up_only do
+      ApplicationType.reset_column_information
+
       ApplicationType.find_each do |type|
         case type.category
         when "certificate-of-lawfulness"
