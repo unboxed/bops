@@ -7,8 +7,6 @@ class PressNotice < ApplicationRecord
   include DateValidateable
   include Consultable
 
-  self.ignored_columns += %w[press_sent_at]
-
   REASONS = %i[
     conservation_area
     listed_building
