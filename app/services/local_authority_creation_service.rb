@@ -2,12 +2,12 @@
 
 class LocalAuthorityCreationService
   def initialize(params)
-    @subdomain = params.fetch(:subdomain, nil)
-    @council_code = params.fetch(:council_code, nil)
-    @short_name = params.fetch(:short_name, nil)
-    @council_name = params.fetch(:council_name, nil)
-    @applicants_url = params.fetch(:applicants_url, nil)
-    @admin_email = params.fetch(:admin_email, nil)
+    @subdomain = params[:subdomain]
+    @council_code = params[:council_code]
+    @short_name = params[:short_name]
+    @council_name = params[:council_name]
+    @applicants_url = params[:applicants_url]
+    @admin_email = params[:admin_email]
   end
 
   def call

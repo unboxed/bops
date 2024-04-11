@@ -5,14 +5,14 @@ class ProposalDetail
   attr_accessor :index
 
   def initialize(attributes, index)
-    @question = attributes.fetch("question", nil)
+    @question = attributes["question"]
     @responses = attributes.fetch("responses", [])
     @metadata = attributes.fetch("metadata", {})
     @index = index
   end
 
   def auto_answered?
-    metadata.fetch("auto_answered", nil).present?
+    metadata["auto_answered"].present?
   end
 
   def flags
@@ -20,7 +20,7 @@ class ProposalDetail
   end
 
   def notes
-    metadata.fetch("notes", nil)
+    metadata["notes"]
   end
 
   def policy_refs
@@ -28,11 +28,11 @@ class ProposalDetail
   end
 
   def section_name
-    metadata.fetch("section_name", nil)
+    metadata["section_name"]
   end
 
   def portal_name
-    metadata.fetch("portal_name", nil)
+    metadata["portal_name"]
   end
 
   def response_values
