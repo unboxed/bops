@@ -2212,40 +2212,6 @@ RSpec.describe PlanningApplication do
     end
   end
 
-  describe "#can_clone?" do
-    let(:planning_application) { create(:planning_application) }
-
-    context "when in the dev environment" do
-      before { allow(Rails.env).to receive(:development?).and_return(true) }
-
-      it "returns true" do
-        expect(planning_application.can_clone?).to be(true)
-      end
-    end
-
-    context "when environment is production" do
-      before do
-        allow(ENV).to receive(:fetch).and_call_original
-        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
-      end
-
-      it "returns true" do
-        expect(planning_application.can_clone?).to be(false)
-      end
-    end
-
-    context "when environment is staging" do
-      before do
-        allow(ENV).to receive(:fetch).and_call_original
-        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("staging")
-      end
-
-      it "returns true" do
-        expect(planning_application.can_clone?).to be(true)
-      end
-    end
-  end
-
   describe "#withdraw_or_cancel!" do
     let(:local_authority) { create(:local_authority, reviewer_group_email: "reviewers@example.com") }
 

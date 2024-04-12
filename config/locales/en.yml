@@ -1229,9 +1229,6 @@ en:
           permitted_development_rights: Permitted development rights
         index:
           application_details: Application details
-    clone:
-      failure: 'Error cloning application with message: %{message}.'
-      success: Planning application was successfully cloned.
     confirm_validation:
       validate_application: Validate application
     consultations:

@@ -14,21 +14,15 @@
     )
   ) %>
 
-  <% if @planning_application.in_progress? || @planning_application.can_clone? %>
+  <% if @planning_application.in_progress? %>
     <div class="govuk-button-group">
-      <% if @planning_application.in_progress? %>
-        <%= link_to(
-          t(".withdraw_or_cancel"),
-          planning_application_withdraw_or_cancel_path(
-            @planning_application
-          ),
-          class: "govuk-button govuk-button--warning"
-        ) %>
-      <% end %>
-
-      <% if @planning_application.can_clone? %>
-        <%= link_to "Clone", clone_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary", method: :post, data: { confirm: "This will clone the planning application identical to how it was created via PlanX. Are you sure?" } %>
-      <% end %>
+      <%= link_to(
+        t(".withdraw_or_cancel"),
+        planning_application_withdraw_or_cancel_path(
+          @planning_application
+        ),
+        class: "govuk-button govuk-button--warning"
+      ) %>
     </div>
   <% end %>
 <% end %>

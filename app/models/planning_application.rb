@@ -569,10 +569,6 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
-  def can_clone?
-    !Bops.env.production?
-  end
-
   def withdraw_or_cancel!(status, comment, document_params)
     event = withdraw_or_cancel_event(status)
 

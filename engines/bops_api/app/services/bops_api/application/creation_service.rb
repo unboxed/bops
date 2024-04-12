@@ -84,9 +84,7 @@ module BopsApi
       end
 
       def initialize_from_planning_application(planning_application)
-        params_v2 = planning_application.params_v2 || raise_not_permitted_to_clone_error
-
-        @params = params_v2.with_indifferent_access
+        @params = planning_application.params_v2.with_indifferent_access
         @local_authority = planning_application.local_authority
         @user = planning_application.api_user
         @email_sending_permitted = false
@@ -94,10 +92,6 @@ module BopsApi
 
       def raise_not_permitted_in_production_error
         raise BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
-      end
-
-      def raise_not_permitted_to_clone_error
-        raise BopsApi::Errors::NotPermittedError, "Planning application cannot be cloned without V2 params"
       end
     end
   end
