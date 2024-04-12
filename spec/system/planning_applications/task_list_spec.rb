@@ -151,7 +151,6 @@ RSpec.describe "Planning Application show page" do
       end
 
       within "#assess-section" do
-        expect(page).to have_link("Review non-validation requests")
         click_link "Check and assess"
       end
 

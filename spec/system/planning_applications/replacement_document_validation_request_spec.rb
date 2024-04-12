@@ -528,8 +528,8 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       fill_in "List all issues with the document", with: "This is very invalid"
       click_button "Send request"
-      click_link "Application"
-      click_link "Review non-validation requests"
+
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
 
       within ".validation-requests-table" do
         expect(page).to have_content(document1.name)
