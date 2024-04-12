@@ -1,8 +1,8 @@
-<h3 class="govuk-heading-s" id="<%= identifier.to_s %>">
+<%= tag.h3(id: identifier, class: "govuk-heading-s") do %>
   <%= text %>
-</h3>
+<% end %>
 
-<table class="govuk-table <%= identifier.to_s %>-constraints-table">
+<%= tag.table(class: ["govuk-table", "#{identifier}-constraints-table"]) do %>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">
@@ -31,4 +31,4 @@
         ) %>
     <% end %>
   </tbody>
-</table>
+<% end %>
