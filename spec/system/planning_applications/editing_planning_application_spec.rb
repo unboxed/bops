@@ -68,7 +68,7 @@ RSpec.describe "editing planning application" do
     click_button("Application information")
     click_link("Edit details")
 
-    expect(page).to have_content("Application number: 23-00101-PA")
+    expect(page).to have_content("Application number: 23-00101-PA1A")
     expect(page).to have_select("planning-application-application-type-id-field", selected: "Prior Approval - Larger extension to a house")
     fill_in("Address 1", with: "125 High Street")
     click_button("Save")
@@ -86,7 +86,7 @@ RSpec.describe "editing planning application" do
     within("#audit_#{Audit.find_by(activity_information: "Application type").id}") do
       expect(page).to have_content("Application type updated")
       expect(page).to have_content(
-        "Application type changed from: Lawfulness certificate / Changed to: Prior approval, Reference changed from 23-00100-LDCP to 23-00101-PA"
+        "Application type changed from: Lawfulness certificate / Changed to: Prior approval, Reference changed from 23-00100-LDCP to 23-00101-PA1A"
       )
       expect(page).to have_content(assessor.name)
       expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))

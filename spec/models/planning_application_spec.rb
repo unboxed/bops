@@ -239,7 +239,7 @@ RSpec.describe PlanningApplication do
             expect { planning_application.save }
               .to change(planning_application, :reference)
               .from(nil)
-              .to("22-00100-PA")
+              .to("22-00100-PA1A")
           end
         end
 
@@ -371,7 +371,7 @@ RSpec.describe PlanningApplication do
 
       context "when application type has changed" do
         it "updates the application type id and sets a new application and reference number" do
-          expect(pa_planning_application.reference).to eq("23-00100-PA")
+          expect(pa_planning_application.reference).to eq("23-00100-PA1A")
           expect(ldc_planning_application.reference).to eq("23-00101-LDCP")
 
           travel_to("2023-02-01") do
@@ -382,13 +382,13 @@ RSpec.describe PlanningApplication do
               .and change(ldc_planning_application, :application_number)
               .from("00101").to("00102")
               .and change(ldc_planning_application, :reference)
-              .from("23-00101-LDCP").to("23-00102-PA")
+              .from("23-00101-LDCP").to("23-00102-PA1A")
 
             expect(Audit.last).to have_attributes(
               planning_application_id: ldc_planning_application.id,
               activity_type: "updated",
               activity_information: "Application type",
-              audit_comment: "Application type changed from: Lawfulness certificate / Changed to: Prior approval,\n         Reference changed from 23-00101-LDCP to 23-00102-PA",
+              audit_comment: "Application type changed from: Lawfulness certificate / Changed to: Prior approval,\n         Reference changed from 23-00101-LDCP to 23-00102-PA1A",
               user: assessor
             )
           end

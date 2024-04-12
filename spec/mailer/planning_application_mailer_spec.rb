@@ -879,7 +879,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: PlanX-22-00100-PA"
+        "Application reference number: PlanX-22-00100-PA1A"
       )
     end
 
@@ -979,7 +979,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application number PlanX-22-00100-PA"
+        "Application number PlanX-22-00100-PA1A"
       )
     end
 
@@ -1049,7 +1049,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application number PlanX-22-00100-PA"
+        "Application number PlanX-22-00100-PA1A"
       )
     end
 

@@ -1,0 +1,147 @@
+---
+- name: lawfulness_certificate
+  code: ldc.existing
+  category: certificate-of-lawfulness
+  reporting_types:
+    - Q26
+  suffix: LDCE
+  determination_period_days: 56
+  steps:
+    - validation
+    - assessment
+    - review
+  decisions:
+    - granted
+    - refused
+  assessment_details:
+    - summary_of_work
+    - site_description
+    - consultation_summary
+    - additional_evidence
+    - past_applications
+  consistency_checklist:
+    - description_matches_documents
+    - documents_consistent
+    - proposal_details_match_documents
+    - site_map_correct
+
+- name: lawfulness_certificate
+  code: ldc.proposed
+  category: certificate-of-lawfulness
+  reporting_types:
+    - Q26
+  suffix: LDCP
+  determination_period_days: 56
+  steps:
+    - validation
+    - assessment
+    - review
+  decisions:
+    - granted
+    - refused
+  assessment_details:
+    - summary_of_work
+    - site_description
+    - consultation_summary
+    - additional_evidence
+    - past_applications
+  consistency_checklist:
+    - description_matches_documents
+    - documents_consistent
+    - proposal_details_match_documents
+    - site_map_correct
+
+- name: prior_approval
+  part: 1
+  section: A
+  code: pa.part1.classA
+  category: prior-approval
+  reporting_types:
+    - PA1
+  suffix: PA1A
+  determination_period_days: 56
+  features:
+    site_visits: true
+  steps:
+    - validation
+    - consultation
+    - assessment
+    - review
+  decisions:
+    - granted
+    - not_required
+    - refused
+  assessment_details:
+    - summary_of_work
+    - site_description
+    - additional_evidence
+    - neighbour_summary
+    - amenity
+    - past_applications
+  consistency_checklist:
+    - description_matches_documents
+    - documents_consistent
+    - proposal_details_match_documents
+    - proposal_measurements_match_documents
+    - site_map_correct
+
+- name: planning_permission
+  code: pp.full.householder
+  category: householder
+  reporting_types:
+    - Q21
+  suffix: HAPP
+  determination_period_days: 56
+  features:
+    permitted_development_rights: false
+    site_visits: true
+  steps:
+    - validation
+    - consultation
+    - assessment
+    - review
+  decisions:
+    - granted
+    - refused
+  assessment_details:
+    - summary_of_work
+    - site_description
+    - additional_evidence
+    - consultation_summary
+    - neighbour_summary
+    - past_applications
+  consistency_checklist:
+    - description_matches_documents
+    - documents_consistent
+    - proposal_details_match_documents
+    - site_map_correct
+
+- name: planning_permission
+  code: pp.full.householder.retro
+  category: householder
+  reporting_types:
+    - Q21
+  suffix: HAPR
+  features:
+    permitted_development_rights: false
+    site_visits: true
+  steps:
+    - validation
+    - consultation
+    - assessment
+    - review
+  decisions:
+    - granted
+    - refused
+  assessment_details:
+    - summary_of_work
+    - site_description
+    - additional_evidence
+    - consultation_summary
+    - neighbour_summary
+    - past_applications
+  consistency_checklist:
+    - description_matches_documents
+    - documents_consistent
+    - proposal_details_match_documents
+    - site_map_correct

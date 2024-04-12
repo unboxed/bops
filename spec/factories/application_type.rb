@@ -108,7 +108,7 @@ FactoryBot.define do
     trait :prior_approval do
       name { "prior_approval" }
       code { "pa.part1.classA" }
-      suffix { "PA" }
+      suffix { "PA1A" }
       category { "prior-approval" }
       reporting_types { %w[PA1] }
       features {
@@ -388,7 +388,7 @@ FactoryBot.define do
       planning_permission
 
       code { "pp.full.householder.retro" }
-      suffix { "HRET" }
+      suffix { "HAPR" }
 
       legislation { association :legislation, :pp_full_householder_retro }
     end
