@@ -1,0 +1,192 @@
+---
+- code: Q01
+  description: Dwellings (major)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q02
+  description: Offices, R&D, and light industry (major)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q03
+  description: General Industry, storage and warehousing (major)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q04
+  description: Retail and services (major)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q05
+  description: Traveller caravan pitches (major)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q06
+  description: All other developments (major)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q07
+  description: Major Public Service infrastructure developments
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q13
+  description: Dwellings (minor)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q14
+  description: Offices, R&D, and light industry (minor)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q15
+  description: General Industry, storage and warehousing (minor)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q16
+  description: Retail and services (minor)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q17
+  description: Traveller caravan pitches (minor)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q18
+  description: All other developments (minor)
+  categories:
+    - full
+    - outline
+    - reserved-matters
+
+- code: Q20
+  description: Change of use
+  categories:
+    - change-of-use
+
+- code: Q21
+  description: Householder developments
+  categories:
+    - householder
+
+- code: Q22
+  description: Advertisements
+  categories:
+    - advertisment
+
+- code: Q23
+  description: Listed building consents to alter/extend
+  categories:
+    - listed-building
+
+- code: Q24
+  description: Listed building consents to demolish
+  categories:
+    - listed-building
+
+- code: Q25
+  description: Relevant demolition in a conservation area
+  categories:
+    - conservation-area
+
+- code: Q26
+  description: Certificates of lawful development
+  categories:
+    - certificate-of-lawfulness
+
+- code: PA1
+  description: Larger householder extensions
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 1, Class A
+  categories:
+    - prior-approval
+
+- code: PA2
+  description: Offices to residential
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 1, Class A
+  categories:
+    - prior-approval
+
+- code: PA7
+  description: Launderette, betting office, pay day loan shop, hot food takeaway, amusement arcade or centre, or casino to residential
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 3, Classes M and N
+  categories:
+    - prior-approval
+
+- code: PA8
+  description: Agricultural to residential
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 1, Class A
+  categories:
+    - prior-approval
+
+- code: PA15
+  description: Building upwards to create dwellinghouses on detached commercial or mixed-use buildings
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class AA
+  categories:
+    - prior-approval
+
+- code: PA16
+  description: Building upwards to create dwellinghouses on detached dwellinghouses
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class AD
+  categories:
+    - prior-approval
+
+- code: PA17
+  description: Building upwards to create dwellinghouses on detached blocks of flats
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class A
+  categories:
+    - prior-approval
+
+- code: PA18
+  description: Building upwards householder extensions
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 1, Class AA
+  categories:
+    - prior-approval
+
+- code: PA19
+  description: Demolition of buildings and construction of dwellinghouses
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class ZA
+  categories:
+    - prior-approval
+
+- code: PA20
+  description: Building upwards to create dwellinghouses on commercial or mixed-use buildings in a terrace
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 20, Class AB
+  categories:
+    - prior-approval
+
+- code: PA99
+  description: All others
+  legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2
+  categories:
+    - prior-approval

@@ -71,7 +71,7 @@ RSpec.describe "Create a site notice", js: true do
 
     expect(email_notification.to).to contain_exactly(planning_application.agent_email)
 
-    expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA")
+    expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA1A")
 
     expect(page).to have_content "Site notice was successfully emailed"
   end
@@ -92,7 +92,7 @@ RSpec.describe "Create a site notice", js: true do
 
     expect(email_notification.to).to contain_exactly(planning_application.applicant_email)
 
-    expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA")
+    expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA1A")
 
     expect(page).to have_content "Site notice was successfully emailed"
   end
@@ -116,7 +116,7 @@ RSpec.describe "Create a site notice", js: true do
 
     expect(email_notification.to).to contain_exactly("internal@email.com")
 
-    expect(email_notification.subject).to eq("Site notice for application number 23-00100-PA")
+    expect(email_notification.subject).to eq("Site notice for application number 23-00100-PA1A")
 
     expect(page).to have_content "Site notice was successfully emailed"
   end
