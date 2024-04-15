@@ -9,10 +9,14 @@
           <span class="govuk-header__service-name">
             <%= current_local_authority.short_name %>
           </span>
+          <span class="govuk-header__product-name">
+            <%= t(".back_office_planning") %>
+          </span>
+        <% else %>
+          <span class="govuk-header__service-name">
+            <%= t(".back_office_planning") %>
+          </span>
         <% end %>
-        <span class="govuk-header__product-name">
-          <%= t(".back_office_planning") %>
-        </span>
       <% end %>
       <% if current_user.present? %>
         <div class="header-session-info">
