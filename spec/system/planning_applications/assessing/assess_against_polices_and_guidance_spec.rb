@@ -43,7 +43,7 @@ RSpec.describe "assess against policies and guidance" do
 
     click_link "Add new consideration"
 
-    expect(page).to have_content("Create a new consideration")
+    expect(page).to have_content("Add new consideration")
 
     fill_in "manual-policy-input", with: "Consistency with local architecture"
 
