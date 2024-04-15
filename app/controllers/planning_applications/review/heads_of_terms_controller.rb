@@ -47,7 +47,7 @@ module PlanningApplications::Review
     def review_params
       params.require(:heads_of_term)
         .permit(reviews_attributes: %i[action comment],
-          terms_attributes: %i[_destroy id standard title text])
+          terms_attributes: %i[id standard title text])
         .to_h
         .deep_merge(
           reviews_attributes: {

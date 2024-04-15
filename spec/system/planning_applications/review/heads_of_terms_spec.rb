@@ -13,6 +13,9 @@ RSpec.describe "Reviewing heads of terms" do
 
   context "when signed in as a reviewer" do
     before do
+      Current.user = reviewer
+      travel_to Time.zone.local(2024, 1, 1, 11)
+
       create(:recommendation, status: "assessment_complete", planning_application:)
       create(:review, owner: planning_application.heads_of_term)
 
@@ -21,6 +24,9 @@ RSpec.describe "Reviewing heads of terms" do
     end
 
     context "when planning application is awaiting determination" do
+      let!(:term1) { create(:term, title: "Title 1", heads_of_term: planning_application.heads_of_term) }
+      let!(:term2) { create(:term, title: "Title 2", heads_of_term: planning_application.heads_of_term) }
+
       it "I can accept the planning officer's decision" do
         expect(page).to have_list_item_for(
           "Review heads of terms",
@@ -29,7 +35,7 @@ RSpec.describe "Reviewing heads of terms" do
 
         click_link "Review heads of terms"
 
-        expect(page).to have_content("Review heads of terms")
+        expect(page).to have_selector("h1", text: "Review heads of terms")
 
         choose "Accept"
 
@@ -57,14 +63,27 @@ RSpec.describe "Reviewing heads of terms" do
 
         choose "Edit to accept"
 
+        # Edit first term
+        within ".govuk-checkboxes .govuk-checkboxes__conditional", match: :first do
+          fill_in "Enter a title", with: "This is a new title"
+          fill_in "Enter detail", with: "This is a new detail"
+        end
+
+        # Unchecking second term should accept the term as it currently is
+        uncheck "Title 2"
+
         click_button "Save and mark as complete"
 
         expect(page).to have_content("Review heads of terms successfully updated")
-
         expect(page).to have_list_item_for(
           "Review heads of terms",
           with: "Completed"
         )
+        click_link "Review heads of terms"
+        expect(page).to have_content("Edited and accepted by #{reviewer.name} on 1 January 2024 11:00")
+
+        expect(term1.reload.title).to eq("This is a new title")
+        expect(term2.reload.title).to eq("Title 2")
 
         term = HeadsOfTerm.last
         expect(term.current_review.action).to eq "edited_and_accepted"
