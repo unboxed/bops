@@ -48,6 +48,7 @@ gem "strong_migrations"
 gem "strong_password", "~> 0.0.9"
 gem "view_component"
 
+gem "bops_core", path: "engines/bops_core"
 gem "bops_admin", path: "engines/bops_admin"
 gem "bops_api", path: "engines/bops_api"
 gem "bops_config", path: "engines/bops_config"
