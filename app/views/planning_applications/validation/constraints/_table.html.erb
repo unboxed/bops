@@ -1,8 +1,8 @@
-<h2 class="govuk-heading-m" id= <%= "#{identifier}" %>>
+<%= tag.h3(id: identifier, class: "govuk-heading-s") do %>
   <%= text %>
-</h2>
+<% end %>
 
-<table class="govuk-table <%= "#{identifier}" %>-constraints-table">
+<%= tag.table(class: ["govuk-table", "#{identifier}-constraints-table"]) do %>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">
@@ -27,8 +27,8 @@
     <% planning_application_constraints.each do |planning_application_constraint| %>
     <%= render(
           partial: "row",
-          locals: { planning_application_constraint: planning_application_constraint }
+          locals: {planning_application_constraint: planning_application_constraint}
         ) %>
     <% end %>
   </tbody>
-</table>
+<% end %>

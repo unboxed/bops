@@ -10,8 +10,8 @@
 <br>
 <%= form_with model: @planning_application, url: validate_planning_application_validation_sitemap_path(@planning_application) do |form| %>
   <%= form.govuk_radio_buttons_fieldset(:valid_red_line_boundary) do %>
-    <%= form.govuk_radio_button :valid_red_line_boundary, true, label: { text: "Valid"} %>
-    <%= form.govuk_radio_button :valid_red_line_boundary, false, label: { text: "Invalid" } %>
+    <%= form.govuk_radio_button :valid_red_line_boundary, true, label: { text: "Yes"} %>
+    <%= form.govuk_radio_button :valid_red_line_boundary, false, label: { text: "No" } %>
   <% end %>
 
   <div class="govuk-button-group">

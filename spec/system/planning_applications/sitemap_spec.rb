@@ -141,7 +141,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       click_link "Check red line boundary"
 
       within("fieldset", text: "Is this red line boundary valid?") do
-        choose "Invalid"
+        choose "No"
       end
 
       click_button "Save"
@@ -324,8 +324,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
 
-      click_link "Application"
-      click_link "Review non-validation requests"
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
       within(".validation-requests-table") do
         expect(page).to have_content("Red line boundary changes")
       end

@@ -46,7 +46,7 @@ RSpec.describe "Check ownership certificate" do
     it "I can request a new certificate" do
       click_link "Check ownership certificate"
 
-      click_button "Request a new ownership certificate"
+      click_button "Send new request"
 
       fill_in "Tell the applicant why their ownership certificate type is wrong", with: "Not enough owners"
 
@@ -85,7 +85,7 @@ RSpec.describe "Check ownership certificate" do
 
       expect(page).to have_content "Not specified"
 
-      click_button "Request a new ownership certificate"
+      click_button "Send new request"
 
       fill_in "Tell the applicant why their ownership certificate type is wrong", with: "Not enough owners"
 

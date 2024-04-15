@@ -33,8 +33,7 @@ RSpec.describe "post validation requests" do
         "Additional document request successfully created."
       )
 
-      click_link("Application")
-      click_link("Review non-validation requests")
+      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
 
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content(planning_application.reference)
@@ -210,8 +209,6 @@ RSpec.describe "post validation requests" do
     end
 
     it "does not allow you to view post validation requests" do
-      expect(page).not_to have_link("Review non-validation requests")
-
       # visit url directly
       visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
       expect(page).to have_content("forbidden")
@@ -224,8 +221,6 @@ RSpec.describe "post validation requests" do
     end
 
     it "does not allow you to view post validation requests" do
-      expect(page).not_to have_link("Review non-validation requests")
-
       # visit url directly
       visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
       expect(page).to have_content("forbidden")
