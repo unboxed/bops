@@ -16,10 +16,6 @@ class PlanningApplicationsController < AuthenticationController
     redirect_failed_submit_recommendation
   end
 
-  rescue_from PlanningApplicationCreationService::CreateError do |exception|
-    redirect_failed_clone_planning_application(exception)
-  end
-
   def index
     @planning_applications = search.call
   end
@@ -201,16 +197,6 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def clone
-    planning_application = create_cloned_application
-
-    respond_to do |format|
-      format.html { redirect_to planning_application, notice: t(".success") }
-    end
-  rescue ActiveRecord::RecordInvalid => e
-    redirect_failed_clone_planning_application(e)
-  end
-
   def supply_documents
     @documents = @planning_application.documents.active
 
@@ -287,11 +273,6 @@ class PlanningApplicationsController < AuthenticationController
       alert: t("planning_applications.submit_recommendation.failure")
   end
 
-  def redirect_failed_clone_planning_application(error)
-    redirect_to @planning_application,
-      alert: t("planning_applications.clone.failure", message: error.message)
-  end
-
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
@@ -335,17 +316,5 @@ class PlanningApplicationsController < AuthenticationController
 
     flash.now[:alert] = t(".confirm_press_notice_published_at_html", href: planning_application_press_notice_confirmation_path(@planning_application))
     render :publish and return
-  end
-
-  def create_cloned_application
-    if @planning_application.params_v2
-      # Use V2 creation service if params v2 is present
-      BopsApi::Application::CreationService.new(planning_application: @planning_application).call!.tap do |pa|
-        pa.mark_accepted!
-      end
-    else
-      # Support cloning with params v1 until we deprecate the service
-      PlanningApplicationCreationService.new(planning_application: @planning_application).call
-    end
   end
 end

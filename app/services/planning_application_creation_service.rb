@@ -5,12 +5,7 @@ class PlanningApplicationCreationService
 
   def initialize(planning_application: nil, **options)
     if planning_application
-      raise CreateError, "Cloning is not permitted in production" unless planning_application.can_clone?
-
-      params_v1 = planning_application.params_v1
-      raise CreateError, "Planning application can not be cloned as it was not created via PlanX" unless params_v1
-
-      @params = ActionController::Parameters.new(JSON.parse(params_v1))
+      @params = ActionController::Parameters.new(JSON.parse(planning_application.params_v1))
       @local_authority = planning_application.local_authority
       @api_user = planning_application.api_user
       @send_email = false

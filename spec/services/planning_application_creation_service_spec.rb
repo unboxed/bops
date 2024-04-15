@@ -26,71 +26,8 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         ).call
       end
 
-      before do
-        allow_any_instance_of(PlanningApplication).to receive(:can_clone?).and_return(true)
-      end
-
-      context "when successful" do
-        before do
-          # Create the planning application to be cloned using the params_v1 value from planx params
-          described_class.new(
-            planning_application:
-          ).call
-        end
-
-        it "creates a new planning application identical to how it came via planx using the params_v1 value as the params" do
-          planning_application = PlanningApplication.last
-
-          expect(BopsApi::Application::AnonymisationService).not_to receive(:new)
-
-          expect do
-            described_class.new(
-              planning_application:
-            ).call
-          end.to change(PlanningApplication, :count).by(1)
-
-          cloned_planning_application = PlanningApplication.last
-
-          expect(planning_application.reference).not_to eq(cloned_planning_application.reference)
-
-          expect(cloned_planning_application).to have_attributes(
-            id: planning_application.id + 1,
-            local_authority_id: planning_application.local_authority.id,
-            api_user_id: planning_application.api_user.id,
-            address_1: planning_application.address_1,
-            address_2: planning_application.address_2,
-            town: planning_application.town,
-            county: planning_application.county,
-            postcode: planning_application.postcode,
-            uprn: planning_application.uprn,
-            boundary_geojson: planning_application.boundary_geojson,
-            agent_first_name: planning_application.agent_first_name,
-            agent_email: planning_application.agent_email,
-            applicant_email: planning_application.applicant_email,
-            result_flag: planning_application.result_flag,
-            description: planning_application.description,
-            from_production: false,
-            lonlat: RGeo::Geographic.spherical_factory(srid: 4326).point(planning_application.longitude, planning_application.latitude)
-          )
-
-          expect(planning_application.params_v1).to eq(cloned_planning_application.params_v1)
-          expect(cloned_planning_application.planx_planning_data.session_id).to eq(nil)
-
-          # Proposal details have their own object id i.e. ProposalDetail:0x00007fe42a8476a8 so compare the json value instead
-          proposal_details = planning_application.proposal_details.map(&:to_json)
-          cloned_proposal_details = cloned_planning_application.proposal_details.map(&:to_json)
-          expect(proposal_details).to eq(cloned_proposal_details)
-
-          expect(ImmunityDetail.count).to eq 0
-        end
-      end
-
       context "when application might be immune" do
         let(:planning_application) { create(:planning_application, :from_planx_immunity, api_user:) }
-
-        before do
-          allow_any_instance_of(PlanningApplication).to receive(:can_clone?).and_return(true)
-        end
 
         it "queues the job to create immunity details" do
           planning_application = PlanningApplication.last
@@ -107,10 +44,6 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
       context "when application is applying for prior approval" do
         let(:planning_application) { create(:planning_application, :from_planx_prior_approval, api_user:) }
 
-        before do
-          allow_any_instance_of(PlanningApplication).to receive(:can_clone?).and_return(true)
-        end
-
         context "when we accept that type of prior approval" do
           it "is successful" do
             planning_application = PlanningApplication.last
@@ -120,12 +53,6 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
                 planning_application:
               ).call
             end.to change(PlanningApplication, :count).by(1)
-
-            cloned_planning_application = PlanningApplication.last
-
-            expect(planning_application.reference).not_to eq(cloned_planning_application.reference)
-
-            expect(cloned_planning_application.application_type.name).to eq("prior_approval")
           end
         end
 
@@ -141,22 +68,6 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
           it "raises an error" do
             expect { create_planning_application }.to raise_error(described_class::CreateError, "BOPS does not accept this Prior Approval type")
           end
-        end
-      end
-
-      context "when can_clone? is false" do
-        before { allow(planning_application).to receive(:can_clone?).and_return(false) }
-
-        it "raises an error" do
-          expect { create_planning_application }.to raise_error(described_class::CreateError, "Cloning is not permitted in production")
-        end
-      end
-
-      context "when planning application was not created via PlanX i.e. there is no params_v1 value" do
-        let(:planning_application) { create(:planning_application) }
-
-        it "raises an error" do
-          expect { create_planning_application }.to raise_error(described_class::CreateError, "Planning application can not be cloned as it was not created via PlanX")
         end
       end
 
