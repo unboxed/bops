@@ -485,24 +485,17 @@ RSpec.describe "FeeItemsValidation" do
         end
 
         expect(page).to have_content("Confirm total fee paid")
-        expect(page).to have_content("Check any extra fee has been received and update the total fee now paid.")
         expect(page).to have_content("check that the correct fee has been received")
         expect(page).to have_content("update the total fee paid")
         expect(page).to have_field("planning_application[payment_amount]", with: "100.00")
 
         fill_in "planning_application[payment_amount]", with: "350.22"
-        click_button("Continue")
+        click_button("Mark as valid")
 
-        # Display fee item table
-        within(".fee-table") do
-          within(".govuk-table__head") do
-            expect(page).to have_content("Item")
-            expect(page).to have_content("Detail")
-          end
-          expect(page).to have_content("£350.22")
-        end
-        within(".govuk-fieldset") do
-          expect(page).to have_content("Is the fee valid?")
+        expect(page).to have_content "Planning application payment amount was successfully updated."
+
+        within("#fee-validation-task") do
+          expect(page).to have_content("Valid")
         end
 
         visit "/planning_applications/#{planning_application.id}/audits"

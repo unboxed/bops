@@ -1,4 +1,4 @@
-<table class="govuk-table fee-table">
+<table class="govuk-table fee-table govuk-!-margin-bottom-2">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header"><%= t(".item") %></th>
@@ -29,3 +29,7 @@
     </tr>
   </tbody>
 </table>
+
+<div class="govuk-!-margin-bottom-8">
+  <%= link_to "Check application documents", planning_application_documents_path(@planning_application), class: "govuk-body govuk-link" %>
+</div>
