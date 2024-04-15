@@ -37,7 +37,9 @@
 
       <%= form.label "Select consultee for #{@constraint.type_code}", class: "govuk-label" %>
       <%= form.hidden_field :constraint, value: @constraint.id %>
-      <%= form.govuk_select :consultee, options_for_select(@consultation.consultees.map { |c| [c.name, c.id] }) %>
+      <%= form.govuk_select :consultee, options_for_select([nil, nil] + @consultation.consultees.map { |c| [c.name, c.id] }) %>
+
+      <%= form.govuk_check_box :consultation_required, true, false, label: {text: "Consultation required?"}, selected: true %>
 
       <div class="govuk-button-group">
         <%= form.submit "Assign consultee", class: "govuk-button", data: {module: "govuk-button"} %>
