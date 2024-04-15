@@ -756,7 +756,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def has_only_time_extension_requests?
-    validation_requests.length == time_extension_validation_requests.length
+    !validation_requests.empty? && validation_requests.length == time_extension_validation_requests.length
   end
 
   def open_time_extension_requests
