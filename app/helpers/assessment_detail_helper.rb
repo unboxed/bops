@@ -18,6 +18,6 @@ module AssessmentDetailHelper
       responses.where("neighbour_responses.created_at > ?", detail.updated_at).length
     end
 
-    t(:neighbour_responses_by_summary_tag, tag: "new neighbour response", count:)
+    t(:neighbour_responses_by_summary_tag, tag: "neighbour response", count:)
   end
 end

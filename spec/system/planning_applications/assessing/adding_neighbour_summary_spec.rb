@@ -40,7 +40,7 @@ RSpec.describe "neighbour responses" do
 
       within(".govuk-notification-banner") do
         expect(page).to have_content("View neighbour responses")
-        expect(page).to have_content("There are 4 new neighbour responses")
+        expect(page).to have_content("There are 4 neighbour responses")
       end
 
       expect(page).to have_current_path(
@@ -77,7 +77,7 @@ RSpec.describe "neighbour responses" do
 
       within(".govuk-notification-banner") do
         expect(page).to have_content("View neighbour responses")
-        expect(page).to have_content("There are 4 new neighbour responses")
+        expect(page).to have_content("There are 4 neighbour responses")
       end
 
       fill_in "assessment_detail[design]", with: "A draft entry for the neighbour responses"
@@ -99,7 +99,7 @@ RSpec.describe "neighbour responses" do
 
       within(".govuk-notification-banner") do
         expect(page).to have_content("View neighbour responses")
-        expect(page).to have_content("There are 0 new neighbour responses")
+        expect(page).to have_content("There are 0 neighbour responses")
       end
 
       click_button "Save and come back later"
