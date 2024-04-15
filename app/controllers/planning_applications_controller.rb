@@ -250,6 +250,7 @@ class PlanningApplicationsController < AuthenticationController
       proposal_details
       payment_reference
       payment_amount
+      valid_fee
       postcode
       public_comment
       received_at
@@ -294,7 +295,7 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
-      redirect_to planning_application_validation_fee_items_path(@planning_application),
+      redirect_to planning_application_validation_tasks_path(@planning_application),
         notice: t(".edit_payment_amount")
     when :edit_public_comment
       redirect_to planning_application_review_tasks_path(@planning_application),
