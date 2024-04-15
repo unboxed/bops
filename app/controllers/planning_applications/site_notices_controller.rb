@@ -74,6 +74,7 @@ module PlanningApplications
 
     def set_site_notice
       @site_notice = @planning_application.site_notices.find(params[:id])
+      @site_notice.displayed_at ||= Time.zone.today
     end
 
     def site_notice_params

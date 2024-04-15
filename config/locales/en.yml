@@ -276,15 +276,10 @@ en:
               blank: Provide documentary evidence that the press notice was published
             other_reason:
               blank: Provide the other reason for the press notice
-            press_sent_at:
-              date_blank: Provide the date when the press notice was sent
-              date_invalid: The date the press notice was sent must be a valid date
-              date_not_on_or_after: The date the press notice was sent must be on or after the consultation start date
-              date_not_on_or_before: The date the press notice was sent must be on or before today
             published_at:
               date_blank: Provide the date when the press notice was published
               date_invalid: The date the press notice was published must be a valid date
-              date_not_on_or_after: The date the press notice was published must be on or after the press sent date
+              date_not_on_or_after: The date the press notice was published must be on or after the consultation start date
               date_not_on_or_before: The date the press notice was published must be on or before today
             reasons:
               blank: Provide a reason for the press notice
@@ -1332,7 +1327,6 @@ en:
           not_required: The press notice is not required so there is no need to confirm it
           optional_comment: Optional comment
           photos_hint: Provide documentary evidence of the press notice being published
-          press_sent_at: What date was the press notice sent?
           published_at: What date was the press notice published?
           requested_on: Press notice requested on %-d %B %Y
           save: Save

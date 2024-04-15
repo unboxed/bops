@@ -30,7 +30,7 @@ module PlanningApplications
       private
 
       def press_notice_params
-        params.require(:press_notice).permit(:press_sent_at, :published_at, :comment, documents: [])
+        params.require(:press_notice).permit(:published_at, :comment, documents: [])
       end
 
       def set_press_notice
@@ -41,6 +41,8 @@ module PlanningApplications
         elsif !@press_notice.required?
           redirect_to planning_application_consultation_path(@planning_application), alert: t(".not_required")
         end
+
+        @press_notice.published_at ||= Time.zone.today
       end
     end
   end

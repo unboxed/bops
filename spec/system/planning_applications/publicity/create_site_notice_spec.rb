@@ -106,9 +106,13 @@ RSpec.describe "Create a site notice", js: true do
     expect(page).to have_content("Email the site notice")
 
     choose "Send it by email to internal team to post"
+    fill_in "Internal team email", with: "invalidemail.com"
+    click_button "Email site notice and mark as complete"
 
+    expect(page).to have_selector("[role=alert] li", text: "Internal team email is invalid")
+
+    choose "Send it by email to internal team to post"
     fill_in "Internal team email", with: "internal@email.com"
-
     click_button "Email site notice and mark as complete"
 
     perform_enqueued_jobs

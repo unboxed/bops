@@ -469,57 +469,25 @@ RSpec.describe "Press notice" do
         expect(consultation.end_date.to_date).to eq("Thu, 12 Oct 2023".to_date)
 
         click_link "Consultees, neighbours and publicity"
-        click_link "Confirm press notice"
-
-        click_button "Save"
-        expect(page).to have_content("Provide the date when the press notice was sent")
-
-        within("#press-sent-at-field") do
-          expect(page).to have_content("What date was the press notice sent?")
-          fill_in "Day", with: "1"
-          fill_in "Month", with: "1"
-          fill_in "Year", with: "2023"
-        end
-
-        click_button "Save"
-        expect(page).to have_content("The date the press notice was sent must be on or after the consultation start date")
-
-        within("#press-sent-at-field") do
-          expect(page).to have_content("What date was the press notice sent?")
-          fill_in "Day", with: "31"
-          fill_in "Month", with: "12"
-          fill_in "Year", with: "2023"
-        end
-
-        click_button "Save"
-        expect(page).to have_content("The date the press notice was sent must be on or before today")
-
-        within("#press-sent-at-field") do
-          expect(page).to have_content("What date was the press notice sent?")
-          fill_in "Day", with: "25"
-          fill_in "Month", with: "9"
-          fill_in "Year", with: "2023"
-        end
-
-        fill_in "Optional comment", with: "Press notice comment"
-        click_button "Save"
-
-        expect(page).to have_content("Press notice response has been successfully updated")
-
         within("#confirm-press-notice") do
-          expect(page).to have_content("In progress")
           click_link("Confirm press notice")
         end
 
         within("#published-at-field") do
           expect(page).to have_content("What date was the press notice published?")
+
+          # Defaults to Time.zone.today if this is not set
+          expect(page).to have_field("Day", with: "31")
+          expect(page).to have_field("Month", with: "10")
+          expect(page).to have_field("Year", with: "2023")
+
           fill_in "Day", with: "1"
           fill_in "Month", with: "1"
           fill_in "Year", with: "2023"
         end
 
         click_button "Save"
-        expect(page).to have_content("The date the press notice was published must be on or after the press sent date")
+        expect(page).to have_content("The date the press notice was published must be on or after the consultation start date")
 
         within("#published-at-field") do
           expect(page).to have_content("What date was the press notice published?")
@@ -532,15 +500,16 @@ RSpec.describe "Press notice" do
         expect(page).to have_content("The date the press notice was published must be on or before today")
 
         within("#published-at-field") do
-          expect(page).to have_content("What date was the press notice published?")
           fill_in "Day", with: "29"
           fill_in "Month", with: "9"
           fill_in "Year", with: "2023"
         end
 
         attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
+        fill_in "Optional comment", with: "Press notice comment"
 
         click_button "Save"
+        expect(page).to have_content("Press notice response has been successfully updated")
 
         within("#confirm-press-notice") do
           expect(page).to have_content("Complete")
@@ -556,7 +525,6 @@ RSpec.describe "Press notice" do
         end
 
         expect(PressNotice.last).to have_attributes(
-          press_sent_at: Time.zone.local(2023, 9, 25),
           published_at: Time.zone.local(2023, 9, 29),
           comment: "Press notice comment"
         )
@@ -570,12 +538,6 @@ RSpec.describe "Press notice" do
         it "I can confirm the press notice details and consultation period is extended by 30 days" do
           click_link "Consultees, neighbours and publicity"
           click_link "Confirm press notice"
-
-          within("#press-sent-at-field") do
-            fill_in "Day", with: "25"
-            fill_in "Month", with: "9"
-            fill_in "Year", with: "2023"
-          end
 
           within("#published-at-field") do
             fill_in "Day", with: "29"

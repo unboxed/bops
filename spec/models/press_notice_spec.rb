@@ -163,11 +163,11 @@ RSpec.describe PressNotice do
           end
 
           it "there is no update to the consultation end date" do
-            expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15)) }.not_to change(consultation, :end_date)
+            expect { press_notice.update(requested_at: Time.zone.local(2023, 3, 15)) }.not_to change(consultation, :end_date)
           end
 
           it "does not update the expiry date" do
-            expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15)) }.not_to change(press_notice, :expiry_date).from(nil)
+            expect { press_notice.update(requested_at: Time.zone.local(2023, 3, 15)) }.not_to change(press_notice, :expiry_date).from(nil)
           end
         end
 

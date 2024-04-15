@@ -22,6 +22,10 @@ class SiteNotice < ApplicationRecord
       }
   end
 
+  with_options format: {with: URI::MailTo::EMAIL_REGEXP} do
+    validates :internal_team_email, allow_blank: true
+  end
+
   before_create :ensure_publicity_feature!
 
   after_update :extend_consultation!, if: :saved_change_to_displayed_at?
