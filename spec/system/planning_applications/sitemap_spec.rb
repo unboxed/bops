@@ -141,7 +141,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       click_link "Check red line boundary"
 
       within("fieldset", text: "Is this red line boundary valid?") do
-        choose "Invalid"
+        choose "No"
       end
 
       click_button "Save"
