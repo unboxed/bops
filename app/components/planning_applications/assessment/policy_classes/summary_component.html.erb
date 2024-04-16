@@ -1,9 +1,9 @@
 <h4 class="govuk-body policy-class-title">
   <%= link_to(
-    t(".policy_class_name", part: part, class: section, name: name),
-    default_path,
-    class: "govuk-link"
-  ) %>
+        t(".policy_class_name", part: part, class: section, name: name),
+        default_path,
+        class: "govuk-link"
+      ) %>
 </h4>
 <p class="govuk-body"><strong><%= policies_summary %></strong></p>
 <% if policies.to_be_determined.none? %>
@@ -25,14 +25,13 @@
     </summary>
     <div class="govuk-details__text">
       <%= render(
-        partial: "shared/policy_classes/table",
-        locals: {
-          planning_application: planning_application,
-          policy_class: @policy_class,
-          policies: @policy_class.policies.commented_or_does_not_comply,
-        }
-       )
-      %>
+            partial: "shared/policy_classes/table",
+            locals: {
+              planning_application: planning_application,
+              policy_class: @policy_class,
+              policies: @policy_class.policies.commented_or_does_not_comply
+            }
+          ) %>
     </div>
   </details>
 <% end %>

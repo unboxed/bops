@@ -8,9 +8,13 @@ module PlanningApplications
           @policy_class = PolicyClassPresenter.new(policy_class)
         end
 
+        def before_render
+          @policies_summary = t(policies_summary_key)
+        end
+
         private
 
-        attr_reader :policy_class
+        attr_reader :policy_class, :policies_summary
 
         delegate(
           :section,
@@ -22,13 +26,13 @@ module PlanningApplications
           to: :policy_class
         )
 
-        def policies_summary
+        def policies_summary_key
           if policies.to_be_determined.any?
-            t("planning_applications.assessment.policy_classes.summary_component.to_be_determined")
+            ".to_be_determined"
           elsif policies.does_not_comply.any?
-            t("planning_applications.assessment.policy_classes.summary_component.does_not_comply")
+            ".does_not_comply"
           else
-            t("planning_applications.assessment.policy_classes.summary_component.complies")
+            ".complies"
           end
         end
       end
