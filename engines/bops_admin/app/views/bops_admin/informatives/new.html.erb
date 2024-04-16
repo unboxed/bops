@@ -1,0 +1,20 @@
+<% content_for :page_title do %>
+  <%= t(".add_informative") %> - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Informatives", informatives_path %>
+
+<% content_for :title, t(".add_informative") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".add_informative") %>
+    </h1>
+
+    <%= form_with model: @informative, url: informatives_path, scope: :informative do |form| %>
+      <%= render "form", form: form %>
+    <% end %>
+  </div>
+</div>

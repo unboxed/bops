@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_11_120100) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_15_153151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -447,6 +447,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_120100) do
     t.boolean "active", default: false, null: false
     t.string "telephone_number"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
+  end
+
+  create_table "local_authority_informatives", force: :cascade do |t|
+    t.bigint "local_authority_id"
+    t.string "title"
+    t.text "text"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, ((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(text, ''::text)) || ' '::text))", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id"], name: "ix_local_authority_informatives_on_local_authority_id"
   end
 
   create_table "local_policies", force: :cascade do |t|

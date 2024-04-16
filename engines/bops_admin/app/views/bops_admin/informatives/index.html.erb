@@ -1,0 +1,49 @@
+<% content_for :page_title do %>
+  <%= t(".informatives") %> - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+
+<% content_for :title, t(".informatives") %>
+
+<h1 class="govuk-heading-l">
+  <%= t(".informatives") %>
+</h1>
+
+<%= form_with url: informatives_path, class: "govuk-!-margin-bottom-7", method: :get do |form| %>
+  <%= form.govuk_text_field :q, value: params[:q], width: "one-half", label: { text: t(".find_informatives"), hidden: true } %>
+  <div class="govuk-button-group">
+    <%= form.govuk_submit t(".find_informatives") %>
+    <%= link_to t(".add_informative"), new_informative_path, class: "govuk-link govuk-link--no-visited-state" %>
+  </div>
+<% end %>
+
+<table class="govuk-table" id="informatives">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header"><%= t(".headings.title") %></th>
+      <th scope="col" class="govuk-table__header"><%= t(".headings.text") %></th>
+      <th scope="col" class="govuk-table__header govuk-!-text-align-right"><%= t(".headings.actions") %></th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% if @informatives.present? %>
+      <% @informatives.each do |informative| %>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header"><%= informative.title %></th>
+          <td class="govuk-table__cell"><%= informative.text %></td>
+          <td class="govuk-table__cell govuk-!-text-align-right">
+            <%= link_to t(".actions.edit"), edit_informative_path(informative), class: "govuk-link govuk-link--no-visited-state govuk-link--no-underline" %>
+            <%= link_to t(".actions.delete"), informative_path(informative), class: "govuk-link govuk-link--no-visited-state govuk-link--no-underline govuk-!-margin-left-1", method: :delete, data: { confirm: t(".are_you_sure") } %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell" colspan="5"><%= t(".no_informatives_found") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= govuk_pagination(pagy: @pagy) if @pagy.pages > 1 %>

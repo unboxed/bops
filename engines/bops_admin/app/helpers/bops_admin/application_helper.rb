@@ -28,6 +28,8 @@ module BopsAdmin
         "consultees"
       when "profiles"
         "profile"
+      when "informatives"
+        "informatives"
       else
         "dashboard"
       end
@@ -37,6 +39,7 @@ module BopsAdmin
       [
         {name: "Dashboard", url: root_path, key: "dashboard"},
         {name: "Consultees", url: consultees_path, key: "consultees"},
+        {name: "Informatives", url: informatives_path, key: "informatives"},
         {name: "Users", url: users_path, key: "users"},
         {name: "Profile", url: profile_path, key: "profile"}
       ]
