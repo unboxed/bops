@@ -56,5 +56,11 @@ FactoryBot.define do
       feedback_email { "feedback_email@southwark.gov.uk" }
       email_reply_to_id { "f755c178-b01a-4323-a756-d669e9350c33" }
     end
+
+    trait :with_api_user do
+      after(:create) do |local_authority|
+        local_authority.api_users.find_or_create_by!(name: local_authority.subdomain)
+      end
+    end
   end
 end

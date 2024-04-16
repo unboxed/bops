@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Profile", type: :system do
-  let(:local_authority) { create(:local_authority, :default) }
+  let(:local_authority) { create(:local_authority, :default, :with_api_user) }
   let(:user) { create(:user, :administrator, local_authority:) }
 
   before do
@@ -19,6 +19,7 @@ RSpec.describe "Profile", type: :system do
     visit "/admin/profile"
 
     expect(page).to have_content("Signatory")
+    expect(page).to have_content("API key")
     expect(page).to have_content("Job title")
     expect(page).to have_content("Contact address")
     expect(page).to have_content("Email")
@@ -32,6 +33,9 @@ RSpec.describe "Profile", type: :system do
 
   it "shows the correct hint text for the council's profile" do
     visit "/admin/profile"
+
+    expect(page).to have_content("This is the api key which can be used on swagger to generate more test planning application data.")
+    expect(page).to have_link("swagger", href: "/api/v2/docs")
 
     expect(page).to have_content("the person whose signature")
     expect(page).to have_content("job title of the person whose signature")
