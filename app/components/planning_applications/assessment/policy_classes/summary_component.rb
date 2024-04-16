@@ -9,7 +9,7 @@ module PlanningApplications
         end
 
         def before_render
-          @policies_summary = I18n.t(policies_summary_key)
+          @policies_summary = t(policies_summary_key)
         end
 
         private
@@ -28,11 +28,11 @@ module PlanningApplications
 
         def policies_summary_key
           if policies.to_be_determined.any?
-            "planning_applications.assessment.policy_classes.summary_component.to_be_determined"
+            ".to_be_determined"
           elsif policies.does_not_comply.any?
-            "planning_applications.assessment.policy_classes.summary_component.does_not_comply"
+            ".does_not_comply"
           else
-            "planning_applications.assessment.policy_classes.summary_component.complies"
+            ".complies"
           end
         end
       end

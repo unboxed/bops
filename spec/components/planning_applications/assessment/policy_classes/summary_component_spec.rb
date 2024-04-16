@@ -22,7 +22,7 @@ RSpec.describe PlanningApplications::Assessment::PolicyClasses::SummaryComponent
       let(:policy2) { create(:policy, :complies) }
 
       it "returns the right key" do
-        expect(summary_component.send(:policies_summary_key)).to eq("planning_applications.assessment.policy_classes.summary_component.complies")
+        expect(summary_component.send(:policies_summary_key)).to eq(".complies")
       end
 
       it "renders 'Complies'" do
@@ -37,9 +37,7 @@ RSpec.describe PlanningApplications::Assessment::PolicyClasses::SummaryComponent
       it "returns the right key" do
         expect(
           summary_component.send(:policies_summary_key)
-        ).to eq(
-          "planning_applications.assessment.policy_classes.summary_component.does_not_comply"
-        )
+        ).to eq(".does_not_comply")
       end
 
       it "renders 'Does not comply'" do
@@ -55,9 +53,7 @@ RSpec.describe PlanningApplications::Assessment::PolicyClasses::SummaryComponent
       it "returns the right key" do
         expect(
           summary_component.send(:policies_summary_key)
-        ).to eq(
-          "planning_applications.assessment.policy_classes.summary_component.to_be_determined"
-        )
+        ).to eq(".to_be_determined")
       end
 
       it "renders 'To be determined'" do
