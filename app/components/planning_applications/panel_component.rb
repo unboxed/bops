@@ -33,7 +33,7 @@ module PlanningApplications
     def pagination
       return unless @pagy.pages > 1
 
-      render(PaginationComponent.new(pagy: @pagy))
+      govuk_pagination(pagy: @pagy)
     end
 
     def title
