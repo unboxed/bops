@@ -21,20 +21,30 @@ RSpec.describe PlanningApplications::Assessment::PolicyClasses::SummaryComponent
     context "when all policies comply" do
       let(:policy2) { create(:policy, :complies) }
 
-      it "returns 'Complies'" do
-        expect(summary_component.send(:policies_summary)).to eq("Complies")
+      it "returns the right key" do
+        expect(summary_component.send(:policies_summary_key)).to eq("planning_applications.assessment.policy_classes.summary_component.complies")
+      end
+
+      it "renders 'Complies'" do
+        render_inline summary_component
+        expect(page).to have_content("Complies")
       end
     end
 
     context "when a policy does not comply" do
       let(:policy2) { create(:policy, :does_not_comply) }
 
-      it "returns 'Does not comply'" do
+      it "returns the right key" do
         expect(
-          summary_component.send(:policies_summary)
+          summary_component.send(:policies_summary_key)
         ).to eq(
-          "Does not comply"
+          "planning_applications.assessment.policy_classes.summary_component.does_not_comply"
         )
+      end
+
+      it "renders 'Does not comply'" do
+        render_inline summary_component
+        expect(page).to have_content("Does not comply")
       end
     end
 
@@ -42,12 +52,17 @@ RSpec.describe PlanningApplications::Assessment::PolicyClasses::SummaryComponent
       let(:policy1) { create(:policy, :to_be_determined) }
       let(:policy2) { create(:policy, :does_not_comply) }
 
-      it "returns 'To be determined'" do
+      it "returns the right key" do
         expect(
-          summary_component.send(:policies_summary)
+          summary_component.send(:policies_summary_key)
         ).to eq(
-          "To be determined"
+          "planning_applications.assessment.policy_classes.summary_component.to_be_determined"
         )
+      end
+
+      it "renders 'To be determined'" do
+        render_inline summary_component
+        expect(page).to have_content("To be determined")
       end
     end
   end
