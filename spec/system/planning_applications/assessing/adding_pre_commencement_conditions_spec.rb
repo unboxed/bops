@@ -12,100 +12,82 @@ RSpec.describe "Add pre-commencement conditions" do
   end
 
   before do
+    travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
     visit "/planning_applications/#{planning_application.id}"
     click_link "Check and assess"
   end
 
   context "when planning application is planning permission" do
-    it "you can add pre-commencement conditions" do
-      click_link "Add pre-commencement conditions"
-
-      expect(page).to have_content("Add pre-commencement conditions")
-
-      click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(1)") do
-        fill_in "Enter a title", with: "Title 1"
-        fill_in "Enter condition", with: "Custom condition 1"
-        fill_in "Enter a reason for this condition", with: "Custom reason 1"
-      end
-
-      click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(2)") do
-        fill_in "Enter a title", with: "Title 2"
-        fill_in "Enter condition", with: "Custom condition 2"
-        fill_in "Enter a reason for this condition", with: "Custom reason 2"
-      end
-
-      click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(3)") do
-        fill_in "Enter a title", with: "Title 3"
-        fill_in "Enter condition", with: "Custom condition 3"
-        fill_in "Enter a reason for this condition", with: "Custom reason 3"
-        click_link "Remove condition"
-      end
-
-      click_button "Submit"
-
-      expect(page).to have_content "Conditions successfully updated"
-
+    it "you can add pre-commencement conditions and confirm to send" do
       within("#add-pre-commencement-conditions") do
-        expect(page).to have_content "In progress"
+        expect(page).to have_content "Not started"
         click_link "Add pre-commencement conditions"
       end
 
-      expect(page).to have_content "Condition 1"
-      expect(page).to have_content "Title 1"
-      expect(page).to have_content "Condition 2"
-      expect(page).to have_content "Title 2"
+      expect(page).to have_selector("h1", text: "Add pre-commencement conditions")
 
-      within("tr", text: "Title 1") do
-        expect(page).to have_content "Awaiting response"
+      find("span", text: "Add new pre-commencement condition").click
+      expect(page).to have_selector("h2", text: "Add a new pre-commencement condition")
+
+      click_button "Add pre-commencement condition"
+      expect(page).to have_selector("[role=alert] li", text: "Enter the title of this condition")
+      expect(page).to have_selector("[role=alert] li", text: "Enter the text of this condition")
+      expect(page).to have_selector("[role=alert] li", text: "Enter the reason for this condition")
+
+      fill_in "Enter title", with: "Title 1"
+      fill_in "Enter condition", with: "Custom condition 1"
+      fill_in "Enter reason", with: "Custom reason 1"
+      click_button "Add pre-commencement condition"
+
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement condition has been successfully added")
+
+      find("span", text: "Add new pre-commencement condition").click
+      fill_in "Enter title", with: "Title 2"
+      fill_in "Enter condition", with: "Custom condition 2"
+      fill_in "Enter reason", with: "Custom reason 2"
+      click_button "Add pre-commencement condition"
+
+      within("#condition_#{Condition.first.id}") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Title 1")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "Custom condition 1")
+        expect(page).to have_selector("p", text: "Custom reason 1")
+
+        expect(page).to have_link("Remove")
+        expect(page).to have_link("Update condition")
       end
 
-      within("tr", text: "Title 2") do
-        expect(page).to have_content "Awaiting response"
+      within("#condition_#{Condition.second.id}") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "Custom condition 2")
+        expect(page).to have_selector("p", text: "Custom reason 2")
       end
 
-      expect(page).not_to have_content "Save and mark as complete"
-    end
+      click_button "Confirm and send conditions"
+      expect(page).to have_selector("[role=alert] p", text: "Pending pre-commencement conditions have been confirmed and sent to the applicant")
 
-    context "when marking the task as complete" do
-      it "you can do it if all requests are approved" do
-        condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-        validation_request = create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
-        create(:review, owner: condition1.condition_set)
+      within("#condition_#{Condition.first.id}") do
+        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
+        expect(page).to have_link("Cancel")
 
-        condition2 = create(:condition, :other, title: "Title 2", condition_set: condition1.condition_set)
-        create(:pre_commencement_condition_validation_request, owner: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
-        create(:review, owner: condition2.condition_set)
+        expect(page).not_to have_link("Update condition")
+        expect(page).not_to have_link("Remove")
+      end
 
-        visit "/planning_applications/#{planning_application.id}"
-        click_link "Check and assess"
+      within("#condition_#{Condition.second.id}") do
+        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
+      end
 
-        within("#add-pre-commencement-conditions") do
-          expect(page).to have_content "Updated"
-          click_link "Add pre-commencement conditions"
-        end
-
-        expect(page).not_to have_content("Save and mark as complete")
-
-        validation_request.update(approved: true)
-
-        visit "/planning_applications/#{planning_application.id}"
-        click_link "Check and assess"
-
+      click_link "Back"
+      within("#add-pre-commencement-conditions") do
+        expect(page).to have_content "Completed"
         click_link "Add pre-commencement conditions"
-
-        click_button "Save and mark as complete"
-
-        within("#add-pre-commencement-conditions") do
-          expect(page).to have_content "Complete"
-
-          click_link "Add pre-commencement conditions"
-        end
-
-        expect(page).not_to have_content("Save and mark as complete")
       end
     end
 
@@ -118,51 +100,49 @@ RSpec.describe "Add pre-commencement conditions" do
       create(:pre_commencement_condition_validation_request, owner: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
       create(:review, owner: condition2.condition_set)
 
+      travel_to(Time.zone.local(2024, 4, 17, 14, 30))
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
-
       click_link "Add pre-commencement conditions"
 
-      expect(page).not_to have_content("Save and mark as complete")
-
-      within("tr", text: condition1.title) do
-        expect(page).to have_content "Typo"
-        expect(page).to have_content "Rejected"
+      within("#condition_#{condition1.id}") do
+        expect(page).to have_selector("p strong.govuk-tag", text: "Rejected")
+        expect(page).to have_selector("p", text: "Typo")
+        expect(page).to have_selector("p", text: "Sent on: 17 April 2024 12:30")
         expect(page).to have_link(
           "Update condition",
-          href: "/planning_applications/#{planning_application.id}/assessment/conditions/#{condition1.id}/edit?pre_commencement=true"
+          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition1.id}/edit"
         )
       end
 
-      within("tr", text: condition2.title) do
-        expect(page).to have_content "Accepted"
-      end
-
-      click_link "Update condition"
-
-      within(:css, "#other-conditions .condition:nth-of-type(1)") do
-        fill_in "Enter a title", with: "new title"
-        fill_in "Enter condition", with: "Custom condition 1"
-        fill_in "Enter a reason for this condition", with: "Custom reason 1"
-      end
-
-      click_button "Submit"
-
-      click_link "Add pre-commencement conditions"
-
-      expect(page).to have_content "new title"
-
-      within("tr", text: "new title") do
-        expect(page).to have_content "Awaiting response"
+      within("#condition_#{condition2.id}") do
+        expect(page).to have_selector("p strong.govuk-tag", text: "Accepted")
         expect(page).to have_link(
-          "Cancel",
-          href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{condition1.current_validation_request.id}/cancel_confirmation"
+          "Update condition",
+          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition2.id}/edit"
         )
       end
 
-      within("tr", text: condition2.title) do
-        expect(page).to have_content "Accepted"
+      within("#condition_#{condition1.id}") do
+        click_link "Update condition"
       end
+
+      fill_in "Enter title", with: "New title"
+      fill_in "Enter condition", with: "New condition"
+      fill_in "Enter reason", with: "New reason"
+      click_button "Update pre-commencement condition"
+
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement condition was successfully updated")
+
+      within("#condition_#{condition1.id}") do
+        expect(page).to have_selector("h2", text: "New title")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "New condition")
+        expect(page).to have_selector("p", text: "New reason")
+      end
+
+      click_button "Confirm and send conditions"
+      expect(page).to have_selector("[role=alert] p", text: "Pending pre-commencement conditions have been confirmed and sent to the applicant")
     end
 
     it "you can cancel conditions" do
@@ -172,85 +152,65 @@ RSpec.describe "Add pre-commencement conditions" do
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
-
       click_link "Add pre-commencement conditions"
 
-      within("tr", text: condition1.title) do
-        expect(page).to have_content "Awaiting response"
-        expect(page).to have_link(
-          "Cancel",
-          href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{condition1.current_validation_request.id}/cancel_confirmation"
-        )
+      within("#condition_#{condition1.id}") do
+        expect(page).to have_selector("h2", text: "Title 1")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Awaiting response")
+        click_link "Cancel"
       end
-
-      click_link "Cancel"
 
       fill_in "Explain to the applicant why this request is being cancelled", with: "Made a typo"
 
       click_button "Confirm cancellation"
-
       expect(page).to have_content "Pre-commencement condition agreement request was successully cancelled"
 
-      within("tr", text: "Pre-commencement condition") do
-        expect(page).to have_content "Made a typo"
-      end
-    end
-
-    it "you can add new conditions" do
-      condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
-      create(:review, owner: condition1.condition_set)
-
-      visit "/planning_applications/#{planning_application.id}"
+      click_link "Application"
       click_link "Check and assess"
-
       click_link "Add pre-commencement conditions"
 
-      click_link "Add condition"
+      within("#condition_#{condition1.id}") do
+        expect(page).to have_selector("h2", text: "Title 1")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Cancelled")
 
-      within(:css, "#other-conditions .condition:nth-of-type(2)") do
-        fill_in "Enter a title", with: "A new condition"
-        fill_in "Enter condition", with: "You must do this"
-        fill_in "Enter a reason for this condition", with: "This is the reason"
-      end
-
-      click_button "Submit"
-
-      expect(page).to have_content "Conditions successfully updated"
-
-      within("#add-pre-commencement-conditions") do
-        expect(page).to have_content "In progress"
-        click_link "Add pre-commencement conditions"
-      end
-
-      within("tr", text: "A new condition") do
-        expect(page).to have_content "Awaiting response"
+        expect(page).not_to have_link("Cancel")
+        expect(page).not_to have_link("Update condition")
+        expect(page).not_to have_link("Remove")
       end
     end
 
-    it "shows errors" do
+    it "I can remove a condition only if it has not been sent to the applicant" do
       click_link "Add pre-commencement conditions"
+      find("span", text: "Add new pre-commencement condition").click
 
-      click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(1)") do
-        fill_in "Enter a title", with: "Title 1"
-        fill_in "Enter a reason for this condition", with: "Custom reason 1"
+      fill_in "Enter title", with: "Title 1"
+      fill_in "Enter condition", with: "Custom condition 1"
+      fill_in "Enter reason", with: "Custom reason 1"
+      click_button "Add pre-commencement condition"
+
+      within("#condition_#{Condition.last.id}") do
+        expect(page).to have_selector("h2", text: "Title 1")
+
+        accept_confirm(text: "Are you sure?") do
+          click_link("Remove")
+        end
       end
 
-      click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(2)") do
-        fill_in "Enter condition", with: "Custom condition 1"
-        fill_in "Enter a reason for this condition", with: "Custom reason 1"
-      end
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement condition was successfully removed")
+      expect(page).not_to have_selector("h2", text: "Title 1")
 
-      click_button "Submit"
+      find("span", text: "Add new pre-commencement condition").click
 
-      within(:css, "#other-conditions .condition:nth-of-type(1)") do
-        expect(page).to have_content "Enter the text of this condition"
-      end
+      fill_in "Enter title", with: "Another title"
+      fill_in "Enter condition", with: "Another condition"
+      fill_in "Enter reason", with: "Another reason"
+      click_button "Add pre-commencement condition"
+      click_button "Confirm and send conditions"
 
-      within(:css, "#other-conditions .condition:nth-of-type(2)") do
-        expect(page).to have_content "Enter the title of this condition"
+      within("#condition_#{Condition.last.id}") do
+        expect(page).to have_selector("h2", text: "Another title")
+
+        expect(page).not_to have_link("Remove")
       end
     end
 

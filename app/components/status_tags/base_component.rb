@@ -2,8 +2,9 @@
 
 module StatusTags
   class BaseComponent < ViewComponent::Base
-    def initialize(status:)
+    def initialize(status:, task_list: true)
       @status = status
+      @task_list = task_list
     end
 
     def render?
@@ -12,7 +13,7 @@ module StatusTags
 
     private
 
-    attr_reader :status
+    attr_reader :status, :task_list
 
     def html_classes
       [
@@ -40,7 +41,7 @@ module StatusTags
     end
 
     def task_list?
-      true
+      task_list
     end
   end
 end

@@ -4,6 +4,7 @@ module StatusTags
   class HeadsOfTermsComponent < StatusTags::BaseComponent
     def initialize(heads_of_term:)
       @heads_of_term = heads_of_term
+      super(status:)
     end
 
     private

@@ -702,7 +702,9 @@ en:
     condition:
       save_and_mark_as_complete: Save and mark as complete
     pre_commencement_condition:
-      save_and_mark_as_complete: Submit
+      add: Add pre-commencement condition
+      confirm: Confirm and send conditions
+      update: Update pre-commencement condition
     publish_decision: Publish decision
     review_and_publish_decision: Review and publish decision
     save_and_come_back_later: Save and come back later
@@ -1173,6 +1175,15 @@ en:
         title: Part %{part}, Class %{class}
         update:
           successfully_updated_policy: Successfully updated policy class
+      pre_commencement_conditions:
+        confirm:
+          success: Pending pre-commencement conditions have been confirmed and sent to the applicant
+        create:
+          success: Pre-commencement condition has been successfully added
+        destroy:
+          success: Pre-commencement condition was successfully removed
+        update:
+          success: Pre-commencement condition was successfully updated
       recommendations:
         documents:
           documents_included_in: Documents included in the decision notice
@@ -1889,8 +1900,10 @@ en:
     not_consulted: Not consulted
     not_required: Not required
     not_required_legal_agreement: Not required
+    not_sent: Not sent
     not_started: Not started
     objection: Objection
+    pending: Pending
     permanent_failure: Permanent failure
     posted: Posted
     printing: Printing

@@ -18,7 +18,7 @@ module TaskListItems
 
       def link_path
         if pre_commencement?
-          planning_application_assessment_conditions_path(planning_application_id, pre_commencement: true)
+          planning_application_assessment_pre_commencement_conditions_path(planning_application_id)
         else
           planning_application_assessment_conditions_path(planning_application_id)
         end

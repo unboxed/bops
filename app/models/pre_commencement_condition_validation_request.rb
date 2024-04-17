@@ -16,20 +16,7 @@ class PreCommencementConditionValidationRequest < ValidationRequest
     10.business_days.after(created_at)
   end
 
-  def email_and_timestamp
-    send_pre_commencement_condition_request_email if owner.condition_set.send_notification?
-
-    mark_as_sent!
-  end
-
   private
-
-  def send_pre_commencement_condition_request_email
-    PlanningApplicationMailer.pre_commencement_condition_request_mail(
-      planning_application,
-      self
-    ).deliver_now
-  end
 
   def audit_comment
     {

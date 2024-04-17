@@ -4,6 +4,7 @@ module StatusTags
   class CilLiabilityComponent < StatusTags::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
+      super(status:)
     end
 
     private

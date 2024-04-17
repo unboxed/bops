@@ -5,6 +5,7 @@ module StatusTags
     class PolicyClassComponent < StatusTags::BaseComponent
       def initialize(review_policy_class:)
         @review_policy_class = review_policy_class
+        super(status:)
       end
 
       private

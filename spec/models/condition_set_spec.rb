@@ -30,5 +30,39 @@ RSpec.describe ConditionSet do
         expect(condition_set.approved_conditions).to include(approved_condition, eventually_approved_condition)
       end
     end
+
+    describe "#confirm_pending_requests!" do
+      before do
+        travel_to(Time.zone.local(2024, 4, 17, 12, 30))
+      end
+
+      let(:condition_set) { create(:condition_set) }
+      let(:condition1) { create(:condition, condition_set:) }
+      let(:condition2) { create(:condition, condition_set:) }
+      let(:condition3) { create(:condition, condition_set:) }
+      let!(:request1) { create(:pre_commencement_condition_validation_request, state: "open", owner: condition1) }
+      let!(:request2) { create(:pre_commencement_condition_validation_request, state: "pending", owner: condition2) }
+      let!(:request3) { create(:pre_commencement_condition_validation_request, state: "pending", owner: condition3) }
+
+      it "only pending validation requests are marked as sent and an email is sent" do
+        expect {
+          condition_set.confirm_pending_requests!
+        }.to change {
+          ActionMailer::Base.deliveries.count
+        }.by(1)
+
+        request1.reload
+        expect(request1.state).to eq("open")
+        expect(request1.notified_at).not_to eq(Time.zone.local(2024, 4, 17, 12, 30))
+
+        request2.reload
+        expect(request2.state).to eq("open")
+        expect(request2.notified_at).to eq(Time.zone.local(2024, 4, 17, 12, 30))
+
+        request3.reload
+        expect(request3.state).to eq("open")
+        expect(request3.notified_at).to eq(Time.zone.local(2024, 4, 17, 12, 30))
+      end
+    end
   end
 end

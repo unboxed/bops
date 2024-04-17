@@ -9,6 +9,7 @@ module StatusTags
       def initialize(planning_application:, permitted_development_right:)
         @planning_application = planning_application
         @permitted_development_right = permitted_development_right
+        super(status:)
       end
 
       private

@@ -10,6 +10,7 @@ module StatusTags
       def initialize(planning_application:, user:)
         @planning_application = planning_application
         @user = user
+        super(status:)
       end
 
       private
