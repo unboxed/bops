@@ -7,7 +7,7 @@
   <%= form.govuk_collection_check_boxes :categories,
     ReportingType.category_menu, :first, :last,
       legend: {text: t(".categories_legend")}, hint: {text: t(".categories_hint")},
-      small: false, classes: "govuk-!-column-count-2" %>
+      small: false, class: "govuk-!-column-count-2" %>
 
   <%= form.govuk_text_area :guidance, label: {text: t(".guidance_label")}, rows: 5 %>
   <%= form.govuk_text_field :guidance_link, label: {text: t(".guidance_link_label")} %>
