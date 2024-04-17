@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/x-govuk/govuk-components.git
+  revision: fa37301f2352c06dae6c6cd713baf77bd877767e
+  ref: fa37301
+  specs:
+    govuk-components (5.3.1)
+      html-attributes-utils (~> 1.0.0, >= 1.0.0)
+      pagy (>= 6, < 8)
+      view_component (>= 3.9, < 3.12)
+
 PATH
   remote: engines/bops_admin
   specs:
@@ -261,10 +271,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    govuk-components (5.3.1)
-      html-attributes-utils (~> 1.0.0, >= 1.0.0)
-      pagy (>= 6, < 8)
-      view_component (>= 3.9, < 3.12)
     govuk_design_system_formbuilder (5.3.1)
       actionview (>= 6.1)
       activemodel (>= 6.1)
@@ -662,7 +668,7 @@ DEPENDENCIES
   faker
   faraday (~> 2)
   foreman
-  govuk-components (~> 5)
+  govuk-components!
   govuk_design_system_formbuilder
   grover
   guard
