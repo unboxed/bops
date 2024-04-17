@@ -79,6 +79,8 @@ en:
         telephone_number: Contact telephone (optional)
         telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       show:
+        api_key: API key
+        api_key_hint_html: This is the api key which can be used on %{swagger_link} to generate more test planning application data.
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: Reply-to email address ID
