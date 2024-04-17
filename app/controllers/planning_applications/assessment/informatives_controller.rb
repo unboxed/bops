@@ -3,6 +3,8 @@
 module PlanningApplications
   module Assessment
     class InformativesController < AuthenticationController
+      include CommitMatchable
+
       before_action :set_planning_application
       before_action :set_informative_set
       before_action :set_informative
@@ -36,8 +38,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @informative.update(informatives_params) && @informative_set.update(informative_set_params)
-              redirect_to planning_application_assessment_informatives_path(@planning_application),
-                notice: t(".success")
+              redirect_to update_url, notice: t(".success")
             elsif request.referrer.include? "edit"
               render :edit
             else
@@ -84,10 +85,6 @@ module PlanningApplications
         {reviews_attributes: [status:, id: (@informative_set&.current_review&.id if !mark_as_complete?)]}
       end
 
-      def mark_as_complete?
-        params[:action] == "complete"
-      end
-
       def status
         if mark_as_complete?
           if @informative_set.current_review.present? && @informative_set.current_review.status == "to_be_reviewed"
@@ -97,6 +94,14 @@ module PlanningApplications
           end
         else
           "in_progress"
+        end
+      end
+
+      def update_url
+        if params[:save] == "true"
+          planning_application_assessment_tasks_path(@planning_application)
+        else
+          planning_application_assessment_informatives_path(@planning_application)
         end
       end
     end

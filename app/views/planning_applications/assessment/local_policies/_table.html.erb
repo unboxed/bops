@@ -12,19 +12,19 @@
     <tbody class="govuk-table__body">
     <% @planning_application.local_policy.local_policy_areas.each do |policy_area| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell govuk-!-padding-top-4">
+        <td class="govuk-table__cell">
           <%= policy_area.area %>
         </td>
-        <td class="govuk-table__cell govuk-!-padding-top-4">
+        <td class="govuk-table__cell">
           <%= policy_area.policies %>
         </td>
-        <td class="govuk-table__cell govuk-!-padding-top-4">
+        <td class="govuk-table__cell">
           <%= policy_area.guidance if policy_area.guidance.present? %>
         </td>
-        <td class="govuk-table__cell govuk-!-padding-top-4">
+        <td class="govuk-table__cell">
           <%= policy_area.assessment %>
         </td>
-        <td class="govuk-table__cell govuk-!-padding-top-4">
+        <td class="govuk-table__cell">
           <%= link_to "Edit", edit_planning_application_assessment_local_policy_area_path(@planning_application, policy_area) %>
           <%= link_to "Remove", planning_application_assessment_local_policy_area_path(@planning_application, policy_area), method: :delete %>
         </td>
