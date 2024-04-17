@@ -10,7 +10,7 @@
   <%= form.govuk_collection_radio_buttons :category,
     Decision.categories, :first, ->((k)) { t(".category_labels.#{k}") },
       legend: {text: t(".category_legend")}, hint: {text: t(".category_hint")},
-      small: false, classes: "govuk-!-column-count-2" %>
+      small: false, class: "govuk-!-column-count-2" %>
 
   <%= form.govuk_submit(t(".save_decision")) do %>
     <%= link_to(t("back"), :decisions, class: "govuk-button govuk-button--secondary") %>
