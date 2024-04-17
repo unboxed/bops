@@ -2,6 +2,16 @@
 
 module BopsConfig
   class ApplicationController < ActionController::Base
+    include BopsCore::AuditableController
+
+    self.audit_payload = -> {
+      {
+        engine: "bops_config",
+        params: request.path_parameters,
+        user: current_user.audit_attributes
+      }
+    }
+
     default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
 
     before_action :authenticate_user!

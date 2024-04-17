@@ -6,6 +6,16 @@ module BopsConfig
     before_action :set_application_types, only: %i[index]
     before_action :set_application_type, only: %i[show edit update]
 
+    audit :create, :update,
+      unless: -> { @application_type.changed? },
+      payload: -> {
+        {
+          application_type: @application_type.audit_attributes,
+          changes: @application_type.audit_changes,
+          automated: false
+        }
+      }
+
     def index
       respond_to do |format|
         format.html

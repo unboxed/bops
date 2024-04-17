@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationType < ApplicationRecord
+  include BopsCore::AuditableModel
   include StoreModel::NestedAttributes
+
+  self.audit_attributes = %w[code]
 
   NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate other].freeze
   ODP_APPLICATION_TYPES = I18n.t(:"odp.application_types").to_h.freeze
