@@ -97,6 +97,10 @@ module PlanningApplications
         end
       end
 
+      def mark_as_complete?
+        params[:action] == "complete"
+      end
+
       def update_url
         if params[:save] == "true"
           planning_application_assessment_tasks_path(@planning_application)

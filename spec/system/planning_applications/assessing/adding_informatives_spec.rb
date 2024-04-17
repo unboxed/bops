@@ -12,6 +12,7 @@ RSpec.describe "Add informatives" do
   end
 
   before do
+    create(:local_authority_informative, local_authority: default_local_authority, title: "Section 106", text: "Must do 106")
     allow(Current).to receive(:user).and_return assessor
 
     sign_in assessor
@@ -19,7 +20,7 @@ RSpec.describe "Add informatives" do
     click_link "Check and assess"
   end
 
-  it "I can add informatives" do
+  it "I can add informatives", js: true do
     within("#add-informatives") do
       expect(page).to have_content "Not started"
       click_link "Add informatives"
@@ -28,25 +29,36 @@ RSpec.describe "Add informatives" do
     expect(page).to have_content "Add informatives"
     expect(page).to have_content "No informatives added yet"
 
-    fill_in "Enter a title", with: "Informative 1"
-    fill_in "Enter details of the informative", with: "Consider the trees"
+    fill_in "Start typing to choose an informative from a list", with: "Section"
+    page.find(:xpath, "//li[text()='Section 106']").click
 
     click_button "Add informative"
 
     expect(page).to have_content "Informative successfully added"
 
-    within("tr", text: "Informative 1") do
-      expect(page).to have_content "Consider the trees"
-    end
+    expect(page).to have_content "Must do 106"
 
-    fill_in "Enter a title", with: "Informative 2"
-    fill_in "Enter details of the informative", with: "Consider the park"
+    page.find(:xpath, "//span[contains(text(), 'Add a custom informative')]").click
+
+    expect(page).to have_content "Add a custom informative"
+
+    fill_in "manual-title-input", with: "Informative 1"
+    fill_in "manual-text-input", with: "Consider the trees"
 
     click_button "Add informative"
 
-    within("tr", text: "Informative 2") do
-      expect(page).to have_content "Consider the park"
-    end
+    expect(page).to have_content "Informative successfully added"
+
+    expect(page).to have_content "Consider the trees"
+
+    page.find(:xpath, "//span[contains(text(), 'Add a custom informative')]").click
+
+    fill_in "manual-title-input", with: "Informative 2"
+    fill_in "manual-text-input", with: "Consider the park"
+
+    click_button "Add informative"
+
+    expect(page).to have_content "Consider the park"
 
     click_link "Assess application"
 
@@ -63,6 +75,53 @@ RSpec.describe "Add informatives" do
     end
   end
 
+  it "I can save and come back later" do
+    within("#add-informatives") do
+      expect(page).to have_content "Not started"
+      click_link "Add informatives"
+    end
+
+    expect(page).to have_content "No informatives added yet"
+
+    fill_in "Start typing to choose an informative from a list", with: "Section"
+    page.find(:xpath, "//li[text()='Section 106']").click
+
+    click_button "Save and come back later"
+
+    expect(page).to have_content "Informative successfully added"
+
+    within("#add-informatives") do
+      expect(page).to have_content "In progress"
+      click_link "Add informatives"
+    end
+
+    expect(page).to have_content "Must do 106"
+
+    page.find(:xpath, "//span[contains(text(), 'Add a custom informative')]").click
+
+    expect(page).to have_content "Add a custom informative"
+
+    fill_in "manual-title-input", with: "Informative 1"
+    fill_in "manual-text-input", with: "Consider the trees"
+
+    click_button "Save and come back later"
+
+    expect(page).to have_content "Informative successfully added"
+
+    within("#add-informatives") do
+      expect(page).to have_content "In progress"
+      click_link "Add informatives"
+    end
+
+    expect(page).to have_content "Consider the trees"
+
+    click_link "Save and mark as complete"
+
+    within("#add-informatives") do
+      expect(page).to have_content "Completed"
+    end
+  end
+
   it "I can edit informatives" do
     informative = create(:informative, informative_set: planning_application.informative_set)
 
@@ -70,24 +129,21 @@ RSpec.describe "Add informatives" do
       click_link "Add informatives"
     end
 
-    within("tr", text: informative.title) do
-      expect(page).to have_content informative.text
+    expect(page).to have_content informative.text
 
-      click_link "Edit"
-    end
+    click_link "Edit"
 
     expect(page).to have_content "Edit informative"
 
-    fill_in "Enter a title", with: "My new title"
-    fill_in "Enter details of the informative", with: "The new detail"
+    fill_in "manual-title-input", with: "My new title"
+    fill_in "manual-text-input", with: "The new detail"
 
     click_button "Save informative"
 
     expect(page).to have_content "Informative successfully added"
 
-    within("tr", text: "My new title") do
-      expect(page).to have_content "The new detail"
-    end
+    expect(page).to have_content "My new title"
+    expect(page).to have_content "The new detail"
   end
 
   it "I can delete informatives" do
@@ -97,11 +153,9 @@ RSpec.describe "Add informatives" do
       click_link "Add informatives"
     end
 
-    within("tr", text: informative.title) do
-      expect(page).to have_content informative.text
+    expect(page).to have_content informative.text
 
-      click_link "Remove"
-    end
+    click_link "Remove"
 
     expect(page).to have_content "Informative was successfully removed"
     expect(page).to have_content "No informatives added yet"
@@ -117,39 +171,45 @@ RSpec.describe "Add informatives" do
     expect(page).to have_content "Fill in the title of the informative"
     expect(page).to have_content "Fill in the text of the informative"
 
-    fill_in "Enter a title", with: "My new title"
-    fill_in "Enter details of the informative", with: "The new detail"
+    fill_in "manual-title-input", with: "My new title"
+    fill_in "manual-text-input", with: "The new detail"
 
     click_button "Add informative"
 
     expect(page).to have_content "Informative successfully added"
 
-    within("tr", text: "My new title") do
-      expect(page).to have_content "The new detail"
+    expect(page).to have_content "The new detail"
 
-      click_link "Edit"
-    end
+    click_link "Edit"
 
     expect(page).to have_content "Edit informative"
 
-    fill_in "Enter a title", with: ""
-    fill_in "Enter details of the informative", with: ""
+    fill_in "manual-title-input", with: ""
+    fill_in "manual-text-input", with: ""
 
     click_button "Save informative"
 
     expect(page).to have_content "Fill in the title of the informative"
     expect(page).to have_content "Fill in the text of the informative"
 
-    fill_in "Enter a title", with: "My newer title"
-    fill_in "Enter details of the informative", with: "The newer detail"
+    fill_in "manual-title-input", with: "My newer title"
+    fill_in "manual-text-input", with: "The newer detail"
 
     click_button "Save informative"
 
     expect(page).to have_content "Informative successfully added"
 
-    within("tr", text: "My newer title") do
-      expect(page).to have_content "The newer detail"
-    end
+    expect(page).to have_content "The newer detail"
+
+    page.find(:xpath, "//span[contains(text(), 'Add a custom informative')]").click
+
+    fill_in "manual-title-input", with: "My newer title"
+    fill_in "manual-text-input", with: "The newer detail"
+
+    click_button "Add informative"
+
+    expect(page).to have_content("Title has already been taken")
+    expect(page).to have_content("Text has already been taken")
   end
 
   it "I can mark the task as complete" do
@@ -179,8 +239,10 @@ RSpec.describe "Add informatives" do
 
     click_link "+ Add informative"
 
-    fill_in "Enter a title", with: "Informative 1"
-    fill_in "Enter details of the informative", with: "Consider the trees"
+    page.find(:xpath, "//span[contains(text(), 'Add a custom informative')]").click
+
+    fill_in "manual-title-input", with: "Informative 1"
+    fill_in "manual-text-input", with: "Consider the trees"
 
     click_button "Add informative"
 

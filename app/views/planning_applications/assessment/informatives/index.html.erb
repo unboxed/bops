@@ -29,8 +29,10 @@
         <%= link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative), class: "govuk-link" %>
         <%= link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete, class: "govuk-link" %>
       <% end %>
-    <% end %>
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <% else %>
+      <p class="govuk-body"><strong>No informatives added yet</strong></p>
+    <% end %>
 
     <% if @informative_set.current_review&.complete? && params[:show_form] != "true" %>
       <%= link_to "+ Add informative", planning_application_assessment_informatives_path(@planning_application, show_form: true), class: "govuk-link govuk-body" %>

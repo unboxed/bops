@@ -7,8 +7,8 @@
     <div data-informatives-array-value="<%= @planning_application.local_authority.informatives.pluck(:title, :text).to_json %>"></div>
 
     <h2 class="govuk-heading-m">Choose informative from a list</h2>
-    <label class="govuk-label">
-        Start typing to choose an informative from a list
+    <label class="govuk-label" for="informatives">
+      Start typing to choose an informative from a list
     </label>
     <div id="informatives-container" data-informatives-target="select" class="govuk-body">
     </div>
