@@ -1,40 +1,38 @@
-<div class="govuk-tabs__panel" id=<%= type %>>
-  <h2 class="govuk-heading-m"><%= title %></h2>
-  <% if search.present? %>
-    <%= render(
-      PlanningApplications::SearchComponent.new(
-        panel_type: type,
-        search: search
-      )
-    ) %>
-  <% end %>
-  <% if planning_applications.empty? %>
-    <p class="govuk-body"><%= t(".no_planning_applications") %></p>
-  <% else %>
-    <table class="govuk-table planning-applications-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <% attributes.each do |attribute| %>
-            <th scope="col" class="govuk-table__header">
-              <%= t(".#{attribute}") %>
-            </th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <% planning_applications.each do |planning_application| %>
-          <%= render(
-            PlanningApplications::RowComponent.new(
-              planning_application: planning_application,
-              attributes: attributes
-            )
-          ) %>
+<h2 class="govuk-heading-m"><%= title %></h2>
+<% if search.present? %>
+  <%= render(
+        PlanningApplications::SearchComponent.new(
+          panel_type: type,
+          search: search
+        )
+      ) %>
+<% end %>
+<% if planning_applications.empty? %>
+  <p class="govuk-body"><%= t(".no_planning_applications") %></p>
+<% else %>
+  <table class="govuk-table planning-applications-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <% attributes.each do |attribute| %>
+          <th scope="col" class="govuk-table__header">
+            <%= t(".#{attribute}") %>
+          </th>
         <% end %>
-      </tbody>
-    </table>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% planning_applications.each do |planning_application| %>
+        <%= render(
+              PlanningApplications::RowComponent.new(
+                planning_application: planning_application,
+                attributes: attributes
+              )
+            ) %>
+      <% end %>
+    </tbody>
+  </table>
 
-    <% if type == :all %>
-      <%= pagination %>
-    <% end %>
+  <% if type == :all %>
+    <%= pagination %>
   <% end %>
-</div>
+<% end %>
