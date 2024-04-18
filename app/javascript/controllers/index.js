@@ -31,6 +31,9 @@ application.register("edit-form", EditFormController)
 import HeadsofTermsController from "./heads_of_terms_controller.js"
 application.register("heads-of-terms", HeadsofTermsController)
 
+import InformativesController from "./informatives_controller.js"
+application.register("informatives", InformativesController)
+
 import LocalPoliciesController from "./local_policies_controller.js"
 application.register("local-policies", LocalPoliciesController)
 

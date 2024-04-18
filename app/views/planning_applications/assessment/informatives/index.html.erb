@@ -14,52 +14,42 @@
       locals: { heading: "Add informatives" }
     ) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Title</th>
-          <th scope="col" class="govuk-table__header">Detail</th>
-          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Action</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <% if @informative_set.informatives.select(&:persisted?).any? %>
-          <% @informative_set.informatives.select(&:persisted?).each do |informative| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell"><%= informative.title %></td>
-              <td class="govuk-table__cell"><%= render(FormattedContentComponent.new(text: informative.text)) %></td>
-              <td class="govuk-table__cell govuk-table__cell--numeric">
-                <%= link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative), class: "govuk-link" %>
-                <%= link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete, class: "govuk-link" %>
-              </td>
-            </tr>
-          <% end %>
-        <% else %>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>No informatives added yet</strong></td>
-            <td class="govuk-table__cell">&nbsp</td>
-            <td class="govuk-table__cell">&nbsp</td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <% if @informative_set.current_review&.complete?  %>
+<div class="govuk-grid-row" data-controller="informatives">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @informative_set.informatives.select(&:persisted?).any? %>
+      <% @informative_set.informatives.select(&:persisted?).each_with_index do |informative, index| %>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+        <span class="govuk-hint">
+          Informative <%= index +1 %>
+        </span>
+        <h2 class="govuk-heading-m">
+          <%= informative.title %>
+        </h2>
+        <%= render(FormattedContentComponent.new(text: informative.text)) %>
+        <%= link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative), class: "govuk-link" %>
+        <%= link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete, class: "govuk-link" %>
+      <% end %>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <% else %>
+      <p class="govuk-body"><strong>No informatives added yet</strong></p>
+    <% end %>
+
+    <% if @informative_set.current_review&.complete? && params[:show_form] != "true" %>
       <%= link_to "+ Add informative", planning_application_assessment_informatives_path(@planning_application, show_form: true), class: "govuk-link govuk-body" %>
     <% end %>
-  </div>
 
-  <div class="govuk-grid-column-two-thirds govuk-!-margin-top-5">
-    <% if !@informative_set.current_review&.complete? || params[:show_form] == "true" %>
+    <div class="govuk-!-margin-top-8">
       <%= render "form", url: new_planning_application_assessment_informative_path(@planning_application), text: "Add informative" %>
-    <% end %>
 
-    <div class="govuk-button-group">
-      <% unless @informative_set.current_review&.complete? %>
-        <%= link_to "Save and mark as complete", complete_planning_application_assessment_informatives_path(@planning_application), class: "govuk-button", method: :post %>
-      <% end %>
-      <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <div class="govuk-button-group">
+        <% unless @informative_set.current_review&.complete? %>
+          <%= link_to "Save and mark as complete", complete_planning_application_assessment_informatives_path(@planning_application), class: "govuk-button", method: :post %>
+          <button class="govuk-button govuk-button--secondary" data-action="click->informatives#addInformative" type="button">
+            Save and come back later
+          </button>
+        <% end %>
+        <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
     </div>
   </div>
 </div>

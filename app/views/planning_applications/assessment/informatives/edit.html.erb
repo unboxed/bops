@@ -16,6 +16,24 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "form", url: planning_application_assessment_informative_path(@planning_application, @informative), text: "Save informative" %>
+    <%= form_with model: @informative,
+              url: planning_application_assessment_informative_path(@planning_application, @informative),
+              method: :patch do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <div data-controller="informatives">
+        <div data-informatives-array-value="<%= @planning_application.local_authority.informatives.pluck(:title, :text).to_json %>"></div>
+
+        <%= form.govuk_text_field :title, label: { text: "Enter a title" }, id: "manual-title-input" %>
+        <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" }, id: "manual-text-input" %>
+
+        <%= form.hidden_field :id %>
+        <%= form.hidden_field :informative_set_id, value: @informative_set.id %>
+
+        <div class="govuk-button-group">
+          <%= form.submit "Save informative", class: "govuk-button" %>
+          <%= back_link %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>

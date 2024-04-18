@@ -1,25 +1,48 @@
 <%= form_with model: @informative,
-              class: "govuk-!-margin-top-7",
               url:,
               method: :patch do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <% if !@informative_set.current_review&.complete? || params[:show_form] == "true" || form.object.errors.any? %>
+    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-  <h2 class="govuk-heading-m">Add informative</h2>
+    <div data-informatives-array-value="<%= @planning_application.local_authority.informatives.pluck(:title, :text).to_json %>"></div>
 
-  <%= form.hidden_field :id %>
-  <%= form.hidden_field :informative_set_id, value: @informative_set.id %>
-  <%= form.govuk_text_field :title, label: { text: "Enter a title" } %>
-  <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" } %>
+    <h2 class="govuk-heading-m">Choose informative from a list</h2>
+    <label class="govuk-label" for="informatives">
+      Start typing to choose an informative from a list
+    </label>
+    <div id="informatives-container" data-informatives-target="select" class="govuk-body">
+    </div>
 
-  <div class="govuk-button-group">
-    <%= form.submit(
-          text,
-          class: "govuk-button govuk-button--secondary",
-          data: { module: "govuk-button" }
-        ) %>
-    <% if text == "Save informative" %>
-      <%= back_link %>
+    <% if form.object.errors.none? %>
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Add a custom informative
+          </span>
+        </summary>
+          <h2 class="govuk-heading-m govuk-!-margin-top-3">Add a custom informative</h2>
+          <%= form.govuk_text_field :title, label: { text: "Enter a title" }, id: "manual-title-input" %>
+          <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" }, id: "manual-text-input" %>
+      </details>
+    <% else %>
+      <h2 class="govuk-heading-m govuk-!-margin-top-3">Add a custom informative</h2>
+      <%= form.govuk_text_field :title, label: { text: "Enter a title" }, id: "manual-title-input" %>
+      <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" }, id: "manual-text-input" %>
     <% end %>
-  </div>
+
+    <%= form.hidden_field :id %>
+    <%= form.hidden_field :informative_set_id, value: @informative_set.id %>
+
+    <div class="govuk-button-group">
+      <%= form.hidden_field :title, value: "", id: "hidden-title-field" %>
+      <%= form.hidden_field :text, value: "", id: "hidden-text-field" %>
+      <button class="govuk-button govuk-button--secondary" data-action="click->informatives#addInformative" type="button">
+        Add informative
+      </button>
+      <% if text == "Save informative" %>
+        <%= back_link %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
 
