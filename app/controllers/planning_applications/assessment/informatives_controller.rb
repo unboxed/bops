@@ -3,8 +3,6 @@
 module PlanningApplications
   module Assessment
     class InformativesController < AuthenticationController
-      include CommitMatchable
-
       before_action :set_planning_application
       before_action :set_informative_set
       before_action :set_informative
