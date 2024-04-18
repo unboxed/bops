@@ -42,7 +42,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button("Save")
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation/tasks"
+        "/planning_applications/#{planning_application.id}/supply_documents"
       )
     end
 

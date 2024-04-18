@@ -137,7 +137,7 @@ class DocumentsController < AuthenticationController
 
   def redirect_url
     if @validate_document
-      planning_application_validation_tasks_path(@planning_application)
+      supply_documents_planning_application_path(@planning_application)
     elsif session[:return_to]
       return_to_session
     else
