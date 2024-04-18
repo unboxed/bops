@@ -8,6 +8,8 @@ BopsAdmin::Engine.routes.draw do
 
   resources :consultees, except: %i[show]
 
+  resources :informatives, except: %i[show]
+
   resources :users, except: %i[show destroy] do
     get :resend_invite, on: :member
   end

@@ -49,6 +49,36 @@ en:
       show:
         administrator_dashboard: Administrator dashboard
         welcome_message: Welcome %{name}
+    informatives:
+      create:
+        informative_successfully_created: Informative successfully created
+      destroy:
+        informative_successfully_destroyed: Informative successfully deleted
+        informative_unsuccessfully_destroyed: Unable to delete informative - please contact support
+      edit:
+        edit_informative: Edit informative
+      form:
+        labels:
+          text: Text
+          title: Title
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_informative: Add informative
+        are_you_sure: Are you sure you want to delete this informative?
+        find_informatives: Find informative
+        headings:
+          actions: Actions
+          text: Text
+          title: Title
+        informatives: Manage informatives
+        no_informatives_found: No informatives found
+      new:
+        add_informative: Add a new informative
+      update:
+        informative_successfully_updated: Informative successfully updated
     profiles:
       edit:
         profile: Edit profile
