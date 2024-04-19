@@ -14,9 +14,9 @@
         <%= user.name %><br>
         <%= user.email %><br>
         <%= number_to_phone(user.mobile_number, delimiter: " ", pattern: /(\d{5})(\d{3})(\d{3})$/) %><br>
-        <%= link_to("Edit user", edit_user_path(user), class: "govuk-link") %>
+        <%= govuk_link_to "Edit user", edit_user_path(user) %>
         <% if user.unconfirmed? %>
-          <%= link_to("Resend invite", resend_invite_user_path(user), class: "govuk-link") %>
+          <%= govuk_link_to "Resend invite", resend_invite_user_path(user) %>
         <% end %>
       </td>
       <td class="govuk-table__cell">

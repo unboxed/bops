@@ -33,7 +33,7 @@
       <% if @consultees.consulted? %>
         <%= render ReconsultConsulteesComponent.new(form: form) %>
         <h3 class="govuk-heading-s">Do you want to ask the applicant to extend the planning application expiry date?</h3>
-        <%= link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension"), class: "govuk-link" %>
+        <%= govuk_link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension") %>
        <% end %>
       <div class="govuk-form-group" id="response-period">
         <h2 class="govuk-heading-m">

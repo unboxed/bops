@@ -23,7 +23,7 @@
 
     <div class="govuk-button-group">
       <%= back_link %>
-      <%= link_to(t(".edit"), [:edit, @planning_application, :assessment, @assessment_detail, category: @category], class: "govuk-link") %>
+      <%= govuk_link_to t(".edit"), [:edit, @planning_application, :assessment, @assessment_detail, category: @category] %>
     </div>
   </div>
 </div>

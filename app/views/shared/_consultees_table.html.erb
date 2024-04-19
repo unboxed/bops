@@ -15,7 +15,7 @@
         <% if constraint.consultee.present? %>
           <%= constraint.consultee.name %>
         <% else %>
-          <%= link_to "Assign consultee", new_planning_application_consultee_path(@planning_application, constraint: constraint), class: "govuk-link" %>
+          <%= govuk_link_to "Assign consultee", new_planning_application_consultee_path(@planning_application, constraint: constraint) %>
         <% end %>
       </td>
       <td class="govuk-table__cell">

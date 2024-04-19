@@ -18,7 +18,7 @@
             </p>
             <p class="govuk-body">
               <%= truncate(document.name.to_s, length: 50) %><br>
-              <%= link_to "View in new window", url_for_document(document), class: "govuk-link", target: "_blank" %>
+              <%= govuk_link_to "View in new window", url_for_document(document), target: "_blank" %>
             </p>
           </td>
           <td class="govuk-table__cell govuk-!-width-one-third">

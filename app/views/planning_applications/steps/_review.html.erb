@@ -5,13 +5,13 @@
       <span class="app-task-list__task-name">
         <% if current_user.reviewer? %>
           <% if @planning_application.awaiting_determination? || @planning_application.in_committee? %>
-            <%= link_to "Review and sign-off", planning_application_review_tasks_path(@planning_application), aria: { describedby: "review_assessment-completed" }, class: "govuk-link" %>
+            <%= govuk_link_to "Review and sign-off", planning_application_review_tasks_path(@planning_application), aria: { describedby: "review_assessment-completed" } %>
           <% else %>
             Review and sign-off
           <% end %>
         <% else %>
           <% if @planning_application.awaiting_determination? %>
-            <%= link_to "View recommendation", view_recommendation_planning_application_path(@planning_application), aria: { describedby: "review_assessment-completed" }, class: "govuk-link" %>
+            <%= govuk_link_to "View recommendation", view_recommendation_planning_application_path(@planning_application), aria: { describedby: "review_assessment-completed" } %>
           <% else %>
             View recommendation
           <% end %>
@@ -27,7 +27,7 @@
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_publish? && current_user.reviewer? %>
-          <%= link_to "Publish determination", publish_planning_application_path(@planning_application), aria: { describedby: "publish-completed" }, class: "govuk-link" %>
+          <%= govuk_link_to "Publish determination", publish_planning_application_path(@planning_application), aria: { describedby: "publish-completed" } %>
         <% else %>
           Publish determination
         <% end %>

@@ -5,11 +5,7 @@
   <ul class="app-task-list__items">
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
-        <%= link_to(
-        t(".description_documents_and"),
-        consistency_checklist_path(consistency_checklist),
-        class: "govuk-link"
-        ) %>
+        <%= govuk_link_to t(".description_documents_and"), consistency_checklist_path(consistency_checklist) %>
       </span>
       <%= render(
         StatusTags::ConsistencyChecklistComponent.new(
@@ -46,11 +42,7 @@
     <% if @planning_application.planning_history_enabled? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
-          <%= link_to(
-            t(".history"),
-            planning_application_assessment_planning_history_path(@planning_application),
-            class: "govuk-link"
-          ) %>
+          <%= govuk_link_to t(".history"), planning_application_assessment_planning_history_path(@planning_application) %>
         </span>
       </li>
     <% end %>

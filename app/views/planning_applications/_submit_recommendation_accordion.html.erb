@@ -13,14 +13,14 @@
           planning_application: planning_application
         )
       ) %>
-      <%= link_to(
+      <%= govuk_link_to(
         t(".download_assessment_report"),
         planning_application_assessment_report_download_path(
           planning_application,
           format: "pdf"
         ),
         target: "_blank",
-        class: "govuk-body govuk-link"
+        class: "govuk-body"
       ) %>
     </div>
   </div>

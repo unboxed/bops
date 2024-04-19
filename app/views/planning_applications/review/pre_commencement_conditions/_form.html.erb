@@ -47,7 +47,7 @@
     <%= back_link %>
 
     <% if disabled %>
-     <%= link_to "Edit recommendation", edit_planning_application_review_pre_commencement_conditions_path(@planning_application, @planning_application.pre_commencement_condition_set), class: "govuk-link govuk-body" %>
+     <%= govuk_link_to "Edit recommendation", edit_planning_application_review_pre_commencement_conditions_path(@planning_application, @planning_application.pre_commencement_condition_set), class: "govuk-body" %>
     <% end %>
   </div>
 <% end %>

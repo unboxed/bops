@@ -10,7 +10,7 @@
           </h2>
         </div>
         <div id="accordion-default-content-1" class="govuk-accordion__section-content govuk-!-padding-bottom-0" aria-labelledby="accordion-default-heading-1">
-          <% @consultation.neighbours.select(&:persisted?).sort_by(&:id).each do |neighbour| %> 
+          <% @consultation.neighbours.select(&:persisted?).sort_by(&:id).each do |neighbour| %>
           <hr>
           <div class="proposal-details-sub-heading" data-controller="edit-form">
             <div class="govuk-!-width-three-quarters govuk-!-margin-top-1">
@@ -35,22 +35,19 @@
             <% end %>
 
             <div class="neighbour-action-links">
-              <%= link_to(
+              <%= govuk_link_to(
                   "Edit",
                   "#",
-                  class: "govuk-link",
                   data: { action: "click->edit-form#handleClick" }
-                )
-              %>
+                ) %>
 
-              <%= link_to(
+              <%= govuk_link_to(
                     "Remove",
                     planning_application_consultation_neighbour_path(
                         @planning_application,
                         neighbour
                     ),
-                    method: :delete,
-                    class: "govuk-link"
+                    method: :delete
               ) %>
             </div>
           </div>

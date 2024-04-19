@@ -4,12 +4,9 @@
 <ul class="app-task-list__items" id="review-consultation-section">
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
-      <%= link_to(
-            "Check neighbour notifications",
-            (@planning_application.consultation&.neighbour_review&.review_complete? ?
+      <%= govuk_link_to "Check neighbour notifications", (@planning_application.consultation&.neighbour_review&.review_complete? ?
               planning_application_review_consultation_neighbour_responses_path(@planning_application, @planning_application.consultation) :
-              edit_planning_application_review_consultation_neighbour_responses_path(@planning_application, @planning_application.consultation)),
-            class: "govuk-link") %>
+              edit_planning_application_review_consultation_neighbour_responses_path(@planning_application, @planning_application.consultation)) %>
     </span>
     <%= render(
           StatusTags::BaseComponent.new(
@@ -20,12 +17,9 @@
 
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
-      <%= link_to(
-            "Check publicity",
-            (@planning_application.check_publicity&.review_complete? ?
+      <%= govuk_link_to "Check publicity", (@planning_application.check_publicity&.review_complete? ?
               planning_application_review_consultation_publicities_path(@planning_application, @planning_application.consultation) :
-              edit_planning_application_review_consultation_publicities_path(@planning_application.id, @planning_application.consultation.id)),
-            class: "govuk-link") %>
+              edit_planning_application_review_consultation_publicities_path(@planning_application.id, @planning_application.consultation.id)) %>
     </span>
     <%= render(
           StatusTags::BaseComponent.new(

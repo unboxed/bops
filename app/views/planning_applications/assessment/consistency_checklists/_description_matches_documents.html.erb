@@ -17,14 +17,10 @@
       checked: form.object.default_description_matches_documents_to_no?
     ) do %>
       <% unless form.object.open_description_change_requests? %>
-        <%= link_to(
-          t(".request_description_change"),
-          new_planning_application_validation_validation_request_path(
+        <%= govuk_link_to t(".request_description_change"), new_planning_application_validation_validation_request_path(
             planning_application,
             type: "description_change"
-          ),
-          class: "govuk-link"
-        ) %>
+          ) %>
       <% end %>
     <% end %>
   <% else %>

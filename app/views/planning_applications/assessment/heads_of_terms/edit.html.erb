@@ -33,7 +33,7 @@
                 <%= fields.hidden_field :id %>
                 <%= fields.govuk_text_field :title, label: { text: "Enter a title" } %>
                 <%= fields.govuk_text_area :text, label: { text: "Enter detail" } %>
-                <%= link_to "Remove term", "#", class: "govuk-body govuk-link" %>
+                <%= govuk_link_to "Remove term", "#", class: "govuk-body" %>
               <% end %>
             <% end %>
           </div>

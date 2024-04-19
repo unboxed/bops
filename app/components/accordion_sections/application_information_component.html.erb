@@ -1,8 +1,4 @@
-<%= link_to(
-  t(".edit_details"),
-  edit_planning_application_path(planning_application),
-  class: "govuk-link govuk-body"
-) %>
+<%= govuk_link_to t(".edit_details"), edit_planning_application_path(planning_application), class: "govuk-body" %>
 <hr>
 <table class="govuk-table">
   <tbody class="govuk-table__body">
@@ -12,11 +8,7 @@
       </td>
       <td class="govuk-table__cell">
         <%= render(FormattedContentComponent.new(text: planning_application.description)) %>
-        <%= link_to(
-          description_change_link_text,
-          description_change_link_path,
-          class: "govuk-link govuk-body"
-        ) %>
+        <%= govuk_link_to description_change_link_text, description_change_link_path, class: "govuk-body" %>
       </td>
     </tr>
     <% %i[type_and_work_status full_address].each do |attribute| %>
@@ -32,12 +24,10 @@
         <strong><%= t(".location") %></strong>
       </td>
       <td class="govuk-table__cell">
-        <%= link_to(
+        <%= govuk_link_to(
           t(".view_site_on"),
           map_link,
-          target: "_blank",
-          class: "govuk-link"
-        ) %>
+          target: "_blank") %>
       </td>
     </tr>
     <% if planning_application.parish_name.present? %>
@@ -55,12 +45,10 @@
       <td class="govuk-table__cell">
         <% if planning_application.postcode.present? %>
           <p class="govuk-body"><%= planning_application.ward %></p>
-          <%= link_to(
+          <%= govuk_link_to(
             t(".view_on_mapit"),
             mapit_link,
-            target: "_blank",
-            class: "govuk-link"
-          ) %>
+            target: "_blank") %>
         <% else %>
           <%= t(".a_postcode_is") %>
         <% end %>

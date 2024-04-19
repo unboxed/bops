@@ -55,11 +55,11 @@
                     label: { text: "List all the gap(s) in time" },
                     disabled: !editable
                   ) %>
-                  <%= link_to(
+                  <%= govuk_link_to(
                     "Request a new document",
                     new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"),
                     role: "button",
-                    class: "govuk-link govuk-!-margin-top-",
+                    class: "govuk-!-margin-top-",
                     data: { module: "govuk-button" },
                     disabled: !editable
                   ) %>
@@ -112,7 +112,7 @@
 </div>
 
 <div class="govuk-button-group">
-  <% if editable  %>
+  <% if editable %>
     <%= form_with model: [@planning_application, :assessment, @planning_application.immunity_detail] do |form| %>
       <div class="govuk-button-group">
         <%= form.submit(
@@ -134,6 +134,6 @@
   <%= back_link %>
 
   <% if !editable %>
-    <%= link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail), class: "govuk-link" %>
+    <%= govuk_link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail) %>
   <% end %>
 </div>

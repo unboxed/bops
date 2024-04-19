@@ -73,12 +73,12 @@
     <% elsif @planning_application.ownership_certificate_validation_requests.closed.any? %>
       <div class="govuk-button-group">
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        <%= link_to "Edit ownership certificate", edit_planning_application_validation_ownership_certificate_path(@planning_application), class: "govuk-link govuk-body" %>
+        <%= govuk_link_to "Edit ownership certificate", edit_planning_application_validation_ownership_certificate_path(@planning_application), class: "govuk-body" %>
       </div>
     <% else %>
       <div class="govuk-button-group">
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        <%= link_to "Edit ownership certificate", edit_planning_application_validation_ownership_certificate_path(@planning_application), class: "govuk-link govuk-body" %>
+        <%= govuk_link_to "Edit ownership certificate", edit_planning_application_validation_ownership_certificate_path(@planning_application), class: "govuk-body" %>
       </div>
     <% end %>
   </div>

@@ -14,7 +14,7 @@
   <%= form.govuk_text_field :q, value: params[:q], width: "one-half", label: { text: t(".find_informatives"), hidden: true } %>
   <div class="govuk-button-group">
     <%= form.govuk_submit t(".find_informatives") %>
-    <%= link_to t(".add_informative"), new_informative_path, class: "govuk-link govuk-link--no-visited-state" %>
+    <%= govuk_link_to t(".add_informative"), new_informative_path, class: "govuk-link--no-visited-state" %>
   </div>
 <% end %>
 
@@ -33,8 +33,8 @@
           <th scope="row" class="govuk-table__header"><%= informative.title %></th>
           <td class="govuk-table__cell"><%= informative.text %></td>
           <td class="govuk-table__cell govuk-!-text-align-right">
-            <%= link_to t(".actions.edit"), edit_informative_path(informative), class: "govuk-link govuk-link--no-visited-state govuk-link--no-underline" %>
-            <%= link_to t(".actions.delete"), informative_path(informative), class: "govuk-link govuk-link--no-visited-state govuk-link--no-underline govuk-!-margin-left-1", method: :delete, data: { confirm: t(".are_you_sure") } %>
+            <%= govuk_link_to t(".actions.edit"), edit_informative_path(informative), class: "govuk-link--no-visited-state govuk-link--no-underline" %>
+            <%= govuk_link_to t(".actions.delete"), informative_path(informative), class: "govuk-link--no-visited-state govuk-link--no-underline govuk-!-margin-left-1", method: :delete, data: { confirm: t(".are_you_sure") } %>
           </td>
         </tr>
       <% end %>

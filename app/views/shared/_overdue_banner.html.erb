@@ -7,7 +7,7 @@
         <span class="moj-banner__assistive">
           Warning
         </span><strong><%= pluralize(@planning_application.overdue_validation_requests.count, "validation request") %></strong> now overdue.<br/>
-        <%= link_to "View all validation requests", planning_application_validation_validation_requests_path(@planning_application), class: "govuk-link" %>
+        <%= govuk_link_to "View all validation requests", planning_application_validation_validation_requests_path(@planning_application) %>
       </div>
     </div>
   </div>

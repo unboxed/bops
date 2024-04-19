@@ -63,7 +63,7 @@
       <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
       <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: {module: "govuk-button"} %>
     <% else %>
-      <%= link_to "Edit recommendation", edit_planning_application_review_heads_of_term_path(@planning_application), class: "govuk-link govuk-body" %>
+      <%= govuk_link_to "Edit recommendation", edit_planning_application_review_heads_of_term_path(@planning_application), class: "govuk-body" %>
     <% end %>
     <%= back_link %>
   </div>

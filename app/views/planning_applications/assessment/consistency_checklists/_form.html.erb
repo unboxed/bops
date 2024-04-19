@@ -20,11 +20,7 @@
   <% else %>
     <div class="govuk-button-group">
       <%= back_link %>
-      <%= link_to(
-        t(".edit_check_description"),
-        edit_planning_application_assessment_consistency_checklist_path(planning_application),
-        class: "govuk-link"
-      ) %>
+      <%= govuk_link_to t(".edit_check_description"), edit_planning_application_assessment_consistency_checklist_path(planning_application) %>
     </div>
   <% end %>
 <% end %>

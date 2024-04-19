@@ -17,14 +17,10 @@
       checked: form.object.default_site_map_correct_to_no?
     ) do %>
       <% unless form.object.open_red_line_boundary_change_requests? %>
-        <%= link_to(
-          t(".request_red_line_boundary_change"),
-          new_planning_application_validation_validation_request_path(
+        <%= govuk_link_to t(".request_red_line_boundary_change"), new_planning_application_validation_validation_request_path(
             planning_application,
             type: "red_line_boundary_change"
-          ),
-          class: "govuk-link"
-        ) %>
+          ) %>
       <% end %>
     <% end %>
   <% else %>

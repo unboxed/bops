@@ -43,11 +43,7 @@
     <!-- >Only show if it's a minor application<!-->
     <li class="app-task-list__item" id="add-heads-of-terms">
       <span class="app-task-list__task-name">
-        <%= link_to(
-          "Add heads of terms",
-          planning_application_assessment_heads_of_terms_path(@planning_application),
-          class: "govuk-link"
-        ) %>
+        <%= govuk_link_to "Add heads of terms", planning_application_assessment_heads_of_terms_path(@planning_application) %>
       </span>
       <%= render(
       StatusTags::HeadsOfTermsComponent.new(
@@ -58,7 +54,7 @@
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_submit_recommendation? %>
-          <%= link_to "Review and submit recommendation", submit_recommendation_planning_application_path(@planning_application), aria: { describedby: "submit_recommendation-completed" }, class: "govuk-link" %>
+          <%= govuk_link_to "Review and submit recommendation", submit_recommendation_planning_application_path(@planning_application), aria: { describedby: "submit_recommendation-completed" } %>
         <% else %>
           Review and submit recommendation
         <% end %>

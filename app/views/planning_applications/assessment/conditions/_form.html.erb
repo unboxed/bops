@@ -40,14 +40,13 @@
           <%= fields.hidden_field :reason_source, value: fields.object.reason, data: {reset_text_target: "source"} %>
           <%= fields.govuk_text_area :reason, label: { text: "Enter a reason for this condition" }, data: {reset_text_target: "destination"} %>
           <%= button_tag "Reset reason", type: "button", class: "button-as-link govuk-!-margin-bottom-6", value: "reason", data: {action: "click->reset-text#reset"} %><br>
-          <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", data: { action: "click->conditions#removeCondition" } %>
+          <%= govuk_link_to "Remove condition", "#", class: "govuk-body", data: { action: "click->conditions#removeCondition" } %>
         <% end %>
       <% end %>
     </div>
 
-    <%= link_to "+ Add condition", "#", class: "govuk-body govuk-link", data: { action: "click->conditions#addCondition" } %>
+    <%= govuk_link_to "+ Add condition", "#", class: "govuk-body", data: { action: "click->conditions#addCondition" } %>
   </div>
-
 
   <template id="condition-template" data-conditions-target="template">
     <div class="condition govuk-!-margin-bottom-5">

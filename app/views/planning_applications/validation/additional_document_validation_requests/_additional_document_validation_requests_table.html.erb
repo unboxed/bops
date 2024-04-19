@@ -22,7 +22,7 @@
         <td class="govuk-table__cell govuk-!-width-one-sixth">
           <% if validation_request.open_or_pending? %>
             <% if validation_request.can_cancel? %>
-              <%= link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, validation_request), class: "govuk-link govuk-!-display-block" %>
+              <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, validation_request), class: "govuk-!-display-block" %>
             <% end %>
 
             <% if @planning_application.not_started? %>

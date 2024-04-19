@@ -3,11 +3,10 @@
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
       <% if @planning_application.can_validate? %>
-        <%= link_to(
+        <%= govuk_link_to(
            t(".check_and_validate"),
            planning_application_validation_tasks_path(@planning_application),
-           aria: { describedby: "validation-completed" },
-           class: "govuk-link"
+           aria: { describedby: "validation-completed" }
         ) %>
       <% else %>
         Validate application
