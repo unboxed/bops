@@ -1,0 +1,16 @@
+---
+name: Deploy
+
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-environment.yml
+    with:
+      environment-name: "production"
+      db_subnets: "PRODUCTION_BOPS_SUBNETS"
+      db_sg: "PRODUCTION_BOPS_SG"
+    secrets: inherit
