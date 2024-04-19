@@ -58,7 +58,7 @@ RSpec.describe "Planning guides" do
       click_link("All drawings and plans")
 
       expect(page).to have_content("How to create all drawings and plans")
-      expect(page).to have_image_displayed("drawing_plans")
+      expect(page).to have_image_displayed("site_plans/existing")
       expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
