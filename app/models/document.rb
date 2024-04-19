@@ -77,7 +77,6 @@ class Document < ApplicationRecord
     arboriculturistReport
     basementImpactStatement
     bioaerosolAssessment
-    bioaerosolAssessment
     birdstrikeRiskManagementPlan
     boreholeOrTrialPitAnalysis
     conditionSurvey

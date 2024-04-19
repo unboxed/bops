@@ -206,7 +206,9 @@ RSpec.describe "Requesting document changes to a planning application" do
         click_link("proposed-roofplan.png")
       end
 
-      click_link "Show all (61)"
+      click_link "Supporting documents"
+
+      click_link "Show all (60)"
 
       check "Sustainability statement"
 
@@ -214,6 +216,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#validate-document") { choose "Yes" }
       click_button "Save"
 
+      click_link "Back"
       expect(page).to have_content "Sustainability statement"
 
       click_link "Check supplied documents"

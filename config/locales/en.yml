@@ -653,6 +653,15 @@ en:
       privacy:
         document_references: Document reference(s)
         where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (for example, "25A-V2, 25B-V2").
+      tags:
+        groups:
+          evidence: Evidence
+          plans: Plans
+          supporting_documents: Supporting documents
+        hints:
+          evidence: Select the relevant evidence tags
+          plans: Select the relevant plan tags
+          supporting_documents: Select the relevant supporting document tags
       upload:
         a_replacement_file: A replacement file will automatically archive the existing file.
         upload_a_file: Upload a file
