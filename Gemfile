@@ -17,7 +17,7 @@ gem "devise"
 gem "devise-two-factor"
 gem "faker", require: false
 gem "faraday", "~> 2", require: false
-gem "govuk-components", "~> 5"
+gem "govuk-components", git: "https://github.com/x-govuk/govuk-components.git", ref: "fa37301"
 gem "govuk_design_system_formbuilder"
 gem "grover"
 gem "i18n", "< 1.9"

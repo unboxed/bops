@@ -56,14 +56,26 @@
       <h2 class="govuk-tabs__title">
         Contents
       </h2>
-      <%= render "planning_application_tabs" %>
-      <%= render(
-        PlanningApplications::PanelsComponent.new(
-          planning_applications: @planning_applications,
-          search: @search,
-          local_authority: current_local_authority
-        )
-      ) %>
+      <%= govuk_tabs do |tabs|
+            tabs.with_tab(label: @search.all_applications_title, id: "all") {
+              render PlanningApplications::PanelComponent.new(
+                planning_applications: @planning_applications,
+                type: :all,
+                search: @search
+              )
+            }
+            tabs.with_tab(label: "Closed") {
+              render PlanningApplications::PanelComponent.new(
+                planning_applications: @search.current_planning_applications.closed,
+                type: :closed
+              )
+            }
+            tabs.with_tab(label: "Updated") {
+              render PlanningApplications::UpdatedPanelComponent.new(
+                audits: current_local_authority.audits.most_recent_for_planning_applications.limit(20)
+              )
+            }
+          end %>
     </div>
   </div>
 </div>

@@ -796,13 +796,15 @@ class PlanningApplication < ApplicationRecord
   end
 
   def generate_document_tabs(tabs = Document::DEFAULT_TABS)
-    all_documents = documents.active.with_file_attachment
-
     tabs.map do |tab|
-      documents = (tab == "All") ? all_documents : filter_documents_for_tab(all_documents, tab)
+      documents = (tab == "All") ? active_documents_with_file : filter_documents_for_tab(active_documents_with_file, tab)
 
       {title: tab, id: tab.parameterize, content: tab, records: documents}
     end
+  end
+
+  def active_documents_with_file
+    documents.active.with_file_attachment
   end
 
   def environment_impact_assessment_status
