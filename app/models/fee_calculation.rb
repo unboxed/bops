@@ -53,6 +53,10 @@ class FeeCalculation < ApplicationRecord
     end
   end
 
+  def discount
+    total_fee.to_d - payable_fee.to_d
+  end
+
   private
 
   def audit_updated!
