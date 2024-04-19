@@ -26,10 +26,9 @@
           ) %>
     </p>
     <p class="govuk-body">
-      <%= link_to(
+      <%= govuk_link_to(
             t(".open_legislation_in"),
             @policy_class.url,
-            class: "govuk-link",
             target: "_blank"
           ) %>
     </p>
@@ -62,11 +61,7 @@
 
     <div class="govuk-button-group">
       <%= back_link %>
-      <%= link_to(
-            "Edit review of Part #{@policy_class.part}, Class #{@policy_class.section}",
-            edit_planning_application_review_policy_class_path(@policy_class.planning_application, @policy_class),
-            class: "govuk-link"
-          ) %>
+      <%= govuk_link_to "Edit review of Part #{@policy_class.part}, Class #{@policy_class.section}", edit_planning_application_review_policy_class_path(@policy_class.planning_application, @policy_class) %>
     </div>
   </div>
 </div>

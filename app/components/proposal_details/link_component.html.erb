@@ -2,5 +2,5 @@
   "li",
   data: { show_hide_target: ("toggleable" if auto_answered?) }
 ) do %>
-  <%= link_to(title, "##{id}", class: "govuk-link") %>
+  <%= govuk_link_to title, "##{id}" %>
 <% end %>

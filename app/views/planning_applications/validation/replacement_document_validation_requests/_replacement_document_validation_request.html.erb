@@ -7,7 +7,6 @@
   </td>
 <% else %>
   <td class="govuk-table__cell change-request-list limit-column-width">
-    <%= link_to replacement_document_validation_request.old_document.name,
-        edit_planning_application_document_path(@planning_application, replacement_document_validation_request.old_document), class: "govuk-link" %>
+    <%= govuk_link_to replacement_document_validation_request.old_document.name, edit_planning_application_document_path(@planning_application, replacement_document_validation_request.old_document) %>
   </td>
 <% end %>

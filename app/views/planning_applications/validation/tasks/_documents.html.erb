@@ -12,7 +12,7 @@
     <% else %>
       <li id="check-supplied-document" class="app-task-list__item">
         <span class="app-task-list__task-name">
-          <%= link_to "Check supplied documents", supply_documents_planning_application_path(@planning_application), class: "govuk-link" %>
+          <%= govuk_link_to "Check supplied documents", supply_documents_planning_application_path(@planning_application) %>
         </span>
       </li>
     <% end %>

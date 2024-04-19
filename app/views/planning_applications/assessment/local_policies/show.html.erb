@@ -14,7 +14,7 @@
       locals: { heading: "Assess against policies and guidance" }
     ) %>
 
-<%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-link govuk-body" %>
+<%= govuk_link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-body" %>
 
 <%= render "comment" %>
 
@@ -31,6 +31,5 @@
 
 <div class="govuk-button-group">
   <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-  <%= link_to "Edit considerations", edit_planning_application_assessment_local_policy_path(@planning_application, @local_policy), class: "govuk-link govuk-body" %>
+  <%= govuk_link_to "Edit considerations", edit_planning_application_assessment_local_policy_path(@planning_application, @local_policy), class: "govuk-body" %>
 </div>
-

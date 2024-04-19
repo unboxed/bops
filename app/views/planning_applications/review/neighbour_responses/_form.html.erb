@@ -26,7 +26,7 @@
     <%= back_link %>
 
     <% if disabled %>
-      <%= link_to "Edit review neighbour responses", edit_planning_application_review_consultation_neighbour_responses_path(@planning_application, @consultation), class: "govuk-body govuk-link" %>
+      <%= govuk_link_to "Edit review neighbour responses", edit_planning_application_review_consultation_neighbour_responses_path(@planning_application, @consultation), class: "govuk-body" %>
     <% end %>
   </div>
 <% end %>

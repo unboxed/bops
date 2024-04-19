@@ -25,11 +25,7 @@
       <%= render("shared/warning_text", message: t(".this_information_will")) %>
     </p>
     <%= render(FormattedContentComponent.new(text: @planning_application.public_comment)) %>
-    <%= link_to(
-      t(".edit_information_on"),
-      edit_public_comment_planning_application_path(@planning_application),
-      class: "govuk-link govuk-body"
-    ) %>
+    <%= govuk_link_to t(".edit_information_on"), edit_public_comment_planning_application_path(@planning_application), class: "govuk-body" %>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <%= render(
       partial: "documents_table",
@@ -47,11 +43,7 @@
         <%= t(".you_have_suggested") %>
       </p>
       <p>
-        <%= link_to(
-          t(".review_changes"),
-          planning_application_review_tasks_path(@planning_application),
-          class: "govuk-link govuk-body"
-        ) %>
+        <%= govuk_link_to t(".review_changes"), planning_application_review_tasks_path(@planning_application), class: "govuk-body" %>
       </p>
     <% else %>
       <p class= "govuk-body">

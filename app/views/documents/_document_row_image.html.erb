@@ -2,34 +2,20 @@
   <%= link_to image_tag(document.file.representation(resize: resize), style: "max-width:100%"),
       url_for_document(document), target: :_blank %>
   <p class="govuk-body">
-    <%= link_to(
+    <%= govuk_link_to(
       t(".view_in_new"),
       url_for_document(document),
-      target: :_blank,
-      class: "govuk-link"
-    ) %>
+      target: :_blank) %>
   </p>
   <% if edit_and_archive %>
     <p class="govuk-body">
-      <%= link_to(
-        t(".edit"),
-        edit_planning_application_document_path(planning_application, document),
-        class: "govuk-link"
-      ) %>
+      <%= govuk_link_to t(".edit"), edit_planning_application_document_path(planning_application, document) %>
     </p>
     <p class="govuk-body">
-      <%= link_to(
-        t(".archive"),
-        planning_application_document_archive_path(planning_application, document),
-        class: "govuk-link"
-      ) %>
+      <%= govuk_link_to t(".archive"), planning_application_document_archive_path(planning_application, document) %>
     </p>
     <p class="govuk-body">
-      <%= link_to(
-        "Request replacement",
-        new_planning_application_validation_validation_request_path(planning_application_id: planning_application.id, document: document, type: "replacement_document"),
-        class: "govuk-link"
-      ) %>
+      <%= govuk_link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_id: planning_application.id, document: document, type: "replacement_document") %>
     </p>
   <% end %>
 <% else %>

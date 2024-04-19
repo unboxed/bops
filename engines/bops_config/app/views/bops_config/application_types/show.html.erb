@@ -23,7 +23,7 @@
         </dd>
         <dd class="govuk-summary-list__actions">
           <% if @application_type.inactive? %>
-            <%= link_to [:edit, @application_type], class: "govuk-link" do %>
+            <%= govuk_link_to [:edit, @application_type] do %>
               <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".name") %></span>
             <% end %>
           <% end %>
@@ -39,7 +39,7 @@
         </dd>
         <dd class="govuk-summary-list__actions">
           <% if @application_type.inactive? %>
-            <%= link_to [:edit, @application_type], class: "govuk-link" do %>
+            <%= govuk_link_to [:edit, @application_type] do %>
               <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".suffix") %></span>
             <% end %>
           <% end %>
@@ -56,7 +56,7 @@
           <% end %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to [:edit, @application_type, :category], class: "govuk-link" do %>
+          <%= govuk_link_to [:edit, @application_type, :category] do %>
             <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".category") %></span>
           <% end %>
         </dd>
@@ -70,7 +70,7 @@
           <%= @application_type.reporting_types.join(", ") %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to [:edit, @application_type, :reporting], class: "govuk-link" do %>
+          <%= govuk_link_to [:edit, @application_type, :reporting] do %>
             <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".reporting") %></span>
           <% end %>
         </dd>
@@ -86,7 +86,7 @@
           <% end %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to [:edit, @application_type, :legislation], class: "govuk-link" do %>
+          <%= govuk_link_to [:edit, @application_type, :legislation] do %>
             <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".legislation") %></span>
           <% end %>
         </dd>
@@ -102,7 +102,7 @@
           <% end %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to [:edit, @application_type, :determination_period], class: "govuk-link" do %>
+          <%= govuk_link_to [:edit, @application_type, :determination_period] do %>
             <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".determination_period") %></span>
           <% end %>
         </dd>
@@ -133,7 +133,7 @@
           <% end %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to [:edit, @application_type, :features], class: "govuk-link" do %>
+          <%= govuk_link_to [:edit, @application_type, :features] do %>
             <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".features") %></span>
           <% end %>
         </dd>
@@ -152,7 +152,7 @@
             </p>
           </dd>
           <dd class="govuk-summary-list__actions">
-            <%= link_to [:edit, @application_type, :document_tags, anchor: "#{group}-tags"], class: "govuk-link" do %>
+            <%= govuk_link_to [:edit, @application_type, :document_tags, anchor: "#{group}-tags"] do %>
               <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".links.#{group}") %></span>
             <% end %>
           </dd>
@@ -167,7 +167,7 @@
           <%= @application_type.decisions.map(&:humanize).join(", ") %>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to [:edit, @application_type, :decisions], class: "govuk-link" do %>
+          <%= govuk_link_to [:edit, @application_type, :decisions] do %>
             <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".decisions") %></span>
           <% end %>
         </dd>
@@ -183,7 +183,7 @@
           </span>
         </dd>
         <dd class="govuk-summary-list__actions">
-          <%= link_to [:edit, @application_type, :status], class: "govuk-link" do %>
+          <%= govuk_link_to [:edit, @application_type, :status] do %>
             <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".status") %></span>
           <% end %>
         </dd>

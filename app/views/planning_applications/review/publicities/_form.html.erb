@@ -23,7 +23,7 @@
     <% end %>
     <%= back_link %>
     <% if disabled %>
-      <%= link_to "Edit review of publicity", edit_planning_application_review_consultation_publicities_path(@planning_application, @consultation), class: "govuk-link govuk-body" %>
+      <%= govuk_link_to "Edit review of publicity", edit_planning_application_review_consultation_publicities_path(@planning_application, @consultation), class: "govuk-body" %>
     <% end %>
   </div>
 <% end %>

@@ -20,7 +20,7 @@
         )
       ) %>
       <% if assessment_detail == "site_description" %>
-        <p class="govuk-body govuk-!-margin-top-2"><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %></p>
+        <p class="govuk-body govuk-!-margin-top-2"><%= govuk_link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank' %></p>
       <% end %>
       <% if assessment_detail == "consultation_summary" && @consultation&.consultees&.any? %>
         <%= render(
@@ -32,7 +32,7 @@
       <% if assessment_detail == "amenity" || assessment_detail == "neighbour_summary" %>
         <% if consultation = @planning_application.consultation %>
           <p class="govuk-body govuk-!-margin-top-2">View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
-          <p class="govuk-body govuk-!-margin-top-2"><%= link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application), class: "govuk-link" %></p>
+          <p class="govuk-body govuk-!-margin-top-2"><%= govuk_link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application) %></p>
         <% else %>
           <p class="govuk-body govuk-!-margin-top-2">There is no existing consultation for this planning application.</p>
         <% end %>
@@ -89,13 +89,9 @@
   <% if disabled %>
     <div class="govuk-button-group">
       <%= back_link %>
-      <%= link_to(
-        t(".edit_review"),
-        edit_planning_application_review_assessment_details_path(
+      <%= govuk_link_to t(".edit_review"), edit_planning_application_review_assessment_details_path(
           planning_application
-        ),
-        class: "govuk-link"
-      ) %>
+        ) %>
     </div>
   <% else %>
     <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>

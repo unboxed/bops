@@ -47,7 +47,7 @@
     <%= back_link %>
 
     <% if !editable %>
-      <%= link_to "Edit review policy guidance", edit_planning_application_review_local_policy_path(@planning_application, @review_local_policy), class: "govuk-link" %>
+      <%= govuk_link_to "Edit review policy guidance", edit_planning_application_review_local_policy_path(@planning_application, @review_local_policy) %>
     <% end %>
   </div>
 <% end %>

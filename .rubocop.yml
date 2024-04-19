@@ -58,6 +58,9 @@ Style/VisitLiteral:
 Style/NoFetchWithLiteralNilDefault:
   Enabled: true
 
+Style/UseGovukLinkHelper:
+  Enable: true
+
 # past migrations are ignored; we don't expect to go back and edit them ever,
 # we'll fix them in future migrations if at all.
 Rails/BulkChangeTable:

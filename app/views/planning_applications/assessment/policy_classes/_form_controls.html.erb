@@ -2,11 +2,7 @@
   <div class="policy-class-scroll-links">
     <% if policy_class.previous.present? %>
       <% if planning_application.assessment_complete? %>
-        <%= link_to(
-          t(".view_previous_class"),
-          policy_class.previous.default_path,
-          class: "govuk-link"
-        ) %>
+        <%= govuk_link_to t(".view_previous_class"), policy_class.previous.default_path %>
       <% else %>
         <%= form.submit(
           t(".save_changes_and_view_previous"),
@@ -16,11 +12,7 @@
     <% end %>
     <% if policy_class.next.present? %>
       <% if planning_application.assessment_complete? %>
-        <%= link_to(
-          t(".view_next_class"),
-          policy_class.next.default_path,
-          class: "govuk-link next-policy-class-link"
-        ) %>
+        <%= govuk_link_to t(".view_next_class"), policy_class.next.default_path, class: "next-policy-class-link" %>
       <% else %>
         <%= form.submit(
           t(".save_changes_and_view_next"),

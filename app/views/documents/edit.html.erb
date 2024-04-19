@@ -37,11 +37,11 @@
         url_for_document(@document),
         target: "_blank"
       ) %>
-      <%= link_to(
+      <%= govuk_link_to(
         t(".view_in_new"),
         url_for_document(@document),
         target: "_new",
-        class: "govuk-link govuk-body"
+        class: "govuk-body"
       ) %>
     <% end %>
   </div>
@@ -57,7 +57,7 @@
     <% if @replacement_document_validation_request %>
       <p class="govuk-body govuk-!-margin-bottom-0">
         <strong>This document replaced:</strong>
-        <%= link_to @replacement_document_validation_request.old_document.name, edit_planning_application_document_path(@planning_application, @replacement_document_validation_request.old_document), target: :_new, class: "govuk-link" %>
+        <%= govuk_link_to @replacement_document_validation_request.old_document.name, edit_planning_application_document_path(@planning_application, @replacement_document_validation_request.old_document), target: :_new %>
       </p>
 
       <p class="govuk-body govuk-!-margin-bottom-0">
@@ -80,7 +80,7 @@
     <% end %>
 
     <p class="govuk-body">
-      <%= created_by(@document)  %>
+      <%= created_by(@document) %>
     </p>
   </div>
   <div class="govuk-grid-column-full">

@@ -34,8 +34,7 @@
         A replacement document has been provided for this request:
       </p>
       <p class="govuk-body">
-        <%= link_to "#{new_document.name.to_s}",
-          edit_planning_application_document_path(@planning_application, new_document, validate: "yes"), class: "govuk-link" %>
+        <%= govuk_link_to "#{new_document.name.to_s}", edit_planning_application_document_path(@planning_application, new_document, validate: "yes") %>
       </p>
     <% end %>
 

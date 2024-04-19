@@ -18,9 +18,9 @@
     <% else %>
       <p class="govuk-body">
         <% if @planning_application.description_change_validation_requests.open.any? %>
-          <%= link_to "View requested change", planning_application_validation_validation_request_path(@planning_application, @planning_application.description_change_validation_request.id), class: "govuk-link" %>
+          <%= govuk_link_to "View requested change", planning_application_validation_validation_request_path(@planning_application, @planning_application.description_change_validation_request.id) %>
         <% elsif !@planning_application.closed_or_cancelled? %>
-          <%= link_to "Propose a change to the description", new_planning_application_validation_validation_request_path(@planning_application, type: "description_change"), class: "govuk-link" %>
+          <%= govuk_link_to "Propose a change to the description", new_planning_application_validation_validation_request_path(@planning_application, type: "description_change") %>
         <% end %>
       </p>
 

@@ -8,7 +8,7 @@
           <% if reporting_type.guidance? %>
             <%= render FormattedContentComponent.new(text: reporting_type.guidance, classname: "govuk-hint") %>
             <% if reporting_type.guidance_link? %>
-              <p class="govuk-hint"><%= link_to(t(".read_more"), reporting_type.guidance_link, target: "_blank", class: "govuk-link") %></p>
+              <p class="govuk-hint"><%= govuk_link_to(t(".read_more"), reporting_type.guidance_link, target: "_blank") %></p>
             <% end %>
           <% end %>
           <% if reporting_type.legislation? %>

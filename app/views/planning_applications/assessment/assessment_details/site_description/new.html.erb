@@ -10,7 +10,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">
-      <%= link_to t(".view_site_on_map"), map_link(@planning_application.full_address), target: "_blank", class: "govuk-link" %>
+      <%= govuk_link_to t(".view_site_on_map"), map_link(@planning_application.full_address), target: "_blank" %>
     </p>
 
     <h2 class="govuk-heading-m"><%= t(".heading") %></h2>

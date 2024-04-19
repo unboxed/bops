@@ -22,7 +22,7 @@
           </p>
           <p class="govuk-body">
             <%= truncate(ff.object.name.to_s, length: 50) %><br>
-            <%= link_to "Download", url_for_document(ff.object), download: true, class: "govuk-body-s govuk-link" %>
+            <%= govuk_link_to "Download", url_for_document(ff.object), download: true, class: "govuk-body-s" %>
           </p>
         </td>
         <td class="govuk-table__cell">

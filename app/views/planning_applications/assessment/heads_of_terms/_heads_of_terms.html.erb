@@ -73,7 +73,7 @@
       <% end %>
     </tbody>
   </table>
-  <%= link_to "+ Add heads of terms", new_planning_application_assessment_heads_of_term_path(@planning_application.id), class: "govuk-body govuk-link" %>
+  <%= govuk_link_to "+ Add heads of terms", new_planning_application_assessment_heads_of_term_path(@planning_application.id), class: "govuk-body" %>
 
   <p class="govuk-body govuk-!-margin-top-5">
     Updated heads of terms will be sent to the applicant immediately

@@ -14,11 +14,11 @@
       locals: { heading: "Assess against policies and guidance" }
     ) %>
 
-<%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-link govuk-body govuk-!-margin-top-6" %>
+<%= govuk_link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-body govuk-!-margin-top-6" %>
 
 <%= render "table" %>
 
 <div class="govuk-button-group">
   <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-  <%= link_to "Add new consideration", new_planning_application_assessment_local_policy_area_path(@planning_application, @local_policy), class: "govuk-link govuk-body", class: "govuk-button govuk-button--primary" %>
+  <%= link_to "Add new consideration", new_planning_application_assessment_local_policy_area_path(@planning_application, @local_policy), class: "govuk-button govuk-button--primary" %>
 </div>

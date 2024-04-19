@@ -1,9 +1,5 @@
 <h4 class="govuk-body policy-class-title">
-  <%= link_to(
-        t(".policy_class_name", part: part, class: section, name: name),
-        default_path,
-        class: "govuk-link"
-      ) %>
+  <%= govuk_link_to t(".policy_class_name", part: part, class: section, name: name), default_path %>
 </h4>
 <p class="govuk-body"><strong><%= policies_summary %></strong></p>
 <% if policies.to_be_determined.none? %>

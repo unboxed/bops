@@ -43,7 +43,7 @@
     <%= back_link %>
 
     <% if !editable %>
-      <%= link_to "Edit review immune from enforcement", edit_planning_application_review_immunity_enforcement_path(@planning_application, @review_immunity_detail), class: "govuk-link" %>
+      <%= govuk_link_to "Edit review immune from enforcement", edit_planning_application_review_immunity_enforcement_path(@planning_application, @review_immunity_detail) %>
     <% end %>
   </div>
 <% end %>

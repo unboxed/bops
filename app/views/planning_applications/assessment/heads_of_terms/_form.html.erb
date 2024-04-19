@@ -30,12 +30,12 @@
           <%= fields.hidden_field :id %>
           <%= fields.govuk_text_field :title, label: { text: "Enter a title" }, data: {reset_text_target: "destination"}, disabled: fields.object&.current_validation_request&.open? %>
           <%= fields.govuk_text_area :text, label: { text: "Enter detail" }, data: {reset_text_target: "destination"}, disabled: fields.object&.current_validation_request&.open? %>
-          <%= link_to "Remove term", "#", class: "govuk-body govuk-link", data: { action: "click->heads-of-terms#removeTerm" } %>
+          <%= govuk_link_to "Remove term", "#", class: "govuk-body", data: { action: "click->heads-of-terms#removeTerm" } %>
         <% end %>
       <% end %>
     </div>
 
-    <%= link_to "+ Add term", "#", class: "govuk-body govuk-link", data: { action: "click->heads-of-terms#addTerm" } %>
+    <%= govuk_link_to "+ Add term", "#", class: "govuk-body", data: { action: "click->heads-of-terms#addTerm" } %>
   </div>
 
   <template id="heads-of-term-template" data-heads-of-terms-target="template">

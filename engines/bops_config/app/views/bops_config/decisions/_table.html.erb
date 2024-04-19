@@ -30,7 +30,7 @@
             <%= decision.description %>
           </td>
           <td class="govuk-table__cell">
-            <%= link_to t(".edit"), edit_decision_path(decision) , class: "govuk-link" %>
+            <%= govuk_link_to t(".edit"), edit_decision_path(decision) %>
           </td>
         </tr>
       <% end %>

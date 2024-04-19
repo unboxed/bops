@@ -82,7 +82,7 @@
                 <% end %>
                 <br>
                 <p class="govuk-body">
-                  <%= link_to "Redact and publish", edit_planning_application_consultation_redact_neighbour_response_path(@planning_application, response), class: "govuk-link" %>
+                  <%= govuk_link_to "Redact and publish", edit_planning_application_consultation_redact_neighbour_response_path(@planning_application, response) %>
                   <% if response.redacted_by.try(:name) %>
                     (Redacted by: <%= response.redacted_by.name %>)
                   <% end %>

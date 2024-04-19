@@ -46,7 +46,7 @@
       ) %>
     <% end %>
     <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-    <%= link_to "Change CIL liability", edit_planning_application_review_cil_liability_path(@planning_application), class: "govuk-link govuk-body" %>
+    <%= govuk_link_to "Change CIL liability", edit_planning_application_review_cil_liability_path(@planning_application), class: "govuk-body" %>
   </div>
 <% end %>
 

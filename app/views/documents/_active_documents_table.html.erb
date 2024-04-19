@@ -25,9 +25,9 @@
             <% if @planning_application.can_validate? %>
               <% if document.representable? %>
                 <p class="govuk-body govuk-!-margin-right-2" style="text-align:right">
-                  <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document), class: "govuk-link" %><br>
-                  <%= link_to "Archive", planning_application_document_archive_path(document_id: document.id), class: "govuk-link" %><br>
-                  <%= link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_id: @planning_application.id, document: document, type: "replacement_document"), class: "govuk-link" %>
+                  <%= govuk_link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br>
+                  <%= govuk_link_to "Archive", planning_application_document_archive_path(document_id: document.id) %><br>
+                  <%= govuk_link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_id: @planning_application.id, document: document, type: "replacement_document") %>
                 </p>
               <% end %>
             <% end %>

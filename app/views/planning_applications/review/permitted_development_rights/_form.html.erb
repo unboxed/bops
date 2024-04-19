@@ -48,7 +48,7 @@
     <%= back_link %>
 
     <% if !editable %>
-      <%= link_to "Edit check permitted development rights", edit_planning_application_review_permitted_development_right_path(@planning_application, @permitted_development_right), class: "govuk-link" %>
+      <%= govuk_link_to "Edit check permitted development rights", edit_planning_application_review_permitted_development_right_path(@planning_application, @permitted_development_right) %>
     <% end %>
   </div>
 <% end %>

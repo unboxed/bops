@@ -1,10 +1,6 @@
 <% if planning_application.validated? %>
   <p class="govuk-body">
-    <%= link_to(
-      change_request_link_text,
-      change_request_link_path,
-      class: "govuk-link"
-    ) %>
+    <%= govuk_link_to change_request_link_text, change_request_link_path %>
   </p>
 <% end %>
 <% if planning_application.boundary_geojson.present? %>
