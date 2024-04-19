@@ -125,7 +125,7 @@ json.data do
   end
 
   json.pre_commencement_condition_validation_requests @planning_application
-    .pre_commencement_condition_validation_requests do |pre_commencement_condition_validation_request|
+    .pre_commencement_condition_validation_requests.notified do |pre_commencement_condition_validation_request|
     json.extract! pre_commencement_condition_validation_request,
       :id,
       :state,

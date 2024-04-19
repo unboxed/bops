@@ -16,7 +16,7 @@ class ConditionSet < ApplicationRecord
   end
 
   def latest_validation_request
-    validation_requests.max_by(&:notified_at)
+    validation_requests.notified.max_by(&:notified_at)
   end
 
   def latest_validation_requests
@@ -36,7 +36,23 @@ class ConditionSet < ApplicationRecord
     conditions.joins(:validation_requests).where(validation_requests: {approved: true})
   end
 
+  def confirm_pending_requests!
+    transaction do
+      validation_requests.pending.each(&:mark_as_sent!)
+      create_review
+    end
+
+    send_pre_commencement_condition_request_email
+  end
+
   private
+
+  def send_pre_commencement_condition_request_email
+    PlanningApplicationMailer.pre_commencement_condition_request_mail(
+      planning_application,
+      latest_validation_request
+    ).deliver_now
+  end
 
   def should_create_review?
     return if current_review.nil?

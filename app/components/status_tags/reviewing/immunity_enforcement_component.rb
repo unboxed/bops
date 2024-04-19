@@ -6,6 +6,7 @@ module StatusTags
       def initialize(planning_application:, review_immunity_detail:)
         @planning_application = planning_application
         @review_immunity_detail = review_immunity_detail
+        super(status:)
       end
 
       private

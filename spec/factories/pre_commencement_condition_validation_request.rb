@@ -15,6 +15,7 @@ FactoryBot.define do
 
     trait :open do
       state { "open" }
+      notified_at { Time.current }
     end
 
     trait :closed do

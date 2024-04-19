@@ -4,14 +4,7 @@ module StatusTags
   class LetterComponent < StatusTags::BaseComponent
     def initialize(status:)
       @status = status
-    end
-
-    attr_reader :status
-
-    private
-
-    def task_list?
-      false
+      super(status:, task_list: false)
     end
   end
 end

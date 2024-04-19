@@ -4,6 +4,7 @@ module StatusTags
   class DecisionComponent < StatusTags::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
+      super(status:, task_list: false)
     end
 
     private
@@ -16,10 +17,6 @@ module StatusTags
       else
         planning_application.decision&.to_sym
       end
-    end
-
-    def task_list?
-      false
     end
   end
 end

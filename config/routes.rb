@@ -92,8 +92,10 @@ Rails.application.routes.draw do
           resources :tasks, only: :index
           resources :conditions, only: %i[index new] do
             get :edit, on: :collection
-            get :edit
             patch :update, on: :collection
+          end
+          resources :pre_commencement_conditions, except: %i[new show] do
+            post :confirm, on: :collection
           end
           resource :consistency_checklist, except: %i[destroy index]
           resources :consultees, only: %i[index] do

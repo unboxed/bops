@@ -4,6 +4,7 @@ module StatusTags
   class ConsistencyChecklistComponent < StatusTags::BaseComponent
     def initialize(consistency_checklist:)
       @consistency_checklist = consistency_checklist
+      super(status:)
     end
 
     private

@@ -99,7 +99,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
       it "renders link to new assessment detail page" do
         expect(page).to have_link(
           "Add pre-commencement conditions",
-          href: "/planning_applications/#{planning_application.id}/assessment/conditions?pre_commencement=true"
+          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions"
         )
       end
 
@@ -122,7 +122,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
       it "renders link to permitted development right review page" do
         expect(page).to have_link(
           "Add pre-commencement conditions",
-          href: "/planning_applications/#{planning_application.id}/assessment/conditions?pre_commencement=true"
+          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions"
         )
       end
 
@@ -145,7 +145,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
       it "renders link to edit permitted development right review page" do
         expect(page).to have_link(
           "Add pre-commencement conditions",
-          href: "/planning_applications/#{planning_application.id}/assessment/conditions?pre_commencement=true"
+          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions"
         )
       end
 
@@ -170,7 +170,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
       it "renders link to edit permitted development right review page" do
         expect(page).to have_link(
           "Add pre-commencement conditions",
-          href: "/planning_applications/#{planning_application.id}/assessment/conditions?pre_commencement=true"
+          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions"
         )
       end
 

@@ -112,9 +112,11 @@ RSpec.describe "Reviewing pre-commencement conditions" do
         )
 
         condition_set = planning_application.pre_commencement_condition_set
-        expect(condition_set.current_review.action).to eq "rejected"
-        expect(condition_set.current_review.comment).to eq "I don't think you've assessed conditions correctly"
-        expect(condition_set.current_review.status).to eq "to_be_reviewed"
+        current_review = condition_set.current_review
+        condition = condition_set.conditions.last
+        expect(current_review.action).to eq "rejected"
+        expect(current_review.comment).to eq "I don't think you've assessed conditions correctly"
+        expect(current_review.status).to eq "to_be_reviewed"
 
         sign_out(reviewer)
         sign_in(assessor)
@@ -130,7 +132,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
 
         expect(page).to have_content("I don't think you've assessed conditions correctly")
 
-        within "tbody tr:first-child" do
+        within "#condition_#{condition.id}" do
           click_link "Cancel"
         end
       end

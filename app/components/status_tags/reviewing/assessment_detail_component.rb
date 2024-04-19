@@ -9,6 +9,7 @@ module StatusTags
       def initialize(assessment_detail:, planning_application:)
         @planning_application = planning_application
         @assessment_detail = assessment_detail
+        super(status:, task_list: false)
       end
 
       private
@@ -32,10 +33,6 @@ module StatusTags
       def updated?
         recommendation_submitted_and_unchallenged? &&
           assessment_detail_updated?(assessment_detail)
-      end
-
-      def task_list?
-        false
       end
     end
   end

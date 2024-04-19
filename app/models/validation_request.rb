@@ -57,6 +57,7 @@ class ValidationRequest < ApplicationRecord
   scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
   scope :requests_created_later, ->(review) { where("validation_requests.created_at >= ?", review.created_at) }
   scope :excluding_time_extension, -> { where.not(type: "TimeExtensionValidationRequest") }
+  scope :notified, -> { where.not(notified_at: nil) }
 
   store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
 
@@ -284,6 +285,7 @@ class ValidationRequest < ApplicationRecord
 
   def email_and_timestamp
     return unless planning_application.validation_complete?
+    return if pre_commencement?
 
     if post_validation?
       send_post_validation_request_email
@@ -340,6 +342,10 @@ class ValidationRequest < ApplicationRecord
 
   def fee_change?
     type == "FeeChangeValidationRequest"
+  end
+
+  def pre_commencement?
+    type == "PreCommencementConditionValidationRequest"
   end
 
   def reset_columns

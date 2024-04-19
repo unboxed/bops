@@ -6,15 +6,16 @@ $govuk-page-width: 1100px;
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 @import "components/accordion";
 @import "components/buttons";
+@import "components/documents";
 @import "components/flashes";
+@import "components/inset_text";
 @import "components/loading_spinner";
+@import "components/primary_navigation";
 @import "components/table";
 @import "components/task_list";
-@import "components/primary_navigation";
-@import "proposal";
 @import "consultation";
 @import "decision_notice";
-@import "components/documents";
+@import "proposal";
 
 .accordion-tr:last-child > td {
   border-bottom: none !important;

@@ -4,6 +4,7 @@ module StatusTags
   class DrawRedLineBoundaryComponent < StatusTags::BaseComponent
     def initialize(boundary_geojson:)
       @boundary_geojson = boundary_geojson
+      super(status:)
     end
 
     private

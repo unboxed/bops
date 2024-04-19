@@ -6,10 +6,8 @@ module PlanningApplications
       include CommitMatchable
 
       before_action :set_planning_application
-      before_action :set_pre_commencement
       before_action :set_condition_set
       before_action :set_conditions
-      before_action :set_condition, only: %i[edit]
 
       def index
         respond_to do |format|
@@ -43,34 +41,19 @@ module PlanningApplications
       private
 
       def set_condition_set
-        @condition_set = if @pre_commencement
-          @planning_application.pre_commencement_condition_set
-        else
-          @planning_application.condition_set
-        end
+        @condition_set = @planning_application.condition_set
       end
 
       def set_conditions
         @conditions = @condition_set.conditions
       end
 
-      def set_pre_commencement
-        @pre_commencement = params[:pre_commencement] == "true"
-      end
-
       def condition_params
         params.require(:condition_set)
           .permit(
-            :pre_commencement,
             conditions_attributes: %i[_destroy id standard title text reason]
           )
           .to_h.merge(reviews_attributes: [status:, id: (@condition_set&.current_review&.id if !mark_as_complete?)])
-      end
-
-      def set_condition
-        if @pre_commencement
-          @condition = @condition_set.conditions.find(params[:condition_id])
-        end
       end
 
       def status
