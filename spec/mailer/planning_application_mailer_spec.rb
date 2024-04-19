@@ -1197,11 +1197,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           "Prior approval application - further changes needed"
         )
       end
-
-      it "includes the application type" do
-        expect(mail_body).to include("Prior approval")
-        expect(mail_body).not_to include("Lawful Development Certificate")
-      end
     end
 
     describe "#post_validation_request_mail" do
@@ -1290,11 +1285,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           expect(description_change_mail.subject).to eq(
             "Prior approval application - suggested changes"
           )
-        end
-
-        it "includes the application type" do
-          expect(mail_body).to include("Prior approval")
-          expect(mail_body).not_to include("Lawful Development Certificate")
         end
       end
 

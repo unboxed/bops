@@ -4,13 +4,13 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
-We have suggested changes to the project description on your application for a <%= @planning_application.application_type.human_name %>.
+Your case officer has suggested changes to the project description for your application.
 
-You are invited to review and accept or reject the suggested changes. To review the changes, go to:
+Please use the link below to review and accept or reject the changes. 
 
 <%= @planning_application.secure_change_url %>
 
-If you do not review them by <%= @description_change_request.request_expiry_date.to_fs %>, the changes will be automatically accepted. This is to avoid delays to your application.
+You must respond by <%= @description_change_request.request_expiry_date.to_fs %>. If we do not receive a response by this date, the changes will be automatically accepted. This is to avoid delays to your application.
 
 If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
 
