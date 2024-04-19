@@ -58,7 +58,7 @@
         <% end %>
         <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
         <%= form.govuk_text_area :proposed_description,
-          label: { text: 'Suggest a new application description', class: 'govuk-label govuk-label--s'},
+          label: { size: 'm', text: 'Suggest a new application description' },
           rows: 5 %>
         <% if @planning_application.not_started? %>
           <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
