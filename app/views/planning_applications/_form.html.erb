@@ -34,18 +34,59 @@
     <h2 class="govuk-heading-m">
       Site Details
     </h2>
-    <%= form.label :address_1, class: "govuk-label" %>
-    <%= form.text_field :address_1, class: "govuk-textarea" %>
-    <%= form.label :address_2, class: "govuk-label" %>
-    <%= form.text_field :address_2, class: "govuk-textarea" %>
-    <%= form.label :town, class: "govuk-label" %>
-    <%= form.text_field :town, class: "govuk-textarea govuk-input" %>
-    <%= form.label :county, class: "govuk-label" %>
-    <%= form.text_field :county, class: "govuk-textarea govuk-input" %>
-    <%= form.label :postcode, class: "govuk-label" %>
-    <%= form.text_field :postcode, class: "govuk-textarea govuk-input--width-10" %>
-    <%= form.label :uprn, "UPRN", class: "govuk-label" %>
-    <%= form.text_field :uprn, class: "govuk-textarea govuk-input--width-10" %>
+    <% if @planning_application.persisted? %>
+      <div>
+        <%= form.label :address_1, class: "govuk-label" %>
+        <%= form.text_field :address_1, class: "govuk-textarea" %>
+        <%= form.label :address_2, class: "govuk-label" %>
+        <%= form.text_field :address_2, class: "govuk-textarea" %>
+        <%= form.label :town, class: "govuk-label" %>
+        <%= form.text_field :town, class: "govuk-textarea govuk-input" %>
+        <%= form.label :county, class: "govuk-label" %>
+        <%= form.text_field :county, class: "govuk-textarea govuk-input" %>
+        <%= form.label :postcode, class: "govuk-label" %>
+        <%= form.text_field :postcode, class: "govuk-textarea govuk-input--width-10" %>
+        <%= form.label :uprn, "UPRN", class: "govuk-label" %>
+        <%= form.text_field :uprn, class: "govuk-textarea govuk-input--width-10" %>
+        <%= form.hidden_field :latitude %>
+        <%= form.hidden_field :longitude %>
+      </div>
+    <% else %>
+      <%= content_tag :div, data: {
+          controller: "address-search",
+          address_search_url: os_places_api_index_path,
+          address_search_id: "address"
+        } do %>
+        <label for="address" class="govuk-heading-s govuk-!-margin-bottom-1">Search for address</label>
+        <span id="address-hint" class="govuk-hint">
+          Start typing address or postcode
+        </span>
+        <div id="address-container" class="govuk-input--width-50"></div>
+      <% end %>
+      <details class="govuk-details govuk-!-margin-top-3" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Add address manually
+          </span>
+        </summary>
+        <div>
+          <%= form.label :address_1, class: "govuk-label" %>
+          <%= form.text_field :address_1, class: "govuk-textarea" %>
+          <%= form.label :address_2, class: "govuk-label" %>
+          <%= form.text_field :address_2, class: "govuk-textarea" %>
+          <%= form.label :town, class: "govuk-label" %>
+          <%= form.text_field :town, class: "govuk-textarea govuk-input" %>
+          <%= form.label :county, class: "govuk-label" %>
+          <%= form.text_field :county, class: "govuk-textarea govuk-input" %>
+          <%= form.label :postcode, class: "govuk-label" %>
+          <%= form.text_field :postcode, class: "govuk-textarea govuk-input--width-10" %>
+          <%= form.label :uprn, "UPRN", class: "govuk-label" %>
+          <%= form.text_field :uprn, class: "govuk-textarea govuk-input--width-10" %>
+          <%= form.hidden_field :latitude %>
+          <%= form.hidden_field :longitude %>
+        </div>
+      </details>
+    <% end %>
   </div>
 
   <% ["applicant", "agent"].each do |role| %>

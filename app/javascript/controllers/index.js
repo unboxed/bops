@@ -7,6 +7,9 @@ import { application } from "./application"
 import AddressFillController from "./address_fill_controller.js"
 application.register("address-fill", AddressFillController)
 
+import AddressSearchController from "./address_search_controller.js"
+application.register("address-search", AddressSearchController)
+
 import AutocompleteSelectController from "./autocomplete_select.js"
 application.register("autocomplete-select", AutocompleteSelectController)
 

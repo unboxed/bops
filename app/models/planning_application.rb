@@ -105,6 +105,7 @@ class PlanningApplication < ApplicationRecord
   before_validation :set_reference, on: :create
   before_create :set_key_dates
   before_create :set_change_access_id
+  before_create :update_lonlat
   after_create :set_ward_and_parish_information
   after_create :create_audit!
   after_create :update_measurements, if: :prior_approval?
@@ -631,6 +632,16 @@ class PlanningApplication < ApplicationRecord
 
   def longitude
     super || lonlat.try(:x)
+  end
+
+  def update_lonlat
+    return unless longitude.present? && latitude.present?
+
+    self.lonlat = factory.point(longitude, latitude)
+  end
+
+  def factory
+    @factory ||= RGeo::Geographic.spherical_factory(srid: 4326)
   end
 
   def site_notice

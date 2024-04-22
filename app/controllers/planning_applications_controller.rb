@@ -242,7 +242,9 @@ class PlanningApplicationsController < AuthenticationController
       received_at
       town
       uprn
-      make_public]
+      make_public
+      longitude
+      latitude]
     # rubocop:enable Naming/VariableNumber
     params.require(:planning_application).permit permitted_keys
   end

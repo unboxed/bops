@@ -17,20 +17,9 @@ module BopsApi
             address_2: params[:organisation],
             town: params[:town],
             postcode: params[:postcode],
-            lonlat: lonlat(params[:longitude], params[:latitude])
+            longitude: params[:longitude],
+            latitude: params[:latitude]
           }
-        end
-
-        private
-
-        def lonlat(longitude, latitude)
-          return unless longitude.present? && latitude.present?
-
-          factory.point(longitude, latitude)
-        end
-
-        def factory
-          @factory ||= RGeo::Geographic.spherical_factory(srid: 4326)
         end
       end
     end

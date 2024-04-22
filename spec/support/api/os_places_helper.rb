@@ -2,7 +2,7 @@
 
 module OsPlacesHelper
   def stub_os_places_api_request_for(query)
-    stub_request(:get, "https://api.os.uk/search/places/v1/find?key=testtest&maxresults=20&query=#{query}").to_return(os_places_api_response(200))
+    stub_request(:get, "https://api.os.uk/search/places/v1/find?key=testtest&maxresults=20&output_srs=EPSG:4258&query=#{query}").to_return(os_places_api_response(200))
   end
 
   def stub_os_places_api_request_for_polygon(body, results = "polygon_search", offset = 0)
