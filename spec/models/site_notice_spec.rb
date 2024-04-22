@@ -18,6 +18,40 @@ RSpec.describe SiteNotice do
       end
     end
 
+    describe "#displayed_at" do
+      let(:planning_application) { create(:planning_application, consultation:) }
+      let(:consultation) { create(:consultation) }
+
+      before do
+        site_notice.planning_application = planning_application
+        planning_application.consultation.start_deadline(1.day.from_now)
+      end
+
+      it "validates date is not in future" do
+        site_notice.displayed_at = 1.day.from_now
+
+        expect { site_notice.valid?(:confirmation) }.to change { site_notice.errors[:displayed_at] }.to ["The date the site notice was displayed must be on or before today"]
+      end
+
+      it "validates date may be in past" do
+        site_notice.displayed_at = 1.day.ago
+        expect { site_notice.valid?(:confirmation) }.not_to change { site_notice.errors[:displayed_at] }
+      end
+
+      it "validates date may be today" do
+        site_notice.displayed_at = Time.zone.now
+        expect { site_notice.valid?(:confirmation) }.not_to change { site_notice.errors[:displayed_at] }
+      end
+
+      it "validates date may be before consultation start date" do
+        site_notice.displayed_at = 1.day.ago
+
+        expect(site_notice.displayed_at).to be < site_notice.planning_application.consultation.start_date
+
+        expect { site_notice.valid?(:confirmation) }.not_to change { site_notice.errors[:displayed_at] }
+      end
+    end
+
     describe "callbacks" do
       describe "::before_create #ensure_publicity_feature!" do
         context "when the application type enables publicity" do
