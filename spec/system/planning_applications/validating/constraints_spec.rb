@@ -28,25 +28,19 @@ RSpec.describe "Constraints" do
         expect(page).to have_text("Check the constraints")
       end
 
-      within("#planx") do
-        expect(page).to have_text("Constraints suggested by: PlanX (2)")
-      end
+      expect(page).to have_text("Identified constraints")
 
-      within(".planx-constraints-table") do
+      within(".identified-constraints-table") do
         expect(page).to have_text("Conservation area")
         expect(page).to have_text("Listed building outline")
       end
 
-      within("#accordion-with-other-constraints-sections-heading-1") do
-        expect(page).to have_text("Other constraints")
-      end
+      find("span", text: "Add constraints").click
 
       within(".other-constraints-table") do
         expect(page).not_to have_text("Conservation area")
         expect(page).not_to have_text("Listed building outline")
       end
-
-      click_button "Other constraints"
 
       expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
 
@@ -69,75 +63,96 @@ RSpec.describe "Constraints" do
   end
 
   context "when adding constraints" do
-    it "I can check/uncheck constraints" do
-      within(".planx-constraints-table") do
-        find_checkbox_by_id("constraint_id_#{planning_application.planning_application_constraints.first.constraint_id}").click
+    it "I can add/remove constraints" do
+      within(".identified-constraints-table") do
+        expect(page).not_to have_link("Remove")
       end
 
-      click_button "Other constraints"
+      find("span", text: "Add constraints").click
 
-      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: "monument").id}").click
-      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: "nature_asnw").id}").click
+      within(".other-constraints-table") do
+        within(row_with_content("Scheduled monument")) do
+          click_link "Add"
+        end
+      end
+
+      find("span", text: "Add constraints").click
+
+      within(".other-constraints-table") do
+        within(row_with_content("Special area of conservation")) do
+          click_link "Add"
+        end
+      end
+
+      within(".identified-constraints-table") do
+        expect(page).to have_content "Scheduled monument"
+        expect(page).to have_content "Special area of conservation"
+      end
 
       click_button "Save and mark as checked"
 
       visit "/planning_applications/#{planning_application.id}/validation/constraints"
 
-      within("#planx") do
-        expect(page).to have_text("Constraints suggested by: PlanX (2)")
-      end
-
-      within(".planx-constraints-table") do
+      within(".identified-constraints-table") do
         expect(page).to have_text("Conservation area")
         expect(page).to have_text("Listed building outline")
-      end
-
-      within("#robert") do
-        expect(page).to have_text("Constraints suggested by: Robert (2)")
-      end
-
-      within(".robert-constraints-table") do
         expect(page).to have_text("Scheduled monument")
-        expect(page).to have_text("Ancient woodland")
+        expect(page).to have_text("Special area of conservation")
       end
 
-      within("#accordion-with-other-constraints-sections-heading-1") do
-        expect(page).to have_text("Other constraints")
-      end
-
-      click_button "Other constraints"
+      find("span", text: "Add constraints").click
 
       within(".other-constraints-table") do
         expect(page).not_to have_text("Conservation area")
         expect(page).not_to have_text("Listed building outline")
         expect(page).not_to have_text("Scheduled monument")
-        expect(page).not_to have_text("Ancient woodland")
+        expect(page).not_to have_text("Special area of conservation")
       end
 
-      expect(planning_application.planning_application_constraints.active.length).to eq(3)
-      expect(planning_application.planning_application_constraints.length).to eq(4)
+      within(".identified-constraints-table") do
+        within(row_with_content("Special area of conservation")) do
+          click_link "Remove"
+        end
+      end
+
+      within(".identified-constraints-table") do
+        expect(page).not_to have_text("Special area of conservation")
+      end
+
+      find("span", text: "Add constraints").click
+
+      within(".other-constraints-table") do
+        expect(page).to have_text("Special area of conservation")
+      end
 
       visit "/planning_applications/#{planning_application.id}/audits"
 
-      within("#audit_#{Audit.last.id}") do
+      within("#audit_#{Audit.last.id - 1}") do
         expect(page).to have_content("Constraints Checked")
+        expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+
+      within("#audit_#{Audit.last.id}") do
+        expect(page).to have_content("Constraint removed")
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
     end
 
     context "when there is an error with saving a planning application constraint" do
       before do
-        allow_any_instance_of(PlanningApplicationConstraint).to receive(:save!).and_raise(ActiveRecord::RecordInvalid)
+        allow_any_instance_of(PlanningApplicationConstraint).to receive(:save!).and_return(false)
       end
 
       it "presents an error message to the user and does not persist any updates" do
-        within(".planx-constraints-table") do
-          find_checkbox_by_id("constraint_id_#{planning_application.planning_application_constraints.first.constraint_id}").click
+        find("span", text: "Add constraints").click
+
+        within(".other-constraints-table") do
+          within(row_with_content("Scheduled monument")) do
+            click_link "Add"
+          end
         end
 
-        click_button "Save and mark as checked"
-
-        expect(page).to have_content("Couldn't update constraints with error: Record invalid. Please contact support.")
+        expect(page).to have_content("Couldn't add constraint - please contact support.")
 
         planning_application.reload
         expect(planning_application.constraints.length).to eq(2)

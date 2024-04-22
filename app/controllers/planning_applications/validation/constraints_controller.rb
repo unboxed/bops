@@ -12,7 +12,9 @@ module PlanningApplications
       end
 
       def create
-        if @planning_application_constraints.create!(constraint_id: params[:constraint_id], identified_by: current_user.name)
+        @constraint = @planning_application_constraints.new(constraint_id: params[:constraint_id], identified_by: current_user.name)
+
+        if @constraint.save!
           redirect_to planning_application_validation_constraints_path(@planning_application),
             notice: t(".success")
         else
