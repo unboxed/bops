@@ -1892,6 +1892,8 @@ en:
     checked: Checked
     cil_liable: Liable
     complete: Completed
+    constraint_added: Added
+    constraint_removed: Removed
     emailed: Emailed
     failed: Failed
     granted: To grant

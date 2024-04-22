@@ -125,6 +125,20 @@ RSpec.describe "Constraints" do
         expect(page).to have_text("Special area of conservation")
       end
 
+      within(".activity-log") do
+        within(page.all("tr", text: "Special area of conservation")[0]) do
+          expect(page).to have_content "Removed"
+        end
+
+        within(page.all("tr", text: "Special area of conservation")[1]) do
+          expect(page).to have_content "Added"
+        end
+
+        within(row_with_content("Scheduled monument")) do
+          expect(page).to have_content "Added"
+        end
+      end
+
       visit "/planning_applications/#{planning_application.id}/audits"
 
       within("#audit_#{Audit.last.id - 1}") do

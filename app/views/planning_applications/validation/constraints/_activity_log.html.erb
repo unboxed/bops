@@ -1,0 +1,31 @@
+<div class="activity-log govuk-!-margin-bottom-6">
+  <table class="govuk-table govuk-!-margin-bottom-0">
+    <caption class="govuk-table__caption govuk-table__caption--m">Activity log</caption>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Completed actions</th>
+        <td scope="row" class="govuk-table__header">Status</td>
+        <td scope="row" class="govuk-table__header">User</td>
+        <td scope="row" class="govuk-table__header">Date</td>
+      </tr>
+      <% if @audits.any? %>
+        <% @audits.sort_by(&:created_at).reverse.each do |audit| %>
+          <%= next if audit.user.nil? || audit.activity_type == "constraints_checked" %>
+          <tr class="govuk-table__row">
+            <td scope="row" class="govuk-table__cell"><%= audit.audit_comment %></td>
+            <td class="govuk-table__cell"><%= render(StatusTags::BaseComponent.new(status:audit.activity_type, float: "left")) %></td>
+            <td class="govuk-table__cell"><%= audit.user.name %></td>
+            <td class="govuk-table__cell"><%= audit.created_at.to_date.to_fs %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr class="govuk-table__row">
+          <td scope="row" class="govuk-table__cell">No constraints have been added or removed</td>
+          <td scope="row" class="govuk-table__cell">&nbsp</td>
+          <td scope="row" class="govuk-table__cell">&nbsp</td>
+          <td scope="row" class="govuk-table__cell">&nbsp</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

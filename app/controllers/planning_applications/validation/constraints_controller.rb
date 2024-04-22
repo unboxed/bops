@@ -7,6 +7,7 @@ module PlanningApplications
       before_action :ensure_constraint_edits_unlocked, only: %i[index update]
       before_action :set_planning_application_constraints, only: %i[update index create]
       before_action :set_other_constraints, only: %i[index]
+      before_action :set_audits, only: %i[index]
 
       def index
       end
@@ -73,6 +74,10 @@ module PlanningApplications
 
       def search_param
         params.fetch(:q, "")
+      end
+
+      def set_audits
+        @audits = @planning_application.audits.where("activity_type LIKE ?", "%constraint%")
       end
     end
   end
