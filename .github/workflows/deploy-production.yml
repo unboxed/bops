@@ -8,6 +8,7 @@ on:
 
 jobs:
   deploy:
+    name: Deploy to production
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment-name: "production"
