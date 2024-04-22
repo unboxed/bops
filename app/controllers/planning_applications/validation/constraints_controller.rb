@@ -4,46 +4,47 @@ module PlanningApplications
   module Validation
     class ConstraintsController < AuthenticationController
       before_action :set_planning_application
-      before_action :ensure_constraint_edits_unlocked, only: %i[show update]
-      before_action :set_planning_application_constraints, only: %i[update]
+      before_action :ensure_constraint_edits_unlocked, only: %i[index update]
+      before_action :set_planning_application_constraints, only: %i[update index create]
+      before_action :set_other_constraints, only: %i[index]
 
-      def show
+      def index
+      end
+
+      def create
+        if @planning_application_constraints.create!(constraint_id: params[:constraint_id], identified_by: current_user.name)
+          redirect_to planning_application_validation_constraints_path(@planning_application),
+            notice: t(".success")
+        else
+          redirect_to planning_application_validation_constraints_path(@planning_application),
+            alert: t(".failure")
+        end
+      end
+
+      def destroy
+        @constraint = @planning_application.planning_application_constraints.find(params[:id])
+
+        if @constraint.destroy
+          redirect_to planning_application_validation_constraints_path(@planning_application),
+            notice: t(".success")
+        else
+          redirect_to planning_application_validation_constraints_path(@planning_application),
+            notice: t(".failure")
+        end
       end
 
       def update
         ActiveRecord::Base.transaction do
-          @planning_application_constraints.each do |pac|
-            if constraints_to_remove.include?(pac.constraint_id)
-              if pac.identified?
-                pac.update!(removed_at: Time.current)
-              else
-                pac.destroy!
-              end
-            elsif pac.identified? && pac.removed_at?
-              pac.update!(removed_at: nil) if constraint_ids.include?(pac.constraint_id)
-            end
-          end
-
-          constraints_to_add.each do |constraint_id|
-            @planning_application_constraints.create!(
-              constraint_id:,
-              identified_by: current_user.name
-            )
-          end
-
           @planning_application.update!(updated_address_or_boundary_geojson: true)
-
           @planning_application.constraints_checked!
         end
 
         respond_to do |format|
-          if @planning_application.constraints_checked?
-            format.html do
+          format.html do
+            if @planning_application.constraints_checked?
               redirect_to planning_application_validation_tasks_path(@planning_application),
                 notice: t(".success")
-            end
-          else
-            format.html do
+            else
               redirect_to planning_application_validation_tasks_path(@planning_application),
                 alert: t(".failure")
             end
@@ -64,22 +65,12 @@ module PlanningApplications
         @planning_application_constraints = @planning_application.planning_application_constraints
       end
 
-      def constraint_ids
-        @constraint_ids ||= Array.wrap(params[:constraint_ids]).map { |id| Integer(id) }
-      rescue ArgumentError
-        raise ActionController::BadRequest, "Invalid constraint ids: #{params[:constraint_ids].inspect}"
+      def set_other_constraints
+        @other_constraints = Constraint.all_constraints(search_param).non_applicable_constraints(@planning_application.planning_application_constraints).sort_by(&:category)
       end
 
-      def existing_constraint_ids
-        @existing_constraint_ids ||= @planning_application_constraints.map(&:constraint_id)
-      end
-
-      def constraints_to_add
-        @constraints_to_add ||= constraint_ids - existing_constraint_ids
-      end
-
-      def constraints_to_remove
-        @constraints_to_remove ||= existing_constraint_ids - constraint_ids
+      def search_param
+        params.fetch(:q, "")
       end
     end
   end

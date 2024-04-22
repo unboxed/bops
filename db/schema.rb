@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_16_155826) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_22_112221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -178,6 +178,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_155826) do
     t.bigint "local_authority_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "searchable_type_code"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, ((((((COALESCE(category, ''::character varying))::text || ' '::text) || (COALESCE(type, ''::character varying))::text) || ' '::text) || (COALESCE(searchable_type_code, ''::character varying))::text) || ' '::text))", stored: true
     t.index ["local_authority_id", "type"], name: "ix_constraints_on_local_authority_id__type", unique: true
     t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end

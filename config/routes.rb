@@ -170,7 +170,7 @@ Rails.application.routes.draw do
 
           resource :reporting_type, only: %i[edit update]
 
-          resource :constraints, only: %i[show update]
+          resources :constraints, only: %i[index update create destroy]
 
           resource :documents, only: %i[edit update]
 
