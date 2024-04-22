@@ -39,6 +39,10 @@ class Constraint < ApplicationRecord
       end
     end
 
+    def other_constraints(search_param, planning_application)
+      all_constraints(search_param).non_applicable_constraints(planning_application.planning_application_constraints).sort_by(&:category)
+    end
+
     private
 
     def normalize_type(type)

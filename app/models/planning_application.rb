@@ -487,7 +487,7 @@ class PlanningApplication < ApplicationRecord
 
   def constraints_checked!
     transaction do
-      update!(constraints_checked: true)
+      update!(constraints_checked: true, updated_address_or_boundary_geojson: true)
       audit!(activity_type: "constraints_checked")
     end
   end

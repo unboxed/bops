@@ -22,20 +22,15 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h2 class="govuk-heading-m">Identified constraints</h2>
-    <% if @planning_application_constraints.any? %>
-      <%= render(
-        partial: "table",
-        locals: {
-          title: "Identified constraints",
-          planning_application_constraints: @planning_application_constraints,
-          show_source: true
-        }
-      ) %>
-    <% else %>
-      <div class="dashed-box">
-        <p class="govuk-body">No constraints have been identified by PlanX</p>
-      </div>
-    <% end %>
+    <%= render(
+      partial: "table",
+      locals: {
+        title: "Identified constraints",
+        identifier: "identified",
+        planning_application_constraints: @planning_application_constraints,
+        show_source: true
+      }
+    ) %>
 
     <details class="govuk-details" <%= "open" if params[:q].present? %>>
       <summary class="govuk-details__summary">
@@ -55,6 +50,7 @@
           partial: "table",
           locals: {
             title: "",
+            identifier: "other",
             planning_application_constraints: @other_constraints,
             show_source: false
           }

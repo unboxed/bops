@@ -12,7 +12,9 @@ module PlanningApplications
       end
 
       def create
-        if @planning_application_constraints.create!(constraint_id: params[:constraint_id], identified_by: current_user.name)
+        @constraint = @planning_application_constraints.new(constraint_id: params[:constraint_id], identified_by: current_user.name)
+
+        if @constraint.save!
           redirect_to planning_application_validation_constraints_path(@planning_application),
             notice: t(".success")
         else
@@ -34,14 +36,9 @@ module PlanningApplications
       end
 
       def update
-        ActiveRecord::Base.transaction do
-          @planning_application.update!(updated_address_or_boundary_geojson: true)
-          @planning_application.constraints_checked!
-        end
-
         respond_to do |format|
           format.html do
-            if @planning_application.constraints_checked?
+            if @planning_application.constraints_checked!
               redirect_to planning_application_validation_tasks_path(@planning_application),
                 notice: t(".success")
             else
@@ -66,7 +63,7 @@ module PlanningApplications
       end
 
       def set_other_constraints
-        @other_constraints = Constraint.all_constraints(search_param).non_applicable_constraints(@planning_application.planning_application_constraints).sort_by(&:category)
+        @other_constraints = Constraint.other_constraints(search_param, @planning_application)
       end
 
       def search_param
