@@ -34,6 +34,8 @@ class DateValidator < ActiveModel::EachValidator
 
       restriction = resolve(record, options.fetch(validation))
 
+      value = value.to_date if value.respond_to?(:to_date)
+
       unless restriction.respond_to?(comparator)
         raise ArgumentError, <<~MESSAGE
           The value of restriction ':#{validation}' for ':#{attribute}' does not respond to the method ':#{comparator}'
