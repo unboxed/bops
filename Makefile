@@ -45,6 +45,9 @@ admin-specs:
 config-specs:
 	$(DOCKER-RUN) console rspec engines/bops_config/spec
 
+core-specs:
+	$(DOCKER-RUN) console rspec engines/bops_core/spec
+
 rspec:
 	$(DOCKER-RUN) console rspec
 

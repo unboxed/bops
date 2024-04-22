@@ -25,6 +25,7 @@ FactoryBot.define do
   end
 
   trait :global_administrator do
+    local_authority { nil }
     role { :global_administrator }
   end
 

@@ -62,6 +62,7 @@ jobs:
           - { group: "bops_admin", pattern: "*_spec.rb", module: "engines" }
           - { group: "bops_api", pattern: "*_spec.rb", module: "engines" }
           - { group: "bops_config", pattern: "*_spec.rb", module: "engines" }
+          - { group: "bops_core", pattern: "*_spec.rb", module: "engines" }
       fail-fast: false
     with:
       name: "${{matrix.specs.group}}: ${{matrix.specs.pattern }}"

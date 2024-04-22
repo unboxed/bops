@@ -81,6 +81,11 @@ Rails/ThreeStateBooleanColumn:
     - db/migrate/20230*
     - db/migrate/202310*
 
+Rails/ApplicationJob:
+  Exclude:
+    # specs ignored so we can test concerns in isolation
+    - engines/*/spec/**/*
+
 # False positive: if being used in migrations, behaviour is different and intentional
 Rails/ApplicationRecord:
   Exclude:
