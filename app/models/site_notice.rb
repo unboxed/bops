@@ -17,8 +17,7 @@ class SiteNotice < ApplicationRecord
     validates :displayed_at,
       presence: true,
       date: {
-        on_or_before: :current,
-        on_or_after: :consultation_start_date
+        on_or_before: :current
       }
   end
 
