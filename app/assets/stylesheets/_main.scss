@@ -278,23 +278,25 @@ $govuk-page-width: 1100px;
   border: none;
   background: none;
   padding: 0;
-  color: #1d70b8;
+  color: govuk-colour("blue");
   font-size: 18px;
   text-decoration: underline;
 
   &:active {
-    color: #0b0c0c;
+    color: govuk-colour("black");
   }
 
   &:hover {
-    color: #003078;
+    color: govuk-colour("dark-blue");
     cursor: pointer;
   }
 
   &:focus {
-    color: #0b0c0c;
-    background-color: #ffdd00;
-    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    color: govuk-colour("black");
+    background-color: govuk-colour("yellow");
+    box-shadow:
+      0 -2px govuk-colour("yellow"),
+      0 4px govuk-colour("black");
     text-decoration: none;
     outline: none;
   }
@@ -305,7 +307,7 @@ $govuk-page-width: 1100px;
   flex-direction: column;
   align-items: center;
   padding-bottom: 30px;
-  border-bottom: 1px solid #b1b4b6;
+  border-bottom: 1px solid govuk-colour("dark-grey");
   margin-bottom: 30px;
 
   @media (min-width: 768px) {

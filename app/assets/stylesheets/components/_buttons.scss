@@ -9,7 +9,7 @@
   /*optional*/
   font-family: "GDS Transport", Arial, sans-serif;
   /*input has OS specific font-family*/
-  color: #0b0c0c;
+  color: govuk-colour("black");
   text-decoration: underline;
   cursor: pointer;
   float: right;
@@ -27,5 +27,5 @@ input.btn-link {
   border: none;
   background-color: transparent;
   padding: 0;
-  color: blue;
+  color: govuk-colour("blue");
 }
