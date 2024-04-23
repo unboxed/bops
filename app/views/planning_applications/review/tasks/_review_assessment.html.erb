@@ -50,13 +50,13 @@
   <% end %>
   <%= render(
         TaskListItems::Reviewing::AssessmentDetailsComponent.new(
-          planning_application: @planning_application,
+          planning_application: @planning_application
         )
       ) %>
   <% if @planning_application.local_policy.present? %>
     <%= render(
           TaskListItems::Reviewing::LocalPolicyComponent.new(
-            planning_application: @planning_application,
+            planning_application: @planning_application
           )
         ) %>
   <% end %>
@@ -83,7 +83,7 @@
   <% if @planning_application.committee_decision&.current_review %>
     <%= render(
           TaskListItems::Reviewing::CommitteeComponent.new(
-            planning_application: @planning_application,
+            planning_application: @planning_application
           )
         ) %>
   <% end %>
@@ -93,7 +93,7 @@
   <% if @planning_application.committee_decision.present? && @planning_application.committee_decision.recommend? %>
     <%= render(
           TaskListItems::Reviewing::NotifyCommitteeComponent.new(
-            planning_application: @planning_application,
+            planning_application: @planning_application
           )
         ) %>
   <% end %>
