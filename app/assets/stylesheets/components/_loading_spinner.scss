@@ -1,7 +1,7 @@
 .loading-spinner {
-  border: 12px solid #DEE0E2;
+  border: 12px solid govuk-colour("light-grey");
   border-radius: 50%;
-  border-top-color: #005EA5;
+  border-top-color: govuk-colour("light-blue");
   width: 80px;
   height: 80px;
   -webkit-animation: spin 2s linear infinite;
