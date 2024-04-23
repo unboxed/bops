@@ -18,7 +18,7 @@
   <span id="application-reference"><%= @planning_application.reference %></span>
   <div id="site-notice-content">
     <div style="width: 430px; font-family: Arial;">
-      <%= raw @planning_application.last_site_notice.preview_content %>
+      <%= raw @planning_application.last_site_notice.preview_content %> <%# erblint:disable ErbSafety %>
     </div>
   </div>
 </div>

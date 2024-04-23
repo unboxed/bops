@@ -25,7 +25,7 @@
           <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
               <% @planning_application.errors.each do |error| %>
-                <li><%= error.message.html_safe %></li>
+                <li><%= error.message.html_safe %></li><%# erblint:disable ErbSafety %>
               <% end %>
             </ul>
           </div>

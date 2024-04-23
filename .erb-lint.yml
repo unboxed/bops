@@ -5,7 +5,7 @@ linters:
       - "text/javascript"
       - "module"
   ErbSafety:
-    enabled: false
+    enabled: true
 
   # Enabling this caused a lot of test failures
   NoJavascriptTagHelper:
