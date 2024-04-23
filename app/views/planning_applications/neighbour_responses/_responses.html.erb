@@ -12,7 +12,7 @@
         <% responses.group_by { |response| response.neighbour.selected? }.sort_by { |key, _value| key ? 0 : 1 }.each do |selected, sorted_responses| %>
           <% sorted_responses.each do |response| %>
             <div class="neighbour-response-section">
-              <div class="govuk-inset-text">
+              <%= govuk_inset_text do %>
                 <div class="neighbour-response-top-section">
                   <div class="neighbour-response-content">
                     <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
@@ -88,7 +88,7 @@
                   <% end %>
                 </p>
                 <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, response) %>
-              </div>
+              <% end %>
             </div>
           <% end %>
         <% end %>

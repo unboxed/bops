@@ -2,7 +2,8 @@
   <h2 class="govuk-heading-m">
     <%= t(".assessor_reviewer_audit") %>
   </h2>
-  <div class="recommendations govuk-inset-text">
+
+  <%= govuk_inset_text(classes: ["recommendations"]) do %>
     <% recommendations.each do |recommendation| %>
       <%= render(
         partial: "planning_applications/assessment/recommendations/event",
@@ -25,5 +26,5 @@
         ) %>
       <% end %>
     <% end %>
-  </div>
+  <% end %>
 <% end %>

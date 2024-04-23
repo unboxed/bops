@@ -2,7 +2,7 @@
   <p class="govuk-body govuk-hint">
     Latest request sent on <%= @heads_of_term.latest_validation_request.notified_at.to_fs %>
   </p>
-  <div class="govuk-inset-text">
+  <%= govuk_inset_text do %>
     <p class="govuk-body">
       Please read and agree to the following heads of terms:
     <p>
@@ -13,7 +13,7 @@
         <%= term.title %>
       </p>
     <% end %>
-  </div>
+  <% end %>
 </div>
 
 <div class="govuk-grid-column-full">

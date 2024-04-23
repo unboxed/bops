@@ -17,7 +17,7 @@
     <h3 class="govuk-heading-s">
       Officer request
     </h3>
-    <div class="govuk-inset-text" id="replacement-document-details">
+    <%= govuk_inset_text(id: "replacement-document-details") do %>
       <p class="govuk-body">
         Additional document type: <%= @validation_request.document_request_type %>
       </p>
@@ -27,7 +27,7 @@
       <p class="govuk-body">
         <%= @validation_request.created_at.to_fs %>
       </p>
-    </div>
+    <% end %>
     <%= render "shared/validation_request_show_actions",
         planning_application: @planning_application, validation_request: @validation_request %>
   </div>

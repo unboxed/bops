@@ -11,11 +11,11 @@
 
     <%= render "shared/location_map", locals: { geojson: @validation_request.new_geojson } %>
 
-    <div class="govuk-inset-text">
+    <%= govuk_inset_text do %>
       <strong>Applicant rejected this proposed red line boundary</strong><br>
       <br>
       <strong>Reason:</strong> <%= @validation_request.rejection_reason.to_s  %>
-    </div>
+    <% end %>
 
     <div class="govuk-button-group">
       <% if @planning_application.validated? %>

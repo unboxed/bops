@@ -19,14 +19,14 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <% if @press_notice.requested_at? %>
-    <div class="govuk-inset-text govuk-!-margin-top-0 govuk-!-padding-top-2 govuk-!-padding-bottom-2">
+    <%= govuk_inset_text(classes: ["govuk-!-margin-top-0", "govuk-!-padding-top-2", "govuk-!-padding-bottom-2"]) do %>
       <p class="govuk-body-s govuk-!-margin-bottom-2">
         <%= time_tag(@press_notice.requested_at, format: t(".requested_on")) %>
       </p>
       <p class="govuk-body">
         <strong class="govuk-tag">Emailed</strong>
       </p>
-    </div>
+    <% end %>
   <% end %>
 
   <div class="background-light-grey govuk-!-padding-bottom-1 govuk-!-padding-left-5 govuk-!-padding-right-5 govuk-!-padding-top-5 govuk-!-margin-bottom-7">

@@ -24,7 +24,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Officer request</h2>
-    <div class="govuk-inset-text">
+    <%= govuk_inset_text do %>
       <p class="govuk-body">
         <strong><%= @validation_request.owner.title %></strong>
       </p>
@@ -34,7 +34,8 @@
       <p class="govuk-body">
         Request was sent on <%= @validation_request.created_at.to_fs %>
       </p>
-    </div>
+    <% end %>
+    
     <%= form_with model: @planning_application do |form| %>
       <% if @validation_request.closed?  %>
         <h3 class="govuk-heading-s">Applicant response</h3>

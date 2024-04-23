@@ -21,14 +21,14 @@
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">Certificate type: <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %></p>
     <h2 class="govuk-heading-m">Officer request</h2>
-    <div class="govuk-inset-text">
+    <%= govuk_inset_text do %>
       <p class="govuk-body">
         <strong>Reason it is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
       <p class="govuk-body">
       <%= @validation_request.created_at.to_fs %>
       </p>
-    </div>
+    <% end %>
 
     <% if @validation_request.closed? %>
       <h2 class="govuk-heading-m">Applicant response</h2>

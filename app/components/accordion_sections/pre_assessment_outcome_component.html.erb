@@ -31,11 +31,8 @@
     <p class="govuk-body">
       <%= t(".the_applicant_believes").html_safe %>
     </p>
-    <div class="govuk-inset-text">
-      <p class="govuk-body">
-        <%= planning_application.result_override %>
-      </p>
-    </div>
+    
+    <%= govuk_inset_text(text: planning_application.result_override) %>
   <% end %>
   <% if proposal_details.any? %>
   <p class="govuk-body">

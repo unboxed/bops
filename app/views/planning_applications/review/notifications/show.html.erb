@@ -47,7 +47,7 @@
       <span class="govuk-hint">Updated on <%= @planning_application.in_committee_at.to_fs %></span>
     </div>
 
-    <div class="govuk-inset-text">
+    <%= govuk_inset_text do %>
       <h3 class="govuk-heading-s">
         Date of meeting
       </h3>
@@ -75,7 +75,8 @@
       <p class="govuk-body">
         <%= @committee_decision.link %>
       </p>
-    </div>
+    <% end %>
+    
     <div class="govuk-button-group">
       <%= link_to "Update meeting details", edit_planning_application_review_committee_decision_notifications_path(@planning_application, @committee_decision), class: "govuk-button" %>
       <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

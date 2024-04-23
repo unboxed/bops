@@ -75,10 +75,10 @@
         </summary>
         <div class="govuk-details__text">
           <%= form.label :notification_content, "Neighbour letter", class: "govuk-!-display-none" %>
-          <div class="govuk-inset-text">
+          <%= govuk_inset_text do %>
             <p class="govuk-body">Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
             <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
-          </div>
+          <% end %>
           <%= form.text_area :notification_content, value: I18n.t("neighbour_letter_template.committee"), rows: 25, class: "govuk-body neighbour-letter-template" %>
         </div>
       </details>

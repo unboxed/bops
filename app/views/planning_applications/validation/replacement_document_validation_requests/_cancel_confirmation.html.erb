@@ -20,7 +20,7 @@
       You requested
     </h3>
 
-    <div class="govuk-inset-text">
+    <%= govuk_inset_text do %>
       <p class="govuk-body">
         <strong>Replacement for:
         <%= govuk_link_to @validation_request.old_document.name, url_for_document(@validation_request.old_document), target: :_new %>
@@ -32,7 +32,7 @@
       <p class="govuk-body">
       <%= @validation_request.created_at.to_fs %>
       </p>
-    </div>
+    <% end %>
 
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

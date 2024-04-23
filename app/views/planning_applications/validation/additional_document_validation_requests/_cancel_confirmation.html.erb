@@ -20,7 +20,7 @@
       You requested
     </h3>
 
-    <div class="govuk-inset-text">
+    <%= govuk_inset_text do %>
       <p class="govuk-body">
         <strong><%= @validation_request.document_request_type %></strong>
       </p>
@@ -30,7 +30,7 @@
       <p class="govuk-body">
       <%= @validation_request.created_at.to_fs %>
       </p>
-    </div>
+    <% end %>
 
     <%= render "planning_applications/validation/validation_requests/cancel_confirmation_form",
       validation_request: @validation_request %>

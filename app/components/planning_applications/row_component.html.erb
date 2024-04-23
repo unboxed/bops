@@ -14,10 +14,10 @@
 <% if audit %>
   <tr class="govuk-table__row" id=<%= dom_id(audit) %>>
     <td class="govuk-table__cell govuk-!-padding-left-2 govuk-!-padding-bottom-0 govuk-!-padding-top-0" colspan="<%= attributes.length %>">
-      <div class="govuk-inset-text">
+      <%= govuk_inset_text do %>
         <p><strong>Update:</strong> <%= render(Audits::ActivityComponent.new(audit: audit)) %></p>
         <p class="govuk-body"><%= audit.created_at.to_fs %></p>
-      </div>
+      <% end %>
     </td>
   </tr>
 <% end %>

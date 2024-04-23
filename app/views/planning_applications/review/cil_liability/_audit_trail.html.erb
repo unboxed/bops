@@ -1,4 +1,4 @@
-<div class="govuk-inset-text">
+<%= govuk_inset_text do %>
   <p class="govuk-body">
     <% if @planning_application.audits.review_cil_liability.any? %>
       <% @planning_application.audits.review_cil_liability.each do |audit| %>
@@ -15,4 +15,4 @@
       <% end %>
     <% end %>
   </p>
-</div>
+<% end %>

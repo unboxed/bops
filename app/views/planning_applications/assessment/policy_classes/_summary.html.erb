@@ -24,13 +24,13 @@
     </h2>
 
     <% if policy_class&.current_review&.comment %>
-      <div class="govuk-inset-text" id="reviewer_comment">
+      <%= govuk_inset_text do %>
         <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
           Reviewer comment:
         </p>
         <p class="govuk-body govuk-!-margin-top-1"><%= policy_class.current_review.created_at.to_fs %></p>
         <p class="govuk-body italic"><%= policy_class.current_review.comment %></p>
-      </div>
+      <% end %>
     <% end %>
     <%= button_to(
         t(".remove_class_from"),

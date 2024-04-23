@@ -34,7 +34,7 @@
                 <div class="neighbour-response">
                   <% resp.each do |response| %>
                     <div class="neighbour-response-section">
-                      <div class="govuk-inset-text">
+                      <%= govuk_inset_text do %>
                         <div class="neighbour-response-top-section">
                           <div class="neighbour-response-content">
                             <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
@@ -74,7 +74,7 @@
                             <% end %>
                           </div>
                         </div>
-                      </div>
+                      <% end %>
                     </div>
                   <% end %>
                 </div>
@@ -105,7 +105,7 @@
               <div class="neighbour-response">
                 <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-no-tag" %>>
                   <div class="neighbour-response-section">
-                    <div class="govuk-inset-text">
+                    <%= govuk_inset_text do %>
                       <div class="neighbour-response-top-section">
                         <div class="neighbour-response-content">
                           <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
@@ -138,7 +138,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    <% end %>
                   </div>
                 </div>
               </div>

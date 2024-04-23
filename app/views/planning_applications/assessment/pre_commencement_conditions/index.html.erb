@@ -43,7 +43,7 @@
 
             <% if current_request = condition.current_validation_request %>
               <% if current_request.rejection_reason %>
-                <div class="govuk-inset-text applicant">
+                <%= govuk_inset_text(classes: ["applicant"]) do %>
                   <p class="govuk-body">
                     <strong>Applicant comment</strong>
                   </p>
@@ -53,7 +53,7 @@
                   <p class="govuk-body">
                     <%= current_request.rejection_reason %>
                   </p>
-                </div>
+                <% end %>
               <% end %>
             <% end %>
 

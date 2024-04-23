@@ -49,7 +49,7 @@
             What you need to redact
           </span>
         </summary>
-        <div class="govuk-!-margin-top-3 govuk-inset-text">
+        <%= govuk_inset_text do %>
           <p class="govuk-hint govuk-!-margin-bottom-1">
             You need to redact
           </p>
@@ -61,7 +61,7 @@
             <li>personal financial information</li>
             <li>any other sensitive personal information or images that could identify a person</li>
           </ul>
-        </div>
+        <% end %>
       </details>
 
       <%= render "form" %>
