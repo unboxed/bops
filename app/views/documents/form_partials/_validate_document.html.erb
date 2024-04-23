@@ -1,13 +1,5 @@
-<div class="govuk-form-group" id="validate-document">
-  <% if form.object.errors[:document_validation].any? %>
-    <span class="govuk-error-message">
-    <span class="govuk-visually-hidden">Error:</span><%= form.object.errors[:document_validation].join(" ") %></span>
-  <% end %>
-
+<%= form.govuk_radio_buttons_fieldset(:validated, inline: true, legend: { size: 's', text: 'Is the document valid?' }, form_group: { id: "validate-document" }) do %>
   <%= hidden_field_tag(:validate, "yes") %>
-
-  <%= form.govuk_radio_buttons_fieldset(:validated, inline: true, legend: { size: 's', text: 'Is the document valid?' }) do %>
-    <%= form.govuk_radio_button :validated, 'true', label: { text: 'Yes'} %>
-    <%= form.govuk_radio_button :validated, 'false', label: { text: 'No' } %>
-  <% end %>
-</div>
+  <%= form.govuk_radio_button :validated, 'true', label: { text: 'Yes'} %>
+  <%= form.govuk_radio_button :validated, 'false', label: { text: 'No' } %>
+<% end %>
