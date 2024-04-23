@@ -29,7 +29,7 @@
         <td class="govuk-table__cell govuk-!-width-one-third">
           <p class="govuk-body govuk-!-margin-bottom-1">
             <%= link_to image_tag(@site_notice.document.file.representation(resize: "300x212")),
-                  url_for_document(@site_notice.document), target: :_blank %>
+                  url_for_document(@site_notice.document), target: :_blank, rel: :noopener %>
           </p>
           <p class="govuk-body">
             <%= truncate(@site_notice.document.name.to_s, length: 50) %><br>

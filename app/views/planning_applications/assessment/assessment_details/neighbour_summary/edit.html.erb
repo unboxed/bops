@@ -50,7 +50,7 @@
                                 <%= response.neighbour.address %>
                               </li>
                               <li class="govuk-hint">
-                                Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+                                Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
                               </li>
                             </ul>
                             <div data-controller="show-more-text">
@@ -121,7 +121,7 @@
                               <%= response.neighbour.address %>
                             </li>
                             <li class="govuk-hint">
-                              Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+                              Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
                             </li>
                           </ul>
                           <div data-controller="show-more-text">

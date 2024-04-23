@@ -21,7 +21,7 @@
     <%= @neighbour_response.neighbour.address %>
   </li>
   <li class="govuk-hint">
-    Received on <%= @neighbour_response.received_at.to_formatted_s(:day_month_year_slashes) %>
+    Received on <%= @neighbour_response.received_at.to_fs(:day_month_year_slashes) %>
   </li>
 </ul>
 

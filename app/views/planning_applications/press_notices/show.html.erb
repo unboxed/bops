@@ -46,7 +46,7 @@
           <% if reason == :other %>
             <%= form.govuk_check_box_divider "or" %>
             <%= form.govuk_check_box :reasons, reason.to_s, disabled: @press_notice.published_at?, label: {text: t(reason, scope: :press_notice_reasons)} do %>
-              <%= form.govuk_text_area :other_reason, disabled: @press_notice.published_at?, label: {text: t(:other_reason, scope: :press_notice_reasons)} %>
+              <%= form.govuk_text_area :other_reason, disabled: @press_notice.published_at?, label: {text: t('press_notice_reasons.other_reason')} %>
             <% end %>
           <% else %>
             <%= form.govuk_check_box :reasons, reason.to_s, disabled: @press_notice.published_at?, label: {text: t(reason, scope: :press_notice_reasons)} %>

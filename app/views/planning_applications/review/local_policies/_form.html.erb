@@ -21,7 +21,7 @@
               <%= ff.govuk_radio_button :policy, 'Yes', label: {text: 'Yes'}, checked: ff.object.guidance.present? do %>
                 <%= ff.govuk_text_field :guidance, label: {text: "Which guidance? (e.g. the design code)", size: "s"} %>
               <% end %>
-              <%= ff.govuk_radio_button :policy, 'No', label: {text: 'No'}, checked: ff.object.id.present? && !ff.object.guidance.present? %>
+              <%= ff.govuk_radio_button :policy, 'No', label: {text: 'No'}, checked: ff.object.id.present? && ff.object.guidance.blank? %>
             <% end %>
             <%= ff.govuk_text_area :assessment, label: {text: "Enter your assessment", size: "s"} %>
           <% end %>
