@@ -1,0 +1,35 @@
+---
+linters:
+  AllowedScriptType:
+    allowed_types:
+      - "text/javascript"
+      - "module"
+  ErbSafety:
+    enabled: false
+
+  # Enabling this caused a lot of test failures
+  NoJavascriptTagHelper:
+    enabled: false
+
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      inherit_from:
+        - .rubocop.yml
+      # These rules are disabled because they don't work on ERB code:
+      # each segment of ERB is validated separately, but these rules
+      # depend on checking the whole file, one way or another.
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/LineLength:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Style/FrozenStringLiteralComment:
+        Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false
+
+      # This is fine in principle but we have false positives
+      Lint/BooleanSymbol:
+        Enabled: false

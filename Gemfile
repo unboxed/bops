@@ -58,6 +58,7 @@ gem "bops_config", path: "engines/bops_config"
 group :development, :test do
   gem "brakeman", require: false
   gem "bullet"
+  gem "erb_lint", require: false
   gem "guard", require: false
   gem "guard-cucumber", require: false
   gem "guard-rspec", require: false
