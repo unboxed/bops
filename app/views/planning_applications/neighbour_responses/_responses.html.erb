@@ -8,7 +8,7 @@
           </span>
         </h2>
       </div>
-      <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-#{index}" %>>
+      <div id="accordion-default-content-<%= index %>" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-<%= index %>">
         <% responses.group_by { |response| response.neighbour.selected? }.sort_by { |key, _value| key ? 0 : 1 }.each do |selected, sorted_responses| %>
           <% sorted_responses.each do |response| %>
             <div class="neighbour-response-section">

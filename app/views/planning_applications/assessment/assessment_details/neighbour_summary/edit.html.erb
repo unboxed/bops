@@ -29,7 +29,7 @@
                 </span>
               </h2>
             </div>
-            <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-no-tag" %>>
+            <div id="accordion-default-content-<%= index %>" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-no-tag">
               <% @neighbour_responses.select { |response| response.tags.include? tag.to_s }.group_by { |response| response.summary_tag }.each do |opinion, resp| %>
                 <div class="neighbour-response">
                   <% resp.each do |response| %>
@@ -103,7 +103,7 @@
             </div>
             <% @neighbour_responses.without_tags.each_with_index do |response, index| %>
               <div class="neighbour-response">
-                <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-no-tag" %>>
+                <div id="accordion-default-content-<%= index %>" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-no-tag">
                   <div class="neighbour-response-section">
                     <div class="govuk-inset-text">
                       <div class="neighbour-response-top-section">
