@@ -1,71 +1,46 @@
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-<div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>" data-controller="show-hide">
+<div class="govuk-form-group">
   <fieldset class="govuk-fieldset govuk-!-margin-top-4">
     <legend class="govuk-fieldset__legend">
-      <h3 class="govuk-heading-s">
+      <h2 class="govuk-heading-m">
         What does the document contain?
-      </h3>
+      </h2>
     </legend>
 
-    <% if form.object.errors[:tags].any? %>
-      <% form.object.errors[:tags].each do |error| %>
-        <span id="status-error" class="govuk-error-message">
-          <span class="govuk-visually-hidden">Error:</span><%= error %></span>
-      <% end %>
-    <% end %>
-
-    <% document_tags.tag_groups.each do |group| %>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <h3 class="govuk-heading-s">
-            <%= group.name.humanize %>
-          </h3>
-        </div>
-        <% group.tags.in_groups(2, false) do |column| %>
-          <div class="govuk-grid-column-one-half">
-            <div class="govuk-checkboxes govuk-checkboxes--small">
-              <%= form.collection_check_boxes :tags, column, :itself, :itself do |b| %>
-                <div class="govuk-checkboxes__item">
-                  <%= b.check_box class: "govuk-checkboxes__input" %>
-                  <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" do %>
-                    <%= I18n.t(:"#{b.value}", scope: :document_tags) %>
-                  <% end %>
+    <%= govuk_tabs do |tabs| %>
+      <% document_tags.tag_groups.each do |group| %>
+        <% tabs.with_tab(label: t(".groups.#{group}"), id: "#{group}-tags" ) do %>
+          <%= form.govuk_check_boxes_fieldset :tags, legend: {text: t(".groups.#{group}")}, hint: {text: t(".hints.#{group}")}, small: true do %>
+            <div data-controller="show-hide">
+              <div class= "govuk-!-column-count-2">
+                <% group.selected_tag_list.each do |tag| %>
+                  <%= form.govuk_check_box :tags, tag.first, label: { text: tag.last } %>
+                <% end %>
+              </div>
+              <% if group.irrelevant_tags.any? %>
+                <div class="govuk-!-margin-top-2">
+                  <a class="show-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#showDisplayNone">
+                    Show all (<%= group.irrelevant_tags.count %>)
+                  </a>
+                </div>
+                <div class="document-tags govuk-!-display-none">
+                  <div class="govuk-!-column-count-2">
+                    <% group.irrelevant_tag_list.each do |tag| %>
+                      <%= form.govuk_check_box :tags, tag.first, label: { text: tag.last } %>
+                    <% end %>
+                  </div>
+                  <div class="govuk-!-margin-top-2">
+                    <a class="remove-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#hideDisplayNone">
+                      Show less
+                    </a>
+                  </div>
                 </div>
               <% end %>
             </div>
-          </div>
+          <% end %>
         <% end %>
-        <% if group.irrelevant_tags.any? %>
-          <div class="govuk-grid-column-full govuk-!-margin-bottom-3 govuk-!-margin-top-2">
-            <a class="show-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#showDisplayNone">
-              Show all (<%= group.irrelevant_tags.count %>)
-            </a>
-          </div>
-          <div class="document-tags govuk-!-display-none">
-            <% group.irrelevant_tags.in_groups(2, false) do |tags| %>
-              <div class="govuk-grid-column-one-half">
-                <div class="govuk-checkboxes govuk-checkboxes--small">
-                  <%= form.collection_check_boxes :tags, tags, :itself, :itself do |b| %>
-                    <div class="govuk-checkboxes__item">
-                      <%= b.check_box class: "govuk-checkboxes__input" %>
-                      <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" do %>
-                        <%= I18n.t(:"#{b.value}", scope: :document_tags) %>
-                      <% end %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-            <div class="govuk-grid-column-full govuk-!-margin-bottom-3 govuk-!-margin-top-2">
-              <a class="remove-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#hideDisplayNone">
-                Show less
-              </a>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      <% end %>
     <% end %>
   </fieldset>
 </div>

@@ -5,14 +5,14 @@
   class: "govuk-input--width-20"
 ) %>
 <div class="display govuk-!-margin-top-3">
-  <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Do you want to list this document on the decision notice?' }) do %>
+  <%= form.govuk_radio_buttons_fieldset(:status, inline: true, legend: { size: 's', text: 'Do you want to list this document on the decision notice?' }) do %>
     <%= form.govuk_radio_button :referenced_in_decision_notice, 'true', label: { text: 'Yes' } %>
     <%= form.govuk_radio_button :referenced_in_decision_notice, 'false', label: { text: 'No' } %>
   <% end %>
 </div>
 
 <div class="publish govuk-!-margin-top-3">
-  <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Should this document be made publicly available?' }) do %>
+  <%= form.govuk_radio_buttons_fieldset(:status, inline: true, legend: { size: 's', text: 'Should this document be made publicly available?' }) do %>
     <div id="event-name-hint" class="govuk-hint">
       Indicate whether this document should be made available for public viewing on the planning register or via the public API. Select "No" if the document contains any sensitive personal information.
     </div>

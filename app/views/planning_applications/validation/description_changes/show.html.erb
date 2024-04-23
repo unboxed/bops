@@ -12,6 +12,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+  <%= render(
+        AccordionComponent.new(
+          planning_application: @planning_application,
+          sections: %i[documents]
+        )
+      ) %>
+
     <%= form_with model: @planning_application, url: validate_planning_application_validation_description_changes_path(@planning_application) do |form| %>
       <%= form.govuk_radio_buttons_fieldset :valid_description, legend: { text: "Does the description match the development or use in the plans?"} do %>
         <%= form.govuk_radio_button :valid_description, true, label: { text: "Yes"} %>

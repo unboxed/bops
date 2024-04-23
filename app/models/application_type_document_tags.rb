@@ -30,6 +30,14 @@ class ApplicationTypeDocumentTags
       all_tags.map(&method(:build_tag_list)).sort_by(&:last)
     end
 
+    def selected_tag_list
+      selected_tags.map(&method(:build_tag_list)).sort_by(&:last)
+    end
+
+    def irrelevant_tag_list
+      irrelevant_tags.map(&method(:build_tag_list)).sort_by(&:last)
+    end
+
     private
 
     def translate_tag(tag)

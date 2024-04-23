@@ -12,26 +12,38 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <%= render(
+      AccordionComponent.new(
+        planning_application: @planning_application,
+        sections: %i[documents]
+      )
+    ) %>
 
     <%= render "fee_item_table" %>
 
     <% if @planning_application.fee_calculation %>
-      <h3 class="govuk-heading-m">Fee calculation</h3>
+      <h3 class="govuk-heading-m govuk-!-margin-top-8">Fee calculation</h3>
       <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Detail</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Amount</th>
+          </tr>
+        </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">
               Application Fee
             </th>
-            <td class="govuk-table__cell">
-              £<%= @planning_application.fee_calculation.total_fee || 0 %>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= number_to_currency(@planning_application.fee_calculation.total_fee || 0, unit: '£') %>
             </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">
               Exemptions
             </th>
-              <td class="govuk-table__cell">
+              <td class="govuk-table__cell govuk-table__cell--numeric">
               <% if @planning_application.fee_calculation.exemptions.present? %>
                 <%= @planning_application.fee_calculation.exemptions.map(&:humanize).to_sentence %>
               <% else %>
@@ -43,7 +55,7 @@
             <th scope="row" class="govuk-table__header">
               Reductions
             </th>
-            <td class="govuk-table__cell">
+            <td class="govuk-table__cell govuk-table__cell--numeric">
               <% if @planning_application.fee_calculation.reductions.present? %>
                 <%= @planning_application.fee_calculation.reductions.map(&:humanize).to_sentence %>
               <% else %>
@@ -55,20 +67,19 @@
             <th scope="row" class="govuk-table__header">
               Discount
             </th>
-            <td class="govuk-table__cell">
-              -£<%= @planning_application.fee_calculation.total_fee.to_d - @planning_application.fee_calculation.payable_fee.to_d %>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              -<%= number_to_currency(@planning_application.fee_calculation.discount, unit: '£') %>
             </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">
               Total
-            </th>
-            <td class="govuk-table__cell">
-              £<%= @planning_application.fee_calculation.requested_fee || @planning_application.fee_calculation.payable_fee || 0 %>
+              <% if  @planning_application.fee_calculation.requested_fee.present? %>
+                (set by PO)
+              <% end %>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= number_to_currency(@planning_application.fee_calculation.requested_fee || @planning_application.fee_calculation.payable_fee || 0, unit: '£') %>
             </td>
-            <% if  @planning_application.fee_calculation.requested_fee.present? %>
-              <td>(set by PO)</td>
-            <% end %>
           </tr>
         </tbody>
       </table>
@@ -90,7 +101,7 @@
 
     <%= form_with model: @planning_application, url: validate_planning_application_validation_fee_items_path(@planning_application) do |form| %>
       <%= form.govuk_radio_buttons_fieldset :valid_fee do %>
-        <p class="govuk-!-margin-top-0 govuk-!-margin-bottom-4">
+        <p class="govuk-body govuk-!-margin-top-0 govuk-!-margin-bottom-4">
           <a href="https://ecab.planningportal.co.uk/uploads/english_application_fees.pdf" class="govuk-link" target="_blank">
             A guide to the Fees for Planning Applications in England
           </a>
