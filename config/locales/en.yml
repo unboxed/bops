@@ -1058,6 +1058,7 @@ en:
         immunity_from_enforcement: Immunity from enforcement
         legislation: Legislation
         location_description: Location description
+        neighbour_responses: Neighbour responses summary
         no_documents_listed: There are no documents listed on the decision notice.
         no_legislation_assessed: There is no legislation assessment for this application.
         planning_history: Planning history

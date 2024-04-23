@@ -60,6 +60,15 @@
     <%= render(FormattedContentComponent.new(text: consultation_summary.entry)) %>
   </section>
 <% end %>
+<% if neighbour_summary %>
+  <section id="neighbour-responses-summary-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".neighbour_responses") %></h3>
+    <% if consultation.neighbour_responses.any? %>
+      <p class="govuk-body"><%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
+    <% end %>
+    <%= render(FormattedContentComponent.new(text: neighbour_summary.entry)) %>
+  </section>
+<% end %>
 <% if show_additional_evidence && additional_evidence.present? %>
   <section id="additional-evidence-section" class="govuk-!-padding-bottom-5">
     <h3 class="govuk-heading-s"><%= t(".additional_evidence") %></h3>
