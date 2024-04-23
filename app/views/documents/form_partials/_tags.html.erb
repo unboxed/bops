@@ -8,13 +8,6 @@
       </h2>
     </legend>
 
-    <% if form.object.errors[:tags].any? %>
-      <% form.object.errors[:tags].each do |error| %>
-        <span id="status-error" class="govuk-error-message">
-          <span class="govuk-visually-hidden">Error:</span><%= error %></span>
-      <% end %>
-    <% end %>
-
     <%= govuk_tabs do |tabs| %>
       <% document_tags.tag_groups.each do |group| %>
         <% tabs.with_tab(label: t(".groups.#{group}"), id: "#{group}-tags" ) do %>
