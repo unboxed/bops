@@ -21,7 +21,7 @@
       <%= form.govuk_text_area(:additional_information, label: {text: t(".relevant_information")}, rows: 8, value: @rejected_assessment_detail&.additional_information) %>
       <%= form.hidden_field(:category, value: @category) %>
 
-      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+      <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
     <% end %>
   </div>
 </div>

@@ -8,9 +8,9 @@
 <% content_for :title, "Assign planning application" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Assign planning application"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Assign planning application"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -18,12 +18,13 @@
       Please select the officer you wish to assign this application to.
     </p>
     <%= form_with(
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-			method: :patch,
-			url: planning_application_assign_users_path(@planning_application)) do |form| %>
+          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+          method: :patch,
+          url: planning_application_assign_users_path(@planning_application)
+        ) do |form| %>
 
-      <%= form.govuk_fieldset(legend: { text: nil }) do %>
-				<%= form.govuk_select :user_id, User.menu(scope = @users), label: nil, options: { selected: @planning_application.user_id } %>		
+      <%= form.govuk_fieldset(legend: {text: nil}) do %>
+        <%= form.govuk_select :user_id, User.menu(scope = @users), label: nil, options: {selected: @planning_application.user_id} %>
       <% end %>
       <p>
         <%= form.govuk_submit "Confirm" %>

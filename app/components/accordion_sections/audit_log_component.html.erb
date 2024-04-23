@@ -5,10 +5,10 @@
   <p class="govuk-body"><%= audit_user_name(last_audit) %></p>
   <p class="govuk-body">
     <%= t(
-      ".date_at_time",
-      date: last_audit.created_at.to_date.to_fs,
-      time: last_audit.created_at.to_fs(:time_only)
-    ) %>
+          ".date_at_time",
+          date: last_audit.created_at.to_date.to_fs,
+          time: last_audit.created_at.to_fs(:time_only)
+        ) %>
   </p>
 <% end %>
 <%= govuk_link_to t(".view_all_audits"), planning_application_audits_path(planning_application), class: "govuk-body" %>

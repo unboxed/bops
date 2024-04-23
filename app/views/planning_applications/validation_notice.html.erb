@@ -8,8 +8,8 @@
 <% content_for :title, "Validation notice" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Validation notice"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Validation notice"}
+    ) %>
 
 <%= render "validation_notice", planning_application: @planning_application %>

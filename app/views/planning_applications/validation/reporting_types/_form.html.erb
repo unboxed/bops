@@ -4,7 +4,7 @@
   <%= form.govuk_radio_buttons_fieldset(:reporting_type, legend: {size: "m"}) do %>
     <% if @planning_application.application_type.selected_reporting_types? %>
       <% @planning_application.application_type.selected_reporting_types.each do |reporting_type| %>
-        <%= form.govuk_radio_button(:reporting_type, reporting_type.code, label: { text: reporting_type.full_description }) do %>
+        <%= form.govuk_radio_button(:reporting_type, reporting_type.code, label: {text: reporting_type.full_description}) do %>
           <% if reporting_type.guidance? %>
             <%= render FormattedContentComponent.new(text: reporting_type.guidance, classname: "govuk-hint") %>
             <% if reporting_type.guidance_link? %>

@@ -10,11 +10,11 @@
     <p class="govuk-body"> To use two-factor authentication we need a UK mobile phone number for your account.</p>
     <div class=" govuk-form-group">
       <%= form_for(
-        @mobile_number_form,
-        as: :user,
-        url: user_session_path,
-        method: :post
-      ) do |form| %>
+            @mobile_number_form,
+            as: :user,
+            url: user_session_path,
+            method: :post
+          ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_text_field(:mobile_number) %>
         <div class="govuk-button-group">

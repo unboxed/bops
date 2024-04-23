@@ -16,10 +16,10 @@
     <% if planning_application.not_started? %>
       <% if local_assigns.fetch(:include_edit, true) %>
         <%= edit_request_url(
-          planning_application,
-          validation_request,
-          classname: "govuk-button govuk-button--secondary"
-        ) %>
+              planning_application,
+              validation_request,
+              classname: "govuk-button govuk-button--secondary"
+            ) %>
       <% end %>
       <%= delete_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
     <% end %>

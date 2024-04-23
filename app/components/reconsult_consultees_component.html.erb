@@ -10,15 +10,15 @@
       <%= t(".hint") %>
     </div>
     <div class="govuk-radios" data-module="govuk-radios">
-      <%= form.govuk_radio_button(:email_reason, "send", label: { text: t(".send") }) %>
-      <%= form.govuk_radio_button(:email_reason, "resend", label: { text: t(".resend") }, data: { "aria-controls": "conditional-resend" }) %>
+      <%= form.govuk_radio_button(:email_reason, "send", label: {text: t(".send")}) %>
+      <%= form.govuk_radio_button(:email_reason, "resend", label: {text: t(".resend")}, data: {"aria-controls": "conditional-resend"}) %>
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-resend">
-        <%= form.govuk_text_area :resend_message, label: { text: t(".resend_message_label") }, rows: 5 %>
+        <%= form.govuk_text_area :resend_message, label: {text: t(".resend_message_label")}, rows: 5 %>
         <p class="govuk-hint"><%= t(".formatting_hint_html") %></p>
       </div>
-      <%= form.govuk_radio_button(:email_reason, "reconsult", label: { text: t(".reconsult") }, data: { "aria-controls": "conditional-reconsult" }) %>
+      <%= form.govuk_radio_button(:email_reason, "reconsult", label: {text: t(".reconsult")}, data: {"aria-controls": "conditional-reconsult"}) %>
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-reconsult">
-        <%= form.govuk_text_area :reconsult_message, label: { text: t(".reconsult_message_label") }, rows: 5 %>
+        <%= form.govuk_text_area :reconsult_message, label: {text: t(".reconsult_message_label")}, rows: 5 %>
         <p class="govuk-hint"><%= t(".formatting_hint_html") %></p>
       </div>
     </div>

@@ -8,7 +8,7 @@
     <%= render partial: 'documents/form_partials/validate_document', locals: {form: form} if @validate_document %>
 
     <div class="govuk-button-group">
-      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= form.submit "Save", class: "govuk-button", data: {module: "govuk-button"} %>
 
       <% if @validate_document %>
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

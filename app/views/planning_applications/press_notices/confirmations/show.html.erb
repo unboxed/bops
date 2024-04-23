@@ -8,14 +8,14 @@
 <% content_for :title, "Confirm press notice" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Confirm press notice" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Confirm press notice"}
+    ) %>
 
 <%= form_with(
-  model: @press_notice,
-  url: planning_application_press_notice_confirmation_path(@planning_application)
-) do |form| %>
+      model: @press_notice,
+      url: planning_application_press_notice_confirmation_path(@planning_application)
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <% if @press_notice.requested_at? %>
@@ -46,18 +46,17 @@
 
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-      <%= form.govuk_date_field(:published_at, rows: 6, id: "published-at-field", legend: { size: "s", text: t(".published_at") }) %>
+      <%= form.govuk_date_field(:published_at, rows: 6, id: "published-at-field", legend: {size: "s", text: t(".published_at")}) %>
 
       <%= render "documents", documents: @press_notice.documents %>
 
       <%= form.govuk_file_field :documents,
-        label: { size: "s", text: t(".upload_photos") },
-        hint: { text: t(".photos_hint") },
-        accept: acceptable_file_mime_types,
-        multiple: true
-      %>
+            label: {size: "s", text: t(".upload_photos")},
+            hint: {text: t(".photos_hint")},
+            accept: acceptable_file_mime_types,
+            multiple: true %>
 
-      <%= form.govuk_text_area(:comment, rows: 3, label: { text: t(".optional_comment") }) %>
+      <%= form.govuk_text_area(:comment, rows: 3, label: {text: t(".optional_comment")}) %>
     </fieldset>
 
     <div class="govuk-button-group govuk-!-padding-top-7">

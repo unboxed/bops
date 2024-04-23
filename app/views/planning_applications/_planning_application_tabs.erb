@@ -3,32 +3,32 @@
     <% if @search.exclude_others? %>
       <li class="govuk-tabs__list-item" role="presentation">
         <%= link_to(
-          @search.all_applications_title,
-          "#all",
-          class: "govuk-tabs__tab",
-          role: "tab",
-          aria_controls: "all",
-          aria_selected: false,
-          tabindex: 1
-        ) %>
+              @search.all_applications_title,
+              "#all",
+              class: "govuk-tabs__tab",
+              role: "tab",
+              aria_controls: "all",
+              aria_selected: false,
+              tabindex: 1
+            ) %>
       </li>
       <li class="govuk-tabs__list-item" role="presentation">
-        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls":"closed", "aria-selected": false, tabindex: 2 %>
+        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls": "closed", "aria-selected": false, tabindex: 2 %>
       </li>
     <% else %>
       <li class="govuk-tabs__list-item" role="presentation">
         <%= link_to(
-          @search.all_applications_title,
-          "#all",
-          class: "govuk-tabs__tab",
-          role: "tab",
-          aria_controls: "all",
-          aria_selected: false,
-          tabindex: 1
-        ) %>
+              @search.all_applications_title,
+              "#all",
+              class: "govuk-tabs__tab",
+              role: "tab",
+              aria_controls: "all",
+              aria_selected: false,
+              tabindex: 1
+            ) %>
       </li>
       <li class="govuk-tabs__list-item" role="presentation">
-        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls":"closed", "aria-selected": false, tabindex: 2 %>
+        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls": "closed", "aria-selected": false, tabindex: 2 %>
       </li>
     <% end %>
     <li class="govuk-tabs__list-item" role="presentation">

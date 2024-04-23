@@ -7,9 +7,9 @@
 <% content_for :title, t(".review_and_sign_off") %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: t(".review_and_sign_off") }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: t(".review_and_sign_off")}
+    ) %>
 
 <%= render "shared/dates_and_assignment_header" %>
 
@@ -19,8 +19,8 @@
       <%= t(".application_details") %>
     </h2>
     <%= render(
-      AccordionComponent.new(planning_application: @planning_application)
-    ) %>
+          AccordionComponent.new(planning_application: @planning_application)
+        ) %>
 
     <% if @planning_application.application_type.consultation? %>
       <%= render "review_consultation" %>

@@ -22,12 +22,12 @@
     <% if @planning_application_constraints.any? %>
       <% planning_application_constraints.each do |planning_application_constraint| %>
         <%= render(
-            partial: "row",
-            locals: {
-              planning_application_constraint: planning_application_constraint,
-              show_source: show_source
-            }
-          ) %>
+              partial: "row",
+              locals: {
+                planning_application_constraint: planning_application_constraint,
+                show_source: show_source
+              }
+            ) %>
       <% end %>
     <% else %>
       <tr class="govuk-table__row">

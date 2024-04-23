@@ -9,19 +9,19 @@
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <%= render(
-        PlanningApplications::Assessment::AssessmentReportComponent.new(
-          planning_application: planning_application
-        )
-      ) %>
+            PlanningApplications::Assessment::AssessmentReportComponent.new(
+              planning_application: planning_application
+            )
+          ) %>
       <%= govuk_link_to(
-        t(".download_assessment_report"),
-        planning_application_assessment_report_download_path(
-          planning_application,
-          format: "pdf"
-        ),
-        target: "_blank",
-        class: "govuk-body"
-      ) %>
+            t(".download_assessment_report"),
+            planning_application_assessment_report_download_path(
+              planning_application,
+              format: "pdf"
+            ),
+            target: "_blank",
+            class: "govuk-body"
+          ) %>
     </div>
   </div>
 </div>

@@ -12,14 +12,14 @@
       Review time extension request
     </h1>
     <p class="govuk-body">
-      <strong>At:</strong> <%= @planning_application.full_address  %> <br>
+      <strong>At:</strong> <%= @planning_application.full_address %> <br>
       <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %> <br>
-      <strong>Application number:</strong> <%= @planning_application.reference  %>
+      <strong>Application number:</strong> <%= @planning_application.reference %>
     </p>
 
     <div>
       <p class="govuk-body"> <strong> Previous expiry date:</strong><br>
-        <%= @planning_application.expiry_date.strftime("%-d %B %Y")  %>
+        <%= @planning_application.expiry_date.strftime("%-d %B %Y") %>
       </p>
       <p class="govuk-body"> <strong> Proposed expiry date:</strong><br>
         <%= @validation_request.proposed_expiry_date.to_fs %>

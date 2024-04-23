@@ -24,15 +24,15 @@
       </li>
     <% else %>
       <%= render(
-        TaskListItems::AdditionalDocumentComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            TaskListItems::AdditionalDocumentComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
     <% end %>
     <%= render(
-      TaskListItems::RedactDocumentsComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+          TaskListItems::RedactDocumentsComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
   </ul>
 </li>

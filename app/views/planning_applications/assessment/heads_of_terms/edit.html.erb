@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Update heads of terms" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Update heads of terms" }
+      locals: {heading: "Update heads of terms"}
     ) %>
 
     <div class="govuk-grid-row">
@@ -21,29 +21,28 @@
         </p>
         <%= render "shared/warning_text", message: "This information WILL be made publicly available." %>
         <%= form_with model: @heads_of_term,
-          url: planning_application_assessment_heads_of_terms_path(@planning_application),
-          html: { data: { controller: "heads-of-terms" }},
-          method: :patch do |form| %>
+              url: planning_application_assessment_heads_of_terms_path(@planning_application),
+              html: {data: {controller: "heads-of-terms"}},
+              method: :patch do |form| %>
           <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
           <div id="other-terms" data-heads-of-terms-target="terms">
             <%= form.fields_for :terms, @term do |fields| %>
-              <%= content_tag :div, class: "term govuk-!-margin-bottom-5", data: { index: fields.index } do %>
+              <%= content_tag :div, class: "term govuk-!-margin-bottom-5", data: {index: fields.index} do %>
                 <%= fields.hidden_field :_destroy, value: false %>
                 <%= fields.hidden_field :id %>
-                <%= fields.govuk_text_field :title, label: { text: "Enter a title" } %>
-                <%= fields.govuk_text_area :text, label: { text: "Enter detail" } %>
+                <%= fields.govuk_text_field :title, label: {text: "Enter a title"} %>
+                <%= fields.govuk_text_area :text, label: {text: "Enter detail"} %>
                 <%= govuk_link_to "Remove term", "#", class: "govuk-body" %>
               <% end %>
             <% end %>
           </div>
-        
+
         <div class="govuk-button-group">
-          <%= form.submit "Confirm and send to applicant", class: "govuk-button", data: { module: "govuk-button" } %>
+          <%= form.submit "Confirm and send to applicant", class: "govuk-button", data: {module: "govuk-button"} %>
           <%= link_to "Back", planning_application_assessment_heads_of_terms_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
         </div>
         <% end %>
       </div>
     </div>
 </div>
-

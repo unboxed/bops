@@ -3,22 +3,22 @@
 <% end %>
 
 <%= render(
-  partial: "shared/assessment_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Heads of terms request" %>
 
 <% if @validation_request.closed? %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "Check the response to heads of terms request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "Check the response to heads of terms request"}
+      ) %>
 <% else %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "View heads of terms request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "View heads of terms request"}
+      ) %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -36,7 +36,7 @@
       </p>
     </div>
     <%= form_with model: @planning_application do |form| %>
-      <% if @validation_request.closed?  %>
+      <% if @validation_request.closed? %>
         <h3 class="govuk-heading-s">Applicant response</h3>
         <p class="govuk-body">
           <% if @validation_request.approved? %>
@@ -55,7 +55,7 @@
       <% end %>
 
       <%= render "shared/validation_request_show_actions",
-        planning_application: @planning_application, validation_request: @validation_request, form: form %>
+            planning_application: @planning_application, validation_request: @validation_request, form: form %>
     <% end %>
   </div>
 </div>

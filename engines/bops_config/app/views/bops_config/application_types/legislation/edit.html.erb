@@ -13,38 +13,38 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.govuk_radio_buttons_fieldset(:legislation_type,
-        hint: {text: t(".legislation_hint")},
-        legend: {text: t(".legislation_legend_html", description: @application_type.description)}) do %>
+            hint: {text: t(".legislation_hint")},
+            legend: {text: t(".legislation_legend_html", description: @application_type.description)}) do %>
 
         <h2 class="govuk-heading-m"><%= @application_type.description %></h2>
 
         <%= form.govuk_radio_button(:legislation_type, "existing",
-          label: {text: t(".existing_legislation")}) do %>
+              label: {text: t(".existing_legislation")}) do %>
 
           <div data-controller="autocomplete-select">
             <%= form.govuk_select :legislation_id, Legislation.menu,
-              label: {text: t(".legislation_id_label"), hidden: true},
-              options: {include_blank: true} %>
+                  label: {text: t(".legislation_id_label"), hidden: true},
+                  options: {include_blank: true} %>
           </div>
         <% end %>
 
         <%= form.govuk_radio_divider %>
 
         <%= form.govuk_radio_button(:legislation_type, "new",
-          label: {text: t(".new_legislation")}) do %>
+              label: {text: t(".new_legislation")}) do %>
 
           <% form.fields :legislation, model: @legislation do |fields| %>
             <%= fields.govuk_text_field :title,
-              label: {text: t(".legislation_title_label")},
-              hint: {text: t(".legislation_title_hint")} %>
+                  label: {text: t(".legislation_title_label")},
+                  hint: {text: t(".legislation_title_hint")} %>
 
             <%= fields.govuk_text_area :description, rows: 3,
-              label: {text: t(".legislation_description_label")},
-              hint: {text: t(".legislation_description_hint")} %>
+                  label: {text: t(".legislation_description_label")},
+                  hint: {text: t(".legislation_description_hint")} %>
 
             <%= fields.govuk_text_field :link,
-              label: {text: t(".legislation_link_label")},
-              hint: {text: t(".legislation_link_hint")} %>
+                  label: {text: t(".legislation_link_label")},
+                  hint: {text: t(".legislation_link_hint")} %>
           <% end %>
         <% end %>
       <% end %>

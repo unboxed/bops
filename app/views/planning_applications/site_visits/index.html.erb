@@ -8,9 +8,9 @@
 <% content_for :title, "Site visit" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "View site visits" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "View site visits"}
+    ) %>
 
 <% if @consultation.neighbour_responses.objection.any? %>
   <h2 class="govuk-heading-m">Objected neighbour responses</h2>

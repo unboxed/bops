@@ -38,27 +38,27 @@
         </p>
 
         <%= render(
-          EvidenceGroups::DocumentsComponent.new(
-            documents: section.documents.with_file_attachment
-          )
-        ) %>
+              EvidenceGroups::DocumentsComponent.new(
+                documents: section.documents.with_file_attachment
+              )
+            ) %>
 
         <hr>
 
         <%= render(
-          partial: "planning_applications/review/immunity_details/comment",
-          locals: {
-            planning_application: @planning_application,
-            evidence_group: section,
-            comment: section.comment,
-            new_comment: section.comments.new
-          }
-        ) %>
+              partial: "planning_applications/review/immunity_details/comment",
+              locals: {
+                planning_application: @planning_application,
+                evidence_group: section,
+                comment: section.comment,
+                new_comment: section.comments.new
+              }
+            ) %>
 
         <%= render(
-          partial: "shared/policy_classes/previous_comments",
-          locals: { previous_comments: section.previous_comments }
-        ) %>
+              partial: "shared/policy_classes/previous_comments",
+              locals: {previous_comments: section.previous_comments}
+            ) %>
       </div>
     </div>
   <% end %>

@@ -1,7 +1,7 @@
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Request other validation change"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Request other validation change"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -23,27 +23,27 @@
       <% end %>
 
       <%= form.govuk_text_area(
-        :reason,
-        label: {
-          size: "m",
-          text: "Tell the applicant another reason why the application is invalid"
-        },
-        rows: 5,
-        readonly: @planning_application.validated?
-      ) %>
+            :reason,
+            label: {
+              size: "m",
+              text: "Tell the applicant another reason why the application is invalid"
+            },
+            rows: 5,
+            readonly: @planning_application.validated?
+          ) %>
 
       <%= form.govuk_text_area(
-        :suggestion,
-        label: {
-          size: "m",
-          text: "Explain to the applicant how the application can be made valid"
-        },
-        hint: {
-          text: "Add all information that they will need to complete this action"
-        },
-        rows: 5,
-        readonly: @planning_application.validated?
-      ) %>
+            :suggestion,
+            label: {
+              size: "m",
+              text: "Explain to the applicant how the application can be made valid"
+            },
+            hint: {
+              text: "Add all information that they will need to complete this action"
+            },
+            rows: 5,
+            readonly: @planning_application.validated?
+          ) %>
 
       <%= form.hidden_field :type, value: "OtherChangeValidationRequest" %>
 

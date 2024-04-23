@@ -2,48 +2,48 @@
  <%= t(".make_draft_recommendation") %> - <%= t("page_title") %>
 <% end %>
 <% render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: {
-    planning_application: @planning_application,
-    current_page: t(".make_draft_recommendation")
-  }
-) %>
+     partial: "shared/review_task_breadcrumbs",
+     locals: {
+       planning_application: @planning_application,
+       current_page: t(".make_draft_recommendation")
+     }
+   ) %>
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: t(".make_draft_recommendation") }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: t(".make_draft_recommendation")}
+    ) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(
-       partial: "events",
-       locals: {
-         recommendations: @planning_application.recommendations.reviewed
-       }
-    ) %>
+          partial: "events",
+          locals: {
+            recommendations: @planning_application.recommendations.reviewed
+          }
+        ) %>
     <% if @planning_application.open_post_validation_requests.any? %>
       <%= render(
-        partial: "shared/alert_banner",
-        locals: {
-          message: t(
-            ".there_are_outstanding_change_requests_html",
-            last_request: @planning_application.open_post_validation_requests.last.created_at.to_fs,
-            href: post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
-          )
-        }
-      ) %>
+            partial: "shared/alert_banner",
+            locals: {
+              message: t(
+                ".there_are_outstanding_change_requests_html",
+                last_request: @planning_application.open_post_validation_requests.last.created_at.to_fs,
+                href: post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
+              )
+            }
+          ) %>
     <% end %>
     <% if @planning_application.consultation.try(:publicity_active?) %>
       <%= render(
-        partial: "shared/alert_banner",
-        locals: {
-          message: "The consultation is still ongoing. It will end on the #{@planning_application.consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?"
-        }
-      ) %>
+            partial: "shared/alert_banner",
+            locals: {
+              message: "The consultation is still ongoing. It will end on the #{@planning_application.consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?"
+            }
+          ) %>
     <% end %>
     <%= form_with(
-      model: @recommendation,
-      url: planning_application_review_recommendations_path(@planning_application)
-    ) do |form| %>
+          model: @recommendation,
+          url: planning_application_review_recommendations_path(@planning_application)
+        ) do |form| %>
       <% if form.object.planning_application.present? && form.object.planning_application.errors.any? %>
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
           <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -68,19 +68,19 @@
       </p>
 
       <%= form.govuk_collection_radio_buttons(
-        :decision,
-        @planning_application.application_type.all_decisions,
-        :code,
-        :description,
-        legend: { text: "Enter Committee recommendation", size: "s" },
-        hint: {}
-      ) %>
+            :decision,
+            @planning_application.application_type.all_decisions,
+            :code,
+            :description,
+            legend: {text: "Enter Committee recommendation", size: "s"},
+            hint: {}
+          ) %>
       <div class="govuk-form-group">
         <%= form.govuk_text_area(
-          :public_comment,
-          label: { text: "Enter the Committee's reasons for this recommendation" },
-          rows: 9
-        ) %>
+              :public_comment,
+              label: {text: "Enter the Committee's reasons for this recommendation"},
+              rows: 9
+            ) %>
       </div>
 
       <% if @planning_application.awaiting_determination? %>
@@ -88,7 +88,7 @@
           <%= back_link %>
         </div>
       <% else %>
-        <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+        <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
       <% end %>
     <% end %>
   </div>

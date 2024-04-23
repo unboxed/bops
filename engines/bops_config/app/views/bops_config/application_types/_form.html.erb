@@ -3,14 +3,14 @@
 
   <div data-controller="autocomplete-select">
     <%= form.govuk_select :code, ApplicationType.code_menu,
-      label: {text: t(".code_label"), tag: "h2", size: "m"},
-      hint: {text: t(".code_hint")},
-      options: {include_blank: true} %>
+          label: {text: t(".code_label"), tag: "h2", size: "m"},
+          hint: {text: t(".code_hint")},
+          options: {include_blank: true} %>
   </div>
 
   <%= form.govuk_text_field :suffix, width: 5,
-    label: {text: t(".suffix_label"), tag: "h2", size: "m"},
-    hint: {text: t(".suffix_hint")} %>
+        label: {text: t(".suffix_label"), tag: "h2", size: "m"},
+        hint: {text: t(".suffix_hint")} %>
 
   <%= form.govuk_submit(t(".continue")) do %>
     <% if @application_type.new_record? %>

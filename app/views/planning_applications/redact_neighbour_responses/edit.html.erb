@@ -6,9 +6,9 @@
 <% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
 <% content_for :title, "Redact comment" %>
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Redact comment" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Redact comment"}
+    ) %>
 
 <h2 class="govuk-heading-m govuk-!-margin-top-5">Comment submitted by</h2>
 <hr>
@@ -37,29 +37,28 @@
 </details>
 
 <%= form_with(
-  model: @neighbour_response,
-  class: "govuk-!-margin-top-5",
-  url: planning_application_consultation_redact_neighbour_response_path(@planning_application, @neighbour_response),
-  method: :patch,
-  data: { controller: "reset-text" }
-) do |form| %>
+      model: @neighbour_response,
+      class: "govuk-!-margin-top-5",
+      url: planning_application_consultation_redact_neighbour_response_path(@planning_application, @neighbour_response),
+      method: :patch,
+      data: {controller: "reset-text"}
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.govuk_text_area :response,
-    rows: 8,
-    label: { size: "l", text: "Full comment" },
-    data: { reset_text_target: "source" },
-    readonly: true
-  %>
+        rows: 8,
+        label: {size: "l", text: "Full comment"},
+        data: {reset_text_target: "source"},
+        readonly: true %>
   <%= form.label :redacted_response, "Redacted comment", class: "govuk-label govuk-label--l" %>
   <%= content_tag :span, "Replace text you want to redact with [redacted] then save to publish the comment.", class: "govuk-hint" %>
-  <%= button_tag "Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: { action: "click->reset-text#reset"  } %>
-  <%= form.text_area :redacted_response, class: "govuk-textarea", rows: 8, data: { reset_text_target: "destination" } %>
+  <%= button_tag "Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: {action: "click->reset-text#reset"} %>
+  <%= form.text_area :redacted_response, class: "govuk-textarea", rows: 8, data: {reset_text_target: "destination"} %>
 
   <div class="govuk-button-group">
     <%= form.submit(
-      "Save and publish",
-      class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
-    ) %>
+          "Save and publish",
+          class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+        ) %>
     <%= link_to "Back", planning_application_consultation_neighbour_responses_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
   </div>
 <% end %>

@@ -2,9 +2,9 @@
   <div class="govuk-header__container">
     <div class="govuk-width-container">
       <%= link_to(
-        home_path,
-        class: "govuk-header__link govuk-header__link--homepage"
-      ) do %>
+            home_path,
+            class: "govuk-header__link govuk-header__link--homepage"
+          ) do %>
         <% if @current_local_authority %>
           <span class="govuk-header__service-name">
             <%= current_local_authority.short_name %>
@@ -25,11 +25,11 @@
          </div>
           <div class="govuk-header__navigation-item">
             <%= link_to(
-               t(".log_out"),
-               main_app.destroy_user_session_path,
-               method: :delete,
-               class: "govuk-header__link"
-            ) %>
+                  t(".log_out"),
+                  main_app.destroy_user_session_path,
+                  method: :delete,
+                  class: "govuk-header__link"
+                ) %>
           </div>
         </div>
       <% end %>

@@ -2,25 +2,25 @@
   Review form - <%= t('page_title') %>
 <% end %>
 <%= render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: {
-    planning_application: @planning_application,
-    current_page: t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.sign_off_recommendation")
-  }
-) %>
+      partial: "shared/review_task_breadcrumbs",
+      locals: {
+        planning_application: @planning_application,
+        current_page: t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.sign_off_recommendation")
+      }
+    ) %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.sign_off_recommendation") }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.sign_off_recommendation")}
+    ) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds application">
     <h2 class="govuk-heading-m"><%= t(".#{@planning_application.in_committee? ? "in_committee" : "not_in_committee"}.recommendation") %></h2>
     <%= render(
-      StatusTags::DecisionComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+          StatusTags::DecisionComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
     <p class="govuk-body">
       <%= render("shared/warning_text", message: t(".this_information_will")) %>
     </p>
@@ -28,52 +28,52 @@
     <%= govuk_link_to t(".edit_information_on"), edit_public_comment_planning_application_path(@planning_application), class: "govuk-body" %>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <%= render(
-      partial: "documents_table",
-      locals: {
-        planning_application: @planning_application,
-        documents: @planning_application.documents.referenced_in_decision_notice
-      }
-    ) %>
+          partial: "documents_table",
+          locals: {
+            planning_application: @planning_application,
+            documents: @planning_application.documents.referenced_in_decision_notice
+          }
+        ) %>
     <%= render(
-      partial: "events",
-      locals: { recommendations: @recommendations }
-    ) %>
+          partial: "events",
+          locals: {recommendations: @recommendations}
+        ) %>
     <% if @planning_application.updates_required? %>
-      <p class= "govuk-body">
+      <p class="govuk-body">
         <%= t(".you_have_suggested") %>
       </p>
       <p>
         <%= govuk_link_to t(".review_changes"), planning_application_review_tasks_path(@planning_application), class: "govuk-body" %>
       </p>
     <% else %>
-      <p class= "govuk-body">
+      <p class="govuk-body">
         <%= t(".you_have_not") %>
       </p>
     <% end %>
     <% if @planning_application.consultation.try(:publicity_active?) %>
       <%= render(
-        partial: "shared/alert_banner",
-        locals: {
-          message: "The consultation is still ongoing. It will end on the #{@planning_application.consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?"
-        }
-      ) %>
+            partial: "shared/alert_banner",
+            locals: {
+              message: "The consultation is still ongoing. It will end on the #{@planning_application.consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?"
+            }
+          ) %>
     <% end %>
     <% if @planning_application.in_committee? %>
       <%= render(
-        partial: "committee_form",
-        locals: {
-          planning_application: @planning_application,
-          recommendation: @recommendation
-        }
-      ) %>
+            partial: "committee_form",
+            locals: {
+              planning_application: @planning_application,
+              recommendation: @recommendation
+            }
+          ) %>
     <% else %>
       <%= render(
-        partial: "form",
-        locals: {
-          planning_application: @planning_application,
-          recommendation: @recommendation
-        }
-      ) %>
+            partial: "form",
+            locals: {
+              planning_application: @planning_application,
+              recommendation: @recommendation
+            }
+          ) %>
     <% end %>
   </div>
 </div>

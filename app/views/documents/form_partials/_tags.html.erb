@@ -10,12 +10,12 @@
 
     <%= govuk_tabs do |tabs| %>
       <% document_tags.tag_groups.each do |group| %>
-        <% tabs.with_tab(label: t(".groups.#{group}"), id: "#{group}-tags" ) do %>
+        <% tabs.with_tab(label: t(".groups.#{group}"), id: "#{group}-tags") do %>
           <%= form.govuk_check_boxes_fieldset :tags, legend: {text: t(".groups.#{group}")}, hint: {text: t(".hints.#{group}")}, small: true do %>
             <div data-controller="show-hide">
-              <div class= "govuk-!-column-count-2">
+              <div class="govuk-!-column-count-2">
                 <% group.selected_tag_list.each do |tag| %>
-                  <%= form.govuk_check_box :tags, tag.first, label: { text: tag.last } %>
+                  <%= form.govuk_check_box :tags, tag.first, label: {text: tag.last} %>
                 <% end %>
               </div>
               <% if group.irrelevant_tags.any? %>
@@ -27,7 +27,7 @@
                 <div class="document-tags govuk-!-display-none">
                   <div class="govuk-!-column-count-2">
                     <% group.irrelevant_tag_list.each do |tag| %>
-                      <%= form.govuk_check_box :tags, tag.first, label: { text: tag.last } %>
+                      <%= form.govuk_check_box :tags, tag.first, label: {text: tag.last} %>
                     <% end %>
                   </div>
                   <div class="govuk-!-margin-top-2">

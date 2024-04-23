@@ -7,7 +7,7 @@
       document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
     <% end %>
 
-    <% if gtmid = Rails.configuration.google_tag_manager_id  %>
+    <% if gtmid = Rails.configuration.google_tag_manager_id %>
       <!-- Google Tag Manager (noscript) -->
       <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtmid %>"
@@ -37,8 +37,7 @@
               This is a new service – your
               <a class="govuk-link" href="#"
                 data-feedback-fish
-                data-feedback-fish-userid="<%= current_user.try(:email) %>"
-              >
+                data-feedback-fish-userid="<%= current_user.try(:email) %>">
                 feedback
               </a>
 

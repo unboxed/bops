@@ -8,20 +8,20 @@
 <% content_for :title, "Select and add neighbours" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Select and add neighbours" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Select and add neighbours"}
+    ) %>
 
 <div class="govuk-grid-row">
   <%= content_tag :div, class: "govuk-grid-column-full", data: {
-    controller: "address-fill polygon-search",
-    address_fill_url: os_places_api_index_path,
-    address_fill_id: "neighbour-address",
-    address_fill_name: "consultation[neighbours_attributes][][address]",
-    polygon_search_url: search_addresses_by_polygon_path(planning_application: @planning_application),
-    polygon_search_id: "neighbour-addresses",
-    polygon_search_name: "consultation[neighbours_attributes][][address]"
-  } do %>
+        controller: "address-fill polygon-search",
+        address_fill_url: os_places_api_index_path,
+        address_fill_id: "neighbour-address",
+        address_fill_name: "consultation[neighbours_attributes][][address]",
+        polygon_search_url: search_addresses_by_polygon_path(planning_application: @planning_application),
+        polygon_search_id: "neighbour-addresses",
+        polygon_search_name: "consultation[neighbours_attributes][][address]"
+      } do %>
     <% if @consultation.errors.any? %>
       <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
         <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -39,9 +39,9 @@
     <%= render "select_neighbours", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "form", planning_application: @planning_application, consultation: @consultation %>
-    
+
     <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
-    
+
     <%= render "neighbour_addresses_form", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>

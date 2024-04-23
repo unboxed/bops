@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Update conditions" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Update conditions" }
+      locals: {heading: "Update conditions"}
     ) %>
 
 <div class="govuk-grid-row">
@@ -29,4 +29,3 @@
     <%= render "form" %>
   </div>
 </div>
-

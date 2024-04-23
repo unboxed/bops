@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application  }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Confirm all consultees have been consulted" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Confirm all consultees have been consulted" }
+      locals: {heading: "Confirm all consultees have been consulted"}
     ) %>
 
 <div class="govuk-grid-row">
@@ -34,7 +34,7 @@
     <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation %>
 
     <%= form_with model: @planning_application,
-                  url: check_planning_application_assessment_consultees_path do |form| %>
+          url: check_planning_application_assessment_consultees_path do |form| %>
       <div class="govuk-button-group">
 
         <%= form.submit "Confirm as checked", class: "govuk-button" %>

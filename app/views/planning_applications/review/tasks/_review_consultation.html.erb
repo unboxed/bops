@@ -12,7 +12,7 @@
           StatusTags::BaseComponent.new(
             status: (@planning_application.consultation.neighbour_review.present? ? @planning_application.consultation.neighbour_review.review_status : :not_started)
           )
-    )%>
+        ) %>
   </li>
 
   <li class="app-task-list__item">
@@ -25,6 +25,6 @@
           StatusTags::BaseComponent.new(
             status: (@planning_application.check_publicity&.review_status.present? ? @planning_application.check_publicity.review_status : :not_started)
           )
-    )%>
+        ) %>
   </li>
 </ul>

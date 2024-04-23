@@ -1,35 +1,34 @@
 <%= form_with(
-  model: @site_visit,
-  class: "govuk-!-margin-top-5",
-  url: planning_application_consultation_site_visits_path(@planning_application, @site_visit),
-  method: :post
-) do |form| %>
+      model: @site_visit,
+      class: "govuk-!-margin-top-5",
+      url: planning_application_consultation_site_visits_path(@planning_application, @site_visit),
+      method: :post
+    ) do |form| %>
 
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <%= form.govuk_radio_buttons_fieldset(
-        :decision,
-        legend: { text: "Add site visit", size: "s" }
-      ) do %>
+            :decision,
+            legend: {text: "Add site visit", size: "s"}
+          ) do %>
         <%= form.govuk_radio_button(
-          :decision, true, label: { text: "Yes" }
-        ) do %>
-          <%= form.govuk_date_field(:visited_at, rows: 6, legend: { text: "Site visited at" }) %>
+              :decision, true, label: {text: "Yes"}
+            ) do %>
+          <%= form.govuk_date_field(:visited_at, rows: 6, legend: {text: "Site visited at"}) %>
 
-          <%= form.govuk_collection_select :neighbour_id, @consultation.selected_neighbours, :id, :address, options: { include_blank: true }, label: { text: "Select site visit address" } %>
+          <%= form.govuk_collection_select :neighbour_id, @consultation.selected_neighbours, :id, :address, options: {include_blank: true}, label: {text: "Select site visit address"} %>
 
           <%= form.govuk_file_field :documents,
-            label: { size: "s", text: t(".upload_photos") },
-            accept: acceptable_file_mime_types,
-            multiple: true
-          %>
+                label: {size: "s", text: t(".upload_photos")},
+                accept: acceptable_file_mime_types,
+                multiple: true %>
         <% end %>
 
-        <%= form.govuk_radio_button(:decision, false, label: { text: "No" }) %>
+        <%= form.govuk_radio_button(:decision, false, label: {text: "No"}) %>
 
-        <%= form.govuk_text_area(:comment, rows: 6, label: { text: "Comment" }) %>
+        <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Comment"}) %>
       <% end %>
     </fieldset>
 

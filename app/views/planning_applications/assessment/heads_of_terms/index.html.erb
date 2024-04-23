@@ -3,16 +3,16 @@
 <% end %>
 
 <%= render(
-  partial: "shared/assessment_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Add heads of terms" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Add heads of terms" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Add heads of terms"}
+    ) %>
 
 <% if review = @heads_of_term.current_review %>
   <%= render "comment", review: review %>

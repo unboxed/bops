@@ -8,30 +8,30 @@
         <%= govuk_link_to t(".description_documents_and"), consistency_checklist_path(consistency_checklist) %>
       </span>
       <%= render(
-        StatusTags::ConsistencyChecklistComponent.new(
-          consistency_checklist: consistency_checklist
-        )
-      ) %>
+            StatusTags::ConsistencyChecklistComponent.new(
+              consistency_checklist: consistency_checklist
+            )
+          ) %>
     </li>
     <% if @planning_application.check_publicity? %>
       <%= render(
-        TaskListItems::Assessment::AssessmentDetailComponent.new(
-          planning_application: @planning_application,
-          category: :check_publicity
-        )
-      ) %>
+            TaskListItems::Assessment::AssessmentDetailComponent.new(
+              planning_application: @planning_application,
+              category: :check_publicity
+            )
+          ) %>
     <% end %>
     <%= render(
-      TaskListItems::Assessment::AssessmentDetailComponent.new(
-        planning_application: @planning_application,
-        category: :past_applications
-      )
-    ) %>
+          TaskListItems::Assessment::AssessmentDetailComponent.new(
+            planning_application: @planning_application,
+            category: :past_applications
+          )
+        ) %>
     <%= render(
-      TaskListItems::Assessment::OwnershipCertificateComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+          TaskListItems::Assessment::OwnershipCertificateComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
     <% if @planning_application.planning_application_constraints&.any? %>
       <%= render(
             TaskListItems::Assessment::ConsulteesConsultedComponent.new(
@@ -48,24 +48,24 @@
     <% end %>
     <% if @planning_application.possibly_immune? %>
       <%= render(
-        TaskListItems::Assessment::ImmunityDetailsComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            TaskListItems::Assessment::ImmunityDetailsComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
     <% end %>
     <% if @planning_application.check_permitted_development_rights? %>
       <% if @planning_application.possibly_immune? %>
         <%= render(
-          TaskListItems::Assessment::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
+              TaskListItems::Assessment::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
+                planning_application: @planning_application
+              )
+            ) %>
       <% else %>
         <%= render(
-          TaskListItems::Assessment::PermittedDevelopmentRightComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
+              TaskListItems::Assessment::PermittedDevelopmentRightComponent.new(
+                planning_application: @planning_application
+              )
+            ) %>
       <% end %>
     <% end %>
   </ul>

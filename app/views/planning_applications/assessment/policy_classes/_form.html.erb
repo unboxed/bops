@@ -2,25 +2,25 @@
   <div class="govuk-grid-column-full">
     <%= form_with(
           model: [planning_application, :assessment, policy_class],
-          html: { data: unsaved_changes_data }
+          html: {data: unsaved_changes_data}
         ) do |form| %>
       <%= form.govuk_error_summary(presenter: PolicyClassErrorPresenter) %>
       <%= render(
-        partial: "form_table",
-        locals: {
-          form: form,
-          planning_application: planning_application,
-          policy_class: policy_class
-        }
-      ) %>
+            partial: "form_table",
+            locals: {
+              form: form,
+              planning_application: planning_application,
+              policy_class: policy_class
+            }
+          ) %>
       <%= render(
-        partial: "form_controls",
-        locals: {
-          form: form,
-          planning_application: planning_application,
-          policy_class: policy_class
-        }
-      ) %>
+            partial: "form_controls",
+            locals: {
+              form: form,
+              planning_application: planning_application,
+              policy_class: policy_class
+            }
+          ) %>
     <% end %>
   </div>
 </div>

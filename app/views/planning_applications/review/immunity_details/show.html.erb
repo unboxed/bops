@@ -3,27 +3,27 @@
 <% end %>
 
 <%= render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/review_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Review evidence of immunity" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Review evidence of immunity" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Review evidence of immunity"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: @planning_application.immune_proposal_details)) %>
 
     <%= render(
-      EvidenceGroups::ReviewAccordionComponent.new(
-        planning_application: @planning_application,
-        sections: @planning_application.immunity_detail.evidence_groups
-      )
-    ) %>
+          EvidenceGroups::ReviewAccordionComponent.new(
+            planning_application: @planning_application,
+            sections: @planning_application.immunity_detail.evidence_groups
+          )
+        ) %>
 
     <%= render "form", editable: false %>
   </div>

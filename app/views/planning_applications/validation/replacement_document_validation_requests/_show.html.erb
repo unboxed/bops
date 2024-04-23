@@ -8,9 +8,9 @@
 <% content_for :title, "Replacement document validation request" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "View request for a replacement document"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "View request for a replacement document"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -39,6 +39,6 @@
     <% end %>
 
     <%= render "shared/validation_request_show_actions",
-        planning_application: @planning_application, validation_request: @validation_request %>
+          planning_application: @planning_application, validation_request: @validation_request %>
   </div>
 </div>

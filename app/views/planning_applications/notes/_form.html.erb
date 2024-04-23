@@ -17,7 +17,7 @@
   <%= form.govuk_text_area :entry, rows: 5, required: true %>
 
   <div class="govuk-button-group">
-    <%= form.submit "Add new note", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= form.submit "Add new note", class: "govuk-button", data: {module: "govuk-button"} %>
     <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>

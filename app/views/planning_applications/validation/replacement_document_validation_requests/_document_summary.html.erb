@@ -1,6 +1,6 @@
 <div class="govuk-grid-column-one-half">
   <%= link_to image_tag(@document.file.representation(resize: "500x500"), style: 'max-width:100%'),
-              url_for_document(@document), target: :_blank %>
+        url_for_document(@document), target: :_blank %>
   <p class="govuk-body">
     <%= govuk_link_to "View in new window", url_for_document(@document), target: :_new %>
   </p>
@@ -24,7 +24,7 @@
   </p>
 
   <p class="govuk-body">
-    <%= created_by(@document)  %>
+    <%= created_by(@document) %>
   </p>
 
   <p class="govuk-body">

@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Add new consideration" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Add new consideration" }
+      locals: {heading: "Add new consideration"}
     ) %>
 
 <%= govuk_link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-body" %>

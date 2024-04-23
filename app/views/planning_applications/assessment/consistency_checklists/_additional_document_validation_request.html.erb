@@ -9,14 +9,14 @@
     <% document = request.additional_documents.last %>
     <%= t(".responded", time: document.created_at.to_fs) %><br>
     <%= govuk_link_to t(".view_new_document"), planning_application_documents_path(
-        planning_application,
-        anchor: dom_id(document)
-      ) %>
+          planning_application,
+          anchor: dom_id(document)
+        ) %>
   <% end %>
 </p>
 <% if request.open? %>
   <%= govuk_link_to t(".view_and_edit"), planning_application_documents_path(
-      planning_application,
-      anchor: dom_id(request)
-    ) %>
+        planning_application,
+        anchor: dom_id(request)
+      ) %>
 <% end %>

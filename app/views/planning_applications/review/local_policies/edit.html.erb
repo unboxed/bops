@@ -3,16 +3,16 @@
 <% end %>
 
 <%= render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/review_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Review assessment against policies and guidance" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Review assessment against policies and guidance" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Review assessment against policies and guidance"}
+    ) %>
 
 <%= render "comment" %>
 

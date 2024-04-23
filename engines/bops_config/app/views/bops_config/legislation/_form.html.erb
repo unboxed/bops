@@ -2,26 +2,25 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.govuk_text_field :title,
-    label: {text: t(".legislation_title_label")},
-    hint: {text: t(".legislation_title_hint")},
-    readonly: @legislation.persisted? %>
+        label: {text: t(".legislation_title_label")},
+        hint: {text: t(".legislation_title_hint")},
+        readonly: @legislation.persisted? %>
 
   <%= form.govuk_text_area :description, rows: 3,
-    label: {text: t(".legislation_description_label")},
-    hint: {text: t(".legislation_description_hint")} %>
+        label: {text: t(".legislation_description_label")},
+        hint: {text: t(".legislation_description_hint")} %>
 
   <%= form.govuk_text_field :link,
-    label: {text: t(".legislation_link_label")},
-    hint: {text: t(".legislation_link_hint")} %>
+        label: {text: t(".legislation_link_label")},
+        hint: {text: t(".legislation_link_hint")} %>
 
   <%= form.govuk_submit(t(".save")) do %>
     <% if action_name == "edit" && @legislation.application_types.none? %>
-      <%= link_to(t(".remove"), 
-        legislation_path, 
-        class: "govuk-button govuk-button--warning", 
-        method: :delete, 
-        data: {confirm: "Are you sure?"}
-      ) %>
+      <%= link_to(t(".remove"),
+            legislation_path,
+            class: "govuk-button govuk-button--warning",
+            method: :delete,
+            data: {confirm: "Are you sure?"}) %>
     <% end %>
 
     <%= link_to(t("back"), legislation_index_path, class: "govuk-button govuk-button--secondary") %>

@@ -1,8 +1,8 @@
 <table class="govuk-table">
   <%= render(
-    partial: "shared/policy_classes/table_head",
-    locals: { policy_class: policy_class }
-  ) %>
+        partial: "shared/policy_classes/table_head",
+        locals: {policy_class: policy_class}
+      ) %>
   <tbody class="govuk-table__body">
     <% policies.each do |policy| %>
       <tr class="govuk-table__row">
@@ -14,18 +14,18 @@
             <%= render(FormattedContentComponent.new(text: policy.description)) %>
           </p>
           <%= render(
-            partial: local_assigns.fetch(
-              :comment_partial,
-              "shared/policy_classes/comment"
-            ),
-            locals: {
-              planning_application: planning_application,
-              policy_class: policy_class,
-              policy: policy,
-              comment: policy.comment,
-              new_comment: policy.comments.new
-            }
-          ) %>
+                partial: local_assigns.fetch(
+                  :comment_partial,
+                  "shared/policy_classes/comment"
+                ),
+                locals: {
+                  planning_application: planning_application,
+                  policy_class: policy_class,
+                  policy: policy,
+                  comment: policy.comment,
+                  new_comment: policy.comments.new
+                }
+              ) %>
         </td>
         <% Policy.statuses.each_key do |status| %>
           <td class="govuk-table__cell">

@@ -34,8 +34,8 @@
           <% @document_tags.tag_groups.each_with_index do |group, index| %>
             <%= tag.div(class: class_names("govuk-tabs__panel", "govuk-tabs__panel--hidden": index != 0), id: "#{group}-tags") do %>
               <%= fields.govuk_collection_check_boxes group.name, group.tag_list, :first, :last,
-                legend: {text: t(".groups.#{group}")}, hint: {text: t(".hints.#{group}")},
-                small: true, class: "govuk-!-column-count-2" %>
+                    legend: {text: t(".groups.#{group}")}, hint: {text: t(".hints.#{group}")},
+                    small: true, class: "govuk-!-column-count-2" %>
             <% end %>
           <% end %>
         <% end %>

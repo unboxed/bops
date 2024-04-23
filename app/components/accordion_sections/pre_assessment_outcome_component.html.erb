@@ -6,23 +6,23 @@
   <% end %>
   <% if planning_application.address_or_boundary_or_constraints_updated? %>
     <%= render(
-      partial: "shared/warning_text",
-      locals: { message: t(".this_application_has") }
-    ) %>
+          partial: "shared/warning_text",
+          locals: {message: t(".this_application_has")}
+        ) %>
   <% end %>
   <%= render(
-    AccordionSections::FeedbackComponent.new(
-      feedback: planning_application.feedback["result"],
-      warning_message: t(".the_applicant_or")
-    )
-  ) %>
+        AccordionSections::FeedbackComponent.new(
+          feedback: planning_application.feedback["result"],
+          warning_message: t(".the_applicant_or")
+        )
+      ) %>
   <% if planning_application.result_heading.present? %>
     <%= render(
-      FormattedContentComponent.new(
-        text: planning_application.result_heading,
-        classname: "govuk-body govuk-!-font-weight-bold"
-      )
-    ) %>
+          FormattedContentComponent.new(
+            text: planning_application.result_heading,
+            classname: "govuk-body govuk-!-font-weight-bold"
+          )
+        ) %>
   <% end %>
   <% if planning_application.result_description.present? %>
     <%= render(FormattedContentComponent.new(text: planning_application.result_description)) %>

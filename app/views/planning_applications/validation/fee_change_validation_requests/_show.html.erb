@@ -7,14 +7,14 @@
 
 <% if @validation_request.closed? %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "Check applicant response and update fee paid"}
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "Check applicant response and update fee paid"}
+      ) %>
 <% else %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "View fee change request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "View fee change request"}
+      ) %>
 <% end %>
 
 <p class="govuk-body">
@@ -39,12 +39,12 @@
 
     <% if @planning_application.documents.for_fee_exemption.any? %>
       <%= render(
-        partial: "planning_applications/validation/fee_change_validation_requests/supporting_documents",
-        locals: { documents: @planning_application.documents.for_fee_exemption }
-      ) %>
+            partial: "planning_applications/validation/fee_change_validation_requests/supporting_documents",
+            locals: {documents: @planning_application.documents.for_fee_exemption}
+          ) %>
     <% end %>
 
-    <% if @validation_request.closed? && @planning_application.invalidated?  %>
+    <% if @validation_request.closed? && @planning_application.invalidated? %>
       <h2 class="govuk-heading-m">Applicant response</h2>
       <div class="govuk-inset-text">
         <p class="govuk-body">
@@ -74,7 +74,7 @@
           </div>
 
           <%= render "shared/validation_request_show_actions",
-            planning_application: @planning_application, validation_request: @validation_request, form: form, button_text: "Mark as valid" %>
+                planning_application: @planning_application, validation_request: @validation_request, form: form, button_text: "Mark as valid" %>
       </div>
       <% end %>
     <% else %>
@@ -83,7 +83,7 @@
       <% end %>
 
       <%= render "shared/validation_request_show_actions",
-        planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+            planning_application: @planning_application, validation_request: @validation_request, form: nil %>
     <% end %>
   </div>
 </div>

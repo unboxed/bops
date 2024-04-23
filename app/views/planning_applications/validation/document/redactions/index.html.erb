@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "planning_applications/validation/validation_requests/validation_requests_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 <% content_for :title, "Redact documents" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Upload redacted documents" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Upload redacted documents"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">

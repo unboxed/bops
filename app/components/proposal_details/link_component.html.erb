@@ -1,6 +1,6 @@
 <%= content_tag(
-  "li",
-  data: { show_hide_target: ("toggleable" if auto_answered?) }
-) do %>
+      "li",
+      data: {show_hide_target: ("toggleable" if auto_answered?)}
+    ) do %>
   <%= govuk_link_to title, "##{id}" %>
 <% end %>

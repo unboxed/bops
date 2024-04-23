@@ -8,12 +8,12 @@
       Forgot your password?
     </h1>
 
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post}) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div class="govuk-form-group">
         <div class="field">
-          <%= f.label :email, class: "govuk-label govuk-!-margin-top-8", for: "width-30"%>
+          <%= f.label :email, class: "govuk-label govuk-!-margin-top-8", for: "width-30" %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "govuk-input govuk-input--width-30", value: params[:email] %>
         </div>
       </div>

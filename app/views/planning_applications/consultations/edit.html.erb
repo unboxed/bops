@@ -7,17 +7,17 @@
 <% content_for :title, "Consultation" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Consultation" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Consultation"}
+    ) %>
 
 <%= form_with(
-  model: @consultation,
-  url: planning_application_consultation_path(@planning_application)
-) do |form| %>
+      model: @consultation,
+      url: planning_application_consultation_path(@planning_application)
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-  <%= form.govuk_date_field :end_date, legend: { text: "Set consultation end date", size: "m" } %>
+  <%= form.govuk_date_field :end_date, legend: {text: "Set consultation end date", size: "m"} %>
 
   <div class="govuk-button-group">
     <%= form.submit "Save", class: "govuk-button" %>

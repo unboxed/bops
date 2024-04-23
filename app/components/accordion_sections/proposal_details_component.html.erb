@@ -1,19 +1,19 @@
 <% if planning_application.address_or_boundary_or_constraints_updated? %>
   <%= render(
-    partial: "shared/warning_text",
-    locals: { message: t(".this_application_has") }
-  ) %>
+        partial: "shared/warning_text",
+        locals: {message: t(".this_application_has")}
+      ) %>
 <% end %>
 <%= render(
-  AccordionSections::FeedbackComponent.new(
-    feedback: planning_application.feedback["find_property"],
-    warning_message: t(".the_applicant_or")
-  )
-) %>
+      AccordionSections::FeedbackComponent.new(
+        feedback: planning_application.feedback["find_property"],
+        warning_message: t(".the_applicant_or")
+      )
+    ) %>
 <% if planning_application.proposal_details.any? %>
   <%= render(
-    ProposalDetails::ListComponent.new(
-      proposal_details: planning_application.proposal_details
-    )
-  ) %>
+        ProposalDetails::ListComponent.new(
+          proposal_details: planning_application.proposal_details
+        )
+      ) %>
 <% end %>

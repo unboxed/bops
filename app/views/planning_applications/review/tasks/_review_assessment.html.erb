@@ -4,10 +4,10 @@
 <span class="govuk-body govuk-!-font-weight-bold">
   Assessor recommendation
   <%= render(
-  StatusTags::DecisionComponent.new(
-    planning_application: @planning_application
-  )
-) %>
+        StatusTags::DecisionComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
 </span>
 <ul class="app-task-list__items" id="review-assessment-section">
   <li class="app-task-list__item">
@@ -15,24 +15,24 @@
       <%= govuk_link_to "Check Community Infrastructure Levy (CIL)", planning_application_review_cil_liability_path(@planning_application) %>
     </span>
     <%= render(
-      StatusTags::BaseComponent.new(
-        status: (@planning_application.audits.review_cil_liability.any? ? :complete : :not_started)
-      )
-    )%>
+          StatusTags::BaseComponent.new(
+            status: (@planning_application.audits.review_cil_liability.any? ? :complete : :not_started)
+          )
+        ) %>
   </li>
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.evidence.any? %>
       <%= render(
-        TaskListItems::Reviewing::ImmunityDetailsComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            TaskListItems::Reviewing::ImmunityDetailsComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
   <% end %>
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.enforcement.any? %>
       <%= render(
-        TaskListItems::Reviewing::ImmunityEnforcementComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            TaskListItems::Reviewing::ImmunityEnforcementComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
   <% end %>
   <% if @planning_application.review_heads_of_terms? %>
     <%= render(
@@ -43,59 +43,59 @@
   <% end %>
   <% if @planning_application.review_permitted_development_rights? %>
     <%= render(
-      TaskListItems::Reviewing::PermittedDevelopmentRightComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+          TaskListItems::Reviewing::PermittedDevelopmentRightComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
   <% end %>
   <%= render(
-    TaskListItems::Reviewing::AssessmentDetailsComponent.new(
-      planning_application: @planning_application,
-    )
-  )%>
+        TaskListItems::Reviewing::AssessmentDetailsComponent.new(
+          planning_application: @planning_application,
+        )
+      ) %>
   <% if @planning_application.local_policy.present? %>
     <%= render(
-      TaskListItems::Reviewing::LocalPolicyComponent.new(
-        planning_application: @planning_application,
-      )
-    )%>
+          TaskListItems::Reviewing::LocalPolicyComponent.new(
+            planning_application: @planning_application,
+          )
+        ) %>
   <% end %>
   <% if @planning_application.application_type.planning_conditions? %>
     <% if @planning_application.condition_set&.current_review&.started? %>
       <%= render(
-        TaskListItems::Reviewing::ConditionComponent.new(
-          condition_set: @planning_application.condition_set
-        )
-      ) %>
+            TaskListItems::Reviewing::ConditionComponent.new(
+              condition_set: @planning_application.condition_set
+            )
+          ) %>
     <% end %>
 
     <% if @planning_application.pre_commencement_condition_set&.current_review&.started? %>
       <%= render(
-        TaskListItems::Reviewing::ConditionComponent.new(
-          condition_set: @planning_application.pre_commencement_condition_set
-        )
-      ) %>
+            TaskListItems::Reviewing::ConditionComponent.new(
+              condition_set: @planning_application.pre_commencement_condition_set
+            )
+          ) %>
     <% end %>
   <% end %>
 
-  <%= render partial: "policy_classes", locals: { planning_application: @planning_application, policy_class: @policy_class } %>
+  <%= render partial: "policy_classes", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
 
   <% if @planning_application.committee_decision&.current_review %>
     <%= render(
-      TaskListItems::Reviewing::CommitteeComponent.new(
-        planning_application: @planning_application,
-      )
-    )%>
+          TaskListItems::Reviewing::CommitteeComponent.new(
+            planning_application: @planning_application,
+          )
+        ) %>
   <% end %>
 
   <%= render "sign_off_recommendation" %>
 
   <% if @planning_application.committee_decision.present? && @planning_application.committee_decision.recommend? %>
     <%= render(
-      TaskListItems::Reviewing::NotifyCommitteeComponent.new(
-        planning_application: @planning_application,
-      )
-    )%>
+          TaskListItems::Reviewing::NotifyCommitteeComponent.new(
+            planning_application: @planning_application,
+          )
+        ) %>
   <% end %>
 
   <% if @planning_application.committee_decision.present? && @planning_application.committee_decision.recommend? %>
@@ -105,14 +105,15 @@
               @planning_application.in_committee?,
               "Update decision notice after committee",
               edit_planning_application_review_recommendation_path(@planning_application, @planning_application.recommendation),
-              aria: { describedby: "review_assessment-completed" },
-              class: "govuk-link") %>
+              aria: {describedby: "review_assessment-completed"},
+              class: "govuk-link"
+            ) %>
       </span>
       <%= render(
             StatusTags::AddCommitteeDecisionComponent.new(
               planning_application: @planning_application
             )
-      )%>
+          ) %>
     </li>
   <% end %>
 </ul>

@@ -7,14 +7,14 @@
 
 <% if @validation_request.closed? %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "Check the response to other request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "Check the response to other request"}
+      ) %>
 <% else %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "View other request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "View other request"}
+      ) %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -32,7 +32,7 @@
       </p>
     </div>
 
-      <% if @validation_request.closed? && @planning_application.invalidated?  %>
+      <% if @validation_request.closed? && @planning_application.invalidated? %>
         <h2 class="govuk-heading-m">Applicant response</h2>
         <div class="govuk-inset-text">
           <p class="govuk-body">
@@ -45,7 +45,7 @@
 
         <%= form_with model: @planning_application do |form| %>
           <%= render "shared/validation_request_show_actions",
-            planning_application: @planning_application, validation_request: @validation_request, form: form %>
+                planning_application: @planning_application, validation_request: @validation_request, form: form %>
         <% end %>
       <% else %>
         <% if @planning_application.invalidated? %>
@@ -53,7 +53,7 @@
         <% end %>
 
         <%= render "shared/validation_request_show_actions",
-            planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+              planning_application: @planning_application, validation_request: @validation_request, form: nil %>
       <% end %>
   </div>
 </div>

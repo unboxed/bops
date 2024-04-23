@@ -6,39 +6,39 @@
       </h4>
       <%= render(FormattedContentComponent.new(text: comment.text)) %>
       <%= button_tag(
-        t(".edit_comment"),
-        class: "button-as-link",
-        type: "button",
-        data: {
-          action: "click->show-hide#handleEvent",
-          show_hide_target: "toggleable"
-        }
-      ) %>
+            t(".edit_comment"),
+            class: "button-as-link",
+            type: "button",
+            data: {
+              action: "click->show-hide#handleEvent",
+              show_hide_target: "toggleable"
+            }
+          ) %>
     </div>
     <div data-show-hide-target="toggleable" class=<%= "govuk-!-display-none" unless new_comment.errors.any? %>>
       <%= form_with(
-        model: [planning_application, :assessment, policy_class, policy, new_comment],
-        data: { action: "submit->submit-form#handleSubmit" }
-      ) do |form| %>
+            model: [planning_application, :assessment, policy_class, policy, new_comment],
+            data: {action: "submit->submit-form#handleSubmit"}
+          ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_text_area(
-          :text,
-          value: (new_comment.text || comment.text),
-          label: {
-            text: existing_policy_comment_label(comment),
-            tag: "h4",
-            size: "s"
-          }
-        ) %>
+              :text,
+              value: (new_comment.text || comment.text),
+              label: {
+                text: existing_policy_comment_label(comment),
+                tag: "h4",
+                size: "s"
+              }
+            ) %>
         <%= form.submit(
-          t(".update"),
-          class: "govuk-button govuk-button--secondary"
-        ) %>
+              t(".update"),
+              class: "govuk-button govuk-button--secondary"
+            ) %>
       <% end %>
     </div>
     <%= render(
-      partial: "shared/policy_classes/previous_comments",
-      locals: { previous_comments: policy.previous_comments }
-    ) %>
+          partial: "shared/policy_classes/previous_comments",
+          locals: {previous_comments: policy.previous_comments}
+        ) %>
   </div>
 <% end %>

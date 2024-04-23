@@ -25,9 +25,10 @@
       </td>
       <td class="govuk-table__cell">
         <%= govuk_link_to(
-          t(".view_site_on"),
-          map_link,
-          target: "_blank") %>
+              t(".view_site_on"),
+              map_link,
+              target: "_blank"
+            ) %>
       </td>
     </tr>
     <% if planning_application.parish_name.present? %>
@@ -46,22 +47,23 @@
         <% if planning_application.postcode.present? %>
           <p class="govuk-body"><%= planning_application.ward %></p>
           <%= govuk_link_to(
-            t(".view_on_mapit"),
-            mapit_link,
-            target: "_blank") %>
+                t(".view_on_mapit"),
+                mapit_link,
+                target: "_blank"
+              ) %>
         <% else %>
           <%= t(".a_postcode_is") %>
         <% end %>
       </td>
     </tr>
     <% %i[
-      ward_type
-      uprn
-      work_already_started
-      payment_reference
-      payment_amount
-      case_officer
-    ].each do |attribute| %>
+         ward_type
+         uprn
+         work_already_started
+         payment_reference
+         payment_amount
+         case_officer
+       ].each do |attribute| %>
       <tr class="govuk-table__row accordion-tr">
         <td class="govuk-table__cell">
           <strong><%= t(".#{attribute}") %></strong>

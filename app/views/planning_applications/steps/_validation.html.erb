@@ -4,20 +4,20 @@
     <span class="app-task-list__task-name">
       <% if @planning_application.can_validate? %>
         <%= govuk_link_to(
-           t(".check_and_validate"),
-           planning_application_validation_tasks_path(@planning_application),
-           aria: { describedby: "validation-completed" }
-        ) %>
+              t(".check_and_validate"),
+              planning_application_validation_tasks_path(@planning_application),
+              aria: {describedby: "validation-completed"}
+            ) %>
       <% else %>
         Validate application
       <% end %>
     </span>
     <div class="app-task-list__task-tag">
       <%= render(
-        StatusTags::BaseComponent.new(
-          status: @planning_application.validation_status
-        )
-      ) %>
+            StatusTags::BaseComponent.new(
+              status: @planning_application.validation_status
+            )
+          ) %>
     </div>
   </li>
 </ul>

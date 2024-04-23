@@ -8,9 +8,9 @@
 <% content_for :title, "Site notice" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Send site notice" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Send site notice"}
+    ) %>
 
 <% if @planning_application.environment_impact_assessment&.required? %>
   <strong class="govuk-tag">
@@ -23,32 +23,32 @@
 <% end %>
 
 <%= form_with(
-  model: [@planning_application, @site_notice],
-  class: "govuk-!-margin-top-5 my-form",
-  method: :post
-) do |form| %>
+      model: [@planning_application, @site_notice],
+      class: "govuk-!-margin-top-5 my-form",
+      method: :post
+    ) do |form| %>
   <div data-controller="show-hide-form">
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
     <%= form.govuk_radio_buttons_fieldset(
-      :required,
-      legend: { text: "Does this application require a site notice?", size: "m" }
-    ) do %>
-      <%= form.govuk_radio_button :required, true, label: { text: "Yes" }, data: { action: "change->show-hide-form#handleEvent" } %>
-      <%= form.govuk_radio_button :required, false, label: { text: "No" }, data: { action: "change->show-hide-form#handleEvent" } %>
+          :required,
+          legend: {text: "Does this application require a site notice?", size: "m"}
+        ) do %>
+      <%= form.govuk_radio_button :required, true, label: {text: "Yes"}, data: {action: "change->show-hide-form#handleEvent"} %>
+      <%= form.govuk_radio_button :required, false, label: {text: "No"}, data: {action: "change->show-hide-form#handleEvent"} %>
     <% end %>
 
     <%= tag.div(id: "site-notice-options", class: class_names("govuk-!-display-none": @site_notice.errors.blank?)) do %>
       <div class="grey-box" id="email-site-notice">
         <%= form.govuk_radio_buttons_fieldset(
-          :method,
-          legend: { text: "Email the site notice", size: "m" },
-          hint: { text: "If you are printing the site notice yourself, you can skip this step." }
-        ) do %>
-          <%= form.govuk_radio_button :method, :internal_team, label: { text: "Send it by email to internal team to post" } do %>
-            <%= form.govuk_text_field :internal_team_email, label: { text: "Internal team email" } %>
+              :method,
+              legend: {text: "Email the site notice", size: "m"},
+              hint: {text: "If you are printing the site notice yourself, you can skip this step."}
+            ) do %>
+          <%= form.govuk_radio_button :method, :internal_team, label: {text: "Send it by email to internal team to post"} do %>
+            <%= form.govuk_text_field :internal_team_email, label: {text: "Internal team email"} %>
           <% end %>
-          <%= form.govuk_radio_button :method, :applicant, label: { text: "Send it by email to applicant" } %>
+          <%= form.govuk_radio_button :method, :applicant, label: {text: "Send it by email to applicant"} %>
         <% end %>
 
         <%= form.submit "Email site notice and mark as complete", class: "govuk-button govuk-button--primary govuk-!-margin-bottom-0" %>
@@ -57,7 +57,7 @@
       <h3 class="govuk-heading-s">OR</h3>
 
       <div class="grey-box" id="print-site-notice">
-        <%= form.govuk_date_field :displayed_at, legend: { text: "Print the site notice" }, hint: { text: "Create and then download a PDF which you can print. Enter the date the site notice will be displayed" } %>
+        <%= form.govuk_date_field :displayed_at, legend: {text: "Print the site notice"}, hint: {text: "Create and then download a PDF which you can print. Enter the date the site notice will be displayed"} %>
         <%= form.submit "Create site notice", class: "govuk-button govuk-button--primary govuk-!-margin-bottom-0" %>
       </div>
 

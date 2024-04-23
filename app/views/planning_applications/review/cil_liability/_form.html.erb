@@ -1,28 +1,28 @@
 <%= form_with model: [@planning_application],
-              url: planning_application_review_cil_liability_url(@planning_application),
-              class: "govuk-!-margin-top-7" do |form| %>
+      url: planning_application_review_cil_liability_url(@planning_application),
+      class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.govuk_radio_buttons_fieldset(
         :cil_liability,
-        legend: { text: "Is the application liable for CIL?", size: "s" }
+        legend: {text: "Is the application liable for CIL?", size: "s"}
       ) do %>
     <% if @planning_application.cil_liable.nil? %>
-      <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.likely_cil_liable?, label: { text: "Yes" }) %>
-      <%= form.govuk_radio_button(:cil_liable, false, checked: @planning_application.cil_liability_planx_answer? && !@planning_application.likely_cil_liable?, label: { text: "No" }) %>
+      <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.likely_cil_liable?, label: {text: "Yes"}) %>
+      <%= form.govuk_radio_button(:cil_liable, false, checked: @planning_application.cil_liability_planx_answer? && !@planning_application.likely_cil_liable?, label: {text: "No"}) %>
     <% else %>
-      <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.cil_liable, label: { text: "Yes" }) %>
-      <%= form.govuk_radio_button(:cil_liable, false, checked: !@planning_application.cil_liable, label: { text: "No" }) %>
+      <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.cil_liable, label: {text: "Yes"}) %>
+      <%= form.govuk_radio_button(:cil_liable, false, checked: !@planning_application.cil_liable, label: {text: "No"}) %>
     <% end %>
   <% end %>
 
   <div class="govuk-button-group">
     <%= form.submit(
-      t("form_actions.save_and_mark_as_complete"),
-      class: "govuk-button",
-      data: { module: "govuk-button" },
-      disabled: local_assigns.fetch(:disabled, false)
-    ) %>
+          t("form_actions.save_and_mark_as_complete"),
+          class: "govuk-button",
+          data: {module: "govuk-button"},
+          disabled: local_assigns.fetch(:disabled, false)
+        ) %>
     <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>

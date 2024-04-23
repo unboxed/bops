@@ -13,7 +13,7 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.govuk_collection_check_boxes :decisions, @application_type.all_decisions, :code, :description,
-          legend: { size: "l", tag: "h1", text: t(".choose_decisions")} %>
+            legend: {size: "l", tag: "h1", text: t(".choose_decisions")} %>
 
       <%= form.govuk_submit(t(".continue")) do %>
         <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>

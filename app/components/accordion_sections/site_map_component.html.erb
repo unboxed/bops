@@ -6,22 +6,22 @@
 <% if planning_application.boundary_geojson.present? %>
   <% if planning_application.address_or_boundary_or_constraints_updated? %>
     <%= render(
-      partial: "shared/warning_text",
-      locals: { message: t(".this_application_has") }
-    ) %>
+          partial: "shared/warning_text",
+          locals: {message: t(".this_application_has")}
+        ) %>
   <% end %>
   <p class="govuk-body">
     <%= t(".site_map_drawn_by", name: site_map_drawn_by) %>
   </p>
   <%= render(
-    partial: "shared/location_map",
-    locals: {
-      locals: {
-        in_accordion: true,
-        geojson: planning_application.boundary_geojson
-      }
-    }
-  ) %>
+        partial: "shared/location_map",
+        locals: {
+          locals: {
+            in_accordion: true,
+            geojson: planning_application.boundary_geojson
+          }
+        }
+      ) %>
 <% else %>
   <p class="govuk-body"><%= t(".no_digital_sitemap") %></p>
 <% end %>

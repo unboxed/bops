@@ -1,18 +1,17 @@
 <div data-controller="neighbours">
    <div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-8">Step 3</div>
   <%= form.govuk_collection_select :template,
-    ["Notification", "Renotification"],
-    :itself,
-    :itself,
-    label: { text: "Choose which letter to send", size: "m" },
-    data: {
-      action: "change->neighbours#toggleTemplates"
-    }
-  %>
+        ["Notification", "Renotification"],
+        :itself,
+        :itself,
+        label: {text: "Choose which letter to send", size: "m"},
+        data: {
+          action: "change->neighbours#toggleTemplates"
+        } %>
 
   <div id="renotification-form" class="govuk-!-display-none">
     <%= form.hidden_field :resend_existing, value: "false" %>
-    <%= form.govuk_text_area :resend_reason, label: { text: "Resend reason" }, hint: { text: "Enter a reason for renotification. This text will appear at the beginning of the letter." } %>
+    <%= form.govuk_text_area :resend_reason, label: {text: "Resend reason"}, hint: {text: "Enter a reason for renotification. This text will appear at the beginning of the letter."} %>
   </div>
 </div>
 

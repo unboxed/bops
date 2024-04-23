@@ -106,13 +106,13 @@
 
         <% if @site_notice.internal_team_email? %>
           <%= button_to(
-            t(".request_site_notice_confirmation"),
-            planning_application_site_notice_confirmation_requests_path(@planning_application, @site_notice),
-            class: "govuk-button govuk-button--secondary",
-            form_class: "govuk-button-group",
-            data_module: "govuk-button",
-            params: { assessment_detail_id: @assessment_detail.id }
-          ) %>
+                t(".request_site_notice_confirmation"),
+                planning_application_site_notice_confirmation_requests_path(@planning_application, @site_notice),
+                class: "govuk-button govuk-button--secondary",
+                form_class: "govuk-button-group",
+                data_module: "govuk-button",
+                params: {assessment_detail_id: @assessment_detail.id}
+              ) %>
         <% end %>
       <% else %>
         <p class="govuk-body">
@@ -187,13 +187,13 @@
 
         <% if current_local_authority.press_notice_email? %>
           <%= button_to(
-            t(".request_press_notice_confirmation"),
-            planning_application_press_notice_confirmation_requests_path(@planning_application),
-            class: "govuk-button govuk-button--secondary",
-            form_class: "govuk-button-group",
-            data_module: "govuk-button",
-            params: { assessment_detail_id: @assessment_detail.id }
-          ) %>
+                t(".request_press_notice_confirmation"),
+                planning_application_press_notice_confirmation_requests_path(@planning_application),
+                class: "govuk-button govuk-button--secondary",
+                form_class: "govuk-button-group",
+                data_module: "govuk-button",
+                params: {assessment_detail_id: @assessment_detail.id}
+              ) %>
         <% end %>
       <% else %>
         <p class="govuk-body">
@@ -208,7 +208,7 @@
 
       <%= form.hidden_field(:category, value: @category) %>
 
-      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+      <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
     <% end %>
   </div>
 </div>

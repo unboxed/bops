@@ -1,13 +1,13 @@
 <%= render(
-  layout: "information",
-  locals: { planning_application: @planning_application }
-) do %>
+      layout: "information",
+      locals: {planning_application: @planning_application}
+    ) do %>
   <%= render(
-    partial: "form",
-    locals: {
-      planning_application: @planning_application,
-      review_assessment_details: @review_assessment_details,
-      disabled: true
-    }
-  ) %>
+        partial: "form",
+        locals: {
+          planning_application: @planning_application,
+          review_assessment_details: @review_assessment_details,
+          disabled: true
+        }
+      ) %>
 <% end %>
