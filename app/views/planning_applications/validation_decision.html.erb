@@ -61,7 +61,7 @@
     <% elsif @planning_application.validated? %>
       <p class="govuk-body">
         <strong>
-          The application is marked as valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
+          The application is marked as valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br>
           The applicant was notified on <%= @planning_application.validated_at.to_fs %>
         </strong>
       </p>
