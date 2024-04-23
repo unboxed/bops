@@ -1,14 +1,14 @@
 <% content_for :page_title do %>
-  <%= t('.validate_application') %> -  <%= t('page_title') %>
+  <%= t(".validate_application") %> -  <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% content_for :title, t('.validate_application') %>
+<% content_for :title, t(".validate_application") %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: {heading: t('.validate_application')}
+      locals: {heading: t(".validate_application")}
     ) %>
 
 <div class="govuk-grid-row">
@@ -31,10 +31,10 @@
           </div>
         </div>
       <% end %>
-      <%= form.govuk_date_field :validated_at, legend: {size: 's'}, hint: {text: 'Enter valid date, for example, 28 12 2021'} %>
-      <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: 'Publish application on BOPS Public Portal?'} do %>
-        <%= form.govuk_radio_button :make_public, true, label: {text: 'Yes'} %>
-        <%= form.govuk_radio_button :make_public, false, label: {text: 'No'} %>
+      <%= form.govuk_date_field :validated_at, legend: {size: "s"}, hint: {text: "Enter valid date, for example, 28 12 2021"} %>
+      <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: "Publish application on BOPS Public Portal?"} do %>
+        <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
+        <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
       <% end %>
       <p>
         <%= form.submit "Mark the application as valid", class: "govuk-button", data: {module: "govuk-button"} %>

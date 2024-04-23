@@ -1,4 +1,4 @@
-<div class="govuk-form-group govuk-!-margin-bottom-2<%= ' govuk-form-group--error' if invalid? %>">
+<div class="govuk-form-group govuk-!-margin-bottom-2<%= " govuk-form-group--error" if invalid? %>">
   <%= label_tag(
         "policy_class_policies_attributes_#{policy_index}_comments_attributes_0_text",
         policy_comment_label(comment),
@@ -11,7 +11,7 @@
         "policy_class[policies_attributes][#{policy_index}][comments_attributes][0][text]",
         default_text,
         id: "policy_class_policies_attributes_#{policy_index}_comments_attributes_0_text",
-        class: "govuk-textarea govuk-!-margin-bottom-2#{' govuk-input--error' if invalid?}",
+        class: "govuk-textarea govuk-!-margin-bottom-2#{" govuk-input--error" if invalid?}",
         rows: 2
       ) %>
 </div>

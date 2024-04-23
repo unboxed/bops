@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Time extension validation request - <%= t('page_title') %>
+  Time extension validation request - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -30,7 +30,7 @@
         Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
       <% else %>
         <strong>Status:</strong><br>
-        <%= @validation_request.approved? ? 'Approved' : 'Rejected' %>
+        <%= @validation_request.approved? ? "Approved" : "Rejected" %>
       <% end %>
     </p>
 

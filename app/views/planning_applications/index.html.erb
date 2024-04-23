@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Planning Applications List - <%= t('page_title') %>
+  Planning Applications List - <%= t("page_title") %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -14,7 +14,7 @@
       <p class="govuk-body">
         <%= govuk_link_to "Add new application", new_planning_application_path %>
       </p>
-      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path(view: 'all'), class: "govuk-button" %></p>
+      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path(view: "all"), class: "govuk-button" %></p>
     <% else %>
       <h1 class="govuk-heading-l">
         All planning applications

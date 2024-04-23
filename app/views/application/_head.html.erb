@@ -12,8 +12,8 @@
   <%= favicon_link_tag("b-mask-icon.svg", rel: "mask-icon") %>
   <link rel="stylesheet" href="https://use.typekit.net/zmv8alo.css">
 
-  <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
 
   <% if feedback_fish_id = Rails.configuration.feedback_fish_id %>
     <%= tag.script(src: "https://feedback.fish/ff.js?pid=#{feedback_fish_id}",

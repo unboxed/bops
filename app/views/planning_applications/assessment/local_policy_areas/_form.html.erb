@@ -21,11 +21,11 @@
     <h3 class="govuk-heading-m">Add a custom policy area</h3>
     <%= form.govuk_text_field :area, label: {text: "Add a custom policy area if it does not appear in the list above", size: "s"}, id: "manual-policy-input" %>
     <%= form.govuk_text_field :policies, label: {text: "Which policies are relevant", size: "s"}, hint: {text: "Enter the policy reference"} %>
-    <%= form.govuk_radio_buttons_fieldset(:policy, legend: {size: 's', text: 'Is there relevant guidance?'}) do %>
-      <%= form.govuk_radio_button :policy, 'Yes', label: {text: 'Yes'}, checked: false do %>
+    <%= form.govuk_radio_buttons_fieldset(:policy, legend: {size: "s", text: "Is there relevant guidance?"}) do %>
+      <%= form.govuk_radio_button :policy, "Yes", label: {text: "Yes"}, checked: false do %>
         <%= form.govuk_text_field :guidance, label: {text: "Which guidance? (e.g. the design code)", size: "s"} %>
       <% end %>
-      <%= form.govuk_radio_button :policy, 'No', label: {text: 'No'}, checked: false %>
+      <%= form.govuk_radio_button :policy, "No", label: {text: "No"}, checked: false %>
     <% end %>
     <%= form.govuk_text_area :assessment, label: {text: "Enter your assessment", size: "s"} %>
 

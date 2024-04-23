@@ -2,9 +2,9 @@
   <% if @planning_application.has_only_time_extension_requests? %>
     Time extension requests
   <% elsif post_validation_requests_index? %>
-    Post validation requests - <%= t('page_title') %>
+    Post validation requests - <%= t("page_title") %>
   <% else %>
-    Validation requests - <%= t('page_title') %>
+    Validation requests - <%= t("page_title") %>
   <% end %>
 <% end %>
 

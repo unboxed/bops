@@ -55,13 +55,13 @@
         ) do |form| %>
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-      <%= form.govuk_radio_buttons_fieldset(:recommend, legend: {size: 's', text: 'Does this planning application need to be decided by committee?'}) do %>
-        <%= form.govuk_radio_button :recommend, true, label: {text: 'Yes'}, link_errors: true, checked: @committee_decision&.recommend? do %>
+      <%= form.govuk_radio_buttons_fieldset(:recommend, legend: {size: "s", text: "Does this planning application need to be decided by committee?"}) do %>
+        <%= form.govuk_radio_button :recommend, true, label: {text: "Yes"}, link_errors: true, checked: @committee_decision&.recommend? do %>
           <%= form.govuk_check_boxes_fieldset :reasons, legend: {text: "Reason why", size: "s"} do %>
             <% CommitteeDecision::REASONS.each do |reason| %>
               <% if reason == "Other" %>
                 <%= form.govuk_check_box :other_reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: other_committee_decision_reasons(@committee_decision&.reasons).present? do %>
-                  <%= form.govuk_text_area :other_reason, label: {text: 'Tell reviewer and the public why the application needs to go to committee.'}, value: other_committee_decision_reasons(@committee_decision&.reasons) %>
+                  <%= form.govuk_text_area :other_reason, label: {text: "Tell reviewer and the public why the application needs to go to committee."}, value: other_committee_decision_reasons(@committee_decision&.reasons) %>
                 <% end %>
               <% else %>
                 <%= form.govuk_check_box :reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: @committee_decision&.reasons&.include?(reason) %>
@@ -69,7 +69,7 @@
             <% end %>
           <% end %>
         <% end %>
-        <%= form.govuk_radio_button :recommend, false, label: {text: 'No'}, checked: !@committee_decision&.recommend? %>
+        <%= form.govuk_radio_button :recommend, false, label: {text: "No"}, checked: !@committee_decision&.recommend? %>
       <% end %>
 
       <%= form.govuk_collection_radio_buttons(

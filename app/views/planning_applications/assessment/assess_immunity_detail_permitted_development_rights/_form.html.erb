@@ -5,7 +5,7 @@
     ) do |form| %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+    <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
       <%= form.fields_for :review do |review_immunity_detail| %>
         <%= review_immunity_detail.govuk_radio_buttons_fieldset(
               :decision,
@@ -48,7 +48,7 @@
                       ) do %>
                     <%= review_immunity_detail.govuk_text_area :yes_decision_reason,
                           label: {text: "Please provide a reason"}, link_errors: true,
-                          value: @review_immunity_detail.try(:decision_type) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.other") ? @review_immunity_detail.try(:decision_reason) : nil %>
+                          value: (@review_immunity_detail.try(:decision_type) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.other")) ? @review_immunity_detail.try(:decision_reason) : nil %>
                   <% end %>
                 <% end %>
               <% end %>

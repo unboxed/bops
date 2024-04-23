@@ -20,7 +20,7 @@
             )
           ) %>
       <% if assessment_detail == "site_description" %>
-        <p class="govuk-body govuk-!-margin-top-2"><%= govuk_link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank' %></p>
+        <p class="govuk-body govuk-!-margin-top-2"><%= govuk_link_to "View site on Google Maps", map_link(@planning_application.full_address), target: "_blank" %></p>
       <% end %>
       <% if assessment_detail == "consultation_summary" && @consultation&.consultees&.any? %>
         <%= render(

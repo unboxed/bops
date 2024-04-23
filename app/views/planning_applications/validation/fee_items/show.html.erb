@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Fee validation request - <%= t('page_title') %>
+  Fee validation request - <%= t("page_title") %>
 <% end %>
 
 <%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
@@ -36,7 +36,7 @@
               Application Fee
             </th>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-              <%= number_to_currency(@planning_application.fee_calculation.total_fee || 0, unit: '£') %>
+              <%= number_to_currency(@planning_application.fee_calculation.total_fee || 0, unit: "£") %>
             </td>
           </tr>
           <tr class="govuk-table__row">
@@ -68,7 +68,7 @@
               Discount
             </th>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-              -<%= number_to_currency(@planning_application.fee_calculation.discount, unit: '£') %>
+              -<%= number_to_currency(@planning_application.fee_calculation.discount, unit: "£") %>
             </td>
           </tr>
           <tr class="govuk-table__row">
@@ -78,7 +78,7 @@
                 (set by PO)
               <% end %>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-              <%= number_to_currency(@planning_application.fee_calculation.requested_fee || @planning_application.fee_calculation.payable_fee || 0, unit: '£') %>
+              <%= number_to_currency(@planning_application.fee_calculation.requested_fee || @planning_application.fee_calculation.payable_fee || 0, unit: "£") %>
             </td>
           </tr>
         </tbody>

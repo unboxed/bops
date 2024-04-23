@@ -1,5 +1,5 @@
-<%= form.govuk_radio_buttons_fieldset(:validated, inline: true, legend: {size: 's', text: 'Is the document valid?'}, form_group: {id: "validate-document"}) do %>
+<%= form.govuk_radio_buttons_fieldset(:validated, inline: true, legend: {size: "s", text: "Is the document valid?"}, form_group: {id: "validate-document"}) do %>
   <%= hidden_field_tag(:validate, "yes") %>
-  <%= form.govuk_radio_button :validated, 'true', label: {text: 'Yes'} %>
-  <%= form.govuk_radio_button :validated, 'false', label: {text: 'No'} %>
+  <%= form.govuk_radio_button :validated, "true", label: {text: "Yes"} %>
+  <%= form.govuk_radio_button :validated, "false", label: {text: "No"} %>
 <% end %>

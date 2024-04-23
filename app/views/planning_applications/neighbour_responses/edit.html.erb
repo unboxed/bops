@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Edit neighbour response - <%= t('page_title') %>
+  Edit neighbour response - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -28,16 +28,16 @@
     <%= form.text_field :address, value: form.object.neighbour.address, class: "govuk-input" %>
   </div>
   <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>
-  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: 'Is the response', size: 'm'} do %>
-    <%= form.govuk_radio_button :summary_tag, 'supportive', label: {text: 'Supportive'} %>
-    <%= form.govuk_radio_button :summary_tag, 'neutral', label: {text: 'Neutral'} %>
-    <%= form.govuk_radio_button :summary_tag, 'objection', label: {text: 'An objection'} %>
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Is the response", size: "m"} do %>
+    <%= form.govuk_radio_button :summary_tag, "supportive", label: {text: "Supportive"} %>
+    <%= form.govuk_radio_button :summary_tag, "neutral", label: {text: "Neutral"} %>
+    <%= form.govuk_radio_button :summary_tag, "objection", label: {text: "An objection"} %>
   <% end %>
-  <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map(&:to_s), :to_s, :humanize, legend: {text: 'Tags', size: 'm'} %>
+  <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map(&:to_s), :to_s, :humanize, legend: {text: "Tags", size: "m"} %>
   <%= form.govuk_text_area :response, hint: {text: "This won't be made public"} %>
-  <%= form.govuk_text_area :redacted_response, label: {text: "Redacted response"}, hint: {text: 'This will be made public'} %>
+  <%= form.govuk_text_area :redacted_response, label: {text: "Redacted response"}, hint: {text: "This will be made public"} %>
   <%= form.govuk_file_field :files,
-        label: {text: 'Upload documents'},
+        label: {text: "Upload documents"},
         hint: {text: "Add any documents that the respondent sent."},
         multiple: true %>
   <%= form.submit(

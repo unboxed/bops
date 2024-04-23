@@ -14,11 +14,11 @@
           ) %>
 
       <%= form.govuk_text_field :document_request_type,
-            label: {size: 'm', text: 'Please specify the new document type:'},
-            hint: {text: 'Eg. Existing floor plans'} %>
+            label: {size: "m", text: "Please specify the new document type:"},
+            hint: {text: "Eg. Existing floor plans"} %>
 
       <%= form.govuk_text_area :reason,
-            label: {size: 'm', text: 'Please specify the reason you have requested this document?'},
+            label: {size: "m", text: "Please specify the reason you have requested this document?"},
             rows: 5 %>
 
       <%= form.hidden_field :type, value: AdditionalDocumentValidationRequest.name %>

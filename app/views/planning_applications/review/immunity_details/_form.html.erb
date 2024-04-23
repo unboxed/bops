@@ -3,7 +3,7 @@
       class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-  <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+  <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
     <fieldset class="govuk-fieldset">
       <% if form.object.errors.any? %>
         <% form.object.errors.each do |error| %>

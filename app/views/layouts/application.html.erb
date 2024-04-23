@@ -20,7 +20,7 @@
     <% end %>
 
     <% unless @blank_layout == true %>
-      <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", 'data-module': 'govuk-skip-link' %>
+      <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", "data-module": "govuk-skip-link" %>
       <%= render(EnvironmentBannerComponent.new(display: Bops.env.staging?)) %>
       <%= render "application/header" %>
     <% end %>
@@ -54,6 +54,6 @@
         <%= yield %>
       </main>
     </div>
-    <%= javascript_include_tag 'govuk' %>
+    <%= javascript_include_tag "govuk" %>
   </body>
 </html>

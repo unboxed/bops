@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Upload consultee response - <%= t('page_title') %>
+  Upload consultee response - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -24,15 +24,15 @@
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
   <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>
-  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: 'Is the response', size: 'm'} do %>
-    <%= form.govuk_radio_button :summary_tag, 'approved', label: {text: 'Approved'} %>
-    <%= form.govuk_radio_button :summary_tag, 'amendments_needed', label: {text: 'Amendments needed'} %>
-    <%= form.govuk_radio_button :summary_tag, 'objected', label: {text: 'Objected'} %>
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Is the response", size: "m"} do %>
+    <%= form.govuk_radio_button :summary_tag, "approved", label: {text: "Approved"} %>
+    <%= form.govuk_radio_button :summary_tag, "amendments_needed", label: {text: "Amendments needed"} %>
+    <%= form.govuk_radio_button :summary_tag, "objected", label: {text: "Objected"} %>
   <% end %>
   <%= form.govuk_text_area :response, hint: {text: "This won't be made public"} %>
-  <%= form.govuk_text_area :redacted_response, label: {text: "Redacted response"}, hint: {text: 'This will be made public'} %>
+  <%= form.govuk_text_area :redacted_response, label: {text: "Redacted response"}, hint: {text: "This will be made public"} %>
   <%= form.govuk_file_field :documents,
-        label: {text: 'Upload documents'},
+        label: {text: "Upload documents"},
         hint: {text: "Add any documents that the consultee sent."},
         multiple: true %>
   <div class="govuk-button-group">

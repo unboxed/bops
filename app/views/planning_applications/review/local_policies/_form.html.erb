@@ -17,11 +17,11 @@
             <%= ff.hidden_field :area, value: ff.object.area.to_s %>
             <%= ff.hidden_field :id, value: ff.object.id %>
             <%= ff.govuk_text_field :policies, label: {text: "Which policies are relevant", size: "s"}, hint: {text: "Enter the policy reference"} %>
-            <%= ff.govuk_radio_buttons_fieldset(:policy, legend: {size: 's', text: 'Is there relevant guidance?'}) do %>
-              <%= ff.govuk_radio_button :policy, 'Yes', label: {text: 'Yes'}, checked: ff.object.guidance.present? do %>
+            <%= ff.govuk_radio_buttons_fieldset(:policy, legend: {size: "s", text: "Is there relevant guidance?"}) do %>
+              <%= ff.govuk_radio_button :policy, "Yes", label: {text: "Yes"}, checked: ff.object.guidance.present? do %>
                 <%= ff.govuk_text_field :guidance, label: {text: "Which guidance? (e.g. the design code)", size: "s"} %>
               <% end %>
-              <%= ff.govuk_radio_button :policy, 'No', label: {text: 'No'}, checked: ff.object.id.present? && ff.object.guidance.blank? %>
+              <%= ff.govuk_radio_button :policy, "No", label: {text: "No"}, checked: ff.object.id.present? && ff.object.guidance.blank? %>
             <% end %>
             <%= ff.govuk_text_area :assessment, label: {text: "Enter your assessment", size: "s"} %>
           <% end %>

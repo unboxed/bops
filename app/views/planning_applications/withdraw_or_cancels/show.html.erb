@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Withdraw or cancel application - <%= t('page_title') %>
+  Withdraw or cancel application - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -36,7 +36,7 @@
           <% else %>
             <h2 class="govuk-heading-m">How should this application be finally disposed of?</h2>
             <span class="govuk-hint">The application status will change based on your selection</span>
-            <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+            <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
               <% if form.object.errors.any? %>
                 <% form.object.errors.each do |error| %>
                   <span id="status-error" class="govuk-error-message">

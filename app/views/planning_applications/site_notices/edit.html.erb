@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Site notice - <%= t('page_title') %>
+  Site notice - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -21,11 +21,11 @@
 
   <%= render "status", planning_application: @planning_application %>
 
-  <%= form.govuk_date_field :displayed_at, legend: {text: '1. What date was the site notice displayed?'} %>
+  <%= form.govuk_date_field :displayed_at, legend: {text: "1. What date was the site notice displayed?"} %>
 
   <%= form.govuk_file_field :documents,
-        label: {text: '2. Upload evidence of site notice in place', size: 'm'},
-        hint: {text: 'Add any photos of the site notice being displayed'},
+        label: {text: "2. Upload evidence of site notice in place", size: "m"},
+        hint: {text: "Add any photos of the site notice being displayed"},
         accept: acceptable_file_mime_types,
         multiple: true %>
 

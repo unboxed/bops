@@ -20,15 +20,15 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.fields_for :features, @application_type.features do |ff| %>
-        <%= ff.govuk_fieldset legend: {text: t('application_type_features.legends.check_application_details'), size: "s"} do %>
-          <%= ff.govuk_check_box :planning_conditions, 1, 0, multiple: false, label: {text: t('application_type_features.labels.planning_conditions')} %>
+        <%= ff.govuk_fieldset legend: {text: t("application_type_features.legends.check_application_details"), size: "s"} do %>
+          <%= ff.govuk_check_box :planning_conditions, 1, 0, multiple: false, label: {text: t("application_type_features.labels.planning_conditions")} %>
 
-          <%= ff.govuk_check_box :permitted_development_rights, 1, 0, multiple: false, label: {text: t('application_type_features.labels.permitted_development_rights')} %>
+          <%= ff.govuk_check_box :permitted_development_rights, 1, 0, multiple: false, label: {text: t("application_type_features.labels.permitted_development_rights")} %>
         <% end %>
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-        <%= ff.govuk_fieldset legend: {text: t('application_type_features.legends.consultation'), size: "s"} do %>
+        <%= ff.govuk_fieldset legend: {text: t("application_type_features.legends.consultation"), size: "s"} do %>
           <%= ff.govuk_collection_check_boxes :consultation_steps,
                 Consultation::STEPS.map { |step| OpenStruct.new(id: step, name: t("labels.consultation_steps.#{step}", scope: :application_type_features)) },
                 :id, :name,

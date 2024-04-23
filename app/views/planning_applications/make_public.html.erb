@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Make application public - <%= t('page_title') %>
+  Make application public - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -29,9 +29,9 @@
           </div>
         </div>
       <% end %>
-      <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: 'Publish application on BOPS Public Portal?'} do %>
-        <%= form.govuk_radio_button :make_public, true, label: {text: 'Yes'} %>
-        <%= form.govuk_radio_button :make_public, false, label: {text: 'No'} %>
+      <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: "Publish application on BOPS Public Portal?"} do %>
+        <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
+        <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
       <% end %>
       <p>
         <%= form.submit "Update application", class: "govuk-button", data: {module: "govuk-button"} %>
