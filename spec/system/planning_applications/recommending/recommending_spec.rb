@@ -763,10 +763,26 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     context "when there are assessment details" do
+      let!(:planning_application) do
+        create(
+          :planning_application,
+          :with_consultees,
+          :with_constraints,
+          api_user:,
+          local_authority: default_local_authority
+        )
+      end
+
       let!(:summary_of_work) { create(:assessment_detail, :summary_of_work, entry: "A summary of work entry", planning_application:) }
       let!(:additional_evidence) { create(:assessment_detail, :additional_evidence, entry: "An additional evidence entry", planning_application:) }
       let!(:site_description) { create(:assessment_detail, :site_description, entry: "A site description entry", planning_application:) }
       let!(:past_applications) { create(:assessment_detail, :past_applications, entry: "An entry for planning history", additional_information: "REF123", planning_application:) }
+
+      let!(:neighbour) { create(:neighbour, consultation: planning_application.consultation) }
+      let!(:neighbour_response1) { create(:neighbour_response, summary_tag: "objection", neighbour:) }
+      let!(:neighbour_response2) { create(:neighbour_response, summary_tag: "supportive", neighbour:) }
+      let!(:neighbour_summary) { create(:assessment_detail, :neighbour_summary, entry: "Light: Light comments summary\nTraffic: Traffic comments summary\n", planning_application:) }
+
       let!(:permitted_development_right) { create(:permitted_development_right, :removed, planning_application:) }
       let!(:immunity_detail) { create(:immunity_detail, planning_application:) }
       let!(:review_immunity_detail) { create(:review, :enforcement, owner: immunity_detail) }
@@ -777,41 +793,48 @@ RSpec.describe "Planning Application Assessment" do
         visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
 
         within("#constraints-section") do
-          expect(page).to have_content("Constraints including Article 4 direction(s)")
+          expect(page).to have_selector("h3", text: "Constraints including Article 4 direction(s)")
           expect(page).to have_content("Conservation area Listed building")
           expect(page).to have_link("Edit constraints")
         end
 
         within("#past-applications-section") do
-          expect(page).to have_content("Planning history")
+          expect(page).to have_selector("h3", text: "Planning history")
           expect(page).to have_content("REF123")
           expect(page).to have_content("An entry for planning history")
         end
 
         within("#immunity-section") do
-          expect(page).to have_content("Immunity from enforcement")
+          expect(page).to have_selector("h3", text: "Immunity from enforcement")
           expect(page).to have_content("Evidence cover: 02/05/2009 to 02/05/2015")
           expect(page).to have_content("Missing evidence (gap in time): Yes")
           expect(page).to have_content("it looks immune to me")
         end
 
         within("#summary-of-works-section") do
-          expect(page).to have_content("Summary of works")
+          expect(page).to have_selector("h3", text: "Summary of works")
           expect(page).to have_content("A summary of work entry")
         end
 
         within("#site-description-section") do
-          expect(page).to have_content("Location description")
+          expect(page).to have_selector("h3", text: "Location description")
           expect(page).to have_content("A site description entry")
         end
 
+        within("#neighbour-responses-summary-section") do
+          expect(page).to have_selector("h3", text: "Neighbour responses summary")
+          expect(page).to have_selector("p", text: "There is 1 objection, 1 supportive.")
+          expect(page).to have_selector("p", text: "Light: Light comments summary")
+          expect(page).to have_selector("p", text: "Traffic: Traffic comments summary")
+        end
+
         within("#additional-evidence-section") do
-          expect(page).to have_content("Summary of additional evidence")
+          expect(page).to have_selector("h3", text: "Summary of additional evidence")
           expect(page).to have_content("An additional evidence entry")
         end
 
         within("#permitted-development-rights-section") do
-          expect(page).to have_content("Have the permitted development rights relevant for this application been removed?")
+          expect(page).to have_selector("h3", text: "Have the permitted development rights relevant for this application been removed?")
           expect(page).to have_content("Yes")
           expect(page).to have_content("Removal reason")
         end

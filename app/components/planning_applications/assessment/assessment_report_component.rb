@@ -3,6 +3,8 @@
 module PlanningApplications
   module Assessment
     class AssessmentReportComponent < ViewComponent::Base
+      include AssessmentDetailHelper
+
       def initialize(planning_application:, show_additional_evidence: false)
         @planning_application = planning_application
         @show_additional_evidence = show_additional_evidence
@@ -23,6 +25,7 @@ module PlanningApplications
         :permitted_development_right,
         :additional_evidence,
         :immunity_detail,
+        :neighbour_summary,
         to: :planning_application
       )
 
