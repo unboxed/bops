@@ -10,7 +10,7 @@
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>
     <%= form.govuk_radio_buttons_fieldset(
-          "#{assessment_detail}_reviewer_verdict".to_sym,
+          :"#{assessment_detail}_reviewer_verdict",
           legend: {text: t(".#{assessment_detail}")}
         ) do %>
       <%= render(
@@ -44,7 +44,7 @@
       <% end %>
       <%= render(
             FormattedContentComponent.new(
-              text: form.object.send("#{assessment_detail}_entry"),
+              text: form.object.send(:"#{assessment_detail}_entry"),
               classname: "govuk-body govuk-!-margin-top-2"
             )
           ) %>
@@ -67,7 +67,7 @@
             disabled: disabled
           ) do %>
         <%= form.govuk_text_area(
-              "#{assessment_detail}_entry".to_sym,
+              :"#{assessment_detail}_entry",
               label: {text: t(".update_#{assessment_detail}")},
               disabled: disabled
             ) %>
@@ -79,7 +79,7 @@
             disabled: disabled
           ) do %>
         <%= form.govuk_text_area(
-              "#{assessment_detail}_comment_text".to_sym,
+              :"#{assessment_detail}_comment_text",
               label: {text: t(".explain_to_the")},
               disabled: disabled
             ) %>

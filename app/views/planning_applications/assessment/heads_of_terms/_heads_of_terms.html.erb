@@ -48,7 +48,7 @@
 
               <% if response_been_truncated?(term, term.text) %>
                 <span class="govuk-!-display-none hidden-comment">
-                  <%= term.text[truncated_length(term)..-1] %>
+                  <%= term.text[truncated_length(term)..] %>
                 </span>
                 <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
               <% end %>

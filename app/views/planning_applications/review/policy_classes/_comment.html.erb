@@ -23,7 +23,7 @@
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_text_area(
               :text,
-              value: (new_comment.text || comment.text),
+              value: new_comment.text || comment.text,
               label: {
                 text: existing_policy_comment_label(comment),
                 tag: "h4",

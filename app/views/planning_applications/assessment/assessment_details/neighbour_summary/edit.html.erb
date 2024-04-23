@@ -25,7 +25,7 @@
             <div class="govuk-accordion__section-header">
               <h2 class="govuk-accordion__section-heading">
                 <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>">
-                  <%= "#{tag.to_s.humanize} responses (#{@neighbour_responses.select { |response| response.tags.include? tag.to_s }.count})" %>
+                  <%= "#{tag.to_s.humanize} responses (#{@neighbour_responses.count { |response| response.tags.include? tag.to_s }})" %>
                 </span>
               </h2>
             </div>
@@ -60,7 +60,7 @@
 
                               <% if response_been_truncated?(response, response.comment) %>
                                 <span class="govuk-!-display-none hidden-comment">
-                                  <%= response.comment[truncated_length(response)..-1] %>
+                                  <%= response.comment[truncated_length(response)..] %>
                                 </span>
                                 <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
                               <% end %>
@@ -131,7 +131,7 @@
 
                             <% if response_been_truncated?(response, response.comment) %>
                               <span class="govuk-!-display-none hidden-comment">
-                                <%= response.comment[truncated_length(response)..-1] %>
+                                <%= response.comment[truncated_length(response)..] %>
                               </span>
                               <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
                             <% end %>

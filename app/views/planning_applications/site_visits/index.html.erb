@@ -38,7 +38,7 @@
           <p class="govuk-body">Visited at: <%= site_visit.visited_at&.to_fs %></p>
         <% end %>
         <p class="govuk-body">Comment: <%= site_visit.comment %></p>
-        <p class="govuk-body"><%= site_visit.documents.count %> document<%= site_visit.documents.count == 1 ? "" : "s" %> added</p>
+        <p class="govuk-body"><%= site_visit.documents.count %> document<%= (site_visit.documents.count == 1) ? "" : "s" %> added</p>
 
         <p><%= govuk_link_to "View", planning_application_consultation_site_visit_path(@planning_application, site_visit) %></p>
         <hr>

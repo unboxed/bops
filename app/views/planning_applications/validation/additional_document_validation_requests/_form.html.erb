@@ -10,7 +10,7 @@
 
       <%= form.hidden_field(
             :return_to,
-            value: local_assigns.fetch(:return_to, nil)
+            value: local_assigns[:return_to]
           ) %>
 
       <%= form.govuk_text_field :document_request_type,

@@ -27,7 +27,7 @@
             <span class="govuk-!-margin-left-1">
               <span class="govuk-tag govuk-tag--#{status_consultation_date_tag_colour}">
                 <% days_left = @planning_application.consultation.days_left %>
-                <%= days_left > 0 ? t("planning_applications.days_left", count: days_left) : t("planning_applications.overdue", count: days_left.abs) %>
+                <%= (days_left > 0) ? t("planning_applications.days_left", count: days_left) : t("planning_applications.overdue", count: days_left.abs) %>
               </span>
             </span>
             <span id="edit-consultation-end-date"><%= govuk_link_to "Change", edit_planning_application_consultation_path(@planning_application) %></span>

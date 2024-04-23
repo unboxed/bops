@@ -9,7 +9,7 @@
         <td scope="row" class="govuk-table__header">Date</td>
       </tr>
       <% if validation_requests.any? %>
-        <% validation_requests.sort_by(&:created_at).reverse.each do |request| %>
+        <% validation_requests.sort_by(&:created_at).reverse_each do |request| %>
           <% if request.cancel_reason.present? %>
             <tr class="govuk-table__row">
               <td scope="row" class="govuk-table__cell">Request was cancelled</td>
