@@ -24,7 +24,7 @@
           <div class="govuk-accordion__section">
             <div class="govuk-accordion__section-header">
               <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id=<%= "accordion-default-heading-#{index}" %>>
+                <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>">
                   <%= "#{tag.to_s.humanize} responses (#{@neighbour_responses.select { |response| response.tags.include? tag.to_s }.count})" %>
                 </span>
               </h2>
@@ -96,7 +96,7 @@
           <div class="govuk-accordion__section">
             <div class="govuk-accordion__section-header">
               <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id=<%= "accordion-default-heading-no-tag" %>>
+                <span class="govuk-accordion__section-button" id="accordion-default-heading-no-tag">
                   <%= "Untagged responses (#{@neighbour_responses.without_tags.count})" %>
                 </span>
               </h2>
