@@ -37,3 +37,4 @@ jobs:
           body: ${{ steps.tag_version.outputs.changelog }}
           prerelease: true
           makeLatest: false
+          token: ${{ secrets.DEPLOY_TOKEN }}
