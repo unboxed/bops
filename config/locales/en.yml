@@ -1633,7 +1633,7 @@ en:
           proposed_description: 'Proposed description:'
         show:
           back: Back
-          cancel_this_request: Cancel this request
+          cancel_this_request: Cancel request
       description_changes:
         validate:
           success: Description was marked as valid

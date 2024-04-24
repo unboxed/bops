@@ -3,10 +3,10 @@
 </td>
 <% if additional_document_validation_request.cancelled? %>
   <td class="govuk-table__cell change-request-list">
-    <%= additional_document_validation_request.reason %>
+    <%= render(FormattedContentComponent.new(text: additional_document_validation_request.cacnel_reason)) %>
   </td>
 <% else %>
   <td class="govuk-table__cell change-request-list">
-    <%= additional_document_validation_request.document_request_type %>
+    <%= render(FormattedContentComponent.new(text: additional_document_validation_request.document_request_type)) %>
   </td>
 <% end %>
