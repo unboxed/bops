@@ -30,18 +30,19 @@
   <div class="govuk-grid-column-full">
     <%= render "activity_log" %>
 
-    <p class="govuk-body">
-      If the ownership certificate is incorrect, send a request to the applicant for more information.
-    </p>
-
     <%= form_with model: @planning_application,
-          url: planning_application_assessment_ownership_certificate_path(@planning_application),
-          method: :patch do |form| %>
-      <div class="govuk-button-group">
+      url: planning_application_assessment_ownership_certificate_path(@planning_application),
+      method: :patch do |form| %>
+      <p class="govuk-body">
+        If the ownership certificate is incorrect, send a request to the applicant for more information.
+      </p>
+
+      <%= form.submit "Request a new ownership certificate", class: "button-as-link govuk-body", data: {module: "govuk-button"} %>
+
+      <div class="govuk-button-group govuk-!-margin-top-5">
         <%= form.hidden_field :ownership_certificate_valid %>
 
-        <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
-        <%= form.submit "Send new request", class: "govuk-button govuk-button--secondary", data: {module: "govuk-button"} %>
+        <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
 
         <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>

@@ -33,7 +33,7 @@ When("I cancel the existing description change request") do
     And I press "Check and validate"
     And I press "Application information"
     And I press "View requested change"
-    When I press "Cancel this request"
+    When I press "Cancel request"
   )
 end
 

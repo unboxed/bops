@@ -47,7 +47,7 @@ RSpec.describe "Requesting description changes to a planning application" do
 
     click_button("Application information")
     click_link("View requested change")
-    click_button("Cancel this request")
+    click_button("Cancel request")
 
     expect(page).to have_content(
       "Description change request successfully cancelled."

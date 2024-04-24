@@ -274,7 +274,7 @@ RSpec.describe "checking consistency" do
     expect(page).to have_content("Proposed 15 September 2022 12:00")
 
     click_link("View and edit request")
-    click_button("Cancel this request")
+    click_button("Cancel request")
 
     expect(page).to have_content("Description change request successfully cancelled.")
 

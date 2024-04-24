@@ -139,14 +139,14 @@ RSpec.describe "post validation requests" do
 
       it "does not display any pre validation requests" do
         expect(page).not_to have_content("Red line boundary changes")
-        expect(page).not_to have_content("View request red line boundary")
+        expect(page).not_to have_link("View")
         expect(page).not_to have_content("Cancelled requests")
 
         # check pre valiation requests table
         visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
         within(".validation-requests-table") do
           expect(page).to have_content("Red line boundary changes")
-          expect(page).to have_content("View request red line boundary")
+          expect(page).to have_link("View")
         end
 
         within(".cancelled-requests") do
@@ -182,7 +182,7 @@ RSpec.describe "post validation requests" do
 
       it "does not display any post validation requests" do
         expect(page).not_to have_content("Red line boundary changes")
-        expect(page).not_to have_content("View request red line boundary")
+        expect(page).not_to have_link("View")
         expect(page).not_to have_content("Cancelled requests")
         expect(page).not_to have_content("New description 1")
         expect(page).not_to have_content("New description 2")
@@ -191,7 +191,7 @@ RSpec.describe "post validation requests" do
         visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
         within(".validation-requests-table") do
           expect(page).to have_content("Red line boundary changes")
-          expect(page).to have_content("View request red line boundary")
+          expect(page).to have_link("View")
           expect(page).to have_content("New description 2")
         end
 
