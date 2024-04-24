@@ -79,10 +79,14 @@ jobs:
         run: |
           yarn install --frozen-lockfile
 
+      - name: Update package lists
+        run: |
+          sudo rm /etc/apt/sources.list.d/microsoft-prod.list
+          sudo apt-get update
+
       - name: Install file previewing tools
         if: "${{ inputs.want-pdf }}"
         run: |
-          sudo apt-get update
           sudo apt-get install -y ghostscript poppler-utils
 
       - name: Install postgres client
