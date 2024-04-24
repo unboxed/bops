@@ -20,7 +20,8 @@ RSpec.describe Apis::OsPlaces::Query, exclude_stub_any_os_places_api_request: tr
       ).to receive(:get).with(
         "find", {
           maxresults: 20,
-          query: "SE220HW"
+          query: "SE220HW",
+          output_srs: "EPSG:4258"
         }
       ).and_call_original
 

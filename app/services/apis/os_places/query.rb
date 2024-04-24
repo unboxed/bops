@@ -42,7 +42,8 @@ module Apis
       def find_addresses_params(query)
         {
           maxresults: MAX_RESULTS,
-          query:
+          query:,
+          output_srs: SRS_4258
         }
       end
 
