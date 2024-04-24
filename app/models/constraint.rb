@@ -29,10 +29,39 @@ class Constraint < ApplicationRecord
       end
     end
 
+    def all_constraints(query)
+      scope = order(:category)
+
+      if query.blank?
+        scope
+      else
+        scope.where(search_query, search_param(query))
+      end
+    end
+
+    def other_constraints(search_param, planning_application)
+      all_constraints(search_param).non_applicable_constraints(planning_application.planning_application_constraints).sort_by(&:category)
+    end
+
     private
 
     def normalize_type(type)
       type.tr(".", "_").downcase
+    end
+
+    delegate :quote_column_name, to: :connection
+
+    def search_query
+      "#{quoted_table_name}.#{quote_column_name("search")} @@ to_tsquery('simple', ?)"
+    end
+
+    def search_param(query)
+      query.to_s
+        .scan(/[-\w]{3,}/)
+        .map { |word| word.gsub(/^-/, "!") }
+        .map { |word| word.gsub(/-$/, "") }
+        .map { |word| word.gsub(/.+/, "\\0:*") }
+        .join(" & ")
     end
   end
 

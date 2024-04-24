@@ -1,0 +1,70 @@
+<% content_for :page_title do %>
+  Constraints - <%= t("page_title") %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Constraints" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Check the constraints"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Add, remove and save constraints</h2>
+    <p class="govuk-body govuk-!-margin-bottom-8">
+      Check the constraints for this application. Add any constraints that are relevant. When all relevant constraints have been added, save and mark as checked.
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h2 class="govuk-heading-m">Identified constraints</h2>
+    <%= render(
+      partial: "table",
+      locals: {
+        title: "Identified constraints",
+        identifier: "identified",
+        planning_application_constraints: @planning_application_constraints,
+        show_source: true
+      }
+    ) %>
+
+    <details class="govuk-details" <%= "open" if params[:q].present? %>>
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Add constraints
+        </span>
+      </summary>
+      <div>
+        <%= form_with url: planning_application_validation_constraints_path, class: "govuk-!-margin-top-3", method: :get do |form| %>
+          <div class="search-form-inputs">
+            <%= form.govuk_text_field :q, value: params[:q], style: "width: 30rem;", class: "govuk-input--width-30", label: { text: "Find a constraint", size: "m" }, hint: { text: "Search by name or category" }%>
+            <%= form.govuk_submit "Search", class: "govuk-button--secondary" %>
+          </div>
+        <% end %>
+
+        <%= render(
+          partial: "table",
+          locals: {
+            title: "",
+            identifier: "other",
+            planning_application_constraints: @other_constraints,
+            show_source: false
+          }
+        ) %>
+      </div>
+    </details>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @planning_application, url: planning_application_validation_constraints_path(@planning_application) do |form| %>
+      <div class="govuk-button-group">
+        <%= form.submit "Save and mark as checked", class: "govuk-button", data: {module: "govuk-button"} %>
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

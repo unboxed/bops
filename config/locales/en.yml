@@ -1608,6 +1608,12 @@ en:
         update:
           success: CIL liability updated
       constraints:
+        create:
+          failure: Couldn't add constraint - please contact support.
+          success: Constraint was successfully added
+        destroy:
+          failure: Couldn't remove constraint - please contact support.
+          success: Constraint was successfully removed
         info:
           update_constraints: Update constraints
         update:
