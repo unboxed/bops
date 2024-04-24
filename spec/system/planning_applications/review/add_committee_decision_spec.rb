@@ -149,6 +149,15 @@ RSpec.describe "Update decision notice after committee" do
           "Update decision notice after committee",
           with: "Completed"
         )
+
+        sign_out reviewer
+        sign_in assessor
+
+        visit "/planning_applications/#{planning_application.id}"
+
+        click_link "View recommendation"
+
+        expect(page).to have_content "Recommendations submitted by #{reviewer.name}"
       end
 
       it "shows errors" do

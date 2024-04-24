@@ -26,6 +26,7 @@ module PlanningApplications
       def create
         @recommendation = @planning_application.recommendations.new(
           status: "review_complete",
+          assessor: Current.user,
           reviewer: Current.user
         )
 
