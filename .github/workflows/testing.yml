@@ -82,6 +82,7 @@ jobs:
       - name: Install file previewing tools
         if: "${{ inputs.want-pdf }}"
         run: |
+          sudo rm /etc/apt/sources.list.d/microsoft-prod.list
           sudo apt-get update
           sudo apt-get install -y ghostscript poppler-utils
 
