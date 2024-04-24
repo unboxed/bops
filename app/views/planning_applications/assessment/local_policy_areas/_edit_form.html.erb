@@ -14,8 +14,7 @@
   <% end %>
   <%= form.govuk_text_area :assessment, label: {text: "Enter your assessment", size: "s"} %>
   <div class="govuk-button-group">
-    <%= link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), class: "govuk-button govuk-button--secondary" %>
     <%= form.submit "Update consideration", class: "govuk-button govuk-button--primary" %>
-    <%#= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>
