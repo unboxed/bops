@@ -2,24 +2,27 @@
   <%= render "comment", review: review %>
 <% end %>
 
-<h2 class="govuk-heading-m">Conditions</h2>
-<ol class="govuk-list govuk-list--number">
-  <% @condition_set.conditions.sorted.each do |condition| %>
-    <li>
-      <p class="govuk-body govuk-!-margin-bottom-2">
-        <% if condition.title? %>
-          <span class="govuk-!-font-weight-bold"><%= condition.title %></span><br>
-          <%= condition.text %><br>
-        <% else %>
-          <span class="govuk-!-font-weight-bold"><%= condition.text %></span>
-        <% end %>
+<h2 class="govuk-heading-m govuk-!-margin-bottom-0">Conditions</h2>
+
+<ul id="conditions-list" class="govuk-list">
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <% @conditions.each_with_index do |condition, i| %>
+    <%= next unless condition.persisted? %>
+    <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
+      <span class="govuk-caption-m">Condition <%= i + 1 %></span>
+      <h2 class="govuk-heading-m"><%= condition.title %></h2>
+
+      <p class="govuk-body">
+        <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text)) %>
       </p>
       <p class="govuk-body">
-        <%= condition.reason %>
+        <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
       </p>
-    </li>
+    <% end %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <% end %>
-</ol>
+</ul>
 
 <div class="govuk-button-group">
   <%= back_link %>
