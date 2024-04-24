@@ -17,19 +17,26 @@
 <div class="govuk-grid-row" data-controller="informatives">
   <div class="govuk-grid-column-two-thirds">
     <% if @informative_set.informatives.select(&:persisted?).any? %>
-      <% @informative_set.informatives.select(&:persisted?).each_with_index do |informative, index| %>
+      <ul data-controller="sortable" class="govuk-list">
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-        <span class="govuk-hint">
-          Informative <%= index +1 %>
-        </span>
-        <h2 class="govuk-heading-m">
-          <%= informative.title %>
-        </h2>
-        <%= render(FormattedContentComponent.new(text: informative.text)) %>
-        <%= govuk_link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative) %>
-        <%= govuk_link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete %>
-      <% end %>
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+        <% @informative_set.informatives.select(&:persisted?).each do |informative| %>
+          <%= content_tag :li, 
+                          class: "sortable-list",
+                          id: dom_id(informative),
+                          data: { 
+                            model_name: informative.class.name, 
+                            sortable_url: planning_application_assessment_informative_positions_path(@planning_application, informative),
+                            sortable_handle: true 
+                          } do %>
+            <span class="govuk-hint">Informative <%= informative.position %></span>
+            <h2 class="govuk-heading-m"><%= informative.title %></h2>
+            <%= render(FormattedContentComponent.new(text: informative.text)) %>
+            <%= govuk_link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative) %>
+            <%= govuk_link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete %>
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+          <% end %>
+        <% end %>
+      </ul>
     <% else %>
       <p class="govuk-body"><strong>No informatives added yet</strong></p>
     <% end %>

@@ -108,6 +108,8 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    acts_as_list (1.1.0)
+      activerecord (>= 4.2)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     appsignal (3.4.5)
@@ -639,6 +641,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   activerecord-postgis-adapter
+  acts_as_list
   appsignal
   aws-sdk-s3
   bootsnap (>= 1.4.2)

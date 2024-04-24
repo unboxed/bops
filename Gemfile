@@ -7,6 +7,7 @@ gem "dotenv-rails", require: "dotenv/rails-now"
 
 gem "aasm"
 gem "activerecord-postgis-adapter"
+gem "acts_as_list"
 gem "appsignal"
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false

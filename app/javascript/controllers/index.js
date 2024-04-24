@@ -69,3 +69,6 @@ application.register("submit-form", SubmitFormController)
 
 import UnsavedChangesController from "./unsaved_changes_controller.js"
 application.register("unsaved-changes", UnsavedChangesController)
+
+import Sortable from "./sortable_controller.js"
+application.register("sortable", Sortable)
