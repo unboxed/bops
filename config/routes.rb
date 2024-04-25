@@ -136,6 +136,7 @@ Rails.application.routes.draw do
 
           resources :informatives, except: %i[show] do
             post :complete, on: :collection
+            resource :positions, only: %i[update], module: :informatives
           end
         end
 

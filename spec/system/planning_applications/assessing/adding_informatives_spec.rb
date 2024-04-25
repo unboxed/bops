@@ -26,7 +26,7 @@ RSpec.describe "Add informatives" do
       click_link "Add informatives"
     end
 
-    expect(page).to have_content "Add informatives"
+    expect(page).to have_selector("h1", text: "Add informatives")
     expect(page).to have_content "No informatives added yet"
 
     fill_in "Start typing to choose an informative from a list", with: "Section"
@@ -159,6 +159,115 @@ RSpec.describe "Add informatives" do
 
     expect(page).to have_content "Informative was successfully removed"
     expect(page).to have_content "No informatives added yet"
+  end
+
+  context "when changing the list position" do
+    let(:informative_set) { planning_application.informative_set }
+    let!(:informative_one) { create(:informative, informative_set:, title: "Title 1", text: "Text 1", position: 1) }
+    let!(:informative_two) { create(:informative, informative_set:, title: "Title 2", text: "Text 2", position: 2) }
+    let!(:informative_three) { create(:informative, informative_set:, title: "Title 3", text: "Text 3", position: 3) }
+
+    it "I can drag and drop to sort the informatives" do
+      click_link "Add informatives"
+
+      informative_one_handle = find("li.sortable-list", text: "Title 1")
+      informative_two_handle = find("li.sortable-list", text: "Title 2")
+      informative_three_handle = find("li.sortable-list", text: "Title 3")
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Informative 1")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Informative 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Informative 3")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+
+      informative_one_handle.drag_to(informative_two_handle)
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Informative 1")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Informative 2")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Informative 3")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      expect(informative_one.reload.position).to eq(2)
+      expect(informative_two.reload.position).to eq(1)
+      expect(informative_three.reload.position).to eq(3)
+
+      informative_one_handle.drag_to(informative_three_handle)
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Informative 1")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Informative 2")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Informative 3")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      expect(informative_one.reload.position).to eq(3)
+      expect(informative_two.reload.position).to eq(1)
+      expect(informative_three.reload.position).to eq(2)
+
+      informative_three_handle.drag_to(informative_two_handle)
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Informative 1")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Informative 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Informative 3")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      expect(informative_one.reload.position).to eq(3)
+      expect(informative_two.reload.position).to eq(2)
+      expect(informative_three.reload.position).to eq(1)
+
+      click_link "Back"
+      click_link "Add informatives"
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Informative 1")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Informative 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Informative 3")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+
+      # Check the correct order on decision notice
+      create(:recommendation, :assessment_in_progress, planning_application:)
+      click_link "Back"
+      click_link "Review and submit recommendation"
+
+      within("#informatives-list") do
+        expect(page).to have_selector("li:nth-of-type(1)", text: "Title 3")
+        expect(page).to have_selector("li:nth-of-type(2)", text: "Title 2")
+        expect(page).to have_selector("li:nth-of-type(3)", text: "Title 1")
+      end
+    end
   end
 
   it "shows errors" do

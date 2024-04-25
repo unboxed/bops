@@ -3,7 +3,7 @@
 class InformativeSet < ApplicationRecord
   belongs_to :planning_application
   has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
-  has_many :informatives, dependent: :destroy
+  has_many :informatives, -> { order(position: :asc) }, dependent: :destroy
 
   accepts_nested_attributes_for :reviews
 
