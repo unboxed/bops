@@ -26,88 +26,90 @@
     <% if review = @condition_set.current_review %>
       <%= render "planning_applications/assessment/conditions/comment", review: review %>
     <% end %>
+  </div>
 
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <div class="govuk-grid-column-full">
+    <ul id="conditions-list" class="govuk-list">
+      <% @conditions.each_with_index do |condition, i| %>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+        <%= next unless condition.persisted? %>
+        <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
+          <span class="govuk-caption-m">Condition <%= i + 1 %></span>
+          <h2 class="govuk-heading-m"><%= condition.title %></h2>
 
-    <div class="govuk-grid-column-full">
-      <ul id="conditions-list" class="govuk-list">
-        <% @conditions.each_with_index do |condition, i| %>
-          <%= next unless condition.persisted? %>
-          <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
-            <span class="govuk-caption-m">Condition <%= i + 1 %></span>
-            <h2 class="govuk-heading-m"><%= condition.title %></h2>
+          <p style="float: none">
+            <%= render(StatusTags::BaseComponent.new(status: status(condition), task_list: false)) %>
+          </p>
 
-            <p style="float: none">
-              <%= render(StatusTags::BaseComponent.new(status: status(condition), task_list: false)) %>
-            </p>
-
-            <% if current_request = condition.current_validation_request %>
-              <% if current_request.rejection_reason %>
-                <div class="govuk-inset-text applicant">
-                  <p class="govuk-body">
-                    <strong>Applicant comment</strong>
-                  </p>
-                  <p class="govuk-body govuk-hint">
-                    Sent on: <%= current_request.updated_at.to_fs %>
-                  </p>
-                  <p class="govuk-body">
-                    <%= current_request.rejection_reason %>
-                  </p>
-                </div>
-              <% end %>
-            <% end %>
-
-            <p class="govuk-body govuk-hint">
-              <% if current_request.notified_at %>
-                Sent on <%= current_request.notified_at.to_fs %>
-              <% end %>
-            </p>
-            <p class="govuk-body">
-              <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text)) %>
-            </p>
-            <p class="govuk-body">
-              <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
-            </p>
-
-            <% unless current_request.cancelled? || current_request.open? %>
-              <%= govuk_link_to "Update condition", edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition) %>
-            <% end %>
-
-            <% if current_request.pending? %>
-              <%= govuk_link_to(
-                "Remove", 
-                planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
-                method: :delete, 
-                data: {confirm: "Are you sure?"}
-              ) %>
-            <% end %>
-
-            <% if current_request.open? %>
-              <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
+          <% if current_request = condition.current_validation_request %>
+            <% if current_request.rejection_reason %>
+              <div class="govuk-inset-text applicant">
+                <p class="govuk-body">
+                  <strong>Applicant comment</strong>
+                </p>
+                <p class="govuk-body govuk-hint">
+                  Sent on: <%= current_request.updated_at.to_fs %>
+                </p>
+                <p class="govuk-body">
+                  <%= current_request.rejection_reason %>
+                </p>
+              </div>
             <% end %>
           <% end %>
 
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-        <% end %>
-      </ul>
+          <p class="govuk-body govuk-hint">
+            <% if current_request.notified_at %>
+              Sent on <%= current_request.notified_at.to_fs %>
+            <% end %>
+          </p>
+          <p class="govuk-body">
+            <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text)) %>
+          </p>
+          <p class="govuk-body">
+            <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
+          </p>
 
+          <% unless current_request.cancelled? || current_request.open? %>
+            <%= govuk_link_to "Update condition", edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition) %>
+          <% end %>
+
+          <% if current_request.pending? %>
+            <%= govuk_link_to(
+              "Remove", 
+              planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
+              method: :delete, 
+              data: {confirm: "Are you sure?"}
+            ) %>
+          <% end %>
+
+          <% if current_request.open? %>
+            <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-!-margin-bottom-8">
       <details class="govuk-details" <%= 'open' if @condition.errors.any? %>>
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
             Add new pre-commencement condition
           </span>
         </summary>
-        <div class="govuk-details__text">
+        <div>
           <%= render "form", url: planning_application_assessment_pre_commencement_conditions_path(@planning_application) %>
         </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
       </details>
+    </div>
 
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
+    <div class="govuk-button-group">
       <%= form_with model: @condition, url: confirm_planning_application_assessment_pre_commencement_conditions_path(@planning_application) do |form| %>
-        <%= form.govuk_submit(t("form_actions.pre_commencement_condition.confirm")) do %>
-          <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
-        <% end %>
+        <%= form.submit t("form_actions.pre_commencement_condition.confirm"), class: "govuk-button" %>
+        <%= form.govuk_submit("Save and come back later", secondary: true) %>
+        <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
       <% end %>
     </div>
   </div>

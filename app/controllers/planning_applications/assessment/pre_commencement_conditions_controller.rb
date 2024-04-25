@@ -47,11 +47,15 @@ module PlanningApplications
       end
 
       def confirm
-        @condition_set.confirm_pending_requests!
+        if send_to_applicant?
+          @condition_set.confirm_pending_requests!
+        else
+          @condition_set.create_or_update_review!("in_progress")
+        end
 
         respond_to do |format|
           format.html do
-            redirect_to planning_application_assessment_pre_commencement_conditions_path(@planning_application), notice: t(".success")
+            redirect_to confirmation_url, notice: t(".#{send_to_applicant? ? "complete" : "save"}.success")
           end
         end
       rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
@@ -95,6 +99,18 @@ module PlanningApplications
 
       def pre_commencement_condition_attributes
         %i[title text reason]
+      end
+
+      def send_to_applicant?
+        params[:commit] == "Confirm and send to applicant"
+      end
+
+      def confirmation_url
+        if send_to_applicant?
+          planning_application_assessment_pre_commencement_conditions_path(@planning_application)
+        else
+          planning_application_assessment_tasks_path(@planning_application)
+        end
       end
     end
   end

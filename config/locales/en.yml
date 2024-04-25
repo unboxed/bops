@@ -712,7 +712,7 @@ en:
       save_and_mark_as_complete: Save and mark as complete
     pre_commencement_condition:
       add: Add pre-commencement condition
-      confirm: Confirm and send conditions
+      confirm: Confirm and send to applicant
       update: Update pre-commencement condition
     publish_decision: Publish decision
     review_and_publish_decision: Review and publish decision
@@ -1190,7 +1190,10 @@ en:
           successfully_updated_policy: Successfully updated policy class
       pre_commencement_conditions:
         confirm:
-          success: Pending pre-commencement conditions have been confirmed and sent to the applicant
+          complete:
+            success: Pre-commencement conditions have been confirmed and sent to the applicant
+          save:
+            success: Pre-commencement conditions have been successfully saved
         create:
           success: Pre-commencement condition has been successfully added
         destroy:

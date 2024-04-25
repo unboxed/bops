@@ -39,10 +39,19 @@ class ConditionSet < ApplicationRecord
   def confirm_pending_requests!
     transaction do
       validation_requests.pending.each(&:mark_as_sent!)
-      create_review
+
+      create_or_update_review!("complete")
     end
 
     send_pre_commencement_condition_request_email
+  end
+
+  def create_or_update_review!(status)
+    if current_review.present?
+      current_review.update!(status:)
+    else
+      create_review(status)
+    end
   end
 
   private
@@ -59,7 +68,7 @@ class ConditionSet < ApplicationRecord
     current_review.status == "updated" && current_review.review_status == "to_be_reviewed"
   end
 
-  def create_review
-    reviews.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: id, status: "complete")
+  def create_review(status)
+    reviews.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: id, status:)
   end
 end
