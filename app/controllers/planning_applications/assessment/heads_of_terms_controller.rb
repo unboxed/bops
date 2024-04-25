@@ -29,7 +29,7 @@ module PlanningApplications
           format.html do
             if @heads_of_term.update(heads_of_terms_params)
               redirect_to planning_application_assessment_tasks_path(@planning_application),
-                notice: I18n.t("heads_of_terms.update.success")
+                notice: I18n.t("heads_of_terms.update.#{@heads_of_term.public? ? "public" : "saved"}.success")
             else
               render :index
             end
@@ -57,7 +57,11 @@ module PlanningApplications
         params.require(:heads_of_term)
           .permit(
             terms_attributes: %i[_destroy id title text]
-          ).to_h.merge(reviews_attributes: [status:, id: (@heads_of_term&.current_review&.id if !mark_as_complete?)])
+          ).to_h.merge(public:, reviews_attributes: [status:, id: (@heads_of_term&.current_review&.id if !mark_as_complete?)])
+      end
+
+      def public
+        params[:commit] == "Confirm and send to applicant"
       end
 
       def status

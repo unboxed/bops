@@ -10,6 +10,7 @@ class HeadsOfTerm < ApplicationRecord
   accepts_nested_attributes_for :reviews
 
   after_update :create_heads_of_terms_review!, if: :should_create_review?
+  after_commit :update_validation_requests, if: :public?
 
   def current_review
     reviews.order(:created_at).last
@@ -38,6 +39,10 @@ class HeadsOfTerm < ApplicationRecord
 
   def create_heads_of_terms_review!
     reviews.create!(reviewer: Current.user, owner_id: id, specific_attributes: {"review_type" => "heads_of_term"}, status: "complete")
+  end
+
+  def update_validation_requests
+    validation_requests.pending.each { |request| request.email_and_timestamp }
   end
 
   private

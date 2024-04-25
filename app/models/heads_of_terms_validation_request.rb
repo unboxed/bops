@@ -7,6 +7,8 @@ class HeadsOfTermsValidationRequest < ValidationRequest
   belongs_to :owner, polymorphic: true
 
   def email_and_timestamp
+    return unless owner.heads_of_term.public?
+
     send_post_validation_request_email if owner.heads_of_term.send_notification?
 
     mark_as_sent!

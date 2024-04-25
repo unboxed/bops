@@ -721,7 +721,10 @@ en:
     save_and_mark_as_complete: Save and mark as complete
   heads_of_terms:
     update:
-      success: Heads of terms successfully updated and sent to applicant
+      public:
+        success: Heads of terms successfully updated and sent to applicant
+      saved:
+        success: Heads of terms successfully saved
   helpers:
     hint:
       neighbour_response:

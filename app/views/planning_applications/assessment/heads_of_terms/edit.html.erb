@@ -37,8 +37,11 @@
               <% end %>
             <% end %>
           </div>
-        <%= form.submit "Submit", class: "govuk-button", data: { module: "govuk-button" } %>
-
+        
+        <div class="govuk-button-group">
+          <%= form.submit "Confirm and send to applicant", class: "govuk-button", data: { module: "govuk-button" } %>
+          <%= link_to "Back", planning_application_assessment_heads_of_terms_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        </div>
         <% end %>
       </div>
     </div>

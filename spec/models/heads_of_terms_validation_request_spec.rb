@@ -43,7 +43,7 @@ RSpec.describe HeadsOfTermsValidationRequest do
 
   describe "callbacks" do
     describe "::after_create #email_and_timestamp" do
-      let(:heads_of_term) { build(:heads_of_term) }
+      let(:heads_of_term) { build(:heads_of_term, public: true) }
 
       context "when first sending requests" do
         let(:term) { build(:term, heads_of_term:) }
@@ -51,12 +51,25 @@ RSpec.describe HeadsOfTermsValidationRequest do
         let(:request) { build(:heads_of_terms_validation_request, state: "pending", owner: term) }
         let(:request2) { build(:heads_of_terms_validation_request, state: "pending", owner: term2) }
 
-        it "only sends one email for multiple requests" do
-          # First time it sends mail
-          expect { request.save }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        context "when heads of term is not public" do
+          before do
+            heads_of_term.update(public: false)
+          end
 
-          # Second time, it does not
-          expect { request2.save }.to change { ActionMailer::Base.deliveries.count }.by(0)
+          it "does not send an email" do
+            expect { request.save }.not_to change { ActionMailer::Base.deliveries.count }
+            expect { request2.save }.not_to change { ActionMailer::Base.deliveries.count }
+          end
+        end
+
+        context "when heads of term is public" do
+          it "only sends one email for multiple requests" do
+            # First time it sends mail
+            expect { request.save }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+            # Second time, it does not
+            expect { request2.save }.to change { ActionMailer::Base.deliveries.count }.by(0)
+          end
         end
       end
 
