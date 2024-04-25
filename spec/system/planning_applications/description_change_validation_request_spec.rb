@@ -37,7 +37,7 @@ RSpec.describe "Requesting description changes to a planning application" do
     expect(page).to have_content("Proposed description can't be blank")
 
     fill_in("Suggest a new application description", with: "description")
-    click_button "Send"
+    click_button "Send request"
 
     expect(page).to have_text("Description change request successfully sent.")
 
