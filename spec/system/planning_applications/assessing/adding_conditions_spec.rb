@@ -72,7 +72,7 @@ RSpec.describe "Add conditions" do
 
     it "you can edit conditions" do
       create(:condition, condition_set: planning_application.condition_set, standard: true)
-      create(:condition, condition_set: planning_application.condition_set, standard: false, text: "Condition 1", reason: "Reason 1")
+      create(:condition, condition_set: planning_application.condition_set, standard: false, text: "You must do this", reason: "For this reason")
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
@@ -82,8 +82,8 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content "Time limit"
       expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
       expect(page).to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
-      expect(page).to have_content "Condition 1"
-      expect(page).to have_content "Reason 1"
+      expect(page).to have_content "You must do this"
+      expect(page).to have_content "For this reason"
 
       click_link "Edit conditions"
 
@@ -105,8 +105,8 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content "In accordance with approved plans"
       expect(page).to have_content "The development hereby permitted must be undertaken in accordance with the approved plans and documents."
       expect(page).to have_content "For the avoidance of doubt and in the interests of proper planning."
-      expect(page).to have_content "Condition 1"
-      expect(page).to have_content "Reason 1"
+      expect(page).to have_content "You must do this"
+      expect(page).to have_content "For this reason"
       expect(page).to have_content "Custom condition 1"
       expect(page).to have_content "Custom reason 1"
 
@@ -131,8 +131,8 @@ RSpec.describe "Add conditions" do
       expect(page).not_to have_content "Time limit"
       expect(page).not_to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
       expect(page).not_to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
-      expect(page).not_to have_content "Condition 1"
-      expect(page).not_to have_content "Reason 1"
+      expect(page).not_to have_content "You must do this"
+      expect(page).not_to have_content "For this reason"
     end
 
     it "shows errors" do
