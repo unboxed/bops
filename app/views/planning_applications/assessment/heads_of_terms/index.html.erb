@@ -20,7 +20,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @planning_application.heads_of_term.terms.any?(&:persisted?) && @planning_application.heads_of_term.errors.none? %>
+    <% if @planning_application.heads_of_term.public? && @planning_application.heads_of_term.terms.any?(&:persisted?) && @planning_application.heads_of_term.errors.none? %>
       <%= render "heads_of_terms" %>
     <% else %>
       <%= render "form" %>

@@ -7,7 +7,6 @@
   <div id="standard-terms">
     <%= form.govuk_check_boxes_fieldset :heads_of_term, multiple: false, legend: { text: "Suggested heads of terms" } do %>
       <%= form.fields_for :terms, @heads_of_term.terms.standard do |fields| %>
-        <% next if fields.object.persisted? %>
         <%= fields.hidden_field :_destroy, value: true %>
         <%= fields.govuk_check_box :_destroy, false, multiple: false, label: { text: fields.object.title }, checked: fields.object.checked?, class: "term", link_errors: true do %>
           <%= fields.hidden_field :id %>
@@ -56,5 +55,13 @@
     </div>
   </template>
 
-  <%= form.submit "Submit", class: "govuk-button", data: { module: "govuk-button" } %>
+  <div class="govuk-button-group">
+    <%= form.submit "Confirm and send to applicant", class: "govuk-button", data: { module: "govuk-button" } %>
+
+    <% if @planning_application.heads_of_term.terms.none?(&:persisted?) %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+    <% end %>
+
+    <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
 <% end %>
