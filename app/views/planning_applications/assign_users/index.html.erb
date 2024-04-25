@@ -26,9 +26,10 @@
       <%= form.govuk_fieldset(legend: {text: nil}) do %>
         <%= form.govuk_select :user_id, User.menu(scope = @users), label: nil, options: {selected: @planning_application.user_id} %>
       <% end %>
-      <p>
+      <div class="govuk-button-group">
         <%= form.govuk_submit "Confirm" %>
-      </p>
+        <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
     <% end %>
   </div>
 </div>
