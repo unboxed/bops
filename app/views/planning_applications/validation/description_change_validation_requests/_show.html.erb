@@ -47,10 +47,11 @@
           ) do |form| %>
         <%= form.hidden_field(:return_to, value: @back_path) %>
         <div class="govuk-button-group">
-          <%= link_to(t(".back"), @back_path, class: "govuk-button") %>
+          <%= govuk_link_to(t(".back"), @back_path, class: "govuk-button govuk-button--secondary") %>
+
           <%= form.submit(
                 t(".cancel_this_request"),
-                class: "govuk-button govuk-button--secondary"
+                class: "button-as-link govuk-body"
               ) %>
         </div>
       <% end %>

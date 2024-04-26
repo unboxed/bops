@@ -55,7 +55,7 @@ RSpec.describe "DescriptionChangesValidation" do
         within(".govuk-radios") { choose "No" }
       end
       click_button "Save"
-      click_button "Send"
+      click_button "Send request"
 
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
@@ -86,7 +86,7 @@ RSpec.describe "DescriptionChangesValidation" do
         with: "My better description"
       )
 
-      click_button "Send"
+      click_button "Send request"
 
       expect(page).to have_content("Description change request successfully sent.")
 

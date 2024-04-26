@@ -28,7 +28,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
     visit "/planning_applications/#{planning_application.id}/validation/tasks"
     click_link "Confirm Community Infrastructure Levy (CIL)"
     choose "Yes"
-    click_button "Save and mark as complete"
+    click_button "Save"
 
     expect(page).to have_content "CIL liability updated"
     within "#cil-liability-validation-tasks" do
@@ -40,7 +40,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
     visit "/planning_applications/#{planning_application.id}/validation/tasks"
     click_link "Confirm Community Infrastructure Levy (CIL)"
     choose "No"
-    click_button "Save and mark as complete"
+    click_button "Save"
 
     expect(page).to have_content "CIL liability updated"
     within "#cil-liability-validation-tasks" do
@@ -53,7 +53,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Confirm Community Infrastructure Levy (CIL)"
       choose "Yes"
-      click_button "Save and mark as complete"
+      click_button "Save"
 
       click_link "Confirm Community Infrastructure Levy (CIL)"
 
@@ -65,7 +65,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Confirm Community Infrastructure Levy (CIL)"
       choose "No"
-      click_button "Save and mark as complete"
+      click_button "Save"
 
       click_link "Confirm Community Infrastructure Levy (CIL)"
 

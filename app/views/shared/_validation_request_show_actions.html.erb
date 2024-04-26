@@ -1,4 +1,12 @@
-<div class="govuk-button-group govuk-!-padding-top-2">
+<div class="govuk-!-margin-top-3">
+  <% if validation_request.open_or_pending? %>
+    <% if planning_application.not_started? %>
+      <%= delete_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="govuk-button-group govuk-!-margin-top-4">
   <% if show_continue_link = validation_request.active_closed_fee_item? %>
     <% if form %>
       <%= form.govuk_submit (button_text || "Continue"), class: "govuk-button" %>
@@ -6,11 +14,11 @@
       <%= link_to "Continue", planning_application_validation_fee_items_path(planning_application), class: "govuk-button" %>
     <% end %>
   <% end %>
-  <%= back_link(classname: "govuk-button #{"govuk-button--secondary" if show_continue_link}") %>
+  <%= back_link(classname: "govuk-button govuk-button--secondary") %>
 
   <% if validation_request.open_or_pending? %>
     <% if planning_application.validation_complete? %>
-      <%= link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request), class: "govuk-button govuk-button--secondary" %>
+      <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request), class: "govuk-body" %>
     <% end %>
 
     <% if planning_application.not_started? %>
@@ -18,10 +26,9 @@
         <%= edit_request_url(
               planning_application,
               validation_request,
-              classname: "govuk-button govuk-button--secondary"
+              classname: "govuk-body govuk-link"
             ) %>
       <% end %>
-      <%= delete_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
     <% end %>
   <% end %>
 </div>

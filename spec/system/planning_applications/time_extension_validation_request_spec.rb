@@ -40,7 +40,7 @@ RSpec.describe "Requesting time extension to a planning application" do
 
     fill_in "Enter a reason for the request", with: "This is taking longer than I thought"
 
-    click_button "Send"
+    click_button "Send request"
 
     expect(page).to have_text("Time extension request successfully sent.")
 

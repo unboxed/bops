@@ -37,7 +37,7 @@
           planning_application_assessment_policy_class_path(planning_application, policy_class),
           method: :delete,
           data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this class?"},
-          class: "govuk-button govuk-button--warning",
+          class: "govuk-button govuk-button--secondary",
           disabled: planning_application.submit_recommendation_complete?
         ) %>
     <p class="govuk-body">

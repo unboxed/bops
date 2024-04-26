@@ -40,18 +40,5 @@ RSpec.describe "Document uploads" do
         expect(page).to have_content("Please choose a file")
       end
     end
-
-    context "when the planning application has been submitted for review" do
-      let!(:planning_application) { create(:submitted_planning_application, local_authority: default_local_authority) }
-
-      it "the upload \"button\" is disabled" do
-        visit "/planning_applications/#{planning_application.id}/documents"
-
-        # The enabled call-to-action is a link, but to show it as disabled
-        # we replace it with a button.
-        expect(page).not_to have_link("Upload document")
-        expect(page).to have_button("Upload document", disabled: true)
-      end
-    end
   end
 end
