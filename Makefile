@@ -61,10 +61,10 @@ db-prompt:
 	$(DOCKER-RUN) console psql postgres://postgres:postgres@db
 
 lint:
-	$(DOCKER-RUN) console rubocop
+	$(DOCKER-RUN) console rake rubocop biome erblint
 
 lint-auto-correct:
-	$(DOCKER-RUN) console rubocop --autocorrect-all
+	$(DOCKER-RUN) console rake rubocop:fix biome:fix erblint:fix
 
 # this regenerates the Rubocop TODO and ensures that cops aren't
 # turned off over a max number of file offenses. Note: we don't want
