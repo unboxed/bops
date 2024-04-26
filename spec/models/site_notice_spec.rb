@@ -24,7 +24,7 @@ RSpec.describe SiteNotice do
 
       before do
         site_notice.planning_application = planning_application
-        planning_application.consultation.start_deadline(1.day.from_now)
+        consultation.start_deadline(3.days.ago)
       end
 
       it "validates date is not in future" do
@@ -44,11 +44,41 @@ RSpec.describe SiteNotice do
       end
 
       it "validates date may be before consultation start date" do
-        site_notice.displayed_at = 1.day.ago
+        site_notice.displayed_at = 5.days.ago
 
-        expect(site_notice.displayed_at).to be < site_notice.planning_application.consultation.start_date
+        expect(site_notice.displayed_at).to be < consultation.start_date
 
         expect { site_notice.valid?(:confirmation) }.not_to change { site_notice.errors[:displayed_at] }
+      end
+
+      it "validates date may be same as consultation start date" do
+        site_notice.displayed_at = consultation.start_date
+
+        expect(site_notice.displayed_at.to_date).to eq consultation.start_date
+
+        expect { site_notice.valid?(:confirmation) }.not_to change { site_notice.errors[:displayed_at] }
+      end
+
+      it "validates date may be after consultation start date" do
+        site_notice.displayed_at = consultation.start_date + 1.day
+
+        expect(site_notice.displayed_at).to be > consultation.start_date
+
+        expect { site_notice.valid?(:confirmation) }.not_to change { site_notice.errors[:displayed_at] }
+      end
+
+      context "when the consultation start date is tomorrow" do
+        before do
+          consultation.update!(start_date: 1.day.from_now)
+        end
+
+        it "validates date may be today" do
+          site_notice.displayed_at = Time.zone.now
+
+          expect(site_notice.displayed_at.to_date).to be < consultation.start_date
+
+          expect { site_notice.valid?(:confirmation) }.not_to change { site_notice.errors[:displayed_at] }
+        end
       end
     end
 
