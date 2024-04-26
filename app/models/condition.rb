@@ -2,13 +2,15 @@
 
 class Condition < ApplicationRecord
   belongs_to :condition_set
+  acts_as_list scope: :condition_set
+
   has_many :validation_requests, as: :owner, class_name: "ValidationRequest", dependent: :destroy
 
   validates :text, :reason, presence: true
   validates :title, presence: true, if: :pre_commencement?
 
-  after_create :create_validation_request, if: :pre_commencement?
-  before_update :create_validation_request, if: -> { pre_commencement? && should_create_validation_request? }
+  after_create :create_validation_request!, if: :pre_commencement?
+  before_update :create_validation_request!, if: -> { pre_commencement? && should_create_validation_request? }
 
   def checked?
     persisted? || errors.present?
@@ -49,8 +51,8 @@ class Condition < ApplicationRecord
     title_changed? || text_changed? || reason_changed?
   end
 
-  def create_validation_request
-    validation_requests.create(type: "PreCommencementConditionValidationRequest", planning_application: condition_set.planning_application, post_validation: true, user: Current.user)
+  def create_validation_request!
+    validation_requests.create!(type: "PreCommencementConditionValidationRequest", planning_application: condition_set.planning_application, post_validation: true, user: Current.user)
   end
 
   def pre_commencement?

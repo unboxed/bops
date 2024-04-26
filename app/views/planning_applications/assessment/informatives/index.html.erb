@@ -28,7 +28,7 @@
                   sortable_url: planning_application_assessment_informative_positions_path(@planning_application, informative),
                   sortable_handle: true
                 } do %>
-            <span class="govuk-hint">Informative <%= informative.position %></span>
+            <span class="govuk-caption-m">Informative <%= informative.position %></span>
             <h2 class="govuk-heading-m"><%= informative.title %></h2>
             <%= render(FormattedContentComponent.new(text: informative.text)) %>
             <%= govuk_link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative) %>

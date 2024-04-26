@@ -155,7 +155,10 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
     end
 
     context "when applicant has responded to validation requests" do
+      let(:assessor) { create(:user, :assessor) }
+
       before do
+        Current.user = assessor
         create(:review, owner: condition_set, status: "in_progress")
         condition = create(:condition, condition_set:)
         create(:pre_commencement_condition_validation_request, owner: condition, state: "closed", approved: false)

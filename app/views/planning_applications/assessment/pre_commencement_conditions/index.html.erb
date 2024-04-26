@@ -29,12 +29,20 @@
   </div>
 
   <div class="govuk-grid-column-full">
-    <ul id="conditions-list" class="govuk-list">
-      <% @conditions.each_with_index do |condition, i| %>
-        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <ul data-controller="sortable" id="conditions-list" class="govuk-list">
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <% @condition_set.conditions.each do |condition| %>
         <%= next unless condition.persisted? %>
-        <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
-          <span class="govuk-caption-m">Condition <%= i + 1 %></span>
+        <%= content_tag :li,
+              class: "sortable-list",
+              id: dom_id(condition),
+              data: {
+                model_name: condition.class.name,
+                sortable_url: planning_application_assessment_pre_commencement_condition_positions_path(@planning_application, condition),
+                sortable_handle: true
+              } do %>
+          <span class="govuk-caption-m">Condition <%= condition.position %></span>
           <h2 class="govuk-heading-m"><%= condition.title %></h2>
 
           <p style="float: none">
@@ -85,6 +93,8 @@
           <% if current_request.open? %>
             <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
           <% end %>
+
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
         <% end %>
       <% end %>
     </ul>
