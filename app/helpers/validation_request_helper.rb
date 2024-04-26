@@ -3,14 +3,13 @@
 module ValidationRequestHelper
   def edit_request_link(planning_application, validation_request, classname: nil)
     govuk_link_to "Edit request",
-      send(:edit_planning_application_validation_validation_request_path, planning_application,
-        validation_request), class: classname
+      edit_planning_application_validation_validation_request_path(planning_application, validation_request),
+      class: classname
   end
 
   def delete_confirmation_request_link(planning_application, validation_request, classname: nil)
     govuk_link_to "Delete request",
-      send(:planning_application_validation_validation_request_path,
-        planning_application, validation_request),
+      planning_application_validation_validation_request_path(planning_application, validation_request),
       method: :delete, data: {confirm: "Are you sure?"}, class: classname
   end
 
