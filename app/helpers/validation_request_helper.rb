@@ -2,13 +2,13 @@
 
 module ValidationRequestHelper
   def edit_request_link(planning_application, validation_request, classname: nil)
-    link_to "Edit request",
+    govuk_link_to "Edit request",
       send(:edit_planning_application_validation_validation_request_path, planning_application,
         validation_request), class: classname
   end
 
   def delete_confirmation_request_link(planning_application, validation_request, classname: nil)
-    link_to "Delete request",
+    govuk_link_to "Delete request",
       send(:planning_application_validation_validation_request_path,
         planning_application, validation_request),
       method: :delete, data: {confirm: "Are you sure?"}, class: classname
@@ -25,7 +25,7 @@ module ValidationRequestHelper
   def show_validation_request_link(application, request)
     text = (!application.validated?) ? t("planning_applications.validation.validation_requests.table.view_and_update") : t("planning_applications.validation.validation_requests.table.view")
     url = show_validation_request_url(application, request)
-    link_to(text, url)
+    govuk_link_to(text, url)
   end
 
   def show_validation_request_url(application, request)
