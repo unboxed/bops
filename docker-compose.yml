@@ -107,13 +107,13 @@ services:
 
   redis:
     image: redis:7.0
-    command: redis-server
+    command: ["redis-server", "--save '60 1'", "--loglevel warning"]
     ports:
       - "127.0.0.1:6379:6379"
     volumes:
       - type: volume
         source: redis
-        target: /var/lib/redis/data
+        target: /data
 
   web:
     <<: *bops
