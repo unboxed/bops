@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module ValidationRequestHelper
-  def edit_request_url(planning_application, validation_request, classname: nil)
+  def edit_request_link(planning_application, validation_request, classname: nil)
     link_to "Edit request",
       send(:edit_planning_application_validation_validation_request_path, planning_application,
         validation_request), class: classname
   end
 
-  def delete_confirmation_request_url(planning_application, validation_request, classname: nil)
+  def delete_confirmation_request_link(planning_application, validation_request, classname: nil)
     link_to "Delete request",
       send(:planning_application_validation_validation_request_path,
         planning_application, validation_request),

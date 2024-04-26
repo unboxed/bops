@@ -26,8 +26,8 @@
             <% end %>
 
             <% if @planning_application.not_started? %>
-              <%= edit_request_url(@planning_application, validation_request, classname: "govuk-link govuk-!-display-block") %>
-              <%= delete_confirmation_request_url(@planning_application, validation_request, classname: "govuk-link govuk-!-display-block") %>
+              <%= edit_request_link(@planning_application, validation_request, classname: "govuk-link govuk-!-display-block") %>
+              <%= delete_confirmation_request_link(@planning_application, validation_request, classname: "govuk-link govuk-!-display-block") %>
             <% end %>
           <% end %>
         </td>
