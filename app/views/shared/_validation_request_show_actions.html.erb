@@ -1,7 +1,7 @@
 <div class="govuk-!-margin-top-3">
   <% if validation_request.open_or_pending? %>
     <% if planning_application.not_started? %>
-      <%= delete_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
+      <%= delete_confirmation_request_link(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
     <% end %>
   <% end %>
 </div>
@@ -23,10 +23,10 @@
 
     <% if planning_application.not_started? %>
       <% if local_assigns.fetch(:include_edit, true) %>
-        <%= edit_request_url(
+        <%= edit_request_link(
               planning_application,
               validation_request,
-              classname: "govuk-body govuk-link"
+              classname: "govuk-body"
             ) %>
       <% end %>
     <% end %>
