@@ -67,8 +67,8 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_selector("p", text: "Custom reason 2")
       end
 
-      click_button "Confirm and send conditions"
-      expect(page).to have_selector("[role=alert] p", text: "Pending pre-commencement conditions have been confirmed and sent to the applicant")
+      click_button "Confirm and send to applicant"
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been confirmed and sent to the applicant")
 
       within("#condition_#{Condition.first.id}") do
         expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
@@ -88,6 +88,89 @@ RSpec.describe "Add pre-commencement conditions" do
       within("#add-pre-commencement-conditions") do
         expect(page).to have_content "Completed"
         click_link "Add pre-commencement conditions"
+      end
+    end
+
+    it "you can save pre-commencement conditions and confirm to send" do
+      within("#add-pre-commencement-conditions") do
+        expect(page).to have_content "Not started"
+        click_link "Add pre-commencement conditions"
+      end
+
+      expect(page).to have_selector("h1", text: "Add pre-commencement conditions")
+
+      find("span", text: "Add new pre-commencement condition").click
+
+      click_button "Add pre-commencement condition"
+
+      fill_in "Enter title", with: "Title 1"
+      fill_in "Enter condition", with: "Custom condition 1"
+      fill_in "Enter reason", with: "Custom reason 1"
+      click_button "Add pre-commencement condition"
+
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement condition has been successfully added")
+
+      within("#condition_#{Condition.first.id}") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Title 1")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "Custom condition 1")
+        expect(page).to have_selector("p", text: "Custom reason 1")
+      end
+
+      click_button "Save and come back later"
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been successfully saved")
+
+      within("#add-pre-commencement-conditions") do
+        expect(page).to have_content "In progress"
+        click_link "Add pre-commencement conditions"
+      end
+
+      within("#condition_#{Condition.first.id}") do
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+      end
+
+      click_button "Confirm and send to applicant"
+
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been confirmed and sent to the applicant")
+
+      within("#condition_#{Condition.first.id}") do
+        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
+        expect(page).to have_link("Cancel")
+
+        expect(page).not_to have_link("Update condition")
+        expect(page).not_to have_link("Remove")
+      end
+
+      find("span", text: "Add new pre-commencement condition").click
+      fill_in "Enter title", with: "Title 2"
+      fill_in "Enter condition", with: "Custom condition 2"
+      fill_in "Enter reason", with: "Custom reason 2"
+      click_button "Add pre-commencement condition"
+
+      click_button "Save and come back later"
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been successfully saved")
+
+      within("#add-pre-commencement-conditions") do
+        expect(page).to have_content "In progress"
+        click_link "Add pre-commencement conditions"
+      end
+
+      within("#condition_#{Condition.first.id}") do
+        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+      end
+
+      within("#condition_#{Condition.second.id}") do
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+      end
+
+      click_button "Confirm and send to applicant"
+
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been confirmed and sent to the applicant")
+
+      within("#condition_#{Condition.second.id}") do
+        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
       end
     end
 
@@ -141,8 +224,8 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_selector("p", text: "New reason")
       end
 
-      click_button "Confirm and send conditions"
-      expect(page).to have_selector("[role=alert] p", text: "Pending pre-commencement conditions have been confirmed and sent to the applicant")
+      click_button "Confirm and send to applicant"
+      expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been confirmed and sent to the applicant")
     end
 
     it "you can cancel conditions" do
@@ -205,7 +288,7 @@ RSpec.describe "Add pre-commencement conditions" do
       fill_in "Enter condition", with: "Another condition"
       fill_in "Enter reason", with: "Another reason"
       click_button "Add pre-commencement condition"
-      click_button "Confirm and send conditions"
+      click_button "Confirm and send to applicant"
 
       within("#condition_#{Condition.last.id}") do
         expect(page).to have_selector("h2", text: "Another title")
