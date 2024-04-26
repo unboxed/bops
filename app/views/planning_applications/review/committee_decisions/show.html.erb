@@ -1,18 +1,18 @@
 <% content_for :page_title do %>
-  Recommendation to committee - <%= t('page_title') %>
+  Recommendation to committee - <%= t("page_title") %>
 <% end %>
 
 <%= render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/review_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Recommendation to committee" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Recommendation to committee" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Recommendation to committee"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

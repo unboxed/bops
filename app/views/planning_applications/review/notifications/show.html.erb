@@ -1,18 +1,18 @@
 <% content_for :page_title do %>
-  Notify neighbours of committee meeting - <%= t('page_title') %>
+  Notify neighbours of committee meeting - <%= t("page_title") %>
 <% end %>
 
 <%= render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/review_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Notify neighbours of committee meeting" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Notify neighbours of committee meeting" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Notify neighbours of committee meeting"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

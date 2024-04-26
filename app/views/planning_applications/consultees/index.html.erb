@@ -14,14 +14,14 @@
 
 <div class="govuk-grid-row">
   <%= content_tag :div, class: "govuk-grid-column-full", data: {
-    controller: "consultees",
-    consultees_planning_application_id: @planning_application.id,
-    consultees_confirmation_message: "Send emails to consultees",
-    consultees_prompt_message: "Select a consultee",
-    consultees_error_message: "Unable to add consultee",
-    consultees_target: "allConsultees"
+        controller: "consultees",
+        consultees_planning_application_id: @planning_application.id,
+        consultees_confirmation_message: "Send emails to consultees",
+        consultees_prompt_message: "Select a consultee",
+        consultees_error_message: "Unable to add consultee",
+        consultees_target: "allConsultees"
 
-  } do %>
+      } do %>
     <% if @consultation.errors.any? %>
       <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
         <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -30,7 +30,7 @@
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list">
             <% @consultation.errors.each do |error| %>
-              <li><%= error.message.html_safe %></li>
+              <li><%= error.message %></li>
             <% end %>
           </ul>
         </div>
@@ -38,10 +38,10 @@
     <% end %>
 
   <%= form_with(model: @consultation,
-                url: planning_application_consultees_emails_path(@planning_application),
-                data: {
-                  consultees_target: "form"
-                }) do |form| %>
+        url: planning_application_consultees_emails_path(@planning_application),
+        data: {
+          consultees_target: "form"
+        }) do |form| %>
     <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation %>
     <%= render AddConsulteeComponent.new(consultees: @consultees, form: form) %>
   <% end %>

@@ -27,7 +27,7 @@
       showGeojsonDataMarkers
     <% end %>
   <% end %>
-  <% if locals[:geojson_field].present?  %>
+  <% if locals[:geojson_field].present? %>
     drawMode="true"
   <% end %>
   <% if @blank_layout %>
@@ -39,13 +39,11 @@
     drawMode="true"
     geojsonBuffer=30
   <% end %>
-
   <% %w[geojson_color draw_color draw_fill_color].each do |color| %>
     <% if locals[color.to_sym] %>
-      <%= color.camelize(:lower) %>=<%= locals[color.to_sym] %>
+      <%= "#{color.camelize(:lower)}=#{locals[color.to_sym]}" %>
     <% end %>
-  <% end %>
-></my-map>
+  <% end %>></my-map>
 
 <%= javascript_tag nonce: true do %>
   <% if locals[:geojson_field].present? %>

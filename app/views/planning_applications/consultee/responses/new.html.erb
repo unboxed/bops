@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Upload consultee response - <%= t('page_title') %>
+  Upload consultee response - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -8,39 +8,38 @@
 <% content_for :title, "Upload consultee response" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Upload consultee response" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Upload consultee response"}
+    ) %>
 
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Add a new response</h2>
 
 <%= form_with(
-  model: @consultee_response,
-  class: "govuk-!-margin-top-5",
-  url: planning_application_consultee_responses_path(@planning_application, @consultee),
-  method: :post
-) do |form| %>
+      model: @consultee_response,
+      class: "govuk-!-margin-top-5",
+      url: planning_application_consultee_responses_path(@planning_application, @consultee),
+      method: :post
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
-  <%= form.govuk_date_field :received_at, legend: { text: "Response received on", size: "s", tag: "p" } %>
-  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: { text: 'Is the response', size: 'm' } do %>
-    <%= form.govuk_radio_button :summary_tag, 'approved', label: { text: 'Approved' } %>
-    <%= form.govuk_radio_button :summary_tag, 'amendments_needed', label: { text: 'Amendments needed' } %>
-    <%= form.govuk_radio_button :summary_tag, 'objected', label: { text: 'Objected' } %>
+  <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Is the response", size: "m"} do %>
+    <%= form.govuk_radio_button :summary_tag, "approved", label: {text: "Approved"} %>
+    <%= form.govuk_radio_button :summary_tag, "amendments_needed", label: {text: "Amendments needed"} %>
+    <%= form.govuk_radio_button :summary_tag, "objected", label: {text: "Objected"} %>
   <% end %>
-  <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
-  <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
+  <%= form.govuk_text_area :response, hint: {text: "This won't be made public"} %>
+  <%= form.govuk_text_area :redacted_response, label: {text: "Redacted response"}, hint: {text: "This will be made public"} %>
   <%= form.govuk_file_field :documents,
-    label: { text: 'Upload documents' },
-    hint: { text: "Add any documents that the consultee sent." },
-    multiple: true
-  %>
+        label: {text: "Upload documents"},
+        hint: {text: "Add any documents that the consultee sent."},
+        multiple: true %>
   <div class="govuk-button-group">
     <%= form.submit(
-      "Save response",
-      class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
-    ) %>
+          "Save response",
+          class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+        ) %>
     <%= link_to "Back", planning_application_consultees_responses_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
   </div>
 <% end %>

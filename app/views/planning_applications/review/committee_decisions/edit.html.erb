@@ -1,18 +1,18 @@
 <% content_for :page_title do %>
-  Recommendation to committee - <%= t('page_title') %>
+  Recommendation to committee - <%= t("page_title") %>
 <% end %>
 
 <%= render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/review_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Recommendation to committee" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Recommendation to committee" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Recommendation to committee"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -53,22 +53,22 @@
 
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 <%= form_with(
-  model: @committee_decision,
-  url: planning_application_review_committee_decision_path(@planning_application, @committee_decision)
-) do |form| %>
+      model: @committee_decision,
+      url: planning_application_review_committee_decision_path(@planning_application, @committee_decision)
+    ) do |form| %>
 
     <%= form.fields_for :reviews_attributes, @committee_decision.current_review do |review_form| %>
-    <%= review_form.govuk_radio_buttons_fieldset :action, legend: { text: "Do you agree with the recommendation?" } do %>
+    <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Do you agree with the recommendation?"} do %>
       <%= review_form.govuk_radio_button(
-        :action, :accepted, checked: @committee_decision.current_review.accepted?, label: { text: "Yes" }
-      ) %>
+            :action, :accepted, checked: @committee_decision.current_review.accepted?, label: {text: "Yes"}
+          ) %>
 
       <%= review_form.govuk_radio_button(
-        :action, :rejected, checked: @committee_decision.current_review.rejected?, label: { text: "No (return the case for assessment)" }
-      ) do %>
+            :action, :rejected, checked: @committee_decision.current_review.rejected?, label: {text: "No (return the case for assessment)"}
+          ) do %>
         <%= review_form.govuk_text_area(
-          :comment, value: @committee_decision.current_review.comment, rows: 6, label: { text: "Explain why you do not agree with the recommendation" }
-        ) %>
+              :comment, value: @committee_decision.current_review.comment, rows: 6, label: {text: "Explain why you do not agree with the recommendation"}
+            ) %>
       <% end %>
     <% end %>
   <% end %>

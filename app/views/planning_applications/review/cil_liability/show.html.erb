@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "shared/review_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Check Community Infrastructure Levy (CIL)" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Check Community Infrastructure Levy (CIL)" }
+      locals: {heading: "Check Community Infrastructure Levy (CIL)"}
     ) %>
 
 <p class="govuk-body">
@@ -32,22 +32,20 @@
 <%= render "audit_trail" %>
 
 <%= form_with model: [@planning_application],
-              url: planning_application_review_cil_liability_url(@planning_application),
-              class: "govuk-!-margin-top-7" do |form| %>
+      url: planning_application_review_cil_liability_url(@planning_application),
+      class: "govuk-!-margin-top-7" do |form| %>
   <%= form.hidden_field :cil_liable, value: @planning_application.cil_liable %>
 
   <div class="govuk-button-group">
     <% unless @planning_application.audits.review_cil_liability.any? %>
       <%= form.submit(
-        t("form_actions.save_and_mark_as_complete"),
-        class: "govuk-button",
-        data: { module: "govuk-button" },
-        disabled: local_assigns.fetch(:disabled, false)
-      ) %>
+            t("form_actions.save_and_mark_as_complete"),
+            class: "govuk-button",
+            data: {module: "govuk-button"},
+            disabled: local_assigns.fetch(:disabled, false)
+          ) %>
     <% end %>
     <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     <%= govuk_link_to "Change CIL liability", edit_planning_application_review_cil_liability_path(@planning_application), class: "govuk-body" %>
   </div>
 <% end %>
-
-

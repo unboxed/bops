@@ -11,10 +11,10 @@
       </li>
     <% else %>
       <%= render(
-        TaskListItems::FeeComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            TaskListItems::FeeComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
     <% end %>
     <li id="cil-liability-validation-tasks" class="app-task-list__item">
       <span class="app-task-list__task-name">
@@ -32,15 +32,15 @@
       </span>
 
       <%= render(
-        StatusTags::BaseComponent.new(
-          status: @planning_application.environment_impact_assessment_status
-        )
-      ) %>
+            StatusTags::BaseComponent.new(
+              status: @planning_application.environment_impact_assessment_status
+            )
+          ) %>
     </li>
     <%= render(
-      TaskListItems::Validating::OwnershipCertificateComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+          TaskListItems::Validating::OwnershipCertificateComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
   </ul>
 </li>

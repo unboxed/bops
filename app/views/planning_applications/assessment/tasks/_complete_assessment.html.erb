@@ -4,41 +4,41 @@
   </h2>
   <ul class="app-task-list__items">
     <%= render(
-      TaskListItems::Reviewing::DocumentsComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+          TaskListItems::Reviewing::DocumentsComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <%= link_to_if(
-          @planning_application.can_assess?,
-          "Make draft recommendation",
-          new_planning_application_assessment_recommendation_path(@planning_application),
-          class: "govuk-link"
-        ) %>
+              @planning_application.can_assess?,
+              "Make draft recommendation",
+              new_planning_application_assessment_recommendation_path(@planning_application),
+              class: "govuk-link"
+            ) %>
       </span>
       <%= render(
-        StatusTags::AssessRecommendationComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            StatusTags::AssessRecommendationComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
     </li>
     <% if @planning_application.application_type.planning_conditions? %>
       <%= render(
-        TaskListItems::Assessment::ConditionsComponent.new(
-          condition_set: @planning_application.condition_set
-        )
-      ) %>
+            TaskListItems::Assessment::ConditionsComponent.new(
+              condition_set: @planning_application.condition_set
+            )
+          ) %>
       <%= render(
-        TaskListItems::Assessment::ConditionsComponent.new(
-          condition_set: @planning_application.pre_commencement_condition_set
-        )
-      ) %>
+            TaskListItems::Assessment::ConditionsComponent.new(
+              condition_set: @planning_application.pre_commencement_condition_set
+            )
+          ) %>
       <%= render(
-        TaskListItems::Assessment::InformativesComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            TaskListItems::Assessment::InformativesComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
     <% end %>
     <!-- >Only show if it's a minor application<!-->
     <li class="app-task-list__item" id="add-heads-of-terms">
@@ -46,24 +46,24 @@
         <%= govuk_link_to "Add heads of terms", planning_application_assessment_heads_of_terms_path(@planning_application) %>
       </span>
       <%= render(
-      StatusTags::HeadsOfTermsComponent.new(
-        heads_of_term: @planning_application.heads_of_term
-      )
-    ) %>
+            StatusTags::HeadsOfTermsComponent.new(
+              heads_of_term: @planning_application.heads_of_term
+            )
+          ) %>
     </li>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_submit_recommendation? %>
-          <%= govuk_link_to "Review and submit recommendation", submit_recommendation_planning_application_path(@planning_application), aria: { describedby: "submit_recommendation-completed" } %>
+          <%= govuk_link_to "Review and submit recommendation", submit_recommendation_planning_application_path(@planning_application), aria: {describedby: "submit_recommendation-completed"} %>
         <% else %>
           Review and submit recommendation
         <% end %>
       </span>
       <%= render(
-        StatusTags::SubmitRecommendationComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+            StatusTags::SubmitRecommendationComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
     </li>
   </ul>
 </li>

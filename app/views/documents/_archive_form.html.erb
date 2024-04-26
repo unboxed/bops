@@ -1,7 +1,7 @@
 <%= form_for(@document, as: :document, url: planning_application_document_confirm_archive_path) do |form| %>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-      <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
        <% if form.object.errors.any? %>
          <% form.object.errors.each do |error| %>
            <span id="status-error" class="govuk-error-message">
@@ -18,7 +18,7 @@
       </div>
     </fieldset>
     <p>
-      <%= form.submit "Archive", class: "govuk-button", data: { module: "govuk-button" } %> <%= link_to 'Cancel', planning_application_documents_path, class: "govuk-button govuk-button--secondary" %>
+      <%= form.submit "Archive", class: "govuk-button", data: {module: "govuk-button"} %> <%= link_to "Cancel", planning_application_documents_path, class: "govuk-button govuk-button--secondary" %>
     </p>
   </div>
 <% end %>

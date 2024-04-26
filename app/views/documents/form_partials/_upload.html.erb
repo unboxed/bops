@@ -1,14 +1,14 @@
 <% if @document.new_record? %>
   <%= form.govuk_file_field(
-    :file,
-    label: { text: t(".upload_a_file") },
-    direct_upload: true
-  ) %>
+        :file,
+        label: {text: t(".upload_a_file")},
+        direct_upload: true
+      ) %>
 <% else %>
   <%= form.govuk_file_field(
-    :file,
-    label: { text: t(".upload_a_replacement") , size: "m" },
-    hint: { text: t(".a_replacement_file")  },
-    direct_upload: true
-  ) %>
+        :file,
+        label: {text: t(".upload_a_replacement"), size: "m"},
+        hint: {text: t(".a_replacement_file")},
+        direct_upload: true
+      ) %>
 <% end %>

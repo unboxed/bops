@@ -1,23 +1,23 @@
 <% content_for :page_title do %>
-  Submit recommendation - <%= t('page_title') %>
+  Submit recommendation - <%= t("page_title") %>
 <% end %>
 <% render(
-  partial: "shared/assessment_task_breadcrumbs",
-  locals: {
-    planning_application: @planning_application,
-    current_page: t(".review_and_submit_recommendation")
-  }
-) %>
+     partial: "shared/assessment_task_breadcrumbs",
+     locals: {
+       planning_application: @planning_application,
+       current_page: t(".review_and_submit_recommendation")
+     }
+   ) %>
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: t(".review_and_submit_recommendation") }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: t(".review_and_submit_recommendation")}
+    ) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(
-      partial: "submit_recommendation_accordion",
-      locals: { planning_application: @planning_application }
-    ) %>
+          partial: "submit_recommendation_accordion",
+          locals: {planning_application: @planning_application}
+        ) %>
     <h2 class="govuk-heading-m"><%= t(".decision_notice") %></h2>
     <p class="govuk-body"><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
     <%= render "decision_notice", planning_application: @planning_application %>
@@ -26,21 +26,21 @@
     <p class="govuk-body"><%= t(".if_your_manager") %></p>
     <div class="govuk-button-group">
       <%= form_with(
-        model: @planning_application,
-        url: submit_planning_application_path(@planning_application)
-      ) do |form| %>
+            model: @planning_application,
+            url: submit_planning_application_path(@planning_application)
+          ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_submit(t(".submit_recommendation")) %>
         <%= link_to(
-          t(".edit_recommendation"),
-          new_planning_application_assessment_recommendation_path(@planning_application),
-         class: "govuk-button govuk-button--secondary"
-        ) %>
+              t(".edit_recommendation"),
+              new_planning_application_assessment_recommendation_path(@planning_application),
+              class: "govuk-button govuk-button--secondary"
+            ) %>
         <%= link_to(
-          t(".back"),
-          planning_application_path(@planning_application),
-          class: "govuk-button govuk-button--secondary"
-        ) %>
+              t(".back"),
+              planning_application_path(@planning_application),
+              class: "govuk-button govuk-button--secondary"
+            ) %>
       <% end %>
     </div>
   </div>

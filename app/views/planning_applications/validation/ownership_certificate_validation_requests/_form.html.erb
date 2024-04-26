@@ -1,7 +1,7 @@
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Request ownership certificate change"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Request ownership certificate change"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -27,13 +27,13 @@
       <% end %>
 
       <%= form.govuk_text_area(
-        :reason,
-        label: {
-          size: "m",
-          text: "Tell the applicant why their ownership certificate type is wrong"
-        },
-        rows: 5
-      ) %>
+            :reason,
+            label: {
+              size: "m",
+              text: "Tell the applicant why their ownership certificate type is wrong"
+            },
+            rows: 5
+          ) %>
 
       <%= form.hidden_field :type, value: "OwnershipCertificateValidationRequest" %>
 

@@ -1,15 +1,15 @@
 <% content_for :page_title do %>
-  Change your password - <%= t('page_title') %>
+  Change your password - <%= t("page_title") %>
 <% end %>
 
 <h1 class="govuk-heading-l">Create your password </h1>
 
 <%= form_with(
-  model: resource,
-  as: resource_name,
-  url: password_path(resource_name),
-  method: :put
-) do |f| %>
+      model: resource,
+      as: resource_name,
+      url: password_path(resource_name),
+      method: :put
+    ) do |f| %>
   <%= f.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= f.hidden_field :reset_password_token %>
   <div class="govuk-form-group govuk-!-margin-top-8">
@@ -28,7 +28,7 @@
     <%= f.label :password_confirmation, "Confirm new password", class: "govuk-heading-s govuk-!-margin-top-6" %>
     <%= f.password_field :password_confirmation, class: "govuk-input govuk-input--width-20", autocomplete: "new-password" %> <br>
 
-    <%= f.submit "Change password", class: "govuk-button govuk-!-margin-top-7  govuk-!-margin-bottom-4", data: { module: "govuk-button" } %>
+    <%= f.submit "Change password", class: "govuk-button govuk-!-margin-top-7  govuk-!-margin-bottom-4", data: {module: "govuk-button"} %>
   </div>
 <% end %>
 

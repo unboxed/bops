@@ -20,35 +20,35 @@
             </div>
 
             <%= form_with(
-              model: neighbour,
-              data: { action: "submit->submit-form#handleSubmit" },
-              url: planning_application_consultation_neighbour_path(planning_application, neighbour),
-              class: "govuk-!-display-none"
-            ) do |form| %>
+                  model: neighbour,
+                  data: {action: "submit->submit-form#handleSubmit"},
+                  url: planning_application_consultation_neighbour_path(planning_application, neighbour),
+                  class: "govuk-!-display-none"
+                ) do |form| %>
               <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
               <%= form.govuk_text_field :address %>
               <br>
               <%= form.submit(
-                "Save",
-                class: "govuk-button govuk-button--secondary"
-              ) %>
+                    "Save",
+                    class: "govuk-button govuk-button--secondary"
+                  ) %>
             <% end %>
 
             <div class="neighbour-action-links">
               <%= govuk_link_to(
-                  "Edit",
-                  "#",
-                  data: { action: "click->edit-form#handleClick" }
-                ) %>
+                    "Edit",
+                    "#",
+                    data: {action: "click->edit-form#handleClick"}
+                  ) %>
 
               <%= govuk_link_to(
                     "Remove",
                     planning_application_consultation_neighbour_path(
-                        @planning_application,
-                        neighbour
+                      @planning_application,
+                      neighbour
                     ),
                     method: :delete
-              ) %>
+                  ) %>
             </div>
           </div>
         <% end %>

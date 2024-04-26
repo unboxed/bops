@@ -2,17 +2,17 @@
   <%= t(".review_assessment_summaries") %> - <%= t("page_title") %>
 <% end %>
 <%= render(
-  partial: "shared/review_task_breadcrumbs",
-  locals: {
-    planning_application: @planning_application,
-    current_page: t(".review_assessment_summaries")
-  }
-) %>
+      partial: "shared/review_task_breadcrumbs",
+      locals: {
+        planning_application: @planning_application,
+        current_page: t(".review_assessment_summaries")
+      }
+    ) %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: t(".review_assessment_summaries")  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: t(".review_assessment_summaries")}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -21,9 +21,9 @@
       <%= t(".assessor_recommendation", decision: @planning_application.decision) %>
     </p>
     <%= render(
-      partial: "shared/warning_text",
-      locals: { message: t(".this_information_will") }
-    ) %>
+          partial: "shared/warning_text",
+          locals: {message: t(".this_information_will")}
+        ) %>
     <%= yield %>
   </div>
 </div>

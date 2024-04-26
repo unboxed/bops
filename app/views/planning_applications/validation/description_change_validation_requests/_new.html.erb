@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Add new description change validation request - <%= t('page_title') %>
+  Add new description change validation request - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -7,9 +7,9 @@
 <% content_for :title, "Description change" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Description change"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Description change"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -58,8 +58,8 @@
         <% end %>
         <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
         <%= form.govuk_text_area :proposed_description,
-          label: { size: 'm', text: 'Suggest a new application description' },
-          rows: 5 %>
+              label: {size: "m", text: "Suggest a new application description"},
+              rows: 5 %>
         <% if @planning_application.not_started? %>
           <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
         <% else %>

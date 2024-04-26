@@ -1,14 +1,14 @@
 <% content_for :page_title do %>
-  Missing documents - <%= t('page_title') %>
+  Missing documents - <%= t("page_title") %>
 <% end %>
 
 <%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
 <% content_for :title, "Missing documents" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Check missing documents"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Check missing documents"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
@@ -19,12 +19,12 @@
 
     <% unless @documents.any? && @documents.all?(&:representable?) %>
       <%= render "shared/warning_text",
-          message: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements." %>
+            message: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements." %>
     <% end %>
 
     <% if @planning_application.local_authority.document_checklist? %>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      <a href="<%= t("council_documents.#{@planning_application.local_authority.subdomain}.document_checklist")%>" target="_blank" class="govuk-link govuk-body-m">
+      <a href="<%= t("council_documents.#{@planning_application.local_authority.subdomain}.document_checklist") %>" target="_blank" class="govuk-link govuk-body-m">
         Checklist for <%= @planning_application.application_type.name.humanize.downcase %> (opens in a new tab)
       </a>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -44,7 +44,7 @@
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
       <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
-          validation_requests: @additional_document_validation_requests %>
+            validation_requests: @additional_document_validation_requests %>
     <% else %>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <% end %>
@@ -58,7 +58,7 @@
       <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
 
       <div class="govuk-button-group">
-        <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= form.submit "Save", class: "govuk-button", data: {module: "govuk-button"} %>
 
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>

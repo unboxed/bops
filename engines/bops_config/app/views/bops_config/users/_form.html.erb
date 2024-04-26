@@ -1,15 +1,15 @@
 <%= form_with model: @user do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <%= form.govuk_fieldset(legend: { text: nil }) do %>
+  <%= form.govuk_fieldset(legend: {text: nil}) do %>
     <%= form.govuk_text_field :name, class: "govuk-input--width-30" %>
     <%= form.govuk_text_field :email, class: "govuk-input--width-30" %>
     <%= form.govuk_text_field :mobile_number, class: "govuk-input--width-30" %>
     <%= form.govuk_collection_select(
-      :otp_delivery_method,
-      otp_delivery_method_options,
-      :first,
-      :last
-    ) %>
+          :otp_delivery_method,
+          otp_delivery_method_options,
+          :first,
+          :last
+        ) %>
   <% end %>
 
   <div class="govuk-button-group">

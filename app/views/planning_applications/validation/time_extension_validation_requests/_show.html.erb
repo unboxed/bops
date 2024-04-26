@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Time extension validation request - <%= t('page_title') %>
+  Time extension validation request - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -12,14 +12,14 @@
       Review time extension request
     </h1>
     <p class="govuk-body">
-      <strong>At:</strong> <%= @planning_application.full_address  %> <br>
+      <strong>At:</strong> <%= @planning_application.full_address %> <br>
       <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %> <br>
-      <strong>Application number:</strong> <%= @planning_application.reference  %>
+      <strong>Application number:</strong> <%= @planning_application.reference %>
     </p>
 
     <div>
       <p class="govuk-body"> <strong> Previous expiry date:</strong><br>
-        <%= @planning_application.expiry_date.strftime("%-d %B %Y")  %>
+        <%= @planning_application.expiry_date.strftime("%-d %B %Y") %>
       </p>
       <p class="govuk-body"> <strong> Proposed expiry date:</strong><br>
         <%= @validation_request.proposed_expiry_date.to_fs %>
@@ -30,7 +30,7 @@
         Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
       <% else %>
         <strong>Status:</strong><br>
-        <%= @validation_request.approved? ? 'Approved' : 'Rejected' %>
+        <%= @validation_request.approved? ? "Approved" : "Rejected" %>
       <% end %>
     </p>
 

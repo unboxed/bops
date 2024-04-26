@@ -16,6 +16,6 @@
 <% end %>
 
 <%= link_to_if(current_user.assessor?,
-               "Edit constraints",
-               planning_application_validation_constraints_path(@planning_application),
-               class: "govuk-link govuk-body") {} %>
+      "Edit constraints",
+      planning_application_validation_constraints_path(@planning_application),
+      class: "govuk-link govuk-body") {} %>

@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= t(".edit_user") %> - <%= t('page_title') %>
+  <%= t(".edit_user") %> - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -15,7 +15,7 @@
 
     <% if @user.unconfirmed? %>
       <div class="govuk-button-group">
-        <%= link_to("Resend invite", resend_invite_user_path, class: "govuk-button", data: { module: "govuk-button" }) %>
+        <%= link_to("Resend invite", resend_invite_user_path, class: "govuk-button", data: {module: "govuk-button"}) %>
       </div>
     <% end %>
 

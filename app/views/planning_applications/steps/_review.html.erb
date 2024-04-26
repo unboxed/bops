@@ -5,39 +5,39 @@
       <span class="app-task-list__task-name">
         <% if current_user.reviewer? %>
           <% if @planning_application.awaiting_determination? || @planning_application.in_committee? %>
-            <%= govuk_link_to "Review and sign-off", planning_application_review_tasks_path(@planning_application), aria: { describedby: "review_assessment-completed" } %>
+            <%= govuk_link_to "Review and sign-off", planning_application_review_tasks_path(@planning_application), aria: {describedby: "review_assessment-completed"} %>
           <% else %>
             Review and sign-off
           <% end %>
         <% else %>
           <% if @planning_application.awaiting_determination? %>
-            <%= govuk_link_to "View recommendation", view_recommendation_planning_application_path(@planning_application), aria: { describedby: "review_assessment-completed" } %>
+            <%= govuk_link_to "View recommendation", view_recommendation_planning_application_path(@planning_application), aria: {describedby: "review_assessment-completed"} %>
           <% else %>
             View recommendation
           <% end %>
         <% end %>
       </span>
       <%= render(
-        StatusTags::Reviewing::RecommendationComponent.new(
-          planning_application: @planning_application,
-          user: current_user
-        )
-      )%>
+            StatusTags::Reviewing::RecommendationComponent.new(
+              planning_application: @planning_application,
+              user: current_user
+            )
+          ) %>
     </li>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_publish? && current_user.reviewer? %>
-          <%= govuk_link_to "Publish determination", publish_planning_application_path(@planning_application), aria: { describedby: "publish-completed" } %>
+          <%= govuk_link_to "Publish determination", publish_planning_application_path(@planning_application), aria: {describedby: "publish-completed"} %>
         <% else %>
           Publish determination
         <% end %>
       </span>
       <%= render(
-        StatusTags::PublishDeterminationComponent.new(
-          planning_application: @planning_application,
-          user: current_user
-        )
-      ) %>
+            StatusTags::PublishDeterminationComponent.new(
+              planning_application: @planning_application,
+              user: current_user
+            )
+          ) %>
     </li>
   </ul>
 </div>

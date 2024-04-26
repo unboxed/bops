@@ -3,15 +3,15 @@
 <% end %>
 
 <%= render(
-  partial: "planning_applications/validation/validation_requests/validation_requests_breadcrumbs",
-  locals: { planning_application: @planning_application }
-) %>
+      partial: "planning_applications/validation/validation_requests/validation_requests_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Environment Impact Assessment (EIA)" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Check Environment Impact Assessment (EIA)" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Check Environment Impact Assessment (EIA)"}
+    ) %>
 
 <%= render "form", editable: true %>

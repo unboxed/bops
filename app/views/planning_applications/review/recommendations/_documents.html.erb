@@ -6,10 +6,10 @@
       <% documents.each do |document| %>
         <li>
           <%= link_to(
-            document_name_and_reference(document),
-            edit_planning_application_document_path(planning_application, document.id),
-            target: :_blank
-          ) %>
+                document_name_and_reference(document),
+                edit_planning_application_document_path(planning_application, document.id),
+                target: :_blank, rel: :noopener
+              ) %>
         </li>
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
       <% end %>

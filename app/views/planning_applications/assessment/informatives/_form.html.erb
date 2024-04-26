@@ -1,6 +1,6 @@
 <%= form_with model: @informative,
-              url:,
-              method: :patch do |form| %>
+      url:,
+      method: :patch do |form| %>
   <% if !@informative_set.current_review&.complete? || params[:show_form] == "true" || form.object.errors.any? %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
@@ -21,13 +21,13 @@
           </span>
         </summary>
           <h2 class="govuk-heading-m govuk-!-margin-top-3">Add a custom informative</h2>
-          <%= form.govuk_text_field :title, label: { text: "Enter a title" }, id: "manual-title-input" %>
-          <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" }, id: "manual-text-input" %>
+          <%= form.govuk_text_field :title, label: {text: "Enter a title"}, id: "manual-title-input" %>
+          <%= form.govuk_text_area :text, label: {text: "Enter details of the informative"}, id: "manual-text-input" %>
       </details>
     <% else %>
       <h2 class="govuk-heading-m govuk-!-margin-top-3">Add a custom informative</h2>
-      <%= form.govuk_text_field :title, label: { text: "Enter a title" }, id: "manual-title-input" %>
-      <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" }, id: "manual-text-input" %>
+      <%= form.govuk_text_field :title, label: {text: "Enter a title"}, id: "manual-title-input" %>
+      <%= form.govuk_text_area :text, label: {text: "Enter details of the informative"}, id: "manual-text-input" %>
     <% end %>
 
     <%= form.hidden_field :id %>
@@ -45,4 +45,3 @@
     </div>
   <% end %>
 <% end %>
-

@@ -6,17 +6,17 @@
 <% content_for :title, "Check legislative requirements" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Check legislative requirements" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Check legislative requirements"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">
-      <%= link_to_if(@planning_application.application_type.legislation_link.present?, 
-                    @planning_application.application_type.legislation_title, 
-                    @planning_application.application_type.legislation_link, 
-                    target: "_blank") %>
+      <%= link_to_if(@planning_application.application_type.legislation_link.present?,
+            @planning_application.application_type.legislation_title,
+            @planning_application.application_type.legislation_link,
+            target: "_blank") %>
     </p>
 
     <% if @planning_application.application_type.legislation_description %>
@@ -24,12 +24,12 @@
     <% end %>
 
     <%= render(
-      AccordionComponent.new(planning_application: @planning_application, sections: ["proposal_details"])
-    ) %>
+          AccordionComponent.new(planning_application: @planning_application, sections: ["proposal_details"])
+        ) %>
 
     <%= form_with model: @planning_application, url: planning_application_validation_legislation_path(@planning_application), method: :patch do |form| %>
       <div class="govuk-button-group">
-        <%= form.submit "Mark as checked", class: "govuk-button", data: { module: "govuk-button" } unless @planning_application.legislation_checked? %>
+        <%= form.submit "Mark as checked", class: "govuk-button", data: {module: "govuk-button"} unless @planning_application.legislation_checked? %>
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>

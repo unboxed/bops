@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Edit public comment - <%= t('page_title') %>
+  Edit public comment - <%= t("page_title") %>
 <% end %>
 
 <% content_for :title, "Edit public comment" %>
@@ -14,7 +14,7 @@
   <%= form_with model: @planning_application do |form| %>
     <%= hidden_field_tag(:edit_action, "edit_public_comment") %>
 
-    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+    <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
       <% if form.object.errors.any? %>
         <% form.object.errors.each do |error| %>
           <span id="status-error" class="govuk-error-message">
@@ -33,6 +33,6 @@
       <%= form.text_area :public_comment, class: "govuk-textarea", rows: "9" %>
     </div>
 
-    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= form.submit "Save", class: "govuk-button", data: {module: "govuk-button"} %>
   <% end %>
 <% end %>

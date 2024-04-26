@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Assess the application - <%= t('page_title') %>
+  Assess the application - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -7,9 +7,9 @@
 <% content_for :title, "Assess application" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Assess the application"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Assess the application"}
+    ) %>
 
 <%= render "shared/dates_and_assignment_header" %>
 
@@ -19,15 +19,15 @@
       <%= t(".application_details") %>
     </h2>
     <%= render(
-      AccordionComponent.new(planning_application: @planning_application)
-    ) %>
+          AccordionComponent.new(planning_application: @planning_application)
+        ) %>
     <ol class="app-task-list govuk-!-margin-top-8">
       <%= render(
-        partial: "check_consistency",
-        locals: {
-          consistency_checklist: @planning_application.consistency_checklist
-        }
-      ) %>
+            partial: "check_consistency",
+            locals: {
+              consistency_checklist: @planning_application.consistency_checklist
+            }
+          ) %>
       <%= render "assessment_information" %>
 
       <%= render "assess_against_legislation" %>

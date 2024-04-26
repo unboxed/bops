@@ -10,10 +10,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "shared/notification_banner",
-      banner_class: "govuk-notification-banner",
-      role: "region",
-      title: "View neighbour responses",
-      heading: updated_neighbour_responses_summary_text(@neighbour_responses, @assessment_detail) %>
+          banner_class: "govuk-notification-banner",
+          role: "region",
+          title: "View neighbour responses",
+          heading: updated_neighbour_responses_summary_text(@neighbour_responses, @assessment_detail) %>
 
     <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -24,12 +24,12 @@
           <div class="govuk-accordion__section">
             <div class="govuk-accordion__section-header">
               <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id=<%= "accordion-default-heading-#{index}" %>>
-                  <%= "#{tag.to_s.humanize} responses (#{@neighbour_responses.select { |response| response.tags.include? tag.to_s }.count})" %>
+                <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>">
+                  <%= "#{tag.to_s.humanize} responses (#{@neighbour_responses.count { |response| response.tags.include? tag.to_s }})" %>
                 </span>
               </h2>
             </div>
-            <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-no-tag" %>>
+            <div id="accordion-default-content-<%= index %>" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-no-tag">
               <% @neighbour_responses.select { |response| response.tags.include? tag.to_s }.group_by { |response| response.summary_tag }.each do |opinion, resp| %>
                 <div class="neighbour-response">
                   <% resp.each do |response| %>
@@ -50,7 +50,7 @@
                                 <%= response.neighbour.address %>
                               </li>
                               <li class="govuk-hint">
-                                Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+                                Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
                               </li>
                             </ul>
                             <div data-controller="show-more-text">
@@ -60,7 +60,7 @@
 
                               <% if response_been_truncated?(response, response.comment) %>
                                 <span class="govuk-!-display-none hidden-comment">
-                                  <%= response.comment[truncated_length(response)..-1] %>
+                                  <%= response.comment[truncated_length(response)..] %>
                                 </span>
                                 <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
                               <% end %>
@@ -84,11 +84,11 @@
         </div>
 
         <%= form.govuk_text_area(
-          :"#{tag}",
-          label: { text: "Summary of #{tag.to_s.humanize.downcase} comments", size: "m" },
-          rows: 10,
-          value: (@assessment_detail.entry[/(?<=#{tag.to_s.humanize}:)(.*)/] unless @assessment_detail.entry.nil?)
-        ) %>
+              :"#{tag}",
+              label: {text: "Summary of #{tag.to_s.humanize.downcase} comments", size: "m"},
+              rows: 10,
+              value: (@assessment_detail.entry[/(?<=#{tag.to_s.humanize}:)(.*)/] unless @assessment_detail.entry.nil?)
+            ) %>
       <% end %>
 
       <% if @neighbour_responses.without_tags.any? %>
@@ -96,14 +96,14 @@
           <div class="govuk-accordion__section">
             <div class="govuk-accordion__section-header">
               <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id=<%= "accordion-default-heading-no-tag" %>>
+                <span class="govuk-accordion__section-button" id="accordion-default-heading-no-tag">
                   <%= "Untagged responses (#{@neighbour_responses.without_tags.count})" %>
                 </span>
               </h2>
             </div>
             <% @neighbour_responses.without_tags.each_with_index do |response, index| %>
               <div class="neighbour-response">
-                <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-no-tag" %>>
+                <div id="accordion-default-content-<%= index %>" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-no-tag">
                   <div class="neighbour-response-section">
                     <div class="govuk-inset-text">
                       <div class="neighbour-response-top-section">
@@ -121,7 +121,7 @@
                               <%= response.neighbour.address %>
                             </li>
                             <li class="govuk-hint">
-                              Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+                              Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
                             </li>
                           </ul>
                           <div data-controller="show-more-text">
@@ -131,7 +131,7 @@
 
                             <% if response_been_truncated?(response, response.comment) %>
                               <span class="govuk-!-display-none hidden-comment">
-                                <%= response.comment[truncated_length(response)..-1] %>
+                                <%= response.comment[truncated_length(response)..] %>
                               </span>
                               <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
                             <% end %>
@@ -147,15 +147,15 @@
         </div>
 
         <%= form.govuk_text_area(
-          :untagged,
-          label: { text: "Summary of untagged comments", size: "m" },
-          rows: 10,
-          value: (@assessment_detail.entry[/(?<=untagged:)(.*)/] unless @assessment_detail.entry.nil?)
-        ) %>
+              :untagged,
+              label: {text: "Summary of untagged comments", size: "m"},
+              rows: 10,
+              value: (@assessment_detail.entry[/(?<=untagged:)(.*)/] unless @assessment_detail.entry.nil?)
+            ) %>
       <% end %>
 
       <%= form.hidden_field(:category, value: @category) %>
-      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+      <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
     <% end %>
   </div>
 </div>

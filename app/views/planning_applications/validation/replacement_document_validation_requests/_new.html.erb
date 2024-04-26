@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Add replacement document validation request - <%= t('page_title') %>
+  Add replacement document validation request - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -9,9 +9,9 @@
 <% content_for :title, "Replacement document" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Request a replacement document"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Request a replacement document"}
+    ) %>
 
 <div class="govuk-grid-row">
   <%= render "planning_applications/validation/replacement_document_validation_requests/document_summary" %>

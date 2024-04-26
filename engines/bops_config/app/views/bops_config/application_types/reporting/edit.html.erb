@@ -13,10 +13,10 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.govuk_collection_check_boxes :reporting_types,
-        @application_type.all_reporting_types, :code, :full_description,
-          legend: {text: t(".reporting_legend_html", description: @application_type.description)},
-          hint: {text: t(".reporting_hint"), size: "l"},
-          small: false, class: "govuk-!-column-count-2 govuk-!-margin-top-5" %>
+            @application_type.all_reporting_types, :code, :full_description,
+            legend: {text: t(".reporting_legend_html", description: @application_type.description)},
+            hint: {text: t(".reporting_hint"), size: "l"},
+            small: false, class: "govuk-!-column-count-2 govuk-!-margin-top-5" %>
 
       <%= form.govuk_submit(t(".continue")) do %>
         <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>

@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Ownership certificate validation request - <%= t('page_title') %>
+  Ownership certificate validation request - <%= t("page_title") %>
 <% end %>
 
 <%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
@@ -7,14 +7,14 @@
 
 <% if @validation_request.closed? %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "Check the response to ownership certificate request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "Check the response to ownership certificate request"}
+      ) %>
 <% else %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "View ownership certificate request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "View ownership certificate request"}
+      ) %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -76,7 +76,7 @@
         </p>
       <% elsif !@validation_request.approved? %>
         <p class="govuk-body">Applicant rejected this ownership certificate change</p>
-        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s  %></p>
+        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s %></p>
       <% end %>
 
       <%= form_with model: @planning_application do |form| %>

@@ -7,7 +7,7 @@
       document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
     <% end %>
 
-    <% if gtmid = Rails.configuration.google_tag_manager_id  %>
+    <% if gtmid = Rails.configuration.google_tag_manager_id %>
       <!-- Google Tag Manager (noscript) -->
       <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtmid %>"
@@ -20,7 +20,7 @@
     <% end %>
 
     <% unless @blank_layout == true %>
-      <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", 'data-module': 'govuk-skip-link' %>
+      <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", "data-module": "govuk-skip-link" %>
       <%= render(EnvironmentBannerComponent.new(display: Bops.env.staging?)) %>
       <%= render "application/header" %>
     <% end %>
@@ -37,8 +37,7 @@
               This is a new service – your
               <a class="govuk-link" href="#"
                 data-feedback-fish
-                data-feedback-fish-userid="<%= current_user.try(:email) %>"
-              >
+                data-feedback-fish-userid="<%= current_user.try(:email) %>">
                 feedback
               </a>
 
@@ -55,6 +54,6 @@
         <%= yield %>
       </main>
     </div>
-    <%= javascript_include_tag 'govuk' %>
+    <%= javascript_include_tag "govuk" %>
   </body>
 </html>

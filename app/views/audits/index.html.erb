@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Audit log - <%= t('page_title') %>
+  Audit log - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -8,9 +8,9 @@
 <% content_for :title, "Audit log" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Audit log"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Audit log"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">

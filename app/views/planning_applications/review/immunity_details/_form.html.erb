@@ -1,9 +1,9 @@
 <%= form_with model: [@planning_application, @immunity_detail, @review_immunity_detail],
-              url: planning_application_review_immunity_detail_path(@planning_application, @review_immunity_detail),
-              class: "govuk-!-margin-top-7" do |form| %>
+      url: planning_application_review_immunity_detail_path(@planning_application, @review_immunity_detail),
+      class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-  <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+  <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
     <fieldset class="govuk-fieldset">
       <% if form.object.errors.any? %>
         <% form.object.errors.each do |error| %>
@@ -18,20 +18,20 @@
               :action,
               "accepted",
               checked: @review_immunity_detail.accepted? && !@review_immunity_detail.reviewed_at.nil?,
-              label: { text: "Accept" }, 
+              label: {text: "Accept"},
               disabled: !editable
             ) %>
         <%= form.govuk_radio_button(
               :action,
               "rejected",
               checked: @review_immunity_detail.rejected? && !@review_immunity_detail.reviewed_at.nil?,
-              label: { text: "Return to officer with comment" }, 
+              label: {text: "Return to officer with comment"},
               disabled: !editable
-        ) do %>
+            ) do %>
           <%= form.govuk_text_area(
                 :comment,
                 placeholder: @review_immunity_detail.comment,
-                label: { 
+                label: {
                   text: "Explain to the assessor why this needs reviewing"
                 },
                 rows: 6,
@@ -45,8 +45,8 @@
 
   <div class="govuk-button-group">
     <% if editable %>
-      <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
-      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+      <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: {module: "govuk-button"} %>
     <% end %>
 
     <%= back_link %>

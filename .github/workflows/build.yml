@@ -29,6 +29,11 @@ jobs:
     with:
       biome: true
 
+  erblint:
+    uses: ./.github/workflows/linters.yml
+    with:
+      erblint: true
+
   language-versions:
     uses: ./.github/workflows/linters.yml
     with:

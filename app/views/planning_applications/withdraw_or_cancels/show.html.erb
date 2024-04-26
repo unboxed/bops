@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Withdraw or cancel application - <%= t('page_title') %>
+  Withdraw or cancel application - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -8,17 +8,17 @@
 <% content_for :title, "Withdraw or cancel application" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Withdraw or cancel application"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Withdraw or cancel application"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "shared/warning_text",
-      message: "This information will be made publicly available." %>
+          message: "This information will be made publicly available." %>
 
     <%= form_with model: @planning_application,
-      url: planning_application_withdraw_or_cancel_path(@planning_application) do |form| %>
+          url: planning_application_withdraw_or_cancel_path(@planning_application) do |form| %>
 
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
@@ -36,7 +36,7 @@
           <% else %>
             <h2 class="govuk-heading-m">How should this application be finally disposed of?</h2>
             <span class="govuk-hint">The application status will change based on your selection</span>
-            <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+            <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
               <% if form.object.errors.any? %>
                 <% form.object.errors.each do |error| %>
                   <span id="status-error" class="govuk-error-message">
@@ -46,7 +46,7 @@
               <div class="govuk-radios govuk-radios--conditional govuk-!-margin-bottom-4" data-module="govuk-radios">
                 <div class="govuk-radios govuk-radios--small">
                   <div class="govuk-radios__item">
-                    <%= form.radio_button :status, "withdrawn", class: "govuk-radios__input", id:"withdrawn", "aria-controls": "conditional-status-withdrawn-conditional", "aria-expanded": "false" %>
+                    <%= form.radio_button :status, "withdrawn", class: "govuk-radios__input", id: "withdrawn", "aria-controls": "conditional-status-withdrawn-conditional", "aria-expanded": "false" %>
                     <%= form.label :withdrawn, "Withdrawn by applicant", class: "govuk-label govuk-radios__label", for: "withdrawn" %>
                   </div>
                   <div class="govuk-radios__item">
@@ -70,11 +70,11 @@
               <%= form.fields_for :documents, @planning_application.documents.new do |document_attributes| %>
                 <%= document_attributes.hidden_field :redacted, value: true %>
                 <%= document_attributes.govuk_file_field(
-                  :file,
-                  label: { text: t(".upload_label"), class: "govuk-label--m" },
-                  hint: { text: t(".upload_hint_html"), class: "govuk-hint govuk-!-padding-top-2" },
-                  direct_upload: true
-                ) %>
+                      :file,
+                      label: {text: t(".upload_label"), class: "govuk-label--m"},
+                      hint: {text: t(".upload_hint_html"), class: "govuk-hint govuk-!-padding-top-2"},
+                      direct_upload: true
+                    ) %>
               <% end %>
             </div>
           <% end %>

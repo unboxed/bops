@@ -1,7 +1,7 @@
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Applicant approved proposed digital red line boundary"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Applicant approved proposed digital red line boundary"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -9,7 +9,7 @@
       Proposed red line boundary
     </h2>
 
-    <%= render "shared/location_map", locals: { geojson: @validation_request.new_geojson } %>
+    <%= render "shared/location_map", locals: {geojson: @validation_request.new_geojson} %>
 
     <div class="govuk-inset-text">
       <% if @validation_request.auto_closed? %>

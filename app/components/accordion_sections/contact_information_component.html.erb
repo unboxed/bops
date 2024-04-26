@@ -8,15 +8,15 @@
   <p class="govuk-body">
     <strong><%= t(".agent") %></strong><br>
     <% planning_application.agent_contact_details.each do |detail| %>
-      <%= detail %><br/>
+      <%= detail %><br>
     <% end %>
   </p>
 <% end %>
 <% if planning_application.applicant? %>
   <p class="govuk-body">
-    <strong><%= t(".applicant") %></strong><br/>
+    <strong><%= t(".applicant") %></strong><br>
     <% planning_application.applicant_contact_details.each do |detail| %>
-      <%= detail %><br/>
+      <%= detail %><br>
     <% end %>
   </p>
 <% end %>

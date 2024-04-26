@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= t(".users") %> - <%= t('page_title') %>
+  <%= t(".users") %> - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="govuk-button-group">
-      <%= link_to(t(".add_user"), new_user_path, class: "govuk-button", data: { module: "govuk-button" }) %>
+      <%= link_to(t(".add_user"), new_user_path, class: "govuk-button", data: {module: "govuk-button"}) %>
       <%= back_link %>
     </div>
   </div>

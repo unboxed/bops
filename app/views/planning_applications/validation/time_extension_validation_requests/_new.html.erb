@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Time extension request - <%= t('page_title') %>
+  Time extension request - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -7,9 +7,9 @@
 <% content_for :title, "Time extension request" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Time extension request"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Time extension request"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -31,10 +31,10 @@
         <% end %>
         <%= form.hidden_field(:type, value: "TimeExtensionValidationRequest") %>
 
-        <%= form.govuk_date_field :proposed_expiry_date, legend: { text: "Enter the proposed expiry date" }, hint: { text: "The proposed date must be after the planning application's current expiry date" } %>
+        <%= form.govuk_date_field :proposed_expiry_date, legend: {text: "Enter the proposed expiry date"}, hint: {text: "The proposed date must be after the planning application's current expiry date"} %>
         <%= form.govuk_text_area :reason,
-                                 label: { text: 'Enter a reason for the request', class: 'govuk-label govuk-label--s'},
-                                 rows: 5 %>
+              label: {text: "Enter a reason for the request", class: "govuk-label govuk-label--s"},
+              rows: 5 %>
         <% if @planning_application.not_started? %>
           <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
         <% else %>
@@ -50,10 +50,10 @@
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4 govuk-!-margin-top-2">
-  <hr/>
+  <hr>
 </div>
 
 <%= render(
       partial: "activity_log",
-      locals: { validation_requests: @planning_application.time_extension_validation_requests }
+      locals: {validation_requests: @planning_application.time_extension_validation_requests}
     ) %>

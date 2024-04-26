@@ -11,7 +11,7 @@
         <td class="govuk-table__cell govuk-!-width-one-half">
           <p class="govuk-body govuk-!-margin-bottom-1">
             <%= link_to image_tag(document.file.representation(resize: "150x106")),
-                        url_for_document(document), target: :_blank %>
+                  url_for_document(document), target: :_blank, rel: :noopener %>
           </p>
           <p class="govuk-body">
             <%= truncate(document.name.to_s, length: 50) %><br>

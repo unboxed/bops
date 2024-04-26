@@ -13,9 +13,8 @@
 <% if immunity_detail && review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail %>
   <section id="immunity-section">
     <%= render(
-        PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
-      )
-    %>
+          PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
+        ) %>
     <p class="govuk-body"><strong>Is the application immune from enforcement?</strong></p>
     <p class="govuk-body">
       <strong><%= review_immunity_detail.decision %></strong><br>
@@ -90,14 +89,13 @@
     <% if policy_classes.any? %>
       <% policy_classes.each do |policy_class| %>
         <%= render(
-          PlanningApplications::Assessment::PolicyClasses::SummaryComponent.new(policy_class: policy_class)
-        ) %>
+              PlanningApplications::Assessment::PolicyClasses::SummaryComponent.new(policy_class: policy_class)
+            ) %>
       <% end %>
     <% else %>
       <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
     <% end %>
   <% end %>
 </section>
-
 
 <%= render "planning_applications/assessment/recommendations/documents", planning_application: planning_application, documents: documents %>

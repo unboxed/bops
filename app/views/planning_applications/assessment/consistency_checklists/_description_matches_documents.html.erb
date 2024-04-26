@@ -1,43 +1,43 @@
 <%= form.govuk_radio_buttons_fieldset(
-  :description_matches_documents,
-  legend: { text: t(".does_the_description"), size: "s" }
-) do %>
+      :description_matches_documents,
+      legend: {text: t(".does_the_description"), size: "s"}
+    ) do %>
   <% if can_edit %>
     <%= form.govuk_radio_button(
-      :description_matches_documents,
-      :yes,
-      label: { text: t(".yes") },
-      link_errors: true,
-      disabled: form.object.open_description_change_requests?
-    ) %>
+          :description_matches_documents,
+          :yes,
+          label: {text: t(".yes")},
+          link_errors: true,
+          disabled: form.object.open_description_change_requests?
+        ) %>
     <%= form.govuk_radio_button(
-      :description_matches_documents,
-      :no,
-      label: { text: t(".no") },
-      checked: form.object.default_description_matches_documents_to_no?
-    ) do %>
+          :description_matches_documents,
+          :no,
+          label: {text: t(".no")},
+          checked: form.object.default_description_matches_documents_to_no?
+        ) do %>
       <% unless form.object.open_description_change_requests? %>
         <%= govuk_link_to t(".request_description_change"), new_planning_application_validation_validation_request_path(
-            planning_application,
-            type: "description_change"
-          ) %>
+              planning_application,
+              type: "description_change"
+            ) %>
       <% end %>
     <% end %>
   <% else %>
     <%= form.govuk_radio_button(
-      :description_matches_documents,
-      consistency_checklist.description_matches_documents,
-      label: {
-        text: t(".#{consistency_checklist.description_matches_documents}")
-      },
-      disabled: true
-    ) %>
+          :description_matches_documents,
+          consistency_checklist.description_matches_documents,
+          label: {
+            text: t(".#{consistency_checklist.description_matches_documents}")
+          },
+          disabled: true
+        ) %>
   <% end %>
   <%= render(
-    partial: "description_change_validation_request",
-    locals: {
-      request: planning_application.description_change_validation_request,
-      planning_application: planning_application
-    }
-  ) %>
+        partial: "description_change_validation_request",
+        locals: {
+          request: planning_application.description_change_validation_request,
+          planning_application: planning_application
+        }
+      ) %>
 <% end %>

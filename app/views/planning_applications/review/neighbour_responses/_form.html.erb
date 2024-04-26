@@ -1,5 +1,5 @@
 <%= form_with model: [@consultation, @neighbour_review], url: planning_application_review_consultation_neighbour_responses_path(@planning_application) do |form| %>
-  <%= form.govuk_radio_buttons_fieldset(:action, legend: { size: 'm', text: 'Do you accept that notifications have been completed within the correct period?' }) do %>
+  <%= form.govuk_radio_buttons_fieldset(:action, legend: {size: "m", text: "Do you accept that notifications have been completed within the correct period?"}) do %>
     <% if @consultation.start_date && @consultation.end_date %>
       <ul class="govuk-list govuk-list--bullet">
         <li>the consultation period for this application is <%= (@consultation.end_date - @consultation.start_date).to_i %> days</li>
@@ -13,15 +13,15 @@
     <% else %>
       <p class="govuk-body">The consultation has not been started</p>
     <% end %>
-    <%= form.govuk_radio_button :action, 'accepted', label: { text: 'Accept' }, disabled: disabled, link_errors: true %>
-    <%= form.govuk_radio_button :action, 'rejected', label: { text: 'Return to officer with comment' }, disabled: disabled do %>
-      <%= form.govuk_text_area :comment, label: { text: 'Explain why notifications are incomplete.' }, disabled: disabled %>
+    <%= form.govuk_radio_button :action, "accepted", label: {text: "Accept"}, disabled: disabled, link_errors: true %>
+    <%= form.govuk_radio_button :action, "rejected", label: {text: "Return to officer with comment"}, disabled: disabled do %>
+      <%= form.govuk_text_area :comment, label: {text: "Explain why notifications are incomplete."}, disabled: disabled %>
     <% end %>
   <% end %>
 
   <div class="govuk-button-group">
     <% unless disabled %>
-      <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
     <% end %>
     <%= back_link %>
 

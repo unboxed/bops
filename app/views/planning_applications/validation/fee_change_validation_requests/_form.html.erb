@@ -1,7 +1,7 @@
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Request other validation change (fee)" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Request other validation change (fee)"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -9,9 +9,9 @@
 
     <% if @planning_application.documents.for_fee_exemption.any? %>
       <%= render(
-        partial: "planning_applications/validation/fee_change_validation_requests/supporting_documents",
-        locals: { documents: @planning_application.documents.for_fee_exemption }
-      ) %>
+            partial: "planning_applications/validation/fee_change_validation_requests/supporting_documents",
+            locals: {documents: @planning_application.documents.for_fee_exemption}
+          ) %>
     <% end %>
 
     <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request  do |form| %>
@@ -34,26 +34,26 @@
       <% end %>
 
       <%= form.govuk_text_area(
-        :reason,
-        label: {
-          size: "m",
-          text: "Tell the applicant why the fee is incorrect",
-        },
-        hint: { text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant" },
-        rows: 5,
-        readonly: @planning_application.validated?
-      ) %>
+            :reason,
+            label: {
+              size: "m",
+              text: "Tell the applicant why the fee is incorrect"
+            },
+            hint: {text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant"},
+            rows: 5,
+            readonly: @planning_application.validated?
+          ) %>
 
       <%= form.govuk_text_area(
-        :suggestion,
-        label: {
-          size: "m",
-          text: "Tell the applicant what they need to do"
-        },
-        hint: { text: "If the applicant needs to provide evidence, give examples of what you can accept. If the fee exemption relates to disability, use the phrase 'documents to support your fee exemption' rather than 'evidence of your disability'." },
-        rows: 5,
-        readonly: @planning_application.validated?
-      ) %>
+            :suggestion,
+            label: {
+              size: "m",
+              text: "Tell the applicant what they need to do"
+            },
+            hint: {text: "If the applicant needs to provide evidence, give examples of what you can accept. If the fee exemption relates to disability, use the phrase 'documents to support your fee exemption' rather than 'evidence of your disability'."},
+            rows: 5,
+            readonly: @planning_application.validated?
+          ) %>
 
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">

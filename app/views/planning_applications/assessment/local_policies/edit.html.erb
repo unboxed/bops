@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Assess against policies and guidance" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Assess against policies and guidance" }
+      locals: {heading: "Assess against policies and guidance"}
     ) %>
 
 <%= render "comment" %>
@@ -28,7 +28,7 @@
     <%= form.submit(
           t("form_actions.save_and_mark_as_complete"),
           class: "govuk-button",
-          data: { module: "govuk-button" },
+          data: {module: "govuk-button"},
           disabled: local_assigns.fetch(:disabled, false)
         ) %>
     <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

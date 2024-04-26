@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= t(".consultees") %> - <%= t('page_title') %>
+  <%= t(".consultees") %> - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -11,7 +11,7 @@
 </h1>
 
 <%= form_with url: consultees_path, class: "govuk-!-margin-bottom-7", method: :get do |form| %>
-  <%= form.govuk_text_field :q, value: params[:q], width: "one-half", label: { text: t(".find_consultees"), hidden: true } %>
+  <%= form.govuk_text_field :q, value: params[:q], width: "one-half", label: {text: t(".find_consultees"), hidden: true} %>
   <div class="govuk-button-group">
     <%= form.govuk_submit t(".find_consultees") %>
     <%= govuk_link_to t(".add_consultee"), new_consultee_path, class: "govuk-link--no-visited-state" %>
@@ -38,7 +38,7 @@
           <td class="govuk-table__cell"><%= consultee.origin.titleize %></td>
           <td class="govuk-table__cell govuk-!-text-align-right">
             <%= govuk_link_to t(".actions.edit"), edit_consultee_path(consultee), class: "govuk-link--no-visited-state govuk-link--no-underline" %>
-            <%= govuk_link_to t(".actions.delete"), consultee_path(consultee), class: "govuk-link--no-visited-state govuk-link--no-underline govuk-!-margin-left-1", method: :delete, data: { confirm: t(".are_you_sure") } %>
+            <%= govuk_link_to t(".actions.delete"), consultee_path(consultee), class: "govuk-link--no-visited-state govuk-link--no-underline govuk-!-margin-left-1", method: :delete, data: {confirm: t(".are_you_sure")} %>
           </td>
         </tr>
       <% end %>

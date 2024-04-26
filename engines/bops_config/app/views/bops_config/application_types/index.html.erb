@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= t(".title") %> - <%= t('page_title') %>
+  <%= t(".title") %> - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -12,7 +12,7 @@
       <%= t(".title") %>
     </h1>
     <p class="govuk-body">
-      <%= link_to t(".create_new_application_type"), new_application_type_path , class: "govuk-button govuk-button--primary" %>
+      <%= link_to t(".create_new_application_type"), new_application_type_path, class: "govuk-button govuk-button--primary" %>
     </p>
     <%= render "table", application_types: @application_types %>
   </div>

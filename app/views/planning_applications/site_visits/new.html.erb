@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Site visit - <%= t('page_title') %>
+  Site visit - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -8,9 +8,9 @@
 <% content_for :title, "Site visit" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Add a site visit" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Add a site visit"}
+    ) %>
 
 <% if @consultation.neighbour_responses.objection.any? %>
   <h2 class="govuk-heading-m govuk-!-margin-top-7">Objected neighbour responses</h2>

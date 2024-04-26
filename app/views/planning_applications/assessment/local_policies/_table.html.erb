@@ -19,7 +19,7 @@
           <%= policy_area.policies %>
         </td>
         <td class="govuk-table__cell">
-          <%= policy_area.guidance if policy_area.guidance.present? %>
+          <%= policy_area.guidance.presence %>
         </td>
         <td class="govuk-table__cell">
           <%= policy_area.assessment %>

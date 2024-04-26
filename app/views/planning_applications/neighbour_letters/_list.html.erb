@@ -12,13 +12,11 @@
           <th scope="col" class="govuk-table__header govuk-!-padding-0">
             <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
               <div class="govuk-checkboxes__item">
-                <%= 
-                  check_box_tag("toggle-consultees", "1", true, class: "govuk-checkboxes__input",
-                    name: nil,
-                    data: {
-                      action: "change->neighbours#toggleNeighbours"
-                    })
-                %>
+                <%= check_box_tag("toggle-consultees", "1", true, class: "govuk-checkboxes__input",
+                      name: nil,
+                      data: {
+                        action: "change->neighbours#toggleNeighbours"
+                      }) %>
                 <label class="govuk-label govuk-checkboxes__label" for="toggle-neighbours">
                   <span class="govuk-visually-hidden">
                     Select all neighbours

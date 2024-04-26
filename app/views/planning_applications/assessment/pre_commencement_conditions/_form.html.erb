@@ -12,13 +12,13 @@
 
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
-    <%= form.govuk_text_field :title, label: { text: "Enter title" } %>
-    <%= form.govuk_text_area :text, rows: 5, label: { text: "Enter condition" } %>
-    <%= form.govuk_text_area :reason, rows: 5, label: { text: "Enter reason" } %>
+    <%= form.govuk_text_field :title, label: {text: "Enter title"} %>
+    <%= form.govuk_text_area :text, rows: 5, label: {text: "Enter condition"} %>
+    <%= form.govuk_text_area :reason, rows: 5, label: {text: "Enter reason"} %>
 
     <% if @condition.new_record? %>
       <%= form.govuk_submit(t("form_actions.pre_commencement_condition.add"), class: "govuk-button--secondary") %>
-    <% else %>  
+    <% else %>
       <%= form.govuk_submit(t("form_actions.pre_commencement_condition.update")) do %>
         <%= govuk_button_link_to "Back", planning_application_assessment_pre_commencement_conditions_path, secondary: true %>
       <% end %>

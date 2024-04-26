@@ -1,8 +1,8 @@
 <%= form_with(
-  model: @form,
-  url: planning_application_review_assessment_details_path(planning_application),
-  method: :put
-) do |form| %>
+      model: @form,
+      url: planning_application_review_assessment_details_path(planning_application),
+      method: :put
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <% planning_application.application_type.assessment_details.each_with_index do |assessment_detail, index| %>
     <% next if assessment_detail == "check_publicity" %>
@@ -10,23 +10,23 @@
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>
     <%= form.govuk_radio_buttons_fieldset(
-      "#{assessment_detail}_reviewer_verdict".to_sym,
-      legend: { text: t(".#{assessment_detail}") }
-    ) do %>
+          :"#{assessment_detail}_reviewer_verdict",
+          legend: {text: t(".#{assessment_detail}")}
+        ) do %>
       <%= render(
-        StatusTags::Reviewing::AssessmentDetailComponent.new(
-          planning_application: planning_application,
-          assessment_detail: form.object.send(assessment_detail)
-        )
-      ) %>
+            StatusTags::Reviewing::AssessmentDetailComponent.new(
+              planning_application: planning_application,
+              assessment_detail: form.object.send(assessment_detail)
+            )
+          ) %>
       <% if assessment_detail == "site_description" %>
-        <p class="govuk-body govuk-!-margin-top-2"><%= govuk_link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank' %></p>
+        <p class="govuk-body govuk-!-margin-top-2"><%= govuk_link_to "View site on Google Maps", map_link(@planning_application.full_address), target: "_blank" %></p>
       <% end %>
       <% if assessment_detail == "consultation_summary" && @consultation&.consultees&.any? %>
         <%= render(
-          partial: "consultees",
-          locals: { consultees: @consultation&.consultees }
-        ) %>
+              partial: "consultees",
+              locals: {consultees: @consultation&.consultees}
+            ) %>
         <h3 class="govuk-heading-s"><%= t(".summary_of_consultee") %></h3>
       <% end %>
       <% if assessment_detail == "amenity" || assessment_detail == "neighbour_summary" %>
@@ -43,46 +43,46 @@
         </p>
       <% end %>
       <%= render(
-        FormattedContentComponent.new(
-          text: form.object.send("#{assessment_detail}_entry"),
-          classname: "govuk-body govuk-!-margin-top-2"
-        )
-      ) %>
+            FormattedContentComponent.new(
+              text: form.object.send(:"#{assessment_detail}_entry"),
+              classname: "govuk-body govuk-!-margin-top-2"
+            )
+          ) %>
       <%= render(
-        Reviewing::AssessmentDetails::PreviousSummariesComponent.new(
-          planning_application: planning_application,
-          category: assessment_detail
-        )
-      ) %>
+            Reviewing::AssessmentDetails::PreviousSummariesComponent.new(
+              planning_application: planning_application,
+              category: assessment_detail
+            )
+          ) %>
       <%= form.govuk_radio_button(
-        "#{assessment_detail}_reviewer_verdict",
-        :accepted,
-        label: { text: t(".accept") },
-        disabled: disabled
-      ) %>
+            "#{assessment_detail}_reviewer_verdict",
+            :accepted,
+            label: {text: t(".accept")},
+            disabled: disabled
+          ) %>
       <%= form.govuk_radio_button(
-        "#{assessment_detail}_reviewer_verdict",
-        :edited_and_accepted,
-        label: { text: t(".edit_to_accept") },
-        disabled: disabled
-      ) do %>
+            "#{assessment_detail}_reviewer_verdict",
+            :edited_and_accepted,
+            label: {text: t(".edit_to_accept")},
+            disabled: disabled
+          ) do %>
         <%= form.govuk_text_area(
-          "#{assessment_detail}_entry".to_sym,
-          label: { text: t(".update_#{assessment_detail}") },
-          disabled: disabled
-        ) %>
+              :"#{assessment_detail}_entry",
+              label: {text: t(".update_#{assessment_detail}")},
+              disabled: disabled
+            ) %>
       <% end %>
       <%= form.govuk_radio_button(
-        "#{assessment_detail}_reviewer_verdict",
-        :rejected,
-        label: { text: t(".return_to_officer") },
-        disabled: disabled
-      ) do %>
+            "#{assessment_detail}_reviewer_verdict",
+            :rejected,
+            label: {text: t(".return_to_officer")},
+            disabled: disabled
+          ) do %>
         <%= form.govuk_text_area(
-          "#{assessment_detail}_comment_text".to_sym,
-          label: { text: t(".explain_to_the") },
-          disabled: disabled
-        ) %>
+              :"#{assessment_detail}_comment_text",
+              label: {text: t(".explain_to_the")},
+              disabled: disabled
+            ) %>
       <% end %>
     <% end %>
   <% end %>
@@ -90,10 +90,10 @@
     <div class="govuk-button-group">
       <%= back_link %>
       <%= govuk_link_to t(".edit_review"), edit_planning_application_review_assessment_details_path(
-          planning_application
-        ) %>
+            planning_application
+          ) %>
     </div>
   <% else %>
-    <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
   <% end %>
 <% end %>

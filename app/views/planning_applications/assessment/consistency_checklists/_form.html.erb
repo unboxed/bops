@@ -1,22 +1,22 @@
 <%= form_with(
-  model: [planning_application, consistency_checklist],
-  url: planning_application_assessment_consistency_checklist_path(planning_application),
-  class: "consistency-checklist-form"
-) do |form| %>
+      model: [planning_application, consistency_checklist],
+      url: planning_application_assessment_consistency_checklist_path(planning_application),
+      class: "consistency-checklist-form"
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <% planning_application.application_type.consistency_checklist.each do |checklist| %>
     <%= render(
-      partial: checklist,
-      locals: {
-        form: form,
-        consistency_checklist: consistency_checklist,
-        planning_application: planning_application,
-        can_edit: can_edit
-      }
-    ) %>
+          partial: checklist,
+          locals: {
+            form: form,
+            consistency_checklist: consistency_checklist,
+            planning_application: planning_application,
+            can_edit: can_edit
+          }
+        ) %>
   <% end %>
   <% if can_edit %>
-    <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
   <% else %>
     <div class="govuk-button-group">
       <%= back_link %>

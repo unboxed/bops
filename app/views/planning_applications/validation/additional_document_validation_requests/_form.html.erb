@@ -1,7 +1,7 @@
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Request a new document"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Request a new document"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -9,17 +9,17 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
       <%= form.hidden_field(
-        :return_to,
-        value: local_assigns.fetch(:return_to, nil)
-      ) %>
+            :return_to,
+            value: local_assigns[:return_to]
+          ) %>
 
       <%= form.govuk_text_field :document_request_type,
-       label: { size: 'm', text: 'Please specify the new document type:' },
-       hint: { text: 'Eg. Existing floor plans' } %>
+            label: {size: "m", text: "Please specify the new document type:"},
+            hint: {text: "Eg. Existing floor plans"} %>
 
       <%= form.govuk_text_area :reason,
-       label: { size: 'm', text: 'Please specify the reason you have requested this document?'},
-       rows: 5 %>
+            label: {size: "m", text: "Please specify the reason you have requested this document?"},
+            rows: 5 %>
 
       <%= form.hidden_field :type, value: AdditionalDocumentValidationRequest.name %>
 

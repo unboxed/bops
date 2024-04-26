@@ -11,10 +11,10 @@
         <td class="govuk-table__cell">
           <%= proposal_detail.response_values.join(", ") %>
           <%= render(
-            ProposalDetails::PolicyRefsComponent.new(
-              policy_refs: proposal_detail.policy_refs
-            )
-          ) %>
+                ProposalDetails::PolicyRefsComponent.new(
+                  policy_refs: proposal_detail.policy_refs
+                )
+              ) %>
         </td>
       </tr>
     <% end %>

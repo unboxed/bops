@@ -4,14 +4,14 @@
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Consideration: #{@local_policy_area.area}" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Consideration: #{@local_policy_area.area}" }
+      locals: {heading: "Consideration: #{@local_policy_area.area}"}
     ) %>
 
 <div class="govuk-!-margin-top-6">
@@ -27,4 +27,3 @@
   <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   <%= govuk_link_to "Edit consideration", edit_planning_application_assessment_local_policy_area_path(@planning_application, @local_policy_area), class: "govuk-body" %>
 </div>
-

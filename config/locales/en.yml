@@ -52,7 +52,7 @@ en:
     documents_component:
       manage_documents: Manage documents
     feedback_component:
-      reason_given: <strong>Reason given:</strong> "%{feedback}"
+      reason_given_html: <strong>Reason given:</strong> "%{feedback}"
     key_application_dates_component:
       application_received: 'Application received:'
       expiry_date: 'Expiry date:'
@@ -68,7 +68,7 @@ en:
     pre_assessment_outcome_component:
       details_identified_as: Details identified as relevant to the result
       no_result: No result
-      the_applicant_believes: 'The applicant believes this result is <strong>incorrect</strong> because:'
+      the_applicant_believes_html: 'The applicant believes this result is <strong>incorrect</strong> because:'
       the_applicant_or: The applicant or agent believes this result is inaccurate.
       the_application_was: The application was not assessed on submission
       this_application_has: This application has been updated. The result may no longer be accurate.

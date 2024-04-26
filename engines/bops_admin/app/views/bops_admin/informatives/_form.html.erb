@@ -1,7 +1,7 @@
 <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-<%= form.govuk_fieldset(legend: { text: nil }) do %>
-  <%= form.govuk_text_field :title, width: "one-half", label: { text: t(".labels.title") } %>
-  <%= form.govuk_text_area :text, width: "one-half", rows: 10, label: { text: t(".labels.text") } %>
+<%= form.govuk_fieldset(legend: {text: nil}) do %>
+  <%= form.govuk_text_field :title, width: "one-half", label: {text: t(".labels.title")} %>
+  <%= form.govuk_text_area :text, width: "one-half", rows: 10, label: {text: t(".labels.text")} %>
 <% end %>
 
 <div class="govuk-button-group">

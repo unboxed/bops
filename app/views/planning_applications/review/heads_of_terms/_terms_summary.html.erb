@@ -1,7 +1,7 @@
 <h2 class="govuk-heading-m">Summary of heads of terms</h2>
 <% if @planning_application.heads_of_term.present? %>
   <ol class="govuk-list govuk-list--number">
-    <% @planning_application.heads_of_term&.terms.each do |term| %>
+    <% @planning_application.heads_of_term&.terms&.each do |term| %>
       <li>
         <div class="govuk-!-margin-bottom-7">
           <h2 class="govuk-heading-s"><%= term.title %></h2>

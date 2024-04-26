@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Upload neighbour responses - <%= t('page_title') %>
+  Upload neighbour responses - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -8,41 +8,40 @@
 <% content_for :title, "Upload neighbour responses" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Upload neighbour responses" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Upload neighbour responses"}
+    ) %>
 
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Add a new response</h2>
 <%= form_with(
-  model: @neighbour_response,
-  class: "govuk-!-margin-top-5",
-  url: planning_application_consultation_neighbour_responses_path(@planning_application, @neighbour_response),
-  method: :post
-) do |form| %>
+      model: @neighbour_response,
+      class: "govuk-!-margin-top-5",
+      url: planning_application_consultation_neighbour_responses_path(@planning_application, @neighbour_response),
+      method: :post
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
-  <%= form.govuk_select :address, @consultation.selected_neighbour_addresses, options: { include_blank: true }, label: { text: "Select an existing neighbour address" } %>
-  <%= form.govuk_text_field :new_address, label: { text: "Or add a new neighbour address" } %>
-  <%= form.govuk_date_field :received_at, legend: { text: "Response received on", size: "s", tag: "p" } %>
-  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: { text: 'Is the response', size: 'm' } do %>
-    <%= form.govuk_radio_button :summary_tag, 'supportive', label: { text: 'Supportive' } %>
-    <%= form.govuk_radio_button :summary_tag, 'neutral', label: { text: 'Neutral' } %>
-    <%= form.govuk_radio_button :summary_tag, 'objection', label: { text: 'An objection' } %>
+  <%= form.govuk_select :address, @consultation.selected_neighbour_addresses, options: {include_blank: true}, label: {text: "Select an existing neighbour address"} %>
+  <%= form.govuk_text_field :new_address, label: {text: "Or add a new neighbour address"} %>
+  <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Is the response", size: "m"} do %>
+    <%= form.govuk_radio_button :summary_tag, "supportive", label: {text: "Supportive"} %>
+    <%= form.govuk_radio_button :summary_tag, "neutral", label: {text: "Neutral"} %>
+    <%= form.govuk_radio_button :summary_tag, "objection", label: {text: "An objection"} %>
   <% end %>
-  <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map, :to_s, :to_s, legend: { text: 'Tags', size: 'm' } %>
-  <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
-  <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
+  <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map, :to_s, :to_s, legend: {text: "Tags", size: "m"} %>
+  <%= form.govuk_text_area :response, hint: {text: "This won't be made public"} %>
+  <%= form.govuk_text_area :redacted_response, label: {text: "Redacted response"}, hint: {text: "This will be made public"} %>
   <%= form.govuk_file_field :files,
-    label: { text: 'Upload documents' },
-    hint: { text: "Add any documents that the respondent sent." },
-    multiple: true
-  %>
+        label: {text: "Upload documents"},
+        hint: {text: "Add any documents that the respondent sent."},
+        multiple: true %>
   <div class="govuk-button-group">
     <%= form.submit(
-      "Save response",
-      class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
-    ) %>
+          "Save response",
+          class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+        ) %>
     <%= link_to "Back", planning_application_consultation_neighbour_responses_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
   </div>
 <% end %>

@@ -2,20 +2,20 @@
   <%= t(".assess") %> - <%= t("page_title") %>
 <% end %>
 <% render(
-  partial: "shared/assessment_task_breadcrumbs",
-  locals: {
-    planning_application: planning_application,
-    current_page: t(
-      ".assess_policy_class",
-      part: policy_class.part,
-      class: policy_class.section
-    )
-  }
-) %>
+     partial: "shared/assessment_task_breadcrumbs",
+     locals: {
+       planning_application: planning_application,
+       current_page: t(
+         ".assess_policy_class",
+         part: policy_class.part,
+         class: policy_class.section
+       )
+     }
+   ) %>
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: t(".assess_policy_class", part: policy_class.part, class: policy_class.section) }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: t(".assess_policy_class", part: policy_class.part, class: policy_class.section)}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -33,25 +33,25 @@
       </div>
     <% end %>
     <%= button_to(
-        t(".remove_class_from"),
-        planning_application_assessment_policy_class_path(planning_application, policy_class),
-        method: :delete,
-        data: { confirm: "This action cannot be undone.\nAre you sure you want to remove this class?" },
-        class: "govuk-button govuk-button--warning",
-        disabled: planning_application.submit_recommendation_complete?
-    ) %>
+          t(".remove_class_from"),
+          planning_application_assessment_policy_class_path(planning_application, policy_class),
+          method: :delete,
+          data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this class?"},
+          class: "govuk-button govuk-button--warning",
+          disabled: planning_application.submit_recommendation_complete?
+        ) %>
     <p class="govuk-body">
       <%= t(
-        ".please_indicate_if",
-        part: policy_class.part,
-        class: policy_class.section
-      ) %>
+            ".please_indicate_if",
+            part: policy_class.part,
+            class: policy_class.section
+          ) %>
     <p class="govuk-body">
       <%= govuk_link_to(
-        t(".open_legislation_in"),
-        policy_class.url,
-        target: "_blank"
-      ) %>
+            t(".open_legislation_in"),
+            policy_class.url,
+            target: "_blank"
+          ) %>
     </p>
     <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="accordion-default">
       <%= render "shared/accordian_section", heading: "Constraints", content: "shared/constraints" %>

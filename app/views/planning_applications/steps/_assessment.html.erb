@@ -3,16 +3,16 @@
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
       <%= link_to_if(
-        @planning_application.validated?,
-        t(".check_and_assess"),
-        planning_application_assessment_tasks_path(@planning_application),
-        class: "govuk-link"
-      ) %>
+            @planning_application.validated?,
+            t(".check_and_assess"),
+            planning_application_assessment_tasks_path(@planning_application),
+            class: "govuk-link"
+          ) %>
     </span>
     <%= render(
-      StatusTags::CheckAndAssessComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+          StatusTags::CheckAndAssessComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
   </li>
 </ul>

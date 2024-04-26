@@ -4,45 +4,45 @@
   <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
   <% content_for :title, "Supplied document" %>
   <% content_for :page_title do %>
-    Supplied document - <%= t('page_title') %>
+    Supplied document - <%= t("page_title") %>
   <% end %>
 <% else %>
   <% add_parent_breadcrumb_link "Documents", planning_application_documents_path(@planning_application) %>
   <% content_for :title, "Supplied document" %>
   <% content_for :page_title do %>
-    Supplied document - <%= t('page_title') %>
+    Supplied document - <%= t("page_title") %>
   <% end %>
 <% end %>
 
 <% if @validate_document %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "Check supplied document"  }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "Check supplied document"}
+      ) %>
 <% else %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "Edit supplied document"  }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "Edit supplied document"}
+      ) %>
 <% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <% if @document.representable? %>
       <%= link_to(
-        image_tag(
-          @document.file.representation(resize: "500x500"),
-          style: "max-width:100%"
-        ),
-        url_for_document(@document),
-        target: "_blank"
-      ) %>
+            image_tag(
+              @document.file.representation(resize: "500x500"),
+              style: "max-width:100%"
+            ),
+            url_for_document(@document),
+            target: "_blank", rel: "noopener"
+          ) %>
       <%= govuk_link_to(
-        t(".view_in_new"),
-        url_for_document(@document),
-        target: "_new",
-        class: "govuk-body"
-      ) %>
+            t(".view_in_new"),
+            url_for_document(@document),
+            target: "_new",
+            class: "govuk-body"
+          ) %>
     <% end %>
   </div>
   <div class="govuk-grid-column-one-half">
@@ -84,6 +84,6 @@
     </p>
   </div>
   <div class="govuk-grid-column-full">
-    <%= render 'edit_and_upload' %>
+    <%= render "edit_and_upload" %>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Edit application - <%= t('page_title') %>
+  Edit application - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -8,17 +8,17 @@
 <% content_for :title, "Edit application" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Edit application" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Edit application"}
+    ) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(
-      partial: "form",
-      locals: {
-        planning_application: @planning_application,
-        return_to: @back_path
-      }
-    ) %>
+          partial: "form",
+          locals: {
+            planning_application: @planning_application,
+            return_to: @back_path
+          }
+        ) %>
   </div>
 </div>

@@ -4,27 +4,27 @@
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 
 <% content_for :title, "Edit informative" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Edit informative" }
+      locals: {heading: "Edit informative"}
     ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @informative,
-              url: planning_application_assessment_informative_path(@planning_application, @informative),
-              method: :patch do |form| %>
+          url: planning_application_assessment_informative_path(@planning_application, @informative),
+          method: :patch do |form| %>
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
       <div data-controller="informatives">
         <div data-informatives-array-value="<%= @planning_application.local_authority.informatives.pluck(:title, :text).to_json %>"></div>
 
-        <%= form.govuk_text_field :title, label: { text: "Enter a title" }, id: "manual-title-input" %>
-        <%= form.govuk_text_area :text, label: { text: "Enter details of the informative" }, id: "manual-text-input" %>
+        <%= form.govuk_text_field :title, label: {text: "Enter a title"}, id: "manual-title-input" %>
+        <%= form.govuk_text_area :text, label: {text: "Enter details of the informative"}, id: "manual-text-input" %>
 
         <%= form.hidden_field :id %>
         <%= form.hidden_field :informative_set_id, value: @informative_set.id %>

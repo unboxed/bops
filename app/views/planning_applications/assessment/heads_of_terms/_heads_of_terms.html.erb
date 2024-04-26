@@ -8,7 +8,7 @@
     <p>
     <% @heads_of_term.terms.each_with_index do |term, index| %>
       <% next if term.current_validation_request.cancelled? %>
-      <p class="govuk-body"> 
+      <p class="govuk-body">
         <strong>Heads of terms <%= index + 1 %></strong><br>
         <%= term.title %>
       </p>
@@ -48,7 +48,7 @@
 
               <% if response_been_truncated?(term, term.text) %>
                 <span class="govuk-!-display-none hidden-comment">
-                  <%= term.text[truncated_length(term)..-1] %>
+                  <%= term.text[truncated_length(term)..] %>
                 </span>
                 <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
               <% end %>
@@ -82,13 +82,13 @@
   <div class="govuk-button-group align-items-center">
     <% if @heads_of_term.current_review.status != "complete" && @heads_of_term.latest_active_validation_requests.all?(&:approved?) %>
       <%= form_with model: @heads_of_term,
-              url: planning_application_assessment_heads_of_terms_path(@planning_application),
-              method: :patch do |form| %>
+            url: planning_application_assessment_heads_of_terms_path(@planning_application),
+            method: :patch do |form| %>
         <%= form.hidden_field :id, value: @heads_of_term.id %>
         <%= form.submit(
               t("form_actions.save_and_mark_as_complete"),
               class: "govuk-button",
-              data: { module: "govuk-button" }
+              data: {module: "govuk-button"}
             ) %>
       <% end %>
     <% end %>

@@ -2,9 +2,9 @@
   <% if @planning_application.has_only_time_extension_requests? %>
     Time extension requests
   <% elsif post_validation_requests_index? %>
-    Post validation requests - <%= t('page_title') %>
+    Post validation requests - <%= t("page_title") %>
   <% else %>
-    Validation requests - <%= t('page_title') %>
+    Validation requests - <%= t("page_title") %>
   <% end %>
 <% end %>
 
@@ -14,9 +14,9 @@
 <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) unless post_validation_requests_index? %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: validation_request_review_header(@planning_application)  }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: validation_request_review_header(@planning_application)}
+    ) %>
 
 <%= render "shared/dates_and_assignment_header" if post_validation_requests_index? %>
 

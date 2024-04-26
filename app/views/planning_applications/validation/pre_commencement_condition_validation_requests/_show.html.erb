@@ -1,23 +1,23 @@
 <% content_for :page_title do %>
-  View pre-commencement condition request - <%= t('page_title') %>
+  View pre-commencement condition request - <%= t("page_title") %>
 <% end %>
 
 <%= render(
       partial: "shared/assessment_task_breadcrumbs",
-      locals: { planning_application: @planning_application }
+      locals: {planning_application: @planning_application}
     ) %>
 <% content_for :title, "Pre-commencement condition request" %>
 
 <% if @validation_request.closed? %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "Check the response to pre-commencement condition request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "Check the response to pre-commencement condition request"}
+      ) %>
 <% else %>
   <%= render(
-    partial: "shared/proposal_header",
-    locals: { heading: "View pre-commencement condition request" }
-  ) %>
+        partial: "shared/proposal_header",
+        locals: {heading: "View pre-commencement condition request"}
+      ) %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -48,7 +48,7 @@
         <% end %>
       <% elsif !@validation_request.approved? %>
         <p class="govuk-body">Applicant rejected this ownership pre-commencement</p>
-        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s  %></p>
+        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s %></p>
       <% end %>
 
       <%= form_with model: @planning_application do |form| %>

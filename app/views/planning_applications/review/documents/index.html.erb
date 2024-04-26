@@ -3,16 +3,16 @@
 <% end %>
 
 <%= render(
-  partial: "shared/assessment_task_breadcrumbs",
-  locals: { planning_application: @planning_application  }
-) %>
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
 
 <% content_for :title, "Review documents" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Review documents for recommendation" }
-) %>
+      partial: "shared/proposal_header",
+      locals: {heading: "Review documents for recommendation"}
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
@@ -25,11 +25,11 @@
       <p class="govuk-body">There are no active documents.</p>
     <% else %>
       <%= form_with(
-        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-        method: :patch,
-        multiple: true,
-        url: planning_application_review_documents_path(@planning_application),
-      ) do |form| %>
+            builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+            method: :patch,
+            multiple: true,
+            url: planning_application_review_documents_path(@planning_application)
+          ) do |form| %>
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
@@ -78,7 +78,7 @@
           </tbody>
         </table>
 
-        <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+        <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
       <% end %>
     <% end %>
   </div>

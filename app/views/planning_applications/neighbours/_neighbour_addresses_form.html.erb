@@ -1,13 +1,13 @@
 <%= form_with(
-  model: consultation,
-  class: "govuk-!-margin-top-5",
-  id: "consultation-neighbour-addresses-form",
-  method: :post,
-  url: planning_application_consultation_neighbours_path(planning_application)
-) do |form| %>
+      model: consultation,
+      class: "govuk-!-margin-top-5",
+      id: "consultation-neighbour-addresses-form",
+      method: :post,
+      url: planning_application_consultation_neighbours_path(planning_application)
+    ) do |form| %>
   <%= form.govuk_text_area :polygon_geojson,
-                            label: { class: "govuk-visually-hidden" },
-                            class: "govuk-visually-hidden" %>
+        label: {class: "govuk-visually-hidden"},
+        class: "govuk-visually-hidden" %>
 
   <div id="address-container">
     <div class="govuk-!-width-three-quarters govuk-!-margin-top-1">
