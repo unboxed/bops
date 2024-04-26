@@ -40,20 +40,20 @@
     </p>
     <p>
       <% if @planning_application.validated? %>
-        <%= link_to(
-          t(".request_a_new"),
-          new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"),
-          class: "govuk-link govuk-body"
-        ) %>
+        <%= govuk_link_to(
+              t(".request_a_new"),
+              new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"),
+              class: "govuk-body"
+            ) %>
       <% end %>
     </p>
     <p>
       <% if @planning_application.can_validate? %>
-        <%= link_to(
-          t(".upload_document"),
-          new_planning_application_document_path(@planning_application),
-          class: "govuk-link govuk-body"
-        ) %>
+        <%= govuk_link_to(
+              t(".upload_document"),
+              new_planning_application_document_path(@planning_application),
+              class: "govuk-body"
+            ) %>
       <% end %>
     </p>
   </div>

@@ -43,8 +43,8 @@
 
     <% if @validation_request.open? %>
       <div class="govuk-button-group">
-        <%= link_to("Back", @back_path, class: "govuk-button govuk-button--secondary") %>
-        <%= link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, @validation_request), class: "govuk-link govuk-body" %>
+        <%= govuk_link_to("Back", @back_path, class: "govuk-button govuk-button--secondary") %>
+        <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, @validation_request), class: "govuk-body" %>
       </div>
     <% end %>
   </div>
