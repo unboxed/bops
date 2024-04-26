@@ -19,5 +19,13 @@
         ) %>
   <% end %>
 
-  <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
+  <div class="govuk-button-group">
+    <%= form.submit(
+          t("form_actions.save_and_mark_as_complete"),
+          class: "govuk-button",
+          data: {module: "govuk-button"},
+          disabled: local_assigns.fetch(:disabled, false)
+        ) %>
+    <%= back_link %>
+  </div>
 <% end %>

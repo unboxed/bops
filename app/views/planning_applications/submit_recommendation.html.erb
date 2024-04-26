@@ -32,14 +32,14 @@
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_submit(t(".submit_recommendation")) %>
         <%= link_to(
-              t(".edit_recommendation"),
-              new_planning_application_assessment_recommendation_path(@planning_application),
-              class: "govuk-button govuk-button--secondary"
-            ) %>
-        <%= link_to(
               t(".back"),
               planning_application_path(@planning_application),
               class: "govuk-button govuk-button--secondary"
+            ) %>
+        <%= govuk_link_to(
+              t(".edit_recommendation"),
+              new_planning_application_assessment_recommendation_path(@planning_application),
+              class: "govuk-body"
             ) %>
       <% end %>
     </div>

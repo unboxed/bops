@@ -242,42 +242,6 @@ RSpec.describe "Assess immunity detail permitted development right" do
         )
       end
 
-      it "I can 'Save and come back later' to my response" do
-        within("#assess-immunity-detail-section") do
-          choose "Yes"
-
-          within(".govuk-radios") do
-            choose "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse"
-          end
-
-          fill_in "Immunity from enforcement summary", with: "A summary"
-        end
-
-        click_button "Save and come back later"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully created")
-
-        expect(Review.enforcement.last).to have_attributes(
-          owner_id: immunity_detail.id,
-          assessor_id: assessor.id,
-          status: "in_progress",
-          specific_attributes: {
-            "decision" => "Yes",
-            "decision_reason" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
-            "decision_type" => "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse",
-            "summary" => "A summary",
-            "review_type" => "enforcement"
-          }
-        )
-
-        within("#immunity-permitted-development-rights") do
-          expect(page).to have_link(
-            "Immunity/permitted development rights",
-            href: edit_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
-          )
-          expect(page).to have_content("In progress")
-        end
-      end
-
       it "I can view and edit my response" do
         within("#assess-immunity-detail-section") do
           choose "No"
