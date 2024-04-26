@@ -18,10 +18,14 @@ module TaskListItems
       edit_planning_application_validation_documents_path(planning_application)
     end
 
-    def status_tag_component
-      StatusTags::AdditionalDocumentComponent.new(
-        planning_application:
-      )
+    def status
+      if planning_application.additional_document_validation_requests.open_or_pending.any?
+        :invalid
+      elsif planning_application.documents_missing == false
+        :valid
+      else
+        :not_started
+      end
     end
   end
 end
