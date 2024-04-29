@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe StatusTags::AssessRecommendationComponent, type: :component do
+RSpec.describe TaskListItems::AssessRecommendationComponent, type: :component do
   let(:planning_application) do
     create(:planning_application, :in_assessment)
   end

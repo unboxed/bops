@@ -8,21 +8,11 @@
             planning_application: @planning_application
           )
         ) %>
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= link_to_if(
-              @planning_application.can_assess?,
-              "Make draft recommendation",
-              new_planning_application_assessment_recommendation_path(@planning_application),
-              class: "govuk-link"
-            ) %>
-      </span>
-      <%= render(
-            StatusTags::AssessRecommendationComponent.new(
-              planning_application: @planning_application
-            )
-          ) %>
-    </li>
+    <%= render(
+          TaskListItems::DraftRecommendationComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
     <% if @planning_application.application_type.planning_conditions? %>
       <%= render(
             TaskListItems::Assessment::ConditionsComponent.new(
