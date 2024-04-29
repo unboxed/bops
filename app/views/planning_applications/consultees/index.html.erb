@@ -22,26 +22,13 @@
         consultees_target: "allConsultees"
 
       } do %>
-    <% if @consultation.errors.any? %>
-      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-        <h2 class="govuk-error-summary__title" id="error-summary-title">
-          There is a problem
-        </h2>
-        <div class="govuk-error-summary__body">
-          <ul class="govuk-list govuk-error-summary__list">
-            <% @consultation.errors.each do |error| %>
-              <li><%= error.message %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    <% end %>
 
   <%= form_with(model: @consultation,
         url: planning_application_consultees_emails_path(@planning_application),
         data: {
           consultees_target: "form"
         }) do |form| %>
+    <%= form.govuk_error_summary %>
     <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation %>
     <%= render AddConsulteeComponent.new(consultees: @consultees, form: form) %>
   <% end %>
