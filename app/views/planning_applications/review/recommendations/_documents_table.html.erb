@@ -18,17 +18,15 @@
           <% end %>
         </td>
       </tr>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
-          <%= link_to(
-                t(".add_and_edit"),
-                planning_application_documents_path(planning_application)
-              ) %>
-        </td>
-        <td class="govuk-table__cell">
-        </td>
-      </tr>
     <% end %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell" colspan="2">
+        <%= link_to(
+              t(".add_and_edit"),
+              planning_application_documents_path(planning_application)
+            ) %>
+      </td>
+    </tr>
   </tbody>
 </table>
 <% end %>

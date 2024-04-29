@@ -36,9 +36,10 @@
         <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
         <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
       <% end %>
-      <p>
+      <div class="govuk-button-group">
         <%= form.submit "Mark the application as valid", class: "govuk-button", data: {module: "govuk-button"} %>
-      </p>
+        <%= govuk_link_to "Back", validation_decision_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
     <% end %>
   </div>
 </div>

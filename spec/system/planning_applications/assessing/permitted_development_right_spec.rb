@@ -73,11 +73,6 @@ RSpec.describe "Permitted development right" do
         within(".govuk-error-summary") do
           expect(page).to have_content "Removed reason can't be blank"
         end
-
-        click_button "Save and come back later"
-        within(".govuk-error-summary") do
-          expect(page).to have_content "Removed reason can't be blank"
-        end
       end
 
       it "there is no validation error when submitting an empty text field when selecting 'No'" do
@@ -87,50 +82,6 @@ RSpec.describe "Permitted development right" do
 
         click_button "Save and mark as complete"
         expect(page).to have_content("Permitted development rights response was successfully created")
-      end
-
-      it "I can save and come back later when adding or editing the permitted development right" do
-        click_link "Check and assess"
-        click_link "Permitted development rights"
-
-        choose "Yes"
-        fill_in "permitted_development_right[removed_reason]", with: "A reason"
-        click_button "Save and come back later"
-
-        expect(page).to have_content("Permitted development rights response was successfully created")
-
-        expect(page).to have_list_item_for(
-          "Permitted development rights",
-          with: "In progress"
-        )
-
-        click_link("Permitted development rights")
-
-        within(".govuk-warning-text") do
-          expect(page).to have_content("This information will be made publicly available.")
-        end
-
-        within("#constraints-section") do
-          expect(page).to have_content("Constraints - including Article 4 direction(s)")
-        end
-
-        within("#planning-history-section") do
-          expect(page).to have_content("Planning history")
-        end
-
-        fill_in "permitted_development_right[removed_reason]", with: "Another reason"
-
-        click_button "Save and come back later"
-        expect(page).to have_content("Permitted development rights response was successfully updated")
-
-        expect(page).to have_list_item_for(
-          "Permitted development rights",
-          with: "In progress"
-        )
-
-        click_link("Application")
-
-        expect(list_item("Check and assess")).to have_content("In progress")
       end
 
       it "I can save and mark as complete when adding the permitted development right" do

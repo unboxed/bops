@@ -18,7 +18,6 @@
 
 <%= render "table" %>
 
-<div class="govuk-button-group">
-  <%= link_to "Add new consideration", new_planning_application_assessment_local_policy_area_path(@planning_application, @local_policy), class: "govuk-button govuk-button--primary" %>
-  <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+<div class="govuk-button-group govuk-!-margin-top-3">
+  <%= govuk_link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
 </div>
