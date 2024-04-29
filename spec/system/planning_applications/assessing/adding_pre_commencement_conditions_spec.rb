@@ -328,6 +328,7 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "I can drag and drop to sort the pre-commencement conditions" do
       click_link "Add pre-commencement conditions"
+      expect(page).to have_selector("p", text: "Drag and drop pre-commencement conditions to change the order that they appear in the decision notice.")
 
       condition_one_handle = find("li.sortable-list", text: "Title 1")
       condition_two_handle = find("li.sortable-list", text: "Title 2")
