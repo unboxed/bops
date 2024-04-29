@@ -22,135 +22,157 @@ RSpec.describe "neighbour responses" do
     let!(:neighbour1) { create(:neighbour, address: "1, Test Lane, AAA111", consultation:) }
     let!(:neighbour2) { create(:neighbour, address: "2, Test Lane, AAA111", consultation:) }
     let!(:neighbour3) { create(:neighbour, address: "3, Test Lane, AAA111", consultation:) }
-    let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection", tags: ["design", "access"]) }
-    let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["design"]) }
-    let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["access"]) }
-    let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
 
-    it "I can view the information on the neighbour responses page" do
-      click_link "Check and assess"
+    context "when there are neighbour responses" do
+      let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection", tags: ["design", "access"]) }
+      let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["design"]) }
+      let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["access"]) }
+      let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
 
-      within("#assessment-information-tasks") do
-        expect(page).to have_content("Summary of neighbour responses")
+      it "I can view the information on the neighbour responses page" do
+        click_link "Check and assess"
+
+        within("#assessment-information-tasks") do
+          expect(page).to have_content("Summary of neighbour responses")
+        end
+        within("#summary-of-neighbour-responses") do
+          expect(page).to have_content("Not started")
+          click_link "Summary of neighbour responses"
+        end
+
+        within(".govuk-notification-banner") do
+          expect(page).to have_content("View neighbour responses")
+          expect(page).to have_content("There are 4 neighbour responses")
+        end
+
+        expect(page).to have_current_path(
+          "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=neighbour_summary"
+        )
+
+        within(".govuk-breadcrumbs__list") do
+          expect(page).to have_content("Summary of neighbour responses")
+        end
+
+        expect(page).to have_content("Add summary of neighbour responses")
+        expect(page).to have_content(planning_application.reference)
+        expect(page).to have_content(planning_application.full_address)
+
+        click_button "Design responses (2)"
+        expect(page).to have_content(objection_response.redacted_response)
+        expect(page).to have_content(supportive_response1.redacted_response)
+        click_button "Design responses (2)"
+
+        click_button "Access responses (2)"
+        expect(page).to have_content(supportive_response2.redacted_response)
+        expect(page).to have_content(objection_response.redacted_response)
+        click_button "Access responses (2)"
+
+        click_button "Untagged responses (1)"
+        expect(page).to have_content(neutral_response.redacted_response)
       end
-      within("#summary-of-neighbour-responses") do
-        expect(page).to have_content("Not started")
+
+      it "I can save and come back later when adding or editing neighbour responses" do
+        expect(list_item("Check and assess")).to have_content("Not started")
+
+        click_link "Check and assess"
         click_link "Summary of neighbour responses"
+
+        within(".govuk-notification-banner") do
+          expect(page).to have_content("View neighbour responses")
+          expect(page).to have_content("There are 4 neighbour responses")
+        end
+
+        fill_in "assessment_detail[design]", with: "A draft entry for the neighbour responses"
+        click_button "Save and come back later"
+
+        expect(page).to have_content("neighbour responses was successfully created.")
+
+        within("#summary-of-neighbour-responses") do
+          expect(page).to have_content("In progress")
+        end
+
+        click_link "Summary of neighbour responses"
+        expect(page).to have_content("Edit summary of neighbour responses")
+        expect(page).to have_content("A draft entry for the neighbour responses")
+
+        within(".govuk-breadcrumbs__list") do
+          expect(page).to have_content("Summary of neighbour responses")
+        end
+
+        within(".govuk-notification-banner") do
+          expect(page).to have_content("View neighbour responses")
+          expect(page).to have_content("There are 0 neighbour responses")
+        end
+
+        click_button "Save and come back later"
+        expect(page).to have_content("neighbour responses was successfully updated.")
+
+        within("#summary-of-neighbour-responses") do
+          expect(page).to have_content("In progress")
+        end
+
+        click_link("Application")
+
+        expect(list_item("Check and assess")).to have_content("In progress")
       end
 
-      within(".govuk-notification-banner") do
-        expect(page).to have_content("View neighbour responses")
-        expect(page).to have_content("There are 4 neighbour responses")
-      end
+      it "I can save and mark as complete when adding neighbour responses" do
+        click_link "Check and assess"
+        click_link "Summary of neighbour responses"
 
-      expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=neighbour_summary"
-      )
+        fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
+        fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
+        fill_in "assessment_detail[untagged]", with: "A complete entry for the untagged neighbour responses"
+        click_button "Save and mark as complete"
 
-      within(".govuk-breadcrumbs__list") do
+        expect(page).to have_content("neighbour responses was successfully created.")
+
+        within("#summary-of-neighbour-responses") do
+          expect(page).to have_content("Completed")
+        end
+
+        click_link "Summary of neighbour responses"
         expect(page).to have_content("Summary of neighbour responses")
+        expect(page).to have_content("Design: A complete entry for the design neighbour responses")
+        expect(page).to have_content("Access: A complete entry for the disabled access neighbour responses")
+        expect(page).to have_content("Untagged: A complete entry for the untagged neighbour responses")
+
+        expect(page).to have_link(
+          "Edit summary of neighbour responses",
+          href: edit_planning_application_assessment_assessment_detail_path(planning_application,
+            AssessmentDetail.neighbour_summary.last, category: "neighbour_summary")
+        )
       end
 
-      expect(page).to have_content("Add summary of neighbour responses")
-      expect(page).to have_content(planning_application.reference)
-      expect(page).to have_content(planning_application.full_address)
+      it "shows errors" do
+        click_link "Check and assess"
+        click_link "Summary of neighbour responses"
 
-      click_button "Design responses (2)"
-      expect(page).to have_content(objection_response.redacted_response)
-      expect(page).to have_content(supportive_response1.redacted_response)
-      click_button "Design responses (2)"
+        fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
+        fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
+        click_button "Save and mark as complete"
 
-      click_button "Access responses (2)"
-      expect(page).to have_content(supportive_response2.redacted_response)
-      expect(page).to have_content(objection_response.redacted_response)
-      click_button "Access responses (2)"
-
-      click_button "Untagged responses (1)"
-      expect(page).to have_content(neutral_response.redacted_response)
+        expect(page).to have_content "Fill in all summaries of comments"
+      end
     end
 
-    it "I can save and come back later when adding or editing neighbour responses" do
-      expect(list_item("Check and assess")).to have_content("Not started")
+    context "when there are no neighbour responses" do
+      it "I can mark the task as complete" do
+        click_link "Check and assess"
+        click_link "Summary of neighbour responses"
 
-      click_link "Check and assess"
-      click_link "Summary of neighbour responses"
+        expect(page).to have_content "There are 0 neighbour responses"
+        click_button "Save and mark as complete"
 
-      within(".govuk-notification-banner") do
-        expect(page).to have_content("View neighbour responses")
-        expect(page).to have_content("There are 4 neighbour responses")
+        expect(page).to have_content("Summary of neighbour responses was successfully created.")
+
+        within("#summary-of-neighbour-responses") do
+          expect(page).to have_content("Completed")
+          click_link "Summary of neighbour responses"
+        end
+
+        expect(page).not_to have_selector("h2", text: "Summary")
       end
-
-      fill_in "assessment_detail[design]", with: "A draft entry for the neighbour responses"
-      click_button "Save and come back later"
-
-      expect(page).to have_content("neighbour responses was successfully created.")
-
-      within("#summary-of-neighbour-responses") do
-        expect(page).to have_content("In progress")
-      end
-
-      click_link "Summary of neighbour responses"
-      expect(page).to have_content("Edit summary of neighbour responses")
-      expect(page).to have_content("A draft entry for the neighbour responses")
-
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Summary of neighbour responses")
-      end
-
-      within(".govuk-notification-banner") do
-        expect(page).to have_content("View neighbour responses")
-        expect(page).to have_content("There are 0 neighbour responses")
-      end
-
-      click_button "Save and come back later"
-      expect(page).to have_content("neighbour responses was successfully updated.")
-
-      within("#summary-of-neighbour-responses") do
-        expect(page).to have_content("In progress")
-      end
-
-      click_link("Application")
-
-      expect(list_item("Check and assess")).to have_content("In progress")
-    end
-
-    it "I can save and mark as complete when adding neighbour responses" do
-      click_link "Check and assess"
-      click_link "Summary of neighbour responses"
-
-      fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
-      fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
-      fill_in "assessment_detail[untagged]", with: "A complete entry for the untagged neighbour responses"
-      click_button "Save and mark as complete"
-
-      expect(page).to have_content("neighbour responses was successfully created.")
-
-      within("#summary-of-neighbour-responses") do
-        expect(page).to have_content("Completed")
-      end
-
-      click_link "Summary of neighbour responses"
-      expect(page).to have_content("Summary of neighbour responses")
-      expect(page).to have_content("Design: A complete entry for the design neighbour responses")
-      expect(page).to have_content("Access: A complete entry for the disabled access neighbour responses")
-      expect(page).to have_content("Untagged: A complete entry for the untagged neighbour responses")
-
-      expect(page).to have_link(
-        "Edit summary of neighbour responses",
-        href: edit_planning_application_assessment_assessment_detail_path(planning_application,
-          AssessmentDetail.neighbour_summary.last, category: "neighbour_summary")
-      )
-    end
-
-    it "shows errors" do
-      click_link "Check and assess"
-      click_link "Summary of neighbour responses"
-
-      fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
-      fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
-      click_button "Save and mark as complete"
-
-      expect(page).to have_content "Fill in all summaries of comments"
     end
   end
 

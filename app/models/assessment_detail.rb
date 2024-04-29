@@ -96,7 +96,7 @@ class AssessmentDetail < ApplicationRecord
     return false if accepted? || rejected?
 
     summary_of_work? ||
-      site_description? || amenity? || neighbour_summary? ||
+      site_description? || amenity? || any_neighbour_responses? ||
       (assessment_complete? && consultation_summary?)
   end
 
@@ -112,5 +112,11 @@ class AssessmentDetail < ApplicationRecord
     entries = tag_array.push(:untagged).map { |tag| entry[/(?<=#{tag.to_s.humanize}:)\s\n/] }
 
     errors.add(:entry, "Fill in all summaries of comments") if entries.any?
+  end
+
+  def any_neighbour_responses?
+    return unless planning_application&.consultation
+
+    planning_application.consultation.neighbour_responses.any?
   end
 end
