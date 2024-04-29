@@ -5,7 +5,6 @@ module PlanningApplications
     class PreCommencementConditionsController < AuthenticationController
       before_action :set_planning_application
       before_action :set_condition_set
-      before_action :set_conditions, only: [:index, :create]
       before_action :set_condition
 
       def index
@@ -79,10 +78,6 @@ module PlanningApplications
 
       def set_condition_set
         @condition_set = @planning_application.pre_commencement_condition_set
-      end
-
-      def set_conditions
-        @conditions = @condition_set.conditions
       end
 
       def pre_commencement_condition_params

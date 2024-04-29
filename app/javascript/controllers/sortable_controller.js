@@ -22,22 +22,25 @@ export default class extends Controller {
   }
 
   onEnd(event) {
-    const { newIndex, item } = event
+    const { oldIndex, newIndex, item } = event
     const url = item.dataset.sortableUrl
+    const modelName = item.dataset.modelName
+
+    if (oldIndex === newIndex) {
+      return
+    }
+
+    const payload = {
+      [modelName.toLowerCase()]: {
+        position: newIndex,
+      },
+    }
 
     put(url, {
-      body: JSON.stringify({
-        informative: {
-          position: newIndex,
-        },
-      }),
+      body: JSON.stringify(payload),
     })
       .then(() => {
-        const modelName = item.dataset.modelName
-
-        if (modelName) {
-          this.updatePositions(modelName)
-        }
+        this.updatePositions(modelName)
       })
       .catch((error) => {
         console.error("Error updating position:", error)
@@ -45,10 +48,12 @@ export default class extends Controller {
   }
 
   updatePositions(modelName) {
-    const items = this.element.querySelectorAll("li")
+    const items = document
+      .querySelector('[data-controller="sortable"]')
+      .querySelectorAll("li")
 
     items.forEach((item, index) => {
-      const positionElement = item.querySelector(".govuk-hint")
+      const positionElement = item.querySelector(".govuk-caption-m")
       if (positionElement) {
         positionElement.textContent = `${modelName} ${index + 1}`
       }

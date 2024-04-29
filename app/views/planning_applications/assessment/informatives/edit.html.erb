@@ -29,10 +29,9 @@
         <%= form.hidden_field :id %>
         <%= form.hidden_field :informative_set_id, value: @informative_set.id %>
 
-        <div class="govuk-button-group">
-          <%= form.submit "Save informative", class: "govuk-button" %>
-          <%= back_link %>
-        </div>
+        <%= form.govuk_submit("Save informative") do %>
+          <%= govuk_button_link_to(t("back"), planning_application_assessment_informatives_path(@planning_application), secondary: true) %>
+        <% end %>
       </div>
     <% end %>
   </div>

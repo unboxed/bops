@@ -11,12 +11,16 @@ RSpec.describe "Reviewing pre-commencement conditions" do
     create(:planning_application, :awaiting_determination, :planning_permission, local_authority: default_local_authority, pre_commencement_condition_set: condition_set)
   end
 
+  before { Current.user = assessor }
+
   let!(:condition_set) { create(:condition_set, pre_commencement: true) }
   let!(:standard_condition) { create(:condition, condition_set:, title: "foo", validation_requests: [validate]) }
   let!(:other_condition) { create(:condition, :other, condition_set:, title: "bar", validation_requests: [validate]) }
 
   def validate
-    create(:pre_commencement_condition_validation_request, approved: true, planning_application:)
+    travel_to(1.minute.from_now) do
+      create(:pre_commencement_condition_validation_request, approved: true, planning_application:)
+    end
   end
 
   context "when signed in as a reviewer" do

@@ -12,6 +12,7 @@ RSpec.describe "Add pre-commencement conditions" do
   end
 
   before do
+    Current.user = assessor
     travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
     visit "/planning_applications/#{planning_application.id}"
@@ -176,11 +177,15 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "you can edit conditions once they've been rejected" do
       condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+      travel_to(Time.zone.local(2024, 4, 17, 13, 30)) do
+        create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+      end
       create(:review, owner: condition1.condition_set)
 
       condition2 = create(:condition, :other, title: "Title 2", condition_set: condition1.condition_set)
-      create(:pre_commencement_condition_validation_request, owner: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
+      travel_to(Time.zone.local(2024, 4, 17, 13, 30)) do
+        create(:pre_commencement_condition_validation_request, owner: condition2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
+      end
       create(:review, owner: condition2.condition_set)
 
       travel_to(Time.zone.local(2024, 4, 17, 14, 30))
@@ -191,7 +196,7 @@ RSpec.describe "Add pre-commencement conditions" do
       within("#condition_#{condition1.id}") do
         expect(page).to have_selector("p strong.govuk-tag", text: "Rejected")
         expect(page).to have_selector("p", text: "Typo")
-        expect(page).to have_selector("p", text: "Sent on: 17 April 2024 12:30")
+        expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
         expect(page).to have_link(
           "Update condition",
           href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition1.id}/edit"
@@ -230,7 +235,9 @@ RSpec.describe "Add pre-commencement conditions" do
 
     it "you can cancel conditions" do
       condition1 = create(:condition, :other, title: "Title 1", condition_set: planning_application.pre_commencement_condition_set)
-      create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
+      travel_to(Time.zone.local(2024, 4, 17, 13, 30)) do
+        create(:pre_commencement_condition_validation_request, owner: condition1, planning_application:, state: "open", notified_at: 1.day.ago)
+      end
       create(:review, owner: condition1.condition_set)
 
       visit "/planning_applications/#{planning_application.id}"
@@ -310,6 +317,117 @@ RSpec.describe "Add pre-commencement conditions" do
       expect(page).to have_content condition.title
       expect(page).to have_content condition.text
       expect(page).to have_content condition.reason
+    end
+  end
+
+  context "when changing the list position" do
+    let(:condition_set) { planning_application.pre_commencement_condition_set }
+    let!(:condition_one) { create(:condition, condition_set:, title: "Title 1", text: "Text 1") }
+    let!(:condition_two) { create(:condition, :other, condition_set:, title: "Title 2", text: "Text 2") }
+    let!(:condition_three) { create(:condition, condition_set:, title: "Title 3", text: "Text 3") }
+
+    it "I can drag and drop to sort the pre-commencement conditions" do
+      click_link "Add pre-commencement conditions"
+
+      condition_one_handle = find("li.sortable-list", text: "Title 1")
+      condition_two_handle = find("li.sortable-list", text: "Title 2")
+      condition_three_handle = find("li.sortable-list", text: "Title 3")
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Condition 3")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+
+      condition_one_handle.drag_to(condition_two_handle)
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Condition 3")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      expect(condition_one.reload.position).to eq(2)
+      expect(condition_two.reload.position).to eq(1)
+      expect(condition_three.reload.position).to eq(3)
+
+      condition_one_handle.drag_to(condition_three_handle)
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Condition 3")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      expect(condition_one.reload.position).to eq(3)
+      expect(condition_two.reload.position).to eq(1)
+      expect(condition_three.reload.position).to eq(2)
+
+      condition_three_handle.drag_to(condition_two_handle)
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Condition 3")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+      expect(condition_one.reload.position).to eq(3)
+      expect(condition_two.reload.position).to eq(2)
+      expect(condition_three.reload.position).to eq(1)
+
+      click_link "Back"
+      click_link "Add pre-commencement conditions"
+
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Title 3")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Condition 3")
+        expect(page).to have_selector("h2", text: "Title 1")
+      end
+
+      # Check the correct order on decision notice
+      click_button "Confirm and send to applicant"
+      condition_set.validation_requests.each { |vr| vr.update(approved: true) }
+      create(:recommendation, :assessment_in_progress, planning_application:)
+      click_link "Back"
+      click_link "Review and submit recommendation"
+
+      within("#pre-commencement-conditions-list") do
+        expect(page).to have_selector("li:nth-of-type(1)", text: "Title 3")
+        expect(page).to have_selector("li:nth-of-type(2)", text: "Title 2")
+        expect(page).to have_selector("li:nth-of-type(3)", text: "Title 1")
+      end
     end
   end
 

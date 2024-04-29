@@ -66,7 +66,7 @@
       <h3 class="govuk-heading-s">
         Pre-commencement conditions:
       </h3>
-      <ol class="govuk-list govuk-list--number">
+      <ol class="govuk-list govuk-list--number" id="pre-commencement-conditions-list">
         <% @planning_application.pre_commencement_condition_set.approved_conditions.each do |condition| %>
           <li>
             <%= condition.title %><br>

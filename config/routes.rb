@@ -96,6 +96,7 @@ Rails.application.routes.draw do
           end
           resources :pre_commencement_conditions, except: %i[new show] do
             post :confirm, on: :collection
+            resource :positions, only: %i[update], module: :pre_commencement_conditions
           end
           resource :consistency_checklist, except: %i[destroy index]
           resources :consultees, only: %i[index] do
