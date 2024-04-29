@@ -1,5 +1,5 @@
 <%= form_with(model: @local_authority, url: profile_path, id: "profile-form") do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <%= form.govuk_fieldset(legend: {text: nil}) do %>
 
   <%= form.govuk_text_field(

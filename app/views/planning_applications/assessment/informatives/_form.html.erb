@@ -2,7 +2,7 @@
       url:,
       method: :patch do |form| %>
   <% if !@informative_set.current_review&.complete? || params[:show_form] == "true" || form.object.errors.any? %>
-    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+    <%= form.govuk_error_summary %>
 
     <div data-informatives-array-value="<%= @planning_application.local_authority.informatives.pluck(:title, :text).to_json %>"></div>
 

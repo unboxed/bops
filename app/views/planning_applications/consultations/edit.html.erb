@@ -15,7 +15,7 @@
       model: @consultation,
       url: planning_application_consultation_path(@planning_application)
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_date_field :end_date, legend: {text: "Set consultation end date", size: "m"} %>
 

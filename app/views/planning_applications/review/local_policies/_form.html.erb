@@ -1,7 +1,7 @@
 <%= form_with model: [@planning_application, @review_local_policy],
       url: planning_application_review_local_policy_path(@planning_application, @review_local_policy),
       class: "govuk-!-margin-top-7" do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset :action, legend: {text: "Actions"} do %>
     <%= form.govuk_radio_button(

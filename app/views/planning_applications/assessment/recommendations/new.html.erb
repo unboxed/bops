@@ -53,7 +53,7 @@
           model: @recommendation,
           url: planning_application_assessment_recommendations_path(@planning_application)
         ) do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= form.govuk_radio_buttons_fieldset(:recommend, legend: {size: "s", text: "Does this planning application need to be decided by committee?"}) do %>
         <%= form.govuk_radio_button :recommend, true, label: {text: "Yes"}, link_errors: true, checked: @committee_decision&.recommend? do %>

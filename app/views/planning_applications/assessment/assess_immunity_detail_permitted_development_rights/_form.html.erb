@@ -3,7 +3,7 @@
       url: form_url,
       method: form_method
     ) do |form| %>
-    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+    <%= form.govuk_error_summary %>
 
     <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
       <%= form.fields_for :review do |review_immunity_detail| %>

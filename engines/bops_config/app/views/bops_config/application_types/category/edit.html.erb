@@ -10,7 +10,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= form_with model: @application_type, url: [@application_type, :category] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= form.govuk_collection_radio_buttons :category,
             ApplicationType.categories, :first, ->((k)) { t(".category_labels.#{k}") },

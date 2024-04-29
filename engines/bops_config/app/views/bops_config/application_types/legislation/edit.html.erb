@@ -10,7 +10,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_type, url: [@application_type, :legislation] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= form.govuk_radio_buttons_fieldset(:legislation_type,
             hint: {text: t(".legislation_hint")},

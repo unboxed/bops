@@ -4,7 +4,7 @@
       html: {data: {controller: "conditions reset-text"}},
       method: :patch do |form| %>
 
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <div id="standard-conditions">
     <%= form.govuk_check_boxes_fieldset :conditions, multiple: false, legend: {text: "Suggested conditions"} do %>

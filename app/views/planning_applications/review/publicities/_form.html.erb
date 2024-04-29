@@ -1,5 +1,5 @@
 <%= form_with model: [@planning_application, @assessment_detail], url: planning_application_review_consultation_publicities_path(@planning_application, @consultation) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <%= form.govuk_radio_buttons_fieldset(:action, legend: {size: "m", text: "Do you accept that publicity has been completed?"}) do %>
     <% if @consultation.start_date && @consultation.end_date %>
       <ul class="govuk-list govuk-list--bullet">

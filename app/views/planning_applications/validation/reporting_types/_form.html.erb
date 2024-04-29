@@ -1,5 +1,5 @@
 <%= form_with model: @planning_application, local: true, url: planning_application_validation_reporting_type_url(@planning_application) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(:reporting_type, legend: {size: "m"}) do %>
     <% if @planning_application.application_type.selected_reporting_types? %>

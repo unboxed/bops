@@ -202,7 +202,7 @@
     </div>
 
     <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= form.hidden_field(:category, value: @category) %>
 

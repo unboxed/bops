@@ -4,9 +4,7 @@
   <%= form_with(model: @local_policy_area,
         url: planning_application_assessment_local_policy_areas_path(@planning_application),
         class: "govuk-!-margin-top-5") do |form| %>
-    <%= form.govuk_error_summary(
-          presenter: ErrorPresenter
-        ) %>
+    <%= form.govuk_error_summary %>
     <h3 class="govuk-heading-m">Choose policy area from a list</h3>
     <label class="govuk-label">
       <strong>

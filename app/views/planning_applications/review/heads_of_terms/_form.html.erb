@@ -1,7 +1,7 @@
 <%= form_with model: @planning_application.heads_of_term,
       url: planning_application_review_heads_of_term_path(@planning_application),
       class: "govuk-!-margin-top-7" do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <% if current_review = heads_of_term.current_review %>
     <%= form.fields_for :reviews_attributes, current_review do |review_form| %>

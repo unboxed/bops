@@ -1,5 +1,5 @@
 <%= form_with model: @legislation do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_text_field :title,
         label: {text: t(".legislation_title_label")},

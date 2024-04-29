@@ -17,7 +17,7 @@
     </h1>
 
     <%= form_with model: @application_type, url: [@application_type, :features] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= form.fields_for :features, @application_type.features do |ff| %>
         <%= ff.govuk_fieldset legend: {text: t("application_type_features.legends.check_application_details"), size: "s"} do %>

@@ -33,7 +33,7 @@
           url: planning_application_consultees_assign_constraint_path(@planning_application),
           method: "POST",
           class: "govuk-!-margin-top-7" do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= form.label "Select consultee for #{@constraint.type_code}", class: "govuk-label" %>
       <%= form.hidden_field :constraint, value: @constraint.id %>

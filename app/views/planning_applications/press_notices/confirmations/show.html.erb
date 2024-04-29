@@ -16,7 +16,7 @@
       model: @press_notice,
       url: planning_application_press_notice_confirmation_path(@planning_application)
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <% if @press_notice.requested_at? %>
     <div class="govuk-inset-text govuk-!-margin-top-0 govuk-!-padding-top-2 govuk-!-padding-bottom-2">

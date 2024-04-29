@@ -19,7 +19,7 @@
       url: planning_application_consultation_neighbour_response_path(@planning_application, @neighbour_response),
       method: :patch
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>

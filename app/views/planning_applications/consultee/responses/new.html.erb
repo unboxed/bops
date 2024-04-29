@@ -20,7 +20,7 @@
       url: planning_application_consultee_responses_path(@planning_application, @consultee),
       method: :post
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
   <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>

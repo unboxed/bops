@@ -3,7 +3,7 @@
       scope: :validation_request,
       url: cancel_planning_application_validation_validation_request_path(@planning_application, validation_request) do |form| %>
 
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_text_area :cancel_reason, label: {text: "Explain to the applicant why this request is being cancelled"}, rows: 5 %>
 

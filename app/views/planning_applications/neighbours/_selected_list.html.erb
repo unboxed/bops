@@ -25,7 +25,7 @@
                   url: planning_application_consultation_neighbour_path(planning_application, neighbour),
                   class: "govuk-!-display-none"
                 ) do |form| %>
-              <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+              <%= form.govuk_error_summary %>
               <%= form.govuk_text_field :address %>
               <br>
               <%= form.submit(

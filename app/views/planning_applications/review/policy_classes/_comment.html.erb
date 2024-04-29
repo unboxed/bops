@@ -20,7 +20,7 @@
             model: [planning_application, :assessment, policy_class, policy, new_comment],
             data: {action: "submit->submit-form#handleSubmit"}
           ) do |form| %>
-        <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+        <%= form.govuk_error_summary %>
         <%= form.govuk_text_area(
               :text,
               value: new_comment.text || comment.text,

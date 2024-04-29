@@ -2,7 +2,7 @@
       url: planning_application_assessment_heads_of_terms_path(@planning_application),
       html: {data: {controller: "heads-of-terms"}},
       method: :patch do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <div id="standard-terms">
     <%= form.govuk_check_boxes_fieldset :heads_of_term, multiple: false, legend: {text: "Suggested heads of terms"} do %>

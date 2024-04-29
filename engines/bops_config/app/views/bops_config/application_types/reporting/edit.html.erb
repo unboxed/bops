@@ -10,7 +10,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= form_with model: @application_type, url: [@application_type, :reporting] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= form.govuk_collection_check_boxes :reporting_types,
             @application_type.all_reporting_types, :code, :full_description,

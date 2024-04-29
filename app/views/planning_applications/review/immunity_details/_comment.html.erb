@@ -20,7 +20,7 @@
             model: [planning_application, :assessment, planning_application.immunity_detail, evidence_group, new_comment],
             data: {action: "submit->submit-form#handleSubmit"}
           ) do |form| %>
-        <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+        <%= form.govuk_error_summary %>
         <%= form.govuk_text_area(
               :text,
               value: comment.text,

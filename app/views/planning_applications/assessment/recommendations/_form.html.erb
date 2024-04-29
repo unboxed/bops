@@ -6,7 +6,7 @@
         recommendation
       )
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <%= form.govuk_radio_buttons_fieldset(
         :challenged,
         legend: {text: t(".do_you_agree"), size: "s"}
