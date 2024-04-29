@@ -14,30 +14,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  brakeman:
-    uses: ./.github/workflows/linters.yml
-    with:
-      brakeman: true
+  linters:
+    name: Linters
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        task:
+          - brakeman
+          - rubocop
+          - biome
+          - erblint
+          - language_versions
+      fail-fast: false
+    env:
+      BUNDLE_WITHOUT: development
+      PUPPETEER_SKIP_DOWNLOAD: true
+      RAILS_ENV: test
 
-  rubocop:
-    uses: ./.github/workflows/linters.yml
-    with:
-      rubocop: true
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
 
-  biome:
-    uses: ./.github/workflows/linters.yml
-    with:
-      biome: true
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
-  erblint:
-    uses: ./.github/workflows/linters.yml
-    with:
-      erblint: true
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - run: yarn install
 
-  language-versions:
-    uses: ./.github/workflows/linters.yml
-    with:
-      language-versions: true
+      - name: Lint with ${{ matrix.task }}
+        run: |
+          bundle exec rake ${{ matrix.task }}
 
   specs:
     uses: ./.github/workflows/testing.yml
