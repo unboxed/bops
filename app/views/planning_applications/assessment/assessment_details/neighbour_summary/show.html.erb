@@ -15,11 +15,13 @@
           title: "View neighbour responses",
           heading: updated_neighbour_responses_summary_text(@neighbour_responses, @assessment_detail) %>
 
-    <h2 class="govuk-heading-m"><%= t(".heading") %></h2>
+    <% if @assessment_detail.entry.present? %>
+      <h2 class="govuk-heading-m"><%= t(".heading") %></h2>
 
-    <p class="govuk-body">
-      <%= render(FormattedContentComponent.new(text: @assessment_detail.entry)) %>
-    </p>
+      <p class="govuk-body">
+        <%= render(FormattedContentComponent.new(text: @assessment_detail.entry)) %>
+      </p>
+    <% end %>
 
     <div class="govuk-button-group">
       <%= back_link %>
