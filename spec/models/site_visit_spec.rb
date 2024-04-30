@@ -25,8 +25,20 @@ RSpec.describe SiteVisit do
     end
 
     describe "#comment" do
+      before do
+        site_visit.consultation = create(:consultation)
+        site_visit.consultation.start_deadline
+      end
+
       it "validates presence" do
+        site_visit.decision = true
+        expect(site_visit.send(:consultation_start_date_present?)).to be true
         expect { site_visit.valid? }.to change { site_visit.errors[:comment] }.to ["Enter a comment about the site visit"]
+      end
+
+      it "does not require a comment when there is no visit" do
+        site_visit.decision = false
+        expect { site_visit.valid? }.not_to change { site_visit.errors[:comment] }
       end
     end
 

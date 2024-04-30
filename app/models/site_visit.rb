@@ -9,7 +9,8 @@ class SiteVisit < ApplicationRecord
 
   has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
-  validates :status, :comment, presence: true
+  validates :status, :comment, presence: true,
+    if: -> { decision? && consultation_start_date_present? }
   validates :decision, inclusion: {in: [true, false]}
 
   validate :consultation_started?, on: :create
