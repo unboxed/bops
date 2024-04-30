@@ -104,7 +104,7 @@ RSpec.describe "Planning Application show page" do
         expect(page).to have_link("Review and sign-off")
         expect(page).to have_content("Completed")
         expect(page).to have_link("Publish determination")
-        within(:xpath, '//*[@id="review-section"]/ul/li[2]') do
+        within("ul li:last-child") do
           expect(page).not_to have_content("Completed")
         end
       end

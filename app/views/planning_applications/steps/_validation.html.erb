@@ -1,23 +1,12 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-6 application-step-heading"> Validation</h2>
-<ul class="app-task-list__items" id="validation-section">
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <% if @planning_application.can_validate? %>
-        <%= govuk_link_to(
-              t(".check_and_validate"),
-              planning_application_validation_tasks_path(@planning_application),
-              aria: {describedby: "validation-completed"}
-            ) %>
-      <% else %>
-        Validate application
-      <% end %>
-    </span>
-    <div class="app-task-list__task-tag">
-      <%= render(
-            StatusTags::BaseComponent.new(
-              status: @planning_application.validation_status
-            )
-          ) %>
-    </div>
-  </li>
-</ul>
+<%= govuk_task_list(id_prefix: "validation-section", html_attributes: {id: "validation-section"}) do |task_list|
+      task_list.with_item(title: t(".check_and_validate"),
+        href: @planning_application.can_validate? && planning_application_validation_tasks_path(@planning_application),
+        html_attributes: {aria: {describedby: "validation-completed"}}) do |item|
+        if @planning_application.can_validate? || @planning_application.validation_complete?
+          item.with_status(text: render(StatusTags::BaseComponent.new(status: @planning_application.validation_status)))
+        else
+          item.with_status(text: "Cannot start yet", cannot_start_yet: true)
+        end
+      end
+    end %>

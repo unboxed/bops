@@ -1,11 +1,6 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-6 application-step-heading">Consultation</h2>
-<ul class="app-task-list__items" id="consultation-section">
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <%= govuk_link_to "Consultees, neighbours and publicity", planning_application_consultation_path(@planning_application) %>
-    </span>
-    <div class="app-task-list__task-tag">
-      <%= render(StatusTags::BaseComponent.new(status: @planning_application.consultation.status)) %>
-    </div>
-  </li>
-</ul>
+<%= govuk_task_list(id_prefix: "consultation-section", html_attributes: {id: "consultation-section"}) do |task_list|
+      task_list.with_item(title: "Consultees, neighbours and publicity",
+        href: planning_application_consultation_path(@planning_application),
+        status: render(StatusTags::BaseComponent.new(status: @planning_application.consultation.status)))
+    end %>
