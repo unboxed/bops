@@ -18,8 +18,6 @@ gem "devise"
 gem "devise-two-factor"
 gem "faker", require: false
 gem "faraday", "~> 2", require: false
-gem "govuk-components", "~> 5", ">= 5.3.2"
-gem "govuk_design_system_formbuilder"
 gem "grover"
 gem "i18n", "< 1.9"
 gem "i18n-tasks"
