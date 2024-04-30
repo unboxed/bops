@@ -1,18 +1,11 @@
 <h2 class="govuk-heading-m application-step-heading">Assessment</h2>
-<ul class="app-task-list__items" id="assess-section">
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <%= link_to_if(
-            @planning_application.validated?,
-            t(".check_and_assess"),
-            planning_application_assessment_tasks_path(@planning_application),
-            class: "govuk-link"
-          ) %>
-    </span>
-    <%= render(
-          StatusTags::CheckAndAssessComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
-  </li>
-</ul>
+<%= govuk_task_list(id_prefix: "assess-section", html_attributes: {id: "assess-section"}) do |task_list|
+      task_list.with_item(title: t(".check_and_assess"),
+        href: @planning_application.validated? && planning_application_assessment_tasks_path(@planning_application)) do |item|
+        if @planning_application.validated?
+          item.with_status(text: render(StatusTags::CheckAndAssessComponent.new(planning_application: @planning_application)))
+        else
+          item.with_status(text: "Cannot start yet", cannot_start_yet: true)
+        end
+      end
+    end %>

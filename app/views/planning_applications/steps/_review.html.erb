@@ -1,43 +1,26 @@
-<div id="review-section">
-  <h2 class="govuk-heading-m application-step-heading">Review</h2>
-  <ul class="app-task-list__items">
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <% if current_user.reviewer? %>
-          <% if @planning_application.awaiting_determination? || @planning_application.in_committee? %>
-            <%= govuk_link_to "Review and sign-off", planning_application_review_tasks_path(@planning_application), aria: {describedby: "review_assessment-completed"} %>
-          <% else %>
-            Review and sign-off
-          <% end %>
-        <% else %>
-          <% if @planning_application.awaiting_determination? %>
-            <%= govuk_link_to "View recommendation", view_recommendation_planning_application_path(@planning_application), aria: {describedby: "review_assessment-completed"} %>
-          <% else %>
-            View recommendation
-          <% end %>
-        <% end %>
-      </span>
-      <%= render(
-            StatusTags::Reviewing::RecommendationComponent.new(
-              planning_application: @planning_application,
-              user: current_user
-            )
-          ) %>
-    </li>
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <% if @planning_application.can_publish? && current_user.reviewer? %>
-          <%= govuk_link_to "Publish determination", publish_planning_application_path(@planning_application), aria: {describedby: "publish-completed"} %>
-        <% else %>
-          Publish determination
-        <% end %>
-      </span>
-      <%= render(
-            StatusTags::PublishDeterminationComponent.new(
-              planning_application: @planning_application,
-              user: current_user
-            )
-          ) %>
-    </li>
-  </ul>
-</div>
+<h2 class="govuk-heading-m application-step-heading">Review</h2>
+<%= govuk_task_list(id_prefix: "review-section", html_attributes: {id: "review-section"}) do |task_list|
+      if current_user.reviewer?
+        task_list.with_item(title: "Review and sign-off",
+          href: (@planning_application.awaiting_determination? || @planning_application.in_committee?) && planning_application_review_tasks_path(@planning_application),
+          html_attributes: {aria: {describedby: "review_assessment-completed"}}) do |item|
+          item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user)))
+        end
+      else
+        task_list.with_item(title: "View recommendation",
+          href: @planning_application.awaiting_determination? && view_recommendation_planning_application_path(@planning_application),
+          html_attributes: {aria: {describedby: "review_assessment-completed"}}) do |item|
+          if @planning_application.awaiting_determination?
+            item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user)))
+          else
+            item.with_status(text: "Cannot start yet", cannot_start_yet: true)
+          end
+        end
+      end
+
+      task_list.with_item(title: "Publish determination",
+        href: @planning_application.can_publish? && current_user.reviewer? && publish_planning_application_path(@planning_application),
+        html_attributes: {aria: {describedby: "publish_completed"}}) do |item|
+          item.with_status(text: render(StatusTags::PublishDeterminationComponent.new(planning_application: @planning_application, user: current_user)))
+        end
+    end %>
