@@ -72,7 +72,7 @@ RSpec.describe "Add pre-commencement conditions" do
       expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been confirmed and sent to the applicant")
 
       within("#condition_#{Condition.first.id}") do
-        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector(".govuk-task-list__status", text: "Awaiting response")
         expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
         expect(page).to have_link("Cancel")
 
@@ -81,7 +81,7 @@ RSpec.describe "Add pre-commencement conditions" do
       end
 
       within("#condition_#{Condition.second.id}") do
-        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector(".govuk-task-list__status", text: "Awaiting response")
         expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
       end
 
@@ -136,7 +136,7 @@ RSpec.describe "Add pre-commencement conditions" do
       expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been confirmed and sent to the applicant")
 
       within("#condition_#{Condition.first.id}") do
-        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector(".govuk-task-list__status", text: "Awaiting response")
         expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
         expect(page).to have_link("Cancel")
 
@@ -159,7 +159,7 @@ RSpec.describe "Add pre-commencement conditions" do
       end
 
       within("#condition_#{Condition.first.id}") do
-        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector(".govuk-task-list__status", text: "Awaiting response")
       end
 
       within("#condition_#{Condition.second.id}") do
@@ -171,7 +171,7 @@ RSpec.describe "Add pre-commencement conditions" do
       expect(page).to have_selector("[role=alert] p", text: "Pre-commencement conditions have been confirmed and sent to the applicant")
 
       within("#condition_#{Condition.second.id}") do
-        expect(page).to have_selector("p strong.govuk-tag.govuk-tag--purple", text: "Awaiting response")
+        expect(page).to have_selector(".govuk-task-list__status", text: "Awaiting response")
       end
     end
 
@@ -204,7 +204,7 @@ RSpec.describe "Add pre-commencement conditions" do
       end
 
       within("#condition_#{condition2.id}") do
-        expect(page).to have_selector("p strong.govuk-tag", text: "Accepted")
+        expect(page).to have_selector(".govuk-task-list__status", text: "Accepted")
         expect(page).to have_link(
           "Update condition",
           href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition2.id}/edit"
@@ -246,7 +246,7 @@ RSpec.describe "Add pre-commencement conditions" do
 
       within("#condition_#{condition1.id}") do
         expect(page).to have_selector("h2", text: "Title 1")
-        expect(page).to have_selector("p strong.govuk-tag", text: "Awaiting response")
+        expect(page).to have_selector(".govuk-task-list__status", text: "Awaiting response")
         click_link "Cancel"
       end
 
