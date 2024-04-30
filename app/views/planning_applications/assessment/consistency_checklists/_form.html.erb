@@ -3,7 +3,7 @@
       url: planning_application_assessment_consistency_checklist_path(planning_application),
       class: "consistency-checklist-form"
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <% planning_application.application_type.consistency_checklist.each do |checklist| %>
     <%= render(
           partial: checklist,

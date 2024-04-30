@@ -1,18 +1,5 @@
 <%= form_with model: [@planning_application, @note], url: planning_application_notes_path(@planning_application) do |form| %>
-  <% if @note.errors.any? %>
-    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title">
-        There is a problem
-      </h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <% @note.errors.full_messages.each do |error| %>
-            <li><%= error %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_text_area :entry, rows: 5, required: true %>
 

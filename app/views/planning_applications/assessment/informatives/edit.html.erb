@@ -19,7 +19,7 @@
     <%= form_with model: @informative,
           url: planning_application_assessment_informative_path(@planning_application, @informative),
           method: :patch do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
       <div data-controller="informatives">
         <div data-informatives-array-value="<%= @planning_application.local_authority.informatives.pluck(:title, :text).to_json %>"></div>
 

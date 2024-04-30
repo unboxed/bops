@@ -1,5 +1,5 @@
 <%= form_with model: @application_type do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <div data-controller="autocomplete-select">
     <%= form.govuk_select :code, ApplicationType.code_menu,

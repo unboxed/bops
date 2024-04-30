@@ -1,5 +1,5 @@
 <%= form_with model: @decision do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_text_field :description, label: {text: t(".description_label")}, hint: {text: t(".description_hint")} %>
 

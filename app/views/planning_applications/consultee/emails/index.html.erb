@@ -26,7 +26,7 @@
           method: :post,
           data: {consultees_target: "form"}
         ) do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <%= render ConsulteesComponent.new(consultees: @consultees, form: form) %>
       <%= render ConsulteeEmailComponent.new(form: form) %>

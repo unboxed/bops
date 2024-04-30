@@ -17,7 +17,7 @@
     </h1>
 
     <%= form_with model: @application_type, url: [@application_type, :document_tags] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <div class="govuk-tabs govuk-!-margin-top-7" data-module="govuk-tabs">
         <ul class="govuk-tabs__list">

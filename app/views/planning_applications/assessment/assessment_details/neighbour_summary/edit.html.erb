@@ -16,7 +16,7 @@
           heading: updated_neighbour_responses_summary_text(@neighbour_responses, @assessment_detail) %>
 
     <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
 
       <% NeighbourResponse::TAGS.each_with_index do |tag, index| %>
         <% next if @neighbour_responses.select { |response| response.tags.include? tag.to_s }.none? %>

@@ -29,7 +29,7 @@
             model: @planning_application,
             url: submit_planning_application_path(@planning_application)
           ) do |form| %>
-        <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+        <%= form.govuk_error_summary %>
         <%= form.govuk_submit(t(".submit_recommendation")) %>
         <%= link_to(
               t(".back"),

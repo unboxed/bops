@@ -30,7 +30,7 @@
       method: :patch,
       data: {controller: "reset-text"}
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <%= form.govuk_text_area :response,
         rows: 8,
         label: {size: "l", text: "Full comment"},

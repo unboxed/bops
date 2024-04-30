@@ -24,7 +24,7 @@
 <% end %>
 
 <%= form_with model: @press_notice, url: planning_application_press_notice_path(@planning_application) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(
         :required,

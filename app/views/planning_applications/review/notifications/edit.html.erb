@@ -51,7 +51,7 @@
         <span class="govuk-hint">These details will be included in the notification.</span>
       </div>
 
-      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      <%= form.govuk_error_summary %>
       <%= form.govuk_date_field :date_of_committee, legend: {text: "Enter date of meeting", size: "s"} %>
       <%= form.govuk_text_field :location, label: {text: "Enter location"}, hint: {text: "Enter the address where the meeting will be held. Include the name of the room, building number or hame, street, town and postcode."} %>
       <%= form.govuk_text_field :link, label: {text: "Enter link"}, hint: {text: "Add a URL where neighbours can view agendas and more information about committee meetings, such as a link to join online."} %>

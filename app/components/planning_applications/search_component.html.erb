@@ -6,7 +6,7 @@
       url: planning_applications_path(anchor: panel_type, status: selected_status, application_type: selected_application_type),
       data: {controller: "clear-form"}
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <div class="search-form-inputs">
     <%= form.govuk_fieldset(legend: {text: nil}) do %>
       <%= form.govuk_text_field(

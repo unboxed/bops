@@ -1,5 +1,5 @@
 <%= form_with model: @planning_application do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
 
   <%= form.hidden_field(
         :return_to,

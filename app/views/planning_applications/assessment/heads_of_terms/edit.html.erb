@@ -24,7 +24,7 @@
               url: planning_application_assessment_heads_of_terms_path(@planning_application),
               html: {data: {controller: "heads-of-terms"}},
               method: :patch do |form| %>
-          <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+          <%= form.govuk_error_summary %>
 
           <div id="other-terms" data-heads-of-terms-target="terms">
             <%= form.fields_for :terms, @term do |fields| %>

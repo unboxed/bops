@@ -19,7 +19,7 @@
       url: planning_application_consultation_neighbour_responses_path(@planning_application, @neighbour_response),
       method: :post
     ) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary %>
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
   <%= form.govuk_select :address, @consultation.selected_neighbour_addresses, options: {include_blank: true}, label: {text: "Select an existing neighbour address"} %>
