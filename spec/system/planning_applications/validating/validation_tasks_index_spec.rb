@@ -88,7 +88,7 @@ RSpec.describe "Validation tasks" do
 
           within("#development-type-for-reporting-task") do
             expect(page).to have_link(
-              "Select development type for reporting",
+              "Add reporting details",
               href: edit_planning_application_validation_reporting_type_path(planning_application)
             )
             within(".govuk-tag--grey") do
@@ -254,7 +254,7 @@ RSpec.describe "Validation tasks" do
 
           within("#development-type-for-reporting-task") do
             expect(page).to have_link(
-              "Select development type for reporting",
+              "Add reporting details",
               href: edit_planning_application_validation_reporting_type_path(planning_application)
             )
             within(".govuk-tag--grey") do
