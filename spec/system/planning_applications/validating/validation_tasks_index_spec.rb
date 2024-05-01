@@ -54,14 +54,14 @@ RSpec.describe "Validation tasks" do
               "Draw red line boundary",
               href: planning_application_validation_sitemap_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
 
           within("#check-red-line-boundary") do
             expect(page).to have_content("Check red line boundary")
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -71,7 +71,7 @@ RSpec.describe "Validation tasks" do
               "Check constraints",
               href: planning_application_validation_constraints_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -81,7 +81,7 @@ RSpec.describe "Validation tasks" do
               "Check description",
               href: planning_application_validation_description_changes_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -91,7 +91,7 @@ RSpec.describe "Validation tasks" do
               "Select development type for reporting",
               href: edit_planning_application_validation_reporting_type_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -121,7 +121,7 @@ RSpec.describe "Validation tasks" do
               "Upload redacted documents",
               href: planning_application_validation_documents_redactions_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -142,7 +142,7 @@ RSpec.describe "Validation tasks" do
               "Confirm Community Infrastructure Levy (CIL)",
               href: edit_planning_application_validation_cil_liability_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -152,7 +152,7 @@ RSpec.describe "Validation tasks" do
               "Check Environment Impact Assessment",
               href: new_planning_application_validation_environment_impact_assessment_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -162,7 +162,7 @@ RSpec.describe "Validation tasks" do
               "Check ownership certificate",
               href: edit_planning_application_validation_ownership_certificate_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -225,14 +225,14 @@ RSpec.describe "Validation tasks" do
               "Draw red line boundary",
               href: planning_application_validation_sitemap_path(planning_application)
             )
-            within(".govuk-tag--green") do
+            within(".govuk-task-list__status") do
               expect(page).to have_content("Checked")
             end
           end
 
           within("#check-red-line-boundary") do
             expect(page).to have_content("Check red line boundary")
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -242,7 +242,7 @@ RSpec.describe "Validation tasks" do
               "Check constraints",
               href: planning_application_validation_constraints_path(planning_application)
             )
-            within(".govuk-tag--green") do
+            within(".govuk-task-list__status") do
               expect(page).to have_content("Checked")
             end
           end
@@ -257,7 +257,7 @@ RSpec.describe "Validation tasks" do
               "Select development type for reporting",
               href: edit_planning_application_validation_reporting_type_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -283,7 +283,7 @@ RSpec.describe "Validation tasks" do
               "Upload redacted documents",
               href: planning_application_validation_documents_redactions_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -302,7 +302,7 @@ RSpec.describe "Validation tasks" do
               "Confirm Community Infrastructure Levy (CIL)",
               href: edit_planning_application_validation_cil_liability_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -312,7 +312,7 @@ RSpec.describe "Validation tasks" do
               "Check Environment Impact Assessment",
               href: new_planning_application_validation_environment_impact_assessment_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
@@ -322,7 +322,7 @@ RSpec.describe "Validation tasks" do
               "Check ownership certificate",
               href: edit_planning_application_validation_ownership_certificate_path(planning_application)
             )
-            within(".govuk-tag--grey") do
+            within(".govuk-tag--blue") do
               expect(page).to have_content("Not started")
             end
           end
