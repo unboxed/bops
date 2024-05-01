@@ -44,7 +44,7 @@ RSpec.describe "Constraints" do
 
       expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
 
-      click_button "Save and mark as checked"
+      click_button "Save and mark as complete"
 
       expect(page).to have_text("Constraints was successfully checked")
 
@@ -89,7 +89,7 @@ RSpec.describe "Constraints" do
         expect(page).to have_content "Special area of conservation"
       end
 
-      click_button "Save and mark as checked"
+      click_button "Save and mark as complete"
 
       visit "/planning_applications/#{planning_application.id}/validation/constraints"
 

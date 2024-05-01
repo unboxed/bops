@@ -14,7 +14,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Add, remove and save constraints</h2>
     <p class="govuk-body govuk-!-margin-bottom-8">
-      Check the constraints for this application. Add any constraints that are relevant. When all relevant constraints have been added, save and mark as checked.
+      Check the constraints for this application. Add any constraints that are relevant. When all relevant constraints have been added, save and mark as complete.
     </p>
   </div>
 </div>
@@ -62,7 +62,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @planning_application, url: planning_application_validation_constraints_path(@planning_application) do |form| %>
       <div class="govuk-button-group">
-        <%= form.submit "Save and mark as checked", class: "govuk-button", data: {module: "govuk-button"} %>
+        <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>
