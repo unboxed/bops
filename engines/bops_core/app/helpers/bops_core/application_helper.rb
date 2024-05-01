@@ -3,7 +3,8 @@
 module BopsCore
   module ApplicationHelper
     {
-      govuk_primary_navigation: "GovukComponent::PrimaryNavigationComponent"
+      govuk_primary_navigation: "GovukComponent::PrimaryNavigationComponent",
+      govuk_secondary_navigation: "GovukComponent::SecondaryNavigationComponent"
     }.each do |name, klass|
       define_method(name) do |*args, **kwargs, &block|
         capture do
