@@ -79,6 +79,83 @@ en:
         add_informative: Add a new informative
       update:
         informative_successfully_updated: Informative successfully updated
+    policy_areas:
+      create:
+        successfully_created: Policy area successfully created
+      destroy:
+        not_destroyed: Unable to delete policy area - please contact support
+        successfully_destroyed: Policy area successfully deleted
+      edit:
+        edit_policy_area: Edit policy area
+        policy_areas: Policy areas
+      form:
+        labels:
+          description: Description
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_policy_area: Add policy area
+        are_you_sure: Are you sure you want to delete this policy area?
+        find_policy_areas: Find policy areas
+        headings:
+          actions: Actions
+          description: Description
+        manage_policy_areas: Manage policy areas
+        no_policy_areas_found: No policy areas found
+        policy_areas: Policy areas
+        policy_references: Policy references
+      new:
+        add_policy_area: Add a new policy area
+        policy_areas: Policy areas
+      secondary_navigation:
+        policy_areas: Policy areas
+        policy_references: Policy references
+      update:
+        successfully_updated: Policy area successfully updated
+    policy_references:
+      create:
+        successfully_created: Policy reference successfully created
+      destroy:
+        not_destroyed: Unable to delete policy reference - please contact support
+        successfully_destroyed: Policy reference successfully deleted
+      edit:
+        edit_policy_reference: Edit policy reference
+        policy_references: Policy references
+      form:
+        hints:
+          policy_areas: Select the relevant policy areas for this policy
+        labels:
+          code: Code
+          description: Description
+          policy_areas: Policy areas
+          url: URL
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_policy_reference: Add policy reference
+        are_you_sure: Are you sure you want to delete this policy reference?
+        find_policy_references: Find policy references
+        headings:
+          actions: Actions
+          code: Code
+          description: Description
+          policy_areas: Policy areas
+        manage_policy_references: Manage policy references
+        no_policy_references_found: No policy references found
+        policy_areas: Policy areas
+        policy_references: Policy references
+      new:
+        add_policy_reference: Add a new policy reference
+        policy_references: Policy references
+      secondary_navigation:
+        policy_areas: Policy areas
+        policy_references: Policy references
+      update:
+        successfully_updated: Policy reference successfully updated
     profiles:
       edit:
         profile: Edit profile

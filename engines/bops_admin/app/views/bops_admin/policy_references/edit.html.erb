@@ -1,0 +1,24 @@
+<% content_for :page_title do %>
+  <%= t(".edit_policy_reference") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link t(".policy_references"), policy_references_path %>
+
+<% content_for :title, t(".edit_policy_reference") %>
+
+<% content_for :secondary_navigation do %>
+  <%= render "secondary_navigation" %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".edit_policy_reference") %>
+    </h1>
+
+    <%= form_with model: @policy_reference, url: policy_reference_path(@policy_reference), scope: :policy_reference do |form| %>
+      <%= render "form", form: form %>
+    <% end %>
+  </div>
+</div>

@@ -31,6 +31,8 @@ module BopsAdmin
         "profile"
       when "informatives"
         "informatives"
+      when "policy_areas", "policy_references"
+        "policy"
       else
         "dashboard"
       end
@@ -41,6 +43,7 @@ module BopsAdmin
         {link: {text: "Dashboard", href: root_path}, current: active_page_key?("dashboard")},
         {link: {text: "Consultees", href: consultees_path}, current: active_page_key?("consultees")},
         {link: {text: "Informatives", href: informatives_path}, current: active_page_key?("informatives")},
+        {link: {text: "Policy", href: policy_root_path}, current: active_page_key?("policy")},
         {link: {text: "Users", href: users_path}, current: active_page_key?("users")},
         {link: {text: "Profile", href: profile_path}, current: active_page_key?("profile")}
       ]
