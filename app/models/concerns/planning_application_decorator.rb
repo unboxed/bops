@@ -32,7 +32,7 @@ module PlanningApplicationDecorator
   end
 
   def type
-    I18n.t(application_type.name, scope: "application_types")
+    I18n.t(application_type.name, scope: "application_types", default: application_type.description)
   end
 
   def type_and_work_status

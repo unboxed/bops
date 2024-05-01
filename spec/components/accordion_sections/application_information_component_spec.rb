@@ -42,13 +42,28 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     )
   end
 
-  it "renders type and work status" do
-    render_inline(component)
+  context "when ldc proposed application" do
+    it "renders correct type and work status" do
+      render_inline(component)
 
-    expect(page).to have_row_for(
-      "Application type:",
-      with: "Lawful Development Certificate"
-    )
+      expect(page).to have_row_for(
+        "Application type:",
+        with: "Lawful Development Certificate"
+      )
+    end
+  end
+
+  context "when listed building application" do
+    let(:application_type) { create(:application_type, :listed) }
+
+    it "renders correct type and work status" do
+      render_inline(component)
+
+      expect(page).to have_row_for(
+        "Application type:",
+        with: "Consent to do works to a Listed Building"
+      )
+    end
   end
 
   it "renders address" do
