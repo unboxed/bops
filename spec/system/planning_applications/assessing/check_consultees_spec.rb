@@ -29,7 +29,7 @@ RSpec.describe "checking consultees", js: true do
 
   it "allows the assessor to see the list of constraints and consultees" do
     expect(page).to have_link("Check consultees consulted")
-    expect(page).to have_selector("#check-consultees-consulted > strong", text: "Not started")
+    expect(page).to have_selector("#check-consultees-consulted .govuk-tag", text: "Not started")
 
     click_link("Check consultees consulted")
 
@@ -48,7 +48,7 @@ RSpec.describe "checking consultees", js: true do
 
   it "allows assessor to mark as checked" do
     expect(page).to have_link("Check consultees consulted")
-    expect(page).to have_selector("#check-consultees-consulted > strong", text: "Not started")
+    expect(page).to have_selector("#check-consultees-consulted .govuk-tag", text: "Not started")
     click_link "Check consultees consulted"
 
     within ".govuk-table" do

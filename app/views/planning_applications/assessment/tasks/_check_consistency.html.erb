@@ -7,11 +7,13 @@
       <span class="app-task-list__task-name">
         <%= govuk_link_to t(".description_documents_and"), consistency_checklist_path(consistency_checklist) %>
       </span>
+      <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::ConsistencyChecklistComponent.new(
               consistency_checklist: consistency_checklist
             )
           ) %>
+      </div>
     </li>
     <% if @planning_application.check_publicity? %>
       <%= render(

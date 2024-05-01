@@ -20,22 +20,26 @@
       <span class="app-task-list__task-name">
         <%= govuk_link_to "Confirm Community Infrastructure Levy (CIL)", edit_planning_application_validation_cil_liability_path(@planning_application) %>
       </span>
+      <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::CilLiabilityComponent.new(
               planning_application: @planning_application
             )
           ) %>
+      </div>
     </li>
     <li id="environment-impact-assessment-task" class="app-task-list__item">
       <span class="app-task-list__task-name">
         <%= govuk_link_to "Check Environment Impact Assessment", @planning_application.environment_impact_assessment.nil? ? new_planning_application_validation_environment_impact_assessment_path(@planning_application) : planning_application_validation_environment_impact_assessment_path(@planning_application) %>
       </span>
 
+      <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::BaseComponent.new(
               status: @planning_application.environment_impact_assessment_status
             )
           ) %>
+      </div>
     </li>
     <%= render(
           TaskListItems::Validating::OwnershipCertificateComponent.new(

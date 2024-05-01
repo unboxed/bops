@@ -45,7 +45,7 @@ RSpec.describe "Redact documents" do
 
     within("#confirm-documents-tasks") do
       expect(page).to have_selector("li:nth-of-type(3) > span", text: "Upload redacted documents")
-      expect(page).to have_selector("li:nth-of-type(3) > span + strong", text: "In progress")
+      expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "In progress")
     end
 
     click_button "Documents"
