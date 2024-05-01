@@ -30,7 +30,9 @@ json.extract! planning_application,
   :target_date,
   :withdrawn_at,
   :work_status,
-  :boundary_geojson
+  :boundary_geojson,
+  :regulation_3,
+  :regulation_4
 if planning_application.site_notices.any?
   json.site_notice_content planning_application.site_notices.order(:created_at).last.content
 end

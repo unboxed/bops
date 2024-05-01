@@ -30,7 +30,24 @@ module PlanningApplications
       private
 
       def reporting_type_params
-        params[:planning_application] ? params.require(:planning_application).permit(:reporting_type) : params.permit(:reporting_type)
+        (params[:planning_application] ? params.require(:planning_application) : params)
+          .permit(:reporting_type).to_h.merge(regulation_3:, regulation_4:)
+      end
+
+      def regulation_3
+        regulation_params == "true" && regulation_3_params == "true"
+      end
+
+      def regulation_4
+        regulation_params == "true" && regulation_3_params == "false"
+      end
+
+      def regulation_params
+        params[:planning_application][:regulation]
+      end
+
+      def regulation_3_params
+        params[:planning_application][:regulation_3]
       end
     end
   end
