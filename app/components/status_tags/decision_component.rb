@@ -4,7 +4,7 @@ module StatusTags
   class DecisionComponent < StatusTags::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
-      super(status:, task_list: false)
+      super(status:)
     end
 
     private

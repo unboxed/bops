@@ -2,9 +2,8 @@
 
 module StatusTags
   class BaseComponent < ViewComponent::Base
-    def initialize(status:, task_list: true)
+    def initialize(status:)
       @status = status
-      @task_list = task_list
     end
 
     def render?
@@ -17,7 +16,7 @@ module StatusTags
 
     private
 
-    attr_reader :status, :task_list
+    attr_reader :status
 
     def colour
       case status.to_sym
@@ -32,10 +31,6 @@ module StatusTags
       when :printing
         "purple"
       end
-    end
-
-    def task_list?
-      task_list
     end
   end
 end

@@ -9,7 +9,7 @@ module StatusTags
       def initialize(assessment_detail:, planning_application:)
         @planning_application = planning_application
         @assessment_detail = assessment_detail
-        super(status:, task_list: false)
+        super(status:)
       end
 
       private

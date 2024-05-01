@@ -46,7 +46,7 @@
           <h2 class="govuk-heading-m"><%= condition.title %></h2>
 
           <p style="float: none">
-            <%= render(StatusTags::BaseComponent.new(status: status(condition), task_list: false)) %>
+            <%= render(StatusTags::BaseComponent.new(status: status(condition))) %>
           </p>
 
           <% if current_request = condition.current_validation_request %>

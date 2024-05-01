@@ -4,7 +4,7 @@ module StatusTags
   class LetterComponent < StatusTags::BaseComponent
     def initialize(status:)
       @status = status
-      super(status:, task_list: false)
+      super(status:)
     end
   end
 end
