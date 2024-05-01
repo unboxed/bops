@@ -17,11 +17,13 @@
               class: "govuk-link"
             ) %>
       </span>
+      <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::AssessRecommendationComponent.new(
               planning_application: @planning_application
             )
           ) %>
+      </div>
     </li>
     <% if @planning_application.application_type.planning_conditions? %>
       <%= render(
@@ -45,11 +47,13 @@
       <span class="app-task-list__task-name">
         <%= govuk_link_to "Add heads of terms", planning_application_assessment_heads_of_terms_path(@planning_application) %>
       </span>
+      <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::HeadsOfTermsComponent.new(
               heads_of_term: @planning_application.heads_of_term
             )
           ) %>
+      </div>
     </li>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
@@ -59,11 +63,13 @@
           Review and submit recommendation
         <% end %>
       </span>
+      <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::SubmitRecommendationComponent.new(
               planning_application: @planning_application
             )
           ) %>
+      </div>
     </li>
   </ul>
 </li>

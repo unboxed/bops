@@ -5,6 +5,7 @@
     <% end %>
 
     <% c.with_tag do %>
+      <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::BaseComponent.new(
               status: if policy_class.current_review&.status == "updated"
@@ -14,6 +15,7 @@
                       end
             )
           ) %>
+      </div>
     <% end %>
   <% end %>
 <% end %>
