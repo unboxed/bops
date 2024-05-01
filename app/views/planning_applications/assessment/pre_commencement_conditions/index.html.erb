@@ -42,61 +42,74 @@
                 sortable_url: planning_application_assessment_pre_commencement_condition_positions_path(@planning_application, condition),
                 sortable_handle: true
               } do %>
-          <span class="govuk-caption-m">Condition <%= condition.position %></span>
-          <h2 class="govuk-heading-m"><%= condition.title %></h2>
 
-          <p style="float: none">
-            <%= render(StatusTags::BaseComponent.new(status: status(condition))) %>
-          </p>
+          <div class="sortable-container">
+            <div>
+              <span class="govuk-caption-m">Condition <%= condition.position %></span>
+              <h2 class="govuk-heading-m"><%= condition.title %></h2>
 
-          <% if current_request = condition.current_validation_request %>
-            <% if current_request.rejection_reason %>
-              <div class="govuk-inset-text applicant">
+              <p style="float: none">
+                <%= render(StatusTags::BaseComponent.new(status: status(condition))) %>
+              </p>
+
+              <% if current_request = condition.current_validation_request %>
+                <% if current_request.rejection_reason %>
+                  <div class="govuk-inset-text applicant">
+                    <p class="govuk-body">
+                      <strong>Applicant comment</strong>
+                    </p>
+                    <p class="govuk-body govuk-hint">
+                      Sent on: <%= current_request.updated_at.to_fs %>
+                    </p>
+                    <p class="govuk-body">
+                      <%= current_request.rejection_reason %>
+                    </p>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <p class="govuk-body govuk-hint">
+                <% if current_request.notified_at %>
+                  Sent on <%= current_request.notified_at.to_fs %>
+                <% end %>
+              </p>
+
+              <div>
                 <p class="govuk-body">
-                  <strong>Applicant comment</strong>
-                </p>
-                <p class="govuk-body govuk-hint">
-                  Sent on: <%= current_request.updated_at.to_fs %>
+                  <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text, classname: "scrollable")) %>
                 </p>
                 <p class="govuk-body">
-                  <%= current_request.rejection_reason %>
+                  <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason, classname: "scrollable")) %>
                 </p>
               </div>
-            <% end %>
-          <% end %>
 
-          <p class="govuk-body govuk-hint">
-            <% if current_request.notified_at %>
-              Sent on <%= current_request.notified_at.to_fs %>
-            <% end %>
-          </p>
-          <p class="govuk-body">
-            <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text)) %>
-          </p>
-          <p class="govuk-body">
-            <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
-          </p>
+              <% unless current_request.cancelled? || current_request.open? %>
+                <%= govuk_link_to "Update condition", edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition) %>
+              <% end %>
 
-          <% unless current_request.cancelled? || current_request.open? %>
-            <%= govuk_link_to "Update condition", edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition) %>
-          <% end %>
+              <% if current_request.pending? %>
+                <%= govuk_link_to(
+                      "Remove",
+                      planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
+                      method: :delete,
+                      data: {confirm: "Are you sure?"}
+                    ) %>
+              <% end %>
 
-          <% if current_request.pending? %>
-            <%= govuk_link_to(
-                  "Remove",
-                  planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
-                  method: :delete,
-                  data: {confirm: "Are you sure?"}
-                ) %>
-          <% end %>
-
-          <% if current_request.open? %>
-            <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
-          <% end %>
+              <% if current_request.open? %>
+                <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
+              <% end %>
+            </div>
+            <div>
+              <%= render "shared/sortable_svg" %>
+            </div>
+          </div>
 
           <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
         <% end %>
       <% end %>
+
+      <p class="govuk-body"><%= t(".drag_and_drop") %></p>
     </ul>
   </div>
 

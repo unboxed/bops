@@ -1,3 +1,22 @@
 .sortable-list {
   cursor: move;
 }
+.sortable-container {
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    align-self: center;
+  }
+}
+.sortable-dragging-list {
+  opacity: 0.3;
+}
+.sortable-dragging-svg {
+  fill: #d4351c;
+  margin-left: 2rem;
+}
+.sortable-svg {
+  fill: govuk-colour("mid-grey");
+  margin-left: 2rem;
+}

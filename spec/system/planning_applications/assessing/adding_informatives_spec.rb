@@ -169,6 +169,7 @@ RSpec.describe "Add informatives" do
 
     it "I can drag and drop to sort the informatives" do
       click_link "Add informatives"
+      expect(page).to have_selector("p", text: "Drag and drop informatives to change the order that they appear in the decision notice.")
 
       informative_one_handle = find("li.sortable-list", text: "Title 1")
       informative_two_handle = find("li.sortable-list", text: "Title 2")

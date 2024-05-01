@@ -15,7 +15,7 @@
     ) %>
 
 <div class="govuk-grid-row" data-controller="informatives">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
     <% if @informative_set.informatives.select(&:persisted?).any? %>
       <ul data-controller="sortable" class="govuk-list">
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -28,11 +28,22 @@
                   sortable_url: planning_application_assessment_informative_positions_path(@planning_application, informative),
                   sortable_handle: true
                 } do %>
-            <span class="govuk-caption-m">Informative <%= informative.position %></span>
-            <h2 class="govuk-heading-m"><%= informative.title %></h2>
-            <%= render(FormattedContentComponent.new(text: informative.text)) %>
-            <%= govuk_link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative) %>
-            <%= govuk_link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete %>
+
+            <div class="sortable-container">
+              <div data-controller="max-lines">
+                <span class="govuk-caption-m">Informative <%= informative.position %></span>
+                <h2 class="govuk-heading-m"><%= informative.title %></h2>
+
+                <%= render(FormattedContentComponent.new(text: informative.text, classname: "scrollable")) %>
+
+                <%= govuk_link_to "Edit", edit_planning_application_assessment_informative_path(@planning_application, informative) %>
+                <%= govuk_link_to "Remove", planning_application_assessment_informative_path(@planning_application, informative), method: :delete %>
+              </div>
+              <div>
+                <%= render "shared/sortable_svg" %>
+              </div>
+            </div>
+
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
           <% end %>
         <% end %>
@@ -40,6 +51,8 @@
     <% else %>
       <p class="govuk-body"><strong>No informatives added yet</strong></p>
     <% end %>
+
+    <p class="govuk-body"><%= t(".drag_and_drop") %></p>
 
     <% if @informative_set.current_review&.complete? && params[:show_form] != "true" %>
       <%= govuk_link_to "+ Add informative", planning_application_assessment_informatives_path(@planning_application, show_form: true), class: "govuk-body" %>

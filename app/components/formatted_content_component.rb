@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class FormattedContentComponent < ViewComponent::Base
-  ALLOWED_ATTRIBUTES = %w[href target].freeze
+  ALLOWED_ATTRIBUTES = %w[href target data-controller data-action].freeze
 
-  def initialize(text:, classname: nil)
+  def initialize(text:, classname: nil, data_attributes: {})
     @text = text
     @classname = classname || "govuk-body"
+    @data_attributes = data_attributes
   end
 
   def auto_link_and_simple_format
@@ -14,14 +15,14 @@ class FormattedContentComponent < ViewComponent::Base
 
   private
 
-  attr_reader :text, :classname
+  attr_reader :text, :classname, :data_attributes
 
   def allowed_attributes
     Rails::Html::Sanitizer.white_list_sanitizer.allowed_attributes + ALLOWED_ATTRIBUTES
   end
 
   def simple_format_content
-    simple_format(auto_link_content, {class: classname}, sanitize: false)
+    simple_format(auto_link_content, {class: classname, **data_attributes}, sanitize: false)
   end
 
   def auto_link_content
