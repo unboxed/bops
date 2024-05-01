@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include BopsCore::ApplicationHelper
+
   attr_reader :back_path
 
   def back_link(classname: "govuk-button govuk-button--secondary")

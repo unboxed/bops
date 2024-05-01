@@ -2,6 +2,7 @@
 
 module BopsAdmin
   module ApplicationHelper
+    include BopsCore::ApplicationHelper
     include BreadcrumbNavigationHelper
 
     attr_reader :back_path
@@ -37,11 +38,11 @@ module BopsAdmin
 
     def nav_items
       [
-        {name: "Dashboard", url: root_path, key: "dashboard"},
-        {name: "Consultees", url: consultees_path, key: "consultees"},
-        {name: "Informatives", url: informatives_path, key: "informatives"},
-        {name: "Users", url: users_path, key: "users"},
-        {name: "Profile", url: profile_path, key: "profile"}
+        {link: {text: "Dashboard", href: root_path}, current: active_page_key?("dashboard")},
+        {link: {text: "Consultees", href: consultees_path}, current: active_page_key?("consultees")},
+        {link: {text: "Informatives", href: informatives_path}, current: active_page_key?("informatives")},
+        {link: {text: "Users", href: users_path}, current: active_page_key?("users")},
+        {link: {text: "Profile", href: profile_path}, current: active_page_key?("profile")}
       ]
     end
   end
