@@ -2,44 +2,35 @@
 
 module StatusTags
   class BaseComponent < ViewComponent::Base
-    def initialize(status:, task_list: true)
+    def initialize(status:)
       @status = status
-      @task_list = task_list
     end
 
     def render?
       status.present?
     end
 
+    def call
+      govuk_tag(text: t("status_tag_component.#{status}"), colour:)
+    end
+
     private
 
-    attr_reader :status, :task_list
+    attr_reader :status
 
-    def html_classes
-      [
-        "govuk-tag",
-        colour_class,
-        ("app-task-list__task-tag" if task_list?)
-      ].compact.join(" ")
-    end
-
-    def colour_class
+    def colour
       case status.to_sym
       when :not_started, :new, :review_not_started, :not_consulted
-        "govuk-tag--blue"
+        "blue"
       when :in_progress, :sending
-        "govuk-tag--light-blue"
+        "light-blue"
       when :updated, :to_be_reviewed, :submitted, :neutral, :amendments_needed
-        "govuk-tag--yellow"
+        "yellow"
       when :refused, :removed, :invalid, :technical_failure, :permanent_failure, :rejected, :objection, :failed, :refused_legal_agreement
-        "govuk-tag--red"
+        "red"
       when :printing
-        "govuk-tag--purple"
+        "purple"
       end
-    end
-
-    def task_list?
-      task_list
     end
   end
 end

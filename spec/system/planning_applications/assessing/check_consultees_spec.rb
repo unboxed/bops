@@ -57,7 +57,7 @@ RSpec.describe "checking consultees", js: true do
 
     click_button "Confirm as checked"
 
-    expect(page).to have_selector("#check-consultees-consulted .govuk-task-list__status", text: "Completed")
+    expect(page).to have_selector("#check-consultees-consulted .govuk-tag", text: "Completed")
   end
 
   it "allows assessor to add consultees from the summary page" do
