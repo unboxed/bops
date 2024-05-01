@@ -393,6 +393,11 @@ FactoryBot.define do
       legislation { association :legislation, :pp_full_householder_retro }
     end
 
+    trait :listed do
+      code { "listed" }
+      suffix { "LBC" }
+    end
+
     trait :without_consultation do
       features {
         {
