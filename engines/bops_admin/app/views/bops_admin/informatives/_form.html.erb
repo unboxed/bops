@@ -4,7 +4,6 @@
   <%= form.govuk_text_area :text, width: "one-half", rows: 10, label: {text: t(".labels.text")} %>
 <% end %>
 
-<div class="govuk-button-group">
-  <%= form.govuk_submit(t(".submit")) %>
+<%= form.govuk_submit(t(".submit")) do %>
   <%= back_link %>
-</div>
+<% end %>
