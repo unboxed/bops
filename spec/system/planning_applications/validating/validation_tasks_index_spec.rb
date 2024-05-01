@@ -225,7 +225,7 @@ RSpec.describe "Validation tasks" do
               "Draw red line boundary",
               href: planning_application_validation_sitemap_path(planning_application)
             )
-            within(".govuk-task-list__status") do
+            within(".govuk-tag") do
               expect(page).to have_content("Checked")
             end
           end
@@ -242,7 +242,7 @@ RSpec.describe "Validation tasks" do
               "Check constraints",
               href: planning_application_validation_constraints_path(planning_application)
             )
-            within(".govuk-task-list__status") do
+            within(".govuk-tag") do
               expect(page).to have_content("Checked")
             end
           end

@@ -51,7 +51,7 @@ RSpec.describe "Reporting type validation task" do
       end
 
       within("#development-type-for-reporting-task") do
-        expect(page).to have_selector(".govuk-task-list__status", text: "Completed")
+        expect(page).to have_selector(".govuk-tag", text: "Completed")
       end
 
       expect(page).to have_link(

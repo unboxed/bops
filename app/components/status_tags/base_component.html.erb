@@ -1,9 +1,0 @@
-<% if %i[review_complete complete awaiting_response awaiting_responses checked granted valid posted supportive approved auto_approved granted_legal_agreement].include?(status.to_sym) %>
-  <div class="app-task-list__task-tag">
-    <div class="govuk-task-list__status" id="<%= t("status_tag_component.#{status}") %>">
-      <%= t("status_tag_component.#{status}") %>
-    </div>
-  </div>
-<% else %>
-  <%= tag.strong(t("status_tag_component.#{status}"), class: html_classes) %>
-<% end %>
