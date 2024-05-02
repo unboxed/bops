@@ -45,7 +45,7 @@ RSpec.describe "Informatives" do
     end
   end
 
-  it "allows searching for a informative" do
+  it "allows searching for an informative" do
     25.times { create(:local_authority_informative, local_authority:) }
     informative = create(:local_authority_informative, local_authority:, title: "Section 106", text: "Section 106 needs doing")
 
@@ -68,7 +68,7 @@ RSpec.describe "Informatives" do
     end
   end
 
-  it "allows adding a informative" do
+  it "allows adding an informative" do
     visit "/admin/informatives"
     expect(page).to have_selector("h1", text: "Manage informatives")
 
@@ -86,9 +86,14 @@ RSpec.describe "Informatives" do
     click_button("Submit")
     expect(page).to have_current_path("/admin/informatives")
     expect(page).to have_content("Informative successfully created")
+
+    within "tbody tr:nth-child(1)" do
+      expect(page).to have_selector("th:nth-child(1)", text: "Section 106")
+      expect(page).to have_selector("td:nth-child(2)", text: "Section 106 needs doing")
+    end
   end
 
-  it "allows editing a informative" do
+  it "allows editing an informative" do
     create(:local_authority_informative, local_authority:, title: "Section 106", text: "Section 106 needs doing")
 
     visit "/admin/informatives"
@@ -115,7 +120,7 @@ RSpec.describe "Informatives" do
     end
   end
 
-  it "allows deleting a informative" do
+  it "allows deleting an informative" do
     create(:local_authority_informative, local_authority:, title: "Section 106", text: "Section 106 needs doing")
 
     visit "/admin/informatives"
@@ -134,7 +139,11 @@ RSpec.describe "Informatives" do
   end
 
   it "redirects to the first page if the page parameter overflows" do
-    25.times { create(:contact, local_authority:) }
+    25.times { create(:local_authority_informative, local_authority:) }
+
+    visit "/admin/informatives?page=2"
+    expect(page).to have_selector("h1", text: "Manage informatives")
+    expect(page).to have_current_path("/admin/informatives?page=2")
 
     visit "/admin/informatives?page=4"
     expect(page).to have_selector("h1", text: "Manage informatives")

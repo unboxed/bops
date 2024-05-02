@@ -2,6 +2,7 @@
 
 module BopsConfig
   module ApplicationHelper
+    include BopsCore::ApplicationHelper
     include BreadcrumbNavigationHelper
 
     attr_reader :back_path
@@ -39,12 +40,12 @@ module BopsConfig
 
     def nav_items
       [
-        {name: "Dashboard", url: root_path, key: "dashboard"},
-        {name: "Users", url: users_path, key: "users"},
-        {name: "Application types", url: application_types_path, key: "application_types"},
-        {name: "Legislation", url: legislation_index_path, key: "legislation"},
-        {name: "Reporting types", url: reporting_types_path, key: "reporting_types"},
-        {name: "Decisions", url: decisions_path, key: "decisions"}
+        {link: {text: "Dashboard", href: root_path}, current: active_page_key?("dashboard")},
+        {link: {text: "Users", href: users_path}, current: active_page_key?("users")},
+        {link: {text: "Application types", href: application_types_path}, current: active_page_key?("application_types")},
+        {link: {text: "Legislation", href: legislation_index_path}, current: active_page_key?("legislation")},
+        {link: {text: "Reporting types", href: reporting_types_path}, current: active_page_key?("reporting_types")},
+        {link: {text: "Decisions", href: decisions_path}, current: active_page_key?("decisions")}
       ]
     end
   end

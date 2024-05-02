@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_30_102131) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_01_074351) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "btree_gin"
   enable_extension "plpgsql"
   enable_extension "postgis"
 
@@ -464,6 +465,39 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_102131) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["local_authority_id"], name: "ix_local_authority_informatives_on_local_authority_id"
+  end
+
+  create_table "local_authority_policy_areas", force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.string "description", null: false
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_areas_on_local_authority_id__descript", unique: true
+    t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_areas_on_local_authority_id__search", using: :gin
+    t.index ["local_authority_id"], name: "ix_local_authority_policy_areas_on_local_authority_id"
+  end
+
+  create_table "local_authority_policy_areas_references", id: false, force: :cascade do |t|
+    t.bigint "policy_area_id"
+    t.bigint "policy_reference_id"
+    t.index ["policy_area_id", "policy_reference_id"], name: "ix_local_authority_policy_areas_references_on_policy_area_id__p", unique: true
+    t.index ["policy_area_id"], name: "ix_local_authority_policy_areas_references_on_policy_area_id"
+    t.index ["policy_reference_id"], name: "ix_local_authority_policy_areas_references_on_policy_reference_"
+  end
+
+  create_table "local_authority_policy_references", force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.string "code", null: false
+    t.string "description", null: false
+    t.string "url"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((code)::text || ' '::text) || (description)::text))", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "code"], name: "ix_local_authority_policy_references_on_local_authority_id__cod", unique: true
+    t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_references_on_local_authority_id__des", unique: true
+    t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_references_on_local_authority_id__sea", using: :gin
+    t.index ["local_authority_id"], name: "ix_local_authority_policy_references_on_local_authority_id"
   end
 
   create_table "local_policies", force: :cascade do |t|
@@ -933,6 +967,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_102131) do
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
+  add_foreign_key "local_authority_policy_areas", "local_authorities"
+  add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
+  add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_references", column: "policy_reference_id"
+  add_foreign_key "local_authority_policy_references", "local_authorities"
   add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policy_areas", "local_policies"
   add_foreign_key "neighbour_letters", "neighbours"

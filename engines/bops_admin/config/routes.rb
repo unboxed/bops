@@ -10,6 +10,15 @@ BopsAdmin::Engine.routes.draw do
 
   resources :informatives, except: %i[show]
 
+  scope "/policy" do
+    get "/", to: redirect("policy/areas"), as: "policy_root"
+
+    with_options except: %i[show] do
+      resources :policy_areas, path: "areas"
+      resources :policy_references, path: "references"
+    end
+  end
+
   resources :users, except: %i[show destroy] do
     get :resend_invite, on: :member
   end
