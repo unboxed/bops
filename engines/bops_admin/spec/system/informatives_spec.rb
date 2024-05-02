@@ -86,6 +86,11 @@ RSpec.describe "Informatives" do
     click_button("Submit")
     expect(page).to have_current_path("/admin/informatives")
     expect(page).to have_content("Informative successfully created")
+
+    within "tbody tr:nth-child(1)" do
+      expect(page).to have_selector("th:nth-child(1)", text: "Section 106")
+      expect(page).to have_selector("td:nth-child(2)", text: "Section 106 needs doing")
+    end
   end
 
   it "allows editing an informative" do
