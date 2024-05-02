@@ -26,12 +26,15 @@
       </p>
     </div>
     <p class="govuk-body">
-      <% if @planning_application.invalidated? %>
-        <% if @validation_request.open? %>
-          Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
-        <% else %>
-          <%= @validation_request.approved? ? "Approved" : "Rejected" %>
-        <% end %>
+      <% if @validation_request.open? %>
+        Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
+      <% else %>
+        <%= @validation_request.approved? ? "Approved" : "Rejected" %>
+        <p>
+          <% if @validation_request.rejected? %>
+            <%= govuk_link_to "Request a new description change", new_planning_application_validation_validation_request_path(@planning_application, type: "description_change"), class: "govuk-body" %>
+          <% end %>
+        </p>
       <% end %>
     </p>
 
@@ -54,6 +57,22 @@
                 class: "button-as-link govuk-body"
               ) %>
         </div>
+      <% end %>
+    <% end %>
+    <% if @validation_request.closed? %>
+      <%= form_with(
+            model: @planning_application,
+            url: validate_planning_application_validation_description_changes_path(
+              @planning_application
+            )
+          ) do |form| %>
+          <%= form.hidden_field(:return_to, value: @back_path) %>
+          <%= form.hidden_field(:valid_description, value: true) %>
+          <div class="govuk-button-group">
+            <%= form.govuk_submit("Save and mark as complete") do %>
+              <%= govuk_button_link_to("back", @back_path, secondary: true) %>
+            <% end %>
+          </div>
       <% end %>
     <% end %>
   </div>
