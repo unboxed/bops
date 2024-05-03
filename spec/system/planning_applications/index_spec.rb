@@ -478,7 +478,6 @@ RSpec.describe "Planning Application index page" do
               within(all(".govuk-table__row").first) do
                 expect(page).to have_content("Application number")
                 expect(page).to have_content("Site address")
-                expect(page).to have_content("Application type")
                 expect(page).to have_content("Expiry date")
                 expect(page).to have_content("Days")
                 expect(page).to have_content("Status")
@@ -491,10 +490,10 @@ RSpec.describe "Planning Application index page" do
               within(rows[0]) do
                 cells = page.all(".govuk-table__cell")
 
-                within(cells[2]) do
-                  expect(page).to have_content("PA Proposed")
+                within(cells[0]) do
+                  expect(page).to have_content(/^\d{2}-\d{5}-PA1A$/)
                 end
-                within(cells[5]) do
+                within(cells[4]) do
                   expect(page).to have_content("Not started")
                 end
               end
@@ -502,10 +501,10 @@ RSpec.describe "Planning Application index page" do
               within(rows[1]) do
                 cells = page.all(".govuk-table__cell")
 
-                within(cells[2]) do
-                  expect(page).to have_content("LDC Proposed")
+                within(cells[0]) do
+                  expect(page).to have_content(/^\d{2}-\d{5}-LDCP$/)
                 end
-                within(cells[5]) do
+                within(cells[4]) do
                   expect(page).to have_content("Not started")
                 end
               end
@@ -513,10 +512,10 @@ RSpec.describe "Planning Application index page" do
               within(rows[2]) do
                 cells = page.all(".govuk-table__cell")
 
-                within(cells[2]) do
-                  expect(page).to have_content("LDC Proposed")
+                within(cells[0]) do
+                  expect(page).to have_content(/^\d{2}-\d{5}-LDCP$/)
                 end
-                within(cells[5]) do
+                within(cells[4]) do
                   expect(page).to have_content("In assessment")
                 end
               end
@@ -524,10 +523,10 @@ RSpec.describe "Planning Application index page" do
               within(rows[3]) do
                 cells = page.all(".govuk-table__cell")
 
-                within(cells[2]) do
-                  expect(page).to have_content("LDC Proposed")
+                within(cells[0]) do
+                  expect(page).to have_content(/^\d{2}-\d{5}-LDCP$/)
                 end
-                within(cells[5]) do
+                within(cells[4]) do
                   expect(page).to have_content("In assessment")
                 end
               end
@@ -535,10 +534,10 @@ RSpec.describe "Planning Application index page" do
               within(rows[4]) do
                 cells = page.all(".govuk-table__cell")
 
-                within(cells[2]) do
-                  expect(page).to have_content("LDC Proposed")
+                within(cells[0]) do
+                  expect(page).to have_content(/^\d{2}-\d{5}-LDCP$/)
                 end
-                within(cells[5]) do
+                within(cells[4]) do
                   expect(page).to have_content("Awaiting determination")
                 end
               end

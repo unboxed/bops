@@ -11,7 +11,7 @@
         <%= govuk_link_to description_change_link_text, description_change_link_path, class: "govuk-body" %>
       </td>
     </tr>
-    <% %i[type_and_work_status full_address].each do |attribute| %>
+    <% %i[type_description full_address].each do |attribute| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <strong><%= t(".#{attribute}") %></strong>
