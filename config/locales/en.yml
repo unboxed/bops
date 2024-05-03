@@ -1900,7 +1900,6 @@ en:
       home: Home
       review_application: Review
   status_tag_component:
-    accepted: Printing
     amendments_needed: Amendments needed
     approved: Accepted
     auto_approved: Auto accepted
@@ -1917,6 +1916,15 @@ en:
     granted_not_required_legal_agreement: Prior approval not required with Legal agreement
     in_progress: In progress
     invalid: Invalid
+    letter_status:
+      cancelled: Cancelled
+      new: New
+      permanent_failure: Permanent failure
+      posted: Posted
+      printing: Printing
+      rejected: Rejected
+      submitted: Submitted
+      technical_failure: Technical failure
     neutral: Neutral
     new: New
     not_assigned: Not assigned
@@ -1927,9 +1935,6 @@ en:
     not_started: Not started
     objection: Objection
     pending: Pending
-    permanent_failure: Permanent failure
-    posted: Posted
-    printing: Printing
     refused: To refuse
     refused_legal_agreement: To refuse with Legal agreement
     rejected: Rejected
@@ -1941,7 +1946,6 @@ en:
     sending: Sending
     submitted: Submitted
     supportive: Supportive
-    technical_failure: Technical failure
     to_be_reviewed: To be reviewed
     updated: Updated
     valid: Valid
