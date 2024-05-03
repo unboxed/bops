@@ -1909,7 +1909,6 @@ en:
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
     checked: Checked
-    cil_liable: Liable
     complete: Completed
     emailed: Emailed
     failed: Failed
@@ -1921,7 +1920,6 @@ en:
     neutral: Neutral
     new: New
     not_assigned: Not assigned
-    not_cil_liable: Not liable
     not_consulted: Not consulted
     not_required: Not required
     not_required_legal_agreement: Not required
