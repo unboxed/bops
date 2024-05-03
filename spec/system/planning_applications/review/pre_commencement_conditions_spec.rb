@@ -14,8 +14,8 @@ RSpec.describe "Reviewing pre-commencement conditions" do
   before { Current.user = assessor }
 
   let!(:condition_set) { create(:condition_set, pre_commencement: true) }
-  let!(:standard_condition) { create(:condition, condition_set:, title: "foo", validation_requests: [validate]) }
-  let!(:other_condition) { create(:condition, :other, condition_set:, title: "bar", validation_requests: [validate]) }
+  let!(:standard_condition) { create(:condition, condition_set:, title: "foo", validation_requests: [validate], position: 2) }
+  let!(:other_condition) { create(:condition, :other, condition_set:, title: "bar", validation_requests: [validate], position: 1) }
 
   def validate
     travel_to(1.minute.from_now) do
@@ -40,14 +40,21 @@ RSpec.describe "Reviewing pre-commencement conditions" do
 
         click_link "Review pre-commencement conditions"
 
-        expect(page).to have_content("Review pre-commencement conditions")
+        expect(page).to have_selector("h1", text: "Review pre-commencement conditions")
+        expect(page).to have_selector("h2", text: "Summary of pre-commencement conditions")
 
-        expect(page).to have_content(standard_condition.title)
-        expect(page).to have_content(standard_condition.text)
-        expect(page).to have_content(standard_condition.reason)
-
-        expect(page).to have_content(other_condition.text)
-        expect(page).to have_content(other_condition.reason)
+        within("ol.govuk-list") do
+          within("li:nth-of-type(1)") do
+            expect(page).to have_selector("p strong", text: "bar")
+            expect(page).to have_selector("p", text: other_condition.text)
+            expect(page).to have_selector("p", text: other_condition.reason)
+          end
+          within("li:nth-of-type(2)") do
+            expect(page).to have_selector("p strong", text: "foo")
+            expect(page).to have_selector("p", text: standard_condition.text)
+            expect(page).to have_selector("p", text: standard_condition.reason)
+          end
+        end
 
         choose "Accept"
 

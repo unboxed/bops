@@ -1,24 +1,15 @@
 <h2 class="govuk-heading-m">Summary of pre-commencement conditions</h2>
-<% if @planning_application.pre_commencement_condition_set&.approved_conditions.present? %>
+
+<% if condition_set.approved_conditions.any? %>
   <ol class="govuk-list govuk-list--number">
-    <% @planning_application.pre_commencement_condition_set.approved_conditions.sorted.each do |condition| %>
+    <% condition_set.approved_conditions.each do |condition| %>
       <li>
-        <p class="govuk-body govuk-!-margin-bottom-2">
-          <% if condition.title? %>
-            <strong class="govuk-!-font-weight-bold"><%= condition.title %></strong><br>
-            <%= render(FormattedContentComponent.new(text: condition.text)) %>
-          <% else %>
-            <strong class="govuk-!-font-weight-bold">
-              <%= render(FormattedContentComponent.new(text: condition.text)) %>
-            </strong>
-          <% end %>
-        </p>
-        <p class="govuk-body">
-          <%= render(FormattedContentComponent.new(text: condition.reason)) %>
-        </p>
+        <p><strong><%= condition.title %></strong></p>
+        <%= render(FormattedContentComponent.new(text: condition.text)) %>
+        <%= render(FormattedContentComponent.new(text: condition.reason)) %>
       </li>
     <% end %>
   </ol>
 <% else %>
-  <p class="govuk-body">There are no pre-commencement conditions.</p>
+  <p class="govuk-body">There are no approved pre-commencement conditions.</p>
 <% end %>
