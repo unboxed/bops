@@ -105,6 +105,80 @@ FactoryBot.define do
       legislation { association :legislation, :ldc_proposed }
     end
 
+    trait :listed do
+      name { "other" }
+      code { "listed" }
+      suffix { "LBC" }
+      category { "listed-building" }
+      reporting_types { %w[Q23 Q24] }
+      steps { %w[validation consultation assessment review] }
+      features {
+        {
+          "planning_conditions" => false,
+          "permitted_development_rights" => false,
+          "site_visits" => false,
+          "consultation_steps" => ["neighbour", "consultee", "publicity"]
+        }
+      }
+
+      assessment_details do
+        %w[
+          summary_of_work
+          site_description
+          additional_evidence
+          consultation_summary
+          neighbour_summary
+          past_applications
+          check_publicity
+        ]
+      end
+
+      consistency_checklist do
+        %w[
+          description_matches_documents
+          documents_consistent
+          proposal_details_match_documents
+          site_map_correct
+        ]
+      end
+
+      document_tags do
+        {
+          plans: [
+            "elevations.existing",
+            "elevations.proposed",
+            "floorPlan.existing",
+            "floorPlan.proposed",
+            "internalElevations",
+            "internalSections",
+            "locationPlan",
+            "otherDrawing",
+            "roofPlan.existing",
+            "roofPlan.proposed",
+            "sections.existing",
+            "sections.proposed",
+            "sitePlan.existing",
+            "sitePlan.proposed",
+            "streetScene"
+          ],
+          evidence: [],
+          supporting_documents: [
+            "designAndAccessStatement",
+            "ecologyReport",
+            "heritageStatement",
+            "joinersReport",
+            "joinerySections",
+            "planningStatement",
+            "internal.siteNotice",
+            "internal.siteVisit"
+          ]
+        }
+      end
+
+      decisions { %w[granted refused] }
+      status { "active" }
+    end
+
     trait :prior_approval do
       name { "prior_approval" }
       code { "pa.part1.classA" }

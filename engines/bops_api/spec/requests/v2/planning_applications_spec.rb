@@ -12,6 +12,7 @@ RSpec.describe "BOPS API" do
     create(:api_user, name: "other", token: "pUYptBJDVFzssbRPkCPjaZEx", local_authority: southwark)
     create(:application_type, :ldc_existing)
     create(:application_type, :ldc_proposed)
+    create(:application_type, :listed)
     create(:application_type, :pa_part_14_class_j)
     create(:application_type, :householder)
     create(:application_type, :householder_retrospective)
@@ -46,6 +47,7 @@ RSpec.describe "BOPS API" do
       [
         %w[validLawfulDevelopmentCertificateExisting.json LDCE],
         %w[validLawfulDevelopmentCertificateProposed.json LDCP],
+        %w[validListedBuildingConsent.json LBC],
         %w[validPlanningPermission.json HAPP],
         %w[validPriorApproval.json PA14J],
         %w[validRetrospectivePlanningPermission.json HRET]
