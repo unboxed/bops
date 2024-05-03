@@ -12,6 +12,11 @@
           Source
         </th>
       <% end %>
+      <% if show_status %>
+        <th scope="col" class="govuk-table__header">
+          Status
+        </th>
+      <% end %>
       <th scope="col" class="govuk-table__header govuk-table__header--numeric">
         Action
       </th>
@@ -25,7 +30,8 @@
               partial: "row",
               locals: {
                 planning_application_constraint: planning_application_constraint,
-                show_source: show_source
+                show_source: show_source,
+                show_status: show_status
               }
             ) %>
       <% end %>

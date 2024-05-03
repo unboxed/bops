@@ -75,7 +75,7 @@ RSpec.describe BopsApi::PlanningApplicationDependencyJob, type: :job do
         .to_return(
           status: 410,
           headers: {"Content-Type" => "text/html"},
-          body: "<p>Not Found</p>"
+          body: "<p>Gone</p>"
         )
 
       expect {
