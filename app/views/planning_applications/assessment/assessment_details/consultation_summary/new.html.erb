@@ -39,7 +39,7 @@
     </h2>
 
     <%= render(partial: "shared/warning_text", locals: {message: t(".warning")}) %>
-    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
+    <%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
 
     <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
       <%= form.govuk_error_summary(presenter: ConsultationSummaryErrorPresenter) %>

@@ -14,9 +14,7 @@
       locals: {heading: "Add heads of terms"}
     ) %>
 
-<% if review = @heads_of_term.current_review %>
-  <%= render "comment", review: review %>
-<% end %>
+<%= render(ReviewerCommentComponent.new(comment: @heads_of_term.current_review)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

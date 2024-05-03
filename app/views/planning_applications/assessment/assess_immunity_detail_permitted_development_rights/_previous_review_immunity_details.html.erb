@@ -5,13 +5,20 @@
         See previous review immunity detail responses
       </span>
     </summary>
-    <div class="govuk-details__text">
+    <div class="govuk-details__text comment-component">
       <% review_immunity_details.each do |review_immunity_detail| %>
         <p>Assessor decision: <%= review_immunity_detail.decision %></p>
         <p>Reason: <%= review_immunity_detail.decision_reason %></p>
-        <p>Summary: <%= review_immunity_detail.summary %></p>
+        <% if review_immunity_detail.summary.present? %>
+          <p>Summary: <%= review_immunity_detail.summary %></p>
+        <% end %>
+        <hr>
         <% if review_immunity_detail.comment %>
-          <p><em>Reviewer comment: <%= review_immunity_detail.comment %></em></p>
+          <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+            Reviewer comment
+          </p>
+          <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-1">Sent on <%= review_immunity_detail.created_at.to_fs %> by <%= review_immunity_detail.user.name %></p>
+          <%= render(FormattedContentComponent.new(text: review_immunity_detail.comment, classname: "govuk-body")) %>
         <% end %>
       <% end %>
     </div>

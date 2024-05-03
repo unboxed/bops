@@ -10,7 +10,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(partial: "shared/warning_text", locals: {message: t(".warning")}) %>
-    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
+    <%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
 
     <p class="govuk-body">You can include:</p>
 

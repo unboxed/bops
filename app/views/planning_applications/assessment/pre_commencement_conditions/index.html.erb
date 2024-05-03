@@ -23,9 +23,7 @@
           )
         ) %>
 
-    <% if review = @condition_set.current_review %>
-      <%= render "planning_applications/assessment/conditions/comment", review: review %>
-    <% end %>
+    <%= render(ReviewerCommentComponent.new(comment: @condition_set.current_review)) %>
   </div>
 
   <div class="govuk-grid-column-full">

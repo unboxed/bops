@@ -15,7 +15,7 @@
       This information will <strong>NOT</strong> be made publicly available.
     </p>
 
-    <%= render(partial: "comment", locals: {comment: @rejected_assessment_detail&.comment}) %>
+    <%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
 
     <p class="govuk-body">
       This task is optional. Provide any additional information that will impact the assessment of this application.

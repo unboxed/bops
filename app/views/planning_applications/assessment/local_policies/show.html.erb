@@ -16,7 +16,7 @@
 
 <%= govuk_link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-body" %>
 
-<%= render "comment" %>
+<%= render(ReviewerCommentComponent.new(comment: @reviewer_comment)) %>
 
 <div class="govuk-!-margin-top-6">
   <% @local_policy&.local_policy_areas&.each do |local_policy_area| %>
