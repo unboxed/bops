@@ -46,8 +46,9 @@ module PlanningApplications
 
       def update
         if @local_policy_area.update(local_policy_params)
-          redirect_to edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy),
-            notice: t(".successfully_updated")
+          @local_policy.create_review! if @local_policy.current_review&.review_complete?
+
+          redirect_to redirect_path, notice: t(".successfully_updated")
         else
           respond_to do |format|
             format.html { render :new }
@@ -56,6 +57,14 @@ module PlanningApplications
       end
 
       private
+
+      def redirect_path
+        if current_user.reviewer?
+          edit_planning_application_review_local_policy_path(@planning_application, @planning_application.local_policy)
+        else
+          edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy)
+        end
+      end
 
       def set_local_policy
         @local_policy = @planning_application.local_policy || @planning_application.create_local_policy!
@@ -66,7 +75,7 @@ module PlanningApplications
       end
 
       def local_policy_params
-        params.require(:local_policy_area).permit([:area, :policies, :assessment, :guidance])
+        params.require(:local_policy_area).permit([:area, :policies, :assessment, :guidance, :conclusion])
       end
     end
   end

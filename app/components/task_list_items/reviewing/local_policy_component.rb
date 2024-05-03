@@ -30,7 +30,7 @@ module TaskListItems
         else
           edit_planning_application_review_local_policy_path(
             planning_application,
-            review_local_policy
+            local_policy
           )
         end
       end

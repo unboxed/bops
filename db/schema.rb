@@ -515,6 +515,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_104253) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_policy_id"
+    t.text "conclusion"
     t.index ["local_policy_id"], name: "ix_local_policy_areas_on_local_policy_id"
   end
 

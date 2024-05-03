@@ -55,7 +55,7 @@
           planning_application: @planning_application
         )
       ) %>
-  <% if @planning_application.local_policy.present? %>
+  <% if @planning_application.local_policy&.current_review %>
     <%= render(
           TaskListItems::Reviewing::LocalPolicyComponent.new(
             planning_application: @planning_application

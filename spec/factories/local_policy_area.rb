@@ -6,6 +6,7 @@ FactoryBot.define do
     policies { "Policy 1, Policy 2" }
     guidance { "Local policy 1" }
     assessment { "This is fine" }
+    conclusion { "A conclusion" }
 
     local_policy
   end

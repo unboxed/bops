@@ -11,8 +11,13 @@
     <%= form.govuk_radio_button :policy, "No", label: {text: "No"}, checked: false %>
   <% end %>
   <%= form.govuk_text_area :assessment, label: {text: "Enter your assessment", size: "s"} %>
-  <div class="govuk-button-group">
-    <%= form.submit "Update consideration", class: "govuk-button govuk-button--primary" %>
-    <%= link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), class: "govuk-button govuk-button--secondary" %>
-  </div>
+  <%= form.govuk_text_area :conclusion, label: {text: "Enter a conclusion", size: "s"} %>
+
+  <%= form.govuk_submit("Update consideration") do %>
+    <% if current_user.reviewer? %>
+      <%= govuk_button_link_to "Back", edit_planning_application_review_local_policy_path(@planning_application, @planning_application.local_policy), secondary: true %>
+    <% else %>
+      <%= govuk_button_link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), secondary: true %>
+    <% end %>
+  <% end %>
 <% end %>

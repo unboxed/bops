@@ -18,17 +18,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <div class="govuk-!-margin-top-6">
-      <% @local_policy.local_policy_areas.each do |local_policy_area| %>
-        <h2 class="govuk-heading-m"><%= local_policy_area.area.humanize %></h2>
-        <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
-        <% if local_policy_area.guidance.present? %>
-          <p class="govuk-body"><strong>Guidance</strong> <%= local_policy_area.guidance %></p>
-        <% end %>
-        <p class="govuk-body"><strong>Assessment:</strong> <%= local_policy_area.assessment %></p>
-      <% end %>
-    </div>
+    <%= render "local_policy_areas", local_policy_areas: @local_policy.local_policy_areas %>
 
-    <%= render "form", editable: false %>
+    <%= govuk_link_to "Edit review policy guidance", edit_planning_application_review_local_policy_path(@planning_application, @review_local_policy) %>
   </div>
 </div>
