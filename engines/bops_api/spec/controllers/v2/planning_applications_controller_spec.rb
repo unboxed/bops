@@ -38,4 +38,24 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
       end
     end
   end
+
+  %w[v0.6.0].each do |version|
+    describe "ODP Schema #{version}" do
+      %w[
+        validLawfulDevelopmentCertificateExisting.json
+        validLawfulDevelopmentCertificateProposed.json
+        validListedBuildingConsent.json
+        validPlanningPermission.json
+        validPriorApproval.json
+        validRetrospectivePlanningPermission.json
+      ].each do |example|
+        it "#{example} can be submitted successfully" do
+          post :create, as: :json, body: examples_root.join(version, example).read
+
+          expect(response).to have_http_status(:ok)
+          expect(response).to render_template("bops_api/v2/planning_applications/create")
+        end
+      end
+    end
+  end
 end
