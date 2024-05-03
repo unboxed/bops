@@ -42,6 +42,12 @@ RSpec.describe "DescriptionChangesValidation" do
 
       expect(planning_application.reload.valid_description).to be_truthy
       expect(DescriptionChangeValidationRequest.all.length).to eq(0)
+
+      click_link "Check description"
+
+      expect(page).not_to have_content "Does the description match the development or use in the plans?"
+
+      expect(page).to have_content "Description was marked as valid"
     end
 
     it "I get validation errors when I omit required information" do
@@ -110,6 +116,62 @@ RSpec.describe "DescriptionChangesValidation" do
       click_link "Back"
       expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation/tasks")
     end
+
+    it "I can mark the task as completed when the description change request has been approved" do
+      create(:description_change_validation_request, planning_application:, approved: true, state: "closed")
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+
+      within("#check-description") do
+        expect(page).to have_content("Updated")
+        click_link "Check description"
+      end
+
+      expect(page).to have_content "Approved"
+
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Description was marked as valid")
+
+      within("#check-description") do
+        expect(page).to have_content("Valid")
+      end
+
+      click_link "Check description"
+
+      expect(page).not_to have_content "Does the description match the development or use in the plans?"
+
+      expect(page).to have_content "Description was marked as valid"
+    end
+
+    it "I can request another change when the description change request has been rejected" do
+      create(:description_change_validation_request, planning_application:, approved: false, state: "closed", rejection_reason: "no")
+      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+
+      within("#check-description") do
+        expect(page).to have_content("Updated")
+        click_link "Check description"
+      end
+
+      expect(page).to have_content "Rejected"
+
+      click_link "Request a new description change"
+
+      fill_in(
+        "Suggest a new application description",
+        with: "My better description"
+      )
+
+      click_button "Send request"
+
+      within("#check-description") do
+        expect(page).to have_content("Invalid")
+        click_link "Check description"
+      end
+
+      expect(page).not_to have_content "Does the description match the development or use in the plans?"
+
+      expect(page).to have_content "Agent or applicant has not yet responded"
+    end
   end
 
   context "when an application has been validated" do
@@ -117,7 +179,7 @@ RSpec.describe "DescriptionChangesValidation" do
       create(:planning_application, :in_assessment, local_authority: default_local_authority)
     end
 
-    it "does not allow you to validate documents" do
+    it "does not allow you to validate description" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
       within("#check-description") do
