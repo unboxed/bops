@@ -31,10 +31,6 @@ module PlanningApplicationDecorator
     "#{address_1}, #{town}, #{postcode}"
   end
 
-  def type
-    I18n.t(application_type.name, scope: "application_types", default: application_type.description)
-  end
-
   def type_description
     application_type.description
   end

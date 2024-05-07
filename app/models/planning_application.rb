@@ -71,6 +71,7 @@ class PlanningApplication < ApplicationRecord
     delegate :neighbour_consultation_feature?
     delegate :consultee_consultation_feature?
     delegate :publicity_consultation_feature?
+    delegate :prior_approval?
   end
 
   delegate :reviewer_group_email, to: :local_authority

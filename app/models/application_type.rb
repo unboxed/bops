@@ -170,6 +170,10 @@ class ApplicationType < ApplicationRecord
     code.include?(".existing")
   end
 
+  def prior_approval?
+    code.start_with?("pa.")
+  end
+
   def retrospective?
     code.include?(".retro")
   end
