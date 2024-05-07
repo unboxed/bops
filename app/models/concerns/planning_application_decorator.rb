@@ -35,7 +35,7 @@ module PlanningApplicationDecorator
     I18n.t(application_type.name, scope: "application_types", default: application_type.description)
   end
 
-  def type_and_work_status
-    "#{type} (#{work_status.humanize})"
+  def type_description
+    application_type.description
   end
 end

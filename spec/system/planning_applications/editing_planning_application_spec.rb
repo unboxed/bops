@@ -57,7 +57,7 @@ RSpec.describe "editing planning application" do
       "Planning application was successfully updated."
     )
     within("#planning-application-details") do
-      expect(page).to have_content("Prior approval")
+      expect(page).to have_content("Prior Approval - Larger extension to a house")
     end
 
     expect(page).to have_current_path(

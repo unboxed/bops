@@ -7,7 +7,7 @@ module AccordionSections
     delegate(
       :closed_or_cancelled?,
       :uprn,
-      :type_and_work_status,
+      :type_description,
       :full_address,
       to: :planning_application
     )

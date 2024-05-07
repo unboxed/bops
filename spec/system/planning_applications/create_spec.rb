@@ -144,7 +144,7 @@ RSpec.describe "Creating a planning application" do
 
       expect(page).to have_text("Site address: Palace Road, Crystal Palace, SE19 2LX")
       expect(page).to have_text("UPRN: 19284783939")
-      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
+      expect(page).to have_text("Application type: Lawful Development Certificate - Proposed")
       expect(page).to have_text("Work already started: No")
       expect(page).to have_text("Description: Backyard bird hotel")
     end
