@@ -116,6 +116,7 @@ class AssessmentDetail < ApplicationRecord
 
   def any_neighbour_responses?
     return unless planning_application&.consultation
+    return unless neighbour_summary?
 
     planning_application.consultation.neighbour_responses.any?
   end

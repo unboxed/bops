@@ -314,7 +314,8 @@ RSpec.describe "checking publicity" do
         planning_application: planning_application,
         user: assessor,
         assessment_status: "complete",
-        category: "check_publicity")
+        category: "check_publicity",
+        entry: nil)
     end
 
     context "and the press notice was marked as required" do
@@ -396,6 +397,63 @@ RSpec.describe "checking publicity" do
     end
 
     context "and the press notice was marked as not required" do
+      let!(:press_notice) do
+        create(:press_notice,
+          planning_application: planning_application,
+          required: false,
+          reasons: [])
+      end
+
+      it "allows editing of the publicity check" do
+        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+
+        expect(page).to have_selector("h1", text: "Assess the application")
+        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
+
+        click_link "Check site notice and press notice"
+        expect(page).to have_selector("h1", text: "Site notice and press notice")
+
+        within("#site-notice") do
+          expect(page).to have_selector("h2", text: "Site notice")
+
+          within "tbody tr:nth-child(1)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "08/01/2024")
+            expect(page).to have_selector("td:nth-child(2)", text: "Bob Jones")
+            expect(page).to have_selector("td:nth-child(3)", text: "30/01/2024")
+          end
+
+          expect(page).to have_selector("a", text: "View in new window")
+          expect(page).to have_selector("a", text: "View more documents")
+
+          expect(page).to have_content("File name: site-notice.jpg")
+          expect(page).to have_content("Date uploaded: 29 February 2024")
+        end
+
+        within("#press-notice") do
+          expect(page).to have_selector("h2", text: "Press notice")
+          expect(page).to have_selector("p", text: "Press notice marked as not required for this application.")
+        end
+
+        click_link "Edit site notice and press notice check"
+        expect(page).to have_selector("h1", text: "Check site notice and press notice")
+
+        click_button "Save and come back later"
+        expect(page).to have_selector("h1", text: "Assess the application")
+        expect(page).to have_selector("[role=alert] p", text: "Publicity check was successfully updated.")
+
+        within("#check-consistency-assessment-tasks") do
+          within("li:nth-child(2)") do
+            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
+            expect(page).to have_selector("strong", text: "In progress")
+          end
+        end
+      end
+    end
+
+    context "and there are neighbour responses" do
+      let!(:neighbour) { create(:neighbour, consultation:) }
+      let!(:neighbour_response) { create(:neighbour_response, neighbour:, summary_tag: "objection") }
+
       let!(:press_notice) do
         create(:press_notice,
           planning_application: planning_application,
