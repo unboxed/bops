@@ -21,7 +21,7 @@ module TaskListItems
 
       def status
         if planning_application.legislation_checked?
-          :checked
+          :complete
         else
           :not_started
         end

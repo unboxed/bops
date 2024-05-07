@@ -51,7 +51,7 @@ RSpec.describe "Check legislation" do
       expect(page).to have_content("Legislative requirements have been marked as checked.")
 
       within("#check-legislative-requirements") do
-        expect(page).to have_content("Checked")
+        expect(page).to have_content("Completed")
       end
 
       click_link "Application"
