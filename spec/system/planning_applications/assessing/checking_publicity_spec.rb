@@ -300,16 +300,6 @@ RSpec.describe "checking publicity" do
         internal_team_email: "pressteam@example.com")
     end
 
-    let!(:press_notice) do
-      create(:press_notice,
-        planning_application: planning_application,
-        required: true,
-        reasons: ["major_development"],
-        requested_at: "2024-01-08T09:00:00Z",
-        published_at: "2024-01-11T09:00:00Z",
-        expiry_date: "2024-02-01")
-    end
-
     let!(:site_notice_evidence) do
       create(:document,
         planning_application: planning_application,
@@ -317,15 +307,6 @@ RSpec.describe "checking publicity" do
         user: uploader,
         file: fixture_file_upload("site-notice.jpg", "image/jpeg", true),
         tags: ["internal.siteNotice"])
-    end
-
-    let!(:press_notice_evidence) do
-      create(:document,
-        planning_application: planning_application,
-        owner: press_notice,
-        user: uploader,
-        file: fixture_file_upload("press-notice.jpg", "image/jpeg", true),
-        tags: ["internal.pressNotice"])
     end
 
     let!(:assessment_detail) do
@@ -336,59 +317,134 @@ RSpec.describe "checking publicity" do
         category: "check_publicity")
     end
 
-    it "allows editing of the publicity check" do
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
-
-      expect(page).to have_selector("h1", text: "Assess the application")
-      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
-
-      click_link "Check site notice and press notice"
-      expect(page).to have_selector("h1", text: "Site notice and press notice")
-
-      within("#site-notice") do
-        expect(page).to have_selector("h2", text: "Site notice")
-
-        within "tbody tr:nth-child(1)" do
-          expect(page).to have_selector("td:nth-child(1)", text: "08/01/2024")
-          expect(page).to have_selector("td:nth-child(2)", text: "Bob Jones")
-          expect(page).to have_selector("td:nth-child(3)", text: "30/01/2024")
-        end
-
-        expect(page).to have_selector("a", text: "View in new window")
-        expect(page).to have_selector("a", text: "View more documents")
-
-        expect(page).to have_content("File name: site-notice.jpg")
-        expect(page).to have_content("Date uploaded: 29 February 2024")
+    context "and the press notice was marked as required" do
+      let!(:press_notice) do
+        create(:press_notice,
+          planning_application: planning_application,
+          required: true,
+          reasons: ["major_development"],
+          requested_at: "2024-01-08T09:00:00Z",
+          published_at: "2024-01-11T09:00:00Z",
+          expiry_date: "2024-02-01")
       end
 
-      within("#press-notice") do
-        expect(page).to have_selector("h2", text: "Press notice")
-
-        within "tbody tr:nth-child(1)" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Major development")
-          expect(page).to have_selector("td:nth-child(2)", text: "11/01/2024")
-          expect(page).to have_selector("td:nth-child(3)", text: "Bob Jones")
-          expect(page).to have_selector("td:nth-child(4)", text: "01/02/2024")
-        end
-
-        expect(page).to have_selector("a", text: "View in new window")
-        expect(page).to have_selector("a", text: "View more documents")
-
-        expect(page).to have_content("File name: press-notice.jpg")
-        expect(page).to have_content("Date uploaded: 29 February 2024")
+      let!(:press_notice_evidence) do
+        create(:document,
+          planning_application: planning_application,
+          owner: press_notice,
+          user: uploader,
+          file: fixture_file_upload("press-notice.jpg", "image/jpeg", true),
+          tags: ["internal.pressNotice"])
       end
 
-      click_link "Edit site notice and press notice check"
-      expect(page).to have_selector("h1", text: "Check site notice and press notice")
+      it "allows editing of the publicity check" do
+        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
 
-      click_button "Save and come back later"
-      expect(page).to have_selector("h1", text: "Assess the application")
-      expect(page).to have_selector("[role=alert] p", text: "Publicity check was successfully updated.")
+        expect(page).to have_selector("h1", text: "Assess the application")
+        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
 
-      within("#check-consistency-assessment-tasks") do
-        within("li:nth-child(2)") do
-          expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
-          expect(page).to have_selector("strong", text: "In progress")
+        click_link "Check site notice and press notice"
+        expect(page).to have_selector("h1", text: "Site notice and press notice")
+
+        within("#site-notice") do
+          expect(page).to have_selector("h2", text: "Site notice")
+
+          within "tbody tr:nth-child(1)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "08/01/2024")
+            expect(page).to have_selector("td:nth-child(2)", text: "Bob Jones")
+            expect(page).to have_selector("td:nth-child(3)", text: "30/01/2024")
+          end
+
+          expect(page).to have_selector("a", text: "View in new window")
+          expect(page).to have_selector("a", text: "View more documents")
+
+          expect(page).to have_content("File name: site-notice.jpg")
+          expect(page).to have_content("Date uploaded: 29 February 2024")
+        end
+
+        within("#press-notice") do
+          expect(page).to have_selector("h2", text: "Press notice")
+
+          within "tbody tr:nth-child(1)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "Major development")
+            expect(page).to have_selector("td:nth-child(2)", text: "11/01/2024")
+            expect(page).to have_selector("td:nth-child(3)", text: "Bob Jones")
+            expect(page).to have_selector("td:nth-child(4)", text: "01/02/2024")
+          end
+
+          expect(page).to have_selector("a", text: "View in new window")
+          expect(page).to have_selector("a", text: "View more documents")
+
+          expect(page).to have_content("File name: press-notice.jpg")
+          expect(page).to have_content("Date uploaded: 29 February 2024")
+        end
+
+        click_link "Edit site notice and press notice check"
+        expect(page).to have_selector("h1", text: "Check site notice and press notice")
+
+        click_button "Save and come back later"
+        expect(page).to have_selector("h1", text: "Assess the application")
+        expect(page).to have_selector("[role=alert] p", text: "Publicity check was successfully updated.")
+
+        within("#check-consistency-assessment-tasks") do
+          within("li:nth-child(2)") do
+            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
+            expect(page).to have_selector("strong", text: "In progress")
+          end
+        end
+      end
+    end
+
+    context "and the press notice was marked as not required" do
+      let!(:press_notice) do
+        create(:press_notice,
+          planning_application: planning_application,
+          required: false,
+          reasons: [])
+      end
+
+      it "allows editing of the publicity check" do
+        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+
+        expect(page).to have_selector("h1", text: "Assess the application")
+        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
+
+        click_link "Check site notice and press notice"
+        expect(page).to have_selector("h1", text: "Site notice and press notice")
+
+        within("#site-notice") do
+          expect(page).to have_selector("h2", text: "Site notice")
+
+          within "tbody tr:nth-child(1)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "08/01/2024")
+            expect(page).to have_selector("td:nth-child(2)", text: "Bob Jones")
+            expect(page).to have_selector("td:nth-child(3)", text: "30/01/2024")
+          end
+
+          expect(page).to have_selector("a", text: "View in new window")
+          expect(page).to have_selector("a", text: "View more documents")
+
+          expect(page).to have_content("File name: site-notice.jpg")
+          expect(page).to have_content("Date uploaded: 29 February 2024")
+        end
+
+        within("#press-notice") do
+          expect(page).to have_selector("h2", text: "Press notice")
+          expect(page).to have_selector("p", text: "Press notice marked as not required for this application.")
+        end
+
+        click_link "Edit site notice and press notice check"
+        expect(page).to have_selector("h1", text: "Check site notice and press notice")
+
+        click_button "Save and come back later"
+        expect(page).to have_selector("h1", text: "Assess the application")
+        expect(page).to have_selector("[role=alert] p", text: "Publicity check was successfully updated.")
+
+        within("#check-consistency-assessment-tasks") do
+          within("li:nth-child(2)") do
+            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
+            expect(page).to have_selector("strong", text: "In progress")
+          end
         end
       end
     end

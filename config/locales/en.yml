@@ -941,6 +941,7 @@ en:
             no_documents_uploaded: No documents uploaded
             press_notice: Press notice
             press_notice_incomplete: Press notice task incomplete.
+            press_notice_not_required: Press notice marked as not required for this application.
             publication_date: Publication date
             reasons_for_press_notice: Reasons for press notice
             site_notice: Site notice
