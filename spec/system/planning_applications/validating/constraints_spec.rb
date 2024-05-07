@@ -53,7 +53,7 @@ RSpec.describe "Constraints" do
         href: planning_application_validation_constraints_path(planning_application)
       )
       within("#constraints-validation-tasks .govuk-tag") do
-        expect(page).to have_content("Checked")
+        expect(page).to have_content("Completed")
       end
 
       visit "/planning_applications/#{planning_application.id}/audits"

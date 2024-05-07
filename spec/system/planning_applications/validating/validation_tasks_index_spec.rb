@@ -243,7 +243,7 @@ RSpec.describe "Validation tasks" do
               href: planning_application_validation_constraints_path(planning_application)
             )
             within(".govuk-tag") do
-              expect(page).to have_content("Checked")
+              expect(page).to have_content("Completed")
             end
           end
 
