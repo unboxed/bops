@@ -16,10 +16,11 @@
           item.with_status(text: render(StatusTags::BaseComponent.new(status: task.task_list_status)))
         end
 
-        task_list.with_item(title: "Check constraints",
-          href: planning_application_validation_constraints_path(@planning_application),
-          status: render(StatusTags::ConstraintsComponent.new(planning_application: @planning_application)),
-          html_attributes: {id: "constraints-validation-tasks"})
+        task_list.with_item(html_attributes: {id: "constraints-validation-tasks"}) do |item|
+          task = Validation::CheckConstraintsTask.new(@planning_application)
+          item.with_title(text: task.task_list_link_text, href: task.task_list_link)
+          item.with_status(text: render(StatusTags::ConstraintsComponent.new(planning_application: @planning_application)))
+        end
 
         task_list.with_item(html_attributes: {id: "check-description"}) do |item|
           task = Validation::CheckDescriptionTask.new(@planning_application)
