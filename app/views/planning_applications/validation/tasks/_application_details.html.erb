@@ -3,12 +3,10 @@
     Check application details
   </h2>
   <%= govuk_task_list(id_prefix: "application-details-tasks") do |task_list|
-        task_list.with_item(html_attributes: {id: "draw_red_line_boundary"}) do |item|
-          item.with_title(
-            text: "Draw red line boundary",
-            href: !(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?) && planning_application_validation_sitemap_path(@planning_application)
-          )
-          item.with_status(text: render(StatusTags::DrawRedLineBoundaryComponent.new(boundary_geojson: @planning_application.boundary_geojson)))
+        task_list.with_item(html_attributes: {id: "draw-red-line-boundary"}) do |item|
+          task = Validation::DrawRedLineBoundaryTask.new(@planning_application)
+          item.with_title(text: task.task_list_link_text, href: task.task_list_link)
+          item.with_status(text: render(task.task_list_status_component))
         end
 
         task_list.with_item(html_attributes: {id: "check-red-line-boundary"}) do |item|
