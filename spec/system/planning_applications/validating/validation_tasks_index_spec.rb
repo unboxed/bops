@@ -220,7 +220,7 @@ RSpec.describe "Validation tasks" do
         within("#application-details-tasks") do
           expect(page).to have_content("Check application details")
 
-          within("#draw_red_line_boundary") do
+          within("#draw-red-line-boundary") do
             expect(page).to have_link(
               "Draw red line boundary",
               href: planning_application_validation_sitemap_path(planning_application)
