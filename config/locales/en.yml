@@ -1907,7 +1907,6 @@ en:
     awaiting_response: Awaiting response
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
-    checked: Checked
     complete: Completed
     emailed: Emailed
     failed: Failed
