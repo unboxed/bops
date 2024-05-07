@@ -19,7 +19,7 @@ module StatusTags
         if updated?
           :updated
         elsif review_assessment_details_complete?
-          :checked
+          :complete
         elsif assessment_details.any?(&:reviewer_verdict)
           :in_progress
         else

@@ -244,7 +244,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Checked"
+          "Review assessment summaries", with: "Completed"
         )
 
         click_link("Sign off recommendation")
@@ -373,7 +373,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Checked"
+          "Review assessment summaries", with: "Completed"
         )
       end
     end
@@ -579,7 +579,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Checked"
+          "Review assessment summaries", with: "Completed"
         )
 
         click_link("Sign off recommendation")
@@ -676,7 +676,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Checked"
+          "Review assessment summaries", with: "Completed"
         )
 
         click_link("Review assessment summaries")
@@ -841,7 +841,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Checked"
+          "Review assessment summaries", with: "Completed"
         )
       end
     end
@@ -1040,7 +1040,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Checked"
+          "Review assessment summaries", with: "Completed"
         )
 
         click_link("Sign off recommendation")
@@ -1172,7 +1172,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Checked"
+          "Review assessment summaries", with: "Completed"
         )
       end
     end

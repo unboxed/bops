@@ -28,7 +28,7 @@ module TaskListItems
             planning_application,
             permitted_development_right
           )
-        when :checked, :removed
+        when :complete, :removed
           planning_application_assessment_permitted_development_right_path(
             planning_application,
             permitted_development_right
@@ -41,6 +41,8 @@ module TaskListItems
           :not_started
         elsif to_be_reviewed?
           :to_be_reviewed
+        elsif permitted_development_right.status.to_sym == :checked
+          :complete
         else
           permitted_development_right.status.to_sym
         end

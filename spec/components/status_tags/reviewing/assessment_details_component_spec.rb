@@ -58,8 +58,8 @@ RSpec.describe StatusTags::Reviewing::AssessmentDetailsComponent, type: :compone
       )
     end
 
-    it "renders 'Checked' status" do
-      expect(page).to have_content("Checked")
+    it "renders 'Completed' status" do
+      expect(page).to have_content("Completed")
     end
   end
 

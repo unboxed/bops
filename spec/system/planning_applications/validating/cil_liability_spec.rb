@@ -32,7 +32,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
 
     expect(page).to have_content "CIL liability updated"
     within "#cil-liability-validation-tasks" do
-      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL) Liable"
+      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL) Completed"
     end
   end
 
@@ -44,7 +44,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
 
     expect(page).to have_content "CIL liability updated"
     within "#cil-liability-validation-tasks" do
-      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL) Not liable"
+      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL) Completed"
     end
   end
 

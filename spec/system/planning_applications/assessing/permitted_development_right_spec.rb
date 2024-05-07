@@ -112,7 +112,7 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_list_item_for(
           "Permitted development rights",
-          with: "Checked"
+          with: "Completed"
         )
 
         click_link "Permitted development rights"
@@ -164,7 +164,7 @@ RSpec.describe "Permitted development right" do
 
           expect(page).to have_list_item_for(
             "Permitted development rights",
-            with: "Checked"
+            with: "Completed"
           )
 
           click_link "Permitted development rights"
@@ -260,7 +260,7 @@ RSpec.describe "Permitted development right" do
 
           expect(page).to have_list_item_for(
             "Permitted development rights",
-            with: "Checked"
+            with: "Completed"
           )
 
           click_link "Permitted development rights"

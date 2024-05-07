@@ -12,7 +12,7 @@ module StatusTags
     attr_reader :boundary_geojson
 
     def status
-      boundary_geojson.present? ? :checked : :not_started
+      boundary_geojson.present? ? :complete : :not_started
     end
   end
 end

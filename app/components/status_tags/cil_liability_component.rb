@@ -15,10 +15,8 @@ module StatusTags
 
     def status
       case cil_liable
-      when TrueClass
-        :cil_liable
-      when FalseClass
-        :not_cil_liable
+      when TrueClass, FalseClass
+        :complete
       when NilClass
         :not_started
       else

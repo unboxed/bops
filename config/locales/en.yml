@@ -1629,7 +1629,7 @@ en:
           update_constraints: Update constraints
         update:
           failure: Couldn't check constraints — please contact support.
-          success: Constraints was successfully checked
+          success: Constraints were successfully checked
       description_change_validation_requests:
         description_change_validation_request:
           change_description: Change description
@@ -1902,7 +1902,6 @@ en:
       home: Home
       review_application: Review
   status_tag_component:
-    accepted: Printing
     amendments_needed: Amendments needed
     approved: Accepted
     auto_approved: Auto accepted
@@ -1910,8 +1909,6 @@ en:
     awaiting_response: Awaiting response
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
-    checked: Checked
-    cil_liable: Liable
     complete: Completed
     emailed: Emailed
     failed: Failed
@@ -1920,10 +1917,18 @@ en:
     granted_not_required_legal_agreement: Prior approval not required with Legal agreement
     in_progress: In progress
     invalid: Invalid
+    letter_status:
+      cancelled: Cancelled
+      new: New
+      permanent_failure: Permanent failure
+      posted: Posted
+      printing: Printing
+      rejected: Rejected
+      submitted: Submitted
+      technical_failure: Technical failure
     neutral: Neutral
     new: New
     not_assigned: Not assigned
-    not_cil_liable: Not liable
     not_consulted: Not consulted
     not_required: Not required
     not_required_legal_agreement: Not required
@@ -1931,9 +1936,6 @@ en:
     not_started: Not started
     objection: Objection
     pending: Pending
-    permanent_failure: Permanent failure
-    posted: Posted
-    printing: Printing
     refused: To refuse
     refused_legal_agreement: To refuse with Legal agreement
     rejected: Rejected
@@ -1945,7 +1947,6 @@ en:
     sending: Sending
     submitted: Submitted
     supportive: Supportive
-    technical_failure: Technical failure
     to_be_reviewed: To be reviewed
     updated: Updated
     valid: Valid
