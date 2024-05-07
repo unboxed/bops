@@ -46,7 +46,7 @@ RSpec.describe "Constraints" do
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_text("Constraints was successfully checked")
+      expect(page).to have_text("Constraints were successfully checked")
 
       expect(page).to have_link(
         "Check constraints",

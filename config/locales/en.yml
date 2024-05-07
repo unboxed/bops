@@ -1627,7 +1627,7 @@ en:
           update_constraints: Update constraints
         update:
           failure: Couldn't check constraints — please contact support.
-          success: Constraints was successfully checked
+          success: Constraints were successfully checked
       description_change_validation_requests:
         description_change_validation_request:
           change_description: Change description
