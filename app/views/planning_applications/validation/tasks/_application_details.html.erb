@@ -28,12 +28,11 @@
           item.with_status(text: render(StatusTags::BaseComponent.new(status: task.task_list_status)))
         end
 
-        task_list.with_item(title: "Add reporting details",
-          href: edit_planning_application_validation_reporting_type_path(@planning_application),
-          status: render(StatusTags::BaseComponent.new(
-            status: @planning_application.reporting_type_status
-          )),
-          html_attributes: {id: "development-type-for-reporting-task"})
+        task_list.with_item(html_attributes: {id: "development-type-for-reporting-task"}) do |item|
+          task = Validation::ReportingDetailsTask.new(@planning_application)
+          item.with_title(text: task.task_list_link_text, href: task.task_list_link)
+          item.with_status(text: render(StatusTags::BaseComponent.new(status: task.task_list_status)))
+        end
 
         if @planning_application.application_type.legislation_description
           task_list.with_item(html_attributes: {id: "check-legislative-requirements"}) do |item|
