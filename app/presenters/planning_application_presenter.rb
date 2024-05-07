@@ -20,22 +20,6 @@ class PlanningApplicationPresenter
     send(:"#{status}_at")
   end
 
-  def application_type_name
-    I18n.t("application_types.#{application_type.name}")
-  end
-
-  def application_type_abbreviation
-    I18n.t("application_types.#{application_type.name}_abbr", default: application_type_name)
-  end
-
-  def application_type_with_status
-    status_title = work_status.titlecase
-    sanitize(
-      "<abbr title=\"#{application_type_name} #{status_title}\">" \
-      "#{application_type_abbreviation} #{status_title}</abbr>"
-    )
-  end
-
   %i[awaiting_determination_at expiry_date outcome_date].each do |date|
     define_method(:"formatted_#{date}") { send(date).to_date.to_fs(:day_month_only) }
   end

@@ -377,13 +377,9 @@ en:
       users: Users
   application_types:
     lawfulness_certificate: Lawful Development Certificate
-    lawfulness_certificate_abbr: LDC
     other: Other planning application
-    other_abbr: Other
     planning_permission: Householder Application for Planning Permission
-    planning_permission_abbr: PP
     prior_approval: Prior approval
-    prior_approval_abbr: PA
   archive_reasons:
     design: Revise design
     dimensions: Revise dimensions
@@ -941,6 +937,7 @@ en:
             no_documents_uploaded: No documents uploaded
             press_notice: Press notice
             press_notice_incomplete: Press notice task incomplete.
+            press_notice_not_required: Press notice marked as not required for this application.
             publication_date: Publication date
             reasons_for_press_notice: Reasons for press notice
             site_notice: Site notice
@@ -1321,7 +1318,6 @@ en:
     panel_component:
       all: All
       application_type_name: Application type
-      application_type_with_status: Application type
       awaiting_determination: Awaiting determination
       closed: Closed
       days_status_tag: Days
