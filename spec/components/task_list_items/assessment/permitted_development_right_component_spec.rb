@@ -108,8 +108,8 @@ RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, ty
       )
     end
 
-    it "renders 'Checked' status" do
-      expect(page).to have_content("Checked")
+    it "renders 'Completed' status" do
+      expect(page).to have_content("Completed")
     end
   end
 
