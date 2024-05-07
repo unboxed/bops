@@ -613,6 +613,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_104253) do
     t.string "identified_by", null: false
     t.bigint "consultee_id"
     t.boolean "consultation_required", default: true, null: false
+    t.string "status", default: "pending", null: false
     t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
     t.index ["consultee_id"], name: "ix_planning_application_constraints_on_consultee_id"
     t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"

@@ -11,7 +11,7 @@ RSpec.describe BopsApi::PlanningApplicationDependencyJob, type: :job do
     let(:planning_application_constraint) { create(:planning_application_constraint) }
     let(:entities) { [source: "https://www.planning.data.gov.uk/entity/999"] }
 
-    it "raises an error" do
+    it "sets the status as failed" do
       stub_request(:get, "https://www.planning.data.gov.uk/entity/999.json")
         .to_return(
           status: 200,
@@ -21,10 +21,11 @@ RSpec.describe BopsApi::PlanningApplicationDependencyJob, type: :job do
 
       expect {
         described_class.new.send(:fetch_constraint_entities, *arguments)
-      }.to raise_error(
-        BopsApi::Errors::InvalidEntityResponseError,
-        "Request for entity https://www.planning.data.gov.uk/entity/999.json returned a non-JSON response"
-      )
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([]).and change {
+        planning_application_constraint.status
+      }.from("pending").to("failed")
     end
   end
 
@@ -32,20 +33,22 @@ RSpec.describe BopsApi::PlanningApplicationDependencyJob, type: :job do
     let(:planning_application_constraint) { create(:planning_application_constraint) }
     let(:entities) { [source: "https://www.ordnancesurvey.co.uk/products/os-mastermap-highways-network-roads"] }
 
-    it "sets the data to an empty array" do
+    it "sets the data to an empty array and sets the status to failed" do
       expect {
         described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
-      }.from(nil).to([])
+      }.from(nil).to([]).and change {
+        planning_application_constraint.status
+      }.from("pending").to("failed")
     end
   end
 
   context "when the source url returns a 404" do
-    let(:planning_application_constraint) { create(:planning_application_constraint) }
+    let!(:planning_application_constraint) { create(:planning_application_constraint) }
     let(:entities) { [source: "https://www.planning.data.gov.uk/entity/999"] }
 
-    it "sets the data to an empty array" do
+    it "sets the data to an empty array and sets the status to 'not_found'" do
       stub_request(:get, "https://www.planning.data.gov.uk/entity/999.json")
         .to_return(
           status: 404,
@@ -57,7 +60,31 @@ RSpec.describe BopsApi::PlanningApplicationDependencyJob, type: :job do
         described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
-      }.from(nil).to([])
+      }.from(nil).to([]).and change {
+        planning_application_constraint.status
+      }.from("pending").to("not_found")
+    end
+  end
+
+  context "when the source url returns a 410 Gone response" do
+    let!(:planning_application_constraint) { create(:planning_application_constraint) }
+    let(:entities) { [source: "https://www.planning.data.gov.uk/entity/999"] }
+
+    it "sets the data to an empty array and sets the status to 'removed'" do
+      stub_request(:get, "https://www.planning.data.gov.uk/entity/999.json")
+        .to_return(
+          status: 410,
+          headers: {"Content-Type" => "text/html"},
+          body: "<p>Gone</p>"
+        )
+
+      expect {
+        described_class.new.send(:fetch_constraint_entities, *arguments)
+      }.to change {
+        planning_application_constraint.data
+      }.from(nil).to([]).and change {
+        planning_application_constraint.status
+      }.from("pending").to("removed")
     end
   end
 
@@ -97,7 +124,9 @@ RSpec.describe BopsApi::PlanningApplicationDependencyJob, type: :job do
         described_class.new.send(:fetch_constraint_entities, *arguments)
       }.to change {
         planning_application_constraint.data
-      }.from(nil).to([{"name" => "Somewhere Road Tree Protection Zone"}])
+      }.from(nil).to([{"name" => "Somewhere Road Tree Protection Zone"}]).and change {
+        planning_application_constraint.status
+      }.from("pending").to("success")
     end
   end
 

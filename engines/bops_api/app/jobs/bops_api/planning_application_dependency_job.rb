@@ -67,7 +67,12 @@ module BopsApi
         next unless designation.fetch(:intersects)
 
         if (constraint = ::Constraint.for_type(designation.fetch(:value)))
-          planning_application_constraint = create_planning_application_constraint(planning_application, designation, constraint)
+          planning_application_constraint = if planning_application.planning_application_constraints.find_by(constraint_id: constraint.id)&.pending?
+            planning_application.planning_application_constraints.find_by(constraint: constraint)
+          else
+            create_planning_application_constraint(planning_application, designation, constraint)
+          end
+
           entities = designation.fetch(:entities, [])
 
           if entities.present?
@@ -151,7 +156,13 @@ module BopsApi
     end
 
     def fetch_constraint_entities(planning_application_constraint, entities)
-      planning_application_constraint.update!(data: fetch_entities(entities))
+      planning_application_constraint.update!(data: fetch_entities(entities), status: "success")
+    rescue BopsApi::Errors::EntityNotFoundError
+      planning_application_constraint.update!(data: [], status: "not_found")
+    rescue BopsApi::Errors::EntityRemovedError
+      planning_application_constraint.update!(data: [], status: "removed")
+    rescue BopsApi::Errors::EntityFetchFailedError
+      planning_application_constraint.update!(data: [], status: "failed")
     end
 
     def fetch_entities(entities)
@@ -161,22 +172,32 @@ module BopsApi
     def fetch_entity(source)
       uri = normalise_url(source)
 
-      return unless uri
+      raise BopsApi::Errors::EntityFetchFailedError unless uri
 
       connection = Faraday.new(uri.origin) do |faraday|
-        faraday.response :raise_error
         faraday.response :json, content_type: /\bjson$/
       end
 
       response = connection.get(uri.request_uri)
 
-      unless response.body.is_a?(Hash)
-        raise BopsApi::Errors::InvalidEntityResponseError, "Request for entity #{uri} returned a non-JSON response"
+      case response.status
+      when 200
+        if response.body.is_a?(Hash)
+          response.body
+        else
+          raise BopsApi::Errors::InvalidEntityResponseError, "Request for entity #{uri} returned a non-JSON response"
+        end
+      when 204
+        nil
+      when 404
+        raise BopsApi::Errors::EntityNotFoundError, "Entity #{uri} was not found"
+      when 410
+        raise BopsApi::Errors::EntityRemovedError, "Entity #{uri} has been removed"
+      else
+        raise BopsApi::Errors::EntityFetchFailedError, "Entity #{uri} could not be fetched"
       end
-
-      response.body
-    rescue Faraday::ResourceNotFound
-      nil
+    rescue Faraday::Error
+      raise BopsApi::Errors::EntityFetchFailedError, "Entity #{uri} could not be fetched"
     end
 
     def normalise_url(source)

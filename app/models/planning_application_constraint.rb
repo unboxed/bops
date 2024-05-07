@@ -3,6 +3,14 @@
 class PlanningApplicationConstraint < ApplicationRecord
   include Auditable
 
+  enum status: {
+    pending: "pending",
+    success: "success",
+    failed: "failed",
+    not_found: "not_found",
+    removed: "removed"
+  }
+
   belongs_to :planning_application
   belongs_to :planning_application_constraints_query, optional: true
   belongs_to :constraint
