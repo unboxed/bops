@@ -15119,6 +15119,8 @@ paths:
                       fee:
                         calculated: 258
                         payable: 258
+                        category:
+                          sixAndSeven: 258
                         exemption:
                           disability: false
                           resubmission: false
@@ -15146,20 +15148,19 @@ paths:
                         sameAsSiteAddress: true
                       siteContact:
                         role: applicant
-                      interest: owner.co
                       ownership:
-                        certificate: b
-                        noticeGiven: true
+                        interest: occupier
                         owners:
-                        - name: Matilda Wormwood
+                        - interest: owner
+                          name: Matilda Wormwood
                           address:
                             town: Reading
                             line1: 9, Library Way
                             line2: ''
                             county: ''
-                            country: ''
+                            country: UK
                             postcode: L1T3R8Y
-                          noticeDate: '1988-04-01'
+                          noticeGiven: true
                       agent:
                         name:
                           first: F
@@ -16115,19 +16116,27 @@ paths:
                           description: Construction invoice
                         optional: []
                       fee:
+                        category:
+                          sixAndSeven:
+                          - description: The planning fee for an application for a
+                              Certificate of Lawfulness relating to existing alterations
+                              or extensions of a single home is £258.
+                            policyRefs:
+                            - text: UK Statutory Instruments 2023 No. 1197
+                              url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         calculated:
                         - description: The planning fee for an application for a Certificate
                             of Lawfulness relating to existing alterations or extensions
                             of a single home is £258.
                           policyRefs:
-                          - text: UK Stuatory Instruments 2023 No. 1197
+                          - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         payable:
                         - description: The planning fee for an application for a Certificate
                             of Lawfulness relating to existing alterations or extensions
                             of a single home is £258.
                           policyRefs:
-                          - text: UK Stuatory Instruments 2023 No. 1197
+                          - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: 2023-10-02t00:00:00z
                     schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.6.0/schema.json
@@ -16142,6 +16151,8 @@ paths:
                       fee:
                         calculated: 129
                         payable: 0
+                        category:
+                          sixAndSeven: 129
                         exemption:
                           disability: true
                           resubmission: true
@@ -16167,9 +16178,8 @@ paths:
                         sameAsSiteAddress: true
                       siteContact:
                         role: applicant
-                      interest: owner.sole
                       ownership:
-                        certificate: a
+                        interest: owner
                     property:
                       address:
                         latitude: 51.6154458
@@ -16687,7 +16697,7 @@ paths:
                     - value: Within the last 12 months
                     metadata:
                       policyRefs:
-                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 8
+                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 8
                         url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                   - question: Does the application qualify for a disability exemption?
                     responses:
@@ -16784,12 +16794,20 @@ paths:
                         recommended: []
                         optional: []
                       fee:
+                        category:
+                          sixAndSeven:
+                          - description: The plannning fee for an application for
+                              a Certificate of Lawfulness relating to the proposed
+                              alteration or extension of a single home is £129
+                            policyRefs:
+                            - text: UK Statutory Instruments 2023 No. 1197
+                              url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         calculated:
                         - description: The plannning fee for an application for a
                             Certificate of Lawfulness relating to the proposed alteration
                             or extension of a single home is £129
                           policyRefs:
-                          - text: UK Stuatory Instruments 2023 No. 1197
+                          - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         payable:
                         - description: If the proposed works (to either a home or
@@ -16837,8 +16855,8 @@ paths:
                         name: Gonzo The Great
                         email: gonzo@muppets.org
                         phone: '987654321'
-                      interest: owner.sole
                       ownership:
+                        interest: owner.sole
                         certificate: b
                         noticeGiven: true
                         agriculturalTenants: true
@@ -17505,6 +17523,8 @@ paths:
                       fee:
                         calculated: 258
                         payable: 258
+                        category:
+                          sixAndSeven: 258
                         exemption:
                           disability: false
                           resubmission: false
@@ -17532,9 +17552,12 @@ paths:
                         sameAsSiteAddress: true
                       siteContact:
                         role: proxy
-                      interest: owner.sole
                       ownership:
+                        interest: owner.sole
                         certificate: a
+                        agriculturalTenants: false
+                        declaration:
+                          accurate: true
                       agent:
                         name:
                           first: Ziggy
@@ -18405,17 +18428,24 @@ paths:
                           description: Floor plan - proposed
                         optional: []
                       fee:
+                        category:
+                          sixAndSeven:
+                          - description: The fee to apply for planning permission
+                              to alter or extend a single home is £258.
+                            policyRefs:
+                            - text: UK Statutory Instruments 2023 No. 1197
+                              url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         calculated:
                         - description: The fee to apply for planning permission to
                             alter or extend a single home is £258.
                           policyRefs:
-                          - text: UK Stuatory Instruments 2023 No. 1197
+                          - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         payable:
                         - description: The fee to apply for planning permission to
                             alter or extend a single home is £258.
                           policyRefs:
-                          - text: UK Stuatory Instruments 2023 No. 1197
+                          - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
                     schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.6.0/schema.json
@@ -19096,6 +19126,8 @@ paths:
                       fee:
                         calculated: 258
                         payable: 258
+                        category:
+                          sixAndSeven: 258
                         exemption:
                           disability: false
                           resubmission: false
@@ -19123,9 +19155,12 @@ paths:
                         sameAsSiteAddress: true
                       siteContact:
                         role: proxy
-                      interest: owner.sole
                       ownership:
+                        interest: owner.sole
                         certificate: a
+                        agriculturalTenants: false
+                        declaration:
+                          accurate: true
                       agent:
                         name:
                           first: Ziggy
@@ -19996,17 +20031,24 @@ paths:
                           description: Floor plan - proposed
                         optional: []
                       fee:
+                        category:
+                          sixAndSeven:
+                          - description: The fee to apply for planning permission
+                              to alter or extend a single home is £258.
+                            policyRefs:
+                            - text: UK Statutory Instruments 2023 No. 1197
+                              url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         calculated:
                         - description: The fee to apply for planning permission to
                             alter or extend a single home is £258.
                           policyRefs:
-                          - text: UK Stuatory Instruments 2023 No. 1197
+                          - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         payable:
                         - description: The fee to apply for planning permission to
                             alter or extend a single home is £258.
                           policyRefs:
-                          - text: UK Stuatory Instruments 2023 No. 1197
+                          - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
                     schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.6.0/schema.json
