@@ -190,6 +190,10 @@ $govuk-page-width: 1100px;
   max-width: none;
 }
 
+.govuk-tag--colourless {
+  background-color: transparent;
+}
+
 .header-session-info {
   display: flex;
   align-items: center;

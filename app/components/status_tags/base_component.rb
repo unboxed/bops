@@ -11,7 +11,7 @@ module StatusTags
     end
 
     def call
-      govuk_tag(text: link_text, colour:)
+      govuk_tag(text: link_text, colour:, html_attributes: colour ? {} : {class: "govuk-tag--colourless"})
     end
 
     private
