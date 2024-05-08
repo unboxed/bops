@@ -166,8 +166,8 @@ RSpec.describe "Validation tasks" do
           end
         end
 
+        expect(page).to have_content("Other validation issues")
         within("#other-change-validation-tasks") do
-          expect(page).to have_content("Other validation issues")
           expect(page).to have_link(
             "Add another validation request",
             href: new_planning_application_validation_validation_request_path(planning_application, type: "other_change")
@@ -324,8 +324,8 @@ RSpec.describe "Validation tasks" do
           end
         end
 
+        expect(page).to have_content("Other validation issues")
         within("#other-change-validation-tasks") do
-          expect(page).to have_content("Other validation issues")
           expect(page).not_to have_link("Add an other validation request")
         end
 

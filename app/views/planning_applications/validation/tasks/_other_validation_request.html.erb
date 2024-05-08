@@ -1,24 +1,18 @@
-<li id="other-change-validation-tasks">
-  <h2 class="app-task-list__section">
-    Other validation issues
-  </h2>
-  <ul class="app-task-list__items">
-    <% unless @planning_application.validated? %>
-      <li class="app-task-list__item">
-        <span class="app-task-list__task-name">
-          <%= govuk_link_to "Add another validation request", new_planning_application_validation_validation_request_path(type: "other_change") %>
-        </span>
-      </li>
-    <% end %>
-    <% @planning_application.other_change_validation_requests.not_cancelled.each do |other_change_validation_request| %>
-      <%= render(
-            TaskListItems::OtherChangeRequestComponent.new(
-              planning_application: @planning_application,
-              request_id: other_change_validation_request.id,
-              request_sequence: other_change_validation_request.sequence,
-              request_status: other_change_validation_request.state
-            )
-          ) %>
-    <% end %>
-  </ul>
-</li>
+<h2 class="app-task-list__section">
+  Other validation issues
+</h2>
+
+<%= govuk_task_list(id_prefix: "other-change-validation-tasks", html_attributes: {id: "other-change-validation-tasks"}) do |task_list|
+      task_list.with_item(title: "Add another validation request", href: new_planning_application_validation_validation_request_path(type: "other_change"))
+
+      @planning_application.other_change_validation_requests.not_cancelled.each do |other_change_validation_request|
+        render(partial: "workflow_task", locals: {
+          id: "other-change-validation-task-#{other_change_validation_request.id}",
+          task: Validation::OtherChangeValidationTask.new(@planning_application,
+            request_id: other_change_validation_request.id,
+            request_sequence: other_change_validation_request.sequence,
+            request_status: other_change_validation_request.state),
+          task_list:
+        })
+      end
+    end %>
