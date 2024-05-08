@@ -32,9 +32,8 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::Reviewing::PermittedDevelopmentRightComponent.new(
-          planning_application:,
-          permitted_development_right:
+        StatusTags::Reviewing::ReviewComponent.new(
+          review_item: permitted_development_right
         )
       end
     end

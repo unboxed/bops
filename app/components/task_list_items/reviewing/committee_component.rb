@@ -26,11 +26,7 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::BaseComponent.new(status:)
-      end
-
-      def status
-        committee_decision.current_review.review_status
+        StatusTags::ReviewComponent.new(review_item: committee_decision.current_review)
       end
     end
   end

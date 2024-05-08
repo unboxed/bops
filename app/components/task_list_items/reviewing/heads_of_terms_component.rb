@@ -37,7 +37,7 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::BaseComponent.new(status:)
+        StatusTags::ReviewComponent.new(review_item: review_heads_of_term)
       end
 
       def status

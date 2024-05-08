@@ -7,12 +7,8 @@
     <% c.with_tag do %>
       <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
-            StatusTags::BaseComponent.new(
-              status: if policy_class.current_review&.status == "updated"
-                        :updated
-                      else
-                        policy_class.current_review.present? ? policy_class.current_review.review_status : :not_started
-                      end
+            StatusTags::ReviewComponent.new(
+              review_item: policy_class.current_review
             )
           ) %>
       </div>

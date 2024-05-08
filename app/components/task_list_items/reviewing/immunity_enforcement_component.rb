@@ -36,10 +36,7 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::Reviewing::ImmunityEnforcementComponent.new(
-          planning_application:,
-          review_immunity_detail:
-        )
+        StatusTags::ReviewComponent.new(review_item: review_immunity_detail)
       end
     end
   end
