@@ -44,7 +44,7 @@ RSpec.describe "Redact documents" do
     expect(page).to have_content "Redacted documents successfully uploaded"
 
     within("#confirm-documents-tasks") do
-      expect(page).to have_selector("li:nth-of-type(3) > span", text: "Upload redacted documents")
+      expect(page).to have_selector("li:nth-of-type(3)", text: "Upload redacted documents")
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "In progress")
     end
 
@@ -71,7 +71,7 @@ RSpec.describe "Redact documents" do
     expect(page).to have_content "Redacted documents successfully uploaded"
 
     within("#confirm-documents-tasks") do
-      expect(page).to have_selector("li:nth-of-type(3) > span", text: "Upload redacted documents")
+      expect(page).to have_selector("li:nth-of-type(3)", text: "Upload redacted documents")
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Completed")
     end
   end

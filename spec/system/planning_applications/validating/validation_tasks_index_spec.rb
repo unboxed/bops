@@ -99,9 +99,8 @@ RSpec.describe "Validation tasks" do
           expect(page).not_to have_css("#check-legislative-requirements")
         end
 
+        expect(page).to have_content("Check, tag and confirm documents")
         within("#confirm-documents-tasks") do
-          expect(page).to have_content("Check, tag and confirm documents")
-
           within("#check-supplied-document") do
             expect(page).to have_link(
               "Check supplied documents",
@@ -265,9 +264,8 @@ RSpec.describe "Validation tasks" do
           expect(page).not_to have_css("#check-legislative-requirements")
         end
 
+        expect(page).to have_content("Check, tag and confirm documents")
         within("#confirm-documents-tasks") do
-          expect(page).to have_content("Check, tag and confirm documents")
-
           within("#check-supplied-document") do
             expect(page).to have_content("Planning application has already been validated")
             expect(page).not_to have_link("Check supplied document")
