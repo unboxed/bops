@@ -162,7 +162,6 @@ RSpec.describe "Reviewing evidence of immunity" do
         )
 
         click_link "Evidence of immunity"
-        find("span", text: "See immunity detail checks").click
 
         expect(page).to have_content("Please re-assess")
       end

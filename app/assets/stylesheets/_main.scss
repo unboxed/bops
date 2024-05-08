@@ -474,3 +474,8 @@ body {
 .govuk-\!-text-wrap-balance {
   text-wrap: balance;
 }
+
+.comment-component {
+  border-left: 10px solid $govuk-link-colour;
+  background-color: #F2F9FF;
+}

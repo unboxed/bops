@@ -14,7 +14,7 @@
       locals: {heading: "Assess against policies and guidance"}
     ) %>
 
-<%= render "comment" %>
+<%= render(ReviewerCommentComponent.new(comment: @reviewer_comment)) %>
 
 <%= render "table" %>
 

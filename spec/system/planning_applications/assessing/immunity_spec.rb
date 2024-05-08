@@ -138,9 +138,8 @@ RSpec.describe "Immunity" do
       click_link("Evidence of immunity")
 
       # Fill in evidence of immunity again
-      expand_span_item("See immunity detail checks")
-      expect(page).to have_content("#{reviewer.name} marked this for review")
-      expect(page).to have_content("Reviewer comment: Please re-assess the evidence of immunity")
+      expect(page).to have_content("Reviewer comment")
+      expect(page).to have_content("Please re-assess the evidence of immunity")
 
       # Modify evidence group input
       click_button "Utility bills (1)"
@@ -163,7 +162,7 @@ RSpec.describe "Immunity" do
       expect(page).to have_content("Assessor decision: Yes")
       expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
       expect(page).to have_content("Summary: A summary")
-      expect(page).to have_content("Reviewer comment: Please re-assess immunity enforcement response")
+      expect(page).to have_content("Please re-assess immunity enforcement response")
 
       # Fill in immunity response again
       within("#assess-immunity-detail-section") do

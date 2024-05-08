@@ -81,6 +81,14 @@ class Review < ApplicationRecord
     status != "not_started"
   end
 
+  def user
+    reviewer
+  end
+
+  def text
+    comment
+  end
+
   private
 
   def set_reviewed_at

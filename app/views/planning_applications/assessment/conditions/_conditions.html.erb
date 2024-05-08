@@ -1,6 +1,4 @@
-<% if review = @condition_set.current_review %>
-  <%= render "comment", review: review %>
-<% end %>
+<%= render(ReviewerCommentComponent.new(comment: @condition_set.current_review)) %>
 
 <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Conditions</h2>
 
