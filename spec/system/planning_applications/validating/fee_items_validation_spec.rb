@@ -134,7 +134,7 @@ RSpec.describe "FeeItemsValidation" do
         within(".govuk-radios") { choose "Yes" }
       end
 
-      click_button "Save"
+      click_button "Save and mark as complete"
 
       expect(page).to have_content("Fee item was marked as valid.")
 
@@ -149,14 +149,14 @@ RSpec.describe "FeeItemsValidation" do
     it "I get validation errors when I omit required information" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check fee"
-      click_button "Save"
+      click_button "Save and mark as complete"
 
       expect(page).to have_content("Select Yes or No to continue.")
 
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }
       end
-      click_button "Save"
+      click_button "Save and mark as complete"
       click_button "Save request"
 
       within(".govuk-error-summary") do
@@ -174,7 +174,7 @@ RSpec.describe "FeeItemsValidation" do
         within(".govuk-radios") { choose "No" }
       end
 
-      click_button "Save"
+      click_button "Save and mark as complete"
 
       expect(page).to have_current_path(
         "/planning_applications/#{planning_application.id}/validation/validation_requests/new?type=fee_change"

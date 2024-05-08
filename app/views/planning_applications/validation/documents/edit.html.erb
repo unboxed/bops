@@ -58,7 +58,7 @@
       <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
 
       <div class="govuk-button-group">
-        <%= form.submit "Save", class: "govuk-button", data: {module: "govuk-button"} %>
+        <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
 
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>

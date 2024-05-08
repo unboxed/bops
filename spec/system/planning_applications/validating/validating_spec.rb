@@ -208,7 +208,7 @@ RSpec.describe "Planning Application Assessment" do
           )"
         )
 
-        click_button("Save")
+        click_button("Save and mark as complete")
         click_link("Send validation decision")
         click_link("Mark the application as valid")
         click_button("Mark the application as valid")

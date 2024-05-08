@@ -26,7 +26,7 @@
   <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json %>
   <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, geojson_field: "planning_application_boundary_geojson"} %>
   <div class="govuk-button-group govuk-!-margin-top-3">
-    <%= form.govuk_submit "Save" %>
+    <%= form.govuk_submit "Save and mark as complete" %>
     <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>

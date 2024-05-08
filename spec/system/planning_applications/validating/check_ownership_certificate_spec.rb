@@ -42,7 +42,7 @@ RSpec.describe "Check ownership certificate type" do
 
         choose "Yes"
 
-        click_button "Save"
+        click_button "Save and mark as complete"
 
         expect(page).to have_content "Ownership certificate successfully updated"
 
@@ -52,7 +52,7 @@ RSpec.describe "Check ownership certificate type" do
 
         click_link "Check ownership certificate"
 
-        expect(page).not_to have_content("Save")
+        expect(page).not_to have_content("Save and mark as complete")
       end
     end
 
@@ -62,7 +62,7 @@ RSpec.describe "Check ownership certificate type" do
 
         choose "No"
 
-        click_button "Save"
+        click_button "Save and mark as complete"
 
         expect(page).to have_content "Request ownership certificate change"
 
