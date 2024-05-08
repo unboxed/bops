@@ -12,8 +12,8 @@ module Validation
       planning_application_validation_sitemap_path(planning_application)
     end
 
-    def task_list_status_component
-      StatusTags::DrawRedLineBoundaryComponent.new(boundary_geojson: planning_application.boundary_geojson)
+    def task_list_status
+      planning_application.boundary_geojson.present? ? :complete : :not_started
     end
   end
 end

@@ -6,7 +6,7 @@
         task_list.with_item(html_attributes: {id: "draw-red-line-boundary"}) do |item|
           task = Validation::DrawRedLineBoundaryTask.new(@planning_application)
           item.with_title(text: task.task_list_link_text, href: task.task_list_link)
-          item.with_status(text: render(task.task_list_status_component))
+          item.with_status(text: render(StatusTags::BaseComponent.new(status: task.task_list_status)))
         end
 
         task_list.with_item(html_attributes: {id: "check-red-line-boundary"}) do |item|
