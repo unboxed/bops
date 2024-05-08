@@ -1848,6 +1848,7 @@ en:
         user_created_amenity: "%{user} created amenity assessment"
         user_created_consultation_summary: "%{user} created consultation summary"
         user_created_neighbour_summary: "%{user} created neighbour summary"
+        user_created_past_applications: "%{user} created history"
         user_created_site_description: "%{user} created site description"
         user_created_summary_of_work: "%{user} created summary of works"
         user_marked_this: "%{user} marked this for review"

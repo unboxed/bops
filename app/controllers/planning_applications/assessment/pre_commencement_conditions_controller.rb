@@ -3,6 +3,8 @@
 module PlanningApplications
   module Assessment
     class PreCommencementConditionsController < AuthenticationController
+      include CommitMatchable
+
       before_action :set_planning_application
       before_action :set_condition_set
       before_action :set_condition
@@ -48,6 +50,8 @@ module PlanningApplications
       def confirm
         if send_to_applicant?
           @condition_set.confirm_pending_requests!
+        elsif mark_as_complete?
+          @condition_set.create_or_update_review!("complete")
         else
           @condition_set.create_or_update_review!("in_progress")
         end
@@ -82,6 +86,7 @@ module PlanningApplications
 
       def pre_commencement_condition_params
         params.require(:condition).permit(*pre_commencement_condition_attributes)
+          .to_h.merge(reviews_attributes: [status:, id: (@condition_set&.current_review&.id if !mark_as_complete?)])
       end
 
       def set_condition
@@ -105,6 +110,14 @@ module PlanningApplications
           planning_application_assessment_pre_commencement_conditions_path(@planning_application)
         else
           planning_application_assessment_tasks_path(@planning_application)
+        end
+      end
+
+      def status
+        if mark_as_complete?
+          "complete"
+        else
+          "in_progress"
         end
       end
     end
