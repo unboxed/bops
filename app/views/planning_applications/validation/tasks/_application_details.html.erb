@@ -33,11 +33,9 @@
           task_list:
         })
 
-        if @planning_application.application_type.legislation_description
-          render(partial: "workflow_task", locals: {
-            id: "check-legislative-requirements",
-            task: Validation::CheckLegislationDescriptionTask.new(@planning_application),
-            task_list:
-          })
-        end
+        render(partial: "workflow_task", locals: {
+          id: "check-legislative-requirements",
+          task: Validation::CheckLegislationDescriptionTask.new(@planning_application),
+          task_list:
+        })
       end %>

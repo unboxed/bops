@@ -12,6 +12,10 @@ class WorkflowTask
 
   attr_reader :task_list_link_text, :task_list_link, :task_list_status
 
+  def render?
+    true
+  end
+
   private
 
   attr_reader :planning_application

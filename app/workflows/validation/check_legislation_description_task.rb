@@ -19,5 +19,9 @@ module Validation
     def task_list_status
       planning_application.legislation_checked? ? :complete : :not_started
     end
+
+    def render?
+      planning_application.application_type.legislation_description
+    end
   end
 end
