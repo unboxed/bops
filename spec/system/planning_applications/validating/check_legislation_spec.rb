@@ -46,7 +46,7 @@ RSpec.describe "Check legislation" do
     end
 
     it "I can mark the legislative requirements as checked" do
-      click_button "Mark as checked"
+      click_button "Save and mark as complete"
 
       expect(page).to have_content("Legislative requirements have been marked as checked.")
 
@@ -70,7 +70,7 @@ RSpec.describe "Check legislation" do
       before { allow_any_instance_of(PlanningApplication).to receive(:save!).and_raise(ActiveRecord::RecordInvalid) }
 
       it "present an error message" do
-        click_button "Mark as checked"
+        click_button "Save and mark as complete"
 
         expect(page).to have_content("Couldn't mark legislative requirements as checked - please contact support.")
 

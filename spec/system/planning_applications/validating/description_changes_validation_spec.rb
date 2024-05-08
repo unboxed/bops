@@ -32,7 +32,7 @@ RSpec.describe "DescriptionChangesValidation" do
         within(".govuk-radios") { choose "Yes" }
       end
 
-      click_button "Save"
+      click_button "Save and mark as complete"
 
       expect(page).to have_content("Description was marked as valid")
 
@@ -53,14 +53,14 @@ RSpec.describe "DescriptionChangesValidation" do
     it "I get validation errors when I omit required information" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check description"
-      click_button "Save"
+      click_button "Save and mark as complete"
 
       expect(page).to have_content("Select Yes or No to continue.")
 
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }
       end
-      click_button "Save"
+      click_button "Save and mark as complete"
       click_button "Send request"
 
       within(".govuk-error-summary") do
@@ -79,7 +79,7 @@ RSpec.describe "DescriptionChangesValidation" do
         within(".govuk-radios") { choose "No" }
       end
 
-      click_button "Save"
+      click_button "Save and mark as complete"
 
       expect(page).to have_current_path(
         "/planning_applications/#{planning_application.id}/validation/validation_requests/new?type=description_change"
