@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 BopsApi::Engine.routes.draw do
+  get "/docs", to: redirect("v2/docs", status: 302)
+
   mount Rswag::Ui::Engine, at: "/docs"
   mount Rswag::Api::Engine, at: "/docs"
 
