@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe StatusTags::Reviewing::PermittedDevelopmentRightComponent, type: :component do
+RSpec.describe StatusTags::ReviewComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   context "when permitted development right has been updated" do
@@ -23,8 +23,8 @@ RSpec.describe StatusTags::Reviewing::PermittedDevelopmentRightComponent, type: 
 
       render_inline(
         described_class.new(
-          permitted_development_right:,
-          planning_application:
+          review_item: permitted_development_right,
+          updated: true
         )
       )
     end
@@ -54,8 +54,7 @@ RSpec.describe StatusTags::Reviewing::PermittedDevelopmentRightComponent, type: 
     before do
       render_inline(
         described_class.new(
-          permitted_development_right:,
-          planning_application:
+          review_item: permitted_development_right
         )
       )
     end
@@ -77,8 +76,7 @@ RSpec.describe StatusTags::Reviewing::PermittedDevelopmentRightComponent, type: 
     before do
       render_inline(
         described_class.new(
-          permitted_development_right:,
-          planning_application:
+          review_item: permitted_development_right
         )
       )
     end
@@ -100,8 +98,7 @@ RSpec.describe StatusTags::Reviewing::PermittedDevelopmentRightComponent, type: 
     before do
       render_inline(
         described_class.new(
-          permitted_development_right:,
-          planning_application:
+          review_item: permitted_development_right
         )
       )
     end

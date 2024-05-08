@@ -97,7 +97,7 @@ RSpec.describe "Check neighbour notifications" do
 
         expect(page).to have_list_item_for(
           "Check neighbour notifications",
-          with: "Completed"
+          with: "Awaiting changes"
         )
 
         click_link "Sign off recommendation"
@@ -187,7 +187,7 @@ RSpec.describe "Check neighbour notifications" do
 
         expect(page).to have_list_item_for(
           "Check neighbour notifications",
-          with: "Completed"
+          with: "Awaiting changes"
         )
       end
     end

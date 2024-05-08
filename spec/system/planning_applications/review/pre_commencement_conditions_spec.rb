@@ -119,7 +119,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
 
         expect(page).to have_list_item_for(
           "Review pre-commencement conditions",
-          with: "To be reviewed"
+          with: "Awaiting changes"
         )
 
         condition_set = planning_application.pre_commencement_condition_set

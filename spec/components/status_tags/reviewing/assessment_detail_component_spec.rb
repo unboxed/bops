@@ -90,7 +90,7 @@ RSpec.describe StatusTags::Reviewing::AssessmentDetailComponent, type: :componen
     it "renders 'To be reviewed' status" do
       render_inline(component)
 
-      expect(page).to have_content("To be reviewed")
+      expect(page).to have_content("Awaiting changes")
     end
   end
 

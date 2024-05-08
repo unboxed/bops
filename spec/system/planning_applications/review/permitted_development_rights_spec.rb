@@ -170,7 +170,7 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_list_item_for(
           "Review permitted development rights",
-          with: "Completed"
+          with: "Awaiting changes"
         )
 
         click_link "Review permitted development rights"

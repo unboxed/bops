@@ -579,7 +579,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Completed"
+          "Review assessment summaries", with: "Awaiting changes"
         )
 
         click_link("Sign off recommendation")
@@ -594,7 +594,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_link("Review assessment summaries")
 
         within(find("fieldset", text: "Consultation")) do
-          expect(find(".govuk-tag")).to have_content("To be reviewed")
+          expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
 
         click_link("Log out")
@@ -841,7 +841,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
 
         expect(page).to have_list_item_for(
-          "Review assessment summaries", with: "Completed"
+          "Review assessment summaries", with: "Awaiting changes"
         )
       end
     end

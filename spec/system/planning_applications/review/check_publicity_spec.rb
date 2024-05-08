@@ -150,7 +150,7 @@ RSpec.describe "checking publicity" do
 
         expect(page).to have_list_item_for(
           "Check publicity",
-          with: "Completed"
+          with: "Awaiting changes"
         )
 
         click_link "Sign off recommendation"
@@ -348,7 +348,7 @@ RSpec.describe "checking publicity" do
 
       expect(page).to have_list_item_for(
         "Check publicity",
-        with: "Completed"
+        with: "Awaiting changes"
       )
 
       click_link "Sign off recommendation"

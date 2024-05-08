@@ -2,24 +2,27 @@
 
 module StatusTags
   class ReviewComponent < StatusTags::BaseComponent
-    def initialize(review_item:)
+    def initialize(review_item:, updated: false)
       @review_item = review_item
+      @updated = updated
       super(status:)
     end
 
-    attr_reader :review_item
+    attr_reader :review_item, :updated
 
     private
 
     def status
-      if review_item.nil?
+      if updated
+        :updated
+      elsif review_item.nil?
         :not_started
-      elsif review_item.rejected? || (review_item.to_be_reviewed? && review_item.review_complete?)
+      elsif review_item.review_in_progress?
+        :in_progress
+      elsif review_item.to_be_reviewed? && review_item.review_complete?
         :awaiting_changes
       elsif review_item.review_complete?
         :complete
-      elsif review_item.review_in_progress?
-        :in_progress
       else
         :not_started
       end

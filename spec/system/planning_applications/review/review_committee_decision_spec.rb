@@ -77,7 +77,7 @@ RSpec.describe "Review committee decision" do
 
     expect(page).to have_list_item_for(
       "Recommendation to committee",
-      with: "Completed"
+      with: "Awaiting changes"
     )
 
     click_link "Sign off recommendation"

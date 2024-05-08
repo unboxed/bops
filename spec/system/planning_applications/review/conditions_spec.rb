@@ -104,7 +104,7 @@ RSpec.describe "Reviewing conditions" do
 
         expect(page).to have_list_item_for(
           "Review conditions",
-          with: "To be reviewed"
+          with: "Awaiting changes"
         )
 
         condition_set = planning_application.condition_set
