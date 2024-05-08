@@ -190,8 +190,11 @@ $govuk-page-width: 1100px;
   max-width: none;
 }
 
-.govuk-tag--colourless {
-  background-color: transparent;
+.govuk-task-list,
+.app-task-list {
+  .govuk-tag--status-complete {
+    background-color: transparent;
+  }
 }
 
 .header-session-info {
