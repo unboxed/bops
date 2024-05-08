@@ -7,7 +7,7 @@ class WorkflowTask
     @planning_application = planning_application
     @task_list_link_text = nil
     @task_list_link = nil
-    @task_list_status = :unknown
+    @task_list_status = nil
   end
 
   attr_reader :task_list_link_text, :task_list_link, :task_list_status
