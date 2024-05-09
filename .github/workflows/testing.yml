@@ -119,7 +119,7 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: selenium-screenshots
+          name: selenium-screenshots-${{ inputs.name }}
           path: ${{ github.workspace }}/tmp/capybara/*.png
           retention-days: 7
           if-no-files-found: ignore
