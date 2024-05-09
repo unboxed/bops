@@ -115,11 +115,16 @@ jobs:
         run: |
           bundle exec rake spec
 
+      - name: Define artifact name
+        if: ${{ failure() }}
+        run: |
+          echo ARTIFACT_NAME="$(echo "${{ inputs.name }}" | tr -d ' ":<>|/*?\')" >>$GITHUB_ENV
+
       - name: Save screenshots
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: selenium-screenshots-${{ inputs.name }}
+          name: selenium-screenshots-${{ env.ARTIFACT_NAME }}
           path: ${{ github.workspace }}/tmp/capybara/*.png
           retention-days: 7
           if-no-files-found: ignore
@@ -128,7 +133,7 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: rails-logs-${{ inputs.name }}
+          name: rails-logs-${{ env.ARTIFACT_NAME }}
           path: ${{ github.workspace }}/log/test.log
           retention-days: 7
           if-no-files-found: ignore
