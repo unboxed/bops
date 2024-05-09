@@ -86,7 +86,6 @@ module PlanningApplications
 
       def pre_commencement_condition_params
         params.require(:condition).permit(*pre_commencement_condition_attributes)
-          .to_h.merge(reviews_attributes: [status:, id: (@condition_set&.current_review&.id if !mark_as_complete?)])
       end
 
       def set_condition
@@ -110,14 +109,6 @@ module PlanningApplications
           planning_application_assessment_pre_commencement_conditions_path(@planning_application)
         else
           planning_application_assessment_tasks_path(@planning_application)
-        end
-      end
-
-      def status
-        if mark_as_complete?
-          "complete"
-        else
-          "in_progress"
         end
       end
     end

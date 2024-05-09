@@ -126,16 +126,20 @@
       </details>
     </div>
 
+    <% if @condition_set.validation_requests.any?(&:open?) %>
+      <p class="govuk-body">Waiting for the applicant to respond to the requests.</p>
+    <% end %>
+
     <div class="govuk-button-group">
-        <%= form_with model: @condition, url: confirm_planning_application_assessment_pre_commencement_conditions_path(@planning_application) do |form| %>
-          <% if @condition_set.conditions.all(&:accepted?) %>
-            <% unless @condition_set.current_review.complete? %>
-              <%= form.submit "Save and mark as complete", class: "govuk-button" %>
-            <% end %>
-          <% else %>
-            <%= form.submit t("form_actions.pre_commencement_condition.confirm"), class: "govuk-button" %>
-            <%= form.govuk_submit("Save and come back later", secondary: true) %>
+      <%= form_with model: @condition, url: confirm_planning_application_assessment_pre_commencement_conditions_path(@planning_application) do |form| %>
+        <% if @condition_set.validation_requests.all?(&:approved?) %>
+          <% unless @condition_set.current_review&.complete? %>
+            <%= form.submit "Save and mark as complete", class: "govuk-button" %>
           <% end %>
+        <% elsif @condition_set.validation_requests.any?(&:pending?) %>
+          <%= form.submit t("form_actions.pre_commencement_condition.confirm"), class: "govuk-button" %>
+          <%= form.govuk_submit("Save and come back later", secondary: true) %>
+        <% end %>
         <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
       <% end %>
     </div>
