@@ -128,7 +128,7 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: rails-logs
+          name: rails-logs-${{ inputs.name }}
           path: ${{ github.workspace }}/log/test.log
           retention-days: 7
           if-no-files-found: ignore
