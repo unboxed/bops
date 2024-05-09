@@ -47,7 +47,7 @@ RSpec.describe "Check ownership certificate type" do
         expect(page).to have_content "Ownership certificate successfully updated"
 
         within("#check-ownership-certificate") do
-          expect(page).to have_content("Valid")
+          expect(page).to have_content("Completed")
         end
 
         click_link "Check ownership certificate"

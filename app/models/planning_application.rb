@@ -445,11 +445,10 @@ class PlanningApplication < ApplicationRecord
     raise SubmitRecommendationError, e.message
   end
 
-  def ownership_certificate_awaiting_validation?
-    has_requests = ownership_certificate_validation_requests.open.any?
-    not_yet_validated = ownership_certificate_validation_requests&.last&.not_yet_validated?
+  def ownership_certificate_updated?
+    has_requests = ownership_certificate_validation_requests.order(:created_at).last&.state == "closed"
 
-    has_requests && not_yet_validated
+    has_requests && !valid_ownership_certificate
   end
 
   def withdraw_last_recommendation!
