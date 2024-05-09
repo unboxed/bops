@@ -16,6 +16,8 @@ RSpec.describe "BOPS API" do
     create(:application_type, :pa_part_14_class_j)
     create(:application_type, :householder)
     create(:application_type, :householder_retrospective)
+
+    Rails.configuration.os_vector_tiles_api_key = "testtest"
   end
 
   let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
@@ -68,7 +70,31 @@ RSpec.describe "BOPS API" do
 
           let(:planning_application) { example_fixture(fixture) }
 
-          run_test!
+          run_test! do
+            [
+              ["myPlans.pdf", "planx/odp/myPlans.pdf", "application/pdf"],
+              ["other.pdf", "planx/odp/other.pdf", "application/pdf"],
+              ["elevations.pdf", "planx/odp/elevations.pdf", "application/pdf"],
+              ["floor_plans.pdf", "planx/odp/floor_plans.pdf", "application/pdf"],
+              ["correspondence.pdf", "planx/odp/correspondence.pdf", "application/pdf"],
+              ["heritageStatement.pdf", "planx/odp/heritageStatement.pdf", "application/pdf"],
+              ["invoice.pdf", "planx/odp/invoice.pdf", "application/pdf"]
+            ].each do |file, fixture, content_type|
+              stub_request(:get, %r{\Ahttps://api.editor.planx.dev/file/private/\w+/#{Regexp.escape(file)}\z})
+                .with(headers: {"Api-Key" => "G41sAys9uPMUVBH5WUKsYE4H"})
+                .to_return(
+                  status: 200,
+                  body: file_fixture(fixture).read,
+                  headers: {"Content-Type" => content_type}
+                )
+            end
+
+            latitude = value.dig(:data, :property, :address, :latitude)
+            longitude = value.dig(:data, :property, :address, :longitude)
+            stub_os_places_api_request_for_radius(latitude, longitude)
+
+            perform_enqueued_jobs
+          end
         end
       end
 
