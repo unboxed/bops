@@ -175,7 +175,6 @@ class PlanningApplication < ApplicationRecord
     allow_nil: true
 
   validate :applicant_or_agent_email
-  validate :validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :determination_date_is_not_in_the_future
@@ -496,10 +495,6 @@ class PlanningApplication < ApplicationRecord
       update!(constraints_checked: true, updated_address_or_boundary_geojson: true)
       audit!(activity_type: "constraints_checked")
     end
-  end
-
-  def default_validated_at
-    self.validated_at ||= valid_from_date
   end
 
   def assessment_submitted?
@@ -952,12 +947,6 @@ class PlanningApplication < ApplicationRecord
     self.ward = ward
     self.parish_name = parish_name
     save!
-  end
-
-  def validated_at_date
-    return unless in_assessment? && !validated_at.to_date.is_a?(Date)
-
-    errors.add(:planning_application, "Please enter a valid date")
   end
 
   def validation_date?

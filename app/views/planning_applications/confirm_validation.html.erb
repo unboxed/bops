@@ -19,7 +19,10 @@
     <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local: true do |form| %>
       <%= render ErrorSummaryComponent.new(errors: @planning_application.errors) %>
 
-      <%= form.govuk_date_field :validated_at, legend: {size: "s"}, hint: {text: "Enter valid date, for example, 28 12 2021"} %>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Valid from</legend>
+      <div class="govuk-hint" id="planning-application-validated-at-hint">
+        Will be marked as valid from <%= @planning_application.valid_from_date.to_date.to_fs %>
+      </div>
       <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: "Publish application on BOPS Public Portal?"} do %>
         <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
         <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>

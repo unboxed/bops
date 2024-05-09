@@ -66,13 +66,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def confirm_validation
-    @planning_application.default_validated_at
+    @planning_application.update(validated_at: @planning_application.valid_from_date)
   end
 
   def validate
-    if validation_date_fields_invalid?
-      @planning_application.errors.add(:planning_application, "Please enter a valid date")
-    elsif @planning_application.validation_requests.pending.any?
+    if @planning_application.validation_requests.pending.any?
       @planning_application.errors.add(:planning_application,
         "Planning application cannot be validated if pending validation requests exist.")
     elsif @planning_application.invalid_documents.present?
@@ -91,7 +89,6 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.errors.any?
       render "confirm_validation"
     else
-      @planning_application.validated_at = date_from_params
       @planning_application.update!(planning_application_params)
       @planning_application.start!
       @planning_application.send_validation_notice_mail
@@ -211,11 +208,6 @@ class PlanningApplicationsController < AuthenticationController
     @search ||= PlanningApplicationSearch.new(params)
   end
 
-  def validation_date_fields_invalid?
-    validation_date_fields.any?(&:blank?) ||
-      validation_date_fields.any? { |field| !field.match(/\A[0-9]*\z/) }
-  end
-
   def planning_application_params
     # rubocop:disable Naming/VariableNumber
     permitted_keys = %i[address_1
@@ -251,18 +243,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def determination_date_params
     params.require(:planning_application).permit(:determination_date)
-  end
-
-  def validation_date_fields
-    [params[:planning_application]["validated_at(3i)"],
-      params[:planning_application]["validated_at(2i)"],
-      params[:planning_application]["validated_at(1i)"]]
-  end
-
-  def date_from_params
-    Time.zone.parse(
-      validation_date_fields.join("-")
-    )
   end
 
   def redirect_failed_withdraw_recommendation
