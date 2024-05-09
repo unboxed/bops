@@ -15,7 +15,7 @@ module StatusTags
       if planning_application.additional_document_validation_requests.open_or_pending.any?
         :invalid
       elsif planning_application.documents_missing == false
-        :valid
+        :complete
       else
         :not_started
       end

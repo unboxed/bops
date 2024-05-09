@@ -18,7 +18,7 @@ module TaskListItems
 
     def link_path
       case status
-      when :valid, :not_started
+      when :complete, :not_started
         planning_application_validation_description_changes_path(
           planning_application
         )
@@ -32,7 +32,7 @@ module TaskListItems
 
     def status
       @status ||= if planning_application.valid_description?
-        :valid
+        :complete
       elsif description_change_validation_requests.open_or_pending.any?
         :invalid
       elsif description_change_validation_requests.closed.any?

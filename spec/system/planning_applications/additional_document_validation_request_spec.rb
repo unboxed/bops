@@ -235,7 +235,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       expect(page).to have_content("Documents required are marked as valid")
 
       within("#check-missing-documents") do
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
 
       expect(planning_application.reload.documents_missing).to be(false)
