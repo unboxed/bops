@@ -1901,6 +1901,7 @@ en:
     amendments_needed: Amendments needed
     approved: Accepted
     auto_approved: Auto accepted
+    awaiting_changes: Awaiting changes
     awaiting_determination: Awaiting determination
     awaiting_response: Awaiting response
     awaiting_responses: Awaiting responses
@@ -1937,6 +1938,7 @@ en:
     rejected: Rejected
     removed: Removed
     required: Required
+    responded: Responded
     review_complete: Completed
     review_in_progress: In progress
     review_not_started: Not started

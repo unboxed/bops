@@ -20,7 +20,7 @@ module StatusTags
         if assessment_detail.assessment_not_started?
           :not_started
         elsif assessment_detail_update_required?(assessment_detail)
-          :to_be_reviewed
+          :awaiting_changes
         elsif updated?
           :updated
         elsif assessment_detail.assessment_complete?

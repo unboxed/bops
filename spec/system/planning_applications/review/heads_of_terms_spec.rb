@@ -108,7 +108,7 @@ RSpec.describe "Reviewing heads of terms" do
 
         expect(page).to have_list_item_for(
           "Review heads of terms",
-          with: "To be reviewed"
+          with: "Awaiting changes"
         )
 
         term = HeadsOfTerm.last

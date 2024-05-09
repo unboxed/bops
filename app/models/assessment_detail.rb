@@ -86,6 +86,10 @@ class AssessmentDetail < ApplicationRecord
     assessment_complete? && reviewer_verdict.blank?
   end
 
+  def to_be_reviewed?
+    update_required?
+  end
+
   private
 
   def validate_additional_information_presence?

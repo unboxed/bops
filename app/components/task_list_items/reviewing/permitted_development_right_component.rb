@@ -3,6 +3,9 @@
 module TaskListItems
   module Reviewing
     class PermittedDevelopmentRightComponent < TaskListItems::BaseComponent
+      include Recommendable
+      include PermittedDevelopmentRightable
+
       def initialize(planning_application:)
         @planning_application = planning_application
       end
@@ -32,10 +35,14 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::Reviewing::PermittedDevelopmentRightComponent.new(
-          planning_application:,
-          permitted_development_right:
+        StatusTags::ReviewComponent.new(
+          review_item: permitted_development_right, updated:
         )
+      end
+
+      def updated
+        recommendation_submitted_and_unchallenged? &&
+          permitted_development_right_updated?
       end
     end
   end

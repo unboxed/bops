@@ -37,15 +37,7 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::BaseComponent.new(status:)
-      end
-
-      def status
-        if review_immunity_detail&.status == "updated"
-          :updated
-        else
-          review_immunity_detail&.review_status
-        end
+        StatusTags::ReviewComponent.new(review_item: review_immunity_detail)
       end
     end
   end

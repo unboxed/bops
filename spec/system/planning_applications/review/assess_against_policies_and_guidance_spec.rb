@@ -111,7 +111,7 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_list_item_for(
           "Review assessment against policies and guidance",
-          with: "Completed"
+          with: "Awaiting changes"
         )
 
         sign_out(reviewer)

@@ -31,17 +31,10 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::BaseComponent.new(status:)
-      end
-
-      def status
-        if condition_set.current_review&.status == "to_be_reviewed" || condition_set.current_review&.status == "updated"
-          condition_set.current_review.status
-        elsif condition_set.current_review.present?
-          condition_set.current_review&.review_status
-        else
-          :not_started
-        end
+        StatusTags::ReviewComponent.new(
+          review_item: condition_set.current_review,
+          updated: condition_set.current_review&.status == "updated"
+        )
       end
 
       def link_active?

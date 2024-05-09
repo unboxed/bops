@@ -31,5 +31,9 @@ module AssessmentDetailable
     def review_assessment_details_complete?
       assessment_details.any? && assessment_details.all?(&:review_complete?)
     end
+
+    def review_assessment_details_to_be_reviewed?
+      assessment_details.any? && assessment_details.any?(&:rejected?)
+    end
   end
 end

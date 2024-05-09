@@ -18,10 +18,12 @@ module StatusTags
       def status
         if updated?
           :updated
+        elsif assessment_details.any?(&:review_in_progress?)
+          :in_progress
+        elsif review_assessment_details_to_be_reviewed?
+          :awaiting_changes
         elsif review_assessment_details_complete?
           :complete
-        elsif assessment_details.any?(&:reviewer_verdict)
-          :in_progress
         else
           :not_started
         end
