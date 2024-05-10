@@ -88,7 +88,7 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(page).to have_content("Application number: #{planning_application.reference}")
 
       fill_in(
-        "Suggest a new application description",
+        "Enter an amended description to send to the applicant",
         with: "My better description"
       )
 
@@ -157,7 +157,7 @@ RSpec.describe "DescriptionChangesValidation" do
       click_link "Request a new description change"
 
       fill_in(
-        "Suggest a new application description",
+        "Enter an amended description to send to the applicant",
         with: "My better description"
       )
 

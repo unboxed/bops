@@ -4,6 +4,9 @@
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% if @planning_application.not_started? %>
+  <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
+<% end %>
 <% content_for :title, "Description change" %>
 
 <%= render(
@@ -13,51 +16,49 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-    <div class="govuk-form-group">
-      <h2 class="govuk-heading-m">
-        Description of work
-      </h2>
-      <p class="govuk-body">
-        <strong>
-          Previous description
-        </strong>
-      </p>
-      <p class="govuk-body">
-        <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
-      </p>
-      <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
-        <%= form.govuk_error_summary %>
+    <h2 class="govuk-heading-m govuk-!-margin-top-3">
+      Suggest a new description to the applicant
+    </h2>
+    <p class="govuk-body">
+      This will be sent to the applicant immediately. If the applicant does not respond within 5 days, the amended description will be automatically accepted.
+    </p>
 
-        <% if @planning_application.latest_rejected_description_change.present? %>
-          <p class="govuk-body">
-            <strong>
-              Rejected proposed description
-            </strong>
-          </p>
-          <p class="govuk-body">
-            <%= render(FormattedContentComponent.new(text: @planning_application.latest_rejected_description_change.proposed_description)) %>
-          </p>
-          <p class="govuk-body">
-            <span class="govuk-caption-m">
-              Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.rejection_reason %>
-            </span>
-          </p>
-        <% end %>
-        <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
-        <%= form.govuk_text_area :proposed_description,
-              label: {size: "m", text: "Suggest a new application description"},
-              rows: 5 %>
-        <% if @planning_application.not_started? %>
-          <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
-        <% else %>
-          <%= form.hidden_field(:return_to, value: @back_path) %>
-        <% end %>
-        <div class="govuk-button-group">
-          <%= form.govuk_submit "Send request" %>
-          <%= back_link %>
-        </div>
-      <% end %>
+    <div class="govuk-inset-text">
+      <h3 class="govuk-heading-s">
+        Existing description
+      </h3>
+      <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
     </div>
+
+    <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <% if @planning_application.latest_rejected_description_change.present? %>
+        <p class="govuk-body">
+          <strong>
+            Rejected proposed description
+          </strong>
+        </p>
+        <%= render(FormattedContentComponent.new(text: @planning_application.latest_rejected_description_change.proposed_description)) %>
+        <p class="govuk-body">
+          <span class="govuk-caption-m">
+            Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.rejection_reason %>
+          </span>
+        </p>
+      <% end %>
+      <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
+      <%= form.govuk_text_area :proposed_description,
+            label: {size: "s", text: "Enter an amended description to send to the applicant"},
+            rows: 5 %>
+      <% if @planning_application.not_started? %>
+        <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
+      <% else %>
+        <%= form.hidden_field(:return_to, value: @back_path) %>
+      <% end %>
+      <div class="govuk-button-group">
+        <%= form.govuk_submit "Send request" %>
+        <%= back_link %>
+      </div>
+    <% end %>
   </div>
 </div>
