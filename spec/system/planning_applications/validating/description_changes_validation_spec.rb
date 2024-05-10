@@ -37,7 +37,7 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(page).to have_content("Description was marked as valid")
 
       within("#check-description") do
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
 
       expect(planning_application.reload.valid_description).to be_truthy
@@ -133,7 +133,7 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(page).to have_content("Description was marked as valid")
 
       within("#check-description") do
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
 
       click_link "Check description"

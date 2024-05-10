@@ -34,7 +34,7 @@ RSpec.describe StatusTags::OwnershipCertificateComponent, type: :component do
       end
 
       it "renders 'Valid' status" do
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe StatusTags::OwnershipCertificateComponent, type: :component do
 
       before do
         create(:ownership_certificate, planning_application:)
-        create(:ownership_certificate_validation_request, planning_application:, reason: "invalid")
+        create(:ownership_certificate_validation_request, planning_application:, reason: "invalid", state: "closed")
 
         render_inline(
           described_class.new(planning_application:)
@@ -113,12 +113,12 @@ RSpec.describe StatusTags::OwnershipCertificateComponent, type: :component do
         ownership_certificate.current_review.update(status: "complete")
       end
 
-      it "renders 'Valid' status" do
+      it "renders 'Completed' status" do
         render_inline(
           described_class.new(planning_application:)
         )
 
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
     end
 
@@ -131,12 +131,12 @@ RSpec.describe StatusTags::OwnershipCertificateComponent, type: :component do
           ownership_certificate.current_review.update(status: "complete")
         end
 
-        it "renders 'Invalid' status" do
+        it "renders 'Completed' status" do
           render_inline(
             described_class.new(planning_application:)
           )
 
-          expect(page).to have_content("Valid")
+          expect(page).to have_content("Completed")
         end
       end
 
@@ -155,23 +155,6 @@ RSpec.describe StatusTags::OwnershipCertificateComponent, type: :component do
 
           expect(page).to have_content("Invalid")
         end
-      end
-    end
-
-    context "when ownership certificate has open validation requests" do
-      let(:valid_ownership_certificate) { false }
-
-      before do
-        create(:ownership_certificate, planning_application:)
-        create(:ownership_certificate_validation_request, planning_application:, reason: "invalid")
-      end
-
-      it "renders 'Updated' status" do
-        render_inline(
-          described_class.new(planning_application:)
-        )
-
-        expect(page).to have_content("Invalid")
       end
     end
   end

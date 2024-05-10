@@ -15,7 +15,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
     before { render_inline(component) }
 
     it "renders 'Valid' status" do
-      expect(page).to have_content("Valid")
+      expect(page).to have_content("Completed")
     end
 
     it "renders link to fee items path" do

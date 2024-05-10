@@ -13,18 +13,22 @@ module StatusTags
     delegate :ownership_certificate, to: :planning_application
 
     def status
-      planning_application.in_assessment? ? assessment_status : validation_status
+      (planning_application.in_assessment? || planning_application.to_be_reviewed?) ? assessment_status : validation_status
     end
 
     def assessment_status
       if planning_application.validation_requests.ownership_certificates.open.any?
         :invalid
       elsif ownership_certificate.present?
-        if ownership_certificate.current_review.complete?
-          planning_application.valid_ownership_certificate? ? :valid : :invalid
+        if planning_application.ownership_certificate_updated?
+          :updated
+        elsif ownership_certificate.current_review.complete?
+          marked_as_valid?
         else
           :not_started
         end
+      elsif planning_application.ownership_certificate_checked
+        marked_as_valid?
       else
         :not_started
       end
@@ -33,15 +37,15 @@ module StatusTags
     def validation_status
       if planning_application.valid_ownership_certificate.nil?
         :not_started
-      elsif ownership_certificate.present?
-        if planning_application.ownership_certificate_awaiting_validation?
-          :updated
-        else
-          planning_application.valid_ownership_certificate? ? :valid : :invalid
-        end
+      elsif planning_application.ownership_certificate_updated?
+        :updated
       else
-        :invalid
+        marked_as_valid?
       end
+    end
+
+    def marked_as_valid?
+      planning_application.valid_ownership_certificate? ? :complete : :invalid
     end
   end
 end

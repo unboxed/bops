@@ -36,7 +36,7 @@ RSpec.describe "Check ownership certificate" do
 
       expect(page).to have_content("Ownership certificate was checked")
 
-      expect(list_item("Check ownership certificate")).to have_content("Valid")
+      expect(list_item("Check ownership certificate")).to have_content("Completed")
 
       click_link "Check ownership certificate"
 
@@ -73,7 +73,7 @@ RSpec.describe "Check ownership certificate" do
 
       click_button "Save and mark as complete"
 
-      expect(list_item("Check ownership certificate")).to have_content("Valid")
+      expect(list_item("Check ownership certificate")).to have_content("Completed")
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe "Check ownership certificate" do
 
       click_button "Save and mark as complete"
 
-      expect(list_item("Check ownership certificate")).to have_content("Valid")
+      expect(list_item("Check ownership certificate")).to have_content("Completed")
     end
   end
 end

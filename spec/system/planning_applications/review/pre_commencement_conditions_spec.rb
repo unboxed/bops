@@ -136,7 +136,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
 
         expect(page).to have_list_item_for(
           "Add pre-commencement conditions",
-          with: "Updated"
+          with: "To be reviewed"
         )
 
         click_link "Add pre-commencement conditions"

@@ -3,6 +3,8 @@
 module PlanningApplications
   module Assessment
     class PreCommencementConditionsController < AuthenticationController
+      include CommitMatchable
+
       before_action :set_planning_application
       before_action :set_condition_set
       before_action :set_condition
@@ -48,6 +50,8 @@ module PlanningApplications
       def confirm
         if send_to_applicant?
           @condition_set.confirm_pending_requests!
+        elsif mark_as_complete?
+          @condition_set.create_or_update_review!("complete")
         else
           @condition_set.create_or_update_review!("in_progress")
         end

@@ -139,7 +139,7 @@ RSpec.describe "FeeItemsValidation" do
       expect(page).to have_content("Fee item was marked as valid.")
 
       within("#fee-validation-task") do
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
 
       expect(planning_application.reload.valid_fee).to be_truthy
@@ -495,7 +495,7 @@ RSpec.describe "FeeItemsValidation" do
         expect(page).to have_content "Planning application payment amount was successfully updated."
 
         within("#fee-validation-task") do
-          expect(page).to have_content("Valid")
+          expect(page).to have_content("Completed")
         end
 
         visit "/planning_applications/#{planning_application.id}/audits"

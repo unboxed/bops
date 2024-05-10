@@ -22,7 +22,7 @@ module PlanningApplications
 
       def update
         ActiveRecord::Base.transaction do
-          @planning_application.update!(valid_ownership_certificate:)
+          @planning_application.update!(valid_ownership_certificate:, ownership_certificate_checked: true)
           @planning_application.ownership_certificate&.current_review&.update!(status:)
         end
 

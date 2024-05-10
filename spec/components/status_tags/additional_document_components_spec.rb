@@ -38,7 +38,7 @@ RSpec.describe StatusTags::AdditionalDocumentComponent, type: :component do
     it "renders 'Valid' status" do
       render_inline(component)
 
-      expect(page).to have_content("Valid")
+      expect(page).to have_content("Completed")
     end
   end
 end

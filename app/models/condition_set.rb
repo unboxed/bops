@@ -48,7 +48,11 @@ class ConditionSet < ApplicationRecord
 
   def create_or_update_review!(status)
     if current_review.present?
-      current_review.update!(status:)
+      if current_review.review_complete?
+        create_review(status)
+      else
+        current_review.update!(status:)
+      end
     else
       create_review(status)
     end

@@ -59,7 +59,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     it "renders 'Valid' status tag" do
       render_inline(component)
 
-      expect(page).to have_content("Valid")
+      expect(page).to have_content("Completed")
     end
 
     it "renders sitemap link" do
@@ -83,7 +83,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       before { render_inline(component) }
 
       it "renders 'Valid' status tag" do
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
 
       it "renders change request link" do
@@ -115,7 +115,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     it "renders 'Valid' status tag" do
       render_inline(component)
 
-      expect(page).to have_content("Valid")
+      expect(page).to have_content("Completed")
     end
 
     it "renders sitemap link" do
@@ -140,7 +140,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       end
 
       it "renders 'Valid' status tag" do
-        expect(page).to have_content("Valid")
+        expect(page).to have_content("Completed")
       end
 
       it "renders change request link" do
