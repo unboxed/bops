@@ -1270,8 +1270,8 @@ en:
       one: 1 day received
       other: "%{count} days received"
     days_left:
-      one: 1 day remaining
-      other: "%{count} days remaining"
+      one: 1 day to determination date
+      other: "%{count} days to determination date"
       zero: "%{count} days overdue"
     decisions:
       granted: to Grant Permission

@@ -15,7 +15,7 @@ Feature: As an assessor I can browse all applications
     And the application expires in <days> days
     Then I press "View all applications"
     Then I press "View my applications"
-    Then the page contains a "<colour>" tag containing "<days> days remaining"
+    Then the page contains a "<colour>" tag containing "<days> days to determination date"
     Examples:
       | days | colour |
       |   12 | green  |
