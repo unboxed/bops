@@ -1,0 +1,21 @@
+<% content_for :page_title do %>
+  Edit heads of terms - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Edit heads of terms" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Edit heads of terms"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "form", url: planning_application_assessment_term_path(@planning_application, @term) %>
+  </div>
+</div>

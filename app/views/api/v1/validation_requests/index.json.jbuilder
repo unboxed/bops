@@ -144,7 +144,7 @@ json.data do
   end
 
   json.heads_of_terms_validation_requests @planning_application
-    .heads_of_terms_validation_requests do |heads_of_terms_validation_request|
+    .heads_of_terms_validation_requests.notified do |heads_of_terms_validation_request|
     json.extract! heads_of_terms_validation_request,
       :id,
       :state,

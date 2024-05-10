@@ -716,6 +716,10 @@ en:
     review_and_publish_decision: Review and publish decision
     save_and_come_back_later: Save and come back later
     save_and_mark_as_complete: Save and mark as complete
+    term:
+      add: Add term
+      confirm: Confirm and send to applicant
+      update: Update term
   heads_of_terms:
     update:
       public:
@@ -1135,6 +1139,9 @@ en:
           'yes': 'Yes'
         update:
           successfully_updated_application: Successfully updated application checklist
+      heads_of_terms:
+        index:
+          drag_and_drop: Drag and drop heads of terms to change the order that they appear in the decision notice.
       immunity_details:
         update:
           success: Evidence of immunity successfully updated
@@ -1248,6 +1255,17 @@ en:
           permitted_development_rights: Permitted development rights
         index:
           application_details: Application details
+      terms:
+        confirm:
+          success: Head of terms have been confirmed and sent to the applicant
+        create:
+          success: Head of terms has been successfully added
+        destroy:
+          success: Head of terms was successfully removed
+        index:
+          drag_and_drop: Drag and drop heads of terms to change the order that they appear in the decision notice.
+        update:
+          success: Head of terms was successfully updated
     confirm_validation:
       validate_application: Validate application
     consultations:

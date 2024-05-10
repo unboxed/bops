@@ -1,0 +1,127 @@
+<% content_for :page_title do %>
+  Heads of terms - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Add heads of terms" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Add heads of terms"}
+    ) %>
+
+<%= render(ReviewerCommentComponent.new(comment: @heads_of_term.current_review)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <ul data-controller="sortable" id="heads-of-terms-list" class="govuk-list">
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <% @heads_of_term.terms.each do |term| %>
+        <%= next unless term.persisted? %>
+        <%= content_tag :li,
+              class: "sortable-list",
+              id: dom_id(term),
+              data: {
+                model_name: term.class.name,
+                sortable_url: planning_application_assessment_term_positions_path(@planning_application, term),
+                sortable_handle: true
+              } do %>
+
+          <div class="sortable-container">
+            <div>
+              <span class="govuk-caption-m">Term <%= term.position %></span>
+              <h2 class="govuk-heading-m"><%= term.title %></h2>
+
+              <p style="float: none">
+                <%= render(StatusTags::BaseComponent.new(status: status(term))) %>
+              </p>
+
+              <% if current_request = term.current_validation_request %>
+                <% if current_request.rejection_reason %>
+                  <div class="govuk-inset-text applicant">
+                    <p class="govuk-body">
+                      <strong>Applicant comment</strong>
+                    </p>
+                    <p class="govuk-body govuk-hint">
+                      Sent on: <%= current_request.updated_at.to_fs %>
+                    </p>
+                    <p class="govuk-body">
+                      <%= current_request.rejection_reason %>
+                    </p>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <p class="govuk-body govuk-hint">
+                <% if current_request.notified_at %>
+                  Sent on <%= current_request.notified_at.to_fs %>
+                <% end %>
+              </p>
+
+              <div>
+                <p class="govuk-body">
+                  <strong>Heads of terms</strong><%= render(FormattedContentComponent.new(text: term.title, classname: "scrollable")) %>
+                </p>
+                <p class="govuk-body">
+                  <strong>Reason</strong><%= render(FormattedContentComponent.new(text: term.text, classname: "scrollable")) %>
+                </p>
+              </div>
+
+              <% unless current_request.cancelled? || current_request.open? %>
+                <%= govuk_link_to "Update heads of term", edit_planning_application_assessment_term_path(@planning_application, term) %>
+              <% end %>
+
+              <% if current_request.pending? %>
+                <%= govuk_link_to(
+                      "Remove",
+                      planning_application_assessment_term_path(@planning_application, term),
+                      method: :delete,
+                      data: {confirm: "Are you sure?"}
+                    ) %>
+              <% end %>
+
+              <% if current_request.open? %>
+                <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
+              <% end %>
+            </div>
+            <div>
+              <%= render "shared/sortable_svg" %>
+            </div>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+        <% end %>
+      <% end %>
+
+      <p class="govuk-body"><%= t(".drag_and_drop") %></p>
+    </ul>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-!-margin-bottom-8">
+      <details class="govuk-details" <%= "open" if @term.errors.any? %>>
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Add a new heads of terms
+          </span>
+        </summary>
+        <div>
+          <%= render "form", url: planning_application_assessment_terms_path(@planning_application) %>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      </details>
+    </div>
+
+    <div class="govuk-button-group">
+      <%= form_with model: @term, url: confirm_planning_application_assessment_terms_path(@planning_application) do |form| %>
+        <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
+        <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+      <% end %>
+    </div>
+  </div>
+</div>

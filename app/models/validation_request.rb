@@ -253,6 +253,13 @@ class ValidationRequest < ApplicationRecord
     #  A couple don't hence the empty method
   end
 
+  def send_post_validation_request_email
+    PlanningApplicationMailer.post_validation_request_mail(
+      planning_application,
+      self
+    ).deliver_now
+  end
+
   private
 
   def send_and_add_events
@@ -285,7 +292,7 @@ class ValidationRequest < ApplicationRecord
 
   def email_and_timestamp
     return unless planning_application.validation_complete?
-    return if pre_commencement?
+    return if pre_commencement? || heads_of_terms?
 
     if post_validation?
       send_post_validation_request_email
@@ -299,13 +306,6 @@ class ValidationRequest < ApplicationRecord
   def send_validation_request_email
     PlanningApplicationMailer.validation_request_mail(
       planning_application
-    ).deliver_now
-  end
-
-  def send_post_validation_request_email
-    PlanningApplicationMailer.post_validation_request_mail(
-      planning_application,
-      self
     ).deliver_now
   end
 
@@ -346,6 +346,10 @@ class ValidationRequest < ApplicationRecord
 
   def pre_commencement?
     type == "PreCommencementConditionValidationRequest"
+  end
+
+  def heads_of_terms?
+    type == "HeadsOfTermsValidationRequest"
   end
 
   def reset_columns
