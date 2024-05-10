@@ -175,7 +175,6 @@ class PlanningApplication < ApplicationRecord
     allow_nil: true
 
   validate :applicant_or_agent_email
-  validate :validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :determination_date_is_not_in_the_future
@@ -421,6 +420,10 @@ class PlanningApplication < ApplicationRecord
   def valid_from
     return nil unless validated?
 
+    valid_from_date
+  end
+
+  def valid_from_date
     if validation_requests.closed.any?
       Time.next_immediate_business_day(last_validation_request_date)
     else
@@ -492,10 +495,6 @@ class PlanningApplication < ApplicationRecord
       update!(constraints_checked: true, updated_address_or_boundary_geojson: true)
       audit!(activity_type: "constraints_checked")
     end
-  end
-
-  def default_validated_at
-    self.validated_at ||= Time.next_immediate_business_day(valid_from_date)
   end
 
   def assessment_submitted?
@@ -950,12 +949,6 @@ class PlanningApplication < ApplicationRecord
     save!
   end
 
-  def validated_at_date
-    return unless in_assessment? && !validated_at.to_date.is_a?(Date)
-
-    errors.add(:planning_application, "Please enter a valid date")
-  end
-
   def validation_date?
     !validated_at.nil?
   end
@@ -1048,14 +1041,6 @@ class PlanningApplication < ApplicationRecord
       local_authority_planning_applications.maximum(:application_number) + 1
     else
       100
-    end
-  end
-
-  def valid_from_date
-    if validation_requests.closed.any?
-      validation_requests.closed.max_by(&:updated_at).updated_at
-    else
-      created_at
     end
   end
 

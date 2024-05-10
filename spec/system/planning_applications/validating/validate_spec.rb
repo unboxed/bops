@@ -31,9 +31,7 @@ RSpec.describe "Validating the application" do
         end
 
         it "prepopulates with the closed at date" do
-          expect(page).to have_field("Day", with: "4")
-          expect(page).to have_field("Month", with: "1")
-          expect(page).to have_field("Year", with: "2023")
+          expect(page).to have_content("Will be marked as valid from 4 January 2023")
         end
       end
 
@@ -47,9 +45,7 @@ RSpec.describe "Validating the application" do
         end
 
         it "prepopulates with the business day after the closed at date" do
-          expect(page).to have_field("Day", with: "5")
-          expect(page).to have_field("Month", with: "1")
-          expect(page).to have_field("Year", with: "2023")
+          expect(page).to have_content("Will be marked as valid from 5 January 2023")
         end
       end
 
@@ -63,9 +59,7 @@ RSpec.describe "Validating the application" do
         end
 
         it "prepopulates with the business day after the closed at date" do
-          expect(page).to have_field("Day", with: "3")
-          expect(page).to have_field("Month", with: "1")
-          expect(page).to have_field("Year", with: "2023")
+          expect(page).to have_content("Will be marked as valid from 3 January 2023")
         end
       end
     end
@@ -81,9 +75,7 @@ RSpec.describe "Validating the application" do
         end
 
         it "prepopulates with the created at date" do
-          expect(page).to have_field("Day", with: "5")
-          expect(page).to have_field("Month", with: "1")
-          expect(page).to have_field("Year", with: "2023")
+          expect(page).to have_content("Will be marked as valid from 5 January 2023")
         end
       end
 
@@ -95,9 +87,7 @@ RSpec.describe "Validating the application" do
         end
 
         it "prepopulates with the business day after the created at date" do
-          expect(page).to have_field("Day", with: "6")
-          expect(page).to have_field("Month", with: "1")
-          expect(page).to have_field("Year", with: "2023")
+          expect(page).to have_content("Will be marked as valid from 6 January 2023")
         end
       end
 
@@ -109,9 +99,7 @@ RSpec.describe "Validating the application" do
         end
 
         it "prepopulates with the business day after the created at date" do
-          expect(page).to have_field("Day", with: "9")
-          expect(page).to have_field("Month", with: "1")
-          expect(page).to have_field("Year", with: "2023")
+          expect(page).to have_content("Will be marked as valid from 9 January 2023")
         end
       end
     end
