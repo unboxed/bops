@@ -258,7 +258,7 @@ RSpec.describe "checking consistency" do
     click_link("Request a change to the description")
 
     fill_in(
-      "Suggest a new application description",
+      "Enter an amended description to send to the applicant",
       with: "New description"
     )
 
@@ -290,7 +290,7 @@ RSpec.describe "checking consistency" do
     click_link("Request a change to the description")
 
     fill_in(
-      "Suggest a new application description",
+      "Enter an amended description to send to the applicant",
       with: "New description 2"
     )
 
@@ -325,7 +325,7 @@ RSpec.describe "checking consistency" do
     click_link("Request a change to the description")
 
     fill_in(
-      "Suggest a new application description",
+      "Enter an amended description to send to the applicant",
       with: "New description 3"
     )
 
