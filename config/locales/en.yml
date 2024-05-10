@@ -1414,6 +1414,18 @@ en:
         successfully_updated: Review heads of terms was successfully updated
       immunity_details:
         successfully_updated: Review immunity details was successfully updated
+      local_policies:
+        edit:
+          check_the_assessment: check the assessment
+          if_you_want: if you want to return to the case officer with comments, select 'no'
+          make_minor_changes: make minor changes by updating the text on this page
+          select_yes_to_accept: select 'yes' to accept the assessment
+          what_you_need: What you need to do
+        form:
+          comment_label: Enter comment
+          legend: Do you accept the assessment against policies and guidance?
+          no_label: No (return to officer with comment)
+          yes_label: 'Yes'
       neighbour_responses:
         create:
           success: Review of neighbour responses successfully added

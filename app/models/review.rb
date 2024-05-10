@@ -60,6 +60,8 @@ class Review < ApplicationRecord
   scope :not_accepted, -> { where(action: "rejected").order(created_at: :asc) }
   scope :reviewer_not_accepted, -> { not_accepted.where.not(reviewed_at: nil) }
   scope :consultees_checked, -> { review_type("consultees_checked") }
+  scope :reviewed, -> { where.not(reviewer_id: nil) }
+  scope :with_reviewer, -> { includes(:reviewer) }
 
   def complete_or_to_be_reviewed?
     review_complete? || to_be_reviewed?

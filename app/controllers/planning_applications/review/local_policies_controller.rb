@@ -25,24 +25,15 @@ module PlanningApplications
       end
 
       def update
-        if update_local_policies
+        if @review_local_policy.update(review_local_policy_params)
           redirect_to planning_application_review_tasks_path(@planning_application),
             notice: I18n.t("local_policies.successfully_updated")
         else
-          set_local_policy
-          set_review_local_policy
           render :edit
         end
       end
 
       private
-
-      def update_local_policies
-        ActiveRecord::Base.transaction do
-          @review_local_policy.update(review_local_policy_params) &&
-            @local_policy.update(local_policy_areas_params)
-        end
-      end
 
       def review_local_policy_params
         params.require(:review)
@@ -59,11 +50,6 @@ module PlanningApplications
 
       def review_status
         save_progress? ? "review_in_progress" : "review_complete"
-      end
-
-      def local_policy_areas_params
-        params.require(:review)
-          .permit(local_policy_areas_attributes: %i[area policies guidance assessment id])
       end
 
       def set_local_policy
