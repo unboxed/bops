@@ -2,12 +2,12 @@
 
 module Validation
   class OtherChangeValidationTask < WorkflowTask
-    def initialize(planning_application, request_id:, request_sequence:, request_status:)
+    def initialize(planning_application, request_id:, request_sequence:, request_status:, task_list: nil)
       @request_id = request_id
       @request_sequence = request_sequence
       @request_status = request_status
 
-      super(planning_application)
+      super(planning_application, task_list:)
     end
 
     def task_list_link_text

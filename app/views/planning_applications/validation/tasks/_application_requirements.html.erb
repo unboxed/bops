@@ -3,23 +3,11 @@
 </h2>
 
 <%= govuk_task_list(id_prefix: "application-requirements-tasks", html_attributes: {id: "application-requirements-tasks"}) do |task_list|
-      render(partial: "workflow_task", locals: {
-        task: Validation::FeeValidationTask.new(@planning_application),
-        task_list:
-      })
+      render Validation::FeeValidationTask.new(@planning_application, task_list:)
 
-      render(partial: "workflow_task", locals: {
-        task: Validation::CilLiabilityTask.new(@planning_application),
-        task_list:
-      })
+      render Validation::CilLiabilityTask.new(@planning_application, task_list:)
 
-      render(partial: "workflow_task", locals: {
-        task: Validation::EnvironmentalImpactAssessmentTask.new(@planning_application),
-        task_list:
-      })
+      render Validation::EnvironmentalImpactAssessmentTask.new(@planning_application, task_list:)
 
-      render(partial: "workflow_task", locals: {
-        task: Validation::OwnershipCertificateTask.new(@planning_application),
-        task_list:
-      })
+      render Validation::OwnershipCertificateTask.new(@planning_application, task_list:)
     end %>

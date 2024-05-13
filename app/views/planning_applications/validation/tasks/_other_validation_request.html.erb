@@ -6,12 +6,11 @@
       task_list.with_item(title: "Add another validation request", href: new_planning_application_validation_validation_request_path(type: "other_change"))
 
       @planning_application.other_change_validation_requests.not_cancelled.each do |other_change_validation_request|
-        render(partial: "workflow_task", locals: {
-          task: Validation::OtherChangeValidationTask.new(@planning_application,
-            request_id: other_change_validation_request.id,
-            request_sequence: other_change_validation_request.sequence,
-            request_status: other_change_validation_request.state),
-          task_list:
-        })
+        render Validation::OtherChangeValidationTask.new(
+          @planning_application, task_list:,
+          request_id: other_change_validation_request.id,
+          request_sequence: other_change_validation_request.sequence,
+          request_status: other_change_validation_request.state
+        )
       end
     end %>
