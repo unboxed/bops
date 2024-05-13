@@ -21,7 +21,9 @@ RSpec.describe "Consultation" do
     it "displays the consultation end date" do
       click_link "Consultees, neighbours and publicity"
 
-      expect(page).to have_content("Consultation end date: 15 September 2023")
+      within("#consultation-end-date") do
+        expect(page).to have_content("Consultation end 15/09/2023")
+      end
     end
 
     it "I can edit the consultation end date" do
@@ -53,7 +55,10 @@ RSpec.describe "Consultation" do
       fill_in "Year", with: "2023"
       click_button "Save"
       expect(page).to have_content("Consultation was successfully updated.")
-      expect(page).to have_content("Consultation end date: 20 September 2023")
+
+      within("#consultation-end-date") do
+        expect(page).to have_content("Consultation end 20/09/2023")
+      end
     end
   end
 

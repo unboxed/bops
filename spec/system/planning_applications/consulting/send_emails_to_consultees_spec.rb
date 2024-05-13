@@ -83,9 +83,8 @@ RSpec.describe "Consultation", js: true do
     click_link "Consultees, neighbours and publicity"
     expect(page).to have_selector("h1", text: "Consultation")
 
-    within "#dates-and-assignment-details" do
-      expect(page).to have_text("Consultation start date: Not yet started")
-      expect(page).to have_text("Consultation end date: Not yet started")
+    within "#consultation-end-date" do
+      expect(page).to have_text("Consultation end Not yet started")
     end
 
     within "#consultee-tasks" do
@@ -407,10 +406,8 @@ RSpec.describe "Consultation", js: true do
     click_link "Back"
     expect(page).to have_selector("h1", text: "Consultation")
 
-    within "#dates-and-assignment-details" do
-      expect(page).to have_text("Consultation start date: #{start_date.to_date.to_fs}")
-      expect(page).to have_text("Consultation end date: #{end_date.to_date.to_fs}")
-      expect(page).to have_text("#{period} days to determination date")
+    within "#consultation-end-date" do
+      expect(page).to have_text("Consultation end #{end_date.to_date.to_fs(:day_month_year_slashes)}")
     end
 
     within "#consultee-tasks" do
@@ -462,9 +459,8 @@ RSpec.describe "Consultation", js: true do
       click_link "Consultees, neighbours and publicity"
       expect(page).to have_selector("h1", text: "Consultation")
 
-      within "#dates-and-assignment-details" do
-        expect(page).to have_text("Consultation start date: Not yet started")
-        expect(page).to have_text("Consultation end date: Not yet started")
+      within "#consultation-end-date" do
+        expect(page).to have_text("Consultation end Not yet started")
       end
 
       within "#consultee-tasks" do
@@ -512,9 +508,8 @@ RSpec.describe "Consultation", js: true do
       click_link "Consultees, neighbours and publicity"
       expect(page).to have_selector("h1", text: "Consultation")
 
-      within "#dates-and-assignment-details" do
-        expect(page).to have_text("Consultation start date: Not yet started")
-        expect(page).to have_text("Consultation end date: Not yet started")
+      within "#consultation-end-date" do
+        expect(page).to have_text("Consultation end Not yet started")
       end
 
       within "#consultee-tasks" do
@@ -563,9 +558,8 @@ RSpec.describe "Consultation", js: true do
       click_link "Consultees, neighbours and publicity"
       expect(page).to have_selector("h1", text: "Consultation")
 
-      within "#dates-and-assignment-details" do
-        expect(page).to have_text("Consultation start date: Not yet started")
-        expect(page).to have_text("Consultation end date: Not yet started")
+      within "#consultation-end-date" do
+        expect(page).to have_text("Consultation end Not yet started")
       end
 
       within "#consultee-tasks" do

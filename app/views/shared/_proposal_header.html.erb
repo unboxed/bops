@@ -17,6 +17,7 @@
       <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
     <% end %>
 
+  <div id="planning-application-statuses-tags">
     <p class="govuk-body">
       <%= @planning_application.status_tag %>
       <% if @planning_application.in_progress? %>
@@ -31,6 +32,7 @@
         </span>
       <% end %>
     </p>
+  </div>
 
     <% if @planning_application.closed? %>
       <p class="govuk-body">

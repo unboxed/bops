@@ -130,10 +130,8 @@ RSpec.describe "Consultation", js: true do
     click_link "Consultees, neighbours and publicity"
     expect(page).to have_selector("h1", text: "Consultation")
 
-    within "#dates-and-assignment-details" do
-      expect(page).to have_text("Consultation start date: #{start.to_date.to_fs}")
-      expect(page).to have_text("Consultation end date: #{end_date.to_fs}")
-      expect(page).to have_text("7 days to determination date")
+    within("#consultation-end-date") do
+      expect(page).to have_text("Consultation end #{end_date.to_fs(:day_month_year_slashes)}")
     end
 
     within "#consultee-tasks" do
@@ -286,12 +284,9 @@ RSpec.describe "Consultation", js: true do
 
     click_link "Back"
     expect(page).to have_selector("h1", text: "Consultation")
-    expect(page).to have_text("Consultation end date: #{existing_date}")
 
-    within "#dates-and-assignment-details" do
-      expect(page).to have_text("Consultation start date: #{start.to_date.to_fs}")
-      expect(page).to have_text("Consultation end date: #{end_date.to_fs}")
-      expect(page).to have_text("7 days to determination date")
+    within("#consultation-end-date") do
+      expect(page).to have_text("Consultation end #{end_date.to_fs(:day_month_year_slashes)}")
     end
 
     within "#consultee-tasks" do

@@ -1,0 +1,54 @@
+<div class="status-bar-container" id="dates-details">
+  <div class="status-bar">
+    <div class="status-panel" id="validation-date">
+      <p class="govuk-body">Valid from</p>
+      <h3 class="govuk-heading-s">
+        <% if @planning_application.valid_from.present? %>
+          <%= @planning_application.valid_from.to_fs(:day_month_year_slashes) %>
+        <% else %>
+          Not yet valid
+        <% end %>
+      </h3>
+    </div>
+    <div class="status-panel" id="consultation-end-date">
+      <p class="govuk-body">Consultation end</p>
+      <% if @planning_application.consultation.present? && @planning_application.consultation.end_date.present? %>
+        <h3 class="govuk-heading-s"><%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %></h3>
+        <p class="govuk-body"><span id="edit-consultation-end-date"><%= govuk_link_to "Change", edit_planning_application_consultation_path(@planning_application) %></span></p>
+      <% else %>
+        <h3 class="govuk-heading-s">Not yet started</h3>
+      <% end %>
+    </div>
+    <div class="status-panel" id="expiry-date">
+      <p class="govuk-body"><%= @planning_application.next_date_label %></p>
+      <h3 class="govuk-heading-s"><%= @planning_application.next_date.to_fs(:day_month_year_slashes) %></h3>
+      <p class="govuk-body">
+        <% if @planning_application.open_time_extension_requests.any? %>
+          <%= govuk_link_to "Extension requested", planning_application_validation_validation_request_path(@planning_application, @planning_application.time_extension_request) %>
+        <% else %>
+          <%= govuk_link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension") %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      <ul class="govuk-list govuk-list--bullet">
+        <% if @planning_application.environment_impact_assessment_required? %>
+          <li id="view-eia-details">The expiry date has been extended to 16 weeks <%= govuk_link_to "View details", planning_application_validation_environment_impact_assessment_path(@planning_application) %></li>
+        <% end %>
+        <% if @planning_application.consultation&.end_date %>
+          <% unless display_or_publish_required?(@planning_application, :site) || display_or_publish_required?(@planning_application, :press) %>
+            <li id="edit-consultation-change-end-date">
+              <% days_left = @planning_application.consultation.days_left %>
+              The consultation end date is <%= (days_left > 0) ? t("planning_applications.days_left", count: days_left) : t("planning_applications.overdue", count: days_left.abs) %> <%= govuk_link_to "Change end date", edit_planning_application_consultation_path(@planning_application) %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </p>
+  </div>
+</div>
