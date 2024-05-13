@@ -59,12 +59,6 @@
     <p class="govuk-body">
       <%= @planning_application.next_relevant_date_tag %>
 
-      <% if @planning_application.in_progress? %>
-        <span class="govuk-!-margin-left-1">
-          <%= @planning_application.days_status_tag %>
-        </span>
-      <% end %>
-
       <% if @planning_application.open_time_extension_requests.any? %>
         <%= govuk_link_to "Extension requested", planning_application_validation_validation_request_path(@planning_application, @planning_application.time_extension_request) %>
       <% else %>
