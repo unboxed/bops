@@ -1,41 +1,40 @@
-<li id="application-details-tasks">
-  <h2 class="app-task-list__section">
-    Check application details
-  </h2>
-  <%= govuk_task_list(id_prefix: "application-details-tasks") do |task_list|
-        render(partial: "workflow_task", locals: {
-          id: "draw-red-line-boundary",
-          task: Validation::DrawRedLineBoundaryTask.new(@planning_application),
-          task_list:
-        })
+<h2 class="govuk-heading-m">
+  Check application details
+</h2>
+<%= govuk_task_list(id_prefix: "application-details-tasks", html_attributes: {id: "application-details-tasks"}) do |task_list|
+      render(partial: "workflow_task", locals: {
+        id: "draw-red-line-boundary",
+        task: Validation::DrawRedLineBoundaryTask.new(@planning_application),
+        task_list:
+      })
 
-        render(partial: "workflow_task", locals: {
-          id: "check-red-line-boundary",
-          task: Validation::CheckRedLineBoundaryTask.new(@planning_application),
-          task_list:
-        })
+      render(partial: "workflow_task", locals: {
+        id: "check-red-line-boundary",
+        task: Validation::CheckRedLineBoundaryTask.new(@planning_application),
+        task_list:
+      })
 
-        render(partial: "workflow_task", locals: {
-          id: "constraints-validation-tasks",
-          task: Validation::CheckConstraintsTask.new(@planning_application),
-          task_list:
-        })
+      render(partial: "workflow_task", locals: {
+        id: "constraints-validation-tasks",
+        task: Validation::CheckConstraintsTask.new(@planning_application),
+        task_list:
+      })
 
-        render(partial: "workflow_task", locals: {
-          id: "check-description",
-          task: Validation::CheckDescriptionTask.new(@planning_application),
-          task_list:
-        })
+      render(partial: "workflow_task", locals: {
+        id: "check-description",
+        task: Validation::CheckDescriptionTask.new(@planning_application),
+        task_list:
+      })
 
-        render(partial: "workflow_task", locals: {
-          id: "development-type-for-reporting-task",
-          task: Validation::ReportingDetailsTask.new(@planning_application),
-          task_list:
-        })
+      render(partial: "workflow_task", locals: {
+        id: "development-type-for-reporting-task",
+        task: Validation::ReportingDetailsTask.new(@planning_application),
+        task_list:
+      })
 
-        render(partial: "workflow_task", locals: {
-          id: "check-legislative-requirements",
-          task: Validation::CheckLegislationDescriptionTask.new(@planning_application),
-          task_list:
-        })
-      end %>
+      render(partial: "workflow_task", locals: {
+        id: "check-legislative-requirements",
+        task: Validation::CheckLegislationDescriptionTask.new(@planning_application),
+        task_list:
+      })
+    end %>
