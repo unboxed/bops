@@ -3,7 +3,7 @@
 </h2>
 
 <%= govuk_task_list(id_prefix: "other-change-validation-tasks", html_attributes: {id: "other-change-validation-tasks"}) do |task_list|
-      task_list.with_item(title: "Add another validation request", href: new_planning_application_validation_validation_request_path(type: "other_change"))
+      render Validation::AddValidationRequestTask.new(@planning_application, task_list:)
 
       @planning_application.other_change_validation_requests.not_cancelled.each do |other_change_validation_request|
         render Validation::OtherChangeValidationTask.new(
