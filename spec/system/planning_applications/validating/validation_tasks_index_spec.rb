@@ -48,7 +48,7 @@ RSpec.describe "Validation tasks" do
       expect(page).to have_content("Check application details")
 
       within("#application-details-tasks") do
-        within("#draw-red-line-boundary") do
+        within("#draw-red-line-boundary-task") do
           expect(page).to have_link(
             "Draw red line boundary",
             href: planning_application_validation_sitemap_path(planning_application)
@@ -58,14 +58,14 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#check-red-line-boundary") do
+        within("#check-red-line-boundary-task") do
           expect(page).to have_content("Check red line boundary")
           within(".govuk-tag--blue") do
             expect(page).to have_content("Not started")
           end
         end
 
-        within("#constraints-validation-tasks") do
+        within("#check-constraints-task") do
           expect(page).to have_link(
             "Check constraints",
             href: planning_application_validation_constraints_path(planning_application)
@@ -75,7 +75,7 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#check-description") do
+        within("#check-description-task") do
           expect(page).to have_link(
             "Check description",
             href: planning_application_validation_description_changes_path(planning_application)
@@ -85,7 +85,7 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#development-type-for-reporting-task") do
+        within("#reporting-details-task") do
           expect(page).to have_link(
             "Add reporting details",
             href: edit_planning_application_validation_reporting_type_path(planning_application)
@@ -95,26 +95,26 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        expect(page).not_to have_css("#check-legislative-requirements")
+        expect(page).not_to have_css("#check-legislation-description-task")
       end
 
       expect(page).to have_content("Check, tag and confirm documents")
       within("#confirm-documents-tasks") do
-        within("#check-supplied-document") do
+        within("#check-supplied-documents-task") do
           expect(page).to have_link(
             "Check supplied documents",
             href: supply_documents_planning_application_path(planning_application)
           )
         end
 
-        within("#check-missing-documents") do
+        within("#check-missing-documents-task") do
           expect(page).to have_link(
             "Check missing documents",
             href: edit_planning_application_validation_documents_path(planning_application)
           )
         end
 
-        within("#upload-redacted-documents") do
+        within("#redact-documents-task") do
           expect(page).to have_link(
             "Upload redacted documents",
             href: planning_application_validation_documents_redactions_path(planning_application)
@@ -134,7 +134,7 @@ RSpec.describe "Validation tasks" do
           )
         end
 
-        within("#cil-liability-validation-tasks") do
+        within("#cil-liability-task") do
           expect(page).to have_link(
             "Confirm Community Infrastructure Levy (CIL)",
             href: edit_planning_application_validation_cil_liability_path(planning_application)
@@ -144,7 +144,7 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#environment-impact-assessment-task") do
+        within("#environmental-impact-assessment-task") do
           expect(page).to have_link(
             "Check Environment Impact Assessment",
             href: new_planning_application_validation_environment_impact_assessment_path(planning_application)
@@ -154,7 +154,7 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#check-ownership-certificate") do
+        within("#ownership-certificate-task") do
           expect(page).to have_link(
             "Check ownership certificate",
             href: edit_planning_application_validation_ownership_certificate_path(planning_application)
@@ -197,7 +197,7 @@ RSpec.describe "Validation tasks" do
       end
 
       it "shows the check legislation task" do
-        within("#check-legislative-requirements") do
+        within("#check-legislation-description-task") do
           expect(page).to have_content("Check legislative requirements")
           expect(page).to have_content("Not started")
         end
@@ -215,7 +215,7 @@ RSpec.describe "Validation tasks" do
       expect(page).to have_content("Check application details")
 
       within("#application-details-tasks") do
-        within("#draw-red-line-boundary") do
+        within("#draw-red-line-boundary-task") do
           expect(page).to have_link(
             "Draw red line boundary",
             href: planning_application_validation_sitemap_path(planning_application)
@@ -225,14 +225,14 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#check-red-line-boundary") do
+        within("#check-red-line-boundary-task") do
           expect(page).to have_content("Check red line boundary")
           within(".govuk-tag--blue") do
             expect(page).to have_content("Not started")
           end
         end
 
-        within("#constraints-validation-tasks") do
+        within("#check-constraints-task") do
           expect(page).to have_link(
             "Check constraints",
             href: planning_application_validation_constraints_path(planning_application)
@@ -242,12 +242,12 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#check-description") do
+        within("#check-description-task") do
           expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Check description")
         end
 
-        within("#development-type-for-reporting-task") do
+        within("#reporting-details-task") do
           expect(page).to have_link(
             "Add reporting details",
             href: edit_planning_application_validation_reporting_type_path(planning_application)
@@ -257,22 +257,22 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        expect(page).not_to have_css("#check-legislative-requirements")
+        expect(page).not_to have_css("#check-legislation-description-task")
       end
 
       expect(page).to have_content("Check, tag and confirm documents")
       within("#confirm-documents-tasks") do
-        within("#check-supplied-document") do
+        within("#check-supplied-documents-task") do
           expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Check supplied document")
         end
 
-        within("#check-missing-documents") do
+        within("#check-missing-documents-task") do
           expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Check missing documents")
         end
 
-        within("#upload-redacted-documents") do
+        within("#redact-documents-task") do
           expect(page).to have_link(
             "Upload redacted documents",
             href: planning_application_validation_documents_redactions_path(planning_application)
@@ -290,7 +290,7 @@ RSpec.describe "Validation tasks" do
           expect(page).not_to have_link("Check fee")
         end
 
-        within("#cil-liability-validation-tasks") do
+        within("#cil-liability-task") do
           expect(page).to have_link(
             "Confirm Community Infrastructure Levy (CIL)",
             href: edit_planning_application_validation_cil_liability_path(planning_application)
@@ -300,7 +300,7 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#environment-impact-assessment-task") do
+        within("#environmental-impact-assessment-task") do
           expect(page).to have_link(
             "Check Environment Impact Assessment",
             href: new_planning_application_validation_environment_impact_assessment_path(planning_application)
@@ -310,7 +310,7 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        within("#check-ownership-certificate") do
+        within("#ownership-certificate-task") do
           expect(page).to have_link(
             "Check ownership certificate",
             href: edit_planning_application_validation_ownership_certificate_path(planning_application)
@@ -350,7 +350,7 @@ RSpec.describe "Validation tasks" do
       end
 
       it "shows the check legislation task" do
-        within("#check-legislative-requirements") do
+        within("#check-legislation-description-task") do
           expect(page).to have_content("Planning application has already been validated")
         end
       end

@@ -16,6 +16,10 @@ class WorkflowTask
     true
   end
 
+  def task_list_id
+    self.class.name.underscore.split("/").last.tr("_", "-")
+  end
+
   private
 
   attr_reader :planning_application

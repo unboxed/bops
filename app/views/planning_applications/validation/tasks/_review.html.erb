@@ -6,7 +6,6 @@
       task_list.with_item(title: "Review validation requests", href: planning_application_validation_validation_requests_path(@planning_application))
 
       render(partial: "workflow_task", locals: {
-        id: "validation-decision-task",
         task: Validation::ValidationDecisionTask.new(@planning_application),
         task_list:
       })

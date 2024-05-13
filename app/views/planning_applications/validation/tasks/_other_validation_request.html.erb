@@ -7,7 +7,6 @@
 
       @planning_application.other_change_validation_requests.not_cancelled.each do |other_change_validation_request|
         render(partial: "workflow_task", locals: {
-          id: "other-change-validation-task-#{other_change_validation_request.id}",
           task: Validation::OtherChangeValidationTask.new(@planning_application,
             request_id: other_change_validation_request.id,
             request_sequence: other_change_validation_request.sequence,

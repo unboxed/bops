@@ -20,7 +20,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
     it "I can validate the description" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Not started")
       end
 
@@ -36,7 +36,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
       expect(page).to have_content("Description was marked as valid")
 
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Completed")
       end
 
@@ -96,7 +96,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
       expect(page).to have_content("Description change request successfully sent.")
 
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Invalid")
       end
 
@@ -121,7 +121,7 @@ RSpec.describe "DescriptionChangesValidation" do
       create(:description_change_validation_request, planning_application:, approved: true, state: "closed")
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Updated")
         click_link "Check description"
       end
@@ -132,7 +132,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
       expect(page).to have_content("Description was marked as valid")
 
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Completed")
       end
 
@@ -147,7 +147,7 @@ RSpec.describe "DescriptionChangesValidation" do
       create(:description_change_validation_request, planning_application:, approved: false, state: "closed", rejection_reason: "no")
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Updated")
         click_link "Check description"
       end
@@ -163,7 +163,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
       click_button "Send request"
 
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Invalid")
         click_link "Check description"
       end
@@ -182,7 +182,7 @@ RSpec.describe "DescriptionChangesValidation" do
     it "does not allow you to validate description" do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
-      within("#check-description") do
+      within("#check-description-task") do
         expect(page).to have_content("Planning application has already been validated")
       end
     end

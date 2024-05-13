@@ -4,25 +4,21 @@
 
 <%= govuk_task_list(id_prefix: "application-requirements-tasks", html_attributes: {id: "application-requirements-tasks"}) do |task_list|
       render(partial: "workflow_task", locals: {
-        id: "fee-validation-task",
         task: Validation::FeeValidationTask.new(@planning_application),
         task_list:
       })
 
       render(partial: "workflow_task", locals: {
-        id: "cil-liability-validation-tasks",
         task: Validation::CilLiabilityTask.new(@planning_application),
         task_list:
       })
 
       render(partial: "workflow_task", locals: {
-        id: "environment-impact-assessment-task",
         task: Validation::EnvironmentalImpactAssessmentTask.new(@planning_application),
         task_list:
       })
 
       render(partial: "workflow_task", locals: {
-        id: "check-ownership-certificate",
         task: Validation::OwnershipCertificateTask.new(@planning_application),
         task_list:
       })

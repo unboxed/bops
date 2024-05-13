@@ -52,7 +52,7 @@ RSpec.describe "Constraints" do
         "Check constraints",
         href: planning_application_validation_constraints_path(planning_application)
       )
-      within("#constraints-validation-tasks .govuk-tag") do
+      within("#check-constraints-task .govuk-tag") do
         expect(page).to have_content("Completed")
       end
 
