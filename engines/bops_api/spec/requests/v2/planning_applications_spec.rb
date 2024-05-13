@@ -24,7 +24,7 @@ RSpec.describe "BOPS API" do
   let(:planning_application) { example_fixture("validPlanningPermission.json") }
   let(:send_email) { "true" }
 
-  let!(:planning_applications) { create_list(:planning_application, 8, local_authority:, application_type:) }
+  let!(:planning_applications) { create_list(:planning_application, 8, local_authority:, application_type:, make_public: true) }
   let!(:determined_planning_applications) { create_list(:planning_application, 3, :determined, local_authority:, application_type:) }
   let(:page) { 2 }
   let(:maxresults) { 5 }

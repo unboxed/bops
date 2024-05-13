@@ -20796,3 +20796,76 @@ paths:
                       detail: Couldn't find PlanningApplication with 'id'=734837
               schema:
                 "$ref": "#/components/schemas/NotFoundError"
+  "/api/v2/public/planning_applications/search":
+    get:
+      summary: Retrieves planning applications based on a search criteria
+      tags:
+      - Planning applications
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+      - name: maxresults
+        in: query
+        schema:
+          type: integer
+          default: 10
+      - name: q
+        in: query
+        schema:
+          type: string
+          description: Search by reference or description
+      responses:
+        '200':
+          description: returns planning applications when searching by a reference
+            or description
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    metadata:
+                      page: 1
+                      results: 10
+                      from: 1
+                      to: 1
+                      total_pages: 1
+                      total_results: 1
+                    data:
+                    - application:
+                        type:
+                          value: pp.full.householder
+                          description: planning_permission
+                        reference: 24-00620-HAPP
+                        full_reference: SWK-24-00620-HAPP
+                      property:
+                        address:
+                          latitude: 51.4656522
+                          longitude: -0.1185926
+                          title: 40, STANSFIELD ROAD
+                          singleLine: 40, STANSFIELD ROAD, LONDON, SW9 9RZ
+                          uprn: '100021892955'
+                          town: LONDON
+                          postcode: SW9 9RZ
+                        boundary:
+                          site:
+                            type: Feature
+                            geometry:
+                              type: Polygon
+                              coordinates:
+                              - - - -0.1186569035053321
+                                  - 51.465703531871384
+                                - - -0.1185938715934822
+                                  - 51.465724418998775
+                                - - -0.1184195280075143
+                                  - 51.46552473766957
+                                - - -0.11848390102387167
+                                  - 51.4655038504508
+                                - - -0.1186569035053321
+                                  - 51.465703531871384
+                            properties: 
+                      proposal:
+                        description: Roof extension to the rear of the property, incorporating
+                          starship launchpad.
