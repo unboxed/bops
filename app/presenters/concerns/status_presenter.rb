@@ -4,9 +4,9 @@ module StatusPresenter
   extend ActiveSupport::Concern
 
   STATUS_COLOURS = {
-    invalidated: "yellow",
-    not_started: "grey",
-    in_assessment: "turquoise",
+    invalidated: "red",
+    not_started: "blue",
+    in_assessment: "light-blue",
     awaiting_determination: "purple",
     to_be_reviewed: "yellow"
   }.freeze

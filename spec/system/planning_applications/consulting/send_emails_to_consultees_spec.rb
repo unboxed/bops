@@ -410,7 +410,7 @@ RSpec.describe "Consultation", js: true do
     within "#dates-and-assignment-details" do
       expect(page).to have_text("Consultation start date: #{start_date.to_date.to_fs}")
       expect(page).to have_text("Consultation end date: #{end_date.to_date.to_fs}")
-      expect(page).to have_text("#{period} days remaining")
+      expect(page).to have_text("#{period} days to determination date")
     end
 
     within "#consultee-tasks" do
