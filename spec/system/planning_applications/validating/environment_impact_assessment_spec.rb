@@ -49,7 +49,7 @@ RSpec.describe "Validation tasks" do
         expect(page).to have_content("Subject to an EIA")
         expect(page).to have_content("The expiry date has been extended to 16 weeks")
       end
-      within("#environment-impact-assessment-task") do
+      within("#environmental-impact-assessment-task") do
         within(".govuk-tag") do
           expect(page).to have_content("Required")
         end
@@ -84,7 +84,7 @@ RSpec.describe "Validation tasks" do
         expect(page).to have_content("Subject to an EIA")
         expect(page).to have_content("The expiry date has been extended to 16 weeks")
       end
-      within("#environment-impact-assessment-task") do
+      within("#environmental-impact-assessment-task") do
         within(".govuk-tag") do
           expect(page).to have_content("Required")
         end
@@ -162,7 +162,7 @@ RSpec.describe "Validation tasks" do
         choose "No"
         click_button "Save and mark as complete"
 
-        within("#environment-impact-assessment-task") do
+        within("#environmental-impact-assessment-task") do
           within(".govuk-tag") do
             expect(page).to have_content("Not required")
           end

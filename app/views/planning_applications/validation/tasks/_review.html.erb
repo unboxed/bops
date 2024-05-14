@@ -1,17 +1,9 @@
-<li id="review-tasks">
-  <h2 class="app-task-list__section">
-    Review
-  </h2>
-  <ul class="app-task-list__items">
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= govuk_link_to "Review validation requests", planning_application_validation_validation_requests_path(@planning_application) %>
-      </span>
-    </li>
-    <%= render(
-          TaskListItems::ValidationDecisionComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
-  </ul>
-</li>
+<h2 class="govuk-heading-m">
+  Review
+</h2>
+
+<%= govuk_task_list(id_prefix: "review-tasks", html_attributes: {id: "review-tasks"}) do |task_list|
+      render Validation::ReviewValidationRequestsTask.new(@planning_application, task_list:)
+
+      render Validation::ValidationDecisionTask.new(@planning_application, task_list:)
+    end %>

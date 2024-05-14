@@ -50,7 +50,7 @@ RSpec.describe "Check legislation" do
 
       expect(page).to have_content("Legislative requirements have been marked as checked.")
 
-      within("#check-legislative-requirements") do
+      within("#check-legislation-description-task") do
         expect(page).to have_content("Completed")
       end
 
@@ -74,7 +74,7 @@ RSpec.describe "Check legislation" do
 
         expect(page).to have_content("Couldn't mark legislative requirements as checked - please contact support.")
 
-        within("#check-legislative-requirements") do
+        within("#check-legislation-description-task") do
           expect(page).to have_content("Not started")
         end
       end
@@ -93,7 +93,7 @@ RSpec.describe "Check legislation" do
     end
 
     it "does not show the check legislation tasklist" do
-      expect(page).not_to have_css("#check-legislative-requirements")
+      expect(page).not_to have_css("#check-legislation-description-task")
     end
 
     it "shows forbidden when navigating to the page directly" do

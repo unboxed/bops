@@ -504,7 +504,7 @@ RSpec.describe "Requesting document changes to a planning application" do
     it "does not allow you to validate documents" do
       click_link "Check and validate"
 
-      within("#check-supplied-document") do
+      within("#check-supplied-documents-task") do
         expect(page).to have_content("Planning application has already been validated")
       end
     end

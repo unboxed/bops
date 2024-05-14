@@ -1,50 +1,13 @@
-<li id="application-requirements-tasks">
-  <h2 class="app-task-list__section">
-    Confirm application requirements
-  </h2>
-  <ul id="fee-validation-task" class="app-task-list__items">
-    <% if @planning_application.validated? %>
-      <li class="app-task-list__item">
-        <span class="app-task-list__task-name">
-          Planning application has already been validated
-        </span>
-      </li>
-    <% else %>
-      <%= render(
-            TaskListItems::FeeComponent.new(
-              planning_application: @planning_application
-            )
-          ) %>
-    <% end %>
-    <li id="cil-liability-validation-tasks" class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= govuk_link_to "Confirm Community Infrastructure Levy (CIL)", edit_planning_application_validation_cil_liability_path(@planning_application) %>
-      </span>
-      <div class="govuk-task-list__status app-task-list__task-tag">
-      <%= render(
-            StatusTags::CilLiabilityComponent.new(
-              planning_application: @planning_application
-            )
-          ) %>
-      </div>
-    </li>
-    <li id="environment-impact-assessment-task" class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= govuk_link_to "Check Environment Impact Assessment", @planning_application.environment_impact_assessment.nil? ? new_planning_application_validation_environment_impact_assessment_path(@planning_application) : planning_application_validation_environment_impact_assessment_path(@planning_application) %>
-      </span>
+<h2 class="govuk-heading-m">
+  Confirm application requirements
+</h2>
 
-      <div class="govuk-task-list__status app-task-list__task-tag">
-      <%= render(
-            StatusTags::BaseComponent.new(
-              status: @planning_application.environment_impact_assessment_status
-            )
-          ) %>
-      </div>
-    </li>
-    <%= render(
-          TaskListItems::Validating::OwnershipCertificateComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
-  </ul>
-</li>
+<%= govuk_task_list(id_prefix: "application-requirements-tasks", html_attributes: {id: "application-requirements-tasks"}) do |task_list|
+      render Validation::FeeValidationTask.new(@planning_application, task_list:)
+
+      render Validation::CilLiabilityTask.new(@planning_application, task_list:)
+
+      render Validation::EnvironmentalImpactAssessmentTask.new(@planning_application, task_list:)
+
+      render Validation::OwnershipCertificateTask.new(@planning_application, task_list:)
+    end %>

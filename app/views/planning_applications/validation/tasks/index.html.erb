@@ -25,17 +25,16 @@
             sections: %i[application_information proposal_details documents]
           )
         ) %>
-    <ol class="app-task-list govuk-!-margin-top-8">
-      <%= render "application_details" %>
 
-      <%= render "documents" %>
+    <%= render "application_details" %>
 
-      <%= render "application_requirements" %>
+    <%= render "documents" %>
 
-      <%= render "other_validation_request" %>
+    <%= render "application_requirements" %>
 
-      <%= render "review" %>
-    </ol>
+    <%= render "other_validation_request" %>
+
+    <%= render "review" %>
 
     <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>

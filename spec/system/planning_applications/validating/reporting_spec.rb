@@ -30,7 +30,7 @@ RSpec.describe "Reporting validation task" do
 
       click_link "Back"
 
-      within("#development-type-for-reporting-task") do
+      within("#reporting-details-task") do
         expect(page).to have_selector(".govuk-tag", text: "Not started")
       end
     end
@@ -50,7 +50,7 @@ RSpec.describe "Reporting validation task" do
         expect(page).to have_content("Planning application's development type for reporting was successfully selected")
       end
 
-      within("#development-type-for-reporting-task") do
+      within("#reporting-details-task") do
         expect(page).to have_selector(".govuk-tag", text: "Completed")
       end
 
@@ -87,7 +87,7 @@ RSpec.describe "Reporting validation task" do
         expect(page).to have_content("Planning application's development type for reporting was successfully selected")
       end
 
-      within("#development-type-for-reporting-task") do
+      within("#reporting-details-task") do
         expect(page).to have_selector(".govuk-tag", text: "Completed")
       end
 
@@ -114,7 +114,7 @@ RSpec.describe "Reporting validation task" do
         expect(page).to have_content("Planning application's development type for reporting was successfully selected")
       end
 
-      within("#development-type-for-reporting-task") do
+      within("#reporting-details-task") do
         expect(page).to have_selector(".govuk-tag", text: "Completed")
       end
 
@@ -141,7 +141,7 @@ RSpec.describe "Reporting validation task" do
         expect(page).to have_content("Planning application's development type for reporting was successfully selected")
       end
 
-      within("#development-type-for-reporting-task") do
+      within("#reporting-details-task") do
         expect(page).to have_selector(".govuk-tag", text: "Completed")
         click_link "Add reporting details"
       end
@@ -154,7 +154,7 @@ RSpec.describe "Reporting validation task" do
 
       click_button "Save and mark as complete"
 
-      within("#development-type-for-reporting-task") do
+      within("#reporting-details-task") do
         expect(page).to have_selector(".govuk-tag", text: "Completed")
       end
 

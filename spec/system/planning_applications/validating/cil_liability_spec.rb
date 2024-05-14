@@ -19,8 +19,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
   it "is listed as incomplete by default" do
     visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
-    within "#cil-liability-validation-tasks" do
-      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL) Not started"
+    within "#cil-liability-task" do
+      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL)"
+      expect(page).to have_content "Not started"
     end
   end
 
@@ -31,8 +32,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content "CIL liability updated"
-    within "#cil-liability-validation-tasks" do
-      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL) Completed"
+    within "#cil-liability-task" do
+      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL)"
+      expect(page).to have_content "Completed"
     end
   end
 
@@ -43,8 +45,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content "CIL liability updated"
-    within "#cil-liability-validation-tasks" do
-      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL) Completed"
+    within "#cil-liability-task" do
+      expect(page).to have_content "Confirm Community Infrastructure Levy (CIL)"
+      expect(page).to have_content "Completed"
     end
   end
 

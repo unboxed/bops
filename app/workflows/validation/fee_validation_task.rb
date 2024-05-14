@@ -1,23 +1,19 @@
 # frozen_string_literal: true
 
-module TaskListItems
-  class FeeComponent < TaskListItems::BaseComponent
-    def initialize(planning_application:)
-      @planning_application = planning_application
+module Validation
+  class FeeValidationTask < WorkflowTask
+    def task_list_link_text
+      if planning_application.validated?
+        "Planning application has already been validated"
+      else
+        I18n.t("task_list_items.fee_component.check_fee")
+      end
     end
 
-    private
+    def task_list_link
+      return if planning_application.validated?
 
-    attr_reader :planning_application
-
-    delegate(:fee_change_validation_requests, to: :planning_application)
-
-    def link_text
-      t(".check_fee")
-    end
-
-    def link_path
-      case status
+      case task_list_status
       when :complete, :not_started
         planning_application_validation_fee_items_path(
           planning_application
@@ -30,8 +26,8 @@ module TaskListItems
       end
     end
 
-    def status
-      @status ||= if planning_application.valid_fee?
+    def task_list_status
+      @task_list_status ||= if planning_application.valid_fee?
         :complete
       elsif fee_change_validation_requests.open_or_pending.any?
         :invalid
@@ -41,5 +37,9 @@ module TaskListItems
         :not_started
       end
     end
+
+    private
+
+    delegate(:fee_change_validation_requests, to: :planning_application)
   end
 end

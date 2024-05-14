@@ -2,10 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
-  let(:component) do
-    described_class.new(planning_application:)
-  end
+RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
+  let(:task) { described_class.new(planning_application) }
 
   let(:boundary_geojson) do
     {
@@ -33,17 +31,13 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       )
     end
 
-    before { render_inline(component) }
-
     it "renders 'Not started' status tag" do
-      expect(page).to have_content("Not started")
+      expect(task.task_list_status).to be :not_started
     end
 
     it "renders sitemap link" do
-      expect(page).to have_link(
-        "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/validation/sitemap"
-      )
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/sitemap"
+      expect(task.task_list_link_text).to eq "Check red line boundary"
     end
   end
 
@@ -57,18 +51,12 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     end
 
     it "renders 'Valid' status tag" do
-      render_inline(component)
-
-      expect(page).to have_content("Completed")
+      expect(task.task_list_status).to be :complete
     end
 
     it "renders sitemap link" do
-      render_inline(component)
-
-      expect(page).to have_link(
-        "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/validation/sitemap"
-      )
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/sitemap"
+      expect(task.task_list_link_text).to eq "Check red line boundary"
     end
 
     context "when there is a closed change request" do
@@ -80,17 +68,13 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
         )
       end
 
-      before { render_inline(component) }
-
       it "renders 'Valid' status tag" do
-        expect(page).to have_content("Completed")
+        expect(task.task_list_status).to be :complete
       end
 
       it "renders change request link" do
-        expect(page).to have_link(
-          "Check red line boundary",
-          href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
-        )
+        expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+        expect(task.task_list_link_text).to eq "Check red line boundary"
       end
     end
   end
@@ -113,18 +97,12 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     end
 
     it "renders 'Valid' status tag" do
-      render_inline(component)
-
-      expect(page).to have_content("Completed")
+      expect(task.task_list_status).to be :complete
     end
 
     it "renders sitemap link" do
-      render_inline(component)
-
-      expect(page).to have_link(
-        "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/validation/sitemap"
-      )
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/sitemap"
+      expect(task.task_list_link_text).to eq "Check red line boundary"
     end
 
     context "when there is a closed change request" do
@@ -135,19 +113,15 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
           state: :closed,
           created_at: 2.days.ago
         )
-
-        render_inline(component)
       end
 
       it "renders 'Valid' status tag" do
-        expect(page).to have_content("Completed")
+        expect(task.task_list_status).to be :complete
       end
 
       it "renders change request link" do
-        expect(page).to have_link(
-          "Check red line boundary",
-          href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
-        )
+        expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+        expect(task.task_list_link_text).to eq "Check red line boundary"
       end
     end
   end
@@ -168,17 +142,13 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       )
     end
 
-    before { render_inline(component) }
-
     it "renders 'Invalid' status tag" do
-      expect(page).to have_content("Invalid")
+      expect(task.task_list_status).to be :invalid
     end
 
     it "renders change request link" do
-      expect(page).to have_link(
-        "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
-      )
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+      expect(task.task_list_link_text).to eq "Check red line boundary"
     end
   end
 
@@ -200,27 +170,22 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       )
     end
 
-    before { render_inline(component) }
-
     it "renders 'Updated' status tag" do
-      expect(page).to have_content("Updated")
+      expect(task.task_list_status).to be :updated
     end
 
     it "renders change request link" do
-      expect(page).to have_link(
-        "Check red line boundary",
-        href: "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
-      )
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+
+      expect(task.task_list_link_text).to eq "Check red line boundary"
     end
   end
 
   context "when boundary_geojson is not present" do
     let(:planning_application) { create(:planning_application) }
 
-    before { render_inline(component) }
-
     it "does not render link" do
-      expect(page).not_to have_link("Check red line boundary")
+      expect(task.task_list_link).not_to be_present
     end
   end
 end
