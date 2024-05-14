@@ -41,7 +41,11 @@ RSpec.describe "assess against policies and guidance" do
 
     expect(page).to have_content "You have not added any considerations"
 
+    expect(page).to have_content("View draft decision notice")
+
     click_link "Add new consideration"
+
+    expect(page).to have_content("View draft decision notice")
 
     expect(page).to have_content("Add new consideration")
 
@@ -96,9 +100,11 @@ RSpec.describe "assess against policies and guidance" do
     end
 
     expect(page).to have_content "You have not added any considerations"
+    expect(page).to have_content("View draft decision notice")
 
     click_link "Add new consideration"
 
+    expect(page).to have_content("View draft decision notice")
     expect(page).to have_content("Add a custom policy area if it does not appear in the list above")
 
     fill_in "manual-policy-input", with: "Consistency with local architecture"
