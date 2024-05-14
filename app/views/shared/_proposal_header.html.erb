@@ -17,7 +17,20 @@
       <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
     <% end %>
 
-    <p class="govuk-body"><%= @planning_application.status_tag %></p>
+    <p class="govuk-body">
+      <%= @planning_application.status_tag %>
+      <% if @planning_application.in_progress? %>
+        <span class="govuk-!-margin-left-1">
+          <%= @planning_application.days_status_tag %>
+        </span>
+      <% end %>
+
+      <% if @planning_application.environment_impact_assessment_required? %>
+        <span class="govuk-!-margin-left-1">
+          <span class="govuk-tag govuk-tag--yellow">EIA</span>
+        </span>
+      <% end %>
+    </p>
 
     <% if @planning_application.closed? %>
       <p class="govuk-body">
