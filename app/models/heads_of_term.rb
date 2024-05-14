@@ -3,7 +3,7 @@
 class HeadsOfTerm < ApplicationRecord
   belongs_to :planning_application
   has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
-  has_many :terms, extend: TermsExtension, dependent: :destroy
+  has_many :terms, -> { order(position: :asc) }, extend: TermsExtension, dependent: :destroy
   has_many :validation_requests, through: :terms
 
   accepts_nested_attributes_for :terms, allow_destroy: true
@@ -17,7 +17,7 @@ class HeadsOfTerm < ApplicationRecord
   end
 
   def latest_validation_request
-    validation_requests.max_by(&:notified_at)
+    validation_requests.notified.max_by(&:notified_at)
   end
 
   def latest_validation_requests
@@ -26,11 +26,6 @@ class HeadsOfTerm < ApplicationRecord
 
   def latest_active_validation_requests
     latest_validation_requests.select { |vr| vr.state != "cancelled" }
-  end
-
-  def send_notification?
-    validation_requests.open.none? { |request| request.notified_at.present? } ||
-      (validation_requests.open.any? && (validation_requests.open.order(:created_at).last&.notified_at&.<= 1.business_day.ago))
   end
 
   def any_new_updated_validation_requests?
@@ -43,6 +38,16 @@ class HeadsOfTerm < ApplicationRecord
 
   def update_validation_requests
     validation_requests.pending.each { |request| request.email_and_timestamp }
+  end
+
+  def confirm_pending_requests!
+    transaction do
+      validation_requests.pending.each(&:mark_as_sent!)
+
+      create_heads_of_terms_review!
+    end
+
+    latest_validation_request.send_post_validation_request_email
   end
 
   private

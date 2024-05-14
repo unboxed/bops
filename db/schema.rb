@@ -872,6 +872,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_124429) do
     t.bigint "heads_of_term_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.index ["heads_of_term_id"], name: "ix_terms_on_heads_of_term_id"
   end
 

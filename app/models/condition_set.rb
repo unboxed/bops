@@ -27,11 +27,6 @@ class ConditionSet < ApplicationRecord
     latest_validation_requests.select { |vr| vr.state != "cancelled" }
   end
 
-  def send_notification?
-    validation_requests.open.none? { |request| request.notified_at.present? } ||
-      (validation_requests.open.any? && (validation_requests.open.order(:created_at).last&.notified_at&.<= 1.business_day.ago))
-  end
-
   def approved_conditions
     conditions.joins(:validation_requests).where(validation_requests: {approved: true})
   end

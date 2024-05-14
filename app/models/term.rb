@@ -3,6 +3,7 @@
 class Term < ApplicationRecord
   has_many :validation_requests, as: :owner, class_name: "ValidationRequest", dependent: :destroy
   belongs_to :heads_of_term
+  acts_as_list scope: :heads_of_term
 
   validates :text, :title, presence: true
 

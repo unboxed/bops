@@ -132,6 +132,11 @@ Rails.application.routes.draw do
             patch :update, on: :collection
           end
 
+          resources :terms, except: %i[new show] do
+            post :confirm, on: :collection
+            resource :positions, only: %i[update], module: :terms
+          end
+
           resources :recommendations, only: %i[new create update]
           resource :recommendations, only: %i[edit]
 
