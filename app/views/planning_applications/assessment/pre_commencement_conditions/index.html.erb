@@ -27,9 +27,8 @@
   </div>
 
   <div class="govuk-grid-column-full">
-    <ul data-controller="sortable" id="conditions-list" class="govuk-list">
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <ol data-controller="sortable" id="conditions-list" class="govuk-list">
       <% @condition_set.conditions.each do |condition| %>
         <%= next unless condition.persisted? %>
         <%= content_tag :li,
@@ -37,7 +36,7 @@
               id: dom_id(condition),
               data: {
                 model_name: condition.class.name,
-                sortable_url: planning_application_assessment_pre_commencement_condition_positions_path(@planning_application, condition),
+                sortable_url: planning_application_assessment_pre_commencement_condition_position_path(@planning_application, condition),
                 sortable_handle: true
               } do %>
 
@@ -108,7 +107,7 @@
       <% end %>
 
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>
-    </ul>
+    </ol>
   </div>
 
   <div class="govuk-grid-column-two-thirds">

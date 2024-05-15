@@ -18,9 +18,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <ul data-controller="sortable" id="heads-of-terms-list" class="govuk-list">
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <ol data-controller="sortable" id="heads-of-terms-list" class="govuk-list">
       <% @heads_of_term.terms.each do |term| %>
         <%= next unless term.persisted? %>
         <%= content_tag :li,
@@ -28,7 +27,7 @@
               id: dom_id(term),
               data: {
                 model_name: term.class.name,
-                sortable_url: planning_application_assessment_term_positions_path(@planning_application, term),
+                sortable_url: planning_application_assessment_term_position_path(@planning_application, term),
                 sortable_handle: true
               } do %>
 
@@ -99,7 +98,7 @@
       <% end %>
 
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>
-    </ul>
+    </ol>
   </div>
 
   <div class="govuk-grid-column-two-thirds">

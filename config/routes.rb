@@ -19,6 +19,12 @@ Rails.application.routes.draw do
   constraints Constraints::LocalAuthoritySubdomain do
     root to: "planning_applications#index"
 
+    concern :positionable do |options|
+      defaults format: "json" do
+        resource :position, {only: %i[update]}.merge(options)
+      end
+    end
+
     mount BopsApi::Engine, at: "/api", as: :bops_api
     get "/api-docs(/index)", to: redirect("/api/docs")
 
@@ -96,7 +102,7 @@ Rails.application.routes.draw do
           end
           resources :pre_commencement_conditions, except: %i[new show] do
             post :confirm, on: :collection
-            resource :positions, only: %i[update], module: :pre_commencement_conditions
+            concerns :positionable, module: :pre_commencement_conditions
           end
           resource :consistency_checklist, except: %i[destroy index]
           resources :consultees, only: %i[index] do
@@ -134,7 +140,7 @@ Rails.application.routes.draw do
 
           resources :terms, except: %i[new show] do
             post :confirm, on: :collection
-            resource :positions, only: %i[update], module: :terms
+            concerns :positionable, module: :terms
           end
 
           resources :recommendations, only: %i[new create update]
@@ -142,7 +148,7 @@ Rails.application.routes.draw do
 
           resources :informatives, except: %i[show] do
             post :complete, on: :collection
-            resource :positions, only: %i[update], module: :informatives
+            concerns :positionable, module: :informatives
           end
         end
 
