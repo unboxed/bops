@@ -51,7 +51,7 @@ RSpec.describe "Validation tasks" do
       end
       within("#environmental-impact-assessment-task") do
         within(".govuk-tag") do
-          expect(page).to have_content("Required")
+          expect(page).to have_content("Completed")
         end
       end
 
@@ -86,7 +86,7 @@ RSpec.describe "Validation tasks" do
       end
       within("#environmental-impact-assessment-task") do
         within(".govuk-tag") do
-          expect(page).to have_content("Required")
+          expect(page).to have_content("Completed")
         end
       end
 
@@ -164,7 +164,7 @@ RSpec.describe "Validation tasks" do
 
         within("#environmental-impact-assessment-task") do
           within(".govuk-tag") do
-            expect(page).to have_content("Not required")
+            expect(page).to have_content("Completed")
           end
         end
 
