@@ -17,15 +17,15 @@
 <div class="govuk-grid-row" data-controller="informatives">
   <div class="govuk-grid-column-full">
     <% if @informative_set.informatives.select(&:persisted?).any? %>
-      <ul data-controller="sortable" class="govuk-list">
-        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <ol data-controller="sortable" class="govuk-list">
         <% @informative_set.informatives.select(&:persisted?).each do |informative| %>
           <%= content_tag :li,
                 class: "sortable-list",
                 id: dom_id(informative),
                 data: {
                   model_name: informative.class.name,
-                  sortable_url: planning_application_assessment_informative_positions_path(@planning_application, informative),
+                  sortable_url: planning_application_assessment_informative_position_path(@planning_application, informative),
                   sortable_handle: true
                 } do %>
 
@@ -47,7 +47,7 @@
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
           <% end %>
         <% end %>
-      </ul>
+      </ol>
     <% else %>
       <p class="govuk-body"><strong>No informatives added yet</strong></p>
     <% end %>

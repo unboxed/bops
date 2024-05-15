@@ -4,34 +4,16 @@ module PlanningApplications
   module Assessment
     module Terms
       class PositionsController < AuthenticationController
-        before_action :set_planning_application
-        before_action :set_heads_of_term
-        before_action :set_term
-
-        def update
-          if @term.insert_at(term_position)
-            head :no_content
-          else
-            render json: @term.errors, status: :unprocessable_entity
-          end
-        end
+        include BopsCore::PositionsController
 
         private
 
-        def set_heads_of_term
-          @heads_of_term = @planning_application.heads_of_term
+        def set_collection
+          @collection = @planning_application.heads_of_term
         end
 
-        def set_term
-          @term = @heads_of_term.terms.find(params[:term_id])
-        end
-
-        def term_params
-          params.require(:term).permit(:position)
-        end
-
-        def term_position
-          Integer(term_params[:position])
+        def set_record
+          @record = @collection.terms.find(params[:term_id])
         end
       end
     end

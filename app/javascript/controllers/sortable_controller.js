@@ -30,14 +30,8 @@ export default class extends Controller {
     const url = item.dataset.sortableUrl
     const modelName = item.dataset.modelName
 
-    const payload = {
-      [modelName.toLowerCase()]: {
-        position: newIndex,
-      },
-    }
-
     put(url, {
-      body: JSON.stringify(payload),
+      body: { position: newIndex + 1 },
     })
       .then(() => {
         this.updatePositions(modelName)
