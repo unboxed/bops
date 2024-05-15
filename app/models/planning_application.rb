@@ -819,7 +819,7 @@ class PlanningApplication < ApplicationRecord
 
   def environment_impact_assessment_status
     if environment_impact_assessment.present?
-      environment_impact_assessment.required ? :required : :not_required
+      :complete
     else
       :not_started
     end
