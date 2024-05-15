@@ -2037,7 +2037,7 @@ en:
         review_assessment_summaries: Review assessment summaries
       committee_component:
         link_text: Recommendation to committee
-      condition_component:
+      conditions_component:
         link_text: Review conditions
         pre_commencement:
           link_text: Review pre-commencement conditions

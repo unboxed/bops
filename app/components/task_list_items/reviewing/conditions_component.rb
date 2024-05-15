@@ -2,9 +2,7 @@
 
 module TaskListItems
   module Reviewing
-    class ConditionComponent < TaskListItems::BaseComponent
-      include Recommendable
-
+    class ConditionsComponent < TaskListItems::BaseComponent
       def initialize(condition_set:)
         @condition_set = condition_set
       end
