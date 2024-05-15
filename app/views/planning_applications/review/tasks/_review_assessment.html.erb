@@ -65,7 +65,7 @@
   <% if @planning_application.application_type.planning_conditions? %>
     <% if @planning_application.condition_set&.current_review&.started? %>
       <%= render(
-            TaskListItems::Reviewing::ConditionComponent.new(
+            TaskListItems::Reviewing::ConditionsComponent.new(
               condition_set: @planning_application.condition_set
             )
           ) %>
@@ -73,7 +73,7 @@
 
     <% if @planning_application.pre_commencement_condition_set&.current_review&.started? %>
       <%= render(
-            TaskListItems::Reviewing::ConditionComponent.new(
+            TaskListItems::Reviewing::ConditionsComponent.new(
               condition_set: @planning_application.pre_commencement_condition_set
             )
           ) %>
