@@ -22,6 +22,12 @@ module BopsApi
         raise BopsApi::Errors::SchemaNotFoundError, "Unable to find schema '#{schema}'"
       end
 
+      def find_search!
+        cache.find!("odp/search/v0.1.0/search.json")
+      rescue KeyError
+        raise BopsApi::Errors::SchemaNotFoundError, "Unable to find schema '#{schema}'"
+      end
+
       private
 
       def cache

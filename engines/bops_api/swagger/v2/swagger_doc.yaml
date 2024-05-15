@@ -20827,45 +20827,183 @@ paths:
                 default:
                   value:
                     metadata:
-                      page: 1
-                      results: 10
-                      from: 1
-                      to: 1
-                      total_pages: 1
-                      total_results: 1
+                      page: 2
+                      results: 4
+                      from: 5
+                      to: 8
+                      total_pages: 22
+                      total_results: 87
                     data:
                     - application:
                         type:
-                          value: pp.full.householder
-                          description: planning_permission
-                        reference: 24-00620-HAPP
-                        full_reference: SWK-24-00620-HAPP
+                          value: pa.part14.classJ
+                          description: prior_approval
+                        reference: 24-00635-PA14J
+                        full_reference: SWK-24-00635-PA14J
                       property:
                         address:
-                          latitude: 51.4656522
-                          longitude: -0.1185926
-                          title: 40, STANSFIELD ROAD
-                          singleLine: 40, STANSFIELD ROAD, LONDON, SW9 9RZ
-                          uprn: '100021892955'
+                          latitude: 51.5081109
+                          longitude: -0.0965974
+                          title: 21, NEW GLOBE WALK
+                          singleLine: 21, NEW GLOBE WALK, LONDON, SE1 9DT
+                          uprn: '200003377200'
                           town: LONDON
-                          postcode: SW9 9RZ
+                          postcode: SE1 9DT
                         boundary:
                           site:
                             type: Feature
                             geometry:
                               type: Polygon
                               coordinates:
-                              - - - -0.1186569035053321
-                                  - 51.465703531871384
-                                - - -0.1185938715934822
-                                  - 51.465724418998775
-                                - - -0.1184195280075143
-                                  - 51.46552473766957
-                                - - -0.11848390102387167
-                                  - 51.4655038504508
-                                - - -0.1186569035053321
-                                  - 51.465703531871384
+                              - - - -0.0967472791671659
+                                  - 51.50830340605074
+                                - - -0.09676337242125525
+                                  - 51.50830507546084
+                                - - -0.09689748287199977
+                                  - 51.50831926544436
+                                - - -0.09693503379820824
+                                  - 51.50790775412855
+                                - - -0.09666681289671919
+                                  - 51.50789439872946
+                                - - -0.09645719784644384
+                                  - 51.507889747624404
+                                - - -0.09639290535660058
+                                  - 51.50828278342658
+                                - - -0.0967472791671659
+                                  - 51.50830340605074
                             properties: 
                       proposal:
-                        description: Roof extension to the rear of the property, incorporating
-                          starship launchpad.
+                        description: "@todo not provided in Prior Approval"
+                    - application:
+                        type:
+                          value: pp.full.householder
+                          description: planning_permission
+                        reference: 24-00634-HAPP
+                        full_reference: SWK-24-00634-HAPP
+                      property:
+                        address:
+                          latitude: 51.4508769
+                          longitude: -0.0835531
+                          title: 14, DEKKER ROAD
+                          singleLine: 14, DEKKER ROAD, LONDON, SE21 7DL
+                          uprn: '200003434275'
+                          town: LONDON
+                          postcode: SE21 7DL
+                        boundary:
+                          site:
+                            type: Feature
+                            geometry:
+                              type: MultiPolygon
+                              coordinates:
+                              - - - - -0.08367955684661957
+                                    - 51.45088880900431
+                                  - - -0.08349850773811447
+                                    - 51.450797711453816
+                                  - - -0.08345827460289111
+                                    - 51.45077765325317
+                                  - - -0.08345497012668902
+                                    - 51.45077882783133
+                                  - - -0.08345827460289111
+                                    - 51.45077765325317
+                                  - - -0.08345827460289111
+                                    - 51.45077765325317
+                                  - - -0.08341133594513053
+                                    - 51.45081191934065
+                                  - - -0.08353252993194663
+                                    - 51.450876625973194
+                                  - - -0.0835910439491282
+                                    - 51.45090552413146
+                                  - - -0.0836031138896952
+                                    - 51.45089967383768
+                                  - - -0.08364066481590367
+                                    - 51.450918060472816
+                                  - - -0.08367955684661957
+                                    - 51.45088880900431
+                            properties:
+                              name: ''
+                              entity: 12000596724
+                              prefix: title-boundary
+                              dataset: title-boundary
+                              end-date: ''
+                              typology: geography
+                              reference: '37633634'
+                              entry-date: '2023-12-12'
+                              start-date: '2007-06-07'
+                              planx_user_action: Amended the title boundary
+                              organisation-entity: '13'
+                      proposal:
+                        description: Single storey rear side and rear extension.
+                    - application:
+                        type:
+                          value: pp.full.householder
+                          description: planning_permission
+                        reference: 24-00633-HAPP
+                        full_reference: SWK-24-00633-HAPP
+                      property:
+                        address:
+                          latitude: 51.4634323
+                          longitude: -0.0699409
+                          title: 41, GOWLETT ROAD
+                          singleLine: 41, GOWLETT ROAD, LONDON, SE15 4HX
+                          uprn: '200003392368'
+                          town: LONDON
+                          postcode: SE15 4HX
+                        boundary:
+                          site:
+                            type: FeatureCollection
+                            features:
+                            - type: Feature
+                              geometry:
+                                type: Polygon
+                                coordinates:
+                                - - - -0.06960734724999676
+                                    - 51.46346855399628
+                                  - - -0.07003784179688669
+                                    - 51.46339335657561
+                                  - - -0.0700592994690058
+                                    - 51.46344432372982
+                                  - - -0.06963551044465312
+                                    - 51.463517014490634
+                                  - - -0.06960734724999676
+                                    - 51.46346855399628
+                              properties: 
+                      proposal:
+                        description: Construction of a single storey ground floor
+                          side-rear extension.
+                    - application:
+                        type:
+                          value: pp.full.householder
+                          description: planning_permission
+                        reference: 24-00632-HAPP
+                        full_reference: SWK-24-00632-HAPP
+                      property:
+                        address:
+                          latitude: 51.4634323
+                          longitude: -0.0699409
+                          title: 41, GOWLETT ROAD
+                          singleLine: 41, GOWLETT ROAD, LONDON, SE15 4HX
+                          uprn: '200003392368'
+                          town: LONDON
+                          postcode: SE15 4HX
+                        boundary:
+                          site:
+                            type: FeatureCollection
+                            features:
+                            - type: Feature
+                              geometry:
+                                type: Polygon
+                                coordinates:
+                                - - - -0.06960734724999676
+                                    - 51.46346855399628
+                                  - - -0.07003784179688669
+                                    - 51.46339335657561
+                                  - - -0.0700592994690058
+                                    - 51.46344432372982
+                                  - - -0.06963551044465312
+                                    - 51.463517014490634
+                                  - - -0.06960734724999676
+                                    - 51.46346855399628
+                              properties: 
+                      proposal:
+                        description: Construction of a single storey ground floor
+                          side-rear extension.
