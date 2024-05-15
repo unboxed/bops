@@ -34,7 +34,7 @@
 
 <div class="status-bar-container status-bar-container--colored">
   <h2 class="govuk-heading-m">Status update:</h2>
-  <div class="status-bar">
+  <div class="status-bar govuk-!-margin-bottom-4 govuk-!-padding-bottom-4">
     <div class="status-panel<% if filter_enabled_uniquely?(status: 'to_be_reviewed') %> status-panel--highlighted<% end %>" id="reviewer-requests">
       <a class="status-filter-link" href="<%= planning_applications_path(filter_enabled_uniquely?(status: "to_be_reviewed") ? {} : {status: [:to_be_reviewed]}) %>">
         <h3 class="govuk-heading-s"><%= t ".reviewer_requests.title" %></h3>
