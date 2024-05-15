@@ -3,12 +3,6 @@
 module BopsApi
   module Application
     class QueryService
-      include Pagy::Backend
-
-      DEFAULT_PAGE = 1
-      DEFAULT_MAXRESULTS = 10
-      MAXRESULTS_LIMIT = 20
-
       def initialize(scope, params)
         @scope = scope
         @params = params
@@ -17,7 +11,7 @@ module BopsApi
       attr_reader :scope, :params
 
       def call
-        paginate(filter_by_ids)
+        Pagination.new(scope: filter_by_ids, params:).paginate
       end
 
       private
@@ -26,13 +20,6 @@ module BopsApi
         return scope if params[:ids].blank?
 
         scope.where(id: params[:ids])
-      end
-
-      def paginate(scope)
-        page = (params[:page] || DEFAULT_PAGE).to_i
-        maxresults = [(params[:maxresults] || DEFAULT_MAXRESULTS).to_i, MAXRESULTS_LIMIT].min
-
-        pagy(scope, page:, items: maxresults)
       end
     end
   end

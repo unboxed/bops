@@ -16,6 +16,12 @@ BopsApi::Engine.routes.draw do
       resources :planning_applications, only: [:index, :show, :create] do
         get :determined, on: :collection
       end
+
+      namespace :public do
+        resources :planning_applications, only: [] do
+          get :search, on: :collection
+        end
+      end
     end
   end
 end
