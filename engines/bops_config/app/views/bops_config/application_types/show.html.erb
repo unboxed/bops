@@ -13,182 +13,101 @@
       <%= t(".review_application_type") %>
     </h1>
 
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".name") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_type.description %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <% if @application_type.inactive? %>
-            <%= govuk_link_to [:edit, @application_type] do %>
-              <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".name") %></span>
-            <% end %>
-          <% end %>
-        </dd>
-      </div>
+    <%= govuk_summary_list(classes: "govuk-summary-list--no-border") do |summary_list|
+          summary_list.with_row do |row|
+            row.with_key { t(".name") }
+            row.with_value { @application_type.description }
+            if @application_type.inactive?
+              row.with_action(text: t(".change"), href: url_for([:edit, @application_type]), visually_hidden_text: t(".name"))
+            end
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".suffix") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_type.suffix %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <% if @application_type.inactive? %>
-            <%= govuk_link_to [:edit, @application_type] do %>
-              <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".suffix") %></span>
-            <% end %>
-          <% end %>
-        </dd>
-      </div>
+          summary_list.with_row do |row|
+            row.with_key { t(".suffix") }
+            row.with_value { @application_type.suffix }
+            if @application_type.inactive?
+              row.with_action(text: t(".change"), href: url_for([:edit, @application_type]), visually_hidden_text: t(".suffix"))
+            end
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".category") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <% if @application_type.category? %>
-            <%= t(".categories.#{@application_type.category}") %>
-          <% end %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to [:edit, @application_type, :category] do %>
-            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".category") %></span>
-          <% end %>
-        </dd>
-      </div>
+          summary_list.with_row do |row|
+            row.with_key { t(".category") }
+            row.with_value { t(".categories.#{@application_type.category}") if @application_type.category? }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :category]), visually_hidden_text: t(".category"))
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".reporting") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_type.reporting_types.join(", ") %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to [:edit, @application_type, :reporting] do %>
-            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".reporting") %></span>
-          <% end %>
-        </dd>
-      </div>
+          summary_list.with_row do |row|
+            row.with_key { t(".reporting") }
+            row.with_value { @application_type.reporting_types.join(", ")}
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :reporting]), visually_hidden_text: t(".reporting"))
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".legislation") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <% if @application_type.legislation %>
-            <%= @application_type.legislation.title %>
-          <% end %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to [:edit, @application_type, :legislation] do %>
-            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".legislation") %></span>
-          <% end %>
-        </dd>
-      </div>
+          summary_list.with_row do |row|
+            row.with_key { t(".legislation") }
+            row.with_value { @application_type.legislation.title if @application_type.legislation }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :legislation]), visually_hidden_text: t(".legislation"))
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".determination_period") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <% if @application_type.determination_period_days %>
-            <%= t(".determination_period_including_bank_holidays", count: @application_type.determination_period_days) %>
-          <% end %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to [:edit, @application_type, :determination_period] do %>
-            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".determination_period") %></span>
-          <% end %>
-        </dd>
-      </div>
+          summary_list.with_row do |row|
+            row.with_key { t(".determination_period") }
+            row.with_value { t(".determination_period_including_bank_holidays", count: @application_type.determination_period_days) if @application_type.determination_period_days }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :determination_period]), visually_hidden_text: t(".determination_period"))
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".features") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <p class="govuk-body"><strong>Application details</strong></p>
-          <ul class="govuk-list govuk-list--bullet">
-            <% if @application_type.permitted_development_rights? %>
-              <li>Check permitted development rights</li>
-            <% end %>
-            <% if @application_type.planning_conditions? %>
-              <li>Check planning conditions</li>
-            <% end %>
-          </ul>
+          summary_list.with_row do |row|
+            row.with_key { t(".features") }
+            row.with_value { %>
+              <p class="govuk-body"><strong>Application details</strong></p>
+              <ul class="govuk-list govuk-list--bullet">
+                <% if @application_type.permitted_development_rights? %>
+                  <li>Check permitted development rights</li>
+                <% end %>
+                <% if @application_type.planning_conditions? %>
+                  <li>Check planning conditions</li>
+                <% end %>
+              </ul>
 
-          <% if @application_type.consultation? %>
-            <p class="govuk-body"><strong>Consultation</strong></p>
-            <ul class="govuk-list govuk-list--bullet">
-              <% @application_type.consultation_steps.each do |step| %>
-                <li><%= step.humanize %></li>
+              <% if @application_type.consultation? %>
+                <p class="govuk-body"><strong>Consultation</strong></p>
+                <ul class="govuk-list govuk-list--bullet">
+                  <% @application_type.consultation_steps.each do |step| %>
+                    <li><%= step.humanize %></li>
+                  <% end %>
+                </ul>
               <% end %>
-            </ul>
-          <% end %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to [:edit, @application_type, :features] do %>
-            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".features") %></span>
-          <% end %>
-        </dd>
-      </div>
+            <% }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :features]), visually_hidden_text: t(".features"))
+          end
 
-      <% @application_type.document_tags.tag_groups.each do |group| %>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <%= t(".tags") %> – <%= t(".groups.#{group}") %>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <p class="govuk-body max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
-              <% group.translated_tags.each do |tag| %>
-                <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
-              <% end %>
-            </p>
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <%= govuk_link_to [:edit, @application_type, :document_tags, anchor: "#{group}-tags"] do %>
-              <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".links.#{group}") %></span>
-            <% end %>
-          </dd>
-        </div>
-      <% end %>
+          @application_type.document_tags.tag_groups.each do |group|
+            summary_list.with_row do |row|
+              row.with_key { t(".groups.#{group}") }
+              row.with_value { %>
+                <p class="govuk-body max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
+                  <% group.translated_tags.each do |tag| %>
+                    <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
+                  <% end %>
+                </p>
+              <% }
+              row.with_action(
+              text: t(".change"),
+              href: url_for([:edit, @application_type, :document_tags, anchor: "#{group}-tags"]),
+              visually_hidden_text: t(".links.#{group}"))
+            end
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".decisions") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @application_type.decisions.map(&:humanize).join(", ") %>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to [:edit, @application_type, :decisions] do %>
-            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".decisions") %></span>
-          <% end %>
-        </dd>
-      </div>
+          summary_list.with_row do |row|
+            row.with_key { t(".decisions") }
+            row.with_value { @application_type.decisions.map(&:humanize).join(", ") }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :decisions]), visually_hidden_text: t(".decisions"))
+          end
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".status") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <span class="govuk-tag <%= "govuk-tag--#{tag_colour(@application_type.status)}" %>">
-            <%= @application_type.status.humanize %>
-          </span>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to [:edit, @application_type, :status] do %>
-            <%= t(".change") %><span class="govuk-visually-hidden"> <%= t(".status") %></span>
-          <% end %>
-        </dd>
-      </div>
-    </dl>
+          summary_list.with_row do |row|
+            row.with_key { t(".status") }
+            row.with_value { govuk_tag(text: @application_type.status.humanize, colour: tag_colour(@application_type.status)) }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :status]), visually_hidden_text: t(".status"))
+          end
+        end %>
 
     <div class="govuk-button-group">
       <%= link_to t(".continue"), :application_types, class: "govuk-button" %>
