@@ -17,7 +17,9 @@ RSpec.describe "Validation tasks" do
 
   context "when application is not started or invalidated" do
     it "displays the content when checking for the environment impact assessment" do
-      expect(page).to have_content("Expiry date: 11 March 2024")
+      within("#expiry-date") do
+        expect(page).to have_content("Expiry date 11/03/2024")
+      end
       click_link "Check Environment Impact Assessment"
 
       expect(page).to have_content("Environment Impact Assessment (EIA)")
@@ -44,9 +46,13 @@ RSpec.describe "Validation tasks" do
       within(".govuk-notification-banner--notice") do
         expect(page).to have_content("Application marked as requiring an EIA. The determination period is extended to 16 weeks.")
       end
-      within("#dates-and-assignment-details") do
-        expect(page).to have_content("Expiry date: 6 May 2024")
-        expect(page).to have_content("Subject to an EIA")
+      within("#planning-application-statuses-tags") do
+        expect(page).to have_selector("span.govuk-tag.govuk-tag--yellow", text: "EIA")
+      end
+      within("#expiry-date") do
+        expect(page).to have_content("Expiry date 06/05/2024")
+      end
+      within("#view-eia-details") do
         expect(page).to have_content("The expiry date has been extended to 16 weeks")
       end
       within("#environmental-impact-assessment-task") do
@@ -79,9 +85,13 @@ RSpec.describe "Validation tasks" do
       within(".govuk-notification-banner--notice") do
         expect(page).to have_content("Application marked as requiring an EIA. The determination period is extended to 16 weeks.")
       end
-      within("#dates-and-assignment-details") do
-        expect(page).to have_content("Expiry date: 6 May 2024")
-        expect(page).to have_content("Subject to an EIA")
+      within("#planning-application-statuses-tags") do
+        expect(page).to have_selector("span.govuk-tag.govuk-tag--yellow", text: "EIA")
+      end
+      within("#expiry-date") do
+        expect(page).to have_content("Expiry date 06/05/2024")
+      end
+      within("#view-eia-details") do
         expect(page).to have_content("The expiry date has been extended to 16 weeks")
       end
       within("#environmental-impact-assessment-task") do
@@ -155,7 +165,9 @@ RSpec.describe "Validation tasks" do
         click_link "Check Environment Impact Assessment"
         choose "Yes"
         click_button "Save and mark as complete"
-        expect(page).to have_content("Expiry date: 6 May 2024")
+        within("#expiry-date") do
+          expect(page).to have_content("Expiry date 06/05/2024")
+        end
 
         click_link "Check Environment Impact Assessment"
         click_link "Edit information"
@@ -168,8 +180,10 @@ RSpec.describe "Validation tasks" do
           end
         end
 
-        expect(page).to have_content("Expiry date: 11 March 2024")
-        expect(page).not_to have_content("Subject to an EIA")
+        within("#expiry-date") do
+          expect(page).to have_content("Expiry date 11/03/2024")
+        end
+        expect(page).not_to have_content("The expiry date has been extended to 16 weeks")
 
         visit "/planning_applications/#{planning_application.id}/audits"
         within("#audit_#{Audit.last.id}") do

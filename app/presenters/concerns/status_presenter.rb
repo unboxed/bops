@@ -46,11 +46,11 @@ module StatusPresenter
 
     def next_date_label
       if in_progress?
-        "Expiry date: "
+        "Expiry date"
       elsif determined?
-        "#{decision.humanize} at: "
+        "#{decision.humanize} at"
       else
-        "#{status.humanize} at: "
+        "#{status.humanize} at"
       end
     end
 

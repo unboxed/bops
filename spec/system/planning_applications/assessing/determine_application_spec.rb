@@ -91,7 +91,10 @@ RSpec.describe "Planning Application Assessment" do
 
         expect(page).to have_content("Decision Notice sent to applicant")
 
-        expect(page).to have_content("Granted at: 2 April 2025")
+        within "#expiry-date" do
+          expect(page).to have_content("Granted at 02/04/2025")
+        end
+
         expect(page).to have_link(
           "View decision notice",
           href: decision_notice_planning_application_path(planning_application)

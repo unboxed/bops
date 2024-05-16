@@ -60,7 +60,9 @@ RSpec.describe "Withdraw or cancel" do
         expect(page).to have_content("Closed")
       end
       expect(page).to have_content("Reason for being closed: Closed reason")
-      expect(page).to have_content("Closed at: #{planning_application.closed_at}")
+      within("#expiry-date") do
+        expect(page).to have_content("Closed at #{planning_application.closed_at}")
+      end
       planning_application.reload
       expect(planning_application.status).to eq("closed")
       expect(planning_application.closed_or_cancellation_comment).to eq("Closed reason")
