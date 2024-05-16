@@ -18,27 +18,21 @@
       </strong>
     </h2>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    <dl class="govuk-summary-list govuk-summary-list--no-border">
- <% {
-      "Applicant" => planning_application.applicant_name,
-      "Application number" => planning_application.reference,
-      "Application received" => planning_application.received_at.to_fs,
-      "Decision date" => planning_application.determination_date&.to_fs || "TBD",
-      "Site address" => planning_application.full_address,
-      "Use/development" => planning_application.description
-    }.each do |key, value| %>
-        <div class="govuk-summary-list__column">
-          <dt class="govuk-summary-list__key">
-            <%= key %>
-          </dt>
-        </div>
-        <div class="govuk-summary-list__column">
-          <dt class="govuk-summary-list__value">
-            <%= value %>
-          </dt>
-        </div>
-      <% end %>
-    </dl>
+    <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list|
+          {
+            "Applicant" => planning_application.applicant_name,
+            "Application number" => planning_application.reference,
+            "Application received" => planning_application.received_at.to_fs,
+            "Decision date" => planning_application.determination_date&.to_fs || "TBD",
+            "Site address" => planning_application.full_address,
+            "Use/development" => planning_application.description
+          }.each do |pair|
+            summary_list.with_row do |row|
+              row.with_key { pair[0] }
+              row.with_value { pair[1] }
+            end
+          end
+        end %>
     <% if @planning_application.application_type.name == "lawfulness_certificate" %>
       <p class="govuk-body">
         We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= (@planning_application.work_status == "proposed") ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.

@@ -3,72 +3,41 @@
     <%= t(".heading") %>
   </h2>
 
-  <dl class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        <%= t(".name") %>
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= name %>
-      </dd>
-    </div>
+<%= govuk_summary_list(actions: false) do |summary_list|
+      summary_list.with_row do |row|
+        row.with_key { t(".name") }
+        row.with_value { name }
+      end
 
-    <% if role? %>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".role") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= role %>
-        </dd>
-      </div>
-    <% end %>
+      if role?
+        summary_list.with_row do |row|
+          row.with_key { t(".role") }
+          row.with_value { role }
+        end
+      end
 
-    <% if organisation? %>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= t(".organisation") %>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= organisation %>
-        </dd>
-      </div>
-    <% end %>
+      if organisation?
+        summary_list.with_row do |row|
+          row.with_key { t(".organisation") }
+          row.with_value { organisation }
+        end
+      end
 
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        <%= t(".email_address") %>
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= email_address %>
-      </dd>
-    </div>
-
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        <%= t(".consulted_on") %>
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= consulted_on %>
-      </dd>
-    </div>
-
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        <%= t(".last_received_on") %>
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= last_received_on %>
-      </dd>
-    </div>
-
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">
-        <%= t(".status") %>
-      </dt>
-      <dd class="govuk-summary-list__value">
-        <%= consultee_status %>
-      </dd>
-    </div>
-  </dl>
+      summary_list.with_row do |row|
+        row.with_key { t(".email_address") }
+        row.with_value { email_address }
+      end
+      summary_list.with_row do |row|
+        row.with_key { t(".consulted_on") }
+        row.with_value { consulted_on }
+      end
+      summary_list.with_row do |row|
+        row.with_key { t(".last_received_on") }
+        row.with_value { last_received_on }
+      end
+      summary_list.with_row do |row|
+        row.with_key { t(".status") }
+        row.with_value { consultee_status }
+      end
+    end %>
 </div>
