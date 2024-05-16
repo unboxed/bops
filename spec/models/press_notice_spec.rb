@@ -46,7 +46,7 @@ RSpec.describe PressNotice do
           it "allows a press notice to be created" do
             expect do
               press_notice
-            end.not_to raise_error(described_class::NotCreatableError)
+            end.not_to raise_error
           end
         end
 

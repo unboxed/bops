@@ -62,7 +62,7 @@ RSpec.describe SiteNotice do
           it "allows a site notice to be created" do
             expect do
               site_notice
-            end.not_to raise_error(described_class::NotCreatableError)
+            end.not_to raise_error
           end
         end
 
