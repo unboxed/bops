@@ -18,8 +18,7 @@
     </p>
 
     <% unless @documents.any? && @documents.all?(&:representable?) %>
-      <%= render "shared/warning_text",
-            message: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements." %>
+      <%= govuk_warning_text(text: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements.") %>
     <% end %>
 
     <% if @planning_application.local_authority.document_checklist? %>

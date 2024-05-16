@@ -5,10 +5,7 @@
 <% end %>
 <% if planning_application.boundary_geojson.present? %>
   <% if planning_application.address_or_boundary_or_constraints_updated? %>
-    <%= render(
-          partial: "shared/warning_text",
-          locals: {message: t(".this_application_has")}
-        ) %>
+    <%= govuk_warning_text(text: t(".this_application_has")) %>
   <% end %>
   <p class="govuk-body">
     <%= t(".site_map_drawn_by", name: site_map_drawn_by) %>

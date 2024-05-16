@@ -1,7 +1,4 @@
-<%= render(
-      partial: "shared/warning_text",
-      locals: {message: warning_message}
-    ) %>
+<%= govuk_warning_text(text: warning_message) %>
 <p class="govuk-body">
   <%= t(".reason_given_html", feedback: feedback) %>
 </p>
