@@ -38,7 +38,7 @@
       <%= label_tag("assessment-detail-entry-field", t(".heading")) %>
     </h2>
 
-    <%= render(partial: "shared/warning_text", locals: {message: t(".warning")}) %>
+    <%= govuk_warning_text(text: t(".warning")) %>
 
     <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
       <%= form.govuk_error_summary(presenter: ConsultationSummaryErrorPresenter) %>

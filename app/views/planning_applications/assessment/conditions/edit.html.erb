@@ -25,7 +25,7 @@
     <p class="govuk-body govuk-!-margin-top-5">
       Select and add the relevant conditions
     </p>
-    <%= render "shared/warning_text", message: "This information WILL be made publicly available." %>
+    <%= govuk_warning_text(text: "This information WILL be made publicly available.") %>
     <%= render "form" %>
   </div>
 </div>

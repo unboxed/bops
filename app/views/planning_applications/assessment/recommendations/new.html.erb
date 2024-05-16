@@ -83,10 +83,7 @@
       <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
         <%= form.label(:public_comment, t(".state_the_reason"), class: "govuk-label govuk-label--s") %>
         <div class="govuk-hint"><%= t(".refer_to_the") %></div>
-        <%= render(
-              partial: "shared/warning_text",
-              locals: {message: t(".this_information_will")}
-            ) %>
+        <%= govuk_warning_text(text: t(".this_information_will")) %>
         <% if form.object.errors[:public_comment].any? %>
           <p id="recommendation-form-public-comment-field-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">
