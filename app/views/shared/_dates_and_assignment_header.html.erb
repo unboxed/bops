@@ -3,18 +3,16 @@
     <% if @planning_application.consultation&.end_date %>
       <% if display_or_publish_required?(@planning_application, :site) %>
         <div id="confirm-site-notice-warning">
-          <%= render(
-                partial: "shared/warning_text",
-                locals: {message: link_to("Confirm site notice display date", edit_planning_application_site_notice_path(@planning_application, @planning_application.site_notice))}
+          <%= govuk_warning_text(
+                text: link_to("Confirm site notice display date", edit_planning_application_site_notice_path(@planning_application, @planning_application.site_notice))
               ) %>
         </div>
       <% end %>
 
       <% if display_or_publish_required?(@planning_application, :press) %>
         <div id="confirm-press-notice-warning">
-          <%= render(
-                partial: "shared/warning_text",
-                locals: {message: govuk_link_to("Confirm press notice publication date", planning_application_press_notice_confirmation_path(@planning_application))}
+          <%= govuk_warning_text(
+                text: govuk_link_to("Confirm press notice publication date", planning_application_press_notice_confirmation_path(@planning_application))
               ) %>
         </div>
       <% end %>
