@@ -55,25 +55,23 @@ jobs:
     strategy:
       matrix:
         specs:
-          - { group: "models", pattern: "[a-p]*_spec.rb" }
-          - { group: "models", pattern: "[q-z]*_spec.rb" }
-          - { group: "controllers", pattern: "*_spec.rb" }
+          - { group: "models", pattern: "*_spec.rb" }
           - { group: "requests", pattern: "*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "a[a-f]*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "a[g-s]*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "a[t-z]*_spec.rb" }
+          - { group: "system", pattern: "a[a-r]*_spec.rb", want_pdf: true }
+          - { group: "system", pattern: "a[s-z]*_spec.rb", want_pdf: true }
           - { group: "system", pattern: "[b-c]*_spec.rb", want_pdf: true }
           - { group: "system", pattern: "[d-f]*_spec.rb", want_pdf: true }
           - { group: "system", pattern: "[g-k]*_spec.rb" }
-          - { group: "system", pattern: "[l-m]*_spec.rb" }
-          - { group: "system", pattern: "[n-p]*_spec.rb" }
+          - { group: "system", pattern: "[l-n]*_spec.rb" }
+          - { group: "system", pattern: "[o-p]*_spec.rb" }
           - { group: "system", pattern: "[q-r]*_spec.rb" }
-          - { group: "system", pattern: "[s-t]*_spec.rb" }
-          - { group: "system", pattern: "[u-z]*_spec.rb" }
+          - { group: "system", pattern: "s[a-e]*_spec.rb" }
+          - { group: "system", pattern: "s[f-z]*_spec.rb" }
+          - { group: "system", pattern: "[t-z]*_spec.rb" }
           - {
               group: "other",
               pattern: "*_spec.rb",
-              directories: "{components,form_models,helpers,presenters,mailer,jobs,services,translations}",
+              directories: "{components,controllers,form_models,helpers,presenters,mailer,jobs,services,translations}",
             }
           - { group: "bops_admin", pattern: "*_spec.rb", module: "engines" }
           - { group: "bops_api", pattern: "*_spec.rb", module: "engines" }
