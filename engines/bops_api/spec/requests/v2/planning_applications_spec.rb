@@ -307,22 +307,6 @@ RSpec.describe "BOPS API" do
 
         run_test!
       end
-
-      response "500", "when an internal server error occurs" do
-        schema "$ref" => "#/components/schemas/InternalServerError"
-
-        example "application/json", :default, {
-          error: {
-            code: 500,
-            message: "Internal Server Error",
-            detail: "expected :page in 1..3; got 4"
-          }
-        }
-
-        let(:page) { 4 }
-
-        run_test!
-      end
     end
   end
 
@@ -394,20 +378,6 @@ RSpec.describe "BOPS API" do
             }
           )
         end
-      end
-
-      response "500", "when an internal server error occurs" do
-        schema "$ref" => "#/components/schemas/InternalServerError"
-
-        example "application/json", :default, {
-          error: {
-            code: 500,
-            message: "Internal Server Error",
-            detail: "expected :page in 1..8; got 20"
-          }
-        }
-
-        run_test!
       end
     end
   end

@@ -92,14 +92,6 @@ components:
           type: object
         email:
           "$ref": "#/components/definitions/Email"
-        interest:
-          enum:
-          - owner.sole
-          - owner.co
-          - tenant
-          - occupier
-          - other
-          type: string
         name:
           additionalProperties: false
           properties:
@@ -142,6 +134,33 @@ components:
       - siteContact
       - type
       type: object
+    AnyProviderMetadata:
+      "$id": "#AnyProviderMetadata"
+      additionalProperties: false
+      description: Base metadata associated with applications submitted via any provider
+      properties:
+        id:
+          "$ref": "#/components/definitions/UUID"
+          description: Unique identifier for this application
+        organisation:
+          description: The reference code for the organisation responsible for processing
+            this planning application, sourced from planning.data.gov.uk/dataset/local-authority
+          maxLength: 4
+          type: string
+        schema:
+          "$ref": "#/components/definitions/URL"
+        source:
+          const: Any
+          type: string
+        submittedAt:
+          "$ref": "#/components/definitions/DateTime"
+      required:
+      - id
+      - organisation
+      - schema
+      - source
+      - submittedAt
+      type: object
     Applicant:
       "$id": "#Applicant"
       anyOf:
@@ -151,22 +170,10 @@ components:
         behalf of someone else
     Application:
       "$id": "#Application"
-      additionalProperties: false
+      anyOf:
+      - "$ref": "#/components/definitions/BaseApplication"
+      - "$ref": "#/components/definitions/LondonApplication"
       description: Information about this planning application
-      properties:
-        declaration:
-          "$ref": "#/components/definitions/ApplicationDeclaration"
-        fee:
-          "$ref": "#/components/definitions/ApplicationFee"
-        preApp:
-          "$ref": "#/components/definitions/PreApplication"
-        type:
-          "$ref": "#/components/definitions/ApplicationType"
-      required:
-      - type
-      - fee
-      - declaration
-      type: object
     ApplicationDeclaration:
       "$id": "#ApplicationDeclaration"
       additionalProperties: false
@@ -201,7 +208,69 @@ components:
       description: The costs associated with this application
       properties:
         calculated:
+          description: Total calculated fee in GBP
           type: number
+        category:
+          additionalProperties: false
+          description: Breakdown of calculated fee in GBP by category of development,
+            based on the scales defined in The Town and Country Planning Regulations
+            https://www.legislation.gov.uk/uksi/2012/2920/schedule/1/part/2
+          properties:
+            eight:
+              description: Category 8 - Car parks or access roads
+              type: number
+            eleven:
+              additionalProperties: false
+              properties:
+                one:
+                  description: Category 11(1) - Mining operations
+                  type: number
+                two:
+                  description: Category 11(2) - Other operations
+                  type: number
+              type: object
+            five:
+              description: Category 5 - Plant equipment or machinery
+              type: number
+            four:
+              description: Category 4 - Glasshouses on agricultural land
+              type: number
+            fourteen:
+              description: Category 14 - Other change of use
+              type: number
+            nine:
+              description: Category 9 - Exploratory drilling
+              type: number
+            one:
+              description: Category 1 - New homes
+              type: number
+            sixAndSeven:
+              description: Category 6 and 7 - Home or curtilage of home
+              type: number
+            ten:
+              description: Category 10 - Winning and working of oil or natural gas
+              type: number
+            thirteen:
+              description: Category 13 - Waste disposal
+              type: number
+            three:
+              description: Category 3 - Agricultural buildings
+              type: number
+            twelve:
+              additionalProperties: false
+              properties:
+                one:
+                  description: Category 12(1) - Change of use from single home to
+                    homes
+                  type: number
+                two:
+                  description: Category 12(2) - Change of use to home
+                  type: number
+              type: object
+            two:
+              description: Category 2 - Other new buildings
+              type: number
+          type: object
         exemption:
           additionalProperties: false
           properties:
@@ -214,6 +283,7 @@ components:
           - resubmission
           type: object
         payable:
+          description: Total payable fee after any exemptions or reductions in GBP
           type: number
         reduction:
           additionalProperties: false
@@ -243,6 +313,18 @@ components:
       - payable
       - exemption
       - reduction
+      type: object
+    ApplicationFeeNotApplicable:
+      "$id": "#ApplicationFeeNotApplicable"
+      additionalProperties: false
+      description: An indicator that an application fee does not apply to this application
+        type or journey
+      properties:
+        notApplicable:
+          const: true
+          type: boolean
+      required:
+      - notApplicable
       type: object
     ApplicationType:
       "$id": "#ApplicationType"
@@ -814,6 +896,19 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Full Planning Permission - Fast track for the purposes of Affordable
+              Housing
+            type: string
+          value:
+            const: pp.full.fastTrack.affordable
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Planning Permission - Full householder
             type: string
           value:
@@ -963,11 +1058,136 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Consent to carry out works to a tree in a Conservation Area or
-              with a Tree Preservation Order
+            const: Planning permission - Outline for proposed development (minor)
             type: string
           value:
-            const: treeWorksConsent
+            const: pp.outline.minor
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Consent for the principle of a project
+              witholding all details (minor)
+            type: string
+          value:
+            const: pp.outline.minor.allReserved
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Approval of reserved matters (minor)
+            type: string
+          value:
+            const: pp.outline.minor.reservedMatters
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Consent for the principle of a project
+              specifying some details (minor)
+            type: string
+          value:
+            const: pp.outline.minor.someReserved
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning permission - Outline for proposed development (major)
+            type: string
+          value:
+            const: pp.outline.major
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Consent for the principle of a project
+              witholding all details (major)
+            type: string
+          value:
+            const: pp.outline.major.allReserved
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Approval of reserved matters (major)
+            type: string
+          value:
+            const: pp.outline.major.reservedMatters
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Consent for the principle of a project
+              specifying some details (major)
+            type: string
+          value:
+            const: pp.outline.major.someReserved
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Works to trees
+            type: string
+          value:
+            const: wtt
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Works to trees - Consent to carry out works to a tree with a Tree
+              Preservation Order
+            type: string
+          value:
+            const: wtt.consent
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Works to trees - Notification of proposed works to a tree in a
+              Conservation Area
+            type: string
+          value:
+            const: wtt.notice
             type: string
         required:
         - value
@@ -1016,14 +1236,6 @@ components:
           type: object
         email:
           "$ref": "#/components/definitions/Email"
-        interest:
-          enum:
-          - owner.sole
-          - owner.co
-          - tenant
-          - occupier
-          - other
-          type: string
         name:
           additionalProperties: false
           properties:
@@ -1065,9 +1277,46 @@ components:
       - address
       - siteContact
       type: object
-    BaseDetails:
+    BaseApplication:
       additionalProperties: false
       properties:
+        CIL:
+          "$ref": "#/components/definitions/CommunityInfrastructureLevy"
+        declaration:
+          "$ref": "#/components/definitions/ApplicationDeclaration"
+        fee:
+          anyOf:
+          - "$ref": "#/components/definitions/ApplicationFee"
+          - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
+        preApp:
+          "$ref": "#/components/definitions/PreApplication"
+        type:
+          "$ref": "#/components/definitions/ApplicationType"
+      required:
+      - type
+      - fee
+      - declaration
+      type: object
+    BaseProposal:
+      additionalProperties: false
+      properties:
+        boundary:
+          additionalProperties: false
+          description: Location plan boundary proposed by the user, commonly referred
+            to as the red line boundary
+          properties:
+            area:
+              "$ref": "#/components/definitions/Area"
+            site:
+              "$ref": "#/components/definitions/GeoJSON"
+          required:
+          - site
+          - area
+          type: object
+        date:
+          "$ref": "#/components/definitions/ProposalDates"
+        description:
+          type: string
         extend:
           additionalProperties: false
           properties:
@@ -1076,6 +1325,9 @@ components:
           required:
           - area
           type: object
+        materials:
+          "$ref": "#/components/definitions/Materials"
+          description: Proposed materials, if applicable to projectType
         new:
           additionalProperties: false
           properties:
@@ -1094,29 +1346,52 @@ components:
           required:
           - area
           type: object
-      type: object
-    BaseMetadata:
-      "$id": "#BaseMetadata"
-      additionalProperties: false
-      description: Minimum metadata expected for any application
-      properties:
-        id:
-          "$ref": "#/components/definitions/UUID"
-          description: Unique identifier for this application
-        organisation:
-          description: The reference code for the organisation responsible for processing
-            this planning application, sourced from planning.data.gov.uk/dataset/local-authority
-          maxLength: 4
-          type: string
-        schema:
-          "$ref": "#/components/definitions/URL"
-        submittedAt:
-          "$ref": "#/components/definitions/DateTime"
+        projectType:
+          items:
+            "$ref": "#/components/definitions/ProjectType"
+          type: array
       required:
-      - organisation
-      - id
-      - submittedAt
-      - schema
+      - projectType
+      - description
+      type: object
+    CalculateMetadata:
+      "$id": "#CalculateMetadata"
+      additionalProperties: false
+      description: Metadata associated with PlanX Calculate components used to determine
+        fees throughout a service
+      properties:
+        description:
+          type: string
+        policyRefs:
+          items:
+            additionalProperties: false
+            properties:
+              text:
+                type: string
+              url:
+                "$ref": "#/components/definitions/URL"
+            required:
+            - text
+            type: object
+          type: array
+      type: object
+    CommunityInfrastructureLevy:
+      "$id": "#CommunityInfrastructureLevy"
+      additionalProperties: false
+      description: Details about the Community Infrastructure Levy planning charge,
+        if applicable
+      properties:
+        result:
+          enum:
+          - exempt.annexe
+          - exempt.extension
+          - exempt.selfBuild
+          - liable
+          - relief.charity
+          - relief.socialHousing
+          type: string
+      required:
+      - result
       type: object
     Date:
       format: date
@@ -1220,6 +1495,108 @@ components:
       - features
       - type
       type: object
+    FeeExplanation:
+      "$id": "#FeeExplanation"
+      additionalProperties: false
+      description: An explanation, including policy references, of the fees associated
+        with this application
+      properties:
+        calculated:
+          items:
+            "$ref": "#/components/definitions/CalculateMetadata"
+          type: array
+        category:
+          additionalProperties: false
+          description: Breakdown of calculated fee by category of development, based
+            on the scales defined in The Town and Country Planning Regulations https://www.legislation.gov.uk/uksi/2012/2920/schedule/1/part/2
+          properties:
+            eight:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            eleven:
+              additionalProperties: false
+              properties:
+                one:
+                  items:
+                    "$ref": "#/components/definitions/CalculateMetadata"
+                  type: array
+              required:
+              - one
+              type: object
+            five:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            four:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            fourteen:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            nine:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            one:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            sixAndSeven:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            ten:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            thirteen:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            three:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+            twelve:
+              additionalProperties: false
+              properties:
+                one:
+                  items:
+                    "$ref": "#/components/definitions/CalculateMetadata"
+                  type: array
+                two:
+                  items:
+                    "$ref": "#/components/definitions/CalculateMetadata"
+                  type: array
+              type: object
+            two:
+              items:
+                "$ref": "#/components/definitions/CalculateMetadata"
+              type: array
+          type: object
+        payable:
+          items:
+            "$ref": "#/components/definitions/CalculateMetadata"
+          type: array
+      required:
+      - calculated
+      - payable
+      type: object
+    FeeExplanationNotApplicable:
+      "$id": "#FeeExplanationNotApplicable"
+      additionalProperties: false
+      description: An indicator that an application fee does not apply to this application
+        type or journey, therefore there is not an explanation of how it was calculated
+      properties:
+        notApplicable:
+          const: true
+          type: boolean
+      required:
+      - notApplicable
+      type: object
     File:
       "$id": "#File"
       additionalProperties: false
@@ -1240,6 +1617,18 @@ components:
     FileType:
       "$id": "#FileType"
       anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Details of impact on access, roads, and rights of way
+            type: string
+          value:
+            const: accessRoadsRightsOfWayDetails
+            type: string
+        required:
+        - value
+        - description
+        type: object
       - additionalProperties: false
         properties:
           description:
@@ -1488,6 +1877,18 @@ components:
             type: string
           value:
             const: environmentalImpactAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: External materials details
+            type: string
+          value:
+            const: externalMaterialsDetails
             type: string
         required:
         - value
@@ -2108,6 +2509,30 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Location of trees and hedges
+            type: string
+          value:
+            const: treeAndHedgeLocation
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Removed or pruned trees and hedges
+            type: string
+          value:
+            const: treeAndHedgeRemovedOrPruned
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Tree canopy calculator
             type: string
           value:
@@ -2228,6 +2653,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Viability Appraisal
+            type: string
+          value:
+            const: viabilityAppraisal
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Visualisations
             type: string
           value:
@@ -2306,6 +2743,20 @@ components:
       - geometries
       - type
       type: object
+    LeadDeveloper:
+      additionalProperties: false
+      properties:
+        companyRegistrationNumber:
+          type: string
+        type:
+          enum:
+          - ukCompany
+          - overseasCompany
+          - none
+          type: string
+      required:
+      - type
+      type: object
     LineString:
       additionalProperties: false
       description: LineString geometry object. https://tools.ietf.org/html/rfc7946#section-3.1.4
@@ -2330,441 +2781,32 @@ components:
       - coordinates
       - type
       type: object
-    LondonDetails:
-      "$id": "#LondonDetails"
+    LondonApplication:
+      "$id": "#LondonApplication"
       additionalProperties: false
-      description: Proposal details for project sites within the Greater London Authority
-        (GLA) area
+      description: Application details for project sites within the Greater London
+        Authority (GLA) area
       properties:
-        extend:
-          additionalProperties: false
-          properties:
-            area:
-              "$ref": "#/components/definitions/Area"
-          required:
-          - area
-          type: object
-        new:
-          additionalProperties: false
-          properties:
-            area:
-              "$ref": "#/components/definitions/Area"
-            count:
-              additionalProperties: false
-              properties:
-                bathrooms:
-                  type: number
-                bedrooms:
-                  type: number
-                dwellings:
-                  type: number
-              type: object
-          required:
-          - area
-          type: object
-        vehicleParking:
-          additionalProperties: false
-          properties:
-            bicycles:
-              additionalProperties: false
-              properties:
-                count:
-                  additionalProperties: false
-                  properties:
-                    existing:
-                      type: number
-                    proposed:
-                      type: number
-                  required:
-                  - existing
-                  - proposed
-                  type: object
-                offStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-                onStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-              required:
-              - count
-              type: object
-            buses:
-              additionalProperties: false
-              properties:
-                count:
-                  additionalProperties: false
-                  properties:
-                    existing:
-                      type: number
-                    proposed:
-                      type: number
-                  required:
-                  - existing
-                  - proposed
-                  type: object
-                offStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-                onStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-              required:
-              - count
-              type: object
-            cars:
-              additionalProperties: false
-              properties:
-                count:
-                  additionalProperties: false
-                  properties:
-                    existing:
-                      type: number
-                    proposed:
-                      type: number
-                  required:
-                  - existing
-                  - proposed
-                  type: object
-                offStreet:
-                  additionalProperties: false
-                  properties:
-                    club:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                    disabled:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                    other:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                    residents:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                  required:
-                  - count
-                  type: object
-                onStreet:
-                  additionalProperties: false
-                  properties:
-                    club:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                    disabled:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                    other:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                    residents:
-                      additionalProperties: false
-                      properties:
-                        count:
-                          additionalProperties: false
-                          properties:
-                            existing:
-                              type: number
-                            proposed:
-                              type: number
-                          required:
-                          - existing
-                          - proposed
-                          type: object
-                      required:
-                      - count
-                      type: object
-                  required:
-                  - count
-                  type: object
-              required:
-              - count
-              type: object
-            motorcycles:
-              additionalProperties: false
-              properties:
-                count:
-                  additionalProperties: false
-                  properties:
-                    existing:
-                      type: number
-                    proposed:
-                      type: number
-                  required:
-                  - existing
-                  - proposed
-                  type: object
-                offStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-                onStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-              required:
-              - count
-              type: object
-            type:
-              items:
-                "$ref": "#/components/definitions/VehicleParking"
-              type: array
-            vans:
-              additionalProperties: false
-              properties:
-                count:
-                  additionalProperties: false
-                  properties:
-                    existing:
-                      type: number
-                    proposed:
-                      type: number
-                  required:
-                  - existing
-                  - proposed
-                  type: object
-                offStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-                onStreet:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      additionalProperties: false
-                      properties:
-                        existing:
-                          type: number
-                        proposed:
-                          type: number
-                      required:
-                      - existing
-                      - proposed
-                      type: object
-                  required:
-                  - count
-                  type: object
-              required:
-              - count
-              type: object
-          required:
-          - type
-          type: object
+        CIL:
+          "$ref": "#/components/definitions/CommunityInfrastructureLevy"
+        declaration:
+          "$ref": "#/components/definitions/ApplicationDeclaration"
+        fee:
+          anyOf:
+          - "$ref": "#/components/definitions/ApplicationFee"
+          - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
+        leadDeveloper:
+          "$ref": "#/components/definitions/LeadDeveloper"
+        preApp:
+          "$ref": "#/components/definitions/PreApplication"
+        type:
+          "$ref": "#/components/definitions/ApplicationType"
+        vacantBuildingCredit:
+          type: boolean
       required:
-      - vehicleParking
+      - declaration
+      - fee
+      - type
       type: object
     LondonProperty:
       "$id": "#LondonProperty"
@@ -2811,6 +2853,90 @@ components:
           items:
             type: string
           type: array
+        materials:
+          "$ref": "#/components/definitions/Materials"
+        parking:
+          additionalProperties: false
+          properties:
+            buses:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            carClub:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            cars:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            cycles:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            disabled:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            motorcycles:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            offStreet:
+              additionalProperties: false
+              properties:
+                residential:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+              required:
+              - residential
+              type: object
+            other:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            vans:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+          type: object
         planning:
           additionalProperties: false
           description: Planning constraints and policies that intersect with this
@@ -2855,6 +2981,8 @@ components:
         region:
           const: London
           type: string
+        socialLandlord:
+          type: boolean
         titleNumber:
           additionalProperties: false
           properties:
@@ -2871,17 +2999,357 @@ components:
         type:
           "$ref": "#/components/definitions/PropertyType"
       required:
-      - EPC
       - address
       - localAuthorityDistrict
       - region
-      - titleNumber
       - type
+      type: object
+    LondonProposal:
+      "$id": "#LondonProposal"
+      additionalProperties: false
+      description: Proposal details for project sites within the Greater London Authority
+        (GLA) area
+      properties:
+        boundary:
+          additionalProperties: false
+          description: Location plan boundary proposed by the user, commonly referred
+            to as the red line boundary
+          properties:
+            area:
+              "$ref": "#/components/definitions/Area"
+            site:
+              "$ref": "#/components/definitions/GeoJSON"
+          required:
+          - site
+          - area
+          type: object
+        charging:
+          additionalProperties: false
+          description: Electric vehicle charing points
+          properties:
+            active:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            passive:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+          required:
+          - active
+          - passive
+          type: object
+        cost:
+          additionalProperties: false
+          description: Project cost
+          properties:
+            projected:
+              enum:
+              - 2m
+              - 2mTo100m
+              - 100m
+              type: string
+          required:
+          - projected
+          type: object
+        date:
+          "$ref": "#/components/definitions/ProposalDates"
+        description:
+          type: string
+        extend:
+          additionalProperties: false
+          properties:
+            area:
+              "$ref": "#/components/definitions/Area"
+          required:
+          - area
+          type: object
+        materials:
+          "$ref": "#/components/definitions/Materials"
+          description: Proposed materials, if applicable to projectType
+        nature:
+          additionalProperties: false
+          description: Changes that result in the loss, gain, or change of use of
+            natural spaces
+          properties:
+            openSpaces:
+              items:
+                additionalProperties: false
+                properties:
+                  access:
+                    enum:
+                    - restricted
+                    - unrestricted
+                    type: string
+                  area:
+                    additionalProperties: false
+                    properties:
+                      hectares:
+                        type: number
+                    required:
+                    - hectares
+                    type: object
+                  description:
+                    type: string
+                  designation:
+                    "$ref": "#/components/definitions/OpenSpaceDesignation"
+                  impact:
+                    enum:
+                    - loss
+                    - gain
+                    - change
+                    type: string
+                  swap:
+                    description: Whether the open space change involves a land swap
+                    type: boolean
+                  type:
+                    "$ref": "#/components/definitions/OpenSpaceType"
+                required:
+                - impact
+                - description
+                - type
+                - designation
+                - access
+                - area
+                - swap
+                type: object
+              type: array
+            protectedSpaces:
+              items:
+                additionalProperties: false
+                properties:
+                  access:
+                    enum:
+                    - restricted
+                    - unrestricted
+                    type: string
+                  area:
+                    additionalProperties: false
+                    properties:
+                      hectares:
+                        type: number
+                    required:
+                    - hectares
+                    type: object
+                  description:
+                    type: string
+                  designation:
+                    "$ref": "#/components/definitions/ProtectedSpaceDesignation"
+                  impact:
+                    enum:
+                    - loss
+                    - gain
+                    - change
+                    type: string
+                required:
+                - impact
+                - description
+                - designation
+                - access
+                - area
+                type: object
+              type: array
+          type: object
+        new:
+          additionalProperties: false
+          properties:
+            area:
+              "$ref": "#/components/definitions/Area"
+            count:
+              additionalProperties: false
+              properties:
+                bathrooms:
+                  type: number
+                bedrooms:
+                  type: number
+                dwellings:
+                  type: number
+              type: object
+          required:
+          - area
+          type: object
+        newBuildings:
+          "$ref": "#/components/definitions/NewBuildingsOrStoreys"
+          description: Creating new buildings
+        newStoreys:
+          "$ref": "#/components/definitions/NewBuildingsOrStoreys"
+          description: Increasing the height of existing buildings
+        parking:
+          additionalProperties: false
+          description: Proposed parking spaces
+          properties:
+            buses:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+            carClub:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+            cars:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+            cycles:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+            disabled:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+            motorcycles:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+            offStreet:
+              additionalProperties: false
+              properties:
+                residential:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                    difference:
+                      type: number
+                  required:
+                  - count
+                  - difference
+                  type: object
+              required:
+              - residential
+              type: object
+            other:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+            vans:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+          type: object
+        projectType:
+          items:
+            "$ref": "#/components/definitions/ProjectType"
+          type: array
+        schemeName:
+          type: string
+        water:
+          additionalProperties: false
+          description: Water management
+          properties:
+            grey:
+              description: Whether the proposal includes grey water re-use
+              type: boolean
+            rain:
+              description: Whether the proposal includes rain water harvesting
+              type: boolean
+            usage:
+              additionalProperties: false
+              description: Internal residential water usage
+              properties:
+                litresPerPersonPerDay:
+                  type: number
+              required:
+              - litresPerPersonPerDay
+              type: object
+          required:
+          - usage
+          - rain
+          - grey
+          type: object
+      required:
+      - description
+      - projectType
+      type: object
+    Materials:
+      additionalProperties: false
+      properties:
+        boundary:
+          type: string
+        door:
+          type: string
+        lighting:
+          type: string
+        other:
+          type: string
+        roof:
+          type: string
+        surface:
+          type: string
+        wall:
+          type: string
+        window:
+          type: string
       type: object
     Metadata:
       "$id": "#DigitalPlanningMetadata"
       anyOf:
-      - "$ref": "#/components/definitions/BaseMetadata"
+      - "$ref": "#/components/definitions/AnyProviderMetadata"
       - "$ref": "#/components/definitions/PlanXMetadata"
       description: Details of the digital planning service which sent this application
     MultiLineString:
@@ -2962,6 +3430,36 @@ components:
       - coordinates
       - type
       type: object
+    NewBuildingsOrStoreys:
+      "$id": "#NewBuildingsOrStoreys"
+      additionalProperties: false
+      description: Details about creating new buildings or increasing the height of
+        existing buildings
+      properties:
+        buildings:
+          items:
+            additionalProperties: false
+            properties:
+              height:
+                additionalProperties: false
+                properties:
+                  metres:
+                    type: number
+                required:
+                - metres
+                type: object
+              storeys:
+                type: number
+            required:
+            - height
+            - storeys
+            type: object
+          type: array
+        count:
+          type: number
+      required:
+      - count
+      type: object
     OSAddress:
       "$id": "#OSAddress"
       additionalProperties: false
@@ -3020,12 +3518,322 @@ components:
       - x
       - "y"
       type: object
+    OpenSpaceDesignation:
+      "$id": "#OpenSpaceDesignation"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Green Belt
+            type: string
+          value:
+            const: greenBelt
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Metropolitan Open Land
+            type: string
+          value:
+            const: metropolitan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Local Open Spaces
+            type: string
+          value:
+            const: local
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other designation
+            type: string
+          value:
+            const: other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Not designated
+            type: string
+          value:
+            const: none
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Designations of natural open spaces
+    OpenSpaceType:
+      "$id": "#OpenSpaceType"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Parks and gardens
+            type: string
+          value:
+            const: park
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Natural and semi-natural
+            type: string
+          value:
+            const: natural
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Green corridors
+            type: string
+          value:
+            const: greenCorridor
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outdoor sports facilities
+            type: string
+          value:
+            const: sport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Amenity
+            type: string
+          value:
+            const: amenity
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Provision for children and young people
+            type: string
+          value:
+            const: children
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Allotments, community gardens and city farms
+            type: string
+          value:
+            const: allotment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Cemeteries, churchyards and other burial grounds
+            type: string
+          value:
+            const: burial
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Countryside in urban fringe areas
+            type: string
+          value:
+            const: fringe
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Civic spaces
+            type: string
+          value:
+            const: civic
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Brownfield land
+            type: string
+          value:
+            const: brownfield
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Non-residential institution grounds or gardens
+            type: string
+          value:
+            const: nonResidential
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Residential gardens
+            type: string
+          value:
+            const: residential
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Types of natural open spaces
+    Owners:
+      "$id": "#Owners"
+      anyOf:
+      - "$ref": "#/components/definitions/OwnersNoticeGiven"
+      - "$ref": "#/components/definitions/OwnersNoNoticeGiven"
+      - "$ref": "#/components/definitions/OwnersNoticeDate"
+      description: Names and addresses of all known owners and agricultural tenants,
+        including confirmation or date of notice, or reason requisite notice has not
+        been given if applicable
+    OwnersNoNoticeGiven:
+      additionalProperties: false
+      properties:
+        address:
+          anyOf:
+          - "$ref": "#/components/definitions/Address"
+          - type: string
+        interest:
+          enum:
+          - owner
+          - tenant
+          - occupier
+          - other
+          type: string
+        name:
+          type: string
+        noNoticeReason:
+          type: string
+        noticeGiven:
+          const: false
+          type: boolean
+      required:
+      - address
+      - name
+      - noNoticeReason
+      - noticeGiven
+      type: object
+    OwnersNoticeDate:
+      additionalProperties: false
+      properties:
+        address:
+          anyOf:
+          - "$ref": "#/components/definitions/Address"
+          - type: string
+        interest:
+          enum:
+          - owner
+          - tenant
+          - occupier
+          - other
+          type: string
+        name:
+          type: string
+        noticeDate:
+          "$ref": "#/components/definitions/Date"
+      required:
+      - address
+      - name
+      - noticeDate
+      type: object
+    OwnersNoticeGiven:
+      additionalProperties: false
+      properties:
+        address:
+          anyOf:
+          - "$ref": "#/components/definitions/Address"
+          - type: string
+        interest:
+          enum:
+          - owner
+          - tenant
+          - occupier
+          - other
+          type: string
+        name:
+          type: string
+        noticeGiven:
+          const: true
+          type: boolean
+      required:
+      - address
+      - name
+      - noticeGiven
+      type: object
     Ownership:
       "$id": "#Ownership"
       additionalProperties: false
       description: Information about the ownership certificate and property owners,
         if different than the applicant
       properties:
+        agriculturalTenants:
+          description: Does the land have any agricultural tenants?
+          type: boolean
         certificate:
           enum:
           - a
@@ -3033,29 +3841,56 @@ components:
           - c
           - d
           type: string
-        noticeGiven:
-          type: boolean
-        noticeReason:
+        declaration:
+          additionalProperties: false
+          description: Declaration of the accuracy of the ownership certificate, including
+            reasonable steps taken to find all owners and publish notice
+          properties:
+            accurate:
+              const: true
+              type: boolean
+          required:
+          - accurate
+          type: object
+        interest:
+          enum:
+          - owner
+          - owner.sole
+          - owner.co
+          - tenant
+          - occupier
+          - other
           type: string
+        noticeGiven:
+          description: Has requisite notice been given to all the known owners and
+            agricultural tenants?
+          type: boolean
+        noticePublished:
+          additionalProperties: false
+          description: Has a notice of the application been published in a newspaper
+            circulating in the area where the land is situated?
+          properties:
+            date:
+              "$ref": "#/components/definitions/Date"
+            newspaperName:
+              type: string
+            status:
+              type: boolean
+          required:
+          - status
+          type: object
         owners:
           items:
-            additionalProperties: false
-            properties:
-              address:
-                anyOf:
-                - "$ref": "#/components/definitions/Address"
-                - type: string
-              name:
-                type: string
-              noticeDate:
-                "$ref": "#/components/definitions/Date"
-            required:
-            - name
-            - address
-            type: object
+            "$ref": "#/components/definitions/Owners"
           type: array
-      required:
-      - certificate
+        ownersKnown:
+          description: Do you know the names and addresses of all owners and agricultural
+            tenants?
+          enum:
+          - all
+          - some
+          - none
+          type: string
       type: object
     PlanXMetadata:
       "$id": "#PlanXMetadata"
@@ -3076,6 +3911,10 @@ components:
         service:
           additionalProperties: false
           properties:
+            fee:
+              anyOf:
+              - "$ref": "#/components/definitions/FeeExplanation"
+              - "$ref": "#/components/definitions/FeeExplanationNotApplicable"
             files:
               "$ref": "#/components/definitions/RequestedFiles"
             flowId:
@@ -3086,6 +3925,7 @@ components:
           - flowId
           - url
           - files
+          - fee
           type: object
         source:
           const: PlanX
@@ -3135,9 +3975,29 @@ components:
                   name:
                     type: string
                   source:
-                    "$ref": "#/components/definitions/URL"
+                    anyOf:
+                    - additionalProperties: false
+                      properties:
+                        text:
+                          const: Planning Data
+                          type: string
+                        url:
+                          "$ref": "#/components/definitions/URL"
+                      required:
+                      - text
+                      - url
+                      type: object
+                    - additionalProperties: false
+                      properties:
+                        text:
+                          const: Ordnance Survey MasterMap Highways
+                          type: string
+                      required:
+                      - text
+                      type: object
                 required:
                 - name
+                - source
                 type: object
               type: array
             - maxItems: 0
@@ -3258,22 +4118,6 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Green Belt
-              type: string
-            intersects:
-              const: false
-              type: boolean
-            value:
-              const: designated.greenBelt
-              type: string
-          required:
-          - description
-          - intersects
-          - value
-          type: object
-        - additionalProperties: false
-          properties:
-            description:
               const: National Park
               type: string
             intersects:
@@ -3297,22 +4141,6 @@ components:
               type: boolean
             value:
               const: designated.nationalPark.broads
-              type: string
-          required:
-          - description
-          - intersects
-          - value
-          type: object
-        - additionalProperties: false
-          properties:
-            description:
-              const: Special Protection Area (SPA)
-              type: string
-            intersects:
-              const: false
-              type: boolean
-            value:
-              const: designated.SPA
               type: string
           required:
           - description
@@ -3393,6 +4221,22 @@ components:
               type: boolean
             value:
               const: flood.zone.3
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Green Belt
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: greenBelt
               type: string
           required:
           - description
@@ -3537,6 +4381,22 @@ components:
               type: boolean
             value:
               const: nature.SAC
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Special Protection Area (SPA)
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.SPA
               type: string
           required:
           - description
@@ -3625,9 +4485,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3660,9 +4540,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3695,9 +4595,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3730,9 +4650,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3765,9 +4705,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3800,9 +4760,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3813,41 +4793,6 @@ components:
               type: boolean
             value:
               const: designated.conservationArea
-              type: string
-          required:
-          - description
-          - entities
-          - intersects
-          - value
-          type: object
-        - additionalProperties: false
-          properties:
-            description:
-              const: Green Belt
-              type: string
-            entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      "$ref": "#/components/definitions/URL"
-                  required:
-                  - name
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
-            intersects:
-              const: true
-              type: boolean
-            value:
-              const: designated.greenBelt
               type: string
           required:
           - description
@@ -3870,9 +4815,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3905,9 +4870,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -3918,41 +4903,6 @@ components:
               type: boolean
             value:
               const: designated.nationalPark.broads
-              type: string
-          required:
-          - description
-          - entities
-          - intersects
-          - value
-          type: object
-        - additionalProperties: false
-          properties:
-            description:
-              const: Special Protection Area (SPA)
-              type: string
-            entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      "$ref": "#/components/definitions/URL"
-                  required:
-                  - name
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
-            intersects:
-              const: true
-              type: boolean
-            value:
-              const: designated.SPA
               type: string
           required:
           - description
@@ -3975,9 +4925,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4010,9 +4980,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4045,9 +5035,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4080,9 +5090,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4115,9 +5145,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4128,6 +5178,61 @@ components:
               type: boolean
             value:
               const: flood.zone.3
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Green Belt
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
+                  required:
+                  - name
+                  - source
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: greenBelt
               type: string
           required:
           - description
@@ -4150,9 +5255,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4185,9 +5310,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4220,9 +5365,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4255,9 +5420,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4290,9 +5475,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4325,9 +5530,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4360,9 +5585,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4395,9 +5640,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4430,9 +5695,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4443,6 +5728,61 @@ components:
               type: boolean
             value:
               const: nature.SAC
+              type: string
+          required:
+          - description
+          - entities
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Special Protection Area (SPA)
+              type: string
+            entities:
+              anyOf:
+              - items:
+                  additionalProperties: false
+                  properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    source:
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
+                  required:
+                  - name
+                  - source
+                  type: object
+                type: array
+              - maxItems: 0
+                minItems: 0
+                type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.SPA
               type: string
           required:
           - description
@@ -4465,9 +5805,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4500,9 +5860,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4535,9 +5915,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4570,9 +5970,29 @@ components:
                     name:
                       type: string
                     source:
-                      "$ref": "#/components/definitions/URL"
+                      anyOf:
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Planning Data
+                            type: string
+                          url:
+                            "$ref": "#/components/definitions/URL"
+                        required:
+                        - text
+                        - url
+                        type: object
+                      - additionalProperties: false
+                        properties:
+                          text:
+                            const: Ordnance Survey MasterMap Highways
+                            type: string
+                        required:
+                        - text
+                        type: object
                   required:
                   - name
+                  - source
                   type: object
                 type: array
               - maxItems: 0
@@ -4942,6 +6362,150 @@ components:
             type: string
           value:
             const: alter.cables
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of a fence, wall or gate
+            type: string
+          value:
+            const: alter.changeOfMaterials.boundary
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of chimneys
+            type: string
+          value:
+            const: alter.changeOfMaterials.chimney
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of external doors
+            type: string
+          value:
+            const: alter.changeOfMaterials.externalDoors
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of external walls
+            type: string
+          value:
+            const: alter.changeOfMaterials.externalWalls
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of floors
+            type: string
+          value:
+            const: alter.changeOfMaterials.floors
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of vehicle access or hardstanding
+            type: string
+          value:
+            const: alter.changeOfMaterials.hardstanding
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of internal doors
+            type: string
+          value:
+            const: alter.changeOfMaterials.internalDoors
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of internal walls
+            type: string
+          value:
+            const: alter.changeOfMaterials.internalWalls
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of something else
+            type: string
+          value:
+            const: alter.changeOfMaterials.other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of rainwater goods
+            type: string
+          value:
+            const: alter.changeOfMaterials.rainwaterGoods
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of roof coverings
+            type: string
+          value:
+            const: alter.changeOfMaterials.roofCovering
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the material of windows
+            type: string
+          value:
+            const: alter.changeOfMaterials.windows
             type: string
         required:
         - value
@@ -5471,6 +7035,18 @@ components:
             type: string
           value:
             const: alter.highways.road.remove
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Install plant equipment or machinery
+            type: string
+          value:
+            const: alter.industrial.plant
             type: string
         required:
         - value
@@ -6670,7 +8246,7 @@ components:
             const: Convert part of the property into a  granny flat (residential annexe)
             type: string
           value:
-            const: changeofUse.annexe
+            const: changeOfUse.annexe
             type: string
         required:
         - value
@@ -6707,6 +8283,18 @@ components:
             type: string
           value:
             const: changeOfUse.garage
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change the use of land
+            type: string
+          value:
+            const: changeOfUse.land
             type: string
         required:
         - value
@@ -6767,6 +8355,18 @@ components:
             const: Change the use of a property
             type: string
           value:
+            const: changeOfUse.property
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Convert or change the use of a whole building
+            type: string
+          value:
             const: changeOfUse.whole
             type: string
         required:
@@ -6824,10 +8424,58 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Demolish a building
+            const: Total demolition of a building
             type: string
           value:
             const: demolish.full
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Demolish internal walls
+            type: string
+          value:
+            const: demolish.internal
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Demolish a listed building
+            type: string
+          value:
+            const: demolish.listed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Total demolition of a isted building
+            type: string
+          value:
+            const: demolish.listed.full
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Demolish part of a listed building
+            type: string
+          value:
+            const: demolish.listed.part
             type: string
         required:
         - value
@@ -6848,10 +8496,22 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Demolish an outbuilding (such as a garage or barn)
+            const: Total demolition of an outbuilding (such as a garage or barn)
             type: string
           value:
-            const: demolish.outbuildings
+            const: demolish.outbuilding.full
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Demolish part of an outbuilding (such as a garage or barn)
+            type: string
+          value:
+            const: demolish.outbuilding.part
             type: string
         required:
         - value
@@ -7212,246 +8872,6 @@ components:
             type: string
           value:
             const: extend.outbuilding.workshop
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding (such as a shed, garage or garden office)
-            type: string
-          value:
-            const: extend.outbuildings
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - animal enclosure, aviary or beehive
-            type: string
-          value:
-            const: extend.outbuildings.animals
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - residential (or "granny") annexe
-            type: string
-          value:
-            const: extend.outbuildings.annexe
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - bedroom or guest room
-            type: string
-          value:
-            const: extend.outbuildings.bedroom
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - games room
-            type: string
-          value:
-            const: extend.outbuildings.games
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - garage
-            type: string
-          value:
-            const: extend.outbuildings.garage
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - greenhouse
-            type: string
-          value:
-            const: extend.outbuildings.greenhouse
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - gym
-            type: string
-          value:
-            const: extend.outbuildings.gym
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - office
-            type: string
-          value:
-            const: extend.outbuildings.office
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - something else
-            type: string
-          value:
-            const: extend.outbuildings.other
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - play house
-            type: string
-          value:
-            const: extend.outbuildings.play
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - sauna
-            type: string
-          value:
-            const: extend.outbuildings.sauna
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - shed
-            type: string
-          value:
-            const: extend.outbuildings.shed
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - car parking or smoking shelter
-            type: string
-          value:
-            const: extend.outbuildings.shelter
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - storage
-            type: string
-          value:
-            const: extend.outbuildings.store
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - studio
-            type: string
-          value:
-            const: extend.outbuildings.studio
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - summer house
-            type: string
-          value:
-            const: extend.outbuildings.summerHouse
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - swimming pool
-            type: string
-          value:
-            const: extend.outbuildings.swimmingPool
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - tank
-            type: string
-          value:
-            const: extend.outbuildings.tank
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add an outbuilding - workshop
-            type: string
-          value:
-            const: extend.outbuildings.workshop
             type: string
         required:
         - value
@@ -7988,6 +9408,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: New waste disposal facilities
+            type: string
+          value:
+            const: new.industrial.waste
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: New leisure premises
             type: string
           value:
@@ -8113,6 +9545,54 @@ components:
             type: string
           value:
             const: not.alter.rooflight
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Do not add or change a dropped kerb
+            type: string
+          value:
+            const: not.dropKerb
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Repairs
+            type: string
+          value:
+            const: repair
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Repair the historic fabric
+            type: string
+          value:
+            const: repair.historicFabric
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other project type
+            type: string
+          value:
+            const: other
             type: string
         required:
         - value
@@ -13740,36 +15220,10 @@ components:
         classification codes
     Proposal:
       "$id": "#Proposal"
-      additionalProperties: false
+      anyOf:
+      - "$ref": "#/components/definitions/BaseProposal"
+      - "$ref": "#/components/definitions/LondonProposal"
       description: Information about the proposed works and any changes to the property
-      properties:
-        boundary:
-          additionalProperties: false
-          description: Location plan boundary proposed by the user, commonly referred
-            to as the red line boundary
-          properties:
-            area:
-              "$ref": "#/components/definitions/Area"
-            site:
-              "$ref": "#/components/definitions/GeoJSON"
-          required:
-          - site
-          - area
-          type: object
-        date:
-          "$ref": "#/components/definitions/ProposalDates"
-        description:
-          type: string
-        details:
-          "$ref": "#/components/definitions/ProposalDetails"
-        projectType:
-          items:
-            "$ref": "#/components/definitions/ProjectType"
-          type: array
-      required:
-      - projectType
-      - description
-      type: object
     ProposalDates:
       "$id": "#ProposalDates"
       additionalProperties: false
@@ -13781,12 +15235,6 @@ components:
         start:
           "$ref": "#/components/definitions/Date"
       type: object
-    ProposalDetails:
-      "$id": "#ProposalDetails"
-      anyOf:
-      - "$ref": "#/components/definitions/BaseDetails"
-      - "$ref": "#/components/definitions/LondonDetails"
-      description: Details about the changes being proposed
     ProposedAddress:
       "$id": "#ProposedAddress"
       additionalProperties: false
@@ -13818,6 +15266,94 @@ components:
       - x
       - "y"
       type: object
+    ProtectedSpaceDesignation:
+      "$id": "#ProtectedSpaceDesignation"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Sites of Special Scientific Interest
+            type: string
+          value:
+            const: SSSI
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Local Nature Reserve
+            type: string
+          value:
+            const: localReserve
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Site of Metropolitan Importance
+            type: string
+          value:
+            const: metropolitan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Site of Borough Grade 1 Importance
+            type: string
+          value:
+            const: boroughGradeOne
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Site of Borough Grade 2 Importance
+            type: string
+          value:
+            const: boroughGradeTwo
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Site of Local Importance
+            type: string
+          value:
+            const: local
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Not designated
+            type: string
+          value:
+            const: none
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Designations of natural protected spaces
     QuestionAndResponses:
       additionalProperties: false
       properties:
@@ -13859,7 +15395,7 @@ components:
       "$id": "#RequestedFiles"
       additionalProperties: false
       description: File types requested by this service. Schema["files"] will be a
-        subset of this list based on the user's journey through the service.
+        subset of this list based on the user's journey through the service
       properties:
         optional:
           items:
@@ -14349,6 +15885,8 @@ components:
           items:
             type: string
           type: array
+        materials:
+          "$ref": "#/components/definitions/Materials"
         planning:
           additionalProperties: false
           description: Planning constraints and policies that intersect with this
@@ -14476,298 +16014,6 @@ components:
       - sameAsSiteAddress
       - town
       type: object
-    VehicleParking:
-      "$id": "#VehicleParking"
-      anyOf:
-      - additionalProperties: false
-        properties:
-          description:
-            const: Cars
-            type: string
-          value:
-            const: cars
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for cars
-            type: string
-          value:
-            const: cars.offStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for a car club
-            type: string
-          value:
-            const: cars.offStreet.club
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street disabled parking
-            type: string
-          value:
-            const: cars.offStreet.disabled
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for non-residents
-            type: string
-          value:
-            const: cars.offStreet.other
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for residents only
-            type: string
-          value:
-            const: cars.offStreet.residents
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for cars
-            type: string
-          value:
-            const: cars.onStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for a car club
-            type: string
-          value:
-            const: cars.onStreet.club
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street disabled parking
-            type: string
-          value:
-            const: cars.onStreet.disabled
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for non-residents
-            type: string
-          value:
-            const: cars.onStreet.other
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for residents only
-            type: string
-          value:
-            const: cars.onStreet.residents
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Vans
-            type: string
-          value:
-            const: vans
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for vans
-            type: string
-          value:
-            const: vans.offStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for vans
-            type: string
-          value:
-            const: vans.onStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Motorcycles
-            type: string
-          value:
-            const: motorcycles
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for motorcycles
-            type: string
-          value:
-            const: motorcycles.offStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for motorcycles
-            type: string
-          value:
-            const: motorcycles.onStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Bicycles
-            type: string
-          value:
-            const: bicycles
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for bicycles
-            type: string
-          value:
-            const: bicycles.offStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for bicycles
-            type: string
-          value:
-            const: bicycles.onStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Buses
-            type: string
-          value:
-            const: buses
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Off-street parking for buses
-            type: string
-          value:
-            const: buses.offStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: On-street parking for buses
-            type: string
-          value:
-            const: buses.onStreet
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: None
-            type: string
-          value:
-            const: none
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      description: Vehicle parking types
   schemas:
     Submission:
       additionalProperties: false
@@ -14818,6 +16064,188 @@ components:
       required:
       - id
       - message
+    Search:
+      properties:
+        metadata:
+          type: object
+          properties:
+            page:
+              type: integer
+            results:
+              type: integer
+            from:
+              type: integer
+            to:
+              type: integer
+            total_pages:
+              type: integer
+            total_results:
+              type: integer
+          required:
+          - page
+          - results
+          - from
+          - to
+          - total_pages
+          - total_results
+        data:
+          type: array
+          items:
+          - type: object
+            properties:
+              application:
+                type: object
+                properties:
+                  type:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                      description:
+                        type: string
+                    required:
+                    - value
+                    - description
+                  reference:
+                    type: string
+                  full_reference:
+                    type: string
+                  received_at:
+                    format: date
+                    type: string
+                  status:
+                    type: string
+                required:
+                - type
+                - reference
+                - full_reference
+                - received_at
+                - status
+              property:
+                type: object
+                properties:
+                  address:
+                    type: object
+                    properties:
+                      latitude:
+                        type: number
+                      longitude:
+                        type: number
+                      title:
+                        type: string
+                      singleLine:
+                        type: string
+                      uprn:
+                        type: string
+                      town:
+                        type: string
+                      postcode:
+                        type: string
+                    required:
+                    - latitude
+                    - longitude
+                    - title
+                    - singleLine
+                    - uprn
+                    - town
+                    - postcode
+                  boundary:
+                    type: object
+                    anyOf:
+                    - properties:
+                        site:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                            geometry:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                coordinates:
+                                  type: array
+                                  items:
+                                  - type: array
+                                    items:
+                                    - type: array
+                                      items:
+                                      - type: number
+                                      - type: number
+                              required:
+                              - type
+                              - coordinates
+                            properties:
+                              type:
+                              - object
+                              - 'null'
+                          required:
+                          - type
+                          - geometry
+                          - properties
+                      required:
+                      - site
+                    - properties:
+                        site:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                            features:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                  geometry:
+                                    type: object
+                                    properties:
+                                      type:
+                                        type: string
+                                      coordinates:
+                                        type: array
+                                        items:
+                                        - type: array
+                                          items:
+                                          - type: array
+                                            items:
+                                            - type: number
+                                            - type: number
+                                    required:
+                                    - type
+                                    - coordinates
+                                  properties:
+                                    type:
+                                    - object
+                                    - 'null'
+                                required:
+                                - type
+                                - geometry
+                                - properties
+                          required:
+                          - type
+                          - features
+                      required:
+                      - site
+                required:
+                - address
+                - boundary
+              proposal:
+                type: object
+                properties:
+                  description:
+                    type: string
+                required:
+                - description
+            required:
+            - application
+            - property
+            - proposal
+      required:
+      - metadata
+      - data
+      type: object
     Healthcheck:
       type: object
       properties:
@@ -20371,19 +21799,6 @@ paths:
                       message: Unauthorized
               schema:
                 "$ref": "#/components/schemas/UnauthorizedError"
-        '500':
-          description: when an internal server error occurs
-          content:
-            application/json:
-              examples:
-                default:
-                  value:
-                    error:
-                      code: 500
-                      message: Internal Server Error
-                      detail: expected :page in 1..3; got 4
-              schema:
-                "$ref": "#/components/schemas/InternalServerError"
   "/api/v2/planning_applications/determined":
     get:
       summary: Retrieves determined planning applications
@@ -20678,19 +22093,6 @@ paths:
                       consultation:
                         end_date: '2023-12-22'
                       make_public: true
-        '500':
-          description: when an internal server error occurs
-          content:
-            application/json:
-              examples:
-                default:
-                  value:
-                    error:
-                      code: 500
-                      message: Internal Server Error
-                      detail: expected :page in 1..8; got 20
-              schema:
-                "$ref": "#/components/schemas/InternalServerError"
   "/api/v2/planning_applications/{id}":
     get:
       summary: Retrieves a planning application
@@ -20823,49 +22225,100 @@ paths:
             or description
           content:
             application/json:
+              schema:
+                "$ref": "#/components/schemas/Search"
               examples:
                 default:
                   value:
                     metadata:
-                      page: 1
-                      results: 10
-                      from: 1
-                      to: 1
-                      total_pages: 1
-                      total_results: 1
+                      page: 2
+                      results: 2
+                      from: 3
+                      to: 4
+                      total_pages: 5
+                      total_results: 10
                     data:
                     - application:
                         type:
                           value: pp.full.householder
                           description: planning_permission
-                        reference: 24-00620-HAPP
-                        full_reference: SWK-24-00620-HAPP
+                        reference: 24-00107-HAPP
+                        full_reference: PlanX-24-00107-HAPP
+                        received_at: '2024-04-17T00:00:00.000+01:00'
+                        status: in_assessment
                       property:
                         address:
-                          latitude: 51.4656522
-                          longitude: -0.1185926
-                          title: 40, STANSFIELD ROAD
-                          singleLine: 40, STANSFIELD ROAD, LONDON, SW9 9RZ
-                          uprn: '100021892955'
-                          town: LONDON
-                          postcode: SW9 9RZ
+                          latitude: 84.3630530473182
+                          longitude: -105.7502386387352
+                          title: 511 German Village
+                          singleLine: 511 German Village, West Rod, 66983
+                          uprn: '00565512'
+                          town: West Rod
+                          postcode: '66983'
+                        boundary:
+                          site:
+                            type: FeatureCollection
+                            features:
+                            - type: Feature
+                              geometry:
+                                type: Polygon
+                                coordinates:
+                                - - - -0.07739927369747812
+                                    - 51.501345554406896
+                                  - - -0.0778893839394212
+                                    - 51.501002280754676
+                                  - - -0.07690508968054104
+                                    - 51.50102474569704
+                                  - - -0.07676672973966252
+                                    - 51.50128963605792
+                                  - - -0.07739927369747812
+                                    - 51.501345554406896
+                              properties:
+                                color: "#d870fc"
+                            - type: Feature
+                              geometry:
+                                type: Polygon
+                                coordinates:
+                                - - - 30
+                                    - 10
+                                  - - 40
+                                    - 40
+                                  - - 30
+                                    - 10
+                              properties: {}
+                      proposal:
+                        description: householder extension
+                    - application:
+                        type:
+                          value: pp.full.householder
+                          description: planning_permission
+                        reference: 24-00106-HAPP
+                        full_reference: PlanX-24-00106-HAPP
+                        received_at: '2024-04-18T00:00:00.000+01:00'
+                        status: in_assessment
+                      property:
+                        address:
+                          latitude: -37.54605786072338
+                          longitude: -149.12320338972793
+                          title: 41874 Dare Parks
+                          singleLine: 41874 Dare Parks, Rosetteside, 23463-4689
+                          uprn: '00595249'
+                          town: Rosetteside
+                          postcode: 23463-4689
                         boundary:
                           site:
                             type: Feature
                             geometry:
                               type: Polygon
                               coordinates:
-                              - - - -0.1186569035053321
-                                  - 51.465703531871384
-                                - - -0.1185938715934822
-                                  - 51.465724418998775
-                                - - -0.1184195280075143
-                                  - 51.46552473766957
-                                - - -0.11848390102387167
-                                  - 51.4655038504508
-                                - - -0.1186569035053321
-                                  - 51.465703531871384
+                              - - - -0.054597
+                                  - 51.537331
+                                - - -0.054588
+                                  - 51.537287
+                                - - -0.054453
+                                  - 51.537313
+                                - - -0.054597
+                                  - 51.537331
                             properties: 
                       proposal:
-                        description: Roof extension to the rear of the property, incorporating
-                          starship launchpad.
+                        description: Build a roof extension.

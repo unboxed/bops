@@ -5,8 +5,14 @@ require "swagger_helper"
 RSpec.describe "BOPS public API" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:application_type) { create(:application_type, :householder) }
-  let!(:planning_applications) { create_list(:planning_application, 8, local_authority:, application_type:, make_public: true) }
+  let!(:planning_applications) { create_list(:planning_application, 6, :with_boundary_geojson, local_authority:, application_type:, make_public: true) }
   let(:maxresults) { 5 }
+  let(:q) { "" }
+
+  before do
+    create_list(:planning_application, 2, :with_boundary_geojson_features, local_authority:, application_type:, make_public: true)
+    create_list(:planning_application, 2, :with_boundary_geojson_features, local_authority:, application_type:, make_public: true, description: "I want to build a roof extension.")
+  end
 
   path "/api/v2/public/planning_applications/search" do
     get "Retrieves planning applications based on a search criteria" do
@@ -29,7 +35,7 @@ RSpec.describe "BOPS public API" do
       }
 
       response "200", "returns planning applications when searching by the reference" do
-        example "application/json", :default, api_json_fixture("public/planning_applications/search.json")
+        schema "$ref" => "#/components/schemas/Search"
 
         let(:page) { 1 }
         let(:q) { planning_applications.first.reference }
@@ -53,8 +59,35 @@ RSpec.describe "BOPS public API" do
         end
       end
 
+      response "200", "returns planning applications when searching by the description" do
+        schema "$ref" => "#/components/schemas/Search"
+
+        let(:page) { 1 }
+        let(:q) { "roof extension" }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 1,
+              "results" => 5,
+              "from" => 1,
+              "to" => 2,
+              "total_pages" => 1,
+              "total_results" => 2
+            }
+          )
+
+          data["data"].each do |application|
+            expect(application["proposal"]["description"]).to include("roof extension")
+          end
+        end
+      end
+
       response "200", "returns empty array when no results from search" do
-        example "application/json", :default, api_json_fixture("public/planning_applications/search.json")
+        schema "$ref" => "#/components/schemas/Search"
 
         let(:page) { 1 }
         let(:q) { "no results found" }
@@ -78,11 +111,11 @@ RSpec.describe "BOPS public API" do
         end
       end
 
-      response "200", "returns planning applications when searching by a reference or description" do
-        example "application/json", :default, api_json_fixture("public/planning_applications/search.json")
+      response "200", "returns planning applications when searching by an out of range page and maxresults" do
+        schema "$ref" => "#/components/schemas/Search"
 
-        let(:page) { 1 }
-        let(:q) { "HAPP" }
+        let(:page) { 0 }
+        let(:max_results) { 100000 }
 
         run_test! do |response|
           data = JSON.parse(response.body)
@@ -95,7 +128,32 @@ RSpec.describe "BOPS public API" do
               "from" => 1,
               "to" => 5,
               "total_pages" => 2,
-              "total_results" => 8
+              "total_results" => 10
+            }
+          )
+        end
+      end
+
+      response "200", "returns planning applications when searching by a reference or description" do
+        schema "$ref" => "#/components/schemas/Search"
+        example "application/json", :default, example_fixture("search.json")
+
+        let(:page) { 2 }
+        let(:maxresults) { 2 }
+        let(:q) { "HAPP" }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 2,
+              "results" => 2,
+              "from" => 3,
+              "to" => 4,
+              "total_pages" => 5,
+              "total_results" => 10
             }
           )
         end

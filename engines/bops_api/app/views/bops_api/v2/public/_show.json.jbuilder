@@ -7,6 +7,8 @@ json.application do
   end
   json.reference planning_application.reference
   json.full_reference planning_application.reference_in_full
+  json.received_at planning_application.received_at
+  json.status planning_application.status
 end
 json.property do
   json.address do
