@@ -6,7 +6,7 @@ module Validation
       if planning_application.validated?
         "Planning application has already been validated"
       else
-        "Check supplied documents"
+        "Tag and validate supplied documents"
       end
     end
 
