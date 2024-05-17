@@ -2,9 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class DocumentsController < AuthenticationController
-      before_action :set_planning_application
-
+    class DocumentsController < BaseController
       def edit
         @documents = @planning_application.documents.active
         @additional_document_validation_requests = @planning_application

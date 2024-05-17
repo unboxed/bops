@@ -2,9 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class OwnershipCertificatesController < ApplicationController
-      before_action :set_planning_application
-
+    class OwnershipCertificatesController < BaseController
       def edit
         respond_to do |format|
           format.html

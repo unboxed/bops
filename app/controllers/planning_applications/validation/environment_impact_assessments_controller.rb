@@ -2,8 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class EnvironmentImpactAssessmentsController < AuthenticationController
-      before_action :set_planning_application
+    class EnvironmentImpactAssessmentsController < BaseController
       before_action :set_environment_impact_assessment, only: %i[show update edit]
 
       def edit

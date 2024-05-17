@@ -2,8 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class ConstraintsController < AuthenticationController
-      before_action :set_planning_application
+    class ConstraintsController < BaseController
       before_action :ensure_constraint_edits_unlocked, only: %i[index update]
       before_action :set_planning_application_constraints, only: %i[update index create]
       before_action :set_other_constraints, only: %i[index]
