@@ -101,9 +101,9 @@ RSpec.describe "Planning History" do
     end
   end
 
-  context "when planning application's property uprn has not planning history" do
+  context "when planning application's property uprn has no planning history" do
     let!(:planning_application) do
-      create(:planning_application, :invalidated, uprn: "10008104351", local_authority: default_local_authority)
+      create(:planning_application, :in_assessment, uprn: "10008104351", local_authority: default_local_authority)
     end
 
     before do

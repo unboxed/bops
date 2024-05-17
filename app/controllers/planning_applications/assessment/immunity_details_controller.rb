@@ -2,13 +2,8 @@
 
 module PlanningApplications
   module Assessment
-    class ImmunityDetailsController < AuthenticationController
-      include CommitMatchable
-      include PlanningApplicationAssessable
-
-      before_action :set_planning_application
+    class ImmunityDetailsController < BaseController
       before_action :set_immunity_detail
-      before_action :ensure_planning_application_is_validated
 
       def show
         respond_to do |format|

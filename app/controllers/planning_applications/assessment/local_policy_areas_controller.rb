@@ -2,8 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class LocalPolicyAreasController < AuthenticationController
-      before_action :set_planning_application
+    class LocalPolicyAreasController < BaseController
       before_action :set_local_policy
       before_action :set_local_policy_area, only: %i[edit show update destroy]
 

@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class OwnershipCertificatesController < ApplicationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class OwnershipCertificatesController < BaseController
       before_action :set_valdiation_requests
 
       def edit

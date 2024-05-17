@@ -2,9 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class ReportDownloadsController < AuthenticationController
-      before_action :set_planning_application
-
+    class ReportDownloadsController < BaseController
       def show
         @blank_layout = true
       end

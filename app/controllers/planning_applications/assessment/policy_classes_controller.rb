@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class PolicyClassesController < PlanningApplicationsController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class PolicyClassesController < BaseController
       before_action :set_policy_class, only: %i[edit show update destroy]
       before_action :ensure_can_assess_planning_application, only: %i[part new create]
 

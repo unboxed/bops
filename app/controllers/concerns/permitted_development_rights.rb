@@ -4,7 +4,6 @@ module PermittedDevelopmentRights
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_planning_application
     before_action :raise_routing_error, unless: :permitted_development_rights_can_be_checked?
   end
 

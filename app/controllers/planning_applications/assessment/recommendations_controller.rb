@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class RecommendationsController < AuthenticationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class RecommendationsController < BaseController
       before_action :set_committee_decision
 
       rescue_from Recommendation::ReviewRecommendationError do |error|

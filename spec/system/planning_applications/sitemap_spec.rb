@@ -12,7 +12,6 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     )
 
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
   end
 
   context "when application is not_started" do
@@ -62,14 +61,11 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       it "is not possible to edit the sitemap" do
-        click_button "Site map"
-        expect(page).to have_content("Site map drawn by applicant")
-        expect(page).not_to have_content("No digital sitemap provided")
-        map = find("my-map")
-        expect(map["showCentreMarker"]).to eq("false")
-
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
         expect(page).not_to have_link("Draw red line boundary")
+
+        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        expect(page).to have_content("forbidden")
       end
     end
   end
@@ -80,6 +76,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     end
 
     it "is not possible to create a sitemap" do
+      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
       click_button "Site map"
       expect(page).to have_content("No digital site map provided")
       expect(page).not_to have_link("Draw digital sitemap")
@@ -295,6 +292,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     it "as an officer I can request approval for a change to the red line boundary" do
       delivered_emails = ActionMailer::Base.deliveries.count
 
+      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
       click_button "Site map"
       click_link "Request approval for a change to red line boundary"
       map = find("my-map")

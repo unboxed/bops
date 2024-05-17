@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class LocalPoliciesController < AuthenticationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class LocalPoliciesController < BaseController
       before_action :set_local_policy, only: %i[show edit update]
       before_action :set_local_policy_areas, only: %i[new edit]
       before_action :set_reviewer_comment, only: %i[edit new show]

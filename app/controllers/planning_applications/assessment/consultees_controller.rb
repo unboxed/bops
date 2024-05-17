@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class ConsulteesController < ApplicationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class ConsulteesController < BaseController
       before_action :set_consultation
 
       def index

@@ -99,7 +99,7 @@ RSpec.describe "Assessment tasks" do
     end
   end
 
-  context "when the planning application is invalidated, I cannot assess the planning application" do
+  context "when the planning application is invalidated, I cannot access the assessment tasks" do
     let(:planning_application) do
       create(
         :planning_application,
@@ -108,18 +108,8 @@ RSpec.describe "Assessment tasks" do
       )
     end
 
-    it "displays the assessment tasks list" do
-      within(".app-task-list") do
-        within("#check-consistency-assessment-tasks") do
-          expect(page).to have_content("Check description, documents and proposal details")
-          expect(page).to have_link("History")
-        end
-
-        within("#assess-against-legislation-tasks") do
-          expect(page).not_to have_link("Add assessment area")
-          expect(page).not_to have_content("Add assessment area")
-        end
-      end
+    it "displays a forbidden message" do
+      expect(page).to have_content("forbidden")
     end
   end
 

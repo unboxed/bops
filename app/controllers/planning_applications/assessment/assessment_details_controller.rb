@@ -2,12 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class AssessmentDetailsController < AuthenticationController
-      include CommitMatchable
-      include PlanningApplicationAssessable
-
-      before_action :set_planning_application
-      before_action :ensure_planning_application_is_validated
+    class AssessmentDetailsController < BaseController
       before_action :set_assessment_detail, only: %i[show edit update]
       before_action :set_category, :set_rejected_assessment_detail, only: %i[new create edit update show]
       before_action :set_consultation, if: :has_consultation_and_summary?

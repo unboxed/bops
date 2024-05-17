@@ -2,8 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class TermsController < AuthenticationController
-      before_action :set_planning_application
+    class TermsController < BaseController
       before_action :set_heads_of_term
       before_action :set_term
 

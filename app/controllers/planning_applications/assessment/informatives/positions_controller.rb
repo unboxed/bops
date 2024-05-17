@@ -3,7 +3,7 @@
 module PlanningApplications
   module Assessment
     module Informatives
-      class PositionsController < AuthenticationController
+      class PositionsController < BaseController
         include BopsCore::PositionsController
 
         private
