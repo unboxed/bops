@@ -9,6 +9,10 @@ module PlanningApplications
       before_action :ensure_planning_application_is_validated
       before_action :ensure_user_is_reviewer
 
+      def index
+        redirect_to planning_application_review_tasks_url(@planning_application)
+      end
+
       private
 
       def ensure_planning_application_is_validated

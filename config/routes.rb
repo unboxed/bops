@@ -91,6 +91,8 @@ Rails.application.routes.draw do
         resources :notes, only: %i[index create]
 
         namespace :assessment do
+          root to: "base#index"
+
           resource :report_download, only: :show
           resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
           resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
@@ -175,6 +177,8 @@ Rails.application.routes.draw do
         end
 
         namespace :validation do
+          root to: "base#index"
+
           resources :tasks, only: :index
 
           resource :cil_liability, only: %i[edit update], controller: :cil_liability
@@ -236,6 +240,8 @@ Rails.application.routes.draw do
         end
 
         namespace :review do
+          root to: "base#index"
+
           resource :assessment_details, only: %i[show edit update]
 
           resource :conditions, only: %i[show update]

@@ -8,6 +8,10 @@ module PlanningApplications
       before_action :set_planning_application
       before_action :ensure_planning_application_is_validated
 
+      def index
+        redirect_to planning_application_assessment_tasks_url(@planning_application)
+      end
+
       private
 
       def ensure_planning_application_is_validated
