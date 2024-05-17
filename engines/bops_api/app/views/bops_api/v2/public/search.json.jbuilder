@@ -9,6 +9,8 @@ json.metadata do
   json.total_results @pagy.count
 end
 
+json.links pagy_jsonapi_links(@pagy, absolute: true)
+
 json.data @planning_applications.each do |planning_application|
   json.partial! "show", planning_application:
 end

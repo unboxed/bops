@@ -16088,6 +16088,26 @@ components:
           - to
           - total_pages
           - total_results
+        links:
+          type: object
+          properties:
+            first:
+              type: string
+            last:
+              type: string
+            prev:
+              type:
+              - string
+              - 'null'
+            next:
+              type:
+              - string
+              - 'null'
+          required:
+          - first
+          - last
+          - prev
+          - next
         data:
           type: array
           items:
@@ -16244,6 +16264,7 @@ components:
             - proposal
       required:
       - metadata
+      - links
       - data
       type: object
     Healthcheck:
@@ -22237,6 +22258,11 @@ paths:
                       to: 4
                       total_pages: 5
                       total_results: 10
+                    links:
+                      first: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
+                      last: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&maxresults=2
+                      prev: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
+                      next: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=2
                     data:
                     - application:
                         type:
