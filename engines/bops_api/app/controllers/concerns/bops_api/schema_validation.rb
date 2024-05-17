@@ -21,14 +21,6 @@ module BopsApi
       end
     end
 
-    def validate_response_schema!
-      schema = BopsApi::Schemas.find_search!
-
-      unless schema.valid?(JSON.parse(render_to_string))
-        raise BopsApi::Errors::InvalidRequestError, "The response body is invalid. We couldn’t process your request because some information is missing or incorrect."
-      end
-    end
-
     def request_metadata
       request_parameters.fetch("metadata")
     rescue KeyError

@@ -190,7 +190,49 @@ FactoryBot.define do
 
     trait :with_boundary_geojson do
       boundary_geojson do
-        {"type" => "Feature", "properties" => nil, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.054597, 51.537331], [-0.054588, 51.537287], [-0.054453, 51.537313], [-0.054597, 51.537331]]]}}
+        {"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.054597, 51.537331], [-0.054588, 51.537287], [-0.054453, 51.537313], [-0.054597, 51.537331]]]}}
+      end
+    end
+
+    trait :with_boundary_geojson_features do
+      boundary_geojson do
+        {
+          "type" => "FeatureCollection",
+          "features" => [
+            {
+              "type" => "Feature",
+              "geometry" => {
+                "type" => "Polygon",
+                "coordinates" => [
+                  [
+                    [-0.07739927369747812, 51.501345554406896],
+                    [-0.0778893839394212, 51.501002280754676],
+                    [-0.07690508968054104, 51.50102474569704],
+                    [-0.07676672973966252, 51.50128963605792],
+                    [-0.07739927369747812, 51.501345554406896]
+                  ]
+                ]
+              },
+              "properties" => {
+                color: "#d870fc"
+              }
+            },
+            {
+              "type" => "Feature",
+              "properties" => {},
+              "geometry" => {
+                "type" => "Polygon",
+                "coordinates" => [
+                  [
+                    [30, 10],
+                    [40, 40],
+                    [30, 10]
+                  ]
+                ]
+              }
+            }
+          ]
+        }
       end
     end
 

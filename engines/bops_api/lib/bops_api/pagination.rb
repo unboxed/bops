@@ -6,7 +6,7 @@ module BopsApi
 
     DEFAULT_PAGE = 1
     DEFAULT_MAXRESULTS = 10
-    MAXRESULTS_LIMIT = 20
+    MAXRESULTS_LIMIT = 50
 
     def initialize(scope:, params:)
       @scope = scope
@@ -16,10 +16,13 @@ module BopsApi
     attr_reader :scope, :params
 
     def paginate
-      page = (params[:page] || DEFAULT_PAGE).to_i
-      maxresults = [(params[:maxresults] || DEFAULT_MAXRESULTS).to_i, MAXRESULTS_LIMIT].min
+      page = (params[:page] || DEFAULT_PAGE).to_i.clamp(1, 1000)
+      maxresults = [(params[:maxresults] || DEFAULT_MAXRESULTS).to_i, MAXRESULTS_LIMIT].min.clamp(1, 1000)
 
       pagy(scope, page:, items: maxresults)
+    rescue Pagy::OverflowError
+      last_page = (scope.count.to_f / maxresults).ceil
+      pagy(scope, page: last_page, items: maxresults)
     end
   end
 end

@@ -10,7 +10,8 @@ RSpec.configure do |config|
   config.openapi_root = BopsApi::Engine.root.join("swagger").to_s
   config.openapi_format = :yaml
 
-  json = BopsApi::Schemas.find!("submission", version: "odp/v0.3.0").value
+  submission_json = BopsApi::Schemas.find!("submission", version: "odp/v0.6.0").value
+  search_json = BopsApi::Schemas.find!("search", version: "odp/v0.6.0").value
 
   keys = %w[
     additionalProperties
@@ -26,8 +27,10 @@ RSpec.configure do |config|
     value.sub("#/definitions/", "#/components/definitions/")
   }
 
-  definitions = json["definitions"].deep_transform_values(&transformer)
-  submission = json.slice(*keys).deep_transform_values(&transformer)
+  definitions = submission_json["definitions"].deep_transform_values(&transformer)
+  submission = submission_json.slice(*keys).deep_transform_values(&transformer)
+
+  search = search_json.slice(*keys).deep_transform_values(&transformer)
 
   config.openapi_specs = {
     "v2/swagger_doc.yaml" => {
@@ -61,6 +64,8 @@ RSpec.configure do |config|
             },
             required: %w[id message]
           },
+
+          Search: search,
 
           Healthcheck: {
             type: "object",

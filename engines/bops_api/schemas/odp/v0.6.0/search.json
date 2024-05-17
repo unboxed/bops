@@ -62,12 +62,21 @@
                 },
                 "full_reference": {
                   "type": "string"
+                },
+                "received_at": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
                 }
               },
               "required": [
                 "type",
                 "reference",
-                "full_reference"
+                "full_reference",
+                "received_at",
+                "status"
               ]
             },
             "property": {
@@ -153,7 +162,7 @@
                               ]
                             },
                             "properties": {
-                              "type": "null"
+                              "type": ["object", "null"]
                             }
                           },
                           "required": [

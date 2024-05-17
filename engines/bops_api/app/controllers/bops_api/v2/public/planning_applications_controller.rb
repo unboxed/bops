@@ -8,9 +8,7 @@ module BopsApi
           @pagy, @planning_applications = search_service.call
 
           respond_to do |format|
-            format.json do
-              validate_response_schema!
-            end
+            format.json
           end
         end
 
