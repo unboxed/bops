@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Review
-    class RecommendationsController < AuthenticationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class RecommendationsController < BaseController
       before_action :ensure_user_is_reviewer_checking_assessment, only: %i[update edit]
       before_action :set_recommendations, only: %i[update edit]
       before_action :set_committee_decision

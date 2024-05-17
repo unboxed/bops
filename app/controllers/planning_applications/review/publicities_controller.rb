@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Review
-    class PublicitiesController < AuthenticationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class PublicitiesController < BaseController
       before_action :set_consultation
       before_action :set_press_notice
       before_action :set_site_notice

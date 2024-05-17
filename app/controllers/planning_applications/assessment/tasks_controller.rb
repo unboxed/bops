@@ -2,9 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class TasksController < AuthenticationController
-      before_action :set_planning_application
-
+    class TasksController < BaseController
       def index
         respond_to do |format|
           format.html

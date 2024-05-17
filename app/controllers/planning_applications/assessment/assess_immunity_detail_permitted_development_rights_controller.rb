@@ -2,14 +2,11 @@
 
 module PlanningApplications
   module Assessment
-    class AssessImmunityDetailPermittedDevelopmentRightsController < AuthenticationController
-      include PlanningApplicationAssessable
+    class AssessImmunityDetailPermittedDevelopmentRightsController < BaseController
       include PermittedDevelopmentRights
-      include CommitMatchable
 
       rescue_from ::Review::NotCreatableError, with: :redirect_failed_create_error
 
-      before_action :ensure_planning_application_is_validated
       before_action :ensure_planning_application_is_possibly_immune
       before_action :set_permitted_development_right, only: %i[show edit update]
       before_action :set_permitted_development_rights, only: %i[new show edit]

@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class CommentsController < AuthenticationController
+    class CommentsController < BaseController
       before_action :set_comment_type, only: %i[create update]
 
       def create
@@ -31,7 +31,7 @@ module PlanningApplications
         render_to_string(
           partial: "planning_applications/review/policy_classes/comment",
           locals: {
-            planning_application:,
+            planning_application: @planning_application,
             policy_class:,
             policy:,
             comment: @comment_type.comment,
@@ -44,7 +44,7 @@ module PlanningApplications
         render_to_string(
           partial: "planning_applications/review/immunity_details/comment",
           locals: {
-            planning_application:,
+            planning_application: @planning_application,
             evidence_group:,
             comment: @comment_type.comment,
             new_comment:
@@ -72,17 +72,11 @@ module PlanningApplications
       end
 
       def policy_class
-        planning_application.policy_classes.find(params[:policy_class_id])
+        @planning_application.policy_classes.find(params[:policy_class_id])
       end
 
       def evidence_group
         @comment_type
-      end
-
-      def planning_application
-        current_local_authority
-          .planning_applications
-          .find(params[:planning_application_id])
       end
 
       def set_comment_type

@@ -2,8 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class TasksController < AuthenticationController
-      before_action :set_planning_application
+    class TasksController < BaseController
       before_action :set_items_counter, only: :index
 
       def index

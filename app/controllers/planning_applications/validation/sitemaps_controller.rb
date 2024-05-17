@@ -2,9 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class SitemapsController < AuthenticationController
-      before_action :set_planning_application
-
+    class SitemapsController < BaseController
       def show
         respond_to do |format|
           format.html

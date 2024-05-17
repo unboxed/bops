@@ -2,9 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class ReportingTypesController < AuthenticationController
-      before_action :set_planning_application
-
+    class ReportingTypesController < BaseController
       def edit
         respond_to do |format|
           format.html

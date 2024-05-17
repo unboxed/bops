@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class ConsistencyChecklistsController < AuthenticationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class ConsistencyChecklistsController < BaseController
       before_action :set_consistency_checklist, except: %i[new create]
 
       def show

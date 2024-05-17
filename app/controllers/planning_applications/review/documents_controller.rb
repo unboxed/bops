@@ -2,13 +2,9 @@
 
 module PlanningApplications
   module Review
-    class DocumentsController < AuthenticationController
-      include CommitMatchable
-      include PlanningApplicationAssessable
-
-      before_action :set_planning_application
+    class DocumentsController < BaseController
+      skip_before_action :ensure_user_is_reviewer
       before_action :set_documents
-      before_action :ensure_planning_application_is_validated
 
       def index
         respond_to do |format|

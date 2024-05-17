@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Review
-    class CommitteeDecisionsController < AuthenticationController
-      include CommitMatchable
-      before_action :set_planning_application
-      before_action :ensure_user_is_reviewer
+    class CommitteeDecisionsController < BaseController
       before_action :set_committee_decision
 
       def edit

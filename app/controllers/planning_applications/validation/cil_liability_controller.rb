@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class CilLiabilityController < ApplicationController
-      include PlanningApplicationAssessable
-      before_action :set_planning_application
-
+    class CilLiabilityController < BaseController
       def edit
         respond_to do |format|
           format.html

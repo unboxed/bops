@@ -2,9 +2,7 @@
 
 module PlanningApplications
   module Validation
-    class ValidationRequestsController < AuthenticationController
-      include PlanningApplicationAssessable
-
+    class ValidationRequestsController < BaseController
       rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
       rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
       rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
@@ -12,7 +10,6 @@ module PlanningApplications
       rescue_from Notifications::Client::BadRequestError, with: :validation_notice_request_error
       rescue_from ValidationRequest::ValidationRequestNotCreatableError, with: :redirect_failed_create_request_error
 
-      before_action :set_planning_application
       before_action :set_validation_request, only: %i[show edit update destroy cancel_confirmation cancel]
       before_action :set_document
       before_action :set_type, only: %i[new]
@@ -134,6 +131,12 @@ module PlanningApplications
       end
 
       private
+
+      def ensure_planning_application_is_validated
+        return if @planning_application.validated?
+
+        render plain: "forbidden", status: :forbidden
+      end
 
       def ensure_planning_application_not_validated
         if params[:type] == "fee_change" || params[:type] == "other_change"

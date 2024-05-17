@@ -2,14 +2,11 @@
 
 module PlanningApplications
   module Assessment
-    class PermittedDevelopmentRightsController < AuthenticationController
-      include CommitMatchable
-      include PlanningApplicationAssessable
+    class PermittedDevelopmentRightsController < BaseController
       include PermittedDevelopmentRights
 
       rescue_from PermittedDevelopmentRight::NotCreatableError, with: :redirect_failed_create_error
 
-      before_action :ensure_planning_application_is_validated
       before_action :set_permitted_development_right, only: %i[show edit update]
       before_action :set_permitted_development_rights, only: %i[new show edit]
       before_action :ensure_permitted_development_right_is_editable, only: %i[edit update]

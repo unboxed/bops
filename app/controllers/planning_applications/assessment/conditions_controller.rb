@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class ConditionsController < AuthenticationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class ConditionsController < BaseController
       before_action :set_condition_set
       before_action :set_conditions
 

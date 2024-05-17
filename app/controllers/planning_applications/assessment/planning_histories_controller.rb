@@ -2,8 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class PlanningHistoriesController < AuthenticationController
-      before_action :set_planning_application
+    class PlanningHistoriesController < BaseController
       before_action :ensure_planning_history_is_enabled
 
       def show

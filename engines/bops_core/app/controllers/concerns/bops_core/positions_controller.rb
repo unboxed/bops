@@ -7,7 +7,6 @@ module BopsCore
     included do
       wrap_parameters false
 
-      before_action :set_planning_application
       before_action :set_collection
       before_action :set_record
     end

@@ -2,8 +2,7 @@
 
 module PlanningApplications
   module Assessment
-    class InformativesController < AuthenticationController
-      before_action :set_planning_application
+    class InformativesController < BaseController
       before_action :set_informative_set
       before_action :set_informative
 
