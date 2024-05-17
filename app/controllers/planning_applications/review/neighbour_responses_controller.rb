@@ -2,12 +2,9 @@
 
 module PlanningApplications
   module Review
-    class NeighbourResponsesController < AuthenticationController
-      include CommitMatchable
-
+    class NeighbourResponsesController < BaseController
       rescue_from ::Review::NotCreatableError, with: :redirect_failed_create_error
 
-      before_action :set_planning_application
       before_action :set_consultation
       before_action :set_neighbour_review
 

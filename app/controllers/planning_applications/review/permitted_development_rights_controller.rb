@@ -2,13 +2,7 @@
 
 module PlanningApplications
   module Review
-    class PermittedDevelopmentRightsController < AuthenticationController
-      include CommitMatchable
-      include PlanningApplicationAssessable
-
-      before_action :set_planning_application
-      before_action :ensure_planning_application_is_validated
-
+    class PermittedDevelopmentRightsController < BaseController
       include PermittedDevelopmentRights
 
       before_action :set_permitted_development_right, only: %i[show edit update]

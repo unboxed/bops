@@ -2,13 +2,7 @@
 
 module PlanningApplications
   module Review
-    class ImmunityDetailsController < AuthenticationController
-      include CommitMatchable
-      include PlanningApplicationAssessable
-
-      before_action :set_planning_application
-      before_action :ensure_planning_application_is_validated
-      before_action :ensure_user_is_reviewer
+    class ImmunityDetailsController < BaseController
       before_action :set_immunity_detail, only: %i[show edit update]
       before_action :set_review_immunity_detail, only: %i[show edit update]
 

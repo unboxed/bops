@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Review
-    class AssessmentDetailsController < AuthenticationController
-      include CommitMatchable
-
-      before_action :set_planning_application
+    class AssessmentDetailsController < BaseController
       before_action :set_consultation, if: :has_consultation?
       before_action :set_assessment_detail_review
 

@@ -2,13 +2,7 @@
 
 module PlanningApplications
   module Review
-    class LocalPoliciesController < AuthenticationController
-      include CommitMatchable
-      include PlanningApplicationAssessable
-
-      before_action :set_planning_application
-      before_action :ensure_planning_application_is_validated
-      before_action :ensure_user_is_reviewer
+    class LocalPoliciesController < BaseController
       before_action :set_local_policy, only: %i[show edit update]
       before_action :set_review_local_policy, only: %i[show edit update]
 

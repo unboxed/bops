@@ -2,10 +2,7 @@
 
 module PlanningApplications
   module Review
-    class PolicyClassesController < AuthenticationController
-      include CommitMatchable
-      before_action :set_planning_application
-      before_action :ensure_user_is_reviewer
+    class PolicyClassesController < BaseController
       before_action :set_policy_class, only: %i[edit update show]
 
       def show
