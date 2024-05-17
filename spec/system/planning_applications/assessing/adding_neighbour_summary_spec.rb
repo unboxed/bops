@@ -186,7 +186,7 @@ RSpec.describe "neighbour responses" do
 
       visit "/planning_applications/#{planning_application.id}/assessment/assessment_details/new"
 
-      expect(page).to have_content("forbidden")
+      expect(page).to have_content("The planning application must be validated before assessment can begin")
     end
   end
 

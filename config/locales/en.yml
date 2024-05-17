@@ -1080,6 +1080,8 @@ en:
       assessment_report_downloads:
         show:
           assessment_report: Assessment report
+      base:
+        not_validated: The planning application must be validated before assessment can begin
       consistency_checklists:
         additional_document_validation_request:
           cancelled: Cancelled %{time}
@@ -1419,6 +1421,8 @@ en:
           assessor_remarks: Assessor's remarks
           review_assessment_summaries: Review assessment summaries
           this_information_will: This information will be made publicly available.
+      base:
+        not_validated: The planning application must be validated before reviewing can begin
       cil_liability:
         update:
           success: Review of CIL liability successfully updated

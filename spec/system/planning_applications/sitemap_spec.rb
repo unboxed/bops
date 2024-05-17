@@ -65,7 +65,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(page).not_to have_link("Draw red line boundary")
 
         visit "/planning_applications/#{planning_application.id}/assessment/tasks"
-        expect(page).to have_content("forbidden")
+        expect(page).to have_content("The planning application must be validated before assessment can begin")
       end
     end
   end

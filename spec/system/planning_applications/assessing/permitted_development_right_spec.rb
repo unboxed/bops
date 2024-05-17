@@ -340,7 +340,7 @@ RSpec.describe "Permitted development right" do
 
       visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
 
-      expect(page).to have_content("forbidden")
+      expect(page).to have_content("The planning application must be validated before assessment can begin")
     end
   end
 

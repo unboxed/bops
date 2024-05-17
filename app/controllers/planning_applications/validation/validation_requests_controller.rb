@@ -3,8 +3,6 @@
 module PlanningApplications
   module Validation
     class ValidationRequestsController < BaseController
-      include PlanningApplicationAssessable
-
       rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
       rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
       rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
@@ -133,6 +131,12 @@ module PlanningApplications
       end
 
       private
+
+      def ensure_planning_application_is_validated
+        return if @planning_application.validated?
+
+        render plain: "forbidden", status: :forbidden
+      end
 
       def ensure_planning_application_not_validated
         if params[:type] == "fee_change" || params[:type] == "other_change"

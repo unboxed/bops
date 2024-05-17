@@ -109,7 +109,7 @@ RSpec.describe "Assessment tasks" do
     end
 
     it "displays a forbidden message" do
-      expect(page).to have_content("forbidden")
+      expect(page).to have_content("The planning application must be validated before assessment can begin")
     end
   end
 

@@ -242,7 +242,7 @@ RSpec.describe "Review documents for recommendation" do
     it "does not allow me to visit the page" do
       visit "/planning_applications/#{planning_application.id}/review/documents"
 
-      expect(page).to have_content("forbidden")
+      expect(page).to have_content("The planning application must be validated before reviewing can begin")
     end
   end
 end
