@@ -7,6 +7,12 @@
     "total_pages": 5,
     "total_results": 10
   },
+  "links": {
+    "first": "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2",
+    "last": "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&maxresults=2",
+    "prev": "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2",
+    "next": "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=2"
+  },
   "data": [
     {
       "application": {
