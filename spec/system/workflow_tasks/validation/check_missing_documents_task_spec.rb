@@ -8,7 +8,7 @@ RSpec.describe Validation::CheckMissingDocumentsTask, type: :component do
   let(:task) { described_class.new(planning_application) }
 
   it "renders link" do
-    expect(task.task_list_link_text).to eq "Check missing documents"
+    expect(task.task_list_link_text).to eq "Check and request documents"
     expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/documents/edit"
   end
 
