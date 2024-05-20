@@ -1,0 +1,49 @@
+<% content_for :page_title do %>
+  Add informatives - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Add informatives" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Add informatives"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(ReviewerCommentComponent.new(comment: @informative_set.current_review)) %>
+
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Informatives</h2>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <% if @informatives.any? %>
+      <ol class="govuk-list">
+        <% @informatives.each do |informative| %>
+          <%= content_tag :li, id: dom_id(informative) do %>
+            <div data-controller="max-lines">
+              <span class="govuk-caption-m">Informative <%= informative.position %></span>
+              <h2 class="govuk-heading-m"><%= informative.title %></h2>
+              <%= render(FormattedContentComponent.new(text: informative.text, classname: "scrollable")) %>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+          <% end %>
+        <% end %>
+      </ol>
+    <% else %>
+      <p class="govuk-body">
+        <strong>No informatives added yet</strong>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      </p>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+      <%= govuk_link_to "Edit informatives", edit_planning_application_assessment_informatives_path(@planning_application) %>
+    </div>
+  </div>
+</div>

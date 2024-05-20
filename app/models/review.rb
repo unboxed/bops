@@ -26,6 +26,7 @@ class Review < ApplicationRecord
   before_create :ensure_no_open_evidence_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_create :ensure_no_open_enforcement_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_commit :ensure_consultation_has_finished!, if: :owner_is_consultation?
+  before_update :set_status_to_be_complete, if: :accepted?
   before_update :set_status_to_be_reviewed, if: :comment?
   before_update :set_reviewer_edited, if: -> { owner_is_local_policy? && assessment_changed? }
   before_update :set_reviewed_at, if: :reviewer_present?
@@ -101,6 +102,11 @@ class Review < ApplicationRecord
     return if reviewer.nil?
 
     action_was.nil?
+  end
+
+  def set_status_to_be_complete
+    self.comment = nil
+    self.status = "complete"
   end
 
   def set_status_to_be_reviewed

@@ -4,11 +4,31 @@ module PlanningApplications
   module Assessment
     class InformativesController < BaseController
       before_action :set_informative_set
+      before_action :set_informatives
       before_action :set_informative
+      before_action :set_review
 
-      def index
+      def create
         respond_to do |format|
-          format.html
+          format.html do
+            if @informative.update(informative_params)
+              redirect_to edit_planning_application_assessment_informatives_path(@planning_application), notice: t(".success")
+            else
+              render :edit
+            end
+          end
+        end
+      end
+
+      def show
+        respond_to do |format|
+          format.html do
+            if @review.complete?
+              render :show
+            else
+              redirect_to edit_planning_application_assessment_informatives_path(@planning_application)
+            end
+          end
         end
       end
 
@@ -18,40 +38,15 @@ module PlanningApplications
         end
       end
 
-      def destroy
-        respond_to do |format|
-          format.html do
-            if @informative.destroy
-              redirect_to planning_application_assessment_informatives_path(@planning_application),
-                notice: t(".success")
-            else
-              render :index
-            end
-          end
-        end
-      end
-
       def update
         respond_to do |format|
           format.html do
-            if @informative.update(informatives_params) && @informative_set.update(informative_set_params)
-              redirect_to update_url, notice: t(".success")
-            elsif request.referrer.include? "edit"
-              render :edit
+            if @informative_set.update_review(review_params)
+              redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
             else
-              render :index
+              render :edit
             end
           end
-        end
-      end
-
-      def complete
-        review = @informative_set.current_review || @informative_set.reviews.create!(assessor: Current.user)
-
-        if review.update(status:)
-          redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
-        else
-          render :index
         end
       end
 
@@ -61,49 +56,24 @@ module PlanningApplications
         @informative_set = @planning_application.informative_set
       end
 
+      def set_informatives
+        @informatives = @informative_set.informatives.select(&:persisted?)
+      end
+
       def set_informative
-        @informative = if params[:informative_id]
-          @informative_set.informatives.find(params[:informative_id])
-        elsif params[:id].to_i > 0
-          @informative_set.informatives.find(params[:id])
-        else
-          @informative_set.informatives.new
-        end
+        @informative = @informative_set.informatives.new
       end
 
-      def informatives_params
-        params.require(:informative)
-          .permit(
-            :id, :title, :text, :informative_set_id
-          )
+      def informative_params
+        params.require(:informative).permit(:title, :text)
       end
 
-      def informative_set_params
-        {reviews_attributes: [status:, id: (@informative_set&.current_review&.id if !mark_as_complete?)]}
+      def set_review
+        @review = @informative_set.current_review
       end
 
-      def status
-        if mark_as_complete?
-          if @informative_set.current_review.present? && @informative_set.current_review.status == "to_be_reviewed"
-            "updated"
-          else
-            "complete"
-          end
-        else
-          "in_progress"
-        end
-      end
-
-      def mark_as_complete?
-        params[:action] == "complete"
-      end
-
-      def update_url
-        if params[:save] == "true"
-          planning_application_assessment_tasks_path(@planning_application)
-        else
-          planning_application_assessment_informatives_path(@planning_application)
-        end
+      def review_params
+        params.require(:review).permit(:status).merge(assessor: current_user)
       end
     end
   end

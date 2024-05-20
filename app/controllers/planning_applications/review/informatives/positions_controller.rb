@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module PlanningApplications
-  module Assessment
+  module Review
     module Informatives
       class PositionsController < BaseController
         include BopsCore::PositionsController

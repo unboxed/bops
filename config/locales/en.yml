@@ -236,6 +236,7 @@ en:
               blank: Fill in the text of the informative
             title:
               blank: Fill in the title of the informative
+              taken: There is already an informative with this title
         legislation:
           attributes:
             link:
@@ -806,7 +807,7 @@ en:
     - Design, appearance and materials
     - Nature conservation & biodiversity issues
     - Landscaping
-    successfully_created: Check against policy and guidance response was sucessfully created
+    successfully_created: Check against policy and guidance response was successfully created
     successfully_updated: Check against policy and guidance response was successfully updated
   neighbour_letter_header:
     planning_permission: Submit your comments by {{closing_date}}
@@ -1148,14 +1149,17 @@ en:
         update:
           success: Evidence of immunity successfully updated
       informatives:
-        complete:
-          success: Informatives successfully saved
-        destroy:
-          success: Informative was successfully removed
-        index:
+        create:
+          success: Informative was successfully added
+        edit:
           drag_and_drop: Drag and drop informatives to change the order that they appear in the decision notice.
+        items:
+          destroy:
+            success: Informative was successfully removed
+          update:
+            success: Informative was successfully saved
         update:
-          success: Informative successfully added
+          success: Informatives were successfully saved
       local_policies:
         update:
           successfully_updated: Check against policy and guidance response was successfully updated
@@ -1436,6 +1440,20 @@ en:
         successfully_updated: Review heads of terms was successfully updated
       immunity_details:
         successfully_updated: Review immunity details was successfully updated
+      informatives:
+        edit:
+          drag_and_drop: Drag and drop informatives to change the order that they appear in the decision notice.
+        items:
+          update:
+            success: Informative was successfully saved
+        show:
+          actions:
+            accepted: Informatives accepted
+            edited_and_accepted: Informatives edited and accepted
+            rejected: Informatives rejected
+          review_info: by %{reviewer}, %{reviewed_on}
+        update:
+          success: Review of informatives updated successfully
       local_policies:
         edit:
           check_the_assessment: check the assessment
@@ -2053,6 +2071,8 @@ en:
         evidence_of_immunity: Review evidence of immunity
       immunity_enforcement_component:
         review_immunity_enforcement: Review assessment of immunity
+      informatives_component:
+        link_text: Review informatives
       local_policy_component:
         link_text: Review assessment against policies and guidance
       notify_committee_component:

@@ -65,8 +65,6 @@ export default class extends Controller {
   }
 
   source(query, populateResults) {
-    const results = []
-
     ajax({
       type: "GET",
       url: "/contacts/consultees",
