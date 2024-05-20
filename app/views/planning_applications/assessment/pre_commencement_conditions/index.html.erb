@@ -81,7 +81,7 @@
               </div>
 
               <% unless current_request.cancelled? || current_request.open? %>
-                <%= govuk_link_to "Update condition", edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition) %>
+                <%= govuk_link_to "Edit", edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition) %>
               <% end %>
 
               <% if current_request.pending? %>
