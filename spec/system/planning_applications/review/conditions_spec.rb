@@ -67,7 +67,7 @@ RSpec.describe "Reviewing conditions" do
 
         choose "Edit to accept"
 
-        within("#condition-set-conditions-attributes-1--destroy-conditional") do
+        within("#condition-set-conditions-attributes-4--destroy-conditional") do
           fill_in "Reason", with: "This is different reason"
         end
 
@@ -128,7 +128,7 @@ RSpec.describe "Reviewing conditions" do
 
         click_link "Edit conditions"
 
-        within("#condition-set-conditions-attributes-0--destroy-conditional") do
+        within("#conditions .condition:last-of-type") do
           fill_in "Enter a reason for this condition", with: "A better response"
         end
 

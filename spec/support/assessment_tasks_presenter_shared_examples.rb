@@ -79,7 +79,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
           planning_application:
         )
 
-        create(:condition, condition_set:)
+        create(:condition, condition_set:, standard: false)
       end
 
       it "returns true" do

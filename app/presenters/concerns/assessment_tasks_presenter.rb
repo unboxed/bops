@@ -11,7 +11,7 @@ module AssessmentTasksPresenter
       recommendation.present? ||
       immunity_validation_in_progress? ||
       pre_commencement_condition_set.conditions.any? ||
-      condition_set.conditions.any? ||
+      condition_set.conditions.any? { |condition| !condition.standard } ||
       consultees_checked? ||
       informative_set.informatives.any? ||
       heads_of_term.terms.any?
