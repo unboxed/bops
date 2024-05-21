@@ -22,7 +22,7 @@ module BopsApi
           params.permit(:page, :maxresults, :q)
         end
 
-        def search_service(scope = planning_applications_scope.by_created_at_desc)
+        def search_service(scope = planning_applications_scope.by_latest_received_and_created)
           @search_service ||= Application::SearchService.new(scope, search_params)
         end
       end
