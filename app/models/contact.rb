@@ -14,11 +14,11 @@ class Contact < ApplicationRecord
   enum :origin, {
     internal: "internal",
     external: "external"
-  }, scopes: false
+  }, scopes: false, validate: true
 
   enum :category, {
     consultee: "consultee"
-  }, scopes: false
+  }, scopes: false, validate: true
 
   class << self
     def search(query, local_authority: nil, category: nil)

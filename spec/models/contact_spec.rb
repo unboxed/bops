@@ -23,8 +23,6 @@ RSpec.describe Contact do
       let(:contact) { build(:contact, origin: "invalid") }
 
       it "is false" do
-        pending "Non-raising validation of enums require Rails 7.1"
-
         expect(contact.valid?).to be(false)
         expect(contact.errors).to be_added(:origin, :inclusion, value: "invalid")
       end
@@ -34,8 +32,6 @@ RSpec.describe Contact do
       let(:contact) { build(:contact, category: "invalid") }
 
       it "is false" do
-        pending "Non-raising validation of enums require Rails 7.1"
-
         expect(contact.valid?).to be(false)
         expect(contact.errors).to be_added(:category, :inclusion, value: "invalid")
       end
