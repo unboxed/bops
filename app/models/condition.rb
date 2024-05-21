@@ -32,6 +32,12 @@ class Condition < ApplicationRecord
     (text + "\n\nReason: #{reason}").truncate(100, separator: "Reason")
   end
 
+  class << self
+    def standard_conditions
+      I18n.t(:conditions_list).map { |k, v| Condition.new(v) }
+    end
+  end
+
   private
 
   def titles
