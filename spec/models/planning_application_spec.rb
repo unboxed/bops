@@ -135,6 +135,18 @@ RSpec.describe PlanningApplication do
       end
     end
 
+    describe ".by_latest_received_and_created" do
+      before { freeze_time }
+
+      let!(:planning_application1) { create(:planning_application, received_at: 2.days.ago, created_at: 3.days.ago) }
+      let!(:planning_application2) { create(:planning_application, received_at: 2.days.ago, created_at: 4.days.ago) }
+      let!(:planning_application3) { create(:planning_application, received_at: 1.day.ago, created_at: 1.day.ago) }
+
+      it "returns planning applications sorted by latest received at and then created at" do
+        expect(described_class.by_latest_received_and_created).to eq([planning_application3, planning_application1, planning_application2])
+      end
+    end
+
     describe ".for_user_and_null_users" do
       let!(:user1) { create(:user) }
       let!(:user2) { create(:user) }
