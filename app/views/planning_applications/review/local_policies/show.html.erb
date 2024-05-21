@@ -20,6 +20,9 @@
   <div class="govuk-grid-column-full">
     <%= render "local_policy_areas", local_policy_areas: @local_policy.local_policy_areas %>
 
-    <%= govuk_link_to "Edit review policy guidance", edit_planning_application_review_local_policy_path(@planning_application, @review_local_policy) %>
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to("Back", planning_application_review_tasks_path(@planning_application), secondary: true) %>
+      <%= govuk_link_to "Edit review policy guidance", edit_planning_application_review_local_policy_path(@planning_application, @review_local_policy) %>
+    </div>
   </div>
 </div>
