@@ -22125,12 +22125,15 @@ paths:
       - name: id
         in: path
         schema:
-          type: integer
-          description: The planning application ID
+          oneOf:
+          - type: string
+            pattern: d{2}-d{5}-[A-Za-z]+
+          - type: integer
+          description: The planning application reference or ID
         required: true
       responses:
         '200':
-          description: returns a planning application
+          description: returns a planning application given a reference
           content:
             application/json:
               examples:

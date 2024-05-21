@@ -389,11 +389,14 @@ RSpec.describe "BOPS API" do
       produces "application/json"
 
       parameter name: :id, in: :path, schema: {
-        type: :integer,
-        description: "The planning application ID"
+        oneOf: [
+          {type: :string, pattern: "\d{2}-\d{5}-[A-Za-z]+"},
+          {type: :integer}
+        ],
+        description: "The planning application reference or ID"
       }
 
-      response "200", "returns a planning application" do
+      response "200", "returns a planning application given an ID" do
         example "application/json", :default, api_json_fixture("planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }
@@ -402,6 +405,19 @@ RSpec.describe "BOPS API" do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data["id"]).to eq(id)
+          expect(data["description"]).to eq(planning_application.description)
+        end
+      end
+
+      response "200", "returns a planning application given a reference" do
+        example "application/json", :default, api_json_fixture("planning_applications/show.json")
+
+        let(:planning_application) { planning_applications.first }
+        let(:id) { planning_application.reference }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["reference"]).to eq(planning_application.reference)
           expect(data["description"]).to eq(planning_application.description)
         end
       end
