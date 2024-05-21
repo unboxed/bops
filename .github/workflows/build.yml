@@ -55,34 +55,52 @@ jobs:
     strategy:
       matrix:
         specs:
-          - { group: "models", pattern: "[a-p]*_spec.rb" }
-          - { group: "models", pattern: "[q-z]*_spec.rb" }
-          - { group: "controllers", pattern: "*_spec.rb" }
-          - { group: "requests", pattern: "*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "a[a-f]*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "a[g-s]*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "a[t-z]*_spec.rb" }
-          - { group: "system", pattern: "[b-c]*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "[d-f]*_spec.rb", want_pdf: true }
-          - { group: "system", pattern: "[g-k]*_spec.rb" }
-          - { group: "system", pattern: "[l-m]*_spec.rb" }
-          - { group: "system", pattern: "[n-p]*_spec.rb" }
-          - { group: "system", pattern: "[q-r]*_spec.rb" }
-          - { group: "system", pattern: "[s-t]*_spec.rb" }
-          - { group: "system", pattern: "[u-z]*_spec.rb" }
+          - { group: "models" }
+          - { group: "requests", want_pdf: true }
+          - {
+              group: "system: assessing",
+              directories: "system/planning_applications/assessing",
+            }
+          - {
+              group: "system: consulting/publicity",
+              directories: "system/planning_applications/{consulting,publicity}",
+            }
+          - { group: "system: documents", directories: "system/documents" }
+          - { group: "system: public", directories: "system/public" }
+          - {
+              group: "system: recommending",
+              directories: "system/planning_applications/recommending",
+            }
+          - {
+              group: "system: review",
+              directories: "system/planning_applications/review",
+            }
+          - {
+              group: "system: validation",
+              directories: "system/planning_applications/validating",
+            }
+          - {
+              group: "system: workflow tasks",
+              directories: "system/workflow_tasks",
+            }
+          - {
+              group: "system: other",
+              directories: "{system,system/planning_applications}",
+              pattern: "*_spec.rb", # n.b. pattern needed here otherwise it'll recurse and duplicate other groups
+              want_pdf: true,
+            }
           - {
               group: "other",
-              pattern: "*_spec.rb",
-              directories: "{components,form_models,helpers,presenters,mailer,jobs,services,translations}",
+              directories: "{components,controllers,form_models,helpers,presenters,mailer,jobs,services,translations}",
             }
-          - { group: "bops_admin", pattern: "*_spec.rb", module: "engines" }
-          - { group: "bops_api", pattern: "*_spec.rb", module: "engines" }
-          - { group: "bops_config", pattern: "*_spec.rb", module: "engines" }
-          - { group: "bops_core", pattern: "*_spec.rb", module: "engines" }
+          - { group: "bops_admin", module: "engines" }
+          - { group: "bops_api", module: "engines" }
+          - { group: "bops_config", module: "engines" }
+          - { group: "bops_core", module: "engines" }
       fail-fast: false
     with:
-      name: "${{matrix.specs.group}}: ${{matrix.specs.pattern }}"
-      include: "${{matrix.specs.module || 'spec'}}/${{matrix.specs.directories || matrix.specs.group}}/**/${{matrix.specs.pattern}}"
+      name: "${{matrix.specs.group}}"
+      include: "${{matrix.specs.module || 'spec'}}/${{matrix.specs.directories || matrix.specs.group}}/${{matrix.specs.pattern || '**/*_spec.rb'}}"
       want-pdf: "${{ !!matrix.specs.want_pdf }}"
     secrets: inherit
 
