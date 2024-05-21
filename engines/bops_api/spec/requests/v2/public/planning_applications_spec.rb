@@ -6,6 +6,7 @@ RSpec.describe "BOPS public API" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:application_type) { create(:application_type, :householder) }
   let!(:planning_applications) { create_list(:planning_application, 6, :with_boundary_geojson, local_authority:, application_type:, make_public: true) }
+  let(:page) { 1 }
   let(:maxresults) { 5 }
   let(:q) { "" }
 
@@ -57,6 +58,13 @@ RSpec.describe "BOPS public API" do
 
           expect(data["data"].first["application"]["full_reference"]).to eq("PlanX-#{planning_applications.first.reference}")
         end
+      end
+
+      it "validates successfully against the example search json" do
+        schema = BopsApi::Schemas.find!("search", version: "odp/v0.6.0").value
+        schemer = JSONSchemer.schema(schema)
+
+        expect(schemer.valid?(example_fixture("search.json"))).to eq(true)
       end
 
       response "200", "returns planning applications when searching by the description" do
