@@ -57,7 +57,7 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_selector("p", text: "Custom reason 1")
 
         expect(page).to have_link("Remove")
-        expect(page).to have_link("Update condition")
+        expect(page).to have_link("Edit")
       end
 
       within("#condition_#{Condition.second.id}") do
@@ -76,7 +76,7 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
         expect(page).to have_link("Cancel")
 
-        expect(page).not_to have_link("Update condition")
+        expect(page).not_to have_link("Edit")
         expect(page).not_to have_link("Remove")
       end
 
@@ -140,7 +140,7 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
         expect(page).to have_link("Cancel")
 
-        expect(page).not_to have_link("Update condition")
+        expect(page).not_to have_link("Edit")
         expect(page).not_to have_link("Remove")
       end
 
@@ -198,7 +198,7 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_selector("p", text: "Typo")
         expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
         expect(page).to have_link(
-          "Update condition",
+          "Edit",
           href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition1.id}/edit"
         )
       end
@@ -206,13 +206,13 @@ RSpec.describe "Add pre-commencement conditions" do
       within("#condition_#{condition2.id}") do
         expect(page).to have_selector(".govuk-tag", text: "Accepted")
         expect(page).to have_link(
-          "Update condition",
+          "Edit",
           href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition2.id}/edit"
         )
       end
 
       within("#condition_#{condition1.id}") do
-        click_link "Update condition"
+        click_link "Edit"
       end
 
       fill_in "Enter title", with: "New title"
@@ -264,7 +264,7 @@ RSpec.describe "Add pre-commencement conditions" do
         expect(page).to have_selector("p strong.govuk-tag", text: "Cancelled")
 
         expect(page).not_to have_link("Cancel")
-        expect(page).not_to have_link("Update condition")
+        expect(page).not_to have_link("Edit")
         expect(page).not_to have_link("Remove")
       end
     end
