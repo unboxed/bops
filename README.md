@@ -1,4 +1,6 @@
-# BOPS ![CI](https://github.com/unboxed/bops/workflows/CI/badge.svg)
+# BOPS
+
+![CI](https://github.com/unboxed/bops/actions/workflows/build.yml/badge.svg) ![CodeQL](https://github.com/unboxed/bops/workflows/CodeQL/badge.svg)
 
 [FAQs](docs/FAQs.md) | [BOPS Applicants](https://github.com/unboxed/bops-applicants/)
 
