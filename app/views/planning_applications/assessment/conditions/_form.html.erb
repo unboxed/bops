@@ -6,40 +6,23 @@
 
   <%= form.govuk_error_summary %>
 
-  <div id="standard-conditions">
-    <%= form.govuk_check_boxes_fieldset :conditions, multiple: false, legend: {text: "Suggested conditions"} do %>
-      <%= form.fields_for :conditions, @conditions.standard do |fields| %>
-        <div class="condition">
-          <%= fields.hidden_field :_destroy, value: true %>
-          <%= fields.govuk_check_box :_destroy, false, multiple: false, label: {text: fields.object.title}, checked: fields.object.checked? do %>
-            <%= fields.hidden_field :id %>
-            <%= fields.hidden_field :standard, value: true %>
-            <%= fields.hidden_field :title, label: {text: "Enter a title"} %>
-            <%= fields.govuk_text_area :text, label: {text: "Enter condition"} %>
-            <%= fields.govuk_text_area :reason, label: {text: "Enter a reason for this condition"} %>
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-
   <div class="govuk-!-margin-bottom-7">
     <h2 class="govuk-heading-m">
       Other conditions
     </h2>
-    <div id="other-conditions" data-conditions-target="conditions">
-      <%= form.fields_for :conditions, (@conditions.other unless @pre_commencement) do |fields| %>
-        <%= content_tag :div, class: "condition govuk-!-margin-bottom-5", data: {index: fields.index} do %>
+    <div id="conditions" data-conditions-target="conditions">
+      <%= form.fields_for :conditions, @conditions do |fields| %>
+        <%= content_tag :div, id: "condition-#{fields.object.title.present? ? fields.object.title.parameterize : fields.object.id}", class: "condition govuk-!-margin-bottom-5", data: {index: fields.index} do %>
           <%= fields.hidden_field :_destroy, value: false %>
           <%= fields.hidden_field :id %>
           <%= fields.hidden_field :standard, value: false %>
-          <%= fields.hidden_field :title, value: "" %>
+          <%= fields.hidden_field :title, value: fields.object.title if fields.object.standard %>
           <%= fields.hidden_field :text_source, value: fields.object.text, data: {reset_text_target: "source"} %>
           <%= fields.govuk_text_area :text, label: {text: "Enter condition"}, data: {reset_text_target: "destination"} %>
-          <%= button_tag "Reset condition", type: "button", class: "button-as-link govuk-!-margin-bottom-6", value: "text", data: {action: "click->reset-text#reset"} %>
+          <%= button_tag "Reset condition", type: "button", class: "govuk-body button-as-link govuk-!-margin-bottom-6", value: "text", data: {action: "click->reset-text#reset"} %>
           <%= fields.hidden_field :reason_source, value: fields.object.reason, data: {reset_text_target: "source"} %>
           <%= fields.govuk_text_area :reason, label: {text: "Enter a reason for this condition"}, data: {reset_text_target: "destination"} %>
-          <%= button_tag "Reset reason", type: "button", class: "button-as-link govuk-!-margin-bottom-6", value: "reason", data: {action: "click->reset-text#reset"} %><br>
+          <%= button_tag "Reset reason", type: "button", class: "govuk-body button-as-link govuk-!-margin-bottom-6", value: "reason", data: {action: "click->reset-text#reset"} %><br>
           <%= govuk_link_to "Remove condition", "#", class: "govuk-body", data: {action: "click->conditions#removeCondition"} %>
         <% end %>
       <% end %>

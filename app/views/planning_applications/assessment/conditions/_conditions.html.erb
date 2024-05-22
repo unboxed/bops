@@ -5,10 +5,11 @@
 <ul id="conditions-list" class="govuk-list">
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <% @conditions.each_with_index do |condition, i| %>
-    <%= next unless condition.persisted? %>
     <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
-      <span class="govuk-caption-m">Condition <%= i + 1 %></span>
-      <h2 class="govuk-heading-m"><%= condition.title %></h2>
+      <span class="govuk-caption-m"><%= "#{condition.standard? ? "Suggested condition" : "Condition"}  #{i + 1}" %></span>
+      <% unless condition.title.blank? %>
+        <h2 class="govuk-heading-m"><%= condition.title %></h2>
+      <% end %>
 
       <p class="govuk-body">
         <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text)) %>

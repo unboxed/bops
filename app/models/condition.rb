@@ -12,6 +12,8 @@ class Condition < ApplicationRecord
   after_create :create_validation_request!, if: :pre_commencement?
   before_update :create_validation_request!, if: -> { pre_commencement? && should_create_validation_request? }
 
+  scope :sorted, -> { sort_by(&:sort_key) }
+
   def checked?
     persisted? || errors.present?
   end
@@ -30,6 +32,12 @@ class Condition < ApplicationRecord
 
   def truncated_comment
     (text + "\n\nReason: #{reason}").truncate(100, separator: "Reason")
+  end
+
+  class << self
+    def standard_conditions
+      I18n.t(:conditions_list).map { |k, v| Condition.new(v) }
+    end
   end
 
   private

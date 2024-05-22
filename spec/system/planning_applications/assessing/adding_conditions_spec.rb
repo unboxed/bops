@@ -23,26 +23,26 @@ RSpec.describe "Add conditions" do
 
       expect(page).to have_content("Add conditions")
 
-      check "Time limit"
-      within(:css, "#standard-conditions .condition:nth-of-type(1)") do
+      click_link "Edit conditions"
+
+      within(:css, "#conditions .condition:nth-of-type(2)") do
         fill_in "Enter condition", with: "New condition"
       end
-      check "Materials to match"
 
       click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(1)") do
+      within(:css, "#conditions .condition:nth-of-type(4)") do
         fill_in "Enter condition", with: "Custom condition 1"
         fill_in "Enter a reason for this condition", with: "Custom reason 1"
       end
 
       click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(2)") do
+      within(:css, "#conditions .condition:nth-of-type(5)") do
         fill_in "Enter condition", with: "Custom condition 2"
         fill_in "Enter a reason for this condition", with: "Custom reason 2"
       end
 
       click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(3)") do
+      within(:css, "#conditions .condition:nth-of-type(6)") do
         fill_in "Enter condition", with: "Custom condition 3"
         fill_in "Enter a reason for this condition", with: "Custom reason 3"
         click_link "Remove condition"
@@ -71,8 +71,7 @@ RSpec.describe "Add conditions" do
     end
 
     it "you can edit conditions" do
-      create(:condition, condition_set: planning_application.condition_set, standard: true)
-      create(:condition, condition_set: planning_application.condition_set, standard: false, text: "You must do this", reason: "For this reason")
+      create(:condition, condition_set: planning_application.condition_set, standard: false, title: "", text: "You must do this", reason: "For this reason")
 
       visit "/planning_applications/#{planning_application.id}"
       click_link "Check and assess"
@@ -87,10 +86,8 @@ RSpec.describe "Add conditions" do
 
       click_link "Edit conditions"
 
-      check "In accordance with approved plans"
-
       click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(2)") do
+      within(:css, "#conditions .condition:last-of-type") do
         fill_in "Enter condition", with: "Custom condition 1"
         fill_in "Enter a reason for this condition", with: "Custom reason 1"
       end
@@ -112,9 +109,11 @@ RSpec.describe "Add conditions" do
 
       click_link "Edit conditions"
 
-      uncheck "Time limit"
+      within(:css, "#conditions .condition:nth-of-type(1)") do
+        click_link "Remove condition"
+      end
 
-      within(:css, "#other-conditions .condition:nth-of-type(1)") do
+      within(:css, "#conditions .condition:nth-of-type(4)") do
         click_link "Remove condition"
       end
 
@@ -137,14 +136,14 @@ RSpec.describe "Add conditions" do
 
     it "shows errors" do
       click_link "Add conditions"
+      click_link "Edit conditions"
 
-      check "Time limit"
-      within(:css, "#standard-conditions .condition:nth-of-type(1)") do
+      within(:css, "#condition-time-limit") do
         fill_in "Enter condition", with: ""
       end
 
       click_link "+ Add condition"
-      within(:css, "#other-conditions .condition:nth-of-type(1)") do
+      within(:css, "#conditions .condition:last-of-type") do
         fill_in "Enter condition", with: "Custom condition 1"
       end
 
