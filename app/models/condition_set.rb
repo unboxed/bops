@@ -3,7 +3,7 @@
 class ConditionSet < ApplicationRecord
   belongs_to :planning_application
   has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
-  has_many :conditions, -> { order(position: :asc) }, extend: ConditionsExtension, dependent: :destroy
+  has_many :conditions, -> { order(position: :asc) }, dependent: :destroy
   has_many :validation_requests, through: :conditions
 
   accepts_nested_attributes_for :conditions, allow_destroy: true
