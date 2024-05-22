@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# json.key_format! camelize: :lower
+
 json.application do
   json.type do
     json.value planning_application.application_type.code
@@ -7,7 +9,9 @@ json.application do
   end
   json.reference planning_application.reference
   json.full_reference planning_application.reference_in_full
+  json.fullReference planning_application.reference_in_full
   json.received_at planning_application.received_at
+  json.receivedAt planning_application.received_at
   json.status planning_application.status
 end
 json.property do

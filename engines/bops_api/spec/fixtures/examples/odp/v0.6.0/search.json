@@ -22,7 +22,9 @@
         },
         "reference": "24-00107-HAPP",
         "full_reference": "PlanX-24-00107-HAPP",
+        "fullReference": "PlanX-24-00107-HAPP",
         "received_at": "2024-04-17T00:00:00.000+01:00",
+        "receivedAt": "2024-04-17T00:00:00.000+01:00",
         "status": "in_assessment"
       },
       "property": {
@@ -87,7 +89,9 @@
         },
         "reference": "24-00106-HAPP",
         "full_reference": "PlanX-24-00106-HAPP",
+        "fullReference": "PlanX-24-00106-HAPP",
         "received_at": "2024-04-18T00:00:00.000+01:00",
+        "receivedAt": "2024-04-18T00:00:00.000+01:00",
         "status": "in_assessment"
       },
       "property": {

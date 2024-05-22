@@ -92,8 +92,15 @@
                 "full_reference": {
                   "type": "string"
                 },
+                "fullReference": {
+                  "type": "string"
+                },
                 "received_at": {
-                  "format": "date",
+                  "format": "datetime",
+                  "type": "string"
+                },
+                "receivedAt": {
+                  "format": "datetime",
                   "type": "string"
                 },
                 "status": {
