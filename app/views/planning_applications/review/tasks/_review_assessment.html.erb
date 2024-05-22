@@ -78,6 +78,14 @@
             )
           ) %>
     <% end %>
+
+    <% if @planning_application.informative_set&.current_review&.started? %>
+      <%= render(
+            TaskListItems::Reviewing::InformativesComponent.new(
+              informative_set: @planning_application.informative_set
+            )
+          ) %>
+    <% end %>
   <% end %>
 
   <%= render partial: "policy_classes", locals: {planning_application: @planning_application, policy_class: @policy_class} %>

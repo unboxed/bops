@@ -42,6 +42,8 @@ Rails.application.routes.draw do
       scope "/contacts" do
         get "/consultees", to: "contacts#index", defaults: {category: "consultee"}
       end
+
+      get "/informatives", to: "informatives#index"
     end
 
     resources :planning_applications, except: %i[destroy] do
@@ -148,9 +150,10 @@ Rails.application.routes.draw do
           resources :recommendations, only: %i[new create update]
           resource :recommendations, only: %i[edit]
 
-          resources :informatives, except: %i[show] do
-            post :complete, on: :collection
-            concerns :positionable, module: :informatives
+          resource :informatives, only: %i[create show edit update] do
+            resources :items, only: %i[edit update destroy], module: :informatives do
+              concerns :positionable
+            end
           end
         end
 
@@ -275,6 +278,12 @@ Rails.application.routes.draw do
           resources :immunity_details, only: %i[edit update show]
 
           resources :immunity_enforcements, only: %i[show edit update]
+
+          resource :informatives, only: %i[show edit update] do
+            resources :items, only: %i[edit update], module: :informatives do
+              concerns :positionable
+            end
+          end
 
           resources :local_policies, only: %i[edit update show]
 

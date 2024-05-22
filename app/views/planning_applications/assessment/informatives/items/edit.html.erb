@@ -1,0 +1,33 @@
+<% content_for :page_title do %>
+  Edit informative - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Edit informative" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Edit informative"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @informative, url: planning_application_assessment_informatives_item_path(@planning_application, @informative) do |form| %>
+      <%= form.govuk_error_summary %>
+
+        <%= form.govuk_fieldset legend: {text: nil} do %>
+          <%= form.govuk_text_field :title, label: {text: "Enter a title"} %>
+          <%= form.govuk_text_area :text, label: {text: "Enter details of the informative"} %>
+        <% end %>
+
+        <%= form.govuk_submit("Save informative") do %>
+          <%= govuk_button_link_to(t("back"), planning_application_assessment_informatives_path(@planning_application), secondary: true) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

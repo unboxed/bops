@@ -2,27 +2,46 @@
 
 class InformativeSet < ApplicationRecord
   belongs_to :planning_application
-  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
-  has_many :informatives, -> { order(position: :asc) }, dependent: :destroy
 
-  accepts_nested_attributes_for :reviews
-
-  after_update :maybe_create_review
+  with_options dependent: :destroy do
+    has_many :informatives, -> { order(position: :asc) }
+    has_many :reviews, -> { order(created_at: :desc) }, as: :owner
+  end
 
   def current_review
-    reviews.order(:created_at).last
+    reviews.load.first || reviews.create!
+  end
+
+  def update_review(params)
+    case params[:status]
+    when "complete"
+      mark_as_complete(params)
+    when "in_progress"
+      mark_as_in_progress(params)
+    else
+      raise ArgumentError, "Unexpected review status: #{params[:status].inspect}"
+    end
   end
 
   private
 
-  def maybe_create_review
-    return if current_review.nil?
-    return unless current_review.status == "updated" && current_review.review_status == "to_be_reviewed"
-
-    create_review
+  def mark_as_complete(params)
+    if current_review.to_be_reviewed?
+      reviews.create!(params.merge(status: "updated"))
+    else
+      current_review.update!(params)
+    end
+  rescue ActiveRecord::ActiveRecordError
+    false
   end
 
-  def create_review
-    Review.create!(assessor: Current.user, owner_type: "InformativeSet", owner_id: id, status: "complete")
+  def mark_as_in_progress(params)
+    if current_review.to_be_reviewed?
+      current_review.update!(params.except(:status))
+    else
+      current_review.update!(params)
+    end
+  rescue ActiveRecord::ActiveRecordError
+    false
   end
 end

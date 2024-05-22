@@ -2,6 +2,8 @@
 
 module BopsCore
   module ApplicationHelper
+    include GOVUKDesignSystemFormBuilder::BuilderHelper
+
     {
       govuk_primary_navigation: "GovukComponent::PrimaryNavigationComponent",
       govuk_secondary_navigation: "GovukComponent::SecondaryNavigationComponent"
