@@ -14,6 +14,8 @@
       locals: {heading: "Consideration: #{@local_policy_area.area}"}
     ) %>
 
+<%= render partial: "planning_applications/assessment/local_policies/informational_links" %>
+
 <div class="govuk-!-margin-top-6">
     <h2 class="govuk-heading-m"><%= @local_policy_area.area %></h2>
     <p class="govuk-body"><strong>Policies:</strong> <%= @local_policy_area.policies %></p>
