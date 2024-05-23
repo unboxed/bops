@@ -8,99 +8,47 @@ RSpec.describe ApplicationJob do
     let(:buffer) { StringIO.new }
     let(:logs) { buffer.string }
 
-    before do
-      Current.user = user
-      ActiveJob::Base.logger = Logger.new(buffer)
+    let(:job_class) do
+      Class.new(::ApplicationJob) do
+        def perform
+          logger.info <<~INFO
+            Performed #{self.class.name} for #{Current.user.name}
+          INFO
+        end
+      end
+    end
 
+    before do
+      ActiveJob::Base.logger = Logger.new(buffer)
       stub_const("MyApplicationJob", job_class)
     end
 
-    context "a job with no arguments" do
-      let(:job_class) do
-        Class.new(::ApplicationJob) do
-          def perform
-            logger.info <<~INFO
-              Performed #{self.class.name} for #{Current.user.name} with arguments: []
-            INFO
-          end
-        end
+    it "uses the enqueing user when performing the job later" do
+      Current.set(user: user) do
+        MyApplicationJob.perform_later
       end
 
-      it "performs the job" do
-        perform_enqueued_jobs {
-          MyApplicationJob.perform_later
-        }
+      expect {
+        Thread.new {
+          perform_enqueued_jobs
+        }.join
+      }.not_to change(Current, :user).from(nil)
 
-        expect(logs).to include <<~LOGS
-          INFO -- : Performed MyApplicationJob for Background User with arguments: []
-        LOGS
-      end
+      expect(logs).to include <<~LOGS
+        INFO -- : Performed MyApplicationJob for Background User
+      LOGS
     end
 
-    context "a job with positional arguments" do
-      let(:job_class) do
-        Class.new(::ApplicationJob) do
-          def perform(positional)
-            logger.info <<~INFO
-              Performed #{self.class.name} for #{Current.user.name} with arguments: [#{positional.inspect}]
-            INFO
-          end
+    it "uses the current user when performing the job now" do
+      expect {
+        Current.set(user: user) do
+          MyApplicationJob.perform_now
         end
-      end
+      }.not_to change(Current, :user).from(nil)
 
-      it "performs the job" do
-        perform_enqueued_jobs {
-          MyApplicationJob.perform_later("positional")
-        }
-
-        expect(logs).to include <<~LOGS
-          INFO -- : Performed MyApplicationJob for Background User with arguments: ["positional"]
-        LOGS
-      end
-    end
-
-    context "a job with keyword arguments" do
-      let(:job_class) do
-        Class.new(::ApplicationJob) do
-          def perform(keyword:)
-            logger.info <<~INFO
-              Performed #{self.class.name} for #{Current.user.name} with arguments: [keyword: #{keyword.inspect}]
-            INFO
-          end
-        end
-      end
-
-      it "performs the job" do
-        perform_enqueued_jobs {
-          MyApplicationJob.perform_later(keyword: "keyword")
-        }
-
-        expect(logs).to include <<~LOGS
-          INFO -- : Performed MyApplicationJob for Background User with arguments: [keyword: "keyword"]
-        LOGS
-      end
-    end
-
-    context "a job with mixed arguments" do
-      let(:job_class) do
-        Class.new(::ApplicationJob) do
-          def perform(positional, keyword:)
-            logger.info <<~INFO
-              Performed #{self.class.name} for #{Current.user.name} with arguments: [#{positional.inspect}, keyword: #{keyword.inspect}]
-            INFO
-          end
-        end
-      end
-
-      it "performs the job" do
-        perform_enqueued_jobs {
-          MyApplicationJob.perform_later("positional", keyword: "keyword")
-        }
-
-        expect(logs).to include <<~LOGS
-          INFO -- : Performed MyApplicationJob for Background User with arguments: ["positional", keyword: "keyword"]
-        LOGS
-      end
+      expect(logs).to include <<~LOGS
+        INFO -- : Performed MyApplicationJob for Background User
+      LOGS
     end
   end
 end
