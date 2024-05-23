@@ -4,9 +4,11 @@ module PlanningApplications
   module Assessment
     class ConditionsController < BaseController
       before_action :set_condition_set
-      before_action :set_conditions
 
       def index
+        @conditions = @condition_set.conditions
+        @condition = @conditions.new
+
         respond_to do |format|
           format.html
         end
@@ -20,11 +22,21 @@ module PlanningApplications
         end
       end
 
+      def create
+        @condition = @condition_set.conditions.new
+        if @condition.update(condition_params)
+          redirect_to planning_application_assessment_conditions_path(@planning_application),
+            notice: I18n.t("conditions.update.success")
+        else
+          render :edit
+        end
+      end
+
       def update
         respond_to do |format|
           format.html do
-            condition = @condition_set.conditions.find(Integer(params[:condition][:id]))
-            if condition.update(condition_params)
+            @condition = @condition_set.conditions.find(condition_id)
+            if @condition.update(condition_params)
               redirect_to planning_application_assessment_conditions_path(@planning_application),
                 notice: I18n.t("conditions.update.success")
             else
@@ -34,14 +46,28 @@ module PlanningApplications
         end
       end
 
+      def mark_as_complete
+        current_review = @condition_set.current_review
+        if current_review.status == "to_be_reviewed"
+          @condition_set.reviews.create!(status: "updated")
+          redirect_to planning_application_assessment_tasks_path(@planning_application),
+            notice: I18n.t("conditions.update.success")
+        elsif current_review.update(status:)
+          redirect_to planning_application_assessment_tasks_path(@planning_application),
+            notice: I18n.t("conditions.update.success")
+        else
+          render :index
+        end
+      end
+
       private
+
+      def condition_id
+        Integer(condition_params[:id])
+      end
 
       def set_condition_set
         @condition_set = @planning_application.condition_set
-      end
-
-      def set_conditions
-        @conditions = @condition_set.conditions
       end
 
       def condition_params

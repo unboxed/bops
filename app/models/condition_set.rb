@@ -10,6 +10,7 @@ class ConditionSet < ApplicationRecord
   accepts_nested_attributes_for :reviews
 
   after_create :create_standard_conditions, unless: :pre_commencement?
+  after_create :create_review
   after_update :create_review, if: :should_create_review?
 
   def current_review
@@ -68,7 +69,7 @@ class ConditionSet < ApplicationRecord
     current_review.status == "updated" && current_review.review_status == "to_be_reviewed"
   end
 
-  def create_review(status)
+  def create_review(status = :not_started)
     reviews.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: id, status:)
   end
 

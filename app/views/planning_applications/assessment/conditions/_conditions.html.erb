@@ -4,7 +4,7 @@
 
 <ul id="conditions-list" class="govuk-list">
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-  <% @conditions.each_with_index do |condition, i| %>
+  <% @conditions.select(&:persisted?).each_with_index do |condition, i| %>
     <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
       <span class="govuk-caption-m"><%= "#{condition.standard? ? "Suggested condition" : "Condition"}  #{i + 1}" %></span>
       <% unless condition.title.blank? %>
@@ -25,6 +25,11 @@
   <% end %>
 </ul>
 
-<div class="govuk-button-group">
-  <%= back_link %>
-</div>
+<%= govuk_details(summary_text: "Add condition") do %>
+  <%= render("form") %>
+<% end %>
+
+<%= form_with model: @condition_set, url: mark_as_complete_planning_application_assessment_conditions_path(@planning_application) do |form| %>
+  <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
+  <%= govuk_link_to("Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary") %>
+<% end %>
