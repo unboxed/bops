@@ -251,6 +251,8 @@ en:
               blank: Fill in the policies you consulted
         planning_application:
           attributes:
+            application_type_id:
+              blank: An application type must be chosen
             base:
               no_boundary_geojson: This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application.
             decision:

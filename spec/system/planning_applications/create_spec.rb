@@ -49,7 +49,7 @@ RSpec.describe "Creating a planning application" do
     fill_in "Description", with: "Bad bad application"
 
     click_button "Save"
-    expect(page).to have_text("An applicant or agent email is required.")
+    expect(page).to have_selector("[role=alert] li", text: "An applicant or agent email is required.")
 
     within_fieldset "Agent information" do
       fill_in "Email address", with: "agentina@agentino.com"
@@ -61,11 +61,25 @@ RSpec.describe "Creating a planning application" do
     expect(page).to have_text("Description: Bad bad application")
   end
 
+  it "displays an error with an invalid email address" do
+    click_link "Add new application"
+    within_fieldset "Agent information" do
+      fill_in "Email address", with: "invalid-agent-email"
+    end
+    within_fieldset "Applicant information" do
+      fill_in "Email address", with: "invalid-applicant-email"
+    end
+
+    click_button "Save"
+    expect(page).to have_selector("[role=alert] li", text: "Agent email is invalid")
+    expect(page).to have_selector("[role=alert] li", text: "Applicant email is invalid")
+  end
+
   it "displays an error when application type is not selected" do
     click_link "Add new application"
 
     click_button "Save"
-    expect(page).to have_text("Application type must exist")
+    expect(page).to have_selector("[role=alert] li", text: "An application type must be chosen")
   end
 
   it "allows for an application to be created by a reviewer, using minimum details" do

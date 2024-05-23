@@ -61,7 +61,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
       it "renders failure message" do
         post "/api/v1/planning_applications", params: json,
           headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
-        expect(response.body).to eq("{\"message\":\"Validation failed: Application type must exist, An applicant or agent email is required.\"}")
+        expect(response.body).to eq("{\"message\":\"Validation failed: Application type must exist, Application type An application type must be chosen, An applicant or agent email is required.\"}")
       end
     end
 
