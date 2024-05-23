@@ -3,27 +3,28 @@
 module CurrentUserForJob
   extend ActiveSupport::Concern
 
-  included do
-    before_enqueue do |job|
-      next unless Current.user
+  attr_accessor :enqueueing_user
 
-      if job.arguments.last.is_a?(Hash)
-        job.arguments.last[:current_user] = Current.user
-      else
-        job.arguments << {current_user: Current.user}
+  def serialize
+    super.tap do |job_data|
+      if Current.user.present?
+        job_data["enqueueing_user"] = Current.user.to_gid_param
       end
     end
+  end
 
-    before_perform do |job|
-      next unless job.arguments.last.is_a?(Hash)
+  def deserialize(job_data)
+    super
 
-      if job.arguments.last.key?(:current_user)
-        Current.user = job.arguments.last.delete(:current_user)
+    if job_data["enqueueing_user"]
+      user = GlobalID::Locator.locate(job_data["enqueueing_user"])
+      self.enqueueing_user = user
+    end
+  end
 
-        if job.arguments.last.empty?
-          job.arguments.pop
-        end
-      end
+  included do
+    before_perform do
+      Current.user ||= enqueueing_user
     end
   end
 end
