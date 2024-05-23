@@ -232,8 +232,8 @@ RSpec.describe AdditionalDocumentValidationRequest do
             create(:planning_application, :invalidated)
           end
 
-          it "returns false" do
-            expect(request.can_cancel?).to be(false)
+          it "returns true" do
+            expect(request.can_cancel?).to be(true)
           end
         end
 
@@ -242,8 +242,8 @@ RSpec.describe AdditionalDocumentValidationRequest do
             create(:planning_application, :in_assessment)
           end
 
-          it "returns false" do
-            expect(request.can_cancel?).to be(false)
+          it "returns true" do
+            expect(request.can_cancel?).to be(true)
           end
         end
       end

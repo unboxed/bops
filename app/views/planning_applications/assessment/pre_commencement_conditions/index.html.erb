@@ -91,9 +91,7 @@
                       method: :delete,
                       data: {confirm: "Are you sure?"}
                     ) %>
-              <% end %>
-
-              <% if current_request.open? %>
+              <% else %>
                 <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
               <% end %>
             </div>
