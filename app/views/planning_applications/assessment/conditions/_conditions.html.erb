@@ -17,6 +17,8 @@
       <p class="govuk-body">
         <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
       </p>
+
+      <%= govuk_link_to "Edit", edit_planning_application_assessment_condition_path(@planning_application, condition) %>
     <% end %>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -25,5 +27,4 @@
 
 <div class="govuk-button-group">
   <%= back_link %>
-  <%= govuk_link_to "Edit conditions", edit_planning_application_assessment_conditions_path(@planning_application) %>
 </div>

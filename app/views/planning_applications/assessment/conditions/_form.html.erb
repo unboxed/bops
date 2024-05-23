@@ -1,62 +1,28 @@
-<%= form_with model: @condition_set,
-      class: "govuk-!-margin-top-7",
+<%= form_with model: @condition,
       url: planning_application_assessment_conditions_path(@planning_application),
-      html: {data: {controller: "conditions reset-text"}},
+      html: {data: {controller: "reset-text"}},
       method: :patch do |form| %>
 
   <%= form.govuk_error_summary %>
 
-  <div class="govuk-!-margin-bottom-7">
-    <h2 class="govuk-heading-m">
-      Other conditions
-    </h2>
-    <div id="conditions" data-conditions-target="conditions">
-      <%= form.fields_for :conditions, @conditions do |fields| %>
-        <%= content_tag :div, id: "condition-#{fields.object.title.present? ? fields.object.title.parameterize : fields.object.id}", class: "condition govuk-!-margin-bottom-5", data: {index: fields.index} do %>
-          <%= fields.hidden_field :_destroy, value: false %>
-          <%= fields.hidden_field :id %>
-          <%= fields.hidden_field :standard, value: false %>
-          <%= fields.hidden_field :title, value: fields.object.title if fields.object.standard %>
-          <%= fields.hidden_field :text_source, value: fields.object.text, data: {reset_text_target: "source"} %>
-          <%= fields.govuk_text_area :text, label: {text: "Enter condition"}, data: {reset_text_target: "destination"} %>
-          <%= button_tag "Reset condition", type: "button", class: "govuk-body button-as-link govuk-!-margin-bottom-6", value: "text", data: {action: "click->reset-text#reset"} %>
-          <%= fields.hidden_field :reason_source, value: fields.object.reason, data: {reset_text_target: "source"} %>
-          <%= fields.govuk_text_area :reason, label: {text: "Enter a reason for this condition"}, data: {reset_text_target: "destination"} %>
-          <%= button_tag "Reset reason", type: "button", class: "govuk-body button-as-link govuk-!-margin-bottom-6", value: "reason", data: {action: "click->reset-text#reset"} %><br>
-          <%= govuk_link_to "Remove condition", "#", class: "govuk-body", data: {action: "click->conditions#removeCondition"} %>
-        <% end %>
-      <% end %>
-    </div>
-
-    <%= govuk_link_to "+ Add condition", "#", class: "govuk-body", data: {action: "click->conditions#addCondition"} %>
-  </div>
-
-  <template id="condition-template" data-conditions-target="template">
-    <div class="condition govuk-!-margin-bottom-5">
-      <input value="false" autocomplete="off" type="hidden" id="_destroyInput">
-      <input value="false" autocomplete="off" type="hidden" id="standardInput">
-      <input value="" autocomplete="off" type="hidden" id="titleInput">
-      <div class="govuk-form-group">
-        <label class="govuk-label" id="textLabel">Enter condition</label>
-        <textarea class="govuk-textarea" rows="5" id="textInput"></textarea>
-      </div>
-      <div class="govuk-form-group">
-        <label class="govuk-label" id="reasonLabel">Enter a reason for this condition</label>
-        <textarea class="govuk-textarea" rows="5" id="reasonInput"></textarea>
-      </div>
-      <a class="govuk-body govuk-link" href="#">
-        Remove condition
-      </a>
-    </div>
-  </template>
+  <%= content_tag :div, class: "govuk-!-margin-bottom-5" do %>
+    <%= form.hidden_field :id %>
+    <%= form.hidden_field :standard, value: false %>
+    <%= form.hidden_field :title, value: @condition.title if @condition.standard %>
+    <%= form.hidden_field :text_source, value: @condition.text, data: {reset_text_target: "source"} %>
+    <%= form.govuk_text_area :text, label: {text: "Enter condition"}, data: {reset_text_target: "destination"} %>
+    <%= button_tag "Reset condition", type: "button", class: "govuk-body button-as-link govuk-!-margin-bottom-6", value: "text", data: {action: "click->reset-text#reset"} %>
+    <%= form.hidden_field :reason_source, value: @condition.reason, data: {reset_text_target: "source"} %>
+    <%= form.govuk_text_area :reason, label: {text: "Enter a reason for this condition"}, data: {reset_text_target: "destination"} %>
+    <%= button_tag "Reset reason", type: "button", class: "govuk-body button-as-link govuk-!-margin-bottom-6", value: "reason", data: {action: "click->reset-text#reset"} %><br>
+  <% end %>
 
   <div class="govuk-button-group">
     <%= form.submit(
-          t("form_actions.condition.save_and_mark_as_complete"),
+          "Save condition",
           class: "govuk-button",
           data: {module: "govuk-button"}
         ) %>
-    <%= form.submit("Save and come back later", class: "govuk-button govuk-button--secondary") %>
     <%= back_link %>
   </div>
 <% end %>
