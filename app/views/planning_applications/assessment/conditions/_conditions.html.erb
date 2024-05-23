@@ -2,7 +2,7 @@
 
 <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Conditions</h2>
 
-<ul id="conditions-list" class="govuk-list">
+<ul id="conditions-list" class="govuk-list" data-controller="conditions">
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <% @conditions.select(&:persisted?).each_with_index do |condition, i| %>
     <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
@@ -18,7 +18,13 @@
         <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
       </p>
 
-      <%= govuk_link_to "Edit", edit_planning_application_assessment_condition_path(@planning_application, condition) %>
+      <%= form_with model: condition,
+            url: planning_application_assessment_condition_path(@planning_application, condition),
+            scope: :condition,
+            method: :delete do |form| %>
+        <%= govuk_link_to "Edit", edit_planning_application_assessment_condition_path(@planning_application, condition) %>
+        <%= form.button "Remove", class: "button-as-link govuk-link", data: {action: "conditions#confirmDeletion"} %>
+      <% end %>
     <% end %>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

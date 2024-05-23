@@ -7,7 +7,7 @@ RSpec.describe "Add conditions" do
   let!(:api_user) { create(:api_user, name: "PlanX", local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
-  let!(:planning_application) do
+  let(:planning_application) do
     create(:planning_application, :planning_permission, :in_assessment, :with_condition_set, local_authority: default_local_authority, api_user:, decision: "granted")
   end
 
@@ -95,36 +95,43 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content "For this reason"
       expect(page).to have_content "Custom condition 1"
       expect(page).to have_content "Custom reason 1"
+    end
 
-      ### TODO removal
-      #
-      # click_link "Edit conditions"
-      #
-      # within(:css, "#conditions .condition:nth-of-type(1)") do
-      #   click_link "Remove condition"
-      # end
-      #
-      # within(:css, "#conditions .condition:nth-of-type(4)") do
-      #   click_link "Remove condition"
-      # end
-      #
-      # click_button "Save and mark as complete"
-      #
-      # click_link "Add conditions"
+    it "you can delete conditions" do
+      visit "/planning_applications/#{planning_application.id}"
+      click_link "Check and assess"
+
+      click_link "Add conditions"
+
+      accept_confirm do
+        within(:css, "#conditions-list li:nth-of-type(1)") do
+          click_button "Remove"
+        end
+      end
+
+      accept_confirm do
+        within(:css, "#conditions-list li:nth-of-type(2)") do
+          click_button "Remove"
+        end
+      end
+
+      dismiss_confirm do
+        within(:css, "#conditions-list li:nth-of-type(1)") do
+          click_button "Remove"
+        end
+      end
 
       expect(page).to have_content "In accordance with approved plans"
       expect(page).to have_content "The development hereby permitted must be undertaken in accordance with the approved plans and documents."
       expect(page).to have_content "For the avoidance of doubt and in the interests of proper planning."
-      expect(page).to have_content "Custom condition 1"
-      expect(page).to have_content "Custom reason 1"
 
-      ### TODO removal
-      #
-      # expect(page).not_to have_content "Time limit"
-      # expect(page).not_to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
-      # expect(page).not_to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
-      # expect(page).not_to have_content "You must do this"
-      # expect(page).not_to have_content "For this reason"
+      expect(page).not_to have_content "Time limit"
+      expect(page).not_to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
+      expect(page).not_to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
+
+      expect(page).not_to have_content "Materials to match"
+      expect(page).not_to have_content "All new external work and finishes and work of making good shall match the original work in respect of the materials, colour, texture, profile and finished appearance, except where indicated otherwise on the drawings hereby approved or unless otherwise required by condition."
+      expect(page).not_to have_content "To preserve the character and appearance of the local area."
     end
 
     it "shows errors when adding" do

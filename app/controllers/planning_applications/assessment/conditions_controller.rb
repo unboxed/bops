@@ -46,6 +46,22 @@ module PlanningApplications
         end
       end
 
+      def destroy
+        @condition = @condition_set.conditions.find(Integer(params[:id]))
+
+        respond_to do |format|
+          format.html do
+            if @condition.destroy
+              redirect_to planning_application_assessment_conditions_path(@planning_application),
+                notice: I18n.t("conditions.destroy.success")
+            else
+              redirect_to planning_application_assessment_conditions_path(@planning_application),
+                notice: I18n.t("conditions.destroy.failure")
+            end
+          end
+        end
+      end
+
       def mark_as_complete
         current_review = @condition_set.current_review
         if current_review.status == "to_be_reviewed"
