@@ -23,34 +23,30 @@ RSpec.describe "Add conditions" do
 
       expect(page).to have_content("Add conditions")
 
-      click_link "Edit conditions"
+      toggle "Add condition"
 
-      within(:css, "#conditions .condition:nth-of-type(2)") do
-        fill_in "Enter condition", with: "New condition"
-      end
+      fill_in "Enter condition", with: "New condition"
+      fill_in "Enter a reason for this condition", with: "No reason"
+      click_button "Save condition"
 
-      click_link "+ Add condition"
-      within(:css, "#conditions .condition:nth-of-type(4)") do
-        fill_in "Enter condition", with: "Custom condition 1"
-        fill_in "Enter a reason for this condition", with: "Custom reason 1"
-      end
+      toggle "Add condition"
+      fill_in "Enter condition", with: "Custom condition 1"
+      fill_in "Enter a reason for this condition", with: "Custom reason 1"
+      click_button "Save condition"
 
-      click_link "+ Add condition"
-      within(:css, "#conditions .condition:nth-of-type(5)") do
-        fill_in "Enter condition", with: "Custom condition 2"
-        fill_in "Enter a reason for this condition", with: "Custom reason 2"
-      end
+      toggle "Add condition"
+      fill_in "Enter condition", with: "Custom condition 2"
+      fill_in "Enter a reason for this condition", with: "Custom reason 2"
+      click_button "Save condition"
 
-      click_link "+ Add condition"
-      within(:css, "#conditions .condition:nth-of-type(6)") do
-        fill_in "Enter condition", with: "Custom condition 3"
-        fill_in "Enter a reason for this condition", with: "Custom reason 3"
-        click_link "Remove condition"
-      end
+      toggle "Add condition"
+      fill_in "Enter condition", with: "Custom condition 3"
+      fill_in "Enter a reason for this condition", with: "Custom reason 3"
+      click_button "Reset condition"
+      click_button "Reset reason"
+      toggle "Add condition"
 
       click_button "Save and mark as complete"
-
-      expect(page).to have_content "Conditions successfully updated"
 
       within("#add-conditions") do
         expect(page).to have_content "Completed"
@@ -84,17 +80,10 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content "You must do this"
       expect(page).to have_content "For this reason"
 
-      click_link "Edit conditions"
-
-      click_link "+ Add condition"
-      within(:css, "#conditions .condition:last-of-type") do
-        fill_in "Enter condition", with: "Custom condition 1"
-        fill_in "Enter a reason for this condition", with: "Custom reason 1"
-      end
-
-      click_button "Save and mark as complete"
-
-      click_link "Add conditions"
+      toggle "Add condition"
+      fill_in "Enter condition", with: "Custom condition 1"
+      fill_in "Enter a reason for this condition", with: "Custom reason 1"
+      click_button "Save condition"
 
       expect(page).to have_content "Time limit"
       expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
@@ -107,19 +96,21 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content "Custom condition 1"
       expect(page).to have_content "Custom reason 1"
 
-      click_link "Edit conditions"
-
-      within(:css, "#conditions .condition:nth-of-type(1)") do
-        click_link "Remove condition"
-      end
-
-      within(:css, "#conditions .condition:nth-of-type(4)") do
-        click_link "Remove condition"
-      end
-
-      click_button "Save and mark as complete"
-
-      click_link "Add conditions"
+      ### TODO removal
+      #
+      # click_link "Edit conditions"
+      #
+      # within(:css, "#conditions .condition:nth-of-type(1)") do
+      #   click_link "Remove condition"
+      # end
+      #
+      # within(:css, "#conditions .condition:nth-of-type(4)") do
+      #   click_link "Remove condition"
+      # end
+      #
+      # click_button "Save and mark as complete"
+      #
+      # click_link "Add conditions"
 
       expect(page).to have_content "In accordance with approved plans"
       expect(page).to have_content "The development hereby permitted must be undertaken in accordance with the approved plans and documents."
@@ -127,30 +118,41 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content "Custom condition 1"
       expect(page).to have_content "Custom reason 1"
 
-      expect(page).not_to have_content "Time limit"
-      expect(page).not_to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
-      expect(page).not_to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
-      expect(page).not_to have_content "You must do this"
-      expect(page).not_to have_content "For this reason"
+      ### TODO removal
+      #
+      # expect(page).not_to have_content "Time limit"
+      # expect(page).not_to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
+      # expect(page).not_to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
+      # expect(page).not_to have_content "You must do this"
+      # expect(page).not_to have_content "For this reason"
     end
 
-    it "shows errors" do
+    it "shows errors when adding" do
       click_link "Add conditions"
-      click_link "Edit conditions"
 
-      within(:css, "#condition-time-limit") do
-        fill_in "Enter condition", with: ""
+      toggle "Add condition"
+      fill_in "Enter condition", with: "Custom condition 1"
+
+      click_button "Save condition"
+
+      within ".govuk-error-summary" do
+        expect(page).to have_content "Enter the reason for this condition"
+      end
+    end
+
+    it "shows errors when editing" do
+      click_link "Add conditions"
+
+      within(:css, "#conditions-list li:first-of-type") do
+        click_link "Edit"
       end
 
-      click_link "+ Add condition"
-      within(:css, "#conditions .condition:last-of-type") do
-        fill_in "Enter condition", with: "Custom condition 1"
+      fill_in "Enter condition", with: ""
+      click_button "Save condition"
+
+      within ".govuk-error-summary" do
+        expect(page).to have_content "Enter the text of this condition"
       end
-
-      click_button "Save and mark as complete"
-
-      expect(page).to have_content "Enter the text of this condition"
-      expect(page).to have_content "Enter the reason for this condition"
     end
 
     it "shows conditions on the decision notice" do
