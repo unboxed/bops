@@ -12,10 +12,6 @@ module PlanningApplications
         end
       end
 
-      def new
-        @condition_set.conditions.new
-      end
-
       def edit
         @condition = @condition_set.conditions.find(Integer(params[:id]))
 
