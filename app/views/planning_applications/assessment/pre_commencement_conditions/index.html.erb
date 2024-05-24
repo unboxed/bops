@@ -29,7 +29,7 @@
   <div class="govuk-grid-column-full">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <ol data-controller="sortable" id="conditions-list" class="govuk-list">
-      <% @condition_set.conditions.each do |condition| %>
+      <% @condition_set.not_cancelled_conditions.each do |condition| %>
         <%= next unless condition.persisted? %>
         <%= content_tag :li,
               class: "sortable-list",

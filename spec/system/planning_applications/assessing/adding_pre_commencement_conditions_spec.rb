@@ -263,14 +263,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       click_link "Check and assess"
       click_link "Add pre-commencement conditions"
 
-      within("#condition_#{condition1.id}") do
-        expect(page).to have_selector("h2", text: "Title 1")
-        expect(page).to have_selector("p strong.govuk-tag", text: "Cancelled")
-
-        expect(page).not_to have_link("Cancel")
-        expect(page).not_to have_link("Edit")
-        expect(page).not_to have_link("Remove")
-      end
+      expect(page).not_to have_selector("p strong.govuk-tag", text: "Cancelled")
     end
 
     it "I can remove a condition only if it has not been sent to the applicant" do
