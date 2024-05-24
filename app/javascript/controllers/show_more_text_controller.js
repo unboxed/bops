@@ -4,21 +4,17 @@ export default class extends Controller {
   handleClick(event) {
     event.preventDefault()
 
+    const truncatedComment =
+      this.element.getElementsByClassName("truncated-comment")[0]
+    const hiddenComment =
+      this.element.getElementsByClassName("hidden-comment")[0]
+
     // Remove the ellipses from the comment
-    const replaceText = event.target.parentElement
-      .getElementsByClassName("truncated-comment")[0]
-      .innerText.slice(0, -3)
+    const replaceText = truncatedComment.innerText.slice(0, -3)
 
-    event.target.parentElement.getElementsByClassName(
-      "truncated-comment",
-    )[0].innerText = replaceText
+    truncatedComment.innerText = replaceText
 
-    event.target.parentElement.getElementsByClassName(
-      "truncated-comment",
-    )[0].innerHTML +=
-      event.target.parentElement.getElementsByClassName(
-        "hidden-comment",
-      )[0].innerHTML
+    truncatedComment.innerHTML += hiddenComment.innerHTML
 
     event.target.classList.add("govuk-!-display-none")
   }

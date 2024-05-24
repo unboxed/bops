@@ -11,12 +11,39 @@
         <h2 class="govuk-heading-m"><%= condition.title %></h2>
       <% end %>
 
-      <p class="govuk-body">
-        <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text)) %>
-      </p>
-      <p class="govuk-body">
-        <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
-      </p>
+      <div data-controller="show-more-text">
+        <p class="govuk-body">
+          <strong>Condition</strong>
+          <% if condition.text.length > 300 %>
+            <div class="truncated-comment">
+              <%= render(FormattedContentComponent.new(text: condition.text[0..300] + "…")) %>
+            </div>
+            <div class="govuk-!-display-none hidden-comment">
+              <%= render(FormattedContentComponent.new(text: condition.text[300..])) %>
+            </div>
+            <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+          <% else %>
+              <%= render(FormattedContentComponent.new(text: condition.text)) %>
+          <% end %>
+        </p>
+      </div>
+
+      <div data-controller="show-more-text">
+        <p class="govuk-body">
+          <strong>Reason</strong>
+          <% if condition.reason.length > 300 %>
+            <div class="truncated-comment">
+              <%= render(FormattedContentComponent.new(text: condition.reason[0..300] + "…")) %>
+            </div>
+            <div class="govuk-!-display-none hidden-comment">
+              <%= render(FormattedContentComponent.new(text: condition.reason[300..])) %>
+            </div>
+            <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+          <% else %>
+              <%= render(FormattedContentComponent.new(text: condition.reason)) %>
+          <% end %>
+        </p>
+      </div>
 
       <%= form_with model: condition,
             url: planning_application_assessment_condition_path(@planning_application, condition),
