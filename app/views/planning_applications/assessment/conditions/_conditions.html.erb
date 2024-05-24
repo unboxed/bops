@@ -21,7 +21,7 @@
             <div class="govuk-!-display-none hidden-comment">
               <%= render(FormattedContentComponent.new(text: condition.text)) %>
             </div>
-            <a href="#" class="show-more" data-action="click->show-more-text#replaceText">View more</a>
+            <a href="#" class="govuk-link show-more" data-action="click->show-more-text#replaceText">View more</a>
           <% else %>
               <%= render(FormattedContentComponent.new(text: condition.text)) %>
           <% end %>
@@ -38,7 +38,7 @@
             <div class="govuk-!-display-none hidden-comment">
               <%= render(FormattedContentComponent.new(text: condition.reason)) %>
             </div>
-            <a href="#" class="show-more" data-action="click->show-more-text#replaceText">View more</a>
+            <a href="#" class="govuk-link show-more" data-action="click->show-more-text#replaceText">View more</a>
           <% else %>
               <%= render(FormattedContentComponent.new(text: condition.reason)) %>
           <% end %>
