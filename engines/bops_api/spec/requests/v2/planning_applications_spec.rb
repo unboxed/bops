@@ -390,7 +390,7 @@ RSpec.describe "BOPS API" do
 
       parameter name: :id, in: :path, schema: {
         oneOf: [
-          {type: :string, pattern: "\d{2}-\d{5}-[A-Za-z]+"},
+          {type: :string, pattern: "\d{2}-\d{5}-[A-Za-z0-9]+"},
           {type: :integer}
         ],
         description: "The planning application reference or ID"

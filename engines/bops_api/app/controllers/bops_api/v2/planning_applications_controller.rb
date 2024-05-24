@@ -45,7 +45,7 @@ module BopsApi
       private
 
       def find_planning_application
-        if /\A\d{2}-\d{5}-[A-Za-z]+\z/.match?(params[:id])
+        if /\A\d{2}-\d{5}-[A-Za-z0-9]+\z/.match?(params[:id])
           planning_applications_scope.find_by!(reference: params[:id])
         else
           planning_applications_scope.find(Integer(params[:id]))
