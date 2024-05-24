@@ -16130,8 +16130,13 @@ components:
                     type: string
                   full_reference:
                     type: string
+                  fullReference:
+                    type: string
                   received_at:
-                    format: date
+                    format: datetime
+                    type: string
+                  receivedAt:
+                    format: datetime
                     type: string
                   status:
                     type: string
@@ -22127,7 +22132,7 @@ paths:
         schema:
           oneOf:
           - type: string
-            pattern: d{2}-d{5}-[A-Za-z]+
+            pattern: d{2}-d{5}-[A-Za-z0-9]+
           - type: integer
           description: The planning application reference or ID
         required: true
@@ -22273,7 +22278,9 @@ paths:
                           description: planning_permission
                         reference: 24-00107-HAPP
                         full_reference: PlanX-24-00107-HAPP
+                        fullReference: PlanX-24-00107-HAPP
                         received_at: '2024-04-17T00:00:00.000+01:00'
+                        receivedAt: '2024-04-17T00:00:00.000+01:00'
                         status: in_assessment
                       property:
                         address:
@@ -22323,7 +22330,9 @@ paths:
                           description: planning_permission
                         reference: 24-00106-HAPP
                         full_reference: PlanX-24-00106-HAPP
+                        fullReference: PlanX-24-00106-HAPP
                         received_at: '2024-04-18T00:00:00.000+01:00'
+                        receivedAt: '2024-04-18T00:00:00.000+01:00'
                         status: in_assessment
                       property:
                         address:
