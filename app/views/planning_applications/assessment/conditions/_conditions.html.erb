@@ -19,9 +19,9 @@
               <%= render(FormattedContentComponent.new(text: condition.text[0..300] + "…")) %>
             </div>
             <div class="govuk-!-display-none hidden-comment">
-              <%= render(FormattedContentComponent.new(text: condition.text[300..])) %>
+              <%= render(FormattedContentComponent.new(text: condition.text)) %>
             </div>
-            <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+            <a href="#" class="show-more" data-action="click->show-more-text#replaceText">View more</a>
           <% else %>
               <%= render(FormattedContentComponent.new(text: condition.text)) %>
           <% end %>
@@ -36,9 +36,9 @@
               <%= render(FormattedContentComponent.new(text: condition.reason[0..300] + "…")) %>
             </div>
             <div class="govuk-!-display-none hidden-comment">
-              <%= render(FormattedContentComponent.new(text: condition.reason[300..])) %>
+              <%= render(FormattedContentComponent.new(text: condition.reason)) %>
             </div>
-            <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+            <a href="#" class="show-more" data-action="click->show-more-text#replaceText">View more</a>
           <% else %>
               <%= render(FormattedContentComponent.new(text: condition.reason)) %>
           <% end %>
