@@ -97,16 +97,10 @@
         </h2>
       </legend>
 
-      <div class="govuk-form-group">
-        <%= form.label "#{role}_first_name", "First name", class: "govuk-label" %>
-        <%= form.text_field "#{role}_first_name", class: "govuk-textarea govuk-input" %>
-        <%= form.label "#{role}_last_name", "Last name", class: "govuk-label" %>
-        <%= form.text_field "#{role}_last_name", class: "govuk-textarea govuk-input" %>
-        <%= form.label "#{role}_email", "Email address", class: "govuk-label" %>
-        <%= form.text_field "#{role}_email", class: "govuk-textarea govuk-input" %>
-        <%= form.label "#{role}_phone", "UK telephone number", class: "govuk-label" %>
-        <%= form.text_field "#{role}_phone", class: "govuk-textarea govuk-input" %>
-      </div>
+      <%= form.govuk_text_field :"#{role}_first_name", label: {text: "First name"}, width: "one-half" %>
+      <%= form.govuk_text_field :"#{role}_last_name", label: {text: "Last name"}, width: "one-half" %>
+      <%= form.govuk_text_field :"#{role}_email", label: {text: "Email address"}, width: "one-half" %>
+      <%= form.govuk_text_field :"#{role}_phone", label: {text: "UK telephone number"}, width: "one-half" %>
     </fieldset>
   <% end %>
 

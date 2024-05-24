@@ -175,6 +175,17 @@ class PlanningApplication < ApplicationRecord
     numericality: {greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000_000},
     allow_nil: true
 
+  validate do
+    errors.add(:application_type_id, :blank) unless application_type
+  end
+
+  with_options format: {with: URI::MailTo::EMAIL_REGEXP} do
+    with_options allow_blank: true do
+      validates :applicant_email
+      validates :agent_email
+    end
+  end
+
   validate :applicant_or_agent_email
   validate :public_comment_present
   validate :decision_with_recommendations
@@ -1035,13 +1046,9 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_application_number
-    local_authority_planning_applications = local_authority.planning_applications
+    max_application_number = local_authority.planning_applications.maximum(:application_number)
 
-    self.application_number = if local_authority_planning_applications.any?
-      local_authority_planning_applications.maximum(:application_number) + 1
-    else
-      100
-    end
+    self.application_number = max_application_number ? max_application_number + 1 : 100
   end
 
   def withdraw_or_cancel_event(status)

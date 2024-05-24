@@ -2,6 +2,7 @@
 
 class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, except: %i[new create index]
+  before_action :build_planning_application, only: %i[new create]
   before_action :ensure_user_is_reviewer_checking_assessment, only: %i[edit_public_comment]
   before_action :ensure_no_open_post_validation_requests, only: %i[submit]
   before_action :ensure_draft_recommendation_complete, only: :update
@@ -18,29 +19,42 @@ class PlanningApplicationsController < AuthenticationController
 
   def index
     @planning_applications = search.call
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def show
+    respond_to do |format|
+      format.html
+    end
   end
 
   def new
-    @planning_application = PlanningApplication.new
+    respond_to do |format|
+      format.html
+    end
   end
 
   def edit
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
-    @planning_application = PlanningApplication.new(planning_application_params)
-    @planning_application.assign_attributes(local_authority: current_local_authority)
+    @planning_application.attributes = planning_application_params
 
-    if @planning_application.save
-      @planning_application.mark_accepted!
-      @planning_application.send_receipt_notice_mail
+    respond_to do |format|
+      if @planning_application.save
+        @planning_application.mark_accepted!
+        @planning_application.send_receipt_notice_mail
 
-      redirect_to planning_application_documents_path(@planning_application), notice: t(".success")
-    else
-      render :new
+        format.html { redirect_to planning_application_documents_path(@planning_application), notice: t(".success") }
+      else
+        format.html { render :new }
+      end
     end
   end
 
@@ -203,6 +217,10 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   private
+
+  def build_planning_application
+    @planning_application = current_local_authority.planning_applications.new
+  end
 
   def search
     @search ||= PlanningApplicationSearch.new(params)
