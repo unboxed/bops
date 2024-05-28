@@ -7,25 +7,15 @@
       locals: {planning_application: @planning_application}
     ) %>
 
-<% content_for :title, "Update conditions" %>
+<% content_for :title, "Edit condition" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: {heading: "Update conditions"}
+      locals: {heading: "Edit condition"}
     ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render(
-          AccordionComponent.new(
-            planning_application: @planning_application,
-            sections: %w[constraints considerations]
-          )
-        ) %>
-    <p class="govuk-body govuk-!-margin-top-5">
-      Select and add the relevant conditions
-    </p>
-    <%= govuk_warning_text(text: "This information WILL be made publicly available.") %>
     <%= render "form" %>
   </div>
 </div>

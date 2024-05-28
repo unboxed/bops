@@ -126,12 +126,12 @@ RSpec.describe "Reviewing conditions" do
 
         expect(page).to have_content("I don't think you've assessed conditions correctly")
 
-        click_link "Edit conditions"
-
-        within("#conditions .condition:last-of-type") do
-          fill_in "Enter a reason for this condition", with: "A better response"
+        within("#conditions-list li:last-of-type") do
+          click_link "Edit"
         end
+        fill_in "Enter a reason for this condition", with: "A better response"
 
+        click_button "Save condition"
         click_button "Save and mark as complete"
 
         sign_out(assessor)

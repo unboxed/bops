@@ -2,9 +2,9 @@
 
 <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Conditions</h2>
 
-<ul id="conditions-list" class="govuk-list">
+<ul id="conditions-list" class="govuk-list" data-controller="conditions">
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-  <% @conditions.each_with_index do |condition, i| %>
+  <% @conditions.select(&:persisted?).each_with_index do |condition, i| %>
     <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
       <span class="govuk-caption-m"><%= "#{condition.standard? ? "Suggested condition" : "Condition"}  #{i + 1}" %></span>
       <% unless condition.title.blank? %>
@@ -17,13 +17,25 @@
       <p class="govuk-body">
         <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason)) %>
       </p>
+
+      <%= form_with model: condition,
+            url: planning_application_assessment_condition_path(@planning_application, condition),
+            scope: :condition,
+            method: :delete do |form| %>
+        <%= govuk_link_to "Edit", edit_planning_application_assessment_condition_path(@planning_application, condition) %>
+        <%= form.button "Remove", class: "button-as-link govuk-link", data: {action: "conditions#confirmDeletion"} %>
+      <% end %>
     <% end %>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <% end %>
 </ul>
 
-<div class="govuk-button-group">
-  <%= back_link %>
-  <%= govuk_link_to "Edit conditions", edit_planning_application_assessment_conditions_path(@planning_application) %>
-</div>
+<%= govuk_details(summary_text: "Add condition") do %>
+  <%= render("form") %>
+<% end %>
+
+<%= form_with model: @condition_set, url: mark_as_complete_planning_application_assessment_conditions_path(@planning_application) do |form| %>
+  <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
+  <%= govuk_link_to("Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary") %>
+<% end %>
