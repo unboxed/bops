@@ -36,7 +36,14 @@ RSpec.configure do |config|
   end
 
   config.before type: :system do |example|
-    driven_by(ENV.fetch("JS_DRIVER", "chrome_headless").to_sym)
+    driver = if example.metadata[:capybara] || example.metadata[:js]
+      ENV.fetch("JS_DRIVER", "chrome_headless").to_sym
+    else
+      ENV.fetch("TEST_DRIVER", "rack_test").to_sym
+    end
+
+    driven_by driver
+
     Capybara.app_host = "http://planx.example.com"
   end
 end
