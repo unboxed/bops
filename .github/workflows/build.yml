@@ -58,35 +58,15 @@ jobs:
           - { group: "models" }
           - { group: "requests", want_pdf: true }
           - {
-              group: "system: assessing",
-              directories: "system/planning_applications/assessing",
+              group: "system: rack_test",
+              directories: "system",
+              additional_spec_opts: "--tag '~capybara' --tag '~js'",
+              want_pdf: true,
             }
           - {
-              group: "system: consulting/publicity",
-              directories: "system/planning_applications/{consulting,publicity}",
-            }
-          - { group: "system: documents", directories: "system/documents" }
-          - { group: "system: public", directories: "system/public" }
-          - {
-              group: "system: recommending",
-              directories: "system/planning_applications/recommending",
-            }
-          - {
-              group: "system: review",
-              directories: "system/planning_applications/review",
-            }
-          - {
-              group: "system: validation",
-              directories: "system/planning_applications/validating",
-            }
-          - {
-              group: "system: workflow tasks",
-              directories: "system/workflow_tasks",
-            }
-          - {
-              group: "system: other",
-              directories: "{system,system/planning_applications}",
-              pattern: "*_spec.rb", # n.b. pattern needed here otherwise it'll recurse and duplicate other groups
+              group: "system: capybara",
+              directories: "system",
+              additional_spec_opts: "--tag 'capybara' --tag 'js'",
               want_pdf: true,
             }
           - {
@@ -102,6 +82,7 @@ jobs:
       name: "${{matrix.specs.group}}"
       include: "${{matrix.specs.module || 'spec'}}/${{matrix.specs.directories || matrix.specs.group}}/${{matrix.specs.pattern || '**/*_spec.rb'}}"
       want-pdf: "${{ !!matrix.specs.want_pdf }}"
+      additional_spec_opts: "${{ matrix.specs.additional_spec_opts }}"
     secrets: inherit
 
   cucumber:
