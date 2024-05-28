@@ -6,7 +6,7 @@ RSpec.describe "Requesting time extension to a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
-  let!(:planning_application) do
+  let(:planning_application) do
     create(:planning_application, :in_assessment, local_authority: default_local_authority)
   end
 
