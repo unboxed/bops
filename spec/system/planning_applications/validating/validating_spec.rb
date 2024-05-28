@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment" do
+RSpec.describe "Planning Application Assessment", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -107,7 +107,7 @@ RSpec.describe "Planning Application Assessment" do
         }.to_json
       end
 
-      it "blocks validation until boundary geojson has been added" do
+      it "blocks validation until boundary geojson has been added", :capybara do
         visit "/planning_applications/#{application.id}/confirm_validation"
         click_button("Mark the application as valid")
 

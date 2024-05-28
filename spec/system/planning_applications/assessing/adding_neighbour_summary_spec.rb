@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "neighbour responses" do
+RSpec.describe "neighbour responses", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -29,7 +29,7 @@ RSpec.describe "neighbour responses" do
       let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive", tags: ["access"]) }
       let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
 
-      it "I can view the information on the neighbour responses page" do
+      it "I can view the information on the neighbour responses page", :capybara do
         click_link "Check and assess"
 
         within("#assessment-information-tasks") do

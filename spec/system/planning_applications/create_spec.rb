@@ -3,7 +3,7 @@
 require "rails_helper"
 require "faraday"
 
-RSpec.describe "Creating a planning application" do
+RSpec.describe "Creating a planning application", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor1) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
   let!(:reviewer1) { create(:user, :reviewer, local_authority: default_local_authority, name: "Reviewer 1") }

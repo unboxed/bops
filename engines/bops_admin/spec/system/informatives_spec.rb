@@ -120,7 +120,7 @@ RSpec.describe "Informatives" do
     end
   end
 
-  it "allows deleting an informative" do
+  it "allows deleting an informative", :capybara do
     create(:local_authority_informative, local_authority:, title: "Section 106", text: "Section 106 needs doing")
 
     visit "/admin/informatives"

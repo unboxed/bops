@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Drawing a sitemap on a planning application" do
+RSpec.describe "Drawing a sitemap on a planning application", type: :system, capybara: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
 

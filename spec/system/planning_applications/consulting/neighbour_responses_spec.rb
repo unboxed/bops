@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "View neighbour responses", js: true do
+RSpec.describe "View neighbour responses", type: :system, js: true do
   include ActionDispatch::TestProcess::FixtureFile
 
   let(:default_local_authority) { create(:local_authority, :default) }

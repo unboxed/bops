@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Assess immunity detail permitted development right" do
+RSpec.describe "Assess immunity detail permitted development right", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -69,7 +69,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
       end
     end
 
-    context "when viewing the content" do
+    context "when viewing the content", :capybara do
       before do
         Capybara.ignore_hidden_elements = true
       end
@@ -242,7 +242,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
         )
       end
 
-      it "I can view and edit my response" do
+      it "I can view and edit my response", :capybara do
         within("#assess-immunity-detail-section") do
           choose "No"
 

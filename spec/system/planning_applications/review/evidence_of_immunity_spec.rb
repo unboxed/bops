@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing evidence of immunity" do
+RSpec.describe "Reviewing evidence of immunity", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let(:reviewer) do
@@ -48,7 +48,7 @@ RSpec.describe "Reviewing evidence of immunity" do
       visit "/planning_applications/#{planning_application.id}/review/tasks"
     end
 
-    context "when planning application is awaiting determination" do
+    context "when planning application is awaiting determination", :capybara do
       it "I can view the information on the review evidence of immunity page" do
         expect(page).to have_list_item_for(
           "Review evidence of immunity",

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Documents index page" do
+RSpec.describe "Documents index page", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -46,7 +46,7 @@ RSpec.describe "Documents index page" do
       expect(page).not_to have_text("Application information")
     end
 
-    it "File image opens in new tab" do
+    it "File image opens in new tab", :capybara do
       window = window_opened_by do
         click_link("View in new window")
         sleep 0.5
@@ -73,7 +73,7 @@ RSpec.describe "Documents index page" do
         )
       end
 
-      it "opens each file in a new tab" do
+      it "opens each file in a new tab", :capybara do
         visit "/planning_applications/#{planning_application.id}/documents"
         expect(page).to have_selector("h1", text: "Documents")
 

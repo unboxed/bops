@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning application updated tab spec" do
+RSpec.describe "Planning application updated tab spec", type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
 
   let!(:user) { create(:user, name: "Assigned Officer") }
@@ -37,7 +37,7 @@ RSpec.describe "Planning application updated tab spec" do
     click_link "Updated"
   end
 
-  it "lists the applications with the latest audit log entry" do
+  it "lists the applications with the latest audit log entry", :capybara do
     expect(page).to have_content("This list shows applications which have been recently updated by a user other than the assigned officer.")
 
     within("#updated") do

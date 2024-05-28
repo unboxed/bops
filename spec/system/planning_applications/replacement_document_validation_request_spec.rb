@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting document changes to a planning application" do
+RSpec.describe "Requesting document changes to a planning application", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -46,7 +46,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       )
     end
 
-    it "I can mark documents as invalid and edit/delete the validation request" do
+    it "I can mark documents as invalid and edit/delete the validation request", :capybara do
       click_link "Check and validate"
       click_link "Tag and validate supplied documents"
 

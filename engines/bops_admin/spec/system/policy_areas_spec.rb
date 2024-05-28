@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Policy areas" do
+RSpec.describe "Policy areas", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :administrator, local_authority:) }
 

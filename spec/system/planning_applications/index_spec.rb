@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application index page" do
+RSpec.describe "Planning Application index page", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed) }
   let!(:application_type_prior_approval) { create(:application_type, :prior_approval) }
@@ -116,7 +116,7 @@ RSpec.describe "Planning Application index page" do
       end
     end
 
-    context "when viewing tabs" do
+    context "when viewing tabs", :capybara do
       let!(:prior_approval_not_started) do
         create(
           :planning_application,

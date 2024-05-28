@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "FeeItemsValidation" do
+RSpec.describe "FeeItemsValidation", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -300,7 +300,7 @@ RSpec.describe "FeeItemsValidation" do
         end
       end
 
-      it "I can delete the fee validation request" do
+      it "I can delete the fee validation request", :capybara do
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Check fee"
 
@@ -449,7 +449,7 @@ RSpec.describe "FeeItemsValidation" do
         )
       end
 
-      it "I can see the updated state of the fee request" do
+      it "I can see the updated state of the fee request", :capybara do
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
         within("#fee-validation-task") do

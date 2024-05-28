@@ -78,7 +78,7 @@ RSpec.describe "Legislation", type: :system do
     expect(find_field("Link").value).to eq("https://www.legislation.gov.uk/ukpga/1990/8/section/192")
   end
 
-  it "allows deleting the legislation" do
+  it "allows deleting the legislation", :capybara do
     visit "/legislation/#{legislation.id}/edit"
     accept_confirm(text: "Are you sure?") do
       click_link("Remove")

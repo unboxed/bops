@@ -185,7 +185,7 @@ RSpec.describe "Users" do
     end
   end
 
-  context "when there are a mix of confirmed and unconfirmed users" do
+  context "when there are a mix of confirmed and unconfirmed users", :capybara do
     before do
       create(:user, :reviewer, local_authority:, name: "Dieter Waldbeck")
       create(:user, :assessor, :unconfirmed, local_authority:, name: "Andrea Khan")

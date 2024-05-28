@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application show page" do
+RSpec.describe "Planning Application show page", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -94,7 +94,7 @@ RSpec.describe "Planning Application show page" do
       end
     end
 
-    it "makes valid task list for when it is awaiting determination and recommendation has been reviewed" do
+    it "makes valid task list for when it is awaiting determination and recommendation has been reviewed", :capybara do
       planning_application = create(:planning_application, :awaiting_determination,
         local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)

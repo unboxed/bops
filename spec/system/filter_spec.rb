@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "filtering planning applications" do
+RSpec.describe "filtering planning applications", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :assessor, local_authority:) }
 

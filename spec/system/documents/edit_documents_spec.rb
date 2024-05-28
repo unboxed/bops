@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Edit document" do
+RSpec.describe "Edit document", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
 
   let!(:planning_application) do
@@ -77,7 +77,7 @@ RSpec.describe "Edit document" do
         )
       end
 
-      it "renders an error if user tries to replace the file" do
+      it "renders an error if user tries to replace the file", :capybara do
         visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
         attach_file(
@@ -108,7 +108,7 @@ RSpec.describe "Edit document" do
       )
     end
 
-    it "with wrong format document" do
+    it "with wrong format document", :capybara do
       visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
 
       attach_file("Upload a replacement file", "spec/fixtures/images/image.gif")

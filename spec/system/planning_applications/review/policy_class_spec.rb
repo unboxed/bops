@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing Policy Class" do
+RSpec.describe "Reviewing Policy Class", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let(:reviewer) do
@@ -190,7 +190,7 @@ RSpec.describe "Reviewing Policy Class" do
         expect(page).to have_text("policy comment")
       end
 
-      it "allows the reviewer to edit comments" do
+      it "allows the reviewer to edit comments", capybara: true do
         travel_to(Time.zone.local(2020, 10, 16)) do
           click_button("Edit comment")
 
