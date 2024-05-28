@@ -30,10 +30,6 @@ class Condition < ApplicationRecord
     validation_requests.order(:created_at).last
   end
 
-  def truncated_comment
-    (text + "\n\nReason: #{reason}").truncate(100, separator: "Reason")
-  end
-
   class << self
     def standard_conditions
       I18n.t(:conditions_list).map { |k, v| Condition.new(v) }

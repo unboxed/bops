@@ -53,18 +53,7 @@
                                 Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
                               </li>
                             </ul>
-                            <div data-controller="show-more-text">
-                              <span class="truncated-comment">
-                                <%= simple_format(response.truncated_comment) %>
-                              </span>
-
-                              <% if response_been_truncated?(response, response.comment) %>
-                                <span class="govuk-!-display-none hidden-comment">
-                                  <%= response.comment %>
-                                </span>
-                                <a href="#" class="govuk-link show-more" data-action="click->show-more-text#replaceText">View more</a>
-                              <% end %>
-                            </div>
+                            <%= render ShowMoreTextComponent.new(text: response.comment, length: 100) %>
                           </div>
                           <div class="neighbour-tags">
                             <% response.tags.each do |tag| %>
@@ -124,18 +113,7 @@
                               Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
                             </li>
                           </ul>
-                          <div data-controller="show-more-text">
-                            <span class="truncated-comment">
-                              <%= simple_format(response.truncated_comment) %>
-                            </span>
-
-                            <% if response_been_truncated?(response, response.comment) %>
-                              <span class="govuk-!-display-none hidden-comment">
-                                <%= response.comment %>
-                              </span>
-                              <a href="#" class="govuk-link show-more" data-action="click->show-more-text#replaceText">View more</a>
-                            <% end %>
-                          </div>
+                          <%= render ShowMoreTextComponent.new(text: response.comment, length: 100) %>
                         </div>
                       </div>
                     </div>
