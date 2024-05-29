@@ -42,8 +42,7 @@ RSpec.describe "Add conditions" do
       toggle "Add condition"
       fill_in "Enter condition", with: "Custom condition 3"
       fill_in "Enter a reason for this condition", with: "Custom reason 3"
-      click_button "Reset condition"
-      click_button "Reset reason"
+      # n.b. form not submitted here
       toggle "Add condition"
 
       click_button "Save and mark as complete"
