@@ -41,7 +41,8 @@ module BopsAdmin
         :notify_api_key,
         :letter_template_id,
         :email_reply_to_id,
-        :document_checklist
+        :document_checklist,
+        :planning_policy_and_guidance
       )
     end
   end
