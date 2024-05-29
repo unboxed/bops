@@ -47,8 +47,9 @@ class PlanningApplication < ApplicationRecord
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_many :site_notices
     has_many :policy_classes, -> { order(:section) }
-    has_one :heads_of_term
+    has_many :press_notices, -> { by_created_at_desc }
 
+    has_one :heads_of_term
     has_one :condition_set, -> { where(pre_commencement: false) }, required: false
     has_one :consistency_checklist
     has_one :consultation, required: false
@@ -61,7 +62,6 @@ class PlanningApplication < ApplicationRecord
     has_one :ownership_certificate, required: false
     has_one :planx_planning_data, required: false
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
-    has_one :press_notice, required: false
     has_one :proposal_measurement, required: false
     has_one :committee_decision, required: false
   end
@@ -899,6 +899,10 @@ class PlanningApplication < ApplicationRecord
   def committee_details_filled?
     committee_decision.recommend? &&
       committee_decision.all_details_present?
+  end
+
+  def press_notice
+    press_notices.first
   end
 
   private

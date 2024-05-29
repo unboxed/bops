@@ -12,15 +12,4 @@
       locals: {heading: "Press notice"}
     ) %>
 
-<% if @press_notice.published_at %>
-  <div class="govuk-inset-text govuk-!-margin-top-0 govuk-!-padding-top-2 govuk-!-padding-bottom-2">
-    <p class="govuk-body-s govuk-!-margin-bottom-2">
-      <%= time_tag(@press_notice.published_at, format: t(".published_on")) %>
-    </p>
-    <p class="govuk-body">
-      <strong class="govuk-tag">Published</strong>
-    </p>
-  </div>
-<% end %>
-
 <%= render "form" %>

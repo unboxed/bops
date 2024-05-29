@@ -49,6 +49,9 @@ class PressNotice < ApplicationRecord
   delegate :press_notice_email, to: :local_authority
 
   scope :required, -> { where(required: true) }
+  scope :published, -> { where.not(published_at: nil) }
+  scope :by_created_at_desc, -> { order(created_at: :desc) }
+  scope :exclude_by_id, ->(id) { where.not(id: id) }
 
   alias_method :consultable_event_at, :published_at
 
