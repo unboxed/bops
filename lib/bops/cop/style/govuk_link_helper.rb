@@ -7,11 +7,9 @@ module Bops
         extend ::RuboCop::Cop::AutoCorrector
 
         MSG = "Prefer `%<good_action>s` over `%<bad_action>s`."
-        RESTRICT_ON_SEND = %i[link_to].freeze
+        RESTRICT_ON_SEND = %i[link_to govuk_link_to govuk_button_link_to].freeze
 
         def on_send(node)
-          return unless node.method_name == :link_to
-
           hash_arg = node.arguments.select { _1.type == :hash }.first
           return if hash_arg.nil? || hash_arg.empty? # rubocop:disable Rails/Blank
 
