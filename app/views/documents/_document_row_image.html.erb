@@ -2,9 +2,10 @@
   <%= link_to image_tag(document.file.representation(resize: resize), style: "max-width:100%"),
         url_for_document(document), target: :_blank, rel: :noopener %>
   <p class="govuk-body">
-    <%= govuk_link_to(
+    <%= govuk_link_to( # erblint:disable Rubocop
           t(".view_in_new"),
           url_for_document(document),
+          # do not use `new_tab:` here, as it adds rel="noreferer" and breaks our referrer checks
           target: :_blank
         ) %>
   </p>

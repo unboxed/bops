@@ -2,7 +2,7 @@
   <%= link_to image_tag(@document.file.representation(resize: "500x500"), style: "max-width:100%"),
         url_for_document(@document), target: :_blank, rel: :noopener %>
   <p class="govuk-body">
-    <%= govuk_link_to "View in new window", url_for_document(@document), target: :_new %>
+    <%= govuk_link_to "View in new window", url_for_document(@document), new_tab: "" %>
   </p>
 </div>
 <div class="govuk-grid-column-one-half" id="document-summary">

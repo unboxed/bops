@@ -93,7 +93,9 @@
             </p>
             <p class="govuk-body">
               <%= document.name %><br>
-              <%= link_to "View in new window", url_for_document(document), target: :_new %>
+              <%= link_to "View in new window", url_for_document(document), # erblint:disable Rubocop
+                    # do not use `new_tab:` here, as it adds rel="noreferer" and breaks our referrer checks
+                    target: :_blank, rel: :noopener %>
             </p>
             <p class="govuk-body">
               <%= form_for document, url: planning_application_document_unarchive_path(document_id: document.id), class: "restore" do |form| %>

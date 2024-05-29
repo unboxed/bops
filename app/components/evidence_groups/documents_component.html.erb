@@ -15,7 +15,7 @@
           </p>
         </div>
         <div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
-          <%= govuk_link_to "View document", url_for_document(document), target: :_new %><br>
+          <%= govuk_link_to "View document", url_for_document(document), new_tab: true %><br>
           <%= govuk_link_to "Edit", edit_planning_application_document_path(document.planning_application, document) %><br>
           <%= govuk_link_to "Archive", planning_application_document_archive_path(document_id: document.id) %><br>
           <%= govuk_link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_id: document.planning_application.id, document: document, type: "replacement_document") %>
