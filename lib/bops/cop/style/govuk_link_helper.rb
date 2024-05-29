@@ -19,34 +19,47 @@ module Bops
             next unless k.value == :class
 
             classes = v.source
-            next unless /\bgovuk-link\b/.match?(classes)
 
-            add_offense(node.loc.selector, message: message) do |corrector|
-              if node.arguments.length == 3 && hash_arg.pairs.length == 1
-                replacement = "govuk_link_to #{node.arguments[0].source}, #{node.arguments[1].source}"
-                replacement_classes = classes.sub(/\bgovuk-link\b/, "").strip
-                replacement_classes.gsub!(/^('|") /, '\1')
-                replacement_classes.gsub!(/ ('|")$/, '\1')
-                replacement << ", class: #{replacement_classes}" unless replacement_classes == '""'
-
-                corrector.replace(node, replacement)
-              end
+            if /\bgovuk-link\b/.match?(classes)
+              build_replacement(node, classes, hash_arg:, class_name: "govuk-link", method_name: "govuk_link_to")
+            elsif /\bgovuk-button\b/.match?(classes)
+              build_replacement(node, classes,
+                hash_arg:, class_name: "govuk-button", method_name: "govuk_button_link_to",
+                params: {"govuk-button--primary" => nil,
+                         "govuk-button--secondary" => "secondary",
+                         "govuk-button--warning" => "warning"})
             end
           end
         end
 
         private
 
-        def message
-          format(MSG, good_action: good_action, bad_action: bad_action)
+        def build_replacement(node, classes, hash_arg:, class_name:, method_name:, params: {})
+          add_offense(node.loc.selector, message: message(class_name:, method_name:)) do |corrector|
+            if node.arguments.length == 3 && hash_arg.pairs.length == 1
+              replacement = "#{method_name} #{node.arguments[0].source}, #{node.arguments[1].source}"
+
+              replacement_classes = classes.gsub(/^['"]|['"]$/, "")
+              replacement_classes.gsub!(/\b#{class_name}\b(?!-)/, "")
+
+              params.each_pair do |subclass, keyword|
+                pattern = /\b#{subclass}\b(?!-)/
+                if pattern.match?(replacement_classes)
+                  replacement_classes.gsub!(pattern, "").strip
+                  replacement << ", #{keyword}: true" if keyword
+                end
+              end
+
+              replacement_classes.strip!
+              replacement << ", class: \"#{replacement_classes}\"" unless replacement_classes.blank?
+
+              corrector.replace(node, replacement) if replacement
+            end
+          end
         end
 
-        def good_action
-          %(govuk_link_to foo_path)
-        end
-
-        def bad_action
-          %(link_to foo_path, class: "govuk-link")
+        def message(class_name:, method_name:)
+          format(MSG, good_action: "#{method_name} foo_path", bad_action: "link_to foo_path, class: \"#{class_name}\"")
         end
       end
     end
