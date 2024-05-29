@@ -435,3 +435,10 @@ body {
   border-left: 10px solid $govuk-link-colour;
   background-color: #F2F9FF;
 }
+
+.govuk-details--borderless {
+  .govuk-details__text {
+    border-left: none;
+    padding-left: 0;
+  }
+}
