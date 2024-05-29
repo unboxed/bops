@@ -7,7 +7,6 @@
 
   <%= content_tag :div, class: "govuk-!-margin-bottom-5" do %>
     <%= form.hidden_field :id %>
-    <%= form.hidden_field :standard, value: false %>
     <%= form.govuk_text_field :title, value: @condition&.title, label: {text: "Enter title"} %>
     <%= form.govuk_text_area :text, label: {text: "Enter condition"}, data: {reset_text_target: "destination"} %>
     <%= form.govuk_text_area :reason, label: {text: "Enter a reason for this condition"}, data: {reset_text_target: "destination"} %>

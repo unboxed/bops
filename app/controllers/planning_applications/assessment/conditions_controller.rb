@@ -87,7 +87,7 @@ module PlanningApplications
       end
 
       def condition_params
-        params.require(:condition).permit(%i[id standard title text reason])
+        params.require(:condition).permit(%i[id title text reason]).to_h.merge(standard: false)
       end
 
       def status
