@@ -70,6 +70,12 @@ class LocalAuthority < ApplicationRecord
     end
   end
 
+  def default_api_user
+    api_users.find_by(name: subdomain)
+  end
+
+  delegate :token, to: :default_api_user, allow_nil: true, prefix: :default_api
+
   private
 
   def council_code_exists
