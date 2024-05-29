@@ -43,6 +43,6 @@
 
 <%= form_with model: @condition_set, url: mark_as_complete_planning_application_assessment_conditions_path(@planning_application) do |form| %>
   <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
-  <%= govuk_button_link_to("Save and come back later", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
-  <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+  <%= govuk_button_link_to "Save and come back later", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+  <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
 <% end %>

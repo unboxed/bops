@@ -42,7 +42,7 @@
     </p>
 
       <div class="govuk-button-group">
-        <%= govuk_link_to("Back", @back_path, class: "govuk-button govuk-button--secondary") %>
+        <%= govuk_button_link_to "Back", @back_path, secondary: true %>
         <% if @validation_request.open? %>
           <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, @validation_request), class: "govuk-body" %>
         <% end %>
