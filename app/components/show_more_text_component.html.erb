@@ -1,0 +1,13 @@
+<div data-controller="show-more-text">
+  <% if text.length > length %>
+    <div class="truncated-content">
+      <%= render(FormattedContentComponent.new(text: truncated_text)) %>
+    </div>
+    <div class="govuk-!-display-none hidden-content">
+      <%= render(FormattedContentComponent.new(text: text)) %>
+    </div>
+    <a href="#" class="govuk-link show-more" data-action="click->show-more-text#replaceText">View more</a>
+  <% else %>
+      <%= render(FormattedContentComponent.new(text: text)) %>
+  <% end %>
+</div>

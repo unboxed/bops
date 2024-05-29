@@ -18,10 +18,6 @@ class Term < ApplicationRecord
     persisted? || errors.present?
   end
 
-  def truncated_comment
-    text.truncate(100)
-  end
-
   private
 
   def should_create_validation_request?

@@ -28,10 +28,6 @@ class NeighbourResponse < ApplicationRecord
     self.tags = tags.compact_blank! if tags.any?
   end
 
-  def truncated_comment
-    comment.truncate(100, separator: " ")
-  end
-
   def comment
     redacted_response.presence || response
   end

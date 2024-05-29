@@ -290,7 +290,7 @@ $govuk-page-width: 1100px;
   background: none;
   padding: 0;
   color: govuk-colour("blue");
-  font-size: 18px;
+  font-size: inherit;
   text-decoration: underline;
 
   &:active {

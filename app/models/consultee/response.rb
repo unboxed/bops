@@ -51,10 +51,6 @@ class Consultee
       super || Date.current
     end
 
-    def truncated_comment
-      comment.truncate(100, separator: " ")
-    end
-
     def comment
       redacted_response.presence || response
     end
