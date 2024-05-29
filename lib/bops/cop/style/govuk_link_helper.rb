@@ -21,7 +21,12 @@ module Bops
             classes = v.source
 
             if /\bgovuk-link\b/.match?(classes)
-              build_replacement(node, classes, hash_arg:, class_name: "govuk-link", method_name: "govuk_link_to")
+              build_replacement(node, classes,
+                hash_arg:,
+                class_name: "govuk-link", method_name: "govuk_link_to",
+                params: {"govuk-link--muted" => "muted",
+                         "govuk-link--no-underline" => "no_underline",
+                         "govuk-link--no-visited-state" => "no_visited_state"})
             elsif /\bgovuk-button\b/.match?(classes)
               build_replacement(node, classes,
                 hash_arg:, class_name: "govuk-button", method_name: "govuk_button_link_to",
