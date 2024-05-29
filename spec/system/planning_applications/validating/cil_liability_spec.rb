@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Community Infrastructure Levy (CIL)", type: :system, capybara: true do
+RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
@@ -60,8 +60,8 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system, capybara: t
 
       click_link "Confirm Community Infrastructure Levy (CIL)"
 
-      expect(find_by_id("planning-application-cil-liable-true-field")).to be_selected
-      expect(find_by_id("planning-application-cil-liable-field")).not_to be_selected
+      expect(page).to have_checked_field("planning-application-cil-liable-true-field")
+      expect(page).not_to have_checked_field("planning-application-cil-liable-field")
     end
 
     it "is marked as false when not liable" do
@@ -72,8 +72,8 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system, capybara: t
 
       click_link "Confirm Community Infrastructure Levy (CIL)"
 
-      expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
-      expect(find_by_id("planning-application-cil-liable-field")).to be_selected
+      expect(page).not_to have_checked_field("planning-application-cil-liable-true-field")
+      expect(page).to have_checked_field("planning-application-cil-liable-field")
     end
   end
 
@@ -116,8 +116,8 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system, capybara: t
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Confirm Community Infrastructure Levy (CIL)"
 
-        expect(find_by_id("planning-application-cil-liable-true-field")).to be_selected
-        expect(find_by_id("planning-application-cil-liable-field")).not_to be_selected
+        expect(page).to have_checked_field("planning-application-cil-liable-true-field")
+        expect(page).not_to have_checked_field("planning-application-cil-liable-field")
       end
     end
 
@@ -136,8 +136,8 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system, capybara: t
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
         click_link "Confirm Community Infrastructure Levy (CIL)"
 
-        expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
-        expect(find_by_id("planning-application-cil-liable-field")).to be_selected
+        expect(page).not_to have_checked_field("planning-application-cil-liable-true-field")
+        expect(page).to have_checked_field("planning-application-cil-liable-field")
       end
     end
   end
