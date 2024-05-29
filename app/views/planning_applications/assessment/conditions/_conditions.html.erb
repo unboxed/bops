@@ -59,7 +59,7 @@
 </ul>
 
 <%= govuk_details(summary_text: "Add condition") do %>
-  <%= render("form") %>
+  <%= render partial: "form", locals: {submit_button_is_secondary: true} %>
 <% end %>
 
 <%= form_with model: @condition_set, url: mark_as_complete_planning_application_assessment_conditions_path(@planning_application) do |form| %>

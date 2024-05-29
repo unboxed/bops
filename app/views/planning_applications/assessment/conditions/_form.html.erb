@@ -19,8 +19,8 @@
 
   <div class="govuk-button-group">
     <%= form.submit(
-          "Save condition",
-          class: "govuk-button",
+          "Add condition to list",
+          class: "govuk-button #{"govuk-button--secondary" if local_assigns[:submit_button_is_secondary]}",
           data: {module: "govuk-button"}
         ) %>
     <%= back_link if @condition.present? && @condition.persisted? %>
