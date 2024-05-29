@@ -17,13 +17,15 @@
 
     <div class="govuk-form-group govuk-!-margin-top-5">
       <ol class="govuk-list">
-        <li>
-          <h2 class="govuk-heading-m"><%= t(".api_key") %></h2>
-          <span class="govuk-hint"><%= t(".api_key_hint_html", swagger_link: govuk_link_to("swagger", bops_api.v2_docs_path, new_tab: true)) %></span>
-          <p class="govuk-body">
-            <%= current_local_authority.api_users.find_by(name: current_local_authority.subdomain).token %>
-          </p>
-        </li>
+        <% if current_local_authority.default_api_token.present? %>
+          <li>
+            <h2 class="govuk-heading-m"><%= t(".api_key") %></h2>
+            <span class="govuk-hint"><%= t(".api_key_hint_html", swagger_link: govuk_link_to("swagger", bops_api.v2_docs_path, new_tab: true)) %></span>
+            <p class="govuk-body">
+              <%= current_local_authority.default_api_token %>
+            </p>
+          </li>
+        <% end %>
         <li>
           <h2 class="govuk-heading-m"><%= t(".signatory_name") %></h2>
           <span class="govuk-hint"><%= t(".signatory_name_hint") %></span>
