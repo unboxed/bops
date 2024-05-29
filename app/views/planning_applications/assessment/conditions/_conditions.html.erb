@@ -58,7 +58,7 @@
   <% end %>
 </ul>
 
-<%= govuk_details(summary_text: "Add condition") do %>
+<%= govuk_details(summary_text: "Add condition", open: @conditions.count(&:persisted?).zero?) do %>
   <%= render partial: "form", locals: {submit_button_is_secondary: true} %>
 <% end %>
 
