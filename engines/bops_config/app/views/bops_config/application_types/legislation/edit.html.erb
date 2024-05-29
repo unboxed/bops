@@ -50,7 +50,7 @@
       <% end %>
 
       <%= form.govuk_submit(t(".continue")) do %>
-        <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+        <%= govuk_button_link_to t("back"), @application_type, secondary: true %>
       <% end %>
     <% end %>
   </div>

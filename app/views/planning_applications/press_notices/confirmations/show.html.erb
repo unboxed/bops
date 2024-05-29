@@ -61,7 +61,7 @@
 
     <div class="govuk-button-group govuk-!-padding-top-7">
       <%= form.submit t(".save"), class: "govuk-button govuk-button--primary" %>
-      <%= link_to t(".back"), planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <%= govuk_button_link_to t(".back"), planning_application_consultation_path(@planning_application), secondary: true %>
     </div>
   </div>
 <% end %>

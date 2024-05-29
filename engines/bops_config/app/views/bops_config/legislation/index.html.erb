@@ -13,7 +13,7 @@
     </h1>
 
     <p class="govuk-body">
-      <%= link_to t(".create_new_legislation"), new_legislation_path, class: "govuk-button govuk-button--primary" %>
+      <%= govuk_button_link_to t(".create_new_legislation"), new_legislation_path %>
     </p>
 
     <%= render "table" %>

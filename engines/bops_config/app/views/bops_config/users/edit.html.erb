@@ -15,7 +15,7 @@
 
     <% if @user.unconfirmed? %>
       <div class="govuk-button-group">
-        <%= link_to("Resend invite", resend_invite_user_path(@user), class: "govuk-button", data: {module: "govuk-button"}) %>
+        <%= govuk_button_link_to "Resend invite", resend_invite_user_path(@user) %>
       </div>
     <% end %>
 

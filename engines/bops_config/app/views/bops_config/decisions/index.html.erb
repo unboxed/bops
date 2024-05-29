@@ -12,7 +12,7 @@
       <%= t(".title") %>
     </h1>
     <p class="govuk-body">
-      <%= link_to t(".create_decision"), new_decision_path, class: "govuk-button govuk-button--primary" %>
+      <%= govuk_button_link_to t(".create_decision"), new_decision_path %>
     </p>
     <%= render "table" %>
   </div>

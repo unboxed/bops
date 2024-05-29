@@ -18,7 +18,7 @@
       </div>
     </fieldset>
     <p>
-      <%= form.submit "Archive", class: "govuk-button", data: {module: "govuk-button"} %> <%= link_to "Cancel", planning_application_documents_path, class: "govuk-button govuk-button--secondary" %>
+      <%= form.submit "Archive", class: "govuk-button", data: {module: "govuk-button"} %> <%= govuk_button_link_to "Cancel", planning_application_documents_path, secondary: true %>
     </p>
   </div>
 <% end %>

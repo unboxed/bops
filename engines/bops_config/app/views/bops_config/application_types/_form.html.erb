@@ -14,9 +14,9 @@
 
   <%= form.govuk_submit(t(".continue")) do %>
     <% if @application_type.new_record? %>
-      <%= link_to(t("back"), :application_types, class: "govuk-button govuk-button--secondary") %>
+      <%= govuk_button_link_to t("back"), :application_types, secondary: true %>
     <% else %>
-      <%= link_to(t("back"), @application_type, class: "govuk-button govuk-button--secondary") %>
+      <%= govuk_button_link_to t("back"), @application_type, secondary: true %>
     <% end %>
   <% end %>
 <% end %>

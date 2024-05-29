@@ -40,6 +40,6 @@
           "Save response",
           class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
         ) %>
-    <%= link_to "Back", planning_application_consultees_responses_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
+    <%= govuk_button_link_to "Back", planning_application_consultees_responses_path(@planning_application), secondary: true, class: "govuk-!-margin-top-5" %>
   </div>
 <% end %>

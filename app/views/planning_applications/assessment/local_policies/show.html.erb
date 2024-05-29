@@ -30,6 +30,6 @@
 </div>
 
 <div class="govuk-button-group">
-  <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
   <%= govuk_link_to "Edit considerations", edit_planning_application_assessment_local_policy_path(@planning_application, @local_policy), class: "govuk-body" %>
 </div>

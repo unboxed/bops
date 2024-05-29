@@ -14,7 +14,7 @@
       <p class="govuk-body">
         <%= govuk_link_to "Add new application", new_planning_application_path %>
       </p>
-      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path(view: "all"), class: "govuk-button" %></p>
+      <p class="govuk-body"><%= govuk_button_link_to "View all applications", planning_applications_path(view: "all") %></p>
     <% else %>
       <h1 class="govuk-heading-l">
         All planning applications
@@ -26,7 +26,7 @@
         <%= govuk_link_to "Add new application", new_planning_application_path %>
       </p>
       <p class="govuk-body">
-        <%= link_to "View my applications", planning_applications_path, class: "govuk-button" %>
+        <%= govuk_button_link_to "View my applications", planning_applications_path %>
       </p>
     <% end %>
   </div>
