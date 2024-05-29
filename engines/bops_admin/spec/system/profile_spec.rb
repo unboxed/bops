@@ -30,6 +30,7 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_content("Notify API key")
     expect(page).to have_content("Reply-to email address ID")
     expect(page).to have_content("Document checklist")
+    expect(page).to have_content("Planning policy and guidance")
   end
 
   it "shows the correct hint text for the council's profile" do
@@ -49,6 +50,7 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_content("ID number of the letter template you will use in Notify")
     expect(page).to have_content("API key used by the GOV.UK Notify service for sending emails")
     expect(page).to have_content("Link to a document checklist that applicants use when submitting applications")
+    expect(page).to have_content("Link to planning policy and guidance documents for planning officers")
   end
 
   it "allows the administrator to edit council's profile" do
@@ -69,6 +71,7 @@ RSpec.describe "Profile", type: :system do
     fill_in("Notify API key", with: "fake-fd74e59d-8939-4d28-bc1b-95b8a6c7d413")
     fill_in("Reply-to email address ID", with: "550e8400-e29b-41d4-a716-446655440000")
     fill_in("Document checklist", with: "https://www.buckinghamshire.gov.uk/planning-and-building-control/building-or-improving-your-property/how-to-prepare-a-valid-planning-application/")
+    fill_in("Planning policy and guidance", with: "https://www.buckinghamshire.gov.uk/planning-and-building-control/planning-policy/")
 
     click_button("Submit")
     expect(page).to have_content("Council information successfully updated")

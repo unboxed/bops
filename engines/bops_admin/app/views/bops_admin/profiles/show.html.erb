@@ -114,6 +114,17 @@
             <% end %>
           </p>
         </li>
+        <li>
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".planning_policy_and_guidance") %></h2>
+          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".planning_policy_and_guidance_hint") %></div>
+          <p class="govuk-body">
+            <% if current_local_authority.planning_policy_and_guidance? %>
+              <%= govuk_link_to nil, current_local_authority.planning_policy_and_guidance, new_tab: "" %>
+            <% else %>
+              –
+            <% end %>
+          </p>
+        </li>
       </ol>
     </div>
 

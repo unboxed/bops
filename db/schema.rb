@@ -455,6 +455,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
     t.boolean "active", default: false, null: false
     t.string "telephone_number"
     t.string "document_checklist"
+    t.string "planning_policy_and_guidance"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

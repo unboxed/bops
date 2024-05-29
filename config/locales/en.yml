@@ -637,9 +637,6 @@ en:
     select_consultee: Select consultee
   council_addresses:
     planx: n/a
-  council_documents:
-    planx:
-      planning_policy_and_guidance: http://example.com
   date:
     formats:
       default: "%-d %B %Y"
