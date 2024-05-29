@@ -160,6 +160,8 @@ en:
       edit:
         profile: Edit profile
       form:
+        document_checklist: Document checklist
+        document_checklist_hint: Link to a document checklist that applicants use when submitting applications
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: Reply-to email address ID
@@ -188,6 +190,8 @@ en:
       show:
         api_key: API key
         api_key_hint_html: This is the api key which can be used on %{swagger_link} to generate more test planning application data.
+        document_checklist: Document checklist
+        document_checklist_hint: Link to a document checklist that applicants use when submitting applications
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: Reply-to email address ID

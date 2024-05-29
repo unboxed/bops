@@ -42,10 +42,6 @@ class LocalAuthority < ApplicationRecord
     "#{signatory_name}, #{signatory_job_title}"
   end
 
-  def document_checklist?
-    I18n.exists?("council_documents.#{subdomain}.document_checklist")
-  end
-
   def notify_api_key
     super || Rails.configuration.default_notify_api_key
   end
