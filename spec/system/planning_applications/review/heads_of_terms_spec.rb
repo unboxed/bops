@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing heads of terms" do
+RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }

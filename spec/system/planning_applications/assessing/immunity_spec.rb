@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Immunity" do
+RSpec.describe "Immunity", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
@@ -63,7 +63,7 @@ RSpec.describe "Immunity" do
       visit "/planning_applications/#{planning_application.id}"
     end
 
-    it "shows the assessment and review stages for immunity" do
+    it "shows the assessment and review stages for immunity", :capybara do
       click_link("Check and assess")
       expect(page).to have_content("Note: application may be immune from enforcement")
 

@@ -130,7 +130,7 @@ RSpec.describe "Consultees" do
     end
   end
 
-  it "allows deleting a consultee" do
+  it "allows deleting a consultee", :capybara do
     create(:contact, local_authority:, name: "Chris Wood")
 
     visit "/admin/consultees"

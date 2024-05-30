@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Evidence of immunity" do
+RSpec.describe "Evidence of immunity", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
@@ -11,7 +11,7 @@ RSpec.describe "Evidence of immunity" do
     create(:planning_application, :in_assessment, :with_immunity, local_authority: default_local_authority)
   end
 
-  context "when signed in as an assessor" do
+  context "when signed in as an assessor", :capybara do
     before do
       create(:evidence_group, :with_document, tag: "utilityBill", immunity_detail: planning_application.immunity_detail)
       create(:evidence_group, :with_document, tag: "buildingControlCertificate", end_date: nil, immunity_detail: planning_application.immunity_detail)

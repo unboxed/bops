@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Permitted development right" do
+RSpec.describe "Permitted development right", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
@@ -140,7 +140,7 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("Permitted development rights response was successfully updated")
       end
 
-      it "I can save and mark as complete when adding my review to accept the permitted development right response" do
+      it "I can save and mark as complete when adding my review to accept the permitted development right response", capybara: true do
         click_link "Review and sign-off"
         click_link "Review permitted development rights"
 
@@ -159,7 +159,7 @@ RSpec.describe "Permitted development right" do
         expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(false)
       end
 
-      it "I can save and mark as complete when adding my review to reject the permitted development right response" do
+      it "I can save and mark as complete when adding my review to reject the permitted development right response", capybara: true do
         click_link "Review and sign-off"
         click_link "Review permitted development rights"
 

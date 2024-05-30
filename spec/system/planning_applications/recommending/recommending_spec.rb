@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment" do
+RSpec.describe "Planning Application Assessment", type: :system do
   let!(:default_local_authority) do
     create(
       :local_authority,
@@ -570,7 +570,7 @@ RSpec.describe "Planning Application Assessment" do
       end
     end
 
-    context "when withdrawing a recommendation" do
+    context "when withdrawing a recommendation", :capybara do
       let!(:planning_application) do
         create(:planning_application, :with_recommendation, :awaiting_determination, local_authority: default_local_authority, decision: "granted")
       end

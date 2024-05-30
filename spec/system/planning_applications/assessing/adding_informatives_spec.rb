@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Add informatives" do
+RSpec.describe "Add informatives", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, name: "PlanX", local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -68,7 +68,7 @@ RSpec.describe "Add informatives" do
     end
   end
 
-  it "I can save and come back later" do
+  it "I can save and come back later", :capybara do
     within("#add-informatives") do
       expect(page).to have_content "Not started"
       click_link "Add informatives"
@@ -162,7 +162,7 @@ RSpec.describe "Add informatives" do
     let!(:informative_two) { create(:informative, informative_set:, title: "Title 2", text: "Text 2", position: 2) }
     let!(:informative_three) { create(:informative, informative_set:, title: "Title 3", text: "Text 3", position: 3) }
 
-    it "I can drag and drop to sort the informatives" do
+    it "I can drag and drop to sort the informatives", :capybara do
       click_link "Add informatives"
       expect(page).to have_selector("p", text: "Drag and drop informatives to change the order that they appear in the decision notice.")
 

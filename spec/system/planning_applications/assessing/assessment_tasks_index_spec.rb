@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Assessment tasks" do
+RSpec.describe "Assessment tasks", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -113,7 +113,7 @@ RSpec.describe "Assessment tasks" do
     end
   end
 
-  context "when there are proposal details" do
+  context "when there are proposal details", :capybara do
     let(:planning_application) do
       create(
         :planning_application,

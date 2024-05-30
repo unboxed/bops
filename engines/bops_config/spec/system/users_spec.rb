@@ -182,7 +182,7 @@ RSpec.describe "Users", type: :system do
     end
   end
 
-  context "when there are a mix of confirmed and unconfirmed users" do
+  context "when there are a mix of confirmed and unconfirmed users", :capybara do
     before do
       create(:user, :global_administrator, local_authority: nil, name: "Dieter Waldbeck")
       create(:user, :global_administrator, :unconfirmed, local_authority: nil, name: "Andrea Khan")

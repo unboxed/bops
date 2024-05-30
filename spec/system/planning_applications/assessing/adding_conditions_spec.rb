@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Add conditions" do
+RSpec.describe "Add conditions", type: :system, capybara: true do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, name: "PlanX", local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }

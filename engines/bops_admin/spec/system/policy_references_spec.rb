@@ -168,7 +168,7 @@ RSpec.describe "Policy references" do
     end
   end
 
-  it "allows deleting a policy reference" do
+  it "allows deleting a policy reference", :capybara do
     create(:local_authority_policy_reference, local_authority:, code: "PP-256", description: "Biodiversity")
 
     visit "/admin/policy/references"

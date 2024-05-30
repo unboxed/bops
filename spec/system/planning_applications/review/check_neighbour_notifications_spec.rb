@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Check neighbour notifications" do
+RSpec.describe "Check neighbour notifications", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -73,7 +73,7 @@ RSpec.describe "Check neighbour notifications" do
         )
       end
 
-      it "you can send it back for assessment" do
+      it "you can send it back for assessment", :capybara do
         visit "/planning_applications/#{planning_application.id}/review/tasks"
 
         expect(page).to have_list_item_for(

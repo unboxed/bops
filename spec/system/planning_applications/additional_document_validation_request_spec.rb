@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting a new document for a planning application" do
+RSpec.describe "Requesting a new document for a planning application", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -104,7 +104,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     let!(:document_evidence_and_plan_tags) { create(:document, tags: %w[photographs.proposed floorPlan.proposed], planning_application:) }
     let!(:document_plan_and_supporting_tags) { create(:document, tags: %w[floorPlan.proposed otherDocument], planning_application:) }
 
-    it "I can view the documents separated by their tag category" do
+    it "I can view the documents separated by their tag category", :capybara do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
       click_link "Check and request documents"
 
@@ -164,7 +164,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       create(:document, :archived, :with_file, planning_application:)
     end
 
-    it "I can see the list of active documents when I go to validate" do
+    it "I can see the list of active documents when I go to validate", :capybara do
       visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
       within("#check-missing-documents-task") do
@@ -352,7 +352,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         end
       end
 
-      it "I can delete the additional document validation request" do
+      it "I can delete the additional document validation request", :capybara do
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
         expect(page).to have_selector("h1", text: "Check the application")
 

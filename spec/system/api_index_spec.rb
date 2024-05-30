@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Swagger index file" do
+RSpec.describe "Swagger index file", type: :system, capybara: true do
   let!(:local_authority) { create(:local_authority, :default) }
 
   before do

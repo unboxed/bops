@@ -136,7 +136,7 @@ RSpec.describe "Reporting types", type: :system do
     end
   end
 
-  it "allows removal of reporting types" do
+  it "allows removal of reporting types", :capybara do
     create(:reporting_type, :prior_approval_all_others)
 
     click_link "Reporting types"
@@ -163,7 +163,7 @@ RSpec.describe "Reporting types", type: :system do
     expect(page).not_to have_selector("table tbody tr:nth-child(2)")
   end
 
-  it "doesn't allow removal of reporting types when they're used" do
+  it "doesn't allow removal of reporting types when they're used", :capybara do
     click_link "Reporting types"
     expect(page).to have_selector("h1", text: "Reporting Types")
 

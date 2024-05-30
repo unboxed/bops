@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing sign-off" do
+RSpec.describe "Reviewing sign-off", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) do
     create(:user,
@@ -233,7 +233,7 @@ RSpec.describe "Reviewing sign-off" do
   end
 
   context "when editing the public comment that appears on the decision notice" do
-    it "as a reviewer I am able to edit" do
+    it "as a reviewer I am able to edit", capybara: true do
       create(:recommendation,
         planning_application:,
         assessor_comment: "New assessor comment",
