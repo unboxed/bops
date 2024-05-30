@@ -27,23 +27,22 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
 
       fill_in "Enter condition", with: "New condition"
       fill_in "Enter a reason for this condition", with: "No reason"
-      click_button "Save condition"
+      click_button "Add condition to list"
 
       toggle "Add condition"
       fill_in "Enter condition", with: "Custom condition 1"
       fill_in "Enter a reason for this condition", with: "Custom reason 1"
-      click_button "Save condition"
+      click_button "Add condition to list"
 
       toggle "Add condition"
       fill_in "Enter condition", with: "Custom condition 2"
       fill_in "Enter a reason for this condition", with: "Custom reason 2"
-      click_button "Save condition"
+      click_button "Add condition to list"
 
       toggle "Add condition"
       fill_in "Enter condition", with: "Custom condition 3"
       fill_in "Enter a reason for this condition", with: "Custom reason 3"
-      click_button "Reset condition"
-      click_button "Reset reason"
+      # n.b. form not submitted here
       toggle "Add condition"
 
       click_button "Save and mark as complete"
@@ -83,7 +82,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       toggle "Add condition"
       fill_in "Enter condition", with: "Custom condition 1"
       fill_in "Enter a reason for this condition", with: "Custom reason 1"
-      click_button "Save condition"
+      click_button "Add condition to list"
 
       expect(page).to have_content "Time limit"
       expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
@@ -140,7 +139,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       toggle "Add condition"
       fill_in "Enter condition", with: "Custom condition 1"
 
-      click_button "Save condition"
+      click_button "Add condition to list"
 
       within ".govuk-error-summary" do
         expect(page).to have_content "Enter the reason for this condition"
@@ -155,7 +154,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       end
 
       fill_in "Enter condition", with: ""
-      click_button "Save condition"
+      click_button "Add condition to list"
 
       within ".govuk-error-summary" do
         expect(page).to have_content "Enter the text of this condition"

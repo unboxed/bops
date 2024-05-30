@@ -34,11 +34,15 @@
   <% end %>
 </ul>
 
-<%= govuk_details(summary_text: "Add condition") do %>
-  <%= render("form") %>
+<%= govuk_details(summary_text: "Add condition",
+      open: @conditions.count(&:persisted?).zero?,
+      classes: "govuk-details--borderless") do %>
+  <h3 class="govuk-heading-s">Add a new condition</h3>
+  <%= render partial: "form", locals: {submit_button_is_secondary: true} %>
 <% end %>
 
 <%= form_with model: @condition_set, url: mark_as_complete_planning_application_assessment_conditions_path(@planning_application) do |form| %>
   <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
-  <%= govuk_link_to("Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary") %>
+  <%= govuk_button_link_to("Save and come back later", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+  <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
 <% end %>

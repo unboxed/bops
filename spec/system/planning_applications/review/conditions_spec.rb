@@ -131,7 +131,7 @@ RSpec.describe "Reviewing conditions" do
         end
         fill_in "Enter a reason for this condition", with: "A better response"
 
-        click_button "Save condition"
+        click_button "Add condition to list"
         click_button "Save and mark as complete"
 
         sign_out(assessor)
