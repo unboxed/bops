@@ -7,7 +7,7 @@
   <% @conditions.select(&:persisted?).sort_by(&:position).each do |condition| %>
     <%= content_tag(:li,
           id: dom_id(condition),
-          class: "condition sortable-container govuk-!-margin-bottom-7",
+          class: "condition sortable-list sortable-container govuk-!-margin-bottom-7",
           data: {
             controller: "conditions",
             model_name: condition.class.name,
@@ -46,7 +46,7 @@
 </ol>
 
 <p class="govuk-hint">
-  Drag and drop conditions to change the order in which they appear in the decision notice.
+  Drag and drop conditions to change the order that they appear in the decision notice.
 </p>
 
 <%= govuk_details(summary_text: "Add condition",

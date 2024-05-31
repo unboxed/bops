@@ -175,6 +175,20 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     end
   end
 
+  context "when changing the list position" do
+    let(:condition_set) { planning_application.condition_set }
+    let!(:condition_one) { create(:condition, :nonstandard, condition_set:, title: "Title 1", text: "Text 1", position: 1) }
+    let!(:condition_two) { create(:condition, :other, :nonstandard, condition_set:, title: "Title 2", text: "Text 2", position: 2) }
+    let!(:condition_three) { create(:condition, :nonstandard, condition_set:, title: "Title 3", text: "Text 3", position: 3) }
+
+    before do
+      condition_set.conditions.where(standard: true).delete_all
+      click_link "Add conditions"
+    end
+
+    include_examples "Sortable", "condition"
+  end
+
   context "when planning application is not planning permission" do
     it "you cannot add conditions" do
       type = create(:application_type)
