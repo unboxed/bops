@@ -10,6 +10,10 @@ FactoryBot.define do
     condition_set
   end
 
+  trait :nonstandard do
+    standard { false }
+  end
+
   trait :other do
     title { "" }
     text { "Condition 1" }

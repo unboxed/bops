@@ -103,6 +103,7 @@ Rails.application.routes.draw do
           resources :conditions, except: %i[new show] do
             patch :update, on: :collection
             patch :mark_as_complete, on: :collection
+            concerns :positionable, module: :conditions
           end
           resources :pre_commencement_conditions, except: %i[new show] do
             post :confirm, on: :collection

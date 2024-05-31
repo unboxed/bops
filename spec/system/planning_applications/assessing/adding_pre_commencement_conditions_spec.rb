@@ -330,110 +330,11 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
     let!(:condition_two) { create(:condition, :other, condition_set:, title: "Title 2", text: "Text 2") }
     let!(:condition_three) { create(:condition, condition_set:, title: "Title 3", text: "Text 3") }
 
-    it "I can drag and drop to sort the pre-commencement conditions" do
+    before do
       click_link "Add pre-commencement conditions"
-      expect(page).to have_selector("p", text: "Drag and drop pre-commencement conditions to change the order that they appear in the decision notice.")
-
-      condition_one_handle = find("li.sortable-list", text: "Title 1")
-      condition_two_handle = find("li.sortable-list", text: "Title 2")
-      condition_three_handle = find("li.sortable-list", text: "Title 3")
-
-      within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Condition 1")
-        expect(page).to have_selector("h2", text: "Title 1")
-      end
-      within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Condition 2")
-        expect(page).to have_selector("h2", text: "Title 2")
-      end
-      within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Condition 3")
-        expect(page).to have_selector("h2", text: "Title 3")
-      end
-
-      condition_one_handle.drag_to(condition_two_handle)
-
-      within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Condition 1")
-        expect(page).to have_selector("h2", text: "Title 2")
-      end
-      within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Condition 2")
-        expect(page).to have_selector("h2", text: "Title 1")
-      end
-      within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Condition 3")
-        expect(page).to have_selector("h2", text: "Title 3")
-      end
-      expect(condition_one.reload.position).to eq(2)
-      expect(condition_two.reload.position).to eq(1)
-      expect(condition_three.reload.position).to eq(3)
-
-      condition_one_handle.drag_to(condition_three_handle)
-
-      within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Condition 1")
-        expect(page).to have_selector("h2", text: "Title 2")
-      end
-      within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Condition 2")
-        expect(page).to have_selector("h2", text: "Title 3")
-      end
-      within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Condition 3")
-        expect(page).to have_selector("h2", text: "Title 1")
-      end
-      expect(condition_one.reload.position).to eq(3)
-      expect(condition_two.reload.position).to eq(1)
-      expect(condition_three.reload.position).to eq(2)
-
-      condition_three_handle.drag_to(condition_two_handle)
-
-      within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Condition 1")
-        expect(page).to have_selector("h2", text: "Title 3")
-      end
-      within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Condition 2")
-        expect(page).to have_selector("h2", text: "Title 2")
-      end
-      within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Condition 3")
-        expect(page).to have_selector("h2", text: "Title 1")
-      end
-      expect(condition_one.reload.position).to eq(3)
-      expect(condition_two.reload.position).to eq(2)
-      expect(condition_three.reload.position).to eq(1)
-
-      click_link "Back"
-      click_link "Add pre-commencement conditions"
-
-      within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Condition 1")
-        expect(page).to have_selector("h2", text: "Title 3")
-      end
-      within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Condition 2")
-        expect(page).to have_selector("h2", text: "Title 2")
-      end
-      within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Condition 3")
-        expect(page).to have_selector("h2", text: "Title 1")
-      end
-
-      # Check the correct order on decision notice
-      click_button "Confirm and send to applicant"
-      condition_set.validation_requests.each { |vr| vr.update(approved: true) }
-      create(:recommendation, :assessment_in_progress, planning_application:)
-      click_link "Back"
-      click_link "Review and submit recommendation"
-
-      within("#pre-commencement-conditions-list") do
-        expect(page).to have_selector("li:nth-of-type(1)", text: "Title 3")
-        expect(page).to have_selector("li:nth-of-type(2)", text: "Title 2")
-        expect(page).to have_selector("li:nth-of-type(3)", text: "Title 1")
-      end
     end
+
+    include_examples "Sortable", "pre-commencement condition"
   end
 
   xcontext "when planning application is not planning permission" do
