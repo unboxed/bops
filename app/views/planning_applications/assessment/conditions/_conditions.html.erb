@@ -2,37 +2,54 @@
 
 <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Conditions</h2>
 
-<ul id="conditions-list" class="govuk-list" data-controller="conditions">
-  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-  <% @conditions.select(&:persisted?).each_with_index do |condition, i| %>
-    <%= content_tag(:li, id: dom_id(condition), class: "govuk-!-margin-bottom-7") do %>
-      <span class="govuk-caption-m"><%= "#{condition.standard? ? "Suggested condition" : "Condition"}  #{i + 1}" %></span>
-      <% unless condition.title.blank? %>
-        <h2 class="govuk-heading-m"><%= condition.title %></h2>
-      <% end %>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<ol id="conditions-list" class="govuk-list conditions-list" data-controller="sortable">
+  <% @conditions.select(&:persisted?).sort_by(&:position).each do |condition| %>
+    <%= content_tag(:li,
+          id: dom_id(condition),
+          class: "condition sortable-container govuk-!-margin-bottom-7",
+          data: {
+            controller: "conditions",
+            model_name: condition.class.name,
+            sortable_url: planning_application_assessment_condition_position_path(@planning_application, condition),
+            sortable_handle: true
+          }) do %>
+      <div class="govuk-!-width-three-quarters">
+        <span class="govuk-caption-m"><%= "#{condition.standard? ? "Suggested condition" : "Condition"}  #{condition.position}" %></span>
+        <% unless condition.title.blank? %>
+          <h2 class="govuk-heading-m"><%= condition.title %></h2>
+        <% end %>
 
-      <p class="govuk-body">
-        <strong>Condition</strong>
-        <%= render(ShowMoreTextComponent.new(text: condition.text, length: 300)) %>
-      </p>
+        <p class="govuk-body">
+          <strong>Condition</strong>
+          <%= render(ShowMoreTextComponent.new(text: condition.text, length: 300)) %>
+        </p>
 
-      <p class="govuk-body">
-        <strong>Reason</strong>
-        <%= render(ShowMoreTextComponent.new(text: condition.reason, length: 300)) %>
-      </p>
+        <p class="govuk-body">
+          <strong>Reason</strong>
+          <%= render(ShowMoreTextComponent.new(text: condition.reason, length: 300)) %>
+        </p>
 
-      <%= form_with model: condition,
-            url: planning_application_assessment_condition_path(@planning_application, condition),
-            scope: :condition,
-            method: :delete do |form| %>
-        <%= govuk_link_to "Edit", edit_planning_application_assessment_condition_path(@planning_application, condition) %>
-        <%= form.button "Remove", class: "button-as-link govuk-link", data: {action: "conditions#confirmDeletion"} %>
-      <% end %>
+        <%= form_with model: condition,
+              url: planning_application_assessment_condition_path(@planning_application, condition),
+              scope: :condition,
+              method: :delete do |form| %>
+          <%= govuk_link_to "Edit", edit_planning_application_assessment_condition_path(@planning_application, condition) %>
+          <%= form.button "Remove", class: "button-as-link govuk-link", data: {action: "conditions#confirmDeletion"} %>
+        <% end %>
+      </div>
+
+      <div style="align-self: center">
+        <%= render "shared/sortable_svg" %>
+      </div>
     <% end %>
 
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <% end %>
-</ul>
+</ol>
+
+<p class="govuk-hint">
+  Drag and drop conditions to change the order in which they appear in the decision notice.
+</p>
 
 <%= govuk_details(summary_text: "Add condition",
       open: @conditions.count(&:persisted?).zero?,
