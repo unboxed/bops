@@ -27,6 +27,9 @@ aconsole:
 migrate:
 	$(DOCKER-RUN) console rails db:migrate
 
+amigrate:
+	$(DOCKER-RUN) aconsole rails db:migrate
+
 rollback:
 	$(DOCKER-RUN) console rails db:rollback
 
