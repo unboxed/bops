@@ -9,15 +9,15 @@ module ActiveStorage
     end
 
     def public?
-      return unless request.referer.include?("bops-care") || request.referer.include?("bops-applicants")
+      return if @blob.nil?
 
-      if @blob.attachments.count == 1 && @blob.attachments.any? { |a| a.record_type == "ActiveStorage::VariantRecord" }
-        @blob.attachments.first.record.blob.attachments.first.record.attachments.includes(:record).any? do |a|
-          a.record.published?
-        end
+      attachments = if @blob.attachments.count == 1 && @blob.attachments.any? { |a| a.record_type == "ActiveStorage::VariantRecord" }
+        @blob.attachments.first.record.blob.attachments.first.record.attachments
       else
-        @blob.attachments.includes(:record).any? { |a| a.record.published? }
+        @blob.attachments
       end
+
+      attachments.includes(:record).any? { |a| a.record&.published? }
     end
   end
 end
