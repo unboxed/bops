@@ -1,0 +1,36 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-third"></th>
+      <th scope="col" class="govuk-table__header govuk-!-width-two-thirds"></th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% press_notices.each do |press_notice| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-width-one-third">
+          <% press_notice.documents.with_file_attachment.each do |document| %>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              <%= link_to image_tag(document.file.representation(resize: "300x212")),
+                    url_for_document(document), target: :_blank, rel: :noopener %>
+            </p>
+            <p class="govuk-body">
+              <%= truncate(document.name.to_s, length: 50) %><br>
+              <%= govuk_link_to "View in new window", url_for_document(document), new_tab: true %>
+            </p>
+          <% end %>
+        </td>
+
+        <td class="govuk-table__cell govuk-!-width-two-thirds">
+          <p class="govuk-body"><strong class="govuk-tag">Published</strong></p>
+          <p class="govuk-body">Date requested: <strong><%= time_tag(press_notice.requested_at) %></strong></p>
+          <p class="govuk-body">Date published: <strong><%= time_tag(press_notice.published_at) %></strong></p>
+          <% if press_notice.comment.present? %>
+            <p class="govuk-body">Comments: <%= press_notice.comment %></p>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -437,14 +437,16 @@ RSpec.describe "Press notice" do
         end
 
         within("#planning-application-details") do
-          expect(page).to have_content("Confirm press notice")
+          expect(page).to have_selector("h1", text: "Confirm press notice")
           expect(page).to have_content(planning_application.reference)
           expect(page).to have_content(planning_application.full_address)
           expect(page).to have_content(planning_application.description)
         end
 
-        expect(page).to have_content("Press notice requested")
-        expect(page).to have_content("Press notice requested on #{press_notice.requested_at.to_date.to_fs}")
+        expect(page).to have_selector("h2", text: "Confirm press notice publication")
+        expect(page).to have_selector("p", text: "Date requested: #{press_notice.requested_at.to_date.to_fs}")
+        expect(page).not_to have_content("Date published")
+        expect(page).not_to have_content("View past press notices")
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Confirm press notice")
@@ -453,11 +455,14 @@ RSpec.describe "Press notice" do
         expect(page).to have_content("Reasons selected:")
         expect(page).to have_content("An environmental statement accompanies this application")
         expect(page).to have_content("The application does not accord with the provisions of the development plan")
+
+        expect(page).to have_content("Upload evidence of the press notice publication.")
       end
 
       it "there is a validation error when saving unsupported file type" do
         click_link "Consultees, neighbours and publicity"
         click_link "Confirm press notice"
+        click_link "Confirm publication"
 
         attach_file("Upload photo(s)", "spec/fixtures/images/image.gif")
         click_button("Save")
@@ -472,6 +477,7 @@ RSpec.describe "Press notice" do
         within("#confirm-press-notice") do
           click_link("Confirm press notice")
         end
+        click_link "Confirm publication"
 
         within("#published-at-field") do
           expect(page).to have_content("What date was the press notice published?")
@@ -516,6 +522,10 @@ RSpec.describe "Press notice" do
           click_link("Confirm press notice")
         end
 
+        expect(page).to have_selector("p", text: "Date requested: #{press_notice.requested_at.to_date.to_fs}")
+        expect(page).to have_selector("p", text: "Date published: #{press_notice.reload.published_at.to_date.to_fs}")
+        expect(page).to have_selector("p", text: "Comments: Press notice comment")
+
         within(".govuk-table") do
           document = PressNotice.last.documents.first
           expect(page).to have_content(document.name.to_s)
@@ -530,6 +540,37 @@ RSpec.describe "Press notice" do
         )
 
         expect(consultation.reload.end_date.to_date).to eq("Fri, 20 Oct 2023".to_date)
+
+        click_link "Edit publication"
+        fill_in "Optional comment", with: "Edited press notice comment"
+        click_button "Save"
+        click_link "Confirm press notice"
+        expect(page).to have_selector("p", text: "Comments: Edited press notice comment")
+
+        travel 1.hour
+        click_link "Add a new press notice response"
+        choose("Yes")
+        check("The application is for a Major Development")
+        click_button "Save and mark as complete"
+        perform_enqueued_jobs
+
+        click_link "Confirm press notice"
+        expect(page).to have_selector("p", text: "Date requested: #{PressNotice.last.requested_at.to_date.to_fs}")
+
+        # View past press notices
+        find("span", text: "View past press notices").click
+        within(".govuk-details__text") do
+          within "tbody tr:nth-child(1)" do
+            document = press_notice.reload.documents.first
+            expect(page).to have_content(document.name.to_s)
+            expect(page).to have_link("View in new window")
+
+            expect(page).to have_selector(".govuk-tag", text: "Published")
+            expect(page).to have_selector("p", text: "Date requested: #{press_notice.requested_at.to_date.to_fs}")
+            expect(page).to have_selector("p", text: "Date published: #{press_notice.reload.published_at.to_date.to_fs}")
+            expect(page).to have_selector("p", text: "Comments: Edited press notice comment")
+          end
+        end
       end
 
       context "when application has been marked as requiring an EIA" do
@@ -538,6 +579,7 @@ RSpec.describe "Press notice" do
         it "I can confirm the press notice details and consultation period is extended by 30 days" do
           click_link "Consultees, neighbours and publicity"
           click_link "Confirm press notice"
+          click_link "Confirm publication"
 
           within("#published-at-field") do
             fill_in "Day", with: "29"

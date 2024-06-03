@@ -1370,20 +1370,26 @@ en:
         create:
           success: Request for confirmation of the press notice sent to the press team
       confirmations:
-        show:
+        edit:
           back: Back
-          not_found: Please create the press notice first before confirming
-          not_required: The press notice is not required so there is no need to confirm it
           optional_comment: Optional comment
           photos_hint: Provide documentary evidence of the press notice being published
           published_at: What date was the press notice published?
           requested_on: Press notice requested on %-d %B %Y
           save: Save
           upload_photos: Upload photo(s)
+        show:
+          back: Back
+          not_found: Please create the press notice first before confirming
+          not_required: The press notice is not required so there is no need to confirm it
+          save: Save
         update:
           success: Press notice response has been successfully updated
       create:
         success: Press notice response has been successfully added
+      press_notices:
+        published_on: Press notice published on %-d %B %Y
+        requested_on: Press notice requested on %-d %B %Y
       show:
         published_on: Press notice published on %-d %B %Y
       update:

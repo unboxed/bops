@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Press notice - <%= t("page_title") %>
+  Confirm press notice - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -12,56 +12,54 @@
       locals: {heading: "Confirm press notice"}
     ) %>
 
-<%= form_with(
-      model: @press_notice,
-      url: planning_application_press_notice_confirmation_path(@planning_application)
-    ) do |form| %>
-  <%= form.govuk_error_summary %>
+<h2 class="govuk-heading-m">Confirm press notice publication</h2>
 
-  <% if @press_notice.requested_at? %>
-    <div class="govuk-inset-text govuk-!-margin-top-0 govuk-!-padding-top-2 govuk-!-padding-bottom-2">
-      <p class="govuk-body-s govuk-!-margin-bottom-2">
-        <%= time_tag(@press_notice.requested_at, format: t(".requested_on")) %>
-      </p>
-      <p class="govuk-body">
-        <strong class="govuk-tag">Emailed</strong>
-      </p>
-    </div>
+<div class="background-light-grey govuk-!-padding-bottom-1 govuk-!-padding-left-5 govuk-!-padding-right-5 govuk-!-padding-top-5 govuk-!-margin-bottom-2">
+  <h2 class="govuk-heading-s">Reasons selected:</h2>
+  <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+    <% @press_notice.reasons.each do |reason| %>
+      <li>
+        <% if reason == "other" %>
+          <%= @press_notice.other_reason %>
+        <% else %>
+          <%= t(reason, scope: :press_notice_reasons) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<p class="govuk-body">Date requested: <strong><%= time_tag(@press_notice.requested_at) %></strong></p>
+
+<% if @press_notice.published_at %>
+  <p class="govuk-body">Date published: <strong><%= time_tag(@press_notice.published_at) %></strong></p>
+
+  <% if @press_notice.comment.present? %>
+    <p class="govuk-body govuk-!-margin-bottom-2">
+      Comments: <%= @press_notice.comment %>
+    </p>
   <% end %>
 
-  <div class="background-light-grey govuk-!-padding-bottom-1 govuk-!-padding-left-5 govuk-!-padding-right-5 govuk-!-padding-top-5 govuk-!-margin-bottom-7">
-    <h2 class="govuk-heading-s">Reasons selected:</h2>
-    <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
-      <% @press_notice.reasons.each do |reason| %>
-        <li>
-          <% if reason == "other" %>
-            <%= @press_notice.other_reason %>
-          <% else %>
-            <%= t(reason, scope: :press_notice_reasons) %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+  <%= render "documents", documents: @press_notice.documents %>
 
-  <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset">
-      <%= form.govuk_date_field(:published_at, rows: 6, id: "published-at-field", legend: {size: "s", text: t(".published_at")}) %>
+  <p class="govuk-body">
+    <%= govuk_link_to "Edit publication", edit_planning_application_press_notice_confirmation_path(@planning_application) %>
+  </p>
+  <p class="govuk-body">
+    <%= govuk_link_to "Add a new press notice response", new_planning_application_press_notice_path(@planning_application) %>
+  </p>
+<% else %>
+  <p class="govuk-body">Upload evidence of the press notice publication.</p>
 
-      <%= render "documents", documents: @press_notice.documents %>
-
-      <%= form.govuk_file_field :documents,
-            label: {size: "s", text: t(".upload_photos")},
-            hint: {text: t(".photos_hint")},
-            accept: acceptable_file_mime_types,
-            multiple: true %>
-
-      <%= form.govuk_text_area(:comment, rows: 3, label: {text: t(".optional_comment")}) %>
-    </fieldset>
-
-    <div class="govuk-button-group govuk-!-padding-top-7">
-      <%= form.submit t(".save"), class: "govuk-button govuk-button--primary" %>
-      <%= govuk_button_link_to t(".back"), planning_application_consultation_path(@planning_application), secondary: true %>
-    </div>
-  </div>
+  <%= govuk_button_link_to "Confirm publication", edit_planning_application_press_notice_confirmation_path(@planning_application) %>
 <% end %>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<% if @press_notices.any? %>
+  <%= govuk_details(summary_text: "View past press notices") do %>
+    <%= render "planning_applications/press_notices/press_notices", press_notices: @press_notices %>
+  <% end %>
+<% end %>
+
+<%= back_link %>
