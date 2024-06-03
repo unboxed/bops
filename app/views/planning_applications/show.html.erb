@@ -16,13 +16,9 @@
 
   <% if @planning_application.in_progress? %>
     <div class="govuk-button-group">
-      <%= link_to(
-            t(".withdraw_or_cancel"),
-            planning_application_withdraw_or_cancel_path(
-              @planning_application
-            ),
-            class: "govuk-button govuk-button--warning"
-          ) %>
+      <%= govuk_button_link_to t(".withdraw_or_cancel"), planning_application_withdraw_or_cancel_path(
+            @planning_application
+          ), warning: true %>
     </div>
   <% end %>
 <% end %>

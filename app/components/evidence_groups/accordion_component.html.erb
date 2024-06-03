@@ -127,7 +127,7 @@
           ) %>
     <% end %>
 
-    <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
 
     <% if !editable %>
       <%= govuk_link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail) %>

@@ -35,7 +35,7 @@
     <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
 
     <div class="submit-buttons display-flex">
-      <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary back-button" %>
+      <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true, class: "back-button" %>
     </div>
   <% end %>
 </div>

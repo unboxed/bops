@@ -13,6 +13,6 @@
         small: false, class: "govuk-!-column-count-2" %>
 
   <%= form.govuk_submit(t(".save_decision")) do %>
-    <%= link_to(t("back"), :decisions, class: "govuk-button govuk-button--secondary") %>
+    <%= govuk_button_link_to t("back"), :decisions, secondary: true %>
   <% end %>
 <% end %>

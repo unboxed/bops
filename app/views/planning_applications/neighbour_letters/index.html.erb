@@ -66,7 +66,7 @@
           ) do |form| %>
         <%= form.hidden_field :neighbour_letter_text %>
         <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: {module: "govuk-button"} %>
-        <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true %>
       <% end %>
     </div>
   </div>

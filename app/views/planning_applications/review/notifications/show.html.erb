@@ -77,8 +77,8 @@
       </p>
     </div>
     <div class="govuk-button-group">
-      <%= link_to "Update meeting details", edit_planning_application_review_committee_decision_notifications_path(@planning_application, @committee_decision), class: "govuk-button" %>
-      <%= link_to "Back", planning_application_review_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <%= govuk_button_link_to "Update meeting details", edit_planning_application_review_committee_decision_notifications_path(@planning_application, @committee_decision) %>
+      <%= govuk_button_link_to "Back", planning_application_review_tasks_path(@planning_application), secondary: true %>
     </div>
   </div>
 </div>

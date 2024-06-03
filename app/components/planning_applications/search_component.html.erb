@@ -20,10 +20,10 @@
       <%= hidden_field_tag(:view, "all") %>
     <% end %>
     <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
-    <%= link_to(
+    <%= govuk_button_link_to(
           t(".clear_search"),
           clear_search_url,
-          class: "govuk-button govuk-button--secondary",
+          secondary: true,
           data: {action: "click->clear-form#handleClick"}
         ) %>
   </div>

@@ -15,11 +15,11 @@
 
   <%= form.govuk_submit(t(".save")) do %>
     <% if @reporting_type.persisted? %>
-      <%= link_to(t(".remove"), reporting_type_path(@reporting_type),
-            class: "govuk-button govuk-button--warning",
+      <%= govuk_button_link_to(t(".remove"), reporting_type_path(@reporting_type),
+            warning: true,
             method: :delete, data: {confirm: "Are you sure?"}) %>
     <% end %>
 
-    <%= link_to(t("back"), :reporting_types, class: "govuk-button govuk-button--secondary") %>
+    <%= govuk_button_link_to t("back"), :reporting_types, secondary: true %>
   <% end %>
 <% end %>

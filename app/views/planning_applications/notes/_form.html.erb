@@ -5,6 +5,6 @@
 
   <div class="govuk-button-group">
     <%= form.submit "Add new note", class: "govuk-button", data: {module: "govuk-button"} %>
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
   </div>
 <% end %>

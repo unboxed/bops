@@ -34,7 +34,7 @@ RSpec.describe "Profile", type: :system do
   it "shows the correct hint text for the council's profile" do
     visit "/admin/profile"
 
-    expect(page).to have_content("This is the api key which can be used on swagger to generate more test planning application data.")
+    expect(page).to have_content("This is the api key which can be used on swagger (opens in new tab) to generate more test planning application data.")
     expect(page).to have_link("swagger", href: "/api/v2/docs")
 
     expect(page).to have_content("the person whose signature")

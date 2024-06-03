@@ -34,9 +34,9 @@
         Add consideration
       </button>
       <% if @planning_application.local_policy.present? %>
-        <%= link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), class: "govuk-button govuk-button--secondary" %>
+        <%= govuk_button_link_to "Back", edit_planning_application_assessment_local_policy_path(@planning_application, @planning_application.local_policy), secondary: true %>
       <% else %>
-        <%= link_to "Back", new_planning_application_assessment_local_policy_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= govuk_button_link_to "Back", new_planning_application_assessment_local_policy_path(@planning_application), secondary: true %>
       <% end %>
     </div>
   <% end %>

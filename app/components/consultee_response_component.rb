@@ -76,11 +76,6 @@ class ConsulteeResponseComponent < ViewComponent::Base
   end
 
   def document_link_tag(document)
-    options = {
-      class: "govuk-link",
-      target: "_blank"
-    }
-
-    link_to(document.name, url_for_document(document), **options)
+    govuk_link_to(document.name, url_for_document(document), new_tab: "")
   end
 end

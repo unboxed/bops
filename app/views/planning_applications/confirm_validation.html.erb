@@ -29,7 +29,7 @@
       <% end %>
       <div class="govuk-button-group">
         <%= form.submit "Mark the application as valid", class: "govuk-button", data: {module: "govuk-button"} %>
-        <%= govuk_link_to "Back", validation_decision_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= govuk_button_link_to "Back", validation_decision_planning_application_path(@planning_application), secondary: true %>
       </div>
     <% end %>
   </div>
