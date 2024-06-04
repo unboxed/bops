@@ -32,4 +32,14 @@ module DocumentHelper
   def reference_or_file_name(document)
     document.numbers.presence || document.name
   end
+
+  def link_to_document(link_text, document, **args)
+    govuk_link_to(
+      link_text,
+      url_for_document(document),
+      new_tab: "",
+      download: reference_or_file_name(document),
+      **args
+    )
+  end
 end

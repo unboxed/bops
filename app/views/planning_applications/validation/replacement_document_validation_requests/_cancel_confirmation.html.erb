@@ -23,7 +23,7 @@
     <div class="govuk-inset-text">
       <p class="govuk-body">
         <strong>Replacement for:
-        <%= govuk_link_to @validation_request.old_document.name, url_for_document(@validation_request.old_document), new_tab: true %>
+        <%= link_to_document @validation_request.old_document.name, @validation_request.old_document %>
         </strong>
       </p>
       <p class="govuk-body">
