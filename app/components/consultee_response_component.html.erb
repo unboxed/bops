@@ -16,7 +16,7 @@
     <% if documents.present? %>
       <ul class="govuk-list govuk-body-s">
         <% documents.each do |document| %>
-          <li><%= document_link_tag(document) %></li>
+          <li><%= helpers.link_to_document(document.name, document) %></li>
         <% end %>
       </ul>
     <% end %>

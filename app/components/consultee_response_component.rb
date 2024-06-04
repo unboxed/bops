@@ -66,16 +66,4 @@ class ConsulteeResponseComponent < ViewComponent::Base
 
     content_tag(:a, t(".redact_and_publish"), **options)
   end
-
-  def url_for_document(document)
-    if document.published?
-      api_v1_planning_application_document_url(document.planning_application, document)
-    else
-      rails_blob_url(document.file)
-    end
-  end
-
-  def document_link_tag(document)
-    govuk_link_to(document.name, url_for_document(document), new_tab: "")
-  end
 end
