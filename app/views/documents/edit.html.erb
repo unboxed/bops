@@ -29,21 +29,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <% if @document.representable? %>
-      <%= link_to(
-            image_tag(
-              @document.file.representation(resize: "500x500"),
-              style: "max-width:100%"
-            ),
-            url_for_document(@document),
-            target: "_blank", rel: "noopener"
-          ) %>
-      <%= govuk_link_to( # erblint:disable Rubocop
-            t(".view_in_new"),
-            url_for_document(@document),
-            # do not use `new_tab:` here, as it adds rel="noreferer" and breaks our referrer checks
-            target: "_blank",
-            class: "govuk-body"
-          ) %>
+      <%= link_to_document image_tag(@document.file.representation(resize: "500x500"), style: "max-width:100%"), @document %>
+      <%= link_to_document t(".view_in_new"), @document, class: "govuk-body" %>
     <% end %>
   </div>
   <div class="govuk-grid-column-one-half">

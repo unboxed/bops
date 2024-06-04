@@ -19,8 +19,7 @@
       File name: <%= @document.name %>
     </p>
     <p>
-      <%= link_to image_tag(@document.file.representation(resize: "300x212")),
-            url_for_document(@document), target: :_blank, rel: :noopener %>
+      <%= link_to_document image_tag(@document.file.representation(resize: "300x212")), @document %>
     </p>
     <%= render "archive_form" %>
   </div>

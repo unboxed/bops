@@ -32,4 +32,24 @@ module DocumentHelper
   def reference_or_file_name(document)
     document.numbers.presence || document.name
   end
+
+  def link_to_document(link_text, document, **args)
+    new_tab = /(new (window|tab)|<img\b)/.match?(link_text) ? "" : true
+
+    govuk_link_to(
+      link_text,
+      url_for_document(document),
+      new_tab:,
+      download: reference_or_file_name(document),
+      **args
+    )
+  end
+
+  def url_for_document(document)
+    if document.published?
+      api_v1_planning_application_document_url(document.planning_application, document)
+    else
+      rails_blob_url(document.file)
+    end
+  end
 end

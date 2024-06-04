@@ -46,62 +46,39 @@ RSpec.describe "Documents index page", type: :system do
       expect(page).not_to have_text("Application information")
     end
 
-    it "File image opens in new tab", :capybara do
-      window = window_opened_by do
-        click_link("View in new window")
-        sleep 0.5
-      end
+    it "File image is downloaded", :capybara do
+      click_link("View in new window")
+      sleep 0.5
 
-      within_window(window) do
-        expect(page).to have_current_path(/\A\/rails\/active_storage/)
-      end
+      expect(File).to exist(Rails.root.join("tmp/downloads/proposed-floorplan.png"))
     end
 
     context "when there is more than one document" do
-      let(:file2) do
-        Rack::Test::UploadedFile.new(
-          Rails.root.join("spec/fixtures/images/proposed-roofplan.png"),
-          "proposed-roofplan/png"
-        )
-      end
-
-      let!(:document2) do
-        create(
-          :document,
+      before do
+        create(:document,
           planning_application:,
-          file: file2
-        )
+          file: Rack::Test::UploadedFile.new(
+            Rails.root.join("spec/fixtures/images/proposed-roofplan.png"), "proposed-roofplan/png"
+          ))
       end
 
-      it "opens each file in a new tab", :capybara do
+      it "downloads each file", :capybara do
         visit "/planning_applications/#{planning_application.id}/documents"
         expect(page).to have_selector("h1", text: "Documents")
 
-        window1 = window_opened_by do
-          within("tr", text: "File name: proposed-floorplan.png") do
-            click_link("View in new window")
-            sleep 0.5
-          end
+        within("tr", text: "File name: proposed-floorplan.png") do
+          click_link("View in new window")
+          sleep 0.5
         end
 
-        within_window(window1) do
-          expect(page).to have_current_path(/proposed-floorplan\.png/)
+        expect(File).to exist(Rails.root.join("tmp/downloads/proposed-floorplan.png"))
+
+        within("tr", text: "File name: proposed-roofplan.png") do
+          click_link("View in new window")
+          sleep 0.5
         end
 
-        window2 = window_opened_by do
-          within("tr", text: "File name: proposed-roofplan.png") do
-            click_link("View in new window")
-            sleep 0.5
-          end
-        end
-
-        within_window(window1) do
-          expect(page).to have_current_path(/proposed-floorplan\.png/)
-        end
-
-        within_window(window2) do
-          expect(page).to have_current_path(/proposed-roofplan\.png/)
-        end
+        expect(File).to exist(Rails.root.join("tmp/downloads/proposed-roofplan.png"))
       end
     end
 
