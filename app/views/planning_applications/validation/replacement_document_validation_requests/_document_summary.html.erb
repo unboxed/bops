@@ -1,6 +1,5 @@
 <div class="govuk-grid-column-one-half">
-  <%= link_to image_tag(@document.file.representation(resize: "500x500"), style: "max-width:100%"),
-        url_for_document(@document), target: :_blank, rel: :noopener %>
+  <%= link_to_document image_tag(@document.file.representation(resize: "500x500"), style: "max-width:100%"), @document %>
   <p class="govuk-body">
     <%= link_to_document "View in new window", @document %>
   </p>

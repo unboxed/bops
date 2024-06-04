@@ -88,8 +88,7 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell govuk-!-width-one-quarter">
             <p class="govuk-body govuk-!-margin-bottom-1">
-              <%= link_to image_tag(document.file.representation(resize: "300x212")),
-                    url_for_document(document), target: :_blank, rel: :noopener %>
+              <%= link_to_document image_tag(document.file.representation(resize: "300x212")), document %>
             </p>
             <p class="govuk-body">
               <%= document.name %><br>

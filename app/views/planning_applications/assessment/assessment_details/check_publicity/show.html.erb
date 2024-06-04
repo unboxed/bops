@@ -47,7 +47,7 @@
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-third">
               <p class="govuk-body govuk-!-margin-bottom-1">
-                <%= link_to(image_tag(document.file.representation(resize_to_fill: [360, 240]), style: "width:100%"), url_for_document(document), target: :_blank, rel: :noopener) %>
+                <%= link_to_document(image_tag(document.file.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
               </p>
               <ul class="govuk-list">
                 <li><%= link_to_document(t(".view_in_new_window"), document, no_visited_state: true) %></li>
@@ -114,7 +114,7 @@
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-third">
               <p class="govuk-body govuk-!-margin-bottom-1">
-                <%= link_to(image_tag(document.file.representation(resize_to_fill: [360, 240]), style: "width:100%"), url_for_document(document), target: :_blank, rel: :noopener) %>
+                <%= link_to_document(image_tag(document.file.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
               </p>
               <ul class="govuk-list">
                 <li><%= link_to_document(t(".view_in_new_window"), document, no_visited_state: true) %></li>

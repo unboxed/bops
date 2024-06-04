@@ -34,10 +34,12 @@ module DocumentHelper
   end
 
   def link_to_document(link_text, document, **args)
+    new_tab = /(new (window|tab)|<img\b)/.match?(link_text) ? "" : true
+
     govuk_link_to(
       link_text,
       url_for_document(document),
-      new_tab: "",
+      new_tab:,
       download: reference_or_file_name(document),
       **args
     )
