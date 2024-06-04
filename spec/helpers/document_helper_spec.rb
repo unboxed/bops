@@ -19,7 +19,6 @@ RSpec.describe DocumentHelper do
   end
 
   describe "#link_to_document" do
-    include ApplicationHelper
     include GovukVisuallyHiddenHelper
     include GovukLinkHelper
 
