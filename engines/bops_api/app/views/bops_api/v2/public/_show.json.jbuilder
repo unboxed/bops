@@ -1,19 +1,9 @@
 # frozen_string_literal: true
 
-# json.key_format! camelize: :lower
+json.key_format! camelize: :lower
 
-json.application do
-  json.type do
-    json.value planning_application.application_type.code
-    json.description planning_application.application_type.name
-  end
-  json.reference planning_application.reference
-  json.full_reference planning_application.reference_in_full
-  json.fullReference planning_application.reference_in_full
-  json.received_at planning_application.received_at
-  json.receivedAt planning_application.received_at
-  json.status planning_application.status
-end
+json.partial! "bops_api/v2/shared/application", planning_application: planning_application
+
 json.property do
   json.address do
     json.latitude planning_application.latitude

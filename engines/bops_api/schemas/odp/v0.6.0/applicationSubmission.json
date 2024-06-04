@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "application": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "description"
+          ]
+        },
+        "reference": {
+          "type": "string"
+        },
+        "fullReference": {
+          "type": "string"
+        },
+        "receivedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "reference",
+        "fullReference",
+        "receivedAt",
+        "status"
+      ]
+    },
+    "submission": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object"
+            },
+            "preAssessment": {
+              "type": "array"
+            },
+            "responses": {
+              "type": "array"
+            },
+            "files": {
+              "type": "array"
+            },
+            "metadata": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "data",
+            "metadata"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "application",
+    "submission"
+  ]
+}

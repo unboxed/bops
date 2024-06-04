@@ -26,6 +26,10 @@ RSpec.describe "BOPS API" do
 
   let!(:planning_applications) { create_list(:planning_application, 8, local_authority:, application_type:, make_public: true) }
   let!(:determined_planning_applications) { create_list(:planning_application, 3, :determined, local_authority:, application_type:) }
+
+  let(:submission) { create(:planx_planning_data, params_v2: example_fixture("validPlanningPermission.json")) }
+  let(:planning_application_with_submission) { create(:planning_application, local_authority:, application_type:, planx_planning_data: submission) }
+
   let(:page) { 2 }
   let(:maxresults) { 5 }
   let("ids[]") { [] }
@@ -434,6 +438,56 @@ RSpec.describe "BOPS API" do
         }
 
         let(:id) { 734837 }
+
+        run_test!
+      end
+    end
+  end
+
+  path "/api/v2/planning_applications/{reference}/submission" do
+    it "validates successfully against the example applicationSubmission json" do
+      schema = BopsApi::Schemas.find!("applicationSubmission", version: "odp/v0.6.0").value
+      schemer = JSONSchemer.schema(schema)
+
+      expect(schemer.valid?(example_fixture("applicationSubmission.json"))).to eq(true)
+    end
+
+    get "Retrieves the planning application submission given a reference" do
+      tags "Planning applications"
+      security [bearerAuth: []]
+      produces "application/json"
+
+      parameter name: :reference, in: :path, schema: {
+        type: :string,
+        description: "The planning application reference"
+      }
+
+      response "200", "returns planning application submission when searching by the reference" do
+        example "application/json", :default, example_fixture("applicationSubmission.json")
+        schema "$ref" => "#/components/schemas/ApplicationSubmission"
+
+        let(:reference) { planning_application_with_submission.reference }
+        let(:redacted_submission) { BopsApi::Application::SubmissionRedactionService.new(planning_application: planning_application_with_submission).call }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["application"]["reference"]).to eq(reference)
+          expect(data["submission"]).to eq(redacted_submission)
+        end
+      end
+
+      response "401", "with missing or invalid credentials" do
+        schema "$ref" => "#/components/schemas/UnauthorizedError"
+
+        example "application/json", :default, {
+          error: {
+            code: 401,
+            message: "Unauthorized"
+          }
+        }
+
+        let(:Authorization) { "Bearer invalid-credentials" }
+        let(:reference) { planning_applications.first.reference }
 
         run_test!
       end

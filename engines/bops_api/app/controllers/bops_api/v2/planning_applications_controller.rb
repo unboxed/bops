@@ -42,6 +42,15 @@ module BopsApi
         end
       end
 
+      def submission
+        @planning_application = find_planning_application
+        @submission = Application::SubmissionRedactionService.new(planning_application: @planning_application).call
+
+        respond_to do |format|
+          format.json
+        end
+      end
+
       private
 
       def find_planning_application

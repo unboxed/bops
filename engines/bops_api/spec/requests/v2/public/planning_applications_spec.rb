@@ -56,7 +56,7 @@ RSpec.describe "BOPS public API" do
             }
           )
 
-          expect(data["data"].first["application"]["full_reference"]).to eq("PlanX-#{planning_applications.first.reference}")
+          expect(data["data"].first["application"]["fullReference"]).to eq("PlanX-#{planning_applications.first.reference}")
         end
       end
 
