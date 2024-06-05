@@ -78,4 +78,4 @@ if planning_application.consultation.present?
     json.end_date planning_application.consultation.end_date
   end
 end
-json.make_public planning_application.make_public
+json.make_public planning_application.make_public?

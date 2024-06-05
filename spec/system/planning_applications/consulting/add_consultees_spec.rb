@@ -13,12 +13,12 @@ RSpec.describe "Consultation", type: :system, js: true do
       :from_planx_prior_approval,
       :with_boundary_geojson,
       :with_constraints,
+      :published,
       application_type:,
       local_authority:,
       api_user:,
       agent_email: "agent@example.com",
-      applicant_email: "applicant@example.com",
-      make_public: true
+      applicant_email: "applicant@example.com"
     )
   end
 

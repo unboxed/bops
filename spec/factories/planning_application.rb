@@ -782,5 +782,9 @@ FactoryBot.define do
         planning_application.planx_planning_data = build(:planx_planning_data, params_v2: JSON.parse(file_fixture("v2/valid_planning_permission.json").read).with_indifferent_access, planning_application:)
       end
     end
+
+    trait :published do
+      published_at { Time.zone.now }
+    end
   end
 end

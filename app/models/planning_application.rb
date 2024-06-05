@@ -905,6 +905,15 @@ class PlanningApplication < ApplicationRecord
     press_notices.first
   end
 
+  def make_public?
+    published_at.present?
+  end
+  alias_method :make_public, :make_public?
+
+  def make_public=(value)
+    self[:published_at] = value ? Time.zone.now : nil
+  end
+
   private
 
   def create_fee_calculation

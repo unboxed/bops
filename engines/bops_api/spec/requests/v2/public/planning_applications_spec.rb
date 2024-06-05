@@ -5,14 +5,14 @@ require "swagger_helper"
 RSpec.describe "BOPS public API" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:application_type) { create(:application_type, :householder) }
-  let!(:planning_applications) { create_list(:planning_application, 6, :with_boundary_geojson, local_authority:, application_type:, make_public: true) }
+  let!(:planning_applications) { create_list(:planning_application, 6, :published, :with_boundary_geojson, local_authority:, application_type:) }
   let(:page) { 1 }
   let(:maxresults) { 5 }
   let(:q) { "" }
 
   before do
-    create_list(:planning_application, 2, :with_boundary_geojson_features, local_authority:, application_type:, make_public: true)
-    create_list(:planning_application, 2, :with_boundary_geojson_features, local_authority:, application_type:, make_public: true, description: "I want to build a roof extension.")
+    create_list(:planning_application, 2, :with_boundary_geojson_features, :published, local_authority:, application_type:)
+    create_list(:planning_application, 2, :with_boundary_geojson_features, :published, local_authority:, application_type:, description: "I want to build a roof extension.")
   end
 
   path "/api/v2/public/planning_applications/search" do

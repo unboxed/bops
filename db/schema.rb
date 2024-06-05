@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_03_145529) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_05_143118) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -716,6 +716,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_145529) do
     t.boolean "regulation_3", default: false, null: false
     t.boolean "regulation_4", default: false, null: false
     t.boolean "ownership_certificate_checked", default: false, null: false
+    t.datetime "published_at"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
