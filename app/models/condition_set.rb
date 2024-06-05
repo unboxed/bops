@@ -34,7 +34,7 @@ class ConditionSet < ApplicationRecord
   end
 
   def not_cancelled_conditions
-    conditions.reject(&:cancelled_at)
+    conditions.not_cancelled
   end
 
   def confirm_pending_requests!

@@ -13,6 +13,7 @@ class Condition < ApplicationRecord
   before_update :create_validation_request!, if: -> { pre_commencement? && should_create_validation_request? }
 
   scope :sorted, -> { sort_by(&:sort_key) }
+  scope :not_cancelled, -> { where(cancelled_at: nil) }
 
   def checked?
     persisted? || errors.present?
