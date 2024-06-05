@@ -34,7 +34,7 @@ class ConditionSet < ApplicationRecord
   end
 
   def not_cancelled_conditions
-    conditions.joins(:validation_requests).where(validation_requests: {state: %i[pending open closed]})
+    conditions.reject(&:cancelled_at)
   end
 
   def confirm_pending_requests!

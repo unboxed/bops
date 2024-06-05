@@ -6,6 +6,8 @@ class PreCommencementConditionValidationRequest < ValidationRequest
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :rejected_reason_is_present?
 
+  before_validation :condition_cancelled_at_now, if: :cancelled?
+
   belongs_to :owner, polymorphic: true
 
   def response_due
@@ -17,6 +19,10 @@ class PreCommencementConditionValidationRequest < ValidationRequest
   end
 
   private
+
+  def condition_cancelled_at_now
+    owner.update!(cancelled_at: Time.zone.today)
+  end
 
   def audit_comment
     {
