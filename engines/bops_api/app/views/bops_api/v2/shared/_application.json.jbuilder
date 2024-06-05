@@ -9,5 +9,6 @@ json.application do
   json.fullReference planning_application.reference_in_full
   json.receivedAt planning_application.received_at
   json.validAt planning_application.validated_at
+  json.publishedAt planning_application.published_at
   json.status planning_application.status
 end

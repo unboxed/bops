@@ -52,6 +52,7 @@ json.site do
 end
 json.received_date planning_application.received_at
 json.validAt planning_application.validated_at
+json.publishedAt planning_application.published_at
 json.decision planning_application.decision if planning_application.determined?
 json.constraints planning_application.planning_application_constraints.map(&:constraint).map(&:type_code) if planning_application.planning_application_constraints.any?
 json.documents planning_application.documents.for_publication do |document|
