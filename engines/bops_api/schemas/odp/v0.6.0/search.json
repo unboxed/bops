@@ -96,6 +96,10 @@
                   "format": "datetime",
                   "type": "string"
                 },
+                "validAt": {
+                  "format": "datetime",
+                  "type": ["string", "null"]
+                },
                 "status": {
                   "type": "string"
                 }
