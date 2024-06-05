@@ -8,7 +8,7 @@ module Api
       def show
         document =
           PlanningApplication.find(params[:planning_application_id]).documents.for_publication.find(params[:id])
-        redirect_to rails_blob_url(document.file)
+        redirect_to rails_blob_url(document.file, disposition: "attachment")
       end
 
       def tags
