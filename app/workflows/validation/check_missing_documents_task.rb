@@ -16,7 +16,7 @@ module Validation
 
     def task_list_status
       if planning_application.additional_document_validation_requests.open_or_pending.any?
-        :invalid
+        :awaiting_response
       elsif planning_application.documents_missing == false
         :complete
       else
