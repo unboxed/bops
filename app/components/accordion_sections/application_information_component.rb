@@ -5,34 +5,11 @@ module AccordionSections
     private
 
     delegate(
-      :closed_or_cancelled?,
       :uprn,
       :type_description,
       :full_address,
       to: :planning_application
     )
-
-    def description_change_link_text
-      if description_change_request.present?
-        t(".view_requested_change")
-      elsif !closed_or_cancelled?
-        t(".propose_a_change")
-      end
-    end
-
-    def description_change_link_path
-      if description_change_request.present?
-        planning_application_validation_validation_request_path(
-          planning_application,
-          description_change_request
-        )
-      elsif !closed_or_cancelled?
-        new_planning_application_validation_validation_request_path(
-          planning_application,
-          type: "description_change"
-        )
-      end
-    end
 
     def ward_type
       if planning_application.postcode.present?
@@ -48,12 +25,6 @@ module AccordionSections
 
     def payment_amount
       number_to_currency(planning_application.payment_amount || 0, unit: "£")
-    end
-
-    def description_change_request
-      @description_change_request ||= planning_application
-        .description_change_validation_requests.open
-        .last
     end
 
     def payment_reference

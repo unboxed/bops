@@ -33,15 +33,6 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     expect(page).to have_row_for("Description:", with: "Test description")
   end
 
-  it "renders link to new description change request" do
-    render_inline(component)
-
-    expect(page).to have_link(
-      "Propose a change to the description",
-      href: "/planning_applications/#{planning_application.id}/validation/validation_requests/new?type=description_change"
-    )
-  end
-
   context "when ldc proposed application" do
     it "renders correct type and work status" do
       render_inline(component)
@@ -139,24 +130,6 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     render_inline(component)
 
     expect(page).to have_row_for("Case officer:", with: "Alice Smith")
-  end
-
-  context "when description change request is present" do
-    let!(:description_change_validation_request) do
-      create(
-        :description_change_validation_request,
-        planning_application:
-      )
-    end
-
-    it "renders link to request" do
-      render_inline(component)
-
-      expect(page).to have_link(
-        "View requested change",
-        href: "/planning_applications/#{planning_application.id}/validation/validation_requests/#{description_change_validation_request.id}"
-      )
-    end
   end
 
   context "when there is no case officer" do
