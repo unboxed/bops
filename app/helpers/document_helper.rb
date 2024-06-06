@@ -49,7 +49,7 @@ module DocumentHelper
     if document.published?
       api_v1_planning_application_document_url(document.planning_application, document)
     else
-      rails_blob_url(document.file)
+      rails_blob_url(document.file, disposition: "attachment")
     end
   end
 end

@@ -79,6 +79,9 @@ RSpec.describe "Documents index page", type: :system do
         end
 
         expect(File).to exist(Rails.root.join("tmp/downloads/proposed-roofplan.png"))
+
+        # confirm that we didn't change tab
+        expect(page).to have_selector("h1", text: "Documents")
       end
     end
 
