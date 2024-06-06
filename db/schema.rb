@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_05_143118) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_06_150320) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -874,6 +874,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_05_143118) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+    t.datetime "cancelled_at"
     t.index ["heads_of_term_id"], name: "ix_terms_on_heads_of_term_id"
   end
 
