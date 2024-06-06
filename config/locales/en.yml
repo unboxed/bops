@@ -1931,6 +1931,7 @@ en:
     application_information:
       exempt: Exempt
     assessment_dashboard:
+      application_details: Application details
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back

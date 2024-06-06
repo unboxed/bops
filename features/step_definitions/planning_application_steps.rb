@@ -148,7 +148,6 @@ end
 Given("I edit the planning application's details") do
   steps %(
     Given I view the planning application
-    And I press "Check and validate"
     And I press "Application information"
     And I press "Edit details"
   )

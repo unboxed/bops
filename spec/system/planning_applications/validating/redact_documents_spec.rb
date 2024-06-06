@@ -48,12 +48,6 @@ RSpec.describe "Redact documents" do
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "In progress")
     end
 
-    click_button "Documents"
-
-    expect(page).to have_content "existing-floorplan.png"
-    expect(page).to have_content "Public: Yes"
-    expect(page).to have_content "Redacted: Yes"
-
     click_link "Upload redacted documents"
 
     expect(page).to have_content "existing-floorplan.png"

@@ -217,8 +217,10 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       click_button "Save"
 
       click_link "Back"
+      click_link "Back"
       expect(page).to have_content "Sustainability statement"
 
+      click_link "Check and validate"
       click_link "Tag and validate supplied documents"
       within("#check-tag-documents-tasks") do
         expect(page).to have_list_item_for(

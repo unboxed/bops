@@ -89,11 +89,10 @@ RSpec.describe "Documents index page", type: :system do
       click_link "Application"
 
       # Navigate via validation tasks page
-      click_link "Check and validate"
       click_button "Documents"
       click_link "Manage documents"
       click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation/tasks")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.id}")
 
       # Navigate via archive document page
       click_button "Documents"

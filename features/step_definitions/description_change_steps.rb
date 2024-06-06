@@ -15,7 +15,6 @@ end
 Given("I create a description change request with {string}") do |details|
   steps %(
     When I view the planning application
-    And I press "Check and validate"
     And I press "Application information"
     And I press "Propose a change to the description"
     And I fill in "Enter an amended description to send to the applicant" with "#{details}"
@@ -30,7 +29,6 @@ end
 When("I cancel the existing description change request") do
   steps %(
     When I view the planning application
-    And I press "Check and validate"
     And I press "Application information"
     And I press "View requested change"
     When I press "Cancel request"

@@ -17,6 +17,7 @@ Feature: Creating a description change on the application
 
   Scenario: I can add and view a new description change request after cancelling the previous one
     Given I create a description change request with "Its margarita time ole!"
+    And I press "Back"
     And I press "Application information"
     And I press "View requested change"
     Then the page contains "Previous description"
@@ -26,7 +27,6 @@ Feature: Creating a description change on the application
 
   Scenario: When a change request has been rejected I can view it when creating a new one
     Given a rejected description change request
-    When I press "Check and validate"
     And I press "Application information"
     And I press "Propose a change to the description"
     Then the page contains "Rejected proposed description"
