@@ -28,7 +28,7 @@
             <div data-controller="max-lines">
               <span class="govuk-caption-m">Informative <%= informative.position %></span>
               <h2 class="govuk-heading-m"><%= informative.title %></h2>
-              <%= render(FormattedContentComponent.new(text: informative.text, classname: "scrollable")) %>
+              <%= render(ShowMoreTextComponent.new(text: informative.text, length: 200)) %>
             </div>
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
           <% end %>

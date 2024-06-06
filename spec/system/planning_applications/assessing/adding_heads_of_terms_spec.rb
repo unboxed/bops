@@ -46,17 +46,17 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_button "Add term"
 
       within("#term_#{Term.first.id}") do
-        expect(page).to have_selector("span", text: "Term 1")
+        expect(page).to have_selector("span", text: "Heads of term 1")
         expect(page).to have_selector("h2", text: "Title 1")
         expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
         expect(page).to have_selector("p", text: "Custom details 1")
 
         expect(page).to have_link("Remove")
-        expect(page).to have_link("Update heads of term")
+        expect(page).to have_link("Edit")
       end
 
       within("#term_#{Term.second.id}") do
-        expect(page).to have_selector("span", text: "Term 2")
+        expect(page).to have_selector("span", text: "Heads of term 2")
         expect(page).to have_selector("h2", text: "Title 2")
         expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
         expect(page).to have_selector("p", text: "Custom details 2")
@@ -70,7 +70,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
         expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
         expect(page).to have_link("Cancel")
 
-        expect(page).not_to have_link("Update heads of term")
+        expect(page).not_to have_link("Edit")
         expect(page).not_to have_link("Remove")
       end
 
@@ -109,7 +109,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
         expect(page).to have_selector("p", text: "Typo")
         expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
         expect(page).to have_link(
-          "Update heads of term",
+          "Edit",
           href: "/planning_applications/#{planning_application.id}/assessment/terms/#{term1.id}/edit"
         )
       end
@@ -117,13 +117,13 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       within("#term_#{term2.id}") do
         expect(page).to have_selector(".govuk-tag", text: "Accepted")
         expect(page).to have_link(
-          "Update heads of term",
+          "Edit",
           href: "/planning_applications/#{planning_application.id}/assessment/terms/#{term2.id}/edit"
         )
       end
 
       within("#term_#{term1.id}") do
-        click_link "Update heads of term"
+        click_link "Edit"
       end
 
       fill_in "Enter title", with: "New title"
@@ -228,30 +228,30 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       term_three_handle = find("li.sortable-list", text: "Title 3")
 
       within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Term 1")
+        expect(page).to have_selector("span", text: "Heads of term 1")
         expect(page).to have_selector("h2", text: "Title 1")
       end
       within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Term 2")
+        expect(page).to have_selector("span", text: "Heads of term 2")
         expect(page).to have_selector("h2", text: "Title 2")
       end
       within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Term 3")
+        expect(page).to have_selector("span", text: "Heads of term 3")
         expect(page).to have_selector("h2", text: "Title 3")
       end
 
       term_one_handle.drag_to(term_two_handle)
 
       within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Term 1")
+        expect(page).to have_selector("span", text: "Heads of term 1")
         expect(page).to have_selector("h2", text: "Title 2")
       end
       within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Term 2")
+        expect(page).to have_selector("span", text: "Heads of term 2")
         expect(page).to have_selector("h2", text: "Title 1")
       end
       within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Term 3")
+        expect(page).to have_selector("span", text: "Heads of term 3")
         expect(page).to have_selector("h2", text: "Title 3")
       end
       expect(term_one.reload.position).to eq(2)
@@ -261,15 +261,15 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       term_one_handle.drag_to(term_three_handle)
 
       within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Term 1")
+        expect(page).to have_selector("span", text: "Heads of term 1")
         expect(page).to have_selector("h2", text: "Title 2")
       end
       within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Term 2")
+        expect(page).to have_selector("span", text: "Heads of term 2")
         expect(page).to have_selector("h2", text: "Title 3")
       end
       within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Term 3")
+        expect(page).to have_selector("span", text: "Heads of term 3")
         expect(page).to have_selector("h2", text: "Title 1")
       end
       expect(term_one.reload.position).to eq(3)
@@ -279,15 +279,15 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       term_three_handle.drag_to(term_two_handle)
 
       within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Term 1")
+        expect(page).to have_selector("span", text: "Heads of term 1")
         expect(page).to have_selector("h2", text: "Title 3")
       end
       within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Term 2")
+        expect(page).to have_selector("span", text: "Heads of term 2")
         expect(page).to have_selector("h2", text: "Title 2")
       end
       within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Term 3")
+        expect(page).to have_selector("span", text: "Heads of term 3")
         expect(page).to have_selector("h2", text: "Title 1")
       end
       expect(term_one.reload.position).to eq(3)
@@ -298,15 +298,15 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_link "Add heads of terms"
 
       within("li.sortable-list:nth-of-type(1)") do
-        expect(page).to have_selector("span", text: "Term 1")
+        expect(page).to have_selector("span", text: "Heads of term 1")
         expect(page).to have_selector("h2", text: "Title 3")
       end
       within("li.sortable-list:nth-of-type(2)") do
-        expect(page).to have_selector("span", text: "Term 2")
+        expect(page).to have_selector("span", text: "Heads of term 2")
         expect(page).to have_selector("h2", text: "Title 2")
       end
       within("li.sortable-list:nth-of-type(3)") do
-        expect(page).to have_selector("span", text: "Term 3")
+        expect(page).to have_selector("span", text: "Heads of term 3")
         expect(page).to have_selector("h2", text: "Title 1")
       end
     end

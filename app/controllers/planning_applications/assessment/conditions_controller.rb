@@ -28,7 +28,7 @@ module PlanningApplications
           redirect_to planning_application_assessment_conditions_path(@planning_application),
             notice: I18n.t("conditions.update.success")
         else
-          render :edit
+          render :index
         end
       end
 
