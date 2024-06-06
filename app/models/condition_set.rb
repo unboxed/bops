@@ -33,6 +33,10 @@ class ConditionSet < ApplicationRecord
     conditions.joins(:validation_requests).where(validation_requests: {approved: true})
   end
 
+  def not_cancelled_conditions
+    conditions.not_cancelled
+  end
+
   def confirm_pending_requests!
     transaction do
       validation_requests.pending.each(&:mark_as_sent!)

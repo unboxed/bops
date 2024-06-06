@@ -54,12 +54,12 @@ RSpec.describe ValidationRequest do
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "pending", %i[open cancelled]
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "open", %i[cancelled closed]
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "cancelled", %i[]
-      it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "closed", %i[]
+      it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "closed", %i[cancelled]
 
       it_behaves_like "ValidationRequestStateMachineEvents", request_type, "pending", %i[mark_as_sent cancel]
       it_behaves_like "ValidationRequestStateMachineEvents", request_type, "open", %i[cancel auto_close]
       it_behaves_like "ValidationRequestStateMachineEvents", request_type, "cancelled", %i[]
-      it_behaves_like "ValidationRequestStateMachineEvents", request_type, "closed", %i[]
+      it_behaves_like "ValidationRequestStateMachineEvents", request_type, "closed", %i[cancel]
     end
 
     describe "events" do
@@ -291,12 +291,11 @@ RSpec.describe ValidationRequest do
           expect(request.cancelled_at).to be_nil
         end
 
-        it "when request is in closed state it raises ValidationRequest::RecordCancelError" do
+        it "when request is in closed state and no reason it raises ValidationRequest::RecordCancelError" do
           request.update(state: "closed")
-          request.assign_attributes(cancel_reason: "My bad")
 
           expect { request.cancel_request! }
-            .to raise_error(ValidationRequest::RecordCancelError, "Event 'cancel' cannot transition from 'closed'.")
+            .to raise_error(ValidationRequest::RecordCancelError, "Validation failed: Cancel reason can't be blank")
             .and not_change(Audit, :count)
 
           expect(request).to be_closed

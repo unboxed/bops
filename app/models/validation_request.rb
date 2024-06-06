@@ -92,7 +92,7 @@ class ValidationRequest < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: %i[open pending], to: :cancelled
+      transitions from: %i[open pending closed], to: :cancelled
 
       after do
         reset_update_counter!
