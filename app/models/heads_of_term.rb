@@ -50,6 +50,10 @@ class HeadsOfTerm < ApplicationRecord
     latest_validation_request.send_post_validation_request_email
   end
 
+  def not_cancelled_terms
+    terms.not_cancelled
+  end
+
   private
 
   def should_create_review?

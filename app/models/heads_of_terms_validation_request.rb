@@ -6,6 +6,8 @@ class HeadsOfTermsValidationRequest < ValidationRequest
   validate :allows_only_one_open_heads_of_terms_request, on: :create
   belongs_to :owner, polymorphic: true
 
+  before_validation :cancel_now!, if: :cancelled?
+
   private
 
   def rejected_reason_is_present?
@@ -34,5 +36,9 @@ class HeadsOfTermsValidationRequest < ValidationRequest
 
   def audit_comment
     {created_at:}.to_json
+  end
+
+  def cancel_now!
+    owner.update!(cancelled_at: Time.zone.today)
   end
 end

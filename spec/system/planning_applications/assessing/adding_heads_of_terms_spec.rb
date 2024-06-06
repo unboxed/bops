@@ -169,14 +169,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_link "Check and assess"
       click_link "Add heads of term"
 
-      within("#term_#{term1.id}") do
-        expect(page).to have_selector("h2", text: "Title 1")
-        expect(page).to have_selector("p strong.govuk-tag", text: "Cancelled")
-
-        expect(page).not_to have_link("Cancel")
-        expect(page).not_to have_link("Update condition")
-        expect(page).not_to have_link("Remove")
-      end
+      expect(page).not_to have_selector("p strong.govuk-tag", text: "Cancelled")
     end
   end
 
