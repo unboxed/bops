@@ -15,7 +15,7 @@ module BopsApi
         private
 
         def planning_applications_scope
-          @local_authority.planning_applications.where.not(published_at: nil)
+          @local_authority.planning_applications.published
         end
 
         def search_params
