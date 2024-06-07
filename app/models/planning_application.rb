@@ -15,7 +15,7 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplication::Notification
 
-  self.ignored_columns += %i[work_status]
+  self.ignored_columns += %i[work_status make_public]
 
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112
