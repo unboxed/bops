@@ -9,6 +9,7 @@ class Term < ApplicationRecord
 
   after_create :create_validation_request
   before_update :create_validation_request, if: :should_create_validation_request?
+  scope :not_cancelled, -> { where(cancelled_at: nil) }
 
   def current_validation_request
     validation_requests.order(:created_at).last
