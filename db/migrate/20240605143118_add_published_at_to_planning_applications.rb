@@ -5,7 +5,7 @@ class AddPublishedAtToPlanningApplications < ActiveRecord::Migration[7.1]
     add_column :planning_applications, :published_at, :datetime
 
     up_only do
-      PlanningApplication.find_each(make_public: true) do |application|
+      PlanningApplication.where(make_public: true).find_each do |application|
         application.update(published_at: application.validated_at)
       end
     end
