@@ -487,6 +487,15 @@ RSpec.describe "Press notice" do
           expect(page).to have_field("Month", with: "10")
           expect(page).to have_field("Year", with: "2023")
 
+          fill_in "Day", with: ""
+          fill_in "Month", with: ""
+          fill_in "Year", with: ""
+        end
+
+        click_button "Save"
+        expect(page).to have_selector("[role=alert] li", text: "Provide the date when the press notice was published")
+
+        within("#published-at-field") do
           fill_in "Day", with: "1"
           fill_in "Month", with: "1"
           fill_in "Year", with: "2023"
@@ -530,8 +539,10 @@ RSpec.describe "Press notice" do
           document = PressNotice.last.documents.first
           expect(page).to have_content(document.name.to_s)
           expect(page).to have_link("View in new window")
-          expect(page).to have_content("Press Notice")
-          expect(page).to have_content(document.created_at.to_fs)
+          expect(page).to have_content("Published")
+          expect(page).to have_selector("p", text: "Date requested: #{PressNotice.last.requested_at.to_date.to_fs}")
+          expect(page).to have_selector("p", text: "Date published: #{PressNotice.last.published_at.to_date.to_fs}")
+          expect(page).to have_selector("p", text: "Comments: Press notice comment")
         end
 
         expect(PressNotice.last).to have_attributes(
@@ -541,7 +552,7 @@ RSpec.describe "Press notice" do
 
         expect(consultation.reload.end_date.to_date).to eq("Fri, 20 Oct 2023".to_date)
 
-        click_link "Edit publication"
+        click_link "Edit publication details"
         fill_in "Optional comment", with: "Edited press notice comment"
         click_button "Save"
         click_link "Confirm press notice"

@@ -24,7 +24,9 @@
         <td class="govuk-table__cell govuk-!-width-two-thirds">
           <p class="govuk-body"><strong class="govuk-tag">Published</strong></p>
           <p class="govuk-body">Date requested: <strong><%= time_tag(press_notice.requested_at) %></strong></p>
-          <p class="govuk-body">Date published: <strong><%= time_tag(press_notice.published_at) %></strong></p>
+          <% if press_notice.published_at %>
+            <p class="govuk-body">Date published: <strong><%= time_tag(press_notice.published_at) %></strong></p>
+          <% end %>
           <% if press_notice.comment.present? %>
             <p class="govuk-body">Comments: <%= press_notice.comment %></p>
           <% end %>

@@ -54,7 +54,7 @@ module PlanningApplications
       end
 
       def set_press_notices
-        @press_notices = @planning_application.press_notices.published.exclude_by_id(@press_notice.id)
+        @press_notices = @planning_application.press_notices.published.with_documents.exclude_by_id(@press_notice.id)
       end
     end
   end

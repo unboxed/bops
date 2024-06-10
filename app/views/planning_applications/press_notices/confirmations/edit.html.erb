@@ -48,7 +48,7 @@
     <fieldset class="govuk-fieldset">
       <%= form.govuk_date_field(:published_at, rows: 6, id: "published-at-field", legend: {size: "s", text: t(".published_at")}) %>
 
-      <%= render "documents", documents: @press_notice.documents %>
+      <%= render "planning_applications/press_notices/press_notices", press_notices: [@press_notice] %>
 
       <%= form.govuk_file_field :documents,
             label: {size: "s", text: t(".upload_photos")},
@@ -63,11 +63,5 @@
       <%= form.submit t(".save"), class: "govuk-button govuk-button--primary" %>
       <%= govuk_button_link_to t(".back"), planning_application_consultation_path(@planning_application), secondary: true %>
     </div>
-
-    <% if @press_notice.published_at %>
-      <p class="govuk-body">
-        <%= govuk_link_to "Add a new press notice response", new_planning_application_press_notice_path(@planning_application) %>
-      </p>
-    <% end %>
   </div>
 <% end %>

@@ -30,7 +30,7 @@ class PressNotice < ApplicationRecord
   end
 
   with_options on: :confirmation do
-    validates :published_at,
+    validates :published_at, presence: true,
       date: {
         on_or_before: :current,
         on_or_after: :consultation_start_date
@@ -52,6 +52,9 @@ class PressNotice < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :exclude_by_id, ->(id) { where.not(id: id) }
+  scope :with_documents, -> {
+    includes(:documents).joins("INNER JOIN documents ON documents.owner_id = press_notices.id")
+  }
 
   alias_method :consultable_event_at, :published_at
 

@@ -49,10 +49,10 @@
 
   <div class="govuk-button-group">
     <% if @press_notice.published_at %>
+      <%= back_link %>
       <%= govuk_link_to "Add a new press notice response", new_planning_application_press_notice_path(@planning_application) %>
     <% else %>
       <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
     <% end %>
-    <%= back_link %>
   </div>
 <% end %>
