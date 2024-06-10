@@ -26,7 +26,7 @@ class NeighbourResponseCreationService
 
     response.neighbour = find_or_create_neighbour
 
-    create_files(response) if params[:files].compact_blank.any?
+    create_files(response) if files_present?
 
     response
   end
@@ -58,5 +58,9 @@ class NeighbourResponseCreationService
       :address, :name, :email, :received_at, :response, :new_address, :summary_tag,
       :redacted_response, tags: [], files: []
     )
+  end
+
+  def files_present?
+    params[:files]&.compact_blank&.any?
   end
 end
