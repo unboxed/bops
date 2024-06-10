@@ -15,6 +15,7 @@ BopsAdmin::Engine.routes.draw do
 
     with_options except: %i[show] do
       resources :policy_areas, path: "areas"
+      resources :policy_guidances, path: "guidance"
       resources :policy_references, path: "references"
     end
   end

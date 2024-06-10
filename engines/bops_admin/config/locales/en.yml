@@ -111,9 +111,45 @@ en:
         policy_areas: Policy areas
       secondary_navigation:
         policy_areas: Policy areas
+        policy_guidance: Policy guidance
         policy_references: Policy references
       update:
         successfully_updated: Policy area successfully updated
+    policy_guidances:
+      create:
+        successfully_created: Policy guidance successfully created
+      destroy:
+        not_destroyed: Unable to delete policy guidance - please contact support
+        successfully_destroyed: Policy guidance successfully deleted
+      edit:
+        edit_policy_guidance: Edit policy guidance
+        policy_guidance: Policy guidance
+      form:
+        labels:
+          description: Description
+          url: URL
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_policy_guidance: Add policy guidance
+        are_you_sure: Are you sure you want to delete this policy guidance?
+        find_policy_guidance: Find policy guidance
+        headings:
+          actions: Actions
+          description: Description
+        manage_policy_guidance: Manage policy guidance
+        no_policy_guidance_found: No policy guidance found
+      new:
+        add_policy_guidance: Add a new policy guidance
+        policy_guidance: Policy guidance
+      secondary_navigation:
+        policy_areas: Policy areas
+        policy_guidance: Policy guidance
+        policy_references: Policy references
+      update:
+        successfully_updated: Policy guidance successfully updated
     policy_references:
       create:
         successfully_created: Policy reference successfully created
@@ -153,6 +189,7 @@ en:
         policy_references: Policy references
       secondary_navigation:
         policy_areas: Policy areas
+        policy_guidance: Policy guidance
         policy_references: Policy references
       update:
         successfully_updated: Policy reference successfully updated

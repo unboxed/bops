@@ -488,6 +488,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
     t.index ["policy_reference_id"], name: "ix_local_authority_policy_areas_references_on_policy_reference_"
   end
 
+  create_table "local_authority_policy_guidances", force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.string "description", null: false
+    t.string "url"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_guidances_on_local_authority_id__desc", unique: true
+    t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_guidances_on_local_authority_id__sear", using: :gin
+    t.index ["local_authority_id"], name: "ix_local_authority_policy_guidances_on_local_authority_id"
+  end
+
   create_table "local_authority_policy_references", force: :cascade do |t|
     t.bigint "local_authority_id", null: false
     t.string "code", null: false
@@ -978,6 +990,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_references", column: "policy_reference_id"
+  add_foreign_key "local_authority_policy_guidances", "local_authorities"
   add_foreign_key "local_authority_policy_references", "local_authorities"
   add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policy_areas", "local_policies"

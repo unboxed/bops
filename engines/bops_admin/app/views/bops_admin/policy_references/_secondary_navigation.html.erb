@@ -3,6 +3,10 @@
     <% item.with_link(text: t(".policy_areas"), href: policy_areas_path) %>
   <% end %>
 
+  <% nav.with_item do |item| %>
+    <% item.with_link(text: t(".policy_guidance"), href: policy_guidances_path) %>
+  <% end %>
+
   <% nav.with_item(current: true) do |item| %>
     <% item.with_link(text: t(".policy_references"), href: policy_references_path) %>
   <% end %>

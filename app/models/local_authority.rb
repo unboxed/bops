@@ -8,6 +8,7 @@ class LocalAuthority < ApplicationRecord
     has_many :contacts
     has_many :informatives
     has_many :policy_areas
+    has_many :policy_guidances
     has_many :policy_references
     has_many :api_users
   end
