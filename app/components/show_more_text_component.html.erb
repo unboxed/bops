@@ -1,13 +1,17 @@
 <div data-controller="show-more-text">
-  <% if text.length > length %>
-    <div class="truncated-content">
-      <%= render(FormattedContentComponent.new(text: truncated_text)) %>
+  <% if all_text.length > length %>
+    <div class="govuk-!-padding-bottom-1">
+      <div class="truncated-content govuk-!-padding-bottom-2">
+        <%= render(FormattedContentComponent.new(text: truncated_text, title: title, classname: "govuk-body govuk-!-margin-bottom-1")) %>
+      </div>
+      <div class="govuk-!-display-none hidden-content">
+        <%= render(FormattedContentComponent.new(text: all_text, title: title, classname: "govuk-body govuk-!-margin-bottom-1")) %>
+      </div>
+      <a href="#" class="govuk-link show-more" data-action="click->show-more-text#replaceText">View more</a>
     </div>
-    <div class="govuk-!-display-none hidden-content">
-      <%= render(FormattedContentComponent.new(text: text)) %>
-    </div>
-    <a href="#" class="govuk-link show-more" data-action="click->show-more-text#replaceText">View more</a>
   <% else %>
-      <%= render(FormattedContentComponent.new(text: text)) %>
+    <div class="govuk-!-padding-bottom-2">
+      <%= render(FormattedContentComponent.new(text: all_text, title: title, classname: "govuk-body govuk-!-margin-bottom-1")) %>
+    </div>
   <% end %>
 </div>

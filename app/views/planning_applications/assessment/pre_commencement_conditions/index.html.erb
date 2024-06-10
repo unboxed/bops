@@ -15,7 +15,7 @@
     ) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
     <%= render(
           AccordionComponent.new(
             planning_application: @planning_application,
@@ -28,79 +28,18 @@
 
   <div class="govuk-grid-column-full">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <ol data-controller="sortable" id="conditions-list" class="govuk-list">
+    <ol data-controller="sortable" id="conditions-list" class="govuk-list sortable-list">
       <% @condition_set.not_cancelled_conditions.each do |condition| %>
         <%= next unless condition.persisted? %>
-        <%= content_tag :li,
-              class: "sortable-list",
-              id: dom_id(condition),
-              data: {
-                model_name: condition.class.name,
-                sortable_url: planning_application_assessment_pre_commencement_condition_position_path(@planning_application, condition),
-                sortable_handle: true
-              } do %>
 
-          <div class="sortable-container">
-            <div>
-              <span class="govuk-caption-m">Condition <%= condition.position %></span>
-              <h2 class="govuk-heading-m"><%= condition.title %></h2>
-
-              <p style="float: none">
-                <%= render(StatusTags::BaseComponent.new(status: status(condition))) %>
-              </p>
-
-              <% if current_request = condition.current_validation_request %>
-                <% if current_request.rejection_reason %>
-                  <div class="govuk-inset-text applicant">
-                    <p class="govuk-body">
-                      <strong>Applicant comment</strong>
-                    </p>
-                    <p class="govuk-body govuk-hint">
-                      Sent on: <%= current_request.updated_at.to_fs %>
-                    </p>
-                    <p class="govuk-body">
-                      <%= current_request.rejection_reason %>
-                    </p>
-                  </div>
-                <% end %>
-              <% end %>
-
-              <p class="govuk-body govuk-hint">
-                <% if current_request.notified_at %>
-                  Sent on <%= current_request.notified_at.to_fs %>
-                <% end %>
-              </p>
-
-              <div>
-                <p class="govuk-body">
-                  <strong>Condition</strong><%= render(FormattedContentComponent.new(text: condition.text, classname: "scrollable")) %>
-                </p>
-                <p class="govuk-body">
-                  <strong>Reason</strong><%= render(FormattedContentComponent.new(text: condition.reason, classname: "scrollable")) %>
-                </p>
-              </div>
-
-              <% unless current_request.cancelled? || current_request.open? %>
-                <%= govuk_link_to "Edit", edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition) %>
-              <% end %>
-
-              <% if current_request.pending? %>
-                <%= govuk_link_to(
-                      "Remove",
-                      planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
-                      method: :delete,
-                      data: {confirm: "Are you sure?"}
-                    ) %>
-              <% else %>
-                <%= govuk_link_to "Cancel", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, current_request) %>
-              <% end %>
-            </div>
-
-            <%= render "shared/sortable_svg" %>
-          </div>
-
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-        <% end %>
+        <%= render(Sortable::ListItemComponent.new(
+              record: condition,
+              record_class: "condition",
+              record_controller: "pre-commencement-conditions",
+              record_sortable_url: planning_application_assessment_pre_commencement_condition_position_path(@planning_application, condition),
+              edit_record_url: edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
+              remove_record_url: planning_application_assessment_pre_commencement_condition_path(@planning_application, condition)
+            )) %>
       <% end %>
 
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>

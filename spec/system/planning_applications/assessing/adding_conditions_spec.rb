@@ -104,19 +104,19 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
 
       accept_confirm do
         within(:css, "#conditions-list li:nth-of-type(1)") do
-          click_button "Remove"
+          click_link "Remove"
         end
       end
 
       accept_confirm do
         within(:css, "#conditions-list li:nth-of-type(2)") do
-          click_button "Remove"
+          click_link "Remove"
         end
       end
 
       dismiss_confirm do
         within(:css, "#conditions-list li:nth-of-type(1)") do
-          click_button "Remove"
+          click_link "Remove"
         end
       end
 

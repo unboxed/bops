@@ -20,37 +20,20 @@
 
     <%= govuk_error_summary(@informative) %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Informatives</h2>
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Add, edit and sort informatives</h2>
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     <% if @informatives.any? %>
-      <ol data-controller="sortable" class="govuk-list">
+      <ol data-controller="sortable" class="govuk-list sortable-list">
         <% @informatives.each do |informative| %>
-          <%= content_tag :li,
-                class: "sortable-list",
-                id: dom_id(informative),
-                data: {
-                  model_name: informative.class.name,
-                  sortable_url: planning_application_assessment_informatives_item_position_path(@planning_application, informative),
-                  sortable_handle: true
-                } do %>
-
-            <div class="sortable-container">
-              <div data-controller="max-lines">
-                <span class="govuk-caption-m">Informative <%= informative.position %></span>
-                <h2 class="govuk-heading-m"><%= informative.title %></h2>
-
-                <%= render(FormattedContentComponent.new(text: informative.text, classname: "scrollable")) %>
-
-                <%= govuk_link_to "Edit", edit_planning_application_assessment_informatives_item_path(@planning_application, informative) %>
-                <%= govuk_link_to "Remove", planning_application_assessment_informatives_item_path(@planning_application, informative), method: :delete %>
-              </div>
-
-              <%= render "shared/sortable_svg" %>
-            </div>
-
-            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-          <% end %>
+          <%= render(Sortable::ListItemComponent.new(
+                record: informative,
+                record_class: "informative",
+                record_controller: "informatives",
+                record_sortable_url: planning_application_assessment_informatives_item_position_path(@planning_application, informative),
+                edit_record_url: edit_planning_application_assessment_informatives_item_path(@planning_application, informative),
+                remove_record_url: planning_application_assessment_informatives_item_path(@planning_application, informative)
+              )) %>
         <% end %>
       </ol>
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>

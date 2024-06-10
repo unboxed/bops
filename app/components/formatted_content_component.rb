@@ -3,8 +3,9 @@
 class FormattedContentComponent < ViewComponent::Base
   ALLOWED_ATTRIBUTES = %w[href target data-controller data-action].freeze
 
-  def initialize(text:, classname: nil, data_attributes: {})
+  def initialize(text:, title: nil, classname: nil, data_attributes: {})
     @text = text
+    @title = title
     @classname = classname || "govuk-body"
     @data_attributes = data_attributes
   end
@@ -15,7 +16,7 @@ class FormattedContentComponent < ViewComponent::Base
 
   private
 
-  attr_reader :text, :classname, :data_attributes
+  attr_reader :text, :title, :classname, :data_attributes
 
   def allowed_attributes
     Rails::Html::Sanitizer.white_list_sanitizer.allowed_attributes + ALLOWED_ATTRIBUTES
@@ -26,6 +27,14 @@ class FormattedContentComponent < ViewComponent::Base
   end
 
   def auto_link_content
-    auto_link(text.to_s, html: {target: "_blank"}, sanitize: false)
+    auto_link(content, html: {target: "_blank"}, sanitize: false)
+  end
+
+  def content
+    if title
+      "#{tag.strong("#{title}:")} #{text}"
+    else
+      text.to_s
+    end
   end
 end

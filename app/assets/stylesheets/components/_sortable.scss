@@ -1,10 +1,33 @@
 .sortable-list {
   cursor: move;
+
+  .nav-links {
+    display: flex;
+    padding-top: 10px;
+
+    a {
+      padding-right: 0.5rem;
+    }
+
+    a + a { 
+      border-left: 1px solid govuk-colour("mid-grey");
+      padding-left: 0.5rem;
+    }
+  }
+}
+
+.sortable-list li {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid govuk-colour("mid-grey");
 }
 
 .sortable-container {
   display: flex;
   justify-content: space-between;
+
+  .sortable-list-item {
+    width: 98%;
+  }
 }
 
 .sortable-dragging-list {
@@ -14,6 +37,7 @@
 .sortable-dragging-svg {
   fill: #d4351c;
   margin-left: 2rem;
+  align-self: center;
 }
 
 .sortable-svg {

@@ -1,0 +1,69 @@
+<%= content_tag(:li,
+      id: dom_id(record),
+      class: "#{record_class} sortable-list sortable-container govuk-!-margin-bottom-7",
+      data: {
+        controller: record_controller.to_s,
+        model_name: caption_text,
+        sortable_url: record_sortable_url,
+        sortable_handle: true
+      }) do %>
+
+  <div class="sortable-list-item">
+    <span class="govuk-caption-m"><%= full_caption_text %></span>
+    <% if record.respond_to?(:title) && record.title.present? %>
+      <h2 class="govuk-heading-m"><%= record.title %></h2>
+    <% end %>
+
+    <% if current_request %>
+      <p style="float: none">
+        <%= render(StatusTags::BaseComponent.new(status: status(record))) %>
+      </p>
+
+      <% if current_request.rejection_reason %>
+        <div class="govuk-inset-text applicant">
+          <p class="govuk-body">
+            <strong>Applicant comment</strong>
+          </p>
+          <p class="govuk-body govuk-hint">
+            Sent on: <%= current_request.updated_at.to_fs %>
+          </p>
+          <p class="govuk-body">
+            <%= current_request.rejection_reason %>
+          </p>
+        </div>
+      <% end %>
+
+      <p class="govuk-body govuk-hint">
+        <% if current_request.notified_at %>
+          Sent on <%= current_request.notified_at.to_fs %>
+        <% end %>
+      </p>
+    <% end %>
+
+    <%= render(ShowMoreTextComponent.new(
+          text: record.text,
+          title: record.is_a?(Condition) ? caption_text : nil,
+          other_text: record.respond_to?(:reason) ? record.reason : nil,
+          other_text_title: record.respond_to?(:reason) ? "Reason" : nil,
+          length: 200
+        )) %>
+
+    <nav class="nav-links govuk-!-padding-top-3">
+      <% if current_request %>
+        <% unless current_request.cancelled? || current_request.open? %>
+          <%= edit_link %>
+        <% end %>
+        <% if current_request.pending? %>
+          <%= remove_link %>
+        <% elsif !current_request.cancelled? %>
+          <%= cancel_link %>
+        <% end %>
+      <% else %>
+        <%= edit_link %>
+        <%= remove_link %>
+      <% end %>
+    </nav>
+  </div>
+
+  <%= render "shared/sortable_svg" %>
+<% end %>
