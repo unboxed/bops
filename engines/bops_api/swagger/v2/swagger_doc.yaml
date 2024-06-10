@@ -16135,10 +16135,14 @@ components:
                     type: string
                   validAt:
                     format: datetime
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                   publishedAt:
                     format: datetime
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                   status:
                     type: string
                 required:
@@ -16334,6 +16338,82 @@ components:
       required:
       - application
       - submission
+      type: object
+    Documents:
+      properties:
+        metadata:
+          type: object
+          properties:
+            results:
+              type: integer
+            totalResults:
+              type: integer
+          required:
+          - results
+          - totalResults
+        application:
+          type: object
+          properties:
+            type:
+              type: object
+              properties:
+                value:
+                  type: string
+                description:
+                  type: string
+              required:
+              - value
+              - description
+            reference:
+              type: string
+            fullReference:
+              type: string
+            receivedAt:
+              format: datetime
+              type: string
+            validAt:
+              format: datetime
+              type:
+              - string
+              - 'null'
+            publishedAt:
+              format: datetime
+              type:
+              - string
+              - 'null'
+            status:
+              type: string
+          required:
+          - type
+          - reference
+          - fullReference
+          - receivedAt
+          - status
+        files:
+          type: array
+          items:
+          - type: object
+            properties:
+              name:
+                type: string
+              url:
+                type: string
+                format: url
+              createdAt:
+                format: datetime
+                type:
+                - string
+                - 'null'
+              applicantDescription:
+                type:
+                - string
+                - 'null'
+            required:
+            - name
+      required:
+      - metadata
+      - application
+      - files
       type: object
     Healthcheck:
       type: object
@@ -22689,6 +22769,51 @@ paths:
                       message: Unauthorized
               schema:
                 "$ref": "#/components/schemas/UnauthorizedError"
+  "/api/v2/public/planning_applications/{id}/documents":
+    get:
+      summary: Retrieves documents for a planning application
+      tags:
+      - Planning applications
+      parameters:
+      - name: id
+        in: path
+        schema:
+          oneOf:
+          - type: string
+            pattern: d{2}-d{5}-[A-Za-z0-9]+
+          - type: integer
+          description: The planning application reference or ID
+        required: true
+      responses:
+        '200':
+          description: returns a planning application's documents given a reference
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    application:
+                      type:
+                        value: pp.full.householder
+                        description: planning_permission
+                      reference: 24-00100-HAPP
+                      fullReference: PlanX-24-00100-HAPP
+                      receivedAt: '2024-06-12T15:56:29.830+01:00'
+                      validAt: '2024-06-12T00:00:00.000+01:00'
+                      publishedAt: '2024-06-12T15:56:29.828+01:00'
+                      status: in_assessment
+                    files:
+                    - name: proposed-floorplan.png
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
+                      createdAt: '2024-06-12T15:56:29.803+01:00'
+                      tags: []
+                      numbers: ''
+                      applicantDescription:
+                    metadata:
+                      results: 1
+                      totalResults: 1
+              schema:
+                "$ref": "#/components/schemas/Documents"
   "/api/v2/public/planning_applications/search":
     get:
       summary: Retrieves planning applications based on a search criteria
