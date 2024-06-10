@@ -13,12 +13,12 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     create(:planning_application,
       :from_planx_prior_approval,
       :with_boundary_geojson,
+      :published,
       application_type:,
       local_authority: default_local_authority,
       api_user:,
       agent_email: "agent@example.com",
       applicant_email: "applicant@example.com",
-      make_public: true,
       uprn: uprn)
   end
   let(:uprn) { "20000111111" }

@@ -12,13 +12,13 @@ RSpec.describe "Create a site notice", js: true do
     create(:planning_application,
       :from_planx_prior_approval,
       :with_boundary_geojson,
+      :published,
       application_type:,
       local_authority: default_local_authority,
       api_user:,
       agent_email: "agent@example.com",
       applicant_email: "applicant@example.com",
-      user: assessor,
-      make_public: true)
+      user: assessor)
   end
 
   around do |example|

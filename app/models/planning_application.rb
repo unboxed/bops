@@ -15,7 +15,7 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplication::Notification
 
-  self.ignored_columns += %i[work_status]
+  self.ignored_columns += %i[work_status make_public]
 
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112
@@ -102,6 +102,7 @@ class PlanningApplication < ApplicationRecord
   scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
   scope :prior_approvals, -> { joins(:application_type).where(application_type: {name: :prior_approval}) }
   scope :accepted, -> { where.not(status: "pending") }
+  scope :published, -> { where.not(published_at: nil) }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
@@ -903,6 +904,15 @@ class PlanningApplication < ApplicationRecord
 
   def press_notice
     press_notices.first
+  end
+
+  def make_public?
+    published_at.present?
+  end
+  alias_method :make_public, :make_public?
+
+  def make_public=(value)
+    self[:published_at] = value ? Time.zone.now : nil
   end
 
   private

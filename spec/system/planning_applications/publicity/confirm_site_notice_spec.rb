@@ -12,12 +12,12 @@ RSpec.describe "Confirm site notice", js: true do
     create(:planning_application,
       :from_planx_prior_approval,
       :with_boundary_geojson,
+      :published,
       application_type:,
       local_authority: default_local_authority,
       api_user:,
       agent_email: "agent@example.com",
-      applicant_email: "applicant@example.com",
-      make_public: true)
+      applicant_email: "applicant@example.com")
   end
 
   let!(:consultation) { planning_application.consultation }

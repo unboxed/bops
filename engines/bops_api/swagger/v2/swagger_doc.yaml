@@ -16133,6 +16133,12 @@ components:
                   receivedAt:
                     format: datetime
                     type: string
+                  validAt:
+                    format: datetime
+                    type: string
+                  publishedAt:
+                    format: datetime
+                    type: string
                   status:
                     type: string
                 required:
@@ -16289,6 +16295,16 @@ components:
             receivedAt:
               format: datetime
               type: string
+            validAt:
+              format: datetime
+              type:
+              - string
+              - 'null'
+            publishedAt:
+              format: datetime
+              type:
+              - string
+              - 'null'
             status:
               type: string
           required:

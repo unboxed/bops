@@ -7,7 +7,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:planning_application) do
-    create(:planning_application, :planning_permission, :awaiting_determination, local_authority: default_local_authority, user: assessor, make_public: true)
+    create(:planning_application, :planning_permission, :awaiting_determination, :published, local_authority: default_local_authority, user: assessor)
   end
   let!(:recommendation) { create(:recommendation, planning_application:) }
   let!(:consultation) { planning_application.consultation }

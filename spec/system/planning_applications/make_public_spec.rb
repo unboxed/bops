@@ -39,6 +39,8 @@ RSpec.describe "making planning application public" do
 
     expect(page).to have_content("Public on BOPS Public Portal: Yes")
 
+    expect(planning_application.reload.published_at).to eq(Time.zone.local(2022, 1, 1))
+
     visit "/planning_applications/#{planning_application.id}/make_public"
 
     choose "No"
@@ -46,5 +48,7 @@ RSpec.describe "making planning application public" do
     click_button "Update application"
 
     expect(page).to have_content("Public on BOPS Public Portal: No")
+
+    expect(planning_application.reload.published_at).to be_nil
   end
 end
