@@ -25,6 +25,7 @@ RSpec.describe "Add informatives", type: :system do
 
       expect(page).to have_selector("h1", text: "Add informatives")
       expect(page).to have_content "No informatives added yet"
+      expect(page).to have_selector("details[open]")
 
       fill_in "Enter a title", with: "Section"
       pick "Section 106", from: "#informative-title-field"
@@ -33,6 +34,9 @@ RSpec.describe "Add informatives", type: :system do
 
       expect(page).to have_content "Informative was successfully added"
       expect(page).to have_content "Must do 106"
+      expect(page).to have_no_selector("details[open]")
+
+      toggle "Add new informative"
 
       fill_in "Enter a title", with: "Informative 1"
       fill_in "Enter details of the informative", with: "Consider the trees"
@@ -41,6 +45,9 @@ RSpec.describe "Add informatives", type: :system do
 
       expect(page).to have_content "Informative was successfully added"
       expect(page).to have_content "Consider the trees"
+      expect(page).to have_no_selector("details[open]")
+
+      toggle "Add new informative"
 
       fill_in "Enter a title", with: "Informative 2"
       fill_in "Enter details of the informative", with: "Consider the park"
@@ -48,6 +55,7 @@ RSpec.describe "Add informatives", type: :system do
       click_button "Add informative"
 
       expect(page).to have_content "Consider the park"
+      expect(page).to have_no_selector("details[open]")
 
       click_link "Assess application"
 
@@ -57,6 +65,7 @@ RSpec.describe "Add informatives", type: :system do
       end
 
       expect(page).to have_selector("h1", text: "Add informatives")
+      expect(page).to have_no_selector("details[open]")
 
       click_button "Save and mark as complete"
 
@@ -73,6 +82,7 @@ RSpec.describe "Add informatives", type: :system do
 
       expect(page).to have_selector("h1", text: "Add informatives")
       expect(page).to have_content "No informatives added yet"
+      expect(page).to have_selector("details[open]")
 
       fill_in "Enter a title", with: "Section"
       pick "Section 106", from: "#informative-title-field"
@@ -91,6 +101,9 @@ RSpec.describe "Add informatives", type: :system do
       end
 
       expect(page).to have_content "Must do 106"
+      expect(page).to have_no_selector("details[open]")
+
+      toggle "Add new informative"
 
       fill_in "Enter a title", with: "Informative 1"
       fill_in "Enter details of the informative", with: "Consider the trees"
@@ -99,6 +112,7 @@ RSpec.describe "Add informatives", type: :system do
 
       expect(page).to have_content "Informative was successfully added"
       expect(page).to have_content "Consider the trees"
+      expect(page).to have_no_selector("details[open]")
 
       click_button "Save and come back later"
 
@@ -336,7 +350,8 @@ RSpec.describe "Add informatives", type: :system do
       expect(page).to have_selector("h1", text: "Add informatives")
 
       click_link "Edit informatives"
-      expect(page).to have_selector("legend", text: "Add an informative")
+      expect(page).to have_selector("legend", text: "Add a new informative")
+      expect(page).to have_selector("details[open]")
 
       fill_in "Enter a title", with: "Informative 1"
       fill_in "Enter details of the informative", with: "Consider the trees"
@@ -346,6 +361,7 @@ RSpec.describe "Add informatives", type: :system do
       expect(page).to have_content "Informative was successfully added"
       expect(page).to have_content "Informative 1"
       expect(page).to have_content "Consider the trees"
+      expect(page).to have_no_selector("details[open]")
 
       click_button "Save and mark as complete"
 
