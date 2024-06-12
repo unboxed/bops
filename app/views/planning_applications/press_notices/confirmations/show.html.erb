@@ -40,10 +40,10 @@
     </p>
   <% end %>
 
-  <%= render "documents", documents: @press_notice.documents %>
+  <%= render "planning_applications/press_notices/press_notices", press_notices: [@press_notice] %>
 
   <p class="govuk-body">
-    <%= govuk_link_to "Edit publication", edit_planning_application_press_notice_confirmation_path(@planning_application) %>
+    <%= govuk_link_to "Edit publication details", edit_planning_application_press_notice_confirmation_path(@planning_application) %>
   </p>
   <p class="govuk-body">
     <%= govuk_link_to "Add a new press notice response", new_planning_application_press_notice_path(@planning_application) %>
