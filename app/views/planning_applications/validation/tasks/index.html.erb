@@ -16,19 +16,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "items_counter" %>
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-0 govuk-!-margin-top-3">
-      <%= t(".application_details") %>
-    </h2>
-    <%= render(
-          AccordionComponent.new(
-            planning_application: @planning_application,
-            sections: %i[application_information proposal_details documents]
-          )
-        ) %>
-
-    <%= render "application_details" %>
 
     <%= render "documents" %>
+
+    <%= render "application_details" %>
 
     <%= render "application_requirements" %>
 

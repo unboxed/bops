@@ -4,6 +4,15 @@
 
 <%= render "shared/assessment_dashboard" do %>
   <% if @planning_application.in_progress? %>
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0 govuk-!-margin-top-3">
+      <%= t(".application_details") %>
+    </h2>
+    <%= render(
+          AccordionComponent.new(
+            planning_application: @planning_application,
+            sections: %i[application_information proposal_details documents]
+          )
+        ) %>
     <%= render "application_steps" %>
     <h2 class="govuk-heading-m govuk-!-margin-top-9 govuk-!-margin-bottom-1"><%= t(".details") %></h2>
   <% end %>

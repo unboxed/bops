@@ -38,7 +38,6 @@ Feature: Auditing a planning application
     And there is an audit entry containing "Applicant sent selfies instead of floor plans"
 
   Scenario: I can view an entry in the audit log showing application updates
-    Given I press "Check and validate"
     And I press "Application information"
     When I press "Edit details"
     And I fill in "Address 1" with "20 leafy gardens"

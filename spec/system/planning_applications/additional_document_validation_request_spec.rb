@@ -298,11 +298,11 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       expect(page).to have_content("Documents required are marked as invalid")
 
       within("#check-missing-documents-task") do
-        expect(page).to have_content("Invalid")
+        expect(page).to have_content("Awaiting response")
       end
     end
 
-    context "when required documents are marked as invalid" do
+    context "when required documents are marked as awaiting response" do
       before do
         planning_application.update(documents_missing: true)
       end
@@ -316,7 +316,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       it "I can edit the additional document validation request" do
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
         within("#check-missing-documents-task") do
-          expect(page).to have_content("Invalid")
+          expect(page).to have_content("Awaiting response")
         end
 
         click_link "Check and request documents"
@@ -339,7 +339,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         visit "/planning_applications/#{planning_application.id}/validation/tasks"
 
         within("#check-missing-documents-task") do
-          expect(page).to have_content("Invalid")
+          expect(page).to have_content("Awaiting response")
         end
 
         click_link "Check and request documents"

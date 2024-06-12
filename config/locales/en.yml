@@ -27,11 +27,9 @@ en:
       parish: 'Parish:'
       payment_amount: 'Payment amount:'
       payment_reference: 'Payment reference:'
-      propose_a_change: Propose a change to the description
       type_description: 'Application type:'
       uprn: 'UPRN:'
       view_on_mapit: View on mapit
-      view_requested_change: View requested change
       view_site_on: View site on Google Maps
       ward: 'Ward:'
       ward_type: 'Ward type:'
@@ -1931,6 +1929,7 @@ en:
     application_information:
       exempt: Exempt
     assessment_dashboard:
+      application_details: Application details
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back

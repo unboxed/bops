@@ -38,7 +38,6 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("Planning application was successfully created.")
 
     visit "/planning_applications/#{PlanningApplication.last.id}"
-    click_link("Check and validate")
     expect(page).to have_text("Description: Back shack")
   end
 
@@ -57,7 +56,6 @@ RSpec.describe "Creating a planning application", type: :system do
     click_button "Save"
 
     visit "/planning_applications/#{PlanningApplication.last.id}"
-    click_link("Check and validate")
     expect(page).to have_text("Description: Bad bad application")
   end
 
@@ -99,7 +97,6 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("Planning application was successfully created.")
 
     visit "/planning_applications/#{PlanningApplication.last.id}"
-    click_link("Check and validate")
     expect(page).to have_text("Description: Bird house")
   end
 
@@ -154,8 +151,6 @@ RSpec.describe "Creating a planning application", type: :system do
       expect(page).to have_text("carlota@corlita.com")
       expect(page).to have_text("0777773949494312")
 
-      click_link("Check and validate")
-
       expect(page).to have_text("Site address: Palace Road, Crystal Palace, SE19 2LX")
       expect(page).to have_text("UPRN: 19284783939")
       expect(page).to have_text("Application type: Lawful Development Certificate - Proposed")
@@ -167,7 +162,6 @@ RSpec.describe "Creating a planning application", type: :system do
       click_button "Save"
 
       visit "/planning_applications/#{PlanningApplication.last.id}"
-      click_link("Check and validate")
       click_button "Application information"
       click_link "Edit details"
 
@@ -212,8 +206,6 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("Planning application was successfully created.")
 
     visit "/planning_applications/#{PlanningApplication.last.id}"
-
-    click_link("Check and validate")
 
     expect(page).to have_text("Site address: 60-62, Commercial Street, LONDON, E16LT")
     expect(page).to have_text("UPRN: 1234")

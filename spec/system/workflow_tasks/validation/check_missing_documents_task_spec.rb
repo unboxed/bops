@@ -25,7 +25,7 @@ RSpec.describe Validation::CheckMissingDocumentsTask, type: :component do
     end
 
     it "renders 'Invalid' status" do
-      expect(task.task_list_status).to be :invalid
+      expect(task.task_list_status).to be :awaiting_response
     end
   end
 

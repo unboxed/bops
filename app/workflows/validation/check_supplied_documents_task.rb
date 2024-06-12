@@ -15,6 +15,13 @@ module Validation
     end
 
     def task_list_status
+      if planning_application.all_null_documents? == true
+        :not_started
+      elsif planning_application.all_valid_documents? == true
+        :complete
+      else
+        :in_progress
+      end
     end
   end
 end
