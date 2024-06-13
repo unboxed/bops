@@ -21,6 +21,7 @@ BopsApi::Engine.routes.draw do
       namespace :public do
         resources :planning_applications, only: [] do
           get :search, on: :collection
+          resource :documents, only: [:show]
         end
       end
     end
