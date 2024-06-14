@@ -47,7 +47,7 @@
               </div>
             </td>
             <td class="govuk-table__cell govuk-!-width-one-third">
-              <%= neighbour.object.address %>
+              <%= neighbour.object.address&.upcase %>
             </td>
             <td class="govuk-table__cell">
               <%= neighbour.object.source&.humanize %>
