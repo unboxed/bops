@@ -38,7 +38,7 @@
           <% row.with_cell(text: policy_reference.code) %>
           <% row.with_cell do %>
             <% if policy_reference.url? %>
-              <%= govuk_link_to(policy_reference.description, policy_reference.url, no_visited_state: true, no_underline: true, new_tab: true) %>
+              <%= govuk_link_to(policy_reference.description, policy_reference.url, no_visited_state: true, no_underline: true, new_tab: "") %>
             <% else %>
               <%= policy_reference.description %>
             <% end %>
