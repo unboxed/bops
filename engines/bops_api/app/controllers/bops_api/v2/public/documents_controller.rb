@@ -6,6 +6,8 @@ module BopsApi
       class DocumentsController < PublicController
         def show
           @planning_application = find_planning_application params[:planning_application_id]
+          @documents = @planning_application.documents.for_publication
+          @count = @documents.length
 
           respond_to do |format|
             format.json

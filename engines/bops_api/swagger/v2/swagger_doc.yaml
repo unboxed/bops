@@ -16399,6 +16399,18 @@ components:
               url:
                 type: string
                 format: url
+              type:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                  - value
+                  - description
               createdAt:
                 format: datetime
                 type:
@@ -16408,8 +16420,31 @@ components:
                 type:
                 - string
                 - 'null'
+              metadata:
+                type: object
+                properties:
+                  byteSize:
+                    type: number
+                  contentType:
+                    type: string
+                required:
+                - byteSize
+                - contentType
             required:
             - name
+            - url
+            - type
+            - metadata
+        decisionNotice:
+          type: object
+          properties:
+            name:
+              type: string
+            url:
+              type: string
+          required:
+          - name
+          - url
       required:
       - metadata
       - application
@@ -22769,24 +22804,22 @@ paths:
                       message: Unauthorized
               schema:
                 "$ref": "#/components/schemas/UnauthorizedError"
-  "/api/v2/public/planning_applications/{id}/documents":
+  "/api/v2/public/planning_applications/{reference}/documents":
     get:
       summary: Retrieves documents for a planning application
       tags:
       - Planning applications
       parameters:
-      - name: id
+      - name: reference
         in: path
         schema:
-          oneOf:
-          - type: string
-            pattern: d{2}-d{5}-[A-Za-z0-9]+
-          - type: integer
-          description: The planning application reference or ID
+          type: string
+          description: The planning application reference
         required: true
       responses:
         '200':
-          description: returns a planning application's documents given a reference
+          description: returns a planning application's documents and decision notice
+            given a reference
           content:
             application/json:
               examples:
@@ -22801,17 +22834,26 @@ paths:
                       receivedAt: '2024-06-12T15:56:29.830+01:00'
                       validAt: '2024-06-12T00:00:00.000+01:00'
                       publishedAt: '2024-06-12T15:56:29.828+01:00'
-                      status: in_assessment
+                      status: determined
                     files:
                     - name: proposed-floorplan.png
                       url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
+                      type:
+                      - value: elevations.proposed
+                        description: Elevations - proposed
+                      - value: sections.proposed
+                        description: Sections - proposed
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      tags: []
-                      numbers: ''
-                      applicantDescription:
+                      applicantDescription: 
+                      metadata:
+                        byteSize: 144212
+                        contentType: application/pdf
                     metadata:
                       results: 1
                       totalResults: 1
+                    decisionNotice:
+                      name: decision-notice-PlanX-24-00100-HAPP.pdf
+                      url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
   "/api/v2/public/planning_applications/search":

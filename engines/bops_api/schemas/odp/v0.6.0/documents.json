@@ -66,17 +66,56 @@
               "type": "string",
               "format": "url"
             },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": ["value", "description"]
+              }
+            },
             "createdAt": {
               "format": "datetime",
               "type": ["string", "null"]
             },
             "applicantDescription": {
               "type": ["string","null"]
+            },
+            "metadata": {
+              "type": "object",
+              "properties": {
+                "byteSize": {
+                  "type": "number"
+                },
+                "contentType": {
+                  "type": "string"
+                }
+              },
+              "required": ["byteSize", "contentType"]
             }
           },
-          "required": ["name"]
+          "required": ["name", "url", "type", "metadata"]
         }
       ]
+    },
+    "decisionNotice": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "url"]
     }
   },
   "required": ["metadata", "application", "files"]
