@@ -170,6 +170,16 @@ en:
               blank: Enter the text of this condition
             title:
               blank: Enter the title of this condition
+        consideration:
+          attributes:
+            assessment:
+              blank: Enter the assessment of this consideration
+            conclusion:
+              blank: Enter the conclusion for this consideration
+            policy_area:
+              blank: Enter the policy area of this consideration
+            policy_references:
+              blank: Enter at least one policy reference for this consideration
         consistency_checklist:
           attributes:
             description_matches_documents:
@@ -1085,6 +1095,19 @@ en:
           assessment_report: Assessment report
       base:
         not_validated: The planning application must be validated before assessment can begin
+      considerations:
+        create:
+          success: Consideration was successfully added
+        edit:
+          add_new_consideration: Add new consideration
+          drag_and_drop: Drag and drop considerations to change their order.
+        items:
+          destroy:
+            success: Consideration was successfully removed
+          update:
+            success: Consideration was successfully saved
+        update:
+          success: Assessment against local policies was successfully saved
       consistency_checklists:
         additional_document_validation_request:
           cancelled: Cancelled %{time}
@@ -2036,12 +2059,12 @@ en:
         past_applications: History (manual)
         site_description: Site description
         summary_of_work: Summary of works
+      considerations_component:
+        link_text: Assess against policies and guidance
       consultees_consulted_component:
         consultees_consulted: Check consultees consulted
       immunity_details_component:
         evidence_of_immunity: Evidence of immunity
-      local_policy_component:
-        link_text: Assess against policies and guidance
       permitted_development_right_component:
         permitted_development_rights: Permitted development rights
     check_red_line_boundary_component:

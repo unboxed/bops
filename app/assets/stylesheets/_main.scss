@@ -442,3 +442,41 @@ body {
     padding-left: 0;
   }
 }
+
+.editable-list {
+  @include govuk-responsive-margin(2, "top");
+
+  li {
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 20px;
+      white-space: nowrap;
+    }
+  }
+}
+
+.consideration-details {
+  div {
+    @include govuk-responsive-margin(0);
+    @include govuk-responsive-margin(3, "bottom");
+  }
+
+  dt {
+    display: inline;
+    font-weight: bold;
+    margin: 0;
+
+    &:after {
+      content: ": ";
+    }
+  }
+
+  dd {
+    display: inline;
+    margin: 0;
+  }
+}

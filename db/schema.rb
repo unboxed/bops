@@ -161,6 +161,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
     t.index ["condition_set_id"], name: "ix_conditions_on_condition_set_id"
   end
 
+  create_table "consideration_sets", force: :cascade do |t|
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_consideration_sets_on_planning_application_id"
+  end
+
+  create_table "considerations", force: :cascade do |t|
+    t.bigint "consideration_set_id"
+    t.string "policy_area", null: false
+    t.jsonb "policy_references", default: [], null: false
+    t.jsonb "policy_guidance", default: [], null: false
+    t.text "assessment", null: false
+    t.text "conclusion", null: false
+    t.integer "position"
+    t.bigint "submitted_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consideration_set_id", "policy_area"], name: "ix_considerations_on_consideration_set_id__policy_area", unique: true
+    t.index ["consideration_set_id"], name: "ix_considerations_on_consideration_set_id"
+    t.index ["submitted_by_id"], name: "ix_considerations_on_submitted_by_id"
+  end
+
   create_table "consistency_checklists", force: :cascade do |t|
     t.integer "status", null: false
     t.integer "description_matches_documents", default: 0, null: false
@@ -966,6 +989,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
   add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"
+  add_foreign_key "consideration_sets", "planning_applications"
+  add_foreign_key "considerations", "consideration_sets"
+  add_foreign_key "considerations", "users", column: "submitted_by_id"
   add_foreign_key "consistency_checklists", "planning_applications"
   add_foreign_key "constraints", "local_authorities"
   add_foreign_key "consultations", "planning_applications"
