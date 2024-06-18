@@ -189,7 +189,7 @@ Rails.application.routes.draw do
 
           resource :environment_impact_assessment, only: %i[new create edit show update]
 
-          resource :reporting_type, only: %i[edit update]
+          resource :reporting_type, only: %i[show edit update]
 
           resources :constraints, only: %i[index create destroy] do
             patch :update, on: :collection
