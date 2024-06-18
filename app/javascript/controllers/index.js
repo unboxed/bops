@@ -43,6 +43,9 @@ application.register("max-lines", MaxLinesController)
 import NeighboursController from "./neighbours_controller.js"
 application.register("neighbours", NeighboursController)
 
+import ConsiderationFormController from "./consideration_form_controller.js"
+application.register("consideration-form", ConsiderationFormController)
+
 import PdfController from "./pdf_controller.js"
 application.register("pdf", PdfController)
 
@@ -63,6 +66,9 @@ application.register("show-more-text", ShowMoreTextController)
 
 import SubmitFormController from "./submit_form_controller.js"
 application.register("submit-form", SubmitFormController)
+
+import ToggleController from "./toggle_controller.js"
+application.register("toggle", ToggleController)
 
 import UnsavedChangesController from "./unsaved_changes_controller.js"
 application.register("unsaved-changes", UnsavedChangesController)
