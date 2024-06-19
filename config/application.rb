@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative "boot"
-require_relative "../lib/quiet_logger"
 require_relative "../lib/constraints/subdomain"
 
 require "rails"
@@ -54,9 +53,6 @@ module Bops
     config.action_mailer.preview_paths = [Rails.root.join("spec/mailer/previews")]
 
     config.active_storage.variant_processor = :mini_magick
-
-    # Don't log certain requests that spam the log files
-    config.middleware.insert_before Rails::Rack::Logger, QuietLogger, paths: ["/healthcheck"]
 
     # don't fail tests in this case
     config.active_record.raise_on_assign_to_attr_readonly = false
