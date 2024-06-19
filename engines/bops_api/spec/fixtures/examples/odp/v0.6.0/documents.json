@@ -31,6 +31,22 @@
         "byteSize": 144212,
         "contentType": "application/pdf"
       }
+    },
+    {
+      "name": "site-notice.jpg",
+      "url": "http://planx.example.com/api/v1/planning_applications/1889/documents/111",
+      "type": [
+        {
+          "value": "internal.siteNotice",
+          "description": "Site Notice"
+        }
+      ],
+      "createdAt": "2024-06-12T15:56:29.803+01:00",
+      "applicantDescription": null,
+      "metadata": {
+        "byteSize": 144212,
+        "contentType": "application/pdf"
+      }
     }
   ],
   "metadata": {

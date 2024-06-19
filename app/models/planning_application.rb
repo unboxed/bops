@@ -915,6 +915,10 @@ class PlanningApplication < ApplicationRecord
     self[:published_at] = value ? Time.zone.now : nil
   end
 
+  def documents_for_publication
+    documents.for_publication + site_notice_documents_for_publication
+  end
+
   private
 
   def create_fee_calculation
@@ -1094,5 +1098,9 @@ class PlanningApplication < ApplicationRecord
 
   def neighbour_review_requested?
     consultation&.reviews&.any?(&:to_be_reviewed?)
+  end
+
+  def site_notice_documents_for_publication
+    last_site_notice.present? ? last_site_notice.documents.for_publication : []
   end
 end
