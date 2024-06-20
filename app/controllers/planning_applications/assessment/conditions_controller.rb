@@ -63,7 +63,7 @@ module PlanningApplications
       end
 
       def mark_as_complete
-        current_review = @condition_set.current_review
+        current_review = @condition_set.current_review || @condition_set.reviews.new
         if current_review.status == "to_be_reviewed"
           @condition_set.reviews.create!(status: "updated")
           redirect_to planning_application_assessment_tasks_path(@planning_application),

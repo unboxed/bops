@@ -173,6 +173,22 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
       expect(page).to have_content "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)."
     end
+
+    context "when there is no current review" do
+      let(:condition_set) { planning_application.condition_set }
+
+      before do
+        condition_set.reviews = []
+      end
+
+      it "doesn't break" do
+        visit "/planning_applications/#{planning_application.id}"
+        click_link "Check and assess"
+
+        click_link "Add conditions"
+        click_button "Save and mark as complete"
+      end
+    end
   end
 
   context "when changing the list position" do
