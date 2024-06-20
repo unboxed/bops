@@ -16014,6 +16014,74 @@ components:
       - sameAsSiteAddress
       - town
       type: object
+    ApplicationOverview:
+      "$id": "#ApplicationOverview"
+      type: object
+      properties:
+        type:
+          type: object
+          properties:
+            value:
+              type: string
+            description:
+              type: string
+          required:
+          - value
+          - description
+        reference:
+          type: string
+        fullReference:
+          type: string
+        receivedAt:
+          format: datetime
+          type: string
+        validAt:
+          format: datetime
+          type:
+          - string
+          - 'null'
+        publishedAt:
+          format: datetime
+          type:
+          - string
+          - 'null'
+        status:
+          type: string
+        determinedAt:
+          format: datetime
+          type:
+          - string
+          - 'null'
+        decision:
+          type:
+          - string
+          - 'null'
+        consultation:
+          type: object
+          properties:
+            startDate:
+              type:
+              - string
+              - 'null'
+              format: date
+            endDate:
+              type:
+              - string
+              - 'null'
+              format: date
+          required:
+          - startDate
+          - endDate
+      required:
+      - type
+      - reference
+      - fullReference
+      - receivedAt
+      - validAt
+      - publishedAt
+      - determinedAt
+      - status
+      - decision
   schemas:
     Submission:
       additionalProperties: false
@@ -16114,43 +16182,7 @@ components:
           - type: object
             properties:
               application:
-                type: object
-                properties:
-                  type:
-                    type: object
-                    properties:
-                      value:
-                        type: string
-                      description:
-                        type: string
-                    required:
-                    - value
-                    - description
-                  reference:
-                    type: string
-                  fullReference:
-                    type: string
-                  receivedAt:
-                    format: datetime
-                    type: string
-                  validAt:
-                    format: datetime
-                    type:
-                    - string
-                    - 'null'
-                  publishedAt:
-                    format: datetime
-                    type:
-                    - string
-                    - 'null'
-                  status:
-                    type: string
-                required:
-                - type
-                - reference
-                - fullReference
-                - receivedAt
-                - status
+                "$ref": "#/components/definitions/ApplicationOverview"
               property:
                 type: object
                 properties:
@@ -16280,43 +16312,7 @@ components:
     ApplicationSubmission:
       properties:
         application:
-          type: object
-          properties:
-            type:
-              type: object
-              properties:
-                value:
-                  type: string
-                description:
-                  type: string
-              required:
-              - value
-              - description
-            reference:
-              type: string
-            fullReference:
-              type: string
-            receivedAt:
-              format: datetime
-              type: string
-            validAt:
-              format: datetime
-              type:
-              - string
-              - 'null'
-            publishedAt:
-              format: datetime
-              type:
-              - string
-              - 'null'
-            status:
-              type: string
-          required:
-          - type
-          - reference
-          - fullReference
-          - receivedAt
-          - status
+          "$ref": "#/components/definitions/ApplicationOverview"
         submission:
           oneOf:
           - type: object
@@ -16352,43 +16348,7 @@ components:
           - results
           - totalResults
         application:
-          type: object
-          properties:
-            type:
-              type: object
-              properties:
-                value:
-                  type: string
-                description:
-                  type: string
-              required:
-              - value
-              - description
-            reference:
-              type: string
-            fullReference:
-              type: string
-            receivedAt:
-              format: datetime
-              type: string
-            validAt:
-              format: datetime
-              type:
-              - string
-              - 'null'
-            publishedAt:
-              format: datetime
-              type:
-              - string
-              - 'null'
-            status:
-              type: string
-          required:
-          - type
-          - reference
-          - fullReference
-          - receivedAt
-          - status
+          "$ref": "#/components/definitions/ApplicationOverview"
         files:
           type: array
           items:
@@ -22435,7 +22395,14 @@ paths:
                       reference: 24-00107-HAPP
                       fullReference: PlanX-24-00107-HAPP
                       receivedAt: '2024-04-17T00:00:00.000+01:00'
+                      validAt: '2024-04-12T00:00:00.000+01:00'
+                      publishedAt: 
+                      determinedAt: 
                       status: in_assessment
+                      decision: 
+                      consultation:
+                        startDate: '2024-04-15'
+                        endDate: '2024-05-07'
                     submission:
                       data:
                         application:
@@ -22834,7 +22801,12 @@ paths:
                       receivedAt: '2024-06-12T15:56:29.830+01:00'
                       validAt: '2024-06-12T00:00:00.000+01:00'
                       publishedAt: '2024-06-12T15:56:29.828+01:00'
+                      determinedAt: 
+                      decision: 
                       status: determined
+                      consultation:
+                        startDate: '2024-04-15'
+                        endDate: '2024-05-07'
                     files:
                     - name: proposed-floorplan.png
                       url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
@@ -22908,7 +22880,14 @@ paths:
                         reference: 24-00107-HAPP
                         fullReference: PlanX-24-00107-HAPP
                         receivedAt: '2024-04-17T00:00:00.000+01:00'
+                        validAt: '2024-04-12T00:00:00.000+01:00'
+                        publishedAt: 
+                        determinedAt: 
+                        decision: 
                         status: in_assessment
+                        consultation:
+                          startDate: '2024-04-15'
+                          endDate: '2024-05-07'
                       property:
                         address:
                           latitude: 84.3630530473182
@@ -22956,11 +22935,16 @@ paths:
                           value: pp.full.householder
                           description: planning_permission
                         reference: 24-00106-HAPP
-                        full_reference: PlanX-24-00106-HAPP
                         fullReference: PlanX-24-00106-HAPP
-                        received_at: '2024-04-18T00:00:00.000+01:00'
                         receivedAt: '2024-04-18T00:00:00.000+01:00'
-                        status: in_assessment
+                        validAt: '2024-04-19T00:00:00.000+01:00'
+                        published_at: '2024-04-19T00:00:00.000+01:00'
+                        determinedAt: '2024-04-20T00:00:00.000+01:00'
+                        status: determined
+                        decision: granted
+                        consultation:
+                          startDate: '2024-03-12'
+                          endDate: '2024-04-02'
                       property:
                         address:
                           latitude: -37.54605786072338

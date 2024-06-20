@@ -8,7 +8,15 @@
     "reference": "24-00107-HAPP",
     "fullReference": "PlanX-24-00107-HAPP",
     "receivedAt": "2024-04-17T00:00:00.000+01:00",
-    "status": "in_assessment"
+    "validAt": "2024-04-12T00:00:00.000+01:00",
+    "publishedAt": null,
+    "determinedAt": null,
+    "status": "in_assessment",
+    "decision": null,
+    "consultation": {
+      "startDate": "2024-04-15",
+      "endDate": "2024-05-07"
+    }
   },
   "submission": {
     "data": {

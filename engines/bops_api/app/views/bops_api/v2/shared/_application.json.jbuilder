@@ -11,4 +11,14 @@ json.application do
   json.validAt planning_application.validated_at
   json.publishedAt planning_application.published_at
   json.status planning_application.status
+
+  json.determinedAt planning_application.determined_at
+  json.decision planning_application.determined? ? planning_application.decision : nil
+
+  if (consultation = planning_application.consultation)
+    json.consultation do
+      json.startDate consultation.start_date
+      json.endDate consultation.end_date
+    end
+  end
 end

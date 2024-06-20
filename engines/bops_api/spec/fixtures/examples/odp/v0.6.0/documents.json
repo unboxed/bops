@@ -9,7 +9,13 @@
     "receivedAt": "2024-06-12T15:56:29.830+01:00",
     "validAt": "2024-06-12T00:00:00.000+01:00",
     "publishedAt": "2024-06-12T15:56:29.828+01:00",
-    "status": "determined"
+    "determinedAt": null,
+    "decision": null,
+    "status": "determined",
+    "consultation": {
+      "startDate": "2024-04-15",
+      "endDate": "2024-05-07"
+    }
   },
   "files": [
     {

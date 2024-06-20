@@ -15,43 +15,7 @@
       "required": ["results", "totalResults"]
     },
     "application": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "object",
-          "properties": {
-            "value": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            }
-          },
-          "required": ["value", "description"]
-        },
-        "reference": {
-          "type": "string"
-        },
-        "fullReference": {
-          "type": "string"
-        },
-        "receivedAt": {
-          "format": "datetime",
-          "type": "string"
-        },
-        "validAt": {
-          "format": "datetime",
-          "type": ["string", "null"]
-        },
-        "publishedAt": {
-          "format": "datetime",
-          "type": ["string", "null"]
-        },
-        "status": {
-          "type": "string"
-        }
-      },
-      "required": ["type", "reference", "fullReference", "receivedAt", "status"]
+      "$ref": "#/definitions/ApplicationOverview"
     },
     "files": {
       "type": "array",
