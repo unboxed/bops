@@ -187,6 +187,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
           expect(rows.size).to eq(2)
 
+          expect(page).to have_content("File name: proposed-floorplan.png")
+          expect(page).to have_content("File name: proposed-first-floor-plan.pdf")
+
           within(rows[0]) do
             cells = page.all(".govuk-table__cell")
 
@@ -195,7 +198,6 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
             end
 
             within(cells[1]) do
-              expect(page).to have_content("File name: proposed-floorplan.png")
               expect(page).to have_content("Date received: 1 January 2021")
               expect(page).to have_content("Included in decision notice: No")
               expect(page).to have_content("Public: No")
@@ -210,7 +212,6 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
             end
 
             within(cells[1]) do
-              expect(page).to have_content("File name: proposed-first-floor-plan.pdf")
               expect(page).to have_content("Date received: 1 January 2021")
               expect(page).to have_content("Included in decision notice: No")
               expect(page).to have_content("Public: No")
