@@ -14,6 +14,7 @@ RSpec.configure do |config|
   search_json = BopsApi::Schemas.find!("search", version: "odp/v0.6.0").value
   application_submission_json = BopsApi::Schemas.find!("applicationSubmission", version: "odp/v0.6.0").value
   documents_json = BopsApi::Schemas.find!("documents", version: "odp/v0.6.0").value
+  shared_definitions_json = BopsApi::Schemas.find!("shared/definitions", version: "odp/v0.6.0").value
 
   keys = %w[
     additionalProperties
@@ -29,7 +30,9 @@ RSpec.configure do |config|
     value.sub("#/definitions/", "#/components/definitions/")
   }
 
-  definitions = submission_json["definitions"].deep_transform_values(&transformer)
+  shared_definitions = shared_definitions_json["definitions"].deep_transform_values(&transformer)
+  definitions = submission_json["definitions"].deep_transform_values(&transformer).merge(shared_definitions)
+
   submission = submission_json.slice(*keys).deep_transform_values(&transformer)
 
   search = search_json.slice(*keys).deep_transform_values(&transformer)

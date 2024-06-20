@@ -61,10 +61,11 @@ RSpec.describe "BOPS public API" do
       end
 
       it "validates successfully against the example search json" do
-        schema = BopsApi::Schemas.find!("search", version: "odp/v0.6.0").value
-        schemer = JSONSchemer.schema(schema)
+        resolved_schema = load_and_resolve_schema(name: "search", version: "odp/v0.6.0")
+        schemer = JSONSchemer.schema(resolved_schema)
+        example_json = example_fixture("search.json")
 
-        expect(schemer.valid?(example_fixture("search.json"))).to eq(true)
+        expect(schemer.valid?(example_json)).to eq(true)
       end
 
       response "200", "returns planning applications when searching by the description" do

@@ -28,7 +28,7 @@ RSpec.describe "BOPS API" do
   let!(:determined_planning_applications) { create_list(:planning_application, 3, :determined, local_authority:, application_type:) }
 
   let(:submission) { create(:planx_planning_data, params_v2: example_fixture("validPlanningPermission.json")) }
-  let(:planning_application_with_submission) { create(:planning_application, local_authority:, application_type:, planx_planning_data: submission) }
+  let(:planning_application_with_submission) { create(:planning_application, :planning_permission, local_authority:, planx_planning_data: submission) }
 
   let(:page) { 2 }
   let(:maxresults) { 5 }
@@ -446,10 +446,11 @@ RSpec.describe "BOPS API" do
 
   path "/api/v2/planning_applications/{reference}/submission" do
     it "validates successfully against the example applicationSubmission json" do
-      schema = BopsApi::Schemas.find!("applicationSubmission", version: "odp/v0.6.0").value
-      schemer = JSONSchemer.schema(schema)
+      resolved_schema = load_and_resolve_schema(name: "applicationSubmission", version: "odp/v0.6.0")
 
-      expect(schemer.valid?(example_fixture("applicationSubmission.json"))).to eq(true)
+      schemer = JSONSchemer.schema(resolved_schema)
+      example_json = example_fixture("applicationSubmission.json")
+      expect(schemer.valid?(example_json)).to eq(true)
     end
 
     get "Retrieves the planning application submission given a reference" do
