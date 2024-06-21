@@ -20,6 +20,8 @@ class PlanningApplication < ApplicationRecord
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112
 
+  attribute :regulation, :boolean, default: false
+
   enum :user_role, {applicant: 0, agent: 1, proxy: 2}
   enum :decision, {granted: "granted", refused: "refused", not_required: "not_required"}
   enum :documents_status, {not_started: "not_started", in_progress: "in_progress", complete: "complete"}, scopes: false
@@ -192,6 +194,17 @@ class PlanningApplication < ApplicationRecord
   validate :decision_with_recommendations
   validate :determination_date_is_not_in_the_future
   validate :user_is_non_administrator
+
+  with_options on: :reporting_types do
+    validate :regulation_present, if: :regulation?
+    validates :reporting_type, presence: true
+  end
+
+  def regulation_present
+    return if regulation_3 || regulation_4
+
+    errors.add(:regulation, "Select Yes or No for whether the local planning authority is carrying out the works proposed")
+  end
 
   def payment_amount=(amount)
     fee_calculation.requested_fee = amount.to_s.delete("^0-9.-").to_d

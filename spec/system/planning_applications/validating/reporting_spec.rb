@@ -24,7 +24,7 @@ RSpec.describe "Reporting validation task" do
       )
       click_link "Add reporting details"
 
-      expect(page).to have_content("Add reporting details")
+      expect(page).to have_content("Edit reporting details")
 
       expect(page).to have_content("Select development type")
 
@@ -37,9 +37,6 @@ RSpec.describe "Reporting validation task" do
 
     it "I can select the development type for reporting" do
       click_link "Add reporting details"
-
-      expect(page).to have_content("Add reporting details")
-
       choose "Q26 – Certificates of lawful development"
 
       expect(page).to have_content("Includes both existing & proposed applications")
@@ -56,23 +53,27 @@ RSpec.describe "Reporting validation task" do
 
       expect(page).to have_link(
         "Add reporting details",
-        href: "/planning_applications/#{planning_application.id}/validation/reporting_type/edit"
+        href: "/planning_applications/#{planning_application.id}/validation/reporting_type"
       )
     end
 
     it "shows errors when a development type for reporting is not selected" do
       click_link "Add reporting details"
-
       click_button "Save and mark as complete"
 
       expect(page).to have_content "Please select a development type for reporting"
     end
 
+    it "shows errors when Yes or No is not selected for whether the local authority is carrying out the works proposed" do
+      click_link "Add reporting details"
+      page.find(:xpath, '//*[@id="planning-application-regulation-true-field"]').click
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content "Select Yes or No for whether the local planning authority is carrying out the works proposed"
+    end
+
     it "I can report whether regulation 3 applies" do
       click_link "Add reporting details"
-
-      expect(page).to have_content("Add reporting details")
-
       choose "Q26 – Certificates of lawful development"
 
       expect(page).to have_content("Includes both existing & proposed applications")
@@ -97,9 +98,6 @@ RSpec.describe "Reporting validation task" do
 
     it "I can report whether regulation 4 applies" do
       click_link "Add reporting details"
-
-      expect(page).to have_content("Add reporting details")
-
       choose "Q26 – Certificates of lawful development"
 
       expect(page).to have_content("Includes both existing & proposed applications")
@@ -124,8 +122,6 @@ RSpec.describe "Reporting validation task" do
 
     it "I can edit the regulations" do
       click_link "Add reporting details"
-
-      expect(page).to have_content("Add reporting details")
 
       choose "Q26 – Certificates of lawful development"
 

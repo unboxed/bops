@@ -3,6 +3,12 @@
 module PlanningApplications
   module Validation
     class ReportingTypesController < BaseController
+      def show
+        respond_to do |format|
+          format.html
+        end
+      end
+
       def edit
         respond_to do |format|
           format.html
@@ -10,15 +16,12 @@ module PlanningApplications
       end
 
       def update
-        @planning_application.update!(reporting_type_params)
-
         respond_to do |format|
           format.html do
-            if @planning_application.reporting_type.present?
+            if @planning_application.update(reporting_type_params, :reporting_types)
               redirect_to planning_application_validation_tasks_path(@planning_application),
                 notice: t(".success")
-            elsif @planning_application.reporting_type.nil?
-              flash.now[:alert] = t(".failure")
+            else
               render :edit
             end
           end
@@ -29,7 +32,7 @@ module PlanningApplications
 
       def reporting_type_params
         (params[:planning_application] ? params.require(:planning_application) : params)
-          .permit(:reporting_type).to_h.merge(regulation_3:, regulation_4:)
+          .permit(:reporting_type, :regulation).to_h.merge(regulation_3:, regulation_4:)
       end
 
       def regulation_3
