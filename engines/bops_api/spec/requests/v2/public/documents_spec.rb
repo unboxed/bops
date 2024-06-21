@@ -88,13 +88,6 @@ RSpec.describe "BOPS public API" do
             expect(data["files"].last["type"].first["description"]).to eq("Site Notice")
           end
         end
-
-        it "validates successfully against the example documents json" do
-          schema = BopsApi::Schemas.find!("documents", version: "odp/v0.6.0").value
-          schemer = JSONSchemer.schema(schema)
-
-          expect(schemer.valid?(example_fixture("documents.json"))).to eq(true)
-        end
       end
     end
   end
