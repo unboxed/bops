@@ -13,7 +13,10 @@ RSpec.describe Legislation do
 
       it "is readonly" do
         legislation = create(:legislation, title: "Legislation title")
-        legislation.update!(title: "A new legislation title")
+
+        expect {
+          legislation.update!(title: "A new legislation title")
+        }.to raise_error(ActiveRecord::ReadonlyAttributeError)
 
         expect(legislation.reload.title).to eq("Legislation title")
       end

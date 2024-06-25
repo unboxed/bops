@@ -16,7 +16,7 @@ module PlanningApplications
       @neighbour_response.redacted_by = current_user
 
       respond_to do |format|
-        if @neighbour_response.update(redact_neighbour_response_params)
+        if @neighbour_response.update(redact_neighbour_response_params.except(:response))
           format.html do
             redirect_to neighbour_responses_path, notice: t(".success")
           end
