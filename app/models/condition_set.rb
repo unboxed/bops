@@ -30,7 +30,7 @@ class ConditionSet < ApplicationRecord
   end
 
   def approved_conditions
-    conditions.joins(:validation_requests).where(validation_requests: {approved: true})
+    conditions.joins(:validation_requests).where(validation_requests: {approved: true}).distinct
   end
 
   def not_cancelled_conditions
