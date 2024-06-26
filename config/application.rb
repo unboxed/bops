@@ -54,9 +54,6 @@ module Bops
 
     config.active_storage.variant_processor = :mini_magick
 
-    # don't fail tests in this case
-    config.active_record.raise_on_assign_to_attr_readonly = false
-
     # use rails 7.0 encryption method
     config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA256
 

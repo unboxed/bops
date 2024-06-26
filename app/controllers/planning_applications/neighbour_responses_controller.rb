@@ -40,7 +40,7 @@ module PlanningApplications
 
     def update
       ActiveRecord::Base.transaction do
-        @neighbour_response.update!(neighbour_response_params.except(:address, :files))
+        @neighbour_response.update!(neighbour_response_params.except(:address, :files, :response))
         @neighbour_response.neighbour.update!(address: neighbour_response_params[:address]) if address_param_present?
         create_files(@neighbour_response) if files_present?
         create_audit_log(@neighbour_response, "edited")

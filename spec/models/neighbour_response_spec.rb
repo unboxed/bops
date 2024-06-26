@@ -57,7 +57,9 @@ RSpec.describe NeighbourResponse do
     let!(:neighbour_response) { create(:neighbour_response, response: "A response") }
 
     it "response is a readonly attribute" do
-      neighbour_response.update(response: "A new response")
+      expect {
+        neighbour_response.update(response: "A new response")
+      }.to raise_error(ActiveRecord::ReadonlyAttributeError)
 
       expect(neighbour_response.reload.response).to eq("A response")
     end

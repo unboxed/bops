@@ -38,7 +38,7 @@ module BopsConfig
 
     def update
       respond_to do |format|
-        if @legislation.update(legislation_params)
+        if @legislation.update(legislation_params.except(:title))
           format.html do
             redirect_to legislation_index_path, notice: t(".success")
           end
