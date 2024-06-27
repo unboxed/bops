@@ -5,43 +5,25 @@ module TaskListItems
     class LocalPolicyComponent < TaskListItems::BaseComponent
       def initialize(planning_application:)
         @planning_application = planning_application
-        @local_policy = @planning_application.local_policy
+        @consideration_set = @planning_application.consideration_set
       end
 
       private
 
-      attr_reader :local_policy, :planning_application
+      attr_reader :consideration_set, :planning_application
+      delegate :current_review, to: :consideration_set
+      delegate :status, to: :current_review
 
       def link_text
         t(".link_text")
       end
 
       def link_path
-        if local_policy&.current_review&.present?
-          if local_policy.current_review.status == "complete"
-            planning_application_assessment_local_policy_path(planning_application, local_policy)
-          else
-            edit_planning_application_assessment_local_policy_path(planning_application, local_policy)
-          end
-        else
-          new_planning_application_assessment_local_policy_path(planning_application)
-        end
+        planning_application_assessment_considerations_path(planning_application)
       end
 
       def status_tag_component
-        StatusTags::BaseComponent.new(
-          status:
-        )
-      end
-
-      def status
-        if local_policy&.current_review&.present?
-          local_policy.current_review.status
-        elsif local_policy&.local_policy_areas&.present?
-          "in_progress"
-        else
-          "not_started"
-        end
+        StatusTags::BaseComponent.new(status:)
       end
     end
   end

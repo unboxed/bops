@@ -111,9 +111,45 @@ en:
         policy_areas: Policy areas
       secondary_navigation:
         policy_areas: Policy areas
+        policy_guidance: Policy guidance
         policy_references: Policy references
       update:
         successfully_updated: Policy area successfully updated
+    policy_guidances:
+      create:
+        successfully_created: Policy guidance successfully created
+      destroy:
+        not_destroyed: Unable to delete policy guidance - please contact support
+        successfully_destroyed: Policy guidance successfully deleted
+      edit:
+        edit_policy_guidance: Edit policy guidance
+        policy_guidance: Policy guidance
+      form:
+        labels:
+          description: Description
+          url: URL
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_policy_guidance: Add policy guidance
+        are_you_sure: Are you sure you want to delete this policy guidance?
+        find_policy_guidance: Find policy guidance
+        headings:
+          actions: Actions
+          description: Description
+        manage_policy_guidance: Manage policy guidance
+        no_policy_guidance_found: No policy guidance found
+      new:
+        add_policy_guidance: Add a new policy guidance
+        policy_guidance: Policy guidance
+      secondary_navigation:
+        policy_areas: Policy areas
+        policy_guidance: Policy guidance
+        policy_references: Policy references
+      update:
+        successfully_updated: Policy guidance successfully updated
     policy_references:
       create:
         successfully_created: Policy reference successfully created
@@ -153,6 +189,7 @@ en:
         policy_references: Policy references
       secondary_navigation:
         policy_areas: Policy areas
+        policy_guidance: Policy guidance
         policy_references: Policy references
       update:
         successfully_updated: Policy reference successfully updated
@@ -160,6 +197,8 @@ en:
       edit:
         profile: Edit profile
       form:
+        document_checklist: Document checklist
+        document_checklist_hint: Link to a document checklist that applicants use when submitting applications
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: Reply-to email address ID
@@ -174,6 +213,8 @@ en:
         notify_api_key: Notify API key
         notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
         notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
+        planning_policy_and_guidance: Planning policy and guidance
+        planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         reviewer_group_email: BOPS lead email
@@ -188,6 +229,8 @@ en:
       show:
         api_key: API key
         api_key_hint_html: This is the api key which can be used on %{swagger_link} to generate more test planning application data.
+        document_checklist: Document checklist
+        document_checklist_hint: Link to a document checklist that applicants use when submitting applications
         email_address: Email
         email_address_hint: This is the email address that appears on decision notices.
         email_reply_to_id: Reply-to email address ID
@@ -202,6 +245,8 @@ en:
         notify_api_key: Notify API key
         notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
         notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
+        planning_policy_and_guidance: Planning policy and guidance
+        planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         profile: Profile

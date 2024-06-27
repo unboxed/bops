@@ -60,5 +60,8 @@ RUN bash -c "mkdir -p /home/rails/.config/chromium/Crash Reports/pending/ && \
 # Switch to non-root user
 USER rails:rails
 
+# Mark the bops directory as safe so that lint tasks don't complain
+RUN bash -c "git config --global --add safe.directory /home/rails/bops"
+
 ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 CMD ["/bin/bash"]

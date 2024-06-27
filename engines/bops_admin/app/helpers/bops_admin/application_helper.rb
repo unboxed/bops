@@ -31,7 +31,7 @@ module BopsAdmin
         "profile"
       when "informatives"
         "informatives"
-      when "policy_areas", "policy_references"
+      when "policy_areas", "policy_guidance", "policy_references"
         "policy"
       else
         "dashboard"

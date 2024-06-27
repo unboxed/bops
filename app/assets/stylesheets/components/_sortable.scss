@@ -2,14 +2,20 @@
   cursor: move;
 
   .nav-links {
+    @include govuk-font($size: 16);
+
     display: flex;
     padding-top: 10px;
 
-    a {
+    a, span {
       padding-right: 0.5rem;
     }
 
-    a + a { 
+    span {
+      color: govuk-colour("dark-grey");
+    }
+
+    a + a, a + span, span + span, span + a {
       border-left: 1px solid govuk-colour("mid-grey");
       padding-left: 0.5rem;
     }

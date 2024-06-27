@@ -23,9 +23,11 @@
 
     <% if @planning_application.local_authority.document_checklist? %>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      <a href="<%= t("council_documents.#{@planning_application.local_authority.subdomain}.document_checklist") %>" target="_blank" class="govuk-link govuk-body-m">
-        Checklist for <%= @planning_application.application_type.name.humanize.downcase %> (opens in a new tab)
-      </a>
+      <p class="govuk-body-m">
+        <%= govuk_link_to(@planning_application.local_authority.document_checklist, new_tab: "") do %>
+          Checklist for <%= @planning_application.application_type.name.humanize.downcase %> (opens in a new tab)
+        <% end %>
+      </p>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <% end %>
 

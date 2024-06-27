@@ -8,6 +8,7 @@ class LocalAuthority < ApplicationRecord
     has_many :contacts
     has_many :informatives
     has_many :policy_areas
+    has_many :policy_guidances
     has_many :policy_references
     has_many :api_users
   end
@@ -42,10 +43,6 @@ class LocalAuthority < ApplicationRecord
     "#{signatory_name}, #{signatory_job_title}"
   end
 
-  def document_checklist?
-    I18n.exists?("council_documents.#{subdomain}.document_checklist")
-  end
-
   def notify_api_key
     super || Rails.configuration.default_notify_api_key
   end
@@ -61,6 +58,12 @@ class LocalAuthority < ApplicationRecord
       Rails.configuration.notify_letter_api_key
     end
   end
+
+  def default_api_user
+    api_users.find_by(name: subdomain)
+  end
+
+  delegate :token, to: :default_api_user, allow_nil: true, prefix: :default_api
 
   private
 

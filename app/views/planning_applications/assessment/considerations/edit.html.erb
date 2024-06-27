@@ -1,0 +1,142 @@
+<% content_for :page_title do %>
+  Assess against policies and guidance - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Assess against policies and guidance" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Assess against policies and guidance"}
+    ) %>
+
+<% if @planning_application.local_authority.planning_policy_and_guidance? %>
+  <p class="govuk-body govuk-!-margin-bottom-7">
+    <%= govuk_link_to @planning_application.local_authority.planning_policy_and_guidance, new_tab: "" do %>
+      Check your local policies and guidance (in a new tab)
+    <% end %>
+  </p>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(ReviewerCommentComponent.new(comment: @consideration_set.current_review)) %>
+
+    <%= govuk_error_summary(@consideration) %>
+
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Add, edit and sort considerations</h2>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <% if @considerations.any? %>
+      <ol data-controller="sortable" class="govuk-list sortable-list">
+        <%= render @considerations, editable: true %>
+      </ol>
+      <p class="govuk-body"><%= t(".drag_and_drop") %></p>
+    <% else %>
+      <p class="govuk-body">
+        <strong>No considerations added yet</strong>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<%= govuk_details(summary_text: t(".add_new_consideration"), open: @considerations.none? || @consideration.errors.any?) do %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds" data-controller="consideration-form">
+      <%= form_with model: @consideration, url: planning_application_assessment_considerations_path(@planning_application) do |form| %>
+        <%= form.govuk_fieldset legend: {text: "Add a new consideration"} do %>
+          <%= form.govuk_collection_select :policy_area,
+                current_local_authority.policy_areas.menu,
+                :last, :last, options: {include_blank: true},
+                label: {text: "Enter policy area"},
+                data: {consideration_form_target: "policyAreaSelect"} %>
+
+          <div class="govuk-form-group">
+            <%= form.govuk_text_field :policy_references,
+                  label: {text: "Enter policy references"},
+                  form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyReferencesContainer"}},
+                  data: {consideration_form_target: "policyReferencesInput"} %>
+
+            <ul class="govuk-list editable-list" data-consideration-form-target="policyReferences">
+              <%= form.fields :policy_references do |fields| %>
+                <li>
+                  <%= fields.hidden_field :code %>
+                  <%= fields.hidden_field :description %>
+                  <%= fields.hidden_field :url %>
+                  <span><%= fields.object.code %> - <%= fields.object.description %></span>
+                  <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+                </li>
+              <% end %>
+            </ul>
+
+            <template id="consultee-template" data-consideration-form-target="policyReferenceTemplate">
+              <li>
+                <input type="hidden" name="code" value="">
+                <input type="hidden" name="description" value="">
+                <input type="hidden" name="url" value="">
+                <span>Code - Description</span>
+                <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+              </li>
+            </template>
+          </div>
+
+          <div class="govuk-form-group">
+            <%= form.govuk_text_field :policy_guidance,
+                  label: {text: "Enter policy guidance (optional)"},
+                  form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyGuidanceContainer"}},
+                  data: {consideration_form_target: "policyGuidanceInput"} %>
+
+            <ul class="govuk-list editable-list" data-consideration-form-target="policyGuidance">
+              <%= form.fields :policy_guidance do |fields| %>
+                <li>
+                  <%= fields.hidden_field :description %>
+                  <%= fields.hidden_field :url %>
+                  <span><%= fields.object.description %></span>
+                  <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+                </li>
+              <% end %>
+            </ul>
+
+            <template id="consultee-template" data-consideration-form-target="policyGuidanceTemplate">
+              <li>
+                <input type="hidden" name="description" value="">
+                <input type="hidden" name="url" value="">
+                <span>Description</span>
+                <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyGuidance">Remove</button>
+              </li>
+            </template>
+          </div>
+
+          <%= form.govuk_text_area :assessment, label: {text: "Enter assessment"}, rows: 5 %>
+          <%= form.govuk_text_area :conclusion, label: {text: "Enter conclusion"}, rows: 3 %>
+        <% end %>
+
+        <%= form.govuk_submit("Add consideration", secondary: true, class: "govuk-!-margin-bottom-2") %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%= govuk_section_break(visible: true, size: "xl") %>
+
+<% if @planning_application.decision? %>
+  <p class="govuk-body govuk-!-margin-bottom-9">
+    <%= govuk_link_to "View draft decision notice (in a new tab)", decision_notice_planning_application_path(@planning_application), new_tab: "" %>
+  </p>
+<% end %>
+
+<div class="govuk-grid-row govuk-!-margin-top-5">
+  <div class="govuk-grid-column-full">
+    <%= form_with model: @review, url: planning_application_assessment_considerations_path(@planning_application) do |form| %>
+      <%= form.govuk_submit "Save and mark as complete", name: "review[status]", value: "complete" do %>
+        <%= form.govuk_submit "Save and come back later", name: "review[status]", value: "in_progress", secondary: true %>
+        <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
