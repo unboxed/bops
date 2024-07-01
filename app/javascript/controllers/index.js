@@ -31,8 +31,8 @@ application.register("delete-record", DeleteRecordController)
 import EditFormController from "./edit_form_controller.js"
 application.register("edit-form", EditFormController)
 
-import InformativesController from "./informatives_controller.js"
-application.register("informatives", InformativesController)
+import InformativeFormController from "./informative_form_controller.js"
+application.register("informative-form", InformativeFormController)
 
 import LocalPoliciesController from "./local_policies_controller.js"
 application.register("local-policies", LocalPoliciesController)
