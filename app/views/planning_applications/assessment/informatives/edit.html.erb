@@ -29,7 +29,7 @@
           <%= render(Sortable::ListItemComponent.new(
                 record: informative,
                 record_class: "informative",
-                record_controller: "informatives",
+                record_controller: "",
                 record_sortable_url: planning_application_assessment_informatives_item_position_path(@planning_application, informative),
                 edit_record_url: edit_planning_application_assessment_informatives_item_path(@planning_application, informative),
                 remove_record_url: planning_application_assessment_informatives_item_path(@planning_application, informative)
@@ -47,18 +47,18 @@
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-top-5">
-  <div class="govuk-grid-column-two-thirds" data-controller="informatives">
+  <div class="govuk-grid-column-two-thirds" data-controller="informative-form">
     <%= form_with model: @informative, url: planning_application_assessment_informatives_path(@planning_application) do |form| %>
       <%= form.govuk_fieldset legend: {text: "Add an informative"} do %>
         <%= form.govuk_text_field :title,
               label: {text: "Enter a title"},
               hint: {text: "Start typing to find an existing informative or create a new one"},
-              form_group: {data: {informatives_target: "container"}},
-              data: {informatives_target: "titleInput"} %>
+              form_group: {data: {informative_form_target: "container"}},
+              data: {informative_form_target: "titleInput"} %>
 
         <%= form.govuk_text_area :text,
               label: {text: "Enter details of the informative"},
-              data: {informatives_target: "textInput"} %>
+              data: {informative_form_target: "textInput"} %>
       <% end %>
 
       <%= form.govuk_submit("Add informative", secondary: true) %>
