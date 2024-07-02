@@ -1,5 +1,5 @@
 <div class="govuk-grid-column-one-half">
-  <%= link_to_document image_tag(@document.file.representation(resize: "500x500"), style: "max-width:100%"), @document %>
+  <%= document_thumbnail_link @document, thumbnail_args: {resize: "500x500"}, image_args: {style: "max-width:100%"} %>
   <p class="govuk-body">
     <%= link_to_document "View in new window", @document %>
   </p>
