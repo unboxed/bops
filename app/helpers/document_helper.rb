@@ -52,4 +52,14 @@ module DocumentHelper
       rails_blob_url(document.file, disposition: "attachment")
     end
   end
+
+  def document_thumbnail_link(document, thumbnail_args: {}, image_args: {})
+    image = if document.file.previewable?
+      image_tag(document.file.preview(**thumbnail_args), **image_args)
+    else
+      image_tag(document.file, **image_args)
+    end
+
+    link_to_document image, document
+  end
 end

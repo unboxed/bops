@@ -1,5 +1,5 @@
 <% if document.representable? %>
-  <%= link_to_document image_tag(document.file, style: "max-width:100%"), document %>
+  <%= document_thumbnail_link document, thumbnail_args: {resize: resize}, image_args: {style: "max-width: 100%"} %>
   <p class="govuk-body">
     <%= link_to_document(t(".view_in_new"), document) %>
   </p>
