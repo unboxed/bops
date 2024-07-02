@@ -25,25 +25,7 @@
           "value": "pp.full.householder",
           "description": "Planning Permission - Full householder"
         },
-        "fee": {
-          "calculated": 258,
-          "payable": 258,
-          "category": {
-            "sixAndSeven": 258
-          },
-          "exemption": {
-            "disability": false,
-            "resubmission": false
-          },
-          "reduction": {
-            "sports": false,
-            "parishCouncil": false,
-            "alternative": false
-          },
-          "reference": {
-            "govPay": "sandbox-ref-456"
-          }
-        },
+        "fee": "REDACTED",
         "declaration": {
           "accurate": true,
           "connection": {
@@ -426,7 +408,7 @@
         "question": "Your contact details",
         "responses": [
           {
-            "value": "Mx Ziggy Stardust 01100 0110 0011 ziggy@example.com"
+            "value": "REDACTED"
           }
         ],
         "metadata": {
