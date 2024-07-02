@@ -21,5 +21,19 @@ RSpec.describe BopsApi::Application::SubmissionRedactionService, type: :service 
         expect(value).to eq("REDACTED")
       end
     end
+
+    it "redacts the personal contact information in the submission responses" do
+      redact_submission["responses"].each do |response|
+        if described_class::RESPONSES_TO_REDACT.include?(response["question"])
+          expect(response["responses"]).to eq([{"value" => "REDACTED"}])
+        end
+      end
+    end
+
+    it "redacts the fee information in the submission responses" do
+      fee = redact_submission.dig("data", "application", "fee")
+
+      expect(fee).to eq("REDACTED")
+    end
   end
 end
