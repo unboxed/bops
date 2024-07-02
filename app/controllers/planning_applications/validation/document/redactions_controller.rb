@@ -34,7 +34,7 @@ module PlanningApplications
         end
 
         def documents_params
-          %i[file redacted publishable]
+          %i[file redacted publishable validated]
         end
       end
     end

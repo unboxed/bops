@@ -68,6 +68,16 @@ RSpec.describe "Redact documents" do
       expect(page).to have_selector("li:nth-of-type(3)", text: "Upload redacted documents")
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Completed")
     end
+
+    click_link "Tag and validate supplied documents"
+
+    within("#check-tag-documents-tasks") do
+      expect(page).to have_selector("li:nth-of-type(3)", text: "existing-floorplan.png")
+      expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Valid")
+
+      expect(page).to have_selector("li:nth-of-type(4)", text: "proposed-floorplan.png")
+      expect(page).to have_selector("li:nth-of-type(4) .govuk-tag", text: "Valid")
+    end
   end
 
   it "shows an error" do

@@ -28,6 +28,7 @@
           <%= ff.govuk_file_field :file, label: {text: "Upload a file"} %>
           <%= ff.hidden_field :redacted, value: true %>
           <%= ff.hidden_field :publishable, value: true %>
+          <%= ff.hidden_field :validated, value: true %>
         </td>
       </tr>
     </tbody>
