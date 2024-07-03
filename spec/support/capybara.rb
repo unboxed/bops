@@ -2,26 +2,19 @@
 
 require "capybara/rspec"
 
-download_path = Rails.root.join("tmp/downloads").to_s
-
 Capybara.add_selector(:planning_applications_status_tab) do
   xpath { "//*[@class='govuk-tabs__list']" }
 end
 
-Capybara.register_driver :chrome_headless do |app|
-  Capybara::Selenium::Driver.load_selenium
-  browser_options = Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << "--headless=new"
-  browser_options.args << "--no-sandbox"
-  browser_options.args << "--allow-insecure-localhost"
-  browser_options.args << "--window-size=1280,2800"
-  browser_options.args << "--disable-gpu" if Gem.win_platform?
-  browser_options.args << "--disable-dev-shm-usage"
-  browser_options.args << "--host-rules=MAP * 127.0.0.1"
+Capybara.register_driver :headless_firefox do |app|
+  options = Selenium::WebDriver::Firefox::Options.new
+  options.args << "--headless"
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options).tap do |d|
-    d.browser.download_path = download_path
-  end
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile["network.dns.forceResolve"] = "127.0.0.1"
+  options.profile = profile
+
+  Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
 end
 
 RSpec.configure do |config|
@@ -38,6 +31,7 @@ RSpec.configure do |config|
   config.before type: :system do |example|
     driver = if example.metadata[:capybara] || example.metadata[:js]
       ENV.fetch("JS_DRIVER", "chrome_headless").to_sym
+      ENV.fetch("JS_DRIVER", "headless_firefox").to_sym
     else
       ENV.fetch("TEST_DRIVER", "rack_test").to_sym
     end
