@@ -12,7 +12,7 @@
         <td class="govuk-table__cell govuk-!-width-one-third">
           <% press_notice.documents.with_file_attachment.each do |document| %>
             <p class="govuk-body govuk-!-margin-bottom-1">
-              <%= link_to_document image_tag(document.file.representation(resize: "300x212")), document %>
+              <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
             </p>
             <p class="govuk-body">
               <%= truncate(document.name.to_s, length: 50) %><br>
