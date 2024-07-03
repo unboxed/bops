@@ -507,6 +507,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     application_type = create(
       :application_type, :configured, :ldc_proposed,
       features: {
+        "informatives" => true,
         "planning_conditions" => true,
         "permitted_development_rights" => false,
         "consultation_steps" => ["neighbour", "publicity"]
@@ -517,6 +518,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     within "dl div:nth-child(7) dd.govuk-summary-list__value" do
       expect(page).to have_selector("p strong", text: "Application details")
+      expect(page).to have_selector("li", text: "Add informatives")
       expect(page).to have_selector("li", text: "Check planning conditions")
       expect(page).not_to have_selector("li", text: "Check permitted development rights")
 
@@ -534,6 +536,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_selector("h1 > span", text: "Lawful Development Certificate - Proposed use")
 
     expect(page).to have_selector("fieldset legend", text: "Check application details")
+    expect(page).to have_checked_field("Add informatives")
     expect(page).to have_checked_field("Check planning conditions")
     expect(page).to have_unchecked_field("Check permitted development rights")
 
@@ -553,6 +556,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     within "dl div:nth-child(7) dd.govuk-summary-list__value" do
       expect(page).to have_selector("p strong", text: "Application details")
+      expect(page).to have_selector("li", text: "Add informatives")
       expect(page).not_to have_selector("li", text: "Check planning conditions")
       expect(page).to have_selector("li", text: "Check permitted development rights")
 
@@ -563,6 +567,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     end
 
     application_type.reload
+    expect(application_type.informatives?).to eq(true)
     expect(application_type.planning_conditions?).to eq(false)
     expect(application_type.permitted_development_rights?).to eq(true)
     expect(application_type.consultation_steps).to eq(["neighbour", "consultee", "publicity"])

@@ -36,6 +36,8 @@
               condition_set: @planning_application.pre_commencement_condition_set
             )
           ) %>
+    <% end %>
+    <% if @planning_application.application_type.informatives? %>
       <%= render(
             TaskListItems::Assessment::InformativesComponent.new(
               planning_application: @planning_application
