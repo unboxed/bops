@@ -82,6 +82,7 @@ class ApplicationType < ApplicationRecord
   end
 
   with_options to: :features do
+    delegate :informatives?
     delegate :planning_conditions?
     delegate :permitted_development_rights?
     delegate :site_visits?

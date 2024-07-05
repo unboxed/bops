@@ -83,7 +83,9 @@ FactoryBot.define do
 
       features {
         {
-          consultation_steps: []
+          "informatives" => true,
+          "planning_conditions" => false,
+          "consultation_steps" => []
         }
       }
 
@@ -98,7 +100,9 @@ FactoryBot.define do
 
       features {
         {
-          consultation_steps: []
+          "informatives" => true,
+          "planning_conditions" => false,
+          "consultation_steps" => []
         }
       }
 
@@ -330,6 +334,7 @@ FactoryBot.define do
       steps { %w[validation consultation assessment review] }
       features {
         {
+          "informatives" => true,
           "planning_conditions" => true,
           "permitted_development_rights" => false,
           "site_visits" => true,

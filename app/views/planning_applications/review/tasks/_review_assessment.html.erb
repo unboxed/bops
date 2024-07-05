@@ -78,7 +78,8 @@
             )
           ) %>
     <% end %>
-
+  <% end %>
+  <% if @planning_application.application_type.informatives? %>
     <% if @planning_application.informative_set&.current_review&.started? %>
       <%= render(
             TaskListItems::Reviewing::InformativesComponent.new(

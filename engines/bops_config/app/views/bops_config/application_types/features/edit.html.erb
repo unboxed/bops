@@ -21,8 +21,8 @@
 
       <%= form.fields_for :features, @application_type.features do |ff| %>
         <%= ff.govuk_fieldset legend: {text: t("application_type_features.legends.check_application_details"), size: "s"} do %>
+          <%= ff.govuk_check_box :informatives, 1, 0, multiple: false, label: {text: t("application_type_features.labels.informatives")} %>
           <%= ff.govuk_check_box :planning_conditions, 1, 0, multiple: false, label: {text: t("application_type_features.labels.planning_conditions")} %>
-
           <%= ff.govuk_check_box :permitted_development_rights, 1, 0, multiple: false, label: {text: t("application_type_features.labels.permitted_development_rights")} %>
         <% end %>
 

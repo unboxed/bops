@@ -13,7 +13,7 @@ module BopsConfig
 
       def update
         respond_to do |format|
-          if @application_type.update(application_type_features_params, :features)
+          if @application_type.update(features_params, :features)
             format.html do
               redirect_to next_path, notice: t(".success")
             end
@@ -25,8 +25,17 @@ module BopsConfig
 
       private
 
-      def application_type_features_params
-        params.require(:application_type).permit(features: [:planning_conditions, :permitted_development_rights, {consultation_steps: []}])
+      def features_params
+        params.require(:application_type).permit(features: features_attributes)
+      end
+
+      def features_attributes
+        [
+          :informatives,
+          :planning_conditions,
+          :permitted_development_rights,
+          {consultation_steps: []}
+        ]
       end
 
       def set_application_type

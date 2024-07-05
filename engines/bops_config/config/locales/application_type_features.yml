@@ -1,6 +1,7 @@
 en:
   application_type_features:
     labels:
+      informatives: "Add informatives"
       planning_conditions: "Check planning conditions"
       permitted_development_rights: "Check permitted development rights"
       consultation_steps:
