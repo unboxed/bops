@@ -106,6 +106,6 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
       headers: {Authorization: "Bearer #{api_user.token}"}
 
     expect(json).to eq({"message" => "The file: 'proposed-floorplan.png' exceeds the limit of 30mb. Each file must be 30MB or less"})
-    expect(response).to have_http_status(:payload_too_large)
+    expect(response).to have_http_status(413) # 413 payload too large
   end
 end
