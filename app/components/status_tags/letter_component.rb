@@ -6,7 +6,7 @@ module StatusTags
       @status = status.to_sym
       raise "Invalid status `#{@status.inspect}'" unless NeighbourLetter::STATUSES.values.map(&:to_sym).include?(@status) || @status == :new
 
-      super(status:)
+      super
     end
 
     def link_text

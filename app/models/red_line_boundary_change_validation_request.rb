@@ -29,7 +29,7 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
       return if value.blank?
       super(JSON.parse(value))
     else
-      super(value)
+      super
     end
   end
 
@@ -38,7 +38,7 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
       return if value.blank?
       super(JSON.parse(value))
     else
-      super(value)
+      super
     end
   end
 

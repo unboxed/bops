@@ -4,7 +4,7 @@ class MigrateReportingTypeCategoryToCategories < ActiveRecord::Migration[7.1]
   class ReportingType < ActiveRecord::Base; end
 
   def change
-    add_column :reporting_types, :categories, :string, array: true
+    add_column :reporting_types, :categories, :string, array: true # rubocop:disable Rails/BulkChangeTable
     change_column_null :reporting_types, :category, true
 
     up_only do
