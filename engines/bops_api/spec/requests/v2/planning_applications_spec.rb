@@ -14,7 +14,6 @@ RSpec.describe "BOPS API" do
     create(:application_type, :ldc_proposed)
     create(:application_type, :listed)
     create(:application_type, :pa_part_14_class_j)
-    create(:application_type, :householder)
     create(:application_type, :householder_retrospective)
 
     Rails.configuration.os_vector_tiles_api_key = "testtest"
@@ -26,6 +25,9 @@ RSpec.describe "BOPS API" do
 
   let!(:planning_applications) { create_list(:planning_application, 8, :published, local_authority:, application_type:) }
   let!(:determined_planning_applications) { create_list(:planning_application, 3, :determined, local_authority:, application_type:) }
+
+  let!(:householder) { create(:application_type, :householder) }
+  let!(:householder_planning_applications) { create_list(:planning_application, 4, :with_boundary_geojson_features, local_authority:, application_type: householder) }
 
   let(:submission) { create(:planx_planning_data, params_v2: example_fixture("validPlanningPermission.json")) }
   let(:planning_application_with_submission) { create(:planning_application, :planning_permission, local_authority:, planx_planning_data: submission) }
@@ -268,7 +270,7 @@ RSpec.describe "BOPS API" do
               "from" => 6,
               "to" => 10,
               "total_pages" => 3,
-              "total_results" => 11
+              "total_results" => 15
             }
           )
         end
@@ -491,6 +493,62 @@ RSpec.describe "BOPS API" do
         let(:reference) { planning_applications.first.reference }
 
         run_test!
+      end
+    end
+  end
+
+  path "/api/v2/planning_applications/search" do
+    get "Retrieves planning applications based on a search criteria" do
+      tags "Planning applications"
+      security [bearerAuth: []]
+      produces "application/json"
+
+      parameter name: :page, in: :query, schema: {
+        type: :integer,
+        default: 1
+      }
+
+      parameter name: :maxresults, in: :query, schema: {
+        type: :integer,
+        default: 10
+      }
+
+      parameter name: "q", in: :query, schema: {
+        type: :string,
+        description: "Search by reference or description"
+      }
+
+      it "validates successfully against the example search json" do
+        resolved_schema = load_and_resolve_schema(name: "search", version: "odp/v0.6.0")
+        schemer = JSONSchemer.schema(resolved_schema)
+        example_json = example_fixture("search.json")
+
+        expect(schemer.valid?(example_json)).to eq(true)
+      end
+
+      response "200", "returns planning applications when searching by a reference or description" do
+        schema "$ref" => "#/components/schemas/Search"
+        example "application/json", :default, example_fixture("search.json")
+
+        let(:page) { 2 }
+        let(:maxresults) { 2 }
+        let(:q) { "HAPP" }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 2,
+              "results" => 2,
+              "from" => 3,
+              "to" => 4,
+              "total_pages" => 2,
+              "total_results" => 4
+            }
+          )
+        end
       end
     end
   end

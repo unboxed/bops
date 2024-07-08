@@ -51,6 +51,14 @@ module BopsApi
         end
       end
 
+      def search
+        @pagy, @planning_applications = search_service.call
+
+        respond_to do |format|
+          format.json
+        end
+      end
+
       private
 
       def send_email

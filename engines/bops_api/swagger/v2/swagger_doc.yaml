@@ -22758,6 +22758,151 @@ paths:
                       message: Unauthorized
               schema:
                 "$ref": "#/components/schemas/UnauthorizedError"
+  "/api/v2/planning_applications/search":
+    get:
+      summary: Retrieves planning applications based on a search criteria
+      tags:
+      - Planning applications
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+      - name: maxresults
+        in: query
+        schema:
+          type: integer
+          default: 10
+      - name: q
+        in: query
+        schema:
+          type: string
+          description: Search by reference or description
+      responses:
+        '200':
+          description: returns planning applications when searching by a reference
+            or description
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    metadata:
+                      page: 2
+                      results: 2
+                      from: 3
+                      to: 4
+                      total_pages: 5
+                      total_results: 10
+                    links:
+                      first: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
+                      last: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&maxresults=2
+                      prev: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
+                      next: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=2
+                    data:
+                    - application:
+                        type:
+                          value: pp.full.householder
+                          description: planning_permission
+                        reference: 24-00107-HAPP
+                        fullReference: PlanX-24-00107-HAPP
+                        receivedAt: '2024-04-17T00:00:00.000+01:00'
+                        validAt: '2024-04-12T00:00:00.000+01:00'
+                        publishedAt: 
+                        determinedAt: 
+                        decision: 
+                        status: in_assessment
+                        consultation:
+                          startDate: '2024-04-15'
+                          endDate: '2024-05-07'
+                      property:
+                        address:
+                          latitude: 84.3630530473182
+                          longitude: -105.7502386387352
+                          title: 511 German Village
+                          singleLine: 511 German Village, West Rod, 66983
+                          uprn: '00565512'
+                          town: West Rod
+                          postcode: '66983'
+                        boundary:
+                          site:
+                            type: FeatureCollection
+                            features:
+                            - type: Feature
+                              geometry:
+                                type: Polygon
+                                coordinates:
+                                - - - -0.07739927369747812
+                                    - 51.501345554406896
+                                  - - -0.0778893839394212
+                                    - 51.501002280754676
+                                  - - -0.07690508968054104
+                                    - 51.50102474569704
+                                  - - -0.07676672973966252
+                                    - 51.50128963605792
+                                  - - -0.07739927369747812
+                                    - 51.501345554406896
+                              properties:
+                                color: "#d870fc"
+                            - type: Feature
+                              geometry:
+                                type: Polygon
+                                coordinates:
+                                - - - 30
+                                    - 10
+                                  - - 40
+                                    - 40
+                                  - - 30
+                                    - 10
+                              properties: {}
+                      proposal:
+                        description: householder extension
+                    - application:
+                        type:
+                          value: pp.full.householder
+                          description: planning_permission
+                        reference: 24-00106-HAPP
+                        fullReference: PlanX-24-00106-HAPP
+                        receivedAt: '2024-04-18T00:00:00.000+01:00'
+                        validAt: '2024-04-19T00:00:00.000+01:00'
+                        published_at: '2024-04-19T00:00:00.000+01:00'
+                        determinedAt: '2024-04-20T00:00:00.000+01:00'
+                        status: determined
+                        decision: granted
+                        consultation:
+                          startDate: '2024-03-12'
+                          endDate: '2024-04-02'
+                      property:
+                        address:
+                          latitude: -37.54605786072338
+                          longitude: -149.12320338972793
+                          title: 41874 Dare Parks
+                          singleLine: 41874 Dare Parks, Rosetteside, 23463-4689
+                          uprn: '00595249'
+                          town: Rosetteside
+                          postcode: 23463-4689
+                        boundary:
+                          site:
+                            type: Feature
+                            geometry:
+                              type: Polygon
+                              coordinates:
+                              - - - -0.054597
+                                  - 51.537331
+                                - - -0.054588
+                                  - 51.537287
+                                - - -0.054453
+                                  - 51.537313
+                                - - -0.054597
+                                  - 51.537331
+                            properties: 
+                      proposal:
+                        description: Build a roof extension.
+              schema:
+                "$ref": "#/components/schemas/Search"
   "/api/v2/public/planning_applications/{reference}/documents":
     get:
       summary: Retrieves documents for a planning application
