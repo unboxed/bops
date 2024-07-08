@@ -13,6 +13,7 @@ module PlanningApplications
         end
 
         def create
+          filter_tags!
           @planning_application.assign_attributes(planning_application_params)
 
           respond_to do |format|
@@ -34,7 +35,17 @@ module PlanningApplications
         end
 
         def documents_params
-          %i[file redacted publishable validated]
+          [:file, :redacted, :publishable, :validated, tags: []]
+        end
+
+        def filter_tags!
+          return unless params[:planning_application][:documents_attributes]
+
+          params[:planning_application][:documents_attributes].each do |index, document_attributes|
+            if document_attributes[:tags].is_a?(String)
+              params[:planning_application][:documents_attributes][index][:tags] = document_attributes[:tags].split
+            end
+          end
         end
       end
     end
