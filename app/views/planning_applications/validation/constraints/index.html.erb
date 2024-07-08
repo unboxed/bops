@@ -10,16 +10,16 @@
       locals: {heading: "Check the constraints"}
     ) %>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Add, remove and save constraints</h2>
-    <p class="govuk-body govuk-!-margin-bottom-8">
+    <p class="govuk-body">
       Check the constraints for this application. Add any constraints that are relevant. When all relevant constraints have been added, save and mark as complete.
     </p>
   </div>
 </div>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-full">
     <h2 class="govuk-heading-m">Identified constraints</h2>
     <%= render(
@@ -32,6 +32,8 @@
           }
         ) %>
 
+<div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+  <div class="govuk-grid-column-two-thirds">
     <details class="govuk-details" <%= "open" if params[:q].present? %>>
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
@@ -58,7 +60,9 @@
       </div>
     </details>
   </div>
+</div>
 
+<div class="govuk-grid-row govuk-!-margin-top-6">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @planning_application, url: planning_application_validation_constraints_path(@planning_application) do |form| %>
       <div class="govuk-button-group">
