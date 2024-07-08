@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require "capybara/rspec"
+require "rackup"
+
+module Rack
+  Handler = ::Rackup::Handler
+end
 
 download_path = Rails.root.join("tmp/downloads").to_s
 
