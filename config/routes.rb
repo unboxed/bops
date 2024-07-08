@@ -359,4 +359,20 @@ Rails.application.routes.draw do
   constraints Constraints::ConfigSubdomain do
     mount BopsConfig::Engine, at: "/", as: :bops_config
   end
+
+  direct :rails_public_blob do |blob|
+    if (cdn_host = ENV["CDN_HOST"])
+      # Use an environment variable instead of hard-coding the CDN host
+      File.join(cdn_host, blob.key)
+    else
+      # Preserve the behaviour of `rails_blob_url` when the CDN is not configured
+      route =
+        if blob.is_a?(ActiveStorage::Variant) || blob.is_a?(ActiveStorage::VariantWithRecord)
+          :rails_representation
+        else
+          :rails_blob
+        end
+      route_for(route, blob)
+    end
+  end
 end
