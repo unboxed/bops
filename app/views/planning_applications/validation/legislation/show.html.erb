@@ -16,7 +16,8 @@
       <%= link_to_if(@planning_application.application_type.legislation_link.present?,
             @planning_application.application_type.legislation_title,
             @planning_application.application_type.legislation_link,
-            target: "_blank") %>
+            class: govuk_link_classes,
+            target: "_blank", rel: :noopener) %>
     </p>
 
     <% if @planning_application.application_type.legislation_description %>

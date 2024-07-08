@@ -44,7 +44,7 @@ module DateValidateable
         end
       end
 
-      super(*attributes, **options)
+      super
     end
   end
 

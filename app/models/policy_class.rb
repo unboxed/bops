@@ -44,7 +44,7 @@ class PolicyClass < ApplicationRecord
   end
 
   def previous
-    @previous ||= planning_application.policy_classes.where("section < ?", section).last
+    @previous ||= planning_application.policy_classes.where(section: ...section).last
   end
 
   def next

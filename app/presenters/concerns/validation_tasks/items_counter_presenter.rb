@@ -5,7 +5,7 @@ module ValidationTasks
 
   class ItemsCounterPresenter < PlanningApplicationPresenter
     def initialize(template, planning_application)
-      super(template, planning_application)
+      super
 
       @validation_requests = planning_application.validation_requests.active
     end

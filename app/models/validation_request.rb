@@ -50,12 +50,12 @@ class ValidationRequest < ApplicationRecord
   scope :not_cancelled, -> { where(cancelled_at: nil) }
   scope :open_or_pending, -> { open.or(pending) }
   scope :post_validation, -> { where(post_validation: true) }
-  scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
-  scope :open_change_created_over_10_business_days_ago, -> { open.where("created_at <= ?", 10.business_days.ago) }
+  scope :open_change_created_over_5_business_days_ago, -> { open.where(created_at: ..5.business_days.ago) }
+  scope :open_change_created_over_10_business_days_ago, -> { open.where(created_at: ..10.business_days.ago) }
   scope :pre_validation, -> { where(post_validation: false) }
   scope :responded, -> { where.not(response: nil).or(where(approved: true)) }
   scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
-  scope :requests_created_later, ->(review) { where("validation_requests.created_at >= ?", review.created_at) }
+  scope :requests_created_later, ->(review) { where(validation_requests: {created_at: review.created_at..}) }
   scope :excluding_time_extension, -> { where.not(type: "TimeExtensionValidationRequest") }
   scope :notified, -> { where.not(notified_at: nil) }
 
