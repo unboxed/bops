@@ -7,6 +7,7 @@ RSpec.describe "Swagger index file", type: :system, capybara: true do
 
   before do
     visit "/api/docs/index.html"
+    visit "/api/docs/index.html"
   end
 
   it "Lists all available API options for planning applications" do

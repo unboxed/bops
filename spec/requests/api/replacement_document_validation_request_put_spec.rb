@@ -150,6 +150,6 @@ RSpec.describe "API request to patch document validation requests", show_excepti
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 
     expect(json).to eq({"message" => "The file must be smaller than 30MB"})
-    expect(response).to have_http_status(:payload_too_large)
+    expect(response).to have_http_status(413) # 413 payload too large
   end
 end
