@@ -344,7 +344,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
     end
 
-    it "I cannot add a neighbour address if it already exists" do
+    it "I can add a neighbour address if it already exists" do
       create(:neighbour, consultation:, address: "5, COXSON WAY, LONDON, SE1 2XB")
       # Draw polygon for same addresses
       mock_csrf_token
@@ -359,11 +359,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
       click_button "Continue to sending letters"
 
-      within(".govuk-error-summary") do
-        expect(page).to have_content(
-          "5, COXSON WAY, LONDON, SE1 2XB has already been added."
-        )
-      end
+      expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB has already been added.")
     end
 
     context "when redrawing the polygon" do

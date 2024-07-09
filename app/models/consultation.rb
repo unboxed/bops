@@ -115,7 +115,8 @@ class Consultation < ApplicationRecord
 
   before_save :apply_deadline_extension, if: -> { deadline_extension.present? }
 
-  accepts_nested_attributes_for :consultees, :neighbours
+  accepts_nested_attributes_for :consultees
+  accepts_nested_attributes_for :neighbours, reject_if: :neighbour_exists?
 
   enum status: {
     not_started: "not_started",
@@ -515,5 +516,9 @@ class Consultation < ApplicationRecord
     end
 
     extend_deadline(deadline_extension.days.from_now)
+  end
+
+  def neighbour_exists?(new_neighbour)
+    neighbours.find_by(address: new_neighbour[:address]).present?
   end
 end
