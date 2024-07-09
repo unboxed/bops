@@ -32,6 +32,7 @@ module BopsConfig
       def features_attributes
         [
           :informatives,
+          :ownership_details,
           :planning_conditions,
           :permitted_development_rights,
           {consultation_steps: []}

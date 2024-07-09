@@ -62,6 +62,9 @@
                 <% if @application_type.informatives? %>
                   <li><%= t("application_type_features.labels.informatives") %></li>
                 <% end %>
+                <% if @application_type.ownership_details? %>
+                  <li><%= t("application_type_features.labels.ownership_details") %></li>
+                <% end %>
                 <% if @application_type.permitted_development_rights? %>
                   <li><%= t("application_type_features.labels.permitted_development_rights") %></li>
                 <% end %>

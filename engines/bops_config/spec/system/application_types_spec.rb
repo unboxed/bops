@@ -519,6 +519,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     within "dl div:nth-child(7) dd.govuk-summary-list__value" do
       expect(page).to have_selector("p strong", text: "Application details")
       expect(page).to have_selector("li", text: "Add informatives")
+      expect(page).to have_selector("li", text: "Ownership details")
       expect(page).to have_selector("li", text: "Check planning conditions")
       expect(page).not_to have_selector("li", text: "Check permitted development rights")
 
@@ -537,6 +538,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     expect(page).to have_selector("fieldset legend", text: "Check application details")
     expect(page).to have_checked_field("Add informatives")
+    expect(page).to have_checked_field("Ownership details")
     expect(page).to have_checked_field("Check planning conditions")
     expect(page).to have_unchecked_field("Check permitted development rights")
 
@@ -545,6 +547,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_checked_field("Publicity (site notice and press notice)")
     expect(page).to have_unchecked_field("Consultees")
 
+    uncheck("Ownership details")
     uncheck("Check planning conditions")
     check("Check permitted development rights")
     check("Consultees")
@@ -557,6 +560,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     within "dl div:nth-child(7) dd.govuk-summary-list__value" do
       expect(page).to have_selector("p strong", text: "Application details")
       expect(page).to have_selector("li", text: "Add informatives")
+      expect(page).not_to have_selector("li", text: "Ownership details")
       expect(page).not_to have_selector("li", text: "Check planning conditions")
       expect(page).to have_selector("li", text: "Check permitted development rights")
 
@@ -568,6 +572,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     application_type.reload
     expect(application_type.informatives?).to eq(true)
+    expect(application_type.ownership_details?).to eq(false)
     expect(application_type.planning_conditions?).to eq(false)
     expect(application_type.permitted_development_rights?).to eq(true)
     expect(application_type.consultation_steps).to eq(["neighbour", "consultee", "publicity"])

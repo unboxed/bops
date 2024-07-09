@@ -9,5 +9,7 @@
 
       render Validation::EnvironmentalImpactAssessmentTask.new(@planning_application, task_list:)
 
-      render Validation::OwnershipCertificateTask.new(@planning_application, task_list:)
+      if @planning_application.application_type.ownership_details?
+        render Validation::OwnershipCertificateTask.new(@planning_application, task_list:)
+      end
     end %>
