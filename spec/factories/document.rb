@@ -41,4 +41,8 @@ FactoryBot.define do
   trait :evidence do
     tags { ["photographs.proposed", "utilityBill"] }
   end
+
+  trait :floorplan_tags do
+    tags { ["roofPlan.existing", "roofPlan.proposed"] }
+  end
 end

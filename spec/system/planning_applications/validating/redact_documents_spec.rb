@@ -20,7 +20,7 @@ RSpec.describe "Redact documents" do
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   before do
-    create(:document, file: file1, planning_application:)
+    create(:document, :floorplan_tags, file: file1, planning_application:)
     create(:document, file: file2, planning_application:)
     create(:document, :archived, file: file3, planning_application:)
 
@@ -36,7 +36,7 @@ RSpec.describe "Redact documents" do
     expect(page).not_to have_content("archived-floorplan.png")
 
     within(all(".govuk-table__row")[1]) do
-      attach_file("Upload a file", "spec/fixtures/images/existing-floorplan.png")
+      attach_file("Upload a file", "spec/fixtures/files/documents/existing-floorplan-redacted.png")
     end
 
     click_button "Save and come back later"
@@ -56,7 +56,7 @@ RSpec.describe "Redact documents" do
 
     within(:css, ".govuk-table.redacted-document-table") do
       within(all(".govuk-table__row")[1]) do
-        attach_file("Upload a file", "spec/fixtures/images/proposed-floorplan.png")
+        attach_file("Upload a file", "spec/fixtures/files/documents/proposed-floorplan-redacted.png")
       end
     end
 
@@ -72,12 +72,17 @@ RSpec.describe "Redact documents" do
     click_link "Tag and validate supplied documents"
 
     within("#check-tag-documents-tasks") do
-      expect(page).to have_selector("li:nth-of-type(3)", text: "existing-floorplan.png")
+      expect(page).to have_selector("li:nth-of-type(3)", text: "existing-floorplan-redacted.png")
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Valid")
 
-      expect(page).to have_selector("li:nth-of-type(4)", text: "proposed-floorplan.png")
+      expect(page).to have_selector("li:nth-of-type(4)", text: "proposed-floorplan-redacted.png")
       expect(page).to have_selector("li:nth-of-type(4) .govuk-tag", text: "Valid")
     end
+
+    click_link "existing-floorplan-redacted.png"
+
+    expect(page).to have_checked_field "Roof plan - existing"
+    expect(page).to have_checked_field "Roof plan - proposed"
   end
 
   it "shows an error" do

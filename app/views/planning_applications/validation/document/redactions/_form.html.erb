@@ -29,6 +29,7 @@
           <%= ff.hidden_field :redacted, value: true %>
           <%= ff.hidden_field :publishable, value: true %>
           <%= ff.hidden_field :validated, value: true %>
+          <%= ff.hidden_field :tags, value: ff.object.tags %>
         </td>
       </tr>
     </tbody>
