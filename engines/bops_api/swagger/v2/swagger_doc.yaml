@@ -16856,7 +16856,7 @@ paths:
                                 - 51.69954799782576
                               - - -0.7085376977920632
                                 - 51.699564621757816
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.299367
                           squareMetres: 2993.67
@@ -17015,7 +17015,7 @@ paths:
                                 - 51.69954799782576
                               - - -0.7085376977920632
                                 - 51.699564621757816
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.299367
                           squareMetres: 2993.67
@@ -17819,7 +17819,7 @@ paths:
                                 - 51.61561499701554
                               - - -0.646633654832832
                                 - 51.61556919642334
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.141826
                           squareMetres: 1418.26
@@ -17922,7 +17922,7 @@ paths:
                                 - 51.61561499701554
                               - - -0.646633654832832
                                 - 51.61556919642334
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.141826
                           squareMetres: 1418.26
@@ -19118,7 +19118,23 @@ paths:
                         calculated: 258
                         payable: 258
                         category:
-                          sixAndSeven: 258
+                          one: 0
+                          ten: 0
+                          two: 0
+                          five: 0
+                          four: 0
+                          nine: 0
+                          eight: 0
+                          three: 0
+                          eleven:
+                            one: 0
+                            two: 0
+                          twelve:
+                            one: 0
+                            two: 0
+                          fourteen: 0
+                          thirteen: 0
+                          sixAndSeven: 0
                         exemption:
                           disability: false
                           resubmission: false
@@ -19133,20 +19149,21 @@ paths:
                         connection:
                           value: none
                     user:
-                      role: proxy
+                      role: applicant
                     applicant:
                       type: individual
                       name:
-                        first: David
-                        last: Bowie
+                        first: Parry
+                        last: Steven
                       email: ziggy@example.com
                       phone:
                         primary: Not provided by agent
                       address:
                         sameAsSiteAddress: true
                       siteContact:
-                        role: proxy
+                        role: applicant
                       ownership:
+                        owners: []
                         interest: owner.sole
                         certificate: a
                         agriculturalTenants: false
@@ -19168,49 +19185,59 @@ paths:
                           country: UK
                     property:
                       address:
-                        latitude: 51.4656522
-                        longitude: -0.1185926
-                        x: 530787
-                        "y": 175754
-                        title: 40, STANSFIELD ROAD, LONDON
-                        singleLine: 40, STANSFIELD ROAD, LONDON, SW9 9RZ
+                        latitude: 51.451594
+                        longitude: -0.0823141
+                        x: 533346
+                        "y": 174256
+                        title: 140, WOODWARDE ROAD, LONDON
+                        singleLine: 140, WOODWARDE ROAD, LONDON, SOUTHWARK, SE22 8UR
                         source: Ordnance Survey
-                        uprn: '100021892955'
-                        usrn: '21901294'
-                        pao: '40'
-                        street: STANSFIELD ROAD
+                        uprn: '200003442431'
+                        usrn: '22502753'
+                        pao: '140'
+                        street: WOODWARDE ROAD
                         town: LONDON
-                        postcode: SW9 9RZ
+                        postcode: SE22 8UR
                       boundary:
                         site:
                           type: Feature
                           geometry:
-                            type: Polygon
+                            type: MultiPolygon
                             coordinates:
-                            - - - -0.1186569035053321
-                                - 51.465703531871384
-                              - - -0.1185938715934822
-                                - 51.465724418998775
-                              - - -0.1184195280075143
-                                - 51.46552473766957
-                              - - -0.11848390102387167
-                                - 51.4655038504508
-                              - - -0.1186569035053321
-                                - 51.465703531871384
-                          properties: 
+                            - - - - -0.082375
+                                  - 51.451423
+                                - - -0.082071
+                                  - 51.451786
+                                - - -0.082162
+                                  - 51.451815
+                                - - -0.082465
+                                  - 51.451452
+                                - - -0.082375
+                                  - 51.451423
+                          properties:
+                            name: ''
+                            entity: 12000596619
+                            prefix: title-boundary
+                            dataset: title-boundary
+                            end-date: ''
+                            typology: geography
+                            reference: '37641594'
+                            entry-date: '2024-05-06'
+                            start-date: '2001-11-24'
+                            organisation-entity: '13'
                         area:
-                          hectares: 0.012592
-                          squareMetres: 125.92
+                          hectares: 0.032166
+                          squareMetres: 321.66
                       planning:
                         sources:
-                        - https://api.editor.planx.dev/gis/lambeth?geom=POLYGON+%28%28-0.1186569035053321+51.465703531871384%2C+-0.1185938715934822+51.465724418998775%2C+-0.1184195280075143+51.46552473766957%2C+-0.11848390102387167+51.4655038504508%2C+-0.1186569035053321+51.465703531871384%29%29&analytics=false&sessionId=81bcaa0f-baf5-4573-ba0a-ea868c573faf
-                        - https://api.editor.planx.dev/roads?usrn=21901294
+                        - https://api.editor.planx.dev/gis/southwark?geom=MULTIPOLYGON+%28%28%28-0.082375+51.451423%2C+-0.082071+51.451786%2C+-0.082162+51.451815%2C+-0.082465+51.451452%2C+-0.082375+51.451423%29%29%29&analytics=false&sessionId=d5e442ce-1bfb-43db-ab3b-dc8e0081e8c2
+                        - https://api.editor.planx.dev/roads?usrn=22502753
                         designations:
                         - value: article4
                           description: Article 4 Direction area
                           intersects: false
-                        - value: article4.caz
-                          description: Central Activities Zone (CAZ)
+                        - value: flood
+                          description: Flood Risk Zone
                           intersects: false
                         - value: tpo
                           description: Tree Preservation Order (TPO) or zone
@@ -19223,7 +19250,10 @@ paths:
                           intersects: false
                         - value: designated
                           description: Designated land
+                          intersects: true
+                        - value: greenBelt
                           intersects: false
+                          description: Green Belt
                         - value: nature.SAC
                           description: Special Area of Conservation (SAC)
                           intersects: false
@@ -19235,6 +19265,9 @@ paths:
                           intersects: false
                         - value: locallyListed
                           description: Locally Listed Building
+                          intersects: false
+                        - value: brownfieldSite
+                          description: Brownfield site
                           intersects: false
                         - value: nature.SPA
                           description: Special Protection Area (SPA)
@@ -19248,12 +19281,20 @@ paths:
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
                           intersects: false
+                        - value: nature.ramsarSite
+                          description: Ramsar site
+                          intersects: false
                         - value: designated.nationalPark
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
                           description: Conservation Area
-                          intersects: false
+                          intersects: true
+                          entities:
+                          - name: Dulwich Village
+                            source:
+                              url: https://www.planning.data.gov.uk/entity/44007440
+                              text: Planning Data
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
                           intersects: false
@@ -19261,52 +19302,77 @@ paths:
                           description: Classified Road
                           intersects: false
                       localAuthorityDistrict:
-                      - Lambeth
+                      - Southwark
                       region: London
                       type:
-                        value: residential.dwelling.house.terrace
-                        description: Terrace
+                        value: residential.dwelling.house.semiDetached
+                        description: Semi-detached
                       titleNumber:
                         known: 'No'
                       EPC:
-                        known: 'No'
+                        known: The property does not have one
                       parking:
                         cars:
-                          count: 1
+                          count: 0
+                        vans:
+                          count: 0
+                        buses:
+                          count: 0
+                        other:
+                          count: 0
                         cycles:
-                          count: 2
+                          count: 0
+                        carClub:
+                          count: 0
+                        disabled:
+                          count: 0
+                        offStreet:
+                          residential:
+                            count: 0
+                        motorcycles:
+                          count: 0
                     proposal:
                       projectType:
-                      - value: extend.roof.dormer
-                        description: Add a roof dormer
-                      description: Roof extension to the rear of the property, incorporating
-                        starship launchpad.
+                      - value: alter
+                        description: Alter a building
+                      description: Single storey rear extension.
                       boundary:
                         site:
                           type: Feature
                           geometry:
-                            type: Polygon
+                            type: MultiPolygon
                             coordinates:
-                            - - - -0.1186569035053321
-                                - 51.465703531871384
-                              - - -0.1185938715934822
-                                - 51.465724418998775
-                              - - -0.1184195280075143
-                                - 51.46552473766957
-                              - - -0.11848390102387167
-                                - 51.4655038504508
-                              - - -0.1186569035053321
-                                - 51.465703531871384
-                          properties: 
+                            - - - - -0.082375
+                                  - 51.451423
+                                - - -0.082071
+                                  - 51.451786
+                                - - -0.082162
+                                  - 51.451815
+                                - - -0.082465
+                                  - 51.451452
+                                - - -0.082375
+                                  - 51.451423
+                          properties:
+                            name: ''
+                            entity: 12000596619
+                            prefix: title-boundary
+                            dataset: title-boundary
+                            end-date: ''
+                            typology: geography
+                            reference: '37641594'
+                            entry-date: '2024-05-06'
+                            start-date: '2001-11-24'
+                            planx_user_action: Accepted the title boundary
+                            organisation-entity: '13'
                         area:
-                          hectares: 0.012592
-                          squareMetres: 125.92
+                          hectares: 0.032166
+                          squareMetres: 321.66
                       date:
-                        start: '2024-05-01'
-                        completion: '2024-05-02'
+                        start: '2024-08-01'
+                        completion: '2024-08-21'
                       extend:
                         area:
-                          squareMetres: 45
+                          squareMetres: 19
                       parking:
                         cars:
                           count: 1
@@ -19316,7 +19382,7 @@ paths:
                           difference: 0
                   preAssessment: []
                   responses:
-                  - question: Is the property in Lambeth?
+                  - question: Is the property in Southwark?
                     responses:
                     - value: 'Yes'
                     metadata:
@@ -19328,629 +19394,664 @@ paths:
                     metadata:
                       autoAnswered: true
                       sectionName: The property
-                  - question: What type of house it is?
+                  - question: What type of house is it?
                     responses:
-                    - value: Terrace
+                    - value: Semi-detached
                     metadata:
                       autoAnswered: true
                       sectionName: The property
-                  - question: Is the property in a flood zone?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      sectionName: The property
-                  - question: What type of property is it?
-                    responses:
-                    - value: House
-                      metadata:
-                        flags:
-                        - Listed building consent / Not required
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
-                  - question: List the changes involved in the project
-                    responses:
-                    - value: Add a roof extension
-                      metadata:
-                        flags:
-                        - Listed building consent / Not required
-                    metadata:
-                      sectionName: About the project
-                  - question: Have works already started?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      sectionName: About the project
-                  - question: Is the property in a flood zone?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
-                  - question: What type of changes does the project involve?
-                    responses:
-                    - value: Extension
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
-                  - question: Is the project to add an outbuilding?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
-                  - question: How much new floor area is being added to the house?
-                    responses:
-                    - value: Less than 100m²
-                    metadata:
-                      sectionName: About the project
-                  - question: How much exactly is the internal floor area of the property
-                      increasing by?
-                    responses:
-                    - value: '45'
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Does the project involve creating any new bedrooms or
-                      bathrooms?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the wall materials of the existing house
-                    responses:
-                    - value: London stock brick
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the wall materials of the new extension
-                    responses:
-                    - value: Metallic cladding, reflective. Multiple colours.
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the material of the roof of the existing house
-                    responses:
-                    - value: Grey slate
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the material for the new roof of the extension
-                    responses:
-                    - value: Zinc panels
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the window materials of the existing house
-                    responses:
-                    - value: Wooden sash windows, painted white
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the window materials of the extension
-                    responses:
-                    - value: Brushed steel.
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the door materials of the existing house
-                    responses:
-                    - value: Wood, painted.
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Describe the door materials of the extension
-                    responses:
-                    - value: No door present
-                    metadata:
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended)
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Are there any trees that could fall within the property
-                      or the areas affected by the project (the previously drawn outline)?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      sectionName: About the project
-                  - question: Does the project involve any of these?
-                    responses:
-                    - value: No, none of these
-                    metadata:
-                      sectionName: About the project
-                  - question: Is the property in Greater London?
-                    responses:
-                    - value: 'Yes'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
-                  - question: Does the site include more than one property?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Do you know the title number of the property?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      sectionName: About the project
-                  - question: Does the property have an Energy Performance Certificate
-                      (EPC)?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: What type of application is this?
-                    responses:
-                    - value: Planning permission for a home
-                    metadata:
-                      autoAnswered: true
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: When will the works start?
-                    responses:
-                    - value: '2024-05-01'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: When will the works be completed?
-                    responses:
-                    - value: '2024-05-02'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Does the site include parking spaces for any of these?
-                    responses:
-                    - value: Cars
-                    - value: Bicycles
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Total number of car parking spaces before
-                    responses:
-                    - value: '1'
-                    metadata:
-                      sectionName: About the project
-                  - question: Total number of car parking spaces after
-                    responses:
-                    - value: '1'
-                    metadata:
-                      sectionName: About the project
-                  - question: What types of car parking space are present?
-                    responses:
-                    - value: Off-street parking for residents only
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Off-street, residents-only car spaces before
-                    responses:
-                    - value: '1'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Off-street, residents-only car spaces after
-                    responses:
-                    - value: '1'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: What type of bicycle parking is there?
-                    responses:
-                    - value: Off-street cycle parking
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Off-street bicycle spaces before
-                    responses:
-                    - value: '2'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Off-street bicycle spaces after
-                    responses:
-                    - value: '2'
-                    metadata:
-                      policyRefs:
-                      - text: Greater London Authority Act 1999
-                        url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
-                      sectionName: About the project
-                  - question: Is the property on designated land?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
-                  - question: Does the property include any of these?
-                    responses:
-                    - value: None of these
-                    metadata:
-                      autoAnswered: true
-                      policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) 2015 (as amended
-                        url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
-                      sectionName: About the project
-                  - question: Heritage Statement needed?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
-                  - question: Is the property in a flood zone?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About the project
                   - question: What type of application is it?
                     responses:
                     - value: Apply for planning permission
                     metadata:
                       autoAnswered: true
                       sectionName: About you
-                  - question: Your contact details
-                    responses:
-                    - value: Mx Ziggy Stardust 01100 0110 0011 ziggy@example.com
-                    metadata:
-                      sectionName: About you
-                  - question: Is this a test?
+                  - question: Are you applying on behalf of someone else?
                     responses:
                     - value: 'No'
                     metadata:
                       sectionName: About you
-                  - question: Are you applying on behalf of someone else?
-                    responses:
-                    - value: 'Yes'
-                    metadata:
-                      sectionName: About you
                   - question: Which of these best describes you?
-                    responses:
-                    - value: Friend or relative
-                    metadata:
-                      sectionName: About you
-                  - question: Your contact address
-                    responses:
-                    - value: 40 Stansfield Road, Brixton, London, Greater London,
-                        SW9 9RZ, UK
-                    metadata:
-                      sectionName: About you
-                  - question: Which of these best describes the applicant?
                     responses:
                     - value: Private individual
                     metadata:
                       sectionName: About you
-                  - question: Applicant's title
+                  - question: Your contact details
                     responses:
-                    - value: Mr
+                    - value: Mr Steven Parry 07980987654 freya.cunningham@southwark.gov.uk
                     metadata:
                       sectionName: About you
-                  - question: Do you want to provide an email address for the applicant?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      sectionName: About you
-                  - question: Do you want to provide a telephone number for the applicant?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      sectionName: About you
-                  - question: Is the applicant's contact address the same as the property
-                      address?
+                  - question: Is your contact address the same as the property address?
                     responses:
                     - value: 'Yes'
                     metadata:
                       sectionName: About you
-                  - question: Which of these best describes you?
+                  - question: Can a planning officer see the works from public land?
                     responses:
-                    - value: Friend or relative
+                    - value: No, to see the works you'd have to come onto the property
                     metadata:
-                      autoAnswered: true
                       sectionName: About you
-                  - question: We may need to visit your site to assess your application.
+                  - question: We may need to visit the site to assess your application.
                       If we do, who should we contact to arrange the visit?
                     responses:
-                    - value: Me
+                    - value: Me, the applicant
                     metadata:
                       sectionName: About you
-                  - question: Which of these best describes you?
+                  - question: What type of application is this?
                     responses:
-                    - value: Friend or relative acting on the applicant's behalf
+                    - value: Planning Permission
                     metadata:
                       autoAnswered: true
                       sectionName: About you
-                  - question: Which of these best describes the applicant's interest
-                      in the land?
+                  - question: Which of these best describes you?
                     responses:
-                    - value: Sole owner
+                    - value: I'm the applicant
+                    metadata:
+                      autoAnswered: true
+                      sectionName: About you
+                  - question: Are you the sole owner of the land?
+                    responses:
+                    - value: 'Yes'
                     metadata:
                       policyRefs:
-                      - text: The Town and Country Planning (Development Management
-                          Procedure) (England) Order 2015
-                        url: https://www.legislation.gov.uk/uksi/2015/595/article/39/made
+                      - url: https://www.legislation.gov.uk/uksi/2015/595/article/13/made
+                        text: Article 13 of the Town and Country Planning (Development
+                          Management Procedure) (England) Order 2015
                       sectionName: About you
-                  - question: Did you get any pre-application advice from the council
-                      before making this application?
+                  - question: Does the land have any agricultural tenants?
                     responses:
                     - value: 'No'
                     metadata:
-                      sectionName: About this application
-                  - question: What type of planning application are you making?
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/uksi/2015/595/article/13/made
+                        text: Article 13 of the Town and Country Planning (Development
+                          Management Procedure) (England) Order 2015
+                      sectionName: About you
+                  - question: Certificate of ownership declaration - Certificate A
+                    responses:
+                    - value: I certify the above
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/uksi/2015/595/article/13/made
+                        text: Article 13 of the Town and Country Planning (Development
+                          Management Procedure) (England) Order 2015
+                      sectionName: About you
+                  - question: What type of application are you submitting?
+                    responses:
+                    - value: Householder application
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                        text: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                      sectionName: The project
+                  - question: Select the changes involved in the project
+                    responses:
+                    - value: Alterations to a home and the surrounding land
+                    metadata:
+                      sectionName: The project
+                  - question: Do your alterations involve any of these projects?
+                    responses:
+                    - value: None of these
+                    metadata:
+                      sectionName: The project
+                  - question: Does your project involve changes to an existing roof?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: The project
+                  - question: Does your project involve any alterations to ground
+                      or floor levels?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: The project
+                  - question: Have works already started?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: The project
+                  - question: What type of development are you applying for?
+                    responses:
+                    - value: Householder application
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                        text: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                      sectionName: The project
+                  - question: Is the property in a flood zone?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Is the property in flood zone 1?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Is the property in an area locally vulnerable to flooding?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Does the project introduce any external materials?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: The project
+                  - question: Do all the new materials match the existing?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: The project
+                  - question: What external materials are you adding?
+                    responses:
+                    - value: External walls
+                    - value: Windows
+                    - value: Doors
+                    - value: Roof
+                    metadata:
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Describe the external wall materials of the existing
+                      property
+                    responses:
+                    - value: Stock brick
+                    metadata:
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Describe the external window frame materials of the
+                      existing property
+                    responses:
+                    - value: Grey aluminum
+                    metadata:
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Describe the external door materials of the existing
+                      property
+                    responses:
+                    - value: Dark wood
+                    metadata:
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Describe the roof materials of the existing property
+                    responses:
+                    - value: Clay tiles
+                    metadata:
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Do you want to share more about materials in the documents
+                      or drawings you upload?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: The project
+                  - question: Does the project add any additional floorspace to the
+                      property?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: The project
+                  - question: How much new floorspace is being added to the property?
+                    responses:
+                    - value: '19'
+                    metadata:
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: How much new floor area is being added to the property?
+                    responses:
+                    - value: Less than 100m²
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Does the project involve any of these?
+                    responses:
+                    - value: No, none of these
+                    metadata:
+                      sectionName: The project
+                  - question: Are there any protected trees on the property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Are there any trees or hedges that could fall within
+                      the property or the areas affected by the project (the previously
+                      drawn outline)?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: The project
+                  - question: Have you already told us that you are doing works to
+                      a tree or hedge?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Are there any protected trees on the property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Is the site in a conservation area?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Might the works affect any tree with a trunk wider than
+                      100mm?
+                    responses:
+                    - value: No, definitely not
+                      metadata:
+                        flags:
+                        - Works to trees & hedges / Not required
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/uksi/2012/605/part/3/made
+                        text: The Town and Country Planning (Tree Preservation)(England)
+                          Regulations 2012 Part 3
+                      sectionName: The project
+                  - question: What type of application is this?
+                    responses:
+                    - value: Apply for planning permission
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Could your works affect a protected tree?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Is the property in Greater London?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Does the site include more than one property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                        text: Greater London Authority Act 1999
+                      sectionName: The project
+                  - question: Do you know the title number of the property?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: The project
+                  - question: Does the property have an Energy Performance Certificate
+                      (EPC)?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                        text: Greater London Authority Act 1999
+                      sectionName: The project
+                  - question: What type of application is this?
+                    responses:
+                    - value: Planning permission for a home
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Have works already started?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: When are the works planned to start?
+                    responses:
+                    - value: '2024-08-01'
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                        text: Greater London Authority Act 1999
+                      sectionName: The project
+                  - question: When are the works planned to be completed?
+                    responses:
+                    - value: '2024-08-21'
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                        text: Greater London Authority Act 1999
+                      sectionName: The project
+                  - question: Do the changes involve any of these?
+                    responses:
+                    - value: Alterations to a building
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Do the changes involve creating any new bedrooms or
+                      bathrooms?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      sectionName: The project
+                  - question: Are there existing or are you proposing parking spaces
+                      for any of these on the site?
+                    responses:
+                    - value: None of these
+                    metadata:
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/ukpga/1999/29/section/346
+                        text: Greater London Authority Act 1999
+                      sectionName: The project
+                  - question: Is the property on designated land?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Does the project create 100 square metres or more of
+                      additional floor area?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Does the property include any of these?
+                    responses:
+                    - value: Conservation area
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Does the property include any of these?
+                    responses:
+                    - value: None of these
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Heritage Statement needed?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: Data option provided?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: The project
+                  - question: How do you want to submit the Heritage Statement?
+                    responses:
+                    - value: Upload a document later
+                    metadata:
+                      policyRefs:
+                      - url: http://www.legislation.gov.uk/uksi/2015/595/article/7/made
+                        text: The Town and Country Planning (Development Management
+                          Procedure) (England) 2015 (as amended)
+                      sectionName: The project
+                  - question: Did you get any pre-application advice from the council
+                      before making this application?
+                    responses:
+                    - value: 'Yes'
+                    metadata:
+                      sectionName: Your application
+                  - question: What was the name of the planning officer you spoke
+                      to?
+                    responses:
+                    - value: Josie Nolan
+                    metadata:
+                      sectionName: Your application
+                  - question: What was your reference?
+                    responses:
+                    - value: 24/EQ/2019
+                    metadata:
+                      sectionName: Your application
+                  - question: What date was the pre-application advice given on?
+                    responses:
+                    - value: '2024-04-01'
+                    metadata:
+                      sectionName: Your application
+                  - question: What was the pre-application advice you have received?
+                    responses:
+                    - value: The works I want to do would be acceptable if I made
+                        the extension slightly smaller and shorter.
+                    metadata:
+                      sectionName: Your application
+                  - question: What type of application is it?
                     responses:
                     - value: Full planning permission
                     metadata:
                       autoAnswered: true
-                      sectionName: About this application
+                      sectionName: Your application
+                  - question: What type of development are you applying for?
+                    responses:
+                    - value: Householder application
+                    metadata:
+                      autoAnswered: true
+                      policyRefs:
+                      - url: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                        text: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                      sectionName: Your application
+                  - question: Check for multiple fees?
+                    responses:
+                    - value: 'No'
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Your application
+                  - question: What type of application is it?
+                    responses:
+                    - value: Another application type
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Your application
                   - question: Is the property a home?
                     responses:
                     - value: 'Yes'
                     metadata:
                       autoAnswered: true
-                      sectionName: About this application
-                  - question: What types of changes does the application relate to?
+                      sectionName: Your application
+                  - question: Does the project involve any of these changes?
                     responses:
-                    - value: Extension
+                    - value: None of these
                     metadata:
                       autoAnswered: true
-                      sectionName: About this application
-                  - question: What type of extension is it?
+                      sectionName: Your application
+                  - question: Does the project involve any of these changes?
                     responses:
-                    - value: Roof extension
+                    - value: Alteration
                     metadata:
                       autoAnswered: true
-                      sectionName: About this application
-                  - question: List the changes involved in the roof extension
-                    responses:
-                    - value: Add dormer
-                    metadata:
-                      sectionName: About this application
-                  - question: Is the purpose of the project to support the needs of
-                      a disabled resident?
+                      sectionName: Your application
+                  - question: Fee exemption for projects supporting disabled residents
                     responses:
                     - value: 'No'
                     metadata:
                       policyRefs:
-                      - text: The Town and Country Planning (Fees for Applications,
+                      - url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
+                        text: The Town and Country Planning (Fees for Applications,
                           Deemed Applications, Requests and Site Visits) (England)
                           Regulations 2012, Regulation 14
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
-                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 4
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
-                      - text: Equalities Act 2010, Section 6
-                        url: https://www.legislation.gov.uk/ukpga/2010/15/section/6
-                      - text: Children Act 1989, Part 3
-                        url: https://www.legislation.gov.uk/ukpga/1989/41/part/III
-                      sectionName: About this application
-                  - question: Is it a prior approval application?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About this application
-                  - question: Is the property a home?
-                    responses:
-                    - value: 'Yes'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About this application
-                  - question: What works does the project involve?
-                    responses:
-                    - value: Extension
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About this application
+                      - url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
+                        text: UK Statutory Instruments 2012 No. 2920 Regulation 4
+                      - url: https://www.legislation.gov.uk/ukpga/2010/15/section/6
+                        text: Equalities Act 2010, Section 6
+                      - url: https://www.legislation.gov.uk/ukpga/1989/41/part/III
+                        text: Children Act 1989, Part 3
+                      sectionName: Your application
                   - question: Is this application a resubmission?
                     responses:
                     - value: 'No'
                     metadata:
                       policyRefs:
-                      - text: The Town and Country Planning (Fees for Applications,
+                      - url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/9
+                        text: The Town and Country Planning (Fees for Applications,
                           Deemed Applications, Requests and Site Visits) (England)
                           Regulations 2012, Regulation 9
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/9
-                      sectionName: About this application
+                      sectionName: Your application
                   - question: Does the application qualify for a disability exemption?
                     responses:
                     - value: 'No'
                     metadata:
                       autoAnswered: true
-                      sectionName: About this application
-                  - question: Does the application qualify for a resubmission exemption?
-                    responses:
-                    - value: 'No'
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About this application
+                      sectionName: Your application
                   - question: Is the site a sports field?
                     responses:
                     - value: 'No'
                     metadata:
                       autoAnswered: true
-                      policyRefs:
-                      - text: The Town and Country Planning (Fees for Applications,
-                          Deemed Applications, Requests and Site Visits) (England)
-                          Regulations 2012 Chapter 2, Paragraph 3
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
-                      sectionName: About this application
+                      sectionName: Your application
                   - question: Is the application being made by (or on behalf of) a
                       parish or community council?
                     responses:
                     - value: 'No'
                     metadata:
-                      autoAnswered: true
                       policyRefs:
-                      - text: The Town and Country Planning (Fees for Applications,
+                      - url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
+                        text: The Town and Country Planning (Fees for Applications,
                           Deemed Applications, Requests and Site Visits) (England)
                           Regulations 2012 - Regulation 11
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
-                      sectionName: About this application
+                      sectionName: Your application
+                      autoAnswered: true
                   - question: Are you also submitting another proposal for the same
                       site today?
                     responses:
                     - value: 'No'
                     metadata:
                       policyRefs:
-                      - text: The Town and Country Planning (Fees for Applications,
+                      - url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
+                        text: The Town and Country Planning (Fees for Applications,
                           Deemed Applications, Requests and Site Visits) (England)
                           Regulations 2012 Chapter 2, Paragraph 10
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
-                      sectionName: About this application
+                      sectionName: Your application
                   - question: Does the application qualify for the sports club fee
                       reduction?
                     responses:
                     - value: 'No'
                     metadata:
                       autoAnswered: true
-                      sectionName: About this application
+                      sectionName: Your application
                   - question: Does the application qualify for the parish council
                       reduction?
                     responses:
                     - value: 'No'
                     metadata:
-                      autoAnswered: true
                       policyRefs:
-                      - text: The Town and Country Planning (Fees for Applications,
+                      - url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
+                        text: The Town and Country Planning (Fees for Applications,
                           Deemed Applications, Requests and Site Visits) (England)
                           Regulations 2012 - Regulation 11
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/11
-                      sectionName: About this application
+                      sectionName: Your application
+                      autoAnswered: true
                   - question: Does the application qualify for the alternative application
                       reduction?
                     responses:
                     - value: 'No'
                     metadata:
-                      autoAnswered: true
                       policyRefs:
-                      - text: The Town and Country Planning (Fees for Applications,
+                      - url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
+                        text: The Town and Country Planning (Fees for Applications,
                           Deemed Applications, Requests and Site Visits) (England)
                           Regulations 2012 Chapter 2, Paragraph 10
-                        url: https://www.legislation.gov.uk/uksi/2012/2920/schedule/1
-                      sectionName: About this application
+                      sectionName: Your application
+                      autoAnswered: true
                   - question: What type of application is it?
                     responses:
                     - value: Full planning permission
                     metadata:
                       autoAnswered: true
-                      sectionName: About this application
+                      sectionName: Your application
                   - question: What does the project involve?
                     responses:
-                    - value: Extension
-                    metadata:
-                      autoAnswered: true
-                      sectionName: About this application
-                  - question: How much new floor area is being created?
-                    responses:
-                    - value: Less than 100m²
+                    - value: Alteration
                       metadata:
                         flags:
                         - Community infrastructure levy / Not liable
                     metadata:
                       autoAnswered: true
-                      policyRefs:
-                      - text: The Community Infrastructure Levy Regulations 2010,
-                          Regulation 42
-                        url: https://www.legislation.gov.uk/uksi/2010/948/regulation/42
-                      sectionName: About this application
-                  - question: Is this a householder planning application?
+                      sectionName: Your application
+                  - question: What type of development are you applying for?
                     responses:
-                    - value: 'Yes'
-                      metadata:
-                        flags:
-                        - Community infrastructure levy / Not liable
+                    - value: Householder application
                     metadata:
                       autoAnswered: true
                       policyRefs:
-                      - text: The Community Infrastructure Levy Regulations 2010,
-                          Regulation 42
-                        url: https://www.legislation.gov.uk/uksi/2010/948/regulation/42
-                      sectionName: About this application
+                      - url: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                        text: https://www.legislation.gov.uk/uksi/2015/595/article/2/made
+                      sectionName: Upload application documents
                   - question: Have the works already started?
                     responses:
                     - value: 'No'
                     metadata:
                       autoAnswered: true
-                      sectionName: Upload drawings
+                      sectionName: Upload application documents
                   - question: What changes does the project involve?
                     responses:
-                    - value: Extension
+                    - value: Alterations
                     metadata:
                       autoAnswered: true
-                      sectionName: Upload drawings
-                  - question: Is the project to add an outbuilding?
+                      sectionName: Upload application documents
+                  - question: Is the user a professional agent?
                     responses:
                     - value: 'No'
                     metadata:
                       autoAnswered: true
-                      sectionName: Upload drawings
-                  - question: Which Local Planning authority is it?
+                      sectionName: Upload application documents
+                  - question: Is this for submission or information only?
                     responses:
-                    - value: Lambeth
+                    - value: Submission
                     metadata:
                       autoAnswered: true
-                      sectionName: Check
-                  - question: Connections with London Borough of Lambeth
+                      sectionName: Upload application documents
+                  - question: Which Local Planning authority is it?
+                    responses:
+                    - value: Southwark
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Review and confirm
+                  - question: Connections with Southwark Council
                     responses:
                     - value: None of the above apply to me
                     metadata:
-                      sectionName: Check
+                      sectionName: Review and confirm
                   - question: 'I confirm that:'
                     responses:
                     - value: The information contained in this application is truthful,
                         accurate and complete, to the best of my knowledge
                     metadata:
-                      sectionName: Check
+                      sectionName: Review and confirm
                   - question: Does the application qualify for a disability exemption?
                     responses:
                     - value: 'No'
@@ -19963,85 +20064,109 @@ paths:
                     metadata:
                       autoAnswered: true
                       sectionName: Pay and send
+                  - question: What type of application is it?
+                    responses:
+                    - value: Full planning permission
+                    metadata:
+                      autoAnswered: true
+                      sectionName: Pay and send
                   - question: Which Local Planning authority is it?
                     responses:
-                    - value: Lambeth
+                    - value: Southwark
                     metadata:
                       autoAnswered: true
                       sectionName: Pay and send
                   files:
-                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
+                  - name: https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf
                     type:
-                    - value: roofPlan.existing
-                      description: Roof plan - existing
-                    - value: roofPlan.proposed
-                      description: Roof plan - proposed
+                    - value: otherDrawing
+                      description: Other - drawing
+                  - name: https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf
+                    type:
+                    - value: heritageStatement
+                      description: Heritage Statement
                   - name: https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf
                     type:
                     - value: sitePlan.existing
                       description: Site plan - existing
                     - value: sitePlan.proposed
                       description: Site plan - proposed
-                  - name: https://api.editor.planx.dev/file/private/7nrefxnn/elevations.pdf
-                    type:
-                    - value: elevations.existing
-                      description: Elevations - existing
-                    - value: elevations.proposed
-                      description: Elevations - proposed
                   - name: https://api.editor.planx.dev/file/private/311w2id6/floor_plans.pdf
                     type:
                     - value: floorPlan.existing
                       description: Floor plan - existing
+                  - name: https://api.editor.planx.dev/file/private/311w2id6/floor_plans.pdf
+                    type:
                     - value: floorPlan.proposed
                       description: Floor plan - proposed
+                  - name: https://api.editor.planx.dev/file/private/7nrefxnn/elevations.pdf
+                    type:
+                    - value: elevations.existing
+                      description: Elevations - existing
+                  - name: https://api.editor.planx.dev/file/private/7nrefxnn/elevations.pdf
+                    type:
+                    - value: elevations.proposed
+                      description: Elevations - proposed
                   metadata:
-                    organisation: LBH
-                    id: 81bcaa0f-baf5-4573-ba0a-ea868c573faf
+                    organisation: SWK
+                    id: d5e442ce-1bfb-43db-ab3b-dc8e0081e8c2
                     source: PlanX
                     service:
-                      flowId: 01e38c5d-e701-4e44-acdc-4d6b5cc3b854
-                      url: https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview
+                      flowId: bba306e7-15c8-438f-a71e-a1e5d3a99caf
+                      url: https://editor.planx.uk/southwark/apply-for-planning-permission/published
                       files:
                         required:
-                        - value: roofPlan.existing
-                          description: Roof plan - existing
-                        - value: roofPlan.proposed
-                          description: Roof plan - proposed
-                        - value: sitePlan.existing
-                          description: Site plan - existing
                         - value: sitePlan.proposed
                           description: Site plan - proposed
+                        - value: sitePlan.existing
+                          description: Site plan - existing
                         - value: elevations.existing
                           description: Elevations - existing
                         - value: elevations.proposed
                           description: Elevations - proposed
-                        recommended:
                         - value: floorPlan.existing
                           description: Floor plan - existing
                         - value: floorPlan.proposed
                           description: Floor plan - proposed
-                        optional: []
+                        - value: heritageStatement
+                          description: Heritage Statement
+                        recommended: []
+                        optional:
+                        - value: photographs.existing
+                          description: Photographs - existing
+                        - value: otherDrawing
+                          description: Other - drawing
+                        - value: otherDocument
+                          description: Other - document
+                        - value: visualisations
+                          description: Visualisations
                       fee:
                         category:
-                          sixAndSeven:
-                          - description: The fee to apply for planning permission
-                              to alter or extend a single home is £258.
-                            policyRefs:
-                            - text: UK Statutory Instruments 2023 No. 1197
-                              url: https://www.legislation.gov.uk/uksi/2023/1197/made
+                          one: []
+                          ten: []
+                          two: []
+                          five: []
+                          four: []
+                          nine: []
+                          eight: []
+                          three: []
+                          eleven:
+                            one: []
+                          twelve:
+                            one: []
+                            two: []
+                          fourteen: []
+                          thirteen: []
+                          sixAndSeven: []
                         calculated:
                         - description: The fee to apply for planning permission to
                             alter or extend a single home is £258.
                           policyRefs:
-                          - text: UK Statutory Instruments 2023 No. 1197
+                          - text: https://www.legislation.gov.uk/uksi/2023/1197/made
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         payable:
-                        - description: The fee to apply for planning permission to
-                            alter or extend a single home is £258.
-                          policyRefs:
-                          - text: UK Statutory Instruments 2023 No. 1197
-                            url: https://www.legislation.gov.uk/uksi/2023/1197/made
-                    submittedAt: '2023-10-02T00:00:00.00Z'
+                        - {}
+                    submittedAt: '2024-06-25T12:19:43.214Z'
                     schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.0/schema.json
               pa.part14.classJ:
                 summary: Prior Approval - Install or change solar panels
@@ -20979,7 +21104,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -21079,7 +21204,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -21872,10 +21997,10 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2024-02-06T17:23:44.428+00:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-09-08T11:24:29.682+01:00'
                       description: Add a chimney stack
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 49
                       invalidated_at: '2023-09-08T17:04:37.705+01:00'
@@ -21889,11 +22014,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: awaiting_determination
                       target_date: '2023-10-16'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -21914,12 +22039,12 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
-                        latitude: 
-                        longitude: 
+                        latitude:
+                        longitude:
                       received_date: '2023-09-08T11:24:29.682+01:00'
                       constraints:
                       - Conservation area
@@ -21935,28 +22060,28 @@ paths:
                       agent_email: ziggy@example.com
                       applicant_first_name: David
                       applicant_last_name: Bowie
-                      user_role: 
-                      awaiting_determination_at: 
-                      to_be_reviewed_at: 
+                      user_role:
+                      awaiting_determination_at:
+                      to_be_reviewed_at:
                       created_at: '2024-01-03T16:28:37.986+00:00'
                       description: Roof extension to the rear of the property, incorporating
                         starship launchpad.
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 98
                       invalidated_at: '2024-01-04T22:30:31.634+00:00'
-                      in_assessment_at: 
+                      in_assessment_at:
                       payment_reference: sandbox-ref-456
                       payment_amount: '206.0'
-                      result_flag: 
-                      result_heading: 
-                      result_description: 
-                      result_override: 
-                      returned_at: 
-                      started_at: 
+                      result_flag:
+                      result_heading:
+                      result_description:
+                      result_override:
+                      returned_at:
+                      started_at:
                       status: invalidated
                       target_date: '2024-02-07'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -21973,14 +22098,14 @@ paths:
                               - 51.4655038504508
                             - - -0.1186569035053321
                               - 51.465703531871384
-                        properties: 
+                        properties:
                       application_type: planning_permission
                       reference: 24-00173-HAPP
                       reference_in_full: SWK-24-00173-HAPP
                       site:
                         address_1: 40, STANSFIELD ROAD
-                        address_2: 
-                        county: 
+                        address_2:
+                        county:
                         town: LONDON
                         postcode: SW9 9RZ
                         uprn: '100021892955'
@@ -21991,7 +22116,7 @@ paths:
                       published_comments: []
                       consultee_comments: []
                       consultation:
-                        end_date: 
+                        end_date:
                       make_public: false
                 ids:
                   value:
@@ -22011,10 +22136,10 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2024-02-06T17:23:44.428+00:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-09-08T11:24:29.682+01:00'
                       description: Add a chimney stack
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 49
                       invalidated_at: '2023-09-08T17:04:37.705+01:00'
@@ -22028,11 +22153,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: awaiting_determination
                       target_date: '2023-10-16'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -22053,12 +22178,12 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
-                        latitude: 
-                        longitude: 
+                        latitude:
+                        longitude:
                       received_date: '2023-09-08T11:24:29.682+01:00'
                       constraints:
                       - Conservation area
@@ -22074,28 +22199,28 @@ paths:
                       agent_email: ziggy@example.com
                       applicant_first_name: David
                       applicant_last_name: Bowie
-                      user_role: 
-                      awaiting_determination_at: 
-                      to_be_reviewed_at: 
+                      user_role:
+                      awaiting_determination_at:
+                      to_be_reviewed_at:
                       created_at: '2024-01-03T16:28:37.986+00:00'
                       description: Roof extension to the rear of the property, incorporating
                         starship launchpad.
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 98
                       invalidated_at: '2024-01-04T22:30:31.634+00:00'
-                      in_assessment_at: 
+                      in_assessment_at:
                       payment_reference: sandbox-ref-456
                       payment_amount: '206.0'
-                      result_flag: 
-                      result_heading: 
-                      result_description: 
-                      result_override: 
-                      returned_at: 
-                      started_at: 
+                      result_flag:
+                      result_heading:
+                      result_description:
+                      result_override:
+                      returned_at:
+                      started_at:
                       status: invalidated
                       target_date: '2024-02-07'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -22112,14 +22237,14 @@ paths:
                               - 51.4655038504508
                             - - -0.1186569035053321
                               - 51.465703531871384
-                        properties: 
+                        properties:
                       application_type: planning_permission
                       reference: 24-00173-HAPP
                       reference_in_full: SWK-24-00173-HAPP
                       site:
                         address_1: 40, STANSFIELD ROAD
-                        address_2: 
-                        county: 
+                        address_2:
+                        county:
                         town: LONDON
                         postcode: SW9 9RZ
                         uprn: '100021892955'
@@ -22130,7 +22255,7 @@ paths:
                       published_comments: []
                       consultee_comments: []
                       consultation:
-                        end_date: 
+                        end_date:
                       make_public: false
         '401':
           description: with missing or invalid credentials
@@ -22192,13 +22317,13 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2023-08-04T13:24:17.885+01:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-06-06T16:50:37.821+01:00'
                       description: Add a chimney stack
                       determined_at: '2023-11-03T08:59:02.345+00:00'
                       determination_date: '2023-11-03T00:00:00.000+00:00'
                       id: 9
-                      invalidated_at: 
+                      invalidated_at:
                       in_assessment_at: '2023-08-04T13:24:06.829+01:00'
                       payment_reference: PAY1
                       payment_amount: '0.0'
@@ -22209,11 +22334,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: determined
                       target_date: '2023-07-11'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: FeatureCollection
@@ -22232,7 +22357,7 @@ paths:
                                 - 51.49453137017866
                               - - -0.06490596313800803
                                 - 51.48755549852538
-                          properties: 
+                          properties:
                       site_notice_content: |-
                         <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
                         <div style="width: 420px; text-align: center">
@@ -22269,7 +22394,7 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
@@ -22324,13 +22449,13 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2023-08-04T13:24:17.885+01:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-06-06T16:50:37.821+01:00'
                       description: Add a chimney stack
                       determined_at: '2023-11-03T08:59:02.345+00:00'
                       determination_date: '2023-11-03T00:00:00.000+00:00'
                       id: 9
-                      invalidated_at: 
+                      invalidated_at:
                       in_assessment_at: '2023-08-04T13:24:06.829+01:00'
                       payment_reference: PAY1
                       payment_amount: '0.0'
@@ -22341,11 +22466,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: determined
                       target_date: '2023-07-11'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: FeatureCollection
@@ -22364,7 +22489,7 @@ paths:
                                 - 51.49453137017866
                               - - -0.06490596313800803
                                 - 51.48755549852538
-                          properties: 
+                          properties:
                       site_notice_content: |-
                         <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
                         <div style="width: 420px; text-align: center">
@@ -22401,7 +22526,7 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
@@ -22470,19 +22595,19 @@ paths:
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
                     user_role: agent
-                    awaiting_determination_at: 
-                    to_be_reviewed_at: 
+                    awaiting_determination_at:
+                    to_be_reviewed_at:
                     created_at: '2023-05-23T09:39:04.197+01:00'
                     description: This is a long winded description, bla bla bla a
                       single storey ground floor rear extension; replacement of existing
                       garage door with brick infill and a new window; replacement
                       of the existing windows with double glazed windows, installation
                       of rooflight
-                    determined_at: 
+                    determined_at:
                     determination_date: '2024-03-06'
                     id: 2
-                    invalidated_at: 
-                    in_assessment_at: 
+                    invalidated_at:
+                    in_assessment_at:
                     payment_reference: PAY1
                     payment_amount: '0.0'
                     result_flag: Planning permission / Permission needed
@@ -22491,11 +22616,11 @@ paths:
                     result_description: Based on the information you have provided,
                       we do not think this is eligible for a Lawful Development Certificate
                     result_override: This was my reason for rejecting the result
-                    returned_at: 
-                    started_at: 
+                    returned_at:
+                    started_at:
                     status: not_started
                     target_date: '2023-06-27'
-                    withdrawn_at: 
+                    withdrawn_at:
                     work_status: proposed
                     boundary_geojson:
                       type: Feature
@@ -22577,10 +22702,10 @@ paths:
                       fullReference: PlanX-24-00107-HAPP
                       receivedAt: '2024-04-17T00:00:00.000+01:00'
                       validAt: '2024-04-12T00:00:00.000+01:00'
-                      publishedAt: 
-                      determinedAt: 
+                      publishedAt:
+                      determinedAt:
                       status: in_assessment
-                      decision: 
+                      decision:
                       consultation:
                         startDate: '2024-04-15'
                         endDate: '2024-05-07'
@@ -22660,7 +22785,7 @@ paths:
                                     - 51.4655038504508
                                   - - -0.1186569035053321
                                     - 51.465703531871384
-                              properties: 
+                              properties:
                             area:
                               hectares: 0.012592
                               squareMetres: 125.92
@@ -22760,7 +22885,7 @@ paths:
                                     - 51.4655038504508
                                   - - -0.1186569035053321
                                     - 51.465703531871384
-                              properties: 
+                              properties:
                             area:
                               hectares: 0.012592
                               squareMetres: 125.92
@@ -22992,9 +23117,9 @@ paths:
                         fullReference: PlanX-24-00107-HAPP
                         receivedAt: '2024-04-17T00:00:00.000+01:00'
                         validAt: '2024-04-12T00:00:00.000+01:00'
-                        publishedAt: 
-                        determinedAt: 
-                        decision: 
+                        publishedAt:
+                        determinedAt:
+                        decision:
                         status: in_assessment
                         consultation:
                           startDate: '2024-04-15'
@@ -23079,7 +23204,7 @@ paths:
                                   - 51.537313
                                 - - -0.054597
                                   - 51.537331
-                            properties: 
+                            properties:
                       proposal:
                         description: Build a roof extension.
               schema:
@@ -23114,8 +23239,8 @@ paths:
                       receivedAt: '2024-06-12T15:56:29.830+01:00'
                       validAt: '2024-06-12T00:00:00.000+01:00'
                       publishedAt: '2024-06-12T15:56:29.828+01:00'
-                      determinedAt: 
-                      decision: 
+                      determinedAt:
+                      decision:
                       status: determined
                       consultation:
                         startDate: '2024-04-15'
@@ -23129,7 +23254,7 @@ paths:
                       - value: sections.proposed
                         description: Sections - proposed
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription: 
+                      applicantDescription:
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -23139,7 +23264,7 @@ paths:
                       - value: internal.siteNotice
                         description: Site Notice
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription: 
+                      applicantDescription:
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -23204,9 +23329,9 @@ paths:
                         fullReference: PlanX-24-00107-HAPP
                         receivedAt: '2024-04-17T00:00:00.000+01:00'
                         validAt: '2024-04-12T00:00:00.000+01:00'
-                        publishedAt: 
-                        determinedAt: 
-                        decision: 
+                        publishedAt:
+                        determinedAt:
+                        decision:
                         status: in_assessment
                         consultation:
                           startDate: '2024-04-15'
@@ -23291,6 +23416,6 @@ paths:
                                   - 51.537313
                                 - - -0.054597
                                   - 51.537331
-                            properties: 
+                            properties:
                       proposal:
                         description: Build a roof extension.
