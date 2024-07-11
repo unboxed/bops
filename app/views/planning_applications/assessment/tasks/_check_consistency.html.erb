@@ -29,11 +29,13 @@
             category: :past_applications
           )
         ) %>
-    <%= render(
-          TaskListItems::Assessment::OwnershipCertificateComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
+    <% if @planning_application.application_type.ownership_details? %>
+      <%= render(
+            TaskListItems::Assessment::OwnershipCertificateComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
     <% if @planning_application.planning_application_constraints&.any? %>
       <%= render(
             TaskListItems::Assessment::ConsulteesConsultedComponent.new(

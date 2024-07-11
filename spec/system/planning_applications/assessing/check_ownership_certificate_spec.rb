@@ -10,8 +10,16 @@ RSpec.describe "Check ownership certificate" do
     create(
       :planning_application,
       :in_assessment,
-      local_authority: default_local_authority
+      local_authority: default_local_authority,
+      application_type:
     )
+  end
+
+  let(:application_type) do
+    create(:application_type, features:
+      {
+        "ownership_details" => true
+      })
   end
 
   before do
@@ -115,6 +123,19 @@ RSpec.describe "Check ownership certificate" do
       click_button "Save and mark as complete"
 
       expect(list_item("Check ownership certificate")).to have_content("Completed")
+    end
+  end
+
+  context "when application type does not process ownership details" do
+    let(:application_type) do
+      create(:application_type, features:
+        {
+          "ownership_details" => false
+        })
+    end
+
+    it "does not provide a section for checking ownership details in assessment" do
+      expect(page).not_to have_content("Check ownership certificate")
     end
   end
 end
