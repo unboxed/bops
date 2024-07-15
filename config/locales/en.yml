@@ -1465,6 +1465,20 @@ en:
       committee_decisions:
         update:
           success: Review of committee decision recommendation updated successfully
+      considerations:
+        edit:
+          drag_and_drop: Drag and drop considerations to change their order.
+        items:
+          update:
+            success: Consideration was successfully saved
+        show:
+          actions:
+            accepted: Assement against policies and guidance accepted
+            edited_and_accepted: Assement against policies and guidance edited and accepted
+            rejected: Assement against policies and guidance rejected
+          review_info: by %{reviewer}, %{reviewed_on}
+        update:
+          success: Review of assessment against policy and guidance updated successfully
       documents:
         update:
           success: Documents were successfully updated.
@@ -2096,6 +2110,8 @@ en:
         link_text: Review conditions
         pre_commencement:
           link_text: Review pre-commencement conditions
+      considerations_component:
+        link_text: Review assessment against policies and guidance
       documents_component:
         review_documents_for: Review documents for recommendation
       heads_of_terms_component:
@@ -2106,8 +2122,6 @@ en:
         review_immunity_enforcement: Review assessment of immunity
       informatives_component:
         link_text: Review informatives
-      local_policy_component:
-        link_text: Review assessment against policies and guidance
       notify_committee_component:
         link_text: Notify neighbours of committee meeting
       permitted_development_right_component:

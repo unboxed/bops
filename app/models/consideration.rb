@@ -24,6 +24,7 @@ class Consideration < ApplicationRecord
 
   attribute :policy_references, PolicyReference.to_array_type
   attribute :policy_guidance, PolicyGuidance.to_array_type
+  attribute :reviewer_edited, :boolean, default: false
 
   accepts_nested_attributes_for :policy_references, :policy_guidance
 
@@ -34,4 +35,15 @@ class Consideration < ApplicationRecord
   validates :policy_area, presence: true, uniqueness: {scope: :consideration_set}
   validates :policy_references, presence: true
   validates :assessment, :conclusion, presence: true
+
+  delegate :current_review, to: :consideration_set
+  delegate :not_started?, to: :current_review, prefix: true
+
+  before_update if: :reviewer_edited? do
+    current_review.update!(reviewer_edited: true)
+  end
+
+  after_create if: :current_review_not_started? do
+    current_review.update!(status: "in_progress")
+  end
 end

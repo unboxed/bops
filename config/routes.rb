@@ -288,6 +288,12 @@ Rails.application.routes.draw do
 
           resources :immunity_enforcements, only: %i[show edit update]
 
+          resource :considerations, only: %i[show edit update] do
+            resources :items, only: %i[edit update], module: :considerations do
+              concerns :positionable
+            end
+          end
+
           resource :informatives, only: %i[show edit update] do
             resources :items, only: %i[edit update], module: :informatives do
               concerns :positionable
