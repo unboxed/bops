@@ -1078,6 +1078,7 @@ en:
             success: Summary of works was successfully updated.
       assessment_report_component:
         additional_evidence: Summary of additional evidence
+        assessment_against_policies_and_guidance: Policies and guidance
         constraints_including_article: Constraints including Article 4 direction(s)
         consultation_documents: Consultation documents
         documents_included_in: Documents included in the decision notice
@@ -1086,13 +1087,11 @@ en:
         legislation: Legislation
         location_description: Location description
         neighbour_responses: Neighbour responses summary
+        no_considerations_assessed: There is no assessment against policies and guidance
         no_documents_listed: There are no documents listed on the decision notice.
         no_legislation_assessed: There is no legislation assessment for this application.
         planning_history: Planning history
         summary_of_works: Summary of works
-      assessment_report_downloads:
-        show:
-          assessment_report: Assessment report
       base:
         not_validated: The planning application must be validated before assessment can begin
       considerations:
@@ -1277,6 +1276,9 @@ en:
           update_assessment: Update assessment
         update:
           success: Recommendation was successfully reviewed.
+      report_downloads:
+        show:
+          assessment_report: Assessment report
       tasks:
         check_consistency:
           check_application: Check application

@@ -5,14 +5,19 @@ module PlanningApplications
     class AssessmentReportComponent < ViewComponent::Base
       include AssessmentDetailHelper
 
-      def initialize(planning_application:, show_additional_evidence: false)
+      def initialize(planning_application:, show_additional_evidence: false, show_edit_links: true)
         @planning_application = planning_application
         @show_additional_evidence = show_additional_evidence
+        @show_edit_links = show_edit_links
       end
 
       private
 
-      attr_reader :planning_application, :show_additional_evidence
+      attr_reader(
+        :planning_application,
+        :show_additional_evidence,
+        :show_edit_links
+      )
 
       delegate(
         :constraints,
@@ -29,12 +34,16 @@ module PlanningApplications
         to: :planning_application
       )
 
+      def considerations
+        planning_application.consideration_set.considerations
+      end
+
       def documents
         planning_application.documents_for_decision_notice
       end
 
-      def local_policy_areas
-        planning_application.local_policy.present? ? planning_application.local_policy.local_policy_areas : []
+      def current_user
+        Current.user
       end
     end
   end
