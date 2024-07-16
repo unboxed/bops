@@ -84,7 +84,8 @@ RSpec.describe "BOPS API" do
               ["floor_plans.pdf", "planx/odp/floor_plans.pdf", "application/pdf"],
               ["correspondence.pdf", "planx/odp/correspondence.pdf", "application/pdf"],
               ["heritageStatement.pdf", "planx/odp/heritageStatement.pdf", "application/pdf"],
-              ["invoice.pdf", "planx/odp/invoice.pdf", "application/pdf"]
+              ["invoice.pdf", "planx/odp/invoice.pdf", "application/pdf"],
+              ["test document.pdf", "planx/odp/test document.pdf", "application/pdf"]
             ].each do |file, fixture, content_type|
               stub_request(:get, %r{\Ahttps://api.editor.planx.dev/file/private/\w+/#{Regexp.escape(file)}\z})
                 .with(headers: {"Api-Key" => "G41sAys9uPMUVBH5WUKsYE4H"})
