@@ -62,6 +62,14 @@ class LocalAuthority < ApplicationRecord
     end
   end
 
+  def applicants_url
+    if Bops.env.production?
+      super
+    else
+      "https://#{subdomain}.#{Rails.configuration.applicants_base_url}"
+    end
+  end
+
   private
 
   def council_code_exists
