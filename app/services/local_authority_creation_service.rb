@@ -6,12 +6,19 @@ class LocalAuthorityCreationService
     @council_code = params[:council_code]
     @short_name = params[:short_name]
     @council_name = params[:council_name]
-    @applicants_url = params[:applicants_url]
     @admin_email = params[:admin_email]
+
+    @applicants_url = if Bops.env.production?
+      params[:applicants_url]
+    else
+      "https://#{@subdomain}.#{Rails.configuration.applicants_base_url}"
+    end
   end
 
   def call
     setup
+
+    local_authority
   end
 
   private
