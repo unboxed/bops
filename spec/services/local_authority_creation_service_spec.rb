@@ -72,4 +72,34 @@ RSpec.describe LocalAuthorityCreationService do
       end
     end
   end
+  context "when in staging" do
+    let(:options) do
+      {
+        subdomain: "lambeth",
+        council_code: "LBH",
+        short_name: "Lambeth",
+        council_name: "Lambeth Council",
+        applicants_url: "https://planningapplications.lambeth.gov.uk",
+        signatory_name: "Christina Thompson",
+        signatory_job_title: "Director of Finance & Property",
+        enquiries_paragraph: "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG",
+        email_address: "planning@lambeth.gov.uk",
+        feedback_email: "feedback_email@lambeth.gov.uk",
+        admin_email: "admin_email@lambeth.gov.uk"
+      }
+    end
+
+    let(:service) do
+      described_class.new(options)
+    end
+
+    before do
+      allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("staging")
+    end
+
+    it "overrides the applicants url" do
+      local_authority = service.call
+      expect(local_authority.applicants_url).not_to eq(options[:applicants_url])
+    end
+  end
 end
