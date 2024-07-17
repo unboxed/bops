@@ -19,6 +19,7 @@ json.application do
     json.consultation do
       json.startDate consultation.start_date
       json.endDate consultation.end_date
+      json.publicLink consultation.application_link
     end
   end
 end
