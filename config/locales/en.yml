@@ -251,12 +251,6 @@ en:
               invalid: Enter a valid url for the legislation
             title:
               blank: Enter a title for the legislation
-        local_policy_area:
-          attributes:
-            assessment:
-              blank: Fill in your assessment
-            policies:
-              blank: Fill in the policies you consulted
         planning_application:
           attributes:
             application_type_id:
@@ -1185,12 +1179,6 @@ en:
             success: Informative was successfully saved
         update:
           success: Informatives were successfully saved
-      local_policies:
-        update:
-          successfully_updated: Check against policy and guidance response was successfully updated
-      local_policy_areas:
-        update:
-          successfully_updated: Check against policy and guidance response was successfully updated
       ownership_certificates:
         update:
           success: Ownership certificate was checked

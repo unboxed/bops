@@ -61,7 +61,6 @@ class PlanningApplication < ApplicationRecord
     has_one :fee_calculation, required: false
     has_one :immunity_detail, required: false
     has_one :informative_set
-    has_one :local_policy, required: false
     has_one :ownership_certificate, required: false
     has_one :planx_planning_data, required: false
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false

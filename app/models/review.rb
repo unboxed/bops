@@ -6,8 +6,6 @@ class Review < ApplicationRecord
 
   belongs_to :owner, polymorphic: true
 
-  has_many :local_policy_areas, through: :owner
-
   with_options class_name: "User", optional: true do
     belongs_to :assessor
     belongs_to :reviewer
@@ -21,14 +19,11 @@ class Review < ApplicationRecord
     validates :summary, if: -> { owner_is_immunity_detail? && decision_is_immune? }
   end
 
-  accepts_nested_attributes_for :local_policy_areas
-
   before_create :ensure_no_open_evidence_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_create :ensure_no_open_enforcement_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_commit :ensure_consultation_has_finished!, if: :owner_is_consultation?
   before_update :set_status_to_be_complete, if: :accepted?
   before_update :set_status_to_be_reviewed, if: :comment?
-  before_update :set_reviewer_edited, if: -> { owner_is_local_policy? && assessment_changed? }
   before_update :set_reviewed_at, if: :reviewer_present?
 
   enum action: {
@@ -126,22 +121,12 @@ class Review < ApplicationRecord
     update!(reviewer_edited: true)
   end
 
-  def owner_is_local_policy?
-    owner_type == "LocalPolicy"
-  end
-
   def owner_is_immunity_detail?
     owner_type == "ImmunityDetail"
   end
 
   def owner_is_consultation?
     owner_type == "Consultation"
-  end
-
-  def assessment_changed?
-    owner.local_policy_areas.each do |local_policy_area|
-      local_policy_area.saved_changes.any?
-    end
   end
 
   def enforcement?
