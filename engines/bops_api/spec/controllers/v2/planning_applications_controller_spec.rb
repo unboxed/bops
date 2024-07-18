@@ -11,10 +11,11 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
   routes { BopsApi::Engine.routes }
 
   before do
-    create(:api_user, token: "pUYptBJDVFzssbRPkCPjaZEx", local_authority: southwark)
+    token = "pUYptBJDVFzssbRPkCPjaZEx"
+    create(:api_user, token:, local_authority: southwark)
 
     request.set_header("HTTP_HOST", "southwark.bops.test")
-    request.set_header("HTTP_AUTHORIZATION", "Bearer pUYptBJDVFzssbRPkCPjaZEx")
+    request.set_header("HTTP_AUTHORIZATION", "Bearer #{token}")
 
     expect(BopsApi::Application::CreationService).to receive(:new).and_return(creation_service)
     expect(creation_service).to receive(:call!).and_return(planning_application)
@@ -39,7 +40,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
     end
   end
 
-  %w[v0.6.0].each do |version|
+  %w[v0.6.0 v0.7.0].each do |version|
     describe "ODP Schema #{version}" do
       %w[
         validLawfulDevelopmentCertificateExisting.json
