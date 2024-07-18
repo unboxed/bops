@@ -16069,6 +16069,11 @@ components:
               - string
               - 'null'
               format: date
+            publicUrl:
+              type:
+              - string
+              - 'null'
+              format: string
           required:
           - startDate
           - endDate
