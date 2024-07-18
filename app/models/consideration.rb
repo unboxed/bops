@@ -11,7 +11,7 @@ class Consideration < ApplicationRecord
     attribute :url, :string
 
     def code_and_description(separator: ": ")
-      "#{code}#{separator}#{description}"
+      code.present? ? "#{code}#{separator}#{description}" : description
     end
   end
 
