@@ -135,7 +135,7 @@ jobs:
           exit $exit_code
 
   deploy-services:
-    name: Deploy services to ${{ inputs.environment-name }}
+    name: Deploy service ${{ matrix.service_type }} to ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     needs: [build-image, deploy-db-migrate-service]
     strategy:
@@ -184,23 +184,14 @@ jobs:
           container-name: bops
           image: ${{ steps.ecr-image.outputs.uri }}
 
-      - name: Deploy ${{ matrix.service_type }}
+      - name: Deploy ${{ matrix.service_type }} task
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        if: matrix.service_type != 'web'
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: bops-${{ matrix.service_type }}-${{ inputs.environment-name }}
           cluster: bops-${{ inputs.environment-name }}
           wait-for-service-stability: true
-
-      - name: Deploy web
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        if: matrix.service_type == 'web'
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: bops-${{ matrix.service_type }}-${{ inputs.environment-name }}
-          cluster: bops-${{ inputs.environment-name }}
-          wait-for-service-stability: true
+          # used only for web:
           codedeploy-appspec: .aws/appspec.yml
           codedeploy-application: bops-${{ inputs.environment-name }}
           codedeploy-deployment-group: default
