@@ -15,11 +15,16 @@
       <tr class="govuk-table__row">
         <% attributes.each do |attribute| %>
           <th scope="col" class="govuk-table__header">
-            <%= t(".#{attribute}") %>
+            <% if attribute == :formatted_expiry_date %>
+              <%= render(PlanningApplications::SortComponent.new(attribute: "expiry_date", direction: params[:direction])) %>
+            <% else %>
+              <%= t(".#{attribute}") %>
+            <% end %>
           </th>
         <% end %>
       </tr>
     </thead>
+
     <tbody class="govuk-table__body">
       <% planning_applications.each do |planning_application| %>
         <%= render(

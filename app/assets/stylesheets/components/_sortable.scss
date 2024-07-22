@@ -45,3 +45,34 @@
   margin-left: 2rem;
   align-self: center;
 }
+
+th a.sort-by {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+th a.sort-by.up,
+th a.sort-by.down {
+  background: govuk-colour("light-grey");
+}
+.sort-text {
+  margin-right: 6px;
+}
+.arrow {
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+.right {
+  border-left-color: black;
+}
+.up {
+  border-top-width: 0;
+  border-bottom-color: black;
+}
+.down {
+  border-bottom-width: 0;
+  border-top-color: black;
+}

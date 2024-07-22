@@ -11,6 +11,8 @@ class PlanningApplicationSearch
 
   attribute :view, :enum, values: %w[all mine], default: "mine"
   attribute :application_type, :list
+  attribute :sort_key, :string
+  attribute :direction, :enum, values: %w[asc desc]
   attribute :status, :list
   attribute :query, :string
   attribute :submit, :string
@@ -33,11 +35,14 @@ class PlanningApplicationSearch
   end
 
   def call
-    if valid? && query
+    filtered = if valid? && query
       filtered_scope(records_matching_query)
     else
       filtered_scope
     end
+
+    return filtered unless sort_key
+    sorted_scope(filtered)
   end
 
   def statuses
@@ -67,7 +72,7 @@ class PlanningApplicationSearch
   private
 
   def filter_params(params)
-    params.permit(:view, :query, :submit, status: [], application_type: [])
+    params.permit(:view, :query, :sort_key, :direction, :submit, status: [], application_type: [])
   end
 
   def view_mine?
@@ -150,6 +155,10 @@ class PlanningApplicationSearch
 
   def filtered_scope(scope = current_planning_applications)
     scope.where(status: [status_type], application_type: [selected_application_type_ids]).by_created_at_desc
+  end
+
+  def sorted_scope(scope = current_planning_applications)
+    PlanningApplicationSorter.new(scope:, sort_key:, direction:).call
   end
 
   def selected_application_type_ids
