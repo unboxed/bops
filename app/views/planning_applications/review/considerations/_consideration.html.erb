@@ -45,7 +45,7 @@
     </div>
 
     <nav class="nav-links govuk-!-padding-top-3">
-      <%= govuk_link_to "Edit", edit_planning_application_review_considerations_item_path(@planning_application, consideration) %>
+      <%= govuk_link_to "Edit to accept", edit_planning_application_review_considerations_item_path(@planning_application, consideration) %>
       <% if consideration.submitted_by.try(:name) %>
         <span>Submitted by: <%= consideration.submitted_by.name %></span>
       <% end %>

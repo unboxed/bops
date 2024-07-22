@@ -59,6 +59,7 @@ export default class extends Controller {
     })
 
     this.policyReferencesInputTarget.remove()
+    this.policyReferencesLabel.htmlFor = "policyReferencesAutoComplete"
 
     accessibleAutocomplete({
       element: this.policyGuidanceContainerTarget,
@@ -90,6 +91,7 @@ export default class extends Controller {
     })
 
     this.policyGuidanceInputTarget.remove()
+    this.policyGuidanceLabel.htmlFor = "policyGuidanceAutoComplete"
   }
 
   policyReferenceIsAlreadyAdded(data) {
@@ -208,7 +210,15 @@ export default class extends Controller {
     return document.getElementById("policyReferencesAutoComplete")
   }
 
+  get policyReferencesLabel() {
+    return this.policyReferencesContainerTarget.firstChild
+  }
+
   get policyGuidanceAutoComplete() {
     return document.getElementById("policyGuidanceAutoComplete")
+  }
+
+  get policyGuidanceLabel() {
+    return this.policyGuidanceContainerTarget.firstChild
   }
 }
