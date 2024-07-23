@@ -20,7 +20,7 @@ BopsApi::Engine.routes.draw do
       end
 
       namespace :public do
-        resources :planning_applications, only: [] do
+        resources :planning_applications, only: [:show] do
           get :search, on: :collection
           resource :documents, only: [:show]
         end

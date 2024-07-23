@@ -92,6 +92,8 @@ components:
           type: object
         email:
           "$ref": "#/components/definitions/Email"
+        maintenanceContact:
+          "$ref": "#/components/definitions/MaintenanceContact"
         name:
           additionalProperties: false
           properties:
@@ -344,6 +346,116 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Consent to make small changes to a project with Planning Permission
+            type: string
+          value:
+            const: amendment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Consent to make small (minor material) changes to a project with
+              Planning Permission
+            type: string
+          value:
+            const: amendment.minorMaterial
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Consent to make small (non-material) changes to a project with
+              Planning Permission
+            type: string
+          value:
+            const: amendment.nonMaterial
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning approval
+            type: string
+          value:
+            const: approval
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Approval of reserved matters
+            type: string
+          value:
+            const: approval.reservedMatters
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Written confirmation of compliance with a planning condition
+            type: string
+          value:
+            const: complianceConfirmation
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Environmental Impact Decision
+            type: string
+          value:
+            const: environmnentalImpact
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Environmental Impact Decision - Scoping
+            type: string
+          value:
+            const: environmentalImpact.scoping
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Environmental Impact Decision - Screening
+            type: string
+          value:
+            const: environmentalImpact.screening
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Consent to move and dispose of hazardous substances
             type: string
           value:
@@ -360,6 +472,18 @@ components:
             type: string
           value:
             const: hedgerowRemovalNotice
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Consent to do works affecting ordinary watercourses or land drainage
+            type: string
+          value:
+            const: landDrainageConsent
             type: string
         required:
         - value
@@ -441,10 +565,46 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Consent to make small changes to a project with Planning Permission
+            const: Notification of completion
             type: string
           value:
-            const: nonMaterialAmendment
+            const: notifyCompletion
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning obligation
+            type: string
+          value:
+            const: obligation
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Discharge a planning obligation
+            type: string
+          value:
+            const: obligation.discharge
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Modify a planning obligation
+            type: string
+          value:
+            const: obligation.modify
             type: string
         required:
         - value
@@ -538,18 +698,6 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Prior Approval - Convert a light industrial building into a home
-            type: string
-          value:
-            const: pa.part3.classPA
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
             const: Prior Approval - Convert an agricultural building into a home
             type: string
           value:
@@ -599,10 +747,48 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Prior Approval - Changes of use permitted under a permission granted
+              on an application
+            type: string
+          value:
+            const: pa.part3.classV
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Prior Approval - Put up a temporary structure
             type: string
           value:
             const: pa.part4.classBB
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Develop a temporary campsite
+            type: string
+          value:
+            const: pa.part4.classBC
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Put temporary school buildings on vacant commercial
+              land
+            type: string
+          value:
+            const: pa.part4.classCA
             type: string
         required:
         - value
@@ -699,10 +885,48 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Prior Approval - Development of toll facilities
+            type: string
+          value:
+            const: pa.part9.classD
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Prior Approval - Demolish a building
             type: string
           value:
             const: pa.part11.classB
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Install or change solar equipment on domestic
+              premises
+            type: string
+          value:
+            const: pa.part14.classA
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Install or change stand-alone solar equipment
+              on domestic premises
+            type: string
+          value:
+            const: pa.part14.classB
             type: string
         required:
         - value
@@ -723,6 +947,32 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Prior Approval - Install or change stand-alone solar equipment
+              on non-domestic premises
+            type: string
+          value:
+            const: pa.part14.classK
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Installation of a solar canopy on non-domestic,
+              off-street parking
+            type: string
+          value:
+            const: pa.part14.classOA
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Prior Approval - Install telecommunications equipment
             type: string
           value:
@@ -735,10 +985,71 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Prior Approval - Specific Acts of Parliament or Local Orders
+            const: Prior Approval - Coal mining
+            type: string
+          value:
+            const: pa.part17
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Other developments ancillary to mining operations
+            type: string
+          value:
+            const: pa.part17.classB
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Developments for maintenance or safety
+            type: string
+          value:
+            const: pa.part17.classC
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Coal mining development by the Coal Authority
+              for maintence or safety
+            type: string
+          value:
+            const: pa.part17.classG
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Development under private acts or orders
             type: string
           value:
             const: pa.part18.classA
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Prior Approval - Development on a closed defence site
+            type: string
+          value:
+            const: pa.part19.classTA
             type: string
         required:
         - value
@@ -812,32 +1123,6 @@ components:
             type: string
           value:
             const: pa.part20.classZA
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Permission in Principle - Consent for the principle of a project
-              with less than 1,000 square metres floor area on a site of less than
-              1 hectare
-            type: string
-          value:
-            const: pip
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Permission in Principle - Approval of technical details
-            type: string
-          value:
-            const: pip.technicalDetails
             type: string
         required:
         - value
@@ -958,6 +1243,42 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Planning Permission - Technical details consent for major development
+            type: string
+          value:
+            const: pp.full.major.technicalDetails
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission - Technical details consent for waste development
+            type: string
+          value:
+            const: pp.full.major.technicalDetails.waste
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission - Full planning permission for waste development
+            type: string
+          value:
+            const: pp.full.major.waste
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Planning Permission - Minor application
             type: string
           value:
@@ -975,6 +1296,18 @@ components:
             type: string
           value:
             const: pp.full.minor.listed
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission - Technical details consent for minor development
+            type: string
+          value:
+            const: pp.full.minor.technicalDetails
             type: string
         required:
         - value
@@ -1024,19 +1357,7 @@ components:
               witholding all details
             type: string
           value:
-            const: pp.outline.allReserved
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Outline Planning Permission - Approval of reserved matters
-            type: string
-          value:
-            const: pp.outline.reservedMatters
+            const: pp.outline.all
             type: string
         required:
         - value
@@ -1049,7 +1370,7 @@ components:
               specifying some details
             type: string
           value:
-            const: pp.outline.someReserved
+            const: pp.outline.some
             type: string
         required:
         - value
@@ -1074,19 +1395,7 @@ components:
               witholding all details (minor)
             type: string
           value:
-            const: pp.outline.minor.allReserved
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Outline Planning Permission - Approval of reserved matters (minor)
-            type: string
-          value:
-            const: pp.outline.minor.reservedMatters
+            const: pp.outline.minor.all
             type: string
         required:
         - value
@@ -1099,7 +1408,7 @@ components:
               specifying some details (minor)
             type: string
           value:
-            const: pp.outline.minor.someReserved
+            const: pp.outline.minor.some
             type: string
         required:
         - value
@@ -1124,7 +1433,7 @@ components:
               witholding all details (major)
             type: string
           value:
-            const: pp.outline.major.allReserved
+            const: pp.outline.major.all
             type: string
         required:
         - value
@@ -1133,10 +1442,11 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Outline Planning Permission - Approval of reserved matters (major)
+            const: Outline Planning Permission - Consent for the principle of waste
+              development witholding all details
             type: string
           value:
-            const: pp.outline.major.reservedMatters
+            const: pp.outline.major.all.waste
             type: string
         required:
         - value
@@ -1149,7 +1459,46 @@ components:
               specifying some details (major)
             type: string
           value:
-            const: pp.outline.major.someReserved
+            const: pp.outline.major.some
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outline Planning Permission - Consent for the principle of waste
+              development witholding all details
+            type: string
+          value:
+            const: pp.outline.major.some.waste
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Planning Permission in Principle - Consent for the principle of
+              a project with less than 1,000 square metres floor area on a site of
+              less than 1 hectare
+            type: string
+          value:
+            const: pp.pip
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Rights of Way Order - Apply to move or close a path
+            type: string
+          value:
+            const: rightsOfWayOrder
             type: string
         required:
         - value
@@ -1236,6 +1585,8 @@ components:
           type: object
         email:
           "$ref": "#/components/definitions/Email"
+        maintenanceContact:
+          "$ref": "#/components/definitions/MaintenanceContact"
         name:
           additionalProperties: false
           properties:
@@ -1288,6 +1639,8 @@ components:
           anyOf:
           - "$ref": "#/components/definitions/ApplicationFee"
           - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
+        planningApp:
+          "$ref": "#/components/definitions/PlanningApplication"
         preApp:
           "$ref": "#/components/definitions/PreApplication"
         type:
@@ -1300,22 +1653,51 @@ components:
     BaseProposal:
       additionalProperties: false
       properties:
-        boundary:
+        access:
           additionalProperties: false
+          properties:
+            affected:
+              enum:
+              - vehicle
+              - pedestrian
+              - newRoad
+              - rightsOfWay.newPublic
+              - rightsOfWay.changes
+              type: string
+          type: object
+        boundary:
+          "$ref": "#/components/definitions/GeoBoundary"
           description: Location plan boundary proposed by the user, commonly referred
             to as the red line boundary
-          properties:
-            area:
-              "$ref": "#/components/definitions/Area"
-            site:
-              "$ref": "#/components/definitions/GeoJSON"
-          required:
-          - site
-          - area
-          type: object
         date:
           "$ref": "#/components/definitions/ProposalDates"
         description:
+          type: string
+        ecology:
+          additionalProperties: false
+          description: Details of biodiversity and geological conservation, if applicable
+            to application.type
+          properties:
+            conservationAffected:
+              enum:
+              - site
+              - adjacent
+              - none
+              type: string
+            featuresAffected:
+              enum:
+              - site
+              - adjacent
+              - none
+              type: string
+            speciesAffected:
+              enum:
+              - site
+              - adjacent
+              - none
+              type: string
+          type: object
+        environmentalImpactDescription:
           type: string
         extend:
           additionalProperties: false
@@ -1324,6 +1706,20 @@ components:
               "$ref": "#/components/definitions/Area"
           required:
           - area
+          type: object
+        flood:
+          additionalProperties: false
+          description: Assessment of flood risk, if applicable to application.type
+          properties:
+            surfaceWaterDisposal:
+              enum:
+              - drainageSystem
+              - soakaway
+              - sewer
+              - watercourse
+              - pondOrLake
+              - other
+              type: string
           type: object
         materials:
           "$ref": "#/components/definitions/Materials"
@@ -1346,14 +1742,230 @@ components:
           required:
           - area
           type: object
+        newDwellings:
+          additionalProperties: false
+          properties:
+            newBuild:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+          type: object
         projectType:
           items:
             "$ref": "#/components/definitions/ProjectType"
           type: array
+        structures:
+          additionalProperties: false
+          properties:
+            permanent:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            temporary:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            total:
+              type: number
+            type:
+              enum:
+              - bridge
+              - catchpit
+              - culvert
+              - pipe
+              - gully
+              - headwall
+              - manhole
+              - weir
+              - other
+              type: string
+          required:
+          - type
+          - total
+          type: object
+        units:
+          "$ref": "#/components/definitions/ResidentialUnits"
+        use:
+          additionalProperties: false
+          description: Proposed land use, including storage of hazardous materials,
+            if applicable to application.type
+          properties:
+            contamination:
+              enum:
+              - known
+              - suspected
+              - vulnerable
+              type: string
+            description:
+              type: string
+            storage:
+              items:
+                type: string
+              type: array
+          type: object
+        utilities:
+          additionalProperties: false
+          description: Proposed utilities, if applicable to application.type
+          properties:
+            fire:
+              additionalProperties: false
+              description: Whether the proposal introduces a fire suppression system
+              properties:
+                suppression:
+                  type: boolean
+              required:
+              - suppression
+              type: object
+            foulSewageDisposal:
+              description: Type of proposed foul sewage disposal
+              enum:
+              - sewer
+              - tank
+              - plant
+              - pit
+              - other
+              type: string
+            gas:
+              additionalProperties: false
+              description: Count of new gas connections
+              properties:
+                connections:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+              required:
+              - connections
+              type: object
+            internet:
+              additionalProperties: false
+              description: Count of new full fibre Internet connections
+              properties:
+                commercialUnits:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+                residentialUnits:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+              required:
+              - commercialUnits
+              - residentialUnits
+              type: object
+            water:
+              additionalProperties: false
+              description: Count of new water connections
+              properties:
+                connections:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+              required:
+              - connections
+              type: object
+          type: object
+        watercourse:
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+            type:
+              enum:
+              - ditch
+              - millStream
+              - pond
+              - river
+              - streamOrBrook
+              - other
+              type: string
+          required:
+          - name
+          - type
+          type: object
       required:
       - projectType
       - description
       type: object
+    BuildingRegulation:
+      "$id": "#BuildingRegulation"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Part M4(2) of the Building Regulations 2010
+            type: string
+          value:
+            const: m42
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Part M4(3)(2a) of the Building Regulations 2010
+            type: string
+          value:
+            const: m432a
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Part M4(3)(2b) of the Building Regulations 2010
+            type: string
+          value:
+            const: m432b
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: None of these
+            type: string
+          value:
+            const: none
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Building regulations
     CalculateMetadata:
       "$id": "#CalculateMetadata"
       additionalProperties: false
@@ -1402,9 +2014,146 @@ components:
       format: date-time
       pattern: "^([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])[Tt]([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\\.[0-9]+)?(([Zz])|([\\+|\\-]([01][0-9]|2[0-3]):[0-5][0-9]))$"
       type: string
+    DesignAndAccessStatement:
+      additionalProperties: false
+      properties:
+        accessAndLayout:
+          type: string
+        landscapingChanges:
+          type: string
+        projectDescription:
+          type: string
+        propertyDescription:
+          type: string
+      required:
+      - propertyDescription
+      - projectDescription
+      - accessAndLayout
+      - landscapingChanges
+      type: object
+    DevelopmentType:
+      "$id": "#DevelopmentType"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change of use
+            type: string
+          value:
+            const: changeOfUse
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change of use of an existing single home
+            type: string
+          value:
+            const: changeOfUseFrom
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Change of use to a home
+            type: string
+          value:
+            const: changeOfUseTo
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Conversion
+            type: string
+          value:
+            const: conversion
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Extension
+            type: string
+          value:
+            const: extension
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: New build
+            type: string
+          value:
+            const: newBuild
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Not known
+            type: string
+          value:
+            const: notKnown
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Development types
     Email:
       format: email
       type: string
+    Entity:
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        source:
+          anyOf:
+          - additionalProperties: false
+            properties:
+              text:
+                const: Planning Data
+                type: string
+              url:
+                "$ref": "#/components/definitions/URL"
+            required:
+            - text
+            - url
+            type: object
+          - additionalProperties: false
+            properties:
+              text:
+                const: Ordnance Survey MasterMap Highways
+                type: string
+            required:
+            - text
+            type: object
+      required:
+      - name
+      - source
+      type: object
     Feature:
       additionalProperties: false
       description: A feature object which contains a geometry and associated properties.
@@ -1969,6 +2718,30 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Plans showing the stretches of hedgerows to be removed
+            type: string
+          value:
+            const: hedgerowsInformation
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Evidence of the date of planting of the removed hedgerows
+            type: string
+          value:
+            const: hedgerowsInformation.plantingDate
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Heritage Statement
             type: string
           value:
@@ -2125,10 +2898,34 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Method statement
+            type: string
+          value:
+            const: methodStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Minerals and waste assessment
             type: string
           value:
             const: mineralsAndWasteAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Information the authority considers necessary for the application
+            type: string
+          value:
+            const: necessaryInformation
             type: string
         required:
         - value
@@ -2249,6 +3046,42 @@ components:
             type: string
           value:
             const: planningStatement
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Recyclable waste storage details
+            type: string
+          value:
+            const: recycleWasteStorageDetails
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Information the applicant considers relevant to the application
+            type: string
+          value:
+            const: relevantInformation
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Residential units details
+            type: string
+          value:
+            const: residentialUnitsDetails
             type: string
         required:
         - value
@@ -2437,6 +3270,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Technical specification
+            type: string
+          value:
+            const: technicalSpecification
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Tenancy agreement
             type: string
           value:
@@ -2549,6 +3394,18 @@ components:
             type: string
           value:
             const: treeConditionReport
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Tree plan
+            type: string
+          value:
+            const: treePlan
             type: string
         required:
         - value
@@ -2689,6 +3546,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Waste storage details
+            type: string
+          value:
+            const: wasteStorageDetails
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Water environment assessment
             type: string
           value:
@@ -2699,6 +3568,464 @@ components:
         - description
         type: object
       description: Types of planning documents and drawings
+    FilesAsData:
+      "$id": "#FilesAsData"
+      additionalProperties: false
+      description: File types that can optionally be provided by answering structured
+        questions, rather than via document upload (see root `files` for uploads)
+      properties:
+        designAndAccessStatement:
+          "$ref": "#/components/definitions/DesignAndAccessStatement"
+        heritageStatement:
+          "$ref": "#/components/definitions/HeritageStatement"
+        locationPlan:
+          "$ref": "#/components/definitions/GeoBoundary"
+      type: object
+    GLAHousingProvider:
+      "$id": "#GLAHousingProvider"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other affordable housing provider
+            type: string
+          value:
+            const: affordableHousing
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Council delivered build to rent
+            type: string
+          value:
+            const: councilBuildToRent
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Council delivery company
+            type: string
+          value:
+            const: councilDelivery
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Housing association
+            type: string
+          value:
+            const: HA
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Local Authority
+            type: string
+          value:
+            const: LA
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Private
+            type: string
+          value:
+            const: private
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Private rented sector
+            type: string
+          value:
+            const: privateRented
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other public authority
+            type: string
+          value:
+            const: publicAuthority
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Self-build
+            type: string
+          value:
+            const: selfBuild
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Housing provider categories tracked by the Greater London Authority
+        (GLA)
+    GLAResidentialUnitType:
+      "$id": "#GLAResidentialUnitType"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Cluster flat
+            type: string
+          value:
+            const: cluster
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Co-living unit
+            type: string
+          value:
+            const: coLiving
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Detached home
+            type: string
+          value:
+            const: detached
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Flat/apartment or maisonette
+            type: string
+          value:
+            const: flat
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: House in multiple occupation (HMO)
+            type: string
+          value:
+            const: HMO
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Hostel room
+            type: string
+          value:
+            const: hostel
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Live/work unit
+            type: string
+          value:
+            const: LW
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other
+            type: string
+          value:
+            const: other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Semi-detached home
+            type: string
+          value:
+            const: semiDetached
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Student accomodation
+            type: string
+          value:
+            const: student
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Studio or bedsit
+            type: string
+          value:
+            const: studio
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Terraced home
+            type: string
+          value:
+            const: terraced
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Residential unit types tracked by the Greater London Authority
+        (GLA)
+    GLATenureType:
+      "$id": "#GLATenureType"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Affordable rent (not at LAR benchmark rents)
+            type: string
+          value:
+            const: AR
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Discount market rate
+            type: string
+          value:
+            const: DMR
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Discount market rate (charged at London Living Rents)
+            type: string
+          value:
+            const: DMRLLR
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Discount market sale
+            type: string
+          value:
+            const: DMS
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: London Affordable Rent
+            type: string
+          value:
+            const: LAR
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: London Living Rent
+            type: string
+          value:
+            const: LRR
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: London Shared Ownership
+            type: string
+          value:
+            const: LSO
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Market for rent
+            type: string
+          value:
+            const: marketForRent
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Market for sale
+            type: string
+          value:
+            const: marketForSale
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other
+            type: string
+          value:
+            const: other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Self-build and custom build
+            type: string
+          value:
+            const: selfCustomBuild
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Starter homes
+            type: string
+          value:
+            const: SH
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Shared equity
+            type: string
+          value:
+            const: sharedEquity
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Social rent
+            type: string
+          value:
+            const: SR
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Tenure types tracked by the Greater London Authority (GLA)
+    GeoBoundary:
+      additionalProperties: false
+      properties:
+        area:
+          "$ref": "#/components/definitions/Area"
+        site:
+          "$ref": "#/components/definitions/GeoJSON"
+      required:
+      - site
+      - area
+      type: object
     GeoJSON:
       anyOf:
       - "$ref": "#/components/definitions/Geometry"
@@ -2743,11 +4070,52 @@ components:
       - geometries
       - type
       type: object
+    HeritageStatement:
+      additionalProperties: false
+      properties:
+        designated.WHS:
+          "$ref": "#/components/definitions/HeritageStatementBase"
+        designated.conservationArea:
+          "$ref": "#/components/definitions/HeritageStatementBase"
+        listed:
+          "$ref": "#/components/definitions/HeritageStatementBase"
+        monument:
+          "$ref": "#/components/definitions/HeritageStatementBase"
+      type: object
+    HeritageStatementBase:
+      additionalProperties: false
+      properties:
+        designationDescription:
+          type: string
+        improvements:
+          type: string
+        managedImpact:
+          type: string
+        projectDescpription:
+          type: string
+        propertyDescription:
+          type: string
+      required:
+      - designationDescription
+      - propertyDescription
+      - projectDescpription
+      - managedImpact
+      - improvements
+      type: object
     LeadDeveloper:
       additionalProperties: false
       properties:
-        companyRegistrationNumber:
-          type: string
+        company:
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+            registrationNumber:
+              type: string
+          required:
+          - name
+          - registrationNumber
+          type: object
         type:
           enum:
           - ukCompany
@@ -2797,6 +4165,8 @@ components:
           - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
         leadDeveloper:
           "$ref": "#/components/definitions/LeadDeveloper"
+        planningApp:
+          "$ref": "#/components/definitions/PlanningApplication"
         preApp:
           "$ref": "#/components/definitions/PreApplication"
         type:
@@ -2835,17 +4205,17 @@ components:
           - "$ref": "#/components/definitions/ProposedAddress"
           - "$ref": "#/components/definitions/OSAddress"
         boundary:
-          additionalProperties: false
+          "$ref": "#/components/definitions/GeoBoundary"
           description: HM Land Registry Index polygon for this property, commonly
             referred to as the blue line boundary, sourced from planning.data.gov.uk/dataset/title-boundary
+        flood:
+          additionalProperties: false
+          description: Existing flood risk, if applicable to application.type
           properties:
-            area:
-              "$ref": "#/components/definitions/Area"
-            site:
-              "$ref": "#/components/definitions/GeoJSON"
-          required:
-          - site
-          - area
+            20mFromWatercourse:
+              type: boolean
+            increasedRiskElsewhere:
+              type: boolean
           type: object
         localAuthorityDistrict:
           description: Current and historic UK Local Authority Districts that contain
@@ -2855,6 +4225,33 @@ components:
           type: array
         materials:
           "$ref": "#/components/definitions/Materials"
+          description: Existing materials, if applicable to proposal.projectType
+        occupation:
+          additionalProperties: false
+          description: Current occupation status of the property
+          properties:
+            status:
+              enum:
+              - occupied
+              - partVacant
+              - vacant
+              type: string
+          required:
+          - status
+          type: object
+        ownership:
+          additionalProperties: false
+          description: Current ownership status of the land
+          properties:
+            status:
+              enum:
+              - public
+              - private
+              - mixed
+              type: string
+          required:
+          - status
+          type: object
         parking:
           additionalProperties: false
           properties:
@@ -2982,7 +4379,27 @@ components:
           const: London
           type: string
         socialLandlord:
-          type: boolean
+          anyOf:
+          - additionalProperties: false
+            properties:
+              description:
+                type: string
+              status:
+                const: true
+                type: boolean
+            required:
+            - status
+            - description
+            type: object
+          - additionalProperties: false
+            properties:
+              status:
+                const: false
+                type: boolean
+            required:
+            - status
+            type: object
+          title: Lead Registered Social Landlord
         titleNumber:
           additionalProperties: false
           properties:
@@ -2996,8 +4413,39 @@ components:
           required:
           - known
           type: object
+        trees:
+          additionalProperties: false
+          description: Existing trees on or near the site
+          properties:
+            adjacent:
+              type: boolean
+            present:
+              type: boolean
+          required:
+          - present
+          - adjacent
+          type: object
         type:
           "$ref": "#/components/definitions/PropertyType"
+        units:
+          "$ref": "#/components/definitions/ResidentialUnits"
+        use:
+          additionalProperties: false
+          description: Existing land use, if applicable to application.type
+          properties:
+            description:
+              type: string
+            vacant:
+              additionalProperties: false
+              properties:
+                lastUseEndDate:
+                  "$ref": "#/components/definitions/Date"
+              required:
+              - lastUseEndDate
+              type: object
+          required:
+          - description
+          type: object
       required:
       - address
       - localAuthorityDistrict
@@ -3010,19 +4458,22 @@ components:
       description: Proposal details for project sites within the Greater London Authority
         (GLA) area
       properties:
-        boundary:
+        access:
           additionalProperties: false
+          properties:
+            affected:
+              enum:
+              - vehicle
+              - pedestrian
+              - newRoad
+              - rightsOfWay.newPublic
+              - rightsOfWay.changes
+              type: string
+          type: object
+        boundary:
+          "$ref": "#/components/definitions/GeoBoundary"
           description: Location plan boundary proposed by the user, commonly referred
             to as the red line boundary
-          properties:
-            area:
-              "$ref": "#/components/definitions/Area"
-            site:
-              "$ref": "#/components/definitions/GeoJSON"
-          required:
-          - site
-          - area
-          type: object
         charging:
           additionalProperties: false
           description: Electric vehicle charing points
@@ -3043,9 +4494,6 @@ components:
               required:
               - count
               type: object
-          required:
-          - active
-          - passive
           type: object
         cost:
           additionalProperties: false
@@ -3064,8 +4512,120 @@ components:
           "$ref": "#/components/definitions/ProposalDates"
         description:
           type: string
+        ecology:
+          additionalProperties: false
+          description: Details of biodiversity and geological conservation, if applicable
+            to application.type
+          properties:
+            conservationAffected:
+              enum:
+              - site
+              - adjacent
+              - none
+              type: string
+            featuresAffected:
+              enum:
+              - site
+              - adjacent
+              - none
+              type: string
+            speciesAffected:
+              enum:
+              - site
+              - adjacent
+              - none
+              type: string
+          type: object
+        energy:
+          additionalProperties: false
+          description: Proposed energy sources
+          properties:
+            communityOwned:
+              additionalProperties: false
+              properties:
+                capacity:
+                  additionalProperties: false
+                  description: Proposed total capacity of any on-site community-owned
+                    energy generation in megawatts (mW)
+                  properties:
+                    megawatts:
+                      type: number
+                  required:
+                  - megawatts
+                  type: object
+              required:
+              - capacity
+              type: object
+            heatPumps:
+              additionalProperties: false
+              properties:
+                capacity:
+                  additionalProperties: false
+                  description: Proposed total capacity of any heat pumps in megawatts
+                    (mV)
+                  properties:
+                    megawatts:
+                      type: number
+                  required:
+                  - megawatts
+                  type: object
+              required:
+              - capacity
+              type: object
+            solar:
+              additionalProperties: false
+              properties:
+                capacity:
+                  additionalProperties: false
+                  description: Proposed total capacity of any solar energy generation
+                    in megawatts (mV)
+                  properties:
+                    megawatts:
+                      type: number
+                  required:
+                  - megawatts
+                  type: object
+              required:
+              - capacity
+              type: object
+            type:
+              items:
+                enum:
+                - communityOwned
+                - heatPump
+                - solar
+                type: string
+              type: array
+          required:
+          - type
+          type: object
+        environmentalImpactDescription:
+          type: string
         extend:
           additionalProperties: false
+          properties:
+            area:
+              "$ref": "#/components/definitions/Area"
+          required:
+          - area
+          type: object
+        flood:
+          additionalProperties: false
+          description: Assessment of flood risk, if applicable to application.type
+          properties:
+            surfaceWaterDisposal:
+              enum:
+              - drainageSystem
+              - soakaway
+              - sewer
+              - watercourse
+              - pondOrLake
+              - other
+              type: string
+          type: object
+        greenRoof:
+          additionalProperties: false
+          description: Green roof
           properties:
             area:
               "$ref": "#/components/definitions/Area"
@@ -3179,6 +4739,18 @@ components:
         newBuildings:
           "$ref": "#/components/definitions/NewBuildingsOrStoreys"
           description: Creating new buildings
+        newDwellings:
+          additionalProperties: false
+          properties:
+            newBuild:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+          type: object
         newStoreys:
           "$ref": "#/components/definitions/NewBuildingsOrStoreys"
           description: Increasing the height of existing buildings
@@ -3298,6 +4870,320 @@ components:
           type: array
         schemeName:
           type: string
+        structures:
+          additionalProperties: false
+          properties:
+            permanent:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            temporary:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+            total:
+              type: number
+            type:
+              enum:
+              - bridge
+              - catchpit
+              - culvert
+              - pipe
+              - gully
+              - headwall
+              - manhole
+              - weir
+              - other
+              type: string
+          required:
+          - type
+          - total
+          type: object
+        units:
+          additionalProperties: false
+          properties:
+            residential:
+              additionalProperties: false
+              properties:
+                new:
+                  items:
+                    additionalProperties: false
+                    properties:
+                      area:
+                        "$ref": "#/components/definitions/Area"
+                      bedrooms:
+                        type: number
+                      compliance:
+                        items:
+                          "$ref": "#/components/definitions/BuildingRegulation"
+                        type: array
+                      development:
+                        "$ref": "#/components/definitions/DevelopmentType"
+                      garden:
+                        type: boolean
+                      habitableRooms:
+                        type: number
+                      identicalUnits:
+                        type: number
+                      olderPersons:
+                        type: boolean
+                      provider:
+                        "$ref": "#/components/definitions/GLAHousingProvider"
+                      sheltered:
+                        type: boolean
+                      tenure:
+                        "$ref": "#/components/definitions/GLATenureType"
+                      type:
+                        "$ref": "#/components/definitions/GLAResidentialUnitType"
+                    required:
+                    - area
+                    - bedrooms
+                    - compliance
+                    - development
+                    - garden
+                    - habitableRooms
+                    - identicalUnits
+                    - olderPersons
+                    - provider
+                    - sheltered
+                    - tenure
+                    - type
+                    type: object
+                  type: array
+                rebuilt:
+                  items:
+                    additionalProperties: false
+                    properties:
+                      area:
+                        "$ref": "#/components/definitions/Area"
+                      bedrooms:
+                        type: number
+                      compliance:
+                        items:
+                          "$ref": "#/components/definitions/BuildingRegulation"
+                        type: array
+                      development:
+                        "$ref": "#/components/definitions/DevelopmentType"
+                      garden:
+                        type: boolean
+                      habitableRooms:
+                        type: number
+                      identicalUnits:
+                        type: number
+                      olderPersons:
+                        type: boolean
+                      provider:
+                        "$ref": "#/components/definitions/GLAHousingProvider"
+                      sheltered:
+                        type: boolean
+                      tenure:
+                        "$ref": "#/components/definitions/GLATenureType"
+                      type:
+                        "$ref": "#/components/definitions/GLAResidentialUnitType"
+                    required:
+                    - area
+                    - bedrooms
+                    - compliance
+                    - development
+                    - garden
+                    - habitableRooms
+                    - identicalUnits
+                    - olderPersons
+                    - provider
+                    - sheltered
+                    - tenure
+                    - type
+                    type: object
+                  type: array
+                removed:
+                  items:
+                    additionalProperties: false
+                    properties:
+                      area:
+                        "$ref": "#/components/definitions/Area"
+                      bedrooms:
+                        type: number
+                      compliance:
+                        items:
+                          "$ref": "#/components/definitions/BuildingRegulation"
+                        type: array
+                      habitableRooms:
+                        type: number
+                      identicalUnits:
+                        type: number
+                      olderPersons:
+                        type: boolean
+                      provider:
+                        "$ref": "#/components/definitions/GLAHousingProvider"
+                      sheltered:
+                        type: boolean
+                      tenure:
+                        "$ref": "#/components/definitions/GLATenureType"
+                      type:
+                        "$ref": "#/components/definitions/GLAResidentialUnitType"
+                    required:
+                    - area
+                    - bedrooms
+                    - compliance
+                    - habitableRooms
+                    - identicalUnits
+                    - olderPersons
+                    - provider
+                    - sheltered
+                    - tenure
+                    - type
+                    type: object
+                  type: array
+                retained:
+                  items:
+                    additionalProperties: false
+                    properties:
+                      bedrooms:
+                        type: number
+                      identicalUnits:
+                        type: number
+                      tenure:
+                        "$ref": "#/components/definitions/GLATenureType"
+                      type:
+                        "$ref": "#/components/definitions/GLAResidentialUnitType"
+                    required:
+                    - bedrooms
+                    - tenure
+                    - type
+                    - identicalUnits
+                    type: object
+                  type: array
+              type: object
+          required:
+          - residential
+          type: object
+        urbanGreeningFactor:
+          additionalProperties: false
+          description: Urban Greening Factor Score
+          properties:
+            score:
+              type: number
+          required:
+          - score
+          type: object
+        use:
+          additionalProperties: false
+          description: Proposed land use, including storage of hazardous materials,
+            if applicable to application.type
+          properties:
+            contamination:
+              enum:
+              - known
+              - suspected
+              - vulnerable
+              type: string
+            description:
+              type: string
+            storage:
+              items:
+                type: string
+              type: array
+          type: object
+        utilities:
+          additionalProperties: false
+          description: Proposed utilities, if applicable to application.type
+          properties:
+            fire:
+              additionalProperties: false
+              description: Whether the proposal introduces a fire suppression system
+              properties:
+                suppression:
+                  type: boolean
+              required:
+              - suppression
+              type: object
+            foulSewageDisposal:
+              description: Type of proposed foul sewage disposal
+              enum:
+              - sewer
+              - tank
+              - plant
+              - pit
+              - other
+              type: string
+            gas:
+              additionalProperties: false
+              description: Count of new gas connections
+              properties:
+                connections:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+              required:
+              - connections
+              type: object
+            internet:
+              additionalProperties: false
+              description: Count of new full fibre Internet connections
+              properties:
+                commercialUnits:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+                residentialUnits:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+              required:
+              - commercialUnits
+              - residentialUnits
+              type: object
+            water:
+              additionalProperties: false
+              description: Count of new water connections
+              properties:
+                connections:
+                  additionalProperties: false
+                  properties:
+                    count:
+                      type: number
+                  required:
+                  - count
+                  type: object
+              required:
+              - connections
+              type: object
+          type: object
+        waste:
+          additionalProperties: false
+          description: Waste management of demolition and construction materials
+          properties:
+            reuseRecycle:
+              additionalProperties: false
+              properties:
+                percent:
+                  type: number
+              required:
+              - percent
+              type: object
+          required:
+          - reuseRecycle
+          type: object
         water:
           additionalProperties: false
           description: Water management
@@ -3322,10 +5208,82 @@ components:
           - rain
           - grey
           type: object
+        watercourse:
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+            type:
+              enum:
+              - ditch
+              - millStream
+              - pond
+              - river
+              - streamOrBrook
+              - other
+              type: string
+          required:
+          - name
+          - type
+          type: object
       required:
       - description
       - projectType
       type: object
+    MaintenanceContact:
+      "$id": "#MaintenanceContact"
+      description: Contact information for the person(s) responsible for maintenance
+        while the works are carried out
+      items:
+        additionalProperties: false
+        properties:
+          address:
+            "$ref": "#/components/definitions/Address"
+          contact:
+            additionalProperties: false
+            properties:
+              company:
+                additionalProperties: false
+                properties:
+                  name:
+                    type: string
+                required:
+                - name
+                type: object
+              email:
+                type: string
+              name:
+                additionalProperties: false
+                properties:
+                  first:
+                    type: string
+                  last:
+                    type: string
+                  title:
+                    type: string
+                required:
+                - first
+                - last
+                type: object
+              phone:
+                type: string
+            required:
+            - name
+            - email
+            - phone
+            type: object
+          when:
+            enum:
+            - duringConstruction
+            - afterConstruction
+            - duringAndAfterConstruction
+            type: string
+        required:
+        - when
+        - address
+        - contact
+        type: object
+      type: array
     Materials:
       additionalProperties: false
       properties:
@@ -3536,18 +5494,6 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Metropolitan Open Land
-            type: string
-          value:
-            const: metropolitan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
             const: Local Open Spaces
             type: string
           value:
@@ -3560,10 +5506,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Other designation
+            const: Metropolitan Open Land
             type: string
           value:
-            const: other
+            const: metropolitan
             type: string
         required:
         - value
@@ -3581,6 +5527,18 @@ components:
         - value
         - description
         type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other designation
+            type: string
+          value:
+            const: other
+            type: string
+        required:
+        - value
+        - description
+        type: object
       description: Designations of natural open spaces
     OpenSpaceType:
       "$id": "#OpenSpaceType"
@@ -3588,46 +5546,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Parks and gardens
+            const: Allotments, community gardens and city farms
             type: string
           value:
-            const: park
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Natural and semi-natural
-            type: string
-          value:
-            const: natural
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Green corridors
-            type: string
-          value:
-            const: greenCorridor
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Outdoor sports facilities
-            type: string
-          value:
-            const: sport
+            const: allotment
             type: string
         required:
         - value
@@ -3648,22 +5570,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Provision for children and young people
+            const: Brownfield land
             type: string
           value:
-            const: children
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Allotments, community gardens and city farms
-            type: string
-          value:
-            const: allotment
+            const: brownfield
             type: string
         required:
         - value
@@ -3684,10 +5594,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Countryside in urban fringe areas
+            const: Provision for children and young people
             type: string
           value:
-            const: fringe
+            const: children
             type: string
         required:
         - value
@@ -3708,10 +5618,34 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Brownfield land
+            const: Countryside in urban fringe areas
             type: string
           value:
-            const: brownfield
+            const: fringe
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Green corridors
+            type: string
+          value:
+            const: greenCorridor
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Natural and semi-natural
+            type: string
+          value:
+            const: natural
             type: string
         required:
         - value
@@ -3732,10 +5666,34 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Parks and gardens
+            type: string
+          value:
+            const: park
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Residential gardens
             type: string
           value:
             const: residential
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Outdoor sports facilities
+            type: string
+          value:
+            const: sport
             type: string
         required:
         - value
@@ -3940,6 +5898,23 @@ components:
       - source
       - submittedAt
       type: object
+    PlanningApplication:
+      "$id": "#PlanningApplication"
+      additionalProperties: false
+      description: Details of the planning application linked to this application,
+        if applicable
+      properties:
+        date:
+          "$ref": "#/components/definitions/Date"
+        localPlanningAuthority:
+          type: string
+        reference:
+          type: string
+      required:
+      - reference
+      - date
+      - localPlanningAuthority
+      type: object
     PlanningConstraint:
       "$id": "#PlanningConstraint"
       anyOf:
@@ -3966,43 +5941,9 @@ components:
           description:
             type: string
           entities:
-            anyOf:
-            - items:
-                additionalProperties: false
-                properties:
-                  description:
-                    type: string
-                  name:
-                    type: string
-                  source:
-                    anyOf:
-                    - additionalProperties: false
-                      properties:
-                        text:
-                          const: Planning Data
-                          type: string
-                        url:
-                          "$ref": "#/components/definitions/URL"
-                      required:
-                      - text
-                      - url
-                      type: object
-                    - additionalProperties: false
-                      properties:
-                        text:
-                          const: Ordnance Survey MasterMap Highways
-                          type: string
-                      required:
-                      - text
-                      type: object
-                required:
-                - name
-                - source
-                type: object
-              type: array
-            - maxItems: 0
-              minItems: 0
-              type: array
+            items:
+              "$ref": "#/components/definitions/Entity"
+            type: array
           intersects:
             const: true
             type: boolean
@@ -4476,43 +6417,9 @@ components:
               const: Article 4 Direction area
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4521,7 +6428,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4531,43 +6437,9 @@ components:
               const: Central Activities Zone (CAZ)
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4576,7 +6448,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4586,43 +6457,9 @@ components:
               const: Brownfield site
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4631,7 +6468,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4641,43 +6477,9 @@ components:
               const: Designated land
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4686,7 +6488,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4696,43 +6497,9 @@ components:
               const: Area of Outstanding Natural Beauty (AONB)
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4741,7 +6508,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4751,43 +6517,9 @@ components:
               const: Conservation Area
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4796,7 +6528,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4806,43 +6537,9 @@ components:
               const: National Park
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4851,7 +6548,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4861,43 +6557,9 @@ components:
               const: National Park - Broads
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4906,7 +6568,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4916,43 +6577,9 @@ components:
               const: UNESCO World Heritage Site or buffer zone
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -4961,7 +6588,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -4971,43 +6597,9 @@ components:
               const: Flood Risk Zone
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5016,7 +6608,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5026,43 +6617,9 @@ components:
               const: Flood Risk Zone 1 - Low risk
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5071,7 +6628,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5081,43 +6637,9 @@ components:
               const: Flood Risk Zone 2 - Medium risk
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5126,7 +6648,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5136,43 +6657,9 @@ components:
               const: Flood Risk Zone 3 - High risk
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5181,7 +6668,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5191,43 +6677,9 @@ components:
               const: Green Belt
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5236,7 +6688,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5246,43 +6697,9 @@ components:
               const: Listed Building
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5291,7 +6708,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5301,43 +6717,9 @@ components:
               const: Listed Building - Grade I
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5346,7 +6728,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5356,43 +6737,9 @@ components:
               const: Listed Building - Grade II
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5401,7 +6748,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5411,43 +6757,9 @@ components:
               const: Listed Building - Grade II*
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5456,7 +6768,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5466,43 +6777,9 @@ components:
               const: Locally Listed Building
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5511,7 +6788,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5521,43 +6797,9 @@ components:
               const: Site of a Scheduled Monument
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5566,7 +6808,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5576,43 +6817,9 @@ components:
               const: Ancient Semi-Natural Woodland (ASNW)
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5621,7 +6828,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5631,43 +6837,9 @@ components:
               const: Ramsar site
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5676,7 +6848,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5686,43 +6857,9 @@ components:
               const: Special Area of Conservation (SAC)
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5731,7 +6868,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5741,43 +6877,9 @@ components:
               const: Special Protection Area (SPA)
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5786,7 +6888,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5796,43 +6897,9 @@ components:
               const: Site of Special Scientific Interest (SSSI)
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5841,7 +6908,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5851,43 +6917,9 @@ components:
               const: Historic Park or Garden
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5896,7 +6928,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5906,43 +6937,9 @@ components:
               const: Classified Road
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -5951,7 +6948,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -5961,43 +6957,9 @@ components:
               const: Tree Preservation Order (TPO) or zone
               type: string
             entities:
-              anyOf:
-              - items:
-                  additionalProperties: false
-                  properties:
-                    description:
-                      type: string
-                    name:
-                      type: string
-                    source:
-                      anyOf:
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Planning Data
-                            type: string
-                          url:
-                            "$ref": "#/components/definitions/URL"
-                        required:
-                        - text
-                        - url
-                        type: object
-                      - additionalProperties: false
-                        properties:
-                          text:
-                            const: Ordnance Survey MasterMap Highways
-                            type: string
-                        required:
-                        - text
-                        type: object
-                  required:
-                  - name
-                  - source
-                  type: object
-                type: array
-              - maxItems: 0
-                minItems: 0
-                type: array
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
             intersects:
               const: true
               type: boolean
@@ -6006,7 +6968,6 @@ components:
               type: string
           required:
           - description
-          - entities
           - intersects
           - value
           type: object
@@ -6075,7 +7036,8 @@ components:
     PreApplication:
       "$id": "#PreApplication"
       additionalProperties: false
-      description: Details of the pre-application, if applicable
+      description: Details of the pre-application preceeding this application, if
+        applicable
       properties:
         date:
           "$ref": "#/components/definitions/Date"
@@ -6553,7 +7515,7 @@ components:
             const: Add a verandah or deck
             type: string
           value:
-            const: alter.deck
+            const: alter.decks
             type: string
         required:
         - value
@@ -6778,6 +7740,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Install machinery
+            type: string
+          value:
+            const: alter.equipment.machinery
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Install solar panels
             type: string
           value:
@@ -6818,6 +7792,18 @@ components:
             type: string
           value:
             const: alter.equipment.tank
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Install ventilation
+            type: string
+          value:
+            const: alter.equipment.ventilation
             type: string
         required:
         - value
@@ -9264,6 +10250,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Maintenance of an existing structure
+            type: string
+          value:
+            const: maintain
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add a new separate building or self-contained units
             type: string
           value:
@@ -9288,10 +10286,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: New agricultural buildings - glass house
+            const: New agricultural buildings - glasshouse
             type: string
           value:
-            const: new.agriculture.glassHouse
+            const: new.agriculture.glasshouse
             type: string
         required:
         - value
@@ -9456,7 +10454,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Build new homes on a roof
+            const: Build new homes
             type: string
           value:
             const: new.residential.dwelling
@@ -9492,8 +10490,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Erect a temporary structure for historic visitor attractions and
-              listed buildings
+            const: Build a temporary structure
             type: string
           value:
             const: new.temporaryStructure
@@ -15272,42 +16269,6 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Sites of Special Scientific Interest
-            type: string
-          value:
-            const: SSSI
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Local Nature Reserve
-            type: string
-          value:
-            const: localReserve
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Site of Metropolitan Importance
-            type: string
-          value:
-            const: metropolitan
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
             const: Site of Borough Grade 1 Importance
             type: string
           value:
@@ -15344,10 +16305,46 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Local Nature Reserve
+            type: string
+          value:
+            const: localReserve
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Site of Metropolitan Importance
+            type: string
+          value:
+            const: metropolitan
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Not designated
             type: string
           value:
             const: none
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Sites of Special Scientific Interest
+            type: string
+          value:
+            const: SSSI
             type: string
         required:
         - value
@@ -15413,6 +16410,34 @@ components:
       - required
       - recommended
       - optional
+      type: object
+    ResidentialUnits:
+      additionalProperties: false
+      properties:
+        residential:
+          items:
+            additionalProperties: false
+            properties:
+              bedrooms:
+                type: number
+              identicalUnits:
+                type: number
+              tenure:
+                "$ref": "#/components/definitions/UKTenureType"
+              type:
+                "$ref": "#/components/definitions/UKResidentialUnitType"
+            required:
+            - type
+            - tenure
+            - bedrooms
+            - identicalUnits
+            type: object
+          type: array
+        total:
+          type: number
+      required:
+      - total
+      - residential
       type: object
     Response:
       additionalProperties: false
@@ -15867,17 +16892,17 @@ components:
           - "$ref": "#/components/definitions/ProposedAddress"
           - "$ref": "#/components/definitions/OSAddress"
         boundary:
-          additionalProperties: false
+          "$ref": "#/components/definitions/GeoBoundary"
           description: HM Land Registry Index polygon for this property, commonly
             referred to as the blue line boundary, sourced from planning.data.gov.uk/dataset/title-boundary
+        flood:
+          additionalProperties: false
+          description: Existing flood risk, if applicable to application.type
           properties:
-            area:
-              "$ref": "#/components/definitions/Area"
-            site:
-              "$ref": "#/components/definitions/GeoJSON"
-          required:
-          - site
-          - area
+            20mFromWatercourse:
+              type: boolean
+            increasedRiskElsewhere:
+              type: boolean
           type: object
         localAuthorityDistrict:
           description: Current and historic UK Local Authority Districts that contain
@@ -15887,6 +16912,7 @@ components:
           type: array
         materials:
           "$ref": "#/components/definitions/Materials"
+          description: Existing materials, if applicable to proposal.projectType
         planning:
           additionalProperties: false
           description: Planning constraints and policies that intersect with this
@@ -15930,8 +16956,39 @@ components:
           type: object
         region:
           "$ref": "#/components/definitions/UKRegion"
+        trees:
+          additionalProperties: false
+          description: Existing trees on or near the site
+          properties:
+            adjacent:
+              type: boolean
+            present:
+              type: boolean
+          required:
+          - present
+          - adjacent
+          type: object
         type:
           "$ref": "#/components/definitions/PropertyType"
+        units:
+          "$ref": "#/components/definitions/ResidentialUnits"
+        use:
+          additionalProperties: false
+          description: Existing land use, if applicable to application.type
+          properties:
+            description:
+              type: string
+            vacant:
+              additionalProperties: false
+              properties:
+                lastUseEndDate:
+                  "$ref": "#/components/definitions/Date"
+              required:
+              - lastUseEndDate
+              type: object
+          required:
+          - description
+          type: object
       required:
       - address
       - region
@@ -15953,6 +17010,158 @@ components:
       - South East
       - South West
       type: string
+    UKResidentialUnitType:
+      "$id": "#UKResidentialUnitType"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Cluster flat
+            type: string
+          value:
+            const: cluster
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Flat
+            type: string
+          value:
+            const: flat
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: House
+            type: string
+          value:
+            const: house
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other
+            type: string
+          value:
+            const: other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Sheltered housing
+            type: string
+          value:
+            const: sheltered
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Studio or bedsit
+            type: string
+          value:
+            const: studio
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Residential unit types tracked throughout the UK
+    UKTenureType:
+      "$id": "#UKTenureType"
+      anyOf:
+      - additionalProperties: false
+        properties:
+          description:
+            const: Affordable home ownership
+            type: string
+          value:
+            const: AHO
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Market housing
+            type: string
+          value:
+            const: MH
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Other
+            type: string
+          value:
+            const: other
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Social, affordable or interim rent
+            type: string
+          value:
+            const: SAIR
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Self-build and custom build
+            type: string
+          value:
+            const: selfCustomBuild
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Starter homes
+            type: string
+          value:
+            const: SH
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      description: Tenure types tracked throughout the UK
     URL:
       format: uri
       pattern: "^https?://"
@@ -16032,6 +17241,11 @@ components:
           type: string
         fullReference:
           type: string
+        targetDate:
+          format: date
+          type:
+          - string
+          - 'null'
         receivedAt:
           format: datetime
           type: string
@@ -16073,7 +17287,35 @@ components:
               type:
               - string
               - 'null'
-              format: string
+            publishedComments:
+              type: array
+              items:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                  receivedAt:
+                    format: datetime
+                    type: string
+                  summaryTag:
+                    type: string
+                required:
+                - comment
+                - receivedAt
+                - summaryTag
+            consulteeComments:
+              type: array
+              items:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                  receivedAt:
+                    format: datetime
+                    type: string
+                required:
+                - comment
+                - receivedAt
           required:
           - startDate
           - endDate
@@ -16098,6 +17340,8 @@ components:
               "$ref": "#/components/definitions/Applicant"
             application:
               "$ref": "#/components/definitions/Application"
+            files:
+              "$ref": "#/components/definitions/FilesAsData"
             property:
               "$ref": "#/components/definitions/Property"
             proposal:
@@ -16856,7 +18100,7 @@ paths:
                                 - 51.69954799782576
                               - - -0.7085376977920632
                                 - 51.699564621757816
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.299367
                           squareMetres: 2993.67
@@ -17015,7 +18259,7 @@ paths:
                                 - 51.69954799782576
                               - - -0.7085376977920632
                                 - 51.699564621757816
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.299367
                           squareMetres: 2993.67
@@ -17819,7 +19063,7 @@ paths:
                                 - 51.61561499701554
                               - - -0.646633654832832
                                 - 51.61556919642334
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.141826
                           squareMetres: 1418.26
@@ -17922,7 +19166,7 @@ paths:
                                 - 51.61561499701554
                               - - -0.646633654832832
                                 - 51.61556919642334
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.141826
                           squareMetres: 1418.26
@@ -21104,7 +22348,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -21204,7 +22448,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties:
+                          properties: 
                         area:
                           hectares: 0.012592
                           squareMetres: 125.92
@@ -21997,10 +23241,10 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2024-02-06T17:23:44.428+00:00'
-                      to_be_reviewed_at:
+                      to_be_reviewed_at: 
                       created_at: '2023-09-08T11:24:29.682+01:00'
                       description: Add a chimney stack
-                      determined_at:
+                      determined_at: 
                       determination_date: '2024-03-06'
                       id: 49
                       invalidated_at: '2023-09-08T17:04:37.705+01:00'
@@ -22014,11 +23258,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at:
-                      started_at:
+                      returned_at: 
+                      started_at: 
                       status: awaiting_determination
                       target_date: '2023-10-16'
-                      withdrawn_at:
+                      withdrawn_at: 
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -22039,12 +23283,12 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county:
+                        county: 
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
-                        latitude:
-                        longitude:
+                        latitude: 
+                        longitude: 
                       received_date: '2023-09-08T11:24:29.682+01:00'
                       constraints:
                       - Conservation area
@@ -22060,28 +23304,28 @@ paths:
                       agent_email: ziggy@example.com
                       applicant_first_name: David
                       applicant_last_name: Bowie
-                      user_role:
-                      awaiting_determination_at:
-                      to_be_reviewed_at:
+                      user_role: 
+                      awaiting_determination_at: 
+                      to_be_reviewed_at: 
                       created_at: '2024-01-03T16:28:37.986+00:00'
                       description: Roof extension to the rear of the property, incorporating
                         starship launchpad.
-                      determined_at:
+                      determined_at: 
                       determination_date: '2024-03-06'
                       id: 98
                       invalidated_at: '2024-01-04T22:30:31.634+00:00'
-                      in_assessment_at:
+                      in_assessment_at: 
                       payment_reference: sandbox-ref-456
                       payment_amount: '206.0'
-                      result_flag:
-                      result_heading:
-                      result_description:
-                      result_override:
-                      returned_at:
-                      started_at:
+                      result_flag: 
+                      result_heading: 
+                      result_description: 
+                      result_override: 
+                      returned_at: 
+                      started_at: 
                       status: invalidated
                       target_date: '2024-02-07'
-                      withdrawn_at:
+                      withdrawn_at: 
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -22098,14 +23342,14 @@ paths:
                               - 51.4655038504508
                             - - -0.1186569035053321
                               - 51.465703531871384
-                        properties:
+                        properties: 
                       application_type: planning_permission
                       reference: 24-00173-HAPP
                       reference_in_full: SWK-24-00173-HAPP
                       site:
                         address_1: 40, STANSFIELD ROAD
-                        address_2:
-                        county:
+                        address_2: 
+                        county: 
                         town: LONDON
                         postcode: SW9 9RZ
                         uprn: '100021892955'
@@ -22116,7 +23360,7 @@ paths:
                       published_comments: []
                       consultee_comments: []
                       consultation:
-                        end_date:
+                        end_date: 
                       make_public: false
                 ids:
                   value:
@@ -22136,10 +23380,10 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2024-02-06T17:23:44.428+00:00'
-                      to_be_reviewed_at:
+                      to_be_reviewed_at: 
                       created_at: '2023-09-08T11:24:29.682+01:00'
                       description: Add a chimney stack
-                      determined_at:
+                      determined_at: 
                       determination_date: '2024-03-06'
                       id: 49
                       invalidated_at: '2023-09-08T17:04:37.705+01:00'
@@ -22153,11 +23397,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at:
-                      started_at:
+                      returned_at: 
+                      started_at: 
                       status: awaiting_determination
                       target_date: '2023-10-16'
-                      withdrawn_at:
+                      withdrawn_at: 
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -22178,12 +23422,12 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county:
+                        county: 
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
-                        latitude:
-                        longitude:
+                        latitude: 
+                        longitude: 
                       received_date: '2023-09-08T11:24:29.682+01:00'
                       constraints:
                       - Conservation area
@@ -22199,28 +23443,28 @@ paths:
                       agent_email: ziggy@example.com
                       applicant_first_name: David
                       applicant_last_name: Bowie
-                      user_role:
-                      awaiting_determination_at:
-                      to_be_reviewed_at:
+                      user_role: 
+                      awaiting_determination_at: 
+                      to_be_reviewed_at: 
                       created_at: '2024-01-03T16:28:37.986+00:00'
                       description: Roof extension to the rear of the property, incorporating
                         starship launchpad.
-                      determined_at:
+                      determined_at: 
                       determination_date: '2024-03-06'
                       id: 98
                       invalidated_at: '2024-01-04T22:30:31.634+00:00'
-                      in_assessment_at:
+                      in_assessment_at: 
                       payment_reference: sandbox-ref-456
                       payment_amount: '206.0'
-                      result_flag:
-                      result_heading:
-                      result_description:
-                      result_override:
-                      returned_at:
-                      started_at:
+                      result_flag: 
+                      result_heading: 
+                      result_description: 
+                      result_override: 
+                      returned_at: 
+                      started_at: 
                       status: invalidated
                       target_date: '2024-02-07'
-                      withdrawn_at:
+                      withdrawn_at: 
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -22237,14 +23481,14 @@ paths:
                               - 51.4655038504508
                             - - -0.1186569035053321
                               - 51.465703531871384
-                        properties:
+                        properties: 
                       application_type: planning_permission
                       reference: 24-00173-HAPP
                       reference_in_full: SWK-24-00173-HAPP
                       site:
                         address_1: 40, STANSFIELD ROAD
-                        address_2:
-                        county:
+                        address_2: 
+                        county: 
                         town: LONDON
                         postcode: SW9 9RZ
                         uprn: '100021892955'
@@ -22255,7 +23499,7 @@ paths:
                       published_comments: []
                       consultee_comments: []
                       consultation:
-                        end_date:
+                        end_date: 
                       make_public: false
         '401':
           description: with missing or invalid credentials
@@ -22317,13 +23561,13 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2023-08-04T13:24:17.885+01:00'
-                      to_be_reviewed_at:
+                      to_be_reviewed_at: 
                       created_at: '2023-06-06T16:50:37.821+01:00'
                       description: Add a chimney stack
                       determined_at: '2023-11-03T08:59:02.345+00:00'
                       determination_date: '2023-11-03T00:00:00.000+00:00'
                       id: 9
-                      invalidated_at:
+                      invalidated_at: 
                       in_assessment_at: '2023-08-04T13:24:06.829+01:00'
                       payment_reference: PAY1
                       payment_amount: '0.0'
@@ -22334,11 +23578,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at:
-                      started_at:
+                      returned_at: 
+                      started_at: 
                       status: determined
                       target_date: '2023-07-11'
-                      withdrawn_at:
+                      withdrawn_at: 
                       work_status: proposed
                       boundary_geojson:
                         type: FeatureCollection
@@ -22357,7 +23601,7 @@ paths:
                                 - 51.49453137017866
                               - - -0.06490596313800803
                                 - 51.48755549852538
-                          properties:
+                          properties: 
                       site_notice_content: |-
                         <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
                         <div style="width: 420px; text-align: center">
@@ -22394,7 +23638,7 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county:
+                        county: 
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
@@ -22449,13 +23693,13 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2023-08-04T13:24:17.885+01:00'
-                      to_be_reviewed_at:
+                      to_be_reviewed_at: 
                       created_at: '2023-06-06T16:50:37.821+01:00'
                       description: Add a chimney stack
                       determined_at: '2023-11-03T08:59:02.345+00:00'
                       determination_date: '2023-11-03T00:00:00.000+00:00'
                       id: 9
-                      invalidated_at:
+                      invalidated_at: 
                       in_assessment_at: '2023-08-04T13:24:06.829+01:00'
                       payment_reference: PAY1
                       payment_amount: '0.0'
@@ -22466,11 +23710,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at:
-                      started_at:
+                      returned_at: 
+                      started_at: 
                       status: determined
                       target_date: '2023-07-11'
-                      withdrawn_at:
+                      withdrawn_at: 
                       work_status: proposed
                       boundary_geojson:
                         type: FeatureCollection
@@ -22489,7 +23733,7 @@ paths:
                                 - 51.49453137017866
                               - - -0.06490596313800803
                                 - 51.48755549852538
-                          properties:
+                          properties: 
                       site_notice_content: |-
                         <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
                         <div style="width: 420px; text-align: center">
@@ -22526,7 +23770,7 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county:
+                        county: 
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
@@ -22595,19 +23839,19 @@ paths:
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
                     user_role: agent
-                    awaiting_determination_at:
-                    to_be_reviewed_at:
+                    awaiting_determination_at: 
+                    to_be_reviewed_at: 
                     created_at: '2023-05-23T09:39:04.197+01:00'
                     description: This is a long winded description, bla bla bla a
                       single storey ground floor rear extension; replacement of existing
                       garage door with brick infill and a new window; replacement
                       of the existing windows with double glazed windows, installation
                       of rooflight
-                    determined_at:
+                    determined_at: 
                     determination_date: '2024-03-06'
                     id: 2
-                    invalidated_at:
-                    in_assessment_at:
+                    invalidated_at: 
+                    in_assessment_at: 
                     payment_reference: PAY1
                     payment_amount: '0.0'
                     result_flag: Planning permission / Permission needed
@@ -22616,11 +23860,11 @@ paths:
                     result_description: Based on the information you have provided,
                       we do not think this is eligible for a Lawful Development Certificate
                     result_override: This was my reason for rejecting the result
-                    returned_at:
-                    started_at:
+                    returned_at: 
+                    started_at: 
                     status: not_started
                     target_date: '2023-06-27'
-                    withdrawn_at:
+                    withdrawn_at: 
                     work_status: proposed
                     boundary_geojson:
                       type: Feature
@@ -22700,12 +23944,13 @@ paths:
                         description: planning_permission
                       reference: 24-00107-HAPP
                       fullReference: PlanX-24-00107-HAPP
+                      targetDate: '2024-05-15'
                       receivedAt: '2024-04-17T00:00:00.000+01:00'
                       validAt: '2024-04-12T00:00:00.000+01:00'
-                      publishedAt:
-                      determinedAt:
+                      publishedAt: 
+                      determinedAt: 
                       status: in_assessment
-                      decision:
+                      decision: 
                       consultation:
                         startDate: '2024-04-15'
                         endDate: '2024-05-07'
@@ -22785,7 +24030,7 @@ paths:
                                     - 51.4655038504508
                                   - - -0.1186569035053321
                                     - 51.465703531871384
-                              properties:
+                              properties: 
                             area:
                               hectares: 0.012592
                               squareMetres: 125.92
@@ -22885,7 +24130,7 @@ paths:
                                     - 51.4655038504508
                                   - - -0.1186569035053321
                                     - 51.465703531871384
-                              properties:
+                              properties: 
                             area:
                               hectares: 0.012592
                               squareMetres: 125.92
@@ -23115,11 +24360,12 @@ paths:
                           description: planning_permission
                         reference: 24-00107-HAPP
                         fullReference: PlanX-24-00107-HAPP
+                        targetDate: '2024-05-15'
                         receivedAt: '2024-04-17T00:00:00.000+01:00'
                         validAt: '2024-04-12T00:00:00.000+01:00'
-                        publishedAt:
-                        determinedAt:
-                        decision:
+                        publishedAt: 
+                        determinedAt: 
+                        decision: 
                         status: in_assessment
                         consultation:
                           startDate: '2024-04-15'
@@ -23204,7 +24450,7 @@ paths:
                                   - 51.537313
                                 - - -0.054597
                                   - 51.537331
-                            properties:
+                            properties: 
                       proposal:
                         description: Build a roof extension.
               schema:
@@ -23236,11 +24482,12 @@ paths:
                         description: planning_permission
                       reference: 24-00100-HAPP
                       fullReference: PlanX-24-00100-HAPP
+                      targetDate: '2024-05-15'
                       receivedAt: '2024-06-12T15:56:29.830+01:00'
                       validAt: '2024-06-12T00:00:00.000+01:00'
                       publishedAt: '2024-06-12T15:56:29.828+01:00'
-                      determinedAt:
-                      decision:
+                      determinedAt: 
+                      decision: 
                       status: determined
                       consultation:
                         startDate: '2024-04-15'
@@ -23254,7 +24501,7 @@ paths:
                       - value: sections.proposed
                         description: Sections - proposed
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription:
+                      applicantDescription: 
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -23264,7 +24511,7 @@ paths:
                       - value: internal.siteNotice
                         description: Site Notice
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription:
+                      applicantDescription: 
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -23327,11 +24574,12 @@ paths:
                           description: planning_permission
                         reference: 24-00107-HAPP
                         fullReference: PlanX-24-00107-HAPP
+                        targetDate: '2024-05-15'
                         receivedAt: '2024-04-17T00:00:00.000+01:00'
                         validAt: '2024-04-12T00:00:00.000+01:00'
-                        publishedAt:
-                        determinedAt:
-                        decision:
+                        publishedAt: 
+                        determinedAt: 
+                        decision: 
                         status: in_assessment
                         consultation:
                           startDate: '2024-04-15'
@@ -23416,6 +24664,49 @@ paths:
                                   - 51.537313
                                 - - -0.054597
                                   - 51.537331
-                            properties:
+                            properties: 
                       proposal:
                         description: Build a roof extension.
+  "/api/v2/public/planning_applications/{reference}":
+    get:
+      summary: Retrieves a planning application
+      tags:
+      - Planning applications
+      parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
+      responses:
+        '200':
+          description: returns a planning application given a reference
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    application:
+                      type:
+                        value: pp.full.householder
+                        description: planning_permission
+                      reference: 24-00100-HAPP
+                      fullReference: PlanX-24-00100-HAPP
+                      targetDate: '2024-05-15'
+                      receivedAt: '2024-06-12T15:56:29.830+01:00'
+                      validAt: '2024-06-12T00:00:00.000+01:00'
+                      publishedAt: '2024-06-12T15:56:29.828+01:00'
+                      determinedAt: 
+                      decision: 
+                      status: determined
+                      consultation:
+                        startDate: '2024-04-15'
+                        endDate: '2024-05-07'
+                        publishedComments:
+                        - comment: I'm worried about construction noise.
+                          receivedAt: '2024-04-19T00:00:00.000+00:00'
+                          summaryTag: objection
+                        consulteeComments:
+                        - comment: Accepted
+                          receivedAt: '2024-04-19T00:00:00.000+00:00'
