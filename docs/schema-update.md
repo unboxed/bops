@@ -11,9 +11,8 @@ Periodically we need to make changes based on a new release of the [ODP schema][
 - Retrieve example responses from the [ODP schema examples], using the correct tag and subdirectory for the new version (e.g., tag `v3.1.4` subdirectory `v3.1.4/examples/`)
   - Note that these do not all match our naming scheme but mostly do correspond in a logical way; e.g., their `lawfulDevelopmentCertificate/existing.json` becomes our `validLawfulDevelopmentCeriticateExisting.json` and so on
   - If a file that exists in the previous version's examples does not exist in their repository, copy it from our previous version
-- Run `rake api:docs:generate`
 - Update the list of tested versions in `engines/bops_api/spec/controllers/v2/planning_applications_controller_spec.rb`
-- Update the Swagger documentation
+- Update the Swagger documentation by running `rake api:docs:generate`
 - Update the application types in `config/locales/odp.yml` relevant with changes in the upgraded schema version. For a specific version, you can find this in [ODP schema application types][]
 - Now all your tests will pass and there will certainly not be any unexpected problems that arise with the new version that you have to fix (TODO double check this)
 

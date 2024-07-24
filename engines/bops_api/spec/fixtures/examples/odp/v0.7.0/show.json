@@ -29,6 +29,59 @@
           "receivedAt": "2024-04-19T00:00:00.000+00:00"
         }
       ]
+    },
+    "property": {
+      "address": {
+        "latitude": 84.3630530473182,
+        "longitude": -105.7502386387352,
+        "title": "511 German Village",
+        "singleLine": "511 German Village, West Rod, 66983",
+        "uprn": "00565512",
+        "town": "West Rod",
+        "postcode": "66983"
+      },
+      "boundary": {
+        "site": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [-0.07739927369747812, 51.501345554406896],
+                    [-0.0778893839394212, 51.501002280754676],
+                    [-0.07690508968054104, 51.50102474569704],
+                    [-0.07676672973966252, 51.50128963605792],
+                    [-0.07739927369747812, 51.501345554406896]
+                  ]
+                ]
+              },
+              "properties": {
+                "color": "#d870fc"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [30, 10],
+                    [40, 40],
+                    [30, 10]
+                  ]
+                ]
+              },
+              "properties": {}
+            }
+          ]
+        }
+      }
+    },
+    "proposal": {
+      "description": "householder extension"
     }
   }
 }
