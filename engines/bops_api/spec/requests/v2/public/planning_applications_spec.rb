@@ -169,4 +169,28 @@ RSpec.describe "BOPS public API" do
       end
     end
   end
+
+  path "/api/v2/public/planning_applications/{reference}" do
+    get "Retrieves a planning application" do
+      tags "Planning applications"
+      produces "application/json"
+
+      parameter name: :reference, in: :path, schema: {
+        type: :string,
+        description: "The planning application reference"
+      }
+
+      response "200", "returns a planning application given a reference" do
+        example "application/json", :default, example_fixture("show.json")
+
+        let(:planning_application) { planning_applications.first }
+        let(:reference) { planning_application.reference }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["application"]["reference"]).to eq(planning_application.reference)
+        end
+      end
+    end
+  end
 end

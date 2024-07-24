@@ -26,6 +26,10 @@
         "fullReference": {
           "type": "string"
         },
+        "targetDate": {
+          "format": "date",
+          "type": ["string", "null"]
+        },
         "receivedAt": {
           "format": "datetime",
           "type": "string"
@@ -60,8 +64,42 @@
               "format": "date"
             },
             "publicUrl": {
-              "type": ["string", "null"],
-              "format": "string"
+              "type": ["string", "null"]
+            },
+            "publishedComments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  },
+                  "receivedAt": {
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "summaryTag": {
+                    "type": "string"
+                  }
+                },
+                "required": ["comment", "receivedAt", "summaryTag"]
+              }
+            },
+            "consulteeComments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  },
+                  "receivedAt": {
+                    "format": "datetime",
+                    "type": "string"
+                  }
+                },
+                "required": ["comment", "receivedAt"]
+              }
             }
           },
           "required": [

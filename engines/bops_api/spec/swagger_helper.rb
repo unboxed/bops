@@ -10,11 +10,12 @@ RSpec.configure do |config|
   config.openapi_root = BopsApi::Engine.root.join("swagger").to_s
   config.openapi_format = :yaml
 
-  submission_json = BopsApi::Schemas.find!("submission", version: "odp/v0.6.0").value
-  search_json = BopsApi::Schemas.find!("search", version: "odp/v0.6.0").value
-  application_submission_json = BopsApi::Schemas.find!("applicationSubmission", version: "odp/v0.6.0").value
-  documents_json = BopsApi::Schemas.find!("documents", version: "odp/v0.6.0").value
-  shared_definitions_json = BopsApi::Schemas.find!("shared/definitions", version: "odp/v0.6.0").value
+  version = BopsApi::Schemas::DEFAULT_ODP_VERSION
+  submission_json = BopsApi::Schemas.find!("submission", version:).value
+  search_json = BopsApi::Schemas.find!("search", version:).value
+  application_submission_json = BopsApi::Schemas.find!("applicationSubmission", version:).value
+  documents_json = BopsApi::Schemas.find!("documents", version:).value
+  shared_definitions_json = BopsApi::Schemas.find!("shared/definitions", version:).value
 
   keys = %w[
     additionalProperties

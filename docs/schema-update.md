@@ -12,9 +12,11 @@ Periodically we need to make changes based on a new release of the [ODP schema][
   - Note that these do not all match our naming scheme but mostly do correspond in a logical way; e.g., their `lawfulDevelopmentCertificate/existing.json` becomes our `validLawfulDevelopmentCeriticateExisting.json` and so on
   - If a file that exists in the previous version's examples does not exist in their repository, copy it from our previous version
 - Update the list of tested versions in `engines/bops_api/spec/controllers/v2/planning_applications_controller_spec.rb`
-- Update the Swagger documentation
+- Update the Swagger documentation by running `rake api:docs:generate`
+- Update the application types in `config/locales/odp.yml` relevant with changes in the upgraded schema version. For a specific version, you can find this in [ODP schema application types][]
 - Now all your tests will pass and there will certainly not be any unexpected problems that arise with the new version that you have to fix (TODO double check this)
 
 [ODP schema]: https://github.com/theopensystemslab/digital-planning-data-schemas
 [Example PR]: https://github.com/unboxed/bops/pull/1886
 [ODP schema examples]: https://github.com/theopensystemslab/digital-planning-data-schemas/tree/v0.7.0/v0.7.0/examples
+[ODP schema application types]: https://github.com/theopensystemslab/digital-planning-data-schemas/blob/dist/v0.7.0/types/enums/ApplicationTypes.ts

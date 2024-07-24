@@ -14,6 +14,12 @@ module BopsApi
         )
         response.charset = "utf-8"
       end
+
+      private
+
+      def planning_applications_scope
+        @local_authority.planning_applications.published
+      end
     end
   end
 end

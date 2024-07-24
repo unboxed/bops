@@ -12,10 +12,12 @@ module BopsApi
           end
         end
 
-        private
+        def show
+          @planning_application = find_planning_application params[:id]
 
-        def planning_applications_scope
-          @local_authority.planning_applications.published
+          respond_to do |format|
+            format.json
+          end
         end
       end
     end

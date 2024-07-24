@@ -60,8 +60,7 @@
               "format": "date"
             },
             "publicUrl": {
-              "type": ["string", "null"],
-              "format": "string"
+              "type": ["string", "null"]
             }
           },
           "required": [
