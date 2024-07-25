@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -159,6 +159,29 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
     t.integer "position", default: 0, null: false
     t.datetime "cancelled_at"
     t.index ["condition_set_id"], name: "ix_conditions_on_condition_set_id"
+  end
+
+  create_table "consideration_sets", force: :cascade do |t|
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_consideration_sets_on_planning_application_id"
+  end
+
+  create_table "considerations", force: :cascade do |t|
+    t.bigint "consideration_set_id"
+    t.string "policy_area", null: false
+    t.jsonb "policy_references", default: [], null: false
+    t.jsonb "policy_guidance", default: [], null: false
+    t.text "assessment", null: false
+    t.text "conclusion", null: false
+    t.integer "position"
+    t.bigint "submitted_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consideration_set_id", "policy_area"], name: "ix_considerations_on_consideration_set_id__policy_area", unique: true
+    t.index ["consideration_set_id"], name: "ix_considerations_on_consideration_set_id"
+    t.index ["submitted_by_id"], name: "ix_considerations_on_submitted_by_id"
   end
 
   create_table "consistency_checklists", force: :cascade do |t|
@@ -454,6 +477,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
     t.uuid "email_reply_to_id"
     t.boolean "active", default: false, null: false
     t.string "telephone_number"
+    t.string "document_checklist"
+    t.string "planning_policy_and_guidance"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
@@ -484,6 +509,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
     t.index ["policy_area_id", "policy_reference_id"], name: "ix_local_authority_policy_areas_references_on_policy_area_id__p", unique: true
     t.index ["policy_area_id"], name: "ix_local_authority_policy_areas_references_on_policy_area_id"
     t.index ["policy_reference_id"], name: "ix_local_authority_policy_areas_references_on_policy_reference_"
+  end
+
+  create_table "local_authority_policy_guidances", force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.string "description", null: false
+    t.string "url"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_guidances_on_local_authority_id__desc", unique: true
+    t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_guidances_on_local_authority_id__sear", using: :gin
+    t.index ["local_authority_id"], name: "ix_local_authority_policy_guidances_on_local_authority_id"
   end
 
   create_table "local_authority_policy_references", force: :cascade do |t|
@@ -952,6 +989,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
   add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"
+  add_foreign_key "consideration_sets", "planning_applications"
+  add_foreign_key "considerations", "consideration_sets"
+  add_foreign_key "considerations", "users", column: "submitted_by_id"
   add_foreign_key "consistency_checklists", "planning_applications"
   add_foreign_key "constraints", "local_authorities"
   add_foreign_key "consultations", "planning_applications"
@@ -976,6 +1016,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_163818) do
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_references", column: "policy_reference_id"
+  add_foreign_key "local_authority_policy_guidances", "local_authorities"
   add_foreign_key "local_authority_policy_references", "local_authorities"
   add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policy_areas", "local_policies"

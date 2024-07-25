@@ -44,6 +44,8 @@ Rails.application.routes.draw do
       end
 
       get "/informatives", to: "informatives#index"
+      get "/policy/guidance", to: "policy_guidances#index"
+      get "/policy/references", to: "policy_references#index"
     end
 
     resources :planning_applications, except: %i[destroy] do
@@ -121,10 +123,6 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :local_policy_areas, except: %i[index]
-
-          resources :local_policies, except: %i[destroy index]
-
           resources :permitted_development_rights, except: %i[destroy index]
 
           resource :planning_history, only: :show
@@ -150,6 +148,12 @@ Rails.application.routes.draw do
 
           resources :recommendations, only: %i[new create update]
           resource :recommendations, only: %i[edit]
+
+          resource :considerations, only: %i[create show edit update] do
+            resources :items, only: %i[edit update destroy], module: :considerations do
+              concerns :positionable
+            end
+          end
 
           resource :informatives, only: %i[create show edit update] do
             resources :items, only: %i[edit update destroy], module: :informatives do
@@ -280,6 +284,12 @@ Rails.application.routes.draw do
 
           resources :immunity_enforcements, only: %i[show edit update]
 
+          resource :considerations, only: %i[show edit update] do
+            resources :items, only: %i[edit update], module: :considerations do
+              concerns :positionable
+            end
+          end
+
           resource :informatives, only: %i[show edit update] do
             resources :items, only: %i[edit update], module: :informatives do
               concerns :positionable
@@ -310,6 +320,7 @@ Rails.application.routes.draw do
         end
       end
     end
+
     namespace :public, path: "/" do
       scope "/planning_guides" do
         get "/", to: "planning_guides#index", as: :planning_guides

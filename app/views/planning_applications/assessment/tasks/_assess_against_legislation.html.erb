@@ -5,7 +5,7 @@
   <ul class="app-task-list__items" id="assess-policy-section">
     <% if @planning_application.application_type.name == "planning_permission" %>
         <%= render(
-              TaskListItems::Assessment::LocalPolicyComponent.new(
+              TaskListItems::Assessment::ConsiderationsComponent.new(
                 planning_application: @planning_application
               )
             ) %>

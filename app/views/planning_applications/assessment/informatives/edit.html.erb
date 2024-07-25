@@ -46,25 +46,29 @@
   </div>
 </div>
 
-<div class="govuk-grid-row govuk-!-margin-top-5">
-  <div class="govuk-grid-column-two-thirds" data-controller="informative-form">
-    <%= form_with model: @informative, url: planning_application_assessment_informatives_path(@planning_application) do |form| %>
-      <%= form.govuk_fieldset legend: {text: "Add an informative"} do %>
-        <%= form.govuk_text_field :title,
-              label: {text: "Enter a title"},
-              hint: {text: "Start typing to find an existing informative or create a new one"},
-              form_group: {data: {informative_form_target: "container"}},
-              data: {informative_form_target: "titleInput"} %>
+<%= govuk_details(summary_text: t(".add_new_informative"), open: @informatives.none? || @informative.errors.any?) do %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds" data-controller="informative-form">
+      <%= form_with model: @informative, url: planning_application_assessment_informatives_path(@planning_application) do |form| %>
+        <%= form.govuk_fieldset legend: {text: "Add a new informative"} do %>
+          <%= form.govuk_text_field :title,
+                label: {text: "Enter a title"},
+                hint: {text: "Start typing to find an existing informative or create a new one"},
+                form_group: {data: {informative_form_target: "container"}},
+                data: {informative_form_target: "titleInput"} %>
 
-        <%= form.govuk_text_area :text,
-              label: {text: "Enter details of the informative"},
-              data: {informative_form_target: "textInput"} %>
+          <%= form.govuk_text_area :text,
+                label: {text: "Enter details of the informative"},
+                data: {informative_form_target: "textInput"} %>
+        <% end %>
+
+        <%= form.govuk_submit("Add informative", secondary: true, class: "govuk-!-margin-bottom-2") %>
       <% end %>
-
-      <%= form.govuk_submit("Add informative", secondary: true) %>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>
+
+<%= govuk_section_break(visible: true, size: "xl") %>
 
 <div class="govuk-grid-row govuk-!-margin-top-5">
   <div class="govuk-grid-column-full">

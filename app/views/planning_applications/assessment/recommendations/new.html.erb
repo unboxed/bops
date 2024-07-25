@@ -14,7 +14,8 @@
     ) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m govuk-!-padding-top-5">
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <h2 class="govuk-heading-m">
       <%= t(".assess_proposal") %>
     </h2>
     <%= render(
@@ -23,6 +24,7 @@
             show_additional_evidence: true
           )
         ) %>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <%= render(
           partial: "events",
           locals: {

@@ -79,6 +79,20 @@
         hint: {text: t(".email_reply_to_id_hint")},
         class: "govuk-input--width-30"
       ) %>
+
+  <%= form.govuk_text_field(
+        :document_checklist,
+        label: {text: t(".document_checklist"), class: "govuk-label govuk-label--m"},
+        hint: {text: t(".document_checklist_hint")},
+        class: "govuk-input--width-30"
+      ) %>
+
+  <%= form.govuk_text_field(
+        :planning_policy_and_guidance,
+        label: {text: t(".planning_policy_and_guidance"), class: "govuk-label govuk-label--m"},
+        hint: {text: t(".planning_policy_and_guidance_hint")},
+        class: "govuk-input--width-30"
+      ) %>
   <% end %>
 
   <div class="govuk-button-group">

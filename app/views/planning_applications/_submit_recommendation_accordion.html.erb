@@ -1,12 +1,14 @@
 <div class="bops-accordion single-section-accordion" data-module="bops-accordion" data-remember-expanded="false">
-  <div class="govuk-accordion__section ">
+  <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h2 class="govuk-accordion__section-heading">
-        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+        <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-1">
           <%= t(".assessment_report") %>
-        </span>
+        </button>
+        <span class="govuk-accordion__icon"></span>
       </h2>
     </div>
+
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <%= render(
             PlanningApplications::Assessment::AssessmentReportComponent.new(
@@ -25,3 +27,5 @@
     </div>
   </div>
 </div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

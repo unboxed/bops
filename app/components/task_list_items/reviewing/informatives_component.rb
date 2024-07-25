@@ -3,14 +3,15 @@
 module TaskListItems
   module Reviewing
     class InformativesComponent < TaskListItems::BaseComponent
-      def initialize(informative_set:)
-        @informative_set = informative_set
+      def initialize(planning_application:)
+        @planning_application = planning_application
       end
 
       private
 
-      attr_reader :informative_set
-      delegate :planning_application, to: :informative_set
+      attr_reader :planning_application
+      delegate :informative_set, to: :planning_application
+      delegate :current_review, to: :informative_set
 
       def link_text
         t(".link_text")
@@ -22,8 +23,8 @@ module TaskListItems
 
       def status_tag_component
         StatusTags::ReviewComponent.new(
-          review_item: informative_set.current_review,
-          updated: informative_set.current_review&.status == "updated"
+          review_item: current_review,
+          updated: current_review.updated?
         )
       end
 

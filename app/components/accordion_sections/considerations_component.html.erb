@@ -1,11 +1,52 @@
-<% if @planning_application.local_policy.present? %>
-  <% @planning_application.local_policy.local_policy_areas.each do |local_policy_area| %>
-    <p class="govuk-!-font-weight-bold govuk-body"><%= local_policy_area.area.humanize %></p>
-    <p class="govuk-body">Policies: <%= local_policy_area.policies %></p>
-    <% if local_policy_area.guidance.present? %>
-      <p class="govuk-body">Guidance: <%= local_policy_area.guidance %></p>
-    <% end %>
-    <p class="govuk-body">Assessment: <%= local_policy_area.assessment %></p>
+<% if considerations.any? %>
+  <% considerations.each do |consideration| %>
+    <div class="govuk-inset-text govuk-!-padding-top-0 govuk-!-padding-bottom-0 govuk-!-margin-top-0">
+      <h4 class="govuk-heading-m govuk-!-margin-bottom-1"><%= consideration.policy_area %></h4>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Policy
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <ol class="govuk-list">
+              <% consideration.policy_references.each do |reference| %>
+                <li><%= reference.code_and_description %></li>
+              <% end %>
+            </ol>
+          </dd>
+        </div>
+        <% if consideration.policy_guidance.present? %>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Guidance
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <ol class="govuk-list">
+                <% consideration.policy_guidance.each do |guidance| %>
+                  <li><%= guidance.description %></li>
+                <% end %>
+              </ol>
+            </dd>
+          </div>
+        <% end %>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Assessment
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Conclusion
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+          </dd>
+        </div>
+      </dl>
+    </div>
   <% end %>
 <% else %>
   <p class="govuk-body">There are no considerations</p>

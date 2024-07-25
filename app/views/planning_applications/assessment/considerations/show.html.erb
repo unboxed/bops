@@ -1,0 +1,92 @@
+<% content_for :page_title do %>
+  Assess against policies and guidance - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Assess against policies and guidance" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Assess against policies and guidance"}
+    ) %>
+
+<% if @planning_application.local_authority.planning_policy_and_guidance? %>
+  <p class="govuk-body govuk-!-margin-bottom-7">
+    <%= govuk_link_to @planning_application.local_authority.planning_policy_and_guidance, new_tab: "" do %>
+      Check your local policies and guidance (in a new tab)
+    <% end %>
+  </p>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(ReviewerCommentComponent.new(comment: @consideration_set.current_review)) %>
+
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Considerations</h2>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <% if @considerations.any? %>
+      <ol class="govuk-list sortable-list">
+        <% @considerations.each do |consideration| %>
+          <li class="govuk-!-margin-bottom-7">
+            <span class="govuk-caption-m">Consideration <%= consideration.position %></span>
+            <h2 class="govuk-heading-m"><%= consideration.policy_area %></h2>
+
+            <div data-controller="toggle">
+              <dl class="govuk-!-display-none consideration-details" data-toggle-target="content">
+                <div class="govuk-body">
+                  <dt>Policy</dt>
+                  <dd>
+                    <%= consideration.policy_references.map(&:code_and_description).join("; ") %>
+                  </dd>
+                </div>
+                <% if consideration.policy_guidance.present? %>
+                  <div class="govuk-body">
+                    <dt>Guidance</dt>
+                    <dd><%= consideration.policy_guidance.map(&:description).join("; ") %></dd>
+                  </div>
+                <% end %>
+                <div class="govuk-body">
+                  <dt>Assessment</dt>
+                  <dd>
+                    <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
+                  </dd>
+                </div>
+                <div class="govuk-body">
+                  <dt>Conclusion</dt>
+                  <dd>
+                    <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+                  </dd>
+                </div>
+              </dl>
+
+              <button class="button-as-link" type="button" data-toggle-target="button" data-action="click->toggle#click">
+                Show more
+              </button>
+            </div>
+          </li>
+        <% end %>
+      </ol>
+    <% else %>
+      <p class="govuk-body">
+        <strong>No considerations added yet</strong>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      </p>
+    <% end %>
+
+    <% if @planning_application.decision? %>
+      <p class="govuk-body govuk-!-margin-bottom-9">
+        <%= govuk_link_to "View draft decision notice (in a new tab)", decision_notice_planning_application_path(@planning_application), new_tab: "" %>
+      </p>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+      <%= govuk_link_to "Edit considerations", edit_planning_application_assessment_considerations_path(@planning_application) %>
+    </div>
+  </div>
+</div>

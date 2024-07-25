@@ -1,7 +1,0 @@
-<p class="govuk-body">
-  <%= govuk_link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), new_tab: "" %>
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to "View draft decision notice (in a new tab)", decision_notice_planning_application_path(@planning_application), new_tab: "" %>
-</p>

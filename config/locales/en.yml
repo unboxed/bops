@@ -170,6 +170,16 @@ en:
               blank: Enter the text of this condition
             title:
               blank: Enter the title of this condition
+        consideration:
+          attributes:
+            assessment:
+              blank: Enter the assessment of this consideration
+            conclusion:
+              blank: Enter the conclusion for this consideration
+            policy_area:
+              blank: Enter the policy area of this consideration
+            policy_references:
+              blank: Enter at least one policy reference for this consideration
         consistency_checklist:
           attributes:
             description_matches_documents:
@@ -241,12 +251,6 @@ en:
               invalid: Enter a valid url for the legislation
             title:
               blank: Enter a title for the legislation
-        local_policy_area:
-          attributes:
-            assessment:
-              blank: Fill in your assessment
-            policies:
-              blank: Fill in the policies you consulted
         planning_application:
           attributes:
             application_type_id:
@@ -637,9 +641,6 @@ en:
     select_consultee: Select consultee
   council_addresses:
     planx: n/a
-  council_documents:
-    planx:
-      planning_policy_and_guidance: http://example.com
   date:
     formats:
       default: "%-d %B %Y"
@@ -1071,6 +1072,7 @@ en:
             success: Summary of works was successfully updated.
       assessment_report_component:
         additional_evidence: Summary of additional evidence
+        assessment_against_policies_and_guidance: Policies and guidance
         constraints_including_article: Constraints including Article 4 direction(s)
         consultation_documents: Consultation documents
         documents_included_in: Documents included in the decision notice
@@ -1079,15 +1081,26 @@ en:
         legislation: Legislation
         location_description: Location description
         neighbour_responses: Neighbour responses summary
+        no_considerations_assessed: There is no assessment against policies and guidance
         no_documents_listed: There are no documents listed on the decision notice.
         no_legislation_assessed: There is no legislation assessment for this application.
         planning_history: Planning history
         summary_of_works: Summary of works
-      assessment_report_downloads:
-        show:
-          assessment_report: Assessment report
       base:
         not_validated: The planning application must be validated before assessment can begin
+      considerations:
+        create:
+          success: Consideration was successfully added
+        edit:
+          add_new_consideration: Add new consideration
+          drag_and_drop: Drag and drop considerations to change their order.
+        items:
+          destroy:
+            success: Consideration was successfully removed
+          update:
+            success: Consideration was successfully saved
+        update:
+          success: Assessment against local policies was successfully saved
       consistency_checklists:
         additional_document_validation_request:
           cancelled: Cancelled %{time}
@@ -1157,6 +1170,7 @@ en:
         create:
           success: Informative was successfully added
         edit:
+          add_new_informative: Add new informative
           drag_and_drop: Drag and drop informatives to change the order that they appear in the decision notice.
         items:
           destroy:
@@ -1165,12 +1179,6 @@ en:
             success: Informative was successfully saved
         update:
           success: Informatives were successfully saved
-      local_policies:
-        update:
-          successfully_updated: Check against policy and guidance response was successfully updated
-      local_policy_areas:
-        update:
-          successfully_updated: Check against policy and guidance response was successfully updated
       ownership_certificates:
         update:
           success: Ownership certificate was checked
@@ -1256,6 +1264,9 @@ en:
           update_assessment: Update assessment
         update:
           success: Recommendation was successfully reviewed.
+      report_downloads:
+        show:
+          assessment_report: Assessment report
       tasks:
         check_consistency:
           check_application: Check application
@@ -1444,6 +1455,20 @@ en:
       committee_decisions:
         update:
           success: Review of committee decision recommendation updated successfully
+      considerations:
+        edit:
+          drag_and_drop: Drag and drop considerations to change their order.
+        items:
+          update:
+            success: Consideration was successfully saved
+        show:
+          actions:
+            accepted: Assement against policies and guidance accepted
+            edited_and_accepted: Assement against policies and guidance edited and accepted
+            rejected: Assement against policies and guidance rejected
+          review_info: by %{reviewer}, %{reviewed_on}
+        update:
+          success: Review of assessment against policy and guidance updated successfully
       documents:
         update:
           success: Documents were successfully updated.
@@ -2038,12 +2063,12 @@ en:
         past_applications: History (manual)
         site_description: Site description
         summary_of_work: Summary of works
+      considerations_component:
+        link_text: Assess against policies and guidance
       consultees_consulted_component:
         consultees_consulted: Check consultees consulted
       immunity_details_component:
         evidence_of_immunity: Evidence of immunity
-      local_policy_component:
-        link_text: Assess against policies and guidance
       permitted_development_right_component:
         permitted_development_rights: Permitted development rights
     check_red_line_boundary_component:
@@ -2075,6 +2100,8 @@ en:
         link_text: Review conditions
         pre_commencement:
           link_text: Review pre-commencement conditions
+      considerations_component:
+        link_text: Review assessment against policies and guidance
       documents_component:
         review_documents_for: Review documents for recommendation
       heads_of_terms_component:
@@ -2085,8 +2112,6 @@ en:
         review_immunity_enforcement: Review assessment of immunity
       informatives_component:
         link_text: Review informatives
-      local_policy_component:
-        link_text: Review assessment against policies and guidance
       notify_committee_component:
         link_text: Notify neighbours of committee meeting
       permitted_development_right_component:

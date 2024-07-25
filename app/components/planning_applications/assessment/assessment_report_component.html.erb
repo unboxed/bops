@@ -1,11 +1,32 @@
-<section id="constraints-section" class="govuk-!-padding-bottom-5">
-  <h3 class="govuk-heading-s"><%= t(".constraints_including_article") %></h3>
+<section id="constraints-section" class="govuk-!-margin-bottom-7">
+  <h3 class="govuk-heading-m"><%= t(".constraints_including_article") %></h3>
 
-  <%= render "shared/constraints" %>
+  <% if @planning_application.planning_application_constraints.active.empty? %>
+    <p class="govuk-body">
+      There are no planning constraints on the application site.
+    </p>
+  <% else %>
+    <p class="govuk-body">
+      The application site has these constraints:
+    </p>
+    <%= render(
+          partial: "planning_applications/validation/constraints/info",
+          locals: {
+            planning_application: @planning_application,
+            planning_application_constraints: @planning_application.planning_application_constraints.active
+          }
+        ) %>
+  <% end %>
+
+  <% if show_edit_links && current_user.assessor? %>
+    <p class="govuk-body-s">
+      <%= govuk_link_to("Edit constraints", planning_application_validation_constraints_path(@planning_application)) %>
+    </p>
+  <% end %>
 </section>
 <% if past_applications.present? %>
-  <section id="past-applications-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".planning_history") %></h3>
+  <section id="past-applications-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".planning_history") %></h3>
     <h4 class="govuk-heading-s"><%= past_applications.entry %></h4>
     <%= render(FormattedContentComponent.new(text: past_applications.additional_information)) %>
   </section>
@@ -24,8 +45,8 @@
   </section>
 <% end %>
 <% if permitted_development_right %>
-  <section id="permitted-development-rights-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".have_the_permitted_development_rights") %></h3>
+  <section id="permitted-development-rights-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".have_the_permitted_development_rights") %></h3>
     <% if permitted_development_right.removed %>
       <p class="govuk-body"><strong>Yes</strong></p>
       <%= render(FormattedContentComponent.new(text: permitted_development_right.removed_reason)) %>
@@ -35,20 +56,20 @@
   </section>
 <% end %>
 <% if summary_of_work.present? %>
-  <section id="summary-of-works-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".summary_of_works") %></h3>
+  <section id="summary-of-works-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".summary_of_works") %></h3>
     <%= render(FormattedContentComponent.new(text: summary_of_work.entry)) %>
   </section>
 <% end %>
 <% if site_description.present? %>
-  <section id="site-description-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".location_description") %></h3>
+  <section id="site-description-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".location_description") %></h3>
     <%= render(FormattedContentComponent.new(text: site_description.entry)) %>
   </section>
 <% end %>
 <% if consultation_summary.present? %>
-  <section id="consultation-summary-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".consultation_documents") %></h3>
+  <section id="consultation-summary-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".consultation_documents") %></h3>
     <% if planning_application.consultation&.consultees&.any? %>
       <ul class="govuk-list govuk-list--bullet">
         <% consultation.consultees.each do |consultee| %>
@@ -60,8 +81,8 @@
   </section>
 <% end %>
 <% if neighbour_summary %>
-  <section id="neighbour-responses-summary-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".neighbour_responses") %></h3>
+  <section id="neighbour-responses-summary-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".neighbour_responses") %></h3>
     <% if consultation.neighbour_responses.any? %>
       <p class="govuk-body"><%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
     <% end %>
@@ -69,23 +90,77 @@
   </section>
 <% end %>
 <% if show_additional_evidence && additional_evidence.present? %>
-  <section id="additional-evidence-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".additional_evidence") %></h3>
+  <section id="additional-evidence-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".additional_evidence") %></h3>
     <%= render(FormattedContentComponent.new(text: additional_evidence.entry)) %>
   </section>
 <% end %>
-<section id="policy-classes-section" class="govuk-!-padding-bottom-5">
-  <h3 class="govuk-heading-s"><%= t(".legislation") %></h3>
-  <% if @planning_application.application_type.name == "planning_permission" %>
-    <% local_policy_areas.each do |local_policy_area| %>
-      <p class="govuk-body"><strong><%= local_policy_area.area.humanize %></strong></p>
-      <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
-      <% if local_policy_area.guidance.present? %>
-        <p class="govuk-body"><strong>Guidance</strong> <%= local_policy_area.guidance %></p>
+<% if @planning_application.application_type.name == "planning_permission" %>
+  <section id="considerations-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".assessment_against_policies_and_guidance") %></h3>
+    <% if considerations.any? %>
+      <% considerations.each do |consideration| %>
+        <div class="govuk-inset-text govuk-!-padding-top-0 govuk-!-padding-bottom-0">
+          <h4 class="govuk-heading-m govuk-!-margin-bottom-1"><%= consideration.policy_area %></h4>
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Policy
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <ol class="govuk-list">
+                  <% consideration.policy_references.each do |reference| %>
+                    <li><%= reference.code_and_description %></li>
+                  <% end %>
+                </ol>
+              </dd>
+            </div>
+            <% if consideration.policy_guidance.present? %>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Guidance
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <ol class="govuk-list">
+                    <% consideration.policy_guidance.each do |guidance| %>
+                      <li><%= guidance.description %></li>
+                    <% end %>
+                  </ol>
+                </dd>
+              </div>
+            <% end %>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Assessment
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Conclusion
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+              </dd>
+            </div>
+          </dl>
+        </div>
       <% end %>
-      <p class="govuk-body"><strong>Assessment:</strong> <%= local_policy_area.assessment %></p>
+    <% else %>
+      <p class="govuk-body"><%= t(".no_considerations_assessed") %></p>
     <% end %>
-  <% else %>
+
+    <% if show_edit_links && current_user.assessor? %>
+      <p class="govuk-body-s">
+        <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_considerations_path(@planning_application)) %>
+      </p>
+    <% end %>
+  </section>
+<% else %>
+  <section id="policy-classes-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".legislation") %></h3>
     <% if policy_classes.any? %>
       <% policy_classes.each do |policy_class| %>
         <%= render(
@@ -95,7 +170,7 @@
     <% else %>
       <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
     <% end %>
-  <% end %>
-</section>
+  </section>
+<% end %>
 
 <%= render "planning_applications/assessment/recommendations/documents", planning_application: planning_application, documents: documents %>

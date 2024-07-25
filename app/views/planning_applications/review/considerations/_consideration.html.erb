@@ -1,0 +1,56 @@
+<%= tag.li(
+      id: dom_id(consideration),
+      class: "sortable-list-item sortable-container govuk-!-margin-bottom-7",
+      data: {
+        model_name: "Consideration",
+        sortable_url: planning_application_review_considerations_item_position_path(@planning_application, consideration),
+        sortable_handle: true
+      }
+    ) do %>
+  <div class="sortable-list-item">
+    <span class="govuk-caption-m">Consideration <%= consideration.position %></span>
+    <h2 class="govuk-heading-m"><%= consideration.policy_area %></h2>
+
+    <div data-controller="toggle">
+      <dl class="govuk-!-display-none consideration-details" data-toggle-target="content">
+        <div class="govuk-body">
+          <dt>Policy</dt>
+          <dd>
+            <%= consideration.policy_references.map(&:code_and_description).join("; ") %>
+          </dd>
+        </div>
+        <% if consideration.policy_guidance.present? %>
+          <div class="govuk-body">
+            <dt>Guidance</dt>
+            <dd><%= consideration.policy_guidance.map(&:description).join("; ") %></dd>
+          </div>
+        <% end %>
+        <div class="govuk-body">
+          <dt>Assessment</dt>
+          <dd>
+            <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
+          </dd>
+        </div>
+        <div class="govuk-body">
+          <dt>Conclusion</dt>
+          <dd>
+            <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+          </dd>
+        </div>
+      </dl>
+
+      <button class="button-as-link" type="button" data-toggle-target="button" data-action="click->toggle#click">
+        Show more
+      </button>
+    </div>
+
+    <nav class="nav-links govuk-!-padding-top-3">
+      <%= govuk_link_to "Edit to accept", edit_planning_application_review_considerations_item_path(@planning_application, consideration) %>
+      <% if consideration.submitted_by.try(:name) %>
+        <span>Submitted by: <%= consideration.submitted_by.name %></span>
+      <% end %>
+    </nav>
+  </div>
+
+  <%= render "shared/sortable_svg" %>
+<% end %>
