@@ -8,6 +8,9 @@ module PlanningApplications
       before_action :set_other_constraints, only: %i[index]
 
       def index
+        respond_to do |format|
+          format.html
+        end
       end
 
       def create

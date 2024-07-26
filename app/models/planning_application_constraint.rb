@@ -36,8 +36,16 @@ class PlanningApplicationConstraint < ApplicationRecord
     metadata["description"] if metadata
   end
 
+  def dataset
+    data&.pluck("dataset")
+  end
+
   def checked?
     (identified? && !removed_at?) || !identified?
+  end
+
+  def entities
+    data&.pluck("name", "entity")
   end
 
   private
