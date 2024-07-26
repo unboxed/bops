@@ -1,4 +1,3 @@
-<a href="<%= sort_link(attribute) %>" class="sort-by <%= sort_class(attribute, params[:sort_key]) %>">
-  <span class="sort-text"><%= attribute.humanize %></span>
-  <span class="arrow <%= sort_class(attribute, params[:sort_key]) %>"></span>
+<a href="<%= sort_link(attribute) %>">
+  <button class="arrow <%= sort_class(attribute, params[:sort_key]) %> govuk-link"><%= attribute.humanize %></button>
 </a>
