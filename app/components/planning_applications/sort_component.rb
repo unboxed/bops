@@ -9,14 +9,14 @@ module PlanningApplications
 
     def sort_link(column)
       new_direction = determine_new_direction(column)
-      url_for(params.to_unsafe_hash.merge(sort_key: column, direction: new_direction))
+      url_for(params.to_unsafe_hash.merge(sort_key: column, direction: new_direction)) + "#all"
     end
 
     def sort_class(column, current_sort)
       if current_sort == column
         sort_direction_class
       else
-        "right"
+        "unsorted"
       end
     end
 
@@ -27,7 +27,7 @@ module PlanningApplications
     end
 
     def sort_direction_class
-      (direction == "asc") ? "up" : "down"
+      (direction == "asc") ? "ascending" : "descending"
     end
 
     attr_reader :attribute, :direction

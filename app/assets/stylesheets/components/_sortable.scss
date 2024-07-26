@@ -46,33 +46,44 @@
   align-self: center;
 }
 
-th a.sort-by {
-  display: flex;
-  align-items: center;
-  color: inherit;
+button.arrow {
+  background-color: transparent;
+  border-width: 0;
+  color:  govuk-colour("blue");
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0 10px 0 0;
+  position: relative;
+  text-align: inherit;
   text-decoration: none;
 }
-
-th a.sort-by.up,
-th a.sort-by.down {
-  background: govuk-colour("light-grey");
+.ascending::after {
+  content: " ▲";
+  font-size: 0.8em;
+  position: absolute;
+  right: -5px;
+  top: 2px;
 }
-.sort-text {
-  margin-right: 6px;
+.descending::after {
+  content: " ▼";
+  font-size: 0.8em;
+  position: absolute;
+  right: -5px;
+  top: 2px;
 }
-.arrow {
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
+.unsorted::before,
+.unsorted::after {
+  position: absolute;
+  right: -2px;
+  font-size: 0.5em;
 }
-.right {
-  border-left-color: black;
+.unsorted::before {
+  content: " ▼";
+  top: 10px;
 }
-.up {
-  border-top-width: 0;
-  border-bottom-color: black;
-}
-.down {
-  border-bottom-width: 0;
-  border-top-color: black;
+.unsorted::after {
+  content: " ▲";
+  top: 1px;
 }
