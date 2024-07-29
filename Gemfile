@@ -19,6 +19,7 @@ gem "devise-two-factor"
 gem "faker", require: false
 gem "faraday", "~> 2", require: false
 gem "grover"
+gem "holidays"
 gem "i18n", "< 1.9"
 gem "i18n-tasks"
 gem "image_processing", "~> 1.12"
