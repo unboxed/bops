@@ -196,7 +196,14 @@ class Consultation < ApplicationRecord
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
-    default_start_date(now) + [consultee_response_period.days, period_days].max
+
+    effective_period_days = [consultee_response_period.days, period_days].max
+
+    if planning_application.application_type.include_bank_holidays?
+      Bops::Holidays.days_after_plus_holidays(from_date: default_start_date(now), count: effective_period_days)
+    else
+      default_start_date(now) + effective_period_days
+    end
   end
 
   def end_date_from_now
