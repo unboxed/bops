@@ -10,6 +10,7 @@ RSpec.describe "Constraints" do
   let!(:planning_application) do
     create(:planning_application, :invalidated, :with_constraints, local_authority: default_local_authority, api_user:)
   end
+  let(:lat_lon_zoom) { "#{planning_application.latitude},#{planning_application.longitude},17" }
 
   before do
     Rails.application.load_seed
@@ -29,6 +30,7 @@ RSpec.describe "Constraints" do
       end
 
       expect(page).to have_text("Identified constraints")
+      expect(page).to have_link("View map on Planning Data (opens in new tab)", href: "https://www.planning.data.gov.uk/map/##{lat_lon_zoom}")
 
       within(".identified-constraints-table") do
         expect(page).to have_text("Conservation area")
@@ -59,6 +61,29 @@ RSpec.describe "Constraints" do
       visit "/planning_applications/#{planning_application.id}/audits"
 
       expect(page).to have_text("Constraints Checked")
+    end
+  end
+
+  context "when showing constraints on planning data" do
+    let!(:tree_preservation_zone) do
+      create(:planning_application_constraint, :with_tree_preservation_zone, planning_application:)
+    end
+    let!(:listed_building_and_outline) do
+      create(:planning_application_constraint, :with_listed_building_and_outline, planning_application:)
+    end
+
+    it "I can view a link to the individual entities and planning data map with layers pre-selected" do
+      visit "/planning_applications/#{planning_application.id}/validation/constraints"
+      lat_lon_zoom = "#{planning_application.latitude},#{planning_application.longitude},17"
+      expect(page).to have_link(
+        "View map on Planning Data (opens in new tab)",
+        href: "https://www.planning.data.gov.uk/map/?dataset=tree-preservation-zone&dataset=listed-building&dataset=listed-building-outline##{lat_lon_zoom}"
+      )
+
+      within(".identified-constraints-table") do
+        expect(page).to have_link("School Nature Area, Cobourg Road", href: "https://www.planning.data.gov.uk/entity/19109825")
+        expect(page).to have_link("Entity #42102419", href: "https://www.planning.data.gov.uk/entity/42102419")
+      end
     end
   end
 

@@ -6,6 +6,15 @@
   </td>
   <td class="govuk-table__cell">
     <%= planning_application_constraint.type_code %>
+
+    <% if show_entity && planning_application_constraint.entities.present? %>
+        <ul class="govuk-list">
+          <% planning_application_constraint.entities.each do |name, entity| %>
+            <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
+            <li><%= govuk_link_to entity_name, planning_data_entity_url(entity), new_tab: true %></li>
+          <% end %>
+        </ul>
+    <% end %>
   </td>
   <% if show_source %>
     <td class="govuk-table__cell">

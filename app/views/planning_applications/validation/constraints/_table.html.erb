@@ -2,7 +2,7 @@
   <%= tag.table(class: ["govuk-table", "#{identifier}-constraints-table"]) do %>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
           Category
         </th>
         <th scope="col" class="govuk-table__header">
@@ -25,7 +25,8 @@
                 partial: "row",
                 locals: {
                   planning_application_constraint: planning_application_constraint,
-                  show_source: show_source
+                  show_source: show_source,
+                  show_entity: show_entity
                 }
               ) %>
         <% end %>
