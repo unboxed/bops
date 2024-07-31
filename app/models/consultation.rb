@@ -199,7 +199,7 @@ class Consultation < ApplicationRecord
 
     effective_period_days = [consultee_response_period.days, period_days].max
 
-    if planning_application.application_type.include_bank_holidays?
+    if planning_application.application_type.consultations_skip_bank_holidays?
       Bops::Holidays.days_after_plus_holidays(from_date: default_start_date(now), count: effective_period_days)
     else
       default_start_date(now) + effective_period_days

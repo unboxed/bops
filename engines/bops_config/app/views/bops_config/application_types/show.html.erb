@@ -71,8 +71,8 @@
                 <% if @application_type.planning_conditions? %>
                   <li><%= t("application_type_features.labels.planning_conditions") %></li>
                 <% end %>
-                <% if @application_type.include_bank_holidays? %>
-                  <li><%= t("application_type_features.labels.include_bank_holidays") %></li>
+                <% if @application_type.consultations_skip_bank_holidays? %>
+                  <li><%= t("application_type_features.labels.consultations_skip_bank_holidays") %></li>
                 <% end %>
               </ul>
 

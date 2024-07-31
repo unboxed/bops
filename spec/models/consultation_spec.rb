@@ -129,7 +129,7 @@ RSpec.describe Consultation do
 
     context "when the application type skips bank holidays during consultations" do
       before do
-        consultation.planning_application.application_type.features.include_bank_holidays = true
+        consultation.planning_application.application_type.features.consultations_skip_bank_holidays = true
       end
 
       let(:date) { Time.zone.local(2023, 12, 18, 13) }
