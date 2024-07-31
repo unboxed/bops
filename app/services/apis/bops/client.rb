@@ -7,11 +7,13 @@ module Apis
     class Client
       TIMEOUT = 5
 
-      def call(local_authority, planning_application)
+      def call(local_authority, submission)
         faraday(local_authority).post("planning_applications") do |request|
           request.options[:timeout] = TIMEOUT
-          request.body = JSON.parse(planning_application.params_v1).merge("send_email" => "false",
-            "from_production" => "true").to_json
+          request.body = submission.merge(
+            "send_email" => "false",
+            "from_production" => "true"
+          ).to_json
         end
       end
 

@@ -5,8 +5,8 @@ require "faraday"
 module Apis
   module Bops
     class Query
-      def post(local_authority, planning_application)
-        client.call(local_authority, planning_application)
+      def post(local_authority, submission)
+        client.call(local_authority, submission)
       rescue Faraday::ClientError
         []
       rescue Faraday::Error => e
