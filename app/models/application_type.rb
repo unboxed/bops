@@ -87,7 +87,7 @@ class ApplicationType < ApplicationRecord
     delegate :planning_conditions?
     delegate :permitted_development_rights?
     delegate :site_visits?
-    delegate :include_bank_holidays?
+    delegate :consultations_skip_bank_holidays?
     delegate :consultation_steps
   end
 

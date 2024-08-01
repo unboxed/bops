@@ -1,6 +1,7 @@
 en:
   application_type_features:
     labels:
+      consultations_skip_bank_holidays: "Extend consultation periods that contain bank holidays"
       informatives: "Add informatives"
       ownership_details: "Ownership details"
       planning_conditions: "Check planning conditions"

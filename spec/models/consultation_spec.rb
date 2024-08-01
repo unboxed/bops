@@ -126,6 +126,18 @@ RSpec.describe Consultation do
         expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 21).to_date)
       end
     end
+
+    context "when the application type skips bank holidays during consultations" do
+      before do
+        consultation.planning_application.application_type.features.consultations_skip_bank_holidays = true
+      end
+
+      let(:date) { Time.zone.local(2023, 12, 18, 13) }
+
+      it "returns the day 21 days after the next working day" do
+        expect(consultation.end_date_from_now).to eq(Time.zone.local(2024, 1, 12).to_date)
+      end
+    end
   end
 
   describe "#start_deadline" do
