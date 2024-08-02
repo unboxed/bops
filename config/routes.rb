@@ -338,7 +338,7 @@ Rails.application.routes.draw do
 
     namespace :api do
       namespace :v1 do
-        resources :planning_applications, only: %i[create show] do
+        resources :planning_applications, only: %i[show] do
           member do
             get :decision_notice
           end
