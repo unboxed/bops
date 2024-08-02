@@ -1987,6 +1987,14 @@ en:
       application: Application
       home: Home
       review_application: Review
+  site_map_component:
+    applicant: applicant
+    no_digital_sitemap: No digital site map provided
+    request_approval_for: Request approval for a change to red line boundary
+    site_map_drawn_by: Site map drawn by %{name}
+    this_application_has: This application has been updated. Please check the site map is correct.
+    view_applicants_response: View applicants response to requested red line boundary change
+    view_requested_red: View requested red line boundary change
   status_tag_component:
     amendments_needed: Amendments needed
     approved: Accepted

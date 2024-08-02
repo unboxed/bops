@@ -1,0 +1,24 @@
+<% if planning_application.validated? %>
+  <p class="govuk-body">
+    <%= govuk_link_to change_request_link_text, change_request_link_path %>
+  </p>
+<% end %>
+<% if planning_application.boundary_geojson.present? %>
+  <% if planning_application.address_or_boundary_or_constraints_updated? %>
+    <%= govuk_warning_text(text: t(".this_application_has")) %>
+  <% end %>
+  <p class="govuk-body">
+    <%= t(".site_map_drawn_by", name: site_map_drawn_by) %>
+  </p>
+  <%= render(
+        partial: "shared/location_map",
+        locals: {
+          locals: {
+            in_accordion: false,
+            geojson: planning_application.boundary_geojson
+          }
+        }
+      ) %>
+<% else %>
+  <p class="govuk-body"><%= t(".no_digital_sitemap") %></p>
+<% end %>
