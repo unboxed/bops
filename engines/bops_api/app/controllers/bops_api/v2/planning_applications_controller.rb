@@ -36,6 +36,7 @@ module BopsApi
 
       def create
         @planning_application = creation_service.call!
+        post_application_to_staging if Bops.env.production?
 
         respond_to do |format|
           format.json
@@ -88,6 +89,10 @@ module BopsApi
 
       def query_params
         params.permit(:page, :maxresults, ids: [])
+      end
+
+      def post_application_to_staging
+        PostApplicationToStagingJob.perform_later(@local_authority, @planning_application)
       end
     end
   end
