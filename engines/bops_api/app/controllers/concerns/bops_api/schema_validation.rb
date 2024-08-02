@@ -15,7 +15,8 @@ module BopsApi
           schema = Schemas.find!(name, schema: request_schema)
 
           unless schema.valid?(request_parameters)
-            raise BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
+            raise BopsApi::Errors::InvalidRequestError,
+              "We couldn’t process your request because some information is missing or incorrect with error: #{schema.validate(request_parameters).to_a}"
           end
         end
       end
