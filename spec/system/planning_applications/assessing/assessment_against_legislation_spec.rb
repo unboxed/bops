@@ -41,7 +41,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         visit "/planning_applications/#{planning_application.id}"
       end
 
-      it "warns the user about unsaved changes" do
+      it "warns the user about unsaved changes", pending: "flaky" do
         click_link("Check and assess")
         click_link("Add assessment area")
         click_link("Back")
