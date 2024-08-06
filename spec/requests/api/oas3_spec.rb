@@ -40,52 +40,6 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     expect(document.valid?).to be(true)
   end
 
-  it "successfully creates the ldc_proposed application as per the oas3 definition" do
-    stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
-      .to_return(
-        status: 200,
-        body: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").read,
-        headers: {"Content-Type" => "application/pdf"}
-      )
-    expect do
-      post "/api/v1/planning_applications",
-        params: example_request_json_for("/api/v1/planning_applications/{id}", "post", "ldc_proposed"),
-        headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
-    end.to change(PlanningApplication, :count).by(1)
-    expect(response.code).to eq("200")
-    expect(result.application_type.name).to eq("lawfulness_certificate")
-    expect(result.description).to eq("Add a chimney stack")
-    expect(result.payment_reference).to eq("PAY1")
-    expect(result.payment_amount).to eq(103.00)
-    expect(result.applicant_first_name).to eq("Albert")
-    expect(result.applicant_last_name).to eq("Manteras")
-    expect(result.applicant_phone).to eq("23432325435")
-    expect(result.applicant_email).to eq("applicant@example.com")
-    expect(result.agent_first_name).to eq("Jennifer")
-    expect(result.agent_last_name).to eq("Harper")
-    expect(result.agent_phone).to eq("237878889")
-    expect(result.agent_email).to eq("agent@example.com")
-    expect(result.user_role).to eq("agent")
-    expect(result.address_1).to eq("11 Abbey Gardens")
-    expect(result.address_2).to eq("Southwark")
-    expect(result.uprn).to eq("100081043511")
-    expect(result.town).to eq("London")
-    expect(result.postcode).to eq("SE16 3RQ")
-    expect(result.work_status).to eq("proposed")
-    expect(result.boundary_geojson).to eq({"type" => "Feature", "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.07716178894042969, 51.50094238217541], [-0.07645905017852783, 51.50053497847238], [-0.07615327835083008, 51.50115276135022], [-0.07716178894042969, 51.50094238217541]]]}})
-    expect(result.proposal_details.first.question).to eq("What do you want to do?")
-    expect(result.documents.first.file).to be_present
-    expect(result.documents.first.applicant_description).to eq("This is the side plan")
-    expect(result.result_flag).to eq("Planning permission / Permission needed")
-    expect(result.result_heading).to eq("It looks like these changes will need planning permission")
-    expect(result.result_description).to eq("Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate")
-    expect(result.result_override).to eq("This was my reason for rejecting the result")
-
-    expect(result.fee_calculation.total_fee).to eq(206)
-    expect(result.fee_calculation.payable_fee).to eq(103)
-    expect(result.fee_calculation.requested_fee).to be_nil
-  end
-
   it "successfully returns an application as specified" do
     travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")

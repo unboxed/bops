@@ -63,6 +63,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
+          expect(BopsApi::PostApplicationToStagingJob).not_to have_been_enqueued
 
           expect(planning_application).to have_attributes(
             status: "pending",
@@ -524,6 +525,21 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             end_date: nil,
             applicant_comment: "Nothing really, this is just a test. "
           )
+        end
+      end
+
+      context "when in production environment" do
+        let(:params) { json_fixture("v2/valid_planning_permission.json").with_indifferent_access }
+
+        before do
+          allow(ENV).to receive(:fetch).and_call_original
+          allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+        end
+
+        it "calls the post application to staging job" do
+          create_planning_application
+
+          expect(BopsApi::PostApplicationToStagingJob).to have_been_enqueued
         end
       end
     end

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PostApplicationToStagingJob do
+RSpec.describe BopsApi::PostApplicationToStagingJob, type: :job do
   let(:planning_application) { create(:planning_application) }
 
   before do
