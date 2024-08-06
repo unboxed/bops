@@ -32,7 +32,7 @@ export default class extends Controller {
       defaultValue: "",
       displayMenu: "overlay",
       showNoOptionsFound: false,
-      minLength: 3,
+      minLength: 1,
       confirmOnBlur: false,
       source: (query, populateResults) => {
         this.findPolicyReference(query, populateResults)
@@ -68,7 +68,7 @@ export default class extends Controller {
       defaultValue: "",
       displayMenu: "overlay",
       showNoOptionsFound: false,
-      minLength: 3,
+      minLength: 1,
       confirmOnBlur: false,
       source: (query, populateResults) => {
         this.findPolicyGuidance(query, populateResults)

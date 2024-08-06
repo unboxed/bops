@@ -179,7 +179,7 @@ en:
             policy_area:
               blank: Enter the policy area of this consideration
             policy_references:
-              blank: Enter at least one policy reference for this consideration
+              blank: Enter at least one existing policy reference for this consideration
         consistency_checklist:
           attributes:
             description_matches_documents:

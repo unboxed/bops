@@ -43,7 +43,7 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
 
     within "div[role=alert]" do
       expect(page).to have_content("Enter the policy area of this consideration")
-      expect(page).to have_content("Enter at least one policy reference for this consideration")
+      expect(page).to have_content("Enter at least one existing policy reference for this consideration")
       expect(page).to have_content("Enter the assessment of this consideration")
       expect(page).to have_content("Enter the conclusion for this consideration")
     end
@@ -62,12 +62,14 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
     fill_in "Enter policy area", with: "Design"
     pick "Design", from: "#consideration-policy-area-field"
 
+    expect(page).to have_selector("div.govuk-hint", text: "Start typing to find an existing policy reference")
     fill_in "Enter policy references", with: "Wall"
     pick "PP100 - Wall materials", from: "#policyReferencesAutoComplete"
 
     fill_in "Enter policy references", with: "Roofing"
     pick "PP101 - Roofing materials", from: "#policyReferencesAutoComplete"
 
+    expect(page).to have_selector("div.govuk-hint", text: "Start typing to find existing policy guidance")
     fill_in "Enter policy guidance", with: "Design"
     pick "Design Guidance", from: "#policyGuidanceAutoComplete"
 

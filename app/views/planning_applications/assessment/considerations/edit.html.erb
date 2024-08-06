@@ -59,6 +59,7 @@
           <div class="govuk-form-group">
             <%= form.govuk_text_field :policy_references,
                   label: {text: "Enter policy references"},
+                  hint: {text: "Start typing to find an existing policy reference"},
                   form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyReferencesContainer"}},
                   data: {consideration_form_target: "policyReferencesInput"} %>
 
@@ -88,6 +89,7 @@
           <div class="govuk-form-group">
             <%= form.govuk_text_field :policy_guidance,
                   label: {text: "Enter policy guidance (optional)"},
+                  hint: {text: "Start typing to find existing policy guidance"},
                   form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyGuidanceContainer"}},
                   data: {consideration_form_target: "policyGuidanceInput"} %>
 
