@@ -46,6 +46,9 @@ application.register("neighbours", NeighboursController)
 import ConsiderationFormController from "./consideration_form_controller.js"
 application.register("consideration-form", ConsiderationFormController)
 
+import MapController from "./map_controller.js"
+application.register("map", MapController)
+
 import PdfController from "./pdf_controller.js"
 application.register("pdf", PdfController)
 
