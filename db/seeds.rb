@@ -49,3 +49,28 @@ fixture["constraints"].each do |category, types|
     Constraint.find_or_create_by!(category:, type:)
   end
 end
+
+# Create GPDO information - https://www.legislation.gov.uk/uksi/2015/596/contents
+schedule = PolicySchedule.find_or_create_by!(number: 2, name: "Permitted development rights")
+data = fixture["gpdo"]
+data["en"]["schedules"].first["parts"].each do |part_key, part_data|
+  part = schedule.policy_parts.find_or_create_by!(
+    number: part_key,
+    name: part_data["name"]
+  )
+
+  part_data["classes"].each do |class_data|
+    new_policy_class = part.new_policy_classes.find_or_create_by!(
+      section: class_data["section"],
+      name: class_data["name"],
+      url: class_data["url"]
+    )
+
+    class_data["policies_attributes"].each do |section_data|
+      new_policy_class.policy_sections.find_or_create_by!(
+        section: section_data["section"].presence || class_data["section"],
+        description: section_data["description"]
+      )
+    end
+  end
+end
