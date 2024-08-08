@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_08_150652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -601,6 +601,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
 
+  create_table "new_policy_classes", force: :cascade do |t|
+    t.string "section", null: false
+    t.string "name", null: false
+    t.string "url"
+    t.bigint "policy_part_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["policy_part_id"], name: "ix_new_policy_classes_on_policy_part_id"
+    t.index ["section", "policy_part_id"], name: "ix_new_policy_classes_on_section__policy_part_id", unique: true
+  end
+
   create_table "notes", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
@@ -667,6 +678,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_planning_application_constraints_queries_on_planning_applica"
+  end
+
+  create_table "planning_application_policy_classes", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "new_policy_class_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["new_policy_class_id"], name: "ix_planning_application_policy_classes_on_new_policy_class_id"
+    t.index ["planning_application_id"], name: "ix_planning_application_policy_classes_on_planning_application_"
+  end
+
+  create_table "planning_application_policy_sections", force: :cascade do |t|
+    t.string "status"
+    t.bigint "planning_application_id", null: false
+    t.bigint "policy_section_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_planning_application_policy_sections_on_planning_application"
+    t.index ["policy_section_id"], name: "ix_planning_application_policy_sections_on_policy_section_id"
   end
 
   create_table "planning_applications", force: :cascade do |t|
@@ -799,6 +829,34 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
+  end
+
+  create_table "policy_parts", force: :cascade do |t|
+    t.integer "number", null: false
+    t.string "name", null: false
+    t.bigint "policy_schedule_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["number", "policy_schedule_id"], name: "ix_policy_parts_on_number__policy_schedule_id", unique: true
+    t.index ["policy_schedule_id"], name: "ix_policy_parts_on_policy_schedule_id"
+  end
+
+  create_table "policy_schedules", force: :cascade do |t|
+    t.integer "number", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["number"], name: "ix_policy_schedules_on_number", unique: true
+  end
+
+  create_table "policy_sections", force: :cascade do |t|
+    t.string "section", null: false
+    t.text "description", null: false
+    t.bigint "new_policy_class_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["new_policy_class_id"], name: "ix_policy_sections_on_new_policy_class_id"
+    t.index ["section", "new_policy_class_id"], name: "ix_policy_sections_on_section__new_policy_class_id", unique: true
   end
 
   create_table "press_notices", force: :cascade do |t|
@@ -1025,6 +1083,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
   add_foreign_key "neighbour_responses", "neighbours"
   add_foreign_key "neighbour_responses", "users", column: "redacted_by_id"
   add_foreign_key "neighbours", "consultations"
+  add_foreign_key "new_policy_classes", "policy_parts"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
   add_foreign_key "permitted_development_rights", "planning_applications"
@@ -1035,6 +1094,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
   add_foreign_key "planning_application_constraints", "planning_application_constraints_queries"
   add_foreign_key "planning_application_constraints", "planning_applications"
   add_foreign_key "planning_application_constraints_queries", "planning_applications"
+  add_foreign_key "planning_application_policy_classes", "new_policy_classes"
+  add_foreign_key "planning_application_policy_classes", "planning_applications"
+  add_foreign_key "planning_application_policy_sections", "planning_applications"
+  add_foreign_key "planning_application_policy_sections", "policy_sections"
   add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "local_authorities"
   add_foreign_key "planning_applications", "users"
@@ -1042,6 +1105,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_094140) do
   add_foreign_key "planx_planning_data", "planning_applications"
   add_foreign_key "policies", "policy_classes"
   add_foreign_key "policy_classes", "planning_applications"
+  add_foreign_key "policy_parts", "policy_schedules"
+  add_foreign_key "policy_sections", "new_policy_classes"
   add_foreign_key "press_notices", "planning_applications"
   add_foreign_key "proposal_measurements", "planning_applications"
   add_foreign_key "recommendations", "planning_applications"
