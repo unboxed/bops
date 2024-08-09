@@ -12,7 +12,7 @@ RSpec.describe "Summary of works" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when planning application is in assessment" do
@@ -29,7 +29,7 @@ RSpec.describe "Summary of works" do
       end
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=summary_of_work"
+        "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=summary_of_work"
       )
 
       expect(page).to have_content(planning_application.reference)
@@ -122,7 +122,7 @@ RSpec.describe "Summary of works" do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("Summary of works")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/assessment_details/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end

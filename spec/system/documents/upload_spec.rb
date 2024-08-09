@@ -19,7 +19,7 @@ RSpec.describe "Document uploads" do
 
     context "when the application is under assessment" do
       it "cannot upload a document in the wrong format" do
-        visit "/planning_applications/#{planning_application.id}/documents"
+        visit "/planning_applications/#{planning_application.reference}/documents"
 
         click_link("Upload document")
         attach_file("Upload a file", "spec/fixtures/images/image.gif")
@@ -31,7 +31,7 @@ RSpec.describe "Document uploads" do
       end
 
       it "cannot save without a document being attached" do
-        visit "/planning_applications/#{planning_application.id}/documents"
+        visit "/planning_applications/#{planning_application.reference}/documents"
 
         click_link("Upload document")
         check("Floor plan - existing")

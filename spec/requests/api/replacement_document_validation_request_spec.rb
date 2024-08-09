@@ -263,7 +263,7 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
 
       describe "when the replacement document request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id + 1}"
+          "/api/v1/planning_applications/#{planning_application.reference}/replacement_document_validation_requests/#{replacement_document_validation_request.id + 1}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "replacement_document_validation_request"

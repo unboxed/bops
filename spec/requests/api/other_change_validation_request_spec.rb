@@ -16,7 +16,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
   end
 
   describe "#index" do
-    let(:path) { "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests" }
+    let(:path) { "/api/v1/planning_applications/#{planning_application.reference}/other_change_validation_requests" }
     let!(:other_change_validation_request2) do
       travel_to(DateTime.new(2023, 12, 15)) { create(:other_change_validation_request, :closed, planning_application:) }
     end
@@ -85,7 +85,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
 
   describe "#show" do
     let(:path) do
-      "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}"
+      "/api/v1/planning_applications/#{planning_application.reference}/other_change_validation_requests/#{other_change_validation_request.id}"
     end
 
     context "when the request is successful" do
@@ -125,7 +125,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
 
       describe "when the other change validation request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id + 1}"
+          "/api/v1/planning_applications/#{planning_application.reference}/other_change_validation_requests/#{other_change_validation_request.id + 1}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "other_change_validation_request"

@@ -28,7 +28,7 @@ RSpec.describe TaskListItems::Reviewing::AssessmentDetailsComponent, type: :comp
     it "renders link to show assessment details review page" do
       expect(page).to have_link(
         "Review assessment summaries",
-        href: "/planning_applications/#{planning_application.id}/review/assessment_details"
+        href: "/planning_applications/#{planning_application.reference}/review/assessment_details"
       )
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe TaskListItems::Reviewing::AssessmentDetailsComponent, type: :comp
     it "renders link to edit assessment details review page" do
       expect(page).to have_link(
         "Review assessment summaries",
-        href: "/planning_applications/#{planning_application.id}/review/assessment_details/edit"
+        href: "/planning_applications/#{planning_application.reference}/review/assessment_details/edit"
       )
     end
   end

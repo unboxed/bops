@@ -34,7 +34,7 @@ RSpec.describe "Update decision notice after committee" do
     end
 
     it "does not show the option to Update decision notice after committee" do
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_content("Review and sign-off")
 
@@ -45,7 +45,7 @@ RSpec.describe "Update decision notice after committee" do
   context "when the assessor has recommended the application go to committee" do
     context "when the committee agrees with the assessor" do
       it "can add what the committee decided" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Update decision notice after committee",
@@ -72,7 +72,7 @@ RSpec.describe "Update decision notice after committee" do
 
     context "when the committee agrees with the assessor but needs amendments" do
       it "can add what the committee decided" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Update decision notice after committee",
@@ -99,7 +99,7 @@ RSpec.describe "Update decision notice after committee" do
       end
 
       it "shows errors" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         click_link "Update decision notice after committee"
 
@@ -120,7 +120,7 @@ RSpec.describe "Update decision notice after committee" do
       end
 
       it "can add what the committee decided" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Update decision notice after committee",
@@ -153,7 +153,7 @@ RSpec.describe "Update decision notice after committee" do
         sign_out reviewer
         sign_in assessor
 
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         click_link "View recommendation"
 
@@ -161,7 +161,7 @@ RSpec.describe "Update decision notice after committee" do
       end
 
       it "shows errors" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Update decision notice after committee",

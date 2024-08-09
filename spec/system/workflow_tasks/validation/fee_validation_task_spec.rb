@@ -16,7 +16,7 @@ RSpec.describe Validation::FeeValidationTask, type: :component do
 
     it "renders link to fee items path" do
       expect(task.task_list_link_text).to eq "Check fee"
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/fee_items"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/fee_items"
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe Validation::FeeValidationTask, type: :component do
 
     it "renders link to fee items path" do
       expect(task.task_list_link_text).to eq "Check fee"
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/fee_items"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/fee_items"
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.describe Validation::FeeValidationTask, type: :component do
 
     it "renders link to fee items path" do
       expect(task.task_list_link_text).to eq "Check fee"
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
     end
   end
 
@@ -70,7 +70,7 @@ RSpec.describe Validation::FeeValidationTask, type: :component do
 
     it "renders link to fee items path" do
       expect(task.task_list_link_text).to eq "Check fee"
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/fee_change_validation_requests/#{fee_change_validation_request.id}"
     end
   end
 end

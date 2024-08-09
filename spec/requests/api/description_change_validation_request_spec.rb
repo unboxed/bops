@@ -142,7 +142,7 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
 
       describe "when the description change validation request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id + 1}"
+          "/api/v1/planning_applications/#{planning_application.reference}/description_change_validation_requests/#{description_change_validation_request.id + 1}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "description_change_validation_request"

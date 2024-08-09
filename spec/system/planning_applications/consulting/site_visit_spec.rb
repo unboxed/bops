@@ -29,7 +29,7 @@ RSpec.describe "Site visit" do
       let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:) }
 
       it "shows the site visit item in the tasklist" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
 
         expect(page).to have_css("#site-visit")
@@ -40,7 +40,7 @@ RSpec.describe "Site visit" do
       let!(:site_visit) { create(:site_visit, consultation:) }
 
       it "shows the site visit item in the tasklist" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
 
         expect(page).to have_css("#site-visit")
@@ -52,7 +52,7 @@ RSpec.describe "Site visit" do
       let!(:neighbour_response2) { create(:neighbour_response, summary_tag: "supportive", neighbour:) }
 
       it "does not show the site visit item in the tasklist" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
 
         expect(page).not_to have_css("#site-visit")
@@ -64,7 +64,7 @@ RSpec.describe "Site visit" do
       let!(:consultation) { planning_application.consultation }
 
       it "allows officers to upload site visits any time" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
 
         expect(page).to have_css("#site-visit")
@@ -78,7 +78,7 @@ RSpec.describe "Site visit" do
     let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
     before do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       click_link "Site visit"
     end
@@ -126,7 +126,7 @@ RSpec.describe "Site visit" do
     let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
     before do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       within("#site-visit") do
         click_link "Site visit"
@@ -175,7 +175,7 @@ RSpec.describe "Site visit" do
     it "I can't add a site visit before the consultation has started" do
       planning_application = create(:planning_application, :planning_permission, local_authority:)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       within("#site-visit") do
         click_link "Site visit"
@@ -209,7 +209,7 @@ RSpec.describe "Site visit" do
 
         expect(page).to have_link(
           "Site visit",
-          href: "/planning_applications/#{planning_application.id}/consultation/site_visits"
+          href: "/planning_applications/#{planning_application.reference}/consultation/site_visits"
         )
         expect(page).to have_content("Completed")
 
@@ -247,7 +247,7 @@ RSpec.describe "Site visit" do
 
         click_link "Back"
         expect(current_url).to include(
-          "/planning_applications/#{planning_application.id}/consultation/site_visits"
+          "/planning_applications/#{planning_application.reference}/consultation/site_visits"
         )
       end
     end

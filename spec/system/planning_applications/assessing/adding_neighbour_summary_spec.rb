@@ -14,7 +14,7 @@ RSpec.describe "neighbour responses", type: :system do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when planning application is in assessment" do
@@ -46,7 +46,7 @@ RSpec.describe "neighbour responses", type: :system do
         end
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=neighbour_summary"
+          "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=neighbour_summary"
         )
 
         within(".govuk-breadcrumbs__list") do
@@ -184,7 +184,7 @@ RSpec.describe "neighbour responses", type: :system do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("neighbour responses")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/assessment_details/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end

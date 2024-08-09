@@ -19,7 +19,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I can validate the description" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       within("#check-description-task") do
         expect(page).to have_content("Not started")
       end
@@ -51,7 +51,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I get validation errors when I omit required information" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check description"
       click_button "Save and mark as complete"
 
@@ -72,7 +72,7 @@ RSpec.describe "DescriptionChangesValidation" do
     it "I can invalidate the description" do
       expect(PlanningApplicationMailer).to receive(:description_change_mail).and_call_original
 
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check description"
 
       within(".govuk-fieldset") do
@@ -82,7 +82,7 @@ RSpec.describe "DescriptionChangesValidation" do
       click_button "Save and mark as complete"
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation/validation_requests/new?type=description_change"
+        "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=description_change"
       )
       expect(page).to have_content("Description change")
       expect(page).to have_content("Application number: #{planning_application.reference}")
@@ -108,18 +108,18 @@ RSpec.describe "DescriptionChangesValidation" do
       description_change_validation_request = DescriptionChangeValidationRequest.last
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation/description_change_validation_requests/#{description_change_validation_request.id}"
+        "/planning_applications/#{planning_application.reference}/validation/description_change_validation_requests/#{description_change_validation_request.id}"
       )
 
       expect(page).to have_content("My better description")
 
       click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation/tasks")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
     end
 
     it "I can mark the task as completed when the description change request has been approved" do
       create(:description_change_validation_request, planning_application:, approved: true, state: "closed")
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
       within("#check-description-task") do
         expect(page).to have_content("Updated")
@@ -145,7 +145,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
     it "I can request another change when the description change request has been rejected" do
       create(:description_change_validation_request, planning_application:, approved: false, state: "closed", rejection_reason: "no")
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
       within("#check-description-task") do
         expect(page).to have_content("Updated")
@@ -180,7 +180,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "does not allow you to validate description" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
       within("#check-description-task") do
         expect(page).to have_content("Planning application has already been validated")

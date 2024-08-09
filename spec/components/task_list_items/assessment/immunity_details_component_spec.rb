@@ -18,7 +18,7 @@ RSpec.describe TaskListItems::Assessment::ImmunityDetailsComponent, type: :compo
     it "renders link to new assessment detail page" do
       expect(page).to have_link(
         "Evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/assessment/immunity_details/new"
+        href: "/planning_applications/#{planning_application.reference}/assessment/immunity_details/new"
       )
     end
 
@@ -40,7 +40,7 @@ RSpec.describe TaskListItems::Assessment::ImmunityDetailsComponent, type: :compo
     it "renders link to permitted development right review page" do
       expect(page).to have_link(
         "Evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/assessment/immunity_details/#{planning_application.immunity_detail.id}"
+        href: "/planning_applications/#{planning_application.reference}/assessment/immunity_details/#{planning_application.immunity_detail.id}"
       )
     end
 
@@ -63,7 +63,7 @@ RSpec.describe TaskListItems::Assessment::ImmunityDetailsComponent, type: :compo
     it "renders link to edit permitted development right review page" do
       expect(page).to have_link(
         "Evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/assessment/immunity_details/#{planning_application.immunity_detail.id}/edit"
+        href: "/planning_applications/#{planning_application.reference}/assessment/immunity_details/#{planning_application.immunity_detail.id}/edit"
       )
     end
 

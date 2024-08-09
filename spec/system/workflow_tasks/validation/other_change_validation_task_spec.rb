@@ -29,7 +29,7 @@ RSpec.describe Validation::OtherChangeValidationTask, type: :component do
 
   it "renders link" do
     expect(task.task_list_link_text).to eq "View other validation request #1"
-    expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
+    expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/other_change_validation_requests/#{other_change_validation_request.id}"
   end
 
   context "when request is closed" do

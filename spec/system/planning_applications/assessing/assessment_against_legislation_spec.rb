@@ -38,7 +38,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
 
       before do
         sign_in(assessor)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
       end
 
       it "warns the user about unsaved changes", pending: "flaky" do
@@ -170,7 +170,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         click_link("Log out")
         travel_to(Time.zone.local(2022, 9, 2))
         sign_in(assessor2)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link("Check and assess")
         click_link("Part 1, Class D")
 
@@ -428,7 +428,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
 
       before do
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
       end
 
       it "displays the constraints without edit" do
@@ -470,7 +470,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         )
 
       sign_in(assessor)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     it "doesn't show policy classes" do

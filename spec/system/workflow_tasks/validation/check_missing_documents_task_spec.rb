@@ -9,7 +9,7 @@ RSpec.describe Validation::CheckMissingDocumentsTask, type: :component do
 
   it "renders link" do
     expect(task.task_list_link_text).to eq "Check and request documents"
-    expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/documents/edit"
+    expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/documents/edit"
   end
 
   it "renders 'Not started' status" do

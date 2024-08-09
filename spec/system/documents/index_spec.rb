@@ -18,7 +18,7 @@ RSpec.describe "Documents index page", type: :system do
 
   context "as a user who is not logged in" do
     it "User is redirected to login page" do
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
@@ -27,7 +27,7 @@ RSpec.describe "Documents index page", type: :system do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
     end
 
     it "Application reference is displayed on page" do
@@ -63,7 +63,7 @@ RSpec.describe "Documents index page", type: :system do
       end
 
       it "downloads each file", :capybara do
-        visit "/planning_applications/#{planning_application.id}/documents"
+        visit "/planning_applications/#{planning_application.reference}/documents"
         expect(page).to have_selector("h1", text: "Documents")
 
         within("tr", text: "File name: proposed-floorplan.png") do
@@ -92,14 +92,14 @@ RSpec.describe "Documents index page", type: :system do
       click_button "Documents"
       click_link "Manage documents"
       click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}")
 
       # Navigate via archive document page
       click_button "Documents"
       click_link "Archive"
       click_link "Cancel"
       click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/documents/#{document.id}/archive")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/documents/#{document.id}/archive")
     end
   end
 
@@ -118,7 +118,7 @@ RSpec.describe "Documents index page", type: :system do
 
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
     end
 
     it "displays the number of invalid documents at the top of the page" do

@@ -70,10 +70,10 @@ RSpec.describe "checking publicity" do
     end
 
     it "allows an assessor to mark the publicity check as complete" do
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(page).to have_selector("h1", text: "Assess the application")
-      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=check_publicity")
+      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=check_publicity")
 
       click_link "Check site notice and press notice"
 
@@ -121,32 +121,32 @@ RSpec.describe "checking publicity" do
 
   context "when the publicity has not been started" do
     it "shows an alert to create a site notice" do
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(page).to have_selector("h1", text: "Assess the application")
-      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=check_publicity")
+      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=check_publicity")
 
       click_link "Check site notice and press notice"
       expect(page).to have_selector("h1", text: "Check site notice and press notice")
 
       within "[role=alert]" do
         expect(page).to have_selector("p", text: "Site notice task incomplete.")
-        expect(page).to have_link("Create site notice", href: "/planning_applications/#{planning_application.id}/site_notices/new")
+        expect(page).to have_link("Create site notice", href: "/planning_applications/#{planning_application.reference}/site_notices/new")
       end
     end
 
     it "shows an alert to create a press notice" do
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(page).to have_selector("h1", text: "Assess the application")
-      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=check_publicity")
+      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=check_publicity")
 
       click_link "Check site notice and press notice"
       expect(page).to have_selector("h1", text: "Check site notice and press notice")
 
       within "[role=alert]" do
         expect(page).to have_selector("p", text: "Press notice task incomplete.")
-        expect(page).to have_link("Create press notice", href: "/planning_applications/#{planning_application.id}/press_notice")
+        expect(page).to have_link("Create press notice", href: "/planning_applications/#{planning_application.reference}/press_notice")
       end
     end
   end
@@ -172,10 +172,10 @@ RSpec.describe "checking publicity" do
     end
 
     before do
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(page).to have_selector("h1", text: "Assess the application")
-      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=check_publicity")
+      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=check_publicity")
 
       click_link "Check site notice and press notice"
       expect(page).to have_selector("h1", text: "Check site notice and press notice")
@@ -184,14 +184,14 @@ RSpec.describe "checking publicity" do
     it "shows an alert to confirm the site notice" do
       within "[role=alert]" do
         expect(page).to have_selector("p", text: "Site notice task incomplete.")
-        expect(page).to have_link("Confirm site notice", href: "/planning_applications/#{planning_application.id}/site_notices/#{site_notice.id}/edit")
+        expect(page).to have_link("Confirm site notice", href: "/planning_applications/#{planning_application.reference}/site_notices/#{site_notice.id}/edit")
       end
     end
 
     it "shows an alert to confirm the press notice" do
       within "[role=alert]" do
         expect(page).to have_selector("p", text: "Press notice task incomplete.")
-        expect(page).to have_link("Confirm press notice", href: "/planning_applications/#{planning_application.id}/press_notice/confirmation")
+        expect(page).to have_link("Confirm press notice", href: "/planning_applications/#{planning_application.reference}/press_notice/confirmation")
       end
     end
 
@@ -268,10 +268,10 @@ RSpec.describe "checking publicity" do
     end
 
     before do
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(page).to have_selector("h1", text: "Assess the application")
-      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=check_publicity")
+      expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=check_publicity")
 
       click_link "Check site notice and press notice"
       expect(page).to have_selector("h1", text: "Check site notice and press notice")
@@ -339,10 +339,10 @@ RSpec.describe "checking publicity" do
       end
 
       it "allows editing of the publicity check" do
-        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
         expect(page).to have_selector("h1", text: "Assess the application")
-        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
+        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
 
         click_link "Check site notice and press notice"
         expect(page).to have_selector("h1", text: "Site notice and press notice")
@@ -389,7 +389,7 @@ RSpec.describe "checking publicity" do
 
         within("#check-consistency-assessment-tasks") do
           within("li:nth-child(2)") do
-            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
+            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
             expect(page).to have_selector("strong", text: "In progress")
           end
         end
@@ -405,10 +405,10 @@ RSpec.describe "checking publicity" do
       end
 
       it "allows editing of the publicity check" do
-        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
         expect(page).to have_selector("h1", text: "Assess the application")
-        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
+        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
 
         click_link "Check site notice and press notice"
         expect(page).to have_selector("h1", text: "Site notice and press notice")
@@ -443,7 +443,7 @@ RSpec.describe "checking publicity" do
 
         within("#check-consistency-assessment-tasks") do
           within("li:nth-child(2)") do
-            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
+            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
             expect(page).to have_selector("strong", text: "In progress")
           end
         end
@@ -462,10 +462,10 @@ RSpec.describe "checking publicity" do
       end
 
       it "allows editing of the publicity check" do
-        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
         expect(page).to have_selector("h1", text: "Assess the application")
-        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
+        expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{assessment_detail.id}?category=check_publicity")
 
         click_link "Check site notice and press notice"
         expect(page).to have_selector("h1", text: "Site notice and press notice")
@@ -500,7 +500,7 @@ RSpec.describe "checking publicity" do
 
         within("#check-consistency-assessment-tasks") do
           within("li:nth-child(2)") do
-            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.id}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
+            expect(page).to have_link("Check site notice and press notice", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{assessment_detail.id}/edit?category=check_publicity")
             expect(page).to have_selector("strong", text: "In progress")
           end
         end

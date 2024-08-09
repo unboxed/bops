@@ -119,7 +119,7 @@ RSpec.describe "Consultation", type: :system, js: true do
   it "reconsults existing consultees" do
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     expect(page).to have_selector("h1", text: "Application")
 
     within "#consultation-section" do

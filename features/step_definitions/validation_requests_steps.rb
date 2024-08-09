@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 When("I view the application's validations requests") do
-  visit "/planning_applications/#{@planning_application.id}/validation/validation_requests"
+  visit "/planning_applications/#{@planning_application.reference}/validation/validation_requests"
 end
 
 When("I start the validation wizard") do
-  visit "/planning_applications/#{@planning_application.id}/validation/tasks"
+  visit "/planning_applications/#{@planning_application.reference}/validation/tasks"
 end
 
 When("I create a new document validation request for a(n) {string} because {string}") do |type, reason|

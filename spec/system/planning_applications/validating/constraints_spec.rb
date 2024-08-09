@@ -15,7 +15,7 @@ RSpec.describe "Constraints" do
   before do
     Rails.application.load_seed
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/validation/constraints"
+    visit "/planning_applications/#{planning_application.reference}/validation/constraints"
   end
 
   it "displays the planning application address and reference" do
@@ -58,7 +58,7 @@ RSpec.describe "Constraints" do
         expect(page).to have_content("Completed")
       end
 
-      visit "/planning_applications/#{planning_application.id}/audits"
+      visit "/planning_applications/#{planning_application.reference}/audits"
 
       expect(page).to have_text("Constraints Checked")
     end
@@ -73,7 +73,7 @@ RSpec.describe "Constraints" do
     end
 
     it "I can view a link to the individual entities and planning data map with layers pre-selected" do
-      visit "/planning_applications/#{planning_application.id}/validation/constraints"
+      visit "/planning_applications/#{planning_application.reference}/validation/constraints"
       lat_lon_zoom = "#{planning_application.latitude},#{planning_application.longitude},17"
       expect(page).to have_link(
         "View map on Planning Data (opens in new tab)",
@@ -116,7 +116,7 @@ RSpec.describe "Constraints" do
 
       click_button "Save and mark as complete"
 
-      visit "/planning_applications/#{planning_application.id}/validation/constraints"
+      visit "/planning_applications/#{planning_application.reference}/validation/constraints"
 
       within(".identified-constraints-table") do
         expect(page).to have_text("Conservation area")
@@ -150,7 +150,7 @@ RSpec.describe "Constraints" do
         expect(page).to have_text("Special area of conservation")
       end
 
-      visit "/planning_applications/#{planning_application.id}/audits"
+      visit "/planning_applications/#{planning_application.reference}/audits"
 
       within("#audit_#{Audit.last.id - 1}") do
         expect(page).to have_content("Constraints Checked")

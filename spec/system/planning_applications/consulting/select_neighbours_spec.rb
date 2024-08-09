@@ -39,7 +39,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     stub_any_os_places_api_request
 
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   it "displays the planning application address, reference, and addresses submitted by applicant" do
@@ -547,7 +547,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
     context "when there are no neigbhours" do
       it "shows 'not started'" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
         expect(page).to have_content "Select and add neighbours Not started"
       end
@@ -559,7 +559,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       end
 
       it "shows 'completed'" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
         expect(page).to have_content "Select and add neighbours Completed"
       end

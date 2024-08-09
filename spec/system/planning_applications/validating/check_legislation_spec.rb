@@ -15,7 +15,7 @@ RSpec.describe "Check legislation" do
       planning_application.application_type.update(part: 1, section: "A")
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link("Check legislative requirements")
     end
 
@@ -89,7 +89,7 @@ RSpec.describe "Check legislation" do
 
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
     end
 
     it "does not show the check legislation tasklist" do
@@ -97,7 +97,7 @@ RSpec.describe "Check legislation" do
     end
 
     it "shows forbidden when navigating to the page directly" do
-      visit "/planning_applications/#{planning_application.id}/validation/legislation"
+      visit "/planning_applications/#{planning_application.reference}/validation/legislation"
       expect(page).to have_content("Not found")
     end
   end

@@ -15,7 +15,7 @@ RSpec.describe "Reviewing informatives" do
         travel_to Time.zone.local(2024, 5, 20, 11)
 
         sign_in(assessor)
-        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
         click_link "Add informatives"
         expect(page).to have_selector("h1", text: "Add informatives")
@@ -30,7 +30,7 @@ RSpec.describe "Reviewing informatives" do
         expect(page).to have_content("Informatives were successfully saved")
 
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
       end
 
       context "when planning application is awaiting determination" do
@@ -123,7 +123,7 @@ RSpec.describe "Reviewing informatives" do
           travel_to Time.zone.local(2024, 5, 20, 12)
           sign_in(assessor)
 
-          visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+          visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
           expect(page).to have_list_item_for("Add informatives", with: "To be reviewed")
 
           click_link "Add informatives"
@@ -148,7 +148,7 @@ RSpec.describe "Reviewing informatives" do
           travel_to Time.zone.local(2024, 5, 20, 13)
           sign_in(reviewer)
 
-          visit "/planning_applications/#{planning_application.id}/review/tasks"
+          visit "/planning_applications/#{planning_application.reference}/review/tasks"
           expect(page).to have_list_item_for("Review informatives", with: "Updated")
 
           click_link "Review informatives"

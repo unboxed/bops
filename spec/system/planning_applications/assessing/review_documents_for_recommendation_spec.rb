@@ -24,7 +24,7 @@ RSpec.describe "Review documents for recommendation" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when planning application is in assessment" do
@@ -41,7 +41,7 @@ RSpec.describe "Review documents for recommendation" do
       end
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/review/documents"
+        "/planning_applications/#{planning_application.reference}/review/documents"
       )
 
       within(".govuk-heading-l") do
@@ -240,7 +240,7 @@ RSpec.describe "Review documents for recommendation" do
     end
 
     it "does not allow me to visit the page" do
-      visit "/planning_applications/#{planning_application.id}/review/documents"
+      visit "/planning_applications/#{planning_application.reference}/review/documents"
 
       expect(page).to have_content("The planning application must be validated before reviewing can begin")
     end

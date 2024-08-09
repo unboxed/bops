@@ -31,7 +31,7 @@ RSpec.describe TaskListItems::Assessment::PolicyClassComponent, type: :component
     it "renders link to policy_class" do
       expect(page).to have_link(
         "Part 1, Class A",
-        href: "/planning_applications/#{planning_application.id}/assessment/policy_classes/#{policy_class.id}"
+        href: "/planning_applications/#{planning_application.reference}/assessment/policy_classes/#{policy_class.id}"
       )
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe TaskListItems::Assessment::PolicyClassComponent, type: :component
     it "renders link edit to policy_class" do
       expect(page).to have_link(
         "Part 1, Class A",
-        href: "/planning_applications/#{planning_application.id}/assessment/policy_classes/#{policy_class.id}/edit"
+        href: "/planning_applications/#{planning_application.reference}/assessment/policy_classes/#{policy_class.id}/edit"
       )
     end
   end

@@ -9,7 +9,7 @@ RSpec.describe "post validation requests" do
   before do
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when application has been validated" do
@@ -18,7 +18,7 @@ RSpec.describe "post validation requests" do
     end
 
     it "lets the assessor create an additional document request" do
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       click_link("Request a new document")
       fill_in("Please specify the new document type:", with: "Floor plan")
 
@@ -33,7 +33,7 @@ RSpec.describe "post validation requests" do
         "Additional document request successfully created."
       )
 
-      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
+      visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/post_validation_requests"
 
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content(planning_application.reference)
@@ -42,7 +42,7 @@ RSpec.describe "post validation requests" do
         expect(page).to have_content("Floor plan")
       end
 
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
 
       within("#additional-document-validation-requests-table") do
         expect(page).to have_content("Document requested: Floor plan")
@@ -90,7 +90,7 @@ RSpec.describe "post validation requests" do
       end
 
       it "lets the assessor cancel the request" do
-        visit "/planning_applications/#{planning_application.id}/documents"
+        visit "/planning_applications/#{planning_application.reference}/documents"
         document_row = row_with_content("Document requested: Floor plan")
 
         within(document_row) do
@@ -112,13 +112,13 @@ RSpec.describe "post validation requests" do
           expect(page).to have_content("Requested in error")
         end
 
-        visit "/planning_applications/#{planning_application.id}/documents"
+        visit "/planning_applications/#{planning_application.reference}/documents"
 
         expect(page).not_to have_content("Document requested: Floor plan")
       end
 
       it "does not show request on validation documents page" do
-        visit "/planning_applications/#{planning_application.id}/validation/documents/edit"
+        visit "/planning_applications/#{planning_application.reference}/validation/documents/edit"
         expect(page).not_to have_content("Document requested: Floor plan")
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe "post validation requests" do
 
         planning_application.start!
 
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
+        visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/post_validation_requests"
       end
 
       it "does not display any pre validation requests" do
@@ -143,7 +143,7 @@ RSpec.describe "post validation requests" do
         expect(page).not_to have_content("Cancelled requests")
 
         # check pre valiation requests table
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+        visit "/planning_applications/#{planning_application.reference}/validation/validation_requests"
         within(".validation-requests-table") do
           expect(page).to have_content("Red line boundary changes")
           expect(page).to have_link("View")
@@ -177,7 +177,7 @@ RSpec.describe "post validation requests" do
           proposed_description: "New description 2"
         )
 
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+        visit "/planning_applications/#{planning_application.reference}/validation/validation_requests"
       end
 
       it "does not display any post validation requests" do
@@ -188,7 +188,7 @@ RSpec.describe "post validation requests" do
         expect(page).not_to have_content("New description 2")
 
         # check post valiation requests table
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
+        visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/post_validation_requests"
         within(".validation-requests-table") do
           expect(page).to have_content("Red line boundary changes")
           expect(page).to have_link("View")
@@ -210,7 +210,7 @@ RSpec.describe "post validation requests" do
 
     it "does not allow you to view post validation requests" do
       # visit url directly
-      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
+      visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/post_validation_requests"
       expect(page).to have_content("forbidden")
     end
   end
@@ -222,7 +222,7 @@ RSpec.describe "post validation requests" do
 
     it "does not allow you to view post validation requests" do
       # visit url directly
-      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/post_validation_requests"
+      visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/post_validation_requests"
       expect(page).to have_content("forbidden")
     end
   end
@@ -237,7 +237,7 @@ RSpec.describe "post validation requests" do
     end
 
     it "lets the assessor create an additional document request" do
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       click_link("Request a new document")
       fill_in("Please specify the new document type:", with: "Floor plan")
 

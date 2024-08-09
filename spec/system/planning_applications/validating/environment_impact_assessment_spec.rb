@@ -12,7 +12,7 @@ RSpec.describe "Validation tasks" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   context "when application is not started or invalidated" do
@@ -61,7 +61,7 @@ RSpec.describe "Validation tasks" do
         end
       end
 
-      visit "/planning_applications/#{planning_application.id}/audits"
+      visit "/planning_applications/#{planning_application.reference}/audits"
       within("#audit_#{Audit.last.id}") do
         expect(page).to have_content("Changed to: true")
         expect(page).to have_content("Environment impact assessment updated")
@@ -185,7 +185,7 @@ RSpec.describe "Validation tasks" do
         end
         expect(page).not_to have_content("The expiry date has been extended to 16 weeks")
 
-        visit "/planning_applications/#{planning_application.id}/audits"
+        visit "/planning_applications/#{planning_application.reference}/audits"
         within("#audit_#{Audit.last.id}") do
           expect(page).to have_content("Changed from: true Changed to: false")
           expect(page).to have_content("Environment impact assessment updated")

@@ -37,7 +37,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "includes plannng application url" do
       expect(mail_body).to include(
-        "http://buckinghamshire.bops.services/planning_applications/#{planning_application.id}"
+        "http://buckinghamshire.bops.services/planning_applications/#{planning_application.reference}"
       )
     end
   end
@@ -104,7 +104,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "includes plannng application url" do
       expect(mail_body).to include(
-        "http://buckinghamshire.bops.services/planning_applications/#{planning_application.id}"
+        "http://buckinghamshire.bops.services/planning_applications/#{planning_application.reference}"
       )
     end
   end
