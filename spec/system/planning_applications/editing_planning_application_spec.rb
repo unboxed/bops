@@ -61,7 +61,7 @@ RSpec.describe "editing planning application" do
     end
 
     expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      "/planning_applications/#{planning_application.id}/assessment/tasks"
     )
 
     click_link("Check description, documents and proposal details")
@@ -78,11 +78,11 @@ RSpec.describe "editing planning application" do
     )
 
     expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.reference}/assessment/consistency_checklist/new"
+      "/planning_applications/#{planning_application.id}/assessment/consistency_checklist/new"
     )
 
     # Check audit
-    visit "/planning_applications/#{planning_application.reference}/audits"
+    visit "/planning_applications/#{planning_application.reload.reference}/audits"
     within("#audit_#{Audit.find_by(activity_information: "Application type").id}") do
       expect(page).to have_content("Application type updated")
       expect(page).to have_content(
