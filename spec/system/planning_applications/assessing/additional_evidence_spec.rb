@@ -12,7 +12,7 @@ RSpec.describe "Additional evidence" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when planning application is in assessment" do
@@ -25,7 +25,7 @@ RSpec.describe "Additional evidence" do
       end
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/assessment/assessment_details/new?category=additional_evidence"
+        "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=additional_evidence"
       )
 
       within(".govuk-breadcrumbs__list") do
@@ -110,7 +110,7 @@ RSpec.describe "Additional evidence" do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("Additional evidence")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/assessment_details/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end

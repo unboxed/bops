@@ -17,7 +17,7 @@
           partial: "form",
           locals: {
             planning_application: @planning_application,
-            return_to: @back_path
+            return_to: (@back_path.gsub(@planning_application.reference, @planning_application.id.to_s) if @back_path)
           }
         ) %>
   </div>

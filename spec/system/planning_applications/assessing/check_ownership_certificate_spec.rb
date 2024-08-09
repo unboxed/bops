@@ -24,7 +24,7 @@ RSpec.describe "Check ownership certificate" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
   end
 
   context "when there is an ownership certificate" do
@@ -48,7 +48,7 @@ RSpec.describe "Check ownership certificate" do
 
       click_link "Check ownership certificate"
 
-      expect(page).to have_link("Edit ownership certificate", href: "/planning_applications/#{planning_application.id}/assessment/ownership_certificate/edit")
+      expect(page).to have_link("Edit ownership certificate", href: "/planning_applications/#{planning_application.reference}/assessment/ownership_certificate/edit")
     end
 
     it "I can request a new certificate" do
@@ -72,7 +72,7 @@ RSpec.describe "Check ownership certificate" do
       # # Applicant responds
       ValidationRequest.last.update(state: "closed", approved: "true")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(list_item("Check ownership certificate")).to have_content("Not started")
 
@@ -112,7 +112,7 @@ RSpec.describe "Check ownership certificate" do
       ValidationRequest.last.update(state: "closed", approved: "true")
       OwnershipCertificate.create(planning_application:, certificate_type: "a")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(list_item("Check ownership certificate")).to have_content("Not started")
 

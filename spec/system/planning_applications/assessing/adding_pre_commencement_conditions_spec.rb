@@ -19,7 +19,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
     Current.user = assessor
     travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Check and assess"
   end
 
@@ -193,7 +193,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       create(:review, owner: condition2.condition_set)
 
       travel_to(Time.zone.local(2024, 4, 17, 14, 30))
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
       click_link "Add pre-commencement conditions"
 
@@ -203,7 +203,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
         expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition1.id}/edit"
+          href: "/planning_applications/#{planning_application.reference}/assessment/pre_commencement_conditions/#{condition1.id}/edit"
         )
       end
 
@@ -211,7 +211,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
         expect(page).to have_selector(".govuk-tag", text: "Accepted")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.id}/assessment/pre_commencement_conditions/#{condition2.id}/edit"
+          href: "/planning_applications/#{planning_application.reference}/assessment/pre_commencement_conditions/#{condition2.id}/edit"
         )
       end
 
@@ -244,7 +244,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       end
       create(:review, owner: condition1.condition_set)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
       click_link "Add pre-commencement conditions"
 
@@ -306,7 +306,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       condition = create(:condition, :other, condition_set: planning_application.pre_commencement_condition_set, title: "title 1")
       create(:pre_commencement_condition_validation_request, owner: condition, approved: true, state: "closed")
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
       click_link "Review and submit recommendation"
 
@@ -335,7 +335,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       type = create(:application_type)
       planning_application.update(application_type: type)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
 
       expect(page).not_to have_content("Add conditions")

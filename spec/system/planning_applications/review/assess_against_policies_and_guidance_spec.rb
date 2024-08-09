@@ -26,7 +26,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       travel_to Time.zone.local(2024, 7, 23, 11)
 
       sign_in(assessor)
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       click_link "Assess against policies and guidance"
       expect(page).to have_selector("h1", text: "Assess against policies and guidance")
@@ -60,7 +60,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       expect(page).to have_content("Assessment against local policies was successfully saved")
 
       sign_in(reviewer)
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
     end
 
     it "I can accept the planning officer's decision" do
@@ -151,7 +151,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       travel_to Time.zone.local(2024, 7, 23, 12)
       sign_in(assessor)
 
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
       expect(page).to have_list_item_for("Assess against policies and guidance", with: "To be reviewed")
 
       click_link "Assess against policies and guidance"
@@ -175,7 +175,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       travel_to Time.zone.local(2024, 7, 23, 13)
       sign_in(reviewer)
 
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
       expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Updated")
 
       click_link "Review assessment against policies and guidance"

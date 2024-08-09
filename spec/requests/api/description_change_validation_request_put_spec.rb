@@ -7,7 +7,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
 
   let(:path) do
-    "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}"
+    "/api/v1/planning_applications/#{planning_application.reference}/description_change_validation_requests/#{description_change_validation_request.id}"
   end
 
   let(:params) do
@@ -94,7 +94,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "successfully accepts a rejection" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: rejected_json,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 
@@ -110,7 +110,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "returns a 400 if the rejection is missing a rejection reason" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: rejected_json_missing_reason,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 
@@ -118,7 +118,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "returns a 401 if API key is wrong" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: approved_json,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer BEAR_THE_BEARER"}
 
@@ -126,7 +126,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "returns a 401 if change_access_id is wrong" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=CHANGEISGOOD",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=CHANGEISGOOD",
       params: approved_json,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 

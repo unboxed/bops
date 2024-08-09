@@ -7,7 +7,7 @@ module Validation
     end
 
     def task_list_link
-      new_planning_application_validation_validation_request_path(planning_application.id, type: :other_change)
+      new_planning_application_validation_validation_request_path(planning_application.reference, type: :other_change)
     end
   end
 end

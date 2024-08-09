@@ -15,7 +15,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     Current.user = assessor
     travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Check and assess"
   end
 
@@ -100,7 +100,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       create(:review, owner: term2.heads_of_term)
 
       travel_to(Time.zone.local(2024, 4, 17, 14, 30))
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
       click_link "Add heads of terms"
 
@@ -110,7 +110,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
         expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.id}/assessment/terms/#{term1.id}/edit"
+          href: "/planning_applications/#{planning_application.reference}/assessment/terms/#{term1.id}/edit"
         )
       end
 
@@ -118,7 +118,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
         expect(page).to have_selector(".govuk-tag", text: "Accepted")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.id}/assessment/terms/#{term2.id}/edit"
+          href: "/planning_applications/#{planning_application.reference}/assessment/terms/#{term2.id}/edit"
         )
       end
 
@@ -149,7 +149,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       end
       create(:review, owner: planning_application.heads_of_term)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
 
       click_link "Add heads of terms"

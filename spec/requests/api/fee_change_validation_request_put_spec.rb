@@ -7,7 +7,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
 
   let(:path) do
-    "/api/v1/planning_applications/#{planning_application.id}/fee_change_validation_requests/#{fee_change_validation_request.id}"
+    "/api/v1/planning_applications/#{planning_application.reference}/fee_change_validation_requests/#{fee_change_validation_request.id}"
   end
 
   let(:params) do
@@ -78,7 +78,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
   end
 
   it "returns a 401 if API key is wrong" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/fee_change_validation_requests/#{fee_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/fee_change_validation_requests/#{fee_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: valid_response,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer BEAR_THE_BEARER"}
 
@@ -86,7 +86,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
   end
 
   it "returns a 401 if change_access_id is wrong" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/fee_change_validation_requests/#{fee_change_validation_request.id}?change_access_id=CHANGEISGOOD",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/fee_change_validation_requests/#{fee_change_validation_request.id}?change_access_id=CHANGEISGOOD",
       params: valid_response,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 

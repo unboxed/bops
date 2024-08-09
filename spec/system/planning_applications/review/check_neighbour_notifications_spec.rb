@@ -24,7 +24,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
     end
 
     it "does not show the option to check neighbour notifications" do
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_content("Review and sign-off")
 
@@ -42,7 +42,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
       end
 
       it "you can accept that the assessor has notified the correct people" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Check neighbour notifications",
@@ -74,7 +74,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
       end
 
       it "you can send it back for assessment", :capybara do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Check neighbour notifications",
@@ -141,7 +141,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
       end
 
       it "shows errors" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         click_link "Check neighbour notifications"
 
@@ -161,7 +161,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
     context "when the consultation has not been started" do
       it "you can accept that the assessor has notified the correct people" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Check neighbour notifications",
@@ -201,7 +201,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
       end
 
       it "you can't accept or reject the officer's work" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Check neighbour notifications",

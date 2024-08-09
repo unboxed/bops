@@ -14,7 +14,7 @@ RSpec.describe AccordionSections::NotesComponent, type: :component do
 
     expect(page).to have_link(
       "Add a note",
-      href: "/planning_applications/#{planning_application.id}/notes"
+      href: "/planning_applications/#{planning_application.reference}/notes"
     )
   end
 
@@ -47,7 +47,7 @@ RSpec.describe AccordionSections::NotesComponent, type: :component do
     it "renders link to add and view notes" do
       expect(page).to have_link(
         "Add and view all notes",
-        href: "/planning_applications/#{planning_application.id}/notes"
+        href: "/planning_applications/#{planning_application.reference}/notes"
       )
     end
   end

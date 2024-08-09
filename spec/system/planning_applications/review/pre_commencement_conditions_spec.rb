@@ -28,7 +28,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
       create(:recommendation, status: "assessment_complete", planning_application:)
       create(:review, owner: condition_set, status: "complete")
       sign_in(reviewer)
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
     end
 
     context "when planning application is awaiting determination" do
@@ -132,7 +132,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
         sign_out(reviewer)
         sign_in(assessor)
 
-        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
         expect(page).to have_list_item_for(
           "Add pre-commencement conditions",

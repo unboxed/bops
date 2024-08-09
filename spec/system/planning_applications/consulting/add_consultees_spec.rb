@@ -40,7 +40,7 @@ RSpec.describe "Consultation", type: :system, js: true do
       email_address: "chris.wood@#{local_authority.subdomain}.gov.uk"
     )
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/consultation"
+    visit "/planning_applications/#{planning_application.reference}/consultation"
   end
 
   it "lists constraints on the selection page" do

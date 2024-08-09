@@ -30,6 +30,11 @@ class OsPlacesApiController < ApplicationController
   end
 
   def set_planning_application
-    @planning_application = current_local_authority.planning_applications.find_by(id: planning_application_id)
+    param = params[:planning_application]
+    @planning_application = if param.match?(/[a-z]/i)
+      current_local_authority.planning_applications.find_by(reference: param)
+    else
+      current_local_authority.planning_applications.find_by(id: planning_application_id)
+    end
   end
 end

@@ -9,7 +9,7 @@ module Api
       skip_before_action :set_default_format, only: %i[decision_notice]
 
       def show
-        @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
+        @planning_application = planning_application
         if @planning_application
           respond_to(:json)
         else
@@ -18,11 +18,30 @@ module Api
       end
 
       def decision_notice
-        @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
+        @planning_application = planning_application
         @blank_layout = true
       end
 
       private
+
+      def planning_application
+        scope = current_local_authority.planning_applications
+        param = if params.key? :reference
+          params[:reference]
+        else
+          params[:id]
+        end
+
+        if param.match?(/[a-z]/i)
+          scope.where(reference: param).first
+        else
+          begin
+            scope.where(id: Integer(param)).first
+          rescue ArgumentError
+            nil
+          end
+        end
+      end
 
       def send_not_found_response
         render json: {message: "Unable to find record"},

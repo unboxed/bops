@@ -25,7 +25,7 @@ RSpec.describe "Redact documents" do
     create(:document, :archived, file: file3, planning_application:)
 
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   it "allows an assessor to upload redacted documents" do

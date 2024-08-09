@@ -14,7 +14,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     it "makes valid task list for not_started" do
       planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
@@ -28,7 +28,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     it "makes valid task list for when it has been validated but no proposal has been made" do
       planning_application = create(:planning_application, local_authority: default_local_authority)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
         expect(page).to have_content("Completed")
@@ -48,7 +48,7 @@ RSpec.describe "Planning Application show page", type: :system do
     it "makes valid task list for when it in assessment and a proposal has been created" do
       planning_application = create(:planning_application, local_authority: default_local_authority)
       create(:recommendation, planning_application:, submitted: true)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#assess-section" do
         click_link "Check and assess"
@@ -65,7 +65,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
         local_authority: default_local_authority)
       create(:recommendation, planning_application:)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
         expect(page).not_to have_link("Check and validate")
         expect(page).to have_content("Completed")
@@ -83,7 +83,7 @@ RSpec.describe "Planning Application show page", type: :system do
         expect(page).to have_content("Completed")
       end
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#review-section" do
         expect(page).to have_link("Review and sign-off")
@@ -98,7 +98,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
         local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#review-section" do
         expect(page).to have_link("Review and sign-off")
@@ -121,7 +121,7 @@ RSpec.describe "Planning Application show page", type: :system do
         challenged: true
       )
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
@@ -143,7 +143,7 @@ RSpec.describe "Planning Application show page", type: :system do
         local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)
       create(:recommendation, planning_application:, submitted: true)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
@@ -161,7 +161,7 @@ RSpec.describe "Planning Application show page", type: :system do
         expect(page).to have_link("Review and submit recommendation")
       end
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#assess-section" do
         expect(list_item("Check and assess")).to have_content("Completed")
@@ -178,7 +178,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
         local_authority: default_local_authority)
       create(:recommendation, planning_application:)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
         expect(page).not_to have_link("Check and validate")
         expect(page).to have_content("Completed")
@@ -193,7 +193,7 @@ RSpec.describe "Planning Application show page", type: :system do
         expect(page).to have_content("Completed")
       end
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#review-section" do
         expect(page).not_to have_link("Review and sign-off")
@@ -209,7 +209,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
         local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       within "#validation-section" do
         expect(page).to have_content("Completed")

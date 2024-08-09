@@ -10,7 +10,7 @@ RSpec.describe "Decision notice" do
 
   context "when not logged in" do
     before do
-      visit "/public/planning_applications/#{planning_application.id}/decision_notice"
+      visit "/public/planning_applications/#{planning_application.reference}/decision_notice"
     end
 
     context "when planning application has been determined" do
@@ -43,7 +43,7 @@ RSpec.describe "Decision notice" do
     before do
       sign_in(user)
 
-      visit "/public/planning_applications/#{planning_application.id}/decision_notice"
+      visit "/public/planning_applications/#{planning_application.reference}/decision_notice"
     end
 
     it "is accessible" do
