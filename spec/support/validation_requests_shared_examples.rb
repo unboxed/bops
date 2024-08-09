@@ -20,7 +20,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
       it "responds with a 200" do
         params = {
           id: request.id,
-          planning_application_id: request.planning_application.id
+          planning_application_reference: request.planning_application.reference
         }
 
         get(:cancel_confirmation, params:)
@@ -35,7 +35,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
       it "responds with a 404" do
         params = {
           id: request.id,
-          planning_application_id: request.planning_application.id
+          planning_application_reference: request.planning_application.reference
         }
 
         get(:cancel_confirmation, params:)
@@ -50,7 +50,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
       it "successfully redirects to the validation requests index page" do
         params = {
           id: request.id,
-          planning_application_id: request.planning_application.id,
+          planning_application_reference: request.planning_application.reference,
           "#{request_type}": {cancel_reason: "my mistake"}
         }
 
@@ -64,7 +64,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
       it "with no cancel reason it redirects back to the cancel_confirmation page" do
         params = {
           id: request.id,
-          planning_application_id: request.planning_application.id,
+          planning_application_reference: request.planning_application.reference,
           "#{request_type}": {cancel_reason: ""}
         }
 
@@ -79,7 +79,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
 
         params = {
           id: request.id,
-          planning_application_id: request.planning_application.id,
+          planning_application_reference: request.planning_application.reference,
           "#{request_type}": {cancel_reason: request.cancel_reason}
         }
 
@@ -100,7 +100,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
 
       it "responds with a 403" do
         params = {
-          planning_application_id: request.planning_application.id
+          planning_application_reference: request.planning_application.reference
         }
 
         get(:new, params:)
@@ -112,7 +112,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
     context "when planning application is not closed or cancelled" do
       it "responds with a 200" do
         params = {
-          planning_application_id: planning_application.id
+          planning_application_reference: planning_application.reference
         }
 
         if request_type == "replacement_document_validation_request"

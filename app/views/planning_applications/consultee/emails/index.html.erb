@@ -15,7 +15,7 @@
 <div class="govuk-grid-row">
   <%= content_tag(:div, class: "govuk-grid-column-full", data: {
         controller: "consultees",
-        consultees_planning_application_id: @planning_application.id,
+        consultees_planning_application_id: @planning_application.reference,
         consultees_confirmation_message: t(".send_emails_to_consultees"),
         consultees_prompt_message: t(".please_search_for_a_consultee"),
         consultees_error_message: t(".unable_to_add_consultee")

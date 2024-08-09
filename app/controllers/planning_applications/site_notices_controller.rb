@@ -123,7 +123,7 @@ module PlanningApplications
       end
 
       Audit.create!(
-        planning_application_id:,
+        planning_application_id: @planning_application.id,
         user: Current.user,
         activity_type: "site_notice_created",
         audit_comment: comment

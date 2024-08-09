@@ -400,7 +400,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def site_notice_link
-    "#{local_authority.applicants_url}/planning_applications/#{id}/site_notices/download"
+    "#{local_authority.applicants_url}/planning_applications/#{reference}/site_notices/download"
   end
 
   def last_site_notice_audit
