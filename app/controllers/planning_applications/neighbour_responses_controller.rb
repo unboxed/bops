@@ -96,7 +96,7 @@ module PlanningApplications
 
     def create_audit_log(_neighbour_response, action)
       Audit.create!(
-        planning_application_id:,
+        planning_application_id: @planning_application.id,
         user: Current.user,
         activity_type: "neighbour_response_#{action}",
         audit_comment: "Neighbour response from #{@neighbour_response.neighbour.address} was #{action}"
