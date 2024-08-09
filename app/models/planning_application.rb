@@ -50,6 +50,10 @@ class PlanningApplication < ApplicationRecord
     has_many :site_notices
     has_many :policy_classes, -> { order(:section) }
     has_many :press_notices, -> { by_created_at_desc }
+    has_many :planning_application_policy_classes
+    has_many :new_policy_classes, through: :planning_application_policy_classes
+    has_many :planning_application_policy_sections
+    has_many :policy_sections, through: :planning_application_policy_sections
 
     has_one :heads_of_term
     has_one :condition_set, -> { where(pre_commencement: false) }, required: false
