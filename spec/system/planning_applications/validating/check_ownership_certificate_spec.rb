@@ -8,7 +8,7 @@ RSpec.describe "Check ownership certificate type" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   context "when application is not started" do
@@ -84,7 +84,7 @@ RSpec.describe "Check ownership certificate type" do
     let!(:request) { create(:ownership_certificate_validation_request, planning_application:, state: "open") }
 
     it "I can view it" do
-      visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+      visit "/planning_applications/#{planning_application.reference}/validation/validation_requests"
 
       expect(page).to have_content("Ownership certificate")
       expect(page).to have_content(request.reason)
@@ -96,7 +96,7 @@ RSpec.describe "Check ownership certificate type" do
     end
 
     it "I can cancel my request" do
-      visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+      visit "/planning_applications/#{planning_application.reference}/validation/validation_requests"
 
       expect(page).to have_content("Ownership certificate")
       expect(page).to have_content(request.reason)
@@ -121,7 +121,7 @@ RSpec.describe "Check ownership certificate type" do
       end
 
       it "I can view their response" do
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+        visit "/planning_applications/#{planning_application.reference}/validation/validation_requests"
 
         click_link "View and update"
 
@@ -140,7 +140,7 @@ RSpec.describe "Check ownership certificate type" do
       end
 
       it "I can view their response" do
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests"
+        visit "/planning_applications/#{planning_application.reference}/validation/validation_requests"
 
         click_link "View and update"
 

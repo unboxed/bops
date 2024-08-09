@@ -18,7 +18,7 @@ RSpec.describe "Validation banners" do
 
     it "shows the correct count for 1 overdue request validation" do
       travel 2.months
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       expect(page).to have_content("1 validation request now overdue")
     end
 
@@ -28,7 +28,7 @@ RSpec.describe "Validation banners" do
         state: "open")
 
       travel 2.months
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       expect(page).to have_content("2 validation requests now overdue")
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe "Validation banners" do
     before do
       travel 2.months
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     it "does not display the overdue validation request banner" do

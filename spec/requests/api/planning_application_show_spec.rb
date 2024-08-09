@@ -24,12 +24,12 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
     let(:access_control_allow_headers) { response.headers["Access-Control-Allow-Headers"] }
 
     it "responds to JSON" do
-      get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
+      get("/api/v1/planning_applications/#{planning_application.reference}", headers: headers)
       expect(response).to be_successful
     end
 
     it "sets CORS headers" do
-      get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
+      get("/api/v1/planning_applications/#{planning_application.reference}", headers: headers)
 
       expect(response).to be_successful
       expect(access_control_allow_origin).to eq("*")
@@ -55,7 +55,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
 
     context "with a new planning application" do
       it "returns the accurate data" do
-        get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
+        get("/api/v1/planning_applications/#{planning_application.reference}", headers: headers)
         expect(planning_application_json["status"]).to eq("in_assessment")
         expect(planning_application_json["id"]).to eq(planning_application.id)
         expect(planning_application_json["reference"]).to eq(planning_application.reference)
@@ -104,7 +104,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
         let!(:neighbour_response) { create(:neighbour_response, neighbour:, redacted_response: "It's fine", received_at: 1.day.ago, summary_tag: "supportive") }
 
         it "returns the accurate data" do
-          get("/api/v1/planning_applications/#{planning_application.id}", headers: headers)
+          get("/api/v1/planning_applications/#{planning_application.reference}", headers: headers)
           expect(planning_application_json["status"]).to eq("determined")
           expect(planning_application_json["id"]).to eq(planning_application.id)
           expect(planning_application_json["reference"]).to eq(planning_application.reference)

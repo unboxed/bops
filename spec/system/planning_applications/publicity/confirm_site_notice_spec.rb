@@ -30,7 +30,7 @@ RSpec.describe "Confirm site notice", js: true do
     travel_to("2023-02-01")
     sign_in(assessor)
 
-    visit "/planning_applications/#{planning_application.id}/consultation"
+    visit "/planning_applications/#{planning_application.reference}/consultation"
   end
 
   it "allows planning officer to update displayed at date" do

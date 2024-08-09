@@ -13,7 +13,7 @@ RSpec.describe "Add informatives", type: :system do
       allow(Current).to receive(:user).and_return assessor
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
     end
 
@@ -376,7 +376,7 @@ RSpec.describe "Add informatives", type: :system do
       create(:recommendation, :assessment_in_progress, planning_application:)
       informative = create(:informative, informative_set: planning_application.informative_set)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
       click_link "Review and submit recommendation"
 

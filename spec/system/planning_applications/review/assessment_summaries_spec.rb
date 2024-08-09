@@ -129,7 +129,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       it "allows reviewer to submit correctly filled out form" do
         travel_to(Time.zone.local(2022, 11, 28, 12, 30))
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -229,7 +229,7 @@ RSpec.describe "Reviewing assessment summaries" do
         within(find("fieldset", text: "Summary of neighbour responses")) do
           expect(page).to have_link(
             "View neighbour responses",
-            href: "/planning_applications/#{planning_application.id}/consultation/neighbour_responses"
+            href: "/planning_applications/#{planning_application.reference}/consultation/neighbour_responses"
           )
 
           expect(page).to have_content("View neighbour responses: There is 1 neutral, 1 objection, 2 supportive.")
@@ -260,7 +260,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_link("Log out")
         sign_in(assessor)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
           "Check and assess", with: "To be reviewed"
@@ -274,7 +274,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Submit recommendation")
         click_link("Log out")
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
         click_link("Sign off recommendation")
@@ -286,7 +286,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor didn't fill out summaries" do
       it "allows reviewer to submit correctly filled out form" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -367,7 +367,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_button("Save and mark as complete")
 
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
         within("#planning-application-details") do
           expect(page).to have_selector("h1", text: "Review and sign-off")
         end
@@ -454,7 +454,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       it "allows reviewer to submit correctly filled out form" do
         travel_to(Time.zone.local(2022, 11, 28, 12, 30))
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -599,7 +599,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_link("Log out")
         sign_in(assessor)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
           "Check and assess", with: "To be reviewed"
@@ -645,7 +645,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Submit recommendation")
         click_link("Log out")
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
           "Review and sign-off", with: "Updated"
@@ -738,7 +738,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor didn't fill out summaries" do
       it "allows reviewer to submit correctly filled out form" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -932,7 +932,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       it "allows reviewer to submit correctly filled out form" do
         travel_to(Time.zone.local(2022, 11, 28, 12, 30))
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"
@@ -1056,7 +1056,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_link("Log out")
         sign_in(assessor)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
           "Check and assess", with: "To be reviewed"
@@ -1070,7 +1070,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Submit recommendation")
         click_link("Log out")
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
         click_link("Sign off recommendation")
@@ -1082,7 +1082,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
     context "when assessor didn't fill out summaries" do
       it "allows reviewer to submit correctly filled out form" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "Not started"

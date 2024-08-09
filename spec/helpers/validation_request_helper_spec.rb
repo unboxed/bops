@@ -24,7 +24,7 @@ RSpec.describe ValidationRequestHelper do
         expect(
           helper.show_validation_request_link(planning_application, request)
         ).to eq(
-          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/validation/validation_requests/#{request.id}\">View and update</a>"
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.reference}/validation/validation_requests/#{request.id}\">View and update</a>"
         )
       end
 
@@ -40,7 +40,7 @@ RSpec.describe ValidationRequestHelper do
           expect(
             helper.show_validation_request_link(planning_application, request)
           ).to eq(
-            "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/validation/documents/edit\">View and update</a>"
+            "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.reference}/validation/documents/edit\">View and update</a>"
           )
         end
       end
@@ -55,7 +55,7 @@ RSpec.describe ValidationRequestHelper do
         expect(
           helper.show_validation_request_link(planning_application, request)
         ).to eq(
-          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/validation/validation_requests/#{request.id}\">View</a>"
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.reference}/validation/validation_requests/#{request.id}\">View</a>"
         )
       end
 
@@ -71,7 +71,7 @@ RSpec.describe ValidationRequestHelper do
           expect(
             helper.show_validation_request_link(planning_application, request)
           ).to eq(
-            "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/documents\">View</a>"
+            "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.reference}/documents\">View</a>"
           )
         end
       end

@@ -17,7 +17,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "lists the all description validation requests that exist on the planning application" do
-    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}",
+    get "/api/v1/planning_applications/#{planning_application.reference}/validation_requests?change_access_id=#{planning_application.change_access_id}",
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
     expect(response).to be_successful
     expect(json["data"]["description_change_validation_requests"]).to eq([{
@@ -36,7 +36,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "lists the all document validation requests that exist on the planning application" do
-    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}",
+    get "/api/v1/planning_applications/#{planning_application.reference}/validation_requests?change_access_id=#{planning_application.change_access_id}",
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
     expect(response).to be_successful
     expect(json["data"]["replacement_document_validation_requests"].first).to include({
@@ -55,7 +55,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "lists the all document create requests that exist on the planning application" do
-    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}",
+    get "/api/v1/planning_applications/#{planning_application.reference}/validation_requests?change_access_id=#{planning_application.change_access_id}",
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
     expect(response).to be_successful
     expect(json["data"]["additional_document_validation_requests"].first).to include({
@@ -73,13 +73,13 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   end
 
   it "returns a 401 if API key is wrong" do
-    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}",
+    get "/api/v1/planning_applications/#{planning_application.reference}/validation_requests?change_access_id=#{planning_application.change_access_id}",
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer bipbopboop"}
     expect(response).to have_http_status(:unauthorized)
   end
 
   it "returns a 401 if change_access_id is wrong" do
-    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=fffffff",
+    get "/api/v1/planning_applications/#{planning_application.reference}/validation_requests?change_access_id=fffffff",
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
     expect(response).to have_http_status(:unauthorized)
   end

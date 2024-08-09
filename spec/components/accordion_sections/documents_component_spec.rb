@@ -14,7 +14,7 @@ RSpec.describe AccordionSections::DocumentsComponent, type: :component do
 
     expect(page).to have_link(
       "Manage documents",
-      href: "/planning_applications/#{planning_application.id}/documents"
+      href: "/planning_applications/#{planning_application.reference}/documents"
     )
   end
 

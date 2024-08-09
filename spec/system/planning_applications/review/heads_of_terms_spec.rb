@@ -20,7 +20,7 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
       create(:review, owner: planning_application.heads_of_term)
 
       sign_in(reviewer)
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
     end
 
     context "when planning application is awaiting determination" do
@@ -119,7 +119,7 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
         sign_out(reviewer)
         sign_in(assessor)
 
-        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
         expect(page).to have_list_item_for(
           "Add heads of terms",

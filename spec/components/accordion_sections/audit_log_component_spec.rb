@@ -14,7 +14,7 @@ RSpec.describe AccordionSections::AuditLogComponent, type: :component do
 
     expect(page).to have_link(
       "View all audits",
-      href: "/planning_applications/#{planning_application.id}/audits"
+      href: "/planning_applications/#{planning_application.reference}/audits"
     )
   end
 

@@ -42,7 +42,7 @@ RSpec.describe "Planning Application Assessment" do
 
         travel_to review_date
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
       end
 
       it "I can determine the application" do
@@ -110,7 +110,7 @@ RSpec.describe "Planning Application Assessment" do
 
         expect(page).to have_content("Jane Smith, Director")
 
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         # Check latest audit
         click_button "Audit log"
@@ -241,7 +241,7 @@ RSpec.describe "Planning Application Assessment" do
           within(".govuk-notification-banner--alert") do
             expect(page).to have_content("Confirm the press notice published at date before determining the application")
             expect(page).to have_link(
-              "Confirm the press notice published at date", href: "/planning_applications/#{planning_application.id}/press_notice/confirmation"
+              "Confirm the press notice published at date", href: "/planning_applications/#{planning_application.reference}/press_notice/confirmation"
             )
           end
         end
@@ -282,7 +282,7 @@ RSpec.describe "Planning Application Assessment" do
 
       before do
         sign_in(assessor)
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
       end
 
       it "I cannot determine the application" do

@@ -13,7 +13,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Check and assess"
   end
 
@@ -68,7 +68,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     it "you can edit conditions" do
       create(:condition, condition_set: planning_application.condition_set, standard: false, title: "", text: "You must do this", reason: "For this reason")
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
 
       click_link "Add conditions"
@@ -97,7 +97,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     end
 
     it "you can delete conditions" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
 
       click_link "Add conditions"
@@ -165,7 +165,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       create(:recommendation, :assessment_in_progress, planning_application:)
       create(:condition, condition_set: planning_application.condition_set, standard: true)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
       click_link "Review and submit recommendation"
 
@@ -182,7 +182,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       end
 
       it "doesn't break" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Check and assess"
 
         click_link "Add conditions"
@@ -210,7 +210,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       type = create(:application_type)
       planning_application.update(application_type: type)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
 
       expect(page).not_to have_content("Add conditions")

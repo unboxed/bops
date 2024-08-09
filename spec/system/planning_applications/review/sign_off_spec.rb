@@ -49,7 +49,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
 
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review and sign-off"
@@ -102,7 +102,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Review and sign-off"
 
     expect(list_item("Sign off recommendation")).to have_content("Not started")
@@ -160,7 +160,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Review and sign-off"
     click_link "Sign off recommendation"
 
@@ -180,7 +180,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       assessor_comment: "New assessor comment",
       submitted: true)
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Review and sign-off"
     click_link "Sign off recommendation"
 
@@ -203,7 +203,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
     recommendation = create(:recommendation, :reviewed, planning_application:,
       reviewer_comment: "Reviewer private comment")
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Review and sign-off"
     click_link "Sign off recommendation"
 
@@ -239,7 +239,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
         assessor_comment: "New assessor comment",
         submitted: true)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Review and sign-off"
       click_link "Sign off recommendation"
 
@@ -251,7 +251,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       expect(page).to have_content(planning_application.public_comment)
 
       click_link "Edit information on the decision notice"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/edit_public_comment")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/edit_public_comment")
 
       expect(page).to have_content("Edit the information appearing on the decision notice")
       expect(page).to have_content("The planning officer recommends that the application is granted")
@@ -268,14 +268,14 @@ RSpec.describe "Reviewing sign-off", type: :system do
       fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."
       click_button "Save"
       expect(page).to have_content("The information appearing on the decision notice was successfully updated.")
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/review/tasks")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/tasks")
 
       click_link "Sign off recommendation"
 
       expect(page).to have_content("This text will appear on the decision notice.")
 
       # Check audit log
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_button "Audit log"
       click_link "View all audits"
 
@@ -289,11 +289,11 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
     it "as an assessor I am unable to edit" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/edit_public_comment"
+      visit "/planning_applications/#{planning_application.reference}/edit_public_comment"
 
       expect(page).to have_content("forbidden")
 
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_content("forbidden")
     end
@@ -310,7 +310,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
     end
 
     it "raises an error if the reviewer accepts the recommendation" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link("Review and sign-off")
       click_link("Review permitted development rights")
       choose("Return to officer with comment")
@@ -365,7 +365,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       end
 
       it "displays a warning message with the consultation end date" do
-        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
+        visit "/planning_applications/#{planning_application.reference}/assessment/recommendations/new"
 
         within(".moj-banner__message") do
           expect(page).to have_content("The consultation is still ongoing. It will end on the #{consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?")
@@ -379,7 +379,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       end
 
       it "does not display a warning message" do
-        visit "/planning_applications/#{planning_application.id}/assessment/recommendations/new"
+        visit "/planning_applications/#{planning_application.reference}/assessment/recommendations/new"
 
         expect(page).not_to have_css(".moj-banner__message")
       end
@@ -392,7 +392,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
       create(:committee_decision, planning_application:, recommend: true)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       click_link "Review and sign-off"
       expect(list_item("Sign off recommendation")).to have_content("Not started")
@@ -419,7 +419,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
       create(:committee_decision, planning_application:, recommend: true)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Review and sign-off"
 
       expect(list_item("Sign off recommendation")).to have_content("Not started")

@@ -12,7 +12,7 @@ RSpec.describe Validation::ValidationDecisionTask, type: :component do
   end
 
   it "renders link" do
-    expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation_decision"
+    expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation_decision"
     expect(task.task_list_link_text).to eq "Send validation decision"
   end
 

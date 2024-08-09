@@ -30,7 +30,7 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
   context "when there's not an evidence of immunity" do
     before do
       sign_in reviewer
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
     end
 
     it "I cannot view the link of Review evidence of immunity page" do
@@ -45,7 +45,7 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
       create(:evidence_group, :with_document, tag: "buildingControlCertificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
 
       sign_in reviewer
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
     end
 
     context "when planning application is awaiting determination", :capybara do
@@ -63,7 +63,7 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
         end
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/review/immunity_details/#{Review.where(owner_type: "ImmunityDetail").last.id}/edit"
+          "/planning_applications/#{planning_application.reference}/review/immunity_details/#{Review.where(owner_type: "ImmunityDetail").last.id}/edit"
         )
 
         expect(page).to have_content("Review evidence of immunity")

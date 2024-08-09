@@ -28,7 +28,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
         expect(
           presenter.default_path
         ).to eq(
-          "/planning_applications/#{planning_application.id}/assessment/policy_classes/#{policy_class.id}"
+          "/planning_applications/#{planning_application.reference}/assessment/policy_classes/#{policy_class.id}"
         )
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
         expect(
           presenter.default_path
         ).to eq(
-          "/planning_applications/#{planning_application.id}/assessment/policy_classes/#{policy_class.id}/edit"
+          "/planning_applications/#{planning_application.reference}/assessment/policy_classes/#{policy_class.id}/edit"
         )
       end
     end

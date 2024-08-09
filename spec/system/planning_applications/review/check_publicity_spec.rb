@@ -74,7 +74,7 @@ RSpec.describe "checking publicity" do
 
     context "when the assessor hasn't assessed the publicity" do
       it "allows a reviewer to mark the publicity check as complete" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Check publicity",
@@ -129,7 +129,7 @@ RSpec.describe "checking publicity" do
       end
 
       it "allows a reviewer to return the application to the assessor" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Check publicity",
@@ -204,7 +204,7 @@ RSpec.describe "checking publicity" do
       end
 
       it "shows errors" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         expect(page).to have_list_item_for(
           "Check publicity",
@@ -274,7 +274,7 @@ RSpec.describe "checking publicity" do
     end
 
     it "the reviewer can accept" do
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_list_item_for(
         "Check publicity",
@@ -327,7 +327,7 @@ RSpec.describe "checking publicity" do
     end
 
     it "allows a reviewer to return the application to the assessor" do
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_list_item_for(
         "Check publicity",
@@ -402,7 +402,7 @@ RSpec.describe "checking publicity" do
     end
 
     it "shows errors" do
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_list_item_for(
         "Check publicity",

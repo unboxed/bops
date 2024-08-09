@@ -49,7 +49,7 @@ RSpec.describe "Documents index page" do
 
   context "as a user who is not logged in" do
     it "User cannot see archive page" do
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
@@ -58,7 +58,7 @@ RSpec.describe "Documents index page" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
     end
 
     it "Assessor can see Archive document links when application is in assessment" do
@@ -80,7 +80,7 @@ RSpec.describe "Documents index page" do
   context "when archiving journey" do
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       click_link "Archive"
     end
 
@@ -137,7 +137,7 @@ RSpec.describe "Documents index page" do
   context "when restoring from archive" do
     it "Archived document can be restored" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       click_link "Archive"
 
       fill_in "Why do you want to archive this document?", with: "Scale was wrong"
@@ -168,7 +168,7 @@ RSpec.describe "Documents index page" do
   context "as a reviewer" do
     before do
       sign_in reviewer
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       click_link "Archive"
     end
 
@@ -183,7 +183,7 @@ RSpec.describe "Documents index page" do
   context "with an application that has not been started" do
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/documents"
+      visit "/planning_applications/#{planning_application.reference}/documents"
       click_link "Archive"
     end
 
@@ -243,7 +243,7 @@ RSpec.describe "Documents index page" do
     end
 
     it "cannot archive" do
-      visit "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit"
+      visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
       expect(page).to have_content("forbidden")
     end

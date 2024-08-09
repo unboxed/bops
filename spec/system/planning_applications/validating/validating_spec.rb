@@ -69,7 +69,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "when application not started" do
     it "shows text and links when application has not been started" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and validate"
       click_link "Review validation requests"
 
@@ -167,7 +167,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       it "allows validation of the planning application" do
         planning_application = create(:planning_application, :with_boundary_geojson, :not_started, local_authority: default_local_authority)
         create(:description_change_validation_request, planning_application:, state: "open")
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
 
         click_link "Check and validate"
         click_link "Send validation decision"
@@ -223,7 +223,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     before do
       planning_application = create(:planning_application, :in_assessment, local_authority: default_local_authority)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     it "does not allow you to add requests if application has been validated" do

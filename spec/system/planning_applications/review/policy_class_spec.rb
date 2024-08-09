@@ -37,7 +37,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
       policy_class = create(:policy_class, section: "A", planning_application:)
       create(:policy, :complies, policy_class:)
       create(:review, owner: policy_class)
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
       click_on "Review assessment of Part 1, Class A"
@@ -71,7 +71,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
         section: "A",
         planning_application:)
       create(:review, owner: policy_class)
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
       click_on "Review assessment of Part 1, Class A"
@@ -102,7 +102,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
 
       sign_in assessor
 
-      visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
       expect(list_item("Part 1, Class A")).to have_content("To be reviewed")
 
@@ -124,7 +124,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
       click_on("Submit recommendation")
 
       sign_in reviewer
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(list_item("Review assessment of Part 1, Class A")).to have_content("Updated")
 
@@ -167,12 +167,12 @@ RSpec.describe "Reviewing Policy Class", type: :system do
         create(:review, owner: policy_class)
 
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
         click_on("Review assessment of Part 1, Class A")
       end
 
       it "displays policy_class with comments" do
-        visit "/planning_applications/#{planning_application.id}/review/tasks"
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
         click_on "Review assessment of Part 1, Class A"
 
         within("#planning-application-details") do
@@ -237,7 +237,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
       policy_class = create(:policy_class, section: "B", planning_application:)
       nxt = create(:policy_class, section: "C", planning_application:)
       create(:policy, policy_class:)
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
       click_on "Review assessment of Part 1, Class B"
@@ -253,7 +253,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
       create(:policy, policy_class:)
       create(:review, owner: policy_class, status: "complete")
 
-      visit "/planning_applications/#{planning_application.id}/review/tasks"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
       click_on "Review assessment of Part 1, Class A"

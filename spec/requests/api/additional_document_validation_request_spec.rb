@@ -12,7 +12,7 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
-    let(:path) { "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests" }
+    let(:path) { "/api/v1/planning_applications/#{planning_application.reference}/additional_document_validation_requests" }
     let!(:additional_document_validation_request2) do
       travel_to(DateTime.new(2023, 12, 15)) { create(:additional_document_validation_request, :closed, :with_documents, planning_application:) }
     end
@@ -93,7 +93,7 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
 
   describe "#show" do
     let(:path) do
-      "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}"
+      "/api/v1/planning_applications/#{planning_application.reference}/additional_document_validation_requests/#{additional_document_validation_request.id}"
     end
 
     context "when the request is successful" do
@@ -138,7 +138,7 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
 
       describe "when the additional document request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id + 1}"
+          "/api/v1/planning_applications/#{planning_application.reference}/additional_document_validation_requests/#{additional_document_validation_request.id + 1}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "additional_document_validation_request"

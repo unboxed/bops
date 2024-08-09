@@ -17,7 +17,7 @@ RSpec.describe "Evidence of immunity", type: :system do
       create(:evidence_group, :with_document, tag: "buildingControlCertificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     context "when planning application is in assessment" do
@@ -36,7 +36,7 @@ RSpec.describe "Evidence of immunity", type: :system do
         end
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/assessment/immunity_details/new"
+          "/planning_applications/#{planning_application.reference}/assessment/immunity_details/new"
         )
 
         within(".govuk-heading-l") do
@@ -182,11 +182,11 @@ RSpec.describe "Evidence of immunity", type: :system do
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       expect(page).not_to have_link("Evidence of immunity")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/immunity_details/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/immunity_details/new"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end
