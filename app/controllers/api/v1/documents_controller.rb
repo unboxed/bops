@@ -6,8 +6,8 @@ module Api
       skip_before_action :authenticate
 
       def show
-        document =
-          PlanningApplication.find(params[:planning_application_id]).documents.for_publication.find(params[:id])
+        raise ActiveRecord::RecordNotFound unless planning_application
+        document = planning_application.documents.for_publication.find(params[:id])
         redirect_to rails_public_blob_url(document.file)
       end
 

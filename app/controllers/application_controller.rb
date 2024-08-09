@@ -31,7 +31,13 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_planning_application
-    application = planning_applications_scope.find(planning_application_id)
+    param = params[planning_application_param]
+    application = if param.match?(/[a-z]/i)
+      planning_applications_scope.find_by!(reference: param)
+    else
+      planning_applications_scope.find(planning_application_id)
+    end
+
     @planning_application = PlanningApplicationPresenter.new(view_context, application)
   end
 
@@ -40,7 +46,7 @@ class ApplicationController < ActionController::Base
   end
 
   def planning_application_param
-    request.path_parameters.key?(:planning_application_id) ? :planning_application_id : :id
+    request.path_parameters.key?(:planning_application_reference) ? :planning_application_reference : :reference
   end
 
   def planning_application_id

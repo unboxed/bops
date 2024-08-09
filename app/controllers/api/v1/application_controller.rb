@@ -32,8 +32,14 @@ module Api
       end
 
       def check_token_and_set_application
+        planning_applications_scope = current_local_authority.planning_applications
+        reference = params[:planning_application_id]
         @planning_application =
-          current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
+          if reference.match?(/[a-z]/i)
+            planning_applications_scope.find_by(reference:)
+          else
+            planning_applications_scope.find_by(id: Integer(reference))
+          end
 
         if @planning_application
           if params[:change_access_id] == @planning_application.change_access_id
@@ -59,6 +65,27 @@ module Api
 
       def current_api_user
         @current_api_user ||= authenticate
+      end
+
+      def planning_application
+        scope = current_local_authority.planning_applications
+        param = if params.key? :reference
+          params[:reference]
+        elsif params.key? :planning_application_id
+          params[:planning_application_id]
+        else
+          params[:id]
+        end
+
+        if param.match?(/[a-z]/i)
+          scope.find_by(reference: param)
+        else
+          begin
+            scope.find_by(id: Integer(param))
+          rescue ArgumentError
+            nil
+          end
+        end
       end
 
       protected

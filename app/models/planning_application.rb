@@ -940,6 +940,10 @@ class PlanningApplication < ApplicationRecord
     documents.for_publication + site_notice_documents_for_publication
   end
 
+  def to_param
+    reference
+  end
+
   private
 
   def create_fee_calculation

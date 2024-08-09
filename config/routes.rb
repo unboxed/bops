@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       get "/policy/references", to: "policy_references#index"
     end
 
-    resources :planning_applications, except: %i[destroy] do
+    resources :planning_applications, param: :reference, except: %i[destroy] do
       member do
         get :confirm_validation
         patch :validate
@@ -329,7 +329,7 @@ Rails.application.routes.draw do
     end
 
     namespace :public do
-      resources :planning_applications, only: [] do
+      resources :planning_applications, param: :reference, only: [] do
         member do
           get "decision_notice"
         end
