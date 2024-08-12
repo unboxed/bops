@@ -275,6 +275,12 @@ en:
         edit: Edit
       update:
         success: Decision successfully updated
+    gpdo:
+      policy_schedules:
+        index:
+          title: Schedules
+        table:
+          edit: Edit
     legislation:
       create:
         success: Legislation successfully created

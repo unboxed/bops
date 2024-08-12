@@ -32,6 +32,10 @@ BopsConfig::Engine.routes.draw do
     resources :reporting_types
   end
 
+  namespace :gpdo do
+    resources :policy_schedules, path: "schedules"
+  end
+
   resources :users, except: %i[show destroy] do
     get :resend_invite, on: :member
   end
