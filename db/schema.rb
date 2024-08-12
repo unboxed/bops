@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_08_150652) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_12_105008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -597,6 +597,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_150652) do
     t.boolean "selected", default: true
     t.datetime "last_letter_sent_at"
     t.string "source"
+    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.index "lower((address)::text), consultation_id", name: "index_neighbours_on_lower_address_and_consultation_id", unique: true
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
