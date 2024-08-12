@@ -4,8 +4,11 @@ import "leaflet-css"
 
 export default class extends Controller {
   connect() {
+    L.Icon.Default.imagePath = "/assets"
+
     const layerData = JSON.parse(this.element.dataset.layers)
     const redline = layerData.redline
+    const neighbours = layerData.neighbours
 
     const layers = []
 
@@ -36,8 +39,50 @@ export default class extends Controller {
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(this.map)
 
+    if (neighbours !== null) {
+      for (const summary_tag in neighbours) {
+        layers.push(
+          this.buildNeighboursLayer(neighbours[summary_tag], summary_tag),
+        )
+      }
+    }
+
     for (const layer of layers) {
       layer.addTo(this.map)
     }
+  }
+
+  buildNeighboursLayer(neighboursList, summary_tag) {
+    let fillColor = "#ff7800"
+    if (summary_tag === "supportive") {
+      fillColor = "#78ff00"
+    } else if (summary_tag === "objecton") {
+      fillColor = "#ff0078"
+    }
+
+    const neighbourMarkerOptions = {
+      radius: 8,
+      fillColor,
+      color: "#000",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.8,
+    }
+
+    const neighboursCollection = {
+      type: "FeatureCollection",
+      features: neighboursList.map((point) => {
+        return {
+          type: "Feature",
+          geometry: point,
+        }
+      }),
+    }
+
+    return L.geoJson(neighboursCollection, {
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, neighbourMarkerOptions)
+      },
+    })
   }
 }
