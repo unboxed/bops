@@ -9,7 +9,21 @@ export default class extends Controller {
 
     const layers = []
 
-    const [lat, long, ..._] = this.element.dataset.latlong.split(",")
+    let [lat, long, ..._] = this.element.dataset.latlong.split(",")
+
+    if (redline !== null) {
+      const geoJsonLayer = L.geoJson(redline, {
+        style: {
+          color: "#ff0000",
+          weight: 2,
+          opacity: 0.67,
+        },
+      })
+      layers.push(geoJsonLayer)
+      const centre = geoJsonLayer.getBounds().getCenter()
+      lat = centre.lat
+      long = centre.lng
+    }
 
     this.map = L.map(this.element.id, {
       center: [lat, long],
@@ -21,17 +35,6 @@ export default class extends Controller {
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(this.map)
-
-    if (redline !== null) {
-      const geoJsonLayer = L.geoJson(redline, {
-        style: {
-          color: "#ff0000",
-          weight: 2,
-          opacity: 0.67,
-        },
-      })
-      layers.push(geoJsonLayer)
-    }
 
     for (const layer of layers) {
       layer.addTo(this.map)
