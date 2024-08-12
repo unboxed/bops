@@ -25,7 +25,11 @@ module OsPlacesHelper
   def os_places_api_response(status)
     status = Rack::Utils.status_code(status)
 
-    body = "{'results': [{'address': '123 place'}]}"
+    body = JSON.dump({results: [{DPA: {
+      ADDRESS: "123 place",
+      LNG: 0.050000000,
+      LAT: 50.00000000
+    }}]})
 
     {status:, body:}
   end
