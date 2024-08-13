@@ -30,15 +30,27 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def set_planning_application
-    param = params[planning_application_param]
-    application = if param.match?(/[a-z]/i)
+  def get_planning_application(param)
+    if param.match?(/[a-z]/i)
       planning_applications_scope.find_by!(reference: param)
     else
       planning_applications_scope.find(planning_application_id)
     end
+  end
+
+  def set_planning_application
+    param = params[planning_application_param]
+    application = get_planning_application(param)
 
     @planning_application = PlanningApplicationPresenter.new(view_context, application)
+  end
+
+  def redirect_to_reference_url
+    param = params[planning_application_param]
+    return if param.match?(/[a-z]/i)
+    planning_application = get_planning_application(param)
+
+    redirect_to request.env["PATH_INFO"].gsub(%r{/#{planning_application.id}}, "/#{planning_application.reference}")
   end
 
   def planning_applications_scope
