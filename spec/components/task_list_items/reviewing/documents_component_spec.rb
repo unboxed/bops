@@ -19,7 +19,7 @@ RSpec.describe TaskListItems::Reviewing::DocumentsComponent, type: :component do
   it "renders link" do
     expect(page).to have_link(
       "Review documents for recommendation",
-      href: "/planning_applications/#{planning_application.id}/review/documents"
+      href: "/planning_applications/#{planning_application.reference}/review/documents"
     )
   end
 

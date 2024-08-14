@@ -25,7 +25,7 @@ RSpec.describe TaskListItems::SiteNoticeComponent, type: :component do
     it "renders link to new site notice" do
       expect(page).to have_link(
         "Send site notice",
-        href: "/planning_applications/#{planning_application.id}/site_notices/new"
+        href: "/planning_applications/#{planning_application.reference}/site_notices/new"
       )
     end
   end
@@ -43,7 +43,7 @@ RSpec.describe TaskListItems::SiteNoticeComponent, type: :component do
     it "renders link to new site notice" do
       expect(page).to have_link(
         "Send site notice",
-        href: "/planning_applications/#{planning_application.id}/site_notices/new"
+        href: "/planning_applications/#{planning_application.reference}/site_notices/new"
       )
     end
   end

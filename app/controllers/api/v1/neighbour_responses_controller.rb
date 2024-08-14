@@ -33,8 +33,7 @@ module Api
       private
 
       def set_application
-        @planning_application =
-          current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
+        @planning_application = planning_application
 
         return if @planning_application
 

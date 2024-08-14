@@ -14,7 +14,7 @@ RSpec.describe "Consultation" do
     sign_in assessor
 
     planning_application.consultation.update(start_date: Time.zone.local(2023, 8, 15, 12), end_date: Time.zone.local(2023, 9, 15, 12))
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when there is a consultation end date" do
@@ -88,7 +88,7 @@ RSpec.describe "Consultation" do
       within("#confirm-press-notice-warning .govuk-warning-text") do
         expect(page).to have_link(
           "Confirm press notice publication date",
-          href: "/planning_applications/#{planning_application.id}/press_notice/confirmation"
+          href: "/planning_applications/#{planning_application.reference}/press_notice/confirmation"
         )
       end
     end
@@ -111,19 +111,19 @@ RSpec.describe "Consultation" do
 
     it "returns 404 when navigating to the site notice urls directly" do
       expect do
-        visit "/planning_applications/#{planning_application.id}/site_notices/new"
+        visit "/planning_applications/#{planning_application.reference}/site_notices/new"
         expect(page).to have_selector("h1", text: "Does not exist")
       end.to raise_error(ActionController::RoutingError, "Not found")
     end
 
     it "returns 404 when navigating to the press notice urls directly" do
       expect do
-        visit "/planning_applications/#{planning_application.id}/press_notice"
+        visit "/planning_applications/#{planning_application.reference}/press_notice"
         expect(page).to have_selector("h1", text: "Does not exist")
       end.to raise_error(ActionController::RoutingError, "Not found")
 
       expect do
-        visit "/planning_applications/#{planning_application.id}/press_notice/confirmation"
+        visit "/planning_applications/#{planning_application.reference}/press_notice/confirmation"
         expect(page).to have_selector("h1", text: "Does not exist")
       end.to raise_error(ActionController::RoutingError, "Not found")
     end

@@ -17,7 +17,7 @@ RSpec.describe "API request to show document file", show_exceptions: true do
 
     it "returns a 404 if no document" do
       expect do
-        get "/api/v1/planning_applications/#{planning_application.id}/documents/xxx"
+        get "/api/v1/planning_applications/#{planning_application.reference}/documents/xxx"
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
@@ -26,7 +26,7 @@ RSpec.describe "API request to show document file", show_exceptions: true do
 
       it "returns a 404" do
         expect do
-          get "/api/v1/planning_applications/#{planning_application.id}/documents/#{document.id}"
+          get "/api/v1/planning_applications/#{planning_application.reference}/documents/#{document.id}"
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -38,13 +38,13 @@ RSpec.describe "API request to show document file", show_exceptions: true do
 
       it "returns a 404" do
         expect do
-          get "/api/v1/planning_applications/#{planning_application.id}/documents/#{document.id}"
+          get "/api/v1/planning_applications/#{planning_application.reference}/documents/#{document.id}"
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
     it "redirects to blob url" do
-      get "/api/v1/planning_applications/#{planning_application.id}/documents/#{document.id}"
+      get "/api/v1/planning_applications/#{planning_application.reference}/documents/#{document.id}"
       expect(response).to redirect_to(rails_blob_path(document.file))
     end
   end

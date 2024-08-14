@@ -32,14 +32,14 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when sending letters" do
     before do
       travel_to(Time.zone.local(2023, 9, 1, 10))
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       neighbour = create(:neighbour, consultation:)
       neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
@@ -70,7 +70,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       expect(NeighbourLetter.last.text).to include("A prior approval application has been made for the development described below:")
 
       # View audit log
-      visit "/planning_applications/#{planning_application.id}/audits"
+      visit "/planning_applications/#{planning_application.reference}/audits"
       within("#audit_#{Audit.last.id}") do
         expect(page).to have_content("Neighbour letters sent")
         expect(page).to have_content(assessor.name)
@@ -89,7 +89,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "applicant@example.com").and_call_original
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
@@ -118,7 +118,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
     it "allows overriding the response period" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
@@ -131,7 +131,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
     it "fails if no response period is set" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
@@ -154,7 +154,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
         expect(LetterSendingService).not_to receive(:new)
 
         sign_in assessor
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
         click_link "Send letters to neighbours"
 
@@ -162,7 +162,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
         within(".govuk-notification-banner--alert") do
           expect(page).to have_content("The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.")
-          expect(page).to have_link("made public on the BOPS Public Portal", href: "/planning_applications/#{planning_application.id}/make_public")
+          expect(page).to have_link("made public on the BOPS Public Portal", href: "/planning_applications/#{planning_application.reference}/make_public")
         end
       end
     end
@@ -173,7 +173,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
     end
@@ -190,7 +190,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     it "I can not send letters with an invalid address" do
       neighbour.save(validate: false)
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
@@ -238,7 +238,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
     context "when there are no letters" do
       it "shows 'not started'" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
         expect(page).to have_content "Send letters to neighbours Not started"
       end
@@ -251,7 +251,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       end
 
       it "shows 'completed'" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
         expect(page).to have_content "Send letters to neighbours Completed"
       end
@@ -266,7 +266,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       end
 
       it "shows 'failed'" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
         expect(page).to have_content "Send letters to neighbours Failed"
       end
@@ -289,7 +289,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     end
 
     it "shows that letters have been sent" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
 
       expect(page).not_to have_content "Send letters to neighbours Not started"
@@ -302,7 +302,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     end
 
     it "allows resending of letters" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
@@ -318,7 +318,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     end
 
     it "does not resend letters unless selected" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
@@ -327,7 +327,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     end
 
     it "requires a reason to resend letters" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
@@ -339,7 +339,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     end
 
     it "includes a reason in the letter when resending letters" do
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Consultees, neighbours and publicity"
       click_link "Send letters to neighbours"
 
@@ -358,7 +358,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       end
 
       it "allows setting a reason when resend letters" do
-        visit "/planning_applications/#{planning_application.id}"
+        visit "/planning_applications/#{planning_application.reference}"
         click_link "Consultees, neighbours and publicity"
         click_link "Send letters to neighbours"
 

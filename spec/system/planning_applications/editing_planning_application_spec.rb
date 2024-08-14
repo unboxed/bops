@@ -19,7 +19,7 @@ RSpec.describe "editing planning application" do
     travel_to(DateTime.new(2023, 1, 1))
     sign_in(assessor)
     create(:application_type, :prior_approval)
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   it "returns the user to the previous page after updating" do
@@ -52,6 +52,7 @@ RSpec.describe "editing planning application" do
     end
 
     click_button("Save")
+    planning_application.reload
 
     expect(page).to have_content(
       "Planning application was successfully updated."
@@ -61,7 +62,7 @@ RSpec.describe "editing planning application" do
     end
 
     expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.id}/assessment/tasks"
+      "/planning_applications/#{planning_application.reference}/assessment/tasks"
     )
 
     click_link("Check description, documents and proposal details")
@@ -72,17 +73,18 @@ RSpec.describe "editing planning application" do
     expect(page).to have_select("planning-application-application-type-id-field", selected: "Prior Approval - Larger extension to a house")
     fill_in("Address 1", with: "125 High Street")
     click_button("Save")
+    planning_application.reload
 
     expect(page).to have_content(
       "Planning application was successfully updated."
     )
 
     expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.id}/assessment/consistency_checklist/new"
+      "/planning_applications/#{planning_application.reference}/assessment/consistency_checklist/new"
     )
 
     # Check audit
-    visit "/planning_applications/#{planning_application.id}/audits"
+    visit "/planning_applications/#{planning_application.reference}/audits"
     within("#audit_#{Audit.find_by(activity_information: "Application type").id}") do
       expect(page).to have_content("Application type updated")
       expect(page).to have_content(

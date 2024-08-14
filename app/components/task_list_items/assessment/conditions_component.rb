@@ -10,7 +10,7 @@ module TaskListItems
       private
 
       attr_reader :condition_set
-      delegate :planning_application_id, to: :condition_set
+      delegate :planning_application, to: :condition_set
 
       def link_text
         pre_commencement? ? "Add pre-commencement conditions" : "Add conditions"
@@ -18,9 +18,9 @@ module TaskListItems
 
       def link_path
         if pre_commencement?
-          planning_application_assessment_pre_commencement_conditions_path(planning_application_id)
+          planning_application_assessment_pre_commencement_conditions_path(planning_application.reference)
         else
-          planning_application_assessment_conditions_path(planning_application_id)
+          planning_application_assessment_conditions_path(planning_application.reference)
         end
       end
 

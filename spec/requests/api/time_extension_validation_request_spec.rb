@@ -141,7 +141,7 @@ RSpec.describe "Time extension validation requests API", show_exceptions: true d
 
       describe "when the time extension validation request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id}/time_extension_validation_requests/#{time_extension_validation_request.id + 1}"
+          "/api/v1/planning_applications/#{planning_application.reference}/time_extension_validation_requests/#{time_extension_validation_request.id + 1}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "time_extension_validation_request"

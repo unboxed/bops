@@ -8,7 +8,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
 
   let(:path) do
-    "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+    "/api/v1/planning_applications/#{planning_application.reference}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
   end
 
   let(:params) do
@@ -89,7 +89,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "successfully accepts a rejection" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: rejected_json,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 
@@ -105,7 +105,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "returns a 400 if params are missing" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: rejected_json_missing_reason,
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 

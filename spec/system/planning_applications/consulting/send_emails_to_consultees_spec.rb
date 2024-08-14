@@ -72,7 +72,7 @@ RSpec.describe "Consultation", type: :system, js: true do
   it "sends emails to consultees" do
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     expect(page).to have_selector("h1", text: "Application")
 
     within "#consultation-section" do
@@ -448,7 +448,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     it "doesn't send emails to consultees" do
       sign_in assessor
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       expect(page).to have_selector("h1", text: "Application")
 
       within "#consultation-section" do
@@ -496,7 +496,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     it "doesn't send emails to consultees" do
       sign_in assessor
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       expect(page).to have_selector("h1", text: "Application")
 
       within "#consultation-section" do
@@ -545,7 +545,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     it "doesn't send emails to consultees" do
       sign_in assessor
 
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       expect(page).to have_selector("h1", text: "Application")
 
       within "#consultation-section" do

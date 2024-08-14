@@ -15,7 +15,7 @@ RSpec.describe "Validation tasks" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   context "when application is not started or invalidated" do
@@ -193,7 +193,7 @@ RSpec.describe "Validation tasks" do
         planning_application.application_type.update(part: 1, section: "A")
 
         sign_in assessor
-        visit "/planning_applications/#{planning_application.id}/validation/tasks"
+        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       end
 
       it "shows the check legislation task" do
@@ -346,7 +346,7 @@ RSpec.describe "Validation tasks" do
         planning_application.application_type.update(part: 1, section: "A")
 
         sign_in assessor
-        visit "/planning_applications/#{planning_application.id}/validation/tasks"
+        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       end
 
       it "shows the check legislation task" do

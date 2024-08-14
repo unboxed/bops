@@ -9,7 +9,7 @@ module Api
       skip_before_action :set_default_format, only: %i[decision_notice]
 
       def show
-        @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
+        @planning_application = planning_application
         if @planning_application
           respond_to(:json)
         else
@@ -18,7 +18,7 @@ module Api
       end
 
       def decision_notice
-        @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
+        @planning_application = planning_application
         @blank_layout = true
       end
 

@@ -20,7 +20,7 @@ RSpec.describe "assessing amenity" do
 
   it "lets user save draft, mark as complete, and edit" do
     sign_in(assessor)
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link("Check and assess")
 
     expect(list_item("Amenity")).to have_content("Not started")

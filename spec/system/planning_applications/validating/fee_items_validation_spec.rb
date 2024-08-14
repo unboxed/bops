@@ -47,7 +47,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "displays the planning application address and reference" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check fee"
 
       expect(page).to have_content(planning_application.full_address)
@@ -55,7 +55,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "I can see a summary breakdown of the fee when I go to validate" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check fee"
 
       expect(page).to have_content("Check fee")
@@ -90,7 +90,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "renders fee related proposal details" do
-      visit "/planning_applications/#{planning_application.id}/validation/fee_items"
+      visit "/planning_applications/#{planning_application.reference}/validation/fee_items"
 
       expect(page).to have_content("Related questions and answers from PlanX")
 
@@ -121,7 +121,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "I can validate the fee item" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       within("#fee-validation-task") do
         expect(page).to have_content("Not started")
       end
@@ -147,7 +147,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "I get validation errors when I omit required information" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check fee"
       click_button "Save and mark as complete"
 
@@ -167,7 +167,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "I can invalidate the fee item" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check fee"
 
       within(".govuk-fieldset") do
@@ -177,7 +177,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       click_button "Save and mark as complete"
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation/validation_requests/new?type=fee_change"
+        "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=fee_change"
       )
       expect(page).to have_content("Request other validation change (fee)")
       expect(page).to have_content("Application number: #{planning_application.reference}")
@@ -229,7 +229,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       other_change_validation_request = FeeChangeValidationRequest.last
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.id}/validation/fee_change_validation_requests/#{other_change_validation_request.id}"
+        "/planning_applications/#{planning_application.reference}/validation/fee_change_validation_requests/#{other_change_validation_request.id}"
       )
       expect(page).to have_content("View fee change request")
       expect(page).to have_content("Officer request")
@@ -241,7 +241,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       end
 
       click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.id}/validation/tasks")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
     end
 
     context "when fee item is invalid" do
@@ -257,12 +257,12 @@ RSpec.describe "FeeItemsValidation", type: :system do
       end
 
       it "I can edit the fee validation request" do
-        visit "/planning_applications/#{planning_application.id}/validation/tasks"
+        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
         click_link "Check fee"
         click_link "Edit request"
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/validation/validation_requests/#{other_change_validation_request.id}/edit"
+          "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{other_change_validation_request.id}/edit"
         )
 
         expect(page).to have_content("Request other validation change (fee)")
@@ -301,7 +301,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       end
 
       it "I can delete the fee validation request", :capybara do
-        visit "/planning_applications/#{planning_application.id}/validation/tasks"
+        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
         click_link "Check fee"
 
         accept_confirm(text: "Are you sure?") do
@@ -334,7 +334,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       end
 
       it "shows the fee as £0.00" do
-        visit "/planning_applications/#{planning_application.id}/validation/fee_items"
+        visit "/planning_applications/#{planning_application.reference}/validation/fee_items"
 
         expect(page).to have_row_for("Fee Paid", with: "£0.00")
         expect(page).to have_row_for("Payment Reference", with: "Exempt")
@@ -361,7 +361,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "I can view the request" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check fee"
 
       expect(page).to have_content("View fee change request")
@@ -391,7 +391,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "I can cancel the request" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check fee"
       click_link "Cancel request"
 
@@ -424,7 +424,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "I cannot edit the request" do
-      visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{other_change_validation_request.id}/edit"
+      visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{other_change_validation_request.id}/edit"
 
       expect(page).to have_content("forbidden")
       expect(page).not_to have_link("Edit request")
@@ -450,7 +450,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       end
 
       it "I can see the updated state of the fee request", :capybara do
-        visit "/planning_applications/#{planning_application.id}/validation/tasks"
+        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
         within("#fee-validation-task") do
           expect(page).to have_content("Updated")
@@ -498,7 +498,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
           expect(page).to have_content("Completed")
         end
 
-        visit "/planning_applications/#{planning_application.id}/audits"
+        visit "/planning_applications/#{planning_application.reference}/audits"
 
         # Check audit log
         within("#audit_#{Audit.last.id}") do
@@ -508,7 +508,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       end
 
       it "I do not see a continue link for non active fee requests" do
-        visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{other_change_validation_request.id}"
+        visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{other_change_validation_request.id}"
 
         expect(page).not_to have_link("Continue")
       end
@@ -521,7 +521,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
     end
 
     it "does not allow you to validate documents" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
       within("#fee-validation-task") do
         expect(page).to have_content("Planning application has already been validated")

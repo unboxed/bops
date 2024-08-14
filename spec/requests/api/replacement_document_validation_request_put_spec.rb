@@ -38,7 +38,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   let(:path) do
-    "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id}"
+    "/api/v1/planning_applications/#{planning_application.reference}/replacement_document_validation_requests/#{replacement_document_validation_request.id}"
   end
 
   let(:file) do
@@ -124,7 +124,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "rejects wrong document types" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: {new_file: fixture_file_upload("../images/proposed-floorplan.png", "image/gif")},
       headers: {Authorization: "Bearer #{api_user.token}"}
 
@@ -134,7 +134,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "returns a 400 if the new document is missing" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: "{}",
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 
@@ -145,7 +145,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     # Return byte size greater than limit of 30mb (31457280 bytes)
     allow_any_instance_of(ActionDispatch::Http::UploadedFile).to receive(:size).and_return(31_457_281)
 
-    patch "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+    patch "/api/v1/planning_applications/#{planning_application.reference}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
       params: {new_file: file},
       headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 

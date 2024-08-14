@@ -15,11 +15,11 @@ RSpec.describe "Requesting time extension to a planning application", type: :sys
   before do
     travel_to Time.zone.local(2024, 1, 1)
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   it "displays the planning application address and reference" do
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     click_button("Application information")
     click_link("Request extension")
 
@@ -28,7 +28,7 @@ RSpec.describe "Requesting time extension to a planning application", type: :sys
   end
 
   it "lets user create and cancel request" do
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     click_button("Application information")
     click_link("Request extension")
 
@@ -45,7 +45,7 @@ RSpec.describe "Requesting time extension to a planning application", type: :sys
     expect(page).to have_text("Time extension request successfully sent.")
 
     expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.id}/assessment/tasks"
+      "/planning_applications/#{planning_application.reference}/assessment/tasks"
     )
 
     click_link("Extension requested")
@@ -63,7 +63,7 @@ RSpec.describe "Requesting time extension to a planning application", type: :sys
   end
 
   it "displays the expected error message when there is a time extension request already open" do
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     click_button("Application information")
     click_link("Request extension")
 
@@ -78,7 +78,7 @@ RSpec.describe "Requesting time extension to a planning application", type: :sys
   end
 
   it "displays the expected error message when the time extension is earlier than the current expiry" do
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     click_button("Application information")
     click_link("Request extension")
 
@@ -95,7 +95,7 @@ RSpec.describe "Requesting time extension to a planning application", type: :sys
   it "displays the previously created time extension request on the edit page" do
     create(:time_extension_validation_request, :closed, planning_application: planning_application, reason: "Took too long")
 
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     click_button("Application information")
     click_link("Request extension")
 
@@ -106,7 +106,7 @@ RSpec.describe "Requesting time extension to a planning application", type: :sys
   it "displays the rejection reason when applicant rejects the request" do
     rejected_request = create(:time_extension_validation_request, :closed, approved: false, planning_application: planning_application, reason: "Took too long", rejection_reason: "I can't wait any longer")
 
-    visit "/planning_applications/#{planning_application.id}/validation/validation_requests/#{rejected_request.id}"
+    visit "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{rejected_request.id}"
 
     expect(page).to have_content("Rejected")
     expect(page).to have_content("I can't wait any longer")

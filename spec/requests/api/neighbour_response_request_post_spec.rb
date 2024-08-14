@@ -8,7 +8,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
   let!(:planning_application) { create(:planning_application, :planning_permission, local_authority: default_local_authority) }
 
   let(:path) do
-    "/api/v1/planning_applications/#{planning_application.id}/neighbour_responses"
+    "/api/v1/planning_applications/#{planning_application.reference}/neighbour_responses"
   end
 
   let(:headers) do

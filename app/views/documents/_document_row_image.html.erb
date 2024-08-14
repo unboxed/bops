@@ -11,7 +11,7 @@
       <%= govuk_link_to t(".archive"), planning_application_document_archive_path(planning_application, document) %>
     </p>
     <p class="govuk-body">
-      <%= govuk_link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_id: planning_application.id, document: document, type: "replacement_document") %>
+      <%= govuk_link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_reference: planning_application.reference, document: document, type: "replacement_document") %>
     </p>
   <% end %>
 <% else %>

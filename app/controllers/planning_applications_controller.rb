@@ -9,6 +9,8 @@ class PlanningApplicationsController < AuthenticationController
   before_action :ensure_site_notice_displayed_at, only: %i[determine]
   before_action :ensure_press_notice_published_at, only: %i[determine]
 
+  before_action :redirect_to_reference_url, only: %i[show edit]
+
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
   end

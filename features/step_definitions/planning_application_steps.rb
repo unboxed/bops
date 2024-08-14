@@ -110,11 +110,11 @@ When("I choose {string} from a fieldset {string}") do |option, fieldset|
 end
 
 When("I view the planning application") do
-  visit "/planning_applications/#{@planning_application.id}"
+  visit "/planning_applications/#{@planning_application.reference}"
 end
 
 When("I view the planning application audit") do
-  visit "/planning_applications/#{@planning_application.id}/audits"
+  visit "/planning_applications/#{@planning_application.reference}/audits"
 end
 
 And("the planning application has a description of {string}") do |description|

@@ -22,7 +22,7 @@ Given("I view the document with reference {string}") do |reference|
 
   document = @planning_application.documents.find_by(numbers: reference)
 
-  visit "/planning_applications/#{@planning_application.id}/documents/#{document.id}/edit"
+  visit "/planning_applications/#{@planning_application.reference}/documents/#{document.id}/edit"
 end
 
 Given("I attach a replacement file with path {string}") do |path|

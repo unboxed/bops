@@ -15,7 +15,7 @@ RSpec.describe "Requesting other changes to a planning application" do
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when there are fee item validation requests" do
@@ -27,7 +27,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     end
 
     it "does not show in the other validation issues task list" do
-      visit "/planning_applications/#{planning_application.id}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       within("#other-change-validation-tasks") do
         expect(page).to have_link(
           "View other validation request ##{other_change_validation_request.sequence}",

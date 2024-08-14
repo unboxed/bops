@@ -13,14 +13,14 @@ RSpec.describe "Reporting validation task" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   context "when application is not started" do
     it "I can see that reporting type is not started" do
       expect(page).to have_link(
         "Add reporting details",
-        href: "/planning_applications/#{planning_application.id}/validation/reporting_type/edit"
+        href: "/planning_applications/#{planning_application.reference}/validation/reporting_type/edit"
       )
       click_link "Add reporting details"
 
@@ -53,7 +53,7 @@ RSpec.describe "Reporting validation task" do
 
       expect(page).to have_link(
         "Add reporting details",
-        href: "/planning_applications/#{planning_application.id}/validation/reporting_type"
+        href: "/planning_applications/#{planning_application.reference}/validation/reporting_type"
       )
     end
 

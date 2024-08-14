@@ -11,7 +11,7 @@ RSpec.describe "Immunity", type: :system do
   context "when not immune" do
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     let(:planning_application) do
@@ -35,7 +35,7 @@ RSpec.describe "Immunity", type: :system do
     before do
       allow_any_instance_of(PlanningApplication).to receive(:possibly_immune?).and_return(true)
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     it "returns true from possibly_immune?" do
@@ -60,7 +60,7 @@ RSpec.describe "Immunity", type: :system do
       create(:decision, :ldc_refused)
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     it "shows the assessment and review stages for immunity", :capybara do
@@ -106,7 +106,7 @@ RSpec.describe "Immunity", type: :system do
       click_on("Submit recommendation")
 
       sign_in(reviewer)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Review and sign-off"
 
       click_link "Review evidence of immunity"
@@ -133,7 +133,7 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
       sign_in(assessor)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link("Check and assess")
       click_link("Evidence of immunity")
 
@@ -181,7 +181,7 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_content("Immunity/permitted development rights response was successfully created")
 
       sign_in(reviewer)
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link "Review and sign-off"
 
       click_link "Review evidence of immunity"

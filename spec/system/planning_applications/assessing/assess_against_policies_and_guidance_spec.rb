@@ -25,7 +25,7 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
 
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
     click_link "Check and assess"
   end
 
@@ -393,7 +393,7 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
       expect(page).to have_selector("h3", text: "Policies and guidance")
       expect(page).to have_selector("h4", text: "Design")
       expect(page).to have_selector("h4", text: "Environment")
-      expect(page).to have_link("Edit assessment", href: "/planning_applications/#{planning_application.id}/assessment/considerations/edit")
+      expect(page).to have_link("Edit assessment", href: "/planning_applications/#{planning_application.reference}/assessment/considerations/edit")
     end
 
     within_fieldset "Does this planning application need to be decided by committee?" do
@@ -424,7 +424,7 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
       expect(page).to have_selector("h3", text: "Policies and guidance")
       expect(page).to have_selector("h4", text: "Design")
       expect(page).to have_selector("h4", text: "Environment")
-      expect(page).to have_link("Edit assessment", href: "/planning_applications/#{planning_application.id}/assessment/considerations/edit")
+      expect(page).to have_link("Edit assessment", href: "/planning_applications/#{planning_application.reference}/assessment/considerations/edit")
     end
 
     click_button "Submit recommendation"

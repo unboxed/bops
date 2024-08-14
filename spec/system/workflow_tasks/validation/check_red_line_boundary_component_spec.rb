@@ -36,7 +36,7 @@ RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
     end
 
     it "renders sitemap link" do
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/sitemap"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/sitemap"
       expect(task.task_list_link_text).to eq "Check red line boundary"
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
     end
 
     it "renders sitemap link" do
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/sitemap"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/sitemap"
       expect(task.task_list_link_text).to eq "Check red line boundary"
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
       end
 
       it "renders change request link" do
-        expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+        expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
         expect(task.task_list_link_text).to eq "Check red line boundary"
       end
     end
@@ -101,7 +101,7 @@ RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
     end
 
     it "renders sitemap link" do
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/sitemap"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/sitemap"
       expect(task.task_list_link_text).to eq "Check red line boundary"
     end
 
@@ -120,7 +120,7 @@ RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
       end
 
       it "renders change request link" do
-        expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+        expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
         expect(task.task_list_link_text).to eq "Check red line boundary"
       end
     end
@@ -147,7 +147,7 @@ RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
     end
 
     it "renders change request link" do
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
       expect(task.task_list_link_text).to eq "Check red line boundary"
     end
   end
@@ -175,7 +175,7 @@ RSpec.describe Validation::CheckRedLineBoundaryTask, type: :component do
     end
 
     it "renders change request link" do
-      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.id}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+      expect(task.task_list_link).to eq "/planning_applications/#{planning_application.reference}/validation/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
 
       expect(task.task_list_link_text).to eq "Check red line boundary"
     end

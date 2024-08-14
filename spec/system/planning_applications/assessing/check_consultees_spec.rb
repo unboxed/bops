@@ -24,7 +24,7 @@ RSpec.describe "checking consultees", js: true do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
   end
 
   it "allows the assessor to see the list of constraints and consultees" do

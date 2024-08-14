@@ -12,7 +12,7 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
-    let(:path) { "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests" }
+    let(:path) { "/api/v1/planning_applications/#{planning_application.reference}/red_line_boundary_change_validation_requests" }
     let!(:red_line_boundary_change_validation_request2) do
       travel_to(DateTime.new(2023, 12, 15)) { create(:red_line_boundary_change_validation_request, :closed, planning_application:) }
     end
@@ -75,7 +75,7 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
 
   describe "#show" do
     let(:path) do
-      "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
+      "/api/v1/planning_applications/#{planning_application.reference}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
     end
 
     context "when the request is successful" do
@@ -121,7 +121,7 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
 
       describe "when the red line boundary change validation request is not found" do
         let(:path) do
-          "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id + 1}"
+          "/api/v1/planning_applications/#{planning_application.reference}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id + 1}"
         end
 
         it_behaves_like "ApiRequest::NotFound", "red_line_boundary_change_validation_request"

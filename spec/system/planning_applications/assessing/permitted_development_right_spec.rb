@@ -13,7 +13,7 @@ RSpec.describe "Permitted development right" do
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.id}"
+    visit "/planning_applications/#{planning_application.reference}"
   end
 
   context "when signed in as an assessor" do
@@ -22,7 +22,7 @@ RSpec.describe "Permitted development right" do
       create(:decision, :ldc_refused)
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
     end
 
     context "when planning application is in assessment" do
@@ -41,7 +41,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
+          "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
         )
 
         within(".govuk-heading-l") do
@@ -197,7 +197,7 @@ RSpec.describe "Permitted development right" do
           click_button("Submit recommendation")
           click_link("Log out")
           sign_in(reviewer)
-          visit "/planning_applications/#{planning_application.id}"
+          visit "/planning_applications/#{planning_application.reference}"
 
           expect(page).to have_list_item_for(
             "Review and sign-off",
@@ -241,7 +241,7 @@ RSpec.describe "Permitted development right" do
 
           expect(page).to have_text("#{permitted_development_right.reviewer.name} accepted this response on #{permitted_development_right.reviewed_at}")
 
-          visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/#{permitted_development_right.id}/edit"
+          visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/#{permitted_development_right.id}/edit"
           expect(page).to have_text("forbidden")
         end
       end
@@ -276,7 +276,7 @@ RSpec.describe "Permitted development right" do
         end
 
         it "I cannot create a new permitted development right request when there is an open response" do
-          visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
+          visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
           choose "No"
           click_button "Save and mark as complete"
           expect(page).to have_text("Cannot create a permitted development right response when there is already an open response")
@@ -306,7 +306,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
+          "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
         )
 
         within(".govuk-heading-l") do
@@ -334,11 +334,11 @@ RSpec.describe "Permitted development right" do
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       expect(page).not_to have_link("Permitted development rights")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end
@@ -351,12 +351,12 @@ RSpec.describe "Permitted development right" do
 
     it "returns 404" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       expect(page).not_to have_link("Permitted development rights")
 
       expect do
-        visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
+        visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
         expect(page).to have_selector("h1", text: "Does not exist")
       end.to raise_error(ActionController::RoutingError, "Not found")
     end

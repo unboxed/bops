@@ -9,7 +9,7 @@ RSpec.describe "Assessment tasks", type: :system do
   before do
     sign_in assessor
     Rails.configuration.planning_history_enabled = true
-    visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
   end
 
   context "when the planning application is in_assessment, I can assess the planning application" do
@@ -60,7 +60,7 @@ RSpec.describe "Assessment tasks", type: :system do
       before do
         application_type = create(:application_type, :prior_approval)
         planning_application.update(application_type:)
-        visit "/planning_applications/#{planning_application.id}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
       end
 
       it "displays the assessment tasks list" do

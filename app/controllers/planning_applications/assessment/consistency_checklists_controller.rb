@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class ConsistencyChecklistsController < BaseController
       before_action :set_consistency_checklist, except: %i[new create]
+      before_action :redirect_to_reference_url
 
       def show
       end

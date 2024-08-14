@@ -14,7 +14,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
   context "when assessing whether an application is immune" do
     before do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
       click_link("Check and assess")
       click_link("Immunity/permitted development rights")
     end
@@ -345,7 +345,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
     end
 
     it "I cannot create a new permitted development right request when there is an open response" do
-      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       within("#assess-immunity-detail-section") do
         choose "Yes"
@@ -367,11 +367,11 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       expect(page).not_to have_link("Immunity/permitted development rights")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end
@@ -382,12 +382,12 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
 
     it "does not allow me to visit the page" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.reference}"
 
       click_link "Check and assess"
       expect(page).not_to have_link("Immunity/permitted development rights")
 
-      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("forbidden")
     end
@@ -397,7 +397,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
     it "I can view the information on the permitted development rights page" do
       create(:immunity_detail, planning_application:)
       sign_in assessor
-      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Evidence cover: Unknown")
       expect(page).to have_content("Missing evidence (gap in time): No")
@@ -416,7 +416,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
     it "lists the evidence in a single group for a single document" do
       document = create(:document, tags: %w[councilTaxBill])
       immunity_detail.add_document(document)
-      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Council tax bills (1)")
     end
@@ -426,7 +426,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       document2 = create(:document, tags: %w[councilTaxBill])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
-      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Council tax bills (2)")
     end
@@ -436,7 +436,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       document2 = create(:document, tags: %w[photographs.existing])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
-      visit "/planning_applications/#{planning_application.id}/assessment/assess_immunity_detail_permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
 
       expect(page).to have_content("Council tax bills (1)")
       expect(page).to have_content("Photographs - existings (1)")
