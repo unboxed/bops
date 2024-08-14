@@ -277,10 +277,28 @@ en:
         success: Decision successfully updated
     gpdo:
       policy_schedules:
+        create:
+          success: GPDO schedule successfully created
+        destroy:
+          success: GPDO schedule successfully removed
+        edit:
+          title: Edit schedule
+        form:
+          name_hint: Enter the schedule name
+          name_label: Name
+          number_hint: Enter the schedule number
+          number_label: Number
+          remove: Remove
+          save: Save
         index:
+          create_new_schedule: Create new schedule
           title: Schedules
+        new:
+          title: Create new schedule
         table:
           edit: Edit
+        update:
+          success: GPDO schedule successfully updated
     legislation:
       create:
         success: Legislation successfully created

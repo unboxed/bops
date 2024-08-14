@@ -277,6 +277,13 @@ en:
           attributes:
             base:
               policies_to_be_determined: All policies must be assessed
+        policy_schedule:
+          attributes:
+            number:
+              blank: Enter a number for the schedule
+              greater_than_or_equal_to: The schedule number must be greater than or equal to 1
+              less_than_or_equal_to: The schedule number must be less than or equal to 4
+              not_a_number: The schedule number must be a number
         press_notice:
           attributes:
             documents:

@@ -18,7 +18,7 @@
             <%= schedule.full_name %>
           </td>
           <td class="govuk-table__cell">
-            <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_path(schedule) %>
+            <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_path(schedule.number) %>
           </td>
         </tr>
       <% end %>

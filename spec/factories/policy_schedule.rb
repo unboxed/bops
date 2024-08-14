@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :policy_schedule do
-    sequence(:number)
+    number { 2 }
+    name { "Permitted development rights" }
   end
 end

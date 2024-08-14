@@ -3,8 +3,8 @@
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "GPDO", application_types_path %>
-<% add_parent_breadcrumb_link "Policy schedules", schedules_path %>
+<% add_parent_breadcrumb_link "GPDO", gpdo_policy_schedules_path %>
+<% add_parent_breadcrumb_link "Schedules", gpdo_policy_schedules_path %>
 
 <% content_for :title, t(".title") %>
 
@@ -14,6 +14,6 @@
       <%= t(".title") %>
     </h1>
 
-    <%= render "form" %>
+    <%= render "form", url: gpdo_policy_schedule_path(@schedule.number) %>
   </div>
 </div>

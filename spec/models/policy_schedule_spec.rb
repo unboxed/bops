@@ -9,7 +9,12 @@ RSpec.describe PolicySchedule, type: :model do
     describe "#number" do
       it "validates presence" do
         policy_schedule.number = nil
-        expect { policy_schedule.valid? }.to change { policy_schedule.errors[:number] }.to ["can't be blank"]
+        expect { policy_schedule.valid? }.to change { policy_schedule.errors[:number] }.to ["Enter a number for the schedule", "The schedule number must be a number"]
+      end
+
+      it "validates numericality" do
+        policy_schedule.number = "NaN"
+        expect { policy_schedule.valid? }.to change { policy_schedule.errors[:number] }.to ["The schedule number must be a number"]
       end
 
       it "validates uniqueness" do
