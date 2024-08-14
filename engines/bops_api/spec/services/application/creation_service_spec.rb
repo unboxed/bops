@@ -534,12 +534,21 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         before do
           allow(ENV).to receive(:fetch).and_call_original
           allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+          params[:metadata][:source] = "BOPS production"
         end
 
         it "calls the post application to staging job" do
           create_planning_application
 
           expect(BopsApi::PostApplicationToStagingJob).to have_been_enqueued
+        end
+
+        it "calls the anonymisation service" do
+          expect(BopsApi::Application::AnonymisationService).to receive(:new).and_call_original
+          expect(BopsApi::Application::DocumentsService).to receive(:new).and_call_original
+
+          create_planning_application
+          perform_enqueued_jobs
         end
       end
     end

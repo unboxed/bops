@@ -20,7 +20,7 @@ module BopsApi
 
       private
 
-      attr_reader :local_authority, :params, :user
+      attr_reader :local_authority, :params, :user, :email_sending_permitted
 
       def data_params
         @data_params ||= params.fetch(:data)
@@ -67,14 +67,14 @@ module BopsApi
       def other_params
         {
           user_role: data_params[:user_role],
-          from_production: params[:from_production].present?
+          from_production: from_bops_production?
         }
       end
 
       def save!(planning_application)
         PlanningApplication.transaction do
           if planning_application.save!
-            PlanningApplicationDependencyJob.perform_later(planning_application:, user:, files:, params:, email_sending_permitted: @email_sending_permitted)
+            PlanningApplicationDependencyJob.perform_later(planning_application:, user:, files:, params:, email_sending_permitted:)
           end
         end
 
@@ -93,6 +93,10 @@ module BopsApi
 
       def raise_not_permitted_in_production_error
         raise BopsApi::Errors::NotPermittedError, "Creating planning applications using this endpoint is not permitted in production"
+      end
+
+      def from_bops_production?
+        params.dig("metadata", "source") == "BOPS production"
       end
     end
   end
