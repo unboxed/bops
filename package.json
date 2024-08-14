@@ -15,7 +15,7 @@
     "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
     "leaflet-css": "^0.1.0",
-    "puppeteer": "^21.0.0",
+    "puppeteer": "^22.0.0",
     "sortablejs": "^1.15.2",
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4"
