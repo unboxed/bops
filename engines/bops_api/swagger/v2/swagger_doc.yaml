@@ -5886,7 +5886,6 @@ components:
           - fee
           type: object
         source:
-          const: PlanX
           type: string
         submittedAt:
           "$ref": "#/components/definitions/DateTime"

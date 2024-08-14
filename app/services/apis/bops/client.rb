@@ -10,10 +10,8 @@ module Apis
       def call(local_authority, submission)
         faraday(local_authority).post("planning_applications") do |request|
           request.options[:timeout] = TIMEOUT
-          request.body = submission.merge(
-            "send_email" => "false",
-            "from_production" => "true"
-          ).to_json
+          submission["metadata"]["source"] = "BOPS production"
+          request.body = submission.to_json
         end
       end
 

@@ -16,7 +16,7 @@ module BopsApi
       @user = user
       @params = params
 
-      AnonymisationService.new(planning_application:).call! if planning_application.from_production?
+      Application::AnonymisationService.new(planning_application:).call! if planning_application.from_production?
       process_document_checklist_items(planning_application)
       Application::DocumentsService.new(planning_application:, user:, files:).call!
 
