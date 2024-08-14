@@ -18,6 +18,8 @@ class Neighbour < ApplicationRecord
 
   validate :validate_address_format
 
+  after_save :update_lonlat, if: :saved_change_to_address?
+
   accepts_nested_attributes_for :neighbour_responses
 
   scope :without_letters, lambda {
@@ -84,5 +86,9 @@ class Neighbour < ApplicationRecord
       Enter the street name, followed by a comma
       Enter a postcode, like AA11AA
     ERROR
+  end
+
+  def update_lonlat
+    NeighbourCoordinatesUpdateJob.perform_later(self)
   end
 end

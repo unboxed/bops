@@ -15,7 +15,12 @@
         data: {
           controller: :map,
           latLong: [planning_application.latitude, planning_application.longitude].join(","),
-          redline: planning_application.boundary_geojson
+          layers: {
+            redline: planning_application.boundary_geojson,
+            neighbours: planning_application.consultation.neighbour_responses
+              .group_by { |response| response.summary_tag.to_sym }
+              .transform_values { |responses| responses.map { |response| RGeo::GeoJSON.encode(response.neighbour.lonlat) }.compact }
+          }
         } %>
 <% else %>
   <p class="govuk-body"><%= t(".no_digital_sitemap") %></p>
