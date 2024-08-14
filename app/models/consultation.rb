@@ -386,7 +386,7 @@ class Consultation < ApplicationRecord
   end
 
   def application_link
-    "#{local_authority.applicants_url}/planning_applications/#{planning_application.reference}"
+    "#{local_authority.applicants_url}/planning_applications/#{planning_application.id}"
   end
 
   def period_days

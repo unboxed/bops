@@ -30,7 +30,7 @@ RSpec.describe "BOPS public API" do
           expect(data["application"]["reference"]).to eq(planning_application.reference)
           expect(data["files"]).not_to be_empty
           expect(data["decisionNotice"]["name"]).to eq("decision-notice-PlanX-24-00100-HAPP.pdf")
-          expect(data["decisionNotice"]["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
+          expect(data["decisionNotice"]["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf")
         end
       end
 
