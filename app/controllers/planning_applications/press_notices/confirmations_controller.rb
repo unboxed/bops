@@ -9,6 +9,7 @@ module PlanningApplications
       before_action :ensure_publicity_is_permitted
       before_action :set_press_notice
       before_action :set_press_notices, only: :show
+      before_action :redirect_to_reference_url, only: %i[show edit]
 
       def show
         respond_to do |format|

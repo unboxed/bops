@@ -10,6 +10,7 @@ module PlanningApplications
     before_action :set_site_notice, except: %i[new create]
     before_action :ensure_public_portal_is_active, only: :create
     before_action :ensure_application_is_assigned, only: :create
+    before_action :redirect_to_reference_url, only: %i[new show edit]
 
     def show
       respond_to do |format|
