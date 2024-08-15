@@ -356,7 +356,6 @@ RSpec.describe "View neighbour responses", type: :system, js: true do
       click_button "Save and publish"
       expect(page).to have_content("Neighbour response was successully updated.")
 
-      click_button "Objection responses (1)"
       expect(page).to have_content("Redacted by: #{assessor.name}")
 
       click_link "Redact and publish"

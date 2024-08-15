@@ -11,7 +11,7 @@
   <div class="govuk-grid-column-two-thirds">
     <% if @consultation && @consultation.consultees.present? %>
       <h2 class="govuk-heading-m"><%= t(".responses") %></h2>
-      <%= govuk_accordion do |accordion|
+      <%= govuk_accordion(html_attributes: {id: "consultation-responses"}) do |accordion|
             @consultation.consultees.each do |consultee|
               accordion.with_section(heading_text: consultee.name) do
                 consultee.responses.map { |response| "<p class=\"govuk-body\">#{response.response}</p>" }.join
