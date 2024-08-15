@@ -58,7 +58,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link(planning_application.reference)
       end
 
-      click_button "Documents"
+      find("span", text: "Documents").click
       click_link "Manage documents"
 
       expect(page).to have_link("Edit")

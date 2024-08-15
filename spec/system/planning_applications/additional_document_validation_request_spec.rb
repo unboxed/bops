@@ -39,7 +39,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     expect(page).to have_content("Additional document request successfully created.")
 
     click_link "Application"
-    click_button "Audit log"
+    find("#audit-log").click
     click_link "View all audits"
 
     expect(page).to have_text("Sent: validation request (new document#1)")
@@ -56,7 +56,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     sign_in assessor
     visit "/planning_applications/#{planning_application.reference}"
 
-    click_button "Audit log"
+    find("#audit-log").click
     click_link "View all audits"
 
     expect(page).to have_text("Received: request for change (new document#1)")
@@ -451,7 +451,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       end
 
       click_link "Application"
-      click_button "Audit log"
+      find("#audit-log").click
       click_link "View all audits"
 
       within("#audit_#{Audit.last.id}") do

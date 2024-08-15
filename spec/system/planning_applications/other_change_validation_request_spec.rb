@@ -73,7 +73,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     expect(page).not_to have_link("Delete request")
 
     click_link "Application"
-    click_button "Audit log"
+    find("#audit-log").click
     click_link "View all audits"
 
     expect(page).to have_text("Sent: validation request (other validation#1)")

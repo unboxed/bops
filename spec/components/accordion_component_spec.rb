@@ -13,27 +13,27 @@ RSpec.describe AccordionComponent, type: :component do
     end
 
     it "renders application information section" do
-      expect(page).to have_button("Application information")
+      expect(page).to have_element("span", text: "Application information")
     end
 
     it "renders site map section" do
-      expect(page).to have_button("Site map")
+      expect(page).to have_element("span", text: "Site map")
     end
 
     it "renders constraints section" do
-      expect(page).to have_button("Constraints")
+      expect(page).to have_element("span", text: "Constraints")
     end
 
     it "renders pre-assessment outcome section" do
-      expect(page).to have_button("Pre-assessment outcome")
+      expect(page).to have_element("span", text: "Pre-assessment outcome")
     end
 
     it "renders proposal details section" do
-      expect(page).to have_button("Proposal details")
+      expect(page).to have_element("span", text: "Proposal details")
     end
 
     it "renders documents section" do
-      expect(page).to have_button("Documents")
+      expect(page).to have_element("span", text: "Documents")
     end
   end
 
@@ -46,19 +46,19 @@ RSpec.describe AccordionComponent, type: :component do
     end
 
     it "renders contact information section" do
-      expect(page).to have_button("Contact information")
+      expect(page).to have_element("span", text: "Contact information")
     end
 
     it "renders key application dates section" do
-      expect(page).to have_button("Key application dates")
+      expect(page).to have_element("span", text: "Key application dates")
     end
 
     it "renders audit log section" do
-      expect(page).to have_button("Audit log")
+      expect(page).to have_element("span", text: "Audit log")
     end
 
     it "renders notes section" do
-      expect(page).to have_button("Notes")
+      expect(page).to have_element("span", text: "Notes")
     end
   end
 end
