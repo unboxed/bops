@@ -124,7 +124,6 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
-          click_button("Filter")
           check("Invalid")
           uncheck("Not started")
           uncheck("In assessment")
@@ -140,7 +139,6 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
-          click_button("Filter")
           check("In assessment")
           uncheck("Not started")
           uncheck("Invalid")
@@ -156,7 +154,6 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
-          click_button("Filter")
           check("Awaiting determination")
           uncheck("Not started")
           uncheck("Invalid")
@@ -172,7 +169,6 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
-          click_button("Filter")
           check("To be reviewed")
           uncheck("Not started")
           uncheck("Invalid")
@@ -323,7 +319,6 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
-          click_button("Filter")
           check("To be reviewed")
           uncheck("Awaiting determination")
 
