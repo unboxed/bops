@@ -1,0 +1,27 @@
+<% if @schedules.any? %>
+  <table class="govuk-table application-types-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          Name
+        </th>
+        <th scope="col" class="govuk-table__header">
+          Action
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+      <% @schedules.each do |schedule| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= schedule.full_name %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_path(schedule.number) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

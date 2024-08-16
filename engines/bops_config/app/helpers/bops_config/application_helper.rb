@@ -32,7 +32,8 @@ module BopsConfig
         "features" => "application_types",
         "decisions" => "decisions",
         "statuses" => "application_types",
-        "reporting_types" => "reporting_types"
+        "reporting_types" => "reporting_types",
+        "policy_schedules" => "policy_schedules"
       }
 
       page_keys.fetch(controller_name, "dashboard")
@@ -45,7 +46,8 @@ module BopsConfig
         {link: {text: "Application types", href: application_types_path}, current: active_page_key?("application_types")},
         {link: {text: "Legislation", href: legislation_index_path}, current: active_page_key?("legislation")},
         {link: {text: "Reporting types", href: reporting_types_path}, current: active_page_key?("reporting_types")},
-        {link: {text: "Decisions", href: decisions_path}, current: active_page_key?("decisions")}
+        {link: {text: "Decisions", href: decisions_path}, current: active_page_key?("decisions")},
+        {link: {text: "GPDO", href: gpdo_policy_schedules_path}, current: active_page_key?("policy_schedules")}
       ]
     end
   end

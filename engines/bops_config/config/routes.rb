@@ -30,6 +30,10 @@ BopsConfig::Engine.routes.draw do
     resources :legislation
     resources :decisions
     resources :reporting_types
+
+    namespace :gpdo do
+      resources :policy_schedules, param: :number, path: "schedules"
+    end
   end
 
   resources :users, except: %i[show destroy] do
