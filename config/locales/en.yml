@@ -277,6 +277,15 @@ en:
           attributes:
             base:
               policies_to_be_determined: All policies must be assessed
+        policy_part:
+          attributes:
+            name:
+              blank: Enter a description for the part
+            number:
+              blank: Enter a number for the part
+              greater_than_or_equal_to: The part number must be greater than or equal to 1
+              less_than_or_equal_to: The part number must be less than or equal to 20
+              not_a_number: The part number must be a number
         policy_schedule:
           attributes:
             number:

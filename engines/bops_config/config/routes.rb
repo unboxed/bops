@@ -32,7 +32,9 @@ BopsConfig::Engine.routes.draw do
     resources :reporting_types
 
     namespace :gpdo do
-      resources :policy_schedules, param: :number, path: "schedules"
+      resources :policy_schedules, param: :number, path: "schedule" do
+        resources :policy_parts, param: :number, path: "part"
+      end
     end
   end
 

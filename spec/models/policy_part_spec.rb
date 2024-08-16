@@ -9,7 +9,12 @@ RSpec.describe PolicyPart, type: :model do
     describe "#number" do
       it "validates presence" do
         policy_part.number = nil
-        expect { policy_part.valid? }.to change { policy_part.errors[:number] }.to ["can't be blank"]
+        expect { policy_part.valid? }.to change { policy_part.errors[:number] }.to ["Enter a number for the part", "The part number must be a number"]
+      end
+
+      it "validates numericality" do
+        policy_part.number = "NaN"
+        expect { policy_part.valid? }.to change { policy_part.errors[:number] }.to ["The part number must be a number"]
       end
 
       it "validates uniqueness within scope of policy_schedule_id" do
@@ -21,7 +26,7 @@ RSpec.describe PolicyPart, type: :model do
     describe "#name" do
       it "validates presence" do
         policy_part.name = nil
-        expect { policy_part.valid? }.to change { policy_part.errors[:name] }.to ["can't be blank"]
+        expect { policy_part.valid? }.to change { policy_part.errors[:name] }.to ["Enter a description for the part"]
       end
     end
   end

@@ -276,6 +276,29 @@ en:
       update:
         success: Decision successfully updated
     gpdo:
+      policy_parts:
+        create:
+          success: GPDO part successfully created
+        destroy:
+          success: GPDO part successfully removed
+        edit:
+          title: Edit part
+        form:
+          name_hint: Enter part description
+          name_label: Description
+          number_hint: Enter part number
+          number_label: Part
+          remove: Remove
+          save: Save
+        index:
+          create_new_part: Create new part
+          title: Parts
+        new:
+          title: Create new part
+        table:
+          edit: Edit
+        update:
+          success: GPDO part successfully updated
       policy_schedules:
         create:
           success: GPDO schedule successfully created
@@ -284,9 +307,9 @@ en:
         edit:
           title: Edit schedule
         form:
-          name_hint: Enter the schedule name
-          name_label: Name
-          number_hint: Enter the schedule number
+          name_hint: Enter schedule description
+          name_label: Description
+          number_hint: Enter schedule number
           number_label: Number
           remove: Remove
           save: Save
