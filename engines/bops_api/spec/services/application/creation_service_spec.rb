@@ -535,6 +535,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           allow(ENV).to receive(:fetch).and_call_original
           allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
           params[:metadata][:source] = "BOPS production"
+          Rails.configuration.planx_file_production_api_key = "G41sAys9uPMUVBH5WUKsYE4H"
         end
 
         it "calls the post application to staging job" do

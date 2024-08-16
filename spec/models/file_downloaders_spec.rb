@@ -14,7 +14,7 @@ RSpec.describe FileDownloaders, type: :model do
 
   before do
     stubbed_request.to_return(response)
-    subject.get(url)
+    subject.get(url: url)
   end
 
   describe FileDownloaders::BasicAuthentication do

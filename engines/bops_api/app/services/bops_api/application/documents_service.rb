@@ -28,7 +28,7 @@ module BopsApi
           raise Errors::FileDownloaderNotConfiguredError, "Please configure the file downloader for API user '#{user.id}'"
         end
 
-        file = user.file_downloader.get(url)
+        file = user.file_downloader.get(url: url, from_production: planning_application.from_production?)
         name = URI.decode_uri_component(File.basename(URI.parse(url).path))
 
         planning_application.documents.create! do |document|

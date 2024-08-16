@@ -26,12 +26,16 @@ module FileDownloaders
       raise NotImplementedError, "Subclasses of BaseDownloader need to implement #authenticate"
     end
 
-    def get(url)
+    def get(url:, from_production: false)
       Tempfile.new("bops-document-download", encoding: "ascii-8bit").tap do |file|
         uri = URI.parse(url)
 
         connection = Faraday.new(uri.origin) do |faraday|
-          authenticate(faraday)
+          if from_production
+            faraday.headers["api-key"] = Rails.configuration.planx_file_production_api_key
+          else
+            authenticate(faraday)
+          end
 
           faraday.response :raise_error
         end
