@@ -5,7 +5,7 @@ module BopsConfig
     class PolicySchedulesController < ApplicationController
       before_action :build_policy_schedule, only: %i[new create]
       before_action :set_policy_schedules, only: %i[index]
-      before_action :set_policy_schedule, only: %i[show edit update destroy]
+      before_action :set_policy_schedule, only: %i[edit update destroy]
 
       def index
         respond_to do |format|
@@ -86,7 +86,7 @@ module BopsConfig
       end
 
       def set_policy_schedules
-        @schedules = PolicySchedule.all
+        @schedules = PolicySchedule.by_number
       end
 
       def policy_schedule_number
