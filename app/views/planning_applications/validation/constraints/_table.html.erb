@@ -13,20 +13,23 @@
             Source
           </th>
         <% end %>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-          Action
-        </th>
+        <% if show_action %>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+            Action
+          </th>
+        <% end %>
       </tr>
     </thead>
 
     <tbody class="govuk-table__body">
         <% planning_application_constraints.each do |planning_application_constraint| %>
           <%= render(
-                partial: "row",
+                partial: "planning_applications/validation/constraints/row",
                 locals: {
                   planning_application_constraint: planning_application_constraint,
                   show_source: show_source,
-                  show_entity: show_entity
+                  show_entity: show_entity,
+                  show_action: show_action
                 }
               ) %>
         <% end %>

@@ -32,6 +32,17 @@
       <%= govuk_tabs do |tabs| %>
         <% tabs.with_tab(label: @planning_application.constraints_checked? ? "Constraints (#{@planning_application.planning_application_constraints.count})" : "Constraints (0)", id: "constraints")  do %>
           <h2 class="govuk-heading-m"><%= @planning_application.constraints_checked? ? "Constraints (#{@planning_application.planning_application_constraints.count})" : "Constraints (0)" %></h2>
+          <%= render(
+                partial: "planning_applications/validation/constraints/table",
+                locals: {
+                  title: "Identified constraints",
+                  identifier: "identified",
+                  planning_application_constraints: @planning_application.planning_application_constraints,
+                  show_source: true,
+                  show_entity: true,
+                  show_action: false
+                }
+              ) %>
         <% end %>
         <% tabs.with_tab(label: (@planning_application&.consultation&.neighbour_responses&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbour_responses.count})" : "Neighbours (0)", id: "neighbours")  do %>
           <h2 class="govuk-heading-m"><%= (@planning_application&.consultation&.neighbour_responses&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbour_responses.count})" : "Neighbours (0)" %></h2>
