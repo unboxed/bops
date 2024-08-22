@@ -251,6 +251,12 @@ en:
               invalid: Enter a valid url for the legislation
             title:
               blank: Enter a title for the legislation
+        new_policy_class:
+          attributes:
+            name:
+              blank: Enter a description for the class
+            section:
+              blank: Enter a section for the class
         planning_application:
           attributes:
             application_type_id:

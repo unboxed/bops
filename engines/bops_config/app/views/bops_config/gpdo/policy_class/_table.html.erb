@@ -1,9 +1,9 @@
-<% if @parts.any? %>
+<% if @policy_classes.any? %>
   <table class="govuk-table application-types-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">
-          Part
+          Class
         </th>
         <th scope="col" class="govuk-table__header">
           Description
@@ -15,16 +15,16 @@
     </thead>
 
     <tbody class="govuk-table__body">
-      <% @parts.each do |part| %>
+      <% @policy_classes.each do |policy_class| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <%= part.number %>
+            <%= policy_class.section %>
           </td>
           <td class="govuk-table__cell">
-            <%= govuk_link_to part.name, gpdo_policy_schedule_policy_part_policy_class_index_path(@schedule.number, part.number) %>
+            <%= policy_class.name %>
           </td>
           <td class="govuk-table__cell">
-            <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_policy_part_path(part.policy_schedule.number, part.number) %>
+            <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_policy_part_policy_class_path(@schedule.number, @part.number, policy_class.section) %>
           </td>
         </tr>
       <% end %>

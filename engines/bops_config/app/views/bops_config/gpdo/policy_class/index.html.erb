@@ -5,16 +5,21 @@
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "GPDO", gpdo_policy_schedules_path %>
 <% add_parent_breadcrumb_link "Schedule #{@schedule.number}", gpdo_policy_schedules_path %>
+<% add_parent_breadcrumb_link "Part #{@part.number}", gpdo_policy_schedule_policy_part_policy_class_index_path(@schedule.number, @part.number) %>
 
 <% content_for :title, t(".title") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
-      <%= @schedule.full_name %>
+      Part <%= @part.number %>
+      <span class="govuk-caption-l">
+        <%= @part.name %>
+      </span>
     </h1>
+
     <p class="govuk-body">
-      <%= govuk_button_link_to t(".create_new"), new_gpdo_policy_schedule_policy_part_path(@schedule.number, @part) %>
+      <%= govuk_button_link_to t(".create_new"), new_gpdo_policy_schedule_policy_part_policy_class_path(@schedule.number, @part.number) %>
     </p>
     <%= render "table" %>
     <%= govuk_button_link_to t("back"), gpdo_policy_schedules_path, secondary: true %>

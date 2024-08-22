@@ -233,7 +233,7 @@ RSpec.describe "GPDO", type: :system do
       let(:part2) { create(:policy_part, number: 2, name: "Minor operations", policy_schedule: schedule) }
       let!(:policy_class) { create(:new_policy_class, policy_part: part2) }
 
-      it "allows deleting the legislation when no policy part is associated", :capybara do
+      it "allows deleting the part when no policy classes are associated", :capybara do
         visit "/gpdo/schedule/2/part/1/edit"
         accept_confirm(text: "Are you sure?") do
           click_link("Remove")
@@ -245,6 +245,142 @@ RSpec.describe "GPDO", type: :system do
 
       it "does not allow deleting the part when a policy class is associated" do
         visit "/gpdo/schedule/2/part/2/edit"
+        expect(page).not_to have_link("Remove")
+      end
+    end
+  end
+
+  context "when managing policy classes" do
+    let!(:part) { create(:policy_part, number: 1, name: "Development within the curtilage of a dwellinghouse", policy_schedule: schedule) }
+    let!(:policy_classA) { create(:new_policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part) }
+    let!(:policy_classAA) { create(:new_policy_class, section: "AA", name: "enlargement of a dwellinghouse by construction of additional storeys", policy_part: part) }
+    let!(:policy_classB) { create(:new_policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part) }
+
+    it "allows viewing and creating the policy classes" do
+      click_link "GPDO"
+      click_link "Schedule 2"
+      click_link "Development within the curtilage of a dwellinghouse"
+
+      within(".govuk-breadcrumbs__list") do
+        expect(page).to have_link("GPDO")
+        expect(page).to have_link("Schedule 2")
+        expect(page).to have_link("Part 1")
+        expect(page).to have_content("Classes")
+      end
+
+      expect(page).to have_selector("h1", text: "Part 1")
+      expect(page).to have_selector("span.govuk-caption-l", text: "Development within the curtilage of a dwellinghouse")
+
+      within(".govuk-table") do
+        within "thead > tr:first-child" do
+          expect(page).to have_selector("th:nth-child(1)", text: "Class")
+          expect(page).to have_selector("th:nth-child(2)", text: "Description")
+          expect(page).to have_selector("th:nth-child(3)", text: "Action")
+        end
+
+        within "tbody" do
+          within "tr:nth-child(1)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "A")
+            expect(page).to have_selector("td:nth-child(2)", text: "enlargement, improvement or other alteration of a dwellinghouse")
+            within "td:nth-child(3)" do
+              expect(page).to have_link(
+                "Edit",
+                href: "/gpdo/schedule/#{schedule.number}/part/#{part.number}/class/#{policy_classA.section}/edit"
+              )
+            end
+          end
+          within "tr:nth-child(2)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "AA")
+            expect(page).to have_selector("td:nth-child(2)", text: "enlargement of a dwellinghouse by construction of additional storeys")
+            within "td:nth-child(3)" do
+              expect(page).to have_link(
+                "Edit",
+                href: "/gpdo/schedule/#{schedule.number}/part/#{part.number}/class/#{policy_classAA.section}/edit"
+              )
+            end
+          end
+          within "tr:nth-child(3)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "B")
+            expect(page).to have_selector("td:nth-child(2)", text: "additions etc to the roof of a dwellinghouse")
+            within "td:nth-child(3)" do
+              expect(page).to have_link(
+                "Edit",
+                href: "/gpdo/schedule/#{schedule.number}/part/#{part.number}/class/#{policy_classB.section}/edit"
+              )
+            end
+          end
+        end
+      end
+
+      click_link "Create new class"
+      expect(page).to have_link("Back", href: "/gpdo/schedule/2/part/1/class")
+      click_button "Save"
+      expect(page).to have_selector("[role=alert] li", text: "Enter a section for the class")
+      expect(page).to have_selector("[role=alert] li", text: "Enter a description for the class")
+      fill_in "Link (optional)", with: "invalid link"
+      click_button "Save"
+      expect(page).to have_selector("[role=alert] li", text: "Url is invalid")
+      fill_in "Class", with: "C"
+      fill_in "Description", with: "other alterations to the roof of a dwellinghouse"
+      fill_in "Link (optional)", with: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-c-other-alterations-to-the-roof-of-a-dwellinghouse"
+      click_button "Save"
+
+      expect(page).to have_content("GPDO class successfully created")
+
+      within(".govuk-table") do
+        within "tbody" do
+          within "tr:nth-child(4)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "C")
+            expect(page).to have_selector("td:nth-child(2)", text: "other alterations to the roof of a dwellinghouse")
+          end
+        end
+      end
+    end
+
+    it "allows editing the policy class" do
+      visit "/gpdo/schedule/2/part/1/class/B/edit"
+      within(".govuk-breadcrumbs__list") do
+        expect(page).to have_link("GPDO")
+        expect(page).to have_link("Schedule 2")
+        expect(page).to have_link("Part 1")
+        expect(page).to have_content("Edit class")
+      end
+
+      expect(page).to have_selector("h1", text: "Edit class")
+      expect(page).to have_link("Back", href: "/gpdo/schedule/2/part/1/class")
+
+      expect(page).to have_selector("#new-policy-class-section-field[readonly]")
+      fill_in "Description", with: "other alterations to the roof of a dwellinghouse"
+      fill_in "Link (optional)", with: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-c-other-alterations-to-the-roof-of-a-dwellinghouse"
+      click_button "Save"
+
+      expect(page).to have_content("GPDO class successfully updated")
+
+      within(".govuk-table") do
+        within "tbody" do
+          within "tr:nth-child(3)" do
+            expect(page).to have_selector("td:nth-child(1)", text: "B")
+            expect(page).to have_selector("td:nth-child(2)", text: "other alterations to the roof of a dwellinghouse")
+          end
+        end
+      end
+    end
+
+    context "when deleting the policy class" do
+      let!(:policy_section) { create(:policy_section, new_policy_class: policy_classAA) }
+
+      it "allows deleting the policy class when no policy sections are associated", :capybara do
+        visit "/gpdo/schedule/2/part/1/class/A/edit"
+        accept_confirm(text: "Are you sure?") do
+          click_link("Remove")
+        end
+
+        expect(page).to have_content("GPDO class successfully removed")
+        expect(page).not_to have_content("enlargement, improvement or other alteration of a dwellinghouse")
+      end
+
+      it "does not allow deleting the policy class when a policy section is associated" do
+        visit "/gpdo/schedule/2/part/1/class/AA/edit"
         expect(page).not_to have_link("Remove")
       end
     end
