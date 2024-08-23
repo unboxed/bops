@@ -36,6 +36,26 @@ RSpec.describe "Reviewing Tasks Index" do
       expect(page).to have_title("Review and sign-off")
       expect(page).to have_content("Assessor recommendation To grant")
 
+      within("#constraints") do
+        expect(page).to have_selector("h2", text: "Constraints (0)")
+        expect(page).to have_selector("p", text: "No constraints have been added or identified")
+      end
+
+      within("#neighbours") do
+        expect(page).to have_selector("h2", text: "Neighbours (0)")
+        expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/consultation/neighbour_responses")
+      end
+
+      within("#consultees") do
+        expect(page).to have_selector("h2", text: "Consultees (0)")
+        expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/consultee/responses")
+      end
+
+      within("#documents") do
+        expect(page).to have_selector("h2", text: "Documents (0)")
+        expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/documents")
+      end
+
       click_on "Back"
 
       expect(page).to have_title("Planning Application")
