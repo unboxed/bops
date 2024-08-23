@@ -51,10 +51,11 @@
               <%= govuk_link_to "Show details", planning_application_consultation_neighbour_responses_path(@planning_application) %>
             </p>
           <% end %>
-          <% tabs.with_tab(label: (@planning_application.consultation.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)", id: "consultees")  do %>
-            <h2 class="govuk-heading-m"><%= (@planning_application.consultation.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)" %></h2>
+          <% tabs.with_tab(label: (@planning_application.consultation&.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)", id: "consultees")  do %>
+            <h2 class="govuk-heading-m"><%= (@planning_application.consultation&.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)" %></h2>
+            <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @planning_application&.consultation, show_assign: false %>
             <p class="govuk-body">
-              <%= govuk_link_to "Show details", planning_application_consultees_responses_path(@planning_application) %>
+              <%= govuk_link_to "Show details", planning_application_consultees_path(@planning_application) %>
             </p>
           <% end %>
         <% end %>
