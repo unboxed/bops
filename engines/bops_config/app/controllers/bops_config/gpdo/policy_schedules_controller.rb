@@ -2,7 +2,7 @@
 
 module BopsConfig
   module Gpdo
-    class PolicySchedulesController < ApplicationController
+    class PolicySchedulesController < BaseController
       before_action :build_policy_schedule, only: %i[new create]
       before_action :set_policy_schedules, only: %i[index]
       before_action :set_policy_schedule, only: %i[edit update destroy]
@@ -81,18 +81,8 @@ module BopsConfig
         @schedule = PolicySchedule.new
       end
 
-      def set_policy_schedule
-        @schedule = PolicySchedule.find_by_number(policy_schedule_number)
-      end
-
-      def set_policy_schedules
-        @schedules = PolicySchedule.by_number
-      end
-
-      def policy_schedule_number
-        Integer(params[:number])
-      rescue
-        raise ActionController::BadRequest, "Invalid policy schedule number: #{params[:number].inspect}"
+      def policy_schedule_number_params
+        params[:number]
       end
     end
   end

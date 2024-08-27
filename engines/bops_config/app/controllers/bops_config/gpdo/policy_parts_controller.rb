@@ -2,7 +2,7 @@
 
 module BopsConfig
   module Gpdo
-    class PolicyPartsController < ApplicationController
+    class PolicyPartsController < BaseController
       before_action :set_policy_schedule
       before_action :build_policy_part, only: %i[new create]
       before_action :set_policy_parts, only: %i[index]
@@ -41,7 +41,7 @@ module BopsConfig
       def update
         respond_to do |format|
           format.html do
-            if @part.update(policy_part_params.except(:number))
+            if @part.update(policy_part_params)
               redirect_to gpdo_policy_schedule_policy_parts_path, notice: t(".success")
             else
               render :edit
@@ -64,14 +64,12 @@ module BopsConfig
 
       private
 
-      def policy_schedule_number
-        Integer(params[:policy_schedule_number])
-      rescue
-        raise ActionController::BadRequest, "Invalid policy schedule number: #{params[:number].inspect}"
+      def policy_schedule_number_params
+        params[:policy_schedule_number]
       end
 
-      def set_policy_schedule
-        @schedule = PolicySchedule.find_by_number(policy_schedule_number)
+      def policy_part_number_params
+        params[:number]
       end
 
       def policy_part_params
@@ -88,16 +86,6 @@ module BopsConfig
 
       def set_policy_part
         @part = set_policy_parts.find_by_number(policy_part_number)
-      end
-
-      def set_policy_parts
-        @parts = @schedule.policy_parts
-      end
-
-      def policy_part_number
-        Integer(params[:number])
-      rescue
-        raise ActionController::BadRequest, "Invalid policy part number: #{params[:number].inspect}"
       end
     end
   end

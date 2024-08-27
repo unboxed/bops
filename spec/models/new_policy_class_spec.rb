@@ -9,19 +9,30 @@ RSpec.describe NewPolicyClass, type: :model do
     describe "#section" do
       it "validates presence" do
         policy_class.section = nil
-        expect { policy_class.valid? }.to change { policy_class.errors[:section] }.to ["can't be blank"]
+        expect { policy_class.valid? }.to change { policy_class.errors[:section] }.to ["Enter a section for the class"]
       end
 
       it "validates uniqueness within scope of policy_part_id" do
         create(:new_policy_class, section: policy_class.section, policy_part: policy_class.policy_part)
         expect { policy_class.valid? }.to change { policy_class.errors[:section] }.to ["has already been taken"]
       end
+
+      it "section is a readonly attribute" do
+        policy_class.section = "AA"
+        policy_class.save
+
+        expect {
+          policy_class.update(section: "B")
+        }.to raise_error(ActiveRecord::ReadonlyAttributeError)
+
+        expect(policy_class.reload.section).to eq("AA")
+      end
     end
 
     describe "#name" do
       it "validates presence" do
         policy_class.name = nil
-        expect { policy_class.valid? }.to change { policy_class.errors[:name] }.to ["can't be blank"]
+        expect { policy_class.valid? }.to change { policy_class.errors[:name] }.to ["Enter a description for the class"]
       end
     end
 

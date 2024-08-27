@@ -276,6 +276,31 @@ en:
       update:
         success: Decision successfully updated
     gpdo:
+      policy_class:
+        create:
+          success: GPDO class successfully created
+        destroy:
+          success: GPDO class successfully removed
+        edit:
+          title: Edit class
+        form:
+          name_hint: Enter class description
+          name_label: Description
+          remove: Remove
+          save: Save
+          section_hint: Enter class or section within the part, such as "A, AA, B"
+          section_label: Class
+          url_hint: Enter an optional link to the General Permitted Development Order
+          url_label: Link (optional)
+        index:
+          create_new: Create new class
+          title: Classes
+        new:
+          title: Create new class
+        table:
+          edit: Edit
+        update:
+          success: GPDO class successfully updated
       policy_parts:
         create:
           success: GPDO part successfully created
@@ -291,7 +316,7 @@ en:
           remove: Remove
           save: Save
         index:
-          create_new_part: Create new part
+          create_new: Create new part
           title: Parts
         new:
           title: Create new part
@@ -314,7 +339,7 @@ en:
           remove: Remove
           save: Save
         index:
-          create_new_schedule: Create new schedule
+          create_new: Create new schedule
           title: Schedules
         new:
           title: Create new schedule
