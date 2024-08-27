@@ -8,7 +8,7 @@ module Api
       def show
         raise ActiveRecord::RecordNotFound unless planning_application
         document = planning_application.documents.for_publication.find(params[:id])
-        redirect_to rails_public_blob_url(document.file)
+        redirect_to rails_public_blob_url(document.file), allow_other_host: true
       end
 
       def tags
