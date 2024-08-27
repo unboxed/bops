@@ -2,6 +2,7 @@
 
 # Ignore git directory.
 /.git/
+/.gitignore
 
 # Ignore bundler config.
 /.bundle
@@ -9,6 +10,12 @@
 # Ignore all environment files (except templates).
 /.env*
 !/.env*.erb
+
+# Ignore CI service files.
+/.github
+
+# Ignore development files
+/.devcontainer
 
 # Ignore all default key files.
 /config/master.key
@@ -36,11 +43,14 @@
 !/app/assets/builds/.keep
 /public/assets
 
-/.dockerignore
-/Dockerfile.production
-/docker/*/Dockerfile
-docker-compose.yml
 /bops-applicants
 /deploy
 /pkg
 /.cache
+
+# Ignore Docker-related files
+/.dockerignore
+/Dockerfile*
+/Dockerfile.production
+/docker/*/Dockerfile
+docker-compose.yml
