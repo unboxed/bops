@@ -1,0 +1,38 @@
+<% if neighbours.any? %>
+  <%= tag.table(class: ["govuk-table", "reviewer-neighbours-table"]) do %>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Address list</th>
+        <th scope="col" class="govuk-table__header">Status</th>
+        <th scope="col" class="govuk-table__header">Response</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% neighbours.each do |neighbour| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= neighbour.address&.upcase %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if neighbour.last_letter.blank? %>
+              <%= render(StatusTags::LetterComponent.new(status: "new")) %>
+            <% else %>
+              <%= render(StatusTags::LetterComponent.new(status: NeighbourLetter::STATUSES[neighbour.last_letter.status&.to_sym])) %>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <% neighbour.neighbour_responses.each do |response| %>
+              <% response.tags.each do |tag| %>
+                <div class="govuk-!-margin-bottom-3">
+                  <strong class="govuk-tag govuk-tag--grey"><%= tag.humanize.upcase %></strong>
+                </div>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+    </tbody>
+  <% end %>
+<% else %>
+  You have not selected any neighbours. <%= link_to "Go back and to select and add neighbours", planning_application_consultation_neighbours_path(@planning_application) %>
+<% end %>
