@@ -10,15 +10,17 @@
         <% end %>
       </h3>
     </div>
-    <div class="status-panel" id="consultation-end-date">
-      <p class="govuk-body">Consultation end</p>
-      <% if @planning_application.consultation.present? && @planning_application.consultation.end_date.present? %>
-        <h3 class="govuk-heading-s"><%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %></h3>
-        <p class="govuk-body"><span id="edit-consultation-end-date"><%= govuk_link_to "Change", edit_planning_application_consultation_path(@planning_application) %></span></p>
-      <% else %>
-        <h3 class="govuk-heading-s">Not yet started</h3>
-      <% end %>
-    </div>
+    <% if @planning_application.application_type.consultation? %>
+      <div class="status-panel" id="consultation-end-date">
+        <p class="govuk-body">Consultation end</p>
+        <% if @planning_application.consultation.present? && @planning_application.consultation.end_date.present? %>
+          <h3 class="govuk-heading-s"><%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %></h3>
+          <p class="govuk-body"><span id="edit-consultation-end-date"><%= govuk_link_to "Change", edit_planning_application_consultation_path(@planning_application) %></span></p>
+        <% else %>
+          <h3 class="govuk-heading-s">Not yet started</h3>
+        <% end %>
+      </div>
+    <% end %>
     <div class="status-panel" id="expiry-date">
       <p class="govuk-body"><%= @planning_application.next_date_label %></p>
       <h3 class="govuk-heading-s"><%= @planning_application.next_date.to_fs(:day_month_year_slashes) %></h3>
