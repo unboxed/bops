@@ -8,6 +8,7 @@ RSpec.describe "Reviewing Tasks Index" do
   let!(:planning_application) do
     create(
       :planning_application,
+      :planning_permission,
       :awaiting_determination,
       local_authority: default_local_authority
     )
@@ -59,6 +60,29 @@ RSpec.describe "Reviewing Tasks Index" do
       click_on "Back"
 
       expect(page).to have_title("Planning Application")
+    end
+
+    context "when application type does not support consultation" do
+      let!(:planning_application) do
+        create(
+          :planning_application,
+          :lawfulness_certificate,
+          :awaiting_determination,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "does not show consultation sections in the review task" do
+        create(:recommendation, planning_application:)
+        visit "/planning_applications/#{planning_application.reference}"
+
+        click_on "Review and sign-off"
+
+        expect(page).to have_css("#constraints")
+        expect(page).not_to have_css("#neighbours")
+        expect(page).not_to have_css("#consultees")
+        expect(page).to have_css("#documents")
+      end
     end
 
     it "without awaiting determination there is no navigation" do
