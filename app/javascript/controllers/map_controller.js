@@ -56,7 +56,7 @@ export default class extends Controller {
     let fillColor = "#ff7800"
     if (summary_tag === "supportive") {
       fillColor = "#78ff00"
-    } else if (summary_tag === "objecton") {
+    } else if (summary_tag === "objection") {
       fillColor = "#ff0078"
     }
 
