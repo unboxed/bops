@@ -47,4 +47,10 @@ class SiteMapComponent < ViewComponent::Base
       .post_validation
       .last
   end
+
+  def neighbours_layers
+    planning_application.consultation && planning_application.consultation.neighbour_responses
+      .group_by { |response| response.summary_tag.to_sym }
+      .transform_values { |responses| responses.map { |response| RGeo::GeoJSON.encode(response.neighbour.lonlat) }.compact }
+  end
 end
