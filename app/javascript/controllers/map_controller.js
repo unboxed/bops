@@ -53,22 +53,20 @@ export default class extends Controller {
   }
 
   buildNeighboursLayer(neighboursList, summary_tag) {
-    let fillColor = "#ff7800"
-    if (summary_tag === "supportive") {
-      fillColor = "#78ff00"
-    } else if (summary_tag === "objection") {
-      fillColor = "#ff0078"
-    } else if (summary_tag === "no_response") {
-      fillColor = "#dddddd"
+    const colours = {
+      supportive: { fill: "#cce2d8", border: "#005a30" },
+      neutral: { fill: "#fff7bf", border: "#594d00" },
+      objection: { fill: "#f6d7d2", border: "#942514" },
+      no_response: { fill: "#d2e2f1", border: "#003078" },
     }
 
     const neighbourMarkerOptions = {
       radius: 8,
-      fillColor,
-      color: "#000",
+      fillColor: colours[summary_tag].fill,
+      color: colours[summary_tag].border,
       weight: 1,
       opacity: 1,
-      fillOpacity: 0.8,
+      fillOpacity: 1,
     }
 
     const neighboursCollection = {
