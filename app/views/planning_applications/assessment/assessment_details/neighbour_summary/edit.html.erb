@@ -20,79 +20,11 @@
 
       <% NeighbourResponse::TAGS.each_with_index do |tag, index| %>
         <% next if @neighbour_responses.select { |response| response.tags.include? tag.to_s }.none? %>
-        <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="neighbour-response-accordion">
-          <div class="govuk-accordion__section">
-            <div class="govuk-accordion__section-header">
-              <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>">
-                  <%= "#{tag.to_s.humanize} responses (#{@neighbour_responses.count { |response| response.tags.include? tag.to_s }})" %>
-                </span>
-              </h2>
-            </div>
-            <div id="accordion-default-content-<%= index %>" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-no-tag">
-              <% @neighbour_responses.select { |response| response.tags.include? tag.to_s }.group_by { |response| response.summary_tag }.each do |opinion, resp| %>
-                <div class="neighbour-response">
-                  <% resp.each do |response| %>
-                    <div class="neighbour-response-section">
-                      <div class="govuk-inset-text">
-                        <div class="neighbour-response-top-section">
-                          <div class="neighbour-response-content">
-                            <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
-                            <% if response.neighbour.selected? %>
-                              <strong class="govuk-tag app-task-list__task-tag govuk-!-margin-left-1">Adjoining neighbour</strong>
-                            <% end %>
-                            <br><br>
-                            <ul class="govuk-list">
-                              <li>
-                                <strong><%= response.name %></strong> <span class="govuk-hint"><%= response.email %></span>
-                              </li>
-                              <li class="govuk-hint">
-                                <%= response.neighbour.address %>
-                              </li>
-                              <li class="govuk-hint">
-                                Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
-                              </li>
-                            </ul>
-                            <%= render ShowMoreTextComponent.new(text: response.comment, length: 100) %>
-                          </div>
-                          <div class="neighbour-tags">
-                            <% response.tags.each do |tag| %>
-                              <div class="govuk-!-margin-bottom-3">
-                                <strong class="govuk-tag govuk-tag--grey"><%= tag.humanize.upcase %></strong>
-                              </div>
-                            <% end %>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-
-        <%= form.govuk_text_area(
-              :"#{tag}",
-              label: {text: "Summary of #{tag.to_s.humanize.downcase} comments", size: "m"},
-              rows: 10,
-              value: (@assessment_detail.entry[/(?<=#{tag.to_s.humanize}:)(.*)/] unless @assessment_detail.entry.nil?)
-            ) %>
-      <% end %>
-
-      <% if @neighbour_responses.without_tags.any? %>
-        <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="neighbour-response-accordion">
-          <div class="govuk-accordion__section">
-            <div class="govuk-accordion__section-header">
-              <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-no-tag">
-                  <%= "Untagged responses (#{@neighbour_responses.without_tags.count})" %>
-                </span>
-              </h2>
-            </div>
-            <% @neighbour_responses.without_tags.each_with_index do |response, index| %>
+        <%= govuk_accordion(html_attributes: {id: "neighbour-response-accordion"}) do |accordion| %>
+          <% accordion.with_section(heading_text: "#{tag.to_s.humanize} responses (#{@neighbour_responses.count { |response| response.tags.include? tag.to_s }})") do %>
+            <% @neighbour_responses.select { |response| response.tags.include? tag.to_s }.group_by { |response| response.summary_tag }.each do |opinion, resp| %>
               <div class="neighbour-response">
-                <div id="accordion-default-content-<%= index %>" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-no-tag">
+                <% resp.each do |response| %>
                   <div class="neighbour-response-section">
                     <div class="govuk-inset-text">
                       <div class="neighbour-response-top-section">
@@ -115,14 +47,64 @@
                           </ul>
                           <%= render ShowMoreTextComponent.new(text: response.comment, length: 100) %>
                         </div>
+                        <div class="neighbour-tags">
+                          <% response.tags.each do |tag| %>
+                            <div class="govuk-!-margin-bottom-3">
+                              <strong class="govuk-tag govuk-tag--grey"><%= tag.humanize.upcase %></strong>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= form.govuk_text_area(
+              :"#{tag}",
+              label: {text: "Summary of #{tag.to_s.humanize.downcase} comments", size: "m"},
+              rows: 10,
+              value: (@assessment_detail.entry[/(?<=#{tag.to_s.humanize}:)(.*)/] unless @assessment_detail.entry.nil?)
+            ) %>
+      <% end %>
+
+      <% if @neighbour_responses.without_tags.any? %>
+        <%= govuk_accordion(html_attributes: {id: "neighbour-response-accordion"}) do |accordion| %>
+          <% accordion.with_section(heading_text: "Untagged responses (#{@neighbour_responses.without_tags.count})") do %>
+            <% @neighbour_responses.without_tags.each_with_index do |response, index| %>
+              <div class="neighbour-response">
+                <div class="neighbour-response-section">
+                  <div class="govuk-inset-text">
+                    <div class="neighbour-response-top-section">
+                      <div class="neighbour-response-content">
+                        <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
+                        <% if response.neighbour.selected? %>
+                          <strong class="govuk-tag app-task-list__task-tag govuk-!-margin-left-1">Adjoining neighbour</strong>
+                        <% end %>
+                        <br><br>
+                        <ul class="govuk-list">
+                          <li>
+                            <strong><%= response.name %></strong> <span class="govuk-hint"><%= response.email %></span>
+                          </li>
+                          <li class="govuk-hint">
+                            <%= response.neighbour.address %>
+                          </li>
+                          <li class="govuk-hint">
+                            Received on <%= response.received_at.to_fs(:day_month_year_slashes) %>
+                          </li>
+                        </ul>
+                        <%= render ShowMoreTextComponent.new(text: response.comment, length: 100) %>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             <% end %>
-          </div>
-        </div>
+          <% end %>
+        <% end %>
 
         <%= form.govuk_text_area(
               :untagged,

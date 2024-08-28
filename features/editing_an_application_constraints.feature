@@ -8,5 +8,5 @@ Feature: Editing an application's constraints
   Scenario: As an assessor I cannot add constraints past determination
     Given a recommendation is submitted for the planning application
     When I press "Check and assess"
-    And I press "Constraints"
+    And I click "Constraints"
     Then the page does not contain "Update constraints"

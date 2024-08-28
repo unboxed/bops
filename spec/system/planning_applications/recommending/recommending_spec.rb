@@ -257,7 +257,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
           click_link "Back"
 
-          click_button "Audit log"
+          find("#audit-log").click
           click_link "View all audits"
 
           expect(page).to have_text("Recommendation submitted")
@@ -367,7 +367,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         visit "/planning_applications/#{planning_application.reference}"
 
         # Check latest audit
-        click_button "Audit log"
+        find("#audit-log").click
 
         expect(page).to have_content("Recommendation submitted")
         expect(page).to have_text("Alice Aplin")
@@ -1059,7 +1059,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
           click_link "Back"
 
-          click_button "Audit log"
+          find("#audit-log").click
           click_link "View all audits"
 
           expect(page).to have_text("Recommendation submitted")

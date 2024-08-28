@@ -10,28 +10,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <% if @consultation && @consultation.consultees.present? %>
-      <h2 class="govuk-heading-m"><%= t(".responses") %></h3>
-      <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="consultation-responses">
-        <% @consultation.consultees.each do |consultee| %>
-          <div class="govuk-accordion__section">
-            <div class="govuk-accordion__section-header">
-              <h3 class="govuk-accordion__section-heading">
-                <button type="button"
-                        class="govuk-accordion__section-button"
-                        id="accordion-default-heading-<%= consultee.id %>">
-                          <%= consultee.name %>
-                </button>
-                <span class="govuk-accordion__icon"></span>
-              </h3>
-            </div>
-            <div class="govuk-accordion__section-content">
-              <% consultee.responses.each do |response| %>
-                <p class="govuk-body"><%= response.response %></p>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
+      <h2 class="govuk-heading-m"><%= t(".responses") %></h2>
+      <%= govuk_accordion(html_attributes: {id: "consultation-responses"}) do |accordion|
+            @consultation.consultees.each do |consultee|
+              accordion.with_section(heading_text: consultee.name) do
+                consultee.responses.map { |response| "<p class=\"govuk-body\">#{response.response}</p>" }.join
+              end
+            end
+          end %>
     <% end %>
 
     <h2 class="govuk-heading-m"><%= t(".heading") %></h2>
