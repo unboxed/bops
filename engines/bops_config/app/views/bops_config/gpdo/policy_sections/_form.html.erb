@@ -1,0 +1,19 @@
+<%= form_with model: [:gpdo, @schedule, @part, @policy_class, @policy_section], url: url do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_text_field :section, label: {text: t(".section_label")}, hint: {text: t(".section_hint")} %>
+  <%= form.govuk_text_field :title, label: {text: t(".title_label")}, hint: {text: t(".title_hint")} %>
+  <%= form.govuk_text_area :description, rows: 10, label: {text: t(".description_label")}, hint: {text: t(".description_hint")} %>
+
+  <%= form.govuk_submit(t(".save")) do %>
+    <% if action_name == "edit" && @policy_section.planning_application_policy_sections.none? %>
+      <%= govuk_button_link_to(t(".remove"),
+            gpdo_policy_schedule_policy_part_policy_class_policy_section_path(@schedule.number, @part.number, @policy_class.section, @policy_section.section),
+            warning: true,
+            method: :delete,
+            data: {confirm: "Are you sure?"}) %>
+      <% end %>
+  <% end %>
+
+  <%= govuk_button_link_to t("back"), gpdo_policy_schedule_policy_part_policy_class_policy_sections_path(@schedule.number, @part.number, @policy_class.section), secondary: true %>
+<% end %>

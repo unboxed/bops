@@ -73,10 +73,8 @@ module BopsConfig
         params[:policy_part_number]
       end
 
-      def policy_class_section
+      def policy_class_section_params
         params[:section]
-      rescue
-        raise ActionController::BadRequest, "Invalid policy class section: #{params[:section].inspect}"
       end
 
       def policy_class_params
@@ -93,10 +91,6 @@ module BopsConfig
 
       def set_policy_class
         @policy_class = set_policy_classes.find_by_section(policy_class_section)
-      end
-
-      def set_policy_classes
-        @policy_classes = @part.new_policy_classes
       end
 
       def set_policy_part

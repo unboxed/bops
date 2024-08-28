@@ -9,4 +9,10 @@ class PolicySection < ApplicationRecord
     validates :section, uniqueness: {scope: :new_policy_class}
     validates :description
   end
+
+  alias_method :policy_class, :new_policy_class
+
+  def full_section
+    "#{policy_class.section}.#{section}"
+  end
 end

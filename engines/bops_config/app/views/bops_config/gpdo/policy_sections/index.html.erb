@@ -1,0 +1,28 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "GPDO", gpdo_policy_schedules_path %>
+<% add_parent_breadcrumb_link "Schedule #{@schedule.number}", gpdo_policy_schedule_policy_parts_path(@schedule.number) %>
+<% add_parent_breadcrumb_link "Part #{@part.number}", gpdo_policy_schedule_policy_part_policy_class_index_path(@schedule.number, @part.number) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-m">Class <%= @policy_class.section %></span>
+    <h1 class="govuk-heading-l"><%= @policy_class.name %></h1>
+
+    <p class="govuk-body">
+      <%= govuk_button_link_to t(".create_new"), new_gpdo_policy_schedule_policy_part_policy_class_policy_section_path(@schedule.number, @part.number, @policy_class.section) %>
+    </p>
+    <section id="policy-sections">
+      <% @policy_sections.each do |policy_section| %>
+        <p class="govuk-body"><strong><%= policy_section.full_section %></strong></p>
+        <p class="govuk-body"><strong><%= policy_section.title %></strong></p>
+        <%= render(FormattedContentComponent.new(text: policy_section.description)) %>
+        <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_policy_part_policy_class_policy_section_path(@schedule.number, @part.number, @policy_class.section, policy_section.section) %>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <% end %>
+    </section>
+    <%= govuk_button_link_to t("back"), gpdo_policy_schedule_policy_parts_path(@schedule.number), secondary: true %>
+  </div>
+</div>

@@ -21,7 +21,7 @@
             <%= policy_class.section %>
           </td>
           <td class="govuk-table__cell">
-            <%= policy_class.name %>
+            <%= govuk_link_to policy_class.name, gpdo_policy_schedule_policy_part_policy_class_policy_sections_path(@schedule.number, @part.number, policy_class.section) %>
           </td>
           <td class="govuk-table__cell">
             <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_policy_part_policy_class_path(@schedule.number, @part.number, policy_class.section) %>
