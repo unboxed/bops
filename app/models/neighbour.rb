@@ -18,7 +18,7 @@ class Neighbour < ApplicationRecord
 
   validate :validate_address_format
 
-  after_save :update_lonlat, if: :saved_change_to_address?
+  after_save_commit :update_lonlat, if: :saved_change_to_address?
 
   accepts_nested_attributes_for :neighbour_responses
 
