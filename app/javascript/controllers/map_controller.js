@@ -58,6 +58,8 @@ export default class extends Controller {
       fillColor = "#78ff00"
     } else if (summary_tag === "objection") {
       fillColor = "#ff0078"
+    } else if (summary_tag === "no_response") {
+      fillColor = "#dddddd"
     }
 
     const neighbourMarkerOptions = {

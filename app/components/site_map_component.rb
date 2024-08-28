@@ -52,5 +52,13 @@ class SiteMapComponent < ViewComponent::Base
     planning_application.consultation && planning_application.consultation.neighbour_responses
       .group_by { |response| response.summary_tag.to_sym }
       .transform_values { |responses| responses.map { |response| RGeo::GeoJSON.encode(response.neighbour.lonlat) }.compact }
+      .merge(no_response: unresponsive_neighbours_layer)
+  end
+
+  def unresponsive_neighbours_layer
+    unresponsive_neighbours = planning_application.consultation.neighbours
+      .left_joins(:neighbour_responses).group(:id).having("count(neighbour_responses) = 0")
+
+    unresponsive_neighbours.map { |neighbour| RGeo::GeoJSON.encode(neighbour.lonlat) }.compact
   end
 end
