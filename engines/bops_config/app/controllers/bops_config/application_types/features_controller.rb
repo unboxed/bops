@@ -35,6 +35,7 @@ module BopsConfig
           :ownership_details,
           :planning_conditions,
           :permitted_development_rights,
+          :consultations_skip_bank_holidays,
           {consultation_steps: []}
         ]
       end
