@@ -257,9 +257,24 @@
               "required": [
                 "description"
               ]
+            },
+            "applicant": {
+              "type": "object",
+              "properties": {
+                "ownership": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/Ownership"
+                    },
+                    { "type": "null" }
+                  ]
+                }
+              },
+              "required": ["ownership"]
             }
           },
           "required": [
+            "applicant",
             "application",
             "property",
             "proposal"

@@ -17548,7 +17548,17 @@ components:
                     type: string
                 required:
                 - description
+              applicant:
+                type: object
+                properties:
+                  ownership:
+                    anyOf:
+                    - "$ref": "#/components/definitions/Ownership"
+                    - type: 'null'
+                required:
+                - ownership
             required:
+            - applicant
             - application
             - property
             - proposal
@@ -24411,6 +24421,13 @@ paths:
                               properties: {}
                       proposal:
                         description: householder extension
+                      applicant:
+                        ownership:
+                          interest: owner.sole
+                          certificate: a
+                          agriculturalTenants: false
+                          declaration:
+                            accurate: true
                     - application:
                         type:
                           value: pp.full.householder
@@ -24452,6 +24469,20 @@ paths:
                             properties: 
                       proposal:
                         description: Build a roof extension.
+                      applicant:
+                        ownership:
+                          interest: occupier
+                          owners:
+                          - interest: owner
+                            name: Matilda Wormwood
+                            address:
+                              town: Reading
+                              line1: 9, Library Way
+                              line2: ''
+                              county: ''
+                              country: UK
+                              postcode: L1T3R8Y
+                            noticeGiven: true
               schema:
                 "$ref": "#/components/schemas/Search"
   "/api/v2/public/planning_applications/{reference}/documents":
@@ -24625,6 +24656,13 @@ paths:
                               properties: {}
                       proposal:
                         description: householder extension
+                      applicant:
+                        ownership:
+                          interest: owner.sole
+                          certificate: a
+                          agriculturalTenants: false
+                          declaration:
+                            accurate: true
                     - application:
                         type:
                           value: pp.full.householder
@@ -24666,6 +24704,20 @@ paths:
                             properties: 
                       proposal:
                         description: Build a roof extension.
+                      applicant:
+                        ownership:
+                          interest: occupier
+                          owners:
+                          - interest: owner
+                            name: Matilda Wormwood
+                            address:
+                              town: Reading
+                              line1: 9, Library Way
+                              line2: ''
+                              county: ''
+                              country: UK
+                              postcode: L1T3R8Y
+                            noticeGiven: true
   "/api/v2/public/planning_applications/{reference}":
     get:
       summary: Retrieves a planning application

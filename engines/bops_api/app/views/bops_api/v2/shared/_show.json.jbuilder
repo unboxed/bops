@@ -21,3 +21,6 @@ end
 json.proposal do
   json.description planning_application.description
 end
+json.applicant do
+  json.ownership planning_application.applicant_interest
+end

@@ -86,6 +86,16 @@
       },
       "proposal": {
         "description": "householder extension"
+      },
+      "applicant": {
+        "ownership": {
+          "interest": "owner.sole",
+          "certificate": "a",
+          "agriculturalTenants": false,
+          "declaration": {
+            "accurate": true
+          }
+        }
       }
     },
     {
@@ -137,6 +147,26 @@
       },
       "proposal": {
         "description": "Build a roof extension."
+      },
+      "applicant": {
+        "ownership": {
+          "interest": "occupier",
+          "owners": [
+            {
+              "interest": "owner",
+              "name": "Matilda Wormwood",
+              "address": {
+                "town": "Reading",
+                "line1": "9, Library Way",
+                "line2": "",
+                "county": "",
+                "country": "UK",
+                "postcode": "L1T3R8Y"
+              },
+              "noticeGiven": true
+            }
+          ]
+        }
       }
     }
   ]
