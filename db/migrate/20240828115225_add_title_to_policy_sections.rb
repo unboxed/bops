@@ -2,6 +2,6 @@
 
 class AddTitleToPolicySections < ActiveRecord::Migration[7.1]
   def change
-    add_column :policy_sections, :title, :string
+    add_column :policy_sections, :title, :string, default: "Other", null: false
   end
 end

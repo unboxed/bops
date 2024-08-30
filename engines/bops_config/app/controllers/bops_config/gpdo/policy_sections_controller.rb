@@ -105,11 +105,13 @@ module BopsConfig
       end
 
       def set_policy_section
-        @policy_section = set_policy_sections.find_by_section(policy_section)
+        set_policy_sections
+        @policy_section = @policy_sections.find_by_section(policy_section)
       end
 
       def set_policy_sections
         @policy_sections = @policy_class.policy_sections
+        @grouped_policy_sections = @policy_sections.grouped_and_ordered_by_title
       end
 
       def redirect_path

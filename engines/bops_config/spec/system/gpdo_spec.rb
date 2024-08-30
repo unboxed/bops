@@ -392,9 +392,11 @@ RSpec.describe "GPDO", type: :system do
       expect(page).to have_selector("span.govuk-caption-m", text: "Class AA")
 
       within("#policy-sections") do
-        expect(page).to have_content("AA.1b(ii)")
-        expect(page).to have_content("Development not permitted")
-        expect(page).to have_content("if the dwellinghouse is located on a site of special scientific interest")
+        within(".govuk-summary-card#development-not-permitted") do
+          expect(page).to have_content("AA.1b(ii)")
+          expect(page).to have_content("Development not permitted")
+          expect(page).to have_content("if the dwellinghouse is located on a site of special scientific interest")
+        end
       end
 
       click_link "Create new policy section"
@@ -403,16 +405,18 @@ RSpec.describe "GPDO", type: :system do
       expect(page).to have_selector("[role=alert] li", text: "Enter a section for the policy section")
       expect(page).to have_selector("[role=alert] li", text: "Enter a description for the policy section")
       fill_in "Section", with: "1b(i)"
-      fill_in "Title", with: "Development not permitted"
+      select "Interpretation", from: "Title"
       fill_in "Description", with: "if the dwellinghouse is located on article 2(3) land"
       click_button "Save"
 
       expect(page).to have_content("Policy section successfully created")
 
       within("#policy-sections") do
-        expect(page).to have_content("AA.1b(i)")
-        expect(page).to have_content("Development not permitted")
-        expect(page).to have_content("if the dwellinghouse is located on article 2(3) land")
+        within(".govuk-summary-card#interpretation") do
+          expect(page).to have_content("AA.1b(i)")
+          expect(page).to have_content("Interpretation")
+          expect(page).to have_content("if the dwellinghouse is located on article 2(3) land")
+        end
       end
     end
 
@@ -429,12 +433,15 @@ RSpec.describe "GPDO", type: :system do
       expect(page).to have_link("Back", href: "/gpdo/schedule/2/part/1/class/AA/section")
 
       fill_in "Description", with: "if the dwellinghouse is located on a site of special environmental interest"
+      select "Conditions", from: "Title"
       click_button "Save"
 
       expect(page).to have_content("Policy section successfully updated")
 
       within("#policy-sections") do
-        expect(page).to have_content("if the dwellinghouse is located on a site of special environmental interest")
+        within(".govuk-summary-card#conditions") do
+          expect(page).to have_content("if the dwellinghouse is located on a site of special environmental interest")
+        end
       end
     end
 

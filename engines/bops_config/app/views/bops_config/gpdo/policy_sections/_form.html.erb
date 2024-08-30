@@ -1,8 +1,8 @@
 <%= form_with model: [:gpdo, @schedule, @part, @policy_class, @policy_section], url: url do |form| %>
   <%= form.govuk_error_summary %>
 
+  <%= form.govuk_select(:title, PolicySection::TITLES, label: {text: "Title"}, hint: {text: "Select a title for the section"}) %>
   <%= form.govuk_text_field :section, label: {text: t(".section_label")}, hint: {text: t(".section_hint")} %>
-  <%= form.govuk_text_field :title, label: {text: t(".title_label")}, hint: {text: t(".title_hint")} %>
   <%= form.govuk_text_area :description, rows: 10, label: {text: t(".description_label")}, hint: {text: t(".description_hint")} %>
 
   <%= form.govuk_submit(t(".save")) do %>

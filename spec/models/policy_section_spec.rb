@@ -31,5 +31,13 @@ RSpec.describe PolicySection, type: :model do
         expect { policy_section.valid? }.to change { policy_section.errors[:new_policy_class] }.to ["must exist"]
       end
     end
+
+    describe "#title" do
+      subject(:policy_section) { described_class.new(title: "invalid") }
+
+      it "validates inclusion" do
+        expect { policy_section.valid? }.to change { policy_section.errors[:title] }.to ["Select a valid title"]
+      end
+    end
   end
 end

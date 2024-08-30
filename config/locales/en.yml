@@ -305,6 +305,8 @@ en:
               blank: Enter a description for the policy section
             section:
               blank: Enter a section for the policy section
+            title:
+              inclusion: Select a valid title
         press_notice:
           attributes:
             documents:

@@ -856,7 +856,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_28_115225) do
     t.bigint "new_policy_class_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "title"
+    t.string "title", default: "Other", null: false
     t.index ["new_policy_class_id"], name: "ix_policy_sections_on_new_policy_class_id"
     t.index ["section", "new_policy_class_id"], name: "ix_policy_sections_on_section__new_policy_class_id", unique: true
   end
