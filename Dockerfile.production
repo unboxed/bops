@@ -72,6 +72,10 @@ RUN apt-get update -qq && \
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
+# Copy installed version of node
+ENV PATH=/usr/local/node/bin:$PATH
+COPY --from=build /usr/local/node /usr/local/node
+
 # Write a REVISION file for Appsignal
 ARG REVISION
 RUN echo -n "$REVISION" > REVISION
