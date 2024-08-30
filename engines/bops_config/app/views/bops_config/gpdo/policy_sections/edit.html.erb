@@ -5,6 +5,7 @@
 <% add_parent_breadcrumb_link "GPDO", gpdo_policy_schedules_path %>
 <% add_parent_breadcrumb_link "Schedule #{@schedule.number}", gpdo_policy_schedule_policy_parts_path(@schedule.number) %>
 <% add_parent_breadcrumb_link "Part #{@part.number}", gpdo_policy_schedule_policy_part_policy_class_index_path(@schedule.number, @part.number) %>
+<% add_parent_breadcrumb_link "Class #{@policy_class.section}", gpdo_policy_schedule_policy_part_policy_class_policy_sections_path(@schedule.number, @part.number, @policy_class.section) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
@@ -13,9 +14,9 @@
     </h1>
 
     <p class="govuk-body">
-      Part <%= @part.number %> - <%= @part.name %>
+      Class <%= @policy_class.section %> - <%= @policy_class.name %>
     </p>
 
-    <%= render "form", url: gpdo_policy_schedule_policy_part_policy_class_path(@schedule.number, @part.number, @policy_class.section) %>
+    <%= render "form", url: gpdo_policy_schedule_policy_part_policy_class_policy_section_path(@schedule.number, @part.number, @policy_class.section, @policy_section.section) %>
   </div>
 </div>

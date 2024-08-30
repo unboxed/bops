@@ -340,13 +340,37 @@ en:
           save: Save
         index:
           create_new: Create new schedule
-          title: Schedules
+          title: GPDO
         new:
           title: Create new schedule
         table:
           edit: Edit
         update:
           success: GPDO schedule successfully updated
+      policy_sections:
+        create:
+          success: Policy section successfully created
+        destroy:
+          success: Policy section successfully removed
+        edit:
+          title: Edit policy section
+        form:
+          description_hint: Enter a description of the section
+          description_label: Description
+          remove: Remove
+          save: Save
+          section_hint: Enter section number, such as "1a, 1d(ii), 2b(i)(aa)"
+          section_label: Section
+          title_hint: Enter section title, such as "Development not permitted, conditions"
+          title_label: Title
+        index:
+          create_new: Create new policy section
+          edit: Edit
+          title: Policy sections
+        new:
+          title: Create new policy section
+        update:
+          success: Policy section successfully updated
     legislation:
       create:
         success: Legislation successfully created

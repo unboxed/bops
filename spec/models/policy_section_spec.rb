@@ -9,7 +9,7 @@ RSpec.describe PolicySection, type: :model do
     describe "#section" do
       it "validates presence" do
         policy_section.section = nil
-        expect { policy_section.valid? }.to change { policy_section.errors[:section] }.to ["can't be blank"]
+        expect { policy_section.valid? }.to change { policy_section.errors[:section] }.to ["Enter a section for the policy section"]
       end
 
       it "validates uniqueness within scope of new_policy_class_id" do
@@ -21,7 +21,7 @@ RSpec.describe PolicySection, type: :model do
     describe "#description" do
       it "validates presence" do
         policy_section.description = nil
-        expect { policy_section.valid? }.to change { policy_section.errors[:description] }.to ["can't be blank"]
+        expect { policy_section.valid? }.to change { policy_section.errors[:description] }.to ["Enter a description for the policy section"]
       end
     end
 
@@ -29,6 +29,14 @@ RSpec.describe PolicySection, type: :model do
       it "validates presence" do
         policy_section.new_policy_class = nil
         expect { policy_section.valid? }.to change { policy_section.errors[:new_policy_class] }.to ["must exist"]
+      end
+    end
+
+    describe "#title" do
+      subject(:policy_section) { described_class.new(title: "invalid") }
+
+      it "validates inclusion" do
+        expect { policy_section.valid? }.to change { policy_section.errors[:title] }.to ["Select a valid title"]
       end
     end
   end

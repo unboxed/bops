@@ -2,12 +2,9 @@
   <%= t(".title") %> - <%= t("page_title") %>
 <% end %>
 
-<% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "GPDO", gpdo_policy_schedules_path %>
-<% add_parent_breadcrumb_link "Schedule #{@schedule.number}", gpdo_policy_schedules_path %>
+<% add_parent_breadcrumb_link "Schedule #{@schedule.number}", gpdo_policy_schedule_policy_parts_path(@schedule.number) %>
 <% add_parent_breadcrumb_link "Part #{@part.number}", gpdo_policy_schedule_policy_part_policy_class_index_path(@schedule.number, @part.number) %>
-
-<% content_for :title, t(".title") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">

@@ -13,12 +13,7 @@ RSpec.describe "GPDO", type: :system do
 
   it "allows viewing and creating the policy schedules" do
     click_link "GPDO"
-    expect(page).to have_selector("h1", text: "Schedules")
-
-    within(".govuk-breadcrumbs__list") do
-      expect(page).to have_link("GPDO")
-      expect(page).to have_content("Schedules")
-    end
+    expect(page).to have_selector("h1", text: "GPDO")
 
     within(".govuk-table") do
       within "thead > tr:first-child" do
@@ -44,8 +39,6 @@ RSpec.describe "GPDO", type: :system do
     click_link "Create new schedule"
     within(".govuk-breadcrumbs__list") do
       expect(page).to have_link("GPDO")
-      expect(page).to have_link("Schedules")
-      expect(page).to have_content("Create new schedule")
     end
     click_button "Save"
     expect(page).to have_selector("[role=alert] li", text: "Enter a number for the schedule")
@@ -85,8 +78,6 @@ RSpec.describe "GPDO", type: :system do
     visit "/gpdo/schedule/#{schedule.number}/edit"
     within(".govuk-breadcrumbs__list") do
       expect(page).to have_link("GPDO")
-      expect(page).to have_link("Schedules")
-      expect(page).to have_content("Edit schedule")
     end
 
     expect(page).to have_selector("h1", text: "Edit schedule")
@@ -138,11 +129,10 @@ RSpec.describe "GPDO", type: :system do
 
       within(".govuk-breadcrumbs__list") do
         expect(page).to have_link("GPDO")
-        expect(page).to have_link("Schedule 2")
-        expect(page).to have_content("Parts")
       end
 
-      expect(page).to have_selector("h1", text: "Schedule 2 - Permitted development rights")
+      expect(page).to have_selector("span.govuk-caption-m", text: "Schedule 2")
+      expect(page).to have_selector("h1", text: "Permitted development rights")
 
       within(".govuk-table") do
         within "thead > tr:first-child" do
@@ -207,8 +197,6 @@ RSpec.describe "GPDO", type: :system do
       within(".govuk-breadcrumbs__list") do
         expect(page).to have_link("GPDO")
         expect(page).to have_link("Schedule 2")
-        expect(page).to have_link("Parts")
-        expect(page).to have_content("Edit part")
       end
 
       expect(page).to have_selector("h1", text: "Edit part")
@@ -264,12 +252,10 @@ RSpec.describe "GPDO", type: :system do
       within(".govuk-breadcrumbs__list") do
         expect(page).to have_link("GPDO")
         expect(page).to have_link("Schedule 2")
-        expect(page).to have_link("Part 1")
-        expect(page).to have_content("Classes")
       end
 
-      expect(page).to have_selector("h1", text: "Part 1")
-      expect(page).to have_selector("span.govuk-caption-l", text: "Development within the curtilage of a dwellinghouse")
+      expect(page).to have_selector("h1", text: "Development within the curtilage of a dwellinghouse")
+      expect(page).to have_selector("span.govuk-caption-m", text: "Part 1")
 
       within(".govuk-table") do
         within "thead > tr:first-child" do
@@ -343,7 +329,6 @@ RSpec.describe "GPDO", type: :system do
         expect(page).to have_link("GPDO")
         expect(page).to have_link("Schedule 2")
         expect(page).to have_link("Part 1")
-        expect(page).to have_content("Edit class")
       end
 
       expect(page).to have_selector("h1", text: "Edit class")
@@ -381,6 +366,101 @@ RSpec.describe "GPDO", type: :system do
 
       it "does not allow deleting the policy class when a policy section is associated" do
         visit "/gpdo/schedule/2/part/1/class/AA/edit"
+        expect(page).not_to have_link("Remove")
+      end
+    end
+  end
+
+  context "when managing policy sections" do
+    let!(:part) { create(:policy_part, number: 1, name: "Development within the curtilage of a dwellinghouse", policy_schedule: schedule) }
+    let!(:policy_classAA) { create(:new_policy_class, section: "AA", name: "enlargement of a dwellinghouse by construction of additional storeys", policy_part: part) }
+    let!(:policy_section) { create(:policy_section, section: "1b(ii)", title: "Development not permitted", description: "if the dwellinghouse is located on a site of special scientific interest", new_policy_class: policy_classAA) }
+
+    it "allows viewing and creating the policy sections" do
+      click_link "GPDO"
+      click_link "Schedule 2"
+      click_link "Development within the curtilage of a dwellinghouse"
+      click_link "enlargement of a dwellinghouse by construction of additional storeys"
+
+      within(".govuk-breadcrumbs__list") do
+        expect(page).to have_link("GPDO")
+        expect(page).to have_link("Schedule 2")
+        expect(page).to have_link("Part 1")
+      end
+
+      expect(page).to have_selector("h1", text: "enlargement of a dwellinghouse by construction of additional storeys")
+      expect(page).to have_selector("span.govuk-caption-m", text: "Class AA")
+
+      within("#policy-sections") do
+        within(".govuk-summary-card#development-not-permitted") do
+          expect(page).to have_content("AA.1b(ii)")
+          expect(page).to have_content("Development not permitted")
+          expect(page).to have_content("if the dwellinghouse is located on a site of special scientific interest")
+        end
+      end
+
+      click_link "Create new policy section"
+      expect(page).to have_link("Back", href: "/gpdo/schedule/2/part/1/class/AA/section")
+      click_button "Save"
+      expect(page).to have_selector("[role=alert] li", text: "Enter a section for the policy section")
+      expect(page).to have_selector("[role=alert] li", text: "Enter a description for the policy section")
+      fill_in "Section", with: "1b(i)"
+      select "Interpretation", from: "Title"
+      fill_in "Description", with: "if the dwellinghouse is located on article 2(3) land"
+      click_button "Save"
+
+      expect(page).to have_content("Policy section successfully created")
+
+      within("#policy-sections") do
+        within(".govuk-summary-card#interpretation") do
+          expect(page).to have_content("AA.1b(i)")
+          expect(page).to have_content("Interpretation")
+          expect(page).to have_content("if the dwellinghouse is located on article 2(3) land")
+        end
+      end
+    end
+
+    it "allows editing the policy section" do
+      visit "/gpdo/schedule/2/part/1/class/AA/section/1b(ii)/edit"
+      within(".govuk-breadcrumbs__list") do
+        expect(page).to have_link("GPDO")
+        expect(page).to have_link("Schedule 2")
+        expect(page).to have_link("Part 1")
+        expect(page).to have_link("Class AA")
+      end
+
+      expect(page).to have_selector("h1", text: "Edit policy section")
+      expect(page).to have_link("Back", href: "/gpdo/schedule/2/part/1/class/AA/section")
+
+      fill_in "Description", with: "if the dwellinghouse is located on a site of special environmental interest"
+      select "Conditions", from: "Title"
+      click_button "Save"
+
+      expect(page).to have_content("Policy section successfully updated")
+
+      within("#policy-sections") do
+        within(".govuk-summary-card#conditions") do
+          expect(page).to have_content("if the dwellinghouse is located on a site of special environmental interest")
+        end
+      end
+    end
+
+    context "when deleting the policy section" do
+      let!(:policy_section1a) { create(:policy_section, section: "1a", new_policy_class: policy_classAA) }
+      let!(:planning_application_policy_section) { create(:planning_application_policy_section, policy_section:) }
+
+      it "allows deleting the policy section when no planning application policy sections are associated", :capybara do
+        visit "/gpdo/schedule/2/part/1/class/AA/section/1a/edit"
+        accept_confirm(text: "Are you sure?") do
+          click_link("Remove")
+        end
+
+        expect(page).to have_content("Policy section successfully removed")
+        expect(page).not_to have_content("1a")
+      end
+
+      it "does not allow deleting the policy section when a planning application policy section is associated" do
+        visit "/gpdo/schedule/2/part/1/class/AA/section/1b(ii)/edit"
         expect(page).not_to have_link("Remove")
       end
     end

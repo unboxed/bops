@@ -1,0 +1,48 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "GPDO", gpdo_policy_schedules_path %>
+<% add_parent_breadcrumb_link "Schedule #{@schedule.number}", gpdo_policy_schedule_policy_parts_path(@schedule.number) %>
+<% add_parent_breadcrumb_link "Part #{@part.number}", gpdo_policy_schedule_policy_part_policy_class_index_path(@schedule.number, @part.number) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-m">Class <%= @policy_class.section %></span>
+    <h1 class="govuk-heading-l"><%= @policy_class.name %></h1>
+
+    <p class="govuk-body">
+      <%= govuk_button_link_to t(".create_new"), new_gpdo_policy_schedule_policy_part_policy_class_policy_section_path(@schedule.number, @part.number, @policy_class.section) %>
+    </p>
+    <section id="policy-sections">
+      <% @grouped_policy_sections.each do |key, policy_sections| %>
+        <div class="govuk-summary-card" id="<%= key.parameterize %>">
+          <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+              <%= key %>
+            </h2>
+          </div>
+
+          <div class="govuk-summary-card__content">
+            <dl class="govuk-summary-list">
+              <% policy_sections.each do |policy_section| %>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key policy-section-list">
+                    <p class="govuk-body"><strong><%= policy_section.full_section %></strong></p>
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    <%= policy_section.description %>
+                  </dd>
+                  <dd class="govuk-summary-list__actions policy-section-list">
+                    <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_policy_part_policy_class_policy_section_path(@schedule.number, @part.number, @policy_class.section, policy_section.section) %>
+                  </dd>
+                </div>
+              <% end %>
+            </dl>
+          </div>
+        </div>
+      <% end %>
+    </section>
+    <%= govuk_button_link_to t("back"), gpdo_policy_schedule_policy_parts_path(@schedule.number), secondary: true %>
+  </div>
+</div>

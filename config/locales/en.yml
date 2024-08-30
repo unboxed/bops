@@ -299,6 +299,14 @@ en:
               greater_than_or_equal_to: The schedule number must be greater than or equal to 1
               less_than_or_equal_to: The schedule number must be less than or equal to 4
               not_a_number: The schedule number must be a number
+        policy_section:
+          attributes:
+            description:
+              blank: Enter a description for the policy section
+            section:
+              blank: Enter a section for the policy section
+            title:
+              inclusion: Select a valid title
         press_notice:
           attributes:
             documents:
