@@ -132,8 +132,9 @@
               ) %>
         <% end %>
         <% if @planning_application.application_type.consultation? %>
-          <% tabs.with_tab(label: (@planning_application.consultation.neighbour_responses&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbour_responses.count})" : "Neighbours (0)", id: "neighbours")  do %>
-            <h2 class="govuk-heading-m"><%= (@planning_application.consultation.neighbour_responses&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbour_responses.count})" : "Neighbours (0)" %></h2>
+          <% tabs.with_tab(label: (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)", id: "neighbours")  do %>
+            <h2 class="govuk-heading-m"><%= (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)" %></h2>
+            <%= render "neighbours_table", planning_application: @planning_application, neighbours: @planning_application.consultation.neighbours %>
             <p class="govuk-body">
               <%= govuk_link_to "Show details", planning_application_consultation_neighbour_responses_path(@planning_application) %>
             </p>
