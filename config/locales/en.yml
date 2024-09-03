@@ -1672,7 +1672,18 @@ en:
       tasks:
         index:
           application_details: Application details
+          consultation_end_date: 'Consultation end:'
+          consultation_not_started: Not yet started
+          description: 'Description:'
+          expiry_date: 'Expiry date:'
+          full_address: 'Site address:'
+          location: 'Location:'
+          press_notice_date: 'Press notice:'
           review_and_sign_off: Review and sign-off
+          site_notice_date: 'Site notice:'
+          type_description: 'Application type:'
+          valid_from: 'Valid from:'
+          view_site_on: View site on Google Maps
     search_component:
       clear_search: Clear search
       find_an_application: Find an application

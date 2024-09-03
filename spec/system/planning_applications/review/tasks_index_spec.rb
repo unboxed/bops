@@ -10,7 +10,14 @@ RSpec.describe "Reviewing Tasks Index" do
       :planning_application,
       :planning_permission,
       :awaiting_determination,
-      local_authority: default_local_authority
+      local_authority: default_local_authority,
+      description: "Test description",
+      address_1: "123 Long Lane",
+      town: "Big City",
+      postcode: "AB34EF",
+      uprn: "123456789",
+      validated_at: Date.new(2022, 11, 12),
+      received_at: Date.new(2022, 11, 11)
     )
   end
 
@@ -36,6 +43,19 @@ RSpec.describe "Reviewing Tasks Index" do
 
       expect(page).to have_title("Review and sign-off")
       expect(page).to have_content("Assessor recommendation To grant")
+      within("#application_details") do
+        expect(page).to have_selector("h2", text: "Application details")
+
+        expect(page).to have_row_for("Description:", with: "Test description")
+        expect(page).to have_row_for("Application type:", with: "Planning Permission - Full householder")
+        expect(page).to have_row_for("Site address:", with: "123 Long Lane, Big City, AB34EF")
+        expect(page).to have_row_for("Location:", with: "View site on Google Maps (opens in new tab)")
+        expect(page).to have_row_for("Valid from:", with: "11 November 2022")
+        expect(page).to have_row_for("Expiry date:", with: "7 January 2023")
+        expect(page).to have_row_for("Consultation end:", with: "Not yet started")
+        expect(page).to have_row_for("Press notice:", with: "-")
+        expect(page).to have_row_for("Site notice:", with: "-")
+      end
 
       within("#constraints") do
         expect(page).to have_selector("h2", text: "Constraints (0)")
