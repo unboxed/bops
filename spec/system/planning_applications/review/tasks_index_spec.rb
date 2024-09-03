@@ -69,7 +69,7 @@ RSpec.describe "Reviewing Tasks Index" do
 
       within("#consultees") do
         expect(page).to have_selector("h2", text: "Consultees (0)")
-        expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/consultee/responses")
+        expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/consultees")
       end
 
       within("#documents") do
