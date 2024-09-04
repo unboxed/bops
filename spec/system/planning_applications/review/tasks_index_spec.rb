@@ -74,6 +74,7 @@ RSpec.describe "Reviewing Tasks Index" do
 
       within("#documents") do
         expect(page).to have_selector("h2", text: "Documents (0)")
+        expect(page).to have_selector("p", text: "There are no documents")
         expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/documents")
       end
 
