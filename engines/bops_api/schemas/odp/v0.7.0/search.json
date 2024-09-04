@@ -261,6 +261,32 @@
             "applicant": {
               "type": "object",
               "properties": {
+                "address": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/Address"
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "agent": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "address": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/Address"
+                            },
+                            { "type": "null" }
+                          ]
+                        }
+                      }
+                    },
+                    { "type": "null" }
+                  ]
+                },
                 "ownership": {
                   "anyOf": [
                     {
@@ -268,9 +294,15 @@
                     },
                     { "type": "null" }
                   ]
+                },
+                "type": {
+                  "anyOf": [
+                    { "type": "string" },
+                    { "type": "null" }
+                  ]
                 }
               },
-              "required": ["ownership"]
+              "required": ["type", "address", "ownership", "agent"]
             }
           },
           "required": [

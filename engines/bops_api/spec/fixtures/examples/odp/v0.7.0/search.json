@@ -88,12 +88,26 @@
         "description": "householder extension"
       },
       "applicant": {
+        "type": "individual",
+        "address": {
+          "sameAsSiteAddress": true
+        },
         "ownership": {
           "interest": "owner.sole",
           "certificate": "a",
           "agriculturalTenants": false,
           "declaration": {
             "accurate": true
+          }
+        },
+        "agent": {
+          "address": {
+            "line1": "40 Stansfield Road",
+            "line2": "Brixton",
+            "town": "London",
+            "county": "Greater London",
+            "postcode": "SW9 9RZ",
+            "country": "UK"
           }
         }
       }
@@ -149,6 +163,13 @@
         "description": "Build a roof extension."
       },
       "applicant": {
+        "type": "individual",
+        "address": {
+          "sameAsSiteAddress": true
+        },
+        "siteContact": {
+          "role": "applicant"
+        },
         "ownership": {
           "interest": "occupier",
           "owners": [
@@ -166,6 +187,16 @@
               "noticeGiven": true
             }
           ]
+        },
+        "agent": {
+          "address": {
+            "line1": "The Tree",
+            "line2": "One Tree Hill",
+            "town": "Great Tunnelling",
+            "county": "",
+            "postcode": "F0XH0L3",
+            "country": ""
+          }
         }
       }
     }

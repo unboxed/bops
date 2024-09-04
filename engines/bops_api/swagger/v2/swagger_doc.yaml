@@ -17551,12 +17551,32 @@ components:
               applicant:
                 type: object
                 properties:
+                  address:
+                    anyOf:
+                    - "$ref": "#/components/definitions/Address"
+                    - type: 'null'
+                  agent:
+                    anyOf:
+                    - type: object
+                      properties:
+                        address:
+                          anyOf:
+                          - "$ref": "#/components/definitions/Address"
+                          - type: 'null'
+                    - type: 'null'
                   ownership:
                     anyOf:
                     - "$ref": "#/components/definitions/Ownership"
                     - type: 'null'
+                  type:
+                    anyOf:
+                    - type: string
+                    - type: 'null'
                 required:
+                - type
+                - address
                 - ownership
+                - agent
             required:
             - applicant
             - application
@@ -24422,12 +24442,23 @@ paths:
                       proposal:
                         description: householder extension
                       applicant:
+                        type: individual
+                        address:
+                          sameAsSiteAddress: true
                         ownership:
                           interest: owner.sole
                           certificate: a
                           agriculturalTenants: false
                           declaration:
                             accurate: true
+                        agent:
+                          address:
+                            line1: 40 Stansfield Road
+                            line2: Brixton
+                            town: London
+                            county: Greater London
+                            postcode: SW9 9RZ
+                            country: UK
                     - application:
                         type:
                           value: pp.full.householder
@@ -24470,6 +24501,11 @@ paths:
                       proposal:
                         description: Build a roof extension.
                       applicant:
+                        type: individual
+                        address:
+                          sameAsSiteAddress: true
+                        siteContact:
+                          role: applicant
                         ownership:
                           interest: occupier
                           owners:
@@ -24483,6 +24519,14 @@ paths:
                               country: UK
                               postcode: L1T3R8Y
                             noticeGiven: true
+                        agent:
+                          address:
+                            line1: The Tree
+                            line2: One Tree Hill
+                            town: Great Tunnelling
+                            county: ''
+                            postcode: F0XH0L3
+                            country: ''
               schema:
                 "$ref": "#/components/schemas/Search"
   "/api/v2/public/planning_applications/{reference}/documents":
@@ -24657,12 +24701,23 @@ paths:
                       proposal:
                         description: householder extension
                       applicant:
+                        type: individual
+                        address:
+                          sameAsSiteAddress: true
                         ownership:
                           interest: owner.sole
                           certificate: a
                           agriculturalTenants: false
                           declaration:
                             accurate: true
+                        agent:
+                          address:
+                            line1: 40 Stansfield Road
+                            line2: Brixton
+                            town: London
+                            county: Greater London
+                            postcode: SW9 9RZ
+                            country: UK
                     - application:
                         type:
                           value: pp.full.householder
@@ -24705,6 +24760,11 @@ paths:
                       proposal:
                         description: Build a roof extension.
                       applicant:
+                        type: individual
+                        address:
+                          sameAsSiteAddress: true
+                        siteContact:
+                          role: applicant
                         ownership:
                           interest: occupier
                           owners:
@@ -24718,6 +24778,14 @@ paths:
                               country: UK
                               postcode: L1T3R8Y
                             noticeGiven: true
+                        agent:
+                          address:
+                            line1: The Tree
+                            line2: One Tree Hill
+                            town: Great Tunnelling
+                            county: ''
+                            postcode: F0XH0L3
+                            country: ''
   "/api/v2/public/planning_applications/{reference}":
     get:
       summary: Retrieves a planning application

@@ -22,5 +22,10 @@ json.proposal do
   json.description planning_application.description
 end
 json.applicant do
+  json.type planning_application.params_v2&.dig(:data, :applicant, :type)
+  json.address planning_application.params_v2&.dig(:data, :applicant, :address)
   json.ownership planning_application.applicant_interest
+  json.agent do
+    json.address planning_application.params_v2&.dig(:data, :applicant, :agent, :address)
+  end
 end
