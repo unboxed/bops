@@ -144,6 +144,13 @@
             </p>
           <% end %>
         <% end %>
+        <% tabs.with_tab(label: (@planning_application.site_histories.count.to_i > 0) ? "Site history (#{@planning_application.site_histories.count})" : "Site history (0)", id: "site_history")  do %>
+          <h2 class="govuk-heading-m"><%= (@planning_application.site_histories.count.to_i > 0) ? "Site history (#{@planning_application.site_histories.count})" : "Site history (0)" %></h2>
+          <%= render "planning_applications/assessment/site_histories/table", site_histories: @planning_application.site_histories, show_action: false %>
+          <p class="govuk-body">
+            <%= govuk_link_to "Show details", planning_application_assessment_site_histories_path(@planning_application) %>
+          </p>
+        <% end %>
         <% tabs.with_tab(label: (@planning_application&.documents&.active&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)", id: "documents")  do %>
           <h2 class="govuk-heading-m"><%= (@planning_application&.documents&.active&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)" %></h2>
           <%= render "documents_table", documents: @planning_application&.documents&.active %>
