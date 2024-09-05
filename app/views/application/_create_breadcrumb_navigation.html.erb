@@ -3,9 +3,3 @@
     <%= link_to n[:title], n[:path], class: "govuk-breadcrumbs__link" %>
   </li>
 <% end %>
-
-<% if content_for?(:title) %>
-  <li class="govuk-breadcrumbs__list-item" aria-current="page">
-    <%= yield :title %>
-  </li>
-<% end %>
