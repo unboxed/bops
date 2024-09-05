@@ -638,6 +638,10 @@ class PlanningApplication < ApplicationRecord
     find_proposal_detail("Exactly how high are the eaves of the extension?")&.first&.response_values&.first
   end
 
+  def applicant_interest
+    params_v2&.dig(:data, :applicant, :ownership)
+  end
+
   def neighbour_addresses
     proposal_details.select { |detail| detail.question.include? "adjoining property" }&.map(&:response_values)&.flatten
   end

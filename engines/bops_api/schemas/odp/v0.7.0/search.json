@@ -257,9 +257,56 @@
               "required": [
                 "description"
               ]
+            },
+            "applicant": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/Address"
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "agent": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "address": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/Address"
+                            },
+                            { "type": "null" }
+                          ]
+                        }
+                      }
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "ownership": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/Ownership"
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "type": {
+                  "anyOf": [
+                    { "type": "string" },
+                    { "type": "null" }
+                  ]
+                }
+              },
+              "required": ["type", "address", "ownership", "agent"]
             }
           },
           "required": [
+            "applicant",
             "application",
             "property",
             "proposal"
