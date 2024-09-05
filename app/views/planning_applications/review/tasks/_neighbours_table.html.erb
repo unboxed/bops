@@ -22,11 +22,7 @@
           </td>
           <td class="govuk-table__cell">
             <% neighbour.neighbour_responses.each do |response| %>
-              <% response.tags.each do |tag| %>
-                <div class="govuk-!-margin-bottom-3">
-                  <strong class="govuk-tag govuk-tag--grey"><%= tag.humanize.upcase %></strong>
-                </div>
-              <% end %>
+              <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
             <% end %>
           </td>
         </tr>
