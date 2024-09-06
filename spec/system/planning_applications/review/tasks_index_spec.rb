@@ -64,7 +64,8 @@ RSpec.describe "Reviewing Tasks Index" do
 
       within("#neighbours") do
         expect(page).to have_selector("h2", text: "Neighbours (0)")
-        expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/consultation/neighbour_responses")
+        expect(page).to have_selector("p", text: "You have not selected any neighbours")
+        expect(page).to have_link("Select and add neighbours", href: "/planning_applications/#{planning_application.reference}/consultation/neighbours")
       end
 
       within("#consultees") do
