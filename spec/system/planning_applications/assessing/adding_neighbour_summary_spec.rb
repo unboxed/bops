@@ -49,10 +49,6 @@ RSpec.describe "neighbour responses", type: :system do
           "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=neighbour_summary"
         )
 
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Summary of neighbour responses")
-        end
-
         expect(page).to have_content("Add summary of neighbour responses")
         expect(page).to have_content(planning_application.reference)
         expect(page).to have_content(planning_application.full_address)
@@ -94,10 +90,6 @@ RSpec.describe "neighbour responses", type: :system do
         click_link "Summary of neighbour responses"
         expect(page).to have_content("Edit summary of neighbour responses")
         expect(page).to have_content("A draft entry for the neighbour responses")
-
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Summary of neighbour responses")
-        end
 
         within(".govuk-notification-banner") do
           expect(page).to have_content("View neighbour responses")

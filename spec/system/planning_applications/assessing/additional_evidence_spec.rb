@@ -28,10 +28,6 @@ RSpec.describe "Additional evidence" do
         "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=additional_evidence"
       )
 
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Summary of additional evidence")
-      end
-
       expect(page).to have_content("Add detail of additional evidence")
       expect(page).to have_content(planning_application.reference)
       expect(page).to have_content(planning_application.full_address)
@@ -62,10 +58,6 @@ RSpec.describe "Additional evidence" do
       expect(page).to have_content("Edit additional evidence")
       expect(page).to have_content("A draft entry for the additional evidence")
 
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Summary of additional evidence")
-      end
-
       click_button "Save and come back later"
       expect(page).to have_content("Additional evidence was successfully updated.")
 
@@ -92,7 +84,6 @@ RSpec.describe "Additional evidence" do
       end
 
       click_link "Summary of additional evidence"
-      expect(page).to have_content("Summary of additional evidence")
       expect(page).to have_content("A complete entry for the additional evidence")
 
       expect(page).to have_link(

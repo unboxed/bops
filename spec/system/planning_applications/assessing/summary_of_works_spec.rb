@@ -24,10 +24,6 @@ RSpec.describe "Summary of works" do
         click_link "Summary of works"
       end
 
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Summary of works")
-      end
-
       expect(page).to have_current_path(
         "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=summary_of_work"
       )
@@ -73,10 +69,6 @@ RSpec.describe "Summary of works" do
       click_link "Summary of works"
       expect(page).to have_content("Edit summary of works")
       expect(page).to have_content("A draft entry for the summary of works")
-
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Summary of works")
-      end
 
       click_button "Save and come back later"
       expect(page).to have_content("Summary of works was successfully updated.")

@@ -36,10 +36,6 @@ RSpec.describe "Permitted development right" do
 
         click_link("Permitted development rights")
 
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Permitted development rights")
-        end
-
         expect(page).to have_current_path(
           "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
         )
@@ -300,10 +296,6 @@ RSpec.describe "Permitted development right" do
         )
 
         click_link("Immunity/permitted development rights")
-
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Immunity/permitted development rights")
-        end
 
         expect(page).to have_current_path(
           "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"

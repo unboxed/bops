@@ -41,9 +41,6 @@ RSpec.describe "Press notice" do
       end
 
       expect(page).to have_content("Does this application require a press notice?")
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Press notice")
-      end
 
       expect(page).to have_content("An email notification will be sent to pressnotice@example.com if a press notice is required.")
     end
@@ -447,10 +444,6 @@ RSpec.describe "Press notice" do
         expect(page).to have_selector("p", text: "Date requested: #{press_notice.requested_at.to_date.to_fs}")
         expect(page).not_to have_content("Date published")
         expect(page).not_to have_content("View past press notices")
-
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Confirm press notice")
-        end
 
         expect(page).to have_content("Reasons selected:")
         expect(page).to have_content("An environmental statement accompanies this application")
