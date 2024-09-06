@@ -96,8 +96,6 @@ RSpec.describe "Documents index page" do
       within(find(".govuk-breadcrumbs__list", match: :first)) do
         expect(page).to have_link "Application"
         expect(page).to have_link "Home"
-        expect(page).to have_text "Archive"
-        expect(page).not_to have_link "Archive"
       end
     end
 

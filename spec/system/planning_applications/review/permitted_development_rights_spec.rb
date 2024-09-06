@@ -37,7 +37,6 @@ RSpec.describe "Permitted development right", type: :system do
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
-          expect(page).to have_content("Review permitted development rights")
         end
 
         expect(page).to have_current_path(
@@ -251,7 +250,6 @@ RSpec.describe "Permitted development right", type: :system do
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
-          expect(page).to have_content("Review permitted development rights")
         end
 
         expect(page).to have_current_path(

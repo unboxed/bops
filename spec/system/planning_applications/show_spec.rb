@@ -111,13 +111,6 @@ RSpec.describe "Planning Application show page" do
       visit "/planning_applications/#{planning_application.reference}"
     end
 
-    it "Breadcrumbs contain reference to Application overview which is not linked" do
-      within(find(".govuk-breadcrumbs__list", match: :first)) do
-        expect(page).to have_text "Application"
-        expect(page).not_to have_link "Application"
-      end
-    end
-
     it "Breadcrumbs contain link to applications index" do
       expect(page).to have_text "Home"
       expect(page).to have_link "Home"

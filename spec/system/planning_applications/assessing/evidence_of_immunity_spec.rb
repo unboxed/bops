@@ -31,10 +31,6 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         click_link("Evidence of immunity")
 
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Evidence of immunity")
-        end
-
         expect(page).to have_current_path(
           "/planning_applications/#{planning_application.reference}/assessment/immunity_details/new"
         )

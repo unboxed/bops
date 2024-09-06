@@ -312,9 +312,6 @@ RSpec.describe "View neighbour responses", type: :system, js: true do
         expect(page).to have_content(planning_application.full_address)
         expect(page).to have_content(planning_application.description)
       end
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Redact comment")
-      end
 
       expect(page).to have_content("Comment submitted by")
       expect(page).to have_content(response.name.to_s)

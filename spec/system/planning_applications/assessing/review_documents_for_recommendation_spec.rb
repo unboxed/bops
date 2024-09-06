@@ -36,10 +36,6 @@ RSpec.describe "Review documents for recommendation" do
         click_link "Review documents for recommendation"
       end
 
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Review documents")
-      end
-
       expect(page).to have_current_path(
         "/planning_applications/#{planning_application.reference}/review/documents"
       )

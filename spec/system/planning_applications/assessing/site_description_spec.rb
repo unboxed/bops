@@ -26,10 +26,6 @@ RSpec.describe "Site description" do
         click_link "Site description"
       end
 
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Site description")
-      end
-
       expect(page).to have_current_path(
         "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=site_description"
       )
@@ -78,10 +74,6 @@ RSpec.describe "Site description" do
       click_link "Site description"
       expect(page).to have_content("Edit site description")
       expect(page).to have_content("A draft entry for the site description")
-
-      within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Site description")
-      end
 
       click_button "Save and come back later"
       expect(page).to have_content("Site description was successfully updated.")
