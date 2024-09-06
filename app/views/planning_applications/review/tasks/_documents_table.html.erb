@@ -1,0 +1,38 @@
+<% if documents.any? %>
+  <%= tag.table(class: ["govuk-table", "reviewer-documents-table"]) do %>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Tags</th>
+        <th scope="col" class="govuk-table__header">Reference number</th>
+        <th scope="col" class="govuk-table__header">Date amended</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% documents.each do |document| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <% if document.tags.present? %>
+              <% document.tags.each do |tag| %>
+                <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
+              <% end %>
+            <% else %>
+              <p class="govuk-body govuk govuk-!-margin-bottom-1">
+                <em>No tags added</em>
+              </p>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= link_to_document (document.numbers.presence || document.name), document %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= document.updated_at.to_date.to_fs(:day_month_year_slashes) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+<% else %>
+  <div class="background-light-grey govuk-!-padding-6 govuk-!-margin-bottom-6">
+    <p class="govuk-body govuk-!-margin-bottom-0"><strong>There are no documents</strong></p>
+  </div>
+<% end %>

@@ -147,8 +147,9 @@
             </p>
           <% end %>
         <% end %>
-        <% tabs.with_tab(label: (@planning_application&.documents&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)", id: "documents")  do %>
-          <h2 class="govuk-heading-m"><%= (@planning_application&.documents&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)" %></h2>
+        <% tabs.with_tab(label: (@planning_application&.documents&.active&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)", id: "documents")  do %>
+          <h2 class="govuk-heading-m"><%= (@planning_application&.documents&.active&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)" %></h2>
+          <%= render "documents_table", documents: @planning_application&.documents&.active %>
           <p class="govuk-body">
             <%= govuk_link_to "Show details", planning_application_documents_path(@planning_application) %>
           </p>
