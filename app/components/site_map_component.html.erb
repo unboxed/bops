@@ -10,16 +10,26 @@
   <p class="govuk-body">
     <%= t(".site_map_drawn_by", name: site_map_drawn_by) %>
   </p>
-  <%= tag.div id: :map,
-        style: "height: 618px",
-        data: {
-          controller: :map,
-          latLong: [planning_application.latitude, planning_application.longitude].join(","),
-          layers: {
-            redline: planning_application.boundary_geojson,
-            neighbours: neighbours_layers
-          }
-        } %>
+  <%= tag.div id: :"map-container", data: {
+
+        controller: :map,
+        latLong: [planning_application.latitude, planning_application.longitude].join(","),
+        layers: {
+          redline: planning_application.boundary_geojson,
+          neighbours: neighbours_layers
+        }
+
+      } do %>
+  <%= tag.div id: :map %>
+
+    <button type="button" class="map-data-toggle" data-action="map#showMapData">Show data</button>
+    <div class="map-data govuk-!-display-none">
+      <button type="button" class="map-data-close" data-action="map#hideMapData">X</button>
+      <div class="map-data-container govuk-body">
+        placeholder
+      </div>
+    </div>
+  <% end %>
 <% else %>
   <p class="govuk-body"><%= t(".no_digital_sitemap") %></p>
 <% end %>

@@ -480,3 +480,33 @@ body {
     margin: 0;
   }
 }
+
+#map-container {
+  position: relative;
+
+  #map {
+    height: calc(9 / 16 * $govuk-page-width);
+  }
+
+  .map-data,
+  .map-data-toggle {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .map-data-close {
+    display: block;
+    margin-left: auto;
+  }
+
+  .map-data {
+    background-color: white;
+    border-radius: 1rem;
+  }
+
+  .map-data-container {
+    margin: 0.5rem;
+    width: calc($govuk-page-width / 3);
+  }
+}
