@@ -19,7 +19,7 @@ RSpec.describe "Planning History" do
 
     before do
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      click_link "History search (in testing)"
+      click_link "Site history"
     end
 
     it "displays a table with relevants planning historical applications" do
@@ -108,11 +108,11 @@ RSpec.describe "Planning History" do
 
     before do
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      click_link "History search (in testing)"
+      click_link "Site history"
     end
 
     it "displays no planning history for this property" do
-      expect(page).to have_content("Review the planning history")
+      expect(page).to have_content("Review the site history")
       expect(page).to have_content("Planning application for UPRN 10008104351")
       expect(page).to have_content("There is no planning history for this property")
     end

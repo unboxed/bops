@@ -1326,9 +1326,9 @@ en:
           check_application: Check application
           complete: Complete
           description_documents_and: Check description, documents and proposal details
-          history: History search (in testing)
           in_assessment: In assessment
           permitted_development_rights: Permitted development rights
+          site_history: Site history
         index:
           application_details: Application details
       terms:

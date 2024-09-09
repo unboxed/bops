@@ -1,26 +1,42 @@
 <% content_for :page_title do %>
-  Planning History - <%= t("page_title") %>
+  Site history - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title do %>
+  Site history
 <% end %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: {heading: "Review the planning history"}
+      locals: {heading: "Review the site history"}
     ) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">
-      <strong>Planning application for UPRN <%= @planning_application.uprn %></strong>
-    </p>
+  <div class="govuk-grid-column-full">
+    <h2 class="govuk-heading-m">Planning application for UPRN <%= @planning_application.uprn %></h2>
+  </div>
 
     <% if @planning_history.empty? %>
+    <div class="govuk-grid-column-full">
       <p class="govuk-body">
         There is no planning history for this property
       </p>
+    </div>
     <% else %>
-      <%= render "table" %>
+      <div class="govuk-grid-column-full">
+        <%= render "table" %>
+      </div>
     <% end %>
 
-    <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+    <div class="govuk-grid-column-full">
+      <div class="govuk-button-group">
+        <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      </div>
+    </div>
   </div>
 </div>

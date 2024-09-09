@@ -46,7 +46,7 @@
     <% if @planning_application.planning_history_enabled? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
-          <%= govuk_link_to t(".history"), planning_application_assessment_planning_history_path(@planning_application) %>
+          <%= govuk_link_to t(".site_history"), planning_application_assessment_planning_history_path(@planning_application) %>
         </span>
       </li>
     <% end %>
