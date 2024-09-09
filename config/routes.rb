@@ -135,6 +135,11 @@ Rails.application.routes.draw do
             end
           end
 
+          namespace :policy_areas do
+            resources :parts, only: :index
+            resources :policy_classes, only: %i[new create]
+          end
+
           resources :heads_of_terms, only: %i[index new] do
             get :edit, on: :collection
             get :edit

@@ -32,6 +32,12 @@
 
       <%= render "assess_against_legislation" %>
 
+      <% unless Bops.env.production? %>
+        <% unless @planning_application.application_type.name == "planning_permission" %>
+          <%= render "assess_against_legislation_new" %>
+        <% end %>
+      <% end %>
+
       <%= render "complete_assessment" %>
     </ol>
 

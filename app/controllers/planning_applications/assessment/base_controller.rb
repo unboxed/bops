@@ -20,6 +20,10 @@ module PlanningApplications
         redirect_to planning_application_path(@planning_application),
           alert: t("planning_applications.assessment.base.not_validated")
       end
+
+      def ensure_can_assess_planning_application
+        render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
+      end
     end
   end
 end

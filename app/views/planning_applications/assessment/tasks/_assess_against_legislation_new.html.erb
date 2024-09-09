@@ -1,0 +1,23 @@
+<li id="assess-against-legislation-new-tasks">
+  <h2 class="app-task-list__section">
+    Assess against legislation (in testing)
+  </h2>
+  <ul class="app-task-list__items">
+    <% @planning_application.planning_application_policy_classes.order(:new_policy_class_id).each do |pa_policy_class| %>
+      <%= render(
+            TaskListItems::Assessment::PlanningApplicationPolicyClassComponent.new(
+              planning_application_policy_class: pa_policy_class,
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
+
+    <% if @planning_application.can_assess? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= govuk_link_to "Add new assessment area", planning_application_assessment_policy_areas_parts_path(@planning_application) %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+</li>
