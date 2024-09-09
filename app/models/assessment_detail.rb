@@ -5,17 +5,6 @@ class AssessmentDetail < ApplicationRecord
   belongs_to :user
   has_one :comment, as: :commentable, dependent: :destroy
 
-  CATEGORIES = %i[
-    summary_of_work
-    site_description
-    consultation_summary
-    additional_evidence
-    neighbour_summary
-    amenity
-    past_applications
-    check_publicity
-  ].freeze
-
   enum(
     assessment_status: {
       not_started: "not_started",
@@ -42,14 +31,16 @@ class AssessmentDetail < ApplicationRecord
 
   enum category: {
     summary_of_work: "summary_of_work",
-    additional_evidence: "additional_evidence",
     site_description: "site_description",
-    past_applications: "past_applications",
     consultation_summary: "consultation_summary",
+    additional_evidence: "additional_evidence",
     neighbour_summary: "neighbour_summary",
     amenity: "amenity",
+    past_applications: "past_applications",
     check_publicity: "check_publicity"
   }
+
+  CATEGORIES = defined_enums["category"].keys.map(&:to_sym).freeze
 
   before_validation :set_user
 
