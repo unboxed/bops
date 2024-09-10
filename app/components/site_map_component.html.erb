@@ -46,7 +46,15 @@
         </div>
         <div class="map-data-tab map-data-neighbours govuk-!-display-none">
           <p><a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a></p>
-      all the people, so many people
+          <h3>All neighbours</h3>
+          <ul>
+            <% planning_application.consultation.neighbour_responses.each do |response| %>
+              <li>
+                <strong><%= response.neighbour.address %></strong><br>
+                <%= render StatusTags::BaseComponent.new(status: response.summary_tag) %>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
     </div>
