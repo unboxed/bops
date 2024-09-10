@@ -59,6 +59,9 @@
                       status: neighbour.neighbour_responses.last&.summary_tag || :new,
                       html_attributes: {class: "govuk-!-font-size-16"}
                     ) %>
+                <% if neighbour.neighbour_responses.last&.tags&.present? %>
+                  <p class="govuk-body govuk-body-s"><%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %></p>
+                <% end %>
               </li>
             <% end %>
           </ul>
