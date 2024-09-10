@@ -422,10 +422,10 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         let!(:schedule) { create(:policy_schedule, number: 2, name: "Permitted development rights") }
         let!(:part1) { create(:policy_part, name: "Development within the curtilage of a dwellinghouse", number: 1, policy_schedule: schedule) }
         let!(:part2) { create(:policy_part, name: "Minor operations", number: 2, policy_schedule: schedule) }
+        let!(:policy_classA) { create(:new_policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1) }
+        let!(:policy_classB) { create(:new_policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part1) }
 
         before do
-          create(:new_policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1)
-          create(:new_policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part1)
           create(:new_policy_class, section: "A", name: "gates, fences, walls etc", policy_part: part2)
         end
 
@@ -434,6 +434,9 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
           within("#assess-against-legislation-new-tasks") do
             click_link("Add new assessment area")
           end
+
+          click_button("Continue")
+          expect(page).to have_content("You must select a part to continue")
 
           choose("Part 1 - Development within the curtilage of a dwellinghouse")
           click_button("Continue")
@@ -467,6 +470,29 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
             expect(page).to have_link("Part 1, Class B")
             expect(page).to have_link("Part 2, Class A")
           end
+        end
+
+        it "lets the assessor remove a class to assess" do
+          create(:planning_application_policy_class, planning_application:, new_policy_class: policy_classA)
+
+          click_link("Check and assess")
+          within("#assess-against-legislation-new-tasks") do
+            click_link("Part 1, Class A")
+          end
+
+          accept_confirm do
+            click_button("Remove class from assessment")
+          end
+          within("#assess-against-legislation-new-tasks") do
+            expect(page).not_to have_content("Part 1, Class A")
+          end
+
+          expect(planning_application.planning_application_policy_classes.length).to eq(0)
+
+          click_link("Add new assessment area")
+          choose("Part 1 - Development within the curtilage of a dwellinghouse")
+          click_button("Continue")
+          expect(page).to have_unchecked_field("Class A - enlargement, improvement or other alteration of a dwellinghouse")
         end
       end
     end

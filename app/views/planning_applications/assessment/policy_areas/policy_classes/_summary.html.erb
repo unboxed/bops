@@ -1,0 +1,53 @@
+<% content_for :page_title do %>
+  <%= t(".assess") %> - <%= t("page_title") %>
+<% end %>
+<% render(
+     partial: "shared/assessment_task_breadcrumbs",
+     locals: {
+       planning_application: planning_application,
+       current_page: t(
+         ".assess_policy_class",
+         part: policy_class.policy_part_number,
+         class: policy_class.section
+       )
+     }
+   ) %>
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: t(".assess_policy_class", part: policy_class.policy_part_number, class: policy_class.section)}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-padding-bottom-3">
+      <%= policy_class.name.upcase_first %>
+    </h2>
+
+    <%= button_to(
+          t(".remove_class_from"),
+          planning_application_assessment_policy_areas_policy_class_path(planning_application, planning_application_policy_class),
+          method: :delete,
+          data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this class?"},
+          class: "govuk-button govuk-button--secondary",
+          disabled: planning_application.submit_recommendation_complete?
+        ) %>
+    <p class="govuk-body">
+      <%= t(
+            ".please_indicate_if",
+            part: policy_class.policy_part_number,
+            class: policy_class.section
+          ) %>
+    <p class="govuk-body">
+      <%= govuk_link_to(
+            t(".open_legislation_in"),
+            policy_class.url,
+            new_tab: ""
+          ) %>
+    </p>
+    <%= govuk_accordion do |accordion|
+          accordion.with_section(heading_text: "Constraints") do
+            render(partial: "shared/constraints")
+          end
+        end %>
+  </div>
+</div>

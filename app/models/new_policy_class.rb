@@ -15,6 +15,8 @@ class NewPolicyClass < ApplicationRecord
 
   validates :url, url: true
 
+  delegate :number, to: :policy_part, prefix: true
+
   class << self
     def menu
       pluck(:id, :section, :name)
