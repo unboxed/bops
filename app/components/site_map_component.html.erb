@@ -50,8 +50,8 @@
           <ul class="govuk-list govuk-list--spaced">
             <% planning_application.consultation.neighbour_responses.each do |response| %>
               <li>
-                <strong><%= response.neighbour.address %></strong><br>
-                <%= render StatusTags::BaseComponent.new(status: response.summary_tag) %>
+                <strong class="govuk-body-s govuk-!-font-weight-bold"><%= response.neighbour.address %></strong><br>
+                <%= render StatusTags::BaseComponent.new(status: response.summary_tag, html_attributes: {class: "govuk-!-font-size-16"}) %>
               </li>
             <% end %>
           </ul>
