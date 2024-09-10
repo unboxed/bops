@@ -508,7 +508,12 @@ body {
   }
 
   .map-data-container {
-    margin: 0.5rem;
+    margin: 0 0.5rem;
     width: calc($govuk-page-width / 3);
+  }
+
+  .govuk-back-link,
+  h3 {
+    margin-top: 0;
   }
 }
