@@ -5,20 +5,23 @@ module TaskListItems
     class PlanningApplicationPolicyClassComponent < TaskListItems::BaseComponent
       def initialize(planning_application_policy_class:, planning_application:)
         @planning_application = planning_application
-        @policy_class = planning_application_policy_class.new_policy_class
+        @planning_application_policy_class = planning_application_policy_class
+        @policy_class = planning_application_policy_class.policy_class
         @part = @policy_class.policy_part
       end
 
       private
 
-      attr_reader :policy_class, :planning_application
+      attr_reader :policy_class, :planning_application, :part, :planning_application_policy_class
 
       def link_text
-        "Part #{@part.number}, Class #{@policy_class.section}"
+        "Part #{part.number}, Class #{policy_class.section}"
       end
 
       def link_path
-        "#"
+        edit_planning_application_assessment_policy_areas_policy_class_path(
+          planning_application, planning_application_policy_class
+        )
       end
 
       def status_tag_component

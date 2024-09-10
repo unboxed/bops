@@ -1216,6 +1216,18 @@ en:
         policy_classes:
           create:
             success: Policy classes have been successfully added
+          destroy:
+            success: Policy class has been removed.
+          new:
+            failure: You must select a part to continue
+          summary:
+            application: Application
+            assess: Assess
+            assess_policy_class: Assess - Part %{part}, Class %{class}
+            home: Home
+            open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+            please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+            remove_class_from: Remove class from assessment
       policy_classes:
         comment:
           delete_comment: Delete comment

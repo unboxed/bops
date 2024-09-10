@@ -7,8 +7,14 @@ module PlanningApplications
         before_action :ensure_can_assess_planning_application
         before_action :find_policy_parts
         before_action :find_part, only: %i[new create]
+        before_action :find_planning_application_policy_class, only: %i[edit destroy]
 
         def new
+          if @part.blank?
+            redirect_to planning_application_assessment_policy_areas_parts_path(@planning_application),
+              alert: t(".failure") and return
+          end
+
           respond_to do |format|
             format.html
           end
@@ -24,6 +30,24 @@ module PlanningApplications
           redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
         end
 
+        def edit
+          respond_to do |format|
+            format.html
+          end
+        end
+
+        def destroy
+          respond_to do |format|
+            format.html do
+              if @planning_application_policy_class.destroy
+                redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+              else
+                render :edit
+              end
+            end
+          end
+        end
+
         private
 
         def find_policy_parts
@@ -32,6 +56,10 @@ module PlanningApplications
 
         def find_part
           @part = @policy_parts.find_by_number(params[:part])
+        end
+
+        def find_planning_application_policy_class
+          @planning_application_policy_class = @planning_application.planning_application_policy_classes.find(params[:id])
         end
       end
     end
