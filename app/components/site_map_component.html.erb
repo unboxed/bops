@@ -48,10 +48,13 @@
           <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
           <h3>All neighbours</h3>
           <ul class="govuk-list govuk-list--spaced">
-            <% planning_application.consultation.neighbour_responses.each do |response| %>
+            <% planning_application.consultation.neighbours.each do |neighbour| %>
               <li>
-                <strong class="govuk-body-s govuk-!-font-weight-bold"><%= response.neighbour.address %></strong><br>
-                <%= render StatusTags::BaseComponent.new(status: response.summary_tag, html_attributes: {class: "govuk-!-font-size-16"}) %>
+                <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
+                <%= render StatusTags::BaseComponent.new(
+                      status: neighbour.neighbour_responses.last&.summary_tag || :new,
+                      html_attributes: {class: "govuk-!-font-size-16"}
+                    ) %>
               </li>
             <% end %>
           </ul>
