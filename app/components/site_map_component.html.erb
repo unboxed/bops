@@ -26,7 +26,28 @@
     <div class="map-data govuk-!-display-none">
       <button type="button" class="map-data-close" data-action="map#hideMapData">X</button>
       <div class="map-data-container govuk-body">
-        placeholder
+        <div class="map-data-tab map-data-menu">
+          <ul class="govuk-task-list">
+            <li class="govuk-task-list__item govuk-task-list__item--with-link">
+              <div class="govuk-task-list__name-and-hint">
+                <a class="govuk-link govuk-task-list__link" href="#" data-action="map#toggleTab" data-map-toggle-param="constraints">Constraints</a>
+              </div>
+            </li>
+            <li class="govuk-task-list__item govuk-task-list__item--with-link">
+              <div class="govuk-task-list__name-and-hint">
+                <a class="govuk-link govuk-task-list__link" href="#" data-action="map#toggleTab" data-map-toggle-param="neighbours">Neighbours</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="map-data-tab map-data-constraints govuk-!-display-none">
+          <p><a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a></p>
+      placeholder
+        </div>
+        <div class="map-data-tab map-data-neighbours govuk-!-display-none">
+          <p><a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a></p>
+      all the people, so many people
+        </div>
       </div>
     </div>
   <% end %>

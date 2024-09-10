@@ -101,4 +101,15 @@ export default class extends Controller {
       .querySelector(".map-data-toggle")
       .classList.remove("govuk-!-display-none")
   }
+
+  toggleTab(ev) {
+    ev.preventDefault()
+    for (const el of this.element.querySelectorAll(".map-data-tab")) {
+      if (el.classList.contains(`map-data-${ev.params.toggle}`)) {
+        el.classList.remove("govuk-!-display-none")
+      } else {
+        el.classList.add("govuk-!-display-none")
+      }
+    }
+  }
 }
