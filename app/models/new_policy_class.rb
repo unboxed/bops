@@ -14,4 +14,10 @@ class NewPolicyClass < ApplicationRecord
   end
 
   validates :url, url: true
+
+  class << self
+    def menu
+      pluck(:id, :section, :name)
+    end
+  end
 end

@@ -77,7 +77,9 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
 
         expect(page).to have_content("Part 1, Class D").once
 
-        click_link("Add assessment area")
+        within("#assess-against-legislation-tasks") do
+          click_link("Add assessment area")
+        end
         choose("Part 1 - Development within the curtilage of a dwellinghouse")
         click_button("Continue")
 
@@ -415,6 +417,58 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
           )
         end
       end
+
+      context "when assessing legislation with dynamic policies" do
+        let!(:schedule) { create(:policy_schedule, number: 2, name: "Permitted development rights") }
+        let!(:part1) { create(:policy_part, name: "Development within the curtilage of a dwellinghouse", number: 1, policy_schedule: schedule) }
+        let!(:part2) { create(:policy_part, name: "Minor operations", number: 2, policy_schedule: schedule) }
+
+        before do
+          create(:new_policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1)
+          create(:new_policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part1)
+          create(:new_policy_class, section: "A", name: "gates, fences, walls etc", policy_part: part2)
+        end
+
+        it "lets the assessor add the relevant classes" do
+          click_link("Check and assess")
+          within("#assess-against-legislation-new-tasks") do
+            click_link("Add new assessment area")
+          end
+
+          choose("Part 1 - Development within the curtilage of a dwellinghouse")
+          click_button("Continue")
+
+          expect(page).not_to have_content("Class A - gates, fences, walls etc")
+          check("Class A - enlargement, improvement or other alteration of a dwellinghouse")
+          check("Class B - additions etc to the roof of a dwellinghouse")
+          click_button("Add classes")
+
+          expect(page).to have_content("Policy classes have been successfully added")
+
+          within("#assess-against-legislation-new-tasks") do
+            click_link("Add new assessment area")
+          end
+
+          choose("Part 1 - Development within the curtilage of a dwellinghouse")
+          click_button("Continue")
+          expect(page).to have_checked_field("Class A - enlargement, improvement or other alteration of a dwellinghouse", disabled: true)
+          expect(page).to have_checked_field("Class B - additions etc to the roof of a dwellinghouse", disabled: true)
+
+          click_link("Back")
+          choose("Part 2 - Minor operations")
+          click_button("Continue")
+
+          expect(page).not_to have_content("Class A - enlargement, improvement or other alteration of a dwellinghouse")
+          check("Class A - gates, fences, walls etc")
+          click_button("Add classes")
+
+          within("#assess-against-legislation-new-tasks") do
+            expect(page).to have_link("Part 1, Class A")
+            expect(page).to have_link("Part 1, Class B")
+            expect(page).to have_link("Part 2, Class A")
+          end
+        end
+      end
     end
 
     context "when I'm signed in as a reviewer" do
@@ -482,7 +536,9 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
   end
 
   def add_policy_classes(policy_classes)
-    click_link("Add assessment area")
+    within("#assess-against-legislation-tasks") do
+      click_link("Add assessment area")
+    end
     choose("Part 1 - Development within the curtilage of a dwellinghouse")
     click_button("Continue")
     policy_classes.each { |policy_class| check(policy_class) }

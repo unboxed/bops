@@ -1,0 +1,61 @@
+<% content_for :page_title do %>
+  Assess - <%= t("page_title") %>
+<% end %>
+<% render(
+     partial: "shared/assessment_task_breadcrumbs",
+     locals: {
+       planning_application: @planning_application,
+       current_page: "Select the part"
+     }
+   ) %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Select the part"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+          url: new_planning_application_assessment_policy_areas_policy_class_path(@planning_application),
+          method: :get,
+          html: {data: unsaved_changes_data}
+        ) do |form| %>
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <p class="govuk-body">
+              Select the relevant part of the legislation for your assessment.
+              Parts are defined in The Town and Country Planning
+              (General Permitted Development) (England) Order 2015
+              (GPDO), Schedule 2.
+            </p>
+            <p class="govuk-body">
+              <%= govuk_link_to "Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window",
+                    "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made",
+                    new_tab: "" %>
+            </p>
+          </legend>
+          <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+            <% @policy_parts.each do |part| %>
+              <div class="govuk-radios__item">
+                <%= form.radio_button(
+                      :part, part.number,
+                      class: "govuk-radios__input"
+                    ) %>
+                <%= form.label :part, value: part.number, class: "govuk-label govuk-radios__label" do %>
+                  <strong>Part <%= part.number %></strong> - <%= part.name %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Continue", class: "govuk-button" %>
+        <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      </div>
+    <% end %>
+  </div>
+</div>
