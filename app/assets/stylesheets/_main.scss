@@ -498,11 +498,13 @@ body {
   .map-data-close {
     display: block;
     margin-left: auto;
+    margin-right: 1rem;
+    color: govuk-colour("dark-grey");
   }
 
   .map-data {
     background-color: white;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
   }
 
   .map-data-container {
