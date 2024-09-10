@@ -25,8 +25,8 @@
     <button type="button" class="map-data-toggle" data-action="map#showMapData">Show data</button>
     <div class="map-data govuk-!-display-none">
       <button type="button" class="map-data-close button-as-link" data-action="map#hideMapData map#toggleTab" data-map-toggle-param="menu">×</button>
-      <div class="map-data-container govuk-body">
-        <div class="map-data-tab map-data-menu">
+      <div class="map-data-tab map-data-menu">
+        <div class="map-data-scroll-container">
           <ul class="govuk-task-list">
             <li class="govuk-task-list__item govuk-task-list__item--with-link">
               <div class="govuk-task-list__name-and-hint">
@@ -40,12 +40,16 @@
             </li>
           </ul>
         </div>
-        <div class="map-data-tab map-data-constraints govuk-!-display-none">
-          <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
-      placeholder
+      </div>
+      <div class="map-data-tab map-data-constraints govuk-!-display-none">
+        <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
+        <div class="map-data-scroll-container">
+          placeholder
         </div>
-        <div class="map-data-tab map-data-neighbours govuk-!-display-none">
-          <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
+      </div>
+      <div class="map-data-tab map-data-neighbours govuk-!-display-none">
+        <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
+        <div class="map-data-scroll-container">
           <h3>All neighbours</h3>
           <ul class="govuk-list govuk-list--spaced">
             <% planning_application.consultation.neighbours.each do |neighbour| %>

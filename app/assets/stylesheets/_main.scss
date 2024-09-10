@@ -507,11 +507,16 @@ body {
     border-radius: 0.5rem;
     height: calc(100% - 1rem);
     width: calc($govuk-page-width / 4);
-    overflow-y: scroll;
   }
 
-  .map-data-container {
+  .map-data-tab {
     margin: 0 0.5rem;
+    height: 100%;
+  }
+
+  .map-data-scroll-container {
+    height: calc(100% - 4rem);
+    overflow-y: scroll;
   }
 
   .govuk-back-link,
