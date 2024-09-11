@@ -2,8 +2,9 @@
 
 module StatusTags
   class BaseComponent < ViewComponent::Base
-    def initialize(status:)
+    def initialize(status:, html_attributes: {})
       @status = status
+      @html_attributes = html_attributes
     end
 
     def render?
@@ -11,7 +12,7 @@ module StatusTags
     end
 
     def call
-      govuk_tag(text: link_text, colour:, html_attributes: {class: "govuk-tag--status-#{status}"})
+      govuk_tag(text: link_text, colour:, html_attributes: @html_attributes.merge({class: "#{@html_attributes[:class]} govuk-tag--status-#{status}"}))
     end
 
     private

@@ -480,3 +480,52 @@ body {
     margin: 0;
   }
 }
+
+#map-container {
+  position: relative;
+
+  #map {
+    height: calc(9 / 16 * $govuk-page-width);
+  }
+
+  .map-data,
+  .map-data-toggle {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .map-data-close {
+    display: block;
+    margin-left: auto;
+    margin-right: 1rem;
+    color: govuk-colour("dark-grey");
+  }
+
+  .map-data {
+    background-color: white;
+    border-radius: 0.5rem;
+    height: calc(100% - 1rem);
+    width: calc($govuk-page-width / 4);
+  }
+
+  .map-data-tab {
+    margin: 0 0.5rem;
+    height: 100%;
+  }
+
+  .map-data-scroll-container {
+    height: calc(100% - 4rem);
+    overflow-y: scroll;
+  }
+
+  .govuk-back-link,
+  h3 {
+    margin-top: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+}

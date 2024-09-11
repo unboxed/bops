@@ -10,16 +10,65 @@
   <p class="govuk-body">
     <%= t(".site_map_drawn_by", name: site_map_drawn_by) %>
   </p>
-  <%= tag.div id: :map,
-        style: "height: 618px",
-        data: {
-          controller: :map,
-          latLong: [planning_application.latitude, planning_application.longitude].join(","),
-          layers: {
-            redline: planning_application.boundary_geojson,
-            neighbours: neighbours_layers
-          }
-        } %>
+  <%= tag.div id: :"map-container", data: {
+
+        controller: :map,
+        latLong: [planning_application.latitude, planning_application.longitude].join(","),
+        layers: {
+          redline: planning_application.boundary_geojson,
+          neighbours: neighbours_layers
+        }
+
+      } do %>
+  <%= tag.div id: :map %>
+
+    <button type="button" class="map-data-toggle" data-action="map#showMapData">Show data</button>
+    <div class="map-data govuk-!-display-none">
+      <button type="button" class="map-data-close button-as-link" data-action="map#hideMapData map#toggleTab" data-map-toggle-param="menu">×</button>
+      <div class="map-data-tab map-data-menu">
+        <div class="map-data-scroll-container">
+          <ul class="govuk-task-list">
+            <li class="govuk-task-list__item govuk-task-list__item--with-link">
+              <div class="govuk-task-list__name-and-hint">
+                <a class="govuk-link govuk-task-list__link" href="#" data-action="map#toggleTab" data-map-toggle-param="constraints">Constraints</a>
+              </div>
+            </li>
+            <li class="govuk-task-list__item govuk-task-list__item--with-link">
+              <div class="govuk-task-list__name-and-hint">
+                <a class="govuk-link govuk-task-list__link" href="#" data-action="map#toggleTab" data-map-toggle-param="neighbours">Neighbours</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="map-data-tab map-data-constraints govuk-!-display-none">
+        <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
+        <div class="map-data-scroll-container">
+          placeholder
+        </div>
+      </div>
+      <div class="map-data-tab map-data-neighbours govuk-!-display-none">
+        <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
+        <div class="map-data-scroll-container">
+          <h3>All neighbours</h3>
+          <ul class="govuk-list govuk-list--spaced">
+            <% planning_application.consultation.neighbours.each do |neighbour| %>
+              <li>
+                <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
+                <%= render StatusTags::BaseComponent.new(
+                      status: neighbour.neighbour_responses.last&.summary_tag || :new,
+                      html_attributes: {class: "govuk-!-font-size-16"}
+                    ) %>
+                <% if neighbour.neighbour_responses.last&.tags&.present? %>
+                  <p class="govuk-body govuk-body-s"><%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %></p>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
 <% else %>
   <p class="govuk-body"><%= t(".no_digital_sitemap") %></p>
 <% end %>

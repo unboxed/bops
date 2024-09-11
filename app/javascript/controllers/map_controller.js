@@ -6,6 +6,8 @@ export default class extends Controller {
   connect() {
     L.Icon.Default.imagePath = "/assets"
 
+    this.mapElement = this.element.querySelector("#map")
+
     const layerData = JSON.parse(this.element.dataset.layers)
     const redline = layerData.redline
     const neighbours = layerData.neighbours
@@ -28,7 +30,7 @@ export default class extends Controller {
       long = centre.lng
     }
 
-    this.map = L.map(this.element.id, {
+    this.map = L.map(this.mapElement.id, {
       center: [lat, long],
       zoom: 17,
     })
@@ -84,5 +86,30 @@ export default class extends Controller {
         return L.circleMarker(latlng, neighbourMarkerOptions)
       },
     })
+  }
+
+  showMapData(ev) {
+    ev.target.classList.add("govuk-!-display-none")
+    ev.target.parentNode
+      .querySelector(".map-data")
+      .classList.remove("govuk-!-display-none")
+  }
+
+  hideMapData(ev) {
+    ev.target.parentNode.classList.add("govuk-!-display-none")
+    ev.target.parentNode.parentNode
+      .querySelector(".map-data-toggle")
+      .classList.remove("govuk-!-display-none")
+  }
+
+  toggleTab(ev) {
+    ev.preventDefault()
+    for (const el of this.element.querySelectorAll(".map-data-tab")) {
+      if (el.classList.contains(`map-data-${ev.params.toggle}`)) {
+        el.classList.remove("govuk-!-display-none")
+      } else {
+        el.classList.add("govuk-!-display-none")
+      }
+    }
   }
 }
