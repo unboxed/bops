@@ -1,0 +1,50 @@
+<% content_for :page_title do %>
+  Site history - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title do %>
+  Site history
+<% end %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Edit site history"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+          model: [@planning_application, @site_history],
+          class: "govuk-!-margin-top-5",
+          url: planning_application_assessment_site_history_path(@planning_application, @site_history)
+        ) do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <%= form.govuk_text_field :application_number, class: "govuk-input govuk-input--width-30" %>
+      <%= form.govuk_text_field :description, class: "govuk-input govuk-input--width-30" %>
+
+      <%= form.govuk_collection_radio_buttons(
+            :decision,
+            Decision.all_codes,
+            :last,
+            :first,
+            legend: {text: "What was the decision?", size: "s"}
+          ) %>
+      <%= form.govuk_date_field :date, legend: {text: "Decision received on", size: "s", tag: "p"} %>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div class="govuk-button-group">
+        <%= form.submit "Update site history", class: "govuk-button" %>
+        <%= govuk_button_link_to "Back", planning_application_assessment_site_histories_path(@planning_application), secondary: true %>
+      </div>
+    <% end %>
+  </div>
+</div>

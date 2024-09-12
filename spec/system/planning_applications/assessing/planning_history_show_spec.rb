@@ -19,7 +19,7 @@ RSpec.describe "Planning History" do
 
     before do
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      click_link "Site history"
+      click_link "Check site history"
     end
 
     it "displays a table with relevants planning historical applications" do
@@ -29,8 +29,8 @@ RSpec.describe "Planning History" do
             expect(page).to have_content("Date")
             expect(page).to have_content("Application number")
             expect(page).to have_content("Description")
-            expect(page).to have_content("Recommendation")
-            expect(page).to have_content("View on public access")
+            expect(page).to have_content("Decision")
+            expect(page).to have_content("Action")
           end
         end
 
@@ -53,7 +53,7 @@ RSpec.describe "Planning History" do
               expect(page).to have_content("Application Refused")
             end
             within(cells[4]) do
-              expect(page).to have_link("View")
+              expect(page).to have_content("-")
             end
           end
 
@@ -73,7 +73,7 @@ RSpec.describe "Planning History" do
               expect(page).to have_content("Cert of law for proposed dev/use refused")
             end
             within(cells[4]) do
-              expect(page).to have_link("View")
+              expect(page).to have_content("-")
             end
           end
 
@@ -93,7 +93,7 @@ RSpec.describe "Planning History" do
               expect(page).to have_content("TPO shall not be made")
             end
             within(cells[4]) do
-              expect(page).to have_link("View")
+              expect(page).to have_content("-")
             end
           end
         end
@@ -108,13 +108,15 @@ RSpec.describe "Planning History" do
 
     before do
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      click_link "Site history"
+      click_link "Check site history"
     end
 
     it "displays no planning history for this property" do
-      expect(page).to have_content("Review the site history")
-      expect(page).to have_content("Planning application for UPRN 10008104351")
-      expect(page).to have_content("There is no planning history for this property")
+      expect(page).to have_content("Check site history")
+      expect(page).to have_content("Summary of the relevant historical applications")
+      expect(page).to have_content("There is no site history for this property")
+
+      expect(page).to have_selector("span", text: "Add a new site history")
     end
   end
 end

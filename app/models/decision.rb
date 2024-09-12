@@ -22,5 +22,9 @@ class Decision < ApplicationRecord
     def for_codes(codes)
       where(code: Array.wrap(codes))
     end
+
+    def all_codes
+      CODES.map { |value| [I18n.t(value.to_s), value] }
+    end
   end
 end

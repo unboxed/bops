@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_18_110955) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_19_125108) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -788,6 +788,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_110955) do
     t.boolean "regulation_4", default: false, null: false
     t.boolean "ownership_certificate_checked", default: false, null: false
     t.datetime "published_at"
+    t.boolean "site_history_checked", default: false, null: false
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
@@ -938,6 +939,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_110955) do
     t.index ["assessor_id"], name: "ix_reviews_on_assessor_id"
     t.index ["owner_type", "owner_id"], name: "index_reviews_on_reviewable"
     t.index ["reviewer_id"], name: "ix_reviews_on_reviewer_id"
+  end
+
+  create_table "site_histories", force: :cascade do |t|
+    t.date "date"
+    t.string "application_number"
+    t.string "description"
+    t.string "decision"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_site_histories_on_planning_application_id"
   end
 
   create_table "site_notices", force: :cascade do |t|
@@ -1119,6 +1131,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_18_110955) do
   add_foreign_key "recommendations", "users", column: "reviewer_id"
   add_foreign_key "reviews", "users", column: "assessor_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
+  add_foreign_key "site_histories", "planning_applications"
   add_foreign_key "site_notices", "planning_applications"
   add_foreign_key "site_visits", "consultations"
   add_foreign_key "site_visits", "neighbours"

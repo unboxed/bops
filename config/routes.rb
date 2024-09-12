@@ -125,7 +125,9 @@ Rails.application.routes.draw do
 
           resources :permitted_development_rights, except: %i[destroy index]
 
-          resource :planning_history, only: :show
+          resources :site_histories, except: %i[new show] do
+            post :confirm, on: :collection
+          end
 
           resources :policy_classes, except: %i[index] do
             get :part, on: :new

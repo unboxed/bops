@@ -43,13 +43,11 @@
             )
           ) %>
     <% end %>
-    <% if @planning_application.planning_history_enabled? %>
-      <li class="app-task-list__item">
-        <span class="app-task-list__task-name">
-          <%= govuk_link_to t(".site_history"), planning_application_assessment_planning_history_path(@planning_application) %>
-        </span>
-      </li>
-    <% end %>
+    <%= render(
+          TaskListItems::Assessment::SiteHistoryComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
     <% if @planning_application.possibly_immune? %>
       <%= render(
             TaskListItems::Assessment::ImmunityDetailsComponent.new(
