@@ -494,6 +494,57 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
           click_button("Continue")
           expect(page).to have_unchecked_field("Class A - enlargement, improvement or other alteration of a dwellinghouse")
         end
+
+        context "when assessing the policy sections" do
+          let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", new_policy_class: policy_classA) }
+          let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", new_policy_class: policy_classA) }
+          let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2ab(ii)", new_policy_class: policy_classA) }
+
+          it "lets the user save draft and then mark as complete" do
+            create(:planning_application_policy_class, planning_application:, new_policy_class: policy_classA)
+            travel_to(Time.zone.local(2022, 9, 1))
+
+            click_link("Check and assess")
+
+            within("#assess-against-legislation-new-tasks") do
+              expect(page).to have_list_item_for("Part 1, Class A", with: "Not started")
+              click_link("Part 1, Class A")
+            end
+
+            within("#policy-section-#{policy_section1a.id}") do
+              expect(page).to have_content("A.1a")
+              expect(page).to have_content("description for section 1a")
+              choose(option: "complies")
+            end
+            within("#policy-section-#{policy_section1b.id}") do
+              expect(page).to have_content("A.1b")
+              expect(page).to have_content("description for section 1b")
+              choose(option: "does_not_comply")
+            end
+            click_button("Save and mark as complete")
+
+            expect(page).to have_content("All policies must be assessed")
+
+            click_button("Save and come back later")
+
+            expect(page).to have_content("Policy class was successfully updated")
+            expect(page).to have_list_item_for("Part 1, Class A", with: "In progress")
+
+            click_link("Part 1, Class A")
+            within("#policy-section-#{policy_section2bii.id}") do
+              choose(option: "does_not_comply")
+            end
+            click_button("Save and mark as complete")
+
+            expect(page).to have_content("Policy class was successfully updated")
+            expect(page).to have_list_item_for("Part 1, Class A", with: "Completed")
+
+            click_link("Part 1, Class A")
+            expect(page).to have_checked_field("planning-application-policy-sections-#{policy_section1a.id}-status-complies-field")
+            expect(page).to have_checked_field("planning-application-policy-sections-#{policy_section1b.id}-status-does-not-comply-field")
+            expect(page).to have_checked_field("planning-application-policy-sections-#{policy_section2bii.id}-status-does-not-comply-field")
+          end
+        end
       end
     end
 
