@@ -82,7 +82,7 @@ export default class extends Controller {
     }
 
     return L.geoJson(neighboursCollection, {
-      pointToLayer: (feature, latlng) => {
+      pointToLayer: (_feature, latlng) => {
         return L.circleMarker(latlng, neighbourMarkerOptions)
       },
     })
