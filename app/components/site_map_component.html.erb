@@ -48,7 +48,7 @@
       <div class="map-data-tab map-data-neighbours govuk-!-display-none">
         <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
         <div class="map-data-scroll-container">
-          <h3>All neighbours</h3>
+          <h3 class="govuk-heading-s">All neighbours</h3>
           <% if planning_application.consultation.neighbours.present? %>
             <ul class="govuk-list govuk-list--spaced">
               <% planning_application.consultation.neighbours.each do |neighbour| %>
