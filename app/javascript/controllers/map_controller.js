@@ -140,6 +140,9 @@ export default class extends Controller {
         el.classList.add("govuk-!-display-none")
       }
     }
+
+    const heading = this.element.querySelector("h3")
+    heading.innerHTML = latlng === null ? "All neighbours" : "Neighbours"
   }
 
   trunc(num, digits) {
