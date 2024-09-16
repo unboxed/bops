@@ -285,7 +285,7 @@ class Document < ApplicationRecord
   end
 
   def published?
-    self.class.for_publication.where(id:).any?
+    publishable? && unarchived?
   end
 
   def received_at_or_created
