@@ -83,7 +83,7 @@ RSpec.describe "BOPS public API" do
           run_test! do |response|
             data = JSON.parse(response.body)
             expect(data["application"]["reference"]).to eq(planning_application.reference)
-            expect(data["files"].count).to be(2)
+            expect(data["files"].count).to eq(2)
             expect(data["files"].last["name"]).to eq("site-notice.jpg")
             expect(data["files"].last["type"].first["description"]).to eq("Site Notice")
           end

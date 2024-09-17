@@ -941,7 +941,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def documents_for_publication
-    documents.for_publication + site_notice_documents_for_publication
+    ids = documents.for_publication.pluck(:id) + site_notice_documents_for_publication.pluck(:id)
+    Document.unscoped.where(id: ids)
   end
 
   def to_param
