@@ -75,7 +75,11 @@ module PlanningApplications
         end
 
         def policy_section_status_params
-          params.require(:planning_application_policy_sections)
+          params.require(:planning_application_policy_sections).permit(
+            params[:planning_application_policy_sections].keys.map do |key|
+              [key, [:status, {comments_attributes: [:id, :text]}]]
+            end.to_h
+          )
         end
 
         def build_form

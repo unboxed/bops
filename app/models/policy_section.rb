@@ -29,4 +29,8 @@ class PolicySection < ApplicationRecord
   def full_section
     "#{policy_class.section}.#{section}"
   end
+
+  def planning_application_policy_section
+    planning_application_policy_sections.last
+  end
 end

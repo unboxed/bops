@@ -5,8 +5,8 @@
         <%= t(".previous_comments") %>
       </span>
     </summary>
-    <div class="govuk-details__text">
-      <% previous_comments.reverse_each do |comment| %>
+    <% previous_comments.reverse_each do |comment| %>
+      <div class="govuk-details__text" id="<%= dom_id(comment) %>">
         <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
           <%= existing_policy_comment_label(comment) %>
         </p>
@@ -18,7 +18,7 @@
           </p>
         <% end %>
         <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--s">
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </details>
 <% end %>
