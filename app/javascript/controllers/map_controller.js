@@ -82,8 +82,13 @@ export default class extends Controller {
     }
 
     return L.geoJson(neighboursCollection, {
-      pointToLayer: (feature, latlng) => {
-        return L.circleMarker(latlng, neighbourMarkerOptions)
+      pointToLayer: (_feature, latlng) => {
+        const marker = L.circleMarker(latlng, neighbourMarkerOptions)
+        marker.on("click", (_ev) => {
+          this.filterNeighbourList(latlng)
+        })
+
+        return marker
       },
     })
   }
@@ -100,10 +105,12 @@ export default class extends Controller {
     ev.target.parentNode.parentNode
       .querySelector(".map-data-toggle")
       .classList.remove("govuk-!-display-none")
+    this.filterNeighbourList(null)
   }
 
   toggleTab(ev) {
     ev.preventDefault()
+    this.filterNeighbourList(null)
     for (const el of this.element.querySelectorAll(".map-data-tab")) {
       if (el.classList.contains(`map-data-${ev.params.toggle}`)) {
         el.classList.remove("govuk-!-display-none")
@@ -111,5 +118,41 @@ export default class extends Controller {
         el.classList.add("govuk-!-display-none")
       }
     }
+  }
+
+  filterNeighbourList(latlng) {
+    if (latlng !== null) {
+      this.showMapData({ target: this.element.querySelector("button") })
+      this.toggleTab({
+        params: { toggle: "neighbours" },
+        preventDefault: () => {},
+      })
+    }
+    const lonlatStr =
+      latlng === null ||
+      `${this.trunc(latlng.lng, 5)},${this.trunc(latlng.lat, 5)}`
+
+    const els = this.element.querySelectorAll("li")
+    for (const el of els) {
+      if (latlng === null || el.dataset.lonlat === lonlatStr) {
+        el.classList.remove("govuk-!-display-none")
+      } else {
+        el.classList.add("govuk-!-display-none")
+      }
+    }
+
+    const heading = this.element.querySelector("h3")
+    heading.innerHTML = latlng === null ? "All neighbours" : "Neighbours"
+  }
+
+  trunc(num, digits) {
+    const sign = Math.abs(num) === num ? "" : "-"
+    const whole = Math.trunc(num)
+    const remainder = num - whole
+    const decimals = String(remainder)
+      .split(".")[1]
+      .slice(0, digits)
+      .replace(/0+$/, "")
+    return `${sign}${whole}.${decimals}`
   }
 }

@@ -11,16 +11,14 @@
     <%= t(".site_map_drawn_by", name: site_map_drawn_by) %>
   </p>
   <%= tag.div id: :"map-container", data: {
-
         controller: :map,
         latLong: [planning_application.latitude, planning_application.longitude].join(","),
         layers: {
           redline: planning_application.boundary_geojson,
           neighbours: neighbours_layers
         }
-
       } do %>
-  <%= tag.div id: :map %>
+    <%= tag.div id: :map %>
 
     <button type="button" class="map-data-toggle" data-action="map#showMapData">Show data</button>
     <div class="map-data govuk-!-display-none">
@@ -50,21 +48,23 @@
       <div class="map-data-tab map-data-neighbours govuk-!-display-none">
         <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
         <div class="map-data-scroll-container">
-          <h3>All neighbours</h3>
-          <ul class="govuk-list govuk-list--spaced">
-            <% planning_application.consultation.neighbours.each do |neighbour| %>
-              <li>
-                <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
-                <%= render StatusTags::BaseComponent.new(
-                      status: neighbour.neighbour_responses.last&.summary_tag || :new,
-                      html_attributes: {class: "govuk-!-font-size-16"}
-                    ) %>
-                <% if neighbour.neighbour_responses.last&.tags&.present? %>
-                  <p class="govuk-body govuk-body-s"><%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %></p>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
+          <h3 class="govuk-heading-s">All neighbours</h3>
+          <% if planning_application.consultation.neighbours.present? %>
+            <ul class="govuk-list govuk-list--spaced">
+              <% planning_application.consultation.neighbours.each do |neighbour| %>
+                <li data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
+                  <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
+                  <%= render StatusTags::BaseComponent.new(
+                        status: neighbour.neighbour_responses.last&.summary_tag || :new,
+                        html_attributes: {class: "govuk-!-font-size-16"}
+                      ) %>
+                  <% if neighbour.neighbour_responses.last&.tags&.present? %>
+                    <p class="govuk-body govuk-body-s"><%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %></p>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
         </div>
       </div>
     </div>
