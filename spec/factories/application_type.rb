@@ -13,6 +13,12 @@ FactoryBot.define do
       category { "certificate-of-lawfulness" }
       reporting_types { %w[Q26] }
 
+      features {
+        {
+          assess_against_policies: true
+        }
+      }
+
       assessment_details do
         %w[
           summary_of_work
@@ -83,6 +89,7 @@ FactoryBot.define do
 
       features {
         {
+          "assess_against_policies" => true,
           "informatives" => true,
           "planning_conditions" => false,
           "consultation_steps" => []
@@ -100,6 +107,7 @@ FactoryBot.define do
 
       features {
         {
+          "assess_against_policies" => true,
           "informatives" => true,
           "planning_conditions" => false,
           "consultation_steps" => []
@@ -118,6 +126,7 @@ FactoryBot.define do
       steps { %w[validation consultation assessment review] }
       features {
         {
+          "assess_against_policies" => true,
           "planning_conditions" => false,
           "permitted_development_rights" => false,
           "site_visits" => false,
@@ -191,6 +200,8 @@ FactoryBot.define do
       reporting_types { %w[PA1] }
       features {
         {
+          "assess_against_policies" => true,
+          "considerations" => true,
           "site_visits" => true,
           "consultation_steps" => ["neighbour", "publicity", "consultee"]
         }
@@ -334,6 +345,7 @@ FactoryBot.define do
       steps { %w[validation consultation assessment review] }
       features {
         {
+          "considerations" => true,
           "informatives" => true,
           "planning_conditions" => true,
           "permitted_development_rights" => false,

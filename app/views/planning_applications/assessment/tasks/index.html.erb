@@ -33,7 +33,7 @@
       <%= render "assess_against_legislation" %>
 
       <% unless Bops.env.production? %>
-        <% unless @planning_application.application_type.name == "planning_permission" %>
+        <% if @planning_application.application_type.assess_against_policies? %>
           <%= render "assess_against_legislation_new" %>
         <% end %>
       <% end %>
