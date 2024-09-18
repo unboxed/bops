@@ -7,7 +7,9 @@ module PlanningApplications
         before_action :ensure_can_assess_planning_application
         before_action :find_policy_parts
         before_action :find_part, only: %i[new create]
-        before_action :find_planning_application_policy_class, only: %i[edit destroy]
+        before_action :find_planning_application_policy_class, only: %i[edit update destroy]
+        before_action :build_form, only: %i[edit update]
+        before_action :set_review, only: %i[edit update]
 
         def new
           if @part.blank?
@@ -36,6 +38,16 @@ module PlanningApplications
           end
         end
 
+        def update
+          @form.update(policy_section_status_params)
+
+          if @planning_application_policy_class.update_review(review_params)
+            redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+          else
+            render :edit
+          end
+        end
+
         def destroy
           respond_to do |format|
             format.html do
@@ -60,6 +72,25 @@ module PlanningApplications
 
         def find_planning_application_policy_class
           @planning_application_policy_class = @planning_application.planning_application_policy_classes.find(params[:id])
+        end
+
+        def policy_section_status_params
+          params.require(:planning_application_policy_sections)
+        end
+
+        def build_form
+          @form = PolicySectionForm.new(
+            planning_application: @planning_application,
+            policy_class: @planning_application_policy_class.policy_class
+          )
+        end
+
+        def review_params
+          params.require(:review).permit(:status).merge(assessor: current_user)
+        end
+
+        def set_review
+          @review = @planning_application_policy_class.current_review
         end
       end
     end

@@ -6,3 +6,51 @@
         policy_class: @planning_application_policy_class.policy_class
       }
     ) %>
+
+<% if @planning_application_policy_class.policy_class.policy_sections.any? %>
+  <%= govuk_error_summary(@review) %>
+
+  <%= form_with url: planning_application_assessment_policy_areas_policy_class_path(@planning_application, @planning_application_policy_class), method: :patch, html: {data: unsaved_changes_data} do |form| %>
+    <%= govuk_table(id: "policy-sections") do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: "Policy reference") %>
+          <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
+            <% row.with_cell(text: status.humanize) %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% table.with_body do |body| %>
+        <% @planning_application_policy_class.policy_class.policy_sections.each do |policy_section| %>
+          <% body.with_row(html_attributes: {id: "policy-section-#{policy_section.id}"}) do |row| %>
+            <% row.with_cell do %>
+              <p><strong><%= @planning_application_policy_class.policy_class.section %>.<%= policy_section.section %></strong></p>
+              <%= render(FormattedContentComponent.new(text: policy_section.description)) %>
+            <% end %>
+            <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
+              <% row.with_cell do %>
+                <div class="govuk-radios govuk-radios--small">
+                  <%= form.govuk_radio_button(
+                        "planning_application_policy_sections[#{policy_section.id}][status]",
+                        status,
+                        checked: @form.planning_application_policy_sections[policy_section.id].status == status,
+                        label: {hidden: true},
+                        class: "govuk-radios__input"
+                      ) %>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_submit "Save and mark as complete", name: "review[status]", value: "complete" do %>
+      <%= form.govuk_submit "Save and come back later", name: "review[status]", value: "in_progress", secondary: true %>
+      <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+<% end %>

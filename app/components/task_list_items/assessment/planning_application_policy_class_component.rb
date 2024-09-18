@@ -29,7 +29,11 @@ module TaskListItems
       end
 
       def status
-        :in_progress
+        if planning_application_policy_class.current_review
+          planning_application_policy_class.current_review.status.to_sym
+        else
+          :not_started
+        end
       end
     end
   end

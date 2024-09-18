@@ -19,6 +19,8 @@ class Review < ApplicationRecord
     validates :summary, if: -> { owner_is_immunity_detail? && decision_is_immune? }
   end
 
+  validate :all_policies_are_determined, if: :owner_is_planning_application_policy_class?
+
   before_create :ensure_no_open_evidence_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_create :ensure_no_open_enforcement_review_immunity_detail_response!, if: :owner_is_immunity_detail?
   before_commit :ensure_consultation_has_finished!, if: :owner_is_consultation?
@@ -129,6 +131,10 @@ class Review < ApplicationRecord
     owner_type == "Consultation"
   end
 
+  def owner_is_planning_application_policy_class?
+    owner_type == "PlanningApplicationPolicyClass"
+  end
+
   def enforcement?
     return if specific_attributes.nil?
 
@@ -170,5 +176,12 @@ class Review < ApplicationRecord
 
     raise NotCreatableError,
       "Consultation expiry date must be in the past. You cannot mark this as complete until the consultation period is complete."
+  end
+
+  def all_policies_are_determined
+    return unless status == "complete"
+    return if owner.policy_class.planning_application_policy_sections.none?(&:to_be_determined?)
+
+    errors.add(:base, :policies_to_be_determined)
   end
 end

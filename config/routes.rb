@@ -137,7 +137,7 @@ Rails.application.routes.draw do
 
           namespace :policy_areas do
             resources :parts, only: :index
-            resources :policy_classes, only: %i[new create edit destroy]
+            resources :policy_classes, except: %i[show]
           end
 
           resources :heads_of_terms, only: %i[index new] do
