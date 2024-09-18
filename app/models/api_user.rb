@@ -19,4 +19,8 @@ class ApiUser < ApplicationRecord
       active.find_by(token: token)
     end
   end
+
+  def revoke!
+    touch(:revoked_at)
+  end
 end
