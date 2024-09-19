@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_10_082303) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_18_110955) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -52,9 +52,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_10_082303) do
     t.bigint "local_authority_id"
     t.jsonb "file_downloader"
     t.string "service"
+    t.datetime "revoked_at"
     t.index ["local_authority_id", "name"], name: "ix_api_users_on_local_authority_id__name", unique: true
     t.index ["local_authority_id", "token"], name: "ix_api_users_on_local_authority_id__token", unique: true
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
+    t.index ["revoked_at"], name: "ix_api_users_on_revoked_at"
   end
 
   create_table "application_types", force: :cascade do |t|
