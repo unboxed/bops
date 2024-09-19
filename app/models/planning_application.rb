@@ -941,8 +941,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def documents_for_publication
-    ids = documents.for_publication.pluck(:id) + site_notice_documents_for_publication.pluck(:id)
-    Document.unscoped.where(id: ids)
+    documents.for_publication.or(site_notice_documents_for_publication)
   end
 
   def to_param
@@ -1131,6 +1130,6 @@ class PlanningApplication < ApplicationRecord
   end
 
   def site_notice_documents_for_publication
-    last_site_notice.present? ? last_site_notice.documents.for_publication : []
+    last_site_notice.present? ? last_site_notice.documents.for_publication : Document.none
   end
 end
