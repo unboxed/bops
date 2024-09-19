@@ -31,6 +31,8 @@ module BopsConfig
 
       def features_attributes
         [
+          :assess_against_policies,
+          :considerations,
           :informatives,
           :ownership_details,
           :planning_conditions,

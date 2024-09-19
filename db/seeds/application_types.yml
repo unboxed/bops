@@ -6,6 +6,8 @@
     - Q26
   suffix: LDCE
   determination_period_days: 56
+  features:
+    assess_against_policies: true
   steps:
     - validation
     - assessment
@@ -32,6 +34,8 @@
     - Q26
   suffix: LDCP
   determination_period_days: 56
+  features:
+    assess_against_policies: true
   steps:
     - validation
     - assessment
@@ -61,6 +65,8 @@
   suffix: PA1A
   determination_period_days: 56
   features:
+    assess_against_policies: true
+    considerations: true
     site_visits: true
   steps:
     - validation
@@ -93,6 +99,7 @@
   suffix: HAPP
   determination_period_days: 56
   features:
+    considerations: true
     permitted_development_rights: false
     site_visits: true
   steps:
@@ -123,6 +130,7 @@
     - Q21
   suffix: HAPR
   features:
+    considerations: true
     permitted_development_rights: false
     site_visits: true
   steps:
