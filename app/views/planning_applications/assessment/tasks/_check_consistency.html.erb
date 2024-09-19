@@ -36,7 +36,7 @@
             )
           ) %>
     <% end %>
-    <% if @planning_application.planning_application_constraints&.any? %>
+    <% if @planning_application.application_type.consultation? %>
       <%= render(
             TaskListItems::Assessment::ConsulteesConsultedComponent.new(
               planning_application: @planning_application
