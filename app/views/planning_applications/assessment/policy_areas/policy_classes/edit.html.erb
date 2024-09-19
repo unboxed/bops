@@ -23,10 +23,24 @@
 
       <% table.with_body do |body| %>
         <% @planning_application_policy_class.policy_class.policy_sections.each do |policy_section| %>
+          <% pa_policy_section = policy_section.planning_application_policy_section %>
           <% body.with_row(html_attributes: {id: "policy-section-#{policy_section.id}"}) do |row| %>
             <% row.with_cell do %>
               <p><strong><%= @planning_application_policy_class.policy_class.section %>.<%= policy_section.section %></strong></p>
               <%= render(FormattedContentComponent.new(text: policy_section.description)) %>
+
+              <%= form.govuk_text_area "planning_application_policy_sections[#{policy_section.id}][comments_attributes][0][text]",
+                    label: {text: "Add comment", class: "govuk-label govuk-label--s"},
+                    value: pa_policy_section&.last_comment&.text,
+                    class: "govuk-textarea govuk-!-margin-bottom-2",
+                    rows: 2 %>
+
+              <% if pa_policy_section %>
+                <%= render(
+                      partial: "shared/policy_classes/previous_comments",
+                      locals: {previous_comments: pa_policy_section.previous_comments}
+                    ) %>
+              <% end %>
             <% end %>
             <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
               <% row.with_cell do %>

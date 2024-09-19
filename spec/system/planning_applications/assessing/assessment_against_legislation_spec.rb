@@ -500,10 +500,12 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
           let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", new_policy_class: policy_classA) }
           let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2ab(ii)", new_policy_class: policy_classA) }
 
-          it "lets the user save draft and then mark as complete" do
+          before do
             create(:planning_application_policy_class, planning_application:, new_policy_class: policy_classA)
-            travel_to(Time.zone.local(2022, 9, 1))
+          end
 
+          it "lets the user save draft and then mark as complete" do
+            travel_to(Time.zone.local(2022, 9, 1, 14))
             click_link("Check and assess")
 
             within("#assess-against-legislation-new-tasks") do
@@ -515,12 +517,15 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
               expect(page).to have_content("A.1a")
               expect(page).to have_content("description for section 1a")
               choose(option: "complies")
+              fill_in("Add comment", with: "My first comment")
             end
             within("#policy-section-#{policy_section1b.id}") do
               expect(page).to have_content("A.1b")
               expect(page).to have_content("description for section 1b")
               choose(option: "does_not_comply")
+              fill_in("Add comment", with: "My second comment")
             end
+
             click_button("Save and mark as complete")
 
             expect(page).to have_content("All policies must be assessed")
@@ -531,6 +536,15 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
             expect(page).to have_list_item_for("Part 1, Class A", with: "In progress")
 
             click_link("Part 1, Class A")
+            within("#policy-section-#{policy_section1a.id}") do
+              expect(page).to have_field("Add comment", with: "My first comment")
+              fill_in("Add comment", with: "Updated first comment")
+            end
+            within("#policy-section-#{policy_section1b.id}") do
+              expect(page).to have_field("Add comment", with: "My second comment")
+              fill_in("Add comment", with: "Updated second comment")
+            end
+
             within("#policy-section-#{policy_section2bii.id}") do
               choose(option: "does_not_comply")
             end
@@ -540,9 +554,74 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
             expect(page).to have_list_item_for("Part 1, Class A", with: "Completed")
 
             click_link("Part 1, Class A")
+            within("#policy-section-#{policy_section1a.id}") do
+              expect(page).to have_field("Add comment", with: "Updated first comment")
+              find("span", text: "Previous comments").click
+              expect(page).to have_content("Comment added on 1 September 2022 by Alice Smith")
+              expect(page).to have_content("My first comment")
+            end
+            within("#policy-section-#{policy_section1b.id}") do
+              expect(page).to have_field("Add comment", with: "Updated second comment")
+              find("span", text: "Previous comments").click
+              expect(page).to have_content("Comment added on 1 September 2022 by Alice Smith")
+              expect(page).to have_content("My second comment")
+            end
             expect(page).to have_checked_field("planning-application-policy-sections-#{policy_section1a.id}-status-complies-field")
             expect(page).to have_checked_field("planning-application-policy-sections-#{policy_section1b.id}-status-does-not-comply-field")
             expect(page).to have_checked_field("planning-application-policy-sections-#{policy_section2bii.id}-status-does-not-comply-field")
+          end
+
+          context "with comments" do
+            let(:comment1) { create(:comment, text: "Original comment") }
+            let(:comment2) { create(:comment, text: "Updated comment") }
+            let(:comment3) { create(:comment, text: "Current comment") }
+            let(:planning_application_policy_section) { create(:planning_application_policy_section, policy_section: policy_section1a, planning_application:) }
+
+            before do
+              Current.user = assessor
+
+              travel_to(Time.zone.local(2022, 9, 1))
+              planning_application_policy_section.comments << comment1
+
+              travel_to(Time.zone.local(2022, 10, 1))
+              planning_application_policy_section.comments << comment2
+
+              travel_to(Time.zone.local(2022, 11, 1))
+              planning_application_policy_section.comments << comment3
+              sign_in(assessor)
+            end
+
+            it "shows the updated comment and previous comments" do
+              click_link("Check and assess")
+              click_link("Part 1, Class A")
+
+              within("#policy-section-#{policy_section1a.id}") do
+                expect(page).to have_field("Add comment", with: "Current comment")
+                find("span", text: "Previous comments").click
+
+                within("#comment_#{comment1.id}") do
+                  expect(page).to have_content("Comment added on 1 September 2022 by Alice Smith")
+                  expect(page).to have_content("Original comment")
+                end
+
+                within("#comment_#{comment2.id}") do
+                  expect(page).to have_content("Comment updated on 1 October 2022 by Alice Smith")
+                  expect(page).to have_content("Updated comment")
+                end
+              end
+
+              # Ignores blank values
+              within("#policy-section-#{policy_section1a.id}") do
+                fill_in("Add comment", with: "")
+              end
+              click_button("Save and come back later")
+              click_link("Part 1, Class A")
+
+              within("#policy-section-#{policy_section1a.id}") do
+                expect(page).to have_field("Add comment", with: "Current comment")
+              end
+              expect(planning_application_policy_section.comments.length).to eq(3)
+            end
           end
         end
       end

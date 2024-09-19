@@ -23,7 +23,10 @@ class PolicySectionForm
   def update(params)
     params.each do |policy_section_id, section_params|
       planning_application_policy_section = planning_application_policy_sections[policy_section_id.to_i]
-      planning_application_policy_section.update(status: section_params[:status])
+      planning_application_policy_section.update!(
+        status: section_params[:status],
+        comments_attributes: section_params[:comments_attributes]
+      )
     end
   end
 end
