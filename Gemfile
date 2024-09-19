@@ -26,11 +26,13 @@ gem "image_processing", "~> 1.12"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "json_schemer"
+gem "logger" # added to suppress a deprecation warning, possibly can be removed with a future rails version
 gem "lograge", "~> 0.14.0"
 gem "mail-notify"
 gem "matrix"
 gem "mini_magick"
 gem "notifications-ruby-client"
+gem "ostruct" # added to suppress a deprecation warning, possibly can be removed with a future rswag-ui version
 gem "pagy"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 6"
