@@ -47,6 +47,7 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_constraints
     has_many :planning_application_constraints_queries
     has_many :constraints, through: :planning_application_constraints, source: :constraint
+    has_many :site_histories
     has_many :site_notices
     has_many :policy_classes, -> { order(:section) }
     has_many :press_notices, -> { by_created_at_desc }
@@ -138,6 +139,7 @@ class PlanningApplication < ApplicationRecord
   accepts_nested_attributes_for :constraints
   accepts_nested_attributes_for :proposal_measurement
   accepts_nested_attributes_for :planx_planning_data
+  accepts_nested_attributes_for :site_histories
 
   PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
     address_2

@@ -1,0 +1,5 @@
+en:
+  planning_application_tags:
+    granted: green
+    refused: red
+    not_required: blue

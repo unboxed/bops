@@ -1,0 +1,21 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h2 class="govuk-heading-m">Summary of the relevant historical applications</h2>
+  </div>
+</div>
+
+<% if site_histories.blank? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div class="background-light-grey govuk-!-padding-6 govuk-!-margin-bottom-6">
+        <p class="govuk-body govuk-!-margin-bottom-1"><strong>There is no site history for this property.</strong></p>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <%= render "table", site_histories: site_histories, show_action: show_action %>
+    </div>
+  </div>
+<% end %>

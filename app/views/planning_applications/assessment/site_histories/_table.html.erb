@@ -1,0 +1,70 @@
+<table class="govuk-table planning-history-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        Date
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Application number
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Description
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Decision
+      </th>
+      <% if show_action %>
+        <th scope="col" class="govuk-table__header">
+          Action
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% site_histories.each do |planning_application| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= if planning_application.respond_to?(:date)
+                planning_application.date
+              elsif planning_application.is_a?(Hash)
+                planning_application["decision_issued_at"].to_date.to_fs
+              end %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= if planning_application.respond_to?(:application_number)
+                planning_application.application_number
+              elsif planning_application.is_a?(Hash)
+                planning_application["reference"]
+              end %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= if planning_application.respond_to?(:description)
+                planning_application.description
+              elsif planning_application.is_a?(Hash)
+                planning_application["description"]
+              end %>
+        </td>
+        <td class="govuk-table__cell">
+          <% if planning_application.respond_to?(:decision) %>
+            <strong class="govuk-tag govuk-tag govuk-tag--<%= I18n.t(:"#{planning_application.decision}", scope: :planning_application_tags) %>">
+              <%= I18n.t(planning_application.decision.to_s) %>
+            </strong>
+          <% elsif planning_application.is_a?(Hash) %>
+            <%= planning_application["decision"] %>
+          <% end %>
+        </td>
+        <% if show_action %>
+          <td class="govuk-table__cell">
+            <% if planning_application.is_a?(Hash) %>
+              -
+            <% else %>
+              <%= govuk_link_to "Edit", edit_planning_application_assessment_site_history_path(@planning_application, planning_application) %>
+              <%= govuk_link_to "Remove", planning_application_assessment_site_history_path(@planning_application, planning_application), method: :delete, data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this site history?"}, class: "govuk-!-margin-left-1" %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

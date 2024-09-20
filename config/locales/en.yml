@@ -763,6 +763,7 @@ en:
       add: Add term
       confirm: Confirm and send to applicant
       update: Update term
+  granted: Granted
   heads_of_terms:
     update:
       public:
@@ -860,6 +861,7 @@ en:
     zero: There are 0 %{tag}s
   no_consultees_component:
     no_consultees_yet: No consultees have been added to the consultation yet.
+  not_required: Not required
   page_title: BETA BOPs - GOV.UK
   permitted_development_rights:
     review_assessment_error: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
@@ -1321,12 +1323,20 @@ en:
       report_downloads:
         show:
           assessment_report: Assessment report
+      site_histories:
+        confirm:
+          success: Site history has been confirmed
+        create:
+          success: Site history has been successfully added
+        destroy:
+          success: Site history was successfully removed
+        update:
+          success: Site history was successfully updated
       tasks:
         check_consistency:
           check_application: Check application
           complete: Complete
           description_documents_and: Check description, documents and proposal details
-          history: History search (in testing)
           in_assessment: In assessment
           permitted_development_rights: Permitted development rights
         index:
@@ -1979,6 +1989,7 @@ en:
     resend: No, I’m chasing existing consultees
     resend_message_label: Additional message to include in the email (optional)
     send: No, I’m sending to new consultees
+  refused: Refused
   response_tag_component:
     privacy: Privacy
   review:
