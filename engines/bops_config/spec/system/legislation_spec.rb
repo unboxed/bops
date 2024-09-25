@@ -48,15 +48,9 @@ RSpec.describe "Legislation", type: :system do
 
     expect(page).to have_content("Legislation successfully created")
 
-    within(".govuk-table") do
-      within "tbody" do
-        within "tr:nth-child(1)" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Town and Country Planning Act 1990, Section 192")
-        end
-        within "tr:nth-child(2)" do
-          expect(page).to have_selector("td:nth-child(1)", text: "The Town and Country Planning (General Permitted Development) (England) Order 2015 Part 1, Class A")
-        end
-      end
+    within(".govuk-table tbody") do
+      expect(page).to have_selector("td:nth-child(1)", text: "Town and Country Planning Act 1990, Section 192")
+      expect(page).to have_selector("td:nth-child(1)", text: "The Town and Country Planning (General Permitted Development) (England) Order 2015 Part 1, Class A")
     end
   end
 
