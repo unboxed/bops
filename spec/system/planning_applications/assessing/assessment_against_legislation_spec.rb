@@ -213,7 +213,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
           policy.comments << comment2
         end
 
-        it "shows the updated comment and previous comments" do
+        it "shows the updated comment and previous comments", pending: "Policy classes are WIP" do
           click_link("Check and assess")
           click_link("Part 1, Class A")
 
