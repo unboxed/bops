@@ -17546,8 +17546,21 @@ components:
                 properties:
                   description:
                     type: string
+                  reportingType:
+                    anyOf:
+                    - type: object
+                      properties:
+                        code:
+                          type: string
+                        description:
+                          type: string
+                      required:
+                      - code
+                      - description
+                    - type: 'null'
                 required:
                 - description
+                - reportingType
               applicant:
                 type: object
                 properties:
@@ -24441,6 +24454,9 @@ paths:
                               properties: {}
                       proposal:
                         description: householder extension
+                        reportingType:
+                          code: A123
+                          description: fake reporting type
                       applicant:
                         type: individual
                         address:
@@ -24500,6 +24516,7 @@ paths:
                             properties:
                       proposal:
                         description: Build a roof extension.
+                        reportingType:
                       applicant:
                         type: individual
                         address:
@@ -24700,6 +24717,9 @@ paths:
                               properties: {}
                       proposal:
                         description: householder extension
+                        reportingType:
+                          code: A123
+                          description: fake reporting type
                       applicant:
                         type: individual
                         address:
@@ -24759,6 +24779,7 @@ paths:
                             properties:
                       proposal:
                         description: Build a roof extension.
+                        reportingType:
                       applicant:
                         type: individual
                         address:

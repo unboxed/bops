@@ -252,10 +252,33 @@
               "properties": {
                 "description": {
                   "type": "string"
+                },
+                "reportingType": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "description"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
                 }
               },
               "required": [
-                "description"
+                "description",
+                "reportingType"
               ]
             },
             "applicant": {

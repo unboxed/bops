@@ -85,7 +85,11 @@
         }
       },
       "proposal": {
-        "description": "householder extension"
+        "description": "householder extension",
+        "reportingType": {
+          "code": "A123",
+          "description": "fake reporting type"
+        }
       },
       "applicant": {
         "type": "individual",
@@ -160,7 +164,8 @@
         }
       },
       "proposal": {
-        "description": "Build a roof extension."
+        "description": "Build a roof extension.",
+        "reportingType": null
       },
       "applicant": {
         "type": "individual",
