@@ -274,10 +274,14 @@
                       "type": "null"
                     }
                   ]
+                },
+                "ownerIsPlanningAuthority": {
+                  "type": "boolean"
                 }
               },
               "required": [
                 "description",
+                "ownerIsPlanningAuthority",
                 "reportingType"
               ]
             },

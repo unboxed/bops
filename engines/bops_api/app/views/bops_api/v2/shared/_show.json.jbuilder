@@ -28,6 +28,7 @@ json.proposal do
   else
     json.reportingType nil
   end
+  json.ownerIsPlanningAuthority planning_application.regulation
 end
 json.applicant do
   json.type planning_application.params_v2&.dig(:data, :applicant, :type)

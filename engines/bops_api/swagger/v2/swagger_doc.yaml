@@ -17558,8 +17558,11 @@ components:
                       - code
                       - description
                     - type: 'null'
+                  ownerIsPlanningAuthority:
+                    type: boolean
                 required:
                 - description
+                - ownerIsPlanningAuthority
                 - reportingType
               applicant:
                 type: object
@@ -24517,6 +24520,7 @@ paths:
                       proposal:
                         description: Build a roof extension.
                         reportingType:
+                        ownerIsPlanningAuthority: false
                       applicant:
                         type: individual
                         address:
@@ -24780,6 +24784,7 @@ paths:
                       proposal:
                         description: Build a roof extension.
                         reportingType:
+                        ownerIsPlanningAuthority: false
                       applicant:
                         type: individual
                         address:

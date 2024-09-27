@@ -89,7 +89,8 @@
         "reportingType": {
           "code": "A123",
           "description": "fake reporting type"
-        }
+        },
+        "ownerIsPlanningAuthority": false
       },
       "applicant": {
         "type": "individual",
@@ -165,7 +166,8 @@
       },
       "proposal": {
         "description": "Build a roof extension.",
-        "reportingType": null
+        "reportingType": null,
+        "ownerIsPlanningAuthority": false
       },
       "applicant": {
         "type": "individual",
