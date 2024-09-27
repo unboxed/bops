@@ -15,6 +15,7 @@ RSpec.configure do |config|
   search_json = BopsApi::Schemas.find!("search", version:).value
   application_submission_json = BopsApi::Schemas.find!("applicationSubmission", version:).value
   documents_json = BopsApi::Schemas.find!("documents", version:).value
+  validation_requests_json = BopsApi::Schemas.find!("validationRequests", version:).value
   shared_definitions_json = BopsApi::Schemas.find!("shared/definitions", version:).value
 
   keys = %w[
@@ -41,6 +42,8 @@ RSpec.configure do |config|
   application_submission = application_submission_json.slice(*keys).deep_transform_values(&transformer)
 
   documents = documents_json.slice(*keys).deep_transform_values(&transformer)
+
+  validation_requests = validation_requests_json.slice(*keys).deep_transform_values(&transformer)
 
   config.openapi_specs = {
     "v2/swagger_doc.yaml" => {
@@ -80,6 +83,8 @@ RSpec.configure do |config|
           ApplicationSubmission: application_submission,
 
           Documents: documents,
+
+          ValidationRequests: validation_requests,
 
           Healthcheck: {
             type: "object",

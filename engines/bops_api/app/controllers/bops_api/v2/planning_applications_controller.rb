@@ -78,10 +78,6 @@ module BopsApi
         @query_service ||= Application::QueryService.new(scope, query_params)
       end
 
-      def planning_applications_scope
-        @local_authority.planning_applications.includes(:user)
-      end
-
       def determined_planning_applications_scope
         planning_applications_scope.determined.by_determined_at_desc
       end

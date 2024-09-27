@@ -25,6 +25,10 @@ module BopsApi
           render json: json, status: :unauthorized
         end
       end
+
+      def planning_applications_scope
+        @local_authority.planning_applications.includes(:user)
+      end
     end
   end
 end
