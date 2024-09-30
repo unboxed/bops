@@ -20,6 +20,15 @@ json.property do
 end
 json.proposal do
   json.description planning_application.description
+  if planning_application.reporting_type.present?
+    json.reportingType do
+      json.code planning_application.reporting_type_detail.code
+      json.description planning_application.reporting_type_detail.description
+    end
+  else
+    json.reportingType nil
+  end
+  json.ownerIsPlanningAuthority planning_application.regulation
 end
 json.applicant do
   json.type planning_application.params_v2&.dig(:data, :applicant, :type)

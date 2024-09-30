@@ -35,7 +35,7 @@ RSpec.describe "BOPS public API" do
       end
 
       it "validates successfully against the example documents json" do
-        resolved_schema = load_and_resolve_schema(name: "documents", version: "odp/v0.6.0")
+        resolved_schema = load_and_resolve_schema(name: "documents", version: BopsApi::Schemas::DEFAULT_ODP_VERSION)
         schemer = JSONSchemer.schema(resolved_schema)
         example_json = example_fixture("documents.json")
 

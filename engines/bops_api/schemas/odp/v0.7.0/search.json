@@ -252,10 +252,37 @@
               "properties": {
                 "description": {
                   "type": "string"
+                },
+                "reportingType": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "description"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "ownerIsPlanningAuthority": {
+                  "type": "boolean"
                 }
               },
               "required": [
-                "description"
+                "description",
+                "ownerIsPlanningAuthority",
+                "reportingType"
               ]
             },
             "applicant": {

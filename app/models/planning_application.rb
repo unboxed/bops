@@ -946,6 +946,10 @@ class PlanningApplication < ApplicationRecord
     documents.for_publication.or(site_notice_documents_for_publication)
   end
 
+  def reporting_type_detail
+    application_type.selected_reporting_types.find_by(code: reporting_type)
+  end
+
   def to_param
     reference
   end
