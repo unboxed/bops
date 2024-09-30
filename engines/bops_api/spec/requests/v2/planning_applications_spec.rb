@@ -449,7 +449,7 @@ RSpec.describe "BOPS API" do
 
   path "/api/v2/planning_applications/{reference}/submission" do
     it "validates successfully against the example applicationSubmission json" do
-      resolved_schema = load_and_resolve_schema(name: "applicationSubmission", version: "odp/v0.6.0")
+      resolved_schema = load_and_resolve_schema(name: "applicationSubmission", version: BopsApi::Schemas::DEFAULT_ODP_VERSION)
 
       schemer = JSONSchemer.schema(resolved_schema)
       example_json = example_fixture("applicationSubmission.json")
@@ -520,7 +520,7 @@ RSpec.describe "BOPS API" do
       }
 
       it "validates successfully against the example search json" do
-        resolved_schema = load_and_resolve_schema(name: "search", version: "odp/v0.6.0")
+        resolved_schema = load_and_resolve_schema(name: "search", version: BopsApi::Schemas::DEFAULT_ODP_VERSION)
         schemer = JSONSchemer.schema(resolved_schema)
         example_json = example_fixture("search.json")
 
