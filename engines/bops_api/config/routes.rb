@@ -17,6 +17,8 @@ BopsApi::Engine.routes.draw do
         get :determined, on: :collection
         get :submission, on: :member
         get :search, on: :collection
+
+        resources :validation_requests, only: [:index]
       end
 
       namespace :public do
