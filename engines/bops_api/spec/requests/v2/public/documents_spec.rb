@@ -23,7 +23,7 @@ RSpec.describe "BOPS public API" do
         schema "$ref" => "#/components/schemas/Documents"
 
         let(:reference) { planning_application.reference }
-        let(:planning_application) { create(:planning_application, :published, :with_boundary_geojson, :determined, documents: [document], local_authority:, application_type:) }
+        let(:planning_application) { create(:planning_application, :published, :with_boundary_geojson, :with_press_notice, :determined, documents: [document], local_authority:, application_type:) }
 
         run_test! do |response|
           data = JSON.parse(response.body)

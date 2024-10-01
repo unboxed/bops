@@ -17245,6 +17245,11 @@ components:
           type:
           - string
           - 'null'
+        expiryDate:
+          format: date
+          type:
+          - string
+          - 'null'
         receivedAt:
           format: datetime
           type: string
@@ -17318,6 +17323,26 @@ components:
           required:
           - startDate
           - endDate
+        pressNotice:
+          anyOf:
+          - type: object
+            properties:
+              required:
+                type: boolean
+              reason:
+                type:
+                - string
+                - 'null'
+              publishedAt:
+                format: datetime
+                type:
+                - string
+                - 'null'
+            required:
+            - required
+            - reason
+            - publishedAt
+          - type: 'null'
       required:
       - type
       - reference
@@ -17593,6 +17618,16 @@ components:
                 - address
                 - ownership
                 - agent
+              officer:
+                anyOf:
+                - type: object
+                  properties:
+                    name:
+                      type:
+                      - string
+                  required:
+                  - name
+                - type: 'null'
             required:
             - applicant
             - application
@@ -24752,6 +24787,7 @@ paths:
                         reportingType:
                           code: A123
                           description: fake reporting type
+                        ownerIsPlanningAuthority: false
                       applicant:
                         type: individual
                         address:
@@ -24811,7 +24847,7 @@ paths:
                             properties: 
                       proposal:
                         description: Build a roof extension.
-                        reportingType:
+                        reportingType: 
                         ownerIsPlanningAuthority: false
                       applicant:
                         type: individual
@@ -25016,6 +25052,7 @@ paths:
                         reportingType:
                           code: A123
                           description: fake reporting type
+                        ownerIsPlanningAuthority: false
                       applicant:
                         type: individual
                         address:
@@ -25075,7 +25112,7 @@ paths:
                             properties: 
                       proposal:
                         description: Build a roof extension.
-                        reportingType:
+                        reportingType: 
                         ownerIsPlanningAuthority: false
                       applicant:
                         type: individual

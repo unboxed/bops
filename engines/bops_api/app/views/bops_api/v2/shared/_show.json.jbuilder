@@ -38,3 +38,10 @@ json.applicant do
     json.address planning_application.params_v2&.dig(:data, :applicant, :agent, :address)
   end
 end
+json.officer do
+  if (officer = planning_application.user)
+    json.name officer.name
+  else
+    json.null!
+  end
+end
