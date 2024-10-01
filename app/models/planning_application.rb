@@ -947,7 +947,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reporting_type_detail
-    application_type.selected_reporting_types.find_by(code: reporting_type)
+    @reporting_type_detail ||= application_type.selected_reporting_types.find_by(code: reporting_type)
   end
 
   def to_param
