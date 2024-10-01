@@ -114,7 +114,8 @@ GEM
       activerecord (>= 4.2)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
-    appsignal (3.4.5)
+    appsignal (4.1.1)
+      logger
       rack
     ast (2.4.2)
     aws-eventstream (1.1.1)
@@ -435,7 +436,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.6)
+    rack (3.1.7)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)

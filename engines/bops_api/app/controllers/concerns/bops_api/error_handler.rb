@@ -15,6 +15,8 @@ module BopsApi
 
     included do
       rescue_from StandardError do |exception|
+        Appsignal.add_tags(appsignal_tags)
+
         Appsignal.send_error(exception) do |transaction|
           transaction.params = {params: params.to_unsafe_hash}
         end
@@ -29,6 +31,23 @@ module BopsApi
         }
 
         render json: {error: error}, status: code
+      end
+
+      private
+
+      def appsignal_tags
+        tags = {request_url: request.url}
+
+        if @local_authority
+          tags[:local_authority] = @local_authority.subdomain
+        end
+
+        if @current_user
+          tags[:api_user] = @current_user.name
+          tags[:api_user_id] = @current_user.id
+        end
+
+        tags
       end
     end
   end
