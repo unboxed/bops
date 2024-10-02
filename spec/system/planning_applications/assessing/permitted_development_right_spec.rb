@@ -56,7 +56,8 @@ RSpec.describe "Permitted development right" do
         end
 
         within("#planning-history-section") do
-          expect(page).to have_content("Planning history")
+          expect(page).to have_selector("h2", text: "Site history")
+          expect(page).to have_content("There is no site history for this property.")
         end
       end
 
