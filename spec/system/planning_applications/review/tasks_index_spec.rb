@@ -73,6 +73,12 @@ RSpec.describe "Reviewing Tasks Index" do
         expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/consultees")
       end
 
+      within("#site_history") do
+        expect(page).to have_selector("h2", text: "Site history (0)")
+        expect(page).to have_selector("p", text: "There is no site history for this property.")
+        expect(page).to have_link("Show details", href: "/planning_applications/#{planning_application.reference}/assessment/site_histories")
+      end
+
       within("#documents") do
         expect(page).to have_selector("h2", text: "Documents (0)")
         expect(page).to have_selector("p", text: "There are no documents")
