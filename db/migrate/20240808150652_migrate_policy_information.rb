@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 class MigratePolicyInformation < ActiveRecord::Migration[7.1]
+  class PolicySection < ActiveRecord::Base; end
+
+  class NewPolicyClass < ActiveRecord::Base
+    has_many :policy_sections
+  end
+
+  class PolicyPart < ActiveRecord::Base
+    has_many :new_policy_classes
+  end
+
+  class PolicySchedule < ActiveRecord::Base
+    has_many :policy_parts
+  end
+
   def up
     # https://www.legislation.gov.uk/uksi/2015/596/contents
     schedule = PolicySchedule.find_or_create_by!(number: 2, name: "Permitted development rights")
