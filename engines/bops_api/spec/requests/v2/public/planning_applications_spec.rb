@@ -5,7 +5,7 @@ require "swagger_helper"
 RSpec.describe "BOPS public API" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:application_type) { create(:application_type, :householder) }
-  let!(:planning_applications) { create_list(:planning_application, 6, :published, :with_boundary_geojson, local_authority:, application_type:) }
+  let!(:planning_applications) { create_list(:planning_application, 6, :published, :with_boundary_geojson, :with_press_notice, local_authority:, application_type:, user: create(:user)) }
   let(:page) { 1 }
   let(:maxresults) { 5 }
   let(:q) { "" }
@@ -183,12 +183,19 @@ RSpec.describe "BOPS public API" do
       response "200", "returns a planning application given a reference" do
         example "application/json", :default, example_fixture("show.json")
 
-        let(:planning_application) { planning_applications.first }
+        let!(:planning_application) { planning_applications.first }
         let(:reference) { planning_application.reference }
 
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data["application"]["reference"]).to eq(planning_application.reference)
+
+          expect(data["officer"]["name"]).to eq(planning_application.user.name)
+
+          press_notice = planning_application.press_notice
+          press_notice_response = data["application"]["pressNotice"]
+          expect(press_notice_response["required"]).to eq(press_notice.required)
+          expect(press_notice_response["reason"]).to eq(press_notice.reason)
         end
       end
     end

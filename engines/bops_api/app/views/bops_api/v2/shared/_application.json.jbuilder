@@ -8,6 +8,7 @@ json.application do
   json.reference planning_application.reference
   json.fullReference planning_application.reference_in_full
   json.targetDate planning_application.target_date
+  json.expiryDate planning_application.expiry_date
   json.receivedAt planning_application.received_at
   json.validAt planning_application.validated_at
   json.publishedAt planning_application.published_at
@@ -31,6 +32,16 @@ json.application do
         json.comment response.redacted_response
         json.receivedAt response.received_at
       end
+    end
+  end
+
+  json.pressNotice do
+    if (press_notice = planning_application.press_notice)
+      json.required press_notice.required
+      json.reason press_notice.reason
+      json.publishedAt press_notice.published_at
+    else
+      json.null!
     end
   end
 end

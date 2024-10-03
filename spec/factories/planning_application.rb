@@ -777,6 +777,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_press_notice do
+      after(:create) do |planning_application|
+        create(:press_notice, required: true, reasons: "A reason for press notice", planning_application:)
+      end
+    end
+
     trait :with_v2_params do
       after(:build) do |planning_application|
         planning_application.planx_planning_data = build(:planx_planning_data, params_v2: JSON.parse(file_fixture("v2/valid_planning_permission.json").read).with_indifferent_access, planning_application:)

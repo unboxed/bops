@@ -330,6 +330,24 @@
                 }
               },
               "required": ["type", "address", "ownership", "agent"]
+            },
+            "officer": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": ["string"]
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }, 
+                {
+                  "type": "null"
+                }
+              ]
             }
           },
           "required": [

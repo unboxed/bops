@@ -30,6 +30,10 @@
           "format": "date",
           "type": ["string", "null"]
         },
+        "expiryDate": {
+          "format": "date",
+          "type": ["string", "null"]
+        },
         "receivedAt": {
           "format": "datetime",
           "type": "string"
@@ -105,6 +109,33 @@
           "required": [
             "startDate",
             "endDate"
+          ]
+        },
+        "pressNotice": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "required": {
+                  "type": "boolean"
+                },
+                "reason": {
+                  "type": ["string", "null"]
+                },
+                "publishedAt": {
+                  "format": "datetime",
+                  "type": ["string", "null"]
+                }
+              },
+              "required": [
+                "required",
+                "reason",
+                "publishedAt"
+              ]
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       },
