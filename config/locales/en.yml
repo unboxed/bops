@@ -1122,7 +1122,7 @@ en:
         no_considerations_assessed: There is no assessment against policies and guidance
         no_documents_listed: There are no documents listed on the decision notice.
         no_legislation_assessed: There is no legislation assessment for this application.
-        planning_history: Planning history
+        site_history: Site history
         summary_of_works: Summary of works
       base:
         not_validated: The planning application must be validated before assessment can begin

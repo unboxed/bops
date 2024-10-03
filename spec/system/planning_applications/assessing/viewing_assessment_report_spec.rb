@@ -43,14 +43,6 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
 
     create(
       :assessment_detail,
-      :past_applications,
-      planning_application:,
-      entry: "22-00999-LDCP",
-      additional_information: "This is the past application history summary."
-    )
-
-    create(
-      :assessment_detail,
       :summary_of_work,
       planning_application:,
       entry: "This is the summary of work."
@@ -82,6 +74,13 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
       :consultation_summary,
       planning_application:,
       entry: "This is the consultation summary."
+    )
+
+    create(
+      :site_history,
+      planning_application:,
+      application_number: "22-00999-LDCP",
+      description: "This is the past application history summary."
     )
 
     create(

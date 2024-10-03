@@ -24,13 +24,10 @@
     </p>
   <% end %>
 </section>
-<% if past_applications.present? %>
-  <section id="past-applications-section" class="govuk-!-margin-bottom-7">
-    <h3 class="govuk-heading-m"><%= t(".planning_history") %></h3>
-    <h4 class="govuk-heading-s"><%= past_applications.entry %></h4>
-    <%= render(FormattedContentComponent.new(text: past_applications.additional_information)) %>
-  </section>
-<% end %>
+<section id="site-histories-section" class="govuk-!-margin-bottom-7">
+  <h3 class="govuk-heading-m"><%= t(".site_history") %></h3>
+  <%= render "planning_applications/assessment/site_histories/table", site_histories: site_histories, show_action: false %>
+</section>
 <% if immunity_detail && review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail %>
   <section id="immunity-section">
     <%= render(

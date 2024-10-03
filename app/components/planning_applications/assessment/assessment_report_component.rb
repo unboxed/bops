@@ -21,7 +21,7 @@ module PlanningApplications
 
       delegate(
         :constraints,
-        :past_applications,
+        :site_histories,
         :summary_of_work,
         :site_description,
         :consultation_summary,

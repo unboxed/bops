@@ -1,20 +1,11 @@
 <section id="planning-history-section" class="govuk-!-margin-bottom-7">
   <h2 class="govuk-heading-m govuk-!-margin-top-5">
-    Planning history
+    Site history
   </h2>
 
-  <div class="govuk-!-margin-left-3 govuk-!-padding-bottom-3">
-    <% if past_application = @planning_application.past_applications %>
-      <ul class="govuk-list">
-        <li><p><strong><%= past_application.additional_information %></strong></p></li>
-        <li><p><%= past_application.entry %><p></li>
-        <%= govuk_link_to "Edit history", edit_planning_application_assessment_assessment_detail_path(@planning_application, past_application), class: "govuk-body" %>
-      </ul>
-    <% else %>
-      <p class="govuk-body">
-        There is no relevant planning history
-      </p>
-      <%= govuk_link_to "Edit history", new_planning_application_assessment_assessment_detail_path(@planning_application, category: "past_applications"), class: "govuk-body" %>
-    <% end %>
-  </div>
+  <%= render "planning_applications/assessment/site_histories/table", site_histories: @planning_application.site_histories, show_action: false %>
+
+  <p class="govuk-body">
+    <%= govuk_link_to "Show details", planning_application_assessment_site_histories_path(@planning_application) %>
+  </p>
 </section>

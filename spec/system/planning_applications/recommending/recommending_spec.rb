@@ -776,7 +776,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       let!(:summary_of_work) { create(:assessment_detail, :summary_of_work, entry: "A summary of work entry", planning_application:) }
       let!(:additional_evidence) { create(:assessment_detail, :additional_evidence, entry: "An additional evidence entry", planning_application:) }
       let!(:site_description) { create(:assessment_detail, :site_description, entry: "A site description entry", planning_application:) }
-      let!(:past_applications) { create(:assessment_detail, :past_applications, entry: "An entry for planning history", additional_information: "REF123", planning_application:) }
+      let!(:site_history) { create(:site_history, planning_application:) }
 
       let!(:neighbour) { create(:neighbour, consultation: planning_application.consultation) }
       let!(:neighbour_response1) { create(:neighbour_response, summary_tag: "objection", neighbour:) }
@@ -798,8 +798,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link("Edit constraints")
         end
 
-        within("#past-applications-section") do
-          expect(page).to have_selector("h3", text: "Planning history")
+        within("#site-histories-section") do
+          expect(page).to have_selector("h3", text: "Site history")
           expect(page).to have_content("REF123")
           expect(page).to have_content("An entry for planning history")
         end
@@ -852,7 +852,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         visit "/planning_applications/#{planning_application.reference}/submit_recommendation"
         expect(page).to have_css("#constraints-section")
-        expect(page).to have_css("#past-applications-section")
+        expect(page).to have_css("#site-histories-section")
         expect(page).to have_css("#summary-of-works-section")
         expect(page).to have_css("#site-description-section")
         expect(page).to have_css("#permitted-development-rights-section")

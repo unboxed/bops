@@ -3,14 +3,5 @@
     Historical information related to the property or to adjoining properties
   </h3>
 
-  <% if past_application = @planning_application.past_applications %>
-    <ul class="govuk-list">
-      <li><p><strong><%= past_application.additional_information %></strong></p></li>
-      <li><p><%= past_application.entry %><p></li>
-    </ul>
-  <% else %>
-    <p class="govuk-body">
-      There is no relevant planning history
-    </p>
-  <% end %>
+  <%= render "planning_applications/assessment/site_histories/table", site_histories: @planning_application.site_histories, show_action: false %>
 </section>
