@@ -130,13 +130,13 @@ class ApplicationType < ApplicationRecord
     self.assessment_details =
       case name
       when "lawfulness_certificate"
-        %w[summary_of_work site_description consultation_summary additional_evidence past_applications]
+        %w[summary_of_work site_description consultation_summary additional_evidence]
       when "prior_approval"
-        %w[summary_of_work site_description additional_evidence neighbour_summary amenity past_applications check_publicity]
+        %w[summary_of_work site_description additional_evidence neighbour_summary amenity check_publicity]
       when "planning_permission"
-        %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary past_applications check_publicity]
+        %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary check_publicity]
       else
-        %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary past_applications check_publicity]
+        %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary check_publicity]
       end
   end
 
@@ -211,7 +211,7 @@ class ApplicationType < ApplicationRecord
   end
 
   def assessor_remarks
-    assessment_details.excluding("past_applications", "check_publicity")
+    assessment_details.excluding("check_publicity")
   end
 
   def type_name

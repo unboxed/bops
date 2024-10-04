@@ -12,7 +12,6 @@ class ReviewAssessmentDetailsForm
     additional_evidence
     neighbour_summary
     amenity
-    past_applications
   ].freeze
 
   define_model_callbacks :save

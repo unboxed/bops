@@ -9,15 +9,6 @@ RSpec.describe AssessmentDetail do
       let(:additional_evidence) { create(:assessment_detail, :additional_evidence, entry: "") }
       let(:site_description) { create(:assessment_detail, :site_description, entry: "") }
 
-      let(:past_applications) do
-        create(
-          :assessment_detail,
-          :past_applications,
-          entry: "",
-          assessment_status:
-        )
-      end
-
       let(:consultation_summary) do
         create(
           :assessment_detail,
@@ -52,10 +43,6 @@ RSpec.describe AssessmentDetail do
 
       context "when assessment_status is in_progress" do
         let(:assessment_status) { :in_progress }
-
-        it "does not validates presence for past_applications" do
-          expect { past_applications }.not_to raise_error
-        end
 
         it "does not validates presence for consultation_summary" do
           expect { consultation_summary }.not_to raise_error
@@ -147,37 +134,9 @@ RSpec.describe AssessmentDetail do
     context "when additional_information is blank" do
       let(:additional_information) { nil }
 
-      context "when category is 'past_applications' and assessment status is 'complete'" do
-        let(:category) { :past_applications }
-        let(:assessment_status) { :complete }
-
-        it "returns false" do
-          expect(assessment_detail.valid?).to be(false)
-        end
-
-        it "sets error" do
-          assessment_detail.valid?
-
-          expect(
-            assessment_detail.errors.messages[:additional_information]
-          ).to contain_exactly(
-            "can't be blank"
-          )
-        end
-      end
-
-      context "when category is not past_applications and assessment status is 'complete'" do
+      context "when category assessment status is 'complete'" do
         let(:category) { :summary_of_work }
         let(:assessment_status) { :complete }
-
-        it "returns true" do
-          expect(assessment_detail.valid?).to be(true)
-        end
-      end
-
-      context "when category is past_applications and assessment status is not 'complete'" do
-        let(:category) { :past_applications }
-        let(:assessment_status) { :in_progress }
 
         it "returns true" do
           expect(assessment_detail.valid?).to be(true)
