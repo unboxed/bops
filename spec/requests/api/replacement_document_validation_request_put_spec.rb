@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to patch document validation requests", show_exceptions: true do
+RSpec.describe "API request to patch document validation requests" do
   include ActionDispatch::TestProcess::FixtureFile
 
   let!(:default_local_authority) { create(:local_authority, :default) }

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to show a local authority", show_exceptions: true do
+RSpec.describe "API request to show a local authority" do
   let(:reviewer) { create(:user, :reviewer) }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to show document tags", show_exceptions: true do
+RSpec.describe "API request to show document tags" do
   before do
     create(:local_authority, :default)
   end

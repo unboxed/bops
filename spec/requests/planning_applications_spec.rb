@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning applications", show_exceptions: true do
+RSpec.describe "Planning applications" do
   let!(:current_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, local_authority: current_local_authority) }
 
