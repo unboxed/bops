@@ -120,8 +120,7 @@ RSpec.describe AssessmentDetail do
         category:,
         planning_application:,
         reviewer_verdict:,
-        entry:,
-        additional_information:
+        entry:
       )
     end
 
@@ -129,20 +128,6 @@ RSpec.describe AssessmentDetail do
     let(:category) { :summary_of_work }
     let(:reviewer_verdict) { nil }
     let(:entry) { "entry" }
-    let(:additional_information) { "additional details" }
-
-    context "when additional_information is blank" do
-      let(:additional_information) { nil }
-
-      context "when category assessment status is 'complete'" do
-        let(:category) { :summary_of_work }
-        let(:assessment_status) { :complete }
-
-        it "returns true" do
-          expect(assessment_detail.valid?).to be(true)
-        end
-      end
-    end
 
     context "when entry is blank" do
       let(:entry) { nil }
