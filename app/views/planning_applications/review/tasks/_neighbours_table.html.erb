@@ -21,8 +21,12 @@
             <% end %>
           </td>
           <td class="govuk-table__cell">
-            <% neighbour.neighbour_responses.each do |response| %>
-              <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
+            <% if neighbour.neighbour_responses.blank? %>
+              <%= render(StatusTags::BaseComponent.new(status: :none)) %>
+            <% else %>
+              <% neighbour.neighbour_responses.each do |response| %>
+                <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
+              <% end %>
             <% end %>
           </td>
         </tr>

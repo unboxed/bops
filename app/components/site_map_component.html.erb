@@ -55,7 +55,7 @@
                 <li data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
                   <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
                   <%= render StatusTags::BaseComponent.new(
-                        status: neighbour.neighbour_responses.last&.summary_tag || :new,
+                        status: neighbour.neighbour_responses.last&.summary_tag || :none,
                         html_attributes: {class: "govuk-!-font-size-16"}
                       ) %>
                   <% if neighbour.neighbour_responses.last&.tags&.present? %>
