@@ -134,7 +134,7 @@ RSpec.describe "Withdraw or cancel" do
         )
 
         document = planning_application.documents.last
-        expect(document.file.filename.to_s).to eq("proposed-roofplan.png")
+        expect(document.name).to eq("proposed-roofplan.png")
         expect(document.redacted).to be(true)
       end
     end

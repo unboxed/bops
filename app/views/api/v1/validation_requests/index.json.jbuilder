@@ -43,13 +43,13 @@ json.data do
       :cancel_reason,
       :cancelled_at
     json.old_document do
-      json.name replacement_document_validation_request.old_document.file.filename
+      json.name replacement_document_validation_request.old_document.name
       json.invalid_document_reason replacement_document_validation_request.invalidated_document_reason
     end
 
     json.new_document do
       if replacement_document_validation_request.new_document
-        json.name replacement_document_validation_request.new_document.file.filename
+        json.name replacement_document_validation_request.new_document.name
         json.url replacement_document_validation_request
           .new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
       end
@@ -70,7 +70,7 @@ json.data do
       :cancelled_at
 
     json.documents additional_document_validation_request.additional_documents do |document|
-      json.name document.file.filename
+      json.name document.name
       json.url document.file.representation(resize_to_limit: [1000, 1000]).processed.url
       json.extract! document
     end

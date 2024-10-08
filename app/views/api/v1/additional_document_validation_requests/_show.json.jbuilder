@@ -14,7 +14,7 @@ json.extract!(
 )
 
 json.documents additional_document_validation_request.additional_documents do |document|
-  json.name document.file.filename
+  json.name document.name
   json.url document.file.representation(resize_to_limit: [1000, 1000]).processed.url
   json.extract! document
 end
