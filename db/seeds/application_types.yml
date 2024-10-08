@@ -20,7 +20,6 @@
     - site_description
     - consultation_summary
     - additional_evidence
-    - past_applications
   consistency_checklist:
     - description_matches_documents
     - documents_consistent
@@ -48,7 +47,6 @@
     - site_description
     - consultation_summary
     - additional_evidence
-    - past_applications
   consistency_checklist:
     - description_matches_documents
     - documents_consistent
@@ -83,7 +81,6 @@
     - additional_evidence
     - neighbour_summary
     - amenity
-    - past_applications
   consistency_checklist:
     - description_matches_documents
     - documents_consistent
@@ -116,7 +113,6 @@
     - additional_evidence
     - consultation_summary
     - neighbour_summary
-    - past_applications
   consistency_checklist:
     - description_matches_documents
     - documents_consistent
@@ -147,7 +143,6 @@
     - additional_evidence
     - consultation_summary
     - neighbour_summary
-    - past_applications
   consistency_checklist:
     - description_matches_documents
     - documents_consistent

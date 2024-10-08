@@ -448,8 +448,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
               neighbour_summary_reviewer_verdict: :accepted,
-              amenity_reviewer_verdict: :accepted,
-              past_applications_reviewer_verdict: :accepted
+              amenity_reviewer_verdict: :accepted
             }
           end
 
@@ -852,8 +851,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
               site_description_reviewer_verdict: :accepted,
               consultation_summary_reviewer_verdict: :accepted,
               neighbour_summary_reviewer_verdict: :accepted,
-              amenity_reviewer_verdict: :accepted,
-              past_applications_reviewer_verdict: :accepted
+              amenity_reviewer_verdict: :accepted
             }
           end
 

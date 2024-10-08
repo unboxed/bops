@@ -36,7 +36,6 @@ class AssessmentDetail < ApplicationRecord
     additional_evidence: "additional_evidence",
     neighbour_summary: "neighbour_summary",
     amenity: "amenity",
-    past_applications: "past_applications",
     check_publicity: "check_publicity"
   }
 
@@ -48,12 +47,6 @@ class AssessmentDetail < ApplicationRecord
   validates :entry, presence: true, if: :validate_entry_presence?
   validate :tagged_entry, if: :neighbour_summary?
   validates :reviewer_verdict, presence: true, if: :review_complete?
-
-  validates(
-    :additional_information,
-    presence: true,
-    if: :validate_additional_information_presence?
-  )
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
@@ -82,10 +75,6 @@ class AssessmentDetail < ApplicationRecord
   end
 
   private
-
-  def validate_additional_information_presence?
-    past_applications? && assessment_complete?
-  end
 
   def validate_entry_presence?
     return false if accepted? || rejected?

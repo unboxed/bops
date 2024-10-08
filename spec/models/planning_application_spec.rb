@@ -1668,34 +1668,6 @@ RSpec.describe PlanningApplication do
     end
   end
 
-  describe "#existing_or_new_past_applications" do
-    let(:planning_application) { create(:planning_application) }
-
-    context "when record exists" do
-      let!(:assessment_detail) do
-        create(
-          :assessment_detail,
-          :past_applications,
-          planning_application:
-        )
-      end
-
-      it "returns record" do
-        expect(
-          planning_application.existing_or_new_past_applications
-        ).to eq(assessment_detail)
-      end
-    end
-
-    context "when record does not exist" do
-      it "builds record with correct category" do
-        expect(
-          planning_application.existing_or_new_past_applications
-        ).to have_attributes(category: "past_applications")
-      end
-    end
-  end
-
   describe "#summary_of_work" do
     let(:planning_application) { create(:planning_application) }
 
@@ -1771,32 +1743,6 @@ RSpec.describe PlanningApplication do
 
     it "returns most recent assessment detail with category 'site_description'" do
       expect(planning_application.site_description).to eq(assessment_detail)
-    end
-  end
-
-  describe "#past_applications" do
-    let(:planning_application) { create(:planning_application) }
-
-    let!(:assessment_detail) do
-      create(
-        :assessment_detail,
-        :past_applications,
-        planning_application:,
-        created_at: 1.day.ago
-      )
-    end
-
-    before do
-      create(
-        :assessment_detail,
-        :past_applications,
-        planning_application:,
-        created_at: 2.days.ago
-      )
-    end
-
-    it "returns most recent assessment detail with category 'past_applications'" do
-      expect(planning_application.past_applications).to eq(assessment_detail)
     end
   end
 
@@ -2011,15 +1957,6 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    let!(:past_applications) do
-      create(
-        :assessment_detail,
-        :past_applications,
-        planning_application:,
-        created_at: 1.day.ago
-      )
-    end
-
     before do
       create(
         :assessment_detail,
@@ -2048,18 +1985,11 @@ RSpec.describe PlanningApplication do
         planning_application:,
         created_at: 2.days.ago
       )
-
-      create(
-        :assessment_detail,
-        :past_applications,
-        planning_application:,
-        created_at: 2.days.ago
-      )
     end
 
     it "returns most recent assessment detail in each reviewable category" do
       expect(planning_application.assessment_details_for_review).to contain_exactly(
-        summary_of_work, additional_evidence, site_description, consultation_summary, past_applications
+        summary_of_work, additional_evidence, site_description, consultation_summary
       )
     end
   end

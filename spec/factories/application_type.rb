@@ -25,7 +25,6 @@ FactoryBot.define do
           site_description
           consultation_summary
           additional_evidence
-          past_applications
         ]
       end
 
@@ -141,7 +140,6 @@ FactoryBot.define do
           additional_evidence
           consultation_summary
           neighbour_summary
-          past_applications
           check_publicity
         ]
       end
@@ -215,7 +213,6 @@ FactoryBot.define do
           additional_evidence
           neighbour_summary
           amenity
-          past_applications
           check_publicity
         ]
       end
@@ -361,7 +358,6 @@ FactoryBot.define do
           additional_evidence
           consultation_summary
           neighbour_summary
-          past_applications
           check_publicity
         ]
       end

@@ -106,7 +106,7 @@ module PlanningApplications
       def assessment_details_params
         params
           .require(:assessment_detail)
-          .permit(:entry, :category, :additional_information, NeighbourResponse::TAGS, :untagged)
+          .permit(:entry, :category, NeighbourResponse::TAGS, :untagged)
           .merge(assessment_status:)
       end
 

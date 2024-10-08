@@ -23,12 +23,6 @@
             )
           ) %>
     <% end %>
-    <%= render(
-          TaskListItems::Assessment::AssessmentDetailComponent.new(
-            planning_application: @planning_application,
-            category: :past_applications
-          )
-        ) %>
     <% if @planning_application.application_type.ownership_details? %>
       <%= render(
             TaskListItems::Assessment::OwnershipCertificateComponent.new(
