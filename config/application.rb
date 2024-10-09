@@ -74,6 +74,7 @@ module Bops
     config.planx_file_production_api_key = ENV["PLANX_FILE_PRODUCTION_API_KEY"]
     config.staging_api_bearer = ENV["STAGING_API_BEARER"]
     config.staging_api_url = ENV["STAGING_API_URL"]
+    config.uploads_base_url = ENV["UPLOADS_BASE_URL"]
   end
 
   def self.env

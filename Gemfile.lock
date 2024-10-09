@@ -28,6 +28,12 @@ PATH
       pagy
       rails (>= 7.1.3, < 7.2)
 
+PATH
+  remote: engines/bops_uploads
+  specs:
+    bops_uploads (0.1.0)
+      bops_core (= 0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -668,6 +674,7 @@ DEPENDENCIES
   bops_api!
   bops_config!
   bops_core!
+  bops_uploads!
   brakeman
   bullet
   business_time

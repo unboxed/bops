@@ -378,6 +378,10 @@ Rails.application.routes.draw do
     mount BopsConfig::Engine, at: "/", as: :bops_config
   end
 
+  constraints Constraints::UploadsSubdomain do
+    mount BopsUploads::Engine, at: "/", as: :bops_uploads
+  end
+
   direct :rails_public_blob do |blob|
     if (cdn_host = ENV["CDN_HOST"])
       # Use an environment variable instead of hard-coding the CDN host

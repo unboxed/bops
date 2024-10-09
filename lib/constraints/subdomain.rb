@@ -24,4 +24,12 @@ module Constraints
       end
     end
   end
+
+  class UploadsSubdomain
+    class << self
+      def matches?(request)
+        request.subdomain == "uploads"
+      end
+    end
+  end
 end

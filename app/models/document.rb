@@ -24,7 +24,7 @@ class Document < ApplicationRecord
     inverse_of: false
 
   delegate :audits, to: :planning_application
-  delegate :representable?, to: :file
+  delegate :blob, :representable?, to: :file
 
   include Auditable
 
