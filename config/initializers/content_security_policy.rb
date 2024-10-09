@@ -7,21 +7,22 @@
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/
 #   Content-Security-Policy
 
-GOOGLE_TAG_MANAGER_HOSTNAME = "www.googletagmanager.com"
-GOOGLE_ANALYTICS_HOSTNAMES = %w[
+google_tag_manager_hostname = "www.googletagmanager.com"
+google_analytics_hostnames = %w[
   www.google-analytics.com
   region1.google-analytics.com
   region1.analytics.google.com
 ].freeze
+uploads_hostname = Rails.configuration.uploads_hostname
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self, :https
   policy.font_src :self, :https, :data
-  policy.img_src :self, :https, :data, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
+  policy.img_src :self, :https, :data, uploads_hostname, google_tag_manager_hostname, *google_analytics_hostnames
   policy.object_src :none
-  policy.script_src :self, :https, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
-  policy.style_src :self, :https, :unsafe_inline, GOOGLE_TAG_MANAGER_HOSTNAME
-  policy.connect_src :self, :https, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
+  policy.script_src :self, :https, google_tag_manager_hostname, *google_analytics_hostnames
+  policy.style_src :self, :https, :unsafe_inline, google_tag_manager_hostname
+  policy.connect_src :self, :https, google_tag_manager_hostname, *google_analytics_hostnames
 end
 
 Rails.application.config.content_security_policy_nonce_generator = ->(_request) { SecureRandom.base64(16) }
