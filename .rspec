@@ -2,4 +2,5 @@
 -I engines/bops_admin/spec
 -I engines/bops_api/spec
 -I engines/bops_config/spec
+-I engines/bops_uploads/spec
 --require spec_helper

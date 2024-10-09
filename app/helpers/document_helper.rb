@@ -49,15 +49,15 @@ module DocumentHelper
     if document.published?
       api_v1_planning_application_document_url(document.planning_application, document)
     else
-      rails_public_blob_url(document.file, disposition: "attachment")
+      uploaded_file_url(document.blob)
     end
   end
 
   def document_thumbnail_link(document, thumbnail_args: {}, image_args: {})
-    image = if document.file.previewable?
-      image_tag(document.file.preview(**thumbnail_args), **image_args)
+    image = if document.representable?
+      image_tag(document.representation(**thumbnail_args) || "", **image_args)
     else
-      image_tag(document.file, **image_args)
+      image_tag("placeholder/blank_image.png", **image_args.merge(alt: "Blank image"))
     end
 
     link_to_document image, document

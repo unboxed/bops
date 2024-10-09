@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Document < ApplicationRecord
+  class Routing
+    include Rails.application.routes.url_helpers
+    include Rails.application.routes.mounted_helpers
+  end
+
   class NotArchiveableError < StandardError; end
 
   belongs_to :planning_application
@@ -24,7 +29,7 @@ class Document < ApplicationRecord
     inverse_of: false
 
   delegate :audits, to: :planning_application
-  delegate :representable?, to: :file
+  delegate :blob, :representable?, to: :file
 
   include Auditable
 
@@ -311,13 +316,6 @@ class Document < ApplicationRecord
     replacement_document_validation_request.try(:reason) || super
   end
 
-  def image_url(resize_to_limit = [1000, 1000])
-    file.representation(resize_to_limit:).processed.url
-  rescue ActiveStorage::PreviewError => e
-    logger.warn("Image retrieval failed for document ##{id} with error '#{e.message}'")
-    nil
-  end
-
   def update_or_replace(attributes)
     self.attributes = attributes
     self.replacement_file = attributes[:file]
@@ -332,10 +330,25 @@ class Document < ApplicationRecord
   end
 
   def blob_url
-    file.representation(resize_to_limit: [1000, 1000]) if file.representable?
+    routes.uploaded_file_url(blob).presence
+  end
+
+  def representation(transformations = {resize_to_limit: [1000, 1000]})
+    file.representation(transformations).processed
+  rescue ActiveStorage::Error => e
+    logger.warn("Image retrieval failed for document ##{id} with error '#{e.message}'")
+    nil
+  end
+
+  def representation_url(transformations = {resize_to_limit: [1000, 1000]})
+    routes.uploaded_file_url(representation(transformations)).presence
   end
 
   private
+
+  def routes
+    @_routes ||= Routing.new
+  end
 
   def no_open_replacement_request
     return unless replacement_document_validation_request&.open_or_pending?

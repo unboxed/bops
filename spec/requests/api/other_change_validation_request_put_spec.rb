@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to list change requests", show_exceptions: true do
+RSpec.describe "API request to list change requests" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:user) { create(:user, local_authority: local_authority) }
   let!(:api_user) { create(:api_user, local_authority: local_authority) }

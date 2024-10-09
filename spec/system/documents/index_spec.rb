@@ -47,10 +47,13 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "File image is downloaded", :capybara do
-      click_link("View in new window")
-      sleep 0.5
+      new_window = window_opened_by do
+        click_link("View in new window")
+      end
 
-      expect(File).to exist(Rails.root.join("tmp/downloads/proposed-floorplan.png"))
+      within_window(new_window) do
+        expect(page).to have_current_path(%r[\Ahttp://uploads.example.com:\d{4,5}/[a-z0-9]{28}\z], url: true)
+      end
     end
 
     context "when there is more than one document" do
@@ -67,18 +70,24 @@ RSpec.describe "Documents index page", type: :system do
         expect(page).to have_selector("h1", text: "Documents")
 
         within("tr", text: "File name: proposed-floorplan.png") do
-          click_link("View in new window")
-          sleep 0.5
-        end
+          first_new_window = window_opened_by do
+            click_link("View in new window")
+          end
 
-        expect(File).to exist(Rails.root.join("tmp/downloads/proposed-floorplan.png"))
+          within_window(first_new_window) do
+            expect(page).to have_current_path(%r[\Ahttp://uploads.example.com:\d{4,5}/[a-z0-9]{28}\z], url: true)
+          end
+        end
 
         within("tr", text: "File name: proposed-roofplan.png") do
-          click_link("View in new window")
-          sleep 0.5
-        end
+          second_new_window = window_opened_by do
+            click_link("View in new window")
+          end
 
-        expect(File).to exist(Rails.root.join("tmp/downloads/proposed-roofplan.png"))
+          within_window(second_new_window) do
+            expect(page).to have_current_path(%r[\Ahttp://uploads.example.com:\d{4,5}/[a-z0-9]{28}\z], url: true)
+          end
+        end
 
         # confirm that we didn't change tab
         expect(page).to have_selector("h1", text: "Documents")

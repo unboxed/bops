@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Time extension validation requests API", show_exceptions: true do
+RSpec.describe "Time extension validation requests API" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
 

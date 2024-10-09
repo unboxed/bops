@@ -3,7 +3,7 @@
 require "rails_helper"
 require "openapi3_parser"
 
-RSpec.describe "The Open API Specification document", show_exceptions: true do
+RSpec.describe "The Open API Specification document" do
   let!(:document) { Openapi3Parser.load_file(Rails.public_path.join("api/docs/v1/swagger_doc.yaml")) }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
@@ -41,34 +41,30 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
   end
 
   it "successfully returns an application as specified" do
-    travel_to(DateTime.new(2020, 5, 14))
-    planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
-    planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full", "status",
-      "received_date", "documents", "site", "constraints", "work_status",
-      "application_type").merge(
-        local_authority: default_local_authority,
-        application_type_id: ApplicationType.first.id,
-        status: "in_assessment",
-        validated_at: Time.zone.now
-      )
-    planning_application.update!(planning_application_hash["site"])
-    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url", "blob_url")) do |document|
-      document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
-        filename: "roofplan")
-      document.publishable = true
+    travel_to("2020-05-14") do
+      planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
+      planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full", "status",
+        "received_date", "documents", "site", "constraints", "work_status",
+        "application_type").merge(
+          local_authority: default_local_authority,
+          application_type_id: ApplicationType.first.id,
+          status: "in_assessment",
+          validated_at: Time.zone.now
+        )
+      planning_application.update!(planning_application_hash["site"])
+      planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url", "blob_url")) do |document|
+        document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
+          filename: "roofplan")
+        document.publishable = true
+      end
+
+      expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
+      expected_response["status"] = "in_assessment"
+      expected_response["documents"].first["url"] = "http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/documents/#{planning_application_document.id}"
+      expected_response["documents"].first["blob_url"] = "http://uploads.example.com/#{planning_application_document.representation.key}"
+
+      get("/api/v1/planning_applications/#{planning_application_hash["id"]}", headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"})
+      expect(JSON.parse(response.body)).to eq(expected_response)
     end
-
-    get("/api/v1/planning_applications/#{planning_application_hash["id"]}", headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"})
-
-    expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
-    expected_response["status"] = "in_assessment"
-    expected_response["documents"].first["url"] =
-      api_v1_planning_application_document_url(planning_application, planning_application_document)
-
-    expected_response["documents"].first["blob_url"] =
-      url_for(planning_application_document.file.representation(resize_to_limit: [1000, 1000])).to_s[/(?<=com).+/]
-
-    expect(JSON.parse(response.body)).to eq(expected_response)
-    travel_back
   end
 end

@@ -103,6 +103,9 @@ jobs:
           bundle exec rake db:create db:schema:load
 
       - name: Build assets
+        env:
+          UPLOADS_HOSTNAME: uploads.bops.localhost
+          UPLOADS_BASE_URL: http://uploads.bops.localhost
         run: bundle exec rake assets:precompile
 
       - name: Run rspec specs

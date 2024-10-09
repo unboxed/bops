@@ -43,7 +43,7 @@
           <tbody class="govuk-table__body">
             <% @documents.each do |document| %>
               <%= content_tag(:tr, id: dom_id(document)) do %>
-                <td class="govuk-table__cell"><%= document.numbers.presence || document.file.filename %></td>
+                <td class="govuk-table__cell"><%= document.numbers.presence || document.name %></td>
                 <td class="govuk-table__cell">
                   <% if document.tags.present? %>
                     <% document.tags.each do |tag| %>

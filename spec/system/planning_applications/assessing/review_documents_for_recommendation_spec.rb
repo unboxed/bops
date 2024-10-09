@@ -84,18 +84,18 @@ RSpec.describe "Review documents for recommendation" do
 
       within("#document_#{document_with_reference.id}") do
         expect(page).to have_content(document_with_reference.numbers)
-        expect(page).not_to have_content(document_with_reference.file.filename)
+        expect(page).not_to have_content(document_with_reference.name)
         expect(page).to have_content("No tags added")
       end
 
       within("#document_#{document_with_reference_and_tags.id}") do
         expect(page).to have_content(document_with_reference_and_tags.numbers)
-        expect(page).not_to have_content(document_with_reference_and_tags.file.filename)
+        expect(page).not_to have_content(document_with_reference_and_tags.name)
         expect(page).to have_content("Elevations - proposed Photographs - proposed")
       end
 
       within("#document_#{document_without_reference.id}") do
-        expect(page).to have_content(document_without_reference.file.filename)
+        expect(page).to have_content(document_without_reference.name)
       end
     end
 

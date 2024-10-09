@@ -38,7 +38,7 @@ class DocumentsController < AuthenticationController
     @document = @planning_application.documents.build(document_params)
 
     if @document.save
-      flash[:notice] = "#{@document.file.filename} has been uploaded."
+      flash[:notice] = "#{@document.name} has been uploaded."
       redirect_to planning_application_documents_path
     else
       render :new
