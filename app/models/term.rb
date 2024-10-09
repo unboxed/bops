@@ -22,7 +22,8 @@ class Term < ApplicationRecord
   private
 
   def should_create_validation_request?
-    return unless current_validation_request.closed?
+    return unless current_validation_request&.closed?
+
     title_changed? || text_changed?
   end
 
