@@ -52,6 +52,7 @@ module Bops
 
     config.action_mailer.preview_paths = [Rails.root.join("spec/mailer/previews")]
 
+    config.active_storage.draw_routes = false
     config.active_storage.variant_processor = :mini_magick
 
     # use rails 7.0 encryption method
