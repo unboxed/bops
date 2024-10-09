@@ -358,6 +358,16 @@
           ]
         }
       ]
+    },
+    "applicationFee": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ApplicationFee"
+        },
+        {
+          "$ref": "#/definitions/ApplicationFeeNotApplicable"
+        }
+      ]
     }
   },
   "required": [
