@@ -42,5 +42,10 @@ module BopsConfig
     rescue
       raise ActionController::BadRequest, "Invalid application type id: #{params[application_type_param].inspect}"
     end
+
+    def current_local_authority
+      nil
+    end
+    helper_method :current_local_authority
   end
 end

@@ -450,7 +450,7 @@ RSpec.describe "checking consistency" do
     within(form_group) { choose("No") }
     click_link("Request a change to the red line boundary")
 
-    find(".govuk-visually-hidden", visible: false).set(
+    find("#validation-request-new-geojson-field", visible: false).set(
       {
         type: "FeatureCollection",
         features: [

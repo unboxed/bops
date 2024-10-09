@@ -10,10 +10,6 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_back_path
 
-  attr_reader :current_local_authority
-
-  helper_method :current_local_authority
-
   def after_sign_in_path_for(resource)
     if session[:mobile_number] && !resource.mobile_number?
       resource.assign_mobile_number!(session[:mobile_number])
@@ -91,8 +87,14 @@ class ApplicationController < ActionController::Base
   end
 
   def find_current_local_authority_from_subdomain
-    @current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)
+    Current.local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)
   end
+
+  def current_local_authority
+    Current.local_authority
+  end
+
+  helper_method :current_local_authority
 
   def prevent_caching
     response.headers["Cache-Control"] = "no-cache, no-store"

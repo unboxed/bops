@@ -152,7 +152,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       map = find("my-map")
       expect(map["showCentreMarker"]).to eq("true")
 
-      find(".govuk-visually-hidden",
+      find("#validation-request-new-geojson-field",
         visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
       click_button "Send request"
@@ -184,7 +184,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
     context "when red line boundary is not drawn and reason not provided" do
       before do
-        find(".govuk-visually-hidden", visible: false).set ""
+        find("#validation-request-new-geojson-field", visible: false).set ""
         fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: " "
         click_button "Send request"
       end
@@ -198,7 +198,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
     context "when red line boundary is not drawn" do
       before do
-        find(".govuk-visually-hidden", visible: false).set ""
+        find("#validation-request-new-geojson-field", visible: false).set ""
         fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Wrong line"
         click_button "Send request"
       end
@@ -252,7 +252,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       end
 
       before do
-        find(".govuk-visually-hidden", visible: false).set(new_geojson.to_json)
+        find("#validation-request-new-geojson-field", visible: false).set(new_geojson.to_json)
         fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: ""
         click_button "Send request"
       end
@@ -299,7 +299,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       expect(map["showCentreMarker"]).to eq("true")
 
       # Draw proposed red line boundary
-      find(".govuk-visually-hidden", visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
+      find("#validation-request-new-geojson-field", visible: false).set({"type" => "Feature", "properties" => {}, "geometry" => {"type" => "Polygon", "coordinates" => [[[-0.076715, 51.501166], [-0.07695, 51.500673], [-0.076, 51.500763], [-0.076715, 51.501166]]]}}.to_json)
 
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Amendment request"
       click_button "Send request"
