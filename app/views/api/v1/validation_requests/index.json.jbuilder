@@ -50,8 +50,7 @@ json.data do
     json.new_document do
       if replacement_document_validation_request.new_document
         json.name replacement_document_validation_request.new_document.name
-        json.url replacement_document_validation_request
-          .new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+        json.url replacement_document_validation_request.new_document.representation_url
       end
     end
     json.type "replacement_document_validation_request"
@@ -71,7 +70,7 @@ json.data do
 
     json.documents additional_document_validation_request.additional_documents do |document|
       json.name document.name
-      json.url document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+      json.url document.representation_url
       json.extract! document
     end
 

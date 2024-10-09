@@ -45,7 +45,7 @@ RSpec.describe "API request to show document file" do
 
     it "redirects to blob url" do
       get "/api/v1/planning_applications/#{planning_application.reference}/documents/#{document.id}"
-      expect(response).to redirect_to(rails_blob_path(document.file))
+      expect(response).to redirect_to("http://uploads.example.com/#{document.blob.key}")
     end
   end
 end

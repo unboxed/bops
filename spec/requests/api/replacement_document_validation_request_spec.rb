@@ -6,27 +6,23 @@ RSpec.describe "Replacement document validation requests API" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
-  let(:document) { create(:document) }
+  let(:old_document) { create(:document) }
 
   let!(:replacement_document_validation_request) do
     create(
       :replacement_document_validation_request,
       planning_application:,
       created_at: DateTime.new(2022, 1, 1),
-      old_document: document
+      old_document: old_document
     )
   end
 
   let(:token) { "Bearer #{api_user.token}" }
 
-  let(:processed_active_storage_variant) do
-    instance_double(
-      ActiveStorage::VariantWithRecord,
-      url: "http://www.example.com/test_image"
-    )
-  end
-
   describe "#index" do
+    let(:old_document2) { create(:document) }
+    let(:old_document3) { create(:document) }
+
     let(:path) do
       api_v1_planning_application_replacement_document_validation_requests_path(
         planning_application
@@ -36,10 +32,10 @@ RSpec.describe "Replacement document validation requests API" do
     let!(:replacement_document_validation_request2) do
       create(
         :replacement_document_validation_request,
-        :with_response,
         :closed,
         planning_application:,
-        created_at: DateTime.new(2022, 1, 2)
+        created_at: DateTime.new(2022, 1, 2),
+        old_document: old_document2
       )
     end
 
@@ -49,17 +45,14 @@ RSpec.describe "Replacement document validation requests API" do
         :cancelled,
         planning_application:,
         created_at: DateTime.new(2022, 1, 3),
-        cancelled_at: DateTime.new(2022, 1, 4)
+        cancelled_at: DateTime.new(2022, 1, 4),
+        old_document: old_document3
       )
     end
 
-    context "when the request is valid" do
-      before do
-        allow_any_instance_of(ActiveStorage::VariantWithRecord)
-          .to receive(:processed)
-          .and_return(processed_active_storage_variant)
-      end
+    let!(:new_document) { create(:document, owner: replacement_document_validation_request2) }
 
+    context "when the request is valid" do
       it "is successful" do
         get(
           path,
@@ -90,7 +83,7 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: "Document is invalid",
-              url: "http://www.example.com/test_image"
+              url: "http://uploads.example.com/#{old_document.representation.key}"
             }
           }.deep_stringify_keys,
           {
@@ -103,11 +96,11 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: "Document is invalid",
-              url: "http://www.example.com/test_image"
+              url: "http://uploads.example.com/#{old_document2.representation.key}"
             },
             new_document: {
               name: "proposed-floorplan.png",
-              url: "http://www.example.com/test_image"
+              url: "http://uploads.example.com/#{new_document.representation.key}"
             }
           }.deep_stringify_keys,
           {
@@ -120,7 +113,7 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: nil,
-              url: "http://www.example.com/test_image"
+              url: "http://uploads.example.com/#{old_document3.representation.key}"
             }
           }.deep_stringify_keys
         )
@@ -149,12 +142,6 @@ RSpec.describe "Replacement document validation requests API" do
     end
 
     context "when the request is valid" do
-      before do
-        allow_any_instance_of(ActiveStorage::VariantWithRecord)
-          .to receive(:processed)
-          .and_return(processed_active_storage_variant)
-      end
-
       it "is successful" do
         get(
           path,
@@ -185,17 +172,18 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: "Document is invalid",
-              url: "http://www.example.com/test_image"
+              url: "http://uploads.example.com/#{old_document.representation.key}"
             }
           }.deep_stringify_keys
         )
       end
 
       context "when the image is missing" do
+        let(:service) { ActiveStorage::Blob.service }
+        let(:file_path) { service.path_for(old_document.blob.key) }
+
         before do
-          allow_any_instance_of(ActiveStorage::VariantWithRecord)
-            .to receive(:processed)
-            .and_raise(ActiveStorage::PreviewError.new("Document stream is empty"))
+          File.unlink(file_path)
         end
 
         it "is successful" do
@@ -237,7 +225,7 @@ RSpec.describe "Replacement document validation requests API" do
         it "logs the error" do
           expect(Rails.logger)
             .to receive(:warn)
-            .with("Image retrieval failed for document ##{document.id} with error 'Document stream is empty'")
+            .with("Image retrieval failed for document ##{old_document.id} with error 'ActiveStorage::FileNotFoundError'")
 
           get(
             path,

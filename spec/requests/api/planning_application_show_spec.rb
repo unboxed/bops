@@ -142,17 +142,22 @@ RSpec.describe "API request to list planning applications" do
           expect(planning_application_json["site"]["longitude"]).to eq(planning_application.longitude)
           expect(planning_application_json["constraints"]).to eq(["Conservation area", "Listed building outline"])
           expect(planning_application_json["documents"].size).to eq(1)
-          expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(
-            planning_application, document_with_number
-          ))
-          expect(planning_application_json["documents"].first["created_at"]).to eq(json_time_format(document_with_number.created_at))
-          expect(planning_application_json["documents"].first["archived_at"]).to eq(json_time_format(document_with_number.archived_at))
-          expect(planning_application_json["documents"].first["archive_reason"]).to eq(document_with_number.archive_reason)
-          expect(planning_application_json["documents"].first["tags"]).to eq(document_with_number.tags)
-          expect(planning_application_json["documents"].first["numbers"]).to eq(document_with_number.numbers)
-          expect(planning_application_json["published_comments"].first["comment"]).to eq(neighbour_response.redacted_response)
-          expect(planning_application_json["published_comments"].first["received_at"]).to eq(json_time_format(neighbour_response.received_at))
-          expect(planning_application_json["published_comments"].first["summary_tag"]).to eq(neighbour_response.summary_tag)
+
+          planning_application_json["documents"].first.tap do |document_json|
+            expect(document_json["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/documents/#{document_with_number.id}")
+            expect(document_json["blob_url"]).to eq("http://uploads.example.com/#{document_with_number.representation.key}")
+            expect(document_json["created_at"]).to eq(json_time_format(document_with_number.created_at))
+            expect(document_json["archived_at"]).to eq(json_time_format(document_with_number.archived_at))
+            expect(document_json["archive_reason"]).to eq(document_with_number.archive_reason)
+            expect(document_json["tags"]).to eq(document_with_number.tags)
+            expect(document_json["numbers"]).to eq(document_with_number.numbers)
+          end
+
+          planning_application_json["published_comments"].first.tap do |comment_json|
+            expect(comment_json["comment"]).to eq(neighbour_response.redacted_response)
+            expect(comment_json["received_at"]).to eq(json_time_format(neighbour_response.received_at))
+            expect(comment_json["summary_tag"]).to eq(neighbour_response.summary_tag)
+          end
         end
       end
     end
