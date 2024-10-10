@@ -62,7 +62,6 @@ module Bops
     config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction = true
 
     config.os_vector_tiles_api_key = ENV["OS_VECTOR_TILES_API_KEY"]
-    config.feedback_fish_id = ENV["FEEDBACK_FISH_ID"]
     config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
 
     config.default_notify_api_key = ENV["NOTIFY_API_KEY"]
