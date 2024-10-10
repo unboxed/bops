@@ -1,0 +1,20 @@
+<% planning_application.planning_application_policy_classes.order(:new_policy_class_id).each do |policy_class| %>
+  <% next if policy_class.current_review.not_started? || policy_class.current_review.in_progress? %>
+
+  <%= render TaskListItems::Reviewing::Component.new do |c| %>
+    <% c.with_link do %>
+      <%= render(Reviewing::PlanningApplicationPolicyClass::LinkComponent.new(planning_application_policy_class: policy_class)) %>
+    <% end %>
+
+    <% c.with_tag do %>
+      <div class="govuk-task-list__status app-task-list__task-tag">
+      <%= render(
+            StatusTags::ReviewComponent.new(
+              review_item: policy_class.current_review,
+              updated: policy_class.current_review.updated?
+            )
+          ) %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

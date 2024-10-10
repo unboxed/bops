@@ -29,11 +29,9 @@ module TaskListItems
       end
 
       def status
-        if planning_application_policy_class.current_review
-          planning_application_policy_class.current_review.status.to_sym
-        else
-          :not_started
-        end
+        return :not_started unless (review = planning_application_policy_class.current_review)
+
+        (review.updated? || review.complete?) ? :complete : review.status.to_sym
       end
     end
   end

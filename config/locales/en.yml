@@ -1547,6 +1547,22 @@ en:
       notifications:
         update:
           success: Notifications sent to neighbours and application in committee
+      policy_areas:
+        policy_classes:
+          show:
+            application: Application
+            home: Home
+            open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+            please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+            review: Review
+            review_heading: Review - Part%{part}, Class %{class}
+          summary:
+            complete_the_assessment: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+            open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+            review: Review
+            review_policy_class: Review - Part %{part}, Class %{class}
+          update:
+            success: Review of publicity successfully added.
       policy_classes:
         comment:
           edit_comment: Edit comment

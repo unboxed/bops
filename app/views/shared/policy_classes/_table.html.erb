@@ -8,7 +8,7 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <h3 class="govuk-heading-s">
-            <%= "#{policy_class.section}.#{policy.section}" %>
+            <%= "#{policy_class&.section}.#{policy&.section}" %>
           </h3>
           <p class="govuk-body">
             <%= render(FormattedContentComponent.new(text: policy.description)) %>
