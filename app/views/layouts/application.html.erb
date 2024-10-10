@@ -32,14 +32,12 @@
             Beta
           </strong>
 
-          <% if Rails.configuration.feedback_fish_id %>
+          <% if current_local_authority.present? %>
             <span class="govuk-phase-banner__text">
               This is a new service – your
-              <a class="govuk-link" href="#"
-                data-feedback-fish
-                data-feedback-fish-userid="<%= current_user.try(:email) %>">
+              <%= tag.a href: "mailto:#{current_local_authority.feedback_email}", class: "govuk-link" do %>
                 feedback
-              </a>
+            <% end %>
 
               will help us to improve it.
             </span>
