@@ -12,12 +12,12 @@
           ) %>
     <% end %>
 
-    <% if @planning_application.can_assess? %>
+    <%# if @planning_application.can_assess? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
           <%= govuk_link_to "Add new assessment area", planning_application_assessment_policy_areas_parts_path(@planning_application) %>
         </span>
       </li>
-    <% end %>
+    <%# end %>
   </ul>
 </li>

@@ -180,7 +180,7 @@ class Review < ApplicationRecord
 
   def all_policies_are_determined
     return unless status == "complete"
-    return if owner.policy_class.planning_application_policy_sections.none?(&:to_be_determined?)
+    return if owner.planning_application.planning_application_policy_sections.none?(&:to_be_determined?)
 
     errors.add(:base, :policies_to_be_determined)
   end

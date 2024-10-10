@@ -22,7 +22,7 @@ module PlanningApplications
       end
 
       def ensure_can_assess_planning_application
-        render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
+        # render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
       end
     end
   end
