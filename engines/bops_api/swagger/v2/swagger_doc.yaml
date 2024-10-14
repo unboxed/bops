@@ -17633,6 +17633,10 @@ components:
             - application
             - property
             - proposal
+        applicationFee:
+          anyOf:
+          - "$ref": "#/components/definitions/ApplicationFee"
+          - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
       required:
       - metadata
       - links
