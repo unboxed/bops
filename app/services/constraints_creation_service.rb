@@ -33,7 +33,7 @@ class ConstraintsCreationService
             metadata:
           )
         else
-          Appsignal.send_error("Unexpected constraint type: #{k}, category #{v["category"]}")
+          Appsignal.report_error("Unexpected constraint type: #{k}, category #{v["category"]}")
         end
       end
     end
@@ -46,7 +46,7 @@ class ConstraintsCreationService
       pa_constraint.update!(removed_at: Time.current)
     end
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
-    Appsignal.send_error(e)
+    Appsignal.report_error(e)
   end
 
   private

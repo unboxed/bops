@@ -24,7 +24,7 @@ module BopsApi
 
       planning_application.update!(neighbour_boundary_geojson: geometry_collection(collection))
     rescue JSON::ParserError => exception
-      AppSignal.send_error(exception)
+      AppSignal.report_error(exception)
     end
 
     private

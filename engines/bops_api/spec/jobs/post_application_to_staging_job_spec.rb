@@ -25,7 +25,7 @@ RSpec.describe BopsApi::PostApplicationToStagingJob, type: :job do
 
   context "when there is no ODP submission" do
     it "sends an error to AppSignal" do
-      expect(Appsignal).to receive(:send_error).with("Unable to find submission data for planning application with id: #{planning_application.id}")
+      expect(Appsignal).to receive(:report_error).with("Unable to find submission data for planning application with id: #{planning_application.id}")
 
       described_class.perform_now(planning_application.local_authority, planning_application)
     end

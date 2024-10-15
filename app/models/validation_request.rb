@@ -206,7 +206,7 @@ class ValidationRequest < ApplicationRecord
       )
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
-    Appsignal.send_error(e.message)
+    Appsignal.report_error(e.message)
   end
 
   def reset_update_counter!

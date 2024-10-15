@@ -46,7 +46,7 @@ RSpec.describe LetterSendingService do
         let(:status) { 500 }
 
         it "makes a request but does not record a sending date" do
-          expect(Appsignal).to receive(:send_error)
+          expect(Appsignal).to receive(:report_error)
 
           notify_request = stub_send_letter(status:)
           letter_sender.new(neighbour, "Hi", letter_type: :consultation).deliver!
@@ -94,7 +94,7 @@ RSpec.describe LetterSendingService do
         let(:status) { 500 }
 
         it "makes a request but does not record a sending date" do
-          expect(Appsignal).to receive(:send_error)
+          expect(Appsignal).to receive(:report_error)
 
           notify_request = stub_send_letter(status:)
           letter_sender.new(neighbour, "Hi", letter_type: :committee).deliver!

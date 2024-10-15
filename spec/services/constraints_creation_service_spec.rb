@@ -42,8 +42,8 @@ RSpec.describe ConstraintsCreationService, type: :service do
       let!(:constraint2) { create(:constraint, :tpo) }
 
       it "creates the non existing constraints and planning application constraints" do
-        expect(Appsignal).to receive(:send_error).with("Unexpected constraint type: listed, category Heritage and conservation")
-        expect(Appsignal).to receive(:send_error).with("Unexpected constraint type: designated, category ")
+        expect(Appsignal).to receive(:report_error).with("Unexpected constraint type: listed, category Heritage and conservation")
+        expect(Appsignal).to receive(:report_error).with("Unexpected constraint type: designated, category ")
 
         expect do
           create_constraints
@@ -79,7 +79,7 @@ RSpec.describe ConstraintsCreationService, type: :service do
         end
 
         it "raises an error" do
-          expect(Appsignal).to receive(:send_error).exactly(4).times
+          expect(Appsignal).to receive(:report_error).exactly(4).times
 
           create_constraints
         end

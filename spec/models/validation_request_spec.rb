@@ -483,7 +483,7 @@ RSpec.describe ValidationRequest do
         let!(:request) { create(:red_line_boundary_change_validation_request, :pending) }
 
         it "sends the error to Appsignal" do
-          expect(Appsignal).to receive(:send_error).with("Event 'auto_close' cannot transition from 'pending'.")
+          expect(Appsignal).to receive(:report_error).with("Event 'auto_close' cannot transition from 'pending'.")
 
           expect { request.auto_close_request! }
             .not_to change(Audit, :count)
@@ -501,7 +501,7 @@ RSpec.describe ValidationRequest do
         end
 
         it "sends the error to Appsignal" do
-          expect(Appsignal).to receive(:send_error).with("ActiveRecord::ActiveRecordError")
+          expect(Appsignal).to receive(:report_error).with("ActiveRecord::ActiveRecordError")
 
           expect { request.auto_close_request! }
             .not_to change(Audit, :count)
