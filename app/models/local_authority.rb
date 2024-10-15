@@ -13,7 +13,10 @@ class LocalAuthority < ApplicationRecord
     has_many :api_users
   end
 
-  has_many :audits, through: :planning_applications
+  with_options through: :planning_applications do
+    has_many :audits
+    has_many :validation_requests
+  end
 
   with_options presence: true do
     validates :council_code, :subdomain

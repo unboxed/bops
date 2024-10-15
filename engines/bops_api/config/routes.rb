@@ -23,6 +23,8 @@ BopsApi::Engine.routes.draw do
         end
       end
 
+      resources :validation_requests, only: [:index]
+
       namespace :public do
         resources :planning_applications, only: [:show] do
           get :search, on: :collection

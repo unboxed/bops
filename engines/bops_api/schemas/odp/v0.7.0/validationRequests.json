@@ -67,6 +67,14 @@
       "items": {
         "type": "object",
         "properties": {
+          "planning_application": {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "type": "string"
+              }
+            }
+          },
           "type": {
             "type": "string"
           },
