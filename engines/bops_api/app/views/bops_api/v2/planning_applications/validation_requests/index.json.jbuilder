@@ -2,7 +2,7 @@
 
 json.partial! "bops_api/v2/shared/metadata"
 
-json.data @validation_requests.each do |validation_request|
+json.data @validation_requests do |validation_request|
   json.extract! validation_request,
     :type,
     :state,

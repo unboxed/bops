@@ -2,6 +2,6 @@
 
 json.partial! "bops_api/v2/shared/metadata"
 
-json.data @planning_applications.each do |planning_application|
+json.data @planning_applications do |planning_application|
   json.partial! "show", planning_application:
 end
