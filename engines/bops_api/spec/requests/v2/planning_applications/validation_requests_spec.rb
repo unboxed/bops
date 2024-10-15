@@ -39,7 +39,6 @@ RSpec.describe "BOPS API" do
   end
 
   let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
-  let(:type) { "" }
   let(:page) { 1 }
   let(:maxresults) { 5 }
 
@@ -76,17 +75,17 @@ RSpec.describe "BOPS API" do
           "HeadsOfTermsValidationRequest",
           "TimeExtensionValidationRequest"
         ]
-      }
+      }, required: false
 
       parameter name: :page, in: :query, schema: {
         type: :integer,
         default: 1
-      }
+      }, required: false
 
       parameter name: :maxresults, in: :query, schema: {
         type: :integer,
         default: 10
-      }
+      }, required: false
 
       response "200", "returns application validation requests when searching by the reference and type" do
         schema "$ref" => "#/components/schemas/ValidationRequests"

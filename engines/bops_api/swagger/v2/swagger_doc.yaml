@@ -18046,16 +18046,19 @@ paths:
           - PreCommencementConditionValidationRequest
           - HeadsOfTermsValidationRequest
           - TimeExtensionValidationRequest
+        required: false
       - name: page
         in: query
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       responses:
         '200':
           description: returns application validation requests when searching by the
@@ -18218,6 +18221,7 @@ paths:
           - 'true'
           - 'false'
           default: 'true'
+        required: false
       responses:
         '200':
           description: with a valid request
@@ -23592,11 +23596,13 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: ids[]
         in: query
         schema:
@@ -23910,11 +23916,13 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: ids[]
         in: query
         style: form
@@ -24708,11 +24716,13 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: q
         in: query
         schema:
@@ -24971,16 +24981,19 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: q
         in: query
         schema:
           type: string
           description: Search by reference or description
+        required: false
       responses:
         '200':
           description: returns planning applications when searching by a reference

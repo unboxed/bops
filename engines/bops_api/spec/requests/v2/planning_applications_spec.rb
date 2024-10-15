@@ -50,7 +50,7 @@ RSpec.describe "BOPS API" do
       parameter name: :send_email, in: :query, schema: {
         enum: %w[true false],
         default: "true"
-      }
+      }, required: false
 
       [
         %w[validLawfulDevelopmentCertificateExisting.json LDCE],
@@ -243,12 +243,12 @@ RSpec.describe "BOPS API" do
       parameter name: :page, in: :query, schema: {
         type: :integer,
         default: 1
-      }
+      }, required: false
 
       parameter name: :maxresults, in: :query, schema: {
         type: :integer,
         default: 10
-      }
+      }, required: false
 
       parameter name: "ids[]", in: :query, schema: {
         type: :array,
@@ -325,12 +325,12 @@ RSpec.describe "BOPS API" do
       parameter name: :page, in: :query, schema: {
         type: :integer,
         default: 1
-      }
+      }, required: false
 
       parameter name: :maxresults, in: :query, schema: {
         type: :integer,
         default: 10
-      }
+      }, required: false
 
       parameter name: "ids[]", in: :query, style: :form, explode: true, schema: {
         type: :array,
@@ -507,12 +507,12 @@ RSpec.describe "BOPS API" do
       parameter name: :page, in: :query, schema: {
         type: :integer,
         default: 1
-      }
+      }, required: false
 
       parameter name: :maxresults, in: :query, schema: {
         type: :integer,
         default: 10
-      }
+      }, required: false
 
       parameter name: "q", in: :query, schema: {
         type: :string,
