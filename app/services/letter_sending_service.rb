@@ -5,13 +5,14 @@ require "notifications/client"
 class LetterSendingService
   attr_reader :neighbour, :consultation, :letter_content, :resend_reason
 
-  def initialize(neighbour, letter_content, letter_type:, resend_reason: nil)
+  def initialize(neighbour, letter_content, letter_type:, resend_reason: nil, batch: nil)
     @local_authority = neighbour.consultation.planning_application.local_authority
     @neighbour = neighbour
     @consultation = neighbour.consultation
     @letter_content = letter_content
     @resend_reason = resend_reason
     @letter_type = letter_type
+    @batch = batch
   end
 
   def deliver!
@@ -22,6 +23,10 @@ class LetterSendingService
     ActiveRecord::Base.transaction do
       letter_record.save!
       consultation.start_deadline if consultation_letter?
+    end
+
+    if @batch
+      @batch.neighbour_letters << letter_record
     end
 
     if resend_reason.present?
