@@ -18,8 +18,12 @@ BopsApi::Engine.routes.draw do
         get :submission, on: :member
         get :search, on: :collection
 
-        resources :validation_requests, only: [:index]
+        scope module: "planning_applications" do
+          resources :validation_requests, only: [:index]
+        end
       end
+
+      resources :validation_requests, only: [:index]
 
       namespace :public do
         resources :planning_applications, only: [:show] do

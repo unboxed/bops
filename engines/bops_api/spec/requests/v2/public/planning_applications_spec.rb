@@ -8,7 +8,6 @@ RSpec.describe "BOPS public API" do
   let!(:planning_applications) { create_list(:planning_application, 6, :published, :with_boundary_geojson, :with_press_notice, local_authority:, application_type:, user: create(:user)) }
   let(:page) { 1 }
   let(:maxresults) { 5 }
-  let(:q) { "" }
 
   before do
     create_list(:planning_application, 2, :with_boundary_geojson_features, :published, local_authority:, application_type:)
@@ -23,17 +22,17 @@ RSpec.describe "BOPS public API" do
       parameter name: :page, in: :query, schema: {
         type: :integer,
         default: 1
-      }
+      }, required: false
 
       parameter name: :maxresults, in: :query, schema: {
         type: :integer,
         default: 10
-      }
+      }, required: false
 
       parameter name: "q", in: :query, schema: {
         type: :string,
         description: "Search by reference or description"
-      }
+      }, required: false
 
       response "200", "returns planning applications when searching by the reference" do
         schema "$ref" => "#/components/schemas/Search"

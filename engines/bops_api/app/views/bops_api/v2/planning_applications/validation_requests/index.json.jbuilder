@@ -3,10 +3,6 @@
 json.partial! "bops_api/v2/shared/metadata"
 
 json.data @validation_requests do |validation_request|
-  json.planning_application do
-    json.extract! validation_request.planning_application, :reference
-  end
-
   json.extract! validation_request,
     :type,
     :state,

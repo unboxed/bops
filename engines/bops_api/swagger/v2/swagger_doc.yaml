@@ -17633,6 +17633,10 @@ components:
             - application
             - property
             - proposal
+        applicationFee:
+          anyOf:
+          - "$ref": "#/components/definitions/ApplicationFee"
+          - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
       required:
       - metadata
       - links
@@ -17788,6 +17792,11 @@ components:
           items:
             type: object
             properties:
+              planning_application:
+                type: object
+                properties:
+                  reference:
+                    type: string
               type:
                 type: string
               state:
@@ -18021,6 +18030,12 @@ paths:
       security:
       - bearerAuth: []
       parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
       - name: type
         in: query
         schema:
@@ -18036,12 +18051,19 @@ paths:
           - PreCommencementConditionValidationRequest
           - HeadsOfTermsValidationRequest
           - TimeExtensionValidationRequest
-      - name: reference
-        in: path
+        required: false
+      - name: page
+        in: query
         schema:
-          type: string
-          description: The planning application reference
-        required: true
+          type: integer
+          default: 1
+        required: false
+      - name: maxresults
+        in: query
+        schema:
+          type: integer
+          default: 10
+        required: false
       responses:
         '200':
           description: returns application validation requests when searching by the
@@ -18204,6 +18226,7 @@ paths:
           - 'true'
           - 'false'
           default: 'true'
+        required: false
       responses:
         '200':
           description: with a valid request
@@ -23578,11 +23601,13 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: ids[]
         in: query
         schema:
@@ -23896,11 +23921,13 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: ids[]
         in: query
         style: form
@@ -24694,11 +24721,13 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: q
         in: query
         schema:
@@ -24957,16 +24986,19 @@ paths:
         schema:
           type: integer
           default: 1
+        required: false
       - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
+        required: false
       - name: q
         in: query
         schema:
           type: string
           description: Search by reference or description
+        required: false
       responses:
         '200':
           description: returns planning applications when searching by a reference
@@ -25226,3 +25258,211 @@ paths:
                               properties: {}
                       proposal:
                         description: householder extension
+  "/api/v2/validation_requests":
+    get:
+      summary: Retrieves a paginated list of notified validation requests for an LPA
+      tags:
+      - Validation requests
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - AdditionalDocumentValidationRequest
+          - DescriptionChangeValidationRequest
+          - RedLineBoundaryChangeValidationRequest
+          - ReplacementDocumentValidationRequest
+          - OwnershipCertificateValidationRequest
+          - OtherChangeValidationRequest
+          - FeeChangeValidationRequest
+          - PreCommencementConditionValidationRequest
+          - HeadsOfTermsValidationRequest
+          - TimeExtensionValidationRequest
+        required: false
+      - name: from_date
+        in: query
+        schema:
+          type: string
+          description: Only return validation requests notified to the applicant on
+            or after the date
+          format: date
+        required: false
+      - name: to_date
+        in: query
+        schema:
+          type: string
+          description: Exclude validation requests notified to the applicant after
+            the date
+          format: date
+        required: false
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        required: false
+      - name: maxresults
+        in: query
+        schema:
+          type: integer
+          default: 10
+        required: false
+      responses:
+        '200':
+          description: returns notified validation requests
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    metadata:
+                      page: 1
+                      results: 10
+                      from: 1
+                      to: 5
+                      total_pages: 1
+                      total_results: 5
+                    links:
+                      first: http://southwark.bops.localhost:3000/api/v2/validation_requests?page=1
+                      last: http://southwark.bops.localhost:3000/api/v2/validation_requests?page=1
+                      prev: 
+                      next: 
+                    data:
+                    - planning_application:
+                        reference: 24-00593-HAPP
+                      type: FeeChangeValidationRequest
+                      state: open
+                      post_validation: false
+                      created_at: '2024-04-23T15:17:36.210+01:00'
+                      notified_at: '2024-04-23T15:17:50.073+01:00'
+                      reason: test change
+                      response_due: '2024-05-15'
+                      response: 
+                      rejection_reason: 
+                      approved: 
+                      cancel_reason: 
+                      cancelled_at: 
+                      closed_at: 
+                      specific_attributes:
+                        suggestion: test change
+                    - planning_application:
+                        reference: 24-00593-HAPP
+                      type: AdditionalDocumentValidationRequest
+                      state: open
+                      post_validation: false
+                      created_at: '2024-04-23T15:17:16.660+01:00'
+                      notified_at: '2024-04-23T15:17:50.081+01:00'
+                      reason: test
+                      response_due: '2024-05-15'
+                      response: 
+                      rejection_reason: 
+                      approved: 
+                      cancel_reason: 
+                      cancelled_at: 
+                      closed_at: 
+                      specific_attributes:
+                        document_request_type: test
+                    - planning_application:
+                        reference: 24-00593-HAPP
+                      type: OtherChangeValidationRequest
+                      state: open
+                      post_validation: false
+                      created_at: '2024-04-23T15:17:46.396+01:00'
+                      notified_at: '2024-04-23T15:17:50.090+01:00'
+                      reason: test change
+                      response_due: '2024-05-15'
+                      response: 
+                      rejection_reason: 
+                      approved: 
+                      cancel_reason: 
+                      cancelled_at: 
+                      closed_at: 
+                      specific_attributes:
+                        suggestion: test change
+                    - planning_application:
+                        reference: 24-00593-HAPP
+                      type: DescriptionChangeValidationRequest
+                      state: closed
+                      post_validation: false
+                      created_at: '2024-04-23T15:17:00.174+01:00'
+                      notified_at: '2024-04-23T15:17:00.290+01:00'
+                      reason: 
+                      response_due: '2024-04-30'
+                      response: 
+                      rejection_reason: 
+                      approved: true
+                      cancel_reason: 
+                      cancelled_at: 
+                      closed_at: '2024-04-23T15:19:38.912+01:00'
+                      specific_attributes:
+                        previous_description: Roof extension to the rear of the property,
+                          incorporating starship launchpad.
+                        proposed_description: test validation Roof extension to the
+                          rear of the property, incorporating starship launchpad.
+                    - planning_application:
+                        reference: 24-00593-HAPP
+                      type: RedLineBoundaryChangeValidationRequest
+                      state: closed
+                      post_validation: false
+                      created_at: '2024-04-23T15:16:43.993+01:00'
+                      notified_at: '2024-04-23T15:17:50.058+01:00'
+                      reason: test
+                      response_due: '2024-05-15'
+                      response: 
+                      rejection_reason: 
+                      approved: true
+                      cancel_reason: 
+                      cancelled_at: 
+                      closed_at: 
+                      specific_attributes:
+                        new_geojson:
+                          type: FeatureCollection
+                          features:
+                          - type: Feature
+                            geometry:
+                              type: Polygon
+                              coordinates:
+                              - - - -0.11835515499115692
+                                  - 51.465546460366994
+                                - - -0.11852815747261736
+                                  - 51.465746977085615
+                                - - -0.1186569035053321
+                                  - 51.465703531871384
+                                - - -0.11848390102387167
+                                  - 51.4655038504508
+                                - - -0.11835515499115692
+                                  - 51.465546460366994
+                            properties: 
+                        original_geojson:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                            - - - -0.1186569035053321
+                                - 51.465703531871384
+                              - - -0.1185938715934822
+                                - 51.465724418998775
+                              - - -0.1184195280075143
+                                - 51.46552473766957
+                              - - -0.11848390102387167
+                                - 51.4655038504508
+                              - - -0.1186569035053321
+                                - 51.465703531871384
+                          properties: 
+              schema:
+                "$ref": "#/components/schemas/ValidationRequests"
+        '401':
+          description: with missing or invalid credentials
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    error:
+                      code: 401
+                      message: Unauthorized
+              schema:
+                "$ref": "#/components/schemas/UnauthorizedError"

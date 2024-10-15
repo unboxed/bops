@@ -4,7 +4,6 @@ module BopsApi
   module V2
     class ValidationRequestsController < AuthenticatedController
       def index
-        @planning_application = find_planning_application(params[:planning_application_id])
         @pagy, @validation_requests = query_service.call
 
         respond_to do |format|
@@ -14,16 +13,12 @@ module BopsApi
 
       private
 
-      def planning_applications_scope
-        @local_authority.planning_applications.includes(:user)
-      end
-
-      def query_service(scope = @planning_application.validation_requests)
+      def query_service(scope = @local_authority.validation_requests.notified.includes(:planning_application))
         @query_service ||= ValidationRequest::QueryService.new(scope, query_params)
       end
 
       def query_params
-        params.permit(:type)
+        params.permit(:page, :maxresults, :type, :from_date, :to_date)
       end
     end
   end
