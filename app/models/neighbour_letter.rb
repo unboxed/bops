@@ -2,6 +2,7 @@
 
 class NeighbourLetter < ApplicationRecord
   belongs_to :neighbour
+  belongs_to :batch, optional: true, class_name: :NeighbourLetterBatch
 
   validates :resend_reason, absence: true, unless: :allowed_resend_reason?
   validates :resend_reason, presence: true, if: :needs_resend_reason?

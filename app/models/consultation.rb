@@ -33,6 +33,7 @@ class Consultation < ApplicationRecord
   belongs_to :planning_application
 
   has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
+  has_many :neighbour_letter_batches, dependent: :destroy
 
   with_options to: :planning_application do
     delegate :local_authority
