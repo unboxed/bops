@@ -24,7 +24,7 @@ module BopsApi
         end
 
         def query_params
-          params.permit(:type)
+          params.permit(:type, :page, :maxresults)
         end
       end
     end

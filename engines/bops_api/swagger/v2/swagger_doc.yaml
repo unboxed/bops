@@ -18025,6 +18025,12 @@ paths:
       security:
       - bearerAuth: []
       parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
       - name: type
         in: query
         schema:
@@ -18040,12 +18046,16 @@ paths:
           - PreCommencementConditionValidationRequest
           - HeadsOfTermsValidationRequest
           - TimeExtensionValidationRequest
-      - name: reference
-        in: path
+      - name: page
+        in: query
         schema:
-          type: string
-          description: The planning application reference
-        required: true
+          type: integer
+          default: 1
+      - name: maxresults
+        in: query
+        schema:
+          type: integer
+          default: 10
       responses:
         '200':
           description: returns application validation requests when searching by the

@@ -40,6 +40,8 @@ RSpec.describe "BOPS API" do
 
   let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
   let(:type) { "" }
+  let(:page) { 1 }
+  let(:maxresults) { 5 }
 
   path "/api/v2/planning_applications/{reference}/validation_requests" do
     it "validates successfully against the example validation requests json" do
@@ -54,6 +56,11 @@ RSpec.describe "BOPS API" do
       tags "Validation requests"
       security [bearerAuth: []]
       produces "application/json"
+
+      parameter name: :reference, in: :path, schema: {
+        type: :string,
+        description: "The planning application reference"
+      }
 
       parameter name: :type, in: :query, schema: {
         type: :string,
@@ -71,9 +78,14 @@ RSpec.describe "BOPS API" do
         ]
       }
 
-      parameter name: :reference, in: :path, schema: {
-        type: :string,
-        description: "The planning application reference"
+      parameter name: :page, in: :query, schema: {
+        type: :integer,
+        default: 1
+      }
+
+      parameter name: :maxresults, in: :query, schema: {
+        type: :integer,
+        default: 10
       }
 
       response "200", "returns application validation requests when searching by the reference and type" do
@@ -89,7 +101,7 @@ RSpec.describe "BOPS API" do
           expect(metadata).to eq(
             {
               "page" => 1,
-              "results" => 10,
+              "results" => 5,
               "from" => 1,
               "to" => 1,
               "total_pages" => 1,
@@ -115,7 +127,7 @@ RSpec.describe "BOPS API" do
           expect(metadata).to eq(
             {
               "page" => 1,
-              "results" => 10,
+              "results" => 5,
               "from" => 1,
               "to" => 3,
               "total_pages" => 1,
