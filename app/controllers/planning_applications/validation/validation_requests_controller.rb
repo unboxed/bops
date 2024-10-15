@@ -153,7 +153,7 @@ module PlanningApplications
       def validation_notice_request_error(exception)
         flash[:alert] = t("email_failure")
 
-        Appsignal.send_error(exception)
+        Appsignal.report_error(exception)
         render "planning_applications/show"
       end
 

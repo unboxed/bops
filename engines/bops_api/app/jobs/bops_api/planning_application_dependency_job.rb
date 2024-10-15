@@ -153,7 +153,7 @@ module BopsApi
         end
       end
     rescue ActiveRecord::RecordInvalid, NoMethodError => e
-      Appsignal.send_error(e)
+      Appsignal.report_error(e)
     end
 
     def fetch_constraint_entities(planning_application_constraint, entities)

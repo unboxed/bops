@@ -17,8 +17,8 @@ module BopsApi
       rescue_from StandardError do |exception|
         Appsignal.add_tags(appsignal_tags)
 
-        Appsignal.send_error(exception) do |transaction|
-          transaction.params = {params: params.to_unsafe_hash}
+        Appsignal.report_error(exception) do
+          Appsignal.add_params(params.to_unsafe_hash)
         end
 
         code = Rack::Utils.status_code(EXCEPTIONS[exception.class.name])

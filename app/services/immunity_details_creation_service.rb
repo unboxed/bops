@@ -14,7 +14,7 @@ class ImmunityDetailsCreationService
     create_evidence_groups
     fill_in_evidence_group_information
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
-    Appsignal.send_error(e)
+    Appsignal.report_error(e)
   end
 
   private

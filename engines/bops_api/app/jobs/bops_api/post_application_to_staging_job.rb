@@ -8,7 +8,7 @@ module BopsApi
       if (submission = planning_application.params_v2)
         Apis::Bops::Query.new.post(local_authority.subdomain, submission)
       else
-        Appsignal.send_error("Unable to find submission data for planning application with id: #{planning_application.id}")
+        Appsignal.report_error("Unable to find submission data for planning application with id: #{planning_application.id}")
       end
     end
   end

@@ -62,7 +62,7 @@ module Users
     end
 
     def notify_error(exception)
-      Appsignal.send_error(exception)
+      Appsignal.report_error(exception)
 
       session.delete(:mobile_number)
 
