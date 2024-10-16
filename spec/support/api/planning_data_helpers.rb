@@ -23,6 +23,14 @@ module PlanningDataHelper
         body: file_fixture("entities/#{id}.json").read
       )
   end
+
+  def planning_data_entity_response(status, body = "1000005")
+    status = Rack::Utils.status_code(status)
+
+    body = Rails.root.join("spec", "fixtures", "files", "entities", "#{body}.json").read
+
+    {status:, body:}
+  end
 end
 
 if RSpec.respond_to?(:configure)
@@ -34,6 +42,7 @@ if RSpec.respond_to?(:configure)
       stub_planning_data_api_request_for("LBH").to_return(planning_data_api_response(:ok, "LBH"))
       stub_planning_data_api_request_for("SWK").to_return(planning_data_api_response(:ok, "SWK"))
       stub_planning_data_api_request_for("TEST").to_return(planning_data_api_response(:ok, "TEST"))
+      stub_planning_data_entity_request("1000005").to_return(planning_data_entity_response(:ok, "1000005"))
     end
   end
 end
