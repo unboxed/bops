@@ -48,6 +48,10 @@ class PlanningApplicationConstraint < ApplicationRecord
     data&.pluck("name", "entity")
   end
 
+  def entity_data
+    (planning_data_dataset && planning_data_geojson) ? {planning_data_dataset => planning_data_geojson} : {}
+  end
+
   private
 
   def identified_and_removed?
@@ -60,5 +64,17 @@ class PlanningApplicationConstraint < ApplicationRecord
 
   def audit_constraint_removed!
     audit!(activity_type: "constraint_removed", audit_comment: constraint.type_code)
+  end
+
+  def entity
+    data&.pick("entity")
+  end
+
+  def planning_data_geojson
+    @planning_data_geojson ||= Apis::PlanningData::Query.new.get_entity_geojson(entity)
+  end
+
+  def planning_data_dataset
+    planning_data_geojson.dig(:properties, :dataset)
   end
 end

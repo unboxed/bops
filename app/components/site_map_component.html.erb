@@ -15,7 +15,8 @@
         latLong: [planning_application.latitude, planning_application.longitude].join(","),
         layers: {
           redline: planning_application.boundary_geojson,
-          neighbours: neighbours_layers
+          neighbours: neighbours_layers,
+          constraints: constraints_layers
         }
       } do %>
     <%= tag.div id: :map %>
