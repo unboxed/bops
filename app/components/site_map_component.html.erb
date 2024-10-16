@@ -42,7 +42,31 @@
       <div class="map-data-tab map-data-constraints govuk-!-display-none">
         <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
         <div class="map-data-scroll-container">
-          placeholder
+          <h3 class="govuk-heading-s">Constraints</h3>
+          <% if planning_application.planning_application_constraints.present? %>
+            <ul class="govuk-list govuk-list--spaced">
+              <% planning_application.planning_application_constraints.each do |planning_application_constraint| %>
+                <li>
+                  <hr>
+                  <strong class="govuk-body-s govuk-!-font-weight-bold">
+                    <%= planning_application_constraint.type_code %>
+                  </strong><br>
+                  <% if planning_application_constraint.entities.present? %>
+                      <ul class="govuk-list govuk-!-font-size-16">
+                        <% planning_application_constraint.entities.each do |name, entity| %>
+                          <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
+                          <li><%= govuk_link_to entity_name, helpers.planning_data_entity_url(entity), new_tab: true %></li>
+                        <% end %>
+                      </ul>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <div class="background-light-grey govuk-!-padding-6">
+              <p class="govuk-body-s govuk-!-margin-bottom-0"><strong>No constraints have been added or identified</strong></p>
+            </div>
+          <% end %>
         </div>
       </div>
       <div class="map-data-tab map-data-neighbours govuk-!-display-none">
@@ -53,6 +77,7 @@
             <ul class="govuk-list govuk-list--spaced">
               <% planning_application.consultation.neighbours.each do |neighbour| %>
                 <li data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
+                  <hr>
                   <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
                   <%= render StatusTags::BaseComponent.new(
                         status: neighbour.neighbour_responses.last&.summary_tag || :none,
