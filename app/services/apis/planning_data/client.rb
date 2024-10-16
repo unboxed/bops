@@ -8,16 +8,19 @@ module Apis
       HOST = "https://www.planning.data.gov.uk"
       TIMEOUT = 5
 
-      def call(query)
-        faraday.get("/entity.json?#{query}") do |request|
-          request.options[:timeout] = TIMEOUT
-        end
+      def get(query)
+        faraday.get("/entity.json?#{query}")
+      end
+
+      def get_entity_geojson(query)
+        faraday.get("/entity/#{query}.geojson")
       end
 
       private
 
       def faraday
         @faraday ||= Faraday.new(url: HOST) do |f|
+          f.options[:timeout] = TIMEOUT
           f.response :raise_error
         end
       end
