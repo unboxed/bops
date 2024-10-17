@@ -48,6 +48,16 @@ class PlanningApplicationConstraint < ApplicationRecord
     data&.pluck("name", "entity")
   end
 
+  def entity
+    data&.pick("entity")
+  end
+
+  def entity_data
+    {
+      planning_data[:dataset] => convert_multipolygon_to_geojson(planning_data[:geometry])
+    }
+  end
+
   private
 
   def identified_and_removed?
@@ -60,5 +70,25 @@ class PlanningApplicationConstraint < ApplicationRecord
 
   def audit_constraint_removed!
     audit!(activity_type: "constraint_removed", audit_comment: constraint.type_code)
+  end
+
+  def planning_data
+    @planning_data ||= Apis::PlanningData::Query.new.get_entity(entity)
+  end
+
+  def convert_multipolygon_to_geojson(wkt_string)
+    if wkt_string.present?
+      # Create a factory to parse the WKT
+      factory = RGeo::Geographic.spherical_factory(srid: 4326)
+
+      # Parse the WKT string (which is the MULTIPOLYGON)
+      wkt_parser = RGeo::WKRep::WKTParser.new(factory)
+      multipolygon = wkt_parser.parse(wkt_string)
+
+      # Convert to GeoJSON
+      geojson = RGeo::GeoJSON.encode(multipolygon)
+
+      geojson
+    end
   end
 end
