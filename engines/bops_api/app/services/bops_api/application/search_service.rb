@@ -20,7 +20,7 @@ module BopsApi
       def search
         return scope if query.blank?
 
-        search_reference.presence || search_description
+        search_reference.presence || search_address.presence || search_description
       end
 
       def search_reference
@@ -34,6 +34,10 @@ module BopsApi
         scope.select(sanitized_select_sql)
           .where(where_sql, query_terms)
           .order(rank: :desc)
+      end
+
+      def search_address
+        scope.where("address_search @@ to_tsquery('simple', ?)", address_query_terms)
       end
 
       def sanitized_select_sql
@@ -54,6 +58,10 @@ module BopsApi
 
       def query_terms
         @query_terms ||= query.split.join(" | ")
+      end
+
+      def address_query_terms
+        @query_terms ||= query.split.map { |term| term }.join(" & ")
       end
     end
   end
