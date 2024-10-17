@@ -307,6 +307,10 @@ Rails.application.routes.draw do
 
           resources :permitted_development_rights, only: %i[show edit update]
 
+          namespace :policy_areas do
+            resources :policy_classes, only: %i[show edit update]
+          end
+
           resources :policy_classes, only: %i[edit update show]
 
           resources :tasks, only: :index

@@ -4,7 +4,7 @@ module PlanningApplications
   module Assessment
     module PolicyAreas
       class PolicyClassesController < BaseController
-        before_action :ensure_can_assess_planning_application
+        before_action :ensure_can_assess_planning_application, only: %i[new create]
         before_action :find_policy_parts
         before_action :find_part, only: %i[new create]
         before_action :find_planning_application_policy_class, only: %i[edit update destroy]

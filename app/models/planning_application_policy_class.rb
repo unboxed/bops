@@ -4,7 +4,9 @@ class PlanningApplicationPolicyClass < ApplicationRecord
   belongs_to :planning_application
   belongs_to :new_policy_class
 
-  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review", autosave: true
+  with_options dependent: :destroy do
+    has_many :reviews, -> { order(created_at: :desc) }, as: :owner
+  end
 
   with_options on: :update do
     validates :reporting_types, presence: true
@@ -17,13 +19,16 @@ class PlanningApplicationPolicyClass < ApplicationRecord
   end
 
   def update_review(params)
-    case params[:status]
+    status = params[:status] || params[:review_status]
+    case status
     when "complete"
       mark_as_complete(params)
     when "in_progress"
       mark_as_in_progress(params)
+    when "review_complete", "review_in_progress"
+      update_current_review(params)
     else
-      raise ArgumentError, "Unexpected review status: #{params[:status].inspect}"
+      raise ArgumentError, "Unexpected review status: #{status.inspect}"
     end
   end
 
@@ -45,6 +50,12 @@ class PlanningApplicationPolicyClass < ApplicationRecord
     else
       current_review.update!(params)
     end
+  rescue ActiveRecord::ActiveRecordError
+    false
+  end
+
+  def update_current_review(params)
+    current_review.update!(params)
   rescue ActiveRecord::ActiveRecordError
     false
   end
