@@ -73,7 +73,7 @@
         <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
         <div class="map-data-scroll-container">
           <h3 class="govuk-heading-s">All neighbours</h3>
-          <% if planning_application.consultation.neighbours.present? %>
+          <% if planning_application.application_type.consultation? && planning_application.consultation.neighbours.present? %>
             <ul class="govuk-list govuk-list--spaced">
               <% planning_application.consultation.neighbours.each do |neighbour| %>
                 <li data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
