@@ -108,7 +108,7 @@ class PlanningApplicationSearch
   end
 
   def records_matching_query
-    records_matching_reference.presence || records_matching_description
+    records_matching_reference.presence || records_matching_address.presence || records_matching_description
   end
 
   def records_matching_reference
@@ -123,6 +123,10 @@ class PlanningApplicationSearch
       .select(sanitized_select_sql)
       .where(where_sql, query_terms)
       .order(rank: :desc)
+  end
+
+  def records_matching_address
+    current_planning_applications.where("address_search @@ to_tsquery('simple', ?)", address_query_terms)
   end
 
   def sanitized_select_sql
@@ -143,6 +147,10 @@ class PlanningApplicationSearch
 
   def query_terms
     @query_terms ||= query.split.join(" | ")
+  end
+
+  def address_query_terms
+    @address_query_terms ||= query.split.map { |term| term }.join(" & ")
   end
 
   def query_submitted?
