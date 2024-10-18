@@ -215,6 +215,13 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).not_to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "sE228uR")
+        click_button("Search")
+
+        expect(page).not_to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
       end
     end
 

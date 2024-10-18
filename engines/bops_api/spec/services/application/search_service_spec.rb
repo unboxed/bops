@@ -41,7 +41,7 @@ RSpec.describe BopsApi::Application::SearchService do
     context "when performing a search" do
       let!(:matching_reference) { create(:planning_application) }
       let!(:matching_description) { create(:planning_application, description: "This is a unique description") }
-      let!(:matching_address) { create(:planning_application, address_1: "123 Unique Road", county: "Greater London", town: "Unique Town", postcode: "123 XYZ") }
+      let!(:matching_address) { create(:planning_application, address_1: "123 Unique Road", county: "Greater London", town: "Unique Town", postcode: "SE21 7DN") }
 
       context "when searching by reference" do
         let(:params) { {q: matching_reference.reference} }
@@ -72,11 +72,22 @@ RSpec.describe BopsApi::Application::SearchService do
         end
 
         context "with postcode" do
-          let(:params) { {q: "123 xyz"} }
+          context "with exact postcode query" do
+            let(:params) { {q: "SE21 7DN"} }
 
-          it "returns applications matching the address" do
-            expect(results).to include(matching_address)
-            expect(results).not_to include(matching_reference, matching_description)
+            it "returns applications matching the postcode" do
+              expect(results).to include(matching_address)
+              expect(results).not_to include(matching_reference, matching_description)
+            end
+          end
+
+          context "with postcode query" do
+            let(:params) { {q: "se217Dn"} }
+
+            it "returns applications matching the postcode" do
+              expect(results).to include(matching_address)
+              expect(results).not_to include(matching_reference, matching_description)
+            end
           end
         end
       end
