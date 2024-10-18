@@ -36,8 +36,22 @@ module BopsApi
           .order(rank: :desc)
       end
 
+      def search_postcode
+        scope.where(
+          "LOWER(replace(postcode, ' ', '')) = ?",
+          query.gsub(/\s+/, "").downcase
+        )
+      end
+
       def search_address
-        scope.where("address_search @@ to_tsquery('simple', ?)", address_query_terms)
+        return search_address_results unless postcode_query?
+
+        postcode_results = search_postcode
+        postcode_results.presence || search_address_results
+      end
+
+      def search_address_results
+        scope.where("address_search @@ to_tsquery('simple', ?)", query.split.join(" & "))
       end
 
       def sanitized_select_sql
@@ -60,8 +74,8 @@ module BopsApi
         @query_terms ||= query.split.join(" | ")
       end
 
-      def address_query_terms
-        @query_terms ||= query.split.map { |term| term }.join(" & ")
+      def postcode_query?
+        query.match?(/^(GIR\s?0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/i)
       end
     end
   end

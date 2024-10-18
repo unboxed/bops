@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_16_135118) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_18_100002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -790,6 +790,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_16_135118) do
     t.boolean "site_history_checked", default: false, null: false
     t.virtual "address_search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((((((COALESCE(address_1, ''::character varying))::text || ' '::text) || (COALESCE(address_2, ''::character varying))::text) || ' '::text) || (COALESCE(town, ''::character varying))::text) || ' '::text) || (COALESCE(county, ''::character varying))::text) || ' '::text) || (COALESCE(postcode, ''::character varying))::text))", stored: true
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
+    t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["address_search"], name: "ix_planning_applications_on_address_search", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
