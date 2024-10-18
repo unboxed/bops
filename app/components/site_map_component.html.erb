@@ -56,7 +56,10 @@
                       <ul class="govuk-list govuk-!-font-size-16">
                         <% planning_application_constraint.entities.each do |name, entity| %>
                           <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
-                          <li><%= govuk_link_to entity_name, helpers.planning_data_entity_url(entity), new_tab: true %></li>
+                          <li>
+                            <span class="constraint-<%= planning_application_constraint.planning_data_dataset %>"></span>
+                            <%= govuk_link_to entity_name, helpers.planning_data_entity_url(entity), new_tab: true %>
+                          </li>
                         <% end %>
                       </ul>
                   <% end %>

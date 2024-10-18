@@ -52,6 +52,10 @@ class PlanningApplicationConstraint < ApplicationRecord
     (planning_data_dataset && planning_data_geojson) ? {planning_data_dataset => planning_data_geojson} : {}
   end
 
+  def planning_data_dataset
+    planning_data_geojson.dig(:properties, :dataset)
+  end
+
   private
 
   def identified_and_removed?
@@ -72,9 +76,5 @@ class PlanningApplicationConstraint < ApplicationRecord
 
   def planning_data_geojson
     @planning_data_geojson ||= Apis::PlanningData::Query.new.get_entity_geojson(entity)
-  end
-
-  def planning_data_dataset
-    planning_data_geojson.dig(:properties, :dataset)
   end
 end
