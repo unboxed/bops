@@ -4,7 +4,8 @@ require "rails_helper"
 
 RSpec.describe LetterSendingService do
   let!(:planning_application) { create(:planning_application, :planning_permission) }
-  let(:neighbour) { create(:neighbour, consultation: planning_application.consultation) }
+  let(:consultation) { planning_application.consultation }
+  let(:neighbour) { create(:neighbour, consultation:) }
 
   describe "#deliver!" do
     let(:user) { create(:user) }
@@ -25,7 +26,7 @@ RSpec.describe LetterSendingService do
         it "makes a request and records it in the model" do
           letter_content = "Application received: #{neighbour.consultation.planning_application.received_at.to_fs(:day_month_year_slashes)}"
           notify_request = stub_send_letter(status: 200)
-          described_class.new(neighbour, letter_content, letter_type: :consultation).deliver!
+          described_class.new(letter_content, consultation:, letter_type: :consultation).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -48,7 +49,7 @@ RSpec.describe LetterSendingService do
           expect(Appsignal).to receive(:report_error)
 
           notify_request = stub_send_letter(status:)
-          described_class.new(neighbour, "Hi", letter_type: :consultation).deliver!
+          described_class.new("Hi", consultation:, letter_type: :consultation).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -73,7 +74,7 @@ RSpec.describe LetterSendingService do
         it "makes a request and records it in the model" do
           letter_content = "Application is going to committee"
           notify_request = stub_send_letter(status: 200)
-          described_class.new(neighbour, letter_content, letter_type: :committee).deliver!
+          described_class.new(letter_content, consultation:, letter_type: :committee).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -96,7 +97,7 @@ RSpec.describe LetterSendingService do
           expect(Appsignal).to receive(:report_error)
 
           notify_request = stub_send_letter(status:)
-          described_class.new(neighbour, "Hi", letter_type: :committee).deliver!
+          described_class.new("Hi", consultation:, letter_type: :committee).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 

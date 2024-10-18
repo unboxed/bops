@@ -3,19 +3,17 @@
 require "notifications/client"
 
 class LetterSendingService
-  attr_reader :neighbour, :consultation, :letter_content, :resend_reason
+  attr_reader :consultation, :letter_content, :resend_reason
 
-  def initialize(neighbour, letter_content, letter_type:, resend_reason: nil, batch: nil)
-    @local_authority = neighbour.consultation.planning_application.local_authority
-    @neighbour = neighbour
-    @consultation = neighbour.consultation
+  def initialize(letter_content, consultation:, letter_type:, resend_reason: nil)
+    @consultation = consultation
+    @local_authority = consultation.planning_application.local_authority
     @letter_content = letter_content
     @resend_reason = resend_reason
     @letter_type = letter_type
-    @batch = batch
   end
 
-  def deliver!
+  def deliver!(neighbour)
     return if resend_reason.nil? && NeighbourLetter.find_by(neighbour:).present? && consultation_letter?
 
     letter_record = NeighbourLetter.new(neighbour:, text: letter_content, resend_reason:)
@@ -49,6 +47,17 @@ class LetterSendingService
 
     update_letter!(letter_record, response)
     neighbour.touch :last_letter_sent_at
+  end
+
+  def deliver_batch!(neighbours)
+    @batch = consultation.neighbour_letter_batches.new(text: letter_content)
+
+    neighbours.each do |neighbour|
+      deliver!(neighbour)
+    rescue => e
+      Appsignal.send_error(e)
+      next
+    end
   end
 
   private

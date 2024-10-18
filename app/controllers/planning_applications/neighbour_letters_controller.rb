@@ -126,10 +126,7 @@ module PlanningApplications
     end
 
     def deliver_letters!
-      batch = NeighbourLetterBatch.new(text: @consultation.neighbour_letter_text)
-      neighbours_to_contact.each do |neighbour|
-        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text, resend_reason:, letter_type: :consultation, batch:).deliver!
-      end
+      LetterSendingService.new(@consultation.neighbour_letter_text, consultation: @consultation, resend_reason:, letter_type: :consultation).deliver_batch!(neighbours_to_contact)
     end
 
     def neighbours_to_contact
