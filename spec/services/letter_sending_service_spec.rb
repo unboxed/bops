@@ -26,7 +26,7 @@ RSpec.describe LetterSendingService do
         it "makes a request and records it in the model" do
           letter_content = "Application received: #{neighbour.consultation.planning_application.received_at.to_fs(:day_month_year_slashes)}"
           notify_request = stub_send_letter(status: 200)
-          letter_sender.new(neighbour, letter_content, letter_type: :consultation).deliver!
+          letter_sender.new(letter_content, letter_type: :consultation).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -49,7 +49,7 @@ RSpec.describe LetterSendingService do
           expect(Appsignal).to receive(:send_error)
 
           notify_request = stub_send_letter(status:)
-          letter_sender.new(neighbour, "Hi", letter_type: :consultation).deliver!
+          letter_sender.new("Hi", letter_type: :consultation).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -74,7 +74,7 @@ RSpec.describe LetterSendingService do
         it "makes a request and records it in the model" do
           letter_content = "Application is going to committee"
           notify_request = stub_send_letter(status: 200)
-          letter_sender.new(neighbour, letter_content, letter_type: :committee).deliver!
+          letter_sender.new(letter_content, letter_type: :committee).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -97,7 +97,7 @@ RSpec.describe LetterSendingService do
           expect(Appsignal).to receive(:send_error)
 
           notify_request = stub_send_letter(status:)
-          letter_sender.new(neighbour, "Hi", letter_type: :committee).deliver!
+          letter_sender.new("Hi", letter_type: :committee).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
