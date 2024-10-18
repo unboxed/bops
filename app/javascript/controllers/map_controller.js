@@ -11,6 +11,7 @@ export default class extends Controller {
     const layerData = JSON.parse(this.element.dataset.layers)
     const redline = layerData.redline
     const neighbours = layerData.neighbours
+    const constraints = layerData.constraints
 
     const layers = []
 
@@ -45,6 +46,17 @@ export default class extends Controller {
       for (const summary_tag in neighbours) {
         layers.push(
           this.buildNeighboursLayer(neighbours[summary_tag], summary_tag),
+        )
+      }
+    }
+
+    if (constraints !== null) {
+      for (const constraintEntity in constraints) {
+        layers.push(
+          this.buildConstraintsLayer(
+            constraintEntity,
+            constraints[constraintEntity],
+          ),
         )
       }
     }
@@ -89,6 +101,80 @@ export default class extends Controller {
         })
 
         return marker
+      },
+    })
+  }
+
+  buildConstraintsLayer(constraintEntity, geoJsonData) {
+    const colours = {
+      "agricultural-land-classification": {
+        fill: "#00703c33",
+        border: "#00703c",
+      },
+      "ancient-woodland": { fill: "#00703c33", border: "#00703c" },
+      "area-of-outstanding-natural-beauty": {
+        fill: "#d5388099",
+        border: "#d53880",
+      },
+      "article-4-direction-area": { fill: "#00307899", border: "#003078" },
+      battlefield: { fill: "#4d294233", border: "#4d2942" },
+      border: { fill: "#0b0c0c19", border: "#0b0c0c" },
+      "brownfield-site": { fill: "#74572999", border: "#745729" },
+      "building-preservation-notice": { fill: "#f944c799", border: "#f944c7" },
+      "built-up-area": { fill: "#f4773899", border: "#f47738" },
+      "central-activities-zone": { fill: "#00307899", border: "#003078" },
+      "certificate-of-immunity": { fill: "#D8760D99", border: "#D8760D" },
+      "conservation-area": { fill: "#78AA0099", border: "#78AA00" },
+      "design-code-area": { fill: "#00307899", border: "#003078" },
+      "educational-establishment": { fill: "#00307899", border: "#003078" },
+      "flood-risk-zone": { fill: "#00307899", border: "#003078" },
+      "flood-storage-area": { fill: "#00307899", border: "#003078" },
+      "green-belt": { fill: "#85994b99", border: "#85994b" },
+      "heritage-at-risk": { fill: "#8D73AF99", border: "#8D73AF" },
+      "heritage-coast": { fill: "#912b8899", border: "#912b88" },
+      "infrastructure-project": { fill: "#00307899", border: "#003078" },
+      "listed-building-outline": { fill: "#F9C74499", border: "#F9C744" },
+      "local-authority-district": { fill: "#0b0c0c19", border: "#0b0c0c" },
+      "locally-listed-building": { fill: "#F9C74499", border: "#F9C744" },
+      "local-nature-reserve": { fill: "#00307899", border: "#003078" },
+      "local-planning-authority": { fill: "#00307899", border: "#003078" },
+      "local-resilience-forum-boundary": {
+        fill: "#f499be19",
+        border: "#f499be",
+      },
+      "national-nature-reserve": { fill: "#00307899", border: "#003078" },
+      "national-park": { fill: "#3DA52C99", border: "#3DA52C" },
+      "nature-improvement-area": { fill: "#00307899", border: "#003078" },
+      parish: { fill: "#5694ca99", border: "#5694ca" },
+      "park-and-garden": { fill: "#0EB95199", border: "#0EB951" },
+      "protected-wreck-site": { fill: "#0b0c0c99", border: "#0b0c0c" },
+      ramsar: { fill: "#7fcdff99", border: "#7fcdff" },
+      region: { fill: "#00307899", border: "#003078" },
+      "scheduled-monument": { fill: "#0F9CDA99", border: "#0F9CDA" },
+      "site-of-special-scientific-interest": {
+        fill: "#308fac99",
+        border: "#308fac",
+      },
+      "special-area-of-conservation": { fill: "#7A870599", border: "#7A8705" },
+      "special-protection-area": { fill: "#00307899", border: "#003078" },
+      "title-boundary": { fill: "#00307899", border: "#003078" },
+      "transport-access-node": { fill: "#00307899", border: "#003078" },
+      "tree-preservation-zone": { fill: "#00307899", border: "#003078" },
+      ward: { fill: "#3DA52C99", border: "#3DA52C" },
+      "world-heritage-site": { fill: "#EB1EE599", border: "#EB1EE5" },
+      "world-heritage-site-buffer-zone": {
+        fill: "#EB1EE533",
+        border: "#EB1EE5",
+      },
+    }
+
+    return L.geoJson(geoJsonData, {
+      style: {
+        fillColor: colours[constraintEntity]?.fill || "#00000033",
+        color: colours[constraintEntity]?.border || "#000000",
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.5,
       },
     })
   }
