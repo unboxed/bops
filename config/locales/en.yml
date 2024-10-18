@@ -1711,7 +1711,7 @@ en:
       clear_search: Clear search
       find_an_application: Find an application
       search: Search
-      you_can_search: You can search by application number or description
+      you_can_search: You can search by application number, description or address
     site_notices:
       confirmation_requests:
         create:
