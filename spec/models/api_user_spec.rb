@@ -28,6 +28,11 @@ RSpec.describe ApiUser do
 
       expect(api_user.errors.messages[:name][0]).to eq("has already been taken")
     end
+
+    it "must have a token in the correct format" do
+      api_user = build(:api_user, token: "token")
+      expect(api_user).not_to be_valid
+    end
   end
 
   describe "#file_downloader" do
@@ -132,6 +137,38 @@ RSpec.describe ApiUser do
           expect(errors[:value]).to include("can't be blank")
         end
       end
+    end
+  end
+
+  describe ".generate_unique_secure_token" do
+    let(:pattern) { described_class::TOKEN_FORMAT }
+    let(:token) { described_class.generate_unique_secure_token }
+    let(:checksum) { Zlib.crc32(token[5..40]) }
+    let(:decoded_checksum) { Base64.urlsafe_decode64(token[41..46]).unpack1("L") }
+
+    it "generates tokens in the correct format" do
+      expect(token).to match(pattern)
+    end
+
+    it "generates tokens with a valid checksum" do
+      expect(checksum).to eq(decoded_checksum)
+    end
+  end
+
+  describe ".valid_token?" do
+    it "returns true for a valid token" do
+      token = "bops_KpR5kYmDcMikbj9dX7HkEk2xYvFfVbMn78H8clkQvw"
+      expect(described_class.valid_token?(token)).to eq(true)
+    end
+
+    it "returns false for a token in the incorrect format" do
+      token = "bops_InvalidToken"
+      expect(described_class.valid_token?(token)).to eq(false)
+    end
+
+    it "returns false for a token with an invalid checksum" do
+      token = "bops_eGfQ2ynJUPgzURvcMhGHSvArwKf412sqvKgcXxXxXx"
+      expect(described_class.valid_token?(token)).to eq(false)
     end
   end
 end
