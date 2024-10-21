@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :neighbour do
-    address { "123, Made Up Street, London, W5 67S" }
+    address { Faker::Address.full_address }
     consultation
   end
 end

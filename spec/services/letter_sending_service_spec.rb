@@ -111,4 +111,28 @@ RSpec.describe LetterSendingService do
       end
     end
   end
+
+  describe "#deliver_batch!" do
+    let(:user) { create(:user) }
+    let(:neighbours) { create_list(:neighbour, 3, consultation:) }
+    let(:status) { 200 }
+
+    before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+    end
+
+    it "makes requests and records in the model" do
+      letter_content = "Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}"
+      notify_request = stub_send_letter(status: 200)
+
+      described_class.new(letter_content, consultation:, letter_type: :consultation).deliver_batch!(neighbours)
+
+      expect(notify_request).to have_been_requested.times(3)
+
+      expect(consultation.neighbour_letter_batches.count).to eq(1)
+
+      expect(consultation.neighbour_letter_batches.first.neighbour_letters.count).to eq(3)
+    end
+  end
 end
