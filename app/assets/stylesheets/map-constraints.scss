@@ -1,0 +1,57 @@
+$constraints-colours: (
+  "agricultural-land-classification": (#00703c33, #00703c),
+  "ancient-woodland": (#00703c33, #00703c),
+  "area-of-outstanding-natural-beauty": (#d5388099, #d53880),
+  "article-4-direction-area": (#00307899, #003078),
+  "battlefield": (#4d294233, #4d2942),
+  "border": (#0b0c0c19, #0b0c0c),
+  "brownfield-site": (#74572999, #745729),
+  "building-preservation-notice": (#f944c799, #f944c7),
+  "built-up-area": (#f4773899, #f47738),
+  "central-activities-zone": (#00307899, #003078),
+  "certificate-of-immunity": (#D8760D99, #D8760D),
+  "conservation-area": (#78AA0099, #78AA00),
+  "design-code-area": (#00307899, #003078),
+  "educational-establishment": (#00307899, #003078),
+  "flood-risk-zone": (#00307899, #003078),
+  "flood-storage-area": (#00307899, #003078),
+  "green-belt": (#85994b99, #85994b),
+  "heritage-at-risk": (#8D73AF99, #8D73AF),
+  "heritage-coast": (#912b8899, #912b88),
+  "infrastructure-project": (#00307899, #003078),
+  "listed-building-outline": (#F9C74499, #F9C744),
+  "local-authority-district": (#0b0c0c19, #0b0c0c),
+  "locally-listed-building": (#F9C74499, #F9C744),
+  "local-nature-reserve": (#00307899, #003078),
+  "local-planning-authority": (#00307899, #003078),
+  "local-resilience-forum-boundary": (#f499be19, #f499be),
+  "national-nature-reserve": (#00307899, #003078),
+  "national-park": (#3DA52C99, #3DA52C),
+  "nature-improvement-area": (#00307899, #003078),
+  "parish": (#5694ca99, #5694ca),
+  "park-and-garden": (#0EB95199, #0EB951),
+  "protected-wreck-site": (#0b0c0c99, #0b0c0c),
+  "ramsar": (#7fcdff99, #7fcdff),
+  "region": (#00307899, #003078),
+  "scheduled-monument": (#0F9CDA99, #0F9CDA),
+  "site-of-special-scientific-interest": (#308fac99, #308fac),
+  "special-area-of-conservation": (#7A870599, #7A8705),
+  "special-protection-area": (#00307899, #003078),
+  "title-boundary": (#00307899, #003078),
+  "transport-access-node": (#00307899, #003078),
+  "tree-preservation-zone": (#00307899, #003078),
+  "ward": (#3DA52C99, #3DA52C),
+  "world-heritage-site": (#EB1EE599, #EB1EE5),
+  "world-heritage-site-buffer-zone": (#EB1EE533, #EB1EE5)
+);
+
+@each $type, $colours in $constraints-colours {
+  .constraint-#{$type} {
+    background-color: nth($colours, 1);
+    border: 1px solid nth($colours, 2);
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+  }
+}

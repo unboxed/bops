@@ -61,4 +61,10 @@ class SiteMapComponent < ViewComponent::Base
 
     unresponsive_neighbours.map { |neighbour| RGeo::GeoJSON.encode(neighbour.lonlat) }.compact
   end
+
+  def constraints_layers
+    planning_application.planning_application_constraints.present? && planning_application.planning_application_constraints.map do |planning_application_constraint|
+      planning_application_constraint.entity_data
+    end.reduce({}, :merge)
+  end
 end
