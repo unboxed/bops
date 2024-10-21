@@ -29,7 +29,11 @@
   </ul>
 </div>
 
-<p class="govuk-body">Date requested: <strong><%= time_tag(@press_notice.requested_at) %></strong></p>
+<% if requested_at = @press_notice.requested_at %>
+  <p class="govuk-body">Date requested: <strong><%= time_tag(requested_at) %></strong></p>
+<% else %>
+  <p class="govuk-body">Press notice has not been requested</p>
+<% end %>
 
 <% if @press_notice.published_at %>
   <p class="govuk-body">Date published: <strong><%= time_tag(@press_notice.published_at) %></strong></p>
