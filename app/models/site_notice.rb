@@ -19,6 +19,8 @@ class SiteNotice < ApplicationRecord
       date: {
         on_or_before: :current
       }
+
+    validate :document_presence
   end
 
   with_options format: {with: URI::MailTo::EMAIL_REGEXP} do
@@ -100,5 +102,9 @@ class SiteNotice < ApplicationRecord
 
     raise NotCreatableError,
       "Cannot create site notice when application type does not permit this feature."
+  end
+
+  def document_presence
+    errors.add(:documents, "Upload a photo or document of the site notice to continue") if documents.empty?
   end
 end
