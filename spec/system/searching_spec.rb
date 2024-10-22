@@ -16,7 +16,12 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       :in_assessment,
       user:,
       local_authority:,
-      description: "Add a chimney stack"
+      description: "Add a chimney stack",
+      address_1: "11 Abbey Gardens",
+      address_2: "Southwark",
+      town: "London",
+      county: "Greater London",
+      postcode: "SE16 3RQ"
     )
   end
 
@@ -26,7 +31,12 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       :in_assessment,
       user: nil,
       local_authority:,
-      description: "Add a patio"
+      description: "Add a patio",
+      address_1: "140, WOODWARDE ROAD",
+      address_2: "Dulwich",
+      town: "London",
+      county: "Greater London",
+      postcode: "SE22 8UR"
     )
   end
 
@@ -36,7 +46,12 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       :to_be_reviewed,
       user: other_user,
       local_authority:,
-      description: "Add a skylight"
+      description: "Add a skylight",
+      address_1: "23 Abbey Gardens",
+      address_2: "Southwark",
+      town: "London",
+      county: "Greater London",
+      postcode: "SE16 3RQ"
     )
   end
 
@@ -145,6 +160,68 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
+      end
+    end
+
+    it "allows the user to search for planning applications with an address" do
+      click_link "View all applications"
+
+      within(govuk_tab_all) do
+        fill_in("Find an application", with: "11 Abbey Gardens")
+        click_button("Search")
+
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "20 Abbey Gardens")
+        click_button("Search")
+
+        expect(page).not_to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "GARDENS")
+        click_button("Search")
+
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "140 woodwarde")
+        click_button("Search")
+
+        expect(page).not_to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "london")
+        click_button("Search")
+
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "southwark")
+        click_button("Search")
+
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "se22 8UR")
+        click_button("Search")
+
+        expect(page).not_to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+
+        fill_in("Find an application", with: "sE228uR")
+        click_button("Search")
+
+        expect(page).not_to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
       end
     end
 

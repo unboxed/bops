@@ -108,7 +108,7 @@ class PlanningApplicationSearch
   end
 
   def records_matching_query
-    records_matching_reference.presence || records_matching_description
+    records_matching_reference.presence || records_matching_address_search.presence || records_matching_description
   end
 
   def records_matching_reference
@@ -118,11 +118,29 @@ class PlanningApplicationSearch
     )
   end
 
+  def records_matching_postcode
+    current_planning_applications.where(
+      "LOWER(replace(postcode, ' ', '')) = ?",
+      query.gsub(/\s+/, "").downcase
+    )
+  end
+
   def records_matching_description
     current_planning_applications
       .select(sanitized_select_sql)
       .where(where_sql, query_terms)
       .order(rank: :desc)
+  end
+
+  def records_matching_address_search
+    return records_matching_address unless postcode_query?
+
+    postcode_results = records_matching_postcode
+    postcode_results.presence || records_matching_address
+  end
+
+  def records_matching_address
+    current_planning_applications.where("address_search @@ to_tsquery('simple', ?)", query.split.join(" & "))
   end
 
   def sanitized_select_sql
@@ -163,5 +181,9 @@ class PlanningApplicationSearch
 
   def selected_application_type_ids
     ApplicationType.where(name: application_type).ids
+  end
+
+  def postcode_query?
+    query.match?(/^(GIR\s?0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/i)
   end
 end
