@@ -3,7 +3,7 @@
 require "notifications/client"
 
 class LetterSendingService
-  attr_reader :consultation, :letter_content, :resend_reason
+  attr_reader :consultation, :letter_content, :local_authority, :resend_reason
 
   def initialize(letter_content, consultation:, letter_type:, resend_reason: nil)
     @consultation = consultation
@@ -36,7 +36,7 @@ class LetterSendingService
 
     begin
       response = client.send_letter(
-        template_id: @local_authority.letter_template_id,
+        template_id: local_authority.letter_template_id,
         personalisation:
       )
     rescue Notifications::Client::RequestError => e
@@ -64,9 +64,9 @@ class LetterSendingService
 
   def heading
     if consultation_letter?
-      @consultation.neighbour_letter_header
+      consultation.neighbour_letter_header
     else
-      @consultation.planning_application.application_type.legislation_title
+      consultation.planning_application.application_type.legislation_title
     end
   end
 
@@ -75,7 +75,7 @@ class LetterSendingService
   end
 
   def client
-    @client ||= Notifications::Client.new(@local_authority.notify_api_key_for_letters)
+    @client ||= Notifications::Client.new(local_authority.notify_api_key_for_letters)
   end
 
   def update_letter!(letter_record, response)
