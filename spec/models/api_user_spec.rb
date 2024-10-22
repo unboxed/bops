@@ -140,6 +140,36 @@ RSpec.describe ApiUser do
     end
   end
 
+  describe ".authenticate" do
+    let(:token) { "bops_xjqhZoM8AmM2ptLkNdGA4uY5Y8j1qoq1MHHwVTt-Mg" }
+
+    around do |example|
+      freeze_time { example.run }
+    end
+
+    context "when an API user with the token exists" do
+      let!(:api_user) { create(:api_user, token:) }
+
+      it "returns the API user" do
+        expect(described_class.authenticate(token)).to eq(api_user)
+      end
+
+      it "updates the last_used_at timestamp" do
+        expect {
+          described_class.authenticate(token)
+        }.to change {
+          api_user.reload.last_used_at
+        }.from(nil).to(Time.current)
+      end
+    end
+
+    context "when an API user with the token doesn't exist" do
+      it "returns nil" do
+        expect(described_class.authenticate(token)).to be_nil
+      end
+    end
+  end
+
   describe ".generate_unique_secure_token" do
     let(:pattern) { described_class::TOKEN_FORMAT }
     let(:token) { described_class.generate_unique_secure_token }

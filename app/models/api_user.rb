@@ -22,7 +22,7 @@ class ApiUser < ApplicationRecord
 
   class << self
     def authenticate(token)
-      active.find_by(token: token)
+      active.find_by(token: token).tap { |user| user.try(:touch, :last_used_at) }
     end
 
     def generate_unique_secure_token(length: 36)
