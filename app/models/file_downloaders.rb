@@ -2,7 +2,7 @@
 
 module FileDownloaders
   Downloaders = StoreModel.one_of do |json|
-    const_get(json.fetch("type"))
+    const_get(json.with_indifferent_access.fetch("type"))
   rescue KeyError, NameError
     raise ArgumentError, "Missing file downloader type"
   end

@@ -8,8 +8,8 @@ RSpec.describe "BOPS API" do
   let(:application_type) { create(:application_type) }
 
   before do
-    create(:api_user, token: "bRPkCPjaZExpUYptBJDVFzss", local_authority:)
-    create(:api_user, name: "other", token: "pUYptBJDVFzssbRPkCPjaZEx", local_authority: southwark)
+    create(:api_user, token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
+    create(:api_user, name: "other", token: "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ", local_authority: southwark)
     create(:application_type, :ldc_existing)
     create(:application_type, :ldc_proposed)
     create(:application_type, :listed)
@@ -19,7 +19,7 @@ RSpec.describe "BOPS API" do
     Rails.configuration.os_vector_tiles_api_key = "testtest"
   end
 
-  let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
+  let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
   let(:planning_application) { example_fixture("validPlanningPermission.json") }
   let(:send_email) { "true" }
 
@@ -152,7 +152,7 @@ RSpec.describe "BOPS API" do
           }
         }
 
-        let(:Authorization) { "Bearer pUYptBJDVFzssbRPkCPjaZEx" }
+        let(:Authorization) { "Bearer bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ" }
 
         run_test!
       end

@@ -20,6 +20,8 @@ BopsAdmin::Engine.routes.draw do
     end
   end
 
+  resources :tokens, except: %i[show]
+
   resources :users, except: %i[show destroy] do
     get :resend_invite, on: :member
   end

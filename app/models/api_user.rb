@@ -4,9 +4,12 @@ require "base64"
 require "zlib"
 
 class ApiUser < ApplicationRecord
+  include StoreModel::NestedAttributes
+
   TOKEN_FORMAT = /\Abops_[a-zA-Z0-9]{36}[-_a-zA-Z0-9]{6}\z/
 
   attribute :file_downloader, FileDownloaders.to_type
+  alias_attribute :value, :token
 
   belongs_to :local_authority
   has_many :audits, dependent: :nullify
@@ -15,10 +18,13 @@ class ApiUser < ApplicationRecord
 
   scope :active, -> { where(revoked_at: nil) }
   scope :revoked, -> { where.not(revoked_at: nil) }
+  scope :by_name, -> { reorder(:name) }
 
-  validates :name, presence: true, uniqueness: {scope: :local_authority_id}
-  validates :token, format: {with: TOKEN_FORMAT}
-  validates :file_downloader, store_model: {allow_blank: true}
+  validates :name, presence: true, uniqueness: {scope: :local_authority_id, conditions: -> { where(revoked_at: nil) }}
+  validates :token, format: {with: TOKEN_FORMAT}, on: :create
+  validates :file_downloader, store_model: true
+
+  accepts_nested_attributes_for :file_downloader
 
   class << self
     def authenticate(token)
@@ -42,5 +48,13 @@ class ApiUser < ApplicationRecord
 
   def revoke!
     touch(:revoked_at)
+  end
+
+  def revoked?
+    revoked_at?
+  end
+
+  def active?
+    !revoked?
   end
 end

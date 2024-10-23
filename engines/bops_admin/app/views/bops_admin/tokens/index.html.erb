@@ -1,0 +1,39 @@
+<% content_for :page_title do %>
+  <%= t(".tokens") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+
+<% content_for :title, t(".tokens") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".tokens") %>
+    </h1>
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+          <a class="govuk-tabs__tab" href="#active">
+            <%= t(".active") %>
+          </a>
+        </li>
+        <li class="govuk-tabs__list-item">
+          <a class="govuk-tabs__tab" href="#revoked">
+            <%= t(".revoked") %>
+          </a>
+        </li>
+      </ul>
+      <div class="govuk-tabs__panel govuk-tabs__panel" id="active">
+        <%= render("table", tokens: @tokens.select(&:active?), revoked: false) %>
+      </div>
+      <div class="govuk-tabs__panel govuk-tabs__panel" id="revoked">
+        <%= render("table", tokens: @tokens.select(&:revoked?), revoked: true) %>
+      </div>
+    </div>
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to t(".add_token"), new_token_path %>
+      <%= govuk_button_link_to t("back"), tokens_path, secondary: true %>
+    </div>
+  </div>
+</div>

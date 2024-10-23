@@ -1,0 +1,31 @@
+<% content_for :page_title do %>
+  <%= t(".edit_token") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "API tokens", tokens_path %>
+
+<% content_for :title, t(".edit_token") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+    <h1 class="govuk-heading-l">
+      <%= t(".edit_token") %>
+    </h1>
+
+    <%= form_with model: @token, scope: :token, url: token_path(@token) do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_fieldset(legend: {text: nil}) do %>
+        <%= form.govuk_text_field :name, hint: {text: t(".hints.name")} %>
+        <%= form.govuk_text_field :service, hint: {text: t(".hints.service")} %>
+      <% end %>
+
+      <%= render "file_downloader", form: form, file_downloader: @token.file_downloader %>
+
+      <%= form.govuk_submit(t(".submit")) do %>
+        <%= govuk_button_link_to t(".revoke"), token_path(@token), warning: true, method: :delete, data: {confirm: t(".confirm")} %>
+        <%= govuk_button_link_to t("back"), tokens_path, secondary: true %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

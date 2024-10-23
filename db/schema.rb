@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_21_113049) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_23_045445) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -50,11 +50,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_113049) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
-    t.jsonb "file_downloader"
+    t.jsonb "file_downloader", default: {"type"=>"NoAuthentication"}
     t.string "service"
     t.datetime "revoked_at"
     t.datetime "last_used_at"
-    t.index ["local_authority_id", "name"], name: "ix_api_users_on_local_authority_id__name", unique: true
+    t.index ["local_authority_id", "name"], name: "ix_api_users_on_local_authority_id__name", unique: true, where: "(revoked_at IS NULL)"
     t.index ["local_authority_id", "token"], name: "ix_api_users_on_local_authority_id__token", unique: true
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
     t.index ["revoked_at"], name: "ix_api_users_on_revoked_at"

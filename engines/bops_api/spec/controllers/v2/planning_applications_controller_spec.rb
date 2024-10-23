@@ -11,7 +11,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
   routes { BopsApi::Engine.routes }
 
   before do
-    token = "pUYptBJDVFzssbRPkCPjaZEx"
+    token = "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ"
     create(:api_user, token:, local_authority: southwark)
 
     request.set_header("HTTP_HOST", "southwark.bops.test")

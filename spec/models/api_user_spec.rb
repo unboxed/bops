@@ -26,7 +26,7 @@ RSpec.describe ApiUser do
       api_user = build(:api_user, name: "test")
       api_user.save
 
-      expect(api_user.errors.messages[:name][0]).to eq("has already been taken")
+      expect(api_user.errors[:name]).to include("That name is already in use by an active token")
     end
 
     it "must have a token in the correct format" do
@@ -90,11 +90,11 @@ RSpec.describe ApiUser do
         end
 
         it "validates the presence of username" do
-          expect(errors[:username]).to include("can't be blank")
+          expect(errors[:username]).to include("Please enter the username")
         end
 
         it "validates the presence of password" do
-          expect(errors[:password]).to include("can't be blank")
+          expect(errors[:password]).to include("Please enter the password")
         end
       end
     end
@@ -112,7 +112,7 @@ RSpec.describe ApiUser do
         end
 
         it "validates the presence of token" do
-          expect(errors[:token]).to include("can't be blank")
+          expect(errors[:token]).to include("Please enter the bearer token value")
         end
       end
     end
@@ -130,11 +130,11 @@ RSpec.describe ApiUser do
         end
 
         it "validates the presence of the header key" do
-          expect(errors[:key]).to include("can't be blank")
+          expect(errors[:key]).to include("Please enter the name of the custom header")
         end
 
         it "validates the presence of the header value" do
-          expect(errors[:value]).to include("can't be blank")
+          expect(errors[:value]).to include("Please enter the value for the custom header")
         end
       end
     end

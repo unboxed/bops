@@ -260,6 +260,60 @@ en:
         telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       update:
         profile_successfully_updated: Council information successfully updated
+    tokens:
+      create:
+        success: API token successfully created
+      destroy:
+        failure: Unable to revoke API token - please contact support
+        success: API token successfully revoked
+      edit:
+        confirm: Are you sure you want to revoke this API token?
+        edit_token: Edit API token
+        hints:
+          name: A unique name for this token, typically the name of an individual or organisation
+          service: A description for what is using this token - if it's for submission of planning applications it should be the name of the service, e.g. PlanX
+        revoke: Revoke
+        submit: Save
+      file_downloader:
+        hint: If this token is for a planning application submission service such as Planning Portal or PlanX please specify the type of authentication it uses to download documents associated with the planning application
+        labels:
+          basic_authentication: Username and password
+          bearer_authentication: Bearer token
+          header_authentication: Custom header
+          key: Header name
+          no_authentication: None
+          password: Password
+          token: Token value
+          username: Username
+          value: Header value
+        legend: Authentication for downloading documents
+      index:
+        active: Active
+        add_token: Add API token
+        revoked: Revoked
+        tokens: API tokens
+      new:
+        add_token: Add API token
+        hints:
+          name: A unique name for this token, typically the name of an individual or organisation
+          service: A description for what is using this token - if it's for submission of planning applications it should be the name of the service, e.g. PlanX
+        submit: Save
+      show:
+        add_token: Add API token
+        back_to_token_list: Return to the list of API tokens
+        new_token_body_html: |
+          <small>
+            Your new API token secret is<br>
+            <strong>%{token}</strong>
+          </small>
+        new_token_title: API token generated
+        new_token_warning: The secret will only be visible on this page so please copy it before navigating away.
+      table:
+        edit: Edit
+        no_active_tokens: There are no active API tokens
+        no_revoked_tokens: There are no revoked API tokens
+      update:
+        success: API token successfully updated
     users:
       create:
         user_successfully_created: User successfully created
