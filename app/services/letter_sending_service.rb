@@ -27,6 +27,8 @@ class LetterSendingService
       @batch.neighbour_letters << letter_record
     end
 
+    return if @local_authority.notify_error_status.present?
+
     if resend_reason.present?
       letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
     end
@@ -42,6 +44,16 @@ class LetterSendingService
     rescue Notifications::Client::RequestError => e
       letter_record.update!(status: "rejected", failure_reason: e.message)
       Appsignal.report_error(e)
+
+      case e.message
+      when /email_reply_to_id \S+ does not exist/, /email_reply_to_id is not a valid UUID/
+        @local_authority.update!(notify_error_status: "bad_email_reply_to_id")
+      when /Template not found/
+        @local_authority.update!(notify_error_status: "bad_letter_template_id")
+      when /Invalid token/, /Cannot send letters with a team api key/, /Can't send to this recipient using a team-only API key/
+        @local_authority.update!(notify_error_status: "bad_api_key")
+      end
+
       return
     end
 
