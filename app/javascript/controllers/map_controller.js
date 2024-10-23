@@ -206,6 +206,14 @@ export default class extends Controller {
     }
   }
 
+  handleEvent(ev) {
+    if (ev.target.checked) {
+      console.log("true")
+    } else {
+      console.log("false")
+    }
+  }
+
   filterNeighbourList(latlng) {
     if (latlng !== null) {
       this.showMapData({ target: this.element.querySelector("button") })

@@ -62,8 +62,9 @@
                                 entity,
                                 true,
                                 class: "govuk-checkboxes__input",
-                                id: "constraint_#{planning_application_constraint.planning_data_dataset}_#{index}"
-                              )%>
+                                id: "constraint_#{planning_application_constraint.planning_data_dataset}_#{index}",
+                                data: {action: "change->map#handleEvent"}
+                              ) %>
                           <%= label_tag(
                                 "constraint_#{planning_application_constraint.planning_data_dataset}_#{index}",
                                 class: "govuk-label govuk-checkboxes__label govuk-!-font-size-16"
