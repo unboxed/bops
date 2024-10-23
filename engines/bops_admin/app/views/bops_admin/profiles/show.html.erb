@@ -17,15 +17,6 @@
 
     <div class="govuk-form-group govuk-!-margin-top-5">
       <ol class="govuk-list">
-        <% if current_local_authority.default_api_token.present? %>
-          <li>
-            <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".api_key") %></h2>
-            <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".api_key_hint_html", swagger_link: govuk_link_to("swagger", bops_api.v2_docs_path, new_tab: true)) %></div>
-            <p class="govuk-body govuk-!-margin-0">
-              <%= current_local_authority.default_api_token %>
-            </p>
-          </li>
-        <% end %>
         <li>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".signatory_name") %></h2>
           <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".signatory_name_hint") %></div>

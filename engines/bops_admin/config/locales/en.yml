@@ -227,8 +227,6 @@ en:
         telephone_number: Contact telephone (optional)
         telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       show:
-        api_key: API key
-        api_key_hint_html: This is the api key which can be used on %{swagger_link} to generate more test planning application data.
         document_checklist: Document checklist
         document_checklist_hint: Link to a document checklist that applicants use when submitting applications
         email_address: Email
