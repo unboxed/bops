@@ -22,7 +22,7 @@ module FileDownloaders
       self.type = self.class.name.demodulize
     end
 
-    def authenticate(request)
+    def authenticate(connection)
       raise NotImplementedError, "Subclasses of BaseDownloader need to implement #authenticate"
     end
 

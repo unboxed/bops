@@ -96,6 +96,22 @@ en:
               blank: Removed reason for the permitted development rights can't be blank
             summary:
               blank: Immunity from enforcement summary can't be blank
+        file_downloaders/basic_authentication:
+          attributes:
+            password:
+              blank: Please enter the password
+            username:
+              blank: Please enter the username
+        file_downloaders/bearer_authentication:
+          attributes:
+            token:
+              blank: Please enter the bearer token value
+        file_downloaders/header_authentication:
+          attributes:
+            key:
+              blank: Please enter the name of the custom header
+            value:
+              blank: Please enter the value for the custom header
         recommendation_form:
           attributes:
             decision:
@@ -119,6 +135,13 @@ en:
   activerecord:
     errors:
       models:
+        api_user:
+          attributes:
+            file_downloader:
+              invalid: Document download authentication has problems
+            name:
+              blank: Please enter a name for this API token
+              taken: That name is already in use by an active token
         application_type:
           attributes:
             category:

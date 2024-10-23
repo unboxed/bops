@@ -1,0 +1,58 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Name</th>
+      <th scope="col" class="govuk-table__header">Service</th>
+      <th scope="col" class="govuk-table__header">Last used at</th>
+      <% if revoked %>
+        <th scope="col" class="govuk-table__header">
+          Revoked at
+        </th>
+      <% else %>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+          &nbsp;
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% if tokens.empty? %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell" colspan="4">
+          <% if revoked %>
+            <%= t(".no_revoked_tokens") %>
+          <% else %>
+            <%= t(".no_active_tokens") %>
+          <% end %>
+        </td>
+      </tr>
+    <% else %>
+      <% tokens.each do |token| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= token.name %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= token.service %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if token.last_used_at? %>
+              <%= token.last_used_at.to_fs(:rfc822) %>
+            <% else %>
+              &ndash;
+            <% end %>
+          </td>
+          <% if revoked %>
+            <td class="govuk-table__cell">
+              <%= token.revoked_at.to_fs(:rfc822) %>
+            </td>
+          <% else %>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= govuk_link_to t(".edit"), edit_token_path(token) %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

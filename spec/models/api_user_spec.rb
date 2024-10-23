@@ -26,7 +26,12 @@ RSpec.describe ApiUser do
       api_user = build(:api_user, name: "test")
       api_user.save
 
-      expect(api_user.errors.messages[:name][0]).to eq("has already been taken")
+      expect(api_user.errors[:name]).to include("That name is already in use by an active token")
+    end
+
+    it "must have a token in the correct format" do
+      api_user = build(:api_user, token: "token")
+      expect(api_user).not_to be_valid
     end
   end
 
@@ -85,11 +90,11 @@ RSpec.describe ApiUser do
         end
 
         it "validates the presence of username" do
-          expect(errors[:username]).to include("can't be blank")
+          expect(errors[:username]).to include("Please enter the username")
         end
 
         it "validates the presence of password" do
-          expect(errors[:password]).to include("can't be blank")
+          expect(errors[:password]).to include("Please enter the password")
         end
       end
     end
@@ -107,7 +112,7 @@ RSpec.describe ApiUser do
         end
 
         it "validates the presence of token" do
-          expect(errors[:token]).to include("can't be blank")
+          expect(errors[:token]).to include("Please enter the bearer token value")
         end
       end
     end
@@ -125,13 +130,75 @@ RSpec.describe ApiUser do
         end
 
         it "validates the presence of the header key" do
-          expect(errors[:key]).to include("can't be blank")
+          expect(errors[:key]).to include("Please enter the name of the custom header")
         end
 
         it "validates the presence of the header value" do
-          expect(errors[:value]).to include("can't be blank")
+          expect(errors[:value]).to include("Please enter the value for the custom header")
         end
       end
+    end
+  end
+
+  describe ".authenticate" do
+    let(:token) { "bops_xjqhZoM8AmM2ptLkNdGA4uY5Y8j1qoq1MHHwVTt-Mg" }
+
+    around do |example|
+      freeze_time { example.run }
+    end
+
+    context "when an API user with the token exists" do
+      let!(:api_user) { create(:api_user, token:) }
+
+      it "returns the API user" do
+        expect(described_class.authenticate(token)).to eq(api_user)
+      end
+
+      it "updates the last_used_at timestamp" do
+        expect {
+          described_class.authenticate(token)
+        }.to change {
+          api_user.reload.last_used_at
+        }.from(nil).to(Time.current)
+      end
+    end
+
+    context "when an API user with the token doesn't exist" do
+      it "returns nil" do
+        expect(described_class.authenticate(token)).to be_nil
+      end
+    end
+  end
+
+  describe ".generate_unique_secure_token" do
+    let(:pattern) { described_class::TOKEN_FORMAT }
+    let(:token) { described_class.generate_unique_secure_token }
+    let(:checksum) { Zlib.crc32(token[5..40]) }
+    let(:decoded_checksum) { Base64.urlsafe_decode64(token[41..46]).unpack1("L") }
+
+    it "generates tokens in the correct format" do
+      expect(token).to match(pattern)
+    end
+
+    it "generates tokens with a valid checksum" do
+      expect(checksum).to eq(decoded_checksum)
+    end
+  end
+
+  describe ".valid_token?" do
+    it "returns true for a valid token" do
+      token = "bops_KpR5kYmDcMikbj9dX7HkEk2xYvFfVbMn78H8clkQvw"
+      expect(described_class.valid_token?(token)).to eq(true)
+    end
+
+    it "returns false for a token in the incorrect format" do
+      token = "bops_InvalidToken"
+      expect(described_class.valid_token?(token)).to eq(false)
+    end
+
+    it "returns false for a token with an invalid checksum" do
+      token = "bops_eGfQ2ynJUPgzURvcMhGHSvArwKf412sqvKgcXxXxXx"
+      expect(described_class.valid_token?(token)).to eq(false)
     end
   end
 end

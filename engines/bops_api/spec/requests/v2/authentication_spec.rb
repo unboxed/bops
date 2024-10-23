@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require "swagger_helper"
 
 RSpec.describe "ApiUser" do
   let(:local_authority) { create(:local_authority, :default) }
@@ -14,7 +14,7 @@ RSpec.describe "ApiUser" do
   end
 
   context "when the api key is revoked" do
-    let(:revoked_at) { Time.zone.now }
+    let(:revoked_at) { 1.hour.ago }
 
     it "does not permit access" do
       get "/api/v2/ping", headers:, as: :json

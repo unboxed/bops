@@ -23,6 +23,8 @@ module BopsAdmin
       case controller_name
       when "dashboard"
         "dashboard"
+      when "tokens"
+        "tokens"
       when "users"
         "users"
       when "consultees"
@@ -45,6 +47,7 @@ module BopsAdmin
         {link: {text: "Informatives", href: informatives_path}, current: active_page_key?("informatives")},
         {link: {text: "Policy", href: policy_root_path}, current: active_page_key?("policy")},
         {link: {text: "Users", href: users_path}, current: active_page_key?("users")},
+        {link: {text: "API tokens", href: tokens_path}, current: active_page_key?("tokens")},
         {link: {text: "Profile", href: profile_path}, current: active_page_key?("profile")}
       ]
     end

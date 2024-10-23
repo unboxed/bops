@@ -7,9 +7,9 @@ RSpec.describe "BOPS API" do
   let(:southwark) { create(:local_authority, :southwark) }
 
   before do
-    create(:api_user, :planx, token: "bRPkCPjaZExpUYptBJDVFzss", local_authority:)
-    create(:api_user, name: "other", token: "pUYptBJDVFzssbRPkCPjaZEx", local_authority: southwark)
-    create(:api_user, :swagger, token: "tBJDVFzPjabRPkCUYpZExpss", local_authority:)
+    create(:api_user, :planx, token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
+    create(:api_user, name: "other", token: "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ", local_authority: southwark)
+    create(:api_user, :swagger, token: "bops_CfmN6JWHTvQCzNcZGnq5kAniVSZ1MLJha68cCx_QPA", local_authority:)
   end
 
   path "/api/v2/ping" do
@@ -26,7 +26,7 @@ RSpec.describe "BOPS API" do
           timestamp: "2023-11-22T20:00:00.000Z"
         }
 
-        let(:Authorization) { "Bearer bRPkCPjaZExpUYptBJDVFzss" }
+        let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
 
         run_test!
       end
@@ -39,7 +39,7 @@ RSpec.describe "BOPS API" do
           timestamp: "2023-11-22T20:00:00.000Z"
         }
 
-        let(:Authorization) { "Bearer tBJDVFzPjabRPkCUYpZExpss" }
+        let(:Authorization) { "Bearer bops_CfmN6JWHTvQCzNcZGnq5kAniVSZ1MLJha68cCx_QPA" }
 
         run_test!
       end
@@ -69,7 +69,7 @@ RSpec.describe "BOPS API" do
           }
         }
 
-        let(:Authorization) { "Bearer pUYptBJDVFzssbRPkCPjaZEx" }
+        let(:Authorization) { "Bearer bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ" }
 
         run_test!
       end

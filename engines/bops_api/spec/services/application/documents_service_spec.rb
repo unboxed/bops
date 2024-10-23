@@ -14,16 +14,6 @@ RSpec.describe BopsApi::Application::DocumentsService, type: :job do
   let(:description) { "Proposed site plan" }
   let(:files) { [{"name" => url, "type" => ["something"]}] }
 
-  context "when the file downloader isn't configured" do
-    let(:user) { create(:api_user, file_downloader: nil) }
-
-    it "raises an error" do
-      expect {
-        described_class.new(planning_application:, user:, files:).call!
-      }.to raise_error(BopsApi::Errors::FileDownloaderNotConfiguredError)
-    end
-  end
-
   context "when the tags are empty" do
     before do
       stub_request(:get, url).to_return(status: 200, body: "")
