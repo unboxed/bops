@@ -14,6 +14,7 @@ export default class extends Controller {
     const constraints = layerData.constraints
 
     const layers = []
+    this.constraintsLayers = {}
 
     let [lat, long, ..._] = this.element.dataset.latlong.split(",")
 
@@ -51,13 +52,14 @@ export default class extends Controller {
     }
 
     if (constraints !== null) {
+      let i = 0
       for (const constraintEntity in constraints) {
-        layers.push(
-          this.buildConstraintsLayer(
-            constraintEntity,
-            constraints[constraintEntity],
-          ),
+        const layer = this.buildConstraintsLayer(
+          constraintEntity,
+          constraints[constraintEntity],
         )
+        layers.push(layer)
+        this.constraintsLayers[`${constraintEntity}_${i++}`] = layer
       }
     }
 
@@ -203,6 +205,16 @@ export default class extends Controller {
       } else {
         el.classList.add("govuk-!-display-none")
       }
+    }
+  }
+
+  handleEvent(ev) {
+    const constraintLayer = this.constraintsLayers[ev.params.constraint]
+
+    if (ev.target.checked) {
+      this.map.addLayer(constraintLayer)
+    } else {
+      this.map.removeLayer(constraintLayer)
     }
   }
 
