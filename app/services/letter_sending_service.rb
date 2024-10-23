@@ -17,6 +17,8 @@ class LetterSendingService
   def deliver!
     return if resend_reason.nil? && NeighbourLetter.find_by(neighbour:).present? && consultation_letter?
 
+    return if @local_authority.notify_error_status.present?
+
     letter_record = NeighbourLetter.new(neighbour:, text: letter_content, resend_reason:)
 
     ActiveRecord::Base.transaction do
@@ -39,6 +41,16 @@ class LetterSendingService
     rescue Notifications::Client::RequestError => e
       letter_record.update!(status: "rejected", failure_reason: e.message)
       Appsignal.report_error(e)
+
+      case e.message
+      when /email_reply_to_id \S+ does not exist/, /email_reply_to_id is not a valid UUID/
+        @local_authority.update!(notify_error_status: "bad_email_reply_to_id")
+      when /Template not found/
+        @local_authority.update!(notify_error_status: "bad_letter_template_id")
+      when /Cannot send letters with a team api key/, /Can't send to this recipient using a team-only API key/
+        @local_authority.update!(notify_error_status: "bad_api_key")
+      end
+
       return
     end
 
