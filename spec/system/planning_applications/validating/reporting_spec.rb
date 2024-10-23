@@ -44,7 +44,7 @@ RSpec.describe "Reporting validation task" do
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--notice") do
-        expect(page).to have_content("Planning application's development type for reporting was successfully selected")
+        expect(page).to have_content("Planning application's reporting details were successfully updated")
       end
 
       within("#reporting-details-task") do
@@ -62,6 +62,20 @@ RSpec.describe "Reporting validation task" do
       click_button "Save and mark as complete"
 
       expect(page).to have_content "Please select a development type for reporting"
+    end
+
+    context "when no reporting type for the application type exists" do
+      let!(:planning_application) do
+        create(:planning_application, :planning_permission, :not_started, local_authority: default_local_authority)
+      end
+
+      it "I can save and mark as complete" do
+        click_link "Add reporting details"
+        expect(page).to have_content("No applicable reporting types. Please configure them for the application type if they are required.")
+        click_button "Save and mark as complete"
+
+        expect(page).to have_content "Planning application's reporting details were successfully updated"
+      end
     end
 
     it "shows errors when Yes or No is not selected for whether the local authority is carrying out the works proposed" do
@@ -85,7 +99,7 @@ RSpec.describe "Reporting validation task" do
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--notice") do
-        expect(page).to have_content("Planning application's development type for reporting was successfully selected")
+        expect(page).to have_content("Planning application's reporting details were successfully updated")
       end
 
       within("#reporting-details-task") do
@@ -109,7 +123,7 @@ RSpec.describe "Reporting validation task" do
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--notice") do
-        expect(page).to have_content("Planning application's development type for reporting was successfully selected")
+        expect(page).to have_content("Planning application's reporting details were successfully updated")
       end
 
       within("#reporting-details-task") do
@@ -134,7 +148,7 @@ RSpec.describe "Reporting validation task" do
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--notice") do
-        expect(page).to have_content("Planning application's development type for reporting was successfully selected")
+        expect(page).to have_content("Planning application's reporting details were successfully updated")
       end
 
       within("#reporting-details-task") do

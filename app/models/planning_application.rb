@@ -79,6 +79,7 @@ class PlanningApplication < ApplicationRecord
     delegate :consultee_consultation_feature?
     delegate :publicity_consultation_feature?
     delegate :prior_approval?
+    delegate :selected_reporting_types?
   end
 
   delegate :reviewer_group_email, to: :local_authority
@@ -203,7 +204,7 @@ class PlanningApplication < ApplicationRecord
 
   with_options on: :reporting_types do
     validate :regulation_present, if: :regulation?
-    validates :reporting_type, presence: true
+    validates :reporting_type, presence: true, if: :selected_reporting_types?
   end
 
   def regulation_present

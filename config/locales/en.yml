@@ -1863,11 +1863,11 @@ en:
       reporting_types:
         form:
           legislation: Legislation
-          no_applicable_reporting_types: No applicable reporting types
+          no_applicable_reporting_types: No applicable reporting types. Please configure them for the application type if they are required.
           read_more: Read more guidance on GOV.UK (opens in a new tab)
         update:
           failure: Please select a development type for reporting
-          success: Planning application's development type for reporting was successfully selected
+          success: Planning application's reporting details were successfully updated.
       sitemaps:
         update:
           error: Something went wrong. Please contact support.
