@@ -41,7 +41,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       sign_in assessor
       visit "/planning_applications/#{planning_application.reference}"
 
-      neighbour = create(:neighbour, consultation:)
+      neighbour = create(:neighbour, consultation:, address: "123, Made Up Street, London, W5 67S")
       neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
 
       stub_send_letter(status: 200)

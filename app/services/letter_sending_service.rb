@@ -3,18 +3,17 @@
 require "notifications/client"
 
 class LetterSendingService
-  attr_reader :neighbour, :consultation, :letter_content, :resend_reason
+  attr_reader :consultation, :letter_content, :local_authority, :resend_reason
 
-  def initialize(neighbour, letter_content, letter_type:, resend_reason: nil)
-    @local_authority = neighbour.consultation.planning_application.local_authority
-    @neighbour = neighbour
-    @consultation = neighbour.consultation
+  def initialize(letter_content, consultation:, letter_type:, resend_reason: nil)
+    @consultation = consultation
+    @local_authority = consultation.planning_application.local_authority
     @letter_content = letter_content
     @resend_reason = resend_reason
     @letter_type = letter_type
   end
 
-  def deliver!
+  def deliver!(neighbour)
     return if resend_reason.nil? && NeighbourLetter.find_by(neighbour:).present? && consultation_letter?
 
     letter_record = NeighbourLetter.new(neighbour:, text: letter_content, resend_reason:)
@@ -22,6 +21,10 @@ class LetterSendingService
     ActiveRecord::Base.transaction do
       letter_record.save!
       consultation.start_deadline if consultation_letter?
+    end
+
+    if @batch
+      @batch.neighbour_letters << letter_record
     end
 
     if resend_reason.present?
@@ -33,7 +36,7 @@ class LetterSendingService
 
     begin
       response = client.send_letter(
-        template_id: @local_authority.letter_template_id,
+        template_id: local_authority.letter_template_id,
         personalisation:
       )
     rescue Notifications::Client::RequestError => e
@@ -46,13 +49,24 @@ class LetterSendingService
     neighbour.touch :last_letter_sent_at
   end
 
+  def deliver_batch!(neighbours)
+    @batch = consultation.neighbour_letter_batches.new(text: letter_content)
+
+    neighbours.each do |neighbour|
+      deliver!(neighbour)
+    rescue => e
+      Appsignal.send_error(e)
+      next
+    end
+  end
+
   private
 
   def heading
     if consultation_letter?
-      @consultation.neighbour_letter_header
+      consultation.neighbour_letter_header
     else
-      @consultation.planning_application.application_type.legislation_title
+      consultation.planning_application.application_type.legislation_title
     end
   end
 
@@ -61,7 +75,7 @@ class LetterSendingService
   end
 
   def client
-    @client ||= Notifications::Client.new(@local_authority.notify_api_key_for_letters)
+    @client ||= Notifications::Client.new(local_authority.notify_api_key_for_letters)
   end
 
   def update_letter!(letter_record, response)
