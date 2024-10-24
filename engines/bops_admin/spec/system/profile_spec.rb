@@ -73,4 +73,21 @@ RSpec.describe "Profile", type: :system do
     click_button("Submit")
     expect(page).to have_content("Council information successfully updated")
   end
+
+  context "when there are notify errors" do
+    let(:local_authority) { create(:local_authority, :default, :with_api_user, notify_error_status: "bad_notify_api_key") }
+
+    it "shows the notify error status" do
+      visit "/admin/profile/edit"
+      expect(page).to have_content "There is a problem Enter a valid Notify API key"
+    end
+
+    it "allows clearing a notify error status" do
+      visit "/admin/profile/edit"
+      fill_in "Notify API key", with: "changed-fd74e59d-8939-4d28-bc1b-95b8a6c7d413"
+
+      click_button("Submit")
+      expect(local_authority.reload.notify_error_status).to be_blank
+    end
+  end
 end
