@@ -63,7 +63,7 @@
                                 true,
                                 class: "govuk-checkboxes__input",
                                 data: {
-                                  action: "change->map#handleEvent",
+                                  action: "change->map#handleConstraintEvent",
                                   map_constraint_param: "#{planning_application_constraint.planning_data_dataset}_#{index}"
                                 }
                               ) %>
@@ -93,21 +93,35 @@
         <div class="map-data-scroll-container">
           <h3 class="govuk-heading-s">All neighbours</h3>
           <% if planning_application.application_type.consultation? && planning_application.consultation.neighbours.present? %>
-            <ul class="govuk-list govuk-list--spaced">
-              <% planning_application.consultation.neighbours.each do |neighbour| %>
-                <li data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
-                  <hr>
-                  <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
-                  <%= render StatusTags::BaseComponent.new(
-                        status: neighbour.neighbour_responses.last&.summary_tag || :none,
-                        html_attributes: {class: "govuk-!-font-size-16"}
+            <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-font-size-16" data-module="govuk-checkboxes">
+              <% planning_application.consultation.neighbours.each_with_index do |neighbour, index| %>
+                <div class="govuk-checkboxes__item" data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
+                  <%= check_box_tag(
+                        "neighbour_#{neighbour.address}_#{index}",
+                        neighbour.address,
+                        true,
+                        class: "govuk-checkboxes__input",
+                        data: {
+                          action: "change->map#handleNeighbourEvent",
+                          map_neighbour_param: "#{neighbour.neighbour_responses.last&.summary_tag || :none}_#{index}"
+                        }
                       ) %>
-                  <% if neighbour.neighbour_responses.last&.tags&.present? %>
-                    <p class="govuk-body govuk-body-s"><%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %></p>
+                  <%= label_tag(
+                        "neighbour_#{neighbour.address}",
+                        class: "govuk-label govuk-checkboxes__label govuk-!-font-size-16"
+                      ) do %>
+                    <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
+                    <%= render StatusTags::BaseComponent.new(
+                          status: neighbour.neighbour_responses.last&.summary_tag || :none,
+                          html_attributes: {class: "govuk-!-font-size-16"}
+                        ) %>
+                    <% if neighbour.neighbour_responses.last&.tags&.present? %>
+                      <p class="govuk-body govuk-body-s"><%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %></p>
+                    <% end %>
                   <% end %>
-                </li>
+                </div>
               <% end %>
-            </ul>
+            </div>
           <% end %>
         </div>
       </div>

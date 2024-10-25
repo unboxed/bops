@@ -15,6 +15,7 @@ export default class extends Controller {
 
     const layers = []
     this.constraintsLayers = {}
+    this.neighboursLayers = {}
 
     let [lat, long, ..._] = this.element.dataset.latlong.split(",")
 
@@ -44,10 +45,14 @@ export default class extends Controller {
     }).addTo(this.map)
 
     if (neighbours !== null) {
+      let i = 0
       for (const summary_tag in neighbours) {
-        layers.push(
-          this.buildNeighboursLayer(neighbours[summary_tag], summary_tag),
+        const layer = this.buildNeighboursLayer(
+          neighbours[summary_tag],
+          summary_tag,
         )
+        layers.push(layer)
+        this.neighboursLayers[`${summary_tag}_${i++}`] = layer
       }
     }
 
@@ -208,13 +213,23 @@ export default class extends Controller {
     }
   }
 
-  handleEvent(ev) {
+  handleConstraintEvent(ev) {
     const constraintLayer = this.constraintsLayers[ev.params.constraint]
 
     if (ev.target.checked) {
       this.map.addLayer(constraintLayer)
     } else {
       this.map.removeLayer(constraintLayer)
+    }
+  }
+
+  handleNeighbourEvent(ev) {
+    const neighbourLayer = this.neighboursLayers[ev.params.neighbour]
+
+    if (ev.target.checked) {
+      this.map.addLayer(neighbourLayer)
+    } else {
+      this.map.removeLayer(neighbourLayer)
     }
   }
 
