@@ -81,7 +81,7 @@ RSpec.describe "Withdraw or cancel" do
 
   context "when planning application has been determined" do
     let!(:planning_application) do
-      create(:planning_application, :determined, local_authority: default_local_authority)
+      create(:planning_application, :determined, :with_boundary_geojson, local_authority: default_local_authority)
     end
 
     it "prevents closing or cancelling" do
@@ -89,17 +89,87 @@ RSpec.describe "Withdraw or cancel" do
       visit "/planning_applications/#{planning_application.reference}/withdraw_or_cancel"
       expect(page).to have_content("This application has been determined and cannot be withdrawn or cancelled")
     end
+
+    it "allows viewing the application details, documents and tasks" do
+      within(".govuk-notification-banner") do
+        expect(page).to have_selector(".govuk-notification-banner__heading", text: "This application has been determined.")
+      end
+
+      expect(page).to have_css("#map-container")
+
+      within(".govuk-tabs") do
+        expect(page).to have_css("#application_details")
+        expect(page).to have_css("#constraints")
+        expect(page).to have_css("#site_history")
+        expect(page).to have_css("#documents")
+      end
+
+      within(".govuk-accordion") do
+        expect(page).to have_css("#application-information-section")
+        expect(page).to have_css("#proposal-details-section")
+        expect(page).to have_css("#contact-information-section")
+        expect(page).to have_css("#audit-log-section")
+        expect(page).to have_css("#notes-section")
+      end
+
+      expect(page).to have_css(".govuk-task-list#validation-section")
+      expect(page).to have_css(".govuk-task-list#assess-section")
+      expect(page).to have_css(".govuk-task-list#review-section")
+    end
+
+    it "does not allow editing the planning application" do
+      click_link "Edit details"
+      fill_in "Address 1", with: "Another address"
+      click_button "Save"
+
+      expect(page).to have_selector("[role=alert] li", text: "This application has been determined and cannot be modified.")
+    end
   end
 
   context "when planning application has been closed" do
     let!(:planning_application) do
-      create(:planning_application, :closed, local_authority: default_local_authority)
+      create(:planning_application, :closed, :with_boundary_geojson, local_authority: default_local_authority)
     end
 
     it "prevents closing or cancelling" do
       expect(page).not_to have_link "Withdraw or cancel application"
       visit "/planning_applications/#{planning_application.reference}/withdraw_or_cancel"
       expect(page).to have_content("This application has already been withdrawn or cancelled.")
+    end
+
+    it "allows viewing the application details, documents and tasks" do
+      within(".govuk-notification-banner") do
+        expect(page).to have_selector(".govuk-notification-banner__heading", text: "This application has been closed.")
+      end
+
+      expect(page).to have_css("#map-container")
+
+      within(".govuk-tabs") do
+        expect(page).to have_css("#application_details")
+        expect(page).to have_css("#constraints")
+        expect(page).to have_css("#site_history")
+        expect(page).to have_css("#documents")
+      end
+
+      within(".govuk-accordion") do
+        expect(page).to have_css("#application-information-section")
+        expect(page).to have_css("#proposal-details-section")
+        expect(page).to have_css("#contact-information-section")
+        expect(page).to have_css("#audit-log-section")
+        expect(page).to have_css("#notes-section")
+      end
+
+      expect(page).to have_css(".govuk-task-list#validation-section")
+      expect(page).to have_css(".govuk-task-list#assess-section")
+      expect(page).to have_css(".govuk-task-list#review-section")
+    end
+
+    it "does not allow editing the planning application" do
+      click_link "Edit details"
+      fill_in "Address 1", with: "Another address"
+      click_button "Save"
+
+      expect(page).to have_selector("[role=alert] li", text: "This application has been closed and cannot be modified.")
     end
   end
 

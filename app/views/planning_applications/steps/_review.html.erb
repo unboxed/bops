@@ -8,9 +8,9 @@
         end
       else
         task_list.with_item(title: "View recommendation",
-          href: @planning_application.awaiting_determination? && view_recommendation_planning_application_path(@planning_application),
+          href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && view_recommendation_planning_application_path(@planning_application),
           html_attributes: {aria: {describedby: "review_assessment-completed"}}) do |item|
-          if @planning_application.awaiting_determination?
+          if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?
             item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user)))
           else
             item.with_status(text: "Cannot start yet", cannot_start_yet: true)
@@ -19,7 +19,7 @@
       end
 
       task_list.with_item(title: "Publish determination",
-        href: @planning_application.can_publish? && current_user.reviewer? && publish_planning_application_path(@planning_application),
+        href: (@planning_application.can_publish? || @planning_application.publish_complete?) && current_user.reviewer? && publish_planning_application_path(@planning_application),
         html_attributes: {aria: {describedby: "publish_completed"}}) do |item|
           item.with_status(text: render(StatusTags::PublishDeterminationComponent.new(planning_application: @planning_application, user: current_user)))
         end

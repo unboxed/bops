@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Informative do
   describe "validations" do
-    subject(:informative) { described_class.new }
+    subject(:informative) { described_class.new(informative_set: create(:informative_set)) }
 
     it "has a valid factory" do
       informative = create(:informative)

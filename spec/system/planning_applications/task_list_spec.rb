@@ -67,7 +67,6 @@ RSpec.describe "Planning Application show page", type: :system do
       create(:recommendation, planning_application:)
       visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
-        expect(page).not_to have_link("Check and validate")
         expect(page).to have_content("Completed")
       end
 
@@ -180,7 +179,6 @@ RSpec.describe "Planning Application show page", type: :system do
       create(:recommendation, planning_application:)
       visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
-        expect(page).not_to have_link("Check and validate")
         expect(page).to have_content("Completed")
       end
 

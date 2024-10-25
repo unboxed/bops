@@ -24,13 +24,15 @@
     <div class="status-panel" id="expiry-date">
       <p class="govuk-body"><%= @planning_application.next_date_label %></p>
       <h3 class="govuk-heading-s"><%= @planning_application.next_date.to_fs(:day_month_year_slashes) %></h3>
-      <p class="govuk-body">
-        <% if @planning_application.open_time_extension_requests.any? %>
-          <%= govuk_link_to "Extension requested", planning_application_validation_validation_request_path(@planning_application, @planning_application.time_extension_request) %>
-        <% else %>
-          <%= govuk_link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension") %>
-        <% end %>
-      </p>
+      <% if @planning_application.in_progress? %>
+        <p class="govuk-body">
+          <% if @planning_application.open_time_extension_requests.any? %>
+            <%= govuk_link_to "Extension requested", planning_application_validation_validation_request_path(@planning_application, @planning_application.time_extension_request) %>
+          <% else %>
+            <%= govuk_link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension") %>
+          <% end %>
+        </p>
+      <% end %>
     </div>
   </div>
 </div>

@@ -8,9 +8,12 @@ class Condition < ApplicationRecord
 
   validates :text, :reason, presence: true
   validates :title, presence: true, if: :pre_commencement?
+  validate :ensure_planning_application_not_closed_or_cancelled, on: :update
 
   after_create :create_validation_request!, if: :pre_commencement?
   before_update :create_validation_request!, if: -> { pre_commencement? && should_create_validation_request? }
+
+  delegate :planning_application, to: :condition_set
 
   scope :sorted, -> { sort_by(&:sort_key) }
   scope :not_cancelled, -> { where(cancelled_at: nil) }
@@ -62,5 +65,9 @@ class Condition < ApplicationRecord
 
   def pre_commencement?
     condition_set.pre_commencement?
+  end
+
+  def ensure_planning_application_not_closed_or_cancelled
+    errors.add(:base, "Cannot modify conditions when planning application has been closed or cancelled") if planning_application.closed_or_cancelled?
   end
 end

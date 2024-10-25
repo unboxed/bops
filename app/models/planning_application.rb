@@ -207,6 +207,10 @@ class PlanningApplication < ApplicationRecord
     validates :reporting_type, presence: true, if: :selected_reporting_types?
   end
 
+  with_options on: :update, if: -> { changes.present? && !status_changed? } do
+    validate :prevent_update_if_closed_or_cancelled
+  end
+
   def regulation_present
     return if regulation_3 || regulation_4
 
@@ -269,11 +273,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def recommendable?
-    true unless determined? || returned? || withdrawn? || closed? || invalidated? || not_started?
+    true unless closed_or_cancelled? || invalidated? || not_started?
   end
 
   def in_progress?
-    true unless determined? || returned? || withdrawn? || closed?
+    true unless closed_or_cancelled?
   end
 
   def validated?
@@ -281,7 +285,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_validate?
-    true unless awaiting_determination? || determined? || returned? || withdrawn? || closed?
+    true unless awaiting_determination? || closed_or_cancelled?
   end
 
   def validation_complete?
@@ -1138,5 +1142,11 @@ class PlanningApplication < ApplicationRecord
 
   def site_notice_documents_for_publication
     last_site_notice.present? ? last_site_notice.documents.for_publication : Document.none
+  end
+
+  def prevent_update_if_closed_or_cancelled
+    return if changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).blank?
+
+    errors.add(:base, "This application has been #{status} and cannot be modified.") if closed_or_cancelled?
   end
 end

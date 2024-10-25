@@ -2058,6 +2058,20 @@ en:
       back_to_top: Back to top
     dates_and_assignment_header:
       consultation_end_date_not_set: Not yet started
+    overview_tabs:
+      application_details: Application details
+      consultation_end_date: 'Consultation end:'
+      consultation_not_started: Not yet started
+      description: 'Description:'
+      expiry_date: 'Expiry date:'
+      full_address: 'Site address:'
+      location: 'Location:'
+      press_notice_date: 'Press notice:'
+      review_and_sign_off: Review and sign-off
+      site_notice_date: 'Site notice:'
+      type_description: 'Application type:'
+      valid_from: 'Valid from:'
+      view_site_on: View site on Google Maps
     policy_classes:
       previous_comments:
         comment_deleted: Comment deleted %{time}
