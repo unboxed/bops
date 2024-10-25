@@ -558,6 +558,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_045445) do
     t.index ["local_policy_id"], name: "ix_local_policy_areas_on_local_policy_id"
   end
 
+  create_table "neighbour_letter_batches", force: :cascade do |t|
+    t.bigint "consultation_id"
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consultation_id"], name: "ix_neighbour_letter_batches_on_consultation_id"
+  end
+
   create_table "neighbour_letters", force: :cascade do |t|
     t.bigint "neighbour_id", null: false
     t.string "text"
@@ -570,6 +578,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_045445) do
     t.string "status_updated_at"
     t.string "failure_reason"
     t.string "resend_reason"
+    t.bigint "batch_id"
+    t.index ["batch_id"], name: "ix_neighbour_letters_on_batch_id"
     t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 
@@ -1098,6 +1108,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_045445) do
   add_foreign_key "local_authority_policy_references", "local_authorities"
   add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policy_areas", "local_policies"
+  add_foreign_key "neighbour_letter_batches", "consultations"
+  add_foreign_key "neighbour_letters", "neighbour_letter_batches", column: "batch_id"
   add_foreign_key "neighbour_letters", "neighbours"
   add_foreign_key "neighbour_responses", "consultations"
   add_foreign_key "neighbour_responses", "neighbours"

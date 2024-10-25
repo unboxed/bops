@@ -4,8 +4,8 @@ require "rails_helper"
 
 RSpec.describe LetterSendingService do
   let!(:planning_application) { create(:planning_application, :planning_permission) }
-  let(:neighbour) { create(:neighbour, consultation: planning_application.consultation) }
-  let(:letter_sender) { described_class }
+  let(:consultation) { planning_application.consultation }
+  let(:neighbour) { create(:neighbour, consultation:) }
 
   describe "#deliver!" do
     let(:user) { create(:user) }
@@ -26,7 +26,7 @@ RSpec.describe LetterSendingService do
         it "makes a request and records it in the model" do
           letter_content = "Application received: #{neighbour.consultation.planning_application.received_at.to_fs(:day_month_year_slashes)}"
           notify_request = stub_send_letter(status: 200)
-          letter_sender.new(neighbour, letter_content, letter_type: :consultation).deliver!
+          described_class.new(letter_content, consultation:, letter_type: :consultation).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -49,7 +49,7 @@ RSpec.describe LetterSendingService do
           expect(Appsignal).to receive(:report_error)
 
           notify_request = stub_send_letter(status:)
-          letter_sender.new(neighbour, "Hi", letter_type: :consultation).deliver!
+          described_class.new("Hi", consultation:, letter_type: :consultation).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -74,7 +74,7 @@ RSpec.describe LetterSendingService do
         it "makes a request and records it in the model" do
           letter_content = "Application is going to committee"
           notify_request = stub_send_letter(status: 200)
-          letter_sender.new(neighbour, letter_content, letter_type: :committee).deliver!
+          described_class.new(letter_content, consultation:, letter_type: :committee).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -97,7 +97,7 @@ RSpec.describe LetterSendingService do
           expect(Appsignal).to receive(:report_error)
 
           notify_request = stub_send_letter(status:)
-          letter_sender.new(neighbour, "Hi", letter_type: :committee).deliver!
+          described_class.new("Hi", consultation:, letter_type: :committee).deliver!(neighbour)
 
           expect(notify_request).to have_been_requested
 
@@ -109,6 +109,30 @@ RSpec.describe LetterSendingService do
           expect(letter.failure_reason).to eq("Exception: Internal server error")
         end
       end
+    end
+  end
+
+  describe "#deliver_batch!" do
+    let(:user) { create(:user) }
+    let(:neighbours) { create_list(:neighbour, 3, consultation:) }
+    let(:status) { 200 }
+
+    before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+    end
+
+    it "makes requests and records in the model" do
+      letter_content = "Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}"
+      notify_request = stub_send_letter(status: 200)
+
+      described_class.new(letter_content, consultation:, letter_type: :consultation).deliver_batch!(neighbours)
+
+      expect(notify_request).to have_been_requested.times(3)
+
+      expect(consultation.neighbour_letter_batches.count).to eq(1)
+
+      expect(consultation.neighbour_letter_batches.first.neighbour_letters.count).to eq(3)
     end
   end
 end
