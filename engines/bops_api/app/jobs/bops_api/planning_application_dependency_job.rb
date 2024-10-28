@@ -8,6 +8,14 @@ module BopsApi
     queue_as :submissions
     discard_on ActiveJob::DeserializationError
 
+    retry_on(StandardError, attempts: 5, wait: 5.minutes, jitter: 0) do |error|
+      Appsignal.report_error(error)
+    end
+
+    retry_on(Faraday::TimeoutError, attempts: 5, wait: 5.minutes, jitter: 0) do |error|
+      Appsignal.report_error(error)
+    end
+
     def document_checklist_items
       @document_checklist_items ||= params.dig(:metadata, :service, :files)
     end
@@ -24,10 +32,9 @@ module BopsApi
       process_ownership_certificate_details(planning_application)
       process_immunity_details(planning_application) if possibly_immune?(planning_application)
 
-      planning_application.send_receipt_notice_mail if email_sending_permitted && !planning_application.pending?
-
       if planning_application.pending?
         planning_application.mark_accepted!
+        planning_application.send_receipt_notice_mail if email_sending_permitted
       end
     end
 
