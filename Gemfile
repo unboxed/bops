@@ -26,13 +26,11 @@ gem "image_processing", "~> 1.12"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "json_schemer"
-gem "logger" # added to suppress a deprecation warning, possibly can be removed with a future rails version
 gem "lograge", "~> 0.14.0"
 gem "mail-notify"
 gem "matrix"
 gem "mini_magick"
 gem "notifications-ruby-client"
-gem "ostruct" # added to suppress a deprecation warning, possibly can be removed with a future rswag-ui version
 gem "pagy"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 6"
@@ -51,6 +49,11 @@ gem "store_model"
 gem "strong_migrations"
 gem "strong_password", "~> 0.0.9"
 gem "view_component"
+
+# These gems are included to fix deprecation warnings
+gem "csv"
+gem "logger"
+gem "ostruct"
 
 gem "bops_core", path: "engines/bops_core"
 gem "bops_admin", path: "engines/bops_admin"
