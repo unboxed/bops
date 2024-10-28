@@ -47,7 +47,7 @@ module Bops
 
     config.time_zone = "London"
     config.active_job.queue_adapter = :sidekiq
-    config.action_mailer.deliver_later_queue_name = "low_priority"
+    config.active_job.default_queue_name = "low_priority"
 
     config.action_mailer.preview_paths = [Rails.root.join("spec/mailer/previews")]
 
