@@ -505,8 +505,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.9)
     rgeo (3.0.0)
     rgeo-activerecord (7.0.1)
       activerecord (>= 5.0)
@@ -620,7 +619,6 @@ GEM
     strong_migrations (1.8.0)
       activerecord (>= 5.2)
     strong_password (0.0.10)
-    strscan (3.1.0)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     terminal-table (3.0.2)
