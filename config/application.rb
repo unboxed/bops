@@ -46,7 +46,6 @@ module Bops
     config.action_view.field_error_proc = ->(html_tag, _instance) { html_tag }
 
     config.time_zone = "London"
-    config.active_record.default_timezone = :local
     config.active_job.queue_adapter = :sidekiq
     config.action_mailer.deliver_later_queue_name = "low_priority"
 
