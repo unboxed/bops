@@ -25,7 +25,6 @@
       <p class="govuk-body">There are no active documents.</p>
     <% else %>
       <%= form_with(
-            builder: GOVUKDesignSystemFormBuilder::FormBuilder,
             method: :patch,
             multiple: true,
             url: planning_application_review_documents_path(@planning_application)

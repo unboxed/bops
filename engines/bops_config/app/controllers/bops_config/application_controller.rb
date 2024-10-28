@@ -12,8 +12,6 @@ module BopsConfig
       }
     }
 
-    default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
-
     before_action :authenticate_user!
     before_action :require_global_administrator!
     before_action :set_back_path

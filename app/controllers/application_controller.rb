@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
-
   before_action :find_current_local_authority_from_subdomain
   before_action :prevent_caching
   before_action :set_current_user

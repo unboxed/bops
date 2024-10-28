@@ -7,5 +7,7 @@ GOVUKDesignSystemFormBuilder.configure do |conf|
 
   Rails.application.config.to_prepare do
     conf.default_error_summary_presenter = ErrorPresenter
+
+    ActionView::Base.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
   end
 end

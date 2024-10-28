@@ -39,9 +39,6 @@ module Bops
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en]
 
-    # Remove the error wrapper from around the form element
-    config.action_view.field_error_proc = ->(html_tag, _instance) { html_tag }
-
     config.time_zone = "London"
     config.active_job.queue_adapter = :sidekiq
     config.active_job.default_queue_name = "low_priority"

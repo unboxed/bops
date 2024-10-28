@@ -45,7 +45,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= form_with(
-          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
           model: @consultation,
           method: :post,
           url: send_letters_planning_application_consultation_neighbour_letters_path(@planning_application)
