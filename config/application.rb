@@ -25,45 +25,43 @@ module Bops
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
-    config.middleware.use Grover::Middleware
-
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     # config.autoload_lib(ignore: %w[assets tasks])
 
-    # Settings in config/environments/* take precedence over those specified
-    # here. Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+
+    # Configure application time zone
+    config.time_zone = "London"
+
+    # Configure I18n options
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en]
 
-    config.time_zone = "London"
+    # Use Sidekiq gem for processing background jobs
     config.active_job.queue_adapter = :sidekiq
     config.active_job.default_queue_name = "low_priority"
 
+    # Render PDF responses from generated HTML
+    config.middleware.use Grover::Middleware
+
+    # Disable Active Storage routes
     config.active_storage.draw_routes = false
+
+    # Use MiniMagick gem for processing Active Storage variants
     config.active_storage.variant_processor = :mini_magick
 
-    # use rails 7.0 encryption method
+    # Use Rails 7.0 digest class
     config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA256
 
-    config.os_vector_tiles_api_key = ENV["OS_VECTOR_TILES_API_KEY"]
-    config.google_tag_manager_id = ENV["GOOGLE_TAG_MANAGER_ID"]
-
-    config.default_notify_api_key = ENV["NOTIFY_API_KEY"]
-    config.default_letter_template_id = ENV.fetch("DEFAULT_NOTIFY_TEMPLATE_ID", "7a7c541e-be0a-490b-8165-8e44dc9d13ad")
-    config.notify_letter_api_key = ENV["NOTIFY_LETTER_API_KEY"]
-    config.otp_secret_encryption_key = ENV["OTP_SECRET_ENCRYPTION_KEY"]
-    config.paapi_url = ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1")
-    config.planning_history_enabled = ENV["PLANNING_HISTORY_ENABLED"] == true
-    config.planx_file_api_key = ENV["PLANX_FILE_API_KEY"]
-    config.planx_file_production_api_key = ENV["PLANX_FILE_PRODUCTION_API_KEY"]
-    config.staging_api_bearer = ENV["STAGING_API_BEARER"]
-    config.staging_api_url = ENV["STAGING_API_URL"]
-    config.uploads_hostname = ENV.fetch("UPLOADS_HOSTNAME", "uploads.bops.localhost:3000")
-    config.uploads_base_url = ENV.fetch("UPLOADS_BASE_URL", "http://uploads.bops.localhost:3000")
+    # Load config from application.yml
+    config_for(:application).each do |key, value|
+      config.send(:"#{key}=", value)
+    end
   end
 
   def self.env
