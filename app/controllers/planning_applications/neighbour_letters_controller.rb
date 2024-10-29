@@ -90,9 +90,7 @@ module PlanningApplications
     end
 
     def update_letter_statuses
-      notify_key = @planning_application.local_authority.notify_api_key_for_letters
-
-      NeighbourLetterStatusUpdateJob.perform_later(@consultation, notify_key)
+      NeighbourLetterStatusUpdateJob.perform_later(@consultation)
     end
 
     def ensure_public_portal_is_active
