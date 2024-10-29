@@ -27,7 +27,7 @@ module StatusTags
       case status.to_sym
       when :approved, :auto_approved, :supportive
         "green"
-      when :not_started, :new, :review_not_started, :not_consulted, :none
+      when :not_started, :new, :review_not_started, :not_consulted, :none, :no_response
         "blue"
       when :in_progress, :awaiting_response
         "light-blue"
