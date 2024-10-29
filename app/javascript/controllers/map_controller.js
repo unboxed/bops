@@ -45,14 +45,13 @@ export default class extends Controller {
     }).addTo(this.map)
 
     if (neighbours !== null) {
-      let i = 0
       for (const summary_tag in neighbours) {
         const layer = this.buildNeighboursLayer(
           neighbours[summary_tag],
           summary_tag,
         )
         layers.push(layer)
-        this.neighboursLayers[`${summary_tag}_${i++}`] = layer
+        this.neighboursLayers[`${summary_tag}`] = layer
       }
     }
 

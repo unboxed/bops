@@ -94,16 +94,16 @@
           <h3 class="govuk-heading-s">All neighbours</h3>
           <% if planning_application.application_type.consultation? && planning_application.consultation.neighbours.present? %>
             <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-font-size-16" data-module="govuk-checkboxes">
-              <% planning_application.consultation.neighbours.each_with_index do |neighbour, index| %>
+              <% planning_application.consultation.neighbours.each do |neighbour| %>
                 <div class="govuk-checkboxes__item" data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
                   <%= check_box_tag(
-                        "neighbour_#{neighbour.address}_#{index}",
+                        "neighbour_#{neighbour.address}",
                         neighbour.address,
                         true,
                         class: "govuk-checkboxes__input",
                         data: {
                           action: "change->map#handleNeighbourEvent",
-                          map_neighbour_param: "#{neighbour.neighbour_responses.last&.summary_tag || :none}_#{index}"
+                          map_neighbour_param: (neighbour.neighbour_responses.last&.summary_tag || :no_response).to_s
                         }
                       ) %>
                   <%= label_tag(
@@ -112,7 +112,7 @@
                       ) do %>
                     <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
                     <%= render StatusTags::BaseComponent.new(
-                          status: neighbour.neighbour_responses.last&.summary_tag || :none,
+                          status: neighbour.neighbour_responses.last&.summary_tag || :no_response,
                           html_attributes: {class: "govuk-!-font-size-16"}
                         ) %>
                     <% if neighbour.neighbour_responses.last&.tags&.present? %>
