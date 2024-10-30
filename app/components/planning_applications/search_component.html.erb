@@ -28,8 +28,17 @@
   </div>
 
   <% if panel_type == :all %>
-    <%= govuk_accordion do |accordion| %>
-      <% accordion.with_section(heading_text: "Filters") do %>
+    <div class="bops-accordion single-section-accordion" data-module="bops-accordion" data-remember-expanded="false" data-controller="select-checkboxes">
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <button type="button" class="govuk-accordion__section-button">
+              Filters
+            </button>
+            <span class="govuk-accordion__icon"></span>
+          </h2>
+        </div>
+
         <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
           <p class="govuk-body"><strong>Application type</strong></p>
           <%= form.govuk_collection_check_boxes(:application_type, all_application_types, :to_s, :humanize, small: true, legend: nil, class: "display-flex") %>
@@ -45,7 +54,7 @@
         <div class="govuk-accordion__section-content govuk-!-padding-bottom-3">
           <%= form.govuk_submit "Apply filters", class: "govuk-button govuk-button--secondary" %>
         </div>
-      <% end %>
-    <% end %>
+      </div>
+    </div>
   <% end %>
 <% end %>

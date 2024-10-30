@@ -1,5 +1,17 @@
-<%= govuk_accordion do |accordion|
-      sections.each do |section|
-        accordion.with_section(heading_text: t(".#{section}")) { render(section_component(section)) }
-      end
-    end %>
+<div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false">
+  <% sections.each do |section| %>
+    <div class="govuk-!-margin-bottom-2 govuk-accordion__section">
+      <div class="govuk-accordion__section-header">
+        <h2 class="govuk-accordion__section-heading">
+          <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= section.to_s %>">
+            <%= t(".#{section}") %>
+          </button>
+          <span class="govuk-accordion__icon"></span>
+        </h2>
+      </div>
+      <div class="govuk-accordion__section-content">
+        <%= render(section_component(section)) %>
+      </div>
+    </div>
+  <% end %>
+</div>

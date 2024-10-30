@@ -11,10 +11,10 @@ class ConsulteeAccordianComponent < ViewComponent::Base
 
   def accordian_tag(&)
     options = {
-      class: "govuk-accordion",
+      class: "bops-accordion",
       style: consultees.none? ? "display: none;" : nil,
       data: {
-        module: "govuk-accordion",
+        module: "bops-accordion",
         remember_expanded: "false",
         consultees_target: "accordian"
       }

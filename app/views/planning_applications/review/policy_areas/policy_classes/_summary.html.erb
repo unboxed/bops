@@ -32,10 +32,8 @@
             new_tab: ""
           ) %>
     </p>
-    <%= govuk_accordion do |accordion|
-          accordion.with_section(heading_text: "Constraints") do
-            render(partial: "shared/constraints")
-          end
-        end %>
+    <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false" id="accordion-default">
+      <%= render "shared/accordian_section", heading: "Constraints", content: "shared/constraints" %>
+    </div>
   </div>
 </div>
