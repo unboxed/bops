@@ -15,6 +15,15 @@ module PlanningDataHelper
     {status:, body:}
   end
 
+  def stub_any_planning_data_entity_geojson_request
+    stub_request(:get, "#{BASE_URL}/entity/.geojson")
+      .to_return(
+        status: 200,
+        headers: {"Content-Type" => "application/json"},
+        body: "{}"
+      )
+  end
+
   def stub_planning_data_entity_request(id)
     stub_request(:get, "#{BASE_URL}/entity/#{id}.json")
       .to_return(

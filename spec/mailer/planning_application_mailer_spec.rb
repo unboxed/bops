@@ -21,7 +21,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let(:planning_application) do
     create(
       :planning_application,
-      :determined,
+      :awaiting_determination,
       agent_email: "cookie_crackers@example.com",
       applicant_email: "cookie_crumbs@example.com",
       local_authority:,
@@ -140,7 +140,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "includes the name of the applicant in the body if no agent is present" do
-        planning_application.update!(agent_first_name: "")
+        planning_application.update_column(:agent_first_name, "")
         mail = described_class.decision_notice_mail(planning_application.reload, host,
           [planning_application.agent_email, planning_application.applicant_email])
 

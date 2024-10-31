@@ -10,6 +10,8 @@ class CommitteeDecision < ApplicationRecord
   validates :date_of_committee, :location, :link, :time, :late_comments_deadline,
     presence: {if: -> { review_complete? && planning_application_awaiting_determination? && recommend? }}
 
+  validate :ensure_planning_application_not_closed_or_cancelled
+
   after_create :create_review
   before_update :create_review, if: :should_create_review?
 
@@ -113,5 +115,9 @@ class CommitteeDecision < ApplicationRecord
 
   def create_review
     reviews.create!(assessor: Current.user, owner_type: "CommitteeDecision", owner_id: id, status: "complete")
+  end
+
+  def ensure_planning_application_not_closed_or_cancelled
+    errors.add(:base, "Cannot modify committee decision when planning application has been closed or cancelled") if planning_application.closed_or_cancelled?
   end
 end

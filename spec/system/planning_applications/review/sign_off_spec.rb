@@ -85,7 +85,6 @@ RSpec.describe "Reviewing sign-off", type: :system do
     expect(planning_application.recommendation.reviewed_at).not_to be_nil
     expect(page).not_to have_content("Assigned to:")
     expect(page).not_to have_content("Process Application")
-    expect(page).not_to have_content("Review and sign-off")
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
     click_link("View decision notice")

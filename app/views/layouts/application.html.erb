@@ -53,6 +53,14 @@
 
       <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
         <%= render "application/flash_content" %>
+
+        <% if @planning_application.try(:closed_or_cancelled?) %>
+          <%= render "shared/notification_banner",
+                banner_class: "govuk-notification-banner",
+                title: "Important",
+                heading: "This application has been #{@planning_application.status}." %>
+        <% end %>
+
         <%= yield %>
       </main>
     </div>
