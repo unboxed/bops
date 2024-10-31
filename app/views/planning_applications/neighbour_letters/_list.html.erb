@@ -6,6 +6,24 @@
   <p class="govuk-body">Review the list and check the addresses you want to send</p>
 
   <% if consultation.neighbours.any? %>
+    <% if @planning_application.local_authority.notify_error_status.present? %>
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li>
+                Some letters could not be sent due to a misconfiguration.
+                An administrator needs to review the GOV.UK Notify settings for this account.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <table class="govuk-table" id="selected-neighbours-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">

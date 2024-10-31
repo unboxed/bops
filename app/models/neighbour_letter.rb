@@ -24,9 +24,14 @@ class NeighbourLetter < ApplicationRecord
 
   def update_status
     return false if notify_id.blank?
+    return false if local_authority.notify_error_status == "bad_api_key"
 
     begin
       response = Notifications::Client.new(notify_api_key).get_notification(notify_id)
+    rescue Notifications::Client::AuthError => e
+      local_authority.update!(notify_error_status: "bad_api_key") if /Invalid token/.match?(e.message)
+
+      return
     rescue Notifications::Client::RequestError
       return
     end
@@ -38,8 +43,12 @@ class NeighbourLetter < ApplicationRecord
 
   private
 
+  def local_authority
+    neighbour.consultation.planning_application.local_authority
+  end
+
   def notify_api_key
-    neighbour.consultation.planning_application.local_authority.notify_api_key_for_letters
+    local_authority.notify_api_key_for_letters
   end
 
   def resend?

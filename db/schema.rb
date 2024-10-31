@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_23_045445) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_23_140405) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -481,6 +481,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_045445) do
     t.string "telephone_number"
     t.string "document_checklist"
     t.string "planning_policy_and_guidance"
+    t.string "notify_error_status"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

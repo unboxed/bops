@@ -40,6 +40,7 @@ class LocalAuthority < ApplicationRecord
 
   validate :council_code_exists
 
+  before_save :clear_notify_error_status
   before_update :set_active
 
   def signatory
@@ -110,5 +111,15 @@ class LocalAuthority < ApplicationRecord
       notify_api_key
       letter_template_id
       email_reply_to_id]
+  end
+
+  def clear_notify_error_status
+    return if notify_error_status.blank?
+
+    %i[notify_api_key letter_template_id email_reply_to_id].each do |attr|
+      if will_save_change_to_attribute?(attr)
+        self.notify_error_status = nil if notify_error_status == "bad_#{attr}"
+      end
+    end
   end
 end
