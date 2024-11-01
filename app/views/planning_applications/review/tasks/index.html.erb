@@ -15,6 +15,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    <%= govuk_notification_banner(title_text: "Assessor recommendation") do %>
+      <strong><%= t("status_tag_component.#{@planning_application.assessor_recommendation}") %></strong>
+    <% end %>
+
     <%= render(
           SiteMapComponent.new(
             planning_application: @planning_application
