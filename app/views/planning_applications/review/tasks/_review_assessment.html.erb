@@ -1,14 +1,6 @@
 <h2 class="app-task-list__section govuk-!-margin-top-8">
   Review assessment
 </h2>
-<span class="govuk-body govuk-!-font-weight-bold">
-  Assessor recommendation
-  <%= render(
-        StatusTags::DecisionComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
-</span>
 <ul class="app-task-list__items" id="review-assessment-section">
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">

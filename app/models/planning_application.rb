@@ -959,6 +959,14 @@ class PlanningApplication < ApplicationRecord
     reference
   end
 
+  def assessor_recommendation
+    if heads_of_term&.terms&.any?
+      :"#{decision}_legal_agreement"
+    else
+      decision&.to_sym
+    end
+  end
+
   private
 
   def create_fee_calculation
