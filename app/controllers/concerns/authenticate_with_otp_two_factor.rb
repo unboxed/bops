@@ -29,7 +29,6 @@ module AuthenticateWithOtpTwoFactor
     @mobile_number_form = MobileNumberForm.new(user_params)
     return true if @mobile_number_form.valid?
 
-    find_current_local_authority_from_subdomain
     render "devise/sessions/setup" and return false
   end
 
@@ -83,7 +82,7 @@ module AuthenticateWithOtpTwoFactor
     if request.subdomain == "config"
       User.global_administrator
     else
-      find_current_local_authority_from_subdomain.users
+      current_local_authority.users
     end
   end
 

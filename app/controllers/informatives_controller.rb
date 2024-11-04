@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class InformativesController < AuthenticationController
-  include Pagy::Backend
-
   before_action :set_informatives
 
   rescue_from Pagy::OverflowError do

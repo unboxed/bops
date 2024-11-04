@@ -1,0 +1,15 @@
+shared:
+  os_vector_tiles_api_key: <%= ENV["OS_VECTOR_TILES_API_KEY"] %>
+  google_tag_manager_id: <%= ENV["GOOGLE_TAG_MANAGER_ID"] %>
+  default_notify_api_key: <%= ENV["NOTIFY_API_KEY"] %>
+  default_letter_template_id: <%= ENV.fetch("DEFAULT_NOTIFY_TEMPLATE_ID", "7a7c541e-be0a-490b-8165-8e44dc9d13ad") %>
+  notify_letter_api_key: <%= ENV["NOTIFY_LETTER_API_KEY"] %>
+  otp_secret_encryption_key: <%= ENV["OTP_SECRET_ENCRYPTION_KEY"] %>
+  paapi_url: <%= ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1") %>
+  planning_history_enabled: <%= ENV["PLANNING_HISTORY_ENABLED"] == "true" %>
+  planx_file_api_key: <%= ENV["PLANX_FILE_API_KEY"] %>
+  planx_file_production_api_key: <%= ENV["PLANX_FILE_PRODUCTION_API_KEY"] %>
+  staging_api_bearer: <%= ENV["STAGING_API_BEARER"] %>
+  staging_api_url: <%= ENV["STAGING_API_URL"] %>
+  uploads_hostname: <%= ENV.fetch("UPLOADS_HOSTNAME", "uploads.bops.localhost:3000") %>
+  uploads_base_url: <%= ENV.fetch("UPLOADS_BASE_URL", "http://uploads.bops.localhost:3000") %>

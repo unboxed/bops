@@ -16,7 +16,7 @@ module BopsApi
         private
 
         def planning_applications_scope
-          @local_authority.planning_applications.includes(:user)
+          current_local_authority.planning_applications.includes(:user)
         end
 
         def query_service(scope = @planning_application.validation_requests)

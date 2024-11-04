@@ -1,7 +1,6 @@
 <%= form_with(
       model: search,
       scope: "",
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       method: :get,
       url: planning_applications_path(anchor: panel_type, status: selected_status, application_type: selected_application_type),
       data: {controller: "clear-form"}

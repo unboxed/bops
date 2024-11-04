@@ -3,7 +3,7 @@
 module Api
   module V1
     class DocumentsController < Api::V1::ApplicationController
-      skip_before_action :authenticate
+      skip_before_action :authenticate_api_user!
 
       def show
         raise ActiveRecord::RecordNotFound unless planning_application

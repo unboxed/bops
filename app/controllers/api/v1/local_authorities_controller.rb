@@ -5,7 +5,7 @@ module Api
     class LocalAuthoritiesController < Api::V1::ApplicationController
       before_action :set_cors_headers, if: :json_request?
 
-      skip_before_action :authenticate
+      skip_before_action :authenticate_api_user!
 
       def show
         @local_authority = LocalAuthority.find_by(subdomain: params[:subdomain])

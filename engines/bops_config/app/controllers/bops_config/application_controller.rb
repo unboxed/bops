@@ -2,6 +2,7 @@
 
 module BopsConfig
   class ApplicationController < ActionController::Base
+    include BopsCore::ApplicationController
     include BopsCore::AuditableController
 
     self.audit_payload = -> {
@@ -12,8 +13,6 @@ module BopsConfig
       }
     }
 
-    default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
-
     before_action :authenticate_user!
     before_action :require_global_administrator!
     before_action :set_back_path
@@ -21,17 +20,6 @@ module BopsConfig
     layout "application"
 
     private
-
-    def require_global_administrator!
-      unless current_user&.global_administrator?
-        redirect_to root_url
-      end
-    end
-
-    def set_back_path
-      session[:back_path] = request.referer if request.get?
-      @back_path = session[:back_path]
-    end
 
     def application_type_param
       request.path_parameters.key?(:application_type_id) ? :application_type_id : :id
@@ -42,10 +30,5 @@ module BopsConfig
     rescue
       raise ActionController::BadRequest, "Invalid application type id: #{params[application_type_param].inspect}"
     end
-
-    def current_local_authority
-      nil
-    end
-    helper_method :current_local_authority
   end
 end

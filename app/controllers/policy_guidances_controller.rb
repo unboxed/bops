@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class PolicyGuidancesController < AuthenticationController
-  include Pagy::Backend
-
   before_action :set_policy_guidances
 
   rescue_from Pagy::OverflowError do

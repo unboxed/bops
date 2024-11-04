@@ -177,8 +177,7 @@ RSpec.describe "BOPS API" do
 
       response "404", "when a local authority isn't found" do
         before do
-          exception = ActiveRecord::RecordNotFound.new("Local authority not found")
-          allow(LocalAuthority).to receive(:find_by!).and_raise(exception)
+          allow(LocalAuthority).to receive(:find_by).and_return(nil)
         end
 
         schema "$ref" => "#/components/schemas/NotFoundError"

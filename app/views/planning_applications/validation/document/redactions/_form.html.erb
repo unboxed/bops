@@ -1,7 +1,6 @@
 <%= form_with(
       model: @planning_application,
       url: planning_application_validation_documents_redactions_path(@planning_application),
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
       method: :post
     ) do |form| %>
   <%= form.govuk_error_summary %>

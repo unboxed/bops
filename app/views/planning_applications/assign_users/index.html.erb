@@ -18,7 +18,6 @@
       Please select the officer you wish to assign this application to.
     </p>
     <%= form_with(
-          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
           method: :patch,
           url: planning_application_assign_users_path(@planning_application)
         ) do |form| %>

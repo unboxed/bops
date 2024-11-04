@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
+  include BopsCore::ApplicationController
 
-  before_action :find_current_local_authority_from_subdomain
+  before_action :require_local_authority!
   before_action :prevent_caching
-  before_action :set_current_user
   before_action :enforce_user_permissions
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_back_path
@@ -81,29 +80,10 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_back_path
-    session[:back_path] = request.referer if request.get?
-    @back_path = session[:back_path]
-  end
-
-  def find_current_local_authority_from_subdomain
-    Current.local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)
-  end
-
-  def current_local_authority
-    Current.local_authority
-  end
-
-  helper_method :current_local_authority
-
   def prevent_caching
     response.headers["Cache-Control"] = "no-cache, no-store"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = 0
-  end
-
-  def set_current_user
-    Current.user = current_user
   end
 
   def enforce_user_permissions
