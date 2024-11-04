@@ -1,0 +1,46 @@
+<% content_for :page_title do %>
+  Copy of neighbour letters - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+<% content_for :title, "Copy of neighbour letters" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Copy of neighbour letters"}
+    ) %>
+
+<h3 class="govuk-heading-s">Letters sent to neighbours</h3>
+
+<%= govuk_link_to "Download CSV", planning_application_consultation_neighbour_letter_batches_path(@planning_application, format: "csv") %>
+
+<% if @planning_application.consultation.neighbour_letter_batches.present? %>
+  <% @planning_application.consultation.neighbour_letter_batches.each_with_index do |batch, i| %>
+    <%= govuk_accordion do |accordion| %>
+      <% accordion.with_section(heading_text: "Neighbour letter #{i + 1}", summary_text: "Date sent: #{batch.created_at.to_date.to_fs}") do %>
+        <%= govuk_link_to "Download letter", planning_application_consultation_neighbour_letter_batch_path(@planning_application, batch, format: "pdf") %>
+        <%= govuk_table do |table|
+              table.with_head do |head|
+                head.with_row do |row|
+                  row.with_cell(text: "Address")
+                  row.with_cell(text: "Sent by")
+                end
+              end
+
+              table.with_body do |body|
+                batch.neighbour_letters.each do |letter|
+                  body.with_row do |row|
+                    row.with_cell(text: letter.neighbour.address)
+                    row.with_cell(text: "Post")
+                  end
+                end
+              end
+            end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p class="govuk-body">No letters have yet been sent</p>
+<% end %>

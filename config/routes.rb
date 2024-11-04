@@ -185,6 +185,7 @@ Rails.application.routes.draw do
           resources :neighbour_letters, only: %i[index update destroy] do
             post :send_letters, on: :collection
           end
+          resources :neighbour_letter_batches, only: [:index, :show]
 
           resources :neighbour_responses, except: %i[show destroy]
           resources :redact_neighbour_responses, only: %i[edit update]
