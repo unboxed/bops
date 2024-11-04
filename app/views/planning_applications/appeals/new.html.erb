@@ -1,0 +1,34 @@
+<% content_for :page_title do %>
+  Mark application for appeal
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Mark application for appeal" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Mark application for appeal"}
+    ) %>
+
+<%= form_with model: @appeal,
+      url: planning_application_appeal_path(@planning_application),
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_date_field :lodged_at, legend: {text: "When was the appeal lodged?", size: "s"} %>
+
+  <%= form.govuk_file_field :documents,
+        label: {size: "s", text: "Upload documents"},
+        hint: {text: "Provide supporting documents"},
+        accept: acceptable_file_mime_types,
+        multiple: true %>
+
+  <%= form.govuk_text_area(:reason, label: {text: "Enter appeal reason"}, rows: 5) %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Save", class: "govuk-button" %>
+    <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
+  </div>
+<% end %>

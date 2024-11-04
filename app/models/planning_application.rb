@@ -56,24 +56,29 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_policy_sections
     has_many :policy_sections, through: :planning_application_policy_sections
 
+    with_options required: false do
+      has_one :appeal
+      has_one :committee_decision
+      has_one :condition_set, -> { where(pre_commencement: false) }
+      has_one :consultation
+      has_one :document_checklist
+      has_one :environment_impact_assessment
+      has_one :fee_calculation
+      has_one :immunity_detail
+      has_one :ownership_certificate
+      has_one :planx_planning_data
+      has_one :proposal_measurement
+    end
+
     has_one :heads_of_term
-    has_one :condition_set, -> { where(pre_commencement: false) }, required: false
     has_one :consideration_set
     has_one :consistency_checklist
-    has_one :consultation, required: false
-    has_one :document_checklist, required: false
-    has_one :environment_impact_assessment, required: false
-    has_one :fee_calculation, required: false
-    has_one :immunity_detail, required: false
     has_one :informative_set
-    has_one :ownership_certificate, required: false
-    has_one :planx_planning_data, required: false
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
-    has_one :proposal_measurement, required: false
-    has_one :committee_decision, required: false
   end
 
   with_options to: :application_type do
+    delegate :appeals?
     delegate :consultation?
     delegate :neighbour_consultation_feature?
     delegate :consultee_consultation_feature?
@@ -94,6 +99,8 @@ class PlanningApplication < ApplicationRecord
   delegate :params_v1, to: :planx_planning_data, allow_nil: true
   delegate :params_v2, to: :planx_planning_data, allow_nil: true
   delegate :work_status, to: :application_type
+
+  delegate :lodged?, :validated?, :started?, :determined?, to: :appeal, allow_nil: true, prefix: true
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true

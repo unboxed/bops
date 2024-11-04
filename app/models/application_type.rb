@@ -84,6 +84,7 @@ class ApplicationType < ApplicationRecord
   end
 
   with_options to: :features do
+    delegate :appeals?
     delegate :assess_against_policies?
     delegate :considerations?
     delegate :informatives?

@@ -1,6 +1,7 @@
 en:
   application_type_features:
     labels:
+      appeals: "Enable appeals"
       assess_against_policies: "Assess policies and guidance"
       considerations: "Assess considerations"
       consultations_skip_bank_holidays: "Extend consultation periods that contain bank holidays"
@@ -15,3 +16,4 @@ en:
     legends:
       check_application_details: "Check application details"
       consultation: "Consultation"
+      appeals: "Appeals"

@@ -170,6 +170,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_selector("dl div:nth-child(6) dd", text: "25 days - bank holidays included")
     expect(page).to have_selector("dl div:nth-child(7) dd li", text: "Check permitted development rights")
     expect(page).to have_selector("dl div:nth-child(7) dd li", text: "Neighbour")
+    expect(page).to have_selector("dl div:nth-child(7) dd li", text: "Enable appeals")
     expect(page).to have_selector("dl div:nth-child(8) dd span:nth-child(1)", text: "Elevations - existing")
     expect(page).to have_selector("dl div:nth-child(8) dd span:nth-child(2)", text: "Elevations - proposed")
     expect(page).to have_selector("dl div:nth-child(9) dd span:nth-child(1)", text: "Bank statement")
@@ -513,7 +514,8 @@ RSpec.describe "Application Types", type: :system, capybara: true do
         "informatives" => true,
         "planning_conditions" => true,
         "permitted_development_rights" => false,
-        "consultation_steps" => ["neighbour", "publicity"]
+        "consultation_steps" => ["neighbour", "publicity"],
+        "appeals" => false
       }
     )
 
@@ -525,6 +527,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
       expect(page).to have_selector("li", text: "Ownership details")
       expect(page).to have_selector("li", text: "Check planning conditions")
       expect(page).not_to have_selector("li", text: "Check permitted development rights")
+      expect(page).not_to have_selector("li", text: "Enable appeals")
 
       expect(page).to have_selector("p strong", text: "Consultation")
       expect(page).to have_selector("li", text: "Neighbour")
@@ -554,6 +557,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     uncheck("Check planning conditions")
     check("Check permitted development rights")
     check("Consultees")
+    check("Enable appeals")
 
     click_button "Continue"
 
@@ -566,6 +570,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
       expect(page).not_to have_selector("li", text: "Ownership details")
       expect(page).not_to have_selector("li", text: "Check planning conditions")
       expect(page).to have_selector("li", text: "Check permitted development rights")
+      expect(page).to have_selector("li", text: "Enable appeals")
 
       expect(page).to have_selector("p strong", text: "Consultation")
       expect(page).to have_selector("li", text: "Neighbour")
@@ -579,6 +584,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(application_type.planning_conditions?).to eq(false)
     expect(application_type.permitted_development_rights?).to eq(true)
     expect(application_type.consultation_steps).to eq(["neighbour", "consultee", "publicity"])
+    expect(application_type.appeals?).to eq(true)
   end
 
   it "allows editing of the tags for plans" do

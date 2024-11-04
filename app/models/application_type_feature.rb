@@ -3,6 +3,7 @@
 class ApplicationTypeFeature
   include StoreModel::Model
 
+  attribute :appeals, :boolean, default: true
   attribute :assess_against_policies, :boolean, default: false
   attribute :considerations, :boolean, default: false
   attribute :informatives, :boolean, default: false

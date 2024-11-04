@@ -55,4 +55,16 @@ module PlanningApplicationHelper
       raise ArgumentError, "Unexpected value for 'type': #{type.inspect}"
     end
   end
+
+  def appeal_link_and_translation(planning_application)
+    if planning_application.appeal_lodged?
+      [".update_appeal", edit_planning_application_appeal_validate_path(planning_application)]
+    elsif planning_application.appeal_validated?
+      [".update_appeal", edit_planning_application_appeal_start_path(planning_application)]
+    elsif planning_application.appeal_started? || planning_application.appeal_determined?
+      [".update_appeal", edit_planning_application_appeal_decision_path(planning_application)]
+    else
+      [".mark_for_appeal", new_planning_application_appeal_path(planning_application)]
+    end
+  end
 end

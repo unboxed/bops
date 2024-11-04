@@ -24,6 +24,12 @@ module StatusPresenter
       end
     end
 
+    def appeal_status_tag
+      tag.span class: ["govuk-tag govuk-tag--purple"] do
+        appeal.display_status
+      end
+    end
+
     def days_status_tag
       classes = ["govuk-tag govuk-tag--#{status_date_tag_colour}"]
 

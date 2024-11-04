@@ -60,6 +60,20 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_11_120800) do
     t.index ["revoked_at"], name: "ix_api_users_on_revoked_at"
   end
 
+  create_table "appeals", force: :cascade do |t|
+    t.text "reason", null: false
+    t.string "status", default: "lodged", null: false
+    t.string "decision"
+    t.datetime "lodged_at", null: false
+    t.datetime "validated_at"
+    t.datetime "started_at"
+    t.datetime "determined_at"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_appeals_on_planning_application_id"
+  end
+
   create_table "application_types", force: :cascade do |t|
     t.string "name", null: false
     t.integer "part"
@@ -1069,6 +1083,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_11_120800) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_users", "local_authorities"
+  add_foreign_key "appeals", "planning_applications"
   add_foreign_key "application_types", "legislation"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"

@@ -8,6 +8,9 @@ en:
     bioaerosolAssessment: 'Bio-aerosol assessment'
     birdstrikeRiskManagementPlan: 'Birdstrike risk management plan'
     internal:
+      appeal: Appeal
+      appeals: Appeal
+      appealDecision: Appeal Decision
       pressNotice: Press Notice
       siteNotice: Site Notice
       siteVisit: Site Visit

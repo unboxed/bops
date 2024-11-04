@@ -78,6 +78,12 @@ Rails.application.routes.draw do
       resources :audits, only: :index
 
       scope module: :planning_applications do
+        resource :appeal, only: %i[new show create update] do
+          resource :validate, only: %i[edit update], controller: "appeals/validates"
+          resource :start, only: %i[edit update], controller: "appeals/starts"
+          resource :decision, only: %i[edit update], controller: "appeals/decisions"
+        end
+
         resources :assign_users, only: %i[index] do
           patch :update, on: :collection
         end
