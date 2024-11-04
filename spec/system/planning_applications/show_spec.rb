@@ -74,7 +74,7 @@ RSpec.describe "Planning Application show page" do
     end
 
     it "Contact information accordion" do
-      find("span", text: "Contact information").click
+      click_button "Contact information"
 
       expect(page).to have_content("Applicant role type:")
       expect(page).to have_content(planning_application.user_role)

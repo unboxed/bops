@@ -134,7 +134,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
     it "allows user to search on filtered results" do
       within(govuk_tab_all) do
-        click_button("Filter")
+        click_button "Filter"
         uncheck("Invalid")
         uncheck("Not started")
         uncheck("Awaiting determination")
@@ -344,7 +344,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
     it "allows user to search on filtered results" do
       within(govuk_tab_all) do
-        click_button("Filter")
+        click_button "Filter"
         uncheck("Invalid")
         uncheck("Not started")
         uncheck("Awaiting determination")

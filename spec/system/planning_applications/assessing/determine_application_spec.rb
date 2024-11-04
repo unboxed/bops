@@ -113,7 +113,7 @@ RSpec.describe "Planning Application Assessment" do
         visit "/planning_applications/#{planning_application.reference}"
 
         # Check latest audit
-        find("#audit-log").click
+        click_button "Audit log"
 
         expect(page).to have_content("Decision Published")
         expect(page).to have_text("Alice Smith")

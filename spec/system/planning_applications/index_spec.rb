@@ -676,7 +676,7 @@ RSpec.describe "Planning Application index page", type: :system do
     end
 
     it "Only Planning Applications that are awaiting_determination are present in this tab" do
-      find("span", text: "Filters").click
+      click_on "Filter"
       uncheck "To be reviewed"
       click_button "Apply filters"
 

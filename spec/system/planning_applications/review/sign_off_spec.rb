@@ -145,7 +145,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       "BOPS case PlanX-22-00100-LDCP has a new update"
     )
 
-    find("span", text: "Audit log").click
+    click_button "Audit log"
     click_link "View all audits"
 
     expect(page).to have_text("Recommendation challenged")

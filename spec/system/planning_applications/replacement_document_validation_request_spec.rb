@@ -311,7 +311,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(page).to have_content("This application has 1 unresolved validation request and 0 resolved validation requests")
 
       click_link "Application"
-      find("#audit-log").click
+      click_button "Audit log"
       click_link "View all audits"
 
       within("#audit_#{Audit.last.id}") do
@@ -348,7 +348,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(document1.validated).to be_nil
 
       click_link "Application"
-      find("#audit-log").click
+      click_button "Audit log"
       click_link "View all audits"
 
       within("#audit_#{Audit.last.id}") do
@@ -512,7 +512,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "allows new replacement requests" do
       click_link "Check and assess"
-      find("span", text: "Documents").click
+      click_button "Documents"
       click_link "Request replacement"
 
       fill_in "List all issues with the document", with: "This is very invalid"
@@ -527,7 +527,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "appears in the post validation requests table" do
       click_link "Check and assess"
-      find("span", text: "Documents").click
+      click_button "Documents"
       click_link "Request replacement"
 
       fill_in "List all issues with the document", with: "This is very invalid"
@@ -544,7 +544,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       delivered_emails = ActionMailer::Base.deliveries.count
 
       click_link "Check and assess"
-      find("span", text: "Documents").click
+      click_button "Documents"
       click_link "Request replacement"
 
       fill_in "List all issues with the document", with: "This is very invalid"
@@ -555,7 +555,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "allows new replacement requests to be responded to" do
       click_link "Check and assess"
-      find("span", text: "Documents").click
+      click_button "Documents"
       click_link "Request replacement"
 
       fill_in "List all issues with the document", with: "This is very invalid"
@@ -571,7 +571,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       request.save!
       request.old_document.archive("replaced by new document")
 
-      find("span", text: "Documents").click
+      click_button "Documents"
       click_link "Manage documents"
 
       within(".current-documents") do

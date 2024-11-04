@@ -104,7 +104,7 @@ RSpec.describe "Withdraw or cancel" do
         expect(page).to have_css("#documents")
       end
 
-      within(".govuk-accordion") do
+      within(".bops-accordion") do
         expect(page).to have_css("#application-information-section")
         expect(page).to have_css("#proposal-details-section")
         expect(page).to have_css("#contact-information-section")
@@ -151,7 +151,7 @@ RSpec.describe "Withdraw or cancel" do
         expect(page).to have_css("#documents")
       end
 
-      within(".govuk-accordion") do
+      within(".bops-accordion") do
         expect(page).to have_css("#application-information-section")
         expect(page).to have_css("#proposal-details-section")
         expect(page).to have_css("#contact-information-section")

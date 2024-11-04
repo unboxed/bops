@@ -22,7 +22,7 @@ RSpec.describe "Auditing changes to a planning application" do
 
     sign_in assessor
     visit "/planning_applications/#{planning_application.reference}"
-    find("#audit-log").click
+    click_button "Audit log"
     click_link "View all audits"
   end
 

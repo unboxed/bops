@@ -24,7 +24,7 @@ RSpec.describe "editing planning application" do
 
   it "returns the user to the previous page after updating" do
     click_link("Check and assess")
-    find("span", text: "Application information")
+    click_button "Application information"
     click_link("Edit details")
 
     expect(page).to have_content("Application number: 23-00100-LDC")
@@ -66,7 +66,7 @@ RSpec.describe "editing planning application" do
     )
 
     click_link("Check description, documents and proposal details")
-    find("span", text: "Application information")
+    click_button "Application information"
     click_link("Edit details")
 
     expect(page).to have_content("Application number: 23-00101-PA1A")
@@ -106,7 +106,7 @@ RSpec.describe "editing planning application" do
 
     it "prompts the user to complete their draft assessment before updating" do
       click_link("Check and assess")
-      find("span", text: "Application information").click
+      click_button "Application information"
       click_link("Edit details")
 
       fill_in("Postcode", with: "123ABC")

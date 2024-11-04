@@ -27,7 +27,7 @@ end
 Then("there is an audit log entry in the index accordion with {string}") do |content|
   steps %(
     When I view the planning application
-    And I click "Audit log"
+    And I press "Audit log"
     Then the page contains "#{content}"
   )
 end
@@ -35,7 +35,7 @@ end
 When("I visit the audit log") do
   steps %(
     When I view the planning application
-    Then I click "Audit log"
+    Then I press "Audit log"
     Then I press "View all audits"
   )
 end

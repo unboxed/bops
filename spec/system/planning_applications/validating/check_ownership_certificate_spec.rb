@@ -25,7 +25,7 @@ RSpec.describe "Check ownership certificate type" do
       it "allows me to mark it as valid" do
         click_link "Check ownership certificate"
 
-        find("span", text: "Documents").click
+        click_button "Documents"
 
         expect(page).to have_content("Floor plan - proposed")
         expect(page).not_to have_content("Planning statement")

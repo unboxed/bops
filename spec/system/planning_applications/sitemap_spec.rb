@@ -329,6 +329,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
       click_link("Application")
       click_link("Check and assess")
+      click_button "Site map"
       expect(page).not_to have_content("Request approval for a change to red line boundary")
 
       click_link "View requested red line boundary change"
@@ -350,6 +351,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       end
 
       click_link "Back"
+      click_button "Audit log"
       click_link "View all audits"
 
       within("#audit_#{Audit.last.id}") do

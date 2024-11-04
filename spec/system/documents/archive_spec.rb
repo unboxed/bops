@@ -104,7 +104,7 @@ RSpec.describe "Documents index page" do
       click_button "Archive"
 
       click_link "Application"
-      find("#audit-log").click
+      click_button "Audit log"
       click_link "View all audits"
 
       expect(page).to have_text("Document archived")
@@ -156,7 +156,7 @@ RSpec.describe "Documents index page" do
       end
 
       click_link "Application"
-      find("#audit-log").click
+      click_button "Audit log"
       click_link "View all audits"
 
       expect(page).to have_text("Document unarchived")

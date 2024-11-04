@@ -162,7 +162,7 @@ RSpec.describe "Creating a planning application", type: :system do
       click_button "Save"
 
       visit "/planning_applications/#{PlanningApplication.last.id}"
-      find("span", text: "Application information").click
+      click_button "Application information"
       click_link "Edit details"
 
       expect(page).to have_field("planning_application[payment_amount]", with: "104.00")

@@ -1,6 +1,6 @@
 <div class="bops-accordion" data-module="bops-accordion" data-remember-expanded="false">
   <% sections.each do |section| %>
-    <div class="govuk-!-margin-bottom-2 govuk-accordion__section">
+    <div class="govuk-!-margin-bottom-2 govuk-accordion__section" id="<%= section.to_s.dasherize %>-section">
       <div class="govuk-accordion__section-header">
         <h2 class="govuk-accordion__section-heading">
           <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= section.to_s %>">

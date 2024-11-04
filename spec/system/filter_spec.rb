@@ -109,7 +109,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
-          click_button("Filter")
+          click_button "Filter"
           uncheck("Invalid")
           uncheck("In assessment")
           uncheck("Awaiting determination")
@@ -124,6 +124,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
+          click_button "Filter"
           check("Invalid")
           uncheck("Not started")
           uncheck("In assessment")
@@ -139,6 +140,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
+          click_button "Filter"
           check("In assessment")
           uncheck("Not started")
           uncheck("Invalid")
@@ -154,6 +156,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
+          click_button "Filter"
           check("Awaiting determination")
           uncheck("Not started")
           uncheck("Invalid")
@@ -169,6 +172,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
+          click_button "Filter"
           check("To be reviewed")
           uncheck("Not started")
           uncheck("Invalid")
@@ -200,7 +204,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
 
       it "allows user to filter by many different statuses" do
         within(selected_govuk_tab) do
-          click_button("Filter")
+          click_button "Filter"
           uncheck("Awaiting determination")
           uncheck("To be reviewed")
 
@@ -227,7 +231,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
-          click_button("Filter")
+          click_button "Filter"
           uncheck("Invalidated")
           uncheck("To be reviewed")
 
@@ -263,7 +267,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
-          click_button("Filter")
+          click_button "Filter"
           uncheck("Invalid")
           uncheck("In assessment")
 
@@ -310,7 +314,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
-          click_button("Filter")
+          click_button "Filter"
           uncheck("To be reviewed")
 
           click_button("Apply filters")
@@ -319,6 +323,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
+          click_button "Filter"
           check("To be reviewed")
           uncheck("Awaiting determination")
 
@@ -359,7 +364,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
-          click_button("Filter")
+          click_button "Filter"
           uncheck("Invalid")
           uncheck("In assessment")
 

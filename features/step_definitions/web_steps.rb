@@ -75,10 +75,6 @@ When("I press {string}") do |label|
   click_on label
 end
 
-When("I click {string}") do |label|
-  first("*", text: label).click
-end
-
 When("I fill in {string} with {string}") do |label, value|
   if @fieldset.present?
     within_fieldset(@fieldset) do

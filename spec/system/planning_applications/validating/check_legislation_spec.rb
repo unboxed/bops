@@ -42,7 +42,7 @@ RSpec.describe "Check legislation" do
     end
 
     it "displays the proposal details" do
-      expect(page).to have_element("span", text: "Proposal details")
+      expect(page).to have_button("Proposal details")
     end
 
     it "I can mark the legislative requirements as checked" do
@@ -57,7 +57,7 @@ RSpec.describe "Check legislation" do
       click_link "Application"
 
       # Check audit logs
-      find("#audit-log").click
+      click_button "Audit log"
       click_link "View all audits"
       within("#audit_#{Audit.last.id}") do
         expect(page).to have_content("Legislative requirements checked")
