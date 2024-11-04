@@ -41,7 +41,8 @@ class ApplicationTypeDocumentTags
     private
 
     def translate_tag(tag)
-      I18n.t("document_tags.#{tag}")
+      translation = I18n.t("document_tags.#{tag}")
+      translation.is_a?(Hash) ? translation[:main] || tag : translation
     end
 
     def build_tag_list(tag)

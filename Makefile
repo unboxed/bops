@@ -74,6 +74,9 @@ lint:
 lint-auto-correct:
 	$(DOCKER-RUN) console rake rubocop:fix biome:fix erblint:fix
 
+lint-locales:
+	$(DOCKER-RUN) console i18n-tasks normalize
+
 # this regenerates the Rubocop TODO and ensures that cops aren't
 # turned off over a max number of file offenses. Note: we don't want
 # to run this within Docker so we can avoid a write-projected file (by

@@ -231,6 +231,15 @@ RSpec.describe "BOPS API" do
 
         run_test!
       end
+
+      it "validates document tags against the submission schema" do
+        schema = BopsApi::Schemas.find!("submission", version: BopsApi::Schemas::DEFAULT_ODP_VERSION).value
+
+        schema_tags = schema["definitions"]["FileType"]["anyOf"].map { |entry| entry["properties"]["value"]["const"] }
+        missing_tags = schema_tags - Document::TAGS
+
+        expect(missing_tags).to be_empty, "Missing tags in schema for: #{missing_tags.join(", ")}"
+      end
     end
   end
 
