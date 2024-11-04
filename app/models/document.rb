@@ -55,6 +55,7 @@ class Document < ApplicationRecord
     sitePlan.proposed
     sketchPlan
     streetScene
+    treePlan
     unitPlan.existing
     unitPlan.proposed
     usePlan.existing
@@ -98,6 +99,8 @@ class Document < ApplicationRecord
     floodRiskAssessment
     foulDrainageAssessment
     geodiversityAssessment
+    hedgerowsInformation
+    hedgerowsInformation.plantingDate
     heritageStatement
     hydrologicalAssessment
     hydrologyReport
@@ -111,19 +114,25 @@ class Document < ApplicationRecord
     landscapeStrategy
     lightingAssessment
     litterVerminAndBirdControlDetails
+    methodStatement
     mineralsAndWasteAssessment
+    necessaryInformation
     newDwellingsSchedule
     noiseAssessment
     openSpaceAssessment
     otherDocument
     parkingPlan
     planningStatement
+    recycleWasteStorageDetails
+    relevantInformation
+    residentialUnitsDetails
     statementOfCommunityInvolvement
     storageTreatmentAndWasteDisposalDetails
     subsidenceReport
     sunlightAndDaylightReport
     sustainabilityStatement
     technicalEvidence
+    technicalSpecification
     townCentreImpactAssessment
     townCentreSequentialAssessment
     transportAssessment
@@ -137,6 +146,7 @@ class Document < ApplicationRecord
     viabilityAppraisal
     visualisations
     wasteAndRecyclingStrategy
+    wasteStorageDetails
     waterEnvironmentAssessment
   ].freeze
 
