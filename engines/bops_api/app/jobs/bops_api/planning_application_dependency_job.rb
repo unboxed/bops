@@ -6,7 +6,6 @@ require "uri"
 module BopsApi
   class PlanningApplicationDependencyJob < ApplicationJob
     queue_as :submissions
-    discard_on ActiveJob::DeserializationError
 
     retry_on(StandardError, attempts: 5, wait: 5.minutes, jitter: 0) do |error|
       Appsignal.report_error(error)
