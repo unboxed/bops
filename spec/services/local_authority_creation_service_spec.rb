@@ -31,12 +31,6 @@ RSpec.describe LocalAuthorityCreationService do
           .by(1)
       end
 
-      it "creates the api_user" do
-        expect { service.call }
-          .to change(ApiUser, :count)
-          .by(1)
-      end
-
       it "creates the user" do
         expect { service.call }
           .to change(User, :count)

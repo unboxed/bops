@@ -28,7 +28,6 @@ class LocalAuthorityCreationService
 
   def setup
     local_authority
-    api_user
     create_administrator_user if admin_email
   end
 
@@ -40,10 +39,6 @@ class LocalAuthorityCreationService
       council_name:,
       applicants_url:
     )
-  end
-
-  def api_user
-    @api_user ||= ApiUser.find_or_create_by!(name: subdomain, local_authority:)
   end
 
   def create_administrator_user
