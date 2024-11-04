@@ -5,7 +5,7 @@ module Api
     class PlanningApplicationsController < Api::V1::ApplicationController
       before_action :set_cors_headers, only: %i[show], if: :json_request?
 
-      skip_before_action :authenticate, only: %i[decision_notice]
+      skip_before_action :authenticate_api_user!, only: %i[decision_notice]
       skip_before_action :set_default_format, only: %i[decision_notice]
 
       def show

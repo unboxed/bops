@@ -16,7 +16,7 @@ module BopsAdmin
 
     def update
       respond_to do |format|
-        if @local_authority.update(local_authority_params)
+        if current_local_authority.update(local_authority_params)
           format.html do
             redirect_to profile_path, notice: t(".profile_successfully_updated")
           end

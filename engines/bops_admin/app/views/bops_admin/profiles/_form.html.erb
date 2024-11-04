@@ -1,7 +1,7 @@
-<%= form_with(model: @local_authority, url: profile_path, id: "profile-form") do |form| %>
+<%= form_with(model: current_local_authority, url: profile_path, id: "profile-form") do |form| %>
   <%= form.govuk_error_summary %>
 
-  <% if @local_authority.notify_error_status.present? %>
+  <% if current_local_authority.notify_error_status.present? %>
   <div class="govuk-error-summary" data-module="govuk-error-summary">
     <div role="alert">
       <h2 class="govuk-error-summary__title">
@@ -10,13 +10,13 @@
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           <li>
-            <% if @local_authority.notify_error_status == "bad_notify_api_key" %>
+            <% if current_local_authority.notify_error_status == "bad_notify_api_key" %>
               <a href="#">
                 Enter a valid <%= t(".notify_api_key") %>
               </a>
             <% else %>
               <a href="#">
-                Enter a valid <%= t(@local_authority.notify_error_status.delete_prefix("bad_")) %> for the configured GOV.UK Notify account
+                Enter a valid <%= t(current_local_authority.notify_error_status.delete_prefix("bad_")) %> for the configured GOV.UK Notify account
               </a>
             <% end %>
           </li>

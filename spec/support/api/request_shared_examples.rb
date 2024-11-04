@@ -8,7 +8,7 @@ RSpec.shared_examples "ApiRequest::Forbidden" do
       headers: {"CONTENT-TYPE": "application/json", Authorization: "invalidtoken"}
 
     expect(response).to have_http_status(:unauthorized)
-    expect(json).to eq({"error" => "HTTP Token: Access denied."})
+    expect(json).to eq({"error" => {"code" => 401, "message" => "Unauthorized"}})
   end
 
   it "returns a 401 if change_access_id is invalid" do

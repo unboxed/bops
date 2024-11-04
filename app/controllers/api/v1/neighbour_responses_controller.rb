@@ -6,7 +6,7 @@ module Api
       before_action :set_cors_headers, if: :json_request?
       before_action :set_application
 
-      skip_before_action :authenticate
+      skip_before_action :authenticate_api_user!
 
       def create
         @neighbour_response = NeighbourResponseCreationService.new(

@@ -2,8 +2,6 @@
 
 module Public
   class PlanningGuidesController < ApplicationController
-    skip_before_action :set_current_user
-
     before_action :set_planning_guide, only: :show
     before_action :raise_routing_error, only: :show, unless: :planning_guide_exists?
 

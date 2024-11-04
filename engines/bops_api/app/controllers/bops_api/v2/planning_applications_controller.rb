@@ -3,7 +3,7 @@
 module BopsApi
   module V2
     class PlanningApplicationsController < AuthenticatedController
-      skip_before_action :authenticate, only: :determined
+      skip_before_action :authenticate_api_user!, only: :determined
 
       validate_schema! "submission", only: :create
 
@@ -67,8 +67,8 @@ module BopsApi
 
       def creation_service
         @creation_service ||= Application::CreationService.new(
-          local_authority: @local_authority,
-          user: @current_user,
+          local_authority: current_local_authority,
+          user: current_api_user,
           params: request_parameters,
           email_sending_permitted: send_email
         )

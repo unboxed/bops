@@ -6,7 +6,7 @@ module Api
       # Make ActiveStorage aware of the current host (used in url helpers)
       include ActiveStorage::SetCurrent
 
-      before_action :authenticate, :set_default_format
+      before_action :authenticate_api_user!, :set_default_format
       protect_from_forgery with: :null_session
 
       rescue_from ActionController::ParameterMissing do |e|
@@ -55,18 +55,6 @@ module Api
 
       private
 
-      def authenticate
-        api_user = authenticate_or_request_with_http_token do |token, _options|
-          current_local_authority.api_users.authenticate(token)
-        end
-
-        Current.api_user = api_user
-      end
-
-      def current_api_user
-        @current_api_user ||= authenticate
-      end
-
       def planning_application
         scope = current_local_authority.planning_applications
         param = if params.key? :reference
@@ -86,13 +74,6 @@ module Api
             nil
           end
         end
-      end
-
-      protected
-
-      def request_http_token_authentication(realm = "Application", _message = nil)
-        headers["WWW-Authenticate"] = %(Token realm="#{realm.delete('"')}")
-        render json: {error: "HTTP Token: Access denied."}, status: :unauthorized
       end
     end
   end

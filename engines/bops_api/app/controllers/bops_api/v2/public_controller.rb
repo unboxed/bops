@@ -18,7 +18,7 @@ module BopsApi
       private
 
       def planning_applications_scope
-        @local_authority.planning_applications.published
+        current_local_authority.planning_applications.published
       end
     end
   end
