@@ -7,11 +7,11 @@ module BopsApi
   class PlanningApplicationDependencyJob < ApplicationJob
     queue_as :submissions
 
-    retry_on(StandardError, attempts: 5, wait: 5.minutes, jitter: 0) do |error|
+    retry_on(StandardError, attempts: 5, wait: 5.minutes, jitter: 0) do |_, error|
       Appsignal.report_error(error)
     end
 
-    retry_on(Faraday::TimeoutError, attempts: 5, wait: 5.minutes, jitter: 0) do |error|
+    retry_on(Faraday::TimeoutError, attempts: 5, wait: 5.minutes, jitter: 0) do |_, error|
       Appsignal.report_error(error)
     end
 
