@@ -5,31 +5,24 @@ class AssessmentDetail < ApplicationRecord
   belongs_to :user
   has_one :comment, as: :commentable, dependent: :destroy
 
-  enum(
-    assessment_status: {
-      not_started: "not_started",
-      in_progress: "in_progress",
-      complete: "complete"
-    },
-    _default: "not_started",
-    _prefix: "assessment"
-  )
+  enum :assessment_status, {
+    not_started: "not_started",
+    in_progress: "in_progress",
+    complete: "complete"
+  }, default: "not_started", prefix: "assessment"
 
-  enum(
-    review_status: {
-      in_progress: "in_progress",
-      complete: "complete"
-    },
-    _prefix: "review"
-  )
+  enum :review_status, {
+    in_progress: "in_progress",
+    complete: "complete"
+  }, prefix: "review"
 
-  enum reviewer_verdict: {
+  enum :reviewer_verdict, {
     accepted: "accepted",
     edited_and_accepted: "edited_and_accepted",
     rejected: "rejected"
   }
 
-  enum category: {
+  enum :category, {
     summary_of_work: "summary_of_work",
     site_description: "site_description",
     consultation_summary: "consultation_summary",

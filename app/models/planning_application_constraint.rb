@@ -3,7 +3,7 @@
 class PlanningApplicationConstraint < ApplicationRecord
   include Auditable
 
-  enum status: {
+  enum :status, {
     pending: "pending",
     success: "success",
     failed: "failed",

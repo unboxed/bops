@@ -119,7 +119,7 @@ class Consultation < ApplicationRecord
   accepts_nested_attributes_for :consultees
   accepts_nested_attributes_for :neighbours, reject_if: :neighbour_exists?
 
-  enum status: {
+  enum :status, {
     not_started: "not_started",
     in_progress: "in_progress",
     complete: "complete",

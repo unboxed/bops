@@ -15,14 +15,14 @@ class PermittedDevelopmentRight < ApplicationRecord
     validates :removed_reason, if: :removed
   end
 
-  enum status: {
+  enum :status, {
     in_progress: "in_progress",
     checked: "checked",
     removed: "removed",
     to_be_reviewed: "to_be_reviewed"
   }
 
-  enum review_status: {
+  enum :review_status, {
     review_not_started: "review_not_started",
     review_in_progress: "review_in_progress",
     review_complete: "review_complete"

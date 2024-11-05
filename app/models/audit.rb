@@ -19,7 +19,7 @@ class Audit < ApplicationRecord
     ).reorder(created_at: :desc)
   }
 
-  enum activity_type: {
+  enum :activity_type, {
     approved: "approved",
     assessed: "assessed",
     assigned: "assigned",

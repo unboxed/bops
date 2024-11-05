@@ -23,7 +23,7 @@ class SiteVisit < ApplicationRecord
     },
     if: -> { decision? && consultation_start_date_present? }
 
-  enum status: {
+  enum :status, {
     not_started: "not_started",
     complete: "complete"
   }

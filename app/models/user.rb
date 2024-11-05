@@ -5,8 +5,8 @@ class User < ApplicationRecord
 
   self.audit_attributes = %w[id name role]
 
-  enum role: {assessor: 0, reviewer: 1, administrator: 2, global_administrator: 3}
-  enum otp_delivery_method: {sms: 0, email: 1}
+  enum :role, {assessor: 0, reviewer: 1, administrator: 2, global_administrator: 3}
+  enum :otp_delivery_method, {sms: 0, email: 1}
 
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
     :validatable, :confirmable,
