@@ -663,7 +663,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
-  activerecord-postgis-adapter
+  activerecord-postgis-adapter (~> 10.0)
   acts_as_list
   appsignal
   aws-sdk-s3

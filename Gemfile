@@ -6,7 +6,7 @@ source "https://rubygems.org"
 gem "dotenv-rails", require: "dotenv/load"
 
 gem "aasm"
-gem "activerecord-postgis-adapter"
+gem "activerecord-postgis-adapter", "~> 10.0"
 gem "acts_as_list"
 gem "appsignal"
 gem "aws-sdk-s3", require: false
