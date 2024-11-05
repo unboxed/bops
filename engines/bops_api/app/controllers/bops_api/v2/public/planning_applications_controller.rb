@@ -5,7 +5,7 @@ module BopsApi
     module Public
       class PlanningApplicationsController < PublicController
         def search
-          @pagy, @planning_applications = search_service.call
+          @pagy, @planning_applications = search_service(planning_applications_scope.by_latest_published).call
 
           respond_to do |format|
             format.json
