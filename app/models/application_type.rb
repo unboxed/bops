@@ -30,7 +30,7 @@ class ApplicationType < ApplicationRecord
     other: "other"
   }, scopes: false, instance_methods: false, validate: {on: :category}
 
-  enum :status, {inactive: "inactive", active: "active", retired: "retired"}
+  enum :status, %i[inactive active retired].index_with(&:to_s)
 
   belongs_to :legislation, optional: true
   has_many :planning_applications, dependent: :restrict_with_exception

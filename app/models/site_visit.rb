@@ -23,10 +23,10 @@ class SiteVisit < ApplicationRecord
     },
     if: -> { decision? && consultation_start_date_present? }
 
-  enum :status, {
-    not_started: "not_started",
-    complete: "complete"
-  }
+  enum :status, %i[
+    not_started
+    complete
+  ].index_with(&:to_s)
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 

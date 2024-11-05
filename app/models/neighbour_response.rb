@@ -12,7 +12,7 @@ class NeighbourResponse < ApplicationRecord
 
   validates :name, :response, :summary_tag, :received_at, presence: true
 
-  enum :summary_tag, {supportive: "supportive", neutral: "neutral", objection: "objection"}
+  enum :summary_tag, %i[supportive neutral objection].index_with(&:to_s)
 
   scope :redacted, -> { where.not(redacted_response: "") }
   scope :with_tags, -> { where.not(tags: []) }

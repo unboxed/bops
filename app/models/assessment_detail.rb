@@ -5,32 +5,28 @@ class AssessmentDetail < ApplicationRecord
   belongs_to :user
   has_one :comment, as: :commentable, dependent: :destroy
 
-  enum :assessment_status, {
-    not_started: "not_started",
-    in_progress: "in_progress",
-    complete: "complete"
-  }, default: "not_started", prefix: "assessment"
+  enum :assessment_status, %i[not_started in_progress complete].index_with(&:to_s), default: "not_started", prefix: "assessment"
 
-  enum :review_status, {
-    in_progress: "in_progress",
-    complete: "complete"
-  }, prefix: "review"
+  enum :review_status, %i[
+    in_progress
+    complete
+  ].index_with(&:to_s), prefix: "review"
 
-  enum :reviewer_verdict, {
-    accepted: "accepted",
-    edited_and_accepted: "edited_and_accepted",
-    rejected: "rejected"
-  }
+  enum :reviewer_verdict, %i[
+    accepted
+    edited_and_accepted
+    rejected
+  ].index_with(&:to_s)
 
-  enum :category, {
-    summary_of_work: "summary_of_work",
-    site_description: "site_description",
-    consultation_summary: "consultation_summary",
-    additional_evidence: "additional_evidence",
-    neighbour_summary: "neighbour_summary",
-    amenity: "amenity",
-    check_publicity: "check_publicity"
-  }
+  enum :category, %i[
+    summary_of_work
+    site_description
+    consultation_summary
+    additional_evidence
+    neighbour_summary
+    amenity
+    check_publicity
+  ].index_with(&:to_s)
 
   CATEGORIES = defined_enums["category"].keys.map(&:to_sym).freeze
 
