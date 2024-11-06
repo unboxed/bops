@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*"]
   end
 
-  spec.add_dependency "rails", ">= 7.1.3", "< 7.2"
+  spec.add_dependency "rails", "~> 7.2"
   spec.add_dependency "govuk-components", "~> 5", ">= 5.3.2"
   spec.add_dependency "govuk_design_system_formbuilder", "~> 5", ">= 5.3.2"
   spec.add_dependency "pagy"

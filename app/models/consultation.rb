@@ -119,12 +119,12 @@ class Consultation < ApplicationRecord
   accepts_nested_attributes_for :consultees
   accepts_nested_attributes_for :neighbours, reject_if: :neighbour_exists?
 
-  enum status: {
-    not_started: "not_started",
-    in_progress: "in_progress",
-    complete: "complete",
-    to_be_reviewed: "to_be_reviewed"
-  }
+  enum :status, %i[
+    not_started
+    in_progress
+    complete
+    to_be_reviewed
+  ].index_with(&:to_s)
 
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
 

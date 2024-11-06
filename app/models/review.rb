@@ -28,28 +28,25 @@ class Review < ApplicationRecord
   before_update :set_status_to_be_reviewed, if: :comment?
   before_update :set_reviewed_at, if: :reviewer_present?
 
-  enum action: {
-    accepted: "accepted",
-    edited_and_accepted: "edited_and_accepted",
-    rejected: "rejected"
-  }
+  enum :action, %i[
+    accepted
+    edited_and_accepted
+    rejected
+  ].index_with(&:to_s)
 
-  enum(
-    status: {
-      not_started: "not_started",
-      in_progress: "in_progress",
-      to_be_reviewed: "to_be_reviewed",
-      complete: "complete",
-      updated: "updated"
-    },
-    _default: "not_started"
-  )
+  enum :status, %i[
+    not_started
+    in_progress
+    to_be_reviewed
+    complete
+    updated
+  ].index_with(&:to_s), default: "not_started"
 
-  enum review_status: {
-    review_complete: "review_complete",
-    review_in_progress: "review_in_progress",
-    review_not_started: "review_not_started"
-  }
+  enum :review_status, %i[
+    review_complete
+    review_in_progress
+    review_not_started
+  ].index_with(&:to_s)
 
   scope :review_type, ->(type) { create_with(review_type: type).where("specific_attributes->>'review_type' = ?", type) }
   scope :evidence, -> { review_type("evidence") }

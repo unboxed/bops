@@ -11,7 +11,7 @@ class OwnershipCertificate < ApplicationRecord
 
   after_create :create_review
 
-  enum certificate_type: {
+  enum :certificate_type, {
     a: "A",
     b: "B",
     c: "C",

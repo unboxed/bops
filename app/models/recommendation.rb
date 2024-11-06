@@ -18,14 +18,12 @@ class Recommendation < ApplicationRecord
 
   delegate :audits, to: :planning_application
 
-  enum(
-    status: {
-      assessment_in_progress: 0,
-      assessment_complete: 1,
-      review_in_progress: 2,
-      review_complete: 3
-    }
-  )
+  enum :status, {
+    assessment_in_progress: 0,
+    assessment_complete: 1,
+    review_in_progress: 2,
+    review_complete: 3
+  }
 
   def current_recommendation?
     planning_application.recommendation == self

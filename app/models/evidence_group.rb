@@ -10,7 +10,7 @@ class EvidenceGroup < ApplicationRecord
     reject_if: :reject_comment?
   )
 
-  enum tag: {
+  enum :tag, {
     "photographs.existing": 0,
     utilityBill: 1,
     buildingControlCertificate: 2,

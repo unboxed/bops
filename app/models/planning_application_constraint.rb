@@ -3,13 +3,13 @@
 class PlanningApplicationConstraint < ApplicationRecord
   include Auditable
 
-  enum status: {
-    pending: "pending",
-    success: "success",
-    failed: "failed",
-    not_found: "not_found",
-    removed: "removed"
-  }
+  enum :status, %i[
+    pending
+    success
+    failed
+    not_found
+    removed
+  ].index_with(&:to_s)
 
   belongs_to :planning_application
   belongs_to :planning_application_constraints_query, optional: true

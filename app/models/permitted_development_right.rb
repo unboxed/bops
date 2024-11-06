@@ -15,18 +15,18 @@ class PermittedDevelopmentRight < ApplicationRecord
     validates :removed_reason, if: :removed
   end
 
-  enum status: {
-    in_progress: "in_progress",
-    checked: "checked",
-    removed: "removed",
-    to_be_reviewed: "to_be_reviewed"
-  }
+  enum :status, %i[
+    in_progress
+    checked
+    removed
+    to_be_reviewed
+  ].index_with(&:to_s)
 
-  enum review_status: {
-    review_not_started: "review_not_started",
-    review_in_progress: "review_in_progress",
-    review_complete: "review_complete"
-  }
+  enum :review_status, %i[
+    review_not_started
+    review_in_progress
+    review_complete
+  ].index_with(&:to_s)
 
   validate :reviewer_is_present?
   validate :planning_application_can_review_assessment
