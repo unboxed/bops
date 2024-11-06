@@ -115,6 +115,7 @@ class PlanningApplication < ApplicationRecord
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
+  before_create :set_received_at
   before_create :set_key_dates
   before_create :set_change_access_id
   before_create :update_lonlat
@@ -999,6 +1000,10 @@ class PlanningApplication < ApplicationRecord
       application_number,
       application_type_suffix
     ].join("-")
+  end
+
+  def set_received_at
+    self.received_at ||= Time.next_immediate_business_day(created_at || Time.current)
   end
 
   def set_key_dates
