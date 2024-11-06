@@ -185,7 +185,7 @@ jobs:
           image: ${{ steps.ecr-image.outputs.uri }}
 
       - name: Deploy ${{ matrix.service_type }} task
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: bops-${{ matrix.service_type }}-${{ inputs.environment-name }}
