@@ -452,10 +452,6 @@ class PlanningApplication < ApplicationRecord
     documents.for_display
   end
 
-  def received_at
-    super || (Time.next_immediate_business_day(created_at) if created_at)
-  end
-
   def valid_from
     return nil unless validated?
 
