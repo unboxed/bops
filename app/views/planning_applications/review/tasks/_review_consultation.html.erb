@@ -1,22 +1,26 @@
-<h2 class="app-task-list__section govuk-!-margin-top-8">
-  Review consultation
-</h2>
-<ul class="app-task-list__items" id="review-consultation-section">
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <%= govuk_link_to "Check neighbour notifications", (@planning_application.consultation&.neighbour_review&.review_complete? ?
-              planning_application_review_consultation_neighbour_responses_path(@planning_application, @planning_application.consultation) :
-              edit_planning_application_review_consultation_neighbour_responses_path(@planning_application, @planning_application.consultation)) %>
-    </span>
-    <div class="govuk-task-list__status app-task-list__task-tag">
-    <%= render(
-          StatusTags::ReviewComponent.new(
-            review_item: @planning_application.consultation.neighbour_review
-          )
-        ) %>
-    </div>
-  </li>
+<%= bops_task_accordion(id: "review-consultation") do |accordion| %>
+  <% accordion.with_heading(text: "Review consultation") %>
+  <%= accordion.with_section(id: "check-neighbour-notifications", expanded: @neighbour_review.errors.any?) do |section| %>
+    <% section.with_heading(text: "Check neighbour notifications") %>
 
+    <% section.with_status do %>
+      <%= render(
+            StatusTags::ReviewComponent.new(
+              review_item: @planning_application.consultation.neighbour_review
+            )
+          ) %>
+    <% end %>
+
+    <% section.with_footer do %>
+      <%= render(
+            partial: "planning_applications/review/neighbour_responses/form",
+            locals: {planning_application: @planning_application, neighbour_review: @neighbour_review}
+          ) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<ul class="app-task-list__items" id="review-consultation-section">
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
       <%= govuk_link_to "Check publicity", (@planning_application.check_publicity&.review_complete? ?
