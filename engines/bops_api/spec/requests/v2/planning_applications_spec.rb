@@ -10,17 +10,24 @@ RSpec.describe "BOPS API" do
   before do
     create(:api_user, token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
     create(:api_user, name: "other", token: "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ", local_authority: southwark)
+
     create(:application_type, :ldc_existing)
     create(:application_type, :ldc_proposed)
     create(:application_type, :listed)
+    create(:application_type, :land_drainage)
+    create(:application_type, :pa_part1_classA)
     create(:application_type, :pa_part_14_class_j)
-    create(:application_type, :householder_retrospective)
+    create(:application_type, :pa_part_20_class_ab)
+    create(:application_type, :pa_part_3_class_ma)
+    create(:application_type, :pa_part7_classM)
+    create(:application_type, :minor)
+    create(:application_type, :major)
 
     Rails.configuration.os_vector_tiles_api_key = "testtest"
   end
 
   let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
-  let(:planning_application) { example_fixture("validPlanningPermission.json") }
+  let(:planning_application) { example_fixture("application/planningPermission/fullHouseholder.json") }
   let(:send_email) { "true" }
 
   let!(:planning_applications) { create_list(:planning_application, 8, :published, local_authority:, application_type:) }
@@ -29,7 +36,7 @@ RSpec.describe "BOPS API" do
   let!(:householder) { create(:application_type, :householder) }
   let!(:householder_planning_applications) { create_list(:planning_application, 4, :with_boundary_geojson_features, local_authority:, application_type: householder) }
 
-  let(:submission) { create(:planx_planning_data, params_v2: example_fixture("validPlanningPermission.json")) }
+  let(:submission) { create(:planx_planning_data, params_v2: example_fixture("application/planningPermission/fullHouseholder.json")) }
   let(:planning_application_with_submission) { create(:planning_application, :planning_permission, local_authority:, planx_planning_data: submission) }
 
   let(:page) { 2 }
@@ -53,13 +60,20 @@ RSpec.describe "BOPS API" do
       }, required: false
 
       [
-        %w[validLawfulDevelopmentCertificateExisting.json LDCE],
-        %w[validLawfulDevelopmentCertificateProposed.json LDCP],
-        %w[validListedBuildingConsent.json LBC],
-        %w[validPlanningPermission.json HAPP],
-        %w[validPriorApproval.json PA14J],
-        %w[validRetrospectivePlanningPermission.json HRET]
-      ].each do |fixture, suffix|
+        %w[DRN application/landDrainageConsent.json],
+        %w[LBC application/listedBuildingConsent.json],
+        %w[LDCE application/lawfulDevelopmentCertificate/existing.json],
+        %w[LDCP application/lawfulDevelopmentCertificate/proposed.json],
+        %w[HAPP application/planningPermission/fullHouseholder.json],
+        %w[HAPC application/planningPermission/fullHouseholderInConservationArea.json],
+        %w[MAJOR application/planningPermission/major.json],
+        %w[MINOR application/planningPermission/minor.json],
+        %w[PA20AB application/priorApproval/buildHomes.json],
+        %w[PA3MA application/priorApproval/convertCommercialToHome.json],
+        %w[PA7M application/priorApproval/extendUniversity.json],
+        %w[PA1A application/priorApproval/largerExtension.json],
+        %w[PA14J application/priorApproval/solarPanels.json]
+      ].each do |suffix, fixture|
         value = example_fixture(fixture, symbolize_names: true)
         name = value.dig(:data, :application, :type, :value)
         summary = value.dig(:data, :application, :type, :description)
@@ -85,7 +99,13 @@ RSpec.describe "BOPS API" do
               ["correspondence.pdf", "planx/odp/correspondence.pdf", "application/pdf"],
               ["heritageStatement.pdf", "planx/odp/heritageStatement.pdf", "application/pdf"],
               ["invoice.pdf", "planx/odp/invoice.pdf", "application/pdf"],
-              ["test document.pdf", "planx/odp/test document.pdf", "application/pdf"]
+              ["test document.pdf", "planx/odp/test document.pdf", "application/pdf"],
+              ["location plan_proposed_01.jpg", "planx/odp/location plan_proposed_01.jpg", "image/jpeg"],
+              ["Site-location-plan-example.pdf", "planx/odp/Site-location-plan-example.pdf", "application/pdf"],
+              ["Rooftype_pyramid@4x.png", "planx/odp/Rooftype_pyramid@4x.png", "image/png"],
+              ["elevations_existing_01.jpg", "planx/odp/elevations_existing_01.jpg", "image/jpeg"],
+              ["elevations_proposed_01.jpg", "planx/odp/elevations_proposed_01.jpg", "image/jpeg"],
+              ["Elevations-best-practice.pdf", "planx/odp/Elevations-best-practice.pdf", "application/pdf"]
             ].each do |file, fixture, content_type|
               stub_request(:get, %r{\Ahttps://api.editor.planx.dev/file/private/\w+/#{Regexp.escape(file)}\z})
                 .with(headers: {"Api-Key" => "G41sAys9uPMUVBH5WUKsYE4H"})

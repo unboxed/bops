@@ -11,10 +11,11 @@ module BopsApi
       "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.4.1/schema.json" => "odp/v0.4.1",
       "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.5.0/schema.json" => "odp/v0.5.0",
       "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.6.0/schema.json" => "odp/v0.6.0",
-      "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.0/schema.json" => "odp/v0.7.0"
+      "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.0/schema.json" => "odp/v0.7.0",
+      "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.1/schemas/application.json" => "odp/v0.7.1"
     }.freeze
 
-    DEFAULT_ODP_VERSION = "odp/v0.7.0"
+    DEFAULT_ODP_VERSION = "odp/v0.7.1"
 
     class << self
       def find!(name, version: nil, schema: nil)

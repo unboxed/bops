@@ -272,7 +272,7 @@ RSpec.describe "Planning Application Assessment" do
 
         it "lists different legislation in the decision notice" do
           click_link("View decision notice")
-          expect(page).to have_content("The Town and Country Planning (Development Management Procedure) (England) Order 2015")
+          expect(page).to have_content("Town and Country Planning Act 1990")
         end
       end
     end

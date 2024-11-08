@@ -43,7 +43,7 @@ RSpec.describe "Legislation", type: :system do
 
     fill_in "Title", with: "The Town and Country Planning (General Permitted Development) (England) Order 2015 Part 1, Class A"
     fill_in "Description", with: "A description about the legislation"
-    fill_in "Link", with: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made"
+    fill_in "Link", with: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2"
     click_button "Save"
 
     expect(page).to have_content("Legislation successfully created")
