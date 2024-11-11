@@ -79,7 +79,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             applicant_email: "f.fox@boggischickenshed.com",
             applicant_phone: "Not provided by agent",
             local_authority_id: local_authority.id,
-            address_1: ", WHITEFIELD LANE",
+            address_1: "GIPSY HOUSE, WHITEFIELD LANE",
             town: "GREAT MISSENDEN",
             postcode: "HP16 0BP",
             uprn: "100081174436",

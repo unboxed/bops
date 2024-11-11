@@ -210,7 +210,7 @@ RSpec.describe ApplicationType do
 
       describe "legislation_link" do
         it "returns the legislation link" do
-          expect(application_type.legislation_link).to eq("https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made")
+          expect(application_type.legislation_link).to eq("https://www.legislation.gov.uk/uksi/2015/596/schedule/2")
         end
       end
 

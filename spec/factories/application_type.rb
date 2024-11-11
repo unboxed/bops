@@ -322,6 +322,10 @@ FactoryBot.define do
       status { "active" }
     end
 
+    trait :pa_part1_classA do
+      prior_approval
+    end
+
     trait :pa_part_14_class_j do
       prior_approval
 
@@ -331,6 +335,47 @@ FactoryBot.define do
       reporting_types { %w[PA99] }
       part { 14 }
       section { "J" }
+
+      legislation { association :legislation, :pa_part_14_class_j }
+    end
+
+    trait :pa_part_20_class_ab do
+      prior_approval
+
+      code { "pa.part20.classAB" }
+      suffix { "PA20AB" }
+      category { "prior-approval" }
+      reporting_types { %w[PA99] }
+      part { 20 }
+      section { "AB" }
+
+      legislation { association :legislation, :pa_part_20_class_ab }
+    end
+
+    trait :pa_part_3_class_ma do
+      prior_approval
+
+      code { "pa.part3.classMA" }
+      suffix { "PA3MA" }
+      category { "prior-approval" }
+      reporting_types { %w[PA99] }
+      part { 3 }
+      section { "MA" }
+
+      legislation { association :legislation, :pa_part_3_class_ma }
+    end
+
+    trait :pa_part7_classM do
+      prior_approval
+
+      code { "pa.part7.classM" }
+      suffix { "PA7M" }
+      category { "prior-approval" }
+      reporting_types { %w[PA99] }
+      part { 7 }
+      section { "M" }
+
+      legislation { association :legislation, :pa_part7_classM }
     end
 
     trait :planning_permission do
@@ -468,7 +513,7 @@ FactoryBot.define do
     trait :householder do
       planning_permission
 
-      legislation { association :legislation, :pp_full_householder }
+      legislation { association :legislation, :tcpa_1990 }
     end
 
     trait :householder_retrospective do
@@ -477,12 +522,37 @@ FactoryBot.define do
       code { "pp.full.householder.retro" }
       suffix { "HAPR" }
 
-      legislation { association :legislation, :pp_full_householder_retro }
+      legislation { association :legislation, :tcpa_1990 }
+    end
+
+    trait :minor do
+      planning_permission
+
+      code { "pp.full.minor" }
+      suffix { "MINOR" }
+      reporting_types { %w[Q13 Q14 Q15 Q16 Q17 Q18] }
+
+      legislation { association :legislation, :tcpa_1990 }
+    end
+
+    trait :major do
+      planning_permission
+
+      code { "pp.full.major" }
+      suffix { "MAJOR" }
+      reporting_types { %w[Q01 Q02 Q03 Q04 Q05 Q06] }
+
+      legislation { association :legislation, :tcpa_1990 }
     end
 
     trait :listed do
       code { "listed" }
       suffix { "LBC" }
+    end
+
+    trait :land_drainage do
+      code { "landDrainageConsent" }
+      suffix { "LDC" }
     end
 
     trait :without_consultation do

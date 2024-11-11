@@ -6,6 +6,12 @@
 
 <% content_for :title, t(".title") %>
 
+<% ApplicationType.outstanding.tap do |outstanding| %>
+  <% if outstanding.count.nonzero? %>
+    <%= govuk_notification_banner(title_text: t(".outstanding_header"), text: t(".outstanding_count", count: outstanding.count)) %>
+  <% end %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
@@ -14,6 +20,19 @@
     <p class="govuk-body">
       <%= govuk_button_link_to t(".create_new_application_type"), new_application_type_path %>
     </p>
-    <%= render "table", application_types: @application_types %>
+
+    <%= govuk_tabs do |tabs| %>
+      <%= tabs.with_tab(label: t(".tabs.active")) {
+            render "table", application_types: @application_types.select(&:active?), state: "active"
+          } %>
+
+      <%= tabs.with_tab(label: t(".tabs.inactive")) {
+            render "table", application_types: @application_types.select(&:inactive?), state: "inactive"
+          } %>
+
+      <%= tabs.with_tab(label: t(".tabs.retired")) {
+            render "table", application_types: @application_types.select(&:retired?), state: "retired"
+          } %>
+    <% end %>
   </div>
 </div>

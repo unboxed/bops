@@ -8,6 +8,7 @@ class ApplicationType < ApplicationRecord
 
   NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate other].freeze
   ODP_APPLICATION_TYPES = I18n.t(:"odp.application_types").to_h.freeze
+  CURRENT_APPLICATION_TYPES = I18n.t(:"odp.current_application_types").freeze
 
   attribute :legislation_type, :string, default: "existing"
   attribute :document_tags, ApplicationTypeDocumentTags.to_type
@@ -37,6 +38,7 @@ class ApplicationType < ApplicationRecord
 
   accepts_nested_attributes_for :legislation, :document_tags
 
+  scope :not_retired, -> { where.not(status: "retired") }
   default_scope { preload(:legislation) }
 
   validates :name, :code, :suffix, presence: true
@@ -158,6 +160,47 @@ class ApplicationType < ApplicationRecord
     self.configured = true
   end
 
+  class << self
+    def by_name
+      in_order_of(:name, NAME_ORDER).order(:name, :code)
+    end
+
+    def code_menu
+      existing_codes = not_retired.pluck(:code)
+
+      ODP_APPLICATION_TYPES.each_with_object([]) do |item, memo|
+        next memo if existing_codes.include?(item.first)
+        next memo unless CURRENT_APPLICATION_TYPES.include?(item.first)
+
+        memo << item.reverse
+      end
+    end
+
+    def menu(scope = by_name)
+      scope.active.order(code: :asc).map do |application_type|
+        [application_type.description, application_type.id]
+      end
+    end
+
+    def reporting_type_used?(codes)
+      where(reporting_types.contains(normalize_codes(codes))).exists?
+    end
+
+    def outstanding
+      CURRENT_APPLICATION_TYPES - not_retired.pluck(:code)
+    end
+
+    private
+
+    def reporting_types
+      arel_table[:reporting_types]
+    end
+
+    def normalize_codes(codes)
+      Array.wrap(codes).compact_blank
+    end
+  end
+
   def activating?
     status_changed? && active?
   end
@@ -168,6 +211,10 @@ class ApplicationType < ApplicationRecord
 
   def description
     ODP_APPLICATION_TYPES[code]
+  end
+
+  def deprecated?
+    CURRENT_APPLICATION_TYPES.exclude?(code)
   end
 
   def existing?
@@ -248,36 +295,6 @@ class ApplicationType < ApplicationRecord
 
   def all_decision_codes
     all_decisions.map(&:code)
-  end
-
-  class << self
-    def by_name
-      in_order_of(:name, NAME_ORDER).order(:name, :code)
-    end
-
-    def code_menu
-      ODP_APPLICATION_TYPES.map(&:reverse)
-    end
-
-    def menu(scope = by_name)
-      scope.active.order(code: :asc).map do |application_type|
-        [application_type.description, application_type.id]
-      end
-    end
-
-    def reporting_type_used?(codes)
-      where(reporting_types.contains(normalize_codes(codes))).exists?
-    end
-
-    private
-
-    def reporting_types
-      arel_table[:reporting_types]
-    end
-
-    def normalize_codes(codes)
-      Array.wrap(codes).compact_blank
-    end
   end
 
   private

@@ -37,7 +37,7 @@ RSpec.describe "Check legislation" do
       expect(page).to have_content("Review Condition A.4 of GPDO 2015 (as amended) Schedule 2, Part 1, Class A.")
       expect(page).to have_link(
         "The Town and Country Planning (General Permitted Development) (England) Order 2015",
-        href: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made"
+        href: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2"
       )
     end
 

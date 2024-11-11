@@ -12,15 +12,15 @@ class MigrateLegislationDetailsToLegislation < ActiveRecord::Migration[7.1]
     },
     "pa.part1.classA" => {
       title: "The Town and Country Planning (General Permitted Development) (England) Order 2015 Part 1, Class A",
-      link: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made"
+      link: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2"
     },
     "pp.full.householder" => {
-      title: "The Town and Country Planning (Development Management Procedure) (England) Order 2015",
-      link: "https://www.legislation.gov.uk/uksi/2015/595/article/2/made"
+      title: "Town and Country Planning Act 1990",
+      link: "https://www.legislation.gov.uk/ukpga/1990/8"
     },
     "default" => {
       title: "Town and Country Planning Act 1990",
-      link: "https://www.legislation.gov.uk/"
+      link: "https://www.legislation.gov.uk/ukpga/1990/8"
     }
   }.freeze
 

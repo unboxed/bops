@@ -59,4 +59,31 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
       end
     end
   end
+
+  %w[v0.7.1].each do |version|
+    describe "ODP Schema #{version}" do
+      %w[
+        application/landDrainageConsent.json
+        application/lawfulDevelopmentCertificate/existing.json
+        application/lawfulDevelopmentCertificate/proposed.json
+        application/listedBuildingConsent.json
+        application/planningPermission/fullHouseholder.json
+        application/planningPermission/fullHouseholderInConservationArea.json
+        application/planningPermission/major.json
+        application/planningPermission/minor.json
+        application/priorApproval/buildHomes.json
+        application/priorApproval/convertCommercialToHome.json
+        application/priorApproval/extendUniversity.json
+        application/priorApproval/largerExtension.json
+        application/priorApproval/solarPanels.json
+      ].each do |example|
+        it "#{example} can be submitted successfully" do
+          post :create, as: :json, body: examples_root.join(version, example).read
+
+          expect(response).to have_http_status(:ok)
+          expect(response).to render_template("bops_api/v2/planning_applications/create")
+        end
+      end
+    end
+  end
 end

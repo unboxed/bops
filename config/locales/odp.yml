@@ -22,6 +22,7 @@ en:
       - ['amendment.minorMaterial', 'Consent to make small (minor material) changes to a project with Planning Permission']
       - ['amendment.nonMaterial', 'Consent to make small (non-material) changes to a project with Planning Permission']
       - ['approval', 'Planning approval']
+      - ['approval.conditions', 'Approval of details reserved by condition']
       - ['approval.reservedMatters', 'Approval of reserved matters']
       - ['complianceConfirmation', 'Written confirmation of compliance with a planning condition']
       - ['environmentalImpact', 'Environmental Impact Decision']
@@ -31,16 +32,26 @@ en:
       - ['hedgerowRemovalNotice', 'Notice to remove a hedge']
       - ['landDrainageConsent', 'Consent to do works affecting ordinary watercourses or land drainage']
       - ['ldc', 'Lawful Development Certificate']
+      - ['ldc.breachOfCondition', 'Lawful Development Certificate - Existing use lawful not to comply with a condition (S191C)']
       - ['ldc.condition', 'Lawful Development Certificate - Lawful not to comply with a condition or limitation']
       - ['ldc.existing', 'Lawful Development Certificate - Existing use']
       - ['ldc.existing.regularise', 'Lawful Development Certificate - Continue an existing use']
+      - ['ldc.listedBuildingWorks', 'Lawful Development Certificate - Works to a Listed Building (S26H)']
       - ['ldc.proposed', 'Lawful Development Certificate - Proposed use']
       - ['listed', 'Consent to do works to a Listed Building']
+      - ['nonMaterialAmendment', 'Consent to make small changes to a project with Planning Permission']
       - ['notifyCompletion', 'Notification of completion']
       - ['obligation', 'Planning obligation']
       - ['obligation.discharge', 'Discharge a planning obligation']
       - ['obligation.modify', 'Modify a planning obligation']
       - ['pa', 'Prior Approval']
+      - ['onshoreExtractionOilAndGas.other', 'Onshore extraction of oil and gas - Other']
+      - ['onshoreExtractionOilAndGas.pp.extension', 'Onshore extraction of oil and gas - Full planning permission for an extension to an existing site including associated development']
+      - ['onshoreExtractionOilAndGas.pp.waste', 'Onshore extraction of oil and gas - Full planning permission for waste development']
+      - ['onshoreExtractionOilAndGas.pp.working', 'Onshore extraction of oil and gas - Full planning permission for oil and gas working including exploratory, appraisal and production phases']
+      - ['onshoreExtractionOilAndGas.review', 'Onshore extraction of oil and gas - Review of conditions applying to Mineral Permissions (ROMPs)']
+      - ['onshoreExtractionOilAndGas.variation', 'Onshore extraction of oil and gas - Variation of conditions']
+      - ['onshoreExtractionOilAndGas', 'Onshore extraction of oil and gas']
       - ['pa.part1.classA', 'Prior Approval - Larger extension to a house']
       - ['pa.part1.classAA', 'Prior Approval - Adding storeys to a house']
       - ['pa.part11.classB', 'Prior Approval - Demolish a building']
@@ -66,6 +77,7 @@ en:
       - ['pa.part3.classM', 'Prior Approval - Convert a mixed use building into a home']
       - ['pa.part3.classMA', 'Prior Approval - Convert a commercial building into a home or homes']
       - ['pa.part3.classN', 'Prior Approval - Convert a casino or amusement arcade into a home or homes']
+      - ['pa.part3.classPA', 'Prior Approval - Convert a light industrial building into a home']
       - ['pa.part3.classQ', 'Prior Approval - Convert an agricultural building into a home']
       - ['pa.part3.classR', 'Prior Approval - Convert an agricultural building to a commercial use']
       - ['pa.part3.classS', 'Prior Approval - Convert an agricultural building to a school']
@@ -82,6 +94,8 @@ en:
       - ['pa.part7.classC', 'Prior Approval - Install click and collect facilities']
       - ['pa.part7.classM', 'Prior Approval - Extend a school, college, university, prison or hospital']
       - ['pa.part9.classD', 'Prior Approval - Development of toll facilities']
+      - ['pip', 'Permission in Principle - Consent for the principle of a project with less than 1,000 square metres floor area on a site of less than 1 hectare']
+      - ['pip.technicalDetails', 'Permission in Principle - Approval of technical details']
       - ['pp', 'Planning Permission']
       - ['pp.full', 'Planning Permission for development, including all householder, minor, and major applications']
       - ['pp.full.advertConsent', 'Full Planning Permission and consent to display an advert']
@@ -101,17 +115,126 @@ en:
       - ['pp.onshoreExtractionOilAndGas', 'Planning Permission - Consent to extract oil and gas']
       - ['pp.outline', 'Planning permission - Outline for proposed development']
       - ['pp.outline.all', 'Outline Planning Permission - Consent for the principle of a project witholding all details']
+      - ['pp.outline.allReserved', 'Outline Planning Permission - Consent for the principle of a project witholding all details']
       - ['pp.outline.major', 'Planning permission - Outline for proposed development (major)']
       - ['pp.outline.major.all', 'Outline Planning Permission - Consent for the principle of a project witholding all details (major)']
       - ['pp.outline.major.all.waste', 'Outline Planning Permission - Consent for the principle of waste development witholding all details']
       - ['pp.outline.major.some', 'Outline Planning Permission - Consent for the principle of a project specifying some details (major)']
-      - ['pp.outline.major.some.waste', 'Outline Planning Permission - Consent for the principle of waste development witholding all details']
+      - ['pp.outline.major.some.waste', 'Outline Planning Permission - Consent for the principle of waste development witholding some details']
       - ['pp.outline.minor', 'Planning permission - Outline for proposed development (minor)']
       - ['pp.outline.minor.all', 'Outline Planning Permission - Consent for the principle of a project witholding all details (minor)']
       - ['pp.outline.minor.some', 'Outline Planning Permission - Consent for the principle of a project specifying some details (minor)']
+      - ['pp.outline.reservedMatters', 'Outline Planning Permission - Approval of reserved matters']
       - ['pp.outline.some', 'Outline Planning Permission - Consent for the principle of a project specifying some details']
       - ['pp.pip', 'Planning Permission in Principle - Consent for the principle of a project with less than 1,000 square metres floor area on a site of less than 1 hectare']
       - ['rightsOfWayOrder', 'Rights of Way Order - Apply to move or close a path']
       - ['wtt', 'Works to trees']
       - ['wtt.consent', 'Works to trees - Consent to carry out works to a tree with a Tree Preservation Order']
       - ['wtt.notice', 'Works to trees - Notification of proposed works to a tree in a Conservation Area']
+
+    current_application_types:
+      - advertConsent
+      - amendment
+      - amendment.minorMaterial
+      - amendment.nonMaterial
+      - approval
+      - approval.conditions
+      - approval.reservedMatters
+      - complianceConfirmation
+      - environmentalImpact
+      - environmentalImpact.scoping
+      - environmentalImpact.screening
+      - hazardousSubstanceConsent
+      - hedgerowRemovalNotice
+      - landDrainageConsent
+      - ldc
+      - ldc.breachOfCondition
+      - ldc.existing
+      - ldc.listedBuildingWorks
+      - ldc.proposed
+      - listed
+      - notifyCompletion
+      - obligation
+      - obligation.discharge
+      - obligation.modify
+      - onshoreExtractionOilAndGas
+      - onshoreExtractionOilAndGas.other
+      - onshoreExtractionOilAndGas.pp.extension
+      - onshoreExtractionOilAndGas.pp.waste
+      - onshoreExtractionOilAndGas.pp.working
+      - onshoreExtractionOilAndGas.review
+      - onshoreExtractionOilAndGas.variation
+      - pa
+      - pa.part1.classA
+      - pa.part1.classAA
+      - pa.part3.classG
+      - pa.part3.classM
+      - pa.part3.classMA
+      - pa.part3.classN
+      - pa.part3.classQ
+      - pa.part3.classR
+      - pa.part3.classS
+      - pa.part3.classT
+      - pa.part3.classV
+      - pa.part4.classBB
+      - pa.part4.classBC
+      - pa.part4.classCA
+      - pa.part4.classE
+      - pa.part6
+      - pa.part6.classA
+      - pa.part6.classB
+      - pa.part6.classE
+      - pa.part7.classC
+      - pa.part7.classM
+      - pa.part9.classD
+      - pa.part11.classB
+      - pa.part14.classA
+      - pa.part14.classB
+      - pa.part14.classJ
+      - pa.part14.classK
+      - pa.part14.classOA
+      - pa.part16.classA
+      - pa.part17
+      - pa.part17.classB
+      - pa.part17.classC
+      - pa.part17.classG
+      - pa.part18.classA
+      - pa.part19.classTA
+      - pa.part20.classA
+      - pa.part20.classAA
+      - pa.part20.classAB
+      - pa.part20.classAC
+      - pa.part20.classAD
+      - pa.part20.classZA
+      - pp
+      - pp.full
+      - pp.full.advertConsent
+      - pp.full.demolition
+      - pp.full.fastTrack.affordable
+      - pp.full.householder
+      - pp.full.householder.listed
+      - pp.full.householder.retro
+      - pp.full.major
+      - pp.full.major.technicalDetails
+      - pp.full.major.technicalDetails.waste
+      - pp.full.major.waste
+      - pp.full.minor
+      - pp.full.minor.listed
+      - pp.full.minor.technicalDetails
+      - pp.mineralExtraction
+      - pp.outline
+      - pp.outline.all
+      - pp.outline.some
+      - pp.outline.minor
+      - pp.outline.minor.all
+      - pp.outline.minor.some
+      - pp.outline.major
+      - pp.outline.major.all
+      - pp.outline.major.all.waste
+      - pp.outline.major.some
+      - pp.outline.major.some.waste
+      - pp.pip
+      - rightsOfWayOrder
+      - wtt
+      - wtt.consent
+      - wtt.notice
