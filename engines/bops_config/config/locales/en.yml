@@ -94,6 +94,15 @@ en:
         suffix_label: Suffix
       index:
         create_new_application_type: Create new application type
+        outstanding_count:
+          one: There is 1 outstanding application type to configure
+          other: There are %{count} outstanding application types to configure
+          zero: There are no outstanding application types to configure
+        outstanding_header: Important
+        tabs:
+          active: Active
+          inactive: Inactive
+          retired: Retired
         title: Application Types
       legislation:
         edit:
@@ -201,7 +210,9 @@ en:
           success: Status successfully updated
       table:
         action: Action
+        deprecated: Deprecated
         name: Name
+        no_application_types: There are no %{state} application types
         status: Status
         suffix: Suffix
         view_and_or_edit: View and/or edit

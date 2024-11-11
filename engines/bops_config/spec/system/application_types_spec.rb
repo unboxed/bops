@@ -728,7 +728,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
       href: "/application_types/new"
     )
 
-    within("table") do
+    within("#active table") do
       within "thead > tr:first-child" do
         expect(page).to have_selector("th:nth-child(1)", text: "Suffix")
         expect(page).to have_selector("th:nth-child(2)", text: "Name")
@@ -751,19 +751,6 @@ RSpec.describe "Application Types", type: :system, capybara: true do
         end
 
         within "tr:nth-child(2)" do
-          expect(page).to have_selector("td:nth-child(1)", text: "HAPP")
-          expect(page).to have_selector("td:nth-child(2)", text: "Planning Permission - Full householder")
-          expect(page).to have_selector("td:nth-child(3) .govuk-tag--grey", text: "Inactive")
-
-          within "td:nth-child(4)" do
-            expect(page).to have_link(
-              "View and/or edit",
-              href: "/application_types/#{planning_permission.id}"
-            )
-          end
-        end
-
-        within "tr:nth-child(3)" do
           expect(page).to have_selector("td:nth-child(1)", text: "LDCE")
           expect(page).to have_selector("td:nth-child(2)", text: "Lawful Development Certificate - Existing use")
           expect(page).to have_selector("td:nth-child(3) .govuk-tag--green", text: "Active")
@@ -775,8 +762,43 @@ RSpec.describe "Application Types", type: :system, capybara: true do
             )
           end
         end
+      end
+    end
 
-        within "tr:nth-child(4)" do
+    within("#inactive table") do
+      within "thead > tr:first-child" do
+        expect(page).to have_selector("th:nth-child(1)", text: "Suffix")
+        expect(page).to have_selector("th:nth-child(2)", text: "Name")
+        expect(page).to have_selector("th:nth-child(3)", text: "Status")
+        expect(page).to have_selector("th:nth-child(4)", text: "Action")
+      end
+
+      within "tbody" do
+        within "tr:nth-child(1)" do
+          expect(page).to have_selector("td:nth-child(1)", text: "HAPP")
+          expect(page).to have_selector("td:nth-child(2)", text: "Planning Permission - Full householder")
+          expect(page).to have_selector("td:nth-child(3) .govuk-tag--grey", text: "Inactive")
+
+          within "td:nth-child(4)" do
+            expect(page).to have_link(
+              "View and/or edit",
+              href: "/application_types/#{planning_permission.id}"
+            )
+          end
+        end
+      end
+    end
+
+    within("#retired table") do
+      within "thead > tr:first-child" do
+        expect(page).to have_selector("th:nth-child(1)", text: "Suffix")
+        expect(page).to have_selector("th:nth-child(2)", text: "Name")
+        expect(page).to have_selector("th:nth-child(3)", text: "Status")
+        expect(page).to have_selector("th:nth-child(4)", text: "Action")
+      end
+
+      within "tbody" do
+        within "tr:nth-child(1)" do
           expect(page).to have_selector("td:nth-child(1)", text: "LDCP")
           expect(page).to have_selector("td:nth-child(2)", text: "Lawful Development Certificate - Proposed use")
           expect(page).to have_selector("td:nth-child(3) .govuk-tag--red", text: "Retired")

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_05_161333) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_11_120800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -80,7 +80,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_161333) do
     t.string "category"
     t.string "reporting_types", default: [], null: false, array: true
     t.string "decisions", default: [], null: false, array: true
-    t.index ["code"], name: "ix_application_types_on_code", unique: true
+    t.index ["code"], name: "ix_application_types_on_code", unique: true, where: "((status)::text <> 'retired'::text)"
     t.index ["legislation_id"], name: "ix_application_types_on_legislation_id"
     t.index ["suffix"], name: "ix_application_types_on_suffix", unique: true
   end

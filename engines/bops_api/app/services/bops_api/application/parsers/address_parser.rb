@@ -11,7 +11,7 @@ module BopsApi
         end
 
         def parse
-          { uprn:, address_1:, address_2:, town:, postcode:, longitude:, latitude: }
+          {uprn:, address_1:, address_2:, town:, postcode:, longitude:, latitude:}
         end
 
         private
