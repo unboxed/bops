@@ -5,6 +5,7 @@ module PlanningApplications
     class TasksController < BaseController
       before_action :set_planning_application_constraints, only: %i[index]
       before_action :set_neighbour_review, if: :has_consultation?, only: %i[index]
+      before_action :set_publicity
 
       def index
         respond_to do |format|

@@ -274,8 +274,6 @@ Rails.application.routes.draw do
 
           resources :consultation do
             resources :publicities do
-              get :edit, on: :collection
-              get :show, on: :collection
               patch :update, on: :collection
               post :create, on: :collection
             end

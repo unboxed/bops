@@ -29,6 +29,14 @@ module PlanningApplications
       def set_planning_application_constraints
         @planning_application_constraints = @planning_application.planning_application_constraints
       end
+
+      def set_publicity
+        @publicity = @planning_application.assessment_details.check_publicity.max_by(&:created_at) || @planning_application.assessment_details.check_publicity.new
+      end
+
+      def redirect_failed_create_error(error)
+        redirect_to planning_application_review_tasks_path(@planning_application), alert: Array.wrap(error).to_sentence
+      end
     end
   end
 end

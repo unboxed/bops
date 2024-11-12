@@ -76,14 +76,12 @@ RSpec.describe "checking publicity" do
       it "allows a reviewer to mark the publicity check as complete" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Check publicity",
-          with: "Not started"
-        )
+        within("#check-publicity") do
+          expect(page).to have_content("Check publicity")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Check publicity"
-
-        expect(page).to have_selector("h1", text: "Check site notice and press notice")
+        click_button "Check publicity"
 
         within("#site-notice-check") do
           expect(page).to have_selector("h2", text: "Check site notice")
@@ -116,42 +114,41 @@ RSpec.describe "checking publicity" do
           expect(page).to have_content("File name: press-notice.jpg")
         end
 
-        choose "Accept"
-
-        click_button "Save and mark as complete"
+        within("#check-publicity") do
+          choose "Accept"
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-        expect(page).to have_list_item_for(
-          "Check publicity",
-          with: "Completed"
-        )
+        within("#check-publicity") do
+          expect(page).to have_content("Check publicity")
+          expect(page).to have_content("Completed")
+        end
       end
 
       it "allows a reviewer to return the application to the assessor" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Check publicity",
-          with: "Not started"
-        )
+        within("#check-publicity") do
+          expect(page).to have_content("Check publicity")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Check publicity"
+        click_button "Check publicity"
 
-        expect(page).to have_selector("h1", text: "Check site notice and press notice")
-
-        choose "Return to officer with comment"
-
-        fill_in "Explain why notifications are incomplete.", with: "Check this"
-
-        click_button "Save and mark as complete"
+        within("#check-publicity") do
+          choose "Return to officer"
+          fill_in "Explain why notifications are incomplete.", with: "Check this"
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-        expect(page).to have_list_item_for(
-          "Check publicity",
-          with: "Awaiting changes"
-        )
+        within("#check-publicity") do
+          expect(page).to have_content("Check publicity")
+          expect(page).to have_content("Awaiting changes")
+        end
 
         click_link "Sign off recommendation"
 
@@ -159,7 +156,6 @@ RSpec.describe "checking publicity" do
 
         choose "No (return the case for assessment)"
         fill_in "Explain to the officer why the case is being returned", with: "More publicity"
-
         click_button "Save and mark as complete"
 
         click_link "Application"
@@ -197,30 +193,33 @@ RSpec.describe "checking publicity" do
 
         click_link "Review and sign-off"
 
-        expect(page).to have_list_item_for(
-          "Check publicity",
-          with: "Not started"
-        )
+        within("#check-publicity") do
+          expect(page).to have_content("Check publicity")
+          expect(page).to have_content("Not started")
+        end
       end
 
       it "shows errors" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Check publicity",
-          with: "Not started"
-        )
+        within("#check-publicity") do
+          expect(page).to have_content("Check publicity")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Check publicity"
+        click_button "Check publicity"
 
-        click_button "Save and mark as complete"
+        within("#check-publicity") do
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content "Determine whether this is correct"
         expect(page).not_to have_content "You must add a comment"
 
-        choose "Return to officer with comment"
-
-        click_button "Save and mark as complete"
+        within("#check-publicity") do
+          choose "Return to officer"
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content "You must add a comment"
       end
@@ -276,13 +275,12 @@ RSpec.describe "checking publicity" do
     it "the reviewer can accept" do
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-      expect(page).to have_list_item_for(
-        "Check publicity",
-        with: "Not started"
-      )
+      within("#check-publicity") do
+        expect(page).to have_content("Check publicity")
+        expect(page).to have_content("Not started")
+      end
 
-      click_link "Check publicity"
-      expect(page).to have_selector("h1", text: "Check site notice and press notice")
+      click_button "Check publicity"
 
       within("#site-notice-check") do
         expect(page).to have_selector("h2", text: "Check site notice")
@@ -315,41 +313,40 @@ RSpec.describe "checking publicity" do
         expect(page).to have_content("File name: press-notice.jpg")
       end
 
-      choose "Accept"
-
-      click_button "Save and mark as complete"
+      within("#check-publicity") do
+        choose "Accept"
+        click_button "Save and mark as complete"
+      end
       expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-      expect(page).to have_list_item_for(
-        "Check publicity",
-        with: "Completed"
-      )
+      within("#check-publicity") do
+        expect(page).to have_content("Check publicity")
+        expect(page).to have_content("Completed")
+      end
     end
 
     it "allows a reviewer to return the application to the assessor" do
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-      expect(page).to have_list_item_for(
-        "Check publicity",
-        with: "Not started"
-      )
+      within("#check-publicity") do
+        expect(page).to have_content("Check publicity")
+        expect(page).to have_content("Not started")
+      end
 
-      click_link "Check publicity"
+      click_button "Check publicity"
 
-      expect(page).to have_selector("h1", text: "Check site notice and press notice")
-
-      choose "Return to officer with comment"
-
-      fill_in "Explain why notifications are incomplete.", with: "Check this"
-
-      click_button "Save and mark as complete"
+      within("#check-publicity") do
+        choose "Return to officer"
+        fill_in "Explain why notifications are incomplete.", with: "Check this"
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-      expect(page).to have_list_item_for(
-        "Check publicity",
-        with: "Awaiting changes"
-      )
+      within("#check-publicity") do
+        expect(page).to have_content("Check publicity")
+        expect(page).to have_content("Awaiting changes")
+      end
 
       click_link "Sign off recommendation"
 
@@ -395,30 +392,33 @@ RSpec.describe "checking publicity" do
 
       click_link "Review and sign-off"
 
-      expect(page).to have_list_item_for(
-        "Check publicity",
-        with: "Not started"
-      )
+      within("#check-publicity") do
+        expect(page).to have_content("Check publicity")
+        expect(page).to have_content("Not started")
+      end
     end
 
     it "shows errors" do
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-      expect(page).to have_list_item_for(
-        "Check publicity",
-        with: "Not started"
-      )
+      within("#check-publicity") do
+        expect(page).to have_content("Check publicity")
+        expect(page).to have_content("Not started")
+      end
 
-      click_link "Check publicity"
+      click_button "Check publicity"
 
-      click_button "Save and mark as complete"
+      within("#check-publicity") do
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_content "Determine whether this is correct"
       expect(page).not_to have_content "You must add a comment"
 
-      choose "Return to officer with comment"
-
-      click_button "Save and mark as complete"
+      within("#check-publicity") do
+        choose "Return to officer"
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_content "You must add a comment"
     end
