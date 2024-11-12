@@ -49,6 +49,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    <%= render "review_conditions" %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
     <%= render(Reviewing::Tasks::AfterSignOffComponent.new(planning_application: @planning_application)) %>
   </div>
 </div>
