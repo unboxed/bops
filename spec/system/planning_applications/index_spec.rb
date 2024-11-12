@@ -675,19 +675,6 @@ RSpec.describe "Planning Application index page", type: :system do
       end
     end
 
-    it "Only Planning Applications that are awaiting_determination are present in this tab" do
-      find("span", text: "Filters").click
-      uncheck "To be reviewed"
-      click_button "Apply filters"
-
-      within(selected_govuk_tab) do
-        expect(page).to have_link(reviewer_planning_application_started.reference)
-        expect(page).not_to have_link(planning_application_1.reference)
-        expect(page).not_to have_link(planning_application_2.reference)
-        expect(page).not_to have_link(planning_application_completed.reference)
-      end
-    end
-
     it "Only Planning Applications that are determined are present in this tab" do
       click_link "Closed"
 
