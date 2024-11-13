@@ -6,7 +6,8 @@ module BopsCore
 
     {
       govuk_primary_navigation: "GovukComponent::PrimaryNavigationComponent",
-      govuk_secondary_navigation: "GovukComponent::SecondaryNavigationComponent"
+      govuk_secondary_navigation: "GovukComponent::SecondaryNavigationComponent",
+      bops_task_accordion: "BopsCore::TaskAccordionComponent"
     }.each do |name, klass|
       define_method(name) do |*args, **kwargs, &block|
         capture do
