@@ -37,6 +37,15 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
     )
   end
 
+  let!(:other_user_in_assessment_planning_application) do
+    create(
+      :planning_application,
+      :in_assessment,
+      user: other_user,
+      local_authority:
+    )
+  end
+
   let!(:awaiting_determination_planning_application) do
     create(
       :planning_application,
@@ -306,7 +315,8 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           expect(page).to have_content("Your live applications")
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
           expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
-          expect(page).to have_content(in_assessment_planning_application.reference)
+          expect(page).to have_content(other_user_in_assessment_planning_application.reference)
+          expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
