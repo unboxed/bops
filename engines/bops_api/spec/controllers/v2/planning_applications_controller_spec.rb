@@ -77,11 +77,31 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
         application/priorApproval/largerExtension.json
         application/priorApproval/solarPanels.json
       ].each do |example|
-        it "#{example} can be submitted successfully" do
-          post :create, as: :json, body: examples_root.join(version, example).read
+        context "with the new schema url" do
+          let(:json) { examples_root.join(version, example).read }
 
-          expect(response).to have_http_status(:ok)
-          expect(response).to render_template("bops_api/v2/planning_applications/create")
+          it "#{example} can be submitted successfully" do
+            post :create, as: :json, body: json
+
+            expect(response).to have_http_status(:ok)
+            expect(response).to render_template("bops_api/v2/planning_applications/create")
+          end
+        end
+
+        context "with the old schema url" do
+          let(:json) do
+            examples_root.join(version, example).read.gsub(
+              "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.1/schemas/application.json",
+              "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.1/schema.json"
+            )
+          end
+
+          it "#{example} can be submitted successfully" do
+            post :create, as: :json, body: json
+
+            expect(response).to have_http_status(:ok)
+            expect(response).to render_template("bops_api/v2/planning_applications/create")
+          end
         end
       end
     end
