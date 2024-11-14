@@ -38,6 +38,7 @@ class AssessmentDetail < ApplicationRecord
   validates :reviewer_verdict, presence: true, if: :review_complete?
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
+  scope :current, -> { by_created_at_desc.group_by(&:category).values.map(&:first) }
 
   delegate :consultees, to: :planning_application
 

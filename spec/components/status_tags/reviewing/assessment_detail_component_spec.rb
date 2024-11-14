@@ -24,23 +24,6 @@ RSpec.describe StatusTags::Reviewing::AssessmentDetailComponent, type: :componen
     end
   end
 
-  context "when assessor has started but no completed assessment detail" do
-    let(:assessment_detail) do
-      create(
-        :assessment_detail,
-        :summary_of_work,
-        planning_application:,
-        assessment_status: :in_progress
-      )
-    end
-
-    it "renders 'In progress' status" do
-      render_inline(component)
-
-      expect(page).to have_content("In progress")
-    end
-  end
-
   context "when assessor has completed assessment detail" do
     let(:assessment_detail) do
       create(
@@ -51,10 +34,10 @@ RSpec.describe StatusTags::Reviewing::AssessmentDetailComponent, type: :componen
       )
     end
 
-    it "renders 'Complete' status" do
+    it "renders 'Not started' status" do
       render_inline(component)
 
-      expect(page).to have_content("Completed")
+      expect(page).to have_content("Not started")
     end
   end
 

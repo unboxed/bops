@@ -189,7 +189,7 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
 
           click_button "Update"
 
-          expect(page).to have_content "Text can't be blank"
+          expect(page).to have_content "You must add a comment"
 
           fill_in "Comment added on #{comment.created_at.to_date.to_fs} by",
             with: "This is a new comment now"

@@ -185,10 +185,10 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
 
         click_button("Save and come back later")
 
-        expect(page).to have_content("Existing comment can't be blank")
+        expect(page).to have_content("You must add a comment")
 
         within(row_with_content("D.1a")) do
-          expect(page).to have_content("can't be blank")
+          expect(page).to have_content("You must add a comment")
 
           expect(page).to have_field(
             "Comment added on 1 September 2022 by Alice Smith",

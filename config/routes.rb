@@ -263,7 +263,7 @@ Rails.application.routes.draw do
         namespace :review do
           root to: "base#index"
 
-          resource :assessment_details, only: %i[show edit update]
+          resources :assessment_details, only: %i[update]
 
           resource :conditions, only: %i[show update]
 

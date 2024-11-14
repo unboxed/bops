@@ -4,54 +4,38 @@ module PlanningApplications
   module Review
     class AssessmentDetailsController < BaseController
       before_action :set_consultation, if: :has_consultation?
-      before_action :set_assessment_detail_review
-
-      def show
-      end
-
-      def edit
-      end
+      before_action :set_assessment_detail
 
       def update
-        @form.attributes = review_assessment_details_params
-
-        if @form.save
+        if @assessment_detail.update(review_assessment_details_params)
           redirect_to(
             planning_application_review_tasks_path(@planning_application),
-            notice: I18n.t("review_assessment_details.saved")
+            notice: t(".success", category: @assessment_detail.category.humanize.downcase)
           )
         else
-          render :edit
+          flash.now[:alert] = @assessment_detail.errors.messages.values.flatten.join(", ")
+          set_planning_application_constraints
+          set_neighbour_review
+          render "planning_applications/review/tasks/index"
         end
       end
 
       private
 
-      def set_assessment_detail_review
-        @form = ReviewAssessmentDetailsForm.new(
-          planning_application: @planning_application
-        )
+      def set_assessment_detail
+        @assessment_detail = @planning_application.assessment_details.find(assessment_detail_id)
+      end
+
+      def assessment_detail_id
+        Integer(params[:id])
       end
 
       def review_assessment_details_params
-        params
-          .require(:review_assessment_details_form)
-          .permit(permitted_attributes)
-          .merge(status:)
-      end
-
-      def permitted_attributes
-        ReviewAssessmentDetailsForm::ASSESSMENT_DETAILS.map do |assessment_detail|
-          [
-            "#{assessment_detail}_reviewer_verdict",
-            "#{assessment_detail}_entry",
-            "#{assessment_detail}_comment_text"
-          ]
-        end.flatten
-      end
-
-      def status
-        mark_as_complete? ? :complete : :in_progress
+        params.require(:assessment_detail).permit(
+          :reviewer_verdict,
+          :entry,
+          comment_attributes: [:text]
+        ).merge(review_status: :complete)
       end
 
       def has_consultation?

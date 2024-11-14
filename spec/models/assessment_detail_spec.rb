@@ -106,6 +106,37 @@ RSpec.describe AssessmentDetail do
             expect(described_class.by_created_at_desc).to eq([send(:"#{category_type}2"), send(:"#{category_type}1"), send(:"#{category_type}3")])
           end
         end
+
+        describe ".current" do
+          let!(:summary_of_work_old) { create(:assessment_detail, :summary_of_work, created_at: 2.days.ago, planning_application:) }
+          let!(:summary_of_work_new) { create(:assessment_detail, :summary_of_work, created_at: 1.day.ago, planning_application:) }
+
+          let!(:site_description_old) { create(:assessment_detail, :site_description, created_at: 3.days.ago, planning_application:) }
+          let!(:site_description_new) { create(:assessment_detail, :site_description, created_at: Time.zone.now, planning_application:) }
+
+          let!(:consultation_summary_old) { create(:assessment_detail, :consultation_summary, created_at: 5.days.ago, planning_application:) }
+          let!(:consultation_summary_new) { create(:assessment_detail, :consultation_summary, created_at: 4.days.ago, planning_application:) }
+
+          let!(:additional_evidence_old) { create(:assessment_detail, :additional_evidence, created_at: 7.days.ago, planning_application:) }
+          let!(:additional_evidence_new) { create(:assessment_detail, :additional_evidence, created_at: 6.days.ago, planning_application:) }
+
+          let!(:neighbour_summary_old) { create(:assessment_detail, :neighbour_summary, created_at: 8.days.ago, planning_application:) }
+          let!(:neighbour_summary_new) { create(:assessment_detail, :neighbour_summary, created_at: 1.hour.ago, planning_application:) }
+
+          let!(:amenity_old) { create(:assessment_detail, :amenity, created_at: 9.days.ago, planning_application:) }
+          let!(:amenity_new) { create(:assessment_detail, :amenity, created_at: 2.hours.ago, planning_application:) }
+
+          it "returns the most recent assessment detail for each category" do
+            expect(described_class.current).to contain_exactly(
+              summary_of_work_new,
+              site_description_new,
+              consultation_summary_new,
+              additional_evidence_new,
+              neighbour_summary_new,
+              amenity_new
+            )
+          end
+        end
       end
     end
   end
