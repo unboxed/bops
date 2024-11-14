@@ -70,6 +70,7 @@ module BopsCore
 
       def default_attributes
         {
+          type: "button",
           aria: {expanded:},
           class: "bops-task-accordion__expand-all",
           data: {
@@ -127,6 +128,7 @@ module BopsCore
 
         def default_attributes
           {
+            type: "button",
             aria: {expanded:},
             class: "bops-task-accordion__section-expand",
             data: {
