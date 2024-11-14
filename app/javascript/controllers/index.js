@@ -70,6 +70,12 @@ application.register("show-more-text", ShowMoreTextController)
 import SubmitFormController from "./submit_form_controller.js"
 application.register("submit-form", SubmitFormController)
 
+import TaskAccordionController from "./task_accordion_controller.js"
+application.register("task-accordion", TaskAccordionController)
+
+import TaskAccordionSectionController from "./task_accordion_section_controller.js"
+application.register("task-accordion-section", TaskAccordionSectionController)
+
 import ToggleController from "./toggle_controller.js"
 application.register("toggle", ToggleController)
 

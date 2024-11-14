@@ -2,6 +2,13 @@
 
 require "view_component/test_helpers"
 
+RSpec.shared_context "helpers" do
+  let(:lookup_context) { ActionView::LookupContext.new(ActionController::Base.view_paths) }
+  let(:assigns) { {} }
+  let(:controller) { ActionController::Base.new }
+  let(:helper) { ActionView::Base.new(lookup_context, assigns, controller) }
+end
+
 RSpec.configure do |config|
   helpers = Module.new do
     def scopes
@@ -27,4 +34,5 @@ RSpec.configure do |config|
 
   config.include ViewComponent::TestHelpers, type: :component
   config.include helpers, type: :component
+  config.include_context "helpers", type: :component
 end
