@@ -108,6 +108,8 @@ class PlanningApplication < ApplicationRecord
   scope :by_application_type, -> { joins(:application_type).in_order_of(:name, ApplicationType::NAME_ORDER) }
   scope :by_status_order, -> { in_order_of(:status, PlanningApplication.aasm.states.map(&:name)) }
   scope :with_user, -> { preload(:user) }
+  scope :for_user, ->(user_id) { where(user_id: user_id) }
+  scope :for_null_users, -> { where(user_id: nil) }
   scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
   scope :prior_approvals, -> { joins(:application_type).where(application_type: {name: :prior_approval}) }
   scope :accepted, -> { where.not(status: "pending") }

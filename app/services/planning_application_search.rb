@@ -5,6 +5,7 @@ class PlanningApplicationSearch
   include ActiveModel::Attributes
 
   STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
+  REVIEWER_STATUSES = %w[awaiting_determination to_be_reviewed].freeze
 
   APPLICATION_TYPES = ApplicationType::NAME_ORDER
 
@@ -61,7 +62,7 @@ class PlanningApplicationSearch
   end
 
   def current_planning_applications
-    @current_planning_applications ||= view_mine? ? my_applications : all_applications
+    @current_planning_applications ||= exclude_others? ? my_applications : all_applications
   end
 
   private
@@ -70,16 +71,18 @@ class PlanningApplicationSearch
     params.permit(:view, :query, :sort_key, :direction, :submit, status: [], application_type: [])
   end
 
-  def view_mine?
-    exclude_others? && assessor?
-  end
-
   def all_applications_title_key
     exclude_others? ? :all_your_applications : :all_applications
   end
 
   def my_applications
-    all_applications.for_user_and_null_users(current_user.id)
+    if reviewer?
+      all_applications.for_user(current_user.id).or(
+        all_applications.where(status: REVIEWER_STATUSES + %w[determined]).for_null_users
+      )
+    else
+      all_applications.for_user_and_null_users(current_user.id)
+    end
   end
 
   def all_applications

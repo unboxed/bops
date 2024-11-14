@@ -675,6 +675,13 @@ RSpec.describe "Planning Application index page", type: :system do
       end
     end
 
+    it "Only Planning Applications that are owned by this user are present in this tab" do
+      within("#all") do
+        expect(page).to have_link(reviewer_planning_application_started.reference)
+        expect(page).not_to have_link(planning_application_started.reference)
+      end
+    end
+
     it "Only Planning Applications that are determined are present in this tab" do
       click_link "Closed"
 
