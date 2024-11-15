@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/bops_core/*": ["engines/bops_core/app/javascript/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "app/assets/builds",
+    "public/assets"
+  ]
+}
