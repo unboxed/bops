@@ -14,8 +14,10 @@ export default class extends Controller {
     this.element.classList.toggle(this.classNameValue)
 
     if (this.isExpanded) {
+      this.button.ariaExpanded = "true"
       this.buttonText.textContent = this.collapseTextValue
     } else {
+      this.button.ariaExpanded = "false"
       this.buttonText.textContent = this.expandTextValue
     }
 
@@ -26,7 +28,11 @@ export default class extends Controller {
     return this.element.classList.contains(this.classNameValue)
   }
 
+  get button() {
+    return this.element.querySelector("button")
+  }
+
   get buttonText() {
-    return this.element.querySelector("button span")
+    return this.button.querySelector("span")
   }
 }

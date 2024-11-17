@@ -16,20 +16,24 @@ export default class extends Controller {
         section.classList.remove(this.classNameValue)
       })
 
+      this.button.ariaExpanded = "false"
       this.buttonText.textContent = this.expandAllTextValue
     } else {
       this.sections.forEach((section) => {
         section.classList.add(this.classNameValue)
       })
 
+      this.button.ariaExpanded = "true"
       this.buttonText.textContent = this.collapseAllTextValue
     }
   }
 
   sectionToggled(event) {
     if (this.isExpanded) {
+      this.button.ariaExpanded = "true"
       this.buttonText.textContent = this.collapseAllTextValue
     } else {
+      this.button.ariaExpanded = "false"
       this.buttonText.textContent = this.expandAllTextValue
     }
   }
@@ -46,9 +50,11 @@ export default class extends Controller {
     })
   }
 
+  get button() {
+    return this.element.querySelector("div.bops-task-accordion-controls button")
+  }
+
   get buttonText() {
-    return this.element.querySelector(
-      "div.bops-task-accordion-controls button span",
-    )
+    return this.button.querySelector("span")
   }
 }
