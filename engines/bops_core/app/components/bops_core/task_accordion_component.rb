@@ -271,7 +271,6 @@ module BopsCore
       with_expand_all_button(expanded: expanded) if expand_all_button.blank?
     end
 
-
     def initialize(heading: {}, expanded: false, **html_attributes)
       @expanded = expanded
 
