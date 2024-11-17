@@ -32,10 +32,10 @@ module BopsCore
       def initialize(text:, level: 2, **html_attributes)
         fail(ArgumentError, "level must be 1-6") unless level.in?(1..6)
 
-        super(**html_attributes)
-
         @text = text
         @level = level
+
+        super(**html_attributes)
       end
 
       def call
@@ -55,9 +55,8 @@ module BopsCore
       attr_reader :expanded
 
       def initialize(expanded: false, **html_attributes)
-        super(**html_attributes)
-
         @expanded = expanded
+        super(**html_attributes)
       end
 
       def call
@@ -97,10 +96,10 @@ module BopsCore
         def initialize(text:, level: 3, **html_attributes)
           fail(ArgumentError, "level must be 1-6") unless level.in?(1..6)
 
-          super(**html_attributes)
-
           @text = text
           @level = level
+
+          super(**html_attributes)
         end
 
         def call
@@ -114,8 +113,8 @@ module BopsCore
         attr_reader :expanded
 
         def initialize(expanded: false, **html_attributes)
-          super(**html_attributes)
           @expanded = expanded
+          super(**html_attributes)
         end
 
         def call
@@ -222,13 +221,13 @@ module BopsCore
       end
 
       def initialize(heading: {}, expanded: false, **html_attributes)
-        super(**html_attributes)
-
         @expanded = expanded
 
         if heading.present?
           with_heading(**heading)
         end
+
+        super(**html_attributes)
       end
 
       private
@@ -272,14 +271,15 @@ module BopsCore
       with_expand_all_button(expanded: expanded) if expand_all_button.blank?
     end
 
-    def initialize(heading: {}, expanded: false, **html_attributes)
-      super(**html_attributes)
 
+    def initialize(heading: {}, expanded: false, **html_attributes)
       @expanded = expanded
 
       if heading.present?
         with_heading(**heading)
       end
+
+      super(**html_attributes)
     end
 
     private

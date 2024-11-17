@@ -69,6 +69,10 @@ RSpec.describe(BopsCore::TaskAccordionComponent, type: :component) do
 
         within "div.bops-task-accordion-controls" do
           expect(element).to have_button("Collapse all")
+
+          within "button" do
+            expect(element["aria-expanded"]).to eq("true")
+          end
         end
       end
 
@@ -88,6 +92,10 @@ RSpec.describe(BopsCore::TaskAccordionComponent, type: :component) do
 
           within "div.bops-task-accordion__section-controls" do
             expect(element).to have_button("Collapse")
+
+            within "button" do
+              expect(element["aria-expanded"]).to eq("true")
+            end
           end
         end
 
