@@ -263,7 +263,13 @@ module BopsCore
 
     renders_one :heading, "HeadingComponent"
     renders_one :expand_all_button, "ExpandAllButtonComponent"
-    renders_many :sections, "SectionComponent"
+    renders_many :sections, ->(heading: {}, expanded: false, **html_attributes, &block) do
+      if self.expanded
+        expanded = self.expanded
+      end
+
+      SectionComponent.new(heading:, expanded: self.expanded, **html_attributes, &block)
+    end
 
     attr_reader :expanded
 

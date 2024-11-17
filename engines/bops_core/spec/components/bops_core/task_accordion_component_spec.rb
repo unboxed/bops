@@ -13,7 +13,7 @@ RSpec.describe(BopsCore::TaskAccordionComponent, type: :component) do
 
   subject! do
     render_inline(described_class.new(**kwargs)) do |accordion|
-      accordion.with_section(expanded: true, id: "assessment-summaries") do |section|
+      accordion.with_section(id: "assessment-summaries") do |section|
         section.with_heading(text: "Assessment summaries")
 
         section.with_status(id: "assessment-summaries-status") do
