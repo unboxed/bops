@@ -32,10 +32,10 @@ module BopsCore
       def initialize(text:, level: 2, **html_attributes)
         fail(ArgumentError, "level must be 1-6") unless level.in?(1..6)
 
-        super(**html_attributes)
-
         @text = text
         @level = level
+
+        super(**html_attributes)
       end
 
       def call
@@ -55,9 +55,8 @@ module BopsCore
       attr_reader :expanded
 
       def initialize(expanded: false, **html_attributes)
-        super(**html_attributes)
-
         @expanded = expanded
+        super(**html_attributes)
       end
 
       def call
@@ -97,52 +96,14 @@ module BopsCore
         def initialize(text:, level: 3, **html_attributes)
           fail(ArgumentError, "level must be 1-6") unless level.in?(1..6)
 
-          super(**html_attributes)
-
           @text = text
           @level = level
+
+          super(**html_attributes)
         end
 
         def call
           content_tag("h#{level}", text, class: "bops-task-accordion__section-heading")
-        end
-      end
-
-      class ExpandButtonComponent < ViewComponent::Base
-        include HTMLAttributes
-
-        attr_reader :expanded
-
-        def initialize(expanded: false, **html_attributes)
-          super(**html_attributes)
-          @expanded = expanded
-        end
-
-        def call
-          tag.button(**html_attributes) do
-            tag.span(button_text, **text_attributes)
-          end
-        end
-
-        private
-
-        def default_attributes
-          {
-            type: "button",
-            aria: {expanded:},
-            class: "bops-task-accordion__section-expand",
-            data: {
-              action: "click->task-accordion-section#toggle"
-            }
-          }
-        end
-
-        def button_text
-          expanded ? "Collapse" : "Expand"
-        end
-
-        def text_attributes
-          {class: "bops-task-accordion__section__expand-text"}
         end
       end
 
@@ -191,11 +152,10 @@ module BopsCore
       erb_template <<~ERB
         <%= tag.div(**html_attributes) do %>
           <div class="bops-task-accordion__section-header">
-            <%= heading %>
-            <%= status %>
-            <div class="bops-task-accordion__section-controls">
-              <%= expand_button %>
-            </div>
+            <%= tag.button(**button_attributes) do %>
+              <%= heading %>
+              <%= status %>
+            <% end %>
           </div>
           <div class="bops-task-accordion__section-content">
             <% blocks.each do |block| %>
@@ -210,25 +170,20 @@ module BopsCore
       include HTMLAttributes
 
       renders_one :heading, "HeadingComponent"
-      renders_one :expand_button, "ExpandButtonComponent"
       renders_one :status, "StatusComponent"
       renders_one :footer, "FooterComponent"
       renders_many :blocks, "BlockComponent"
 
       attr_reader :expanded
 
-      def before_render
-        with_expand_button(expanded: expanded) if expand_button.blank?
-      end
-
       def initialize(heading: {}, expanded: false, **html_attributes)
-        super(**html_attributes)
-
         @expanded = expanded
 
         if heading.present?
           with_heading(**heading)
         end
+
+        super(**html_attributes)
       end
 
       private
@@ -241,6 +196,16 @@ module BopsCore
           ),
           data: {
             controller: "task-accordion-section"
+          }
+        }
+      end
+
+      def button_attributes
+        {
+          type: "button",
+          aria: {expanded:},
+          data: {
+            action: "click->task-accordion-section#toggle"
           }
         }
       end
@@ -264,7 +229,9 @@ module BopsCore
 
     renders_one :heading, "HeadingComponent"
     renders_one :expand_all_button, "ExpandAllButtonComponent"
-    renders_many :sections, "SectionComponent"
+    renders_many :sections, ->(heading: {}, expanded: false, **html_attributes, &block) do
+      SectionComponent.new(heading:, expanded: self.expanded || expanded, **html_attributes, &block)
+    end
 
     attr_reader :expanded
 
@@ -273,13 +240,13 @@ module BopsCore
     end
 
     def initialize(heading: {}, expanded: false, **html_attributes)
-      super(**html_attributes)
-
       @expanded = expanded
 
       if heading.present?
         with_heading(**heading)
       end
+
+      super(**html_attributes)
     end
 
     private
