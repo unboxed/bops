@@ -1,0 +1,20 @@
+<% content_for :page_title do %>
+  Appeal
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Appeal" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Appeal"}
+    ) %>
+
+<p class="govuk-body">
+  <% translation_key, link_path = appeal_link_and_translation(@planning_application) %>
+  <%= govuk_link_to t(translation_key), link_path %>
+</p>
+
+<%= render "documents", documents: @appeal.documents %>
+<%= render "history", appeal: @appeal %>

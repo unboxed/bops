@@ -19,6 +19,9 @@
 
   <div id="planning-application-statuses-tags">
     <p class="govuk-body">
+      <% if @planning_application.appeal&.persisted? %>
+        <%= @planning_application.appeal_status_tag %>
+      <% end %>
       <%= @planning_application.status_tag %>
       <% if @planning_application.in_progress? %>
         <span class="govuk-!-margin-left-1">
@@ -29,6 +32,13 @@
       <% if @planning_application.environment_impact_assessment_required? %>
         <span class="govuk-!-margin-left-1">
           <span class="govuk-tag govuk-tag--yellow">EIA</span>
+        </span>
+      <% end %>
+
+      <% if @planning_application.appeals? && controller_path == "planning_applications" %>
+        <% translation_key, link_path = appeal_link_and_translation(@planning_application) %>
+        <span class="govuk-!-margin-left-1">
+          <%= govuk_link_to t(translation_key), link_path %>
         </span>
       <% end %>
     </p>

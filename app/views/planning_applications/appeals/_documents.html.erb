@@ -1,0 +1,49 @@
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<section id="appeal-documents" class="govuk-!-margin-bottom-7">
+  <h2 class="govuk-heading-m govuk-!-margin-top-5">
+    Appeal documents
+  </h2>
+
+  <table class="govuk-table">
+    <tbody class="govuk-table__body">
+      <% documents.each do |document| %>
+        <%= next unless document.persisted? %>
+        <tr class="govuk-table__row" id="<%= dom_id(document) %>">
+          <td class="govuk-table__cell govuk-!-width-one-half">
+            <%= render(
+                  partial: "documents/document_row_image",
+                  locals: {
+                    planning_application: @planning_application,
+                    document: document,
+                    resize: "300x300",
+                    width: 180,
+                    height: 120,
+                    edit_and_archive: false
+                  }
+                ) %>
+          </td>
+
+          <td class="govuk-table__cell govuk-!-width-one-half">
+            <% document.tags.each do |tag| %>
+              <% if supporting_document_tag?(tag) %>
+                <p class="govuk-body">
+                  <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong><br>
+                </p>
+              <% end %>
+            <% end %>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              <% if document.numbers? %>
+                Reference: <strong><%= document.numbers %></strong>
+              <% else %>
+                File name: <strong><%= document.name %></strong>
+              <% end %>
+            </p>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              Date received: <strong><%= document.received_at_or_created %></strong>
+            </p>
+          </div>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

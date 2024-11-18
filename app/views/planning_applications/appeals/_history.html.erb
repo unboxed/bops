@@ -1,0 +1,37 @@
+<section id="appeal-reason">
+  <h2 class="govuk-heading-m">
+    Appeal reason
+  </h2>
+
+  <p class="govuk-body"><%= appeal.reason %></p>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<%= govuk_table(id: "appeals") do |table| %>
+  <% table.with_caption(size: "m", text: "Appeal history") %>
+
+  <% table.with_head do |head| %>
+    <% head.with_row do |row| %>
+      <% row.with_cell(text: "Date") %>
+      <% row.with_cell(text: "Activity") %>
+    <% end %>
+  <% end %>
+
+  <% table.with_body do |body| %>
+    <% Appeal.statuses.each do |status| %>
+      <% event_at = appeal.send(:"#{status}_at") %>
+      <% next if event_at.nil? %>
+
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: time_tag(event_at)) %>
+        <% if status == :determined %>
+          <% next unless appeal.determined? %>
+          <% row.with_cell(text: "Appeal #{appeal.decision.humanize.downcase}") %>
+        <% else %>
+          <% row.with_cell(text: "Appeal #{status.to_s.humanize.downcase}") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

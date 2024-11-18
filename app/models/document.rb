@@ -104,6 +104,8 @@ class Document < ApplicationRecord
     heritageStatement
     hydrologicalAssessment
     hydrologyReport
+    internal.appeal
+    internal.appealDecision
     internal.pressNotice
     internal.siteNotice
     internal.siteVisit
@@ -196,7 +198,7 @@ class Document < ApplicationRecord
   TAGS = PLAN_TAGS + EVIDENCE_TAGS + SUPPORTING_DOCUMENT_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
-  EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit].freeze
+  EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit Appeal].freeze
 
   attr_accessor :replacement_file
 

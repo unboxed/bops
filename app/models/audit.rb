@@ -20,6 +20,8 @@ class Audit < ApplicationRecord
   }
 
   enum :activity_type, %i[
+    appeal_decision
+    appeal_updated
     approved
     assessed
     assigned

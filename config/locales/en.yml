@@ -142,6 +142,31 @@ en:
             name:
               blank: Please enter a name for this API token
               taken: That name is already in use by an active token
+        appeal:
+          attributes:
+            decision:
+              blank: Choose a decision for the appeal
+            determined_at:
+              date_blank: Enter the date when the appeal was determined
+              date_invalid: The date the appeal was determined must be a valid date
+              date_not_on_or_after: The date the appeal was determined must be on or after the started at date
+              date_not_on_or_before: The date the appeal was determined must be on or before today
+            lodged_at:
+              date_blank: Enter the date when the appeal was lodged
+              date_invalid: The date the appeal was lodged must be a valid date
+              date_not_on_or_before: The date the appeal was lodged must be on or before today
+            reason:
+              blank: Enter a reason for the appeal
+            started_at:
+              date_blank: Enter the date when the appeal was started
+              date_invalid: The date the appeal was started must be a valid date
+              date_not_on_or_after: The date the appeal was started must be on or after the valid at date
+              date_not_on_or_before: The date the appeal was started must be on or before today
+            validated_at:
+              date_blank: Enter the date when the appeal was valid
+              date_invalid: The date the appeal was valid must be a valid date
+              date_not_on_or_after: The date the appeal was valid must be on or after the lodged at date
+              date_not_on_or_before: The date the appeal was valid must be on or before today
         application_type:
           attributes:
             category:
@@ -466,6 +491,8 @@ en:
       additional_document_validation_request_sent_post_validation:
         document: 'Sent: Post validation request (new document#%{args})'
         reason: 'Sent: Post validation request (new document#%{args})'
+      appeal_decision: Appeal decision
+      appeal_updated: Appeal updated
       approved: Recommendation approved
       archived: Document archived
       assessed: Recommendation assessed
@@ -891,6 +918,31 @@ en:
     successfully_created: Permitted development rights response was successfully created
     successfully_updated: Permitted development rights response was successfully updated
   planning_applications:
+    appeals:
+      create:
+        success: Application was successfully marked for appeal
+      decisions:
+        edit:
+          not_found: Appeal must be started before a decision can be made
+        update:
+          success: Appeal decision was successfully updated
+      new:
+        not_found: Appeals are not permitted for this application type
+      show:
+        not_found: Appeals are not permitted for this application type
+        update_appeal: Update appeal
+      starts:
+        edit:
+          not_found: Appeal must be valid before starting
+        update:
+          success: Appeal was successfully updated as started
+      update:
+        success: Appeal status was successfully updated
+      validates:
+        edit:
+          not_found: Appeal must be lodged before validating
+        update:
+          success: Appeal was successfully updated as valid
     assessment:
       assess_immunity_detail_permitted_development_right_form:
         four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
@@ -2084,6 +2136,8 @@ en:
         to_be_determined: To be determined
     proposal_header:
       application_number: 'Application number:'
+      mark_for_appeal: Mark for appeal
+      update_appeal: Update appeal
     review_task_breadcrumbs:
       application: Application
       home: Home

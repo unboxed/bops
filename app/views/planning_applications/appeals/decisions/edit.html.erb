@@ -1,0 +1,41 @@
+<% content_for :page_title do %>
+  Update appeal
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Update appeal" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Update appeal"}
+    ) %>
+
+<%= form_with model: @appeal, url: planning_application_appeal_decision_path(@planning_application) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+        :decision,
+        legend: {text: "Appeal decision", size: "s"}
+      ) do %>
+    <% Appeal.decisions.keys.each do |decision| %>
+      <%= form.govuk_radio_button :decision, decision, label: {text: decision.humanize} %>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_date_field :determined_at, legend: {text: "Date of decision", size: "s"} %>
+
+  <%= form.govuk_file_field :documents,
+        label: {size: "s", text: "Upload documents"},
+        hint: {text: "Provide supporting documents"},
+        accept: acceptable_file_mime_types,
+        multiple: true %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Save", class: "govuk-button" %>
+    <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
+  </div>
+<% end %>
+
+<%= render "planning_applications/appeals/documents", documents: @appeal.documents %>
+<%= render "planning_applications/appeals/history", appeal: @appeal %>
