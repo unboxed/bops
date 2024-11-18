@@ -1,7 +1,9 @@
-<%= form_with model: [@planning_application],
+<%= form_with model: @planning_application,
       url: planning_application_review_cil_liability_url(@planning_application),
       class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary %>
+
+  <%= render "planning_applications/review/cil_liability/audit_trail" %>
 
   <%= form.govuk_radio_buttons_fieldset(
         :cil_liability,
@@ -23,6 +25,5 @@
           data: {module: "govuk-button"},
           disabled: local_assigns.fetch(:disabled, false)
         ) %>
-    <%= govuk_button_link_to "Back", planning_application_review_tasks_path(@planning_application), secondary: true %>
   </div>
 <% end %>

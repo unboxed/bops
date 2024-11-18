@@ -3,18 +3,6 @@
 module PlanningApplications
   module Review
     class CilLiabilityController < BaseController
-      def edit
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def show
-        respond_to do |format|
-          format.html
-        end
-      end
-
       def update
         @previous_decision = @planning_application.cil_liable
         if @planning_application.update(cil_liability_params)
@@ -28,7 +16,7 @@ module PlanningApplications
       private
 
       def cil_liability_params
-        params.require(:planning_application).permit([:cil_liable])
+        params.permit(planning_application: [:cil_liable]).fetch(:planning_application, {})
       end
 
       def record_audit_for_cil_liability!
