@@ -72,6 +72,7 @@ RSpec.describe(BopsCore::TaskAccordionComponent, type: :component) do
 
           within "button" do
             expect(element["aria-expanded"]).to eq("true")
+            expect(element["type"]).to eq("button")
           end
         end
       end
@@ -81,20 +82,18 @@ RSpec.describe(BopsCore::TaskAccordionComponent, type: :component) do
         expect(element["data-controller"]).to eq("task-accordion-section")
 
         within "div.bops-task-accordion__section-header" do
-          within "h3.bops-task-accordion__section-heading" do
-            expect(element.text).to eq("Assessment summaries")
-          end
+          within "button" do
+            expect(element["aria-expanded"]).to eq("true")
+            expect(element["data-action"]).to eq("click->task-accordion-section#toggle")
+            expect(element["type"]).to eq("button")
 
-          within "div.bops-task-accordion__section-status" do
-            expect(element["id"]).to eq("assessment-summaries-status")
-            expect(element).to have_selector("strong.govuk-tag", text: "Not Started")
-          end
+            within "h3.bops-task-accordion__section-heading" do
+              expect(element.text).to eq("Assessment summaries")
+            end
 
-          within "div.bops-task-accordion__section-controls" do
-            expect(element).to have_button("Collapse")
-
-            within "button" do
-              expect(element["aria-expanded"]).to eq("true")
+            within "div.bops-task-accordion__section-status" do
+              expect(element["id"]).to eq("assessment-summaries-status")
+              expect(element).to have_selector("strong.govuk-tag", text: "Not Started")
             end
           end
         end

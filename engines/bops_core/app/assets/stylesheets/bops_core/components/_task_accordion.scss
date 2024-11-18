@@ -49,53 +49,30 @@
 
 .bops-task-accordion__section {
   border: 1px solid $govuk-border-colour;
-  padding: govuk-spacing(3);
   margin-top: govuk-spacing(3);
 
   &-content {
     display: none;
-    margin-top: govuk-spacing(3);
+    margin-top: govuk-spacing(2);
+    margin-bottom: govuk-spacing(3);
   }
 
   &-header {
-    display: flex;
     align-items: center;
     margin: 0;
-  }
 
-  &-heading {
-    @include govuk-font($size: 19, $weight: bold);
-
-    flex-grow: 1;
-    margin: 0;
-  }
-
-  &-status {
-    flex-grow: 0;
-  }
-
-  &-controls {
-    flex-grow: 0;
-    margin-left: govuk-spacing(3);
-
-    button {
-      @include govuk-font($size: 19);
-
-      box-sizing: border-box;
-      display: block;
-
-      border-width: 0;
-      margin: 0;
-      padding: 0;
-
-      position: relative;
-
-      // Set size using rems to make the icon scale with text if user resizes text in their browser
-      width: govuk-px-to-rem(20px);
-      height: govuk-px-to-rem(20px);
-
-      color: $govuk-text-colour;
+    & > button {
       background: none;
+      box-sizing: border-box;
+      border: none;
+      color: $govuk-link-colour;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: govuk-spacing(3);
+      text-align: left;
+      width: 100%;
+      position: relative;
 
       cursor: pointer;
       -webkit-appearance: none;
@@ -106,46 +83,75 @@
         border: 0;
       }
 
+      &:hover {
+        background-color: govuk-colour("light-grey");
+        color: $govuk-text-colour;
+
+        &:before, &:after {
+          border-color: $govuk-text-colour;
+        }
+      }
+
+      &:focus {
+        background-color: $govuk-focus-colour;
+        color: $govuk-text-colour;
+        outline: none;
+
+        &::before, &:after {
+          border-color: $govuk-text-colour;
+        }
+
+        & > .bops-task-accordion__section-heading {
+          box-shadow: 0 4px $govuk-text-colour;
+        }
+      }
+
       &:before {
         content: "";
         box-sizing: border-box;
         display: block;
-        border-top: govuk-px-to-rem(2px) solid $govuk-text-colour;
-        border-bottom: govuk-px-to-rem(2px) solid $govuk-text-colour;
+        border-bottom: govuk-px-to-rem(3px) solid $govuk-link-colour;
         position: absolute;
-        width: govuk-px-to-rem(16px);
-        top: govuk-px-to-rem(8px);
-        left: govuk-px-to-rem(2px);
+        width: govuk-px-to-rem(14px);
+        top: govuk-px-to-rem(31px);
+        left: govuk-px-to-rem(11px);
+        transform-origin: bottom right;
+        transform: rotate(45deg);
       }
 
       &:after {
         content: "";
         box-sizing: border-box;
         display: block;
-        border-top: govuk-px-to-rem(2px) solid $govuk-text-colour;
-        border-bottom: govuk-px-to-rem(2px) solid $govuk-text-colour;
+        border-bottom: govuk-px-to-rem(3px) solid $govuk-link-colour;
         position: absolute;
-        width: govuk-px-to-rem(16px);
-        top: govuk-px-to-rem(8px);
-        left: govuk-px-to-rem(2px);
-        transform: rotate(90deg);
-      }
-
-      &:focus {
-        outline: $govuk-focus-width solid $govuk-focus-colour;
+        width: govuk-px-to-rem(14px);
+        top: govuk-px-to-rem(31px);
+        left: govuk-px-to-rem(25px);
+        transform-origin: bottom left;
+        transform: rotate(-45deg);
       }
     }
+  }
 
-    & .bops-task-accordion__section__expand-text {
-      @include govuk-visually-hidden;
-    }
+  &-heading {
+    @include govuk-font($size: 19, $weight: bold);
+
+    flex-grow: 0;
+    margin: 0;
+    margin-left: govuk-spacing(6);
+  }
+
+  &-status {
+    flex-grow: 0;
   }
 
   &-block {
     border: 1px solid $govuk-border-colour;
     background-color: govuk-colour("light-grey");
     padding: govuk-spacing(3);
-    margin-bottom: govuk-spacing(3);
+    margin: govuk-spacing(3);
+    margin-top: govuk-spacing(1);
 
     & > :first-child {
       margin-top: 0;
@@ -160,11 +166,12 @@
     border: none;
     border-bottom: 1px solid $govuk-border-colour;
     height: 0px;
-    margin-top: govuk-spacing(3);
-    margin-bottom: govuk-spacing(3);
+    margin: govuk-spacing(3);
   }
 
   &-footer {
+    margin: govuk-spacing(3);
+
     & > :first-child {
       margin-top: 0;
     }
@@ -177,16 +184,27 @@
 
 .bops-task-accordion__section--expanded {
   .bops-task-accordion__section {
-    &-content {
-      display: block;
-    }
 
-    &-controls {
+    &-header {
       & > button {
+        &:before {
+          top: govuk-px-to-rem(21px);
+          left: govuk-px-to-rem(11px);
+          transform-origin: top right;
+          transform: rotate(-45deg);
+        }
+
         &:after {
-          display: none;
+          top: govuk-px-to-rem(21px);
+          left: govuk-px-to-rem(25px);
+          transform-origin: top left;
+          transform: rotate(45deg);
         }
       }
+    }
+
+    &-content {
+      display: block;
     }
   }
 }
