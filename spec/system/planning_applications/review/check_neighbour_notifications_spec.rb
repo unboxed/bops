@@ -44,22 +44,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "you can accept that the assessor has notified the correct people" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Check neighbour notifications",
-          with: "Not started"
-        )
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Check neighbour notifications"
+        click_button "Check neighbour notifications"
 
-        expect(page).to have_content "Check neighbour notifications"
-
-        expect(page).to have_content("60-62, Commercial Street")
-
-        expect(page).to have_content("the consultation period for this application is 21 days")
-        expect(page).to have_content("the last letter was sent 21 days ago")
-        expect(page).to have_content("the consultation expiry date for this application is #{consultation.end_date.to_date.to_fs}")
-
-        within_fieldset("Do you accept that notifications have been completed within the correct period?") do
+        within_fieldset("Do you accept that notifications have been completed?") do
           choose "Accept"
         end
 
@@ -67,26 +59,23 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
-        expect(page).to have_list_item_for(
-          "Check neighbour notifications",
-          with: "Completed"
-        )
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Completed")
+        end
       end
 
       it "you can send it back for assessment", :capybara do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Check neighbour notifications",
-          with: "Not started"
-        )
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Check neighbour notifications"
+        click_button "Check neighbour notifications"
 
-        expect(page).to have_content "Check neighbour notifications"
-
-        within_fieldset("Do you accept that notifications have been completed within the correct period?") do
-          choose "Return to officer with comment"
+        within_fieldset("Do you accept that notifications have been completed?") do
+          choose "Return with comments"
 
           fill_in "Explain why notifications are incomplete.", with: "Notify more people"
         end
@@ -95,10 +84,10 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
-        expect(page).to have_list_item_for(
-          "Check neighbour notifications",
-          with: "Awaiting changes"
-        )
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Awaiting changes")
+        end
 
         click_link "Sign off recommendation"
 
@@ -143,19 +132,35 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "shows errors" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        click_link "Check neighbour notifications"
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Not started")
+        end
 
-        expect(page).to have_content "Check neighbour notifications"
-
-        click_button "Save and mark as complete"
-
-        expect(page).to have_content "Select an option"
-
-        choose "Return to officer with comment"
+        click_button "Check neighbour notifications"
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_content "Explain to the case officer why"
+        within(".govuk-notification-banner--alert") do
+          expect(page).to have_content("There is a problem")
+          expect(page).to have_content("Select an option")
+        end
+
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Not started")
+        end
+
+        click_button "Check neighbour notifications"
+
+        choose "Return with comments"
+
+        click_button "Save and mark as complete"
+
+        within(".govuk-notification-banner--alert") do
+          expect(page).to have_content("There is a problem")
+          expect(page).to have_content("Explain to the case officer why")
+        end
       end
     end
 
@@ -163,21 +168,15 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "you can accept that the assessor has notified the correct people" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Check neighbour notifications",
-          with: "Not started"
-        )
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Check neighbour notifications"
+        click_button "Check neighbour notifications"
 
-        expect(page).to have_content "Check neighbour notifications"
-
-        expect(page).to have_content("60-62, Commercial Street")
-
-        expect(page).to have_content("The consultation has not been started")
-
-        within_fieldset("Do you accept that notifications have been completed within the correct period?") do
-          choose "Return to officer with comment"
+        within_fieldset("Do you accept that notifications have been completed?") do
+          choose "Return with comments"
           fill_in "Explain why notifications are incomplete", with: "People need to be consulted"
         end
 
@@ -185,10 +184,10 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
-        expect(page).to have_list_item_for(
-          "Check neighbour notifications",
-          with: "Awaiting changes"
-        )
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Awaiting changes")
+        end
       end
     end
 
@@ -203,22 +202,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "you can't accept or reject the officer's work" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Check neighbour notifications",
-          with: "Not started"
-        )
+        within("#check-neighbour-notifications") do
+          expect(page).to have_content("Check neighbour notifications")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Check neighbour notifications"
+        click_button "Check neighbour notifications"
 
-        expect(page).to have_content "Check neighbour notifications"
-
-        expect(page).to have_content("60-62, Commercial Street")
-
-        expect(page).to have_content("the consultation period for this application is 21 days")
-        expect(page).to have_content("the last letter was sent 1 days ago")
-        expect(page).to have_content("the consultation expiry date for this application is #{consultation.end_date.to_date.to_fs}")
-
-        within_fieldset("Do you accept that notifications have been completed within the correct period?") do
+        within_fieldset("Do you accept that notifications have been completed?") do
           choose "Accept"
         end
 
