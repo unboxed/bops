@@ -48,7 +48,7 @@
                   batch.neighbour_letters.each do |letter|
                     body.with_row do |row|
                       row.with_cell(text: letter.neighbour.address)
-                      row.with_cell(text: "Post")
+                      row.with_cell(text: govuk_tag(text: "post", colour: "orange"))
                     end
                   end
                 end
