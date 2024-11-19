@@ -17,7 +17,8 @@ module PlanningApplications
             if @committee_decision.update(committee_decision_params)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              render :edit
+              flash.now[:alert] = @committee_decision.errors.messages.values.flatten.join(", ")
+              render_review_tasks
             end
           end
         end

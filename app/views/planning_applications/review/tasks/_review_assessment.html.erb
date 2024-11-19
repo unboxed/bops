@@ -13,4 +13,9 @@
       <%= render(partial: "planning_applications/review/cil_liability/form") %>
     <% end %>
   <% end %>
+
+  <% if @planning_application.committee_decision&.current_review %>
+    <%= render "planning_applications/review/tasks/recommendation_to_committee",
+          committee_decision: @planning_application.committee_decision, accordion: accordion %>
+  <% end %>
 <% end %>

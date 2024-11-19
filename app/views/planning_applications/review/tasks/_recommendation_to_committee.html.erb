@@ -1,0 +1,87 @@
+<%= accordion.with_section(id: "recommendation_to_committee_section", expanded: committee_decision.errors.any?) do |section| %>
+  <% section.with_heading(text: "Recommendation to committee") %>
+
+  <% section.with_status do %>
+    <%= render(StatusTags::ReviewComponent.new(review_item: committee_decision.current_review)) %>
+  <% end %>
+
+  <% section.with_block(id: "recommendation_to_committee_block") do %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">
+          Assessor recommendation
+        </h2>
+
+        <% if committee_decision.recommend? %>
+          <p class="govuk-body">
+            The case officer has marked this application as requiring decision by Committee for the following reasons:
+          </p>
+
+          <h3 class="govuk-heading-s">
+            Reasons selected:
+          </h3>
+
+          <ul class="govuk-list">
+            <% if committee_decision.reasons.present? %>
+              <% committee_decision.reasons.each do |reason| %>
+                <li><%= reason %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="govuk-body">
+            The case officer has marked this application as not requiring decision by Committee.
+          </p>
+        <% end %>
+
+        <h3 class="govuk-heading-s">
+          Submitted recommendation
+        </h3>
+        <p class="govuk-body">
+          by <%= @planning_application.user&.name %>, <%= @planning_application.in_assessment_at.to_fs %>
+        </p>
+
+        <%= render(ReviewerCommentComponent.new(comment: committee_decision.current_review)) %>
+      </div>
+    </div>
+  <% end %>
+
+  <% section.with_footer(id: "recommendation_to_committee_footer") do %>
+    <%= form_with(
+          model: committee_decision,
+          url: planning_application_review_committee_decision_path(@planning_application, committee_decision)
+        ) do |form| %>
+
+        <%= form.govuk_error_summary %>
+
+        <%= form.fields_for :reviews_attributes, committee_decision.current_review do |review_form| %>
+        <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Do you agree with the recommendation?"} do %>
+          <%= review_form.govuk_radio_button(
+                :action, :accepted, checked: committee_decision.current_review.accepted?, label: {text: "Yes"}
+              ) %>
+
+          <%= review_form.govuk_radio_button(
+                :action, :rejected, checked: committee_decision.current_review.rejected?, label: {text: "Return with comments"}
+              ) do %>
+            <div class="govuk-form-group <%= "govuk-form-group--error" if committee_decision.errors.any? %>">
+              <% if committee_decision.errors.any? %>
+                <p class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> <%= committee_decision.errors["reviews.comment"].first %>
+                </p>
+              <% end %>
+              <%= review_form.govuk_text_area(
+                    :comment,
+                    value: committee_decision.current_review.comment,
+                    rows: 6,
+                    label: {text: "Explain why you do not agree with the recommendation"},
+                    class: "govuk-textarea #{"govuk-textarea--error" if committee_decision.errors.any?}"
+                  ) %>
+              <% end %>
+            </div>
+        <% end %>
+      <% end %>
+
+      <%= form.submit "Save and mark as complete", class: "govuk-button" %>
+    <% end %>
+  <% end %>
+<% end %>

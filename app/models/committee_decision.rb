@@ -7,8 +7,10 @@ class CommitteeDecision < ApplicationRecord
 
   validates :recommend, exclusion: {in: [nil]}
 
-  validates :date_of_committee, :location, :link, :time, :late_comments_deadline,
-    presence: {if: -> { review_complete? && planning_application_awaiting_determination? && recommend? }}
+  with_options on: :notification do
+    validates :date_of_committee, :location, :link, :time, :late_comments_deadline,
+      presence: {if: -> { review_complete? && planning_application_awaiting_determination? && recommend? }}
+  end
 
   validate :ensure_planning_application_not_closed_or_cancelled
 
@@ -84,6 +86,10 @@ class CommitteeDecision < ApplicationRecord
       late_comments_deadline.present?
   end
 
+  def rejected_review?
+    current_review.rejected?
+  end
+
   private
 
   def assigned_officer
@@ -110,7 +116,7 @@ class CommitteeDecision < ApplicationRecord
   def should_create_review?
     return if current_review.nil?
 
-    recommend_changed? && current_review.to_be_reviewed? && current_review.review_complete?
+    (reasons_changed? || recommend_changed?) && current_review.to_be_reviewed? && current_review.review_complete?
   end
 
   def create_review

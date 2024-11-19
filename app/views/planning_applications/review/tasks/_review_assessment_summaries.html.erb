@@ -1,7 +1,7 @@
 <%= bops_task_accordion do |accordion| %>
   <% accordion.with_heading(text: "Review assessment summaries") %>
 
-  <% planning_application.assessment_details.current.each do |assessment_detail| %>
+  <% AssessmentDetail.sorted_by_category(planning_application.assessment_details.current).each do |assessment_detail| %>
     <% next if assessment_detail.category == "check_publicity" %>
     <% form_model = (@assessment_detail&.id == assessment_detail.id) ? @assessment_detail : assessment_detail %>
 
@@ -34,7 +34,7 @@
               View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
             </p>
             <p class="govuk-body">
-              <%= govuk_link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application) %>
+              <%= govuk_link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application), new_tab: true %>
             </p>
           <% else %>
             <p class="govuk-body">
