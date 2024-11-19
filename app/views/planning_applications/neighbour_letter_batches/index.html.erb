@@ -40,7 +40,7 @@
                 table.with_head do |head|
                   head.with_row do |row|
                     row.with_cell(text: "Address")
-                    row.with_cell(text: "Sent by")
+                    row.with_cell(text: "Sent by", numeric: true)
                   end
                 end
 
@@ -48,7 +48,7 @@
                   batch.neighbour_letters.each do |letter|
                     body.with_row do |row|
                       row.with_cell(text: letter.neighbour.address)
-                      row.with_cell(text: govuk_tag(text: "post", colour: "orange"))
+                      row.with_cell(text: govuk_tag(text: "post", colour: "orange"), numeric: true)
                     end
                   end
                 end
