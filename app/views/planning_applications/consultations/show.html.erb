@@ -120,6 +120,12 @@
         </li>
       <% end %>
     </ol>
+
+    <h2 class="govuk-heading-m">Details</h2>
+    <%= govuk_accordion do |accordion|
+          accordion.with_section(heading_text: "Consultation audit log") { govuk_link_to "View copy of neighbour letters", planning_application_consultation_neighbour_letter_batches_path(@planning_application) }
+        end %>
+
     <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
   </div>
 </div>
