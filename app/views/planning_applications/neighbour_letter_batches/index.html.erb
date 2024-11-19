@@ -14,7 +14,9 @@
 
 <h3 class="govuk-heading-s">Letters sent to neighbours</h3>
 
-<%= govuk_link_to "Download CSV", planning_application_consultation_neighbour_letter_batches_path(@planning_application, format: "csv") %>
+<p class="govuk-body govuk-!-margin-bottom-6">
+  <%= govuk_link_to "Download all as CSV", planning_application_consultation_neighbour_letter_batches_path(@planning_application, format: "csv") %>
+</p>
 
 <% if @planning_application.consultation.neighbour_letter_batches.present? %>
   <%= bops_task_accordion(id: "neighbour-letter-batches") do |accordion| %>

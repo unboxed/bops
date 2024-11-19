@@ -83,7 +83,7 @@ RSpec.describe "View history of letters to neighbours", type: :system do
     toggle_accordion "Consultation audit log"
     click_on "View copy of neighbour letters"
 
-    click_on "Download CSV"
+    click_on "Download all as CSV"
     expect(page.html.lines.first.encode("utf-8")).to eq(%("address","batch","date"\n))
     neighbours.each do |neighbour|
       expect(page).to have_content(neighbour.address)
