@@ -206,7 +206,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
 
           click_button("Update")
 
-          expect(page).to have_content("Text can't be blank")
+          expect(page).to have_content("You must add a comment")
 
           fill_in(
             "Comment added on 15 October 2020 by Chuck The Assessor",

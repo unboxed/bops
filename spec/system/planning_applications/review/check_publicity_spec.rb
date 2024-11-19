@@ -216,13 +216,13 @@ RSpec.describe "checking publicity" do
         click_button "Save and mark as complete"
 
         expect(page).to have_content "Determine whether this is correct"
-        expect(page).not_to have_content "Comment text can't be blank"
+        expect(page).not_to have_content "You must add a comment"
 
         choose "Return to officer with comment"
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_content "Comment text can't be blank"
+        expect(page).to have_content "You must add a comment"
       end
     end
   end
@@ -414,13 +414,13 @@ RSpec.describe "checking publicity" do
       click_button "Save and mark as complete"
 
       expect(page).to have_content "Determine whether this is correct"
-      expect(page).not_to have_content "Comment text can't be blank"
+      expect(page).not_to have_content "You must add a comment"
 
       choose "Return to officer with comment"
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_content "Comment text can't be blank"
+      expect(page).to have_content "You must add a comment"
     end
   end
 end

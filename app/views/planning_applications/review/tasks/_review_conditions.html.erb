@@ -64,10 +64,10 @@
     <% end %>
   <% end %>
 
-  <%= render partial: "policy_classes", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
+  <%= render partial: "planning_applications/review/tasks/policy_classes", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
 
   <% if @planning_application.application_type.assess_against_policies? %>
-    <%= render partial: "policy_classes_new", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
+    <%= render partial: "planning_applications/review/tasks/policy_classes_new", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
   <% end %>
 
   <% if @planning_application.committee_decision&.current_review %>
@@ -78,7 +78,7 @@
         ) %>
   <% end %>
 
-  <%= render "sign_off_recommendation" %>
+  <%= render "planning_applications/review/tasks/sign_off_recommendation" %>
 
   <% if @planning_application.committee_decision.present? && @planning_application.committee_decision.recommend? %>
     <%= render(

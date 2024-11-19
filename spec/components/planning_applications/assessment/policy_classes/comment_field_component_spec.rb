@@ -71,7 +71,7 @@ RSpec.describe PlanningApplications::Assessment::PolicyClasses::CommentFieldComp
     end
 
     it "renders error message" do
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_content("You must add a comment")
     end
 
     it "renders field with submitted blank text" do

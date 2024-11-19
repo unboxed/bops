@@ -21,6 +21,14 @@ module PlanningApplications
         redirect_to planning_application_path(@planning_application),
           alert: t("planning_applications.review.base.not_validated")
       end
+
+      def set_neighbour_review
+        @neighbour_review = @planning_application.consultation&.neighbour_review || @planning_application.consultation&.reviews&.new
+      end
+
+      def set_planning_application_constraints
+        @planning_application_constraints = @planning_application.planning_application_constraints
+      end
     end
   end
 end

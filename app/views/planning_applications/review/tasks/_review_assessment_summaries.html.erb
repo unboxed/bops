@@ -1,0 +1,114 @@
+<%= bops_task_accordion do |accordion| %>
+  <% accordion.with_heading(text: "Review assessment summaries") %>
+
+  <% planning_application.assessment_details.current.each do |assessment_detail| %>
+    <% next if assessment_detail.category == "check_publicity" %>
+    <% form_model = (@assessment_detail&.id == assessment_detail.id) ? @assessment_detail : assessment_detail %>
+
+    <%= accordion.with_section(expanded: form_model.errors.any?, id: "#{assessment_detail.category}_section") do |section| %>
+      <% section.with_heading(text: t(".#{assessment_detail.category}")) %>
+
+      <% section.with_status do %>
+        <%= render(
+              StatusTags::Reviewing::AssessmentDetailComponent.new(
+                planning_application: planning_application,
+                assessment_detail: assessment_detail
+              )
+            ) %>
+      <% end %>
+
+      <% section.with_block(id: "#{assessment_detail.category}_block") do %>
+        <% if assessment_detail.category == "site_description" %>
+          <p class="govuk-body"><%= govuk_link_to "View site on Google Maps", map_link(@planning_application.full_address), new_tab: true %></p>
+        <% end %>
+        <% if assessment_detail.category == "consultation_summary" && @consultation&.consultees&.any? %>
+          <%= render(
+                partial: "consultees",
+                locals: {consultees: @consultation&.consultees}
+              ) %>
+          <h3 class="govuk-heading-s"><%= t(".summary_of_consultee") %></h3>
+        <% end %>
+        <% if assessment_detail.category == "amenity" || assessment_detail.category == "neighbour_summary" %>
+          <% if consultation = @planning_application.consultation %>
+            <p class="govuk-body">
+              View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
+            </p>
+            <p class="govuk-body">
+              <%= govuk_link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application) %>
+            </p>
+          <% else %>
+            <p class="govuk-body">
+              There is no existing consultation for this planning application.
+            </p>
+          <% end %>
+        <% end %>
+
+        <%= render(
+              FormattedContentComponent.new(
+                text: assessment_detail.entry,
+                classname: "govuk-body"
+              )
+            ) %>
+
+        <%= render(
+              Reviewing::AssessmentDetails::PreviousSummariesComponent.new(
+                planning_application: planning_application,
+                category: assessment_detail.category
+              )
+            ) %>
+
+        <%= govuk_link_to "Edit", edit_planning_application_assessment_assessment_detail_path(
+              @planning_application, assessment_detail, category: assessment_detail.category
+            ) %>
+      <% end %>
+
+      <% section.with_footer(id: "#{assessment_detail.category}_footer") do %>
+        <%= form_with(
+              model: form_model,
+              url: planning_application_review_assessment_detail_path(planning_application, assessment_detail)
+            ) do |form| %>
+          <%= form.govuk_error_summary %>
+
+          <%= form.govuk_radio_buttons_fieldset(
+                :reviewer_verdict, legend: nil, small: true
+              ) do %>
+            <%= form.govuk_radio_button(
+                  :reviewer_verdict,
+                  :accepted,
+                  label: {text: t(".accept")},
+                  aria: {controls: "accepted-comment-#{assessment_detail.id}"}
+                ) %>
+            <%= form.govuk_radio_button(
+                  :reviewer_verdict,
+                  :rejected,
+                  label: {text: t(".return")},
+                  aria: {controls: "comment-#{assessment_detail.id}"}
+                ) %>
+
+            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="<%= "comment-#{assessment_detail.id}" %>">
+              <div class="govuk-form-group <%= "govuk-form-group--error" if form_model.errors.any? %>">
+                <% if form_model.errors.any? %>
+                  <p class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> <%= form_model.errors["comment.text"].first %>
+                  </p>
+                <% end %>
+                <%= form.fields_for :comment, assessment_detail.existing_or_new_comment do |comment_form| %>
+                  <%= comment_form.govuk_text_area(
+                        :text,
+                        rows: 3,
+                        class: "govuk-textarea #{"govuk-textarea--error" if form_model.errors.any?}",
+                        label: {text: t(".add_a_comment")}
+                      ) %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <%= form.submit "Save and mark as complete", class: "govuk-button" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= govuk_button_link_to "Back", planning_application_review_tasks_path(@planning_application), secondary: true %>
+<% end %>

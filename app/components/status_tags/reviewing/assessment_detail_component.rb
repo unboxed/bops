@@ -17,16 +17,14 @@ module StatusTags
       attr_reader :planning_application, :assessment_detail
 
       def status
-        if assessment_detail.assessment_not_started?
-          :not_started
-        elsif assessment_detail_update_required?(assessment_detail)
+        if assessment_detail_update_required?(assessment_detail)
           :awaiting_changes
         elsif updated?
           :updated
-        elsif assessment_detail.assessment_complete?
+        elsif assessment_detail.review_status.nil?
+          :not_started
+        elsif assessment_detail.review_complete?
           :complete
-        elsif assessment_detail.assessment_in_progress?
-          :in_progress
         end
       end
 

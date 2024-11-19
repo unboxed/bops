@@ -69,7 +69,7 @@
               :"#{tag}",
               label: {text: "Summary of #{tag.to_s.humanize.downcase} comments", size: "m"},
               rows: 10,
-              value: (@assessment_detail.entry[/(?<=#{tag.to_s.humanize}:)(.*)/] unless @assessment_detail.entry.nil?)
+              value: @rejected_assessment_detail&.entry&.[](/(?<=#{tag.to_s.humanize}:)(.*)/)
             ) %>
       <% end %>
 
