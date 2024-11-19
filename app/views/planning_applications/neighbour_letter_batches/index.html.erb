@@ -28,7 +28,14 @@
           Date sent: <%= batch.created_at.to_date.to_fs %>
         <% end %>
         <% section.with_footer do %>
-          <%= govuk_link_to "Download letter", planning_application_consultation_neighbour_letter_batch_path(@planning_application, batch, format: "pdf") %>
+          <div class="display-flex" style="justify-content: space-between">
+            <p class="govuk-body">
+              Response period: <%= @planning_application.consultation.consultee_response_period %> days
+            </p>
+            <p class="govuk-body">
+              <%= govuk_link_to "Download letter", planning_application_consultation_neighbour_letter_batch_path(@planning_application, batch, format: "pdf") %>
+            </p>
+          </div>
           <%= govuk_table do |table|
                 table.with_head do |head|
                   head.with_row do |row|
