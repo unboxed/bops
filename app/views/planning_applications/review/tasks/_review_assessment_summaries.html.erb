@@ -23,7 +23,7 @@
         <% end %>
         <% if assessment_detail.category == "consultation_summary" && @consultation&.consultees&.any? %>
           <%= render(
-                partial: "consultees",
+                partial: "planning_applications/review/tasks/consultees",
                 locals: {consultees: @consultation&.consultees}
               ) %>
           <h3 class="govuk-heading-s"><%= t(".summary_of_consultee") %></h3>
