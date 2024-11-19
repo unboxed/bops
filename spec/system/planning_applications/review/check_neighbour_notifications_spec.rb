@@ -55,7 +55,9 @@ RSpec.describe "Check neighbour notifications", type: :system do
           choose "Accept"
         end
 
-        click_button "Save and mark as complete"
+        within "#check-neighbour-notifications" do
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
@@ -80,7 +82,9 @@ RSpec.describe "Check neighbour notifications", type: :system do
           fill_in "Explain why notifications are incomplete.", with: "Notify more people"
         end
 
-        click_button "Save and mark as complete"
+        within "#check-neighbour-notifications" do
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
@@ -139,7 +143,9 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         click_button "Check neighbour notifications"
 
-        click_button "Save and mark as complete"
+        within "#check-neighbour-notifications" do
+          click_button "Save and mark as complete"
+        end
 
         within(".govuk-notification-banner--alert") do
           expect(page).to have_content("There is a problem")
@@ -155,7 +161,9 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         choose "Return with comments"
 
-        click_button "Save and mark as complete"
+        within "#check-neighbour-notifications" do
+          click_button "Save and mark as complete"
+        end
 
         within(".govuk-notification-banner--alert") do
           expect(page).to have_content("There is a problem")
@@ -180,7 +188,9 @@ RSpec.describe "Check neighbour notifications", type: :system do
           fill_in "Explain why notifications are incomplete", with: "People need to be consulted"
         end
 
-        click_button "Save and mark as complete"
+        within "#check-neighbour-notifications" do
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
@@ -213,7 +223,9 @@ RSpec.describe "Check neighbour notifications", type: :system do
           choose "Accept"
         end
 
-        click_button "Save and mark as complete"
+        within "#check-neighbour-notifications" do
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Consultation expiry date must be in the past. You cannot mark this as complete until the consultation period is complete.")
       end
