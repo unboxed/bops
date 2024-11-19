@@ -17,27 +17,34 @@
 <%= govuk_link_to "Download CSV", planning_application_consultation_neighbour_letter_batches_path(@planning_application, format: "csv") %>
 
 <% if @planning_application.consultation.neighbour_letter_batches.present? %>
-  <% @planning_application.consultation.neighbour_letter_batches.each_with_index do |batch, i| %>
-    <%= govuk_accordion do |accordion| %>
-      <% accordion.with_section(heading_text: "Neighbour letter #{i + 1}", summary_text: "Date sent: #{batch.created_at.to_date.to_fs}") do %>
-        <%= govuk_link_to "Download letter", planning_application_consultation_neighbour_letter_batch_path(@planning_application, batch, format: "pdf") %>
-        <%= govuk_table do |table|
-              table.with_head do |head|
-                head.with_row do |row|
-                  row.with_cell(text: "Address")
-                  row.with_cell(text: "Sent by")
-                end
-              end
-
-              table.with_body do |body|
-                batch.neighbour_letters.each do |letter|
-                  body.with_row do |row|
-                    row.with_cell(text: letter.neighbour.address)
-                    row.with_cell(text: "Post")
+  <%= bops_task_accordion(id: "neighbour-letter-batches") do |accordion| %>
+    <% accordion.with_heading(text: "Neighbour letters") %>
+    <% @planning_application.consultation.neighbour_letter_batches.each_with_index do |batch, i| %>
+      <% accordion.with_section do |section| %>
+        <% section.with_heading(text: "Neighbour letter #{i + 1}") %>
+        <% section.with_status do %>
+          Date sent: <%= batch.created_at.to_date.to_fs %>
+        <% end %>
+        <% section.with_footer do %>
+          <%= govuk_link_to "Download letter", planning_application_consultation_neighbour_letter_batch_path(@planning_application, batch, format: "pdf") %>
+          <%= govuk_table do |table|
+                table.with_head do |head|
+                  head.with_row do |row|
+                    row.with_cell(text: "Address")
+                    row.with_cell(text: "Sent by")
                   end
                 end
-              end
-            end %>
+
+                table.with_body do |body|
+                  batch.neighbour_letters.each do |letter|
+                    body.with_row do |row|
+                      row.with_cell(text: letter.neighbour.address)
+                      row.with_cell(text: "Post")
+                    end
+                  end
+                end
+              end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
