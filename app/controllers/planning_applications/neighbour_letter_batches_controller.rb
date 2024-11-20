@@ -21,11 +21,4 @@ class PlanningApplications::NeighbourLetterBatchesController < AuthenticationCon
       format.html
     end
   end
-
-  def show
-    set_planning_application
-    @batch = @planning_application.consultation.neighbour_letter_batches.find_by(id: Integer(params[:id]))
-
-    render layout: false
-  end
 end
