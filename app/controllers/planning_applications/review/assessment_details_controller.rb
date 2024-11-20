@@ -3,7 +3,6 @@
 module PlanningApplications
   module Review
     class AssessmentDetailsController < BaseController
-      before_action :set_consultation, if: :has_consultation?
       before_action :set_assessment_detail
 
       def update
@@ -16,6 +15,7 @@ module PlanningApplications
           flash.now[:alert] = @assessment_detail.errors.messages.values.flatten.join(", ")
           set_planning_application_constraints
           set_neighbour_review
+          set_publicity
           render "planning_applications/review/tasks/index"
         end
       end
@@ -36,10 +36,6 @@ module PlanningApplications
           :entry,
           comment_attributes: [:text]
         ).merge(review_status: :complete)
-      end
-
-      def has_consultation?
-        @planning_application.application_type.consultation?
       end
     end
   end
