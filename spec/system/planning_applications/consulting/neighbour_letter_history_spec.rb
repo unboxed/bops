@@ -63,7 +63,7 @@ RSpec.describe "View history of letters to neighbours", type: :system do
   it "contains a list of letters in the accordion" do
     toggle_accordion "Consultation audit log"
     click_on "View copy of neighbour letters"
-    toggle_accordion "Neighbour letter 1"
+    click_button "Neighbour letter 1"
 
     neighbours.each do |neighbour|
       expect(page).to have_content(neighbour.address)
@@ -73,7 +73,7 @@ RSpec.describe "View history of letters to neighbours", type: :system do
   it "can access a pdf containing the text of the letter", pending: "grover seems weird in tests" do
     toggle_accordion "Consultation audit log"
     click_on "View copy of neighbour letters"
-    toggle_accordion "Neighbour letter 1"
+    click_button "Neighbour letter 1"
 
     click_on "Download letter"
     expect(page.html.lines.first).to match(/^%PDF-1.\d$/)
@@ -83,7 +83,7 @@ RSpec.describe "View history of letters to neighbours", type: :system do
     toggle_accordion "Consultation audit log"
     click_on "View copy of neighbour letters"
 
-    click_on "Download CSV"
+    click_on "Download all as CSV"
     expect(page.html.lines.first.encode("utf-8")).to eq(%("address","batch","date"\n))
     neighbours.each do |neighbour|
       expect(page).to have_content(neighbour.address)
