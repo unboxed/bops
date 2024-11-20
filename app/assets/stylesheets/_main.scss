@@ -533,6 +533,7 @@ body {
 }
 
 .neighbour-letter-export {
-  margin: calc(1.5in);
-  width: 72rem;
+  width: calc(430px - 1.5cm);
+  margin: 1cm;
+  font-family: Arial;
 }

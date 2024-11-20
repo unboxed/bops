@@ -2,7 +2,10 @@
 <div class="proposal-details-sub-heading govuk-!-margin-top-3 govuk-!-margin-bottom-3" data-controller="pdf">
   <p class="govuk-body govuk-!-margin-top-1">
     <%= @planning_application.last_site_notice_audit&.audit_comment %><br>
-    <%= govuk_link_to "Download site notice PDF", "#", "data-action": "click->pdf#handleClick" %>
+    <%= govuk_link_to "Download site notice PDF", "#",
+          "data-action": "click->pdf#handleClick",
+          "data-pdf-element-selector-param": "#site-notice-content",
+          "data-pdf-filename-param": "site-notice-#{@planning_application.reference}.pdf" %>
   </p>
   <div class="consultation-letter-status">
     <div>
@@ -15,7 +18,6 @@
 </div>
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-7">
 <div class="govuk-!-display-none">
-  <span id="application-reference"><%= @planning_application.reference %></span>
   <div id="site-notice-content">
     <div style="width: 430px; font-family: Arial;">
       <%= raw @planning_application.last_site_notice.preview_content %> <%# erblint:disable ErbSafety %>
