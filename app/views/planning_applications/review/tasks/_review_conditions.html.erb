@@ -52,11 +52,17 @@
           ) %>
     <% end %>
   <% end %>
+
+  <% if @planning_application.application_type.informatives? %>
+    <% if @planning_application.informative_set&.current_review&.started? %>
+      <%= render "planning_applications/review/tasks/review_informatives",
+            accordion: accordion,
+            current_review: @planning_application.informative_set.current_review,
+            informatives: @planning_application.informative_set.informatives %>
+    <% end %>
+  <% end %>
 <% end %>
 
-<h2 class="app-task-list__section govuk-!-margin-top-8">
-  Review conditions
-</h2>
 <ul class="app-task-list__items" id="review-conditions-section">
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.evidence.any? %>
       <%= render(
@@ -92,15 +98,6 @@
             planning_application: @planning_application
           )
         ) %>
-  <% end %>
-  <% if @planning_application.application_type.informatives? %>
-    <% if @planning_application.informative_set&.current_review&.started? %>
-      <%= render(
-            TaskListItems::Reviewing::InformativesComponent.new(
-              planning_application: @planning_application
-            )
-          ) %>
-    <% end %>
   <% end %>
 
   <%= render partial: "planning_applications/review/tasks/policy_classes", locals: {planning_application: @planning_application, policy_class: @policy_class} %>

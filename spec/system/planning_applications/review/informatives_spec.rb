@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing informatives" do
+RSpec.describe "Reviewing informatives", js: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority, name: "Anne Assessor") }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority, name: "Ray Reviewer") }
@@ -26,6 +26,11 @@ RSpec.describe "Reviewing informatives" do
         click_button "Add informative"
         expect(page).to have_content("Informative was successfully added")
 
+        toggle "Add new informative"
+        fill_in "Enter a title", with: "Section 206"
+        fill_in "Enter details of the informative", with: "A Section 206 agreement will be required"
+        click_button "Add informative"
+
         click_button "Save and mark as complete"
         expect(page).to have_content("Informatives were successfully saved")
 
@@ -34,39 +39,111 @@ RSpec.describe "Reviewing informatives" do
       end
 
       context "when planning application is awaiting determination" do
-        it "I can accept the planning officer's decision" do
-          expect(page).to have_list_item_for("Review informatives", with: "Not started")
+        it "shows validation errors" do
+          click_button "Review informatives"
+          within("#informatives_footer") do
+            click_button("Save and mark as complete")
+          end
+          expect(page).to have_selector("[role=alert] li", text: "Select an option")
 
-          click_link "Review informatives"
+          within("#informatives_section") do
+            within(".bops-task-accordion__section-header") do
+              expect(find("button")[:"aria-expanded"]).to eq("true")
+            end
+            within("#informatives_footer") do
+              expect(page).to have_selector("p.govuk-error-message", text: "Select an option")
+            end
 
-          expect(page).to have_selector("h1", text: "Review informatives")
-
-          within_fieldset("Do you accept the assessment against informatives?") do
-            choose "Yes"
+            within("#informatives_footer") do
+              choose("Return to officer")
+              click_button("Save and mark as complete")
+            end
           end
 
-          expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+          expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
 
-          click_button "Save and mark as complete"
-
-          expect(page).to have_content("Review of informatives updated successfully")
-          expect(page).to have_list_item_for("Review informatives", with: "Completed")
-
-          expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
-
-          click_link "Review informatives"
-
-          expect(page).to have_selector("h1", text: "Review informatives")
-          expect(page).to have_content("Informatives accepted by Ray Reviewer, 20 May 2024")
+          within("#informatives_section") do
+            within(".bops-task-accordion__section-header") do
+              expect(find("button")[:"aria-expanded"]).to eq("true")
+            end
+            within("#informatives_footer") do
+              expect(page).to have_selector("p.govuk-error-message", text: "Explain to the case officer why")
+            end
+          end
         end
 
-        it "I can edit to accept the planning officer's decision" do
-          expect(page).to have_list_item_for("Review informatives", with: "Not started")
+        it "I can accept the planning officer's decision" do
+          click_button "Review informatives"
 
-          click_link "Review informatives"
-          expect(page).to have_selector("h1", text: "Review informatives")
+          within("#informatives_section") do
+            expect(find(".govuk-tag")).to have_content("Not started")
+            informative1 = Informative.first
+            informative2 = Informative.second
 
-          click_link "Edit to accept"
+            within("#informatives_block") do
+              within("#informative_#{informative1.id}") do
+                expect(page).to have_selector("span", text: "Informative 1")
+                expect(page).to have_selector("h2", text: "Section 106")
+                expect(page).to have_link(
+                  "Edit",
+                  href: "/planning_applications/#{planning_application.reference}/review/informatives/items/#{informative1.id}/edit"
+                )
+                expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
+
+                click_button("Show more")
+                expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: true)
+
+                click_button("Show less")
+                expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
+              end
+              within("#informative_#{informative2.id}") do
+                expect(page).to have_selector("span", text: "Informative 2")
+                expect(page).to have_selector("h2", text: "Section 206")
+                expect(page).to have_link(
+                  "Edit",
+                  href: "/planning_applications/#{planning_application.reference}/review/informatives/items/#{informative2.id}/edit"
+                )
+                expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
+
+                click_button("Show more")
+                expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: true)
+
+                click_button("Show less")
+                expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
+              end
+
+              expect(page).to have_link(
+                "Edit list position",
+                href: "/planning_applications/#{planning_application.reference}/review/informatives/edit"
+              )
+            end
+          end
+
+          within("#informatives_footer") do
+            within_fieldset("Do you accept the assessment against informatives?") do
+              choose "Agree"
+            end
+
+            expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+            click_button "Save and mark as complete"
+          end
+
+          expect(page).to have_content("Review of informatives updated successfully")
+          within("#informatives_section") do
+            expect(find(".govuk-tag")).to have_content("Completed")
+          end
+
+          expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
+        end
+
+        it "I can edit the planning officer's decision" do
+          click_button "Review informatives"
+
+          within("#informatives_block") do
+            within("#informative_#{Informative.first.id}") do
+              click_link "Edit"
+            end
+          end
           expect(page).to have_selector("h1", text: "Edit informative")
 
           fill_in "Enter a title", with: "Updated Section 106"
@@ -75,47 +152,49 @@ RSpec.describe "Reviewing informatives" do
           click_button "Save informative"
           expect(page).to have_content("Informative was successfully saved")
 
-          within_fieldset("Do you accept the assessment against informatives?") do
-            choose "Yes"
+          click_button "Review informatives"
+          within("#informatives_footer") do
+            within_fieldset("Do you accept the assessment against informatives?") do
+              choose "Agree"
+            end
+            expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+
+            click_button "Save and mark as complete"
           end
 
-          expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
-
-          click_button "Save and mark as complete"
-
           expect(page).to have_content("Review of informatives updated successfully")
-          expect(page).to have_list_item_for("Review informatives", with: "Completed")
+          within("#informatives_section") do
+            expect(find(".govuk-tag")).to have_content("Completed")
+          end
 
-          expect(current_review.reload).to have_attributes(action: "edited_and_accepted", review_status: "review_complete")
-
-          click_link "Review informatives"
-
-          expect(page).to have_selector("h1", text: "Review informatives")
-          expect(page).to have_content("Informatives edited and accepted by Ray Reviewer, 20 May 2024")
+          expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
+          click_button("Review informatives")
+          click_link("Edit list position")
+          expect(page).to have_content("Informatives accepted by Ray Reviewer, 20 May 2024")
         end
 
         it "I can return to the planning officer with a comment" do
-          expect(page).to have_list_item_for("Review informatives", with: "Not started")
+          click_button "Review informatives"
 
-          click_link "Review informatives"
+          within("#informatives_footer") do
+            within_fieldset("Do you accept the assessment against informatives?") do
+              choose "Return to officer"
+              fill_in "Add a comment", with: "Please provide more details about the Section 106 agreement"
+            end
 
-          expect(page).to have_selector("h1", text: "Review informatives")
-
-          within_fieldset("Do you accept the assessment against informatives?") do
-            choose "No"
-            fill_in "Enter comment", with: "Please provide more details about the Section 106 agreement"
+            expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
+            click_button "Save and mark as complete"
           end
 
-          expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
-
-          click_button "Save and mark as complete"
-
           expect(page).to have_content("Review of informatives updated successfully")
-          expect(page).to have_list_item_for("Review informatives", with: "Awaiting changes")
+          within("#informatives_section") do
+            expect(find(".govuk-tag")).to have_content("Awaiting changes")
+          end
 
           expect(current_review.reload).to have_attributes(action: "rejected", review_status: "review_complete", comment: "Please provide more details about the Section 106 agreement")
 
-          click_link "Review informatives"
+          click_button "Review informatives"
+          click_link("Edit list position")
 
           expect(page).to have_selector("h1", text: "Review informatives")
           expect(page).to have_content("Informatives rejected by Ray Reviewer, 20 May 2024")
@@ -132,7 +211,10 @@ RSpec.describe "Reviewing informatives" do
           expect(page).to have_content("Please provide more details about the Section 106 agreement")
           expect(page).to have_content("Sent on 20 May 2024 11:00 by Ray Reviewer")
 
-          click_link "Edit"
+          within("#informative_#{Informative.first.id}") do
+            click_link "Edit"
+          end
+
           expect(page).to have_selector("h1", text: "Edit informative")
 
           fill_in "Enter a title", with: "Updated Section 106"
@@ -149,22 +231,26 @@ RSpec.describe "Reviewing informatives" do
           sign_in(reviewer)
 
           visit "/planning_applications/#{planning_application.reference}/review/tasks"
-          expect(page).to have_list_item_for("Review informatives", with: "Updated")
-
-          click_link "Review informatives"
-
-          expect(page).to have_selector("h1", text: "Review informatives")
-
-          within_fieldset("Do you accept the assessment against informatives?") do
-            choose "Yes"
+          within("#informatives_section") do
+            expect(find(".govuk-tag")).to have_content("Updated")
           end
 
-          click_button "Save and mark as complete"
-          expect(page).to have_content("Review of informatives updated successfully")
-          expect(page).to have_list_item_for("Review informatives", with: "Completed")
+          click_button("Review informatives")
+          within("#informatives_footer") do
+            within_fieldset("Do you accept the assessment against informatives?") do
+              choose "Agree"
+            end
 
-          click_link "Review informatives"
-          expect(page).to have_selector("h1", text: "Review informatives")
+            click_button "Save and mark as complete"
+          end
+
+          expect(page).to have_content("Review of informatives updated successfully")
+          within("#informatives_section") do
+            expect(find(".govuk-tag")).to have_content("Completed")
+          end
+
+          click_button("Review informatives")
+          click_link("Edit list position")
           expect(page).to have_content("Informatives accepted by Ray Reviewer, 20 May 2024")
         end
       end

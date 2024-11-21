@@ -1569,16 +1569,15 @@ en:
         successfully_updated: Review immunity details was successfully updated
       informatives:
         edit:
-          drag_and_drop: Drag and drop informatives to change the order that they appear in the decision notice.
-        items:
-          update:
-            success: Informative was successfully saved
-        show:
           actions:
             accepted: Informatives accepted
             edited_and_accepted: Informatives edited and accepted
             rejected: Informatives rejected
+          drag_and_drop: Drag and drop informatives to change the order that they appear in the decision notice.
           review_info: by %{reviewer}, %{reviewed_on}
+        items:
+          update:
+            success: Informative was successfully saved
         update:
           success: Review of informatives updated successfully
       local_policies:

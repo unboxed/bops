@@ -1,0 +1,81 @@
+<%= accordion.with_section(id: "informatives_section", expanded: current_review.errors.any?) do |section| %>
+  <%= section.with_heading(text: "Review informatives") %>
+
+  <%= section.with_status do %>
+    <%= render(
+          StatusTags::ReviewComponent.new(
+            review_item: current_review,
+            updated: current_review.updated?
+          )
+        ) %>
+  <% end %>
+
+  <%= section.with_block(id: "informatives_block") do %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <% if informatives.any? %>
+          <ol class="govuk-list">
+            <% informatives.each do |informative| %>
+              <%= content_tag :li, id: dom_id(informative) do %>
+                <div>
+                  <span class="govuk-caption-m">Informative <%= informative.position %></span>
+                  <h2 class="govuk-heading-m"><%= informative.title %></h2>
+
+                  <div data-controller="toggle">
+                    <div class="govuk-body govuk-!-display-none" data-toggle-target="content">
+                      <%= render(FormattedContentComponent.new(text: informative.text)) %>
+                    </div>
+
+                    <button class="button-as-link" type="button" data-toggle-target="button" data-action="click->toggle#click">
+                      Show more
+                    </button>
+                  </div>
+
+                  <p class="govuk-!-margin-top-3">
+                    <%= govuk_link_to "Edit", edit_planning_application_review_informatives_item_path(@planning_application, informative) %>
+                  </p>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+              <% end %>
+            <% end %>
+
+            <%= govuk_link_to "Edit list position", edit_planning_application_review_informatives_path(@planning_application) %>
+          </ol>
+        <% else %>
+          <p class="govuk-body">
+            <strong>No informatives added</strong>
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+          </p>
+        <% end %>
+
+      </div>
+    </div>
+  <% end %>
+
+  <%= section.with_footer(id: "informatives_footer") do %>
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+      <div class="govuk-grid-column-two-thirds">
+        <%= form_with model: current_review, url: planning_application_review_informatives_path(@planning_application) do |form| %>
+          <%= form.govuk_error_summary %>
+
+          <%= form.govuk_radio_buttons_fieldset :action, legend: {text: "Do you accept the assessment against informatives?", size: "m"} do %>
+            <%= form.govuk_radio_button :action, :accepted, label: {text: "Agree"} %>
+            <%= form.govuk_radio_button :action, :rejected, label: {text: "Return to officer"}, aria: {controls: "rejected-comment-#{current_review.id}"} %>
+              <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="<%= "rejected-comment-#{current_review.id}" %>">
+                <div class="govuk-form-group <%= "govuk-form-group--error" if current_review.errors.any? %>">
+                  <%= form.govuk_text_area(
+                        :comment,
+                        rows: 3,
+                        class: "govuk-textarea #{"govuk-textarea--error" if current_review.errors.any?}",
+                        label: {text: "Add a comment"}
+                      ) %>
+                </div>
+              </div>
+          <% end %>
+
+          <%= form.govuk_submit "Save and mark as complete", name: "review[review_status]", value: "review_complete" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

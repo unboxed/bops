@@ -87,7 +87,7 @@ class CommitteeDecision < ApplicationRecord
   end
 
   def rejected_review?
-    current_review.rejected?
+    current_review&.rejected?
   end
 
   private
