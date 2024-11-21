@@ -1,17 +1,16 @@
-<h2 class="app-task-list__section govuk-!-margin-top-8">
-  Review assessment
-</h2>
-<ul class="app-task-list__items" id="review-assessment-section">
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <%= govuk_link_to "Check Community Infrastructure Levy (CIL)", planning_application_review_cil_liability_path(@planning_application) %>
-    </span>
-    <div class="govuk-task-list__status app-task-list__task-tag">
-    <%= render(
-          StatusTags::BaseComponent.new(
-            status: (@planning_application.audits.review_cil_liability.any? ? :complete : :not_started)
-          )
-        ) %>
-    </div>
-  </li>
-</ul>
+<%= bops_task_accordion(id: "review-assessment") do |accordion| %>
+  <% accordion.with_heading(text: "Review assessment") %>
+  <% accordion.with_section(id: "check-cil", expanded: false) do |section| %>
+    <%= section.with_heading(text: "Check Community Infrastructure Levy (CIL)") %>
+    <%= section.with_status do %>
+      <%= render(
+            StatusTags::BaseComponent.new(
+              status: (@planning_application.audits.review_cil_liability.any? ? :complete : :not_started)
+            )
+          ) %>
+    <% end %>
+    <%= section.with_footer do %>
+      <%= render(partial: "planning_applications/review/cil_liability/form") %>
+    <% end %>
+  <% end %>
+<% end %>

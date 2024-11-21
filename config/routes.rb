@@ -320,7 +320,7 @@ Rails.application.routes.draw do
 
           resources :tasks, only: :index
 
-          resource :cil_liability, only: %i[edit update show], controller: :cil_liability
+          resource :cil_liability, only: %i[update], controller: :cil_liability
 
           resources :committee_decisions, only: %i[edit show update] do
             resources :notifications do

@@ -31,25 +31,25 @@ RSpec.describe "checking publicity" do
     it "the reviewer can mark it as not needing confirmation" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Not started"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Not started"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "The validation officer did not confirm whether the application is liable for CIL."
 
-      click_button "Save and mark as complete"
+      within "#check-cil" do
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Completed"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Completed"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "The validation officer had not confirmed whether the application was liable"
       expect(page).to have_content "Reviewer marked application as not needing confirmation for CIL liability"
@@ -58,29 +58,27 @@ RSpec.describe "checking publicity" do
     it "the reviewer can update it" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Not started"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Not started"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "The validation officer did not confirm whether the application is liable for CIL."
 
-      click_link "Change CIL liability"
-
       choose "Yes"
 
-      click_button "Save and mark as complete"
+      within "#check-cil" do
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Completed"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Completed"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "The validation officer had not confirmed whether the application was liable"
       expect(page).to have_content "Reviewer marked application as liable for CIL"
@@ -95,25 +93,25 @@ RSpec.describe "checking publicity" do
     it "the reviewer can mark it as correct" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Not started"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Not started"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "The validation officer marked this application as liable for CIL"
 
-      click_button "Save and mark as complete"
+      within "#check-cil" do
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Completed"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Completed"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "Previously marked as liable by validation officer"
       expect(page).to have_content "Reviewer marked application as liable for CIL"
@@ -122,29 +120,27 @@ RSpec.describe "checking publicity" do
     it "the reviewer can change it" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Not started"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Not started"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "The validation officer marked this application as liable for CIL"
 
-      click_link "Change CIL liability"
-
       choose "No"
 
-      click_button "Save and mark as complete"
+      within "#check-cil" do
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      expect(page).to have_list_item_for(
-        "Check Community Infrastructure Levy (CIL)",
-        with: "Completed"
-      )
+      within "#check-cil" do
+        expect(page).to have_content "Completed"
+      end
 
-      click_link "Check Community Infrastructure Levy (CIL)"
+      click_button "Check Community Infrastructure Levy (CIL)"
 
       expect(page).to have_content "Previously marked as liable by validation officer"
       expect(page).to have_content "Reviewer marked application as not liable for CIL"
