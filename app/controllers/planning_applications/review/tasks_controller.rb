@@ -11,12 +11,6 @@ module PlanningApplications
           format.html
         end
       end
-
-      private
-
-      def has_consultation?
-        @planning_application.application_type.consultation?
-      end
     end
   end
 end

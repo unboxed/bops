@@ -72,10 +72,6 @@ module PlanningApplications
       def set_neighbour_review
         @neighbour_review = @consultation.neighbour_review || @consultation.reviews.new
       end
-
-      def redirect_failed_create_error(error)
-        redirect_to planning_application_review_tasks_path(@planning_application), alert: Array.wrap(error).to_sentence
-      end
     end
   end
 end

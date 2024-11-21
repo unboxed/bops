@@ -8,25 +8,14 @@ module PlanningApplications
       before_action :set_site_notice
       before_action :set_assessment_detail
 
-      def show
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def edit
-        respond_to do |format|
-          format.html
-        end
-      end
-
       def update
         respond_to do |format|
           format.html do
             if @assessment_detail.update(assessment_detail_params)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              render :edit
+              error = @assessment_detail.errors.group_by_attribute.transform_values { |errors| errors.map(&:full_message) }.values.flatten
+              redirect_failed_create_error(error)
             end
           end
         end
@@ -40,7 +29,8 @@ module PlanningApplications
             if @assessment_detail.save
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              render :edit
+              error = @assessment_detail.errors.group_by_attribute.transform_values { |errors| errors.map(&:full_message) }.values.flatten
+              redirect_failed_create_error(error)
             end
           end
         end
@@ -51,7 +41,7 @@ module PlanningApplications
       def assessment_detail_params
         params.require(:assessment_detail).permit(
           :reviewer_verdict, comment_attributes: [:text]
-        ).merge(review_status:, assessment_status:)
+        ).merge(review_status: :complete, assessment_status:)
       end
 
       def assessment_status
@@ -66,12 +56,8 @@ module PlanningApplications
         params.dig(:review, :action) == "rejected"
       end
 
-      def review_status
-        save_progress? ? :in_progress : :complete
-      end
-
       def set_assessment_detail
-        @assessment_detail = @planning_application.assessment_details.check_publicity.max_by(&:created_at) || @planning_application.assessment_details.check_publicity.new
+        @assessment_detail = @planning_application.existing_or_new_check_publicity
       end
 
       def set_site_notice

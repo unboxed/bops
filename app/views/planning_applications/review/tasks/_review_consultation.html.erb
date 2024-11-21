@@ -18,21 +18,27 @@
           ) %>
     <% end %>
   <% end %>
-<% end %>
 
-<ul class="app-task-list__items" id="review-consultation-section">
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <%= govuk_link_to "Check publicity", (@planning_application.check_publicity&.review_complete? ?
-              planning_application_review_consultation_publicities_path(@planning_application, @planning_application.consultation) :
-              edit_planning_application_review_consultation_publicities_path(@planning_application.id, @planning_application.consultation.id)) %>
-    </span>
-    <div class="govuk-task-list__status app-task-list__task-tag">
-    <%= render(
-          StatusTags::ReviewComponent.new(
-            review_item: @planning_application.check_publicity
-          )
-        ) %>
-    </div>
-  </li>
-</ul>
+  <%= accordion.with_section(id: "check-publicity", expanded: @planning_application.existing_or_new_check_publicity.errors.any?) do |section| %>
+    <% section.with_heading(text: "Check publicity") %>
+    <% section.with_status do %>
+      <%= render(
+            StatusTags::ReviewComponent.new(
+              review_item: @planning_application.existing_or_new_check_publicity
+            )
+          ) %>
+    <% end %>
+
+    <% section.with_block(id: "site-notice-check") do %>
+      <%= render(partial: "planning_applications/review/publicities/site_notice") %>
+    <% end %>
+
+    <% section.with_block(id: "press-notice-check") do %>
+      <%= render(partial: "planning_applications/review/publicities/press_notice") %>
+    <% end %>
+
+    <% section.with_footer(id: "check-publicity-form") do %>
+      <%= render(partial: "planning_applications/review/publicities/form") %>
+    <% end %>
+  <% end %>
+<% end %>
