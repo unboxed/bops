@@ -5,12 +5,6 @@ module PlanningApplications
     class ConditionsController < BaseController
       before_action :set_condition_set
 
-      def show
-        respond_to do |format|
-          format.html
-        end
-      end
-
       def update
         respond_to do |format|
           format.html do
@@ -18,7 +12,8 @@ module PlanningApplications
               redirect_to planning_application_review_tasks_path(@planning_application),
                 notice: I18n.t("review.conditions.update.success")
             else
-              render :edit
+              flash.now[:alert] = @condition_set.errors.messages.values.flatten.join(", ")
+              render_review_tasks
             end
           end
         end
@@ -40,7 +35,7 @@ module PlanningApplications
               reviewed_at: Time.current,
               reviewer: current_user,
               status: status,
-              review_status:,
+              review_status: "review_complete",
               id: @condition_set&.current_review&.id
             }
           )
@@ -54,10 +49,6 @@ module PlanningApplications
         elsif mark_as_complete?
           "complete"
         end
-      end
-
-      def review_status
-        save_progress? ? "review_in_progress" : "review_complete"
       end
 
       def return_to_officer?

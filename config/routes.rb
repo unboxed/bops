@@ -266,7 +266,7 @@ Rails.application.routes.draw do
 
           resources :assessment_details, only: %i[update]
 
-          resource :conditions, only: %i[show update]
+          resource :conditions, only: %i[update]
 
           resources :documents, only: %i[index] do
             patch :update, on: :collection

@@ -25,32 +25,32 @@ RSpec.describe "Reviewing conditions" do
 
     context "when planning application is awaiting determination" do
       it "I can accept the planning officer's decision" do
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Not started"
-        )
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Review conditions"
+        click_button "Review conditions"
 
-        expect(page).to have_content("Review conditions")
+        within("#review-conditions") do
+          expect(page).to have_content(standard_condition.title)
+          expect(page).to have_content(standard_condition.text)
+          expect(page).to have_content(standard_condition.reason)
 
-        expect(page).to have_content(standard_condition.title)
-        expect(page).to have_content(standard_condition.text)
-        expect(page).to have_content(standard_condition.reason)
+          expect(page).to have_content(other_condition.text)
+          expect(page).to have_content(other_condition.reason)
 
-        expect(page).to have_content(other_condition.text)
-        expect(page).to have_content(other_condition.reason)
+          choose "Accept"
 
-        choose "Accept"
-
-        click_button "Save and mark as complete"
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review conditions successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Completed"
-        )
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Completed")
+        end
 
         condition_set = planning_application.condition_set
         expect(condition_set.current_review.action).to eq "accepted"
@@ -58,54 +58,65 @@ RSpec.describe "Reviewing conditions" do
       end
 
       it "I can edit to accept the planning officer's decision" do
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Not started"
-        )
-
-        click_link "Review conditions"
-
-        choose "Edit to accept"
-
-        within("#condition-set-conditions-attributes-4--destroy-conditional") do
-          fill_in "Reason", with: "This is different reason"
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Not started")
         end
 
-        click_button "Save and mark as complete"
+        click_button "Review conditions"
 
-        expect(page).to have_content("Review conditions successfully updated")
+        within("#review-conditions") do
+          click_link "Edit"
+        end
 
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Completed"
-        )
+        within("#condition_#{planning_application.condition_set.conditions.last.id}") do
+          click_link "Edit"
+        end
+
+        fill_in "Enter a reason for this condition", with: "This is different reason"
+        click_button "Add condition to list"
+
+        expect(page).to have_content("Conditions successfully updated")
+
+        within("#review-conditions") do
+          choose "Accept"
+
+          click_button "Save and mark as complete"
+        end
+
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Completed")
+        end
 
         condition_set = planning_application.condition_set
-        expect(condition_set.current_review.action).to eq "edited_and_accepted"
+        expect(condition_set.current_review.action).to eq "accepted"
         expect(condition_set.conditions.last.reason).to eq "This is different reason"
         expect(condition_set.current_review.review_status).to eq "review_complete"
       end
 
       it "I can return to officer with comment" do
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Not started"
-        )
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Not started")
+        end
 
-        click_link "Review conditions"
+        click_button "Review conditions"
 
-        choose "Return to officer with comment"
+        within("#review-conditions") do
+          choose "Return to officer"
 
-        fill_in "Comment", with: "I don't think you've assessed conditions correctly"
+          fill_in "Comment", with: "I don't think you've assessed conditions correctly"
 
-        click_button "Save and mark as complete"
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review conditions successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Awaiting changes"
-        )
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Awaiting changes")
+        end
 
         condition_set = planning_application.condition_set
         expect(condition_set.current_review.action).to eq "rejected"
@@ -139,25 +150,25 @@ RSpec.describe "Reviewing conditions" do
 
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Updated"
-        )
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Updated")
+        end
 
-        click_link "Review conditions"
+        click_button "Review conditions"
 
-        expect(page).to have_content "A better response"
-
-        choose "Accept"
-
-        click_button "Save and mark as complete"
+        within("#review-conditions") do
+          expect(page).to have_content "A better response"
+          choose "Accept"
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review conditions successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Review conditions",
-          with: "Completed"
-        )
+        within("#review-conditions") do
+          expect(page).to have_content("Review conditions")
+          expect(page).to have_content("Completed")
+        end
 
         condition_set = planning_application.condition_set
         expect(condition_set.current_review.action).to eq "accepted"
