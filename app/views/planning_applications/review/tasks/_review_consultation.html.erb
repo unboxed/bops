@@ -19,35 +19,26 @@
     <% end %>
   <% end %>
 
-  <%= accordion.with_section(id: "check-publicity", expanded: @publicity.errors.any?) do |section| %>
+  <%= accordion.with_section(id: "check-publicity", expanded: @planning_application.existing_or_new_check_publicity.errors.any?) do |section| %>
     <% section.with_heading(text: "Check publicity") %>
     <% section.with_status do %>
       <%= render(
             StatusTags::ReviewComponent.new(
-              review_item: @planning_application.check_publicity
+              review_item: @planning_application.existing_or_new_check_publicity
             )
           ) %>
     <% end %>
 
     <% section.with_block(id: "site-notice-check") do %>
-      <%= render(
-            partial: "planning_applications/review/publicities/site_notice",
-            locals: {planning_application: @planning_application, site_notice: @planning_application.site_notice}
-          ) %>
+      <%= render(partial: "planning_applications/review/publicities/site_notice") %>
     <% end %>
 
     <% section.with_block(id: "press-notice-check") do %>
-      <%= render(
-            partial: "planning_applications/review/publicities/press_notice",
-            locals: {planning_application: @planning_application, press_notice: @planning_application.press_notice}
-          ) %>
+      <%= render(partial: "planning_applications/review/publicities/press_notice") %>
     <% end %>
 
     <% section.with_footer(id: "check-publicity-form") do %>
-      <%= render(
-            partial: "planning_applications/review/publicities/form",
-            locals: {planning_application: @planning_application, check_publicity: @publicity}
-          ) %>
+      <%= render(partial: "planning_applications/review/publicities/form") %>
     <% end %>
   <% end %>
 <% end %>

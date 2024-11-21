@@ -57,7 +57,7 @@ module PlanningApplications
       end
 
       def set_assessment_detail
-        @assessment_detail = @planning_application.assessment_details.check_publicity.max_by(&:created_at) || @planning_application.assessment_details.check_publicity.new
+        @assessment_detail = @planning_application.existing_or_new_check_publicity
       end
 
       def set_site_notice

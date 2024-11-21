@@ -15,7 +15,6 @@ module PlanningApplications
           flash.now[:alert] = @assessment_detail.errors.messages.values.flatten.join(", ")
           set_planning_application_constraints
           set_neighbour_review
-          set_publicity
           render "planning_applications/review/tasks/index"
         end
       end

@@ -1,11 +1,11 @@
 <div class="govuk-!-margin-bottom-7">
   <h2 class="govuk-heading-m"><%= t(".check_press_notice") %></h2>
 
-  <% if press_notice.nil? %>
+  <% if @planning_application.press_notice.nil? %>
     <p class="govuk-body">
       <%= t(".press_notice_incomplete") %>
     </p>
-  <% elsif press_notice.required? %>
+  <% elsif @planning_application.press_notice.required? %>
     <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
@@ -18,22 +18,22 @@
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <%= press_notice.reason %>
+            <%= @planning_application.press_notice.reason %>
           </td>
           <td class="govuk-table__cell">
-            <%= press_notice.published_at&.to_fs(:day_month_year_slashes) || "–" %>
+            <%= @planning_application.press_notice.published_at&.to_fs(:day_month_year_slashes) || "–" %>
           </td>
           <td class="govuk-table__cell">
-            <%= press_notice.uploaded_by&.name || "–" %>
+            <%= @planning_application.press_notice.uploaded_by&.name || "–" %>
           </td>
           <td class="govuk-table__cell">
-            <%= press_notice.expiry_date&.to_fs(:day_month_year_slashes) || "–" %>
+            <%= @planning_application.press_notice.expiry_date&.to_fs(:day_month_year_slashes) || "–" %>
           </td>
         </tr>
       </tbody>
     </table>
     <h3 class="govuk-heading-s"><%= t(".evidence_of_press_notice") %></h3>
-    <% if document = press_notice.last_document %>
+    <% if document = @planning_application.press_notice.last_document %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
           <p class="govuk-body govuk-!-margin-bottom-1">
@@ -41,7 +41,7 @@
           </p>
           <ul class="govuk-list">
             <li><%= link_to_document(t(".view_in_new_window"), document, no_visited_state: true) %></li>
-            <li><%= govuk_link_to t(".view_more_documents"), planning_application_press_notice_confirmation_path(planning_application), no_visited_state: true %></li>
+            <li><%= govuk_link_to t(".view_more_documents"), planning_application_press_notice_confirmation_path(@planning_application, @planning_application.press_notice), no_visited_state: true %></li>
           </ul>
         </div>
         <div class="govuk-grid-column-two-thirds">
