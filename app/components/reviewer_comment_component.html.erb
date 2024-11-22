@@ -3,7 +3,7 @@
     <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
       Reviewer comment
     </p>
-    <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-1">Sent on <%= comment.created_at.to_fs %> by <%= comment.user.name %></p>
+    <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-1">Sent on <%= sent_at %> by <%= comment.user.name %></p>
     <%= render(FormattedContentComponent.new(text: comment.text, classname: "govuk-body")) %>
   </div>
 <% end %>

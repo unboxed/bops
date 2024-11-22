@@ -95,6 +95,7 @@ class PlanningApplication < ApplicationRecord
     delegate :required?, to: :site_notice
     delegate :required?, to: :environment_impact_assessment
     delegate :suffix, to: :application_type
+    delegate :rejected_review?, to: :committee_decision
   end
   delegate :params_v1, to: :planx_planning_data, allow_nil: true
   delegate :params_v2, to: :planx_planning_data, allow_nil: true
@@ -596,7 +597,7 @@ class PlanningApplication < ApplicationRecord
     assessment_details_for_review.any?(&:update_required?) ||
       permitted_development_right&.update_required? ||
       policy_classes.any?(&:update_required?) ||
-      (committee_decision.present? && committee_decision.current_review.rejected?) ||
+      committee_decision_rejected_review? ||
       neighbour_review_requested?
   end
 

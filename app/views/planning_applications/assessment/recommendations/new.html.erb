@@ -58,6 +58,10 @@
       <%= form.govuk_error_summary %>
 
       <%= form.govuk_radio_buttons_fieldset(:recommend, legend: {size: "s", text: "Does this planning application need to be decided by committee?"}) do %>
+        <% if @planning_application.committee_decision_rejected_review? %>
+          <%= render(ReviewerCommentComponent.new(comment: @planning_application.committee_decision.current_review)) %>
+        <% end %>
+
         <%= form.govuk_radio_button :recommend, true, label: {text: "Yes"}, link_errors: true, checked: @committee_decision&.recommend? do %>
           <%= form.govuk_check_boxes_fieldset :reasons, legend: {text: "Reason why", size: "s"} do %>
             <% CommitteeDecision::REASONS.each do |reason| %>

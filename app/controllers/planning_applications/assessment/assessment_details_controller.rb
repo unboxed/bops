@@ -51,7 +51,7 @@ module PlanningApplications
         respond_to do |format|
           if @assessment_detail.update(set_params)
             format.html do
-              redirect_to planning_application_assessment_tasks_path(@planning_application),
+              redirect_to redirect_path,
                 notice: I18n.t("planning_applications.assessment.assessment_details.#{@assessment_detail.category}.updated.success")
             end
           else
@@ -143,6 +143,14 @@ module PlanningApplications
 
       def has_consultation_and_summary?
         consultation_summary? && @planning_application.application_type.consultation?
+      end
+
+      def redirect_path
+        if current_user.reviewer?
+          planning_application_review_tasks_path(@planning_application)
+        else
+          planning_application_assessment_tasks_path(@planning_application)
+        end
       end
     end
   end

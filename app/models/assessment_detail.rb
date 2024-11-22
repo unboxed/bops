@@ -7,6 +7,16 @@ class AssessmentDetail < ApplicationRecord
 
   enum :assessment_status, %i[not_started in_progress complete].index_with(&:to_s), default: "not_started", prefix: "assessment"
 
+  CATEGORIES_ORDER = %w[
+    summary_of_work
+    site_description
+    additional_evidence
+    consultation_summary
+    neighbour_summary
+    amenity
+    check_publicity
+  ].freeze
+
   enum :review_status, %i[
     in_progress
     complete
@@ -46,6 +56,12 @@ class AssessmentDetail < ApplicationRecord
 
   categories.each do |category|
     scope :"#{category}", -> { where(category:) }
+  end
+
+  class << self
+    def sorted_by_category(assessment_details)
+      assessment_details.sort_by { |ad| CATEGORIES_ORDER.index(ad.category) }
+    end
   end
 
   def existing_or_new_comment

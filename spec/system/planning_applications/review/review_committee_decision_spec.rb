@@ -15,7 +15,7 @@ RSpec.describe "Review committee decision" do
       local_authority: default_local_authority)
   end
   let!(:planning_application) do
-    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor)
+    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor, in_assessment_at: Time.zone.local(2024, 11, 28, 12, 30))
   end
 
   before do
@@ -27,71 +27,86 @@ RSpec.describe "Review committee decision" do
     sign_in reviewer
 
     planning_application.committee_decision.update(recommend: true, reasons: ["The first reason"])
+    travel_to(Time.zone.local(2024, 11, 28, 12, 30))
+    visit "/planning_applications/#{planning_application.reference}/review/tasks"
+  end
+
+  it "shows validation errors" do
+    click_button "Recommendation to committee"
+    within("#recommendation_to_committee_footer") do
+      click_button("Save and mark as complete")
+    end
+    expect(page).to have_selector("[role=alert] li", text: "Select an option")
+    within("#recommendation_to_committee_section") do
+      expect(find("button")[:"aria-expanded"]).to eq("true")
+    end
+
+    within("#recommendation_to_committee_footer") do
+      choose("Return with comments")
+      click_button("Save and mark as complete")
+    end
+
+    expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
+    within("#recommendation_to_committee_section") do
+      expect(find("button")[:"aria-expanded"]).to eq("true")
+    end
+    within("#recommendation_to_committee_footer") do
+      expect(page).to have_selector("p.govuk-error-message", text: "Explain to the case officer why")
+    end
   end
 
   it "reviewer can agree with committee decision" do
-    visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
+    click_button "Recommendation to committee"
+    within("#recommendation_to_committee_section") do
+      expect(find(".govuk-tag")).to have_content("Not started")
 
-    expect(page).to have_list_item_for(
-      "Recommendation to committee",
-      with: "Not started"
-    )
+      within("#recommendation_to_committee_block") do
+        expect(page).to have_selector("h2", text: "Assessor recommendation")
+        expect(page).to have_content("The case officer has marked this application as requiring decision by Committee for the following reasons:")
+        expect(page).to have_selector("h3", text: "Reasons selected")
+        expect(page).to have_selector("li", text: "The first reason")
+        expect(page).to have_selector("h3", text: "Submitted recommendation")
+        expect(page).to have_selector("p", text: "by #{assessor.name}, 28 November 2024 12:30")
+      end
 
-    click_link "Recommendation to committee"
-
-    expect(page).to have_content "The case officer has marked this application as requiring decision by Committee for the following reasons:"
-    expect(page).to have_content "The first reason"
-
-    choose "Yes"
-
-    click_button "Save and mark as complete"
+      within("#recommendation_to_committee_footer") do
+        expect(page).to have_selector("legend", text: "Do you agree with the recommendation?")
+        choose "Yes"
+        click_button "Save and mark as complete"
+      end
+    end
 
     expect(page).to have_content "Review of committee decision recommendation updated successfully"
 
-    expect(page).to have_list_item_for(
-      "Recommendation to committee",
-      with: "Completed"
-    )
+    within("#recommendation_to_committee_section") do
+      expect(find(".govuk-tag")).to have_content("Completed")
+    end
   end
 
   it "reviewer can disagree with decision" do
-    visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
-
-    expect(page).to have_list_item_for(
-      "Recommendation to committee",
-      with: "Not started"
-    )
-
-    click_link "Recommendation to committee"
-
-    expect(page).to have_content "The case officer has marked this application as requiring decision by Committee for the following reasons:"
-    expect(page).to have_content "The first reason"
-
-    choose "No (return the case for assessment)"
-
-    fill_in "Explain why you do not agree with the recommendation", with: "It doesn't need to go to committee"
-
-    click_button "Save and mark as complete"
+    click_button "Recommendation to committee"
+    within("#recommendation_to_committee_section") do
+      within("#recommendation_to_committee_footer") do
+        expect(page).to have_selector("legend", text: "Do you agree with the recommendation?")
+        choose "Return with comments"
+        fill_in "Explain why you do not agree with the recommendation", with: "No committee"
+        click_button "Save and mark as complete"
+      end
+    end
 
     expect(page).to have_content "Review of committee decision recommendation updated successfully"
 
-    expect(page).to have_list_item_for(
-      "Recommendation to committee",
-      with: "Awaiting changes"
-    )
+    within("#recommendation_to_committee_section") do
+      expect(find(".govuk-tag")).to have_content("Awaiting changes")
+    end
 
     click_link "Sign off recommendation"
 
     expect(page).to have_content "You have suggested changes to be made by the officer."
-
     choose "No (return the case for assessment)"
-
     fill_in "Explain to the officer why the case is being returned", with: "No committee"
-
     click_button "Save and mark as complete"
-
     click_link "Application"
-
     click_link "Check and assess"
 
     expect(page).to have_list_item_for(
@@ -101,6 +116,11 @@ RSpec.describe "Review committee decision" do
 
     click_link "Make draft recommendation"
 
+    within(".comment-component") do
+      expect(page).to have_content("Reviewer comment")
+      expect(page).to have_content("Sent on 28 November 2024 12:30 by #{reviewer.name}")
+      expect(page).to have_content("No committee")
+    end
     within_fieldset("Does this planning application need to be decided by committee?") do
       choose "No"
     end
@@ -113,24 +133,20 @@ RSpec.describe "Review committee decision" do
 
     click_link "Review and sign-off"
 
-    expect(page).to have_list_item_for(
-      "Recommendation to committee",
-      with: "Not started"
-    )
+    within("#recommendation_to_committee_section") do
+      expect(find(".govuk-tag")).to have_content("Not started")
 
-    click_link "Recommendation to committee"
-
-    expect(page).to have_content "The case officer has marked this application as not requiring decision by Committee."
-
-    choose "Yes"
-
-    click_button "Save and mark as complete"
+      expect(page).to have_content "The case officer has marked this application as not requiring decision by Committee."
+      within("#recommendation_to_committee_footer") do
+        choose "Yes"
+        click_button "Save and mark as complete"
+      end
+    end
 
     expect(page).to have_content "Review of committee decision recommendation updated successfully"
 
-    expect(page).to have_list_item_for(
-      "Recommendation to committee",
-      with: "Completed"
-    )
+    within("#recommendation_to_committee_section") do
+      expect(find(".govuk-tag")).to have_content("Completed")
+    end
   end
 end

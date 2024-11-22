@@ -34,7 +34,7 @@ module PlanningApplications
       end
 
       def update_committee_decision!
-        @committee_decision.update!(committee_decision_params.except(:neighbour_letter_text))
+        @committee_decision.update!(committee_decision_params.except(:neighbour_letter_text), :notification)
       end
 
       def deliver_letters!

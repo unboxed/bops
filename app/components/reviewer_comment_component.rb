@@ -7,5 +7,9 @@ class ReviewerCommentComponent < ViewComponent::Base
 
   private
 
+  def sent_at
+    (comment.try(:reviewed_at) || comment.created_at).to_fs
+  end
+
   attr_reader :comment
 end
