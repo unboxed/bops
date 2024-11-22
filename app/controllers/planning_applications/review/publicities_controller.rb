@@ -14,8 +14,8 @@ module PlanningApplications
             if @assessment_detail.update(assessment_detail_params)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              error = @assessment_detail.errors.group_by_attribute.transform_values { |errors| errors.map(&:full_message) }.values.flatten
-              redirect_failed_create_error(error)
+              flash.now[:alert] = @assessment_detail.errors.messages.values.flatten.join(", ")
+              render_review_tasks
             end
           end
         end
@@ -29,8 +29,8 @@ module PlanningApplications
             if @assessment_detail.save
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              error = @assessment_detail.errors.group_by_attribute.transform_values { |errors| errors.map(&:full_message) }.values.flatten
-              redirect_failed_create_error(error)
+              flash.now[:alert] = @assessment_detail.errors.messages.values.flatten.join(", ")
+              render_review_tasks
             end
           end
         end
