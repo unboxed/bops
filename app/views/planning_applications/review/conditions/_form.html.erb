@@ -10,7 +10,7 @@
           ) %>
 
       <%= review_form.govuk_radio_button(
-            :action, :rejected, checked: @planning_application.condition_set&.current_review&.rejected?, label: {text: "Return to officer with comment"}
+            :action, :rejected, checked: @planning_application.condition_set&.current_review&.rejected?, label: {text: "Return to officer"}
           ) do %>
         <%= review_form.govuk_text_area(
               :comment, value: @planning_application.condition_set&.current_review&.comment, rows: 6, label: {text: "Comment"}

@@ -95,7 +95,7 @@ RSpec.describe "Reviewing conditions" do
         expect(condition_set.current_review.review_status).to eq "review_complete"
       end
 
-      it "I can return to officer with comment" do
+      it "I can return to officer" do
         within("#review-conditions") do
           expect(page).to have_content("Review conditions")
           expect(page).to have_content("Not started")
