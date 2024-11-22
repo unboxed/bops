@@ -1,8 +1,8 @@
 <h2 class="govuk-heading-m">Summary of pre-commencement conditions</h2>
 
-<% if condition_set.approved_conditions.any? %>
+<% if @planning_application.pre_commencement_condition_set.approved_conditions.any? %>
   <ol class="govuk-list govuk-list--number">
-    <% condition_set.approved_conditions.each do |condition| %>
+    <% @planning_application.pre_commencement_condition_set.approved_conditions.each do |condition| %>
       <li>
         <p><strong><%= condition.title %></strong></p>
         <%= render(FormattedContentComponent.new(text: condition.text)) %>
