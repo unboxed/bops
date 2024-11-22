@@ -1,3 +1,32 @@
+<%= bops_task_accordion(id: "review-conditions-section") do |accordion| %>
+  <% accordion.with_heading(text: "Review conditions") %>
+
+  <% if @planning_application.application_type.planning_conditions? %>
+    <% if @planning_application.condition_set&.current_review&.started? %>
+        <%= accordion.with_section(id: "review-conditions", expanded: @planning_application.condition_set.errors.any?) do |section| %>
+          <% section.with_heading(text: "Review conditions") %>
+
+          <% section.with_status do %>
+            <%= render(
+                  StatusTags::ReviewComponent.new(
+                    review_item: @planning_application.condition_set.current_review,
+                    updated: @planning_application.condition_set.current_review&.status == "updated"
+                  )
+                ) %>
+          <% end %>
+
+          <% section.with_block do %>
+            <%= render(partial: "planning_applications/review/conditions/conditions_table") %>
+          <% end %>
+
+          <% section.with_footer do %>
+            <%= render(partial: "planning_applications/review/conditions/form") %>
+          <% end %>
+        <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
 <h2 class="app-task-list__section govuk-!-margin-top-8">
   Review conditions
 </h2>
@@ -38,14 +67,6 @@
         ) %>
   <% end %>
   <% if @planning_application.application_type.planning_conditions? %>
-    <% if @planning_application.condition_set&.current_review&.started? %>
-      <%= render(
-            TaskListItems::Reviewing::ConditionsComponent.new(
-              condition_set: @planning_application.condition_set
-            )
-          ) %>
-    <% end %>
-
     <% if @planning_application.pre_commencement_condition_set&.current_review&.started? %>
       <%= render(
             TaskListItems::Reviewing::ConditionsComponent.new(
