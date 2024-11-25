@@ -33,94 +33,68 @@ RSpec.describe "Reviewing pre-commencement conditions" do
 
     context "when planning application is awaiting determination" do
       it "I can accept the planning officer's decision" do
-        expect(page).to have_list_item_for(
-          "Review pre-commencement conditions",
-          with: "Not started"
-        )
-
-        click_link "Review pre-commencement conditions"
-
-        expect(page).to have_selector("h1", text: "Review pre-commencement conditions")
-        expect(page).to have_selector("h2", text: "Summary of pre-commencement conditions")
-
-        within("ol.govuk-list") do
-          within("li:nth-of-type(1)") do
-            expect(page).to have_selector("p strong", text: "bar")
-            expect(page).to have_selector("p", text: other_condition.text)
-            expect(page).to have_selector("p", text: other_condition.reason)
-          end
-          within("li:nth-of-type(2)") do
-            expect(page).to have_selector("p strong", text: "foo")
-            expect(page).to have_selector("p", text: standard_condition.text)
-            expect(page).to have_selector("p", text: standard_condition.reason)
-          end
+        within("#review-pre-commencement-conditions") do
+          expect(page).to have_content("Review pre-commencement conditions")
+          expect(page).to have_content("Not started")
         end
 
-        choose "Accept"
+        click_button "Review pre-commencement conditions"
 
-        click_button "Save and mark as complete"
+        within("#review-pre-commencement-conditions") do
+          expect(page).to have_selector("h2", text: "Summary of pre-commencement conditions")
+
+          within("ol.govuk-list") do
+            within("li:nth-of-type(1)") do
+              expect(page).to have_selector("p strong", text: "bar")
+              expect(page).to have_selector("p", text: other_condition.text)
+              expect(page).to have_selector("p", text: other_condition.reason)
+            end
+            within("li:nth-of-type(2)") do
+              expect(page).to have_selector("p strong", text: "foo")
+              expect(page).to have_selector("p", text: standard_condition.text)
+              expect(page).to have_selector("p", text: standard_condition.reason)
+            end
+          end
+
+          choose "Accept"
+
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review conditions successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Review pre-commencement conditions",
-          with: "Completed"
-        )
+        within("#review-pre-commencement-conditions") do
+          expect(page).to have_content("Review pre-commencement conditions")
+          expect(page).to have_content("Completed")
+        end
 
         condition_set = planning_application.pre_commencement_condition_set
         expect(condition_set.current_review.action).to eq "accepted"
         expect(condition_set.current_review.review_status).to eq "review_complete"
       end
 
-      it "I can edit to accept the planning officer's decision" do
-        expect(page).to have_list_item_for(
-          "Review pre-commencement conditions",
-          with: "Not started"
-        )
-
-        click_link "Review pre-commencement conditions"
-
-        choose "Edit to accept"
-
-        within("#condition-set-conditions-attributes-1--destroy-conditional") do
-          fill_in "Reason", with: "This is different reason"
+      it "I can return to officer with comment" do
+        within("#review-pre-commencement-conditions") do
+          expect(page).to have_content("Review pre-commencement conditions")
+          expect(page).to have_content("Not started")
         end
 
-        click_button "Save and mark as complete"
+        click_button "Review pre-commencement conditions"
+
+        within("#review-pre-commencement-conditions") do
+          choose "Return to officer"
+
+          fill_in "Comment", with: "I don't think you've assessed conditions correctly"
+
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review conditions successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Review pre-commencement conditions",
-          with: "Completed"
-        )
-
-        condition_set = planning_application.pre_commencement_condition_set
-        expect(condition_set.current_review.action).to eq "edited_and_accepted"
-        expect(condition_set.conditions.last.reason).to eq "This is different reason"
-        expect(condition_set.current_review.review_status).to eq "review_complete"
-      end
-
-      it "I can return to officer with comment" do
-        expect(page).to have_list_item_for(
-          "Review pre-commencement conditions",
-          with: "Not started"
-        )
-
-        click_link "Review pre-commencement conditions"
-
-        choose "Return to officer with comment"
-
-        fill_in "Comment", with: "I don't think you've assessed conditions correctly"
-
-        click_button "Save and mark as complete"
-
-        expect(page).to have_content("Review conditions successfully updated")
-
-        expect(page).to have_list_item_for(
-          "Review pre-commencement conditions",
-          with: "Awaiting changes"
-        )
+        within("#review-pre-commencement-conditions") do
+          expect(page).to have_content("Review pre-commencement conditions")
+          expect(page).to have_content("Awaiting changes")
+        end
 
         condition_set = planning_application.pre_commencement_condition_set
         current_review = condition_set.current_review

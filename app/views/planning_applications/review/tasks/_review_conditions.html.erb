@@ -3,26 +3,53 @@
 
   <% if @planning_application.application_type.planning_conditions? %>
     <% if @planning_application.condition_set&.current_review&.started? %>
-        <%= accordion.with_section(id: "review-conditions", expanded: @planning_application.condition_set.errors.any?) do |section| %>
-          <% section.with_heading(text: "Review conditions") %>
+      <%= accordion.with_section(id: "review-conditions", expanded: @planning_application.condition_set.errors.any?) do |section| %>
+        <% section.with_heading(text: "Review conditions") %>
 
-          <% section.with_status do %>
-            <%= render(
-                  StatusTags::ReviewComponent.new(
-                    review_item: @planning_application.condition_set.current_review,
-                    updated: @planning_application.condition_set.current_review&.status == "updated"
-                  )
-                ) %>
-          <% end %>
-
-          <% section.with_block do %>
-            <%= render(partial: "planning_applications/review/conditions/conditions_table") %>
-          <% end %>
-
-          <% section.with_footer do %>
-            <%= render(partial: "planning_applications/review/conditions/form") %>
-          <% end %>
+        <% section.with_status do %>
+          <%= render(
+                StatusTags::ReviewComponent.new(
+                  review_item: @planning_application.condition_set.current_review,
+                  updated: @planning_application.condition_set.current_review&.status == "updated"
+                )
+              ) %>
         <% end %>
+
+        <% section.with_block do %>
+          <%= render(partial: "planning_applications/review/conditions/conditions_table") %>
+        <% end %>
+
+        <% section.with_footer(id: "review-conditions-form") do %>
+          <%= render(partial: "planning_applications/review/conditions/form") %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if @planning_application.pre_commencement_condition_set&.current_review&.started? %>
+      <%= accordion.with_section(id: "review-pre-commencement-conditions", expanded: @planning_application.pre_commencement_condition_set.errors.any?) do |section| %>
+        <% section.with_heading(text: "Review pre-commencement conditions") %>
+
+        <% section.with_status do %>
+          <%= render(
+                StatusTags::ReviewComponent.new(
+                  review_item: @planning_application.pre_commencement_condition_set.current_review,
+                  updated: @planning_application.pre_commencement_condition_set.current_review&.status == "updated"
+                )
+              ) %>
+        <% end %>
+
+        <% section.with_block do %>
+          <%= render(partial: "planning_applications/review/pre_commencement_conditions/table") %>
+        <% end %>
+
+        <% section.with_footer(id: "review-pre-commencement-form") do %>
+          <%= render(partial: "planning_applications/review/pre_commencement_conditions/form") %>
+        <% end %>
+      <% end %>
+      <%= render(
+            TaskListItems::Reviewing::ConditionsComponent.new(
+              condition_set: @planning_application.pre_commencement_condition_set
+            )
+          ) %>
     <% end %>
   <% end %>
 <% end %>
@@ -65,15 +92,6 @@
             planning_application: @planning_application
           )
         ) %>
-  <% end %>
-  <% if @planning_application.application_type.planning_conditions? %>
-    <% if @planning_application.pre_commencement_condition_set&.current_review&.started? %>
-      <%= render(
-            TaskListItems::Reviewing::ConditionsComponent.new(
-              condition_set: @planning_application.pre_commencement_condition_set
-            )
-          ) %>
-    <% end %>
   <% end %>
   <% if @planning_application.application_type.informatives? %>
     <% if @planning_application.informative_set&.current_review&.started? %>
