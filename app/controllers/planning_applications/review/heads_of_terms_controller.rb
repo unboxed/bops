@@ -54,7 +54,7 @@ module PlanningApplications
       end
 
       def return_to_officer?
-        params.dig(:condition_set, :reviews_attributes, :action) == "rejected"
+        params.dig(:heads_of_term, :reviews_attributes, :action) == "rejected"
       end
 
       helper_method :heads_of_term, :review_complete?
