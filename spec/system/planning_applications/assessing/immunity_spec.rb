@@ -118,14 +118,20 @@ RSpec.describe "Immunity", type: :system do
 
       expect(page).to have_content("Review immunity details was successfully updated")
 
-      click_link "Review assessment of immunity"
-      expect(page).to have_content("Assessor decision: Yes")
-      expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
-      expect(page).to have_content("Summary: A summary")
+      click_button "Review assessment of immunity"
 
-      choose "Return to officer with comment"
-      fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess immunity enforcement response"
-      click_button "Save and mark as complete"
+      within("#review-enforcement") do
+        expect(page).to have_content("Assessor decision: Yes")
+        expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
+        expect(page).to have_content("Summary: A summary")
+      end
+
+      within("#review-enforcement-form") do
+        choose "Return to officer"
+        fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess immunity enforcement response"
+        click_button "Save and mark as complete"
+      end
+
       expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
       sign_in(assessor)
@@ -188,12 +194,15 @@ RSpec.describe "Immunity", type: :system do
       end
       expect(page).to have_content("Review immunity details was successfully updated")
 
-      click_link "Review assessment of immunity"
-      expect(page).to have_content("Assessor decision: No")
-      expect(page).to have_content("Reason: Application is not immune")
+      click_button "Review assessment of immunity"
 
-      choose("Accept", match: :first)
-      click_button "Save and mark as complete"
+      within("#review-enforcement") do
+        expect(page).to have_content("Assessor decision: No")
+        expect(page).to have_content("Reason: Application is not immune")
+
+        choose("Accept", match: :first)
+        click_button "Save and mark as complete"
+      end
       expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
       click_link "Review permitted development rights"

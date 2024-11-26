@@ -288,7 +288,7 @@ Rails.application.routes.draw do
 
           resources :immunity_details, only: :update
 
-          resources :immunity_enforcements, only: %i[show edit update]
+          resources :immunity_enforcements, only: :update
 
           resource :considerations, only: %i[show edit update] do
             resources :items, only: %i[edit update], module: :considerations do
