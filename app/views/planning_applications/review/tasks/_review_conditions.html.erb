@@ -1,5 +1,33 @@
 <%= bops_task_accordion(id: "review-conditions-section") do |accordion| %>
   <% accordion.with_heading(text: "Review conditions") %>
+  <% if @planning_application.review_heads_of_terms? %>
+    <% accordion.with_section(id: "review-heads-of-terms", expanded: @planning_application.heads_of_term.errors.any?) do |section| %>
+      <%= section.with_heading(text: "Review heads of terms") %>
+      <%= section.with_status do %>
+        <%= render(StatusTags::ReviewComponent.new(review_item: @planning_application.heads_of_term.current_review)) %>
+      <% end %>
+        <% section.with_block do %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <%= render "planning_applications/review/heads_of_terms/terms_summary" %>
+
+            <h3 class="govuk-heading-s">
+              Submitted recommendation
+            </h3>
+            <p class="govuk-body">
+              by <%= @planning_application.user&.name %>, <%= @planning_application.in_assessment_at.to_fs %>
+            </p>
+
+            <%= render(ReviewerCommentComponent.new(comment: @planning_application.heads_of_term.current_review)) %>
+          </div>
+        </div>
+      <% end %>
+      <%= section.with_footer do %>
+        <%= render(partial: "planning_applications/review/heads_of_terms/form",
+              locals: {heads_of_term: @planning_application.heads_of_term}) %>
+      <% end %>
+    <% end %>
+  <% end %>
 
   <% if @planning_application.application_type.planning_conditions? %>
     <% if @planning_application.condition_set&.current_review&.started? %>
@@ -71,13 +99,6 @@
               planning_application: @planning_application
             )
           ) %>
-  <% end %>
-  <% if @planning_application.review_heads_of_terms? %>
-    <%= render(
-          TaskListItems::Reviewing::HeadsOfTermsComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
   <% end %>
   <% if @planning_application.review_permitted_development_rights? %>
     <%= render(

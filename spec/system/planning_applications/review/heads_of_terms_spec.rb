@@ -28,88 +28,51 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
       let!(:term2) { create(:term, title: "Title 2", heads_of_term: planning_application.heads_of_term) }
 
       it "I can accept the planning officer's decision" do
-        expect(page).to have_list_item_for(
-          "Review heads of terms",
-          with: "Not started"
-        )
+        within "#review-heads-of-terms" do
+          expect(page).to have_content "Not started"
+        end
 
-        click_link "Review heads of terms"
-
-        expect(page).to have_selector("h1", text: "Review heads of terms")
+        click_button "Review heads of terms"
 
         choose "Accept"
 
-        click_button "Save and mark as complete"
+        within "#review-heads-of-terms" do
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review heads of terms successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Review heads of terms",
-          with: "Completed"
-        )
+        within "#review-heads-of-terms" do
+          expect(page).to have_content "Completed"
+        end
 
         term = HeadsOfTerm.last
         expect(term.current_review.action).to eq "accepted"
         expect(term.current_review.review_status).to eq "review_complete"
       end
 
-      it "I can edit to accept the planning officer's decision" do
-        expect(page).to have_list_item_for(
-          "Review heads of terms",
-          with: "Not started"
-        )
-
-        click_link "Review heads of terms"
-
-        choose "Edit to accept"
-
-        # Edit first term
-        within ".govuk-checkboxes .govuk-checkboxes__conditional", match: :first do
-          fill_in "Enter a title", with: "This is a new title"
-          fill_in "Enter detail", with: "This is a new detail"
+      it "I can return to officer with comment" do
+        within "#review-heads-of-terms" do
+          expect(page).to have_content "Not started"
         end
 
-        # Unchecking second term should accept the term as it currently is
-        uncheck "Title 2"
+        within "#review-heads-of-terms" do
+          click_button "Review heads of terms"
+        end
 
-        click_button "Save and mark as complete"
-
-        expect(page).to have_content("Review heads of terms successfully updated")
-        expect(page).to have_list_item_for(
-          "Review heads of terms",
-          with: "Completed"
-        )
-        click_link "Review heads of terms"
-        expect(page).to have_content("Edited and accepted by #{reviewer.name} on 1 January 2024 11:00")
-
-        expect(term1.reload.title).to eq("This is a new title")
-        expect(term2.reload.title).to eq("Title 2")
-
-        term = HeadsOfTerm.last
-        expect(term.current_review.action).to eq "edited_and_accepted"
-        expect(term.current_review.review_status).to eq "review_complete"
-      end
-
-      it "I can return to officer with comment" do
-        expect(page).to have_list_item_for(
-          "Review heads of terms",
-          with: "Not started"
-        )
-
-        click_link "Review heads of terms"
-
-        choose "Return to officer with comment"
+        choose "Return to officer"
 
         fill_in "Comment", with: "I don't think you've assessed heads of terms correctly"
 
-        click_button "Save and mark as complete"
+        within "#review-heads-of-terms" do
+          click_button "Save and mark as complete"
+        end
 
         expect(page).to have_content("Review heads of terms successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Review heads of terms",
-          with: "Awaiting changes"
-        )
+        within "#review-heads-of-terms" do
+          expect(page).to have_content "Awaiting changes"
+        end
 
         term = HeadsOfTerm.last
         expect(term.current_review.action).to eq "rejected"

@@ -3,18 +3,6 @@
 module PlanningApplications
   module Review
     class HeadsOfTermsController < BaseController
-      def show
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def edit
-        respond_to do |format|
-          format.html
-        end
-      end
-
       def update
         respond_to do |format|
           format.html do
@@ -22,7 +10,8 @@ module PlanningApplications
               redirect_to planning_application_review_tasks_path(@planning_application),
                 notice: I18n.t("review.heads_of_terms.update.success")
             else
-              render :show
+              flash.now[:alert] = heads_of_term.errors.messages.values.flatten.join(", ")
+              render "planning_applications/review/tasks/index"
             end
           end
         end
@@ -48,7 +37,7 @@ module PlanningApplications
               reviewed_at: Time.current,
               reviewer: current_user,
               status: status,
-              review_status:,
+              review_status: :review_complete,
               id: heads_of_term&.current_review&.id
             }
           )
@@ -64,12 +53,8 @@ module PlanningApplications
         end
       end
 
-      def review_status
-        save_progress? ? :review_in_progress : :review_complete
-      end
-
       def return_to_officer?
-        params.dig(:condition_set, :reviews_attributes, :action) == "rejected"
+        params.dig(:heads_of_term, :reviews_attributes, :action) == "rejected"
       end
 
       helper_method :heads_of_term, :review_complete?
