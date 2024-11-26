@@ -296,7 +296,7 @@ Rails.application.routes.draw do
             end
           end
 
-          resource :informatives, only: %i[show edit update] do
+          resource :informatives, only: %i[edit update] do
             resources :items, only: %i[edit update], module: :informatives do
               concerns :positionable
             end

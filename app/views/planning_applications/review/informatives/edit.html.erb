@@ -53,29 +53,20 @@
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </p>
     <% end %>
-  </div>
-</div>
 
-<div class="govuk-grid-row govuk-!-margin-top-5">
-  <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @review, url: planning_application_review_informatives_path(@planning_application) do |form| %>
-      <%= form.govuk_error_summary %>
-
-      <%= form.govuk_radio_buttons_fieldset :languages, legend: {text: "Do you accept the assessment against informatives?", size: "m"} do %>
-        <% if @review.reviewer_edited? %>
-          <%= form.govuk_radio_button :action, "edited_and_accepted", label: {text: "Yes"} %>
-        <% else %>
-          <%= form.govuk_radio_button :action, "accepted", label: {text: "Yes"} %>
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-1">
+      <%= t(".actions.#{@review.action}") %>
+    </h2>
+    <p class="govuk-body govuk-!-margin-bottom-7">
+      <% if @review.reviewer.present? %>
+        <%= time_tag(@review.reviewed_at, title: @review.reviewed_at.iso8601) do %>
+          <%= t(".review_info", reviewer: @review.reviewer.name, reviewed_on: @review.reviewed_at.to_date.to_fs) %>
         <% end %>
-        <%= form.govuk_radio_button :action, "rejected", label: {text: "No"} do %>
-          <%= form.govuk_text_area :comment, label: {text: "Enter comment"} %>
-        <% end %>
+      <% else %>
+        Reviewer information not available
       <% end %>
+    </p>
 
-      <%= form.govuk_submit "Save and mark as complete", name: "review[review_status]", value: "review_complete" do %>
-        <%= form.govuk_submit "Save and come back later", name: "review[review_status]", value: "review_in_progress", secondary: true %>
-        <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
-      <% end %>
-    <% end %>
+    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
   </div>
 </div>
