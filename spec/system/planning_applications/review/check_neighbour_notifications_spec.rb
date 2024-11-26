@@ -159,9 +159,8 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         click_button "Check neighbour notifications"
 
-        choose "Return with comments"
-
-        within "#check-neighbour-notifications" do
+        within("#check-neighbour-notifications") do
+          choose "Return with comments"
           click_button "Save and mark as complete"
         end
 

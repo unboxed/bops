@@ -89,6 +89,13 @@
             informatives: @planning_application.informative_set.informatives %>
     <% end %>
   <% end %>
+
+  <% if @planning_application.consideration_set.current_review %>
+    <%= render "planning_applications/review/tasks/review_considerations",
+          accordion: accordion,
+          current_review: @planning_application.consideration_set.current_review,
+          considerations: @planning_application.consideration_set.considerations %>
+  <% end %>
 <% end %>
 
 <ul class="app-task-list__items" id="review-conditions-section">

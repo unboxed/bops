@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Reviewing assessment against policies and guidance", type: :system, js: true do
-  let!(:local_authority) { create(:local_authority, :default) }
+  let!(:local_authority) { create(:local_authority, :default, planning_policy_and_guidance: "http://example.com") }
   let!(:api_user) { create(:api_user, local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:, name: "Anne Assessor") }
   let!(:reviewer) { create(:user, :reviewer, local_authority:, name: "Ray Reviewer") }
@@ -63,39 +63,105 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
     end
 
-    it "I can accept the planning officer's decision" do
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Not started")
+    it "shows validation errors" do
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_footer") do
+        click_button("Save and mark as complete")
+      end
+      expect(page).to have_selector("[role=alert] li", text: "Select an option")
 
-      click_link "Review assessment against policies and guidance"
+      within("#considerations_section") do
+        within(".bops-task-accordion__section-header") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#considerations_footer") do
+          expect(page).to have_selector("a", text: "Select an option")
+        end
 
-      expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
-
-      within_fieldset("Do you accept the assessment?") do
-        choose "Yes"
+        within("#considerations_footer") do
+          choose("Return to officer")
+          click_button("Save and mark as complete")
+        end
       end
 
-      expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+      expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
 
-      click_button "Save and mark as complete"
+      within("#considerations_section") do
+        within(".bops-task-accordion__section-header") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#considerations_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "Explain to the case officer why")
+        end
+      end
+    end
 
+    it "I can accept the planning officer's decision" do
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_section") do
+        expect(find(".govuk-tag")).to have_content("Not started")
+
+        within("#considerations_block") do
+          expect(page).to have_link("Check your local policies and guidance (in a new tab)")
+
+          consideration = Consideration.last
+          within("#consideration_#{consideration.id}") do
+            expect(page).to have_selector("span", text: "Consideration 1")
+            expect(page).to have_selector("h2", text: "Design")
+            expect(page).to have_link(
+              "Edit to accept",
+              href: "/planning_applications/#{planning_application.reference}/review/considerations/items/#{consideration.id}/edit"
+            )
+            expect(page).to have_selector("p", text: "Uses red brick with grey slates", visible: false)
+            expect(page).to have_selector("p", text: "Complies with design guidance policies", visible: false)
+
+            click_button("Show more")
+            expect(page).to have_selector("p", text: "Uses red brick with grey slates", visible: true)
+            expect(page).to have_selector("p", text: "Complies with design guidance policies", visible: true)
+
+            click_button("Show less")
+            expect(page).to have_selector("p", text: "Uses red brick with grey slates", visible: false)
+            expect(page).to have_selector("p", text: "Complies with design guidance policies", visible: false)
+          end
+
+          expect(page).to have_link(
+            "Edit list position",
+            href: "/planning_applications/#{planning_application.reference}/review/considerations/edit"
+          )
+        end
+
+        within("#considerations_footer") do
+          within_fieldset("Do you accept the assessment?") do
+            choose "Accept"
+          end
+
+          expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+          click_button "Save and mark as complete"
+        end
+      end
       expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Completed")
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_section") do
+        expect(find(".govuk-tag")).to have_content("Completed")
+      end
 
       expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
 
-      click_link "Review assessment against policies and guidance"
+      within("#considerations_block") do
+        click_link("Edit list position")
+      end
 
       expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
-      expect(page).to have_content("Assement against policies and guidance accepted by Ray Reviewer, 23 July 2024")
+      expect(page).to have_content("Assessment accepted by Ray Reviewer, 23 July 2024")
     end
 
-    it "I can edit to accept the planning officer's decision" do
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Not started")
+    it "I can edit and accept the planning officer's decision" do
+      click_button "Review assessment against policies and guidance"
 
-      click_link "Review assessment against policies and guidance"
-      expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
+      within("#considerations_block") do
+        click_link "Edit to accept"
+      end
 
-      click_link "Edit to accept"
       expect(page).to have_selector("h1", text: "Edit consideration")
 
       fill_in "Enter assessment", with: "Uses yellow brick with grey slates"
@@ -103,50 +169,63 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       click_button "Save consideration"
       expect(page).to have_content("Consideration was successfully saved")
 
-      within_fieldset("Do you accept the assessment?") do
-        choose "Yes"
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_block") do
+        click_button("Show more")
+        expect(page).to have_selector("p", text: "Uses yellow brick with grey slates")
       end
 
-      expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+      within("#considerations_footer") do
+        within_fieldset("Do you accept the assessment?") do
+          choose "Accept"
+        end
+        expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
 
-      click_button "Save and mark as complete"
+        click_button "Save and mark as complete"
+      end
 
       expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Completed")
+      within("#considerations_section") do
+        expect(find(".govuk-tag")).to have_content("Completed")
+      end
 
-      expect(current_review.reload).to have_attributes(action: "edited_and_accepted", review_status: "review_complete")
+      expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
 
-      click_link "Review assessment against policies and guidance"
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_block") do
+        click_link("Edit list position")
+      end
 
       expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
-      expect(page).to have_content("Assement against policies and guidance edited and accepted by Ray Reviewer, 23 July 2024")
+      expect(page).to have_content("Assessment accepted by Ray Reviewer, 23 July 2024")
     end
 
     it "I can return to the planning officer with a comment" do
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Not started")
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_footer") do
+        within_fieldset("Do you accept the assessment?") do
+          choose "Return to officer"
+          fill_in "Add a comment", with: "Please provide more details about the design of the property"
+        end
+        expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
 
-      click_link "Review assessment against policies and guidance"
-
-      expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
-
-      within_fieldset("Do you accept the assessment?") do
-        choose "No"
-        fill_in "Enter comment", with: "Please provide more details about the design of the property"
+        click_button "Save and mark as complete"
       end
 
-      expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
-
-      click_button "Save and mark as complete"
-
       expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Awaiting changes")
+      within("#considerations_section") do
+        expect(find(".govuk-tag")).to have_content("Awaiting changes")
+      end
 
       expect(current_review.reload).to have_attributes(action: "rejected", review_status: "review_complete", comment: "Please provide more details about the design of the property")
 
-      click_link "Review assessment against policies and guidance"
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_block") do
+        click_link("Edit list position")
+      end
 
       expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
-      expect(page).to have_content("Assement against policies and guidance rejected by Ray Reviewer, 23 July 2024")
+      expect(page).to have_content("Assessment rejected by Ray Reviewer, 23 July 2024")
 
       travel_to Time.zone.local(2024, 7, 23, 12)
       sign_in(assessor)
@@ -176,23 +255,28 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       sign_in(reviewer)
 
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Updated")
-
-      click_link "Review assessment against policies and guidance"
-
-      expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
-
-      within_fieldset("Do you accept the assessment?") do
-        choose "Yes"
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_section") do
+        expect(find(".govuk-tag")).to have_content("Updated")
       end
 
-      click_button "Save and mark as complete"
-      expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
-      expect(page).to have_list_item_for("Review assessment against policies and guidance", with: "Completed")
+      within("#considerations_footer") do
+        within_fieldset("Do you accept the assessment?") do
+          choose "Accept"
+        end
+        click_button "Save and mark as complete"
+      end
 
-      click_link "Review assessment against policies and guidance"
-      expect(page).to have_selector("h1", text: "Review assessment against policies and guidance")
-      expect(page).to have_content("Assement against policies and guidance accepted by Ray Reviewer, 23 July 2024")
+      expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
+      within("#considerations_section") do
+        expect(find(".govuk-tag")).to have_content("Completed")
+      end
+
+      click_button "Review assessment against policies and guidance"
+      within("#considerations_block") do
+        click_link("Edit list position")
+      end
+      expect(page).to have_content("Assessment accepted by Ray Reviewer, 23 July 2024")
     end
   end
 end

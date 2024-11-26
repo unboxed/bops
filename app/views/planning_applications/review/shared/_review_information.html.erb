@@ -1,0 +1,14 @@
+<% if @review.reviewer.present? %>
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-1">
+    <%= t(".actions.#{@review.action}") %>
+  </h2>
+<% end %>
+<p class="govuk-body govuk-!-margin-bottom-7">
+  <% if @review.reviewer.present? %>
+    <%= time_tag(@review.reviewed_at, title: @review.reviewed_at.iso8601) do %>
+      <%= t(".review_info", reviewer: @review.reviewer.name, reviewed_on: @review.reviewed_at.to_date.to_fs) %>
+    <% end %>
+  <% else %>
+    Reviewer information not available
+  <% end %>
+</p>
