@@ -94,3 +94,5 @@ group :test do
   gem "openapi3_parser", require: false
   gem "webmock"
 end
+
+gem "commonmarker", "~> 0.23.10"
