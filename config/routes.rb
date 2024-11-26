@@ -286,7 +286,7 @@ Rails.application.routes.draw do
 
           resource :heads_of_terms, only: %i[update]
 
-          resources :immunity_details, only: %i[edit update show]
+          resources :immunity_details, only: :update
 
           resources :immunity_enforcements, only: %i[show edit update]
 

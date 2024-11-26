@@ -6,7 +6,6 @@ RSpec.describe "Immunity", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
-  # let!(:decision) {  }
 
   context "when not immune" do
     before do
@@ -109,17 +108,14 @@ RSpec.describe "Immunity", type: :system do
       visit "/planning_applications/#{planning_application.reference}"
       click_link "Review and sign-off"
 
-      click_link "Review evidence of immunity"
-      click_button "Utility bills (1)"
+      click_button "Review evidence of immunity"
 
-      within(open_accordion_section) do
-        expect(page).to have_content("Missing evidence (gap in time): May 2020")
-        expect(page).to have_content("Not good enough")
+      within("#review-evidence") do
+        choose "Return to officer"
+        fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess the evidence of immunity"
+        click_button "Save and mark as complete"
       end
 
-      choose "Return to officer with comment"
-      fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess the evidence of immunity"
-      click_button "Save and mark as complete"
       expect(page).to have_content("Review immunity details was successfully updated")
 
       click_link "Review assessment of immunity"
@@ -184,16 +180,12 @@ RSpec.describe "Immunity", type: :system do
       visit "/planning_applications/#{planning_application.reference}"
       click_link "Review and sign-off"
 
-      click_link "Review evidence of immunity"
-      click_button "Utility bills (1)"
+      click_button "Review evidence of immunity"
 
-      within(open_accordion_section) do
-        expect(page).to have_content("Missing evidence (gap in time): June 2020")
-        expect(page).to have_content("Never good enough")
+      within("#review-evidence") do
+        choose "Accept"
+        click_button "Save and mark as complete"
       end
-
-      choose "Accept"
-      click_button "Save and mark as complete"
       expect(page).to have_content("Review immunity details was successfully updated")
 
       click_link "Review assessment of immunity"
