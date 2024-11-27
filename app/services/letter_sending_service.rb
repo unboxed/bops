@@ -33,6 +33,8 @@ class LetterSendingService
       letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
     end
 
+    @batch&.update!(text: letter_content)
+
     personalisation = {message: letter_content, heading:}
     personalisation.merge! neighbour.format_address_lines
 
