@@ -27,13 +27,13 @@ class LetterSendingService
       @batch.neighbour_letters << letter_record
     end
 
-    return if @local_authority.notify_error_status.present?
-
     if resend_reason.present?
-      letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
+      @letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
     end
 
     @batch&.update!(text: letter_content)
+
+    return if @local_authority.notify_error_status.present?
 
     personalisation = {message: letter_content, heading:}
     personalisation.merge! neighbour.format_address_lines
