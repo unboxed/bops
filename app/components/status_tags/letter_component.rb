@@ -3,7 +3,7 @@
 module StatusTags
   class LetterComponent < StatusTags::BaseComponent
     def initialize(status:)
-      @status = status.to_sym
+      @status = status&.to_sym || :error
       raise "Invalid status `#{@status.inspect}'" unless NeighbourLetter::STATUSES.values.map(&:to_sym).include?(@status) || @status == :new
 
       super

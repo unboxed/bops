@@ -14,7 +14,8 @@ class NeighbourLetter < ApplicationRecord
     submitted: "submitted",
     accepted: "printing",
     received: "posted",
-    cancelled: "cancelled"
+    cancelled: "cancelled",
+    error: "error"
   }.freeze
 
   FAILURE_STATUSES = %i[technical_failure permanent_failure rejected].freeze
