@@ -284,8 +284,8 @@ class Consultation < ApplicationRecord
     replace_placeholders(body, defaults)
   end
 
-  def neighbour_letter_body
-    body = I18n.t("neighbour_letter_template.consultation.#{planning_application.application_type.name}")
+  def neighbour_letter_body(body = nil)
+    body ||= I18n.t("neighbour_letter_template.consultation.#{planning_application.application_type.name}")
 
     defaults = {
       expiry_date: planning_application.expiry_date.to_date.to_fs,
@@ -307,13 +307,13 @@ class Consultation < ApplicationRecord
     replace_placeholders(body, defaults)
   end
 
-  def neighbour_letter_content
-    "# #{neighbour_letter_header}\n\n#{neighbour_letter_body}"
+  def neighbour_letter_content(body = nil)
+    "# #{neighbour_letter_header}\n\n#{neighbour_letter_body(body)}"
   end
 
   def neighbour_letter_text
     if super.presence&.include?("{{")
-      neighbour_letter_content
+      neighbour_letter_content(super.presence)
     else
       super.presence
     end
