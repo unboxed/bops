@@ -170,7 +170,7 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
           click_button("Review informatives")
           click_link("Edit list position")
-          expect(page).to have_content("Informatives accepted by Ray Reviewer, 20 May 2024")
+          expect(page).to have_content("Assessment accepted by Ray Reviewer, 20 May 2024")
         end
 
         it "I can return to the planning officer with a comment" do
@@ -197,7 +197,7 @@ RSpec.describe "Reviewing informatives", js: true do
           click_link("Edit list position")
 
           expect(page).to have_selector("h1", text: "Review informatives")
-          expect(page).to have_content("Informatives rejected by Ray Reviewer, 20 May 2024")
+          expect(page).to have_content("Assessment rejected by Ray Reviewer, 20 May 2024")
 
           travel_to Time.zone.local(2024, 5, 20, 12)
           sign_in(assessor)
@@ -251,7 +251,7 @@ RSpec.describe "Reviewing informatives", js: true do
 
           click_button("Review informatives")
           click_link("Edit list position")
-          expect(page).to have_content("Informatives accepted by Ray Reviewer, 20 May 2024")
+          expect(page).to have_content("Assessment accepted by Ray Reviewer, 20 May 2024")
         end
       end
     end

@@ -7,20 +7,6 @@ module PlanningApplications
       before_action :set_considerations
       before_action :set_review
 
-      before_action :redirect_to_review_tasks, if: :considerations_not_started?
-
-      def show
-        respond_to do |format|
-          format.html do
-            if @review.review_complete?
-              render :show
-            else
-              redirect_to edit_planning_application_review_considerations_path(@planning_application)
-            end
-          end
-        end
-      end
-
       def edit
         respond_to do |format|
           format.html
@@ -33,7 +19,8 @@ module PlanningApplications
             if @review.update(review_params)
               redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
             else
-              render :edit
+              flash.now[:alert] = @review.errors.messages.values.flatten.join(", ")
+              render_review_tasks
             end
           end
         end
@@ -61,10 +48,6 @@ module PlanningApplications
 
       def redirect_to_review_tasks
         redirect_to planning_application_review_tasks_path(@planning_application)
-      end
-
-      def considerations_not_started?
-        @review.not_started?
       end
     end
   end

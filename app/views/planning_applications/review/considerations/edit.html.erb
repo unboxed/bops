@@ -29,7 +29,7 @@
 
     <% if @considerations.any? %>
       <ol data-controller="sortable" class="govuk-list sortable-list">
-        <%= render @considerations, editable: true %>
+        <%= render @considerations, editable: true, sortable: true %>
       </ol>
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>
     <% else %>
@@ -38,29 +38,9 @@
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </p>
     <% end %>
-  </div>
-</div>
 
-<div class="govuk-grid-row govuk-!-margin-top-5">
-  <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @review, url: planning_application_review_considerations_path(@planning_application) do |form| %>
-      <%= form.govuk_error_summary %>
+    <%= render "planning_applications/review/shared/review_information" %>
 
-      <%= form.govuk_radio_buttons_fieldset :languages, legend: {text: "Do you accept the assessment?", size: "m"} do %>
-        <% if @review.reviewer_edited? %>
-          <%= form.govuk_radio_button :action, "edited_and_accepted", label: {text: "Yes"} %>
-        <% else %>
-          <%= form.govuk_radio_button :action, "accepted", label: {text: "Yes"} %>
-        <% end %>
-        <%= form.govuk_radio_button :action, "rejected", label: {text: "No"} do %>
-          <%= form.govuk_text_area :comment, label: {text: "Enter comment"} %>
-        <% end %>
-      <% end %>
-
-      <%= form.govuk_submit "Save and mark as complete", name: "review[review_status]", value: "review_complete" do %>
-        <%= form.govuk_submit "Save and come back later", name: "review[review_status]", value: "review_in_progress", secondary: true %>
-        <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
-      <% end %>
-    <% end %>
+    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
   </div>
 </div>

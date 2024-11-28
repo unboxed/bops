@@ -54,18 +54,7 @@
       </p>
     <% end %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-1">
-      <%= t(".actions.#{@review.action}") %>
-    </h2>
-    <p class="govuk-body govuk-!-margin-bottom-7">
-      <% if @review.reviewer.present? %>
-        <%= time_tag(@review.reviewed_at, title: @review.reviewed_at.iso8601) do %>
-          <%= t(".review_info", reviewer: @review.reviewer.name, reviewed_on: @review.reviewed_at.to_date.to_fs) %>
-        <% end %>
-      <% else %>
-        Reviewer information not available
-      <% end %>
-    </p>
+    <%= render "planning_applications/review/shared/review_information" %>
 
     <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
   </div>

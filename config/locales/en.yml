@@ -1552,12 +1552,6 @@ en:
         items:
           update:
             success: Consideration was successfully saved
-        show:
-          actions:
-            accepted: Assement against policies and guidance accepted
-            edited_and_accepted: Assement against policies and guidance edited and accepted
-            rejected: Assement against policies and guidance rejected
-          review_info: by %{reviewer}, %{reviewed_on}
         update:
           success: Review of assessment against policy and guidance updated successfully
       documents:
@@ -1569,12 +1563,7 @@ en:
         successfully_updated: Review immunity details was successfully updated
       informatives:
         edit:
-          actions:
-            accepted: Informatives accepted
-            edited_and_accepted: Informatives edited and accepted
-            rejected: Informatives rejected
           drag_and_drop: Drag and drop informatives to change the order that they appear in the decision notice.
-          review_info: by %{reviewer}, %{reviewed_on}
         items:
           update:
             success: Informative was successfully saved
@@ -1721,6 +1710,12 @@ en:
           make_draft_recommendation: Update decision notice after committee details
         update:
           success: Recommendation was successfully reviewed.
+      shared:
+        review_information:
+          actions:
+            accepted: Assessment accepted
+            rejected: Assessment rejected
+          review_info: by %{reviewer}, %{reviewed_on}
       tasks:
         consultees:
           external: External

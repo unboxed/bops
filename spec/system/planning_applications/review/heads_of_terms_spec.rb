@@ -58,13 +58,9 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
 
         within "#review-heads-of-terms" do
           click_button "Review heads of terms"
-        end
+          choose "Return to officer"
 
-        choose "Return to officer"
-
-        fill_in "Comment", with: "I don't think you've assessed heads of terms correctly"
-
-        within "#review-heads-of-terms" do
+          fill_in "Comment", with: "I don't think you've assessed heads of terms correctly"
           click_button "Save and mark as complete"
         end
 
