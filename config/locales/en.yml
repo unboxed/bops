@@ -1717,6 +1717,8 @@ en:
             rejected: Assessment rejected
           review_info: by %{reviewer}, %{reviewed_on}
       tasks:
+        committee:
+          committee_actions: Committee actions
         consultees:
           external: External
           internal: Internal
