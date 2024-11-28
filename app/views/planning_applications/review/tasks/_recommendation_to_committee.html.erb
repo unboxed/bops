@@ -2,7 +2,7 @@
   <% section.with_heading(text: "Recommendation to committee") %>
 
   <% section.with_status do %>
-    <%= render(StatusTags::ReviewComponent.new(review_item: committee_decision.current_review)) %>
+    <%= render(StatusTags::ReviewComponent.new(review_item: committee_decision.current_review, updated: committee_decision.current_review.updated?)) %>
   <% end %>
 
   <% section.with_block(id: "recommendation_to_committee_block") do %>
