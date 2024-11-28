@@ -42,7 +42,10 @@ class RecommendationForm
         recommendation.save!
 
         if committee_decision_present?
-          planning_application.committee_decision.update!(reasons: updated_reasons, recommend:)
+          planning_application.committee_decision.tap do |decision|
+            decision.update!(reasons: updated_reasons, recommend:)
+            decision.current_review.updated!
+          end
         else
           committee_decision.save!
         end

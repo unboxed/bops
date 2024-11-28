@@ -15,7 +15,7 @@ RSpec.describe "Review committee decision" do
       local_authority: default_local_authority)
   end
   let!(:planning_application) do
-    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor, in_assessment_at: Time.zone.local(2024, 11, 28, 12, 30))
+    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor, in_assessment_at: Time.zone.local(2024, 11, 20, 12, 30))
   end
 
   before do
@@ -27,7 +27,7 @@ RSpec.describe "Review committee decision" do
     sign_in reviewer
 
     planning_application.committee_decision.update(recommend: true, reasons: ["The first reason"])
-    travel_to(Time.zone.local(2024, 11, 28, 12, 30))
+    travel_to(Time.zone.local(2024, 11, 21, 12, 30))
     visit "/planning_applications/#{planning_application.reference}/review/tasks"
   end
 
@@ -66,7 +66,7 @@ RSpec.describe "Review committee decision" do
         expect(page).to have_selector("h3", text: "Reasons selected")
         expect(page).to have_selector("li", text: "The first reason")
         expect(page).to have_selector("h3", text: "Submitted recommendation")
-        expect(page).to have_selector("p", text: "by #{assessor.name}, 28 November 2024 12:30")
+        expect(page).to have_selector("p", text: "by #{assessor.name}, 20 November 2024 12:30")
       end
 
       within("#recommendation_to_committee_footer") do
@@ -106,6 +106,7 @@ RSpec.describe "Review committee decision" do
     choose "No (return the case for assessment)"
     fill_in "Explain to the officer why the case is being returned", with: "No committee"
     click_button "Save and mark as complete"
+
     click_link "Application"
     click_link "Check and assess"
 
@@ -118,7 +119,7 @@ RSpec.describe "Review committee decision" do
 
     within(".comment-component") do
       expect(page).to have_content("Reviewer comment")
-      expect(page).to have_content("Sent on 28 November 2024 12:30 by #{reviewer.name}")
+      expect(page).to have_content("Sent on 21 November 2024 12:30 by #{reviewer.name}")
       expect(page).to have_content("No committee")
     end
     within_fieldset("Does this planning application need to be decided by committee?") do
@@ -126,15 +127,12 @@ RSpec.describe "Review committee decision" do
     end
 
     click_button "Update assessment"
-
     click_link "Review and submit recommendation"
-
     click_button "Submit recommendation"
-
     click_link "Review and sign-off"
 
     within("#recommendation_to_committee_section") do
-      expect(find(".govuk-tag")).to have_content("Not started")
+      expect(find(".govuk-tag")).to have_content("Updated")
 
       expect(page).to have_content "The case officer has marked this application as not requiring decision by Committee."
       within("#recommendation_to_committee_footer") do
