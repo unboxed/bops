@@ -2241,10 +2241,6 @@ en:
         review_documents_for: Review documents for recommendation
       heads_of_terms_component:
         heads_of_terms: Review heads of terms
-      immunity_details_component:
-        evidence_of_immunity: Review evidence of immunity
-      immunity_enforcement_component:
-        review_immunity_enforcement: Review assessment of immunity
       informatives_component:
         link_text: Review informatives
       notify_committee_component:

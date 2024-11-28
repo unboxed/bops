@@ -3,32 +3,19 @@
 module PlanningApplications
   module Review
     class ImmunityDetailsController < BaseController
-      before_action :set_immunity_detail, only: %i[show edit update]
-      before_action :set_review_immunity_detail, only: %i[show edit update]
-
-      def show
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def edit
-        respond_to do |format|
-          format.html
-        end
-      end
+      before_action :set_immunity_detail, only: :update
+      before_action :set_review_immunity_detail, only: :update
 
       def update
         respond_to do |format|
-          if @review_immunity_detail.update(review_immunity_detail_params)
-            format.html do
+          format.html do
+            if @review_immunity_detail.update(review_immunity_detail_params)
               redirect_to planning_application_review_tasks_path(@planning_application),
                 notice: I18n.t("planning_applications.review..immunity_details.successfully_updated")
+            else
+              flash.now[:alert] = @review_immunity_detail.errors.messages.values.flatten.join(", ")
+              render_review_tasks
             end
-          else
-            set_immunity_detail
-            set_review_immunity_detail
-            format.html { render :edit }
           end
         end
       end

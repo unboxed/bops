@@ -68,8 +68,7 @@ module PlanningApplications
         )
 
         if @form.update
-          redirect_to planning_application_assessment_tasks_path(@planning_application),
-            notice: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.successfully_updated")
+          redirect_to redirect_path, notice: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.successfully_updated")
         else
           set_permitted_development_rights
           set_review_immunity_details
@@ -126,6 +125,14 @@ module PlanningApplications
 
       def redirect_failed_create_error(error)
         redirect_to planning_application_assessment_tasks_path(@planning_application), alert: error.message
+      end
+
+      def redirect_path
+        if current_user.reviewer?
+          planning_application_review_tasks_path(@planning_application)
+        else
+          planning_application_assessment_tasks_path(@planning_application)
+        end
       end
     end
   end
