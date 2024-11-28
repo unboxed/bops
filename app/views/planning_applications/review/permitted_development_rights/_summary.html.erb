@@ -1,0 +1,16 @@
+<% if @permitted_development_right.removed? %>
+  <p class="govuk-body">
+    The permitted development rights have been removed for the following reasons:
+  </p>
+  <div class="govuk-inset-text">
+    <p class="govuk-body">
+      <%= @permitted_development_right.removed_reason %>
+    </p>
+  </div>
+<% else %>
+  <p class="govuk-body">
+    The permitted development rights have not been removed.
+  </p>
+<% end %>
+
+<%= govuk_link_to "Edit", edit_planning_application_assessment_permitted_development_rights_path(@planning_application) %>

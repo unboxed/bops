@@ -7,7 +7,7 @@ module AssessmentTasksPresenter
     policy_classes.any? ||
       consistency_checklist.present? ||
       assessment_details.any? ||
-      permitted_development_right.present? ||
+      permitted_development_right_in_progress? ||
       recommendation.present? ||
       immunity_validation_in_progress? ||
       pre_commencement_condition_set.conditions.any? ||
@@ -25,5 +25,9 @@ module AssessmentTasksPresenter
     (planning_application&.immunity_detail&.current_enforcement_review_immunity_detail.present? && planning_application.immunity_detail.current_enforcement_review_immunity_detail.status != "not_started") ||
       (planning_application&.immunity_detail&.current_evidence_review_immunity_detail.present? && planning_application.immunity_detail.current_evidence_review_immunity_detail.status != "not_started")
     ## Above line needs fixing when we add things that update the immunity details
+  end
+
+  def permitted_development_right_in_progress?
+    permitted_development_rights.any? { |pdr| !pdr.not_started? }
   end
 end

@@ -11,46 +11,27 @@ module TaskListItems
 
       attr_reader :planning_application
 
-      delegate(:permitted_development_right, to: :planning_application)
+      delegate :permitted_development_right, to: :planning_application
+      delegate :complete?, :removed?, :updated?, to: :permitted_development_right
 
       def link_text
         t(".permitted_development_rights")
       end
 
       def link_path
-        case status
-        when :not_started, :to_be_reviewed
-          new_planning_application_assessment_permitted_development_right_path(
-            planning_application
-          )
-        when :in_progress
-          edit_planning_application_assessment_permitted_development_right_path(
-            planning_application,
-            permitted_development_right
-          )
-        when :complete, :removed
-          planning_application_assessment_permitted_development_right_path(
-            planning_application,
-            permitted_development_right
-          )
+        if complete? || updated?
+          planning_application_assessment_permitted_development_rights_path(planning_application)
+        else
+          edit_planning_application_assessment_permitted_development_rights_path(planning_application)
         end
       end
 
       def status
-        if permitted_development_right.blank?
-          :not_started
-        elsif to_be_reviewed?
-          :to_be_reviewed
-        elsif permitted_development_right.status.to_sym == :checked
-          :complete
+        if complete? && removed?
+          :removed
         else
           permitted_development_right.status.to_sym
         end
-      end
-
-      def to_be_reviewed?
-        planning_application.recommendation&.rejected? &&
-          permitted_development_right.update_required?
       end
     end
   end

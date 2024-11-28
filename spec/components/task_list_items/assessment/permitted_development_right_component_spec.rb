@@ -4,18 +4,17 @@ require "rails_helper"
 
 RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
+  subject { described_class.new(planning_application:) }
 
-  context "when record does not exist" do
+  context "when assessment has not started" do
     before do
-      render_inline(
-        described_class.new(planning_application:)
-      )
+      render_inline(subject)
     end
 
-    it "renders link to new permitted development right" do
+    it "renders link to permitted development rights page" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
+        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
       )
     end
 
@@ -29,7 +28,7 @@ RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, ty
       create(
         :permitted_development_right,
         planning_application:,
-        status: :checked,
+        status: :to_be_reviewed,
         review_status: :review_complete,
         accepted: false
       )
@@ -42,15 +41,13 @@ RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, ty
         reviewer_comment: "comment"
       )
 
-      render_inline(
-        described_class.new(planning_application:)
-      )
+      render_inline(subject)
     end
 
-    it "renders link to new permitted development right" do
+    it "renders link to permitted development rights page" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
+        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
       )
     end
 
@@ -74,10 +71,10 @@ RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, ty
       )
     end
 
-    it "renders link to edit permitted development right" do
+    it "renders link to edit permitted development rights page" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/#{permitted_development_right.id}/edit"
+        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
       )
     end
 
@@ -86,25 +83,23 @@ RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, ty
     end
   end
 
-  context "when status is 'checked'" do
+  context "when status is 'complete'" do
     let!(:permitted_development_right) do
       create(
         :permitted_development_right,
         planning_application:,
-        status: :checked
+        status: :complete
       )
     end
 
     before do
-      render_inline(
-        described_class.new(planning_application:)
-      )
+      render_inline(subject)
     end
 
-    it "renders link to permitted development right" do
+    it "renders link to permitted development rights page" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/#{permitted_development_right.id}"
+        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights"
       )
     end
 
@@ -115,23 +110,17 @@ RSpec.describe TaskListItems::Assessment::PermittedDevelopmentRightComponent, ty
 
   context "when status is 'removed'" do
     let!(:permitted_development_right) do
-      create(
-        :permitted_development_right,
-        planning_application:,
-        status: :removed
-      )
+      create(:permitted_development_right, :removed, planning_application:)
     end
 
     before do
-      render_inline(
-        described_class.new(planning_application:)
-      )
+      render_inline(subject)
     end
 
-    it "renders link to permitted development right" do
+    it "renders link to permitted development rights page" do
       expect(page).to have_link(
         "Permitted development rights",
-        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/#{permitted_development_right.id}"
+        href: "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights"
       )
     end
 

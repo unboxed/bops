@@ -238,7 +238,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
           assessor_id: assessor.id,
           removed: true,
           removed_reason: "A reason",
-          status: "removed"
+          status: "complete"
         )
       end
 
@@ -371,7 +371,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
 
       expect(page).not_to have_link("Immunity/permitted development rights")
 
-      visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end

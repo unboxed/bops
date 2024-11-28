@@ -25,36 +25,91 @@ RSpec.describe "Permitted development right", type: :system do
     end
 
     context "when planning application is awaiting determination" do
-      it "I can view the information on the review permitted development rights page" do
-        click_link "Review and sign-off"
+      context "when permitted development rights have not been removed" do
+        it "I can accept the assessment" do
+          click_link "Review and sign-off"
 
-        expect(page).to have_list_item_for(
-          "Review permitted development rights",
-          with: "Not started"
-        )
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Not started")
 
-        click_link "Review permitted development rights"
+            click_button "Review permitted development rights"
+            expect(page).to have_content("The permitted development rights have not been removed.")
 
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Review")
+            choose "Accept"
+            click_button "Save and mark as complete"
+          end
+
+          expect(page).to have_content("Permitted development rights response was successfully updated")
+
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Complete")
+          end
         end
 
-        expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.reference}/review/permitted_development_rights/#{PermittedDevelopmentRight.last.id}/edit"
-        )
+        it "I can reject the assessment" do
+          click_link "Review and sign-off"
 
-        expect(page).to have_content("Review permitted development rights")
-        expect(page).to have_content("Application number: #{planning_application.reference}")
-        expect(page).to have_content(planning_application.full_address)
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Not started")
 
-        expect(page).to have_content("Constraints and history")
+            click_button "Review permitted development rights"
+            expect(page).to have_content("The permitted development rights have not been removed.")
 
-        within("#constraints-section") do
-          expect(page).to have_content("Constraints")
+            choose "Return to officer with comment"
+            click_button "Save and mark as complete"
+
+            expect(page).to have_content("Explain to the case officer why")
+
+            fill_in "Explain to the assessor why this needs reviewing", with: "Needs more explanation"
+            click_button "Save and mark as complete"
+          end
+
+          expect(page).to have_content("Permitted development rights response was successfully updated")
+
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Awaiting changes")
+          end
         end
 
-        within("#planning-history-section") do
-          expect(page).to have_content("Historical information related to the property or to adjoining properties")
+        it "I can save and mark as complete after editing the permitted development rights assessment" do
+          click_link "Review and sign-off"
+
+          within "#review-permitted-development-rights" do
+            click_button "Review permitted development rights"
+            click_link "Edit"
+          end
+
+          expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit")
+
+          choose "Yes"
+          fill_in "Describe how permitted development rights have been removed", with: "A removed reason"
+
+          click_button "Save and mark as complete"
+          expect(page).to have_content("Permitted development rights response was successfully updated")
+
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Not started")
+
+            click_button "Review permitted development rights"
+            expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
+            expect(page).to have_content("A removed reason")
+
+            choose "Accept"
+            click_button "Save and mark as complete"
+          end
+
+          expect(PermittedDevelopmentRight.last.reviewer_edited).to be(true)
+          expect(page).to have_content("Permitted development rights response was successfully updated")
+
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Complete")
+          end
         end
       end
 
@@ -63,212 +118,91 @@ RSpec.describe "Permitted development right", type: :system do
           planning_application.reload.permitted_development_right.update(removed: true, removed_reason: "A removed reason")
         end
 
-        it "there is a validation error when submitting an empty text field when editing to accept" do
+        it "I can accept the assessment" do
           click_link "Review and sign-off"
-          click_link "Review permitted development rights"
 
-          radio_buttons = find_all(".govuk-radios__item")
-          within(radio_buttons[1]) do
-            choose "Edit to accept"
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Not started")
+
+            click_button "Review permitted development rights"
+            expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
+            expect(page).to have_content("A removed reason")
+
+            choose "Accept"
+            click_button "Save and mark as complete"
           end
-          fill_in "permitted_development_right[removed_reason]", with: ""
 
-          click_button "Save and mark as complete"
+          expect(page).to have_content("Permitted development rights response was successfully updated")
 
-          within(".govuk-error-summary") do
-            expect(page).to have_content("There is a problem")
-            expect(page).to have_content("Removed reason can't be blank")
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Complete")
           end
         end
 
-        it "I can save and mark as complete when adding my review to accept and edit the permitted development right response" do
+        it "I can reject the assessment" do
           click_link "Review and sign-off"
-          click_link "Review permitted development rights"
 
-          radio_buttons = find_all(".govuk-radios__item")
-          within(radio_buttons[1]) do
-            choose "Edit to accept"
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Not started")
+
+            click_button "Review permitted development rights"
+            expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
+            expect(page).to have_content("A removed reason")
+
+            choose "Return to officer with comment"
+            click_button "Save and mark as complete"
+
+            expect(page).to have_content("Explain to the case officer why")
+
+            fill_in "Explain to the assessor why this needs reviewing", with: "Needs more explanation"
+            click_button "Save and mark as complete"
           end
-          fill_in "permitted_development_right[removed_reason]", with: "Edited comment"
 
+          expect(page).to have_content("Permitted development rights response was successfully updated")
+
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Awaiting changes")
+          end
+        end
+
+        it "I can save and mark as complete after editing the permitted development rights assessment" do
+          click_link "Review and sign-off"
+
+          within "#review-permitted-development-rights" do
+            click_button "Review permitted development rights"
+            click_link "Edit"
+          end
+
+          expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit")
+          fill_in "Describe how permitted development rights have been removed", with: "Edited comment"
           click_button "Save and mark as complete"
 
-          expect(page).to have_list_item_for(
-            "Review permitted development rights",
-            with: "Completed"
-          )
+          expect(page).to have_content("Permitted development rights response was successfully updated")
 
-          click_link "Review permitted development rights"
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Not started")
+
+            click_button "Review permitted development rights"
+            expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
+            expect(page).to have_content("Edited comment")
+
+            choose "Accept"
+            click_button "Save and mark as complete"
+          end
 
           expect(PermittedDevelopmentRight.last.reviewer_edited).to be(true)
-          expect(page).to have_content("Edited comment")
-        end
-      end
+          expect(page).to have_content("Permitted development rights response was successfully updated")
 
-      context "when permitted development rights have not been removed" do
-        it "there is no edit to accept option" do
-          click_link "Review and sign-off"
-          click_link "Review permitted development rights"
-
-          within(".govuk-radios") do
-            expect(page).not_to have_content("Edit to accept")
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Complete")
           end
         end
-      end
-
-      it "I can save and come back later when adding my review or editing the permitted development right" do
-        click_link "Review and sign-off"
-        click_link "Review permitted development rights"
-
-        choose "Return to officer with comment"
-        expect(page).to have_content("Explain to the assessor why this needs reviewing")
-        fill_in "permitted_development_right[reviewer_comment]", with: "My review comment"
-
-        click_button "Save and come back later"
-
-        expect(page).to have_list_item_for(
-          "Review permitted development rights",
-          with: "In progress"
-        )
-
-        click_link "Review permitted development rights"
-
-        choose "Return to officer with comment"
-        fill_in "permitted_development_right[reviewer_comment]", with: "My edited review comment"
-        click_button "Save and come back later"
-        expect(page).to have_content("Permitted development rights response was successfully updated")
-      end
-
-      it "I can save and mark as complete when adding my review to accept the permitted development right response", capybara: true do
-        click_link "Review and sign-off"
-        click_link "Review permitted development rights"
-
-        choose "Accept"
-
-        click_button "Save and mark as complete"
-
-        expect(page).to have_list_item_for(
-          "Review permitted development rights",
-          with: "Completed"
-        )
-
-        click_link "Review permitted development rights"
-
-        expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(true)
-        expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(false)
-      end
-
-      it "I can save and mark as complete when adding my review to reject the permitted development right response", capybara: true do
-        click_link "Review and sign-off"
-        click_link "Review permitted development rights"
-
-        choose "Return to officer with comment"
-        fill_in "permitted_development_right[reviewer_comment]", with: "My review comment"
-
-        click_button "Save and mark as complete"
-
-        expect(page).to have_list_item_for(
-          "Review permitted development rights",
-          with: "Awaiting changes"
-        )
-
-        click_link "Review permitted development rights"
-
-        expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(false)
-        expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(true)
-      end
-
-      context "with previous permitted development right responses" do
-        before { PermittedDevelopmentRight.last.update(reviewed_at: Time.zone.now, reviewer:, status: "to_be_reviewed") }
-
-        let!(:permitted_development_right) { create(:permitted_development_right, :to_be_reviewed, planning_application:) }
-        let!(:permitted_development_right2) { create(:permitted_development_right, :to_be_reviewed, planning_application:) }
-
-        it "I can see the previous permitted development checks" do
-          click_link "Review and sign-off"
-          click_link "Review permitted development rights"
-
-          expect(page).to have_text("See previous permitted development checks")
-
-          expect(page).to have_text("#{permitted_development_right.reviewer.name} marked this for review")
-          expect(page).to have_text(permitted_development_right.reviewed_at.to_s)
-          expect(page).to have_text("Removal reason")
-          expect(page).to have_text("Reviewer comment: Comment")
-
-          expect(page).to have_text("#{permitted_development_right2.reviewer.name} marked this for review")
-          expect(page).to have_text(permitted_development_right2.reviewed_at.to_s)
-        end
-      end
-
-      context "when reviewer has signed off and agreed with the recommendation" do
-        let!(:recommendation) do
-          create(:recommendation,
-            planning_application:,
-            assessor_comment: "New assessor comment",
-            submitted: true)
-        end
-
-        before { planning_application.recommendations << recommendation }
-
-        it "I cannot edit the permitted development right" do
-          click_link "Review and sign-off"
-          click_link "Sign off recommendation"
-          choose("Yes")
-          click_button "Save and mark as complete"
-
-          click_link "Review permitted development rights"
-
-          choose "Return to officer with comment"
-          fill_in "permitted_development_right[reviewer_comment]", with: "My review comment"
-
-          click_button "Save and mark as complete"
-          expect(page).to have_content(
-            "You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"
-          )
-        end
-      end
-    end
-
-    context "when planning application may be immune" do
-      let!(:planning_application) { create(:planning_application, :from_planx_immunity, :awaiting_determination, local_authority: default_local_authority) }
-
-      it "I can view the information on the review permitted development rights page" do
-        immunity_detail = create(:immunity_detail, planning_application:)
-        create(:review, owner: immunity_detail)
-        create(:review, :evidence, owner: immunity_detail)
-        evidence_group = create(:evidence_group, missing_evidence: true, immunity_detail:)
-        create(:document, evidence_group:)
-
-        click_link "Review and sign-off"
-
-        expect(page).to have_list_item_for(
-          "Review permitted development rights",
-          with: "Not started"
-        )
-
-        click_link "Review permitted development rights"
-
-        within(".govuk-breadcrumbs__list") do
-          expect(page).to have_content("Review")
-        end
-
-        expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.reference}/review/permitted_development_rights/#{PermittedDevelopmentRight.last.id}/edit"
-        )
-
-        expect(page).to have_content("Review permitted development rights")
-        expect(page).to have_content("Application number: #{planning_application.reference}")
-        expect(page).to have_content(planning_application.full_address)
-
-        expect(page).to have_content("Immunity from enforcement")
-        expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")
-        expect(page).to have_content("Have the works been completed? Yes")
-        expect(page).to have_content("When were the works completed? 01/02/2015")
-        expect(page).to have_content("Has anyone ever attempted to conceal the changes? No")
-        expect(page).to have_content("Has enforcement action been taken about these changes? No")
-
-        expect(page).to have_content("Utility bills (1)")
-        expect(page).to have_css(".govuk-warning-text__icon")
       end
     end
   end
@@ -278,15 +212,15 @@ RSpec.describe "Permitted development right", type: :system do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end
 
+    before do
+      sign_in reviewer
+    end
+
     it "does not allow me to visit the page" do
-      sign_in assessor
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-      expect(page).not_to have_link("Review permitted development rights")
-
-      visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
-
-      expect(page).to have_content("The planning application must be validated before assessment can begin")
+      expect(page).to have_content("The planning application must be validated before reviewing can begin")
+      expect(page).not_to have_link("Review and sign-off", href: "/planning_applications/#{planning_application.reference}/review/tasks")
     end
   end
 end

@@ -113,14 +113,7 @@ module PlanningApplications
       end
 
       def permitted_development_right_status
-        return "in_progress" if save_progress?
-
-        case params.dig(:assess_immunity_detail_permitted_development_right_form, :permitted_development_right, :removed)
-        when "true"
-          "removed"
-        when "false"
-          "checked"
-        end
+        save_progress? ? "in_progress" : "complete"
       end
 
       def redirect_failed_create_error(error)

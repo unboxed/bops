@@ -34,9 +34,8 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
 
         click_button "Review heads of terms"
 
-        choose "Accept"
-
         within "#review-heads-of-terms" do
+          choose "Accept"
           click_button "Save and mark as complete"
         end
 

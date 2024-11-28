@@ -37,7 +37,7 @@ RSpec.describe "Permitted development right" do
         click_link("Permitted development rights")
 
         expect(page).to have_current_path(
-          "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
+          "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
         )
 
         within(".govuk-heading-l") do
@@ -78,7 +78,7 @@ RSpec.describe "Permitted development right" do
         choose "No"
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Permitted development rights response was successfully created")
+        expect(page).to have_content("Permitted development rights response was successfully updated")
       end
 
       it "I can save and mark as complete when adding the permitted development right" do
@@ -89,7 +89,7 @@ RSpec.describe "Permitted development right" do
         fill_in "permitted_development_right[removed_reason]", with: "A reason"
         click_button "Save and mark as complete"
 
-        expect(page).to have_content("Permitted development rights response was successfully created")
+        expect(page).to have_content("Permitted development rights response was successfully updated")
 
         expect(page).to have_list_item_for(
           "Permitted development rights",
@@ -161,7 +161,7 @@ RSpec.describe "Permitted development right" do
 
           expect(page).to have_list_item_for(
             "Permitted development rights",
-            with: "Completed"
+            with: "Updated"
           )
 
           click_link "Permitted development rights"
@@ -203,19 +203,14 @@ RSpec.describe "Permitted development right" do
 
           click_link("Review and sign-off")
 
-          expect(page).to have_list_item_for(
-            "Review permitted development rights",
-            with: "Updated"
-          )
+          within "#review-permitted-development-rights" do
+            expect(page).to have_selector("h3", text: "Review permitted development rights")
+            expect(page).to have_selector("strong", text: "Updated")
 
-          click_link("Review permitted development rights")
-          choose("Accept", match: :first)
-          click_button("Save and mark as complete")
-
-          expect(page).to have_list_item_for(
-            "Review permitted development rights",
-            with: "Completed"
-          )
+            click_button("Review permitted development rights")
+            choose("Accept")
+            click_button("Save and mark as complete")
+          end
 
           click_link("Application")
 
@@ -230,7 +225,11 @@ RSpec.describe "Permitted development right" do
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
         end
-        let!(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
+        let!(:permitted_development_right) { planning_application.permitted_development_right }
+
+        before do
+          permitted_development_right.update!(status: "complete", accepted: true, reviewer:, reviewed_at: Time.current)
+        end
 
         it "I cannot edit the response when the reviewer has accepted it" do
           click_link "Check and assess"
@@ -238,8 +237,10 @@ RSpec.describe "Permitted development right" do
 
           expect(page).to have_text("#{permitted_development_right.reviewer.name} accepted this response on #{permitted_development_right.reviewed_at}")
 
-          visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/#{permitted_development_right.id}/edit"
-          expect(page).to have_text("forbidden")
+          visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
+
+          expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights")
+          expect(page).to have_text("The assessment of permitted development rights has been accepted")
         end
       end
 
@@ -247,9 +248,10 @@ RSpec.describe "Permitted development right" do
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
         end
+        let!(:permitted_development_right) { planning_application.permitted_development_right }
 
         before do
-          create(:permitted_development_right, :review_in_progress, planning_application:)
+          permitted_development_right.update!(status: :complete, reviewer:, review_status: :review_in_progress, reviewer_comment: "Comment")
         end
 
         it "I cannot see the reviewer's response if they marked the review as save and come back later" do
@@ -264,21 +266,6 @@ RSpec.describe "Permitted development right" do
           expect(page).to have_content("Have the permitted development rights relevant for this application been removed?")
           expect(page).to have_content("No")
           expect(page).to have_link("Edit permitted development rights")
-        end
-      end
-
-      context "when there is an open review" do
-        before do
-          create(:permitted_development_right, planning_application:)
-        end
-
-        it "I cannot create a new permitted development right request when there is an open response" do
-          visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
-          choose "No"
-          click_button "Save and mark as complete"
-          expect(page).to have_text("Cannot create a permitted development right response when there is already an open response")
-
-          expect(PermittedDevelopmentRight.count).to eq(1)
         end
       end
     end
@@ -331,7 +318,7 @@ RSpec.describe "Permitted development right" do
 
       expect(page).not_to have_link("Permitted development rights")
 
-      visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
+      visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights"
 
       expect(page).to have_content("The planning application must be validated before assessment can begin")
     end
@@ -349,7 +336,7 @@ RSpec.describe "Permitted development right" do
       expect(page).not_to have_link("Permitted development rights")
 
       expect do
-        visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/new"
+        visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights"
         expect(page).to have_selector("h1", text: "Does not exist")
       end.to raise_error(ActionController::RoutingError, "Not found")
     end

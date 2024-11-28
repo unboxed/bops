@@ -1,5 +1,6 @@
-<%= form_with model: [@planning_application, :assessment, @permitted_development_right],
-      class: "govuk-!-margin-top-7" do |form| %>
+<%= form_with model: @permitted_development_right,
+      url: planning_application_assessment_permitted_development_rights_path(@planning_application),
+      method: :patch, class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(
@@ -19,13 +20,8 @@
         ) %>
   <% end %>
 
-  <div class="govuk-button-group">
-    <%= form.submit(
-          t("form_actions.save_and_mark_as_complete"),
-          class: "govuk-button",
-          data: {module: "govuk-button"},
-          disabled: local_assigns.fetch(:disabled, false)
-        ) %>
-    <%= back_link %>
-  </div>
+  <%= form.govuk_submit(t("form_actions.save_and_mark_as_complete"), name: "permitted_development_right[status]", value: "complete") do %>
+    <%= form.govuk_submit(t("form_actions.save_and_come_back_later"), name: "permitted_development_right[status]", value: "in_progress", secondary: true) %>
+    <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+  <% end %>
 <% end %>
