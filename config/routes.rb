@@ -290,7 +290,7 @@ Rails.application.routes.draw do
 
           resources :immunity_enforcements, only: :update
 
-          resource :considerations, only: %i[show edit update] do
+          resource :considerations, only: %i[edit update] do
             resources :items, only: %i[edit update], module: :considerations do
               concerns :positionable
             end
