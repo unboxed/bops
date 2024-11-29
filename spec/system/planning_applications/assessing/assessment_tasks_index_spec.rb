@@ -42,7 +42,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
           within("#assess-against-legislation-tasks") do
             expect(page).to have_content("Assess against legislation")
-            expect(page).to have_link("Add assessment area")
+            expect(page).to have_link("Add new assessment area")
           end
 
           within("#complete-assessment-tasks") do
@@ -83,7 +83,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
           within("#assess-against-legislation-tasks") do
             expect(page).to have_content("Assess against legislation")
-            expect(page).to have_link("Add assessment area")
+            expect(page).to have_link("Add new assessment area")
           end
 
           within("#complete-assessment-tasks") do

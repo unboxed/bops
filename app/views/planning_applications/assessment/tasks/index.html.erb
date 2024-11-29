@@ -30,12 +30,12 @@
           ) %>
       <%= render "assessment_information" %>
 
-      <%= render "assess_against_legislation" %>
+      <% if @planning_application.application_type.considerations? %>
+        <%= render "assess_against_policies_and_guidance" %>
+      <% end %>
 
-      <% unless Bops.env.production? %>
-        <% if @planning_application.application_type.assess_against_policies? %>
-          <%= render "assess_against_legislation_new" %>
-        <% end %>
+      <% if @planning_application.application_type.assess_against_policies? %>
+        <%= render "assess_against_legislation" %>
       <% end %>
 
       <%= render "complete_assessment" %>

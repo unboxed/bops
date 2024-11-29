@@ -339,10 +339,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link("Check and assess")
         click_link("Make draft recommendation")
 
-        expect(page).to have_content(
-          "There is no legislation assessment for this application."
-        )
-
         within_fieldset("What is your recommendation?") do
           choose("Granted")
         end

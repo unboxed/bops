@@ -106,8 +106,6 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
     expect(page).to have_content("This is the location description.")
     expect(page).to have_content("Alice Smith (external)")
     expect(page).to have_content("This is the consultation summary.")
-    expect(page).to have_content("Part 1, Class A - Window boxes")
-    expect(page).to have_content("Complies")
     expect(page).to have_content(document.name)
 
     expect(page).not_to have_content("This is the additional evidence.")

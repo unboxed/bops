@@ -546,7 +546,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def no_policy_classes_after_assessment?
-    assessment_complete? && policy_classes.none?
+    assessment_complete? && planning_application_policy_classes.none?
   end
 
   def policy_class?(section)

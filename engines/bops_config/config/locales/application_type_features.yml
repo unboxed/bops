@@ -2,8 +2,8 @@ en:
   application_type_features:
     labels:
       appeals: "Enable appeals"
-      assess_against_policies: "Assess policies and guidance"
-      considerations: "Assess considerations"
+      assess_against_policies: "Assess against legislation"
+      considerations: "Assess policies and guidance (considerations)"
       consultations_skip_bank_holidays: "Extend consultation periods that contain bank holidays"
       informatives: "Add informatives"
       ownership_details: "Ownership details"

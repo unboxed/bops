@@ -8,6 +8,12 @@ module PlanningApplications
         before_action :build_form, only: %i[edit update]
         before_action :set_review, only: %i[show edit update]
 
+        def index
+          respond_to do |format|
+            format.html
+          end
+        end
+
         def show
           respond_to do |format|
             format.html
@@ -24,7 +30,7 @@ module PlanningApplications
           @form.update(policy_section_status_params)
 
           if @planning_application_policy_class.update_review(review_params)
-            redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_review_policy_areas_policy_classes_path(@planning_application), notice: t(".success")
           else
             render :edit
           end
