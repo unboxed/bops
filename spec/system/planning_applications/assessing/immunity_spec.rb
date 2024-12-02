@@ -205,13 +205,15 @@ RSpec.describe "Immunity", type: :system do
       end
       expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
-      click_link "Review permitted development rights"
-      expect(page).to have_content("Have the permitted development rights relevant for this application been removed?")
-      expect(page).to have_content("Yes")
-      expect(page).to have_content("A reason")
+      within("#review-permitted-development-rights") do
+        click_button "Review permitted development rights"
+        expect(page).to have_content("The permitted development rights have been removed for the following reason")
+        expect(page).to have_content("A reason")
 
-      choose("Accept", match: :first)
-      click_button "Save and mark as complete"
+        choose "Accept"
+        click_button "Save and mark as complete"
+      end
+
       expect(page).to have_content("Permitted development rights response was successfully updated")
 
       expect(immunity_detail.current_evidence_review_immunity_detail.accepted?).to be(true)

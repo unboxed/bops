@@ -129,7 +129,7 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :permitted_development_rights, except: %i[destroy index]
+          resource :permitted_development_rights, only: %i[show edit update]
 
           resources :site_histories, except: %i[new show] do
             post :confirm, on: :collection
@@ -304,7 +304,7 @@ Rails.application.routes.draw do
 
           resources :local_policies, only: %i[edit update show]
 
-          resources :permitted_development_rights, only: %i[show edit update]
+          resource :permitted_development_rights, only: %i[update]
 
           namespace :policy_areas do
             resources :policy_classes, only: %i[show edit update]

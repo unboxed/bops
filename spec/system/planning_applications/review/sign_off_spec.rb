@@ -311,15 +311,19 @@ RSpec.describe "Reviewing sign-off", type: :system do
     it "raises an error if the reviewer accepts the recommendation" do
       visit "/planning_applications/#{planning_application.reference}"
       click_link("Review and sign-off")
-      click_link("Review permitted development rights")
-      choose("Return to officer with comment")
 
-      fill_in(
-        "Explain to the assessor why this needs reviewing",
-        with: "needs correction"
-      )
+      within "#review-permitted-development-rights" do
+        click_button("Review permitted development rights")
+        choose("Return to officer with comment")
 
-      click_button("Save and mark as complete")
+        fill_in(
+          "Explain to the assessor why this needs reviewing",
+          with: "needs correction"
+        )
+
+        click_button("Save and mark as complete")
+      end
+
       click_link("Sign off recommendation")
 
       expect(page).to have_content(

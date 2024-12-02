@@ -6,11 +6,9 @@ RSpec.describe PermittedDevelopmentRight do
   let!(:planning_application) { create(:planning_application) }
 
   describe "validations" do
-    subject(:permitted_development_right) { described_class.new }
-
     describe "#removed_reason" do
       context "when removed" do
-        let(:permitted_development_right) { create(:permitted_development_right, removed: true, removed_reason: nil) }
+        let(:permitted_development_right) { create(:permitted_development_right, status: "complete", removed: true, removed_reason: nil) }
 
         it "validates presence for removed_reason" do
           expect { permitted_development_right }.to raise_error(
@@ -30,7 +28,9 @@ RSpec.describe PermittedDevelopmentRight do
     end
 
     describe "#status" do
-      before { permitted_development_right.planning_application = planning_application }
+      let(:permitted_development_right) { planning_application.permitted_development_rights.new }
+
+      before { permitted_development_right.status = nil }
 
       it "validates presence" do
         expect { permitted_development_right.valid? }.to change { permitted_development_right.errors[:status] }.to ["can't be blank"]
@@ -38,7 +38,7 @@ RSpec.describe PermittedDevelopmentRight do
     end
 
     describe "#review_status" do
-      before { permitted_development_right.planning_application = planning_application }
+      let(:permitted_development_right) { planning_application.permitted_development_rights.new }
 
       it "validates presence of default status" do
         expect(permitted_development_right.review_status).to eq("review_not_started")
@@ -119,7 +119,7 @@ RSpec.describe PermittedDevelopmentRight do
         it "sets the status for the assessor to be reviewed" do
           expect do
             permitted_development_right.update!(reviewer_comment: "Comment", reviewer:)
-          end.to change(permitted_development_right, :status).from("removed").to("to_be_reviewed")
+          end.to change(permitted_development_right, :status).from("complete").to("to_be_reviewed")
         end
       end
 
@@ -129,7 +129,7 @@ RSpec.describe PermittedDevelopmentRight do
         it "does not update the status" do
           expect do
             permitted_development_right.update!(accepted: true, reviewer:)
-          end.not_to change(permitted_development_right, :status).from("removed")
+          end.not_to change(permitted_development_right, :status).from("complete")
         end
       end
     end

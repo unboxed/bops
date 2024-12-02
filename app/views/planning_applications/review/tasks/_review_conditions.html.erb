@@ -6,7 +6,7 @@
       <%= section.with_status do %>
         <%= render(StatusTags::ReviewComponent.new(review_item: @planning_application.heads_of_term.current_review)) %>
       <% end %>
-        <% section.with_block do %>
+      <% section.with_block do %>
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
             <%= render "planning_applications/review/heads_of_terms/terms_summary" %>
@@ -69,6 +69,27 @@
 
       <% section.with_footer(id: "review-enforcement-form") do %>
         <%= render(partial: "planning_applications/review/immunity_enforcements/form") %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if @planning_application.check_permitted_development_rights? %>
+    <% @permitted_development_right ||= @planning_application.permitted_development_right %>
+    <% accordion.with_section(id: "review-permitted-development-rights", expanded: @permitted_development_right.errors.any?) do |section| %>
+      <%= section.with_heading(text: "Review permitted development rights") %>
+      <% section.with_status do %>
+        <%= render(
+              StatusTags::ReviewComponent.new(
+                review_item: @permitted_development_right,
+                updated: @permitted_development_right.status == "updated"
+              )
+            ) %>
+      <% end %>
+      <% section.with_block do %>
+        <%= render(partial: "planning_applications/review/permitted_development_rights/summary") %>
+      <% end %>
+      <% section.with_footer(id: "review-permitted-development-rights-form") do %>
+        <%= render(partial: "planning_applications/review/permitted_development_rights/form") %>
       <% end %>
     <% end %>
   <% end %>
@@ -143,14 +164,6 @@
 <% end %>
 
 <ul class="app-task-list__items" id="review-conditions-section">
-  <% if @planning_application.review_permitted_development_rights? %>
-    <%= render(
-          TaskListItems::Reviewing::PermittedDevelopmentRightComponent.new(
-            planning_application: @planning_application
-          )
-        ) %>
-  <% end %>
-
   <%= render partial: "planning_applications/review/tasks/policy_classes", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
 
   <% if @planning_application.application_type.assess_against_policies? %>

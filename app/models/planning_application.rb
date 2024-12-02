@@ -590,12 +590,12 @@ class PlanningApplication < ApplicationRecord
   end
 
   def permitted_development_right
-    permitted_development_rights.last
+    permitted_development_rights.last || permitted_development_rights.new
   end
 
   def updates_required?
     assessment_details_for_review.any?(&:update_required?) ||
-      permitted_development_right&.update_required? ||
+      permitted_development_rights.last&.update_required? ||
       policy_classes.any?(&:update_required?) ||
       committee_decision_rejected_review? ||
       neighbour_review_requested?

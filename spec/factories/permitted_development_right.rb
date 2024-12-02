@@ -5,17 +5,17 @@ FactoryBot.define do
     planning_application
     assessor { association :user, :assessor }
 
-    status { "checked" }
+    status { "not_started" }
     removed { false }
 
     trait :removed do
-      status { "removed" }
+      status { "complete" }
       removed { true }
       removed_reason { "Removal reason" }
     end
 
     trait :checked do
-      status { "checked" }
+      status { "complete" }
       removed { false }
     end
 
@@ -35,7 +35,7 @@ FactoryBot.define do
     end
 
     trait :accepted do
-      status { "removed" }
+      status { "complete" }
       review_status { "review_complete" }
       removed { true }
       removed_reason { "Removal reason" }
@@ -45,7 +45,7 @@ FactoryBot.define do
     end
 
     trait :review_in_progress do
-      status { "checked" }
+      status { "complete" }
       review_status { "review_in_progress" }
       removed { false }
       reviewer { association :user, :reviewer }

@@ -5,35 +5,21 @@ module PlanningApplications
     class PermittedDevelopmentRightsController < BaseController
       include PermittedDevelopmentRights
 
-      before_action :set_permitted_development_right, only: %i[show edit update]
-      before_action :set_permitted_development_rights, only: %i[show edit]
-
-      def show
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def edit
-        respond_to do |format|
-          format.html
-        end
-      end
+      before_action :set_permitted_development_right
 
       def update
-        @permitted_development_right.assign_attributes(
-          review_status: status, reviewer: current_user, reviewed_at: Time.current
-        )
+        @permitted_development_right.reviewer = current_user
+        @permitted_development_right.reviewed_at = Time.current
 
         respond_to do |format|
-          if @permitted_development_right.update(permitted_development_right_params)
-            format.html do
+          format.html do
+            if @permitted_development_right.update(permitted_development_right_params)
               redirect_to planning_application_review_tasks_path(@planning_application),
                 notice: I18n.t("permitted_development_rights.successfully_updated")
+            else
+              flash.now[:alert] = @permitted_development_right.errors.messages.values.flatten.join(", ")
+              render_review_tasks
             end
-          else
-            set_permitted_development_rights
-            format.html { render :edit }
           end
         end
       end
@@ -41,11 +27,7 @@ module PlanningApplications
       private
 
       def permitted_development_right_params
-        params.require(:permitted_development_right).permit(:removed_reason, :accepted, :reviewer_comment)
-      end
-
-      def status
-        save_progress? ? "review_in_progress" : "review_complete"
+        params.require(:permitted_development_right).permit(:accepted, :reviewer_comment, :review_status)
       end
     end
   end

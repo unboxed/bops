@@ -35,10 +35,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
 
     context "when consistency checklist is present" do
       before do
-        create(
-          :consistency_checklist,
-          planning_application:
-        )
+        create(:consistency_checklist, planning_application:)
       end
 
       it "returns true" do
@@ -48,10 +45,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
 
     context "when assessment detail is present" do
       before do
-        create(
-          :assessment_detail,
-          planning_application:
-        )
+        create(:assessment_detail, planning_application:)
       end
 
       it "returns true" do
@@ -61,10 +55,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
 
     context "when permitted development right is present" do
       before do
-        create(
-          :permitted_development_right,
-          planning_application:
-        )
+        create(:permitted_development_right, :in_progress, planning_application:)
       end
 
       it "returns true" do
@@ -74,11 +65,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
 
     context "when conditions are present" do
       before do
-        condition_set = create(
-          :condition_set,
-          planning_application:
-        )
-
+        condition_set = create(:condition_set, planning_application:)
         create(:condition, condition_set:, standard: false)
       end
 
