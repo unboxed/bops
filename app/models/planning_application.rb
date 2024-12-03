@@ -9,11 +9,15 @@ class PlanningApplication < ApplicationRecord
 
   include Auditable
 
+  include Discard::Model
+
   include PlanningApplicationDecorator
 
   include PlanningApplicationStatus
 
   include PlanningApplication::Notification
+
+  self.discard_column = :deleted_at
 
   self.ignored_columns += %i[work_status make_public]
 

@@ -12,10 +12,12 @@ gem "appsignal"
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "business_time"
+gem "commonmarker", "~> 0.23.10"
 gem "daemons"
 gem "dartsass-rails"
 gem "devise"
 gem "devise-two-factor"
+gem "discard", "~> 1.4"
 gem "faker", require: false
 gem "faraday", "~> 2", require: false
 gem "grover"
@@ -94,5 +96,3 @@ group :test do
   gem "openapi3_parser", require: false
   gem "webmock"
 end
-
-gem "commonmarker", "~> 0.23.10"
