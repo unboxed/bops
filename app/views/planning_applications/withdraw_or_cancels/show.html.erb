@@ -56,6 +56,13 @@
                     <%= form.radio_button :status, "closed", class: "govuk-radios__input", id: "closed", "aria-controls": "conditional-status-closed-conditional", "aria-expanded": "false" %>
                     <%= form.label :closed, "Cancelled for other reason", class: "govuk-label govuk-radios__label", for: "closed" %>
                   </div>
+                  <div class="govuk-radios__item">
+                    <%= form.radio_button :status, "deleted", class: "govuk-radios__input", id: "deleted", "aria-controls": "conditional-status-deleted-conditional", "aria-expanded": "false" %>
+                    <%= form.label :deleted, "Deleted entirely (caution!)", class: "govuk-label govuk-radios__label", for: "deleted" %>
+                  </div>
+                  <div id="deleted-hint" class="govuk-hint">
+                    Do not use this for live data
+                  </div>
                 </div>
               </div>
             </div>

@@ -69,6 +69,23 @@ RSpec.describe "Withdraw or cancel" do
       expect(page).not_to have_content("Assigned to:")
     end
 
+    it "can delete an application" do
+      click_link "Withdraw or cancel application"
+      choose "Deleted entirely (caution!)"
+      fill_in "Provide a reason", with: "Deleted reason"
+      click_button "Withdraw or cancel application"
+
+      expect(page).to have_content("Planning application #{planning_application.reference} was deleted: Deleted reason")
+
+      planning_application.reload
+
+      expect(planning_application.deleted_at).not_to be_nil
+
+      expect {
+        visit "/planning_applications/#{planning_application.reference}"
+      }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
     it "errors if no option chosen" do
       click_link "Withdraw or cancel application"
       click_button "Withdraw or cancel application"
