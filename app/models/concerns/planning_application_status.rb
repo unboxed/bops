@@ -8,6 +8,7 @@ module PlanningApplicationStatus
   include Auditable
 
   IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination in_committee to_be_reviewed].freeze
+  PRIVATE_STATUSES = %i[invalidated not_started returned pending].freeze
 
   included do
     include AASM
@@ -22,6 +23,10 @@ module PlanningApplicationStatus
 
     scope :closed, lambda {
       where(status: %w[determined withdrawn returned closed])
+    }
+
+    scope :publishable, lambda {
+      where.not(status: PRIVATE_STATUSES)
     }
 
     aasm.attribute_name :status

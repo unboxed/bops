@@ -8,6 +8,7 @@ RSpec.describe "BOPS public API" do
   let!(:planning_applications) { create_list(:planning_application, 6, :published, :with_boundary_geojson, :with_press_notice, local_authority:, application_type:, user: create(:user)) }
   let(:page) { 1 }
   let(:maxresults) { 5 }
+  let(:invalidated) { create(:planning_application, :with_boundary_geojson_features, :published, local_authority:, application_type:, description: "This is not valid even if marked as published", status: :invalidated) }
 
   before do
     create_list(:planning_application, 2, :with_boundary_geojson_features, :published, local_authority:, application_type:)
@@ -91,6 +92,31 @@ RSpec.describe "BOPS public API" do
           data["data"].each do |application|
             expect(application["proposal"]["description"]).to include("roof extension")
           end
+        end
+      end
+
+      response "200", "does not return 'private' applications" do
+        schema "$ref" => "#/components/schemas/Search"
+
+        let(:page) { 1 }
+        let(:q) { invalidated.reference }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          metadata = data["metadata"]
+
+          expect(metadata).to eq(
+            {
+              "page" => 1,
+              "results" => 5,
+              "from" => 0,
+              "to" => 0,
+              "total_pages" => 1,
+              "total_results" => 0
+            }
+          )
+
+          expect(data["data"]).to eq([])
         end
       end
 
