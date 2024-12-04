@@ -3,8 +3,14 @@
 module PlanningApplications
   module Review
     class ImmunityDetailsController < BaseController
-      before_action :set_immunity_detail, only: :update
-      before_action :set_review_immunity_detail, only: :update
+      before_action :set_immunity_detail, only: %i[show update]
+      before_action :set_review_immunity_detail, only: %i[show update]
+
+      def show
+        respond_to do |format|
+          format.html
+        end
+      end
 
       def update
         respond_to do |format|

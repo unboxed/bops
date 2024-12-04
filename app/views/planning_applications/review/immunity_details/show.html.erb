@@ -1,0 +1,24 @@
+<% content_for :page_title do %>
+  Review evidence of immunity - <%= t("page_title") %>
+<% end %>
+<%= render(
+      partial: "shared/review_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+<% content_for :title, "Review evidence of immunity" %>
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Review evidence of immunity"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(
+          EvidenceGroups::ReviewAccordionComponent.new(
+            planning_application: @planning_application,
+            sections: @planning_application.immunity_detail.evidence_groups
+          )
+        ) %>
+    <%= back_link %>
+  </div>
+</div>
