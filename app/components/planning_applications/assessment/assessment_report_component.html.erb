@@ -155,19 +155,6 @@
       </p>
     <% end %>
   </section>
-<% else %>
-  <section id="policy-classes-section" class="govuk-!-margin-bottom-7">
-    <h3 class="govuk-heading-m"><%= t(".legislation") %></h3>
-    <% if policy_classes.any? %>
-      <% policy_classes.each do |policy_class| %>
-        <%= render(
-              PlanningApplications::Assessment::PolicyClasses::SummaryComponent.new(policy_class: policy_class)
-            ) %>
-      <% end %>
-    <% else %>
-      <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
-    <% end %>
-  </section>
 <% end %>
 
 <%= render "planning_applications/assessment/recommendations/documents", planning_application: planning_application, documents: documents %>

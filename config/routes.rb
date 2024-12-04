@@ -290,7 +290,7 @@ Rails.application.routes.draw do
 
           resources :immunity_enforcements, only: :update
 
-          resource :considerations, only: %i[show edit update] do
+          resource :considerations, only: %i[edit update] do
             resources :items, only: %i[edit update], module: :considerations do
               concerns :positionable
             end
@@ -307,7 +307,7 @@ Rails.application.routes.draw do
           resource :permitted_development_rights, only: %i[update]
 
           namespace :policy_areas do
-            resources :policy_classes, only: %i[show edit update]
+            resources :policy_classes, only: %i[index show edit update]
           end
 
           resources :policy_classes, only: %i[edit update show]

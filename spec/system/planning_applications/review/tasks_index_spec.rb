@@ -111,28 +111,29 @@ RSpec.describe "Reviewing Tasks Index" do
         expect(page).not_to have_css("#consultees")
         expect(page).to have_css("#documents")
       end
+
+      it "displays chosen policy class in a list" do
+        policy_class = create(:planning_application_policy_class, planning_application:)
+        policy_class.current_review.complete!
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
+
+        expect(page).to have_selector("h1", text: "Review and sign-off")
+
+        click_link "Review assessment against legislation"
+        expect(page).to have_link("Review assessment of Part 1, Class #{policy_class.new_policy_class.section}",
+          href: "/planning_applications/#{planning_application.reference}/review/policy_areas/policy_classes/#{policy_class.id}/edit")
+
+        expect(page).to have_list_item_for(
+          "Review assessment of Part 1, Class #{policy_class.new_policy_class.section}",
+          with: "Not started"
+        )
+      end
     end
 
     it "without awaiting determination there is no navigation" do
       visit "/planning_applications/#{not_started_planning_application.id}"
 
       expect(page).to have_content("Review and sign-off")
-    end
-
-    it "displays chosen policy class in a list" do
-      policy_classes = create_list(:policy_class, 3, planning_application:)
-      visit "/planning_applications/#{planning_application.reference}/review/tasks"
-
-      expect(page).to have_selector("h1", text: "Review and sign-off")
-      policy_classes.each do |policy_class|
-        expect(page).to have_link("Review assessment of Part 1, Class #{policy_class.section}",
-          href: edit_planning_application_review_policy_class_path(planning_application, policy_class))
-
-        expect(page).to have_list_item_for(
-          "Review assessment of Part 1, Class #{policy_class.section}",
-          with: "Not started"
-        )
-      end
     end
   end
 end

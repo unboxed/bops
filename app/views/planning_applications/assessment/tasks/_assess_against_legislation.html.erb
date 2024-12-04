@@ -1,42 +1,34 @@
-<% if @planning_application.application_type.considerations? || @planning_application.application_type.assess_against_policies? %>
-  <li id="assess-against-legislation-tasks">
-    <h2 class="app-task-list__section">
-      Assess against legislation
-    </h2>
-    <ul class="app-task-list__items" id="assess-policy-section">
-      <% if @planning_application.application_type.considerations? %>
+<li id="assess-against-legislation-tasks">
+  <h2 class="app-task-list__section">
+    Assess against legislation
+  </h2>
+  <ul class="app-task-list__items">
+    <% if @planning_application.no_policy_classes_after_assessment? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          No policy classes were added.
+        </span>
+      </li>
+    <% else %>
+      <% @planning_application.planning_application_policy_classes.order(:new_policy_class_id).each do |pa_policy_class| %>
         <%= render(
-              TaskListItems::Assessment::ConsiderationsComponent.new(
+              TaskListItems::Assessment::PlanningApplicationPolicyClassComponent.new(
+                planning_application_policy_class: pa_policy_class,
                 planning_application: @planning_application
               )
             ) %>
       <% end %>
-      <% if @planning_application.application_type.assess_against_policies? %>
-        <% if @planning_application.no_policy_classes_after_assessment? %>
-          <li class="app-task-list__item">
-            <span class="app-task-list__task-name">
-              No policy classes were added.
-            </span>
-          </li>
-        <% else %>
-          <% @planning_application.policy_classes.each do |policy_class| %>
-            <%= render(
-                  TaskListItems::Assessment::PolicyClassComponent.new(
-                    policy_class: policy_class,
-                    planning_application: @planning_application
-                  )
-                ) %>
-          <% end %>
-        <% end %>
+    <% end %>
 
-        <% if @planning_application.can_assess? %>
-          <li class="app-task-list__item">
-            <span class="app-task-list__task-name">
-              <%= govuk_link_to "Add assessment area", part_new_planning_application_assessment_policy_class_path(@planning_application) %>
-            </span>
-          </li>
-        <% end %>
-      <% end %>
-    </ul>
-  </li>
-<% end %>
+    <li class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to_if(
+              @planning_application.can_assess?,
+              "Add new assessment area",
+              planning_application_assessment_policy_areas_parts_path(@planning_application),
+              class: "govuk-link"
+            ) %>
+      </span>
+    </li>
+  </ul>
+</li>

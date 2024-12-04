@@ -118,7 +118,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     check "Check permitted development rights"
     check "Neighbours consultation"
-    check "Assess considerations"
+    check "Assess policies and guidance (considerations)"
     click_button "Continue"
 
     expect(page).to have_content("Features successfully updated")
@@ -180,7 +180,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_selector("dl div:nth-child(11) dd", text: "Granted, Refused")
     expect(page).to have_selector("dl div:nth-child(12) dd", text: "Inactive")
     expect(page).not_to have_selector("li", text: "Assess against policies and guidance")
-    expect(page).to have_selector("li", text: "Assess considerations")
+    expect(page).to have_selector("li", text: "Assess policies and guidance (considerations)")
   end
 
   it "allows editing of an inactive application type" do

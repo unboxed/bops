@@ -165,11 +165,13 @@
   <% end %>
 <% end %>
 
-<ul class="app-task-list__items" id="review-conditions-section">
-  <%= render partial: "planning_applications/review/tasks/policy_classes", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
-
+<ul class="app-task-list__items">
   <% if @planning_application.application_type.assess_against_policies? %>
-    <%= render partial: "planning_applications/review/tasks/policy_classes_new", locals: {planning_application: @planning_application, policy_class: @policy_class} %>
+    <li class="app-task-list__item" id="review-legislation">
+      <span class="app-task-list__task-name">
+        <%= govuk_link_to "Review assessment against legislation", planning_application_review_policy_areas_policy_classes_path(@planning_application) %>
+      </span>
+    </li>
   <% end %>
 
   <%= render "planning_applications/review/tasks/sign_off_recommendation" %>

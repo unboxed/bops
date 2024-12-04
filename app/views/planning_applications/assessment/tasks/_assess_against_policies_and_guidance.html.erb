@@ -1,0 +1,12 @@
+<li id="assess-against-policies-tasks">
+  <h2 class="app-task-list__section">
+    Assess against policies and guidance
+  </h2>
+  <ul class="app-task-list__items">
+    <%= render(
+          TaskListItems::Assessment::ConsiderationsComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+  </ul>
+</li>

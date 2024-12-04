@@ -30,6 +30,6 @@
   <% end %>
 
 <div class="govuk-button-group">
-  <%= back_link %>
+  <%= govuk_button_link_to("Back", planning_application_review_policy_areas_policy_classes_path(@planning_application), secondary: true) %>
   <%= govuk_link_to "Edit review of Part #{@planning_application_policy_class.policy_class.policy_part_number}, Class #{@planning_application_policy_class.policy_class.section}", edit_planning_application_review_policy_areas_policy_class_path(@planning_application, @planning_application_policy_class) %>
 </div>
