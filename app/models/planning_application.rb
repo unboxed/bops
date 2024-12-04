@@ -9,11 +9,15 @@ class PlanningApplication < ApplicationRecord
 
   include Auditable
 
+  include Discard::Model
+
   include PlanningApplicationDecorator
 
   include PlanningApplicationStatus
 
   include PlanningApplication::Notification
+
+  self.discard_column = :deleted_at
 
   self.ignored_columns += %i[work_status make_public]
 
@@ -619,7 +623,11 @@ class PlanningApplication < ApplicationRecord
 
     transaction do
       update!(document_params) if document_params
-      send(event, status.to_sym, comment)
+      if status.to_sym == :deleted
+        discard!
+      else
+        send(event, status.to_sym, comment)
+      end
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise WithdrawOrCancelError, e.message
@@ -1137,6 +1145,8 @@ class PlanningApplication < ApplicationRecord
       "return!"
     when "closed"
       "close!"
+    when "deleted"
+      "discard!"
     else
       raise ArgumentError, "The status provided: #{status} is not valid"
     end

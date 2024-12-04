@@ -21,7 +21,14 @@ module PlanningApplications
           planning_application_status, withdrawn_or_cancellation_comment, document_params
         )
 
-        format.html { redirect_to @planning_application, notice: t(".#{planning_application_status}") }
+        format.html {
+          if planning_application_status.to_sym == :deleted
+            redirect_to "/", notice:
+              "Planning application #{@planning_application.reference} was deleted: #{withdrawn_or_cancellation_comment}"
+          else
+            redirect_to @planning_application, notice: t(".#{planning_application_status}")
+          end
+        }
       end
     end
 

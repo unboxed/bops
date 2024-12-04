@@ -2077,6 +2077,7 @@ en:
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back
+      delete: Delete application
       details: Details
       view_all_requests: View all requests.
       withdraw_or_cancel: Withdraw or cancel application

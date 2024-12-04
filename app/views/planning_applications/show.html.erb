@@ -55,5 +55,11 @@
             @planning_application
           ), warning: true %>
     </div>
+  <% else %>
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to t(".delete"), planning_application_withdraw_or_cancel_path(
+            @planning_application
+          ), warning: true %>
+    </div>
   <% end %>
 <% end %>

@@ -34,7 +34,7 @@ class ApplicationType < ApplicationRecord
   enum :status, %i[inactive active retired].index_with(&:to_s)
 
   belongs_to :legislation, optional: true
-  has_many :planning_applications, dependent: :restrict_with_exception
+  has_many :planning_applications, -> { kept }, dependent: :restrict_with_exception
 
   accepts_nested_attributes_for :legislation, :document_tags
 
