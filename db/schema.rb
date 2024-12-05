@@ -44,6 +44,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_10_163303) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "additional_services", force: :cascade do |t|
+    t.string "type"
+    t.string "name"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_additional_services_on_planning_application_id"
+  end
+
   create_table "api_users", force: :cascade do |t|
     t.string "name", null: false
     t.string "token", null: false
@@ -1084,6 +1093,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_10_163303) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "additional_services", "planning_applications"
   add_foreign_key "api_users", "local_authorities"
   add_foreign_key "appeals", "planning_applications"
   add_foreign_key "application_types", "legislation"
