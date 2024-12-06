@@ -96,6 +96,7 @@ en:
       - ['pa.part9.classD', 'Prior Approval - Development of toll facilities']
       - ['pip', 'Permission in Principle - Consent for the principle of a project with less than 1,000 square metres floor area on a site of less than 1 hectare']
       - ['pip.technicalDetails', 'Permission in Principle - Approval of technical details']
+      - ['preApp', 'Pre-application Advice']
       - ['pp', 'Planning Permission']
       - ['pp.full', 'Planning Permission for development, including all householder, minor, and major applications']
       - ['pp.full.advertConsent', 'Full Planning Permission and consent to display an advert']
@@ -206,6 +207,7 @@ en:
       - pa.part20.classAC
       - pa.part20.classAD
       - pa.part20.classZA
+      - preApp
       - pp
       - pp.full
       - pp.full.advertConsent
