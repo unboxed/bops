@@ -125,7 +125,7 @@ jobs:
           start_time=$(date -Iseconds)
           task_arn=$(aws ecs run-task --cluster $CLUSTER \
             --task-definition $TASK_DEFINITION --launch-type FARGATE \
-            --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "DISABLED"}}' | \
+            --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}' | \
              jq -r '.tasks[].taskArn')
           aws ecs wait tasks-stopped --cluster $CLUSTER --tasks "$task_arn"
           aws logs tail $LOG_GROUP --format short --since $start_time
