@@ -59,7 +59,7 @@ class PlanningApplication < ApplicationRecord
     has_many :new_policy_classes, through: :planning_application_policy_classes
     has_many :planning_application_policy_sections
     has_many :policy_sections, through: :planning_application_policy_sections
-    has_many :preapplication_services
+    has_many :additional_services
 
     with_options required: false do
       has_one :appeal
@@ -90,6 +90,7 @@ class PlanningApplication < ApplicationRecord
     delegate :publicity_consultation_feature?
     delegate :prior_approval?
     delegate :selected_reporting_types?
+    delegate :pre_application?
   end
 
   delegate :reviewer_group_email, to: :local_authority

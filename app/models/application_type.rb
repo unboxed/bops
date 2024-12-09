@@ -232,6 +232,10 @@ class ApplicationType < ApplicationRecord
     code.include?(".retro")
   end
 
+  def pre_application?
+    code == "preApp" || code.start_with?("preApp.")
+  end
+
   def work_status
     if retrospective?
       "retrospective"

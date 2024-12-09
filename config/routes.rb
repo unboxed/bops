@@ -88,6 +88,8 @@ Rails.application.routes.draw do
           patch :update, on: :collection
         end
 
+        resource :additional_services, only: %i[edit update], on: :collection
+
         resource :press_notice, only: %i[new show create update] do
           resource :confirmation, only: %i[show edit update], controller: "press_notices/confirmations"
           resources :confirmation_requests, only: %i[create], controller: "press_notices/confirmation_requests"
