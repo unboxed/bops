@@ -984,6 +984,10 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def preapplication?
+    application_type.code == "preApp"
+  end
+
   private
 
   def create_fee_calculation
