@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 class LocalAuthority < ApplicationRecord
+  include StoreModel::NestedAttributes
+
+  attribute :application_type_overrides, ApplicationTypeOverrides.to_array_type
+
+  validates :application_type_overrides, store_model: {merge_errors: true}
+
+  accepts_nested_attributes_for :application_type_overrides
+
   with_options dependent: :destroy do
     has_many :users
     has_many :planning_applications, -> { kept }

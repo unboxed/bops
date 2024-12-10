@@ -49,6 +49,15 @@ en:
       show:
         administrator_dashboard: Administrator dashboard
         welcome_message: Welcome %{name}
+    determination_periods:
+      edit:
+        days: days
+        determination_period: Determination period
+        hint: Choose the length of the determination period for the pre-application type.
+        save: Save
+        set_determination_period: Set determination period
+      update:
+        success: Determination period successfully updated
     informatives:
       create:
         informative_successfully_created: Informative successfully created
@@ -258,6 +267,15 @@ en:
         telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       update:
         profile_successfully_updated: Council information successfully updated
+    settings:
+      show:
+        application_settings: Application settings
+        change: Change
+        determination_period: Determination period
+        determination_period_including_bank_holidays:
+          one: 1 day - bank holidays included
+          other: "%{count} days - bank holidays included"
+        pre_app_determination_period: Pre-application determination period
     tokens:
       create:
         success: API token successfully created

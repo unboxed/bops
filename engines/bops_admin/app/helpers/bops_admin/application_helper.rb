@@ -23,6 +23,8 @@ module BopsAdmin
       case controller_name
       when "dashboard"
         "dashboard"
+      when "settings", "determination_periods"
+        "setting"
       when "tokens"
         "tokens"
       when "users"
@@ -43,6 +45,7 @@ module BopsAdmin
     def nav_items
       [
         {link: {text: "Dashboard", href: root_path}, current: active_page_key?("dashboard")},
+        {link: {text: "Application settings", href: setting_path}, current: active_page_key?("setting")},
         {link: {text: "Consultees", href: consultees_path}, current: active_page_key?("consultees")},
         {link: {text: "Informatives", href: informatives_path}, current: active_page_key?("informatives")},
         {link: {text: "Policy", href: policy_root_path}, current: active_page_key?("policy")},

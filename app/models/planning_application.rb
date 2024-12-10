@@ -1029,7 +1029,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def application_type_determination_period
-    application_type.determination_period_days || DAYS_TO_EXPIRE
+    if pre_application?
+      local_authority.application_type_overrides.determination_period_days || DAYS_TO_EXPIRE
+    else
+      application_type.determination_period_days || DAYS_TO_EXPIRE
+    end
   end
 
   def set_change_access_id
