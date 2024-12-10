@@ -555,6 +555,11 @@ FactoryBot.define do
       suffix { "LDC" }
     end
 
+    trait :pre_application do
+      code { "preApp" }
+      suffix { "PRE" }
+    end
+
     trait :without_consultation do
       features {
         {
