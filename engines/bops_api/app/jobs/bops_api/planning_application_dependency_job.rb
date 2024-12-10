@@ -50,8 +50,15 @@ module BopsApi
 
       document_checklist_items.each do |category, document_item|
         document_item.each do |document|
-          tags = document["value"]
-          description = document["description"]
+          if document.is_a?(Hash)
+            tags = document["value"]
+            description = document["description"]
+          elsif document.is_a?(String)
+            tags = document
+            description = document
+          else
+            raise "Unexpected document type when reading checklist items"
+          end
 
           document_checklist.document_checklist_items.create!(category:, tags:, description:)
         end

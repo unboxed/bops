@@ -22,6 +22,7 @@ RSpec.describe "BOPS API" do
     create(:application_type, :pa_part7_classM)
     create(:application_type, :minor)
     create(:application_type, :major)
+    create(:application_type, :pre_application)
 
     Rails.configuration.os_vector_tiles_api_key = "testtest"
   end
@@ -72,7 +73,8 @@ RSpec.describe "BOPS API" do
         %w[PA3MA application/priorApproval/convertCommercialToHome.json],
         %w[PA7M application/priorApproval/extendUniversity.json],
         %w[PA1A application/priorApproval/largerExtension.json],
-        %w[PA14J application/priorApproval/solarPanels.json]
+        %w[PA14J application/priorApproval/solarPanels.json],
+        %w[PRE preApplication.json]
       ].each do |suffix, fixture|
         value = example_fixture(fixture, symbolize_names: true)
         name = value.dig(:data, :application, :type, :value)
