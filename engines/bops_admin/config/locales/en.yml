@@ -258,6 +258,30 @@ en:
         telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       update:
         profile_successfully_updated: Council information successfully updated
+    determination_periods:
+      edit:
+        continue: Continue
+        days: days
+        determination_period: Determination period
+        hint: Choose the length of the determination period for this type of application.
+        set_determination_period: Set determination period
+        set_determination_period_html: |
+          <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+            <span class="govuk-caption-l govuk-!-margin-bottom-2">
+              %{description}
+            </span>
+            Set determination period
+          </h1>
+      update:
+        success: Determination period successfully updated
+    settings:
+      show:
+        settings: Settings
+        change: Change
+        determination_period: Determination period
+        determination_period_including_bank_holidays:
+          one: 1 day - bank holidays included
+          other: "%{count} days - bank holidays included"
     tokens:
       create:
         success: API token successfully created
