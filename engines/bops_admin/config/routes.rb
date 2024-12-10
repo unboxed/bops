@@ -8,6 +8,10 @@ BopsAdmin::Engine.routes.draw do
 
   resources :consultees, except: %i[show]
 
+  resource :setting, only: %i[show] do
+    resource :determination_period, only: %i[edit update]
+  end
+
   resources :informatives, except: %i[show]
 
   scope "/policy" do
