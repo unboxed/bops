@@ -63,11 +63,6 @@ RSpec.describe "FeeItemsValidation", type: :system do
       table = find_all(".govuk-table").first
 
       within(table) do
-        within(".govuk-table__head") do
-          expect(page).to have_content("Item")
-          expect(page).to have_content("Detail")
-        end
-
         within(".govuk-table__body") do
           rows = page.all(".govuk-table__row")
 
@@ -82,8 +77,8 @@ RSpec.describe "FeeItemsValidation", type: :system do
           end
 
           within(rows[2]) do
-            expect(page).to have_content("Description")
-            expect(page).to have_content(planning_application.description)
+            expect(page).to have_content("Session ID")
+            expect(page).to have_content("21161b70-0e29-40e6-9a38-c42f61f25ab9")
           end
         end
       end
@@ -182,14 +177,6 @@ RSpec.describe "FeeItemsValidation", type: :system do
       expect(page).to have_content("Request other validation change (fee)")
       expect(page).to have_content("Application number: #{planning_application.reference}")
 
-      # Display fee item table
-      within(".govuk-table") do
-        within(".govuk-table__head") do
-          expect(page).to have_content("Item")
-          expect(page).to have_content("Detail")
-        end
-      end
-
       within(".govuk-details__summary") do
         expect(page).to have_content(
           "View guidance on supporting documents"
@@ -269,12 +256,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
         expect(page).to have_content("Application number: #{planning_application.reference}")
 
         # Display fee item table
-        within(".govuk-table") do
-          within(".govuk-table__head") do
-            expect(page).to have_content("Item")
-            expect(page).to have_content("Detail")
-          end
-        end
+        expect(page).to have_css(".fee-table")
 
         fill_in(
           "Tell the applicant why the fee is incorrect",

@@ -101,8 +101,11 @@ class PlanningApplication < ApplicationRecord
     delegate :suffix, to: :application_type
     delegate :rejected_review?, to: :committee_decision
   end
-  delegate :params_v1, to: :planx_planning_data, allow_nil: true
-  delegate :params_v2, to: :planx_planning_data, allow_nil: true
+  with_options to: :planx_planning_data, allow_nil: true do
+    delegate :params_v1
+    delegate :params_v2
+    delegate :session_id
+  end
   delegate :work_status, to: :application_type
 
   delegate :lodged?, :validated?, :started?, :determined?, to: :appeal, allow_nil: true, prefix: true
