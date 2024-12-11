@@ -593,6 +593,12 @@ FactoryBot.define do
       status { "inactive" }
     end
 
+    trait :preApp do
+      name { "other" }
+      code { "preApp" }
+      suffix { "PRE" }
+    end
+
     initialize_with { ApplicationType.find_or_create_by(code:) }
   end
 end

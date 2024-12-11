@@ -794,5 +794,9 @@ FactoryBot.define do
     trait :published do
       published_at { Time.zone.now }
     end
+
+    trait :preApp do
+      application_type { create(:application_type, :preApp) }
+    end
   end
 end

@@ -39,6 +39,15 @@
     <p class="govuk-body">
       Public on BOPS Public Portal: <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", make_public_planning_application_path(@planning_application) %></span>
     </p>
+
+    <% if @planning_application.preapplication? %>
+      <p class="govuk-body" id="preapplication-services">
+        Requested services:
+        <%- @planning_application.preapplication_services.each_with_index do |service, i| -%><%- if i > 0 %>, <% end -%>
+          <strong><%= service.name.to_s.humanize %></strong><% end %>
+        <%= govuk_link_to "Change", edit_planning_application_preapplication_services_path(@planning_application) %>
+      </p>
+    <% end %>
   </div>
 </div>
 

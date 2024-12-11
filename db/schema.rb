@@ -895,6 +895,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_05_164522) do
     t.index ["section", "new_policy_class_id"], name: "ix_policy_sections_on_section__new_policy_class_id", unique: true
   end
 
+  create_table "preapplication_services", force: :cascade do |t|
+    t.string "name"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_preapplication_services_on_planning_application_id"
+  end
+
   create_table "press_notices", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.boolean "required", null: false
@@ -1157,6 +1165,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_05_164522) do
   add_foreign_key "policy_classes", "planning_applications"
   add_foreign_key "policy_parts", "policy_schedules"
   add_foreign_key "policy_sections", "new_policy_classes"
+  add_foreign_key "preapplication_services", "planning_applications"
   add_foreign_key "press_notices", "planning_applications"
   add_foreign_key "proposal_measurements", "planning_applications"
   add_foreign_key "recommendations", "planning_applications"

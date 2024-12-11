@@ -1499,6 +1499,9 @@ en:
       user_name: Planning officer
     policy_consideration_list:
       proposal_details: Proposal details
+    preapplication_services:
+      update:
+        success: Pre-application services updated
     press_notices:
       confirmation_requests:
         create:
