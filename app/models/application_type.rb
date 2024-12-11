@@ -6,7 +6,7 @@ class ApplicationType < ApplicationRecord
 
   self.audit_attributes = %w[code]
 
-  NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate other].freeze
+  NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate pre_application other].freeze
   ODP_APPLICATION_TYPES = I18n.t(:"odp.application_types").to_h.freeze
   CURRENT_APPLICATION_TYPES = I18n.t(:"odp.current_application_types").freeze
 
@@ -115,6 +115,8 @@ class ApplicationType < ApplicationRecord
         "lawfulness_certificate"
       when /\App\./
         "planning_permission"
+      when /\ApreApp(?:\z|\.)/
+        "pre_application"
       else
         "other"
       end
