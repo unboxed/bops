@@ -73,6 +73,10 @@ RSpec.describe "Planning Application show page" do
       expect(page).to have_content("In assessment")
     end
 
+    it "Application type is visible" do
+      expect(page).to have_content("Application type: Lawful Development Certificate - Proposed use")
+    end
+
     it "Contact information accordion" do
       find("span", text: "Contact information").click
 

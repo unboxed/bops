@@ -14,6 +14,7 @@ RSpec.describe PlanningApplicationSearch do
   let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed) }
   let!(:application_type_prior_approval) { create(:application_type, :prior_approval) }
   let!(:application_type_householder) { create(:application_type, :householder) }
+  let!(:application_type_pre_application) { create(:application_type, :pre_application) }
 
   let!(:ldc_not_started) do
     travel_to("2022-01-01") do
@@ -91,6 +92,17 @@ RSpec.describe PlanningApplicationSearch do
     )
   end
 
+  let!(:pre_application_in_assessment) do
+    create(
+      :planning_application,
+      :in_assessment,
+      :pre_application,
+      local_authority:,
+      received_at: nil,
+      application_type: application_type_pre_application
+    )
+  end
+
   before do
     Current.user = assessor
   end
@@ -108,7 +120,8 @@ RSpec.describe PlanningApplicationSearch do
           prior_approval_in_assessment,
           householder_application_for_planning_permission_in_assessment,
           ldc_in_assessment_2,
-          ldc_in_assessment_1
+          ldc_in_assessment_1,
+          pre_application_in_assessment
         ])
       end
     end
@@ -143,7 +156,8 @@ RSpec.describe PlanningApplicationSearch do
           prior_approval_in_assessment,
           ldc_in_assessment_2,
           ldc_in_assessment_1,
-          householder_application_for_planning_permission_in_assessment
+          householder_application_for_planning_permission_in_assessment,
+          pre_application_in_assessment
         )
       end
 
@@ -282,7 +296,8 @@ RSpec.describe PlanningApplicationSearch do
             prior_approval_in_assessment,
             ldc_in_assessment_2,
             ldc_in_assessment_1,
-            householder_application_for_planning_permission_in_assessment
+            householder_application_for_planning_permission_in_assessment,
+            pre_application_in_assessment
           )
         end
 
@@ -367,6 +382,22 @@ RSpec.describe PlanningApplicationSearch do
 
         it "returns correct planning applications" do
           expect(search.call).to contain_exactly(prior_approval_in_assessment)
+        end
+      end
+
+      context "when filtering by in assessment and pre application" do
+        let(:params) do
+          ActionController::Parameters.new(
+            {
+              status: ["in_assessment"],
+              application_type: ["pre_application"],
+              submit: "search"
+            }
+          )
+        end
+
+        it "returns correct planning applications" do
+          expect(search.call).to contain_exactly(pre_application_in_assessment)
         end
       end
 

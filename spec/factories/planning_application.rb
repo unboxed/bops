@@ -352,6 +352,10 @@ FactoryBot.define do
       application_type { association :application_type, :planning_permission }
     end
 
+    trait :pre_application do
+      application_type { association :application_type, :pre_application }
+    end
+
     trait :lawfulness_certificate do
       application_type { association :application_type, :lawfulness_certificate }
     end
