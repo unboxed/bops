@@ -556,6 +556,7 @@ FactoryBot.define do
     end
 
     trait :pre_application do
+      name { "pre_application" }
       code { "preApp" }
       suffix { "PRE" }
     end
