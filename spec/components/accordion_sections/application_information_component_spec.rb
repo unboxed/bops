@@ -8,6 +8,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
   let(:planning_application) do
     create(
       :planning_application,
+      :from_planx,
       description: "Test description",
       address_1: "123 Long Lane",
       town: "Big City",
@@ -159,6 +160,14 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
       render_inline(component)
 
       expect(page).to have_row_for("Work already started:", with: "Yes")
+    end
+  end
+
+  context "when there is a session ID" do
+    it "renders 'session id'" do
+      render_inline(component)
+
+      expect(page).to have_row_for("Session ID", with: "21161b70-0e29-40e6-9a38-c42f61f25ab9")
     end
   end
 end
