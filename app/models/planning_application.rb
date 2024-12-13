@@ -560,10 +560,6 @@ class PlanningApplication < ApplicationRecord
     policy_classes.pluck(:section).include?(section)
   end
 
-  def planning_history_enabled?
-    Rails.configuration.planning_history_enabled
-  end
-
   def rejected_assessment_detail(category:)
     assessment_details.where(
       category:,

@@ -62,5 +62,9 @@ FactoryBot.define do
         local_authority.api_users.find_or_create_by!(name: local_authority.subdomain)
       end
     end
+
+    trait :planning_history do
+      planning_history_enabled { true }
+    end
   end
 end

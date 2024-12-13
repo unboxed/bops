@@ -3,13 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Planning History" do
-  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:default_local_authority) { create(:local_authority, :default, :planning_history) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   before do
     sign_in assessor
-
-    Rails.configuration.planning_history_enabled = true
   end
 
   context "when planning application's property uprn has planning history" do
