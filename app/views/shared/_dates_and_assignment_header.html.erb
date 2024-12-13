@@ -39,6 +39,10 @@
     <p class="govuk-body">
       Public on BOPS Public Portal: <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", make_public_planning_application_path(@planning_application) %></span>
     </p>
+
+    <p class="govuk-body">
+      Application type: <strong><%= @planning_application.application_type.description %></strong>
+    </p>
   </div>
 </div>
 
