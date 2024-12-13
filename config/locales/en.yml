@@ -928,6 +928,9 @@ en:
     successfully_created: Permitted development rights response was successfully created
     successfully_updated: Permitted development rights response was successfully updated
   planning_applications:
+    additional_services:
+      update:
+        success: Pre-application services updated
     appeals:
       create:
         success: Application was successfully marked for appeal
