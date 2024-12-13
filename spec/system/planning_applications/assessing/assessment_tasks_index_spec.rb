@@ -8,7 +8,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
   before do
     sign_in assessor
-    Rails.configuration.planning_history_enabled = true
+
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
   end
 

@@ -7,7 +7,7 @@ module PlanningApplications
       before_action :set_site_history, except: %i[confirm]
 
       def index
-        if @planning_application.planning_history_enabled?
+        if current_local_authority.planning_history_enabled?
           @site_histories += Apis::Paapi::Query.new.fetch(@planning_application.uprn)
         end
 
