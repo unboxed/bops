@@ -27,6 +27,7 @@ en:
       parish: 'Parish:'
       payment_amount: 'Payment amount:'
       payment_reference: 'Payment reference:'
+      session_id: Session ID
       type_description: 'Application type:'
       uprn: 'UPRN:'
       view_on_mapit: View on mapit

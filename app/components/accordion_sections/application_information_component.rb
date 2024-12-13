@@ -8,6 +8,7 @@ module AccordionSections
       :uprn,
       :type_description,
       :full_address,
+      :session_id,
       to: :planning_application
     )
 
