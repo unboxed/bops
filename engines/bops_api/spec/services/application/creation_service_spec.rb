@@ -9,6 +9,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
     let!(:application_type_ldce) { create(:application_type, :ldc_existing) }
     let!(:application_type_ldcp) { create(:application_type, :ldc_proposed) }
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
+    let!(:application_type_preapp) { create(:application_type, :pre_application) }
 
     let!(:article4_constraint) { create(:constraint, type: "article4", category: "general_policy") }
     let!(:designated_constraint) { create(:constraint, type: "designated", category: "heritage_and_conservation") }
@@ -34,7 +35,9 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         ["RoaldDahlHut.jpg", "planx/RoaldDahlHut.jpg", "image/jpeg"],
         ["RoofPlan.pdf", "planx/RoofPlan.pdf", "application/pdf"],
         ["Site%20plan.pdf", "planx/Site plan.pdf", "application/pdf"],
-        ["Test%20document.pdf", "planx/Test document.pdf", "application/pdf"]
+        ["Test%20document.pdf", "planx/Test document.pdf", "application/pdf"],
+        ["correspondence.pdf", "planx/Test document.pdf", "application/pdf"],
+        ["myPlans.pdf", "planx/Plan.pdf", "application/pdf"]
       ].each do |file, fixture, content_type|
         stub_request(:get, %r{\Ahttps://api.editor.planx.dev/file/private/\w+/#{Regexp.escape(file)}\z})
           .with(headers: {"Api-Key" => "G41sAys9uPMUVBH5WUKsYE4H"})
@@ -525,6 +528,18 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             end_date: nil,
             applicant_comment: "Nothing really, this is just a test. "
           )
+        end
+      end
+
+      context "when application type is preApp" do
+        let(:params) { json_fixture("v2/preApplication.json").with_indifferent_access }
+        let(:planning_application) { create_planning_application }
+        let(:service) { described_class.new(local_authority:, user:, params:, planning_application:) }
+
+        it "creates a planning application with pre-application services" do
+          service.call!
+          perform_enqueued_jobs
+          expect(planning_application.additional_services).to be_present
         end
       end
 

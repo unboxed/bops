@@ -30,6 +30,7 @@ module BopsApi
       process_planning_designations(planning_application)
       process_ownership_certificate_details(planning_application)
       process_immunity_details(planning_application) if possibly_immune?(planning_application)
+      process_preapplication_services(planning_application) if planning_application.pre_application?
 
       if planning_application.pending?
         planning_application.mark_accepted!
@@ -167,6 +168,24 @@ module BopsApi
       end
     rescue ActiveRecord::RecordInvalid, NoMethodError => e
       Appsignal.report_error(e)
+    end
+
+    def process_preapplication_services(planning_application)
+      questions = planning_application.find_proposal_detail("Planning Pre-Application Advice Services")
+      responses = questions.map(&:response_values).flatten
+
+      responses.each do |response|
+        name = case response
+        when /written advice/i
+          :written_advice
+        when /meeting/i
+          :meeting
+        when /visit/i
+          :site_visit
+        end
+
+        planning_application.additional_services << PreapplicationService.new(name:)
+      end
     end
 
     def fetch_constraint_entities(planning_application_constraint, entities)

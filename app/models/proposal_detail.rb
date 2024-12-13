@@ -28,7 +28,7 @@ class ProposalDetail
   end
 
   def section_name
-    metadata["section_name"]
+    metadata["sectionName"] || metadata["section_name"]
   end
 
   def portal_name
