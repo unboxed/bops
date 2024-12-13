@@ -59,23 +59,10 @@
             row.with_value { %>
               <p class="govuk-body"><strong>Application details</strong></p>
               <ul class="govuk-list govuk-list--bullet">
-                <% if @application_type.assess_against_policies? %>
-                  <li><%= t("application_type_features.labels.assess_against_policies") %></li>
-                <% end %>
-                <% if @application_type.informatives? %>
-                  <li><%= t("application_type_features.labels.informatives") %></li>
-                <% end %>
-                <% if @application_type.considerations? %>
-                  <li><%= t("application_type_features.labels.considerations") %></li>
-                <% end %>
-                <% if @application_type.ownership_details? %>
-                  <li><%= t("application_type_features.labels.ownership_details") %></li>
-                <% end %>
-                <% if @application_type.permitted_development_rights? %>
-                  <li><%= t("application_type_features.labels.permitted_development_rights") %></li>
-                <% end %>
-                <% if @application_type.planning_conditions? %>
-                  <li><%= t("application_type_features.labels.planning_conditions") %></li>
+                <% application_details_features.each do |field| %>
+                  <% if @application_type.public_send("#{field}?") %>
+                    <li><%= t("application_type_features.labels.#{field}") %></li>
+                  <% end %>
                 <% end %>
               </ul>
 

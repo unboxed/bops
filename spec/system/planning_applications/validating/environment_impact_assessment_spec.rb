@@ -194,4 +194,20 @@ RSpec.describe "Validation tasks" do
       end
     end
   end
+
+  context "when EIA feature is disabled" do
+    let!(:planning_application) do
+      create(:planning_application, :not_started, :pre_application, local_authority: default_local_authority)
+    end
+
+    it "does not have a section to check EIA" do
+      visit "planning_applications/#{planning_application.reference}/validation/tasks"
+
+      expect(page).not_to have_content("Check Environment Impact Assessment")
+
+      visit "planning_applications/#{planning_application.reference}/validation/environment_impact_assessment"
+
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+    end
+  end
 end

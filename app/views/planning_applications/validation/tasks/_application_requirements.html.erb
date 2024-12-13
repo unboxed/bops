@@ -5,9 +5,13 @@
 <%= govuk_task_list(id_prefix: "application-requirements-tasks", html_attributes: {id: "application-requirements-tasks"}) do |task_list|
       render Validation::FeeValidationTask.new(@planning_application, task_list:)
 
-      render Validation::CilLiabilityTask.new(@planning_application, task_list:)
+      if @planning_application.application_type.cil?
+        render Validation::CilLiabilityTask.new(@planning_application, task_list:)
+      end
 
-      render Validation::EnvironmentalImpactAssessmentTask.new(@planning_application, task_list:)
+      if @planning_application.application_type.eia?
+        render Validation::EnvironmentalImpactAssessmentTask.new(@planning_application, task_list:)
+      end
 
       if @planning_application.application_type.ownership_details?
         render Validation::OwnershipCertificateTask.new(@planning_application, task_list:)

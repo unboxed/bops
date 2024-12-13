@@ -1,16 +1,19 @@
 <%= bops_task_accordion(id: "review-assessment") do |accordion| %>
   <% accordion.with_heading(text: "Review assessment") %>
-  <% accordion.with_section(id: "check-cil", expanded: false) do |section| %>
-    <%= section.with_heading(text: "Check Community Infrastructure Levy (CIL)") %>
-    <%= section.with_status do %>
-      <%= render(
-            StatusTags::BaseComponent.new(
-              status: (@planning_application.audits.review_cil_liability.any? ? :complete : :not_started)
-            )
-          ) %>
-    <% end %>
-    <%= section.with_footer do %>
-      <%= render(partial: "planning_applications/review/cil_liability/form") %>
+
+  <% if @planning_application.application_type.cil? %>
+    <% accordion.with_section(id: "check-cil", expanded: false) do |section| %>
+      <%= section.with_heading(text: "Check Community Infrastructure Levy (CIL)") %>
+      <%= section.with_status do %>
+        <%= render(
+              StatusTags::BaseComponent.new(
+                status: (@planning_application.audits.review_cil_liability.any? ? :complete : :not_started)
+              )
+            ) %>
+      <% end %>
+      <%= section.with_footer do %>
+        <%= render(partial: "planning_applications/review/cil_liability/form") %>
+      <% end %>
     <% end %>
   <% end %>
 

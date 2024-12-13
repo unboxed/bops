@@ -3,9 +3,12 @@ en:
     labels:
       appeals: "Enable appeals"
       assess_against_policies: "Assess against legislation"
+      cil: "Community Infrastructure Levy"
       considerations: "Assess policies and guidance (considerations)"
       consultations_skip_bank_holidays: "Extend consultation periods that contain bank holidays"
+      eia: "Environmental Impact Assessment"
       informatives: "Add informatives"
+      legislative_requirements: "Check legislative requirments"
       ownership_details: "Ownership details"
       planning_conditions: "Check planning conditions"
       permitted_development_rights: "Check permitted development rights"

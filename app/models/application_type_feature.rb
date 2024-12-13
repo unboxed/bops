@@ -5,8 +5,11 @@ class ApplicationTypeFeature
 
   attribute :appeals, :boolean, default: true
   attribute :assess_against_policies, :boolean, default: false
+  attribute :cil, :boolean, default: true
   attribute :considerations, :boolean, default: false
+  attribute :eia, :boolean, default: true
   attribute :informatives, :boolean, default: false
+  attribute :legislative_requirements, :boolean, default: true
   attribute :ownership_details, :boolean, default: true
   attribute :planning_conditions, :boolean, default: false
   attribute :permitted_development_rights, :boolean, default: true

@@ -146,4 +146,17 @@ RSpec.describe "checking publicity" do
       expect(page).to have_content "Reviewer marked application as not liable for CIL"
     end
   end
+
+  context "when CIL liability feature is disabled" do
+    let!(:planning_application) do
+      create(:planning_application, :awaiting_determination, :pre_application, local_authority: local_authority)
+    end
+
+    it "does not have a section to review CIL" do
+      visit "planning_applications/#{planning_application.reference}/review/tasks"
+
+      expect(page).not_to have_css("#check-cil")
+      expect(page).not_to have_content("Check Community Infrastructure Levy (CIL)")
+    end
+  end
 end

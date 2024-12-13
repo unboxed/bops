@@ -21,12 +21,9 @@
 
       <%= form.fields_for :features, @application_type.features do |ff| %>
         <%= ff.govuk_fieldset legend: {text: t("application_type_features.legends.check_application_details"), size: "s"} do %>
-          <%= ff.govuk_check_box :assess_against_policies, 1, 0, multiple: false, label: {text: t("application_type_features.labels.assess_against_policies")} %>
-          <%= ff.govuk_check_box :considerations, 1, 0, multiple: false, label: {text: t("application_type_features.labels.considerations")} %>
-          <%= ff.govuk_check_box :informatives, 1, 0, multiple: false, label: {text: t("application_type_features.labels.informatives")} %>
-          <%= ff.govuk_check_box :ownership_details, 1, 0, multiple: false, label: {text: t("application_type_features.labels.ownership_details")} %>
-          <%= ff.govuk_check_box :planning_conditions, 1, 0, multiple: false, label: {text: t("application_type_features.labels.planning_conditions")} %>
-          <%= ff.govuk_check_box :permitted_development_rights, 1, 0, multiple: false, label: {text: t("application_type_features.labels.permitted_development_rights")} %>
+          <% application_details_features.each do |field| %>
+            <%= ff.govuk_check_box field, 1, 0, multiple: false, label: {text: t("application_type_features.labels.#{field}")} %>
+          <% end %>
         <% end %>
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
