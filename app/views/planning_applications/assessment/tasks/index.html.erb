@@ -28,6 +28,9 @@
               consistency_checklist: @planning_application.consistency_checklist
             }
           ) %>
+
+      <%= render "additional_services" %>
+
       <%= render "assessment_information" %>
 
       <% if @planning_application.application_type.considerations? %>

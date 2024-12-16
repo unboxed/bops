@@ -14,15 +14,16 @@ module BopsConfig
 
     def application_details_features
       %i[
+        informatives
         assess_against_policies
         considerations
+        legislative_requirements
+        permitted_development_rights
+        planning_conditions
         cil
         eia
-        informatives
-        legislative_requirements
         ownership_details
-        planning_conditions
-        permitted_development_rights
+        site_visits
       ]
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_13_114148) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_16_141746) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -1015,9 +1015,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_13_114148) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "neighbour_id"
+    t.bigint "planning_application_id", null: false
+    t.string "address"
     t.index ["consultation_id"], name: "ix_site_visits_on_consultation_id"
     t.index ["created_by_id"], name: "ix_site_visits_on_created_by_id"
     t.index ["neighbour_id"], name: "ix_site_visits_on_neighbour_id"
+    t.index ["planning_application_id"], name: "ix_site_visits_on_planning_application_id"
   end
 
   create_table "terms", force: :cascade do |t|
@@ -1180,6 +1183,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_13_114148) do
   add_foreign_key "site_notices", "planning_applications"
   add_foreign_key "site_visits", "consultations"
   add_foreign_key "site_visits", "neighbours"
+  add_foreign_key "site_visits", "planning_applications"
   add_foreign_key "site_visits", "users", column: "created_by_id"
   add_foreign_key "users", "local_authorities"
   add_foreign_key "validation_requests", "documents", column: "old_document_id"

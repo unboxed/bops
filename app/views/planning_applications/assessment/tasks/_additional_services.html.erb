@@ -1,0 +1,12 @@
+<li id="additional-services-tasks">
+  <h2 class="app-task-list__section">Additional services</h2>
+  <ul class="app-task-list__items">
+    <% if @planning_application.application_type.site_visits? %>
+      <%= render(
+            TaskListItems::Assessment::SiteVisitComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
+  </ul>
+</li>
