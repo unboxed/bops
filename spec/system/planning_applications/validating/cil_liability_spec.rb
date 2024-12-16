@@ -141,4 +141,20 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
       end
     end
   end
+
+  context "when CIL liability feature is disabled" do
+    let!(:planning_application) do
+      create(:planning_application, :not_started, :pre_application, local_authority: default_local_authority)
+    end
+
+    it "does not have a section to check CIL" do
+      visit "planning_applications/#{planning_application.reference}/validation/tasks"
+
+      expect(page).not_to have_content("Check Community Infrastructure Levy (CIL)")
+
+      visit "planning_applications/#{planning_application.reference}/validation/cil_liability/edit"
+
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+    end
+  end
 end

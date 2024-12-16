@@ -86,8 +86,11 @@ class ApplicationType < ApplicationRecord
   with_options to: :features do
     delegate :appeals?
     delegate :assess_against_policies?
+    delegate :cil?
     delegate :considerations?
+    delegate :eia?
     delegate :informatives?
+    delegate :legislative_requirements?
     delegate :ownership_details?
     delegate :planning_conditions?
     delegate :permitted_development_rights?

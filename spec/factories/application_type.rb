@@ -558,6 +558,14 @@ FactoryBot.define do
     trait :pre_application do
       code { "preApp" }
       suffix { "PRE" }
+
+      features {
+        {
+          "cil" => false,
+          "eia" => false,
+          "legislative_requirements" => false
+        }
+      }
     end
 
     trait :without_consultation do

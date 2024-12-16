@@ -33,8 +33,11 @@ module BopsConfig
         [
           :appeals,
           :assess_against_policies,
+          :cil,
           :considerations,
+          :eia,
           :informatives,
+          :legislative_requirements,
           :ownership_details,
           :planning_conditions,
           :permitted_development_rights,

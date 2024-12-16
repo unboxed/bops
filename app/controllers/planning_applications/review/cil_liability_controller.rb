@@ -3,6 +3,8 @@
 module PlanningApplications
   module Review
     class CilLiabilityController < BaseController
+      before_action :redirect_to_review_tasks, unless: :cil_feature?
+
       def update
         @previous_decision = @planning_application.cil_liable
         if @planning_application.update(cil_liability_params)
@@ -43,6 +45,14 @@ module PlanningApplications
         else
           "Reviewer marked application as#{" not" unless @planning_application.cil_liable} liable for CIL"
         end
+      end
+
+      def redirect_to_review_tasks
+        redirect_to planning_application_review_tasks_path(@planning_application)
+      end
+
+      def cil_feature?
+        @planning_application.application_type.cil?
       end
     end
   end

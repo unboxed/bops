@@ -101,4 +101,25 @@ RSpec.describe "Check legislation" do
       expect(page).to have_content("Not found")
     end
   end
+
+  context "when legislative requirements feature is disabled" do
+    let!(:planning_application) do
+      create(:planning_application, :not_started, :pre_application, local_authority: default_local_authority)
+    end
+
+    before do
+      sign_in assessor
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+    end
+
+    it "does not have a section to check legislative requirements" do
+      visit "planning_applications/#{planning_application.reference}/validation/tasks"
+
+      expect(page).not_to have_content("Check legislative requirements")
+
+      visit "planning_applications/#{planning_application.reference}/validation/legislation"
+
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+    end
+  end
 end
