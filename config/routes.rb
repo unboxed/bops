@@ -133,10 +133,6 @@ Rails.application.routes.draw do
 
           resource :permitted_development_rights, only: %i[show edit update]
 
-          resources :site_histories, except: %i[new show] do
-            post :confirm, on: :collection
-          end
-
           resources :policy_classes, except: %i[index] do
             get :part, on: :new
 
@@ -149,6 +145,12 @@ Rails.application.routes.draw do
             resources :parts, only: :index
             resources :policy_classes, except: %i[show]
           end
+
+          resources :site_histories, except: %i[new show] do
+            post :confirm, on: :collection
+          end
+
+          resources :site_visits, except: %i[destroy]
 
           resources :heads_of_terms, only: %i[index new] do
             get :edit, on: :collection
@@ -197,7 +199,6 @@ Rails.application.routes.draw do
 
           resources :neighbour_responses, except: %i[show destroy]
           resources :redact_neighbour_responses, only: %i[edit update]
-          resources :site_visits, except: %i[destroy]
         end
 
         namespace :validation do

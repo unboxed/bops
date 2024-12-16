@@ -64,5 +64,13 @@
             ) %>
       <% end %>
     <% end %>
+
+    <% if @planning_application.application_type.site_visits? %>
+      <%= render(
+            TaskListItems::Assessment::SiteVisitComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
   </ul>
 </li>

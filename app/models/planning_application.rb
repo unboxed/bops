@@ -53,6 +53,7 @@ class PlanningApplication < ApplicationRecord
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_many :site_histories
     has_many :site_notices
+    has_many :site_visits, -> { by_created_at_desc }
     has_many :policy_classes, -> { order(:section) }
     has_many :press_notices, -> { by_created_at_desc }
     has_many :planning_application_policy_classes
@@ -91,6 +92,7 @@ class PlanningApplication < ApplicationRecord
     delegate :prior_approval?
     delegate :selected_reporting_types?
     delegate :pre_application?
+    delegate :work_status
   end
 
   delegate :reviewer_group_email, to: :local_authority
@@ -108,7 +110,6 @@ class PlanningApplication < ApplicationRecord
     delegate :params_v2
     delegate :session_id
   end
-  delegate :work_status, to: :application_type
 
   delegate :lodged?, :validated?, :started?, :determined?, to: :appeal, allow_nil: true, prefix: true
 
@@ -953,6 +954,10 @@ class PlanningApplication < ApplicationRecord
 
   def press_notice
     press_notices.first
+  end
+
+  def site_visit
+    site_visits.first
   end
 
   def make_public?

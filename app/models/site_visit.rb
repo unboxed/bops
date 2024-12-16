@@ -4,24 +4,21 @@ class SiteVisit < ApplicationRecord
   include DateValidateable
 
   belongs_to :created_by, class_name: "User"
-  belongs_to :consultation
+
   belongs_to :neighbour, optional: true
+  belongs_to :planning_application
 
   has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
-  validates :status, :comment, presence: true,
-    if: -> { decision? && consultation_start_date_present? }
+  validates :status, :comment, presence: true, if: -> { decision? }
   validates :decision, inclusion: {in: [true, false]}
-
-  validate :consultation_started?, on: :create
 
   validates :visited_at,
     presence: true,
     date: {
-      on_or_before: :current,
-      on_or_after: :consultation_start_date
+      on_or_before: :current
     },
-    if: -> { decision? && consultation_start_date_present? }
+    if: -> { decision? }
 
   enum :status, %i[
     not_started
@@ -30,8 +27,7 @@ class SiteVisit < ApplicationRecord
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
-  delegate :planning_application, to: :consultation
-  delegate :start_date, to: :consultation, prefix: true
+  delegate :consultation, to: :planning_application, allow_nil: true
 
   def documents=(files)
     files.select(&:present?).each do |file|
@@ -39,13 +35,7 @@ class SiteVisit < ApplicationRecord
     end
   end
 
-  private
-
-  def consultation_start_date_present?
-    consultation&.start_date&.present?
-  end
-
-  def consultation_started?
-    errors.add(:base, "Start the consultation before creating a site visit") unless consultation_start_date_present?
+  def address
+    super || neighbour.try(:address)
   end
 end

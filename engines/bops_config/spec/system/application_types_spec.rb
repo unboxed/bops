@@ -529,6 +529,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
       expect(page).to have_selector("li", text: "Environmental Impact Assessment")
       expect(page).to have_selector("li", text: "Community Infrastructure Levy")
       expect(page).to have_selector("li", text: "Check legislative requirments")
+      expect(page).to have_selector("li", text: "Site visits")
       expect(page).not_to have_selector("li", text: "Check permitted development rights")
       expect(page).not_to have_selector("li", text: "Enable appeals")
 
@@ -549,6 +550,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_checked_field("Add informatives")
     expect(page).to have_checked_field("Ownership details")
     expect(page).to have_checked_field("Check planning conditions")
+    expect(page).to have_checked_field("Site visits")
     expect(page).to have_unchecked_field("Check permitted development rights")
 
     expect(page).to have_selector("fieldset legend", text: "Consultation")
@@ -561,6 +563,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     uncheck("Environmental Impact Assessment")
     uncheck("Community Infrastructure Levy")
     uncheck("Check legislative requirments")
+    uncheck("Site visits")
     check("Check permitted development rights")
     check("Consultees")
     check("Enable appeals")
@@ -578,6 +581,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
       expect(page).not_to have_selector("li", text: "Environmental Impact Assessment")
       expect(page).not_to have_selector("li", text: "Community Infrastructure Levy")
       expect(page).not_to have_selector("li", text: "Check legislative requirments")
+      expect(page).not_to have_selector("li", text: "Site visits")
       expect(page).to have_selector("li", text: "Check permitted development rights")
       expect(page).to have_selector("li", text: "Enable appeals")
 

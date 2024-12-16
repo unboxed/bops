@@ -42,6 +42,7 @@ module BopsConfig
           :planning_conditions,
           :permitted_development_rights,
           :consultations_skip_bank_holidays,
+          :site_visits,
           {consultation_steps: []}
         ]
       end

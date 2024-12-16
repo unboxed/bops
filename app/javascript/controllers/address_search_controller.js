@@ -24,7 +24,12 @@ export default class extends Controller {
       minLength: 3,
       confirmOnBlur: false,
       onConfirm: (val) => {
-        this.addAddress(val)
+        const hiddenField = document.getElementById("address-hidden-field")
+        if (hiddenField) {
+          hiddenField.value = val
+        } else {
+          this.addAddress(val)
+        }
       },
     })
   }

@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :site_visit do
     association :created_by, factory: :user
-    consultation
+    planning_application
 
     decision { "Yes" }
     comment { "A comment about the site visit" }

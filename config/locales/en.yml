@@ -1395,6 +1395,11 @@ en:
           success: Site history was successfully removed
         update:
           success: Site history was successfully updated
+      site_visits:
+        create:
+          success: Site visit response was successfully added.
+        form:
+          upload_photos: Upload photo(s)
       tasks:
         check_consistency:
           check_application: Check application
@@ -1781,11 +1786,6 @@ en:
         success: Site notice was successfully %{action}
       update:
         success: Site notice was successfully updated
-    site_visits:
-      create:
-        success: Site visit was successfully created.
-      form:
-        upload_photos: Upload photo(s)
     steps:
       assessment:
         check_and_assess: Check and assess
