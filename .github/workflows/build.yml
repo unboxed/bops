@@ -70,9 +70,10 @@ jobs:
               additional_spec_opts: "--tag 'capybara' --tag 'js'",
               want_pdf: true,
             }
+          - { group: "components", want_pdf: true }
           - {
               group: "other",
-              directories: "{components,controllers,form_models,helpers,presenters,mailer,jobs,services,translations}",
+              directories: "{controllers,form_models,helpers,presenters,mailer,jobs,services,translations}",
             }
           - { group: "bops_admin", module: "engines" }
           - { group: "bops_api", module: "engines" }
