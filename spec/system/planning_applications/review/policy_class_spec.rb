@@ -40,7 +40,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
 
       let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", new_policy_class: policy_classA) }
       let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", new_policy_class: policy_classA) }
-      let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2ab(ii)", new_policy_class: policy_classA) }
+      let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2bb(ii)", new_policy_class: policy_classA) }
 
       let!(:pa_policy_section1a) { create(:planning_application_policy_section, :complies, policy_section: policy_section1a, planning_application:) }
       let!(:pa_policy_section1b) { create(:planning_application_policy_section, :complies, policy_section: policy_section1b, planning_application:) }
@@ -122,6 +122,9 @@ RSpec.describe "Reviewing Policy Class", type: :system do
 
         expect(list_item("Part 1, Class A")).to have_content("To be reviewed")
 
+        # Updating policy section description
+        policy_section2bii.update!(description: "A new description")
+
         click_link("Part 1, Class A")
         within("#reviewer_comment") do
           expect(page).to have_content("Reviewer comment:")
@@ -129,6 +132,10 @@ RSpec.describe "Reviewing Policy Class", type: :system do
         end
 
         within("#policy-section-#{policy_section2bii.id}") do
+          # Description at time of assessment should be present
+          expect(page).to have_content("description for section 2bb(ii)")
+          expect(page).not_to have_content("A new description")
+
           choose(option: "complies")
         end
         click_button("Save and mark as complete")

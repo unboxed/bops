@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_13_114148) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_17_112749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -734,6 +734,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_13_114148) do
     t.bigint "policy_section_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description", null: false
     t.index ["planning_application_id"], name: "ix_planning_application_policy_sections_on_planning_application"
     t.index ["policy_section_id"], name: "ix_planning_application_policy_sections_on_policy_section_id"
   end

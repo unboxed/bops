@@ -17,7 +17,9 @@ class PlanningApplicationPolicySection < ApplicationRecord
     reject_if: :reject_comment?
   )
 
-  validates :status, presence: true
+  validates :status, :description, presence: true
+
+  before_validation :set_description, on: :create
 
   enum(
     status: {
@@ -27,6 +29,10 @@ class PlanningApplicationPolicySection < ApplicationRecord
     },
     _default: :to_be_determined
   )
+
+  def set_description
+    self.description ||= policy_section.description
+  end
 
   def last_comment
     @last_comment ||= persisted_comments.last
