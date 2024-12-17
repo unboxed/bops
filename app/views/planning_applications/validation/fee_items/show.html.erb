@@ -21,7 +21,30 @@
 
     <%= render "fee_item_table" %>
 
-    <% if @planning_application.fee_calculation %>
+    <% if @planning_application.pre_application? %>
+      <h3 class="govuk-heading-m govuk-!-margin-top-8">Fee calculation</h3>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Detail</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Amount</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @planning_application.find_proposal_detail("Planning Pre-Application Advice Services").map(&:response_values).flatten.each do |response| %>
+            <% service, fee = response.split(/(.*) \((.*)\)/)[1..2] %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">
+                <%= service %>
+              </th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">
+                <%= fee %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% elsif @planning_application.fee_calculation %>
       <h3 class="govuk-heading-m govuk-!-margin-top-8">Fee calculation</h3>
       <table class="govuk-table">
         <thead class="govuk-table__head">
