@@ -735,6 +735,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_19_161821) do
     t.bigint "policy_section_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description", null: false
     t.index ["planning_application_id"], name: "ix_planning_application_policy_sections_on_planning_application"
     t.index ["policy_section_id"], name: "ix_planning_application_policy_sections_on_policy_section_id"
   end
