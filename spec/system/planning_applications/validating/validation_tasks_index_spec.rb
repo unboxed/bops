@@ -351,7 +351,7 @@ RSpec.describe "Validation tasks" do
 
       it "shows the check legislation task" do
         within("#check-legislation-description-task") do
-          expect(page).to have_content("Planning application has already been validated")
+          expect(page).to have_content("Check legislative requirements")
         end
       end
     end
