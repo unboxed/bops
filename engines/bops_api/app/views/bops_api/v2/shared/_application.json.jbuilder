@@ -14,7 +14,7 @@ json.application do
   json.publishedAt planning_application.published_at
   json.determinedAt planning_application.determined_at
   json.decision planning_application.determined? ? planning_application.decision : nil
-  json.status planning_application.status
+  json.status planning_application.appeal_display_status || planning_application.status
 
   if (consultation = planning_application.consultation)
     json.consultation do

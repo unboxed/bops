@@ -209,11 +209,13 @@ RSpec.describe "BOPS public API" do
         example "application/json", :default, example_fixture("show.json")
 
         let!(:planning_application) { planning_applications.first }
+        let!(:appeal) { create(:appeal, planning_application:) }
         let(:reference) { planning_application.reference }
 
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data["application"]["reference"]).to eq(planning_application.reference)
+          expect(data["application"]["status"]).to eq("Appeal lodged")
 
           expect(data["officer"]["name"]).to eq(planning_application.user.name)
 
