@@ -3,11 +3,7 @@
 module Validation
   class CheckLegislationDescriptionTask < WorkflowTask
     def task_list_link_text
-      if planning_application.validated?
-        "Planning application has already been validated"
-      else
-        I18n.t("task_list_items.validating.legislation_component.check_legislation")
-      end
+      I18n.t("task_list_items.validating.legislation_component.check_legislation")
     end
 
     def task_list_link
@@ -21,7 +17,8 @@ module Validation
     end
 
     def render?
-      planning_application.application_type.legislation_description
+      application_type = planning_application.application_type
+      application_type.legislative_requirements? && application_type.legislation_description.present?
     end
   end
 end

@@ -82,7 +82,7 @@ RSpec.describe "Check legislation" do
   end
 
   context "when planning application type has no legislation details" do
-    let(:application_type) { create(:application_type, :inactive, :without_legislation) }
+    let(:application_type) { create(:application_type, :pre_application, :inactive, :without_legislation) }
     let(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority, application_type:)
     end
@@ -96,9 +96,9 @@ RSpec.describe "Check legislation" do
       expect(page).not_to have_css("#check-legislation-description-task")
     end
 
-    it "shows forbidden when navigating to the page directly" do
+    it "redirects to validation tasks page when navigating to the page directly" do
       visit "/planning_applications/#{planning_application.reference}/validation/legislation"
-      expect(page).to have_content("Not found")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
     end
   end
 
