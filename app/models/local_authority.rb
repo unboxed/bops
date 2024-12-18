@@ -9,10 +9,10 @@ class LocalAuthority < ApplicationRecord
     attribute :code, :string
     attribute :determination_period_days, :integer
 
-    validates :determination_period_days, presence: true
-    validates :determination_period_days, numericality: {only_integer: true}
-    validates :determination_period_days, numericality: {greater_than_or_equal_to: 1}
-    validates :determination_period_days, numericality: {less_than_or_equal_to: 99}
+    # validates :determination_period_days, presence: true
+    # validates :determination_period_days, numericality: {only_integer: true}
+    # validates :determination_period_days, numericality: {greater_than_or_equal_to: 1}
+    # validates :determination_period_days, numericality: {less_than_or_equal_to: 99}
   end
 
   attribute :application_type_overrides, ApplicationTypeOverrides.to_array_type
