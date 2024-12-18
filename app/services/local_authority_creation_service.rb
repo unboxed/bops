@@ -38,12 +38,8 @@ class LocalAuthorityCreationService
       short_name:,
       council_name:,
       applicants_url:,
-      application_type_overrides:
+      application_type_overrides: []
     )
-  end
-
-  def application_type_overrides
-    [{"code" => "preApp", "determination_period_days" => 30}]
   end
 
   def create_administrator_user
