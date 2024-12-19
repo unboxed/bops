@@ -12,74 +12,49 @@ RSpec.describe "Site visit" do
       application_type:, local_authority:)
   end
 
-  let!(:consultation) { planning_application.consultation }
-  let!(:neighbour) { create(:neighbour, consultation:) }
-  let!(:neighbour2) { create(:neighbour, consultation:, address: "123, Another, Address") }
+  let(:consultation) { planning_application.consultation }
+  let(:neighbour) { create(:neighbour, consultation:) }
+  let(:neighbour2) { create(:neighbour, consultation:, address: "123, Another, Address") }
 
   before do
-    travel_to("2023-07-10")
-    create(:site_notice, planning_application:)
-
     travel_to("2023-07-21")
     sign_in(assessor)
   end
 
-  describe "viewing the consultations tasklist" do
-    context "when there is an objection from a neighbour" do
-      let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:) }
-
+  describe "viewing the assessment tasklist" do
+    context "when site visits are enabled" do
       it "shows the site visit item in the tasklist" do
         visit "/planning_applications/#{planning_application.reference}"
-        click_link "Consultees, neighbours and publicity"
+        click_link "Check and assess"
 
-        expect(page).to have_css("#site-visit")
+        within("#additional-services-tasks") do
+          expect(page).to have_css("#site-visit")
+        end
       end
     end
 
-    context "when a site visit response exists" do
-      let!(:site_visit) { create(:site_visit, consultation:) }
-
-      it "shows the site visit item in the tasklist" do
-        visit "/planning_applications/#{planning_application.reference}"
-        click_link "Consultees, neighbours and publicity"
-
-        expect(page).to have_css("#site-visit")
+    context "when site visits are disabled" do
+      before do
+        application_type.update!(features: {"site_visits" => false})
       end
-    end
-
-    context "when there is no objection from a neighbour or existing site visit response" do
-      let!(:neighbour_response1) { create(:neighbour_response, summary_tag: "neutral", neighbour:) }
-      let!(:neighbour_response2) { create(:neighbour_response, summary_tag: "supportive", neighbour:) }
 
       it "does not show the site visit item in the tasklist" do
         visit "/planning_applications/#{planning_application.reference}"
-        click_link "Consultees, neighbours and publicity"
+        click_link "Check and assess"
 
         expect(page).not_to have_css("#site-visit")
-      end
-    end
-
-    context "when it is not a prior approval application" do
-      let!(:planning_application) { create(:planning_application, :planning_permission, local_authority:) }
-      let!(:consultation) { planning_application.consultation }
-
-      it "allows officers to upload site visits any time" do
-        visit "/planning_applications/#{planning_application.reference}"
-        click_link "Consultees, neighbours and publicity"
-
-        expect(page).to have_css("#site-visit")
       end
     end
   end
 
   describe "viewing site visits" do
-    let!(:site_visit1) { create(:site_visit, consultation:, comment: "Site visit 1", neighbour:) }
-    let!(:site_visit2) { create(:site_visit, decision: false, consultation:, comment: "Site visit 2") }
+    let!(:site_visit1) { create(:site_visit, planning_application:, comment: "Site visit 1", neighbour:) }
+    let!(:site_visit2) { create(:site_visit, decision: false, planning_application:, comment: "Site visit 2") }
     let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
     before do
       visit "/planning_applications/#{planning_application.reference}"
-      click_link "Consultees, neighbours and publicity"
+      click_link "Check and assess"
       click_link "Site visit"
     end
 
@@ -127,7 +102,7 @@ RSpec.describe "Site visit" do
 
     before do
       visit "/planning_applications/#{planning_application.reference}"
-      click_link "Consultees, neighbours and publicity"
+      click_link "Check and assess"
       within("#site-visit") do
         click_link "Site visit"
       end
@@ -172,11 +147,11 @@ RSpec.describe "Site visit" do
       expect(page).to have_content("I like it *****")
     end
 
-    it "I can't add a site visit before the consultation has started" do
+    it "I can't add a site visit after the current date" do
       planning_application = create(:planning_application, :planning_permission, local_authority:)
 
       visit "/planning_applications/#{planning_application.reference}"
-      click_link "Consultees, neighbours and publicity"
+      click_link "Check and assess"
       within("#site-visit") do
         click_link "Site visit"
       end
@@ -184,11 +159,11 @@ RSpec.describe "Site visit" do
       choose "Yes"
       fill_in "Day", with: "1"
       fill_in "Month", with: "1"
-      fill_in "Year", with: "2023"
+      fill_in "Year", with: "2024"
       fill_in "Comment", with: "Comment"
       click_button("Save")
 
-      expect(page).to have_content "Start the consultation before creating a site visit"
+      expect(page).to have_content "The date the site visit took place must be on or before today"
     end
 
     context "when a site visit is taking place" do
@@ -205,11 +180,11 @@ RSpec.describe "Site visit" do
         fill_in "Comment", with: "Site visit is needed"
         click_button "Save"
 
-        expect(page).to have_content("Site visit was successfully created.")
+        expect(page).to have_content("Site visit response was successfully added.")
 
         expect(page).to have_link(
           "Site visit",
-          href: "/planning_applications/#{planning_application.reference}/consultation/site_visits"
+          href: "/planning_applications/#{planning_application.reference}/assessment/site_visits"
         )
         expect(page).to have_content("Completed")
 
@@ -247,7 +222,7 @@ RSpec.describe "Site visit" do
 
         click_link "Back"
         expect(current_url).to include(
-          "/planning_applications/#{planning_application.reference}/consultation/site_visits"
+          "/planning_applications/#{planning_application.reference}/assessment/site_visits"
         )
       end
     end
@@ -291,6 +266,78 @@ RSpec.describe "Site visit" do
 
         within("#site-visit") do
           expect(page).to have_content("Completed")
+        end
+      end
+    end
+  end
+
+  describe "when no consultation exists" do
+    context "when adding a site visit response" do
+      let!(:application_type) { create(:application_type, :without_consultation) }
+      let!(:planning_application) do
+        create(:planning_application, application_type:, local_authority:)
+      end
+
+      before do
+        allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses)
+          .with("60-")
+          .and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, LONDON, E16LT"}}]}))
+      end
+
+      it "I can manually pick the address for the site visit", js: true do
+        visit "/planning_applications/#{planning_application.reference}"
+        click_link "Check and assess"
+        click_link "Site visit"
+
+        choose "Yes"
+        fill_in "Day", with: "20"
+        fill_in "Month", with: "7"
+        fill_in "Year", with: "2023"
+
+        fill_in "Search for address", with: "60-"
+
+        page.find(:xpath, "//li[text()='60-62, Commercial Street, LONDON, E16LT']").click
+
+        attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
+
+        fill_in "Comment", with: "Site visit is required"
+        click_button "Save"
+
+        expect(page).to have_content("Site visit response was successfully added.")
+        within("#site-visit") do
+          expect(page).to have_content("Completed")
+          click_link "Site visit"
+        end
+
+        find("span", text: "See previous site visit responses").click
+        within(".govuk-details__text") do
+          expect(page).to have_content("Site visit needed: Yes")
+          expect(page).to have_content("Response created by: #{assessor.name}")
+          expect(page).to have_content("Response created at: #{SiteVisit.last.created_at.to_fs}")
+          expect(page).to have_content("Visited at: 20 July 2023")
+          expect(page).to have_content("Comment: Site visit is required")
+          expect(page).to have_content("Address: 60-62, Commercial Street, LONDON, E16LT")
+          expect(page).to have_content("1 document added")
+
+          click_link "View"
+        end
+
+        expect(page).to have_content("View site visit")
+        expect(page).to have_content("Site visit response")
+
+        expect(page).to have_content("Site visit needed: Yes")
+        expect(page).to have_content("Response created by: #{assessor.name}")
+        expect(page).to have_content("Response created at: #{SiteVisit.last.created_at.to_fs}")
+        expect(page).to have_content("Visited at: 20 July 2023")
+        expect(page).to have_content("Comment: Site visit is required")
+        expect(page).to have_content("Address: 60-62, Commercial Street, LONDON, E16LT")
+
+        within(".govuk-table") do
+          document = SiteVisit.last.documents.first
+          expect(page).to have_content(document.name.to_s)
+          expect(page).to have_link("View in new window")
+          expect(page).to have_content("Site Visit")
+          expect(page).to have_content(document.created_at.to_fs)
         end
       end
     end

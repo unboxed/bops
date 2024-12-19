@@ -43,7 +43,6 @@ class Consultation < ApplicationRecord
   with_options dependent: :destroy do
     has_many :consultees, extend: ConsulteesExtension
     has_many :neighbours
-    has_many :site_visits
   end
 
   with_options through: :consultees do
@@ -323,10 +322,6 @@ class Consultation < ApplicationRecord
     planning_application.user.present? ? planning_application.user.name : Current.user.name
   end
 
-  def site_visit
-    site_visits.by_created_at_desc.first
-  end
-
   def neighbour_responses_by_summary_tag
     neighbour_responses.group(:summary_tag).order(:summary_tag).count
   end
@@ -396,10 +391,6 @@ class Consultation < ApplicationRecord
     else
       Consultation::DEFAULT_PERIOD_DAYS
     end
-  end
-
-  def needs_site_visit?
-    planning_application.prior_approval? ? neighbour_responses.objection.any? : planning_application.application_type.site_visits?
   end
 
   def neighbour_review

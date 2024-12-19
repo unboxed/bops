@@ -53,13 +53,6 @@
                     planning_application: @planning_application
                   )
                 ) %>
-            <% if @consultation.site_visits.any? || @consultation.needs_site_visit? %>
-              <%= render(
-                    TaskListItems::SiteVisitComponent.new(
-                      planning_application: @planning_application
-                    )
-                  ) %>
-            <% end %>
           </ul>
         </li>
       <% end %>
