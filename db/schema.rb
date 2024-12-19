@@ -505,6 +505,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_13_114148) do
     t.string "document_checklist"
     t.string "planning_policy_and_guidance"
     t.string "notify_error_status"
+    t.jsonb "application_type_overrides", default: []
     t.boolean "planning_history_enabled", default: false, null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
