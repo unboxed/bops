@@ -29,7 +29,7 @@
       </li>
       <li>Materials used in external works</li>
       <li>Specific features you want to draw attention to</li>
-      <% if @planning_application.application_type.name == "lawfulness_certificate" %>
+      <% if @planning_application.lawfulness_certificate? %>
         <li>Details of a proposed use, such as opening hours</li>
       <% end %>
     </ul>

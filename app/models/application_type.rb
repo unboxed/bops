@@ -239,6 +239,14 @@ class ApplicationType < ApplicationRecord
     code == "preApp" || code.start_with?("preApp.")
   end
 
+  def lawfulness_certificate?
+    name == "lawfulness_certificate"
+  end
+
+  def planning_permission?
+    name == "planning_permission"
+  end
+
   def work_status
     if retrospective?
       "retrospective"

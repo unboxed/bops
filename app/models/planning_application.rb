@@ -92,6 +92,8 @@ class PlanningApplication < ApplicationRecord
     delegate :prior_approval?
     delegate :selected_reporting_types?
     delegate :pre_application?
+    delegate :lawfulness_certificate?
+    delegate :planning_permission?
     delegate :work_status
   end
 
