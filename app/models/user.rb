@@ -2,8 +2,10 @@
 
 class User < ApplicationRecord
   include BopsCore::AuditableModel
+  include Discard::Model
 
   self.audit_attributes = %w[id name role]
+  self.discard_column = :deactivated_at
 
   enum :role, {assessor: 0, reviewer: 1, administrator: 2, global_administrator: 3}
   enum :otp_delivery_method, {sms: 0, email: 1}
@@ -32,8 +34,8 @@ class User < ApplicationRecord
 
   scope :non_administrator, -> { where.not(role: "administrator") }
   scope :global_administrator, -> { where(local_authority_id: nil, role: "global_administrator") }
-  scope :confirmed, -> { where.not(confirmed_at: nil) }
-  scope :unconfirmed, -> { where(confirmed_at: nil) }
+  scope :confirmed, -> { kept.where.not(confirmed_at: nil) }
+  scope :unconfirmed, -> { kept.where(confirmed_at: nil) }
 
   class << self
     def menu(scope = User.all)
