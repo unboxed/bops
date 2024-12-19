@@ -27,12 +27,20 @@
             Unconfirmed
           </a>
         </li>
+        <li class="govuk-tabs__list-item">
+          <a class="govuk-tabs__tab" href="#deactivated">
+            Deactivated
+          </a>
+        </li>
       </ul>
       <div class="govuk-tabs__panel govuk-tabs__panel" id="confirmed">
         <%= render("table", users: @users.confirmed) %>
       </div>
       <div class="govuk-tabs__panel govuk-tabs__panel" id="unconfirmed">
         <%= render("table", users: @users.unconfirmed) %>
+      </div>
+      <div class="govuk-tabs__panel govuk-tabs__panel" id="deactivated">
+        <%= render("table", users: @users.discarded, deactivated: true) %>
       </div>
     </div>
     <div class="govuk-button-group">
