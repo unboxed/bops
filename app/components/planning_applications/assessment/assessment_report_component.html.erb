@@ -92,7 +92,7 @@
     <%= render(FormattedContentComponent.new(text: additional_evidence.entry)) %>
   </section>
 <% end %>
-<% if @planning_application.application_type.name == "planning_permission" %>
+<% if @planning_application.planning_permission? %>
   <section id="considerations-section" class="govuk-!-margin-bottom-7">
     <h3 class="govuk-heading-m"><%= t(".assessment_against_policies_and_guidance") %></h3>
     <% if considerations.any? %>
