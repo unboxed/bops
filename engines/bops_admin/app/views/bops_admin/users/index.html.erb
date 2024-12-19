@@ -7,7 +7,7 @@
 <% content_for :title, t(".users") %>
 
 <% if @users.any?(&:unconfirmed?) %>
-  <%= render("status_prompt", users: @users.select(&:unconfirmed?)) %>
+  <%= render("status_prompt", users: @users.unconfirmed) %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -29,10 +29,10 @@
         </li>
       </ul>
       <div class="govuk-tabs__panel govuk-tabs__panel" id="confirmed">
-        <%= render("table", users: @users.select(&:confirmed?)) %>
+        <%= render("table", users: @users.confirmed) %>
       </div>
       <div class="govuk-tabs__panel govuk-tabs__panel" id="unconfirmed">
-        <%= render("table", users: @users.select(&:unconfirmed?)) %>
+        <%= render("table", users: @users.unconfirmed) %>
       </div>
     </div>
     <div class="govuk-button-group">
