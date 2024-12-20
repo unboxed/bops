@@ -285,4 +285,22 @@ RSpec.describe "Users" do
       end
     end
   end
+
+  context "when user account is deactivated", :capybara do
+    let(:deactivated_user) { create(:user, :assessor, local_authority:, deactivated_at: 1.day.ago) }
+
+    before do
+      sign_out(user)
+    end
+
+    it "can't sign in" do
+      visit "/"
+      fill_in("user[email]", with: deactivated_user.email)
+      fill_in("user[password]", with: deactivated_user.password)
+      click_button("Log in")
+
+      expect(page).to have_text("Invalid Email or password.")
+      expect(page).not_to have_text("Signed in successfully.")
+    end
+  end
 end

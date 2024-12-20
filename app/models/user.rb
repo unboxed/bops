@@ -54,10 +54,10 @@ class User < ApplicationRecord
     email = tainted_conditions[:email]
 
     if subdomain == "config"
-      User.global_administrator.find_first_by_auth_conditions(email:)
+      User.kept.global_administrator.find_first_by_auth_conditions(email:)
     else
       local_authority = LocalAuthority.find_by!(subdomain:)
-      local_authority.users.find_first_by_auth_conditions(email:)
+      local_authority.users.kept.find_first_by_auth_conditions(email:)
     end
   end
 
