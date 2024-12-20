@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  extend BopsCore::Routing
+
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
 
-  constraints Constraints::DeviseSubdomain do
+  devise_subdomain do
     devise_for :users, controllers: {
       sessions: "users/sessions",
       confirmations: "confirmations"
@@ -16,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints Constraints::LocalAuthoritySubdomain do
+  local_authority_subdomain do
     root to: "planning_applications#index"
 
     concern :positionable do |options|
@@ -382,11 +384,9 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints Constraints::ConfigSubdomain do
+  config_subdomain do
     mount BopsConfig::Engine, at: "/", as: :bops_config
   end
 
-  constraints Constraints::UploadsSubdomain do
-    mount BopsUploads::Engine, at: "/", as: :bops_uploads
-  end
+  mount BopsUploads::Engine, at: "/", as: :bops_uploads
 end
