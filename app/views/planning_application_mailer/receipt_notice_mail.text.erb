@@ -17,7 +17,7 @@ We will check your application for errors and missing information. This can take
 If there are no issues with your application, we will start assessing it against the relevant planning policies and legislation.
 
 We may contact you or a person of your choosing to arrange a site visit.
-<% if @planning_application.application_type.name == 'lawfulness_certificate' %>
+<% if @planning_application.lawfulness_certificate? %>
 
 You have the right to appeal to the Secretary of State if by <%= (@planning_application.received_at + 8.weeks).to_date.to_fs %>:
 
