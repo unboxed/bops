@@ -2,8 +2,10 @@
 
 class User < ApplicationRecord
   include BopsCore::AuditableModel
+  include Discard::Model
 
   self.audit_attributes = %w[id name role]
+  self.discard_column = :deactivated_at
 
   enum :role, {assessor: 0, reviewer: 1, administrator: 2, global_administrator: 3}
   enum :otp_delivery_method, {sms: 0, email: 1}
@@ -32,8 +34,8 @@ class User < ApplicationRecord
 
   scope :non_administrator, -> { where.not(role: "administrator") }
   scope :global_administrator, -> { where(local_authority_id: nil, role: "global_administrator") }
-  scope :confirmed, -> { where.not(confirmed_at: nil) }
-  scope :unconfirmed, -> { where(confirmed_at: nil) }
+  scope :confirmed, -> { kept.where.not(confirmed_at: nil) }
+  scope :unconfirmed, -> { kept.where(confirmed_at: nil) }
 
   class << self
     def menu(scope = User.all)
@@ -52,10 +54,10 @@ class User < ApplicationRecord
     email = tainted_conditions[:email]
 
     if subdomain == "config"
-      User.global_administrator.find_first_by_auth_conditions(email:)
+      User.kept.global_administrator.find_first_by_auth_conditions(email:)
     else
       local_authority = LocalAuthority.find_by!(subdomain:)
-      local_authority.users.find_first_by_auth_conditions(email:)
+      local_authority.users.kept.find_first_by_auth_conditions(email:)
     end
   end
 

@@ -333,6 +333,8 @@ en:
     users:
       create:
         user_successfully_created: User successfully created
+      destroy:
+        success: User successfully deactivated
       edit:
         edit_user: Edit user
       form:
@@ -344,6 +346,8 @@ en:
         users: Manage users
       new:
         add_user: Add a new user
+      reactivate:
+        success: User successfully reactivated
       resend_invite:
         confirmation_failed_to_resend: Unable to send a reminder email - please contact support
         confirmation_resent: User will receive a reminder email

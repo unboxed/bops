@@ -4,6 +4,9 @@
     <th scope="col" class="govuk-table__header">User details</th>
     <th scope="col" class="govuk-table__header">2FA set up</th>
     <th scope="col" class="govuk-table__header">2FA method</th>
+    <% if local_assigns[:deactivated] %>
+      <th scope="col" class="govuk-table__header">Deactivation date</th>
+    <% end %>
   </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -26,6 +29,11 @@
       <td class="govuk-table__cell">
         <%= t(".#{user.otp_delivery_method}") %>
       </td>
+      <% if local_assigns[:deactivated] %>
+        <td class="govuk-table__cell">
+          Deactivated at <%= user.deactivated_at.to_fs %>
+        </td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>
