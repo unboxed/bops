@@ -253,13 +253,22 @@ RSpec.describe "BOPS API" do
         run_test!
       end
 
-      it "validates document tags against the submission schema" do
+      context "when validating against submission schema definitions" do
         schema = BopsApi::Schemas.find!("submission", version: BopsApi::Schemas::DEFAULT_ODP_VERSION).value
 
-        schema_tags = schema["definitions"]["FileType"]["anyOf"].map { |entry| entry["properties"]["value"]["const"] }
-        missing_tags = schema_tags - Document::TAGS
+        it "validates document tags" do
+          schema_tags = schema["definitions"]["FileType"]["anyOf"].map { |entry| entry["properties"]["value"]["const"] }
+          missing_tags = schema_tags - Document::TAGS
 
-        expect(missing_tags).to be_empty, "Missing tags in schema for: #{missing_tags.join(", ")}"
+          expect(missing_tags).to be_empty, "Missing tags in schema for: #{missing_tags.join(", ")}"
+        end
+
+        it "validates application types" do
+          schema_types = schema["definitions"]["ApplicationType"]["anyOf"].map { |entry| entry["properties"]["value"]["const"] }
+          missing_types = schema_types - ApplicationType::CURRENT_APPLICATION_TYPES
+
+          expect(missing_types).to be_empty, "Missing application types in schema for: #{missing_types.join(", ")}"
+        end
       end
     end
   end
