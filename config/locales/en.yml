@@ -479,6 +479,7 @@ en:
     lawfulness_certificate: Lawful Development Certificate
     other: Other planning application
     planning_permission: Householder Application for Planning Permission
+    pre_application: Pre-application Advice
     prior_approval: Prior approval
   archive_reasons:
     design: Revise design
@@ -637,9 +638,9 @@ en:
     body: |
       Dear {{name}}
 
-      Application number {{reference}}
+      {{application_title_case}} number {{reference}}
 
-      We have received an application for the development described below.
+      We have received an {{application_short_case}} for the development described below.
 
       ## Proposal
 
@@ -649,10 +650,10 @@ en:
 
       {{address}}
 
-      To view the application documents, visit:
+      To view the {{application_short_case}} documents, visit:
       {{link}}.
 
-      ## Comment on this application
+      ## Comment on this {{application_short_case}}
 
       Please submit your comments by {{closing_date}} by replying to this email. You can include attachments. We may not be able to consider comments received after this date.
 
