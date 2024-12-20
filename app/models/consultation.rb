@@ -8,7 +8,8 @@ class Consultation < ApplicationRecord
   EMAIL_REASONS = %w[send resend reconsult].freeze
   EMAIL_PLACEHOLDER = /\{\{\s*([a-z][_a-z0-9]+)\s*\}\}/
   EMAIL_PLACEHOLDERS = %w[
-    name reference address description link closing_date
+    name application_title_case reference application_short_case
+    address description link closing_date
     signatory_name signatory_job_title local_authority
   ].freeze
 
@@ -432,7 +433,9 @@ class Consultation < ApplicationRecord
       description: planning_application.description,
       address: planning_application.address,
       link: application_link,
-      closing_date: consultee_response_required_by.to_fs
+      closing_date: consultee_response_required_by.to_fs,
+      application_title_case: planning_application.application_title_case,
+      application_short_case: planning_application.application_short_case
     }
 
     subject = consultee_message_subject

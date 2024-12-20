@@ -255,7 +255,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
-  describe "#validation_request_mail" do
+  context "#validation_request_mail" do
     let(:validation_request_mail) do
       described_class.validation_request_mail(planning_application)
     end
@@ -316,6 +316,24 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       expect(mail.body.encoded).to include(planning_application.applicant_first_name)
       expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+    end
+
+    describe "pre-apps" do
+      let(:application_type) { create(:application_type, :pre_application) }
+
+      it "sets the subject" do
+        expect(validation_request_mail.subject).to eq(
+          "Pre-application Advice application - further changes needed"
+        )
+      end
+
+      it "includes the reference" do
+        travel_to("2022-01-01") do
+          expect(mail_body).to include(
+            "Pre-application reference number: PlanX-22-00100-PRE"
+          )
+        end
+      end
     end
   end
 
@@ -625,6 +643,32 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the received date" do
       expect(mail_body).to include("Application received: 3 May 2022")
+    end
+
+    describe "pre-apps" do
+      let(:application_type) { create(:application_type, :pre_application) }
+
+      it "sets the subject" do
+        expect(mail.subject).to eq(
+          "Pre-application Advice application received"
+        )
+      end
+
+      it "includes the reference" do
+        travel_to("2022-01-01") do
+          expect(mail_body).to include(
+            "Pre-application reference number: PlanX-22-00100-PRE"
+          )
+        end
+      end
+
+      it "includes the sent date" do
+        expect(mail_body).to include("Pre-application sent: 1 May 2022")
+      end
+
+      it "includes the received date" do
+        expect(mail_body).to include("Pre-application received: 3 May 2022")
+      end
     end
   end
 

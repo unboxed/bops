@@ -1,18 +1,18 @@
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-Application reference number: <%= @planning_application.reference_in_full %>
+<%= @planning_application.application_title_case %> reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
-Your case officer needs more information to process your application. You need to review this request and send your response. We may not be able to continue with your application until we receive your response.
+Your case officer needs more information to process your <%= @planning_application.application_short_case %>. You need to review this request and send your response. We may not be able to continue with your <%= @planning_application.application_short_case %> until we receive your response.
 
 To view the case officer’s request, go to:
 
 <%= @planning_application.secure_change_url %>
 
-If we do not hear from you we may close your application and send you a refund.
+If we do not hear from you we may close your <%= @planning_application.application_short_case %> and send you a refund.
 
-If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
+If you need help with your <%= @planning_application.application_short_case %>, contact us at <%= @planning_application.local_authority.email_address %>.
 
 Regards,
 

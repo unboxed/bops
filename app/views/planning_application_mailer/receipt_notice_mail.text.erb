@@ -2,19 +2,24 @@ Dear <%= @planning_application.agent_or_applicant_name %>,
 
 We’ve received your application for a <%= @planning_application.application_type.human_name %>.
 
-Here are the details of your application:
+Here are the details of your <%= @planning_application.application_short_case %>:
 
-Application reference number: <%= @planning_application.reference_in_full %>
+<%= @planning_application.application_title_case %> reference number: <%= @planning_application.reference_in_full %>
 Project description: <%= @planning_application.description %>
 Address: <%= @planning_application.full_address %>
-Application sent: <%= @planning_application.created_at.to_date.to_fs %>
-Application received: <%= @planning_application.received_at.to_date.to_fs %>
+<%= @planning_application.application_title_case %> sent: <%= @planning_application.created_at.to_date.to_fs %>
+<%= @planning_application.application_title_case %> received: <%= @planning_application.received_at.to_date.to_fs %>
 
 What happens next:
 
-We will check your application for errors and missing information. This can take up to 14 days but may take longer during busy times.
+We will check your <%= @planning_application.application_short_case %> for errors and missing information. This can take up to 14 days but may take longer during busy times.
 
-If there are no issues with your application, we will start assessing it against the relevant planning policies and legislation.
+If there are no issues with your <%= @planning_application.application_short_case %>, we will start assessing it
+<% if @planning_application.pre_application? %>
+ and be able to provide advice.
+<% else %>
+ against the relevant planning policies and legislation.
+<% end %>
 
 We may contact you or a person of your choosing to arrange a site visit.
 <% if @planning_application.lawfulness_certificate? %>
@@ -28,7 +33,7 @@ You have the right to appeal to the Secretary of State if by <%= (@planning_appl
 
 You can find advice about your rights of appeal at https://www.gov.uk/topic/planning-development/planning-permission-appeals.
 
-If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
+If you need help with your <%= @planning_application.application_short_case %>, contact us at <%= @planning_application.local_authority.email_address %>.
 
 Regards,
 
