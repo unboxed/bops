@@ -12,3 +12,4 @@ shared:
   staging_api_url: <%= ENV["STAGING_API_URL"] %>
   uploads_hostname: <%= ENV.fetch("UPLOADS_HOSTNAME", "uploads.bops.localhost:3000") %>
   uploads_base_url: <%= ENV.fetch("UPLOADS_BASE_URL", "http://uploads.bops.localhost:3000") %>
+  domain: <%= ENV.fetch("DOMAIN", "bops.localhost:3000") %>

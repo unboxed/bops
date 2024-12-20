@@ -4,6 +4,22 @@ class Document < ApplicationRecord
   class Routing
     include Rails.application.routes.url_helpers
     include Rails.application.routes.mounted_helpers
+
+    def initialize(subdomain)
+      @subdomain = subdomain
+    end
+
+    def default_url_options
+      {host: "#{subdomain}.#{domain}"}
+    end
+
+    private
+
+    attr_reader :subdomain
+
+    def domain
+      Rails.configuration.domain
+    end
   end
 
   class NotArchiveableError < StandardError; end
@@ -29,6 +45,7 @@ class Document < ApplicationRecord
     inverse_of: false
 
   delegate :audits, to: :planning_application
+  delegate :local_authority, to: :planning_application
   delegate :blob, :representable?, to: :file
 
   include Auditable
@@ -359,7 +376,7 @@ class Document < ApplicationRecord
   private
 
   def routes
-    @_routes ||= Routing.new
+    @_routes ||= Routing.new(local_authority.subdomain)
   end
 
   def no_open_replacement_request

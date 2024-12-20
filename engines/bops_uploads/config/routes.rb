@@ -3,6 +3,10 @@
 BopsUploads::Engine.routes.draw do
   extend BopsCore::Routing
 
+  local_authority_subdomain do
+    get "/files/:key", to: "redirects#show", as: "redirect"
+  end
+
   uploads_subdomain do
     get "/:key", to: "files#show", as: "file"
   end
@@ -12,7 +16,7 @@ Rails.application.routes.draw do
   direct :uploaded_file do |blob, options|
     next "" if blob.blank?
 
-    bops_uploads.file_url(blob.key, host: Rails.configuration.uploads_base_url)
+    bops_uploads.redirect_url(blob.key)
   end
 
   resolve("ActiveStorage::Attachment") { |attachment, options| route_for(:uploaded_file, attachment.blob, options) }

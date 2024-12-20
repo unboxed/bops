@@ -40,7 +40,6 @@ module DocumentHelper
       link_text,
       url_for_document(document),
       new_tab:,
-      download: reference_or_file_name(document),
       **args
     )
   end
