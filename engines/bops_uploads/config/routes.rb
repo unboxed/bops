@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 BopsUploads::Engine.routes.draw do
-  get "/:key", to: "files#show", as: "file"
+  extend BopsCore::Routing
+
+  uploads_subdomain do
+    get "/:key", to: "files#show", as: "file"
+  end
 end
 
 Rails.application.routes.draw do
