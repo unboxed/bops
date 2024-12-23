@@ -991,6 +991,14 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def application_title_case
+    pre_application? ? "Pre-application" : "Application"
+  end
+
+  def application_short_case
+    pre_application? ? "pre-application" : "application"
+  end
+
   private
 
   def create_fee_calculation
