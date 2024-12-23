@@ -16,7 +16,7 @@
     <% end %>
 
     <%= form.govuk_radio_button(
-          :removed, false, checked: !@permitted_development_right.removed, label: {text: "No"}
+          :removed, false, checked: @permitted_development_right.removed == false, label: {text: "No"}
         ) %>
   <% end %>
 
