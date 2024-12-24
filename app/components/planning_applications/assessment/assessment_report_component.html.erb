@@ -41,13 +41,13 @@
     <p class="govuk-body"><%= review_immunity_detail.summary %></p>
   </section>
 <% end %>
-<% if permitted_development_right %>
+<% if permitted_development_right.persisted? %>
   <section id="permitted-development-rights-section" class="govuk-!-margin-bottom-7">
     <h3 class="govuk-heading-m"><%= t(".have_the_permitted_development_rights") %></h3>
     <% if permitted_development_right.removed %>
       <p class="govuk-body"><strong>Yes</strong></p>
       <%= render(FormattedContentComponent.new(text: permitted_development_right.removed_reason)) %>
-    <% else %>
+    <% elsif permitted_development_right.removed == false %>
       <p class="govuk-body"><strong>No</strong></p>
     <% end %>
   </section>

@@ -7,9 +7,13 @@
       <%= @permitted_development_right.removed_reason %>
     </p>
   </div>
-<% else %>
+<% elsif @permitted_development_right.removed == false %>
   <p class="govuk-body">
     The permitted development rights have not been removed.
+  </p>
+<% else %>
+  <p class="govuk-body">
+    There was no assessment for permitted development rights
   </p>
 <% end %>
 
