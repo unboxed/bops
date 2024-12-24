@@ -645,6 +645,22 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail_body).to include("Application received: 3 May 2022")
     end
 
+    it "includes the additional relevant information" do
+      travel_to("2022-01-01") do
+        expect(mail_body).to include(
+          "If there are no issues with your application, we will start assessing it against the relevant planning policies and legislation."
+        )
+      end
+    end
+
+    it "includes the appeal information" do
+      travel_to("2022-01-01") do
+        expect(mail_body).to include(
+          "You can find advice about your rights of appeal at https://www.gov.uk/topic/planning-development/planning-permission-appeals."
+        )
+      end
+    end
+
     describe "pre-apps" do
       let(:application_type) { create(:application_type, :pre_application) }
 
@@ -668,6 +684,14 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the received date" do
         expect(mail_body).to include("Pre-application received: 3 May 2022")
+      end
+
+      it "includes the additional relevant information" do
+        travel_to("2022-01-01") do
+          expect(mail_body).to include(
+            "If there are no issues with your pre-application, we will start assessing it and be able to provide advice."
+          )
+        end
       end
     end
   end

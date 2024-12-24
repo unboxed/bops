@@ -1,6 +1,6 @@
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-We’ve received your application for a <%= @planning_application.application_type.human_name %>.
+We’ve received your <%= @planning_application.application_type.human_name %> application.
 
 Here are the details of your <%= @planning_application.application_short_case %>:
 
@@ -14,12 +14,7 @@ What happens next:
 
 We will check your <%= @planning_application.application_short_case %> for errors and missing information. This can take up to 14 days but may take longer during busy times.
 
-If there are no issues with your <%= @planning_application.application_short_case %>, we will start assessing it
-<% if @planning_application.pre_application? %>
- and be able to provide advice.
-<% else %>
- against the relevant planning policies and legislation.
-<% end %>
+If there are no issues with your <%= @planning_application.application_short_case %>, we will start assessing it <%= @planning_application.pre_application? ? "and be able to provide advice." : "against the relevant planning policies and legislation." %>
 
 We may contact you or a person of your choosing to arrange a site visit.
 <% if @planning_application.lawfulness_certificate? %>
@@ -31,7 +26,9 @@ You have the right to appeal to the Secretary of State if by <%= (@planning_appl
 - you have not agreed in writing to extend the decision period
 <% end %>
 
+<% unless @planning_application.pre_application? %>
 You can find advice about your rights of appeal at https://www.gov.uk/topic/planning-development/planning-permission-appeals.
+<% end %>
 
 If you need help with your <%= @planning_application.application_short_case %>, contact us at <%= @planning_application.local_authority.email_address %>.
 
