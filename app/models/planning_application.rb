@@ -113,7 +113,7 @@ class PlanningApplication < ApplicationRecord
     delegate :session_id
   end
 
-  delegate :lodged?, :validated?, :started?, :determined?, to: :appeal, allow_nil: true, prefix: true
+  delegate :lodged?, :validated?, :started?, :determined?, :display_status, to: :appeal, allow_nil: true, prefix: true
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
