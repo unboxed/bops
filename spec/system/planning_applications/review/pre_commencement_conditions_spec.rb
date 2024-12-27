@@ -56,7 +56,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
             end
           end
 
-          choose "Accept"
+          choose "Agree"
 
           click_button "Save and mark as complete"
         end
@@ -73,7 +73,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
         expect(condition_set.current_review.review_status).to eq "review_complete"
       end
 
-      it "I can return to officer with comment" do
+      it "I can return with comments" do
         within("#review-pre-commencement-conditions") do
           expect(page).to have_content("Review pre-commencement conditions")
           expect(page).to have_content("Not started")
@@ -82,7 +82,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
         click_button "Review pre-commencement conditions"
 
         within("#review-pre-commencement-conditions") do
-          choose "Return to officer"
+          choose "Return with comments"
 
           fill_in "Comment", with: "I don't think you've assessed conditions correctly"
 

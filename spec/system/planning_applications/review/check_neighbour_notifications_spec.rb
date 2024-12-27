@@ -52,7 +52,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
         click_button "Check neighbour notifications"
 
         within_fieldset("Do you accept that notifications have been completed?") do
-          choose "Accept"
+          choose "Agree"
         end
 
         within "#check-neighbour-notifications" do
@@ -219,7 +219,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
         click_button "Check neighbour notifications"
 
         within_fieldset("Do you accept that notifications have been completed?") do
-          choose "Accept"
+          choose "Agree"
         end
 
         within "#check-neighbour-notifications" do

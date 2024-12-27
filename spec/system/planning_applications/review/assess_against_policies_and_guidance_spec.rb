@@ -79,7 +79,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
         end
 
         within("#considerations_footer") do
-          choose("Return to officer")
+          choose "Return with comments"
           click_button("Save and mark as complete")
         end
       end
@@ -132,7 +132,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
         within("#considerations_footer") do
           within_fieldset("Do you accept the assessment?") do
-            choose "Accept"
+            choose "Agree"
           end
 
           expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
@@ -177,7 +177,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
       within("#considerations_footer") do
         within_fieldset("Do you accept the assessment?") do
-          choose "Accept"
+          choose "Agree"
         end
         expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
 
@@ -204,7 +204,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       click_button "Review assessment against policies and guidance"
       within("#considerations_footer") do
         within_fieldset("Do you accept the assessment?") do
-          choose "Return to officer"
+          choose "Return with comments"
           fill_in "Add a comment", with: "Please provide more details about the design of the property"
         end
         expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
@@ -262,7 +262,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
       within("#considerations_footer") do
         within_fieldset("Do you accept the assessment?") do
-          choose "Accept"
+          choose "Agree"
         end
         click_button "Save and mark as complete"
       end

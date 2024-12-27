@@ -42,7 +42,7 @@ RSpec.describe "Review committee decision" do
     end
 
     within("#recommendation_to_committee_footer") do
-      choose("Return with comments")
+      choose "Return with comments"
       click_button("Save and mark as complete")
     end
 
@@ -71,7 +71,7 @@ RSpec.describe "Review committee decision" do
 
       within("#recommendation_to_committee_footer") do
         expect(page).to have_selector("legend", text: "Do you agree with the recommendation?")
-        choose "Yes"
+        choose "Agree"
         click_button "Save and mark as complete"
       end
     end
@@ -136,7 +136,7 @@ RSpec.describe "Review committee decision" do
 
       expect(page).to have_content "The case officer has marked this application as not requiring decision by Committee."
       within("#recommendation_to_committee_footer") do
-        choose "Yes"
+        choose "Agree"
         click_button "Save and mark as complete"
       end
     end

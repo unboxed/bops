@@ -55,7 +55,7 @@ RSpec.describe "Reviewing informatives", js: true do
             end
 
             within("#informatives_footer") do
-              choose("Return to officer")
+              choose "Return with comments"
               click_button("Save and mark as complete")
             end
           end
@@ -178,7 +178,7 @@ RSpec.describe "Reviewing informatives", js: true do
 
           within("#informatives_footer") do
             within_fieldset("Do you accept the assessment against informatives?") do
-              choose "Return to officer"
+              choose "Return with comments"
               fill_in "Add a comment", with: "Please provide more details about the Section 106 agreement"
             end
 

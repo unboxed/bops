@@ -13,9 +13,9 @@
       ) do |form| %>
     <fieldset class="govuk-fieldset govuk-!-padding-bottom-5">
       <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
-        <%= form.govuk_radio_button(:action, "accepted", label: {text: "Accept"}, disabled: true, checked: @planning_application_policy_class.current_review.accepted?) %>
+        <%= form.govuk_radio_button(:action, "accepted", label: {text: "Agree"}, disabled: true, checked: @planning_application_policy_class.current_review.accepted?) %>
         <%= form.govuk_radio_button(
-              :action, "rejected", label: {text: "Return to officer with comment"}, disabled: true, checked: @planning_application_policy_class.current_review.rejected?
+              :action, "rejected", label: {text: "Return with comments"}, disabled: true, checked: @planning_application_policy_class.current_review.rejected?
             ) do %>
           <%= form.govuk_text_area(
                 :comment,

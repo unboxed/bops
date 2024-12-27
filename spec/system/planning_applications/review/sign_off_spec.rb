@@ -314,7 +314,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
       within "#review-permitted-development-rights" do
         click_button("Review permitted development rights")
-        choose("Return to officer with comment")
+        choose "Return with comments"
 
         fill_in(
           "Explain to the assessor why this needs reviewing",

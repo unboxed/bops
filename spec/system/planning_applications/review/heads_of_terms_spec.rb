@@ -35,7 +35,7 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
         click_button "Review heads of terms"
 
         within "#review-heads-of-terms" do
-          choose "Accept"
+          choose "Agree"
           click_button "Save and mark as complete"
         end
 
@@ -50,14 +50,14 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
         expect(term.current_review.review_status).to eq "review_complete"
       end
 
-      it "I can return to officer with comment" do
+      it "I can return with comments" do
         within "#review-heads-of-terms" do
           expect(page).to have_content "Not started"
         end
 
         within "#review-heads-of-terms" do
           click_button "Review heads of terms"
-          choose "Return to officer"
+          choose "Return with comments"
 
           fill_in "Comment", with: "I don't think you've assessed heads of terms correctly"
           click_button "Save and mark as complete"

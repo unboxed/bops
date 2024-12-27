@@ -64,7 +64,7 @@ RSpec.describe "Reviewing immunity enforcement" do
         end
 
         within("#review-enforcement-form") do
-          choose "Accept"
+          choose "Agree"
 
           click_button "Save and mark as complete"
         end
@@ -75,11 +75,11 @@ RSpec.describe "Reviewing immunity enforcement" do
         end
       end
 
-      it "when I return it to officer with comments, they can see my comments" do
+      it "when I return it with comments, they can see my comments" do
         click_button "Review assessment of immunity"
 
         within("#review-enforcement-form") do
-          choose "Return to officer"
+          choose "Return with comments"
 
           fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess"
 

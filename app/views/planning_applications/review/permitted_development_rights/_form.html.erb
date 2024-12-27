@@ -9,9 +9,9 @@
         form_group: {class: "govuk-!-margin-bottom-3"},
         legend: {text: "Do you accept the assessment of permitted development rights", size: "s"}) do %>
 
-    <%= form.govuk_radio_button(:accepted, true, label: {text: "Accept"}) %>
+    <%= form.govuk_radio_button(:accepted, true, label: {text: "Agree"}) %>
 
-    <%= form.govuk_radio_button(:accepted, false, label: {text: "Return to officer with comment"}) do %>
+    <%= form.govuk_radio_button(:accepted, false, label: {text: "Return with comments"}) do %>
       <%= form.govuk_text_area(:reviewer_comment, rows: 6, class: "govuk-!-margin-bottom-0") %>
     <% end %>
 

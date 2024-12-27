@@ -65,9 +65,9 @@
             <% end %>
 
             <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
-              <%= review_form.govuk_radio_button(:action, "accepted", label: {text: "Accept"}) %>
+              <%= review_form.govuk_radio_button(:action, "accepted", label: {text: "Agree"}) %>
               <%= review_form.govuk_radio_button(
-                    :action, "rejected", label: {text: "Return to officer with comment"}
+                    :action, "rejected", label: {text: "Return with comments"}
                   ) do %>
                 <%= review_form.govuk_text_area(
                       :comment,

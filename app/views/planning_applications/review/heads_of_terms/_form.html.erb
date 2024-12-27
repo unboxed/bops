@@ -8,13 +8,13 @@
         <%= review_form.govuk_radio_button(
               :action, :accepted,
               checked: current_review.accepted?,
-              label: {text: "Accept"}
+              label: {text: "Agree"}
             ) %>
 
         <%= review_form.govuk_radio_button(
               :action, :rejected,
               checked: current_review.rejected?,
-              label: {text: "Return to officer"}
+              label: {text: "Return with comments"}
             ) do %>
           <%= review_form.govuk_text_area(
                 :comment, value: current_review.comment,

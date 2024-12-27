@@ -18,13 +18,13 @@
               :action,
               "accepted",
               checked: @planning_application.immunity_detail.current_evidence_review_immunity_detail.accepted? && !@planning_application.immunity_detail.current_evidence_review_immunity_detail.reviewed_at.nil?,
-              label: {text: "Accept"}
+              label: {text: "Agree"}
             ) %>
         <%= form.govuk_radio_button(
               :action,
               "rejected",
               checked: @planning_application.immunity_detail.current_evidence_review_immunity_detail.rejected? && !@planning_application.immunity_detail.current_evidence_review_immunity_detail.reviewed_at.nil?,
-              label: {text: "Return to officer"}
+              label: {text: "Return with comments"}
             ) do %>
           <%= form.govuk_text_area(
                 :comment,
