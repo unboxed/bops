@@ -4,7 +4,7 @@
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(
-        :action, legend: {text: "Is the application immune from enforcement?"}
+        :action, small: true, legend: {size: "s", text: "Is the application immune from enforcement?"}
       ) do %>
 
     <%= form.govuk_radio_button(

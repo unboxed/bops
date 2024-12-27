@@ -57,7 +57,7 @@
         <%= form_with model: current_review, url: planning_application_review_informatives_path(@planning_application) do |form| %>
           <%= form.govuk_error_summary %>
 
-          <%= form.govuk_radio_buttons_fieldset :action, legend: {text: "Do you accept the assessment against informatives?", size: "m"} do %>
+          <%= form.govuk_radio_buttons_fieldset :action, small: true, legend: {size: "s", text: "Do you accept the assessment against informatives?"} do %>
             <%= form.govuk_radio_button :action, :accepted, label: {text: "Agree"} %>
             <%= form.govuk_radio_button :action, :rejected, label: {text: "Return to officer"}, aria: {controls: "rejected-comment-#{current_review.id}"} %>
               <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="<%= "rejected-comment-#{current_review.id}" %>">

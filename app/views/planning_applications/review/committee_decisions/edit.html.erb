@@ -58,7 +58,7 @@
     ) do |form| %>
 
     <%= form.fields_for :reviews_attributes, @committee_decision.current_review do |review_form| %>
-    <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Do you agree with the recommendation?"} do %>
+    <%= review_form.govuk_radio_buttons_fieldset :action, small: true, legend: {size: "s", text: "Do you agree with the recommendation?"} do %>
       <%= review_form.govuk_radio_button(
             :action, :accepted, checked: @committee_decision.current_review.accepted?, label: {text: "Yes"}
           ) %>

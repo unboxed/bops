@@ -1,8 +1,8 @@
 <%= form_with scope: :assessment_detail, model: @planning_application.existing_or_new_check_publicity, url: planning_application_review_consultation_publicities_path(@planning_application, @planning_application.consultation) do |form| %>
   <%= form.govuk_error_summary %>
-  <%= form.govuk_radio_buttons_fieldset(:action, legend: {size: "m", text: "Do you accept that publicity has been completed?"}) do %>
     <%= form.govuk_radio_button :reviewer_verdict, "accepted", label: {text: "Accept"}, link_errors: true %>
     <%= form.govuk_radio_button :reviewer_verdict, "rejected", label: {text: "Return to officer"} do %>
+  <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: {size: "s", text: "Do you accept that publicity has been completed?"}) do %>
       <%= form.fields_for :comment, @planning_application.existing_or_new_check_publicity.existing_or_new_comment do |ff| %>
         <%= ff.govuk_text_area :text, label: {text: "Explain why notifications are incomplete."} %>
       <% end %>

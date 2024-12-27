@@ -4,7 +4,7 @@
 
   <% if current_review = heads_of_term.current_review %>
     <%= form.fields_for :reviews_attributes, current_review do |review_form| %>
-      <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Actions"} do %>
+      <%= review_form.govuk_radio_buttons_fieldset :action, small: true, legend: {size: "s", text: "Actions"} do %>
         <%= review_form.govuk_radio_button(
               :action, :accepted,
               checked: current_review.accepted?,

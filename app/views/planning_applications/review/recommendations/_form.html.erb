@@ -9,6 +9,7 @@
   <%= form.govuk_error_summary %>
   <%= form.govuk_radio_buttons_fieldset(
         :challenged,
+        small: true,
         legend: {text: t(".do_you_agree"), size: "s"}
       ) do %>
     <%= form.govuk_radio_button(
