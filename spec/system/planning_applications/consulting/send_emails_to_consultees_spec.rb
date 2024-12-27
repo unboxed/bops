@@ -196,7 +196,7 @@ RSpec.describe "Consultation", type: :system, js: true do
             email_address: "chris.wood@planx.gov.uk",
             email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
-              "subject" => "Application for planning permission #{planning_application.reference}"
+              "subject" => "Comments requested for #{planning_application.reference}"
             )
           }
         ))
@@ -217,7 +217,7 @@ RSpec.describe "Consultation", type: :system, js: true do
             email_address: "planning@london.gov.uk",
             email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
-              "subject" => "Application for planning permission #{planning_application.reference}"
+              "subject" => "Comments requested for #{planning_application.reference}"
             )
           }
         ))

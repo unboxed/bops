@@ -660,10 +660,8 @@ en:
       Yours
 
 
-      {{signatory_name}}
-      {{signatory_job_title}}
       {{local_authority}}
-    subject: Application for planning permission {{reference}}
+    subject: Comments requested for {{reference}}
   consultee_overview_component:
     chase_outstanding_consultees: Chase outstanding consultees
     consulted: Date last consulted
