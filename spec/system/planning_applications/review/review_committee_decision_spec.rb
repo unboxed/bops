@@ -70,7 +70,6 @@ RSpec.describe "Review committee decision" do
       end
 
       within("#recommendation_to_committee_footer") do
-        expect(page).to have_selector("legend", text: "Do you agree with the recommendation?")
         choose "Agree"
         click_button "Save and mark as complete"
       end
@@ -87,7 +86,6 @@ RSpec.describe "Review committee decision" do
     click_button "Recommendation to committee"
     within("#recommendation_to_committee_section") do
       within("#recommendation_to_committee_footer") do
-        expect(page).to have_selector("legend", text: "Do you agree with the recommendation?")
         choose "Return with comments"
         fill_in "Add a comment", with: "No committee"
         click_button "Save and mark as complete"

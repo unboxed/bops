@@ -1,7 +1,7 @@
 <%= form_with scope: :review, model: neighbour_review, url: planning_application_review_consultation_neighbour_responses_path(planning_application, planning_application.consultation) do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: {size: "s", text: "Do you accept that notifications have been completed?"}) do %>
+  <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: nil) do %>
       <%= form.govuk_radio_button :action, "accepted", label: {text: "Agree"}, link_errors: true %>
       <%= form.govuk_radio_button :action, "rejected", label: {text: "Return with comments"} do %>
         <%= form.govuk_text_area :comment, label: {text: "Add a comment"} %>

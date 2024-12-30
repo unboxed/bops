@@ -56,7 +56,6 @@ RSpec.describe "Reviewing immunity enforcement" do
         click_button "Review assessment of immunity"
 
         within("#review-enforcement") do
-          expect(page).to have_content("Is the application immune from enforcement?")
           expect(page).not_to have_content("Immunity from enforcement summary")
           expect(page).to have_content("Assessor decision: Yes")
           expect(page).to have_content("Reason: it looks immune to me")

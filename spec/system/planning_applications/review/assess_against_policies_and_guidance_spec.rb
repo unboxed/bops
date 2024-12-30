@@ -130,14 +130,10 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
           )
         end
 
-        within("#considerations_footer") do
-          within_fieldset("Do you accept the assessment?") do
-            choose "Agree"
-          end
+        choose "Agree"
 
-          expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
-          click_button "Save and mark as complete"
-        end
+        expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+        click_button "Save and mark as complete"
       end
       expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
       click_button "Review assessment against policies and guidance"
@@ -176,9 +172,8 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       end
 
       within("#considerations_footer") do
-        within_fieldset("Do you accept the assessment?") do
-          choose "Agree"
-        end
+        choose "Agree"
+
         expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
 
         click_button "Save and mark as complete"
@@ -203,10 +198,9 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
     it "I can return to the planning officer with a comment" do
       click_button "Review assessment against policies and guidance"
       within("#considerations_footer") do
-        within_fieldset("Do you accept the assessment?") do
-          choose "Return with comments"
-          fill_in "Add a comment", with: "Please provide more details about the design of the property"
-        end
+        choose "Return with comments"
+        fill_in "Add a comment", with: "Please provide more details about the design of the property"
+
         expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
 
         click_button "Save and mark as complete"
@@ -261,9 +255,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       end
 
       within("#considerations_footer") do
-        within_fieldset("Do you accept the assessment?") do
-          choose "Agree"
-        end
+        choose "Agree"
         click_button "Save and mark as complete"
       end
 

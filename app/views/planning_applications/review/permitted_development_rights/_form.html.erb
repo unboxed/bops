@@ -5,9 +5,7 @@
 
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_radio_buttons_fieldset(:accepted, small: true,
-        form_group: {class: "govuk-!-margin-bottom-3"},
-        legend: {text: "Do you accept the assessment of permitted development rights", size: "s"}) do %>
+  <%= form.govuk_radio_buttons_fieldset(:accepted, small: true, legend: nil, form_group: {class: "govuk-!-margin-bottom-3"}) do %>
 
     <%= form.govuk_radio_button(:accepted, true, label: {text: "Agree"}) %>
 
