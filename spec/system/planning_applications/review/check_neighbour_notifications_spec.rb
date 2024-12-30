@@ -79,7 +79,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
         within_fieldset("Do you accept that notifications have been completed?") do
           choose "Return with comments"
 
-          fill_in "Explain why notifications are incomplete.", with: "Notify more people"
+          fill_in "Add a comment", with: "Notify more people"
         end
 
         within "#check-neighbour-notifications" do
@@ -184,7 +184,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         within_fieldset("Do you accept that notifications have been completed?") do
           choose "Return with comments"
-          fill_in "Explain why notifications are incomplete", with: "People need to be consulted"
+          fill_in "Add a comment", with: "People need to be consulted"
         end
 
         within "#check-neighbour-notifications" do

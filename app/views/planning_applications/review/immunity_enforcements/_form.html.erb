@@ -14,7 +14,7 @@
           :action, "rejected", checked: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.rejected?, label: {text: "Return with comments"}
         ) do %>
       <%= form.govuk_text_area(
-            :comment, rows: 6, label: {text: "Explain to the assessor why this needs reviewing"}
+            :comment, rows: 6, label: {text: "Add a comment"}
           ) %>
     <% end %>
   <% end %>

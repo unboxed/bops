@@ -84,7 +84,7 @@ RSpec.describe "Reviewing pre-commencement conditions" do
         within("#review-pre-commencement-conditions") do
           choose "Return with comments"
 
-          fill_in "Comment", with: "I don't think you've assessed conditions correctly"
+          fill_in "Add a comment", with: "I don't think you've assessed conditions correctly"
 
           click_button "Save and mark as complete"
         end

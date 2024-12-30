@@ -67,7 +67,7 @@
             :action, :rejected, checked: @committee_decision.current_review.rejected?, label: {text: "No (return the case for assessment)"}
           ) do %>
         <%= review_form.govuk_text_area(
-              :comment, value: @committee_decision.current_review.comment, rows: 6, label: {text: "Explain why you do not agree with the recommendation"}
+              :comment, value: @committee_decision.current_review.comment, rows: 6, label: {text: "Add a comment"}
             ) %>
       <% end %>
     <% end %>

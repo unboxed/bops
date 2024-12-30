@@ -317,7 +317,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
         choose "Return with comments"
 
         fill_in(
-          "Explain to the assessor why this needs reviewing",
+          "Add a comment",
           with: "needs correction"
         )
 

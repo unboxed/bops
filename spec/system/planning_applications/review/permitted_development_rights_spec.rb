@@ -63,7 +63,7 @@ RSpec.describe "Permitted development right", type: :system do
 
             expect(page).to have_content("Explain to the case officer why")
 
-            fill_in "Explain to the assessor why this needs reviewing", with: "Needs more explanation"
+            fill_in "Add a comment", with: "Needs more explanation"
             click_button "Save and mark as complete"
           end
 
@@ -157,7 +157,7 @@ RSpec.describe "Permitted development right", type: :system do
 
             expect(page).to have_content("Explain to the case officer why")
 
-            fill_in "Explain to the assessor why this needs reviewing", with: "Needs more explanation"
+            fill_in "Add a comment", with: "Needs more explanation"
             click_button "Save and mark as complete"
           end
 

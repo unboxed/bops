@@ -112,7 +112,7 @@ RSpec.describe "Immunity", type: :system do
 
       within("#review-evidence") do
         choose "Return with comments"
-        fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess the evidence of immunity"
+        fill_in "Add a comment", with: "Please re-assess the evidence of immunity"
         click_button "Save and mark as complete"
       end
 
@@ -128,7 +128,7 @@ RSpec.describe "Immunity", type: :system do
 
       within("#review-enforcement-form") do
         choose "Return with comments"
-        fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess immunity enforcement response"
+        fill_in "Add a comment", with: "Please re-assess immunity enforcement response"
         click_button "Save and mark as complete"
       end
 

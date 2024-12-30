@@ -4,7 +4,7 @@
   <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: {size: "s", text: "Do you accept that notifications have been completed?"}) do %>
       <%= form.govuk_radio_button :action, "accepted", label: {text: "Agree"}, link_errors: true %>
       <%= form.govuk_radio_button :action, "rejected", label: {text: "Return with comments"} do %>
-        <%= form.govuk_text_area :comment, label: {text: "Explain why notifications are incomplete."} %>
+        <%= form.govuk_text_area :comment, label: {text: "Add a comment"} %>
       <% end %>
   <% end %>
 

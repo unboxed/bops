@@ -139,7 +139,7 @@ RSpec.describe "checking publicity" do
 
         within("#check-publicity") do
           choose "Return with comments"
-          fill_in "Explain why notifications are incomplete.", with: "Check this"
+          fill_in "Add a comment", with: "Check this"
           click_button "Save and mark as complete"
         end
 
@@ -337,7 +337,7 @@ RSpec.describe "checking publicity" do
 
       within("#check-publicity") do
         choose "Return with comments"
-        fill_in "Explain why notifications are incomplete.", with: "Check this"
+        fill_in "Add a comment", with: "Check this"
         click_button "Save and mark as complete"
       end
 

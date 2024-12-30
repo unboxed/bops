@@ -13,7 +13,7 @@
             :action, :rejected, checked: @planning_application.pre_commencement_condition_set&.current_review&.rejected?, label: {text: "Return with comments"}
           ) do %>
         <%= review_form.govuk_text_area(
-              :comment, value: @planning_application.pre_commencement_condition_set&.current_review&.comment, rows: 6, label: {text: "Comment"}
+              :comment, value: @planning_application.pre_commencement_condition_set&.current_review&.comment, rows: 6, label: {text: "Add a comment"}
             ) %>
       <% end %>
     <% end %>

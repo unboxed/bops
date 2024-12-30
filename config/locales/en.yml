@@ -853,7 +853,7 @@ en:
         summary: Tell the applicant another reason why the application is invalid.
       permitted_development_right:
         removed_reason: Describe how permitted development rights have been removed
-        reviewer_comment: Explain to the assessor why this needs reviewing
+        reviewer_comment: Add a comment
       planning_application:
         closed_or_cancellation_comment: Provide a reason
         public_comment: This information will appear on the decision notice.
@@ -866,7 +866,7 @@ en:
         reason: List all issues with the document.
       review_immunity_detail:
         removed_reason: Describe how immune from enforcement have been removed
-        reviewer_comment: Explain to the assessor why this needs reviewing
+        reviewer_comment: Add a comment
       user:
         email: Email
         mobile_number: Mobile number
@@ -1651,7 +1651,7 @@ en:
           success: Review of publicity successfully added.
         form:
           accept: Agree
-          explain_to_the: Explain to the assessor why this needs reviewing
+          explain_to_the: Add a comment
           return_to_officer: Return with comments
         press_notice:
           check_press_notice: Check press notice

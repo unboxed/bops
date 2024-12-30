@@ -4,7 +4,7 @@
     <%= form.govuk_radio_button :reviewer_verdict, "accepted", label: {text: "Agree"}, link_errors: true %>
     <%= form.govuk_radio_button :reviewer_verdict, "rejected", label: {text: "Return with comments"} do %>
       <%= form.fields_for :comment, @planning_application.existing_or_new_check_publicity.existing_or_new_comment do |ff| %>
-        <%= ff.govuk_text_area :text, label: {text: "Explain why notifications are incomplete."} %>
+        <%= ff.govuk_text_area :text, label: {text: "Add a comment"} %>
       <% end %>
     <% end %>
   <% end %>
