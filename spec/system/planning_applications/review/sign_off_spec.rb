@@ -304,7 +304,8 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
       create(
         :permitted_development_right,
-        planning_application:
+        planning_application:,
+        status: :to_be_reviewed
       )
     end
 

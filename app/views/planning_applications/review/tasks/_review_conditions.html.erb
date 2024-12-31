@@ -75,7 +75,7 @@
     <% end %>
   <% end %>
 
-  <% if @planning_application.check_permitted_development_rights? %>
+  <% if @planning_application.check_permitted_development_rights? &&  @planning_application.permitted_development_right_in_progress? %>
     <% @permitted_development_right ||= @planning_application.permitted_development_right %>
     <% accordion.with_section(id: "review-permitted-development-rights", expanded: @permitted_development_right.errors.any?) do |section| %>
       <%= section.with_heading(text: "Review permitted development rights") %>
@@ -157,7 +157,7 @@
     <% end %>
   <% end %>
 
-  <% if @planning_application.consideration_set.current_review %>
+  <% if @planning_application.consideration_set.current_review.started? %>
     <%= render "planning_applications/review/tasks/review_considerations",
           accordion: accordion,
           current_review: @planning_application.consideration_set.current_review,

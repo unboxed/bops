@@ -20,7 +20,7 @@ RSpec.describe "Permitted development right", type: :system do
       create(:recommendation, planning_application:)
       sign_in reviewer
       Current.user = reviewer
-      create(:permitted_development_right, planning_application:)
+      create(:permitted_development_right, planning_application:, status: :to_be_reviewed)
       visit "/planning_applications/#{planning_application.reference}"
     end
 
@@ -93,7 +93,7 @@ RSpec.describe "Permitted development right", type: :system do
 
           within "#review-permitted-development-rights" do
             expect(page).to have_selector("h3", text: "Review permitted development rights")
-            expect(page).to have_selector("strong", text: "Not started")
+            expect(page).to have_selector("strong", text: "Updated")
 
             click_button "Review permitted development rights"
             expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
@@ -103,7 +103,7 @@ RSpec.describe "Permitted development right", type: :system do
             click_button "Save and mark as complete"
           end
 
-          expect(PermittedDevelopmentRight.last.reviewer_edited).to be(true)
+          expect(PermittedDevelopmentRight.last.reviewer_edited).to be(false)
           expect(page).to have_content("Permitted development rights response was successfully updated")
 
           within "#review-permitted-development-rights" do
@@ -185,7 +185,7 @@ RSpec.describe "Permitted development right", type: :system do
 
           within "#review-permitted-development-rights" do
             expect(page).to have_selector("h3", text: "Review permitted development rights")
-            expect(page).to have_selector("strong", text: "Not started")
+            expect(page).to have_selector("strong", text: "Updated")
 
             click_button "Review permitted development rights"
             expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
@@ -195,7 +195,7 @@ RSpec.describe "Permitted development right", type: :system do
             click_button "Save and mark as complete"
           end
 
-          expect(PermittedDevelopmentRight.last.reviewer_edited).to be(true)
+          expect(PermittedDevelopmentRight.last.reviewer_edited).to be(false)
           expect(page).to have_content("Permitted development rights response was successfully updated")
 
           within "#review-permitted-development-rights" do
