@@ -36,7 +36,7 @@ RSpec.describe "Permitted development right", type: :system do
             click_button "Review permitted development rights"
             expect(page).to have_content("The permitted development rights have not been removed.")
 
-            choose "Accept"
+            choose "Agree"
             click_button "Save and mark as complete"
           end
 
@@ -58,12 +58,12 @@ RSpec.describe "Permitted development right", type: :system do
             click_button "Review permitted development rights"
             expect(page).to have_content("The permitted development rights have not been removed.")
 
-            choose "Return to officer with comment"
+            choose "Return with comments"
             click_button "Save and mark as complete"
 
             expect(page).to have_content("Explain to the case officer why")
 
-            fill_in "Explain to the assessor why this needs reviewing", with: "Needs more explanation"
+            fill_in "Add a comment", with: "Needs more explanation"
             click_button "Save and mark as complete"
           end
 
@@ -99,7 +99,7 @@ RSpec.describe "Permitted development right", type: :system do
             expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
             expect(page).to have_content("A removed reason")
 
-            choose "Accept"
+            choose "Agree"
             click_button "Save and mark as complete"
           end
 
@@ -129,7 +129,7 @@ RSpec.describe "Permitted development right", type: :system do
             expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
             expect(page).to have_content("A removed reason")
 
-            choose "Accept"
+            choose "Agree"
             click_button "Save and mark as complete"
           end
 
@@ -152,12 +152,12 @@ RSpec.describe "Permitted development right", type: :system do
             expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
             expect(page).to have_content("A removed reason")
 
-            choose "Return to officer with comment"
+            choose "Return with comments"
             click_button "Save and mark as complete"
 
             expect(page).to have_content("Explain to the case officer why")
 
-            fill_in "Explain to the assessor why this needs reviewing", with: "Needs more explanation"
+            fill_in "Add a comment", with: "Needs more explanation"
             click_button "Save and mark as complete"
           end
 
@@ -191,7 +191,7 @@ RSpec.describe "Permitted development right", type: :system do
             expect(page).to have_content("The permitted development rights have been removed for the following reasons:")
             expect(page).to have_content("Edited comment")
 
-            choose "Accept"
+            choose "Agree"
             click_button "Save and mark as complete"
           end
 

@@ -40,7 +40,7 @@ RSpec.describe "Reviewing conditions" do
           expect(page).to have_content(other_condition.text)
           expect(page).to have_content(other_condition.reason)
 
-          choose "Accept"
+          choose "Agree"
 
           click_button "Save and mark as complete"
         end
@@ -79,7 +79,7 @@ RSpec.describe "Reviewing conditions" do
         expect(page).to have_content("Conditions successfully updated")
 
         within("#review-conditions") do
-          choose "Accept"
+          choose "Agree"
 
           click_button "Save and mark as complete"
         end
@@ -104,9 +104,9 @@ RSpec.describe "Reviewing conditions" do
         click_button "Review conditions"
 
         within("#review-conditions") do
-          choose "Return to officer"
+          choose "Return with comments"
 
-          fill_in "Comment", with: "I don't think you've assessed conditions correctly"
+          fill_in "Add a comment", with: "I don't think you've assessed conditions correctly"
 
           click_button "Save and mark as complete"
         end
@@ -159,7 +159,7 @@ RSpec.describe "Reviewing conditions" do
 
         within("#review-conditions") do
           expect(page).to have_content "A better response"
-          choose "Accept"
+          choose "Agree"
           click_button "Save and mark as complete"
         end
 

@@ -115,7 +115,7 @@ RSpec.describe "checking publicity" do
         end
 
         within("#check-publicity") do
-          choose "Accept"
+          choose "Agree"
           click_button "Save and mark as complete"
         end
 
@@ -138,8 +138,8 @@ RSpec.describe "checking publicity" do
         click_button "Check publicity"
 
         within("#check-publicity") do
-          choose "Return to officer"
-          fill_in "Explain why notifications are incomplete.", with: "Check this"
+          choose "Return with comments"
+          fill_in "Add a comment", with: "Check this"
           click_button "Save and mark as complete"
         end
 
@@ -217,7 +217,7 @@ RSpec.describe "checking publicity" do
         expect(page).not_to have_content "You must add a comment"
 
         within("#check-publicity") do
-          choose "Return to officer"
+          choose "Return with comments"
           click_button "Save and mark as complete"
         end
 
@@ -314,7 +314,7 @@ RSpec.describe "checking publicity" do
       end
 
       within("#check-publicity") do
-        choose "Accept"
+        choose "Agree"
         click_button "Save and mark as complete"
       end
       expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
@@ -336,8 +336,8 @@ RSpec.describe "checking publicity" do
       click_button "Check publicity"
 
       within("#check-publicity") do
-        choose "Return to officer"
-        fill_in "Explain why notifications are incomplete.", with: "Check this"
+        choose "Return with comments"
+        fill_in "Add a comment", with: "Check this"
         click_button "Save and mark as complete"
       end
 
@@ -416,7 +416,7 @@ RSpec.describe "checking publicity" do
       expect(page).not_to have_content "You must add a comment"
 
       within("#check-publicity") do
-        choose "Return to officer"
+        choose "Return with comments"
         click_button "Save and mark as complete"
       end
 

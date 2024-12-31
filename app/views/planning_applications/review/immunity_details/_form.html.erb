@@ -13,24 +13,24 @@
         <% end %>
       <% end %>
 
-      <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
         <%= form.govuk_radio_button(
               :action,
               "accepted",
               checked: @planning_application.immunity_detail.current_evidence_review_immunity_detail.accepted? && !@planning_application.immunity_detail.current_evidence_review_immunity_detail.reviewed_at.nil?,
-              label: {text: "Accept"}
+              label: {text: "Agree"}
             ) %>
         <%= form.govuk_radio_button(
               :action,
               "rejected",
               checked: @planning_application.immunity_detail.current_evidence_review_immunity_detail.rejected? && !@planning_application.immunity_detail.current_evidence_review_immunity_detail.reviewed_at.nil?,
-              label: {text: "Return to officer"}
+              label: {text: "Return with comments"}
             ) do %>
           <%= form.govuk_text_area(
                 :comment,
                 placeholder: @planning_application.immunity_detail.current_evidence_review_immunity_detail.comment,
                 label: {
-                  text: "Explain to the assessor why this needs reviewing"
+                  text: "Add a comment"
                 },
                 rows: 6
               ) %>

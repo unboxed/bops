@@ -7,7 +7,8 @@
 
   <%= form.govuk_radio_buttons_fieldset(
         :cil_liability,
-        legend: {text: "Is the application liable for CIL?", size: "s"}
+        small: true,
+        legend: {size: "s", text: "Is the application liable for CIL?"}
       ) do %>
     <% if @planning_application.cil_liable.nil? %>
       <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.likely_cil_liable?, label: {text: "Yes"}) %>

@@ -76,7 +76,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
         expect(page).to have_field("planning-application-policy-sections-#{policy_section1b.id}-status-does-not-comply-field", disabled: true)
         expect(page).to have_field("planning-application-policy-sections-#{policy_section2bii.id}-status-does-not-comply-field", disabled: true)
 
-        choose("Accept")
+        choose "Agree"
         within("#policy-section-#{policy_section2bii.id}") do
           fill_in("Add comment", with: "Reviewer comment")
         end
@@ -102,18 +102,18 @@ RSpec.describe "Reviewing Policy Class", type: :system do
 
         click_on "Review assessment against legislation"
         click_on "Review assessment of Part 1, Class A"
-        choose("Return to officer with comment")
+        choose "Return with comments"
         click_button("Save and mark as complete")
         expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
 
-        fill_in "Explain to the assessor why this needs reviewing", with: "Rejection reason"
+        fill_in "Add a comment", with: "Rejection reason"
         click_button("Save and mark as complete")
         expect(page).to have_content("Review of publicity successfully added.")
 
         expect(list_item("Review assessment of Part 1, Class A")).to have_content("Awaiting changes")
         click_on "Review assessment of Part 1, Class A"
         click_on "Edit review of Part 1, Class A"
-        fill_in "Explain to the assessor why this needs reviewing", with: "Rejection reason edited"
+        fill_in "Add a comment", with: "Rejection reason edited"
         click_button("Save and mark as complete")
 
         sign_in assessor
@@ -142,7 +142,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
         expect(list_item("Review assessment of Part 1, Class A")).to have_content("Updated")
         click_link("Review assessment of Part 1, Class A")
 
-        choose "Accept"
+        choose "Agree"
         click_on "Save and mark as complete"
 
         expect(list_item("Review assessment of Part 1, Class A")).to have_content("Completed")

@@ -55,9 +55,9 @@
         <%= form.govuk_error_summary %>
 
         <%= form.fields_for :reviews_attributes, committee_decision.current_review do |review_form| %>
-        <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Do you agree with the recommendation?"} do %>
+        <%= review_form.govuk_radio_buttons_fieldset :action, small: true, legend: nil do %>
           <%= review_form.govuk_radio_button(
-                :action, :accepted, checked: committee_decision.current_review.accepted?, label: {text: "Yes"}
+                :action, :accepted, checked: committee_decision.current_review.accepted?, label: {text: "Agree"}
               ) %>
 
           <%= review_form.govuk_radio_button(
@@ -73,7 +73,7 @@
                     :comment,
                     value: committee_decision.current_review.comment,
                     rows: 6,
-                    label: {text: "Explain why you do not agree with the recommendation"},
+                    label: {text: "Add a comment"},
                     class: "govuk-textarea #{"govuk-textarea--error" if committee_decision.errors.any?}"
                   ) %>
               <% end %>

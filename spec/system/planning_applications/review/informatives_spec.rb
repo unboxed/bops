@@ -55,7 +55,7 @@ RSpec.describe "Reviewing informatives", js: true do
             end
 
             within("#informatives_footer") do
-              choose("Return to officer")
+              choose "Return with comments"
               click_button("Save and mark as complete")
             end
           end
@@ -120,9 +120,7 @@ RSpec.describe "Reviewing informatives", js: true do
           end
 
           within("#informatives_footer") do
-            within_fieldset("Do you accept the assessment against informatives?") do
-              choose "Agree"
-            end
+            choose "Agree"
 
             expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
             click_button "Save and mark as complete"
@@ -154,9 +152,8 @@ RSpec.describe "Reviewing informatives", js: true do
 
           click_button "Review informatives"
           within("#informatives_footer") do
-            within_fieldset("Do you accept the assessment against informatives?") do
-              choose "Agree"
-            end
+            choose "Agree"
+
             expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
 
             click_button "Save and mark as complete"
@@ -177,10 +174,8 @@ RSpec.describe "Reviewing informatives", js: true do
           click_button "Review informatives"
 
           within("#informatives_footer") do
-            within_fieldset("Do you accept the assessment against informatives?") do
-              choose "Return to officer"
-              fill_in "Add a comment", with: "Please provide more details about the Section 106 agreement"
-            end
+            choose "Return with comments"
+            fill_in "Add a comment", with: "Please provide more details about the Section 106 agreement"
 
             expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
             click_button "Save and mark as complete"
@@ -237,9 +232,7 @@ RSpec.describe "Reviewing informatives", js: true do
 
           click_button("Review informatives")
           within("#informatives_footer") do
-            within_fieldset("Do you accept the assessment against informatives?") do
-              choose "Agree"
-            end
+            choose "Agree"
 
             click_button "Save and mark as complete"
           end

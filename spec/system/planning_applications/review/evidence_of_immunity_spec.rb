@@ -64,7 +64,7 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
           expect(page).to have_content("Has anyone ever attempted to conceal the changes? No")
           expect(page).to have_content("Has enforcement action been taken about these changes? No")
 
-          choose "Accept"
+          choose "Agree"
           click_button "Save and mark as complete"
         end
 
@@ -76,7 +76,7 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
         end
       end
 
-      it "when I return it to officer with comments, they can see my comments" do
+      it "when I return it with comments, they can see my comments" do
         within("#review-evidence") do
           expect(page).to have_content("Review evidence of immunity")
           expect(page).to have_content("Not started")
@@ -91,9 +91,9 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
           expect(page).to have_content("Has anyone ever attempted to conceal the changes? No")
           expect(page).to have_content("Has enforcement action been taken about these changes? No")
 
-          choose "Return to officer"
+          choose "Return with comments"
 
-          fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess"
+          fill_in "Add a comment", with: "Please re-assess"
 
           click_button "Save and mark as complete"
         end

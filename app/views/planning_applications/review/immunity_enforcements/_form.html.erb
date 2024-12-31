@@ -3,18 +3,15 @@
       class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_radio_buttons_fieldset(
-        :action, legend: {text: "Is the application immune from enforcement?"}
-      ) do %>
-
+  <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: nil) do %>
     <%= form.govuk_radio_button(
-          :action, "accepted", checked: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.accepted?, label: {text: "Accept"}
+          :action, "accepted", checked: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.accepted?, label: {text: "Agree"}
         ) %>
     <%= form.govuk_radio_button(
-          :action, "rejected", checked: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.rejected?, label: {text: "Return to officer"}
+          :action, "rejected", checked: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.rejected?, label: {text: "Return with comments"}
         ) do %>
       <%= form.govuk_text_area(
-            :comment, rows: 6, label: {text: "Explain to the assessor why this needs reviewing"}
+            :comment, rows: 6, label: {text: "Add a comment"}
           ) %>
     <% end %>
   <% end %>

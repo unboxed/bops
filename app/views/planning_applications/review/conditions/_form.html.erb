@@ -4,16 +4,16 @@
   <%= form.govuk_error_summary %>
 
   <%= form.fields_for :reviews_attributes, @planning_application.condition_set.current_review do |review_form| %>
-    <%= review_form.govuk_radio_buttons_fieldset :action, legend: {text: "Actions"} do %>
+    <%= review_form.govuk_radio_buttons_fieldset :action, small: true, legend: nil do %>
       <%= review_form.govuk_radio_button(
-            :action, :accepted, checked: @planning_application.condition_set&.current_review&.accepted?, label: {text: "Accept"}
+            :action, :accepted, checked: @planning_application.condition_set&.current_review&.accepted?, label: {text: "Agree"}
           ) %>
 
       <%= review_form.govuk_radio_button(
-            :action, :rejected, checked: @planning_application.condition_set&.current_review&.rejected?, label: {text: "Return to officer"}
+            :action, :rejected, checked: @planning_application.condition_set&.current_review&.rejected?, label: {text: "Return with comments"}
           ) do %>
         <%= review_form.govuk_text_area(
-              :comment, value: @planning_application.condition_set&.current_review&.comment, rows: 6, label: {text: "Comment"}
+              :comment, value: @planning_application.condition_set&.current_review&.comment, rows: 6, label: {text: "Add a comment"}
             ) %>
       <% end %>
     <% end %>

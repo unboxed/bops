@@ -155,7 +155,7 @@ RSpec.describe "Reviewing assessment summaries" do
       end
 
       within("#neighbour_summary_footer") do
-        choose("Return with comments")
+        choose "Return with comments"
         click_button("Save and mark as complete")
       end
 
@@ -170,7 +170,7 @@ RSpec.describe "Reviewing assessment summaries" do
       # Summary of works
       click_button "Summary of works"
       within("#summary_of_work_footer") do
-        choose("Return with comments")
+        choose "Return with comments"
         click_button("Save and mark as complete")
       end
 
@@ -185,7 +185,7 @@ RSpec.describe "Reviewing assessment summaries" do
       # Consultation
       click_button "Consultation"
       within("#consultation_summary_footer") do
-        choose("Return with comments")
+        choose "Return with comments"
         click_button("Save and mark as complete")
       end
 
@@ -200,7 +200,7 @@ RSpec.describe "Reviewing assessment summaries" do
       # Site description
       click_button "Site description"
       within("#site_description_footer") do
-        choose("Return with comments")
+        choose "Return with comments"
         click_button("Save and mark as complete")
       end
 
@@ -215,7 +215,7 @@ RSpec.describe "Reviewing assessment summaries" do
       # Additional evidence
       click_button "Summary of additional evidence"
       within("#additional_evidence_footer") do
-        choose("Return with comments")
+        choose "Return with comments"
         click_button("Save and mark as complete")
       end
 
@@ -230,7 +230,7 @@ RSpec.describe "Reviewing assessment summaries" do
       # Amenity
       click_button "Amenity"
       within("#amenity_footer") do
-        choose("Return with comments")
+        choose "Return with comments"
         click_button("Save and mark as complete")
       end
 
@@ -266,7 +266,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#neighbour_summary_footer") do
-          choose("Accept")
+          choose "Agree"
           click_button("Save and mark as complete")
         end
 
@@ -277,7 +277,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#neighbour_summary_footer") do
-          choose("Return with comments")
+          choose "Return with comments"
 
           fill_in(
             "Add a comment",
@@ -350,7 +350,7 @@ RSpec.describe "Reviewing assessment summaries" do
             expect(page).to have_content("Untagged: A new summary")
           end
           within("#neighbour_summary_footer") do
-            choose("Accept")
+            choose "Agree"
             click_button("Save and mark as complete")
           end
         end
@@ -381,7 +381,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#summary_of_work_footer") do
-          choose("Accept")
+          choose "Agree"
           click_button("Save and mark as complete")
         end
 
@@ -392,7 +392,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#summary_of_work_footer") do
-          choose("Return with comments")
+          choose "Return with comments"
 
           fill_in(
             "Add a comment",
@@ -465,7 +465,7 @@ RSpec.describe "Reviewing assessment summaries" do
             expect(page).to have_content("A new summary")
           end
           within("#summary_of_work_footer") do
-            choose("Accept")
+            choose "Agree"
             click_button("Save and mark as complete")
           end
         end
@@ -497,7 +497,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#site_description_footer") do
-          choose("Accept")
+          choose "Agree"
           click_button("Save and mark as complete")
         end
 
@@ -508,7 +508,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#site_description_footer") do
-          choose("Return with comments")
+          choose "Return with comments"
 
           fill_in(
             "Add a comment",
@@ -581,7 +581,7 @@ RSpec.describe "Reviewing assessment summaries" do
             expect(page).to have_content("A new summary")
           end
           within("#site_description_footer") do
-            choose("Accept")
+            choose "Agree"
             click_button("Save and mark as complete")
           end
         end
@@ -615,7 +615,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#consultation_summary_footer") do
-          choose("Accept")
+          choose "Agree"
           click_button("Save and mark as complete")
         end
 
@@ -626,7 +626,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#consultation_summary_footer") do
-          choose("Return with comments")
+          choose "Return with comments"
 
           fill_in(
             "Add a comment",
@@ -700,7 +700,7 @@ RSpec.describe "Reviewing assessment summaries" do
             expect(page).to have_content("A new summary")
           end
           within("#consultation_summary_footer") do
-            choose("Accept")
+            choose "Agree"
             click_button("Save and mark as complete")
           end
         end
@@ -731,7 +731,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#additional_evidence_footer") do
-          choose("Accept")
+          choose "Agree"
           click_button("Save and mark as complete")
         end
 
@@ -742,7 +742,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#additional_evidence_footer") do
-          choose("Return with comments")
+          choose "Return with comments"
 
           fill_in(
             "Add a comment",
@@ -815,7 +815,7 @@ RSpec.describe "Reviewing assessment summaries" do
             expect(page).to have_content("A new summary")
           end
           within("#additional_evidence_footer") do
-            choose("Accept")
+            choose "Agree"
             click_button("Save and mark as complete")
           end
         end
@@ -846,7 +846,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#amenity_footer") do
-          choose("Accept")
+          choose "Agree"
           click_button("Save and mark as complete")
         end
 
@@ -857,7 +857,7 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within("#amenity_footer") do
-          choose("Return with comments")
+          choose "Return with comments"
 
           fill_in(
             "Add a comment",
@@ -930,7 +930,7 @@ RSpec.describe "Reviewing assessment summaries" do
             expect(page).to have_content("A new summary")
           end
           within("#amenity_footer") do
-            choose("Accept")
+            choose "Agree"
             click_button("Save and mark as complete")
           end
         end

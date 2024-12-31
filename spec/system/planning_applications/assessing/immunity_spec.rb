@@ -111,8 +111,8 @@ RSpec.describe "Immunity", type: :system do
       click_button "Review evidence of immunity"
 
       within("#review-evidence") do
-        choose "Return to officer"
-        fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess the evidence of immunity"
+        choose "Return with comments"
+        fill_in "Add a comment", with: "Please re-assess the evidence of immunity"
         click_button "Save and mark as complete"
       end
 
@@ -127,8 +127,8 @@ RSpec.describe "Immunity", type: :system do
       end
 
       within("#review-enforcement-form") do
-        choose "Return to officer"
-        fill_in "Explain to the assessor why this needs reviewing", with: "Please re-assess immunity enforcement response"
+        choose "Return with comments"
+        fill_in "Add a comment", with: "Please re-assess immunity enforcement response"
         click_button "Save and mark as complete"
       end
 
@@ -189,7 +189,7 @@ RSpec.describe "Immunity", type: :system do
       click_button "Review evidence of immunity"
 
       within("#review-evidence") do
-        choose "Accept"
+        choose "Agree"
         click_button "Save and mark as complete"
       end
       expect(page).to have_content("Review immunity details was successfully updated")
@@ -200,7 +200,7 @@ RSpec.describe "Immunity", type: :system do
         expect(page).to have_content("Assessor decision: No")
         expect(page).to have_content("Reason: Application is not immune")
 
-        choose("Accept", match: :first)
+        choose("Agree", match: :first)
         click_button "Save and mark as complete"
       end
       expect(page).to have_content("Review immunity details was successfully updated for enforcement")
@@ -210,7 +210,7 @@ RSpec.describe "Immunity", type: :system do
         expect(page).to have_content("The permitted development rights have been removed for the following reason")
         expect(page).to have_content("A reason")
 
-        choose "Accept"
+        choose "Agree"
         click_button "Save and mark as complete"
       end
 

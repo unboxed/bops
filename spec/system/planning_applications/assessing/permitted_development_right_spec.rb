@@ -208,7 +208,7 @@ RSpec.describe "Permitted development right" do
             expect(page).to have_selector("strong", text: "Updated")
 
             click_button("Review permitted development rights")
-            choose("Accept")
+            choose "Agree"
             click_button("Save and mark as complete")
           end
 
