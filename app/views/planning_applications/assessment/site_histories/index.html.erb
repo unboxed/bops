@@ -19,56 +19,17 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h2 class="govuk-heading-m">Summary of the relevant historical applications</h2>
-  </div>
-</div>
 
-<%= render "table", site_histories: @site_histories, show_action: true %>
+    <%= render "table", site_histories: @site_histories, show_action: true %>
 
-<div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-  <div class="govuk-grid-column-full">
-    <details class="govuk-details" <%= "open" if @site_history.errors.any? %>>
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Add a new site history
-        </span>
-      </summary>
-      <div>
-        <%= form_with(
-              model: [@planning_application, @site_history],
-              class: "govuk-!-margin-top-5",
-              url: planning_application_assessment_site_histories_path(@planning_application)
-            ) do |form| %>
-          <%= form.govuk_error_summary %>
+    <%= govuk_details(summary_text: "Add a new site history", open: @site_history.errors.any?) do %>
+      <%= render "form", model: @site_history, url: planning_application_assessment_site_histories_path(@planning_application) %>
+    <% end %>
 
-          <%= form.govuk_text_field :application_number, class: "govuk-input govuk-input--width-30" %>
-          <%= form.govuk_text_field :description, class: "govuk-input govuk-input--width-30" %>
-
-          <%= form.govuk_collection_radio_buttons(
-                :decision,
-                Decision.all_codes,
-                :last,
-                :first,
-                legend: {text: "What was the decision?", size: "s"}
-              ) %>
-          <%= form.govuk_date_field :date, legend: {text: "Decision received on", size: "s", tag: "p"} %>
-
-          <div>
-            <%= form.submit "Add site history", class: "govuk-button govuk-button--secondary" %>
-          </div>
-          <hr>
-        <% end %>
-      </div>
-    </details>
-  </div>
-</div>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <div class="govuk-button-group">
-      <%= form_with url: confirm_planning_application_assessment_site_histories_path(@planning_application) do |form| %>
-        <%= form.submit "Save and mark as complete", class: "govuk-button" %>
+    <%= form_with url: confirm_planning_application_assessment_site_histories_path(@planning_application) do |form| %>
+      <%= form.govuk_submit "Save and mark as complete" do %>
         <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
       <% end %>
-    </div>
+    <% end %>
   </div>
 </div>

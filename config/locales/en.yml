@@ -865,6 +865,8 @@ en:
       review_immunity_detail:
         removed_reason: Describe how immune from enforcement have been removed
         reviewer_comment: Add a comment
+      site_history:
+        reference: Application number
       user:
         email: Email
         mobile_number: Mobile number
