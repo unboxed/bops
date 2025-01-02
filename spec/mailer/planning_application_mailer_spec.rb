@@ -1513,13 +1513,14 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#send_committee_decision_mail" do
-    let!(:local_authority) do
+    let(:local_authority) do
       create(
         :local_authority,
         :default
       )
     end
-    let!(:committee_decision) do
+
+    let(:committee_decision) do
       create(
         :committee_decision,
         planning_application:,
@@ -1540,7 +1541,13 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let(:mail_body) { send_committee_decision_mail.body.encoded }
 
     before do
+      travel_to("2024-10-22") do
+        planning_application.touch
+      end
+
+      committee_decision.touch
       planning_application.update(decision: "granted")
+      send_committee_decision_mail
     end
 
     it "emails the applicant" do

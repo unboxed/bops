@@ -8,6 +8,10 @@ RSpec.describe "BOPS public API" do
   let(:document) { create(:document, :with_tags, validated: true, publishable: true) }
   let(:planning_application) { create(:planning_application, :published, :with_boundary_geojson, :determined, documents: [document], local_authority:, application_type:) }
 
+  around do |example|
+    travel_to("2024-10-22T10:30:00Z") { example.run }
+  end
+
   path "/api/v2/public/planning_applications/{reference}/documents" do
     get "Retrieves documents for a planning application" do
       tags "Planning applications"
