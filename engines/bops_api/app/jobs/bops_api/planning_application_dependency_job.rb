@@ -30,6 +30,7 @@ module BopsApi
       process_planning_designations(planning_application)
       process_ownership_certificate_details(planning_application)
       process_immunity_details(planning_application) if possibly_immune?(planning_application)
+      process_planning_history(planning_application) if planning_history_enabled?(planning_application)
       process_preapplication_services(planning_application) if planning_application.pre_application?
 
       if planning_application.pending?
@@ -168,6 +169,27 @@ module BopsApi
       end
     rescue ActiveRecord::RecordInvalid, NoMethodError => e
       Appsignal.report_error(e)
+    end
+
+    def planning_history_enabled?(planning_application)
+      planning_application.local_authority.planning_history_enabled?
+    end
+
+    def fetch_planning_history(uprn)
+      Apis::Paapi::Query.new.fetch(uprn)
+    end
+
+    def process_planning_history(planning_application)
+      fetch_planning_history(planning_application.uprn).each do |record|
+        planning_application.site_histories.create!(
+          date: record["decision_issued_at"],
+          reference: record["reference"],
+          description: record["description"],
+          decision: record["decision"]
+        )
+      end
+    rescue => error
+      Appsignal.report_error(error)
     end
 
     def process_preapplication_services(planning_application)

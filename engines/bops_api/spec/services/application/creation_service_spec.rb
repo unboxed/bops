@@ -531,6 +531,29 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         end
       end
 
+      context "when application property has history" do
+        let(:local_authority) { create(:local_authority, planning_history_enabled: true) }
+        let(:params) { json_fixture("v2/valid_planning_permission.json").with_indifferent_access }
+
+        before do
+          stub_paapi_api_request_for("100021892955").to_return(paapi_api_response(:ok, "100021892955"))
+        end
+
+        it "creates a new planning application with the expected site history" do
+          expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
+          expect { perform_enqueued_jobs }.to change(SiteHistory, :count).by(1)
+
+          expect(planning_application.site_histories).to match_array([
+            an_object_having_attributes(
+              date: "2022-09-16".to_date,
+              reference: "22/06601/FUL",
+              description: "Householder application for construction of detached two storey double garage with external staircase",
+              decision: "refused"
+            )
+          ])
+        end
+      end
+
       context "when application type is preApp" do
         let(:params) { json_fixture("v2/preApplication.json").with_indifferent_access }
         let(:planning_application) { create_planning_application }

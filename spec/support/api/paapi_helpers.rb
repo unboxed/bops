@@ -13,10 +13,18 @@ module PaapiHelper
     body = if body == "no_result"
       []
     else
-      Rails.root.join("spec", "fixtures", "paapi", "#{body}.json").read
+      paapi_fixture(body)
     end
 
     {status:, body:}
+  end
+
+  def paapi_fixture(uprn)
+    Rails.root.join("spec", "fixtures", "paapi", "#{uprn}.json").read
+  end
+
+  def paapi_data(uprn)
+    Array.wrap(JSON.parse(paapi_fixture(uprn)).dig("data"))
   end
 end
 
