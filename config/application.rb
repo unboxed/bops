@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative "boot"
-require_relative "../lib/constraints/subdomain"
 
 require "rails"
 # Pick the frameworks you want:

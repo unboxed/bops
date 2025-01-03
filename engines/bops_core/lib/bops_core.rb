@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "bops_core/engine"
+require "bops_core/routing"
 
 module BopsCore
   class << self
