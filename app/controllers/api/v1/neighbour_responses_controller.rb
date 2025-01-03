@@ -9,6 +9,10 @@ module Api
       skip_before_action :authenticate_api_user!
 
       def create
+        unless @planning_application.application_type.consultation_steps.include? "neighbour"
+          raise NeighbourResponseCreationService::CreateError, "This application type cannot accept neighbour responses"
+        end
+
         @neighbour_response = NeighbourResponseCreationService.new(
           params:, planning_application: @planning_application
         ).call
