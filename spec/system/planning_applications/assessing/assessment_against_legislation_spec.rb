@@ -158,8 +158,15 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
             expect(page).to have_content("Policy class was successfully updated")
             expect(page).to have_list_item_for("Part 1, Class A", with: "In progress")
 
+            # Updating policy section description
+            policy_section1a.update!(description: "A new description")
+
             click_link("Part 1, Class A")
             within("#policy-section-#{policy_section1a.id}") do
+              # Description at time of assessment should be present
+              expect(page).to have_content("description for section 1a")
+              expect(page).not_to have_content("A new description")
+
               expect(page).to have_field("Add comment", with: "My first comment")
               fill_in("Add comment", with: "Updated first comment")
             end
