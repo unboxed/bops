@@ -101,7 +101,7 @@ class CommitteeDecision < ApplicationRecord
   end
 
   def application_link
-    "#{planning_application.local_authority.applicants_url}/planning_applications/#{planning_application.id}"
+    "#{planning_application.local_authority.applicants_url}/planning_applications/#{planning_application.reference}"
   end
 
   def review_complete?

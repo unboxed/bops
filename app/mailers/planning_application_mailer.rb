@@ -6,7 +6,7 @@ class PlanningApplicationMailer < ApplicationMailer
 
   def decision_notice_mail(planning_application, host, user)
     @planning_application = planning_application
-    @decision_notice_url = decision_notice_api_v1_planning_application_url(@planning_application, id: @planning_application.id, format: "pdf", host: host)
+    @decision_notice_url = decision_notice_api_v1_planning_application_url(@planning_application, id: @planning_application.reference, format: "pdf", host: host)
 
     view_mail(
       NOTIFY_TEMPLATE_ID,

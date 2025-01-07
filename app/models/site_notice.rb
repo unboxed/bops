@@ -83,11 +83,7 @@ class SiteNotice < ApplicationRecord
   private
 
   def application_link
-    if Bops.env.production?
-      "https://planningapplications.#{planning_application.local_authority.subdomain}.gov.uk/planning_applications/#{planning_application.id}"
-    else
-      "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
-    end
+    "#{planning_application.local_authority.applicants_url}/planning_applications/#{planning_application.reference}"
   end
 
   def eia_statement
