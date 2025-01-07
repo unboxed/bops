@@ -1174,6 +1174,7 @@ en:
             success: Summary of works was successfully updated.
       assessment_report_component:
         additional_evidence: Summary of additional evidence
+        application_details: Application details
         assessment_against_policies_and_guidance: Policies and guidance
         constraints_including_article: Constraints including Article 4 direction(s)
         consultation_documents: Consultation documents

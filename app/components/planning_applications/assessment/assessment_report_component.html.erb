@@ -1,3 +1,25 @@
+<section id="application-details-section" class="govuk-!-margin-bottom-7">
+  <h3 class="govuk-heading-m"><%= t(".application_details") %></h3>
+
+  <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list|
+        {
+          "Applicant" => planning_application.applicant_name,
+          "Application number" => planning_application.reference,
+          "Application type" => planning_application.application_type.description,
+          "Decision date" => planning_application.determination_date&.to_fs || "TBD",
+          "Site address" => planning_application.full_address,
+          "Use/development" => planning_application.description,
+          "Assigned officer" => planning_application.user&.name || "Unassigned",
+          "Recommendation agreed by" => planning_application.recommendation.reviewer&.name || "TBD"
+        }.each do |pair|
+          summary_list.with_row do |row|
+            row.with_key { pair[0] }
+            row.with_value { pair[1] }
+          end
+        end
+      end %>
+</section>
+
 <section id="constraints-section" class="govuk-!-margin-bottom-7">
   <h3 class="govuk-heading-m"><%= t(".constraints_including_article") %></h3>
 
