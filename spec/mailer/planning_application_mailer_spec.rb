@@ -108,7 +108,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes a link to the decision notice" do
       expect(mail_body).to include(
-        "https://planx.bops-applicants.services/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+        "https://planx.bops-applicants.services/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf"
       )
     end
 
@@ -130,7 +130,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes a link to the decision notice" do
         expect(mail_body).to include(
-          "https://planx.bops-applicants.services/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+          "https://planx.bops-applicants.services/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf"
         )
       end
 
@@ -968,7 +968,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "A prior approval application has been made for the development described below:"
       )
       expect(mail_body).to include(
-        "https://planx.bops-applicants.services/planning_applications/#{planning_application.id}"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}"
       )
     end
 
@@ -1056,7 +1056,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "As part of the application process"
       )
       expect(mail_body).to include(
-        "https://planx.bops-applicants.services/planning_applications/#{planning_application.id}/site_notices/download"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}/site_notices/download"
       )
     end
   end
@@ -1126,7 +1126,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "The site notice for this application is ready for display"
       )
       expect(mail_body).to include(
-        "https://planx.bops-applicants.services/planning_applications/#{planning_application.id}/site_notices/download"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}/site_notices/download"
       )
     end
   end
