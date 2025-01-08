@@ -1154,7 +1154,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_application_number
-    max_application_number = local_authority.planning_applications.maximum(:application_number)
+    max_application_number = local_authority.planning_applications.with_discarded.maximum(:application_number)
 
     self.application_number = max_application_number ? max_application_number + 1 : 100
   end

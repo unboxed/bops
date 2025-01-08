@@ -220,6 +220,24 @@ RSpec.describe PlanningApplication do
         end
       end
 
+      context "when a planning application is discarded" do
+        let(:local_authority) { create(:local_authority) }
+        let(:planning_application1) { create(:planning_application, local_authority:) }
+        let(:planning_application2) { create(:planning_application, local_authority:) }
+        let(:planning_application3) { create(:planning_application, local_authority:) }
+        let(:planning_application4) { create(:planning_application, local_authority:) }
+
+        it "updates the application number incrementing after the existing maximum application number" do
+          expect(planning_application1.application_number).to eq("00100")
+          expect(planning_application2.application_number).to eq("00101")
+          expect(planning_application3.application_number).to eq("00102")
+
+          planning_application3.discard
+
+          expect(planning_application4.application_number).to eq("00103")
+        end
+      end
+
       describe "#reference" do
         let(:planning_application) do
           build(:planning_application, :ldc_proposed)
