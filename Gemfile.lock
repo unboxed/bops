@@ -20,6 +20,12 @@ PATH
       bops_core (= 0.1.0)
 
 PATH
+  remote: engines/bops_consultees
+  specs:
+    bops_consultees (0.1.0)
+      bops_core (= 0.1.0)
+
+PATH
   remote: engines/bops_core
   specs:
     bops_core (0.1.0)
@@ -669,6 +675,7 @@ DEPENDENCIES
   bops_admin!
   bops_api!
   bops_config!
+  bops_consultees!
   bops_core!
   bops_uploads!
   brakeman

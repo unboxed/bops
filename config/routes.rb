@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
     mount BopsAdmin::Engine, at: "/admin", as: :bops_admin
 
+    mount BopsConsultees::Engine, at: "/consultees", as: :bops_consultees
+
     defaults format: "json" do
       get "/os_places_api",
         to: "os_places_api#index",

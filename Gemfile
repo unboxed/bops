@@ -57,10 +57,13 @@ gem "csv"
 gem "logger"
 gem "ostruct"
 
+# Gem for shared code across engines
 gem "bops_core", path: "engines/bops_core"
+
 gem "bops_admin", path: "engines/bops_admin"
 gem "bops_api", path: "engines/bops_api"
 gem "bops_config", path: "engines/bops_config"
+gem "bops_consultees", path: "engines/bops_consultees"
 gem "bops_uploads", path: "engines/bops_uploads"
 
 group :development, :test do

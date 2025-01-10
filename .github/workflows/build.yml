@@ -80,6 +80,7 @@ jobs:
           - { group: "bops_config", module: "engines" }
           - { group: "bops_core", module: "engines" }
           - { group: "bops_uploads", module: "engines" }
+          - { group: "bops_consultees", module: "engines" }
       fail-fast: false
     with:
       name: "${{matrix.specs.group}}"
