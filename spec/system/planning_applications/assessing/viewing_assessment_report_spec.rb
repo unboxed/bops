@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "viewing assessment report", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, name: "PlanX", local_authority: local_authority) }
+  let!(:assessor) { create(:user, :assessor, local_authority:) }
 
   let!(:assessor) do
     create(
@@ -22,7 +23,8 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
       :with_constraints,
       local_authority:,
       decision: :granted,
-      api_user:
+      api_user:,
+      user: assessor
     )
   end
 
@@ -98,6 +100,14 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     click_link("Review and submit recommendation")
     click_button("Assessment report details")
+
+    within("#application-details-section") do
+      expect(page).to have_content(planning_application.applicant_name)
+      expect(page).to have_content(planning_application.reference)
+      expect(page).to have_content(planning_application.application_type.description)
+      expect(page).to have_content(planning_application.determination_date.to_fs)
+      expect(page).to have_content(planning_application.user.name)
+    end
 
     expect(page).to have_content("Conservation area")
     expect(page).to have_content("22-00999-LDCP")
