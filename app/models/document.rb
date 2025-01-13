@@ -226,12 +226,11 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { no_owner.or(not_excluded_owners) }
-
   scope :no_owner, -> { where(owner_type: nil) }
   scope :not_excluded_owners, -> { where.not(owner_type: EXCLUDED_OWNERS) }
+  scope :default, -> { no_owner.or(not_excluded_owners) }
   scope :by_created_at, -> { order(created_at: :asc) }
-  scope :active, -> { where(archived_at: nil) }
+  scope :active, -> { default.where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
   scope :validated, -> { where(validated: true) }
   scope :redacted, -> { where(redacted: true) }
@@ -242,8 +241,8 @@ class Document < ApplicationRecord
   )
   scope :publishable, -> { where(publishable: true) }
 
-  scope :for_publication, -> { active.publishable }
-  scope :for_display, -> { active.referenced_in_decision_notice }
+  scope :for_publication, -> { publishable }
+  scope :for_display, -> { referenced_in_decision_notice }
 
   scope :with_tag, ->(tag) { where(arel_table[:tags].contains(Array.wrap(tag))) }
   scope :with_siteplan_tags, -> { where(arel_table[:tags].overlaps(%w[sitePlan.existing sitePlan.proposed])) }

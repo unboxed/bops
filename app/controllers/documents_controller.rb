@@ -11,7 +11,7 @@ class DocumentsController < AuthenticationController
   before_action :replacement_document_validation_request, only: %i[edit update]
 
   def index
-    @documents = @planning_application.documents.with_file_attachment
+    @documents = @planning_application.documents.default.with_file_attachment
     @additional_document_validation_requests = @planning_application
       .additional_document_validation_requests
       .post_validation
