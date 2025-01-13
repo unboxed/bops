@@ -3,7 +3,7 @@
 require "bops_config_helper"
 
 RSpec.describe BopsConfig::ApplicationTypesController, type: :controller do
-  let(:user) { create(:user, :global_administrator) }
+  let(:user) { create(:user, :global_administrator, local_authority: nil) }
 
   before do
     sign_in(user)

@@ -127,6 +127,47 @@ RSpec.describe User do
         expect(user.valid?).to be(true)
       end
     end
+
+    context "when local_authority is present" do
+      let(:user) { build(:user, role: role) }
+
+      context "with a valid local role" do
+        let(:role) { :assessor }
+
+        it "is valid" do
+          expect(user).to be_valid
+        end
+      end
+
+      context "with an invalid global role" do
+        let(:role) { :global_administrator }
+
+        it "is not valid" do
+          expect(user).to be_invalid
+          expect(user.errors[:role]).to include("is not included in the list")
+        end
+      end
+    end
+
+    context "when local_authority is not present" do
+      let(:user) { build(:user, role: role, local_authority: nil) }
+
+      context "with a global role" do
+        let(:role) { :global_administrator }
+
+        it "is valid" do
+          expect(user).to be_valid
+        end
+      end
+
+      context "with a local role" do
+        let(:role) { :assessor }
+
+        it "is valid" do
+          expect(user).to be_valid
+        end
+      end
+    end
   end
 
   describe "#send_otp_by_sms?" do

@@ -13,7 +13,7 @@
     <% unless form.object == current_user %>
       <%= form.govuk_collection_select(
             :role,
-            User.roles.keys,
+            User.local_roles,
             :itself,
             :capitalize
           ) %>
