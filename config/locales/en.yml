@@ -890,8 +890,8 @@ en:
         valid_red_line_boundary: Is this red line boundary valid?
         validated_at: Valid from
       review_immunity_detail:
-        accepted: Is the application immune from enforcement?
-        removed: Is the application immune from enforcement?
+        accepted: On the balance of probabilities, is the development immune from enforcement action?
+        removed: On the balance of probabilities, is the development immune from enforcement action?
   local_policies:
     custom_areas:
     - Design
@@ -959,10 +959,10 @@ en:
           success: Appeal was successfully updated as valid
     assessment:
       assess_immunity_detail_permitted_development_right_form:
-        four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
         four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
         other: other
         ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
+        ten_years_substantial: no action is taken within 10 years of substantial completion for a breach of planning control consisting of operational development
       assess_immunity_detail_permitted_development_rights:
         successfully_created: Immunity/permitted development rights response was successfully created
         successfully_updated: Immunity/permitted development rights response was successfully updated
