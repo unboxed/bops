@@ -17849,6 +17849,69 @@ components:
       - application
       - files
       type: object
+    NeighbourResponses:
+      properties:
+        metadata:
+          type: object
+          properties:
+            results:
+              type: integer
+            totalResults:
+              type: integer
+          required:
+          - results
+          - totalResults
+        responses:
+          type: array
+          items:
+          - type: object
+            properties:
+              application:
+                type: object
+                properties:
+                  reference:
+                    type:
+                    - string
+                    - 'null'
+                  address:
+                    type:
+                    - string
+                    - 'null'
+                required:
+                - reference
+                - address
+              receivedAt:
+                format: datetime
+                type:
+                - string
+                - 'null'
+              respondent:
+                type: object
+                properties:
+                  postcode:
+                    type:
+                    - string
+                    - 'null'
+                required:
+                - postcode
+              sentiment:
+                type:
+                - string
+                - 'null'
+              text:
+                type:
+                - string
+                - 'null'
+            required:
+            - application
+            - receivedAt
+            - respondent
+            - sentiment
+            - text
+      required:
+      - metadata
+      - responses
+      type: object
     ValidationRequests:
       properties:
         metadata:
@@ -18097,6 +18160,50 @@ components:
       required:
       - error
 paths:
+  "/api/v2/neighbour_responses":
+    get:
+      summary: Retrieves neighbour responses for a planning application
+      tags:
+      - Planning applications
+      parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
+      responses:
+        '200':
+          description: returns a planning application's neighbour responses and decision
+            notice given a reference
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    metadata:
+                      page: 1
+                      results: 10
+                      from: 1
+                      to: 1
+                      totalPages: 1
+                      totalResults: 1
+                    links:
+                      first: http://planx.example.com/api/v2/neighbour_responses?page=1
+                      last: http://planx.example.com/api/v2/neighbour_responses?page=1
+                      prev:
+                      next:
+                    responses:
+                    - receivedAt: '2024-10-21T11:30:00.000+01:00'
+                      text: I like it *****
+                      sentiment: supportive
+                      respondent:
+                        postcode: PE35 6AB
+                      application:
+                        reference: 24-00100-HAPP
+                        address: 1 The Mall, London, SW1A 1AA
+              schema:
+                "$ref": "#/components/schemas/NeighbourResponses"
   "/api/v2/ping":
     get:
       summary: Returns a healthcheck

@@ -23,8 +23,11 @@ class LocalAuthority < ApplicationRecord
 
   with_options through: :planning_applications do
     has_many :audits
+    has_many :consultations
     has_many :validation_requests
   end
+
+  has_many :neighbour_responses, through: :consultations
 
   with_options presence: true do
     validates :council_code, :subdomain
