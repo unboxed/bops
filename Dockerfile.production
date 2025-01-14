@@ -2,7 +2,7 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.4.1
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim-bookworm AS base
 
 # Rails app lives here
 WORKDIR /rails
@@ -15,11 +15,11 @@ ENV RAILS_ENV="production" \
 
 
 # Throw-away build stage to reduce size of final image
-FROM base as build
+FROM base AS build
 
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
+    apt-get install --no-install-recommends -y build-essential curl git libpq-dev libyaml-dev libvips node-gyp pkg-config python-is-python3
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=20.11.0
@@ -99,7 +99,6 @@ ARG DATABASE_URL=postgres://localhost:5432/bops_web
 ARG RAILS_LOG_TO_STDOUT=true
 ARG RAILS_SERVE_STATIC_FILES=true
 ARG PORT=80
-ARG SECRET_KEY_BASE=notasecret
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
