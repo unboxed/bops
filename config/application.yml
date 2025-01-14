@@ -13,3 +13,4 @@ shared:
   uploads_hostname: <%= ENV.fetch("UPLOADS_HOSTNAME", "uploads.bops.localhost:3000") %>
   uploads_base_url: <%= ENV.fetch("UPLOADS_BASE_URL", "http://uploads.bops.localhost:3000") %>
   domain: <%= ENV.fetch("DOMAIN", "bops.localhost:3000") %>
+  use_signed_cookies: <%= ENV.fetch("USE_SIGNED_COOKIES", "false") == "true" %>

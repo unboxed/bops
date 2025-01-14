@@ -263,7 +263,33 @@ class Document < ApplicationRecord
     self.user ||= Current.user
   end
 
+  has_many :file_variant_records, through: :file_blob, source: :variant_records
+  has_many :file_variant_attachments, through: :file_variant_records, source: :image_attachment
+  has_many :file_variant_blobs, through: :file_variant_attachments, source: :blob
+
+  has_one :file_preview_image_attachment, through: :file_blob, source: :preview_image_attachment
+  has_one :file_preview_blob, through: :file_preview_image_attachment, source: :blob
+  has_many :file_preview_variant_records, through: :file_preview_blob, source: :variant_records
+  has_many :file_preview_variant_attachments, through: :file_preview_variant_records, source: :image_attachment
+  has_many :file_preview_variant_blobs, through: :file_preview_variant_attachments, source: :blob
+
   class << self
+    def find_by_blob!(key:)
+      blob_associations = %i[
+        file_blob
+        file_preview_blob
+        file_variant_blobs
+        file_preview_variant_blobs
+      ]
+
+      left_joins(*blob_associations)
+        .where(file_blob: {key:})
+        .or(where(file_variant_blobs: {key:}))
+        .or(where(file_preview_blob: {key:}))
+        .or(where(file_preview_variant_blobs: {key:}))
+        .distinct.sole
+    end
+
     def tags(key)
       case key.to_s
       when "plans"

@@ -83,7 +83,7 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: "Document is invalid",
-              url: "http://planx.example.com/files/#{old_document.representation.key}"
+              url: "http://uploads.example.com/#{old_document.representation.key}"
             }
           }.deep_stringify_keys,
           {
@@ -96,11 +96,11 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: "Document is invalid",
-              url: "http://planx.example.com/files/#{old_document2.representation.key}"
+              url: "http://uploads.example.com/#{old_document2.representation.key}"
             },
             new_document: {
               name: "proposed-floorplan.png",
-              url: "http://planx.example.com/files/#{new_document.representation.key}"
+              url: "http://uploads.example.com/#{new_document.representation.key}"
             }
           }.deep_stringify_keys,
           {
@@ -113,7 +113,7 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: nil,
-              url: "http://planx.example.com/files/#{old_document3.representation.key}"
+              url: "http://uploads.example.com/#{old_document3.representation.key}"
             }
           }.deep_stringify_keys
         )
@@ -172,7 +172,7 @@ RSpec.describe "Replacement document validation requests API" do
             old_document: {
               name: "proposed-floorplan.png",
               invalid_document_reason: "Document is invalid",
-              url: "http://planx.example.com/files/#{old_document.representation.key}"
+              url: "http://uploads.example.com/#{old_document.representation.key}"
             }
           }.deep_stringify_keys
         )

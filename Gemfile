@@ -9,6 +9,7 @@ gem "aasm"
 gem "activerecord-postgis-adapter", "~> 10.0"
 gem "acts_as_list"
 gem "appsignal"
+gem "aws-sdk-cloudfront", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "business_time"
