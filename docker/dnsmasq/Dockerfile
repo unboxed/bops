@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 # Run security updates and install packages
 RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
