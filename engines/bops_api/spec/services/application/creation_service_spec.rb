@@ -548,7 +548,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
               date: "2022-09-16".to_date,
               reference: "22/06601/FUL",
               description: "Householder application for construction of detached two storey double garage with external staircase",
-              decision: "refused"
+              decision: "Application Refused"
             )
           ])
         end

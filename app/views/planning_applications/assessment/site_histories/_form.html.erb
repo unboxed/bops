@@ -5,7 +5,17 @@
 
       <%= form.govuk_text_field :reference, width: "one-half" %>
       <%= form.govuk_text_area :description, rows: 3 %>
-      <%= form.govuk_collection_radio_buttons(:decision, Decision.all_codes, :last, :first, legend: {text: "What was the decision?", size: "s"}) %>
+
+      <%= form.govuk_radio_buttons_fieldset(:decision, legend: {text: "What was the decision?", size: "s"}) do %>
+        <% Decision.all_codes.each do |label, value| %>
+          <%= form.govuk_radio_button :decision, value, label: {text: label} %>
+        <% end %>
+
+        <%= form.govuk_radio_button :decision, "other", checked: model.other_decision?, label: {text: "Other"} do %>
+          <%= form.govuk_text_field :other_decision, label: {text: "Description"} %>
+        <% end %>
+      <% end %>
+
       <%= form.govuk_date_field :date, legend: {text: "Decision received on", size: "s", tag: nil} %>
 
       <% if model.persisted? %>

@@ -3,3 +3,4 @@ en:
     granted: green
     refused: red
     not_required: blue
+    other: grey

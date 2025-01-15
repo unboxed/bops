@@ -23,7 +23,7 @@
           <% row.with_cell(text: site_history.reference) %>
           <% row.with_cell(text: site_history.description) %>
           <% row.with_cell do %>
-            <%= govuk_tag(text: t(site_history.decision), colour: t(site_history.decision, scope: :planning_application_tags)) %>
+            <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags)) %>
           <% end %>
           <% row.with_cell do %>
               <%= govuk_link_to "Edit",

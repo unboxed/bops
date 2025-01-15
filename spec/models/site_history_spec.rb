@@ -29,18 +29,110 @@ RSpec.describe SiteHistory do
     end
   end
 
-  describe "normalizations" do
-    describe "#decision" do
-      it "normalizes 'Application Granted' to 'granted'" do
-        expect(build(:site_history, decision: "Application Granted")).to have_attributes(decision: "granted")
-      end
+  describe "#decision_label" do
+    let(:site_history) { build(:site_history, decision:) }
 
-      it "normalizes 'Application Refused' to 'refused'" do
-        expect(build(:site_history, decision: "Application Refused")).to have_attributes(decision: "refused")
-      end
+    context "when the decision is 'granted'" do
+      let(:decision) { "granted" }
 
-      it "normalizes 'Not Required' to 'not_required'" do
-        expect(build(:site_history, decision: "Not Required")).to have_attributes(decision: "not_required")
+      it "returns 'Granted'" do
+        expect(site_history.decision_label).to eq("Granted")
+      end
+    end
+
+    context "when the decision is 'not_required'" do
+      let(:decision) { "not_required" }
+
+      it "returns 'Not required'" do
+        expect(site_history.decision_label).to eq("Not required")
+      end
+    end
+
+    context "when the decision is 'refused'" do
+      let(:decision) { "refused" }
+
+      it "returns 'Refused'" do
+        expect(site_history.decision_label).to eq("Refused")
+      end
+    end
+
+    context "when the decision is not a standard value" do
+      let(:decision) { "Application Permitted" }
+
+      it "returns the original decision" do
+        expect(site_history.decision_label).to eq("Application Permitted")
+      end
+    end
+  end
+
+  describe "#decision_type" do
+    let(:site_history) { build(:site_history, decision:) }
+
+    context "when the decision is 'granted'" do
+      let(:decision) { "granted" }
+
+      it "returns 'granted'" do
+        expect(site_history.decision_type).to eq("granted")
+      end
+    end
+
+    context "when the decision is 'not_required'" do
+      let(:decision) { "not_required" }
+
+      it "returns 'not_required'" do
+        expect(site_history.decision_type).to eq("not_required")
+      end
+    end
+
+    context "when the decision is 'refused'" do
+      let(:decision) { "refused" }
+
+      it "returns 'refused'" do
+        expect(site_history.decision_type).to eq("refused")
+      end
+    end
+
+    context "when the decision is not a standard value" do
+      let(:decision) { "Application Permitted" }
+
+      it "returns 'other'" do
+        expect(site_history.decision_type).to eq("other")
+      end
+    end
+  end
+
+  describe "#other_decision?" do
+    let(:site_history) { build(:site_history, decision:) }
+
+    context "when the decision is 'granted'" do
+      let(:decision) { "granted" }
+
+      it "returns false" do
+        expect(site_history.other_decision?).to eq(false)
+      end
+    end
+
+    context "when the decision is 'not_required'" do
+      let(:decision) { "not_required" }
+
+      it "returns false" do
+        expect(site_history.other_decision?).to eq(false)
+      end
+    end
+
+    context "when the decision is 'refused'" do
+      let(:decision) { "refused" }
+
+      it "returns false" do
+        expect(site_history.other_decision?).to eq(false)
+      end
+    end
+
+    context "when the decision is not a standard value" do
+      let(:decision) { "Application Permitted" }
+
+      it "returns true" do
+        expect(site_history.other_decision?).to eq(true)
       end
     end
   end
