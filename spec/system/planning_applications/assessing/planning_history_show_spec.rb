@@ -59,7 +59,7 @@ RSpec.describe "Planning History" do
               expect(page).to have_content("Householder application for construction of detached two storey double garage with external staircase")
             end
             within(cells[3]) do
-              expect(page).to have_content("Refused")
+              expect(page).to have_content("Application Refused")
             end
             within(cells[4]) do
               expect(page).to have_link("Edit")
@@ -80,7 +80,7 @@ RSpec.describe "Planning History" do
               expect(page).to have_content("Certificate of lawfulness for proposed loft conversion including hip to gable roof extensions to both sides, rear dormer window, 3 front and 1 rear rooflights and 4 side windows")
             end
             within(cells[3]) do
-              expect(page).to have_content("Refused")
+              expect(page).to have_content("Cert of law for proposed dev/use refused")
             end
             within(cells[4]) do
               expect(page).to have_link("Edit")
@@ -101,7 +101,7 @@ RSpec.describe "Planning History" do
               expect(page).to have_content("T1 English oak - crown reduction by approx 4.5m, T2 sycamore - crown reduction by approx 2.5m (Chesham Bois Conservation Area)")
             end
             within(cells[3]) do
-              expect(page).to have_content("Refused")
+              expect(page).to have_content("TPO shall not be made")
             end
             within(cells[4]) do
               expect(page).to have_link("Edit")

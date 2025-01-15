@@ -7,29 +7,28 @@ class SiteHistory < ApplicationRecord
 
   alias_attribute :reference, :application_number
 
-  normalizes :decision, with: ->(decision) { normalize_decision(decision) }
-
   with_options presence: true do
     validates :reference, :description, :decision
     validates :date, date: {before: :current}
   end
 
-  class << self
-    private
+  def decision_label
+    other_decision? ? decision : I18n.t(decision)
+  end
 
-    def normalize_decision(decision)
-      return decision if decision.blank?
+  def decision_type
+    other_decision? ? "other" : decision
+  end
 
-      case decision
-      when /granted/i
-        "granted"
-      when /refused/i, /shall not be made/i
-        "refused"
-      when /not required/i
-        "not_required"
-      else
-        raise ArgumentError, "Unable to normalize decision '#{decision}'"
-      end
-    end
+  def other_decision
+    other_decision? ? decision : nil
+  end
+
+  def other_decision=(value)
+    self.decision = value if other_decision?
+  end
+
+  def other_decision?
+    decision.present? && Decision.codes.values.exclude?(decision)
   end
 end

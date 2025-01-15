@@ -4,7 +4,7 @@
   <%= form.govuk_text_field :description, label: {text: t(".description_label")}, hint: {text: t(".description_hint")} %>
 
   <%= form.govuk_collection_radio_buttons :code,
-        Decision.codes, :itself, ->((k)) { t(".codes.#{k}") },
+        Decision.codes, :first, ->((k)) { t(".codes.#{k}") },
         legend: {text: t(".code_label")}, hint: {text: t(".code_hint")} %>
 
   <%= form.govuk_collection_radio_buttons :category,
