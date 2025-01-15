@@ -4,6 +4,8 @@ class User < ApplicationRecord
   include BopsCore::AuditableModel
   include Discard::Model
 
+  GLOBAL_ROLES = %w[global_administrator].freeze
+
   self.audit_attributes = %w[id name role]
   self.discard_column = :deactivated_at
 
@@ -31,11 +33,14 @@ class User < ApplicationRecord
   validates :mobile_number, phone_number: true
   validates :password, password_strength: {use_dictionary: true}, unless: ->(user) { user.password.blank? }
   validate :password_complexity
+  validates :role, inclusion: {in: :local_roles}, if: -> { local_authority.present? }
 
   scope :non_administrator, -> { where.not(role: "administrator") }
   scope :global_administrator, -> { where(local_authority_id: nil, role: "global_administrator") }
   scope :confirmed, -> { kept.where.not(confirmed_at: nil) }
   scope :unconfirmed, -> { kept.where(confirmed_at: nil) }
+
+  delegate :local_roles, :global_roles, to: :class
 
   class << self
     def menu(scope = User.all)
@@ -46,6 +51,14 @@ class User < ApplicationRecord
 
     def by_name
       order(name: :asc)
+    end
+
+    def local_roles
+      roles.keys - global_roles
+    end
+
+    def global_roles
+      GLOBAL_ROLES
     end
   end
 
