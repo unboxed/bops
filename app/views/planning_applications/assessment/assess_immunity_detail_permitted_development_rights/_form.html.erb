@@ -9,7 +9,7 @@
       <%= form.fields_for :review do |review_immunity_detail| %>
         <%= review_immunity_detail.govuk_radio_buttons_fieldset(
               :decision,
-              legend: {text: "Is the application immune from enforcement?", size: "s"}
+              legend: {text: "On the balance of probabilities, is the development immune from enforcement action?", size: "s"}
             ) do %>
 
           <div data-controller="show-hide">
@@ -27,9 +27,9 @@
 
                 <%= form.govuk_radio_buttons_fieldset(:decision_type, legend: nil) do %>
                   <%= review_immunity_detail.govuk_radio_button(
-                        :decision_type, I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_substantial"),
-                        label: {text: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_substantial")}, link_errors: true,
-                        checked: @review_immunity_detail.try(:decision_reason) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_substantial")
+                        :decision_type, I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.ten_years_substantial"),
+                        label: {text: I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.ten_years_substantial")}, link_errors: true,
+                        checked: @review_immunity_detail.try(:decision_reason) == I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.ten_years_substantial")
                       ) %>
                   <%= review_immunity_detail.govuk_radio_button(
                         :decision_type, I18n.t("planning_applications.assessment.assess_immunity_detail_permitted_development_right_form.four_years_unauthorised"),

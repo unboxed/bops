@@ -84,7 +84,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         expect(page).to have_css("#constraints-section")
         expect(page).to have_css("#planning-history-section")
 
-        expect(page).to have_content("Is the application immune from enforcement?")
+        expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action?")
         # Does not show summary field until decision is chosen
         expect(page).not_to have_content("Immunity from enforcement summary")
 
@@ -108,7 +108,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
           choose "Yes"
 
           within(".govuk-radios") do
-            expect(page).to have_content("no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development")
+            expect(page).to have_content("no action is taken within 10 years of substantial completion for a breach of planning control consisting of operational development")
             expect(page).to have_content("no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
             expect(page).to have_content("no action is taken within 10 years for any other breach of planning control (essentially other changes of use)")
 
@@ -270,11 +270,11 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         expect(page).to have_content("Yes")
         expect(page).to have_content("A reason")
 
-        expect(page).to have_content("Is the application immune from enforcement?")
+        expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action?")
         expect(page).not_to have_content("Immunity from enforcement summary")
         expect(page).to have_content("Assessor decision: No")
         expect(page).to have_content("Reason: Application is not immune")
-        expect(page).to have_content("Is the application immune from enforcement?")
+        expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action?")
 
         # View edit page
         click_link "Edit immunity/permitted development rights"
@@ -328,7 +328,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
 
         expect(page).not_to have_content("Have the permitted development rights relevant for this application been removed?")
 
-        expect(page).to have_content("Is the application immune from enforcement?")
+        expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action?")
         expect(page).not_to have_content("Immunity from enforcement summary")
         expect(page).to have_content("Assessor decision: Yes")
         expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
