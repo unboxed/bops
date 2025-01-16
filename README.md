@@ -20,6 +20,12 @@ git submodule update --init --recursive
 
 This links the main repo to the [BOPS applicants project](https://github.com/unboxed/bops-applicants/).
 
+If it's your first time setting up the project or you are changing the docker file first run:
+
+```sh
+docker compose build 
+```
+
 Then build and launch the images:
 
 ```sh
@@ -231,3 +237,7 @@ After adding a new Stimulus controller run `./bin/rails stimulus:manifest:update
 ## Front-end components
 
 As much as possible, we follow the GOV.UK Design System. The HTML components can be found here [here](https://design-system.service.gov.uk/get-started). For help with forms we use the [GOV.UK Ruby on Rails Form Builder gem](https://govuk-form-builder.netlify.app). See [here](https://github.com/unboxed/bops/blob/main/app/views/users/_form.html.erb) for a simple example of implementation.
+
+## Creating users
+
+The seed file will automatically create and confirm users for each role and subdomain as well as a global admin user. You will need to update the password for this user. 

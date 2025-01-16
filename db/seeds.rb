@@ -26,6 +26,18 @@ LocalAuthority.find_each do |lpa|
   end
 end
 
+User.find_or_create_by!(role: "global_administrator") do |user|
+  user.role = "global_administrator"
+  user.password = PasswordGenerator.call
+  user.otp_required_for_login = false
+  user.name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
+  user.email = "globaladmin@example.com"
+end
+
+User.find_each do |user|
+  user.confirm unless user.confirmed?
+end
+
 fixture["decisions"].each do |attrs|
   Decision.find_or_create_by!(attrs.slice("code")) do |decision|
     decision.assign_attributes(attrs)
