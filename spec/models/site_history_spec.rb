@@ -20,12 +20,20 @@ RSpec.describe SiteHistory do
       expect(build(:site_history, decision: nil)).to be_invalid
     end
 
-    it "validates the presence of a date" do
-      expect(build(:site_history, date: nil)).to be_invalid
+    it "doesn't validate the presence of a date" do
+      expect(build(:site_history, date: nil)).to be_valid
     end
 
-    it "validates the date is in the past" do
-      expect(build(:site_history, date: Date.current)).to be_invalid
+    it "allows dates in the past" do
+      expect(build(:site_history, date: Date.yesterday)).to be_valid
+    end
+
+    it "allows today's date" do
+      expect(build(:site_history, date: Date.current)).to be_valid
+    end
+
+    it "doesn't allow dates in the future" do
+      expect(build(:site_history, date: Date.tomorrow)).to be_invalid
     end
   end
 

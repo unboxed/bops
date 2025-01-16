@@ -19,7 +19,7 @@
     <% table.with_body do |body| %>
       <% site_histories.each do |site_history| %>
         <% body.with_row do |row| %>
-          <% row.with_cell(text: site_history.date.to_fs(:day_month_year_slashes)) %>
+          <% row.with_cell(text: site_history.date? ? site_history.date.to_fs(:day_month_year_slashes) : "–") %>
           <% row.with_cell(text: site_history.reference) %>
           <% row.with_cell(text: site_history.description) %>
           <% row.with_cell do %>
