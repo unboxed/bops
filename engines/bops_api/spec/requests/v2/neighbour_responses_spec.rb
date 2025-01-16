@@ -21,12 +21,7 @@ RSpec.describe "BOPS public API" do
       security [bearerAuth: []]
       produces "application/json"
 
-      parameter name: :reference, in: :path, schema: {
-        type: :string,
-        description: "The planning application reference"
-      }
-
-      response "200", "returns a planning application's neighbour responses and decision notice given a reference" do
+      response "200", "returns a list of neighbour responses" do
         example "application/json", :default, example_fixture("neighbourResponses.json")
         schema "$ref" => "#/components/schemas/NeighbourResponses"
 

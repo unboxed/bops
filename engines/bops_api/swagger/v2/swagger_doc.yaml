@@ -18165,17 +18165,11 @@ paths:
       summary: Retrieves neighbour responses for a planning application
       tags:
       - Planning applications
-      parameters:
-      - name: reference
-        in: path
-        schema:
-          type: string
-          description: The planning application reference
-        required: true
+      security:
+      - bearerAuth: []
       responses:
         '200':
-          description: returns a planning application's neighbour responses and decision
-            notice given a reference
+          description: returns a list of neighbour responses
           content:
             application/json:
               examples:
