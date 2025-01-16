@@ -13,6 +13,8 @@ BopsApi::Engine.routes.draw do
       get "/ping", to: "ping#index"
       get "/docs", to: redirect("docs/index.html?urls.primaryName=API%20V2%20Docs", status: 302)
 
+      resources :neighbour_responses, only: [:index]
+
       resources :planning_applications, only: [:index, :show, :create] do
         get :determined, on: :collection
         get :submission, on: :member
