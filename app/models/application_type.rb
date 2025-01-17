@@ -236,7 +236,7 @@ class ApplicationType < ApplicationRecord
   end
 
   def pre_application?
-    code == "preApp" || code.start_with?("preApp.")
+    code == "preApp"
   end
 
   def lawfulness_certificate?

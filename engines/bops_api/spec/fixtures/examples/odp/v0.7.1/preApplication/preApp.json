@@ -1,5 +1,4 @@
 {
-  "applicationType": "preApp",
   "data": {
     "user": {
       "role": "applicant"
@@ -223,7 +222,7 @@
     "application": {
       "type": {
         "value": "preApp",
-        "description": "Pre-application advice"
+        "description": "Pre-application"
       },
       "fee": {
         "payable": 450,

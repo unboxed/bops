@@ -76,7 +76,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
         application/priorApproval/extendUniversity.json
         application/priorApproval/largerExtension.json
         application/priorApproval/solarPanels.json
-        preApplication.json
+        preApplication/preApp.json
       ].each do |example|
         it "#{example} can be submitted successfully" do
           post :create, as: :json, body: examples_root.join(version, example).read
