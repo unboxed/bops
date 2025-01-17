@@ -10,7 +10,7 @@ module BopsApi
     end
 
     module ClassMethods
-      def validate_schema!(name, **)
+      def validate_schema!(**)
         before_action(**) do
           name, version = schema_name_and_version
           schema = Schemas.find!(name, version:)
