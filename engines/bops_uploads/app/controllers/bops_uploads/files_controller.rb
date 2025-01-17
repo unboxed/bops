@@ -2,62 +2,45 @@
 
 module BopsUploads
   class FilesController < ApplicationController
-    before_action :set_service
-    before_action :set_blob
+    before_action :set_document
+    before_action :set_planning_application
 
     def show
-      serve_file(blob_path, content_type:, disposition:)
-    rescue Errno::ENOENT
-      head :not_found
+      signed_cookies.each do |key, value|
+        cookies[key] = {
+          value: value,
+          path: blob_path(@blob.key),
+          expires: expiry_time
+        }
+      end
+
+      redirect_to blob_url(@blob.key)
     end
 
     private
 
-    def set_service
-      @service = ActiveStorage::Blob.service
+    def set_document
+      @document = current_local_authority.documents.find_by_blob!(key: @blob.key)
     end
 
-    def set_blob
-      @blob = ActiveStorage::Blob.find_by!(key: params[:key])
+    def set_planning_application
+      @planning_application = @document.planning_application
     end
 
-    def blob_path
-      @service.path_for(@blob.key)
+    def signed_cookies
+      cookie_signer.signed_cookie(url_to_be_signed, signing_options)
     end
 
-    def forcibly_serve_as_binary?
-      ActiveStorage.content_types_to_serve_as_binary.include?(@blob.content_type)
+    def url_to_be_signed
+      blob_url(@blob.key)
     end
 
-    def allowed_inline?
-      ActiveStorage.content_types_allowed_inline.include?(@blob.content_type)
+    def signing_options
+      {expires: expiry_time}
     end
 
-    def content_type
-      forcibly_serve_as_binary? ? ActiveStorage.binary_content_type : @blob.content_type
-    end
-
-    def disposition
-      if forcibly_serve_as_binary? || !allowed_inline?
-        :attachment
-      else
-        :inline
-      end
-    end
-
-    def serve_file(path, content_type:, disposition:)
-      ::Rack::Files.new(nil).serving(request, path).tap do |(status, headers, body)|
-        self.status = status
-        self.response_body = body
-
-        headers.each do |name, value|
-          response.headers[name] = value
-        end
-
-        response.headers.except!("X-Cascade", "x-cascade") if status == 416
-        response.headers["Content-Type"] = content_type || DEFAULT_SEND_FILE_TYPE
-        response.headers["Content-Disposition"] = disposition || DEFAULT_SEND_FILE_DISPOSITION
-      end
+    def expiry_time
+      10.minutes.from_now
     end
   end
 end

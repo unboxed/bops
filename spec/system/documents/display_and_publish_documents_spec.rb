@@ -117,8 +117,8 @@ RSpec.describe "Edit document numbers page" do
 
         click_button "Save"
 
-        expect(planning_application.documents.for_display.count).to eq(1)
-        expect(planning_application.documents.for_publication.count).to eq(0)
+        expect(planning_application.documents.active.for_display.count).to eq(1)
+        expect(planning_application.documents.active.for_publication.count).to eq(0)
       end
 
       it "Assessor is able to publish documents without adding to the decision notice" do
@@ -137,8 +137,8 @@ RSpec.describe "Edit document numbers page" do
 
         click_button "Save"
 
-        expect(planning_application.documents.for_display.count).to eq(0)
-        expect(planning_application.documents.for_publication.count).to eq(1)
+        expect(planning_application.documents.active.for_display.count).to eq(0)
+        expect(planning_application.documents.active.for_publication.count).to eq(1)
       end
 
       it "Error message is shown if document referenced is true without document number" do

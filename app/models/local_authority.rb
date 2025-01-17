@@ -24,6 +24,7 @@ class LocalAuthority < ApplicationRecord
   with_options through: :planning_applications do
     has_many :audits
     has_many :consultations
+    has_many :documents
     has_many :validation_requests
   end
 

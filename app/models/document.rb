@@ -4,6 +4,22 @@ class Document < ApplicationRecord
   class Routing
     include Rails.application.routes.url_helpers
     include Rails.application.routes.mounted_helpers
+
+    def initialize(subdomain)
+      @subdomain = subdomain
+    end
+
+    def default_url_options
+      {host: "#{subdomain}.#{domain}"}
+    end
+
+    private
+
+    attr_reader :subdomain
+
+    def domain
+      Rails.configuration.domain
+    end
   end
 
   class NotArchiveableError < StandardError; end
@@ -29,6 +45,7 @@ class Document < ApplicationRecord
     inverse_of: false
 
   delegate :audits, to: :planning_application
+  delegate :local_authority, to: :planning_application
   delegate :blob, :representable?, to: :file
 
   include Auditable
@@ -211,12 +228,11 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { no_owner.or(not_excluded_owners) }
-
   scope :no_owner, -> { where(owner_type: nil) }
   scope :not_excluded_owners, -> { where.not(owner_type: EXCLUDED_OWNERS) }
+  scope :default, -> { no_owner.or(not_excluded_owners) }
   scope :by_created_at, -> { order(created_at: :asc) }
-  scope :active, -> { where(archived_at: nil) }
+  scope :active, -> { default.where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
   scope :validated, -> { where(validated: true) }
   scope :redacted, -> { where(redacted: true) }
@@ -227,8 +243,8 @@ class Document < ApplicationRecord
   )
   scope :publishable, -> { where(publishable: true) }
 
-  scope :for_publication, -> { active.publishable }
-  scope :for_display, -> { active.referenced_in_decision_notice }
+  scope :for_publication, -> { publishable }
+  scope :for_display, -> { referenced_in_decision_notice }
 
   scope :with_tag, ->(tag) { where(arel_table[:tags].contains(Array.wrap(tag))) }
   scope :with_siteplan_tags, -> { where(arel_table[:tags].overlaps(%w[sitePlan.existing sitePlan.proposed])) }
@@ -249,7 +265,33 @@ class Document < ApplicationRecord
     self.user ||= Current.user
   end
 
+  has_many :file_variant_records, through: :file_blob, source: :variant_records
+  has_many :file_variant_attachments, through: :file_variant_records, source: :image_attachment
+  has_many :file_variant_blobs, through: :file_variant_attachments, source: :blob
+
+  has_one :file_preview_image_attachment, through: :file_blob, source: :preview_image_attachment
+  has_one :file_preview_blob, through: :file_preview_image_attachment, source: :blob
+  has_many :file_preview_variant_records, through: :file_preview_blob, source: :variant_records
+  has_many :file_preview_variant_attachments, through: :file_preview_variant_records, source: :image_attachment
+  has_many :file_preview_variant_blobs, through: :file_preview_variant_attachments, source: :blob
+
   class << self
+    def find_by_blob!(key:)
+      blob_associations = %i[
+        file_blob
+        file_preview_blob
+        file_variant_blobs
+        file_preview_variant_blobs
+      ]
+
+      left_joins(*blob_associations)
+        .where(file_blob: {key:})
+        .or(where(file_variant_blobs: {key:}))
+        .or(where(file_preview_blob: {key:}))
+        .or(where(file_preview_variant_blobs: {key:}))
+        .distinct.sole
+    end
+
     def tags(key)
       case key.to_s
       when "plans"
@@ -361,7 +403,7 @@ class Document < ApplicationRecord
   private
 
   def routes
-    @_routes ||= Routing.new
+    @_routes ||= Routing.new(local_authority.subdomain)
   end
 
   def no_open_replacement_request

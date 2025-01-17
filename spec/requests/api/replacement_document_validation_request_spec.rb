@@ -6,7 +6,7 @@ RSpec.describe "Replacement document validation requests API" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
-  let(:old_document) { create(:document) }
+  let(:old_document) { create(:document, planning_application:) }
 
   let!(:replacement_document_validation_request) do
     create(
@@ -20,8 +20,8 @@ RSpec.describe "Replacement document validation requests API" do
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
-    let(:old_document2) { create(:document) }
-    let(:old_document3) { create(:document) }
+    let(:old_document2) { create(:document, planning_application:) }
+    let(:old_document3) { create(:document, planning_application:) }
 
     let(:path) do
       api_v1_planning_application_replacement_document_validation_requests_path(
@@ -50,7 +50,7 @@ RSpec.describe "Replacement document validation requests API" do
       )
     end
 
-    let!(:new_document) { create(:document, owner: replacement_document_validation_request2) }
+    let!(:new_document) { create(:document, planning_application:, owner: replacement_document_validation_request2) }
 
     context "when the request is valid" do
       it "is successful" do

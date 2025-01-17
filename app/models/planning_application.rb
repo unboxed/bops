@@ -471,7 +471,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def documents_for_decision_notice
-    documents.for_display
+    documents.active.for_display
   end
 
   def valid_from
@@ -972,7 +972,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def documents_for_publication
-    documents.for_publication.or(site_notice_documents_for_publication)
+    documents.active.for_publication.or(site_notice_documents_for_publication)
   end
 
   def reporting_type_detail
