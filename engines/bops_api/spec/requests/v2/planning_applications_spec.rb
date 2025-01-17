@@ -74,7 +74,7 @@ RSpec.describe "BOPS API" do
         %w[PA7M application/priorApproval/extendUniversity.json],
         %w[PA1A application/priorApproval/largerExtension.json],
         %w[PA14J application/priorApproval/solarPanels.json],
-        %w[PRE preApplication.json]
+        %w[PRE preApplication/preApp.json]
       ].each do |suffix, fixture|
         value = example_fixture(fixture, symbolize_names: true)
         name = value.dig(:data, :application, :type, :value)

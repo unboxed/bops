@@ -5,7 +5,7 @@ module BopsApi
     class PlanningApplicationsController < AuthenticatedController
       skip_before_action :authenticate_api_user!, only: :determined
 
-      validate_schema! "submission", only: :create
+      validate_schema! only: :create
 
       def index
         @pagy, @planning_applications = query_service.call

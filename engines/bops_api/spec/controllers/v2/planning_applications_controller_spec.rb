@@ -60,7 +60,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
     end
   end
 
-  %w[v0.7.1].each do |version|
+  %w[v0.7.1 v0.7.2].each do |version|
     describe "ODP Schema #{version}" do
       %w[
         application/landDrainageConsent.json
@@ -76,7 +76,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
         application/priorApproval/extendUniversity.json
         application/priorApproval/largerExtension.json
         application/priorApproval/solarPanels.json
-        preApplication.json
+        preApplication/preApp.json
       ].each do |example|
         it "#{example} can be submitted successfully" do
           post :create, as: :json, body: examples_root.join(version, example).read

@@ -38,7 +38,7 @@ en:
       proposed: 'Floor plan - proposed'
     foulDrainageAssessment: 'Foul drainage assessment'
     geodiversityAssessment: 'Geodiversity assessment'
-    hedgerowsInformation: 
+    hedgerowsInformation:
       main: 'Hedgerows information'
       plantingDate: 'Hedgerows information planting date'
     heritageStatement: 'Heritage Statement'
@@ -63,6 +63,7 @@ en:
     otherDocument: 'Other - document'
     otherDrawing: 'Other - drawing'
     otherEvidence: 'Other - evidence or correspondence'
+    otherSupporting: 'Other - supporting document'
     parkingPlan: 'Parking plan'
     photographs:
       existing: 'Photographs - existing'
