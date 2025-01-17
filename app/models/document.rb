@@ -123,6 +123,7 @@ class Document < ApplicationRecord
     noiseAssessment
     openSpaceAssessment
     otherDocument
+    otherSupporting
     parkingPlan
     planningStatement
     recycleWasteStorageDetails

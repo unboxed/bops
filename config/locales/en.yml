@@ -605,6 +605,8 @@ en:
   constraint_type_codes:
     article4: Article 4 direction area
     article4_caz: Central activities zones
+    articleFour: Article 4 direction area
+    articleFour_caz: Central activities zones
     designated: Designated
     designated_aonb: Area of outstanding natural beauty
     designated_conservationarea: Conservation area

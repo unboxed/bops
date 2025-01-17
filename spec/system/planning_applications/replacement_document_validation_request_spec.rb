@@ -207,7 +207,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
 
       click_link "Supporting documents"
-      click_link "Show all (71)"
+      click_link "Show all (72)"
 
       check "Sustainability statement"
 
