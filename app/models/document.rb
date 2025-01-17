@@ -160,6 +160,7 @@ class Document < ApplicationRecord
       "What date do these utility bills run until?"
     ],
     "photographs.existing": ["What do these photographs show?"],
+    "photographs.proposed": ["What do these photographs show?"],
     buildingControlCertificate: [
       "When was this building control certificate issued?",
       "What do these building control certificates show?"
