@@ -47,7 +47,7 @@ RSpec.describe "checking consistency" do
       )
 
       form_group1 = form_group_with_legend(
-        "Is the red line on the site map correct for the site and proposed works?"
+        "Is the site map correct?"
       )
 
       within(form_group1) { choose("Yes") }
@@ -154,7 +154,7 @@ RSpec.describe "checking consistency" do
       )
 
       form_group1 = form_group_with_legend(
-        "Is the red line on the site map correct for the site and proposed works?"
+        "Is the site map correct?"
       )
 
       within(form_group1) { choose("Yes") }
@@ -242,6 +242,214 @@ RSpec.describe "checking consistency" do
       click_link("Application")
 
       expect(list_item("Check and assess")).to have_content("In progress")
+    end
+  end
+
+  context "when the application is a pre application" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :pre_application,
+        :in_assessment,
+        local_authority:
+      )
+    end
+
+    before do
+      create(:proposal_measurement, planning_application:)
+    end
+
+    context "lets user save draft or mark as complete" do
+      it "when site map is correct" do
+        expect(list_item("Check and assess")).to have_content("Not started")
+        click_link("Check and assess")
+        click_link("Check description, documents and proposal details")
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Determine whether the description matches the development or use in the plans"
+        )
+
+        expect(page).to have_content(
+          "Determine whether the proposal details are consistent with the plans"
+        )
+
+        expect(page).to have_content(
+          "Determine whether the plans are consistent with each other"
+        )
+
+        form_group1 = form_group_with_legend(
+          "Is the site map correct?"
+        )
+
+        within(form_group1) { choose("Yes") }
+
+        form_group2 = form_group_with_legend(
+          "Does the description match the development or use in the plans?"
+        )
+
+        within(form_group2) { choose("Yes") }
+
+        form_group3 = form_group_with_legend(
+          "Are the plans consistent with each other?"
+        )
+
+        within(form_group3) { choose("Yes") }
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Successfully updated application checklist")
+
+        expect(task_list_item).to have_content("In progress")
+
+        click_link("Check description, documents and proposal details")
+
+        form_group4 = form_group_with_legend(
+          "Are the proposal details consistent with the plans?"
+        )
+
+        within(form_group4) { choose("Yes") }
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content("Successfully updated application checklist")
+
+        expect(task_list_item).to have_content("Completed")
+
+        click_link("Check description, documents and proposal details")
+
+        field1 = find_by_id(
+          "consistency-checklist-description-matches-documents-yes-field"
+        )
+
+        field2 = find_by_id("consistency-checklist-documents-consistent-yes-field")
+
+        field3 = find_by_id(
+          "consistency-checklist-proposal-details-match-documents-yes-field"
+        )
+
+        field4 = find_by_id(
+          "consistency-checklist-site-map-correct-yes-field"
+        )
+
+        expect(field1).to be_disabled
+        expect(field1).to be_checked
+        expect(field2).to be_disabled
+        expect(field2).to be_checked
+        expect(field3).to be_disabled
+        expect(field3).to be_checked
+        expect(field4).to be_disabled
+        expect(field4).to be_checked
+
+        click_link("Application")
+
+        expect(list_item("Check and assess")).to have_content("In progress")
+      end
+
+      it "when site map is wrong leave a comment" do
+        expect(list_item("Check and assess")).to have_content("Not started")
+        click_link("Check and assess")
+        click_link("Check description, documents and proposal details")
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Determine whether the description matches the development or use in the plans"
+        )
+
+        expect(page).to have_content(
+          "Determine whether the proposal details are consistent with the plans"
+        )
+
+        expect(page).to have_content(
+          "Determine whether the plans are consistent with each other"
+        )
+
+        form_group1 = form_group_with_legend(
+          "Is the site map correct?"
+        )
+
+        within(form_group1) { choose("No") }
+
+        fill_in(
+          "Add a comment",
+          with: "Site map is wrong"
+        )
+
+        form_group2 = form_group_with_legend(
+          "Does the description match the development or use in the plans?"
+        )
+
+        within(form_group2) { choose("Yes") }
+
+        form_group3 = form_group_with_legend(
+          "Are the plans consistent with each other?"
+        )
+
+        within(form_group3) { choose("Yes") }
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Successfully updated application checklist")
+
+        expect(task_list_item).to have_content("In progress")
+
+        click_link("Check description, documents and proposal details")
+
+        form_group4 = form_group_with_legend(
+          "Are the proposal details consistent with the plans?"
+        )
+
+        within(form_group4) { choose("No") }
+
+        fill_in(
+          "How are the proposal details inconsistent?",
+          with: "Reason for inconsistencty"
+        )
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content("Successfully updated application checklist")
+
+        expect(task_list_item).to have_content("Completed")
+
+        click_link("Check description, documents and proposal details")
+
+        field1 = find_by_id(
+          "consistency-checklist-description-matches-documents-yes-field"
+        )
+
+        field2 = find_by_id("consistency-checklist-documents-consistent-yes-field")
+
+        field3 = find_by_id(
+          "consistency-checklist-proposal-details-match-documents-no-field"
+        )
+
+        field4 = find_by_id(
+          "consistency-checklist-site-map-correct-no-field"
+        )
+
+        expect(field1).to be_disabled
+        expect(field1).to be_checked
+        expect(field2).to be_disabled
+        expect(field2).to be_checked
+        expect(field3).to be_disabled
+        expect(field3).to be_checked
+        expect(field4).to be_checked
+        expect(field4).to be_checked
+
+        expect(page).not_to have_field(
+          "How are the proposal details inconsistent?",
+          with: "Reason for inconsistencty"
+        )
+
+        expect(page).to have_content("How are the proposal details inconsistent?")
+        expect(page).to have_content("Reason for inconsistencty")
+
+        expect(page).to have_content("Comment")
+        expect(page).to have_content("Site map is wrong")
+
+        click_link("Application")
+
+        expect(list_item("Check and assess")).to have_content("In progress")
+      end
     end
   end
 
@@ -444,7 +652,7 @@ RSpec.describe "checking consistency" do
     click_link("Check description, documents and proposal details")
 
     form_group = form_group_with_legend(
-      "Is the red line on the site map correct for the site and proposed works?"
+      "Is the site map correct?"
     )
 
     within(form_group) { choose("No") }
@@ -487,7 +695,7 @@ RSpec.describe "checking consistency" do
     click_link("Check description, documents and proposal details")
 
     form_group = form_group_with_legend(
-      "Is the red line on the site map correct for the site and proposed works?"
+      "Is the site map correct?"
     )
 
     within(form_group) { expect(find_field("No")).to be_checked }

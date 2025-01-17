@@ -1259,7 +1259,7 @@ en:
           reason: 'Reason:'
           view_and_edit: View and edit request
         site_map_correct:
-          is_the_red: Is the red line on the site map correct for the site and proposed works?
+          is_the_red: Is the site map correct?
           'no': 'No'
           request_red_line_boundary_change: Request a change to the red line boundary
           'yes': 'Yes'
