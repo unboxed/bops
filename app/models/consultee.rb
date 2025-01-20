@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Consultee < ApplicationRecord
+  include BopsCore::MagicLinkable
+
   attribute :selected, :boolean, default: false
 
   belongs_to :consultation
