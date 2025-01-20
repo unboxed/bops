@@ -4,6 +4,7 @@ module BopsUploads
   class FilesController < ApplicationController
     before_action :set_document
     before_action :set_planning_application
+    before_action :raise_not_found, unless: :local_authority_matches?
 
     def show
       signed_cookies.each do |key, value|
@@ -20,11 +21,19 @@ module BopsUploads
     private
 
     def set_document
-      @document = current_local_authority.documents.find_by_blob!(key: @blob.key)
+      @document = @blob.document
     end
 
     def set_planning_application
       @planning_application = @document.planning_application
+    end
+
+    def local_authority_matches?
+      @planning_application.local_authority == current_local_authority
+    end
+
+    def raise_not_found
+      raise ActiveRecord::RecordNotFound, "Couldn't find ActiveStorage::Blob with 'key'=#{@blob.key}"
     end
 
     def signed_cookies
