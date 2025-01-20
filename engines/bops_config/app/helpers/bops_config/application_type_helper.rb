@@ -24,6 +24,7 @@ module BopsConfig
         eia
         ownership_details
         site_visits
+        description_change_requires_validation
       ]
     end
   end

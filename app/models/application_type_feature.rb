@@ -9,6 +9,7 @@ class ApplicationTypeFeature
   attribute :considerations, :boolean, default: false
   attribute :consultation_steps, :list, default: -> { [] }
   attribute :consultations_skip_bank_holidays, :boolean, default: false
+  attribute :description_change_requires_validation, :boolean, default: true
   attribute :eia, :boolean, default: true
   attribute :informatives, :boolean, default: false
   attribute :legislative_requirements, :boolean, default: true
