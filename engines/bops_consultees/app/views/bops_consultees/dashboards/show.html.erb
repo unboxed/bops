@@ -5,7 +5,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
-      BOPS consultees
+      Consultees
     </h1>
+
+    <% if @resend_link %>
+      <p class="govuk-body">Your magic link has expired. Click resend to generate another link.</p>
+    <% end %>
   </div>
 </div>

@@ -4,3 +4,7 @@ en:
     dashboards:
       show:
         consultee_overview: Consultee overview
+    planning_applications:
+      show:
+        application_number: Application number
+        overview: Planning application overview
