@@ -1,0 +1,15 @@
+<% content_for :page_title do %>
+  <%= t(".overview") %> - <%= t("page_title") %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= @planning_application.full_address %>
+    </h1>
+
+    <p class="govuk-body">
+      <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
+    </p>
+  </div>
+</div>

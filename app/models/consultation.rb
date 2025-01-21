@@ -452,7 +452,10 @@ class Consultation < ApplicationRecord
     consultees.selected.each do |consultee|
       next if consultee.email_address.blank?
 
-      variables = defaults.merge(name: consultee.name)
+      variables = defaults.merge(
+        name: consultee.name,
+        link: consultee.application_link
+      )
 
       consultee_email = consultee.emails.create!(
         subject: replace_placeholders(subject, variables),

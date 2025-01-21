@@ -1,6 +1,35 @@
 # frozen_string_literal: true
 
 class Consultee < ApplicationRecord
+  class Routing
+    include Rails.application.routes.url_helpers
+    include Rails.application.routes.mounted_helpers
+
+    def initialize(subdomain, planning_application, sgid: nil)
+      @subdomain = subdomain
+      @planning_application = planning_application
+      @sgid = sgid
+    end
+
+    def default_url_options
+      {host: "#{subdomain}.#{domain}"}
+    end
+
+    def consultees_magic_link
+      bops_consultees.planning_application_url(
+        reference: planning_application.reference, sgid:, subdomain:
+      )
+    end
+
+    private
+
+    attr_reader :subdomain, :sgid, :planning_application
+
+    def domain
+      Rails.configuration.domain
+    end
+  end
+
   include BopsCore::MagicLinkable
 
   attribute :selected, :boolean, default: false
@@ -65,9 +94,23 @@ class Consultee < ApplicationRecord
     responses.max_by(&:id)
   end
 
+  def application_link
+    if consultation.planning_application.pre_application?
+      routes.consultees_magic_link
+    else
+      consultation.application_link
+    end
+  end
+
   delegate :received_at, to: :last_response, prefix: :last, allow_nil: true
 
   private
+
+  def routes
+    @_routes ||= Routing.new(
+      consultation.local_authority.subdomain, consultation.planning_application, sgid: sgid
+    )
+  end
 
   def default_expires_at
     email_delivered_at && (email_delivered_at + Consultation::DEFAULT_PERIOD_DAYS).end_of_day
