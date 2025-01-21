@@ -562,6 +562,7 @@ FactoryBot.define do
       features {
         {
           "cil" => false,
+          "description_change_requires_validation" => false,
           "eia" => false,
           "legislative_requirements" => false
         }

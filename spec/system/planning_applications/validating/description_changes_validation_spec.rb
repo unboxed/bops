@@ -187,4 +187,57 @@ RSpec.describe "DescriptionChangesValidation" do
       end
     end
   end
+
+  context "when the application is a pre-application" do
+    let(:planning_application) do
+      create(
+        :planning_application, :not_started, :pre_application, local_authority: default_local_authority
+      )
+    end
+
+    it "I can request a change and it will be automatically accepted immediately" do
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      click_link "Check description"
+
+      within(".govuk-fieldset") do
+        within(".govuk-radios") { choose "No" }
+      end
+
+      click_button "Save and mark as complete"
+
+      expect(page).to have_current_path(
+        "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=description_change"
+      )
+      expect(page).to have_content("Description change")
+      expect(page).to have_content("Application number: #{planning_application.reference}")
+
+      fill_in(
+        "Enter an amended description to send to the applicant",
+        with: "My better description"
+      )
+
+      click_button "Send request"
+
+      expect(page).to have_content("Description change request successfully sent.")
+
+      within("#check-description-task") do
+        expect(page).to have_content("Completed")
+      end
+
+      expect(planning_application.reload.valid_description).to be true
+      expect(DescriptionChangeValidationRequest.all.length).to eq(1)
+      expect(DescriptionChangeValidationRequest.closed.length).to eq(1)
+
+      click_link "Check description"
+
+      expect(page).to have_current_path(
+        "/planning_applications/#{planning_application.reference}/validation/description_changes"
+      )
+
+      expect(page).to have_content("My better description")
+
+      click_link "Back"
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+    end
+  end
 end
