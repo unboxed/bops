@@ -378,7 +378,7 @@ en:
               date_blank: Provide the date when the press notice was published
               date_invalid: The date the press notice was published must be a valid date
               date_not_on_or_after: The date the press notice was published must be on or after the consultation start date
-              date_not_on_or_before: The date the press notice was published must be on or before today
+              date_not_on_or_before: The date the press notice was published must be on or before the consultation end date
             reasons:
               blank: Provide a reason for the press notice
             required:

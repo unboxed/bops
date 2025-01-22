@@ -14,7 +14,8 @@ module BopsConsultees
     private
 
     def set_planning_application
-      @planning_application = planning_applications_scope.find_by!(reference:)
+      planning_application = planning_applications_scope.find_by!(reference:)
+      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
     rescue ActiveRecord::RecordNotFound
       render_not_found
     end

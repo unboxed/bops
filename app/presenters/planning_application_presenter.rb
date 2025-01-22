@@ -5,7 +5,7 @@ class PlanningApplicationPresenter
 
   presents :planning_application
 
-  include StatusPresenter
+  include BopsCore::StatusPresenter
   include ProposalDetailsPresenter
   include ValidationTasksPresenter
   include AssessmentTasksPresenter

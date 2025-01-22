@@ -3,13 +3,85 @@
 <% end %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
       <%= @planning_application.full_address %>
     </h1>
 
-    <p class="govuk-body">
+    <p class="govuk-body ">
       <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
     </p>
+
+    <p class="govuk-body govuk-!-margin-bottom-6">
+      <%= @planning_application.status_tag %>
+      <%= @planning_application.days_status_tag %>
+    </p>
+
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          Important
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">
+          Submit your comments by
+          <%= @planning_application.consultation.end_date %>
+        </p>
+        <p class="gov-uk-body">
+          Jump to
+          <a class="govuk-notification-banner__link" href="#comments-form">comments section</a>.
+        </p>
+      </div>
+    </div>
   </div>
+  <div class="govuk-grid-column-full">
+    <% if @planning_application.boundary_geojson.present? %>
+      <%= tag.div id: :"map-container", data: {
+            controller: :map,
+            latLong: [@planning_application.latitude, @planning_application.longitude].join(","),
+            layers: {
+              redline: @planning_application.boundary_geojson
+            }
+          } do %>
+        <%= tag.div id: :map %>
+      <% end %>
+    <% else %>
+      <p class="govuk-body"><%= t(".no_digital_sitemap") %></p>
+    <% end %>
+  </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Pre-application details</h2>
+    <div id="description">
+      <p class="govuk-heading-s govuk-!-margin-bottom-2">Description</p>
+      <p class="govuk-body">
+        <%= @planning_application.description %>
+      </p>
+    </div>
+    <div id="application-type">
+      <p class="govuk-heading-s govuk-!-margin-bottom-2">Application type</p>
+      <p class="govuk-body">
+        <%= @planning_application.application_type.description %>
+      </p>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>Planning Officer</strong></p>
+    <% if @planning_application.user %>
+      <p class="govuk-body-s govuk-!-margin-bottom-2"> <%= @planning_application.user.name %></p>
+      <p class="govuk-body-s govuk-!-margin-bottom-2"><%= @planning_application.user.mobile_number %></p>
+      <%= mail_to @planning_application.user.email, @planning_application.user.email, class: "govuk-link govuk-link--no-visited-state govuk-!-margin-top-1" %>
+    <% else %>
+      <p class="govuk-body-s govuk-!-margin-bottom-2"> No planning officer assigned</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="govuk-heading-s">
+  <h2 id="comments-form">Submit a comment</h2>
 </div>
