@@ -5,11 +5,21 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
-      Consultees
+      BOPS Consultees
     </h1>
 
-    <% if @resend_link %>
-      <p class="govuk-body">Your magic link has expired. Click resend to generate another link.</p>
+    <% if @expired_resource %>
+      <p class="govuk-body"><strong>Your magic link has expired</strong></p>
+
+      <p class="govuk-body">
+        Contact
+        <%= tag.a href: "mailto:#{current_local_authority.feedback_email}", class: "govuk-link" do %>
+          <% current_local_authority.feedback_email %>
+        <% end %>
+        if you think there's a problem.
+      </p>
+
+      <%= govuk_button_to "Send a new magic link", resend_link_planning_application_path(params[:reference], sgid: params[:sgid]) %>
     <% end %>
   </div>
 </div>
