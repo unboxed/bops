@@ -505,7 +505,7 @@ RSpec.describe "Press notice" do
         end
 
         click_button "Save"
-        expect(page).to have_content("The date the press notice was published must be on or before today")
+        expect(page).to have_content("The date the press notice was published must be on or before the consultation end date")
 
         within("#published-at-field") do
           fill_in "Day", with: "29"
