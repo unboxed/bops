@@ -32,7 +32,7 @@ class PressNotice < ApplicationRecord
   with_options on: :confirmation do
     validates :published_at, presence: true,
       date: {
-        on_or_before: :current,
+        on_or_before: :consultation_end_date,
         on_or_after: :consultation_start_date
       }
   end
