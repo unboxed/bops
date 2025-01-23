@@ -1239,7 +1239,7 @@ en:
           edit_check_description: Edit check description, documents and proposal
         introduction:
           application_details: Application details
-          check_description_documents: Check description, documents, and proposal details
+          check_description_documents: Check application details
           checking_plans_and: Checking plans and description
           review_the_items: Review the description, site map, and documents submitted by the applicant to check they are consistent.
         proposal_details_match_documents:
@@ -1408,7 +1408,7 @@ en:
         check_consistency:
           check_application: Check application
           complete: Complete
-          description_documents_and: Check description, documents and proposal details
+          description_documents_and: Check application details
           in_assessment: In assessment
           permitted_development_rights: Permitted development rights
         index:

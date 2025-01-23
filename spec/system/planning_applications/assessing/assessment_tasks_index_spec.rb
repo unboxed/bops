@@ -26,7 +26,7 @@ RSpec.describe "Assessment tasks", type: :system do
         within(".app-task-list") do
           within("#check-consistency-assessment-tasks") do
             expect(page).to have_content("Check application")
-            expect(page).to have_link("Check description, documents and proposal details")
+            expect(page).to have_link("Check application details")
             expect(page).to have_link("Permitted development rights")
 
             expect(page).not_to have_link("Evidence of immunity")
@@ -66,7 +66,7 @@ RSpec.describe "Assessment tasks", type: :system do
         within(".app-task-list") do
           within("#check-consistency-assessment-tasks") do
             expect(page).to have_content("Check application")
-            expect(page).to have_link("Check description, documents and proposal details")
+            expect(page).to have_link("Check application details")
             expect(page).to have_link("Permitted development rights")
 
             expect(page).not_to have_link("Evidence of immunity")
@@ -224,7 +224,7 @@ RSpec.describe "Assessment tasks", type: :system do
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
           expect(page).to have_content("Check application")
-          expect(page).to have_link("Check description, documents and proposal details")
+          expect(page).to have_link("Check application details")
           expect(page).to have_link("Evidence of immunity")
           expect(page).to have_link("Immunity/permitted development rights")
         end
