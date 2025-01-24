@@ -88,15 +88,16 @@ class ApplicationType < ApplicationRecord
     delegate :assess_against_policies?
     delegate :cil?
     delegate :considerations?
+    delegate :consultation_steps
+    delegate :consultations_skip_bank_holidays?
+    delegate :description_change_requires_validation?
     delegate :eia?
     delegate :informatives?
     delegate :legislative_requirements?
     delegate :ownership_details?
-    delegate :planning_conditions?
     delegate :permitted_development_rights?
+    delegate :planning_conditions?
     delegate :site_visits?
-    delegate :consultations_skip_bank_holidays?
-    delegate :consultation_steps
   end
 
   with_options to: :legislation, prefix: true, allow_nil: true do

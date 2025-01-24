@@ -19,9 +19,12 @@
     <h2 class="govuk-heading-m govuk-!-margin-top-3">
       Suggest a new description to the applicant
     </h2>
-    <p class="govuk-body">
-      This will be sent to the applicant immediately. If the applicant does not respond within 5 days, the amended description will be automatically accepted.
-    </p>
+
+    <% if @planning_application.application_type.description_change_requires_validation? %>
+      <p class="govuk-body">
+        This will be sent to the applicant immediately. If the applicant does not respond within 5 days, the amended description will be automatically accepted.
+      </p>
+    <% end %>
 
     <div class="govuk-inset-text">
       <h3 class="govuk-heading-s">

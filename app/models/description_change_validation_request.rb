@@ -9,6 +9,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
   validate :rejected_reason_is_present?
 
   before_create :set_previous_application_description
+  after_save :preapplication_auto_close, if: -> { open? && !planning_application.application_type.description_change_requires_validation? }
 
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
@@ -25,7 +26,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
   end
 
   def email_and_timestamp
-    send_description_request_email
+    send_description_request_email if planning_application.application_type.description_change_requires_validation?
 
     mark_as_sent!
   end
@@ -74,5 +75,10 @@ class DescriptionChangeValidationRequest < ValidationRequest
 
   def update_planning_application_for_auto_closed_request!
     planning_application.update!(description: proposed_description)
+  end
+
+  def preapplication_auto_close
+    auto_close_request!
+    planning_application.update!(valid_description: true)
   end
 end
