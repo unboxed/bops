@@ -66,6 +66,7 @@ module PlanningApplications
           :proposal_details_match_documents,
           :proposal_details_match_documents_comment,
           :site_map_correct,
+          :site_map_correct_comment,
           :proposal_measurements_match_documents,
           {proposal_measurement: %i[eaves_height max_height depth]}
         ]

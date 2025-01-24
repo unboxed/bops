@@ -65,7 +65,7 @@ RSpec.describe "editing planning application" do
       "/planning_applications/#{planning_application.reference}/assessment/tasks"
     )
 
-    click_link("Check description, documents and proposal details")
+    click_link("Check application details")
     find("span", text: "Application information")
     click_link("Edit details")
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_19_161821) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_20_122725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -220,6 +220,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_19_161821) do
     t.datetime "updated_at", null: false
     t.integer "site_map_correct", default: 0, null: false
     t.integer "proposal_measurements_match_documents", default: 0, null: false
+    t.text "site_map_correct_comment"
     t.index ["planning_application_id"], name: "ix_consistency_checklists_on_planning_application_id"
   end
 

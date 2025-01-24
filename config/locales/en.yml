@@ -1239,7 +1239,7 @@ en:
           edit_check_description: Edit check description, documents and proposal
         introduction:
           application_details: Application details
-          check_description_documents: Check description, documents, and proposal details
+          check_description_documents: Check application details
           checking_plans_and: Checking plans and description
           review_the_items: Review the description, site map, and documents submitted by the applicant to check they are consistent.
         proposal_details_match_documents:
@@ -1259,7 +1259,7 @@ en:
           reason: 'Reason:'
           view_and_edit: View and edit request
         site_map_correct:
-          is_the_red: Is the red line on the site map correct for the site and proposed works?
+          is_the_red: Is the site map correct?
           'no': 'No'
           request_red_line_boundary_change: Request a change to the red line boundary
           'yes': 'Yes'
@@ -1408,7 +1408,7 @@ en:
         check_consistency:
           check_application: Check application
           complete: Complete
-          description_documents_and: Check description, documents and proposal details
+          description_documents_and: Check application details
           in_assessment: In assessment
           permitted_development_rights: Permitted development rights
         index:
