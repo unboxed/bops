@@ -15,5 +15,16 @@
   <div class="govuk-button-group">
     <%= form.govuk_submit(t(".submit")) %>
     <%= back_link %>
+    <% if @user.persisted? && @user != current_user %>
+      <% if @user.discarded? %>
+        <%= govuk_button_link_to("Reactivate user", reactivate_user_path(@user),
+              warning: true,
+              method: :patch, data: {confirm: "Are you sure?"}) %>
+      <% else %>
+        <%= govuk_button_link_to("Deactivate user", user_path(@user),
+              warning: true,
+              method: :delete, data: {confirm: "Are you sure?"}) %>
+      <% end %>
+    <% end %>
   </div>
 <% end %>

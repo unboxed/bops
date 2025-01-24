@@ -42,7 +42,8 @@ BopsConfig::Engine.routes.draw do
     end
   end
 
-  resources :users, except: %i[show destroy] do
+  resources :users, except: %i[show] do
     get :resend_invite, on: :member
+    patch :reactivate, on: :member
   end
 end
