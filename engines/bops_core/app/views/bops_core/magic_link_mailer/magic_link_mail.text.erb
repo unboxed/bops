@@ -1,7 +1,7 @@
 Hello <%= @resource.name %>
 
-Click the link below to access your dashboard:
+This is your magic link.
 
-<%= link_to "Access Dashboard", @url %>
+<%= link_to "View BOPS application: #{@planning_application.reference_in_full}", @url %>
 
 This link will expire in 48 hours.

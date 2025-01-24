@@ -24,13 +24,25 @@ RSpec.describe "Planning applications", type: :system do
 
   context "with expired magic link" do
     let!(:sgid) { consultee.sgid(expires_in: 1.minute, for: "magic_link") }
+    let(:mail) { ActionMailer::Base.deliveries }
 
     it "I can see that the link has expired" do
       travel 2.minutes
       visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
       expect(page).not_to have_content(planning_application.full_address)
       expect(page).not_to have_content(reference)
-      expect(page).to have_content("Your magic link has expired. Click resend to generate another link.")
+      expect(page).to have_content("Your magic link has expired")
+      expect(page).to have_content("Contact #{local_authority.feedback_email} if you think there's a problem.")
+
+      delivered_emails = mail.count
+      click_button("Send a new magic link")
+      expect(page).to have_content("A magic link has been sent to: #{consultee.email_address}")
+      perform_enqueued_jobs
+      expect(mail.count).to eql(delivered_emails + 1)
+
+      url = mail.last.body.raw_source.match(/href="(?<url>.+?)">/)[:url]
+      visit url
+      expect(page).to have_content(reference)
     end
   end
 

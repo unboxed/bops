@@ -27,8 +27,7 @@ module BopsCore
     end
 
     def handle_expired_or_invalid_sgid
-      if (resource = sgid_authentication_service.expired_resource)
-        @resend_link = resource.sgid
+      if (@expired_resource = sgid_authentication_service.expired_resource)
         render_expired
       else
         render_not_found
