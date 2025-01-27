@@ -20,6 +20,8 @@ BopsApi::Engine.routes.draw do
         get :submission, on: :member
         get :search, on: :collection
 
+        resource :documents, only: [:show]
+
         scope module: "planning_applications" do
           resources :validation_requests, only: [:index]
         end
