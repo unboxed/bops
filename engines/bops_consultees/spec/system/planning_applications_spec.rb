@@ -4,12 +4,13 @@ require "rails_helper"
 
 RSpec.describe "Planning applications", type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, :pre_application, local_authority:, user:) }
+  let!(:planning_application) { create(:planning_application, :pre_application, local_authority:, user:, documents:) }
   let!(:consultation) { create(:consultation, :started, planning_application:) }
   let(:consultee) { create(:consultee, consultation:) }
   let(:sgid) { consultee.sgid(expires_in: 1.day, for: "magic_link") }
   let(:reference) { planning_application.reference }
   let(:user) { create(:user) }
+  let(:documents) { create_list(:document, 3) }
 
   before do
     visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
@@ -23,6 +24,13 @@ RSpec.describe "Planning applications", type: :system do
       expect(page).to have_content(planning_application.description)
       expect(page).to have_content(planning_application.user.name)
       expect(page).to have_content(planning_application.consultation.end_date.to_fs(:day_month_year_slashes))
+    end
+
+    it "includes documents on planning application overview" do
+      expect(page).to have_content(documents.first.name)
+      expect(page).to have_link "Download", href: "/consultees/planning_applications/#{reference}/documents/#{documents.first.id}"
+      expect(page).to have_content(documents.last.name)
+      expect(page).to have_link "Download", href: "/consultees/planning_applications/#{reference}/documents/#{documents.last.id}"
     end
   end
 
