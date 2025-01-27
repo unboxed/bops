@@ -12,6 +12,10 @@ RSpec.describe "Planning applications", type: :system do
   let(:user) { create(:user) }
   let(:documents) { create_list(:document, 3) }
 
+  let(:today) do
+    Time.zone.today
+  end
+
   before do
     visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
   end
@@ -31,6 +35,31 @@ RSpec.describe "Planning applications", type: :system do
       expect(page).to have_link "Download", href: "/consultees/planning_applications/#{reference}/documents/#{documents.first.id}"
       expect(page).to have_content(documents.last.name)
       expect(page).to have_link "Download", href: "/consultees/planning_applications/#{reference}/documents/#{documents.last.id}"
+    end
+
+    it "successfully submits and disables the form" do
+      choose "Approved"
+
+      click_button "Submit Response"
+
+      expect(page).to have_content("Response can't be blank")
+
+      fill_in "Response", with: "We are happy for this application to proceed"
+
+      click_button "Submit Response"
+
+      expect(page).to have_content("Your response has been updated")
+
+      within "#comments-form" do
+        expect(page).to have_selector("h2", text: "Response")
+
+        within ".consultee-response:first-of-type" do
+          expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
+          expect(page).to have_selector("p span", text: "Approved")
+          expect(page).to have_selector("p span", text: "Private")
+          expect(page).to have_selector("p", text: "We are happy for this application to proceed")
+        end
+      end
     end
   end
 

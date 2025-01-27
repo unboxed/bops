@@ -4,6 +4,6 @@
   </h2>
 
   <% responses.reverse_each do |response| %>
-    <%= render ConsulteeResponseComponent.new(response: response) %>
+    <%= render ConsulteeResponseComponent.new(response: response, redact_and_publish: true) %>
   <% end %>
 </div>

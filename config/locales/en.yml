@@ -267,6 +267,12 @@ en:
               invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'
             resend_message:
               invalid: The additional message contains an invalid placeholder '{{%{placeholder}}}'
+        consultee/response:
+          attributes:
+            response:
+              blank: Response can't be blank
+            summary_tag:
+              blank: Summary tag can't be blank
         decision:
           attributes:
             category:

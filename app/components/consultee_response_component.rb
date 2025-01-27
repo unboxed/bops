@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class ConsulteeResponseComponent < ViewComponent::Base
-  def initialize(response:)
+  def initialize(response:, redact_and_publish:)
     @response = response
+    @redact_and_publish = redact_and_publish
   end
 
   private
 
-  attr_reader :response
+  attr_reader :response, :redact_and_publish
 
   with_options to: :response do
     delegate :received_at, :summary_tag

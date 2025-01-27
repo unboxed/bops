@@ -5,6 +5,7 @@ BopsConsultees::Engine.routes.draw do
 
   resource :dashboard, only: %i[show]
   resources :planning_applications, param: :reference, only: %i[show] do
+    resource :consultee_response, only: :update
     post :resend_link, on: :member
 
     resources :documents, only: %i[show]
