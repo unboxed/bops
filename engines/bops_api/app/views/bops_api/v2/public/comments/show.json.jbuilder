@@ -2,7 +2,7 @@
 
 json.key_format! camelize: :lower
 
-json.partial! "comments", planning_application: @planning_application
+json.partial! "show", consultation: @consultation
 
 
 json.metadata do
