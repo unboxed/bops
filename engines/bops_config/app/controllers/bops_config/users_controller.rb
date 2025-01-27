@@ -4,7 +4,7 @@ module BopsConfig
   class UsersController < ApplicationController
     before_action :set_users, only: %i[index]
     before_action :build_user, only: %i[new create]
-    before_action :set_user, only: %i[edit update resend_invite]
+    before_action :set_user, only: %i[edit update resend_invite destroy reactivate]
 
     def index
       respond_to do |format|
@@ -41,6 +41,30 @@ module BopsConfig
         if @user.update(user_params)
           format.html do
             redirect_to users_path, notice: t(".user_successfully_updated")
+          end
+        else
+          format.html { render :edit }
+        end
+      end
+    end
+
+    def destroy
+      respond_to do |format|
+        if @user.discard
+          format.html do
+            redirect_to users_path, notice: t(".success")
+          end
+        else
+          format.html { render :edit }
+        end
+      end
+    end
+
+    def reactivate
+      respond_to do |format|
+        if @user.undiscard
+          format.html do
+            redirect_to users_path, notice: t(".success")
           end
         else
           format.html { render :edit }

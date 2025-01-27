@@ -25,6 +25,17 @@ RSpec.describe "Users", type: :system do
     expect(page).to have_no_field("Role")
   end
 
+  it "does not allow a user to update own role" do
+    click_link "Users"
+
+    within("#confirmed tbody tr:nth-child(1)") do
+      expect(page).to have_content("Clark Kent")
+      click_link("Edit user")
+    end
+
+    expect(page).to have_no_field("Role")
+  end
+
   it "allows adding a new user" do
     click_link "Users"
     expect(page).to have_selector("h1", text: "Manage global admin users")
@@ -225,6 +236,63 @@ RSpec.describe "Users", type: :system do
       expect(page).to have_content("User will receive a reminder email")
       expect(last_email.subject).to eq("Set password instructions")
       expect(last_email.body).to include("http://config.bops.services/users/password/edit?reset_password_token=")
+    end
+  end
+
+  context "when there are deactivated users", :capybara do
+    before do
+      create(:user, :global_administrator, local_authority: nil, name: "Dieter Waldbeck")
+      create(:user, :global_administrator, local_authority: nil, name: "Andrea Khan", deactivated_at: 1.day.ago)
+    end
+
+    it "lists the deactivated users" do
+      click_link "Users"
+
+      click_link "Deactivated"
+
+      within("#deactivated table.govuk-table") do
+        expect(page).to have_selector("tr:nth-child(1)", text: "Andrea Khan")
+        # only testing for the date, not the time, to avoid a race condition if the minute ticks over
+        expect(page).to have_selector("tr:nth-child(1)", text: "Deactivated at #{1.day.ago.to_date.to_fs}")
+      end
+    end
+
+    it "allows reactivating the deactivated users" do
+      click_link "Users"
+
+      click_link "Deactivated"
+
+      within("#deactivated table.govuk-table") do
+        click_on "Edit user"
+      end
+
+      accept_confirm do
+        click_on "Reactivate"
+      end
+
+      expect(page).to have_text("User successfully reactivated")
+      within("#confirmed table.govuk-table") do
+        expect(page).to have_selector("tr:nth-child(1)", text: "Andrea Khan")
+      end
+    end
+  end
+
+  context "when user account is deactivated", :capybara do
+    let(:deactivated_user) { create(:user, :global_administrator, local_authority: nil, deactivated_at: 1.day.ago) }
+
+    before do
+      sign_out(user)
+    end
+
+    it "can't sign in" do
+      click_link "Users"
+
+      fill_in("user[email]", with: deactivated_user.email)
+      fill_in("user[password]", with: deactivated_user.password)
+      click_button("Log in")
+
+      expect(page).to have_text("Invalid Email or password.")
+      expect(page).not_to have_text("Signed in successfully.")
     end
   end
 end
