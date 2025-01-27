@@ -687,6 +687,11 @@ en:
     failed: Failed
     objected: Objected
     sending: Sending
+  consultee_response:
+    summary_tags:
+      amendments_needed: Amendments needed
+      approved: Approved
+      objected: Objected
   consultee_response_component:
     amendments_needed: Amendments needed
     approved: Approved
