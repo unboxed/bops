@@ -4,11 +4,12 @@ require "rails_helper"
 
 RSpec.describe "Planning applications", type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
-  let!(:consultation) { create(:consultation, planning_application:) }
+  let!(:planning_application) { create(:planning_application, :pre_application, local_authority:, user:) }
+  let!(:consultation) { create(:consultation, :started, planning_application:) }
   let(:consultee) { create(:consultee, consultation:) }
   let(:sgid) { consultee.sgid(expires_in: 1.day, for: "magic_link") }
   let(:reference) { planning_application.reference }
+  let(:user) { create(:user) }
 
   before do
     visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
@@ -19,6 +20,9 @@ RSpec.describe "Planning applications", type: :system do
       expect(page).to have_current_path("/consultees/planning_applications/#{reference}?sgid=#{sgid}")
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content("Application number #{reference}")
+      expect(page).to have_content(planning_application.description)
+      expect(page).to have_content(planning_application.user.name)
+      expect(page).to have_content(planning_application.consultation.end_date.to_fs(:day_month_year_slashes))
     end
   end
 
