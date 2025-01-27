@@ -7,4 +7,5 @@ en:
     planning_applications:
       show:
         application_number: Application number
+        no_digital_sitemap: No digital site map provided
         overview: Planning application overview
