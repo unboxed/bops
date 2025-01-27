@@ -20,12 +20,12 @@ module BopsApi
       def planning_applications_scope
         current_local_authority.planning_applications.published
       end
-      def consultation_scope
-        current_local_authority.consultations
-      end
-      def comments_scope
-        current_local_authority.neighbour_responses
-      end
+      # def consultation_scope
+      #   current_local_authority.consultations
+      # end
+      # def comments_scope
+      #   current_local_authority.neighbour_responses
+      # end
     end
   end
 end
