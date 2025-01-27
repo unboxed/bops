@@ -14,13 +14,25 @@ BopsUploads::Engine.routes.draw do
 end
 
 Rails.application.routes.draw do
+  extend BopsCore::Routing
+
+  namespace :bops_uploads, path: nil do
+    local_authority_subdomain do
+      get "/files/:key", to: "files#show", as: "file"
+    end
+
+    uploads_subdomain do
+      get "/:key", to: "blobs#show", as: "upload"
+    end
+  end
+
   direct :uploaded_file do |blob, options|
     next "" if blob.blank?
 
     if Rails.configuration.use_signed_cookies
-      bops_uploads.file_url(blob.key)
+      route_for(:bops_uploads_file, blob.key, options)
     else
-      bops_uploads.upload_url(blob.key, host: Rails.configuration.uploads_base_url)
+      route_for(:bops_uploads_upload, blob.key, options.merge(host: Rails.configuration.uploads_base_url))
     end
   end
 
@@ -29,4 +41,5 @@ Rails.application.routes.draw do
   resolve("ActiveStorage::Preview") { |preview, options| route_for(:uploaded_file, preview, options) }
   resolve("ActiveStorage::VariantWithRecord") { |variant, options| route_for(:uploaded_file, variant, options) }
   resolve("ActiveStorage::Variant") { |variant, options| route_for(:uploaded_file, variant, options) }
+  resolve("Document") { |document, options| route_for(:uploaded_file, document.file, options) }
 end
