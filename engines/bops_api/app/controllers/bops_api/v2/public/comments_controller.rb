@@ -5,11 +5,21 @@ module BopsApi
         module Public
             class CommentsController < PublicController
                 def show
-                    @planning_application = find_planning_application params[:planning_application_id]
+                    @pagy, @responses = Pagination.new(scope: response_scope, params: query_params).paginate
 
                     respond_to do |format|
-                        format.json 
+                    format.json
                     end
+                end
+
+                private
+
+                def response_scope
+                    current_local_authority.neighbour_responses
+                end
+
+                def query_params
+                    params.permit(:page, :maxresults)
                 end
             end
         end
