@@ -2,7 +2,7 @@
 
 require "swagger_helper"
 
-RSpec.describe "BOPS public API" do
+RSpec.describe "BOPS API" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:application_type) { create(:application_type, :householder) }
   let(:document) { create(:document, :with_tags, validated: true, publishable: true) }
