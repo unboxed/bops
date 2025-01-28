@@ -36,6 +36,7 @@ module BopsConfig
           :cil,
           :considerations,
           :consultations_skip_bank_holidays,
+          :description_change_requires_validation,
           :eia,
           :informatives,
           :legislative_requirements,
