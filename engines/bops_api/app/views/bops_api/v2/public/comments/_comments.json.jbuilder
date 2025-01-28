@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-json.key_format! camelize: :lower
-
-
   if (consultation = planning_application.consultation)
-    json.consultation do
-
+    json.comments do
       json.publishedComments planning_application.consultation.neighbour_responses.redacted do |response|
         json.comment response.redacted_response
         json.receivedAt response.received_at
@@ -18,5 +14,3 @@ json.key_format! camelize: :lower
       end
     end
   end
-end
-
