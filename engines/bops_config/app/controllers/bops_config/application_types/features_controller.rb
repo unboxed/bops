@@ -35,13 +35,13 @@ module BopsConfig
           :assess_against_policies,
           :cil,
           :considerations,
+          :consultations_skip_bank_holidays,
           :eia,
           :informatives,
           :legislative_requirements,
           :ownership_details,
-          :planning_conditions,
           :permitted_development_rights,
-          :consultations_skip_bank_holidays,
+          :planning_conditions,
           :site_visits,
           {consultation_steps: []}
         ]
