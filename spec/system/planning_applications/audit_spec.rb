@@ -114,4 +114,14 @@ RSpec.describe "Auditing changes to a planning application" do
     click_link "Back"
     expect(page).to have_current_path("/planning_applications/#{planning_application.reference}")
   end
+
+  context "with I18n translations" do
+    let(:audit_activity_translations) { I18n.t(:"audits.types").keys }
+    let(:audit_activity_types) { Audit.activity_types.keys.map(&:to_sym) }
+
+    it "there is a translation for all the audit activity types" do
+      missing_translations = audit_activity_types - audit_activity_translations
+      expect(missing_translations).to be_empty, "Missing translations for: #{missing_translations.join(", ")}"
+    end
+  end
 end
