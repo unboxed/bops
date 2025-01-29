@@ -33507,6 +33507,35 @@ paths:
                         consulteeComments:
                         - comment: Accepted
                           receivedAt: '2024-04-19T00:00:00.000+00:00'
+  "/api/v2/public/planning_applications/{reference}/specialist":
+    get:
+      summary: Retrieves a planning application
+      tags:
+      - Planning applications
+      parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
+      responses:
+        '200':
+          description: returns a planning application given a reference
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    application:
+                      consultation:
+                        publishedComments:
+                        - comment: I'm worried about construction noise.
+                          receivedAt: '2024-04-19T00:00:00.000+00:00'
+                          summaryTag: objection
+                        consulteeComments:
+                        - comment: Accepted
+                          receivedAt: '2024-04-19T00:00:00.000+00:00'
 
                     
   "/api/v2/validation_requests":

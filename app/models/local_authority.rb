@@ -29,6 +29,7 @@ class LocalAuthority < ApplicationRecord
   end
 
   has_many :neighbour_responses, through: :consultations
+  has_many :consultee_responses, through: :consultations
 
   with_options presence: true do
     validates :council_code, :subdomain
