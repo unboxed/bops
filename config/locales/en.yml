@@ -515,8 +515,11 @@ en:
       constraints_checked: Constraints Checked
       consultee_emails_resent: Consultee emails resent
       consultee_emails_sent: Consultee emails sent
+      consultee_response_edited: Consultee response edited
+      consultee_response_uploaded: Consultee response uploaded
       consultees_reconsulted: Reconsultation emails sent
       created: Application created by %{args}
+      description_change_validation_request_added: 'Added: description change request (description#%{args})'
       description_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'
       description_change_validation_request_cancelled: 'Cancelled: validation request (applicant approval for description change #%{args})'
@@ -532,6 +535,8 @@ en:
       fee_change_validation_request_cancelled: 'Cancelled: validation request (fee change from applicant#%{args})'
       fee_change_validation_request_received: 'Received: request for change (fee validation#%{args})'
       fee_change_validation_request_sent: 'Sent: validation request (fee validation#%{args})'
+      fee_change_validation_request_sent_post_validation: 'Sent: Post-validation request (fee validation#%{args})'
+      heads_of_terms_validation_request_added: 'Added: request (heads of terms#%{args})'
       heads_of_terms_validation_request_cancelled_post_validation: 'Cancelled: request (heads of terms#%{args})'
       heads_of_terms_validation_request_received: 'Received: validation request for heads of terms #%{args}'
       heads_of_terms_validation_request_sent_post_validation: 'Sent: request (heads of terms#%{args})'
@@ -547,11 +552,13 @@ en:
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
+      other_change_validation_request_sent_post_validation: 'Sent: Post-validation request (other validation#%{args})'
       ownership_certificate_validation_request_added: 'Added: validation request (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_cancelled: 'Cancelled: validation request (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent_post_validation: 'Sent: request for change (ownership certificate validation#%{args})'
+      pre_commencement_condition_validation_request_added: 'Added: validation request for pre-commencement condition #%{args}'
       pre_commencement_condition_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (pre-commencement condition)'
       pre_commencement_condition_validation_request_cancelled_post_validation: 'Cancelled: validation request (pre-commencement condition validation#%{args})'
@@ -572,6 +579,7 @@ en:
       red_line_updated: Red line drawing updated
       replacement_document_validation_request_added: 'Added: validation request (replacement document#%{args})'
       replacement_document_validation_request_cancelled: 'Cancelled: validation request (replace document#%{args})'
+      replacement_document_validation_request_cancelled_post_validation: 'Cancelled: Post-validation request (replace document#%{args})'
       replacement_document_validation_request_received: 'Received: request for change (replacement document#%{args})'
       replacement_document_validation_request_sent: 'Sent: validation request (replacement document#%{args})'
       replacement_document_validation_request_sent_post_validation: 'Sent: Post-validation request (replacement document#%{args})'
