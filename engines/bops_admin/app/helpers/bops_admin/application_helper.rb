@@ -44,14 +44,14 @@ module BopsAdmin
 
     def nav_items
       [
-        {link: {text: "Dashboard", href: root_path}, current: active_page_key?("dashboard")},
-        {link: {text: "Application settings", href: setting_path}, current: active_page_key?("setting")},
-        {link: {text: "Consultees", href: consultees_path}, current: active_page_key?("consultees")},
-        {link: {text: "Informatives", href: informatives_path}, current: active_page_key?("informatives")},
-        {link: {text: "Policy", href: policy_root_path}, current: active_page_key?("policy")},
-        {link: {text: "Users", href: users_path}, current: active_page_key?("users")},
-        {link: {text: "API tokens", href: tokens_path}, current: active_page_key?("tokens")},
-        {link: {text: "Profile", href: profile_path}, current: active_page_key?("profile")}
+        {text: "Dashboard", href: root_path, active: active_page_key?("dashboard")},
+        {text: "Application settings", href: setting_path, active: active_page_key?("setting")},
+        {text: "Consultees", href: consultees_path, active: active_page_key?("consultees")},
+        {text: "Informatives", href: informatives_path, active: active_page_key?("informatives")},
+        {text: "Policy", href: policy_root_path, active: active_page_key?("policy")},
+        {text: "Users", href: users_path, active: active_page_key?("users")},
+        {text: "API tokens", href: tokens_path, active: active_page_key?("tokens")},
+        {text: "Profile", href: profile_path, active: active_page_key?("profile")}
       ]
     end
   end
