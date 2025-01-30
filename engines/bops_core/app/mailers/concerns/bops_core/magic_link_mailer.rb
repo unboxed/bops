@@ -2,16 +2,20 @@
 
 module BopsCore
   class MagicLinkMailer < ApplicationMailer
-    def magic_link_mail(resource:, subdomain:, planning_application:, subject: "Your BOPS magic link")
+    def magic_link_mail(resource:, planning_application:, subject: "Your BOPS magic link")
+      resource.touch(:magic_link_last_sent_at)
+
       @resource = resource
       @sgid = resource.sgid
-      @subdomain = subdomain
       @planning_application = planning_application
+      @subdomain = planning_application.local_authority.subdomain
       @url = magic_link_url
 
-      mail(
+      view_mail(
+        NOTIFY_TEMPLATE_ID,
         to: resource.email_address,
-        subject:
+        subject:,
+        reply_to_id: planning_application.local_authority.email_reply_to_id
       )
     end
 

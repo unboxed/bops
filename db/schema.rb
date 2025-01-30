@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_20_122725) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_30_115103) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -300,6 +300,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_20_122725) do
     t.datetime "last_email_delivered_at"
     t.datetime "expires_at"
     t.datetime "last_response_at"
+    t.datetime "magic_link_last_sent_at"
     t.index ["consultation_id"], name: "ix_consultees_on_consultation_id"
   end
 

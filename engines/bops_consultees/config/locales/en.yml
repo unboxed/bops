@@ -5,6 +5,9 @@ en:
       show:
         consultee_overview: Consultee overview
     planning_applications:
+      resend_link:
+        failure: A magic link was sent recently. Please wait at least 1 minute before requesting another.
+        success: 'A magic link has been sent to: %{email}'
       show:
         application_number: Application number
         no_digital_sitemap: No digital site map provided

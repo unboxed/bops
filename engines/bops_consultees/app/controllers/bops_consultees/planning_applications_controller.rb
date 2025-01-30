@@ -5,6 +5,7 @@ module BopsConsultees
     before_action :authenticate_with_sgid!, only: :show
     before_action :set_planning_application, only: %i[show resend_link]
     before_action :set_consultee, only: :resend_link
+    before_action :ensure_magic_link_resend_allowed, only: :resend_link
 
     def show
       respond_to do |format|
@@ -15,12 +16,11 @@ module BopsConsultees
     def resend_link
       BopsCore::MagicLinkMailerJob.perform_later(
         resource: @consultee,
-        subdomain: @current_local_authority.subdomain,
         planning_application: @planning_application.presented
       )
 
       respond_to do |format|
-        format.html { redirect_to root_url, notice: "A magic link has been sent to: #{@consultee.email_address}" }
+        format.html { redirect_to root_url, notice: t(".success", email: @consultee.email_address) }
       end
     end
 
@@ -50,6 +50,14 @@ module BopsConsultees
 
     def render_expired
       render "bops_consultees/dashboards/show"
+    end
+
+    def ensure_magic_link_resend_allowed
+      return if @consultee.can_resend_magic_link?
+
+      flash.now[:alert] = t(".failure")
+      @expired_resource = @consultee
+      render_expired
     end
   end
 end

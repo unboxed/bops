@@ -7,7 +7,7 @@ RSpec.describe BopsCore::MagicLinkMailer, type: :mailer do
     let(:consultation) { create(:consultation) }
     let(:consultee) { create(:consultee, consultation:, email_address: "consultee@example.com", name: "Bops Consultee") }
     let(:planning_application) { consultation.planning_application }
-    let(:mail) { described_class.magic_link_mail(resource: consultee, planning_application:, subdomain: "southwark", subject: "Your magic link") }
+    let(:mail) { described_class.magic_link_mail(resource: consultee, planning_application:, subject: "Your magic link") }
 
     before do
       allow(consultee).to receive(:sgid).and_return("123456789")
@@ -22,7 +22,7 @@ RSpec.describe BopsCore::MagicLinkMailer, type: :mailer do
     end
 
     it "assigns the correct magic link URL" do
-      expect(mail.body.encoded).to include("http://southwark.bops.services/consultees/planning_applications/25-00100-LDCE?sgid=123456789")
+      expect(mail.body.encoded).to include("http://buckinghamshire.bops.services/consultees/planning_applications/25-00100-LDCE?sgid=123456789")
     end
 
     it "includes the planning application reference in the email body" do
