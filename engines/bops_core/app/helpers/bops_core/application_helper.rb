@@ -5,7 +5,6 @@ module BopsCore
     include GOVUKDesignSystemFormBuilder::BuilderHelper
 
     {
-      govuk_primary_navigation: "GovukComponent::PrimaryNavigationComponent",
       govuk_secondary_navigation: "GovukComponent::SecondaryNavigationComponent",
       bops_task_accordion: "BopsCore::TaskAccordionComponent"
     }.each do |name, klass|
