@@ -30,9 +30,9 @@ BopsApi::Engine.routes.draw do
       namespace :public do
         resources :planning_applications, only: [:show] do
           get :search, on: :collection
+          get "comments/public", to: "public_comments#show"
+          get "comments/specialist", to: "specialist_comments#show"
           resource :documents, only: [:show]
-          resource :comments, only: [:show]
-          resource :specialist, only: [:show]
         end
       end
     end

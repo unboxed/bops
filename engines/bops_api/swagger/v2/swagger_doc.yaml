@@ -33478,9 +33478,9 @@ paths:
                               properties: {}
                       proposal:
                         description: householder extension
-  "/api/v2/public/planning_applications/{reference}/comments":
+  "/api/v2/public/planning_applications/{reference}/comments/public":
     get:
-      summary: Retrieves a planning application
+      summary: Retrieves a plublic comments
       tags:
       - Planning applications
       parameters:
@@ -33492,24 +33492,38 @@ paths:
         required: true
       responses:
         '200':
-          description: returns a planning application given a reference
+          description: returns a public comments given a reference
           content:
             application/json:
               examples:
                 default:
                   value:
-                    application:
-                      consultation:
-                        publishedComments:
-                        - comment: I'm worried about construction noise.
-                          receivedAt: '2024-04-19T00:00:00.000+00:00'
-                          summaryTag: objection
-                        consulteeComments:
-                        - comment: Accepted
-                          receivedAt: '2024-04-19T00:00:00.000+00:00'
-  "/api/v2/public/planning_applications/{reference}/specialist":
+                    {
+                      "metadata": {
+                          "page": 1,
+                          "results": 10,
+                          "from": 1,
+                          "to": 1,
+                          "totalPages": 1,
+                          "totalResults": 1
+                        },
+                        "links": {
+                          "first": "http://southwark.bops.localhost:3000/api/v2/public/planning_applications/25-00004-HAPP/specialist?page=1",
+                          "last": "http://southwark.bops.localhost:3000/api/v2/public/planning_applications/25-00004-HAPP/specialist?page=1",
+                          "prev": null,
+                          "next": null
+                        },
+                        "data": [
+                          {
+                            "receivedAt": "2025-01-22T10:57:17.168+00:00",
+                            "text": "I'm worried about construction noise.",
+                            "sentiment": "approved"
+                          }
+                        ]
+                    }
+  "/api/v2/public/planning_applications/{reference}/comments/specialist":
     get:
-      summary: Retrieves a planning application
+      summary: Retrieves a specialist comment
       tags:
       - Planning applications
       parameters:
@@ -33521,22 +33535,35 @@ paths:
         required: true
       responses:
         '200':
-          description: returns a planning application given a reference
+          description: returns a specialist comment given a reference
           content:
             application/json:
               examples:
                 default:
                   value:
-                    application:
-                      consultation:
-                        publishedComments:
-                        - comment: I'm worried about construction noise.
-                          receivedAt: '2024-04-19T00:00:00.000+00:00'
-                          summaryTag: objection
-                        consulteeComments:
-                        - comment: Accepted
-                          receivedAt: '2024-04-19T00:00:00.000+00:00'
-
+                    {
+                      "metadata": {
+                          "page": 1,
+                          "results": 10,
+                          "from": 1,
+                          "to": 1,
+                          "totalPages": 1,
+                          "totalResults": 1
+                        },
+                        "links": {
+                          "first": "http://southwark.bops.localhost:3000/api/v2/public/planning_applications/25-00004-HAPP/specialist?page=1",
+                          "last": "http://southwark.bops.localhost:3000/api/v2/public/planning_applications/25-00004-HAPP/specialist?page=1",
+                          "prev": null,
+                          "next": null
+                        },
+                        "data": [
+                          {
+                            "receivedAt": "2025-01-22T10:57:17.168+00:00",
+                            "text": "Accepted",
+                            "sentiment": "approved"
+                          }
+                        ]
+                    }
                     
   "/api/v2/validation_requests":
     get:

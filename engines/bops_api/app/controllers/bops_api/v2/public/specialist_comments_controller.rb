@@ -3,7 +3,7 @@
 module BopsApi
     module V2
         module Public
-            class SpecialistsController < PublicController
+            class SpecialistCommentsController < PublicController
                 def show
                     @pagy, @responses = Pagination.new(scope: response_scope, params: query_params).paginate
 
