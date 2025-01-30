@@ -102,6 +102,11 @@ class Consultee < ApplicationRecord
     end
   end
 
+  def can_resend_magic_link?
+    # Resend if never sent or at least 1 minute has passed
+    magic_link_last_sent_at.nil? || magic_link_last_sent_at <= 1.minute.ago
+  end
+
   delegate :received_at, to: :last_response, prefix: :last, allow_nil: true
 
   private
