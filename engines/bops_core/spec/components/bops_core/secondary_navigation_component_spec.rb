@@ -2,7 +2,7 @@
 
 require "bops_core_helper"
 
-RSpec.describe(GovukComponent::SecondaryNavigationComponent, type: :component) do
+RSpec.describe(BopsCore::SecondaryNavigationComponent, type: :component) do
   let(:items) do
     [
       {link: {text: "Policy areas", href: "/policy/areas"}, current: true},

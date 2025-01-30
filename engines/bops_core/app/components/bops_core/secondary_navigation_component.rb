@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GovukComponent
+module BopsCore
   class SecondaryNavigationComponent < GovukComponent::Base
     class ItemComponent < GovukComponent::Base
       class LinkComponent < GovukComponent::Base

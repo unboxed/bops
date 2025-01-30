@@ -1,4 +1,4 @@
-<%= govuk_secondary_navigation(classes: %w[govuk-!-margin-top-5]) do |nav| %>
+<%= bops_secondary_navigation(classes: %w[govuk-!-margin-top-5]) do |nav| %>
   <% nav.with_item(current: true) do |item| %>
     <% item.with_link(text: t(".policy_areas"), href: policy_areas_path) %>
   <% end %>
