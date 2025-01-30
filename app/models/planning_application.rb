@@ -477,7 +477,7 @@ class PlanningApplication < ApplicationRecord
   def valid_from
     return nil unless validated?
 
-    valid_from_date
+    validated_at || valid_from_date
   end
 
   def valid_from_date

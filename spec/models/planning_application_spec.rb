@@ -650,6 +650,18 @@ RSpec.describe PlanningApplication do
     end
 
     context "when the application is valid" do
+      let(:planning_application) { create(:valid_planning_application) }
+
+      it "is validated at" do
+        expect(planning_application.valid_from).to eq(planning_application.validated_at)
+      end
+    end
+  end
+
+  describe "#valid_from_date" do
+    let(:planning_application) { create(:not_started_planning_application) }
+
+    context "when the application is valid" do
       context "when there have been validation requests" do
         before do
           travel_to(DateTime.new(2022, 8, 17))
@@ -672,7 +684,7 @@ RSpec.describe PlanningApplication do
         end
 
         it "is the time of the last successfully closed request" do
-          expect(planning_application.valid_from).to eq Time.next_immediate_business_day(1.day.ago)
+          expect(planning_application.valid_from_date).to eq Time.next_immediate_business_day(1.day.ago)
         end
       end
 
@@ -680,7 +692,7 @@ RSpec.describe PlanningApplication do
         before { planning_application.start! }
 
         it "returns the received_at value" do
-          expect(planning_application.valid_from).to eq planning_application.received_at
+          expect(planning_application.valid_from_date).to eq planning_application.received_at
         end
       end
     end
