@@ -2,10 +2,15 @@ $govuk-assets-path: "govuk-frontend/dist/govuk/assets/";
 $govuk-font-family: open-sans, sans-serif;
 $govuk-page-width: 1100px;
 
+// Imports from node_modules
 @import "govuk-frontend/dist/govuk/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
-@import "bops_core/components/secondary_navigation";
+@import "@x-govuk/govuk-prototype-components/x-govuk/components/secondary-navigation/secondary-navigation";
+
+// Imports from engines
 @import "bops_core/components/task_accordion";
+
+// Imports from the application
 @import "components/buttons";
 @import "components/documents";
 @import "components/flashes";

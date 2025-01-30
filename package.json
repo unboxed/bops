@@ -8,6 +8,7 @@
     "@rails/request.js": "^0.0.9",
     "@rails/ujs": "^7.0.4-2",
     "@stimulus-components/sortable": "^5.0.1",
+    "@x-govuk/govuk-prototype-components": "^3.0.9",
     "accessible-autocomplete": "^2.0.4",
     "esbuild": "^0.19.2",
     "govuk-frontend": "^5.2.0",
