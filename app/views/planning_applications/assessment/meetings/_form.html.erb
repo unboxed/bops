@@ -1,0 +1,18 @@
+<%= form_with(
+      model: @meeting,
+      class: "govuk-!-margin-top-5",
+      url: planning_application_assessment_meetings_path(@planning_application, @meeting),
+      method: :post
+    ) do |form| %>
+
+    <%= form.govuk_date_field(:occurred_at, rows: 6, legend: {text: "Meeting date"}) %>
+
+    <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Add notes (optional)"}) %>
+
+    <div class="govuk-button-group govuk-!-padding-top-7">
+      <%= form.submit "Save and mark as complete", class: "govuk-button govuk-button--primary" %>
+
+      <%= back_link %>
+    </div>
+  </div>
+<% end %>

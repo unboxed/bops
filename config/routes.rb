@@ -156,6 +156,8 @@ Rails.application.routes.draw do
 
           resources :site_visits, except: %i[destroy]
 
+          resources :meetings, except: %i[edit update destroy]
+
           resources :heads_of_terms, only: %i[index new] do
             get :edit, on: :collection
             get :edit

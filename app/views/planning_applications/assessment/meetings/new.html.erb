@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  Meeting - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+<% content_for :title, "Meeting" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Add a meeting"}
+    ) %>
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-visually-hidden">Warning</span>
+    This is NOT public.
+  </strong>
+</div>
+
+<%= render "form" %>

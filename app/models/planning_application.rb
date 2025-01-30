@@ -52,6 +52,7 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_constraints_queries
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_many :site_histories
+    has_many :meetings, -> { by_occurred_at_desc }
     has_many :site_notices
     has_many :site_visits, -> { by_created_at_desc }
     has_many :policy_classes, -> { order(:section) }
