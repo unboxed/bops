@@ -27,13 +27,6 @@ module BopsConsultees
 
     private
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find_by!(reference:)
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    rescue ActiveRecord::RecordNotFound
-      render_not_found
-    end
-
     def set_consultee
       expired_resource = BopsCore::SgidAuthenticationService.new(sgid).expired_resource
       @consultee = @planning_application.consultation.consultees.find(expired_resource.id)
@@ -43,14 +36,6 @@ module BopsConsultees
 
     def set_consultee_response
       @consultee_response = @consultee.responses.first_or_initialize
-    end
-
-    def planning_applications_scope
-      @current_local_authority.planning_applications
-    end
-
-    def reference
-      params[:reference]
     end
 
     def render_expired
