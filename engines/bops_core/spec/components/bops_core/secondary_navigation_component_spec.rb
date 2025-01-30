@@ -3,20 +3,20 @@
 require "bops_core_helper"
 
 RSpec.describe(BopsCore::SecondaryNavigationComponent, type: :component) do
-  let(:items) do
+  let(:navigation_items) do
     [
-      {link: {text: "Policy areas", href: "/policy/areas"}, current: true},
-      {link: {text: "Policy references", href: "/policy/references"}, current: false}
+      {text: "Policy areas", href: "/policy/areas", current: true},
+      {text: "Policy references", href: "/policy/references", current: false}
     ]
   end
 
-  let(:kwargs) { {items: items} }
+  let(:kwargs) { {navigation_items: navigation_items} }
 
   subject! { render_inline(described_class.new(**kwargs)) }
 
   it "renders the secondary navigation component" do
     within "nav" do
-      expect(element["aria-label"]).to eq("Secondary Navigation")
+      expect(element["aria-label"]).to eq("Secondary menu")
       expect(element["class"]).to eq("x-govuk-secondary-navigation")
 
       within "ul" do
