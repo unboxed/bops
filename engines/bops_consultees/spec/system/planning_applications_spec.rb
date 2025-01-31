@@ -30,6 +30,11 @@ RSpec.describe "Planning applications", type: :system do
       expect(page).to have_content(planning_application.consultation.end_date.to_fs(:day_month_year_slashes))
     end
 
+    it "includes a notification banner" do
+      expect(page).to have_content("Submit your comments by #{planning_application.consultation.end_date.to_fs(:day_month_year_slashes)}")
+      expect(page).to have_content("Jump to comments section.")
+    end
+
     it "includes documents on planning application overview" do
       expect(page).to have_content(documents.first.name)
       expect(page).to have_link "Download", href: "/consultees/planning_applications/#{reference}/documents/#{documents.first.id}"
@@ -59,6 +64,8 @@ RSpec.describe "Planning applications", type: :system do
           expect(page).to have_selector("p span", text: "Private")
           expect(page).to have_selector("p", text: "We are happy for this application to proceed")
         end
+
+        expect(page).not_to have_content(planning_application.consultation.end_date.to_fs(:day_month_year_slashes))
       end
     end
   end
