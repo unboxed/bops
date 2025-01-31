@@ -16,6 +16,11 @@
 
   <%= form.govuk_text_area :response, hint: {text: "Provide detailed feedback"} %>
 
+  <%= form.govuk_file_field :documents,
+        label: {text: "Upload documents"},
+        hint: {text: "Add any relevant documents."},
+        multiple: true %>
+
   <div class="govuk-button-group">
     <%= form.submit "Submit Response", class: "govuk-button govuk-button--primary govuk-!-margin-top-5" %>
   </div>

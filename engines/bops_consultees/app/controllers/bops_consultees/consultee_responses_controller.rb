@@ -7,7 +7,7 @@ module BopsConsultees
     before_action :set_consultee_response
 
     def update
-      if @consultee_response.update(consultee_response_params)
+      if @consultee_response.update(consultee_response_params.merge(received_at: Time.zone.now))
         redirect_to planning_application_path(@planning_application, sgid: params[:sgid]),
           notice: "Your response has been updated."
       else
@@ -29,7 +29,7 @@ module BopsConsultees
     end
 
     def consultee_response_params
-      params.require(:consultee_response).permit(:summary_tag, :response)
+      params.require(:consultee_response).permit(:summary_tag, :response, documents: [])
     end
 
     def render_expired
