@@ -2,12 +2,13 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+  workflow_dispatch:  # click the button on Github repo!
 
 concurrency:
   group: ${{ github.ref }}
