@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_30_115103) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_30_165912) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -993,6 +993,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_30_115103) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "comment"
     t.index ["planning_application_id"], name: "ix_site_histories_on_planning_application_id"
   end
 

@@ -87,7 +87,7 @@ module PlanningApplications
       end
 
       def planning_history_params
-        params.require(:site_history).permit(:reference, :description, :decision, :other_decision, :date)
+        params.require(:site_history).permit(:reference, :description, :decision, :other_decision, :date, :comment)
       end
     end
   end
