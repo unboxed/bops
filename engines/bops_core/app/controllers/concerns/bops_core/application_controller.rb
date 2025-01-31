@@ -86,5 +86,15 @@ module BopsCore
       session[:back_path] = request.referer if request.get?
       @back_path = session[:back_path]
     end
+
+    def session_domain_matches?
+      Current.user.nil? || Current.user.local_authority == Current.local_authority
+    end
+
+    def reset_session_and_redirect(_exception = nil)
+      reset_session
+
+      redirect_to request.referer || "/"
+    end
   end
 end

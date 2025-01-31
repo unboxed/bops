@@ -6,8 +6,8 @@ RSpec.describe "session expiry" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
 
-  def new_browser
-    open_session { |s| s.host! "#{local_authority.subdomain}.bops.localhost" }
+  def new_browser(current_local_authority: local_authority)
+    open_session { |s| s.host! "#{current_local_authority.subdomain}.bops.localhost" }
   end
 
   context "when a new session is created" do
@@ -41,6 +41,21 @@ RSpec.describe "session expiry" do
       expect(s1.response.status).to eq 302
 
       expect(assessor.persistence_token).not_to eq original_token
+    end
+  end
+
+  context "when a session is used on another local authority" do
+    let(:other_local_authority) { create(:local_authority, :default, subdomain: "other") }
+    it "rejects the authentication" do
+      s1 = new_browser
+      s1.sign_in assessor
+      s1.get "/planning_applications/"
+      expect(s1.response.status).to eq 200
+
+      s2 = new_browser(current_local_authority: other_local_authority)
+      s2.cookies[:_bops_session] = s1.cookies[:_bops_session]
+      s2.get "/"
+      expect(s2.response.status).to eq 302
     end
   end
 end
