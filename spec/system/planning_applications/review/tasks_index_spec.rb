@@ -50,7 +50,7 @@ RSpec.describe "Reviewing Tasks Index" do
         expect(page).to have_row_for("Application type:", with: "Planning Permission - Full householder")
         expect(page).to have_row_for("Site address:", with: "123 Long Lane, Big City, AB34EF")
         expect(page).to have_row_for("Location:", with: "View site on Google Maps (opens in new tab)")
-        expect(page).to have_row_for("Valid from:", with: "11 November 2022")
+        expect(page).to have_row_for("Valid from:", with: "12 November 2022")
         expect(page).to have_row_for("Expiry date:", with: "7 January 2023")
         expect(page).to have_row_for("Consultation end:", with: "Not yet started")
         expect(page).to have_row_for("Press notice:", with: "-")
