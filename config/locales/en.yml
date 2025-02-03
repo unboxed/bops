@@ -2132,6 +2132,7 @@ en:
     proposal_header:
       application_number: 'Application number:'
       mark_for_appeal: Mark for appeal
+      previously: Previously
       update_appeal: Update appeal
     review_task_breadcrumbs:
       application: Application
