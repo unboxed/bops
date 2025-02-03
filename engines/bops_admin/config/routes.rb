@@ -15,7 +15,7 @@ BopsAdmin::Engine.routes.draw do
   resources :informatives, except: %i[show]
 
   scope "/policy" do
-    get "/", to: redirect("policy/areas"), as: "policy_root"
+    get "/", to: redirect("policy/areas"), as: "policies"
 
     with_options except: %i[show] do
       resources :policy_areas, path: "areas"

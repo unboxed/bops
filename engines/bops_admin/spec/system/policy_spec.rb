@@ -13,9 +13,9 @@ RSpec.describe "Policies" do
   context "when clicking 'Policy' in the primary navigation" do
     it "redirects to 'Policy areas'" do
       visit "/"
-      expect(page).to have_link("Policy", href: "/admin/policy")
+      expect(page).to have_link("Policies", href: "/admin/policy")
 
-      click_link "Policy"
+      click_link "Policies"
       expect(page).to have_current_path("/admin/policy/areas")
       expect(page).to have_selector("h1", text: "Manage policy areas")
     end

@@ -1,5 +1,0 @@
-<%= bops_secondary_navigation(classes: %w[govuk-!-margin-top-5]) do |nav| %>
-  <% nav.with_navigation_item(text: t(".policy_areas"), href: policy_areas_path) %>
-  <% nav.with_navigation_item(text: t(".policy_guidance"), href: policy_guidances_path, current: true) %>
-  <% nav.with_navigation_item(text: t(".policy_references"), href: policy_references_path) %>
-<% end %>

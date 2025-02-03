@@ -318,7 +318,7 @@ en:
         add_token: Add API token
         back_to_token_list: Return to the list of API tokens
         new_token_body_html: |
-          <small>
+          <small class="govuk-!-font-size-24">
             Your new API token secret is<br>
             <strong>%{token}</strong>
           </small>

@@ -39,8 +39,11 @@ RSpec.describe "Dashboard", type: :system do
 
       expect(page).to have_current_path("/admin/dashboard")
       expect(page).to have_content("Welcome Anne Administrator")
-      expect(page).to have_link("Users", href: "/admin/users")
-      expect(page).to have_link("Profile", href: "/admin/profile")
+      expect(page).to have_link("Dashboard", href: "/admin/dashboard")
+      expect(page).to have_link("Applications", href: "/admin/consultees")
+      expect(page).to have_link("Policies", href: "/admin/policy")
+      expect(page).to have_link("Users & Access", href: "/admin/users")
+      expect(page).to have_link("Settings", href: "/admin/profile")
     end
   end
 end

@@ -6,48 +6,55 @@
 
 <% content_for :title, t(".consultees") %>
 
-<h1 class="govuk-heading-l">
-  <%= t(".consultees") %>
-</h1>
-
-<%= form_with url: consultees_path, class: "govuk-!-margin-bottom-7", method: :get do |form| %>
-  <%= form.govuk_text_field :q, value: params[:q], width: "one-half", label: {text: t(".find_consultees"), hidden: true} %>
-  <div class="govuk-button-group">
-    <%= form.govuk_submit t(".find_consultees") %>
-    <%= govuk_link_to t(".add_consultee"), new_consultee_path, no_visited_state: true %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
   </div>
-<% end %>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".consultees") %>
+    </h1>
 
-<table class="govuk-table" id="consultees">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header"><%= t(".headings.name") %></th>
-      <th scope="col" class="govuk-table__header"><%= t(".headings.role") %></th>
-      <th scope="col" class="govuk-table__header"><%= t(".headings.organisation") %></th>
-      <th scope="col" class="govuk-table__header"><%= t(".headings.origin") %></th>
-      <th scope="col" class="govuk-table__header govuk-!-text-align-right"><%= t(".headings.actions") %></th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <% if @consultees.present? %>
-      <% @consultees.each do |consultee| %>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"><%= consultee.name %></th>
-          <td class="govuk-table__cell"><%= consultee.role.presence || "–" %></td>
-          <td class="govuk-table__cell"><%= consultee.organisation.presence || "–" %></td>
-          <td class="govuk-table__cell"><%= consultee.origin.titleize %></td>
-          <td class="govuk-table__cell govuk-!-text-align-right">
-            <%= govuk_link_to t(".actions.edit"), edit_consultee_path(consultee), no_visited_state: true, no_underline: true %>
-            <%= govuk_link_to t(".actions.delete"), consultee_path(consultee), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t(".are_you_sure")} %>
-          </td>
-        </tr>
-      <% end %>
-    <% else %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell" colspan="5"><%= t(".no_consultees_found") %></td>
-      </tr>
+    <%= form_with url: consultees_path, class: "govuk-!-margin-bottom-7", method: :get do |form| %>
+      <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_consultees"), hidden: true} %>
+      <div class="govuk-button-group">
+        <%= form.govuk_submit t(".find_consultees") %>
+        <%= govuk_link_to t(".add_consultee"), new_consultee_path, no_visited_state: true %>
+      </div>
     <% end %>
-  </tbody>
-</table>
 
-<%= govuk_pagination(pagy: @pagy) if @pagy.pages > 1 %>
+    <table class="govuk-table" id="consultees">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header"><%= t(".headings.name") %></th>
+          <th scope="col" class="govuk-table__header"><%= t(".headings.role") %></th>
+          <th scope="col" class="govuk-table__header"><%= t(".headings.organisation") %></th>
+          <th scope="col" class="govuk-table__header"><%= t(".headings.origin") %></th>
+          <th scope="col" class="govuk-table__header govuk-!-text-align-right"><%= t(".headings.actions") %></th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% if @consultees.present? %>
+          <% @consultees.each do |consultee| %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><%= consultee.name %></th>
+              <td class="govuk-table__cell"><%= consultee.role.presence || "–" %></td>
+              <td class="govuk-table__cell"><%= consultee.organisation.presence || "–" %></td>
+              <td class="govuk-table__cell"><%= consultee.origin.titleize %></td>
+              <td class="govuk-table__cell govuk-!-text-align-right">
+                <%= govuk_link_to t(".actions.edit"), edit_consultee_path(consultee), no_visited_state: true, no_underline: true %>
+                <%= govuk_link_to t(".actions.delete"), consultee_path(consultee), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t(".are_you_sure")} %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" colspan="5"><%= t(".no_consultees_found") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= govuk_pagination(pagy: @pagy) if @pagy.pages > 1 %>
+  </div>
+</div>
