@@ -5,7 +5,7 @@ module BopsApi
         module Public
             class PublicCommentsController < PublicController
                 def show
-                    @pagy, @responses = Pagination.new(scope: response_scope, params: query_params).paginate
+                    @pagy, @responses = query_service.call
 
                     respond_to do |format|
                     format.json
@@ -15,11 +15,13 @@ module BopsApi
                 private
 
                 def response_scope
-                    current_local_authority.neighbour_responses
+                    current_local_authority.neighbour_responses.select(:id, :redacted_response, :received_at, :summary_tag)
                 end
-
-                def query_params
-                    params.permit(:page, :maxresults)
+                def search_params
+                    params.permit(:page, :maxresults, :q, :sort_by, :order)
+                end
+                def query_service(scope = response_scope)
+                    @query_service ||= Comment::QueryService.new(scope, search_params)
                 end
             end
         end
