@@ -6,10 +6,11 @@
   <%= govuk_table(classes: "planning-history-table") do |table| %>
     <% table.with_head do |head| %>
       <% head.with_row do |row| %>
-        <% row.with_cell(text: "Date") %>
         <% row.with_cell(text: "Application number") %>
-        <% row.with_cell(text: "Description") %>
         <% row.with_cell(text: "Decision") %>
+        <% row.with_cell(text: "Description") %>
+        <% row.with_cell(text: "Relevance to proposal") %>
+        <% row.with_cell(text: "Date") %>
         <% if show_action %>
           <% row.with_cell(text: "Action") %>
         <% end %>
@@ -19,21 +20,24 @@
     <% table.with_body do |body| %>
       <% site_histories.each do |site_history| %>
         <% body.with_row do |row| %>
-          <% row.with_cell(text: site_history.date? ? site_history.date.to_fs(:day_month_year_slashes) : "–") %>
           <% row.with_cell(text: site_history.reference) %>
-          <% row.with_cell(text: site_history.description) %>
           <% row.with_cell do %>
             <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags)) %>
           <% end %>
-          <% row.with_cell do %>
-              <%= govuk_link_to "Edit",
-                    edit_planning_application_assessment_site_history_path(@planning_application, site_history),
-                    class: "govuk-!-display-inline-block" %>
+          <% row.with_cell(text: site_history.description) %>
+          <% row.with_cell(text: site_history.comment) %>
+          <% row.with_cell(text: site_history.date? ? site_history.date.to_fs(:day_month_year_slashes) : "–") %>
+          <% if show_action %>
+            <% row.with_cell do %>
+                <%= govuk_link_to "Edit",
+                      edit_planning_application_assessment_site_history_path(@planning_application, site_history),
+                      class: "govuk-!-display-inline-block" %>
 
-              <%= govuk_link_to "Remove",
-                    planning_application_assessment_site_history_path(@planning_application, site_history),
-                    method: :delete, class: "govuk-!-display-inline-block govuk-!-margin-left-1",
-                    data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this site history?"} %>
+                <%= govuk_link_to "Remove",
+                      planning_application_assessment_site_history_path(@planning_application, site_history),
+                      method: :delete, class: "govuk-!-display-inline-block govuk-!-margin-left-1",
+                      data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this site history?"} %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
