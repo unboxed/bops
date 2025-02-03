@@ -55,7 +55,7 @@ RSpec.describe "Planning applications", type: :system do
       perform_enqueued_jobs
       expect(mail.count).to eql(delivered_emails + 1)
 
-      url = mail.last.body.raw_source.match(/href="(?<url>.+?)">/)[:url]
+      url = mail.last.body.raw_source.match(/http[^\s]+/)
       visit url
       expect(page).to have_content(reference)
     end
