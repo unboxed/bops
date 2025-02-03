@@ -84,9 +84,12 @@ module PlanningApplications
         @validation_request.user = current_user
 
         if @validation_request.save
+          i18n_key = ".#{@validation_request.type.underscore}.success"
+          i18n_key << "_autoapproved" if @validation_request.type == "DescriptionChangeValidationRequest" && !@planning_application.application_type.description_change_requires_validation?
+
           redirect_to(
             create_request_redirect_url,
-            notice: t(".#{@validation_request.type.underscore}.success")
+            notice: t(i18n_key)
           )
         else
           if @validation_request.type == "ReplacementDocumentValidationRequest"

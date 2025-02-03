@@ -1962,6 +1962,7 @@ en:
             success: Additional document request successfully created.
           description_change_validation_request:
             success: Description change request successfully sent.
+            success_autoapproved: Description updated.
           fee_change_validation_request:
             success: Fee change request successfully created.
           other_change_validation_request:

@@ -212,13 +212,13 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(page).to have_content("Application number: #{planning_application.reference}")
 
       fill_in(
-        "Enter an amended description to send to the applicant",
+        "Enter an amended description",
         with: "My better description"
       )
 
-      click_button "Send request"
+      click_button "Save and mark as complete"
 
-      expect(page).to have_content("Description change request successfully sent.")
+      expect(page).to have_content("Description updated.")
 
       within("#check-description-task") do
         expect(page).to have_content("Completed")
