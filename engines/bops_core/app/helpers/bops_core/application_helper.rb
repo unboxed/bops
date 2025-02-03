@@ -6,6 +6,7 @@ module BopsCore
 
     {
       bops_secondary_navigation: "BopsCore::SecondaryNavigationComponent",
+      bops_sub_navigation: "BopsCore::SubNavigationComponent",
       bops_task_accordion: "BopsCore::TaskAccordionComponent"
     }.each do |name, klass|
       define_method(name) do |*args, **kwargs, &block|
