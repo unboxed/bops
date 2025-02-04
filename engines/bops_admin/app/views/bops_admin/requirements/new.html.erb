@@ -1,0 +1,24 @@
+<% content_for :page_title do %>
+  <%= t(".add_requirement") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Policies", policies_path %>
+<% add_parent_breadcrumb_link "Requirements", requirements_path %>
+
+<% content_for :title, t(".add_requirement") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".add_requirement") %>
+    </h1>
+
+    <%= form_with model: @requirement, url: requirements_path, scope: :requirement do |form| %>
+      <%= render "form", form: form %>
+    <% end %>
+  </div>
+</div>

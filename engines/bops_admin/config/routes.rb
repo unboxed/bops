@@ -12,7 +12,11 @@ BopsAdmin::Engine.routes.draw do
     resource :determination_period, only: %i[edit update]
   end
 
-  resources :informatives, except: %i[show]
+  with_options except: %i[show] do
+    resources :categories
+    resources :informatives
+    resources :requirements
+  end
 
   scope "/policy" do
     get "/", to: redirect("policy/areas"), as: "policies"

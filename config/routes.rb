@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       get "/informatives", to: "informatives#index"
       get "/policy/guidance", to: "policy_guidances#index"
       get "/policy/references", to: "policy_references#index"
+      get "/requirements", to: "requirements#index"
     end
 
     resources :planning_applications, param: :reference, except: %i[destroy] do

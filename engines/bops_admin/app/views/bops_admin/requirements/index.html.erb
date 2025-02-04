@@ -1,0 +1,61 @@
+<% content_for :page_title do %>
+  <%= t(".manage_requirements") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Policies", policies_path %>
+
+<% content_for :title, t(".manage_requirements") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".manage_requirements") %>
+    </h1>
+
+    <%= form_with url: requirements_path, method: :get do |form| %>
+      <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_requirement"), hidden: true} %>
+      <%= form.govuk_submit t(".find_requirement") do %>
+        <%= govuk_link_to t(".add_requirement"), new_requirement_path, no_visited_state: true %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_table(id: "policy-guidances") do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: t(".headings.description")) %>
+          <% row.with_cell(text: t(".headings.actions"), classes: %w[govuk-!-text-align-right]) %>
+        <% end %>
+      <% end %>
+
+      <% table.with_body do |body| %>
+        <% if @requirements.present? %>
+          <% @requirements.each do |requirement| %>
+            <% body.with_row do |row| %>
+              <% row.with_cell do %>
+                <% if requirement.url? %>
+                  <%= govuk_link_to(requirement.description, requirement.url, no_visited_state: true, no_underline: true, new_tab: true) %>
+                <% else %>
+                  <%= requirement.description %>
+                <% end %>
+              <% end %>
+              <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
+                <%= govuk_link_to t(".actions.edit"), edit_requirement_path(requirement), no_visited_state: true, no_underline: true %>
+                <%= govuk_link_to t(".actions.delete"), requirement_path(requirement), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t(".are_you_sure")} %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: t(".no_requirements_found"), colspan: 3) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_pagination(pagy: @pagy) if @pagy.pages > 1 %>
+  </div>
+</div>
