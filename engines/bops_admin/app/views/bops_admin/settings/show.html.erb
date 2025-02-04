@@ -2,8 +2,13 @@
   <%= t(".application_settings") %> - <%= t("page_title") %>
 <% end %>
 
+<% add_parent_breadcrumb_link "Home", root_path %>
+
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-l"><%= t(".application_settings") %></h1>
 
     <h2 class="govuk-heading-m"><%= t(".determination_period") %></h2>

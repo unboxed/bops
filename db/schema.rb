@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_04_104623) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
-    t.jsonb "file_downloader", default: {"type"=>"NoAuthentication"}
+    t.jsonb "file_downloader", default: {"type" => "NoAuthentication"}
     t.string "service"
     t.datetime "revoked_at"
     t.datetime "last_used_at"
@@ -247,7 +247,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.datetime "letter_copy_sent_at"
     t.jsonb "polygon_geojson"
     t.string "polygon_colour", default: "#d870fc", null: false
-    t.geography "polygon_search", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
+    t.geography "polygon_search", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.string "consultee_message_subject"
     t.text "consultee_message_body"
     t.uuid "consultee_email_reply_to_id"
@@ -512,6 +512,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
+  create_table "local_authority_categories", force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.string "description", null: false
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "description"], name: "ix_local_authority_categories_on_local_authority_id__descriptio", unique: true
+    t.index ["local_authority_id", "search"], name: "ix_local_authority_categories_on_local_authority_id__search", using: :gin
+    t.index ["local_authority_id"], name: "ix_local_authority_categories_on_local_authority_id"
+  end
+
   create_table "local_authority_informatives", force: :cascade do |t|
     t.bigint "local_authority_id"
     t.string "title"
@@ -565,6 +576,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_references_on_local_authority_id__des", unique: true
     t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_references_on_local_authority_id__sea", using: :gin
     t.index ["local_authority_id"], name: "ix_local_authority_policy_references_on_local_authority_id"
+  end
+
+  create_table "local_authority_requirements", force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.string "description", null: false
+    t.string "url"
+    t.text "guidelines"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "description"], name: "ix_local_authority_requirements_on_local_authority_id__descript", unique: true
+    t.index ["local_authority_id", "search"], name: "ix_local_authority_requirements_on_local_authority_id__search", using: :gin
+    t.index ["local_authority_id"], name: "ix_local_authority_requirements_on_local_authority_id"
   end
 
   create_table "local_policies", force: :cascade do |t|
@@ -637,7 +661,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.boolean "selected", default: true
     t.datetime "last_letter_sent_at"
     t.string "source"
-    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
     t.index "lower((address)::text), consultation_id", name: "index_neighbours_on_lower_address_and_consultation_id", unique: true
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
@@ -815,12 +839,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.boolean "make_public", default: false
     t.boolean "legislation_checked", default: false, null: false
     t.boolean "cil_liable"
-    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
     t.datetime "not_started_at"
     t.boolean "valid_ownership_certificate"
     t.boolean "valid_description"
     t.string "reporting_type"
-    t.geography "neighbour_boundary_geojson", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
+    t.geography "neighbour_boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.string "documents_status", default: "not_started", null: false
     t.datetime "in_committee_at"
     t.boolean "regulation_3", default: false, null: false
@@ -1141,11 +1165,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
+  add_foreign_key "local_authority_categories", "local_authorities"
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_references", column: "policy_reference_id"
   add_foreign_key "local_authority_policy_guidances", "local_authorities"
   add_foreign_key "local_authority_policy_references", "local_authorities"
+  add_foreign_key "local_authority_requirements", "local_authorities"
   add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policy_areas", "local_policies"
   add_foreign_key "neighbour_letter_batches", "consultations"

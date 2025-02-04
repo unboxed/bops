@@ -69,7 +69,7 @@ module BopsAdmin
     private
 
     def set_policy_areas
-      @pagy, @policy_areas = pagy(current_local_authority.policy_areas.search(search_param), items: 10)
+      @pagy, @policy_areas = pagy(current_local_authority.policy_areas.search(search_param), limit: 10)
     end
 
     def search_param

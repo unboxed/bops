@@ -1,0 +1,46 @@
+.bops-side-navigation {
+  @include govuk-font(16);
+
+  &__heading {
+    margin: 0 0 govuk-spacing(4);
+  }
+
+  &__link {
+    @include govuk-link-common;
+    @include govuk-link-style-no-visited-state;
+    @include govuk-link-style-no-underline;
+
+    &:not(:focus):hover {
+      color: $govuk-link-colour;
+    }
+  }
+
+  &__link[aria-current] {
+    color: $govuk-text-colour;
+
+    &:not(:focus):hover {
+      color: $govuk-text-colour;
+    }
+  }
+
+  &__section-heading {
+    margin: 0 0 govuk-spacing(2);
+  }
+
+  &__section-list {
+    box-shadow: inset 1px 0 0 $govuk-border-colour;
+    list-style-type: none;
+    margin: 0 0 govuk-spacing(4);
+    padding: 0;
+  }
+
+  &__section-item {
+    border-left: $govuk-border-width solid transparent;
+    margin: 0;
+    padding: govuk-spacing(1) 0 govuk-spacing(1) govuk-spacing(2);
+
+    &--current {
+      border-left-color: $govuk-brand-colour;
+    }
+  }
+}

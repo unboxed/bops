@@ -2,7 +2,7 @@
 
 json.metadata do
   json.page @pagy.page
-  json.results @pagy.items
+  json.results @pagy.limit
   json.from @pagy.from
   json.to @pagy.to
   json.total_pages @pagy.pages

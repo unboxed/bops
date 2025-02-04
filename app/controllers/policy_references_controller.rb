@@ -16,7 +16,7 @@ class PolicyReferencesController < AuthenticationController
   private
 
   def set_policy_references
-    @pagy, @policy_references = pagy(current_local_authority.policy_references.search(search_param), items: 10)
+    @pagy, @policy_references = pagy(current_local_authority.policy_references.search(search_param), limit: 10)
   end
 
   def search_param

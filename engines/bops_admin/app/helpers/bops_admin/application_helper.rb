@@ -5,6 +5,12 @@ module BopsAdmin
     include BopsCore::ApplicationHelper
     include BreadcrumbNavigationHelper
 
+    DASHBOARD_PAGES = %w[dashboards].freeze
+    APPLICATION_PAGES = %w[consultees settings determination_periods].freeze
+    POLICY_PAGES = %w[informatives policy_areas policy_guidances policy_references].freeze
+    USER_PAGES = %w[tokens users].freeze
+    SETTING_PAGES = %w[profiles].freeze
+
     attr_reader :back_path
 
     def back_link(classname: "govuk-button govuk-button--secondary")
@@ -19,39 +25,49 @@ module BopsAdmin
       User.otp_delivery_methods.keys.map { |key| [key, t(".#{key}")] }
     end
 
+    def dashboard_page?(page)
+      DASHBOARD_PAGES.include?(page)
+    end
+
+    def application_page?(page)
+      APPLICATION_PAGES.include?(page)
+    end
+
+    def policy_page?(page)
+      POLICY_PAGES.include?(page)
+    end
+
+    def user_page?(page)
+      USER_PAGES.include?(page)
+    end
+
+    def setting_page?(page)
+      SETTING_PAGES.include?(page)
+    end
+
     def active_page_key
-      case controller_name
-      when "dashboard"
+      if dashboard_page?(controller_name)
         "dashboard"
-      when "settings", "determination_periods"
-        "setting"
-      when "tokens"
-        "tokens"
-      when "users"
+      elsif application_page?(controller_name)
+        "applications"
+      elsif policy_page?(controller_name)
+        "policies"
+      elsif user_page?(controller_name)
         "users"
-      when "consultees"
-        "consultees"
-      when "profiles"
-        "profile"
-      when "informatives"
-        "informatives"
-      when "policy_areas", "policy_guidances", "policy_references"
-        "policy"
+      elsif setting_page?(controller_name)
+        "settings"
       else
-        "dashboard"
+        ""
       end
     end
 
     def nav_items
       [
-        {link: {text: "Dashboard", href: root_path}, current: active_page_key?("dashboard")},
-        {link: {text: "Application settings", href: setting_path}, current: active_page_key?("setting")},
-        {link: {text: "Consultees", href: consultees_path}, current: active_page_key?("consultees")},
-        {link: {text: "Informatives", href: informatives_path}, current: active_page_key?("informatives")},
-        {link: {text: "Policy", href: policy_root_path}, current: active_page_key?("policy")},
-        {link: {text: "Users", href: users_path}, current: active_page_key?("users")},
-        {link: {text: "API tokens", href: tokens_path}, current: active_page_key?("tokens")},
-        {link: {text: "Profile", href: profile_path}, current: active_page_key?("profile")}
+        {text: "Dashboard", href: dashboard_path, active: active_page_key?("dashboard")},
+        {text: "Applications", href: consultees_path, active: active_page_key?("applications")},
+        {text: "Policies", href: policies_path, active: active_page_key?("policies")},
+        {text: "Users & Access", href: users_path, active: active_page_key?("users")},
+        {text: "Settings", href: profile_path, active: active_page_key?("settings")}
       ]
     end
   end

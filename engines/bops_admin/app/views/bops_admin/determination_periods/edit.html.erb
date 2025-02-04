@@ -7,7 +7,10 @@
 <% content_for :title, t(".determination_period") %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
     <%= form_with model: current_local_authority, url: [:setting, :determination_period] do |form| %>
       <%= form.govuk_error_summary %>
 

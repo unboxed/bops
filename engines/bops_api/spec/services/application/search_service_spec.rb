@@ -21,7 +21,7 @@ RSpec.describe BopsApi::Application::SearchService do
       it "paginates the results correctly" do
         expect(pagy).to have_attributes(
           page: 2,
-          items: 5,
+          limit: 5,
           count: 25,
           pages: 5,
           from: 6,
@@ -33,7 +33,7 @@ RSpec.describe BopsApi::Application::SearchService do
         let(:params) { {maxresults: 50} }
 
         it "limits the results to MAXRESULTS_LIMIT" do
-          expect(pagy.items).to eq(BopsApi::Pagination::MAXRESULTS_LIMIT)
+          expect(pagy.limit).to eq(BopsApi::Pagination::MAXRESULTS_LIMIT)
         end
       end
     end

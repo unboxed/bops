@@ -43,13 +43,13 @@ module BopsConfig
 
     def nav_items
       [
-        {link: {text: "Dashboard", href: root_path}, current: active_page_key?("dashboard")},
-        {link: {text: "Users", href: users_path}, current: active_page_key?("users")},
-        {link: {text: "Application types", href: application_types_path}, current: active_page_key?("application_types")},
-        {link: {text: "Legislation", href: legislation_index_path}, current: active_page_key?("legislation")},
-        {link: {text: "Reporting types", href: reporting_types_path}, current: active_page_key?("reporting_types")},
-        {link: {text: "Decisions", href: decisions_path}, current: active_page_key?("decisions")},
-        {link: {text: "GPDO", href: gpdo_policy_schedules_path}, current: active_page_key?("gpdo")}
+        {text: "Dashboard", href: root_path, active: active_page_key?("dashboard")},
+        {text: "Users", href: users_path, active: active_page_key?("users")},
+        {text: "Application types", href: application_types_path, active: active_page_key?("application_types")},
+        {text: "Legislation", href: legislation_index_path, active: active_page_key?("legislation")},
+        {text: "Reporting types", href: reporting_types_path, active: active_page_key?("reporting_types")},
+        {text: "Decisions", href: decisions_path, active: active_page_key?("decisions")},
+        {text: "GPDO", href: gpdo_policy_schedules_path, active: active_page_key?("gpdo")}
       ]
     end
   end

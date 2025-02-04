@@ -19,7 +19,7 @@ module BopsApi
       page = (params[:page] || DEFAULT_PAGE).to_i.clamp(1, 1000)
       maxresults = [(params[:maxresults] || DEFAULT_MAXRESULTS).to_i, MAXRESULTS_LIMIT].min.clamp(1, 1000)
 
-      pagy(scope, page:, items: maxresults, overflow: :last_page)
+      pagy(scope, page:, limit: maxresults, overflow: :last_page)
     end
   end
 end
