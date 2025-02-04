@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
-    t.jsonb "file_downloader", default: {"type"=>"NoAuthentication"}
+    t.jsonb "file_downloader", default: {"type" => "NoAuthentication"}
     t.string "service"
     t.datetime "revoked_at"
     t.datetime "last_used_at"
@@ -247,7 +247,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.datetime "letter_copy_sent_at"
     t.jsonb "polygon_geojson"
     t.string "polygon_colour", default: "#d870fc", null: false
-    t.geography "polygon_search", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
+    t.geography "polygon_search", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.string "consultee_message_subject"
     t.text "consultee_message_body"
     t.uuid "consultee_email_reply_to_id"
@@ -637,7 +637,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.boolean "selected", default: true
     t.datetime "last_letter_sent_at"
     t.string "source"
-    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
     t.index "lower((address)::text), consultation_id", name: "index_neighbours_on_lower_address_and_consultation_id", unique: true
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
@@ -815,12 +815,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_121426) do
     t.boolean "make_public", default: false
     t.boolean "legislation_checked", default: false, null: false
     t.boolean "cil_liable"
-    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
     t.datetime "not_started_at"
     t.boolean "valid_ownership_certificate"
     t.boolean "valid_description"
     t.string "reporting_type"
-    t.geography "neighbour_boundary_geojson", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
+    t.geography "neighbour_boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.string "documents_status", default: "not_started", null: false
     t.datetime "in_committee_at"
     t.boolean "regulation_3", default: false, null: false
