@@ -114,7 +114,7 @@
         position: absolute;
         width: govuk-px-to-rem(14px);
         top: govuk-px-to-rem(31px);
-        left: govuk-px-to-rem(11px);
+        right: govuk-px-to-rem(25px);
         transform-origin: bottom right;
         transform: rotate(45deg);
       }
@@ -127,7 +127,7 @@
         position: absolute;
         width: govuk-px-to-rem(14px);
         top: govuk-px-to-rem(31px);
-        left: govuk-px-to-rem(25px);
+        right: govuk-px-to-rem(11px);
         transform-origin: bottom left;
         transform: rotate(-45deg);
       }
@@ -139,11 +139,11 @@
 
     flex-grow: 0;
     margin: 0;
-    margin-left: govuk-spacing(6);
   }
 
   &-status {
     flex-grow: 0;
+    margin-right: govuk-spacing(6) + 4px;
   }
 
   &-block {
@@ -189,14 +189,14 @@
       & > button {
         &:before {
           top: govuk-px-to-rem(21px);
-          left: govuk-px-to-rem(11px);
+          right: govuk-px-to-rem(25px);
           transform-origin: top right;
           transform: rotate(-45deg);
         }
 
         &:after {
           top: govuk-px-to-rem(21px);
-          left: govuk-px-to-rem(25px);
+          right: govuk-px-to-rem(11px);
           transform-origin: top left;
           transform: rotate(45deg);
         }
