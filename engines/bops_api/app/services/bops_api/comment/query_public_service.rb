@@ -2,7 +2,7 @@
 
 module BopsApi
   module Comment
-    class QueryService
+    class QueryPublicService
       def initialize(scope, params)
         @scope = scope
         @params = params
@@ -25,9 +25,9 @@ module BopsApi
 
       def apply_filtering(scope)
         sort_by = params[:sort_by] || 'received_at'
-        order = params[:order]
+        order = params[:order] || "desc"
 
-        scope.order("#{sort_by} #{order}")
+        scope.reorder("#{sort_by} #{order}")
       end
 
       def search_comment

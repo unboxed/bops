@@ -5,3 +5,4 @@
 
     json.text response.redacted_response.presence
     json.sentiment response.summary_tag
+    json.id response.id

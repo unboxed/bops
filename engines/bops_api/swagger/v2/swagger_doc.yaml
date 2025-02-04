@@ -33559,6 +33559,32 @@ paths:
           type: string
           description: The planning application reference
         required: true
+      - name: maxresults
+        in: query
+        schema:
+          type: integer
+          default: 10
+        required: false
+      - name: q
+        in: query
+        schema:
+          type: string
+          description: Search by text
+        required: false
+      - name: sort_by
+        in: query
+        schema:
+          type: string
+          default: received_at 
+          description: Sort by received date or id
+        required: false
+      - name: order
+        in: query
+        schema:
+          type: string
+          default: desc
+          description: Order by asc or desc
+        required: false
       responses:
         '200':
           description: returns a specialist comment given a reference
