@@ -105,6 +105,19 @@ RSpec.describe "Planning Application show page" do
         expect(page).to have_content("#{planning_application.created_at.year % 100}-00100-HAPP")
       end
     end
+
+    context "when application type has been changed" do
+      before do
+        planning_application.update!(application_type: create(:application_type, :ldc_existing))
+        visit "/planning_applications/#{planning_application.reference}"
+      end
+
+      it "Displays previous application reference numbers" do
+        expect(page).to have_text(
+          "Application number: #{planning_application.created_at.year % 100}-00100-LDCE (Previously: #{planning_application.created_at.year % 100}-00100-LDCP)"
+        )
+      end
+    end
   end
 
   context "as an assessor when target date is within a week" do

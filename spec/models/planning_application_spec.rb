@@ -399,16 +399,16 @@ RSpec.describe PlanningApplication do
               ldc_planning_application.update!(application_type_id: ApplicationType.find_by(name: "prior_approval").id)
             end.to change(Audit, :count)
               .by(1)
-              .and change(ldc_planning_application, :application_number)
-              .from("00101").to("00102")
               .and change(ldc_planning_application, :reference)
-              .from("23-00101-LDCP").to("23-00102-PA1A")
+              .from("23-00101-LDCP").to("23-00101-PA1A")
+              .and change(ldc_planning_application, :previous_references)
+              .from([]).to(["23-00101-LDCP"])
 
             expect(Audit.last).to have_attributes(
               planning_application_id: ldc_planning_application.id,
               activity_type: "updated",
               activity_information: "Application type",
-              audit_comment: "Application type changed from: Lawfulness certificate / Changed to: Prior approval,\n         Reference changed from 23-00101-LDCP to 23-00102-PA1A",
+              audit_comment: "Application type changed from: Lawfulness certificate / Changed to: Prior approval,\n         Reference changed from 23-00101-LDCP to 23-00101-PA1A",
               user: assessor
             )
           end

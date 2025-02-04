@@ -1133,16 +1133,18 @@ class PlanningApplication < ApplicationRecord
     old_application_type = ApplicationType.find(changes["application_type_id"].first)
     old_reference = reference
 
-    set_application_number
-    set_reference
+    transaction do
+      set_reference
+      previous_references << old_reference
 
-    audit!(
-      activity_type: "updated",
-      activity_information: "Application type",
-      audit_comment:
-        "Application type changed from: #{old_application_type.full_name} / Changed to: #{application_type.full_name},
+      audit!(
+        activity_type: "updated",
+        activity_information: "Application type",
+        audit_comment:
+          "Application type changed from: #{old_application_type.full_name} / Changed to: #{application_type.full_name},
          Reference changed from #{old_reference} to #{reference}"
-    )
+      )
+    end
   end
 
   def determination_date_is_not_in_the_future
