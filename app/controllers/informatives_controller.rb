@@ -16,7 +16,7 @@ class InformativesController < AuthenticationController
   private
 
   def set_informatives
-    @pagy, @informatives = pagy(current_local_authority.informatives.all_informatives(search_param), items: 10)
+    @pagy, @informatives = pagy(current_local_authority.informatives.all_informatives(search_param), limit: 10)
   end
 
   def search_param

@@ -69,7 +69,7 @@ module BopsAdmin
     private
 
     def set_consultees
-      @pagy, @consultees = pagy(current_local_authority.contacts.consultees(search_param), items: 10)
+      @pagy, @consultees = pagy(current_local_authority.contacts.consultees(search_param), limit: 10)
     end
 
     def search_param

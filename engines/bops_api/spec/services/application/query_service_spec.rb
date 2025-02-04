@@ -19,7 +19,7 @@ RSpec.describe BopsApi::Application::QueryService do
         pagy, _ = service.call
         expect(pagy).to have_attributes(
           page: 2,
-          items: 5,
+          limit: 5,
           count: 25,
           pages: 5,
           from: 6,
@@ -32,7 +32,7 @@ RSpec.describe BopsApi::Application::QueryService do
 
         it "limits the results to MAXRESULTS_LIMIT" do
           pagy, _ = service.call
-          expect(pagy.items).to eq(BopsApi::Pagination::MAXRESULTS_LIMIT)
+          expect(pagy.limit).to eq(BopsApi::Pagination::MAXRESULTS_LIMIT)
         end
       end
     end
