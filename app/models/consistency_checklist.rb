@@ -48,6 +48,8 @@ class ConsistencyChecklist < ApplicationRecord
     end
   end
 
+  before_validation :reset_site_map_correct_comment_if_needed
+
   private
 
   CHECKS.each do |check|
@@ -72,5 +74,9 @@ class ConsistencyChecklist < ApplicationRecord
         planning_application.send(:"#{request_type}_validation_requests").open
       )
     end
+  end
+
+  def reset_site_map_correct_comment_if_needed
+    self.site_map_correct_comment = nil if site_map_correct == "yes"
   end
 end
