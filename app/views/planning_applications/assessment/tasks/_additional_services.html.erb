@@ -8,5 +8,13 @@
             )
           ) %>
     <% end %>
+
+     <% if @planning_application.additional_services.find_by(name: "meeting") %>
+      <%= render(
+            TaskListItems::Assessment::MeetingComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
   </ul>
 </li>

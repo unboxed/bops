@@ -1,0 +1,41 @@
+<% content_for :page_title do %>
+  Meetings - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "View meetings"}
+    ) %>
+
+<div class=govuk-width-container>
+  <% if @meetings.any? %>
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--m">Meeting history</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Meeting date</th>
+          <th scope="col" class="govuk-table__header">Case officer</th>
+          <th scope="col" class="govuk-table__header">Notes (optional)</th>
+        </tr>
+      </thead>
+      <% @meetings.each do |meeting| %>
+        <% if meeting.persisted? %>
+          <%= render "overview", meeting: meeting %>
+        <% end %>
+      <% end %>
+    </table>
+  <% end %>
+
+  <details class="govuk-details govuk-!-padding-top-5" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Add a new meeting
+      </span>
+    </summary>
+    <%= render "form" %>
+    </details>
+
+  <div class="govuk-button-group govuk-!-padding-top-7">
+    <%= back_link %>
+  </div>
+</div>

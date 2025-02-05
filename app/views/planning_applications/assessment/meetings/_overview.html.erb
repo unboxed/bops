@@ -1,0 +1,13 @@
+<tbody class="govuk-table__body">
+  <tr class="govuk-table__row">
+    <th scope="row" class="govuk-table__header">
+      <%= meeting.occurred_at&.to_date&.to_fs %>
+    </th>
+    <td class="govuk-table__cell">
+      <%= meeting.created_by.name %>
+    </td>
+    <td class="govuk-table__cell">
+      <%= meeting.comment %>
+    </td>
+  </tr>
+</tbody>

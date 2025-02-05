@@ -610,6 +610,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_04_104623) do
     t.index ["local_policy_id"], name: "ix_local_policy_areas_on_local_policy_id"
   end
 
+  create_table "meetings", force: :cascade do |t|
+    t.bigint "created_by_id", null: false
+    t.bigint "planning_application_id"
+    t.string "status", default: "not_started", null: false
+    t.text "comment"
+    t.datetime "occurred_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "ix_meetings_on_created_by_id"
+    t.index ["planning_application_id"], name: "ix_meetings_on_planning_application_id"
+  end
+
   create_table "neighbour_letter_batches", force: :cascade do |t|
     t.bigint "consultation_id"
     t.string "text"
@@ -1174,6 +1186,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_04_104623) do
   add_foreign_key "local_authority_requirements", "local_authorities"
   add_foreign_key "local_policies", "planning_applications"
   add_foreign_key "local_policy_areas", "local_policies"
+  add_foreign_key "meetings", "planning_applications"
+  add_foreign_key "meetings", "users", column: "created_by_id"
   add_foreign_key "neighbour_letter_batches", "consultations"
   add_foreign_key "neighbour_letters", "neighbour_letter_batches", column: "batch_id"
   add_foreign_key "neighbour_letters", "neighbours"

@@ -310,6 +310,13 @@ en:
               invalid: Enter a valid url for the legislation
             title:
               blank: Enter a title for the legislation
+        meeting:
+          attributes:
+            occurred_at:
+              date_blank: Provide the date when the meeting took place
+              date_invalid: The date the meeting took place must be a valid date
+              date_not_on_or_after: The date the meeting took place must be on or after the consultation start date
+              date_not_on_or_before: The date the meeting took place must be on or before today
         new_policy_class:
           attributes:
             name:
@@ -1303,6 +1310,9 @@ en:
             success: Informative was successfully saved
         update:
           success: Informatives were successfully saved
+      meetings:
+        create:
+          success: Meeting record was successfully added.
       ownership_certificates:
         update:
           success: Ownership certificate was checked
@@ -2257,6 +2267,8 @@ en:
       email_consultees: Send emails to consultees
     fee_component:
       check_fee: Check fee
+    meeting_component:
+      meeting: Meeting
     neighbour_responses_component:
       neighbour_responses: View neighbour responses
     other_change_request_component:
