@@ -27,7 +27,7 @@ module BopsApi
         sort_by = params[:sort_by] || 'received_at'
         order = params[:order] || "desc"
 
-        scope.reorder("#{sort_by} #{order}")
+        scope.order("#{sort_by} #{order}")
       end
 
       def search_comment
