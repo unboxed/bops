@@ -72,5 +72,8 @@ RSpec.describe "Profile", type: :system do
     click_button "Save"
 
     expect(page).to have_content("Determination period successfully updated")
+
+    expect(local_authority.reload.application_type_overrides.first&.code).to eq("preApp")
+    expect(local_authority.reload.application_type_overrides.first&.determination_period_days).to eq(25)
   end
 end

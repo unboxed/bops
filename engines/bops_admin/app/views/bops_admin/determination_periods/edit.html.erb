@@ -15,6 +15,7 @@
       <%= form.govuk_error_summary %>
 
       <%= form.fields_for :application_type_overrides do |ff| %>
+        <%= ff.hidden_field :code, value: :preApp %>
         <%= ff.govuk_text_field :determination_period_days, width: 5,
               label: {text: t(".set_determination_period"), size: "l"},
               hint: {text: t(".hint")},
