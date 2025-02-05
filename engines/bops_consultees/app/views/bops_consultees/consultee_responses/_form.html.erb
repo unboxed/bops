@@ -1,0 +1,27 @@
+<%= form_with(
+      scope: :consultee_response,
+      model: consultee_response,
+      url: planning_application_consultee_response_path(planning_application, sgid: params[:sgid]),
+      method: :patch,
+      class: "govuk-!-margin-top-5"
+    ) do |form| %>
+
+    <%= hidden_field_tag :sgid, params[:sgid] %>
+
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Submit a comment", size: "m"} do %>
+    <% Consultee::Response.all_summary_tags.each do |label, value| %>
+      <%= form.govuk_radio_button :summary_tag, value, label: {text: label} %>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_text_area :response, hint: {text: "Provide detailed feedback"} %>
+
+  <%= form.govuk_file_field :documents,
+        label: {text: "Upload documents"},
+        hint: {text: "Add any relevant documents."},
+        multiple: true %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Submit Response", class: "govuk-button govuk-button--primary govuk-!-margin-top-5" %>
+  </div>
+<% end %>

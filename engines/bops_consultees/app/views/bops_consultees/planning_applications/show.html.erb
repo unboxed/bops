@@ -17,23 +17,25 @@
       <%= @planning_application.days_status_tag %>
     </p>
 
-    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-      <div class="govuk-notification-banner__header">
-        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-          Important
-        </h2>
+    <% unless @consultee_response.persisted? %>
+      <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+            Important
+          </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">
+            Submit your comments by
+            <%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %>
+          </p>
+          <p class="gov-uk-body">
+            Jump to
+            <a class="govuk-notification-banner__link" href="#comments-form">comments section</a>.
+          </p>
+        </div>
       </div>
-      <div class="govuk-notification-banner__content">
-        <p class="govuk-notification-banner__heading">
-          Submit your comments by
-          <%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %>
-        </p>
-        <p class="gov-uk-body">
-          Jump to
-          <a class="govuk-notification-banner__link" href="#comments-form">comments section</a>.
-        </p>
-      </div>
-    </div>
+    <% end %>
   </div>
   <div class="govuk-grid-column-full">
     <% if @planning_application.boundary_geojson.present? %>
@@ -82,8 +84,19 @@
   </div>
 </div>
 
-<h2 id="comments-form" class="govuk-heading-m">Submit a comment</h2>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <h2 class="govuk-heading-m">Submitted documents</h2>
 
-<%= render "documents_list" %>
+<%= render "bops_consultees/planning_applications/documents_list" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full" id="comments-form">
+    <% unless @consultee_response.persisted? %>
+      <%= render "bops_consultees/consultee_responses/form", planning_application: @planning_application, consultee_response: @consultee_response, sgid: params[:sgid] %>
+    <% else %>
+      <h2 class="govuk-heading-m">Response</h2>
+      <%= render ConsulteeResponseComponent.new(response: @consultee_response, redact_and_publish: false) %>
+    <% end %>
+  </div>
+</div>

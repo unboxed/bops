@@ -13,8 +13,8 @@ class Consultee
     attr_readonly :response
 
     enum :summary_tag, {
-      amendments_needed: "amendments_needed",
       approved: "approved",
+      amendments_needed: "amendments_needed",
       objected: "objected"
     }, scopes: false
 
@@ -36,6 +36,10 @@ class Consultee
 
       def redacted
         where.not(redacted_response: "")
+      end
+
+      def all_summary_tags
+        summary_tags.values.map { |value| [I18n.t("consultee_response.summary_tags.#{value}"), value] }
       end
     end
 

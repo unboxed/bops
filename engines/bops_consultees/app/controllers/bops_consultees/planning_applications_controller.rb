@@ -4,7 +4,8 @@ module BopsConsultees
   class PlanningApplicationsController < ApplicationController
     before_action :authenticate_with_sgid!, only: :show
     before_action :set_planning_application, only: %i[show resend_link]
-    before_action :set_consultee, only: :resend_link
+    before_action :set_consultee, only: %i[show resend_link]
+    before_action :set_consultee_response, only: :show
     before_action :ensure_magic_link_resend_allowed, only: :resend_link
 
     def show
@@ -26,13 +27,6 @@ module BopsConsultees
 
     private
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find_by!(reference:)
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    rescue ActiveRecord::RecordNotFound
-      render_not_found
-    end
-
     def set_consultee
       expired_resource = BopsCore::SgidAuthenticationService.new(sgid).expired_resource
       @consultee = @planning_application.consultation.consultees.find(expired_resource.id)
@@ -40,12 +34,8 @@ module BopsConsultees
       render_not_found
     end
 
-    def planning_applications_scope
-      @current_local_authority.planning_applications
-    end
-
-    def reference
-      params[:reference]
+    def set_consultee_response
+      @consultee_response = @consultee.responses.first_or_initialize
     end
 
     def render_expired
