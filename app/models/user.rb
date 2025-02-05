@@ -12,10 +12,9 @@ class User < ApplicationRecord
   enum :role, {assessor: 0, reviewer: 1, administrator: 2, global_administrator: 3}
   enum :otp_delivery_method, {sms: 0, email: 1}
 
-  devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
-    :validatable, :confirmable,
-    otp_secret_encryption_key: Rails.configuration.otp_secret_encryption_key,
-    request_keys: [:subdomain]
+  devise :recoverable, :two_factor_authenticatable,
+    :recoverable, :timeoutable, :validatable, :confirmable,
+    otp_secret_encryption_key: Rails.configuration.otp_secret_encryption_key
 
   include EmailConfirmable
 
@@ -36,7 +35,8 @@ class User < ApplicationRecord
   validates :role, inclusion: {in: :local_roles}, if: -> { local_authority.present? }
 
   scope :non_administrator, -> { where.not(role: "administrator") }
-  scope :global_administrator, -> { where(local_authority_id: nil, role: "global_administrator") }
+  scope :global, -> { where(local_authority_id: nil) }
+  scope :global_administrator, -> { global.where(role: "global_administrator") }
   scope :confirmed, -> { kept.where.not(confirmed_at: nil) }
   scope :unconfirmed, -> { kept.where(confirmed_at: nil) }
 
@@ -60,17 +60,9 @@ class User < ApplicationRecord
     def global_roles
       GLOBAL_ROLES
     end
-  end
 
-  def self.find_for_authentication(tainted_conditions)
-    subdomain = tainted_conditions[:subdomain]
-    email = tainted_conditions[:email]
-
-    if subdomain == "config"
-      User.kept.global_administrator.find_first_by_auth_conditions(email:)
-    else
-      local_authority = LocalAuthority.find_by!(subdomain:)
-      local_authority.users.kept.find_first_by_auth_conditions(email:)
+    def find_for_authentication(tainted_conditions)
+      Current.user_scope.find_first_by_auth_conditions(tainted_conditions)
     end
   end
 

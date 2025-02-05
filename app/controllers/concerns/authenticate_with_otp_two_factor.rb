@@ -4,6 +4,7 @@ module AuthenticateWithOtpTwoFactor
   extend ActiveSupport::Concern
 
   def authenticate_with_otp_two_factor
+    return unless otp_two_factor_enabled?
     return unless valid_mobile_number?
 
     user = self.resource = find_user
@@ -74,7 +75,7 @@ module AuthenticateWithOtpTwoFactor
     if session[:otp_user_id]
       users_scope.find(session[:otp_user_id])
     elsif user_params[:email]
-      users_scope.find_for_authentication(email: user_params[:email], subdomain: request.subdomain)
+      users_scope.find_for_authentication(email: user_params[:email])
     end
   end
 

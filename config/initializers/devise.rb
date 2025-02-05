@@ -42,6 +42,15 @@ Devise.setup do |config|
   config.otp_allowed_drift = 300
 
   # ==> Warden configuration
+
+  # Scope the lookup to the local authority when restoring the user from the session
+  config.warden do |manager|
+    manager.serialize_from_session(:user) do |((id), salt)|
+      user = Current.user_scope.find_by(id:)
+      user if user && user.authenticatable_salt == salt
+    end
+  end
+
   # Reset the token after logging in so that other sessions are logged out
   Warden::Manager.after_set_user except: :fetch do |user, warden, options|
     if warden.authenticated?(:user)

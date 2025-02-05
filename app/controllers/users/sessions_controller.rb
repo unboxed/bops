@@ -10,12 +10,17 @@ module Users
 
     include AuthenticateWithOtpTwoFactor
 
-    prepend_before_action :authenticate_with_otp_two_factor, if: :otp_two_factor_enabled?, only: :create
-    before_action :find_otp_user, only: %i[setup two_factor resend_code]
     skip_before_action :enforce_user_permissions
+
+    before_action :authenticate_with_otp_two_factor, only: %i[create]
+    before_action :find_otp_user, only: %i[setup two_factor resend_code]
     before_action :set_mobile_number_form, only: %i[setup two_factor]
 
     protect_from_forgery with: :exception, prepend: true, except: :destroy
+
+    def create
+      super
+    end
 
     def setup
       render "devise/sessions/new" if @user.mobile_number?

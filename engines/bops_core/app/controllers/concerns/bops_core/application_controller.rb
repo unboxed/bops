@@ -59,6 +59,7 @@ module BopsCore
     end
 
     def set_current
+      Current.subdomain = request.subdomain
       Current.local_authority = current_local_authority
       Current.user = current_user
       Current.api_user = current_api_user
@@ -85,10 +86,6 @@ module BopsCore
     def set_back_path
       session[:back_path] = request.referer if request.get?
       @back_path = session[:back_path]
-    end
-
-    def session_domain_matches?
-      Current.user.nil? || Current.user.local_authority == Current.local_authority
     end
 
     def reset_session_and_redirect(_exception = nil)
