@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_04_104623) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_05_203450) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -1086,9 +1086,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_04_104623) do
     t.integer "role", default: 0
     t.string "name"
     t.bigint "local_authority_id"
-    t.string "encrypted_otp_secret"
-    t.string "encrypted_otp_secret_iv"
-    t.string "encrypted_otp_secret_salt"
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login", default: true, null: false
     t.string "mobile_number"
@@ -1103,7 +1100,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_04_104623) do
     t.index ["confirmation_token"], name: "ix_users_on_confirmation_token", unique: true
     t.index ["deactivated_at"], name: "ix_users_on_deactivated_at"
     t.index ["email", "local_authority_id"], name: "index_users_on_email_and_local_authority_id", unique: true
-    t.index ["encrypted_otp_secret"], name: "ix_users_on_encrypted_otp_secret", unique: true
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
