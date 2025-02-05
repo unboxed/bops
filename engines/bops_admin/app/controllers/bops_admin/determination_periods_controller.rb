@@ -28,8 +28,8 @@ module BopsAdmin
 
     def application_type_overrides_attributes
       [
-        :determination_period_days,
-        code: :preApp
+        :code,
+        :determination_period_days
       ]
     end
   end
