@@ -18,7 +18,7 @@ module BopsConsultees
 
       govuk_link_to(
         link_text,
-        main_app.planning_application_document_path(document.planning_application, document),
+        planning_application_document_path(document.planning_application, document),
         new_tab:,
         **args
       )
