@@ -27,7 +27,9 @@
           </p>
 
           <p class="govuk-body">
-            <%= govuk_link_to "Download", planning_application_document_path(@planning_application, document) %>
+            <%= govuk_link_to "Download",
+                  planning_application_document_path(@planning_application, document, sgid: params[:sgid]),
+                  new_tab: "" %>
           </p>
         </td>
       </tr>

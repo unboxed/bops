@@ -37,9 +37,12 @@ RSpec.describe "Planning applications", type: :system do
 
     it "includes documents on planning application overview" do
       expect(page).to have_content(documents.first.name)
-      expect(page).to have_link "Download", href: "/consultees/planning_applications/#{reference}/documents/#{documents.first.id}"
+      expect(page).to have_link "Download", href: %r{^/consultees/planning_applications/#{reference}/documents/#{documents.first.id}\?sgid=}
       expect(page).to have_content(documents.last.name)
-      expect(page).to have_link "Download", href: "/consultees/planning_applications/#{reference}/documents/#{documents.last.id}"
+      expect(page).to have_link "Download", href: %r{^/consultees/planning_applications/#{reference}/documents/#{documents.last.id}\?sgid=}
+
+      find_all("a", text: "Download").first.click
+      expect(page.status_code).to be < 400
     end
 
     it "successfully submits and disables the form" do
