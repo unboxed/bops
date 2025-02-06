@@ -10,7 +10,7 @@ RSpec.describe "Searching for policy guidance" do
   subject { JSON.parse(response.body) }
 
   before do
-    login_as(assessor)
+    sign_in(assessor)
   end
 
   before do
