@@ -299,9 +299,9 @@ RSpec.describe "Reviewing assessment summaries" do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
 
-        click_link("Log out")
-        sign_in(assessor)
+        sign_out(reviewer)
         travel 1.day
+        sign_in(assessor)
         visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
@@ -333,7 +333,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Update assessment")
         click_link("Review and submit recommendation")
         click_button("Submit recommendation")
-        click_link("Log out")
+        sign_out(assessor)
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
@@ -414,9 +414,9 @@ RSpec.describe "Reviewing assessment summaries" do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
 
-        click_link("Log out")
-        sign_in(assessor)
+        sign_out(reviewer)
         travel 1.day
+        sign_in(assessor)
         visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
@@ -448,7 +448,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Update assessment")
         click_link("Review and submit recommendation")
         click_button("Submit recommendation")
-        click_link("Log out")
+        sign_out(assessor)
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
@@ -530,9 +530,9 @@ RSpec.describe "Reviewing assessment summaries" do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
 
-        click_link("Log out")
-        sign_in(assessor)
+        sign_out(reviewer)
         travel 1.day
+        sign_in(assessor)
         visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
@@ -564,7 +564,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Update assessment")
         click_link("Review and submit recommendation")
         click_button("Submit recommendation")
-        click_link("Log out")
+        sign_out(assessor)
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
@@ -648,9 +648,9 @@ RSpec.describe "Reviewing assessment summaries" do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
 
-        click_link("Log out")
-        sign_in(assessor)
+        sign_out(reviewer)
         travel 1.day
+        sign_in(assessor)
         visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
@@ -683,7 +683,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Update assessment")
         click_link("Review and submit recommendation")
         click_button("Submit recommendation")
-        click_link("Log out")
+        sign_out(assessor)
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
@@ -764,9 +764,9 @@ RSpec.describe "Reviewing assessment summaries" do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
 
-        click_link("Log out")
-        sign_in(assessor)
+        sign_out(reviewer)
         travel 1.day
+        sign_in(assessor)
         visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
@@ -798,7 +798,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Update assessment")
         click_link("Review and submit recommendation")
         click_button("Submit recommendation")
-        click_link("Log out")
+        sign_out(assessor)
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
@@ -879,9 +879,9 @@ RSpec.describe "Reviewing assessment summaries" do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
 
-        click_link("Log out")
-        sign_in(assessor)
+        sign_out(reviewer)
         travel 1.day
+        sign_in(assessor)
         visit "/planning_applications/#{planning_application.reference}"
 
         expect(page).to have_list_item_for(
@@ -913,7 +913,7 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Update assessment")
         click_link("Review and submit recommendation")
         click_button("Submit recommendation")
-        click_link("Log out")
+        sign_out(assessor)
         sign_in(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 

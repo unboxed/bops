@@ -21,14 +21,9 @@ class PlanningApplicationPolicySection < ApplicationRecord
 
   before_validation :set_description, on: :create
 
-  enum(
-    status: {
-      complies: "complies",
-      does_not_comply: "does_not_comply",
-      to_be_determined: "to_be_determined"
-    },
-    _default: :to_be_determined
-  )
+  enum :status,
+    %i[complies does_not_comply to_be_determined].index_with(&:to_s),
+    default: :to_be_determined
 
   def set_description
     self.description ||= policy_section.description

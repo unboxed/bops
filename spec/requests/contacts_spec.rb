@@ -9,7 +9,7 @@ RSpec.describe "Searching for contacts" do
   subject { JSON.parse(response.body) }
 
   before do
-    login_as(assessor)
+    sign_in(assessor)
   end
 
   describe "searching for consultees" do
