@@ -183,7 +183,8 @@ class ApplicationType < ApplicationRecord
       end
     end
 
-    def menu(scope = by_name)
+    def menu(scope = by_name, type: nil)
+      scope = scope.where(name: type) if type
       scope.active.order(code: :asc).map do |application_type|
         [application_type.description, application_type.id]
       end

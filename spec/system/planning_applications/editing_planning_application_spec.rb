@@ -19,6 +19,7 @@ RSpec.describe "editing planning application" do
     travel_to(DateTime.new(2023, 1, 1))
     sign_in(assessor)
     create(:application_type, :prior_approval)
+    create(:application_type, :ldc_existing)
     visit "/planning_applications/#{planning_application.reference}"
   end
 
@@ -41,7 +42,7 @@ RSpec.describe "editing planning application" do
 
     expect(page).to have_content("An applicant or agent email is required.")
 
-    select("Prior Approval - Larger extension to a house")
+    select("Lawful Development Certificate - Existing use")
 
     within(find(:fieldset, text: "Agent information")) do
       fill_in("Email address", with: "alice@example.com")
@@ -69,8 +70,8 @@ RSpec.describe "editing planning application" do
     find("span", text: "Application information")
     click_link("Edit details")
 
-    expect(page).to have_content("Application number: 23-00100-PA1A")
-    expect(page).to have_select("planning-application-application-type-id-field", selected: "Prior Approval - Larger extension to a house")
+    expect(page).to have_content("Application number: 23-00100-LDCE (Previously: 23-00100-LDCP)")
+    expect(page).to have_select("planning-application-application-type-id-field", selected: "Lawful Development Certificate - Existing use")
     fill_in("Address 1", with: "125 High Street")
     click_button("Save")
     planning_application.reload
@@ -88,7 +89,7 @@ RSpec.describe "editing planning application" do
     within("#audit_#{Audit.find_by(activity_information: "Application type").id}") do
       expect(page).to have_content("Application type updated")
       expect(page).to have_content(
-        "Application type changed from: Lawfulness certificate / Changed to: Prior approval, Reference changed from 23-00100-LDCP to 23-00100-PA1A"
+        "Application type changed from: Lawfulness certificate / Changed to: Lawfulness certificate, Reference changed from 23-00100-LDCP to 23-00100-LDCE"
       )
       expect(page).to have_content(assessor.name)
       expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))

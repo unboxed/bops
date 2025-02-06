@@ -194,6 +194,40 @@ RSpec.describe ApplicationType do
           ]
         )
       end
+
+      context "when provided an application type name" do
+        let!(:ldc_proposed) { create(:application_type, :ldc_proposed) }
+        let!(:prior_approval_part_14) { create(:application_type, :pa_part_14_class_j) }
+        let!(:householder) { create(:application_type, :householder) }
+        let!(:householder_retrospective) { create(:application_type, :householder_retrospective) }
+
+        it "returns an array of application type names and ids for ldcs only" do
+          expect(described_class.menu(type: lawfulness_certificate.name)).to eq(
+            [
+              ["Lawful Development Certificate - Existing use", lawfulness_certificate.id],
+              ["Lawful Development Certificate - Proposed use", ldc_proposed.id]
+            ]
+          )
+        end
+
+        it "returns an array of application type names and ids for prior approvals only" do
+          expect(described_class.menu(type: prior_approval.name)).to eq(
+            [
+              ["Prior Approval - Install or change solar panels", prior_approval_part_14.id],
+              ["Prior Approval - Larger extension to a house", prior_approval.id]
+            ]
+          )
+        end
+
+        it "returns an array of application type names and ids for householder only" do
+          expect(described_class.menu(type: householder.name)).to eq(
+            [
+              ["Planning Permission - Full householder", householder.id],
+              ["Planning Permission - Full householder retrospective", householder_retrospective.id]
+            ]
+          )
+        end
+      end
     end
   end
 

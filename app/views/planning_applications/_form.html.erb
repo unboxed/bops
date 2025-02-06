@@ -24,7 +24,7 @@
         <% end %>
       </p>
 
-      <%= form.govuk_select(:application_type_id, ApplicationType.menu, label: {text: "Application type"}) %>
+      <%= form.govuk_select(:application_type_id, ApplicationType.menu(type: @planning_application.application_type.name), label: {text: "Application type"}) %>
     <% end %>
   </div>
   <div class="govuk-form-group govuk-!-margin-top-8">
