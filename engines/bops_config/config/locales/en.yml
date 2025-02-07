@@ -413,6 +413,9 @@ en:
         title: Title
       update:
         success: Legislation successfully updated
+    local_authorities:
+      index:
+        local_authorities: Review all local authorities
     reporting_types:
       create:
         success: Reporting type successfully created
