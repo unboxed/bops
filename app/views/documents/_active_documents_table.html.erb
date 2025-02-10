@@ -18,11 +18,11 @@
 
         <td class="govuk-table__cell govuk-!-width-one-half">
           <%= render "documents/document_row_info", document: document %>
-        </div>
+        </td>
 
         <% unless action_name == "validation_documents" %>
           <td class="govuk-table__cell">
-            <% if @planning_application.can_validate? %>
+            <% if @planning_application.can_edit_documents? %>
               <% if document.representable? %>
                 <p class="govuk-body govuk-!-margin-right-2 govuk-!-text-align-right">
                   <%= govuk_link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br>
