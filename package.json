@@ -10,7 +10,7 @@
     "@stimulus-components/sortable": "^5.0.1",
     "@x-govuk/govuk-prototype-components": "^3.0.9",
     "accessible-autocomplete": "^2.0.4",
-    "esbuild": "^0.19.2",
+    "esbuild": "^0.25.0",
     "govuk-frontend": "^5.2.0",
     "is-svg": "^5.0.0",
     "jspdf": "^2.5.1",
