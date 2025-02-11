@@ -5,13 +5,28 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: bops_development
+  primary:
+    <<: *default
+    database: bops_development
+  cache:
+    <<: *default
+    database: bops_development_cache
+    migrations_paths: db/cache_migrate
 
 test:
-  <<: *default
-  database: bops_test
+  primary:
+    <<: *default
+    database: bops_test
+  cache:
+    <<: *default
+    database: bops_test_cache
+    migrations_paths: db/cache_migrate
 
 production:
-  <<: *default
-  database: bops_production
+  primary:
+    <<: *default
+    database: bops_production
+  cache:
+    <<: *default
+    database: bops_production_cache
+    migrations_paths: db/cache_migrate

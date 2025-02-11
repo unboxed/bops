@@ -591,6 +591,10 @@ GEM
       tilt (>= 1.4.0)
     simpleidn (0.2.3)
     smart_properties (1.17.0)
+    solid_cache (1.0.7)
+      activejob (>= 7.2)
+      activerecord (>= 7.2)
+      railties (>= 7.2)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -734,6 +738,7 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   sidekiq-scheduler
+  solid_cache
   sprockets-rails
   standard (~> 1.31)
   standard-custom
