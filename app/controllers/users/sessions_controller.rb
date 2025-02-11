@@ -18,6 +18,18 @@ module Users
 
     protect_from_forgery with: :exception, prepend: true, except: :destroy
 
+    # rate_limit to: 10, within: 3.minutes, only: :create
+    before_action only: :create do
+      limit_to = 10
+      within = 3.minutes
+
+      count = cache_store.increment("rate-limit:users/sessions:#{request.ip}", 1, expires_in: within)
+
+      if count && count > limit_to
+        head :too_many_requests
+      end
+    end
+
     def create
       super
     end

@@ -58,4 +58,23 @@ RSpec.describe "session expiry" do
       expect(s2.response.status).to eq 302
     end
   end
+
+  context "when several sessions are created in quick succession" do
+    before do
+      ActionController::Base.cache_store = :solid_cache_store
+    end
+
+    it "rejects the signin attempt" do
+      session = new_browser
+      1.upto(30) do |i|
+        session.post "/users/sign_in", params: {user: {email: "foo@example.com"}}
+      end
+
+      expect(session.response.status).to eq 429
+    end
+
+    after do
+      ActionController::Base.cache_store = Rails.configuration.cache_store
+    end
+  end
 end
