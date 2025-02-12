@@ -60,21 +60,45 @@ RSpec.describe "session expiry" do
   end
 
   context "when several sessions are created in quick succession" do
-    before do
+    # before do
+    #   ActionController::Base.cache_store = :solid_cache_store
+    # end
+
+    around do |example|
+      old_cache_store = ActionController::Base.cache_store
       ActionController::Base.cache_store = :solid_cache_store
+
+      example.run
+    ensure
+      ActionController::Base.cache_store = old_cache_store
     end
 
-    it "rejects the signin attempt" do
-      session = new_browser
-      1.upto(30) do |i|
-        session.post "/users/sign_in", params: {user: {email: "foo@example.com"}}
+    context "on the config subdomain" do
+      before do
+        host! "config.bops.localhost"
       end
 
-      expect(session.response.status).to eq 429
+      it "rejects the signin attempt" do
+        1.upto(30) do |i|
+          post "/users/sign_in", params: {user: {email: "foo@example.com"}}
+        end
+
+        expect(response.status).to eq 429
+      end
     end
 
-    after do
-      ActionController::Base.cache_store = Rails.configuration.cache_store
+    context "on a local authority subdomain" do
+      before do
+        host! "#{local_authority.subdomain}.bops.localhost"
+      end
+
+      it "rejects the signin attempt" do
+        1.upto(30) do |i|
+          post "/users/sign_in", params: {user: {email: "foo@example.com"}}
+        end
+
+        expect(response.status).to eq 429
+      end
     end
   end
 end
