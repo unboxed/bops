@@ -48,7 +48,7 @@
       <% end %>
     </p>
     <p>
-      <% if @planning_application.can_validate? %>
+      <% if @planning_application.can_edit_documents? %>
         <%= govuk_link_to(
               t(".upload_document"),
               new_planning_application_document_path(@planning_application),

@@ -381,6 +381,10 @@ class PlanningApplication < ApplicationRecord
     consultation&.consultees_checked?
   end
 
+  def can_edit_documents?
+    can_validate? || publish_complete?
+  end
+
   def proposal_details
     Array(super).each_with_index.map do |hash, index|
       ProposalDetail.new(hash, index)

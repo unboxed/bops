@@ -157,6 +157,43 @@ RSpec.describe "Withdraw or cancel" do
 
       expect(page).to have_selector("[role=alert] li", text: "This application has been determined and cannot be modified.")
     end
+
+    it "allows editing the documents" do
+      within(".govuk-tabs") do
+        click_link "Documents"
+      end
+
+      within("#documents") do
+        click_link "Show details"
+      end
+
+      expect(page).to have_link(
+        "Upload document",
+        href: "/planning_applications/#{planning_application.reference}/documents/new"
+      )
+
+      click_link "Upload document"
+
+      attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.png")
+
+      check "Roof plan - proposed"
+
+      fill_in("Document reference(s)", with: "DOCREF123")
+
+      within(".display") do
+        choose "Yes"
+      end
+
+      within(".publish") do
+        choose "Yes"
+      end
+
+      click_button("Save")
+
+      visit "/planning_applications/#{planning_application.reference}/decision_notice"
+
+      expect(page).to have_content("DOCREF123")
+    end
   end
 
   context "when planning application has been closed" do

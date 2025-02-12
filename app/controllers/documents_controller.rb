@@ -122,7 +122,7 @@ class DocumentsController < AuthenticationController
   end
 
   def ensure_document_edits_unlocked
-    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_edit_documents?
   end
 
   def validate_document?
