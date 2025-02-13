@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PolicyClassPresenter
-  include Presentable
+  include BopsCore::Presentable
 
   presents :policy_class
 

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class EvidenceGroupPresenter
-  include Presentable
+  include BopsCore::Presentable
+
   presents :evidence_group
 
   def initialize(template, evidence_group)
