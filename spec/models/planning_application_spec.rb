@@ -1311,30 +1311,6 @@ RSpec.describe PlanningApplication do
     end
   end
 
-  describe "#policy_class?" do
-    let(:planning_application) { create(:planning_application) }
-
-    context "when planning application has policy class" do
-      before do
-        create(
-          :policy_class,
-          section: "1A",
-          planning_application:
-        )
-      end
-
-      it "returns true" do
-        expect(planning_application.policy_class?("1A")).to be(true)
-      end
-    end
-
-    context "when planning application does not have policy class" do
-      it "returns false" do
-        expect(planning_application.policy_class?("1A")).to be(false)
-      end
-    end
-  end
-
   describe "#recommendation_assessment_in_progress?" do
     let(:planning_application) { create(:planning_application) }
 
@@ -2048,28 +2024,6 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    context "when changes to policy class requested" do
-      let(:policy_class) do
-        create(
-          :policy_class,
-          planning_application:
-        )
-      end
-
-      before do
-        create(
-          :review,
-          owner: policy_class,
-          review_status: :review_complete,
-          status: :to_be_reviewed
-        )
-      end
-
-      it "returns true" do
-        expect(planning_application.updates_required?).to be(true)
-      end
-    end
-
     context "when changes to assessment_detail requested" do
       before do
         create(
@@ -2140,18 +2094,6 @@ RSpec.describe PlanningApplication do
           reviewer_verdict: :accepted
         )
       end
-
-      it "returns true" do
-        expect(planning_application.review_in_progress?).to be(true)
-      end
-    end
-
-    context "when policy class review is in progress" do
-      let(:policy_class) do
-        create(:policy_class, planning_application:)
-      end
-
-      before { create(:review, owner: policy_class) }
 
       it "returns true" do
         expect(planning_application.review_in_progress?).to be(true)

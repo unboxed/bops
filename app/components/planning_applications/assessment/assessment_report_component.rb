@@ -26,7 +26,6 @@ module PlanningApplications
         :site_description,
         :consultation_summary,
         :consultation,
-        :policy_classes,
         :permitted_development_right,
         :additional_evidence,
         :immunity_detail,

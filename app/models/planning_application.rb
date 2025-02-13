@@ -55,7 +55,6 @@ class PlanningApplication < ApplicationRecord
     has_many :meetings, -> { by_occurred_at_desc }
     has_many :site_notices
     has_many :site_visits, -> { by_created_at_desc }
-    has_many :policy_classes, -> { order(:section) }
     has_many :press_notices, -> { by_created_at_desc }
     has_many :planning_application_policy_classes
     has_many :new_policy_classes, through: :planning_application_policy_classes
@@ -566,10 +565,6 @@ class PlanningApplication < ApplicationRecord
     assessment_complete? && planning_application_policy_classes.none?
   end
 
-  def policy_class?(section)
-    policy_classes.pluck(:section).include?(section)
-  end
-
   def rejected_assessment_detail(category:)
     assessment_details.where(
       category:,
@@ -609,7 +604,6 @@ class PlanningApplication < ApplicationRecord
   def updates_required?
     assessment_details_for_review.any?(&:update_required?) ||
       permitted_development_rights.last&.update_required? ||
-      policy_classes.any?(&:update_required?) ||
       committee_decision_rejected_review? ||
       neighbour_review_requested?
   end
@@ -617,7 +611,6 @@ class PlanningApplication < ApplicationRecord
   def review_in_progress?
     recommendation.review_in_progress? ||
       assessment_details_for_review.any?(&:reviewer_verdict) ||
-      policy_classes.any?(&:reviews) ||
       permitted_development_right&.review_started?
   end
 
