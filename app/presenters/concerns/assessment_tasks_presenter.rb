@@ -4,8 +4,7 @@ module AssessmentTasksPresenter
   extend ActiveSupport::Concern
 
   def assessment_tasklist_in_progress?
-    policy_classes.any? ||
-      consistency_checklist.present? ||
+    consistency_checklist.present? ||
       assessment_details.any? ||
       permitted_development_right_in_progress? ||
       recommendation.present? ||
@@ -15,10 +14,6 @@ module AssessmentTasksPresenter
       consultees_checked? ||
       informative_set.informatives.any? ||
       heads_of_term.terms.any?
-  end
-
-  def multiple_policy_classes?
-    policy_classes.count > 1
   end
 
   def immunity_validation_in_progress?

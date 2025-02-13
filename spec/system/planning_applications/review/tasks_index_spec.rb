@@ -120,11 +120,11 @@ RSpec.describe "Reviewing Tasks Index" do
         expect(page).to have_selector("h1", text: "Review and sign-off")
 
         click_link "Review assessment against legislation"
-        expect(page).to have_link("Review assessment of Part 1, Class #{policy_class.new_policy_class.section}",
+        expect(page).to have_link("Review assessment of Part 1, Class #{policy_class.policy_class.section}",
           href: "/planning_applications/#{planning_application.reference}/review/policy_areas/policy_classes/#{policy_class.id}/edit")
 
         expect(page).to have_list_item_for(
-          "Review assessment of Part 1, Class #{policy_class.new_policy_class.section}",
+          "Review assessment of Part 1, Class #{policy_class.policy_class.section}",
           with: "Not started"
         )
       end

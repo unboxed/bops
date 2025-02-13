@@ -1,84 +1,26 @@
 # frozen_string_literal: true
 
 class PolicyClass < ApplicationRecord
-  belongs_to :planning_application
-  has_many :policies, dependent: :destroy
-  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
+  belongs_to :policy_part
+  has_many :policy_sections, -> { order(:section) }, dependent: :restrict_with_error
+  has_many :planning_application_policy_sections, through: :policy_sections
+  has_many :planning_application_policy_classes, dependent: :restrict_with_error
+  has_many :planning_applications, through: :planning_application_policy_classes
 
-  accepts_nested_attributes_for :policies, :reviews
+  attr_readonly :section
 
-  validates :name, :part, :section, :schedule, presence: true
-
-  validate :all_policies_are_determined, if: :complete?
-
-  before_update :create_review, if: :should_create_review?
-
-  def update_required?
-    current_review&.to_be_reviewed? && current_review&.review_complete?
+  with_options presence: true do
+    validates :section, uniqueness: {scope: :policy_part}
+    validates :name
   end
+
+  validates :url, url: true
+
+  delegate :number, to: :policy_part, prefix: true
 
   class << self
-    def all_parts
-      # NOTE: we might do multiple schedules at some point in the
-      # future but no need to worry about it now
-      I18n.t("schedules").first[:parts]
+    def menu
+      pluck(:id, :section, :name)
     end
-
-    def classes_for_part(part)
-      all_parts[part.to_i][:classes].map do |attributes|
-        PolicyClass.new(attributes)
-      end
-    end
-  end
-
-  def as_json(_options = nil)
-    attributes.as_json
-  end
-
-  def ==(other)
-    if other.is_a? Hash
-      part == other[:part] && id == other[:id]
-    else
-      part == other.part && id == other.id
-    end
-  end
-
-  def previous
-    @previous ||= planning_application.policy_classes.where(section: ...section).last
-  end
-
-  def next
-    @next ||= planning_application.policy_classes.where("section > ?", section).first
-  end
-
-  def complete?
-    return if reviews.empty?
-
-    reviews.last.status == "complete"
-  end
-
-  def current_review
-    reviews.order(:created_at).last
-  end
-
-  def build_review
-    Review.build(assessor: Current.user, owner_type: "PolicyClass", owner_id: id)
-  end
-
-  private
-
-  def should_create_review?
-    return if current_review.nil?
-    current_review.status_changed? && current_review.status_change == %w[to_be_reviewed complete]
-  end
-
-  def create_review
-    reviews.create!(assessor: Current.user, owner_type: "PolicyClass", owner_id: id, status: "complete")
-  end
-
-  def all_policies_are_determined
-    return if policies.none?(&:to_be_determined?)
-
-    errors.add(:base, :policies_to_be_determined)
   end
 end

@@ -45,11 +45,11 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         let!(:schedule) { create(:policy_schedule, number: 2, name: "Permitted development rights") }
         let!(:part1) { create(:policy_part, name: "Development within the curtilage of a dwellinghouse", number: 1, policy_schedule: schedule) }
         let!(:part2) { create(:policy_part, name: "Minor operations", number: 2, policy_schedule: schedule) }
-        let!(:policy_classA) { create(:new_policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1) }
-        let!(:policy_classB) { create(:new_policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part1) }
+        let!(:policy_classA) { create(:policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1) }
+        let!(:policy_classB) { create(:policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part1) }
 
         before do
-          create(:new_policy_class, section: "A", name: "gates, fences, walls etc", policy_part: part2)
+          create(:policy_class, section: "A", name: "gates, fences, walls etc", policy_part: part2)
         end
 
         it "lets the assessor add the relevant classes" do
@@ -96,7 +96,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         end
 
         it "lets the assessor remove a class to assess" do
-          create(:planning_application_policy_class, planning_application:, new_policy_class: policy_classA)
+          create(:planning_application_policy_class, planning_application:, policy_class: policy_classA)
 
           click_link("Check and assess")
           within("#assess-against-legislation-tasks") do
@@ -119,12 +119,12 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         end
 
         context "when assessing the policy sections" do
-          let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", new_policy_class: policy_classA) }
-          let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", new_policy_class: policy_classA) }
-          let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2ab(ii)", new_policy_class: policy_classA) }
+          let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", policy_class: policy_classA) }
+          let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", policy_class: policy_classA) }
+          let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2ab(ii)", policy_class: policy_classA) }
 
           before do
-            create(:planning_application_policy_class, planning_application:, new_policy_class: policy_classA)
+            create(:planning_application_policy_class, planning_application:, policy_class: policy_classA)
           end
 
           it "lets the user save draft and then mark as complete" do

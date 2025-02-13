@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplicationPresenter
-  include Presentable
+  include BopsCore::Presentable
 
   presents :planning_application
 

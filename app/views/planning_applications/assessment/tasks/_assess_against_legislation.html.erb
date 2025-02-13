@@ -10,7 +10,7 @@
         </span>
       </li>
     <% else %>
-      <% @planning_application.planning_application_policy_classes.order(:new_policy_class_id).each do |pa_policy_class| %>
+      <% @planning_application.planning_application_policy_classes.order(:policy_class_id).each do |pa_policy_class| %>
         <%= render(
               TaskListItems::Assessment::PlanningApplicationPolicyClassComponent.new(
                 planning_application_policy_class: pa_policy_class,

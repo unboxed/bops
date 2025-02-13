@@ -317,12 +317,6 @@ en:
               date_invalid: The date the meeting took place must be a valid date
               date_not_on_or_after: The date the meeting took place must be on or after the consultation start date
               date_not_on_or_before: The date the meeting took place must be on or before today
-        new_policy_class:
-          attributes:
-            name:
-              blank: Enter a description for the class
-            section:
-              blank: Enter a section for the class
         permitted_development_right:
           attributes:
             reviewer_comment:
@@ -357,6 +351,10 @@ en:
           attributes:
             base:
               policies_to_be_determined: All policies must be assessed
+            name:
+              blank: Enter a description for the class
+            section:
+              blank: Enter a section for the class
         policy_part:
           attributes:
             name:

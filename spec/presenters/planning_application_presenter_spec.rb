@@ -227,29 +227,4 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       end
     end
   end
-
-  describe "#multiple_policy_classes?" do
-    let(:planning_application) { create(:planning_application) }
-    let(:presenter) { described_class.new(view, planning_application) }
-
-    before do
-      create(:policy_class, planning_application:)
-    end
-
-    context "when there is a single policy class" do
-      it "returns false" do
-        expect(presenter.multiple_policy_classes?).to be(false)
-      end
-    end
-
-    context "when there are multiple policy classes" do
-      before do
-        create(:policy_class, planning_application:)
-      end
-
-      it "returns true" do
-        expect(presenter.multiple_policy_classes?).to be(true)
-      end
-    end
-  end
 end

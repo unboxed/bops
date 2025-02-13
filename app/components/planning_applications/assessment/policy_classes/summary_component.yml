@@ -1,5 +1,0 @@
-en:
-  policy_class_name: Part %{part}, Class %{class} - %{name}
-  to_be_determined: To be determined
-  does_not_comply: Does not comply
-  complies: Complies

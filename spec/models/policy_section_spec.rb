@@ -12,8 +12,8 @@ RSpec.describe PolicySection, type: :model do
         expect { policy_section.valid? }.to change { policy_section.errors[:section] }.to ["Enter a section for the policy section"]
       end
 
-      it "validates uniqueness within scope of new_policy_class_id" do
-        create(:policy_section, section: policy_section.section, new_policy_class: policy_section.new_policy_class)
+      it "validates uniqueness within scope of policy_class_id" do
+        create(:policy_section, section: policy_section.section, policy_class: policy_section.policy_class)
         expect { policy_section.valid? }.to change { policy_section.errors[:section] }.to ["has already been taken"]
       end
     end
@@ -25,10 +25,10 @@ RSpec.describe PolicySection, type: :model do
       end
     end
 
-    describe "#new_policy_class" do
+    describe "#policy_class" do
       it "validates presence" do
-        policy_section.new_policy_class = nil
-        expect { policy_section.valid? }.to change { policy_section.errors[:new_policy_class] }.to ["must exist"]
+        policy_section.policy_class = nil
+        expect { policy_section.valid? }.to change { policy_section.errors[:policy_class] }.to ["must exist"]
       end
     end
 

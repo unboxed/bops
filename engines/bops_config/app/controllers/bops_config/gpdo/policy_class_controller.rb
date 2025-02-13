@@ -78,7 +78,7 @@ module BopsConfig
       end
 
       def policy_class_params
-        params.require(:new_policy_class).permit(*policy_class_attributes)
+        params.require(:policy_class).permit(*policy_class_attributes)
       end
 
       def policy_class_attributes
@@ -86,7 +86,7 @@ module BopsConfig
       end
 
       def build_policy_class
-        @policy_class = @part.new_policy_classes.new
+        @policy_class = @part.policy_classes.new
       end
 
       def set_policy_class

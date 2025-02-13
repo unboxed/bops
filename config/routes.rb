@@ -138,14 +138,6 @@ Rails.application.routes.draw do
 
           resource :permitted_development_rights, only: %i[show edit update]
 
-          resources :policy_classes, except: %i[index] do
-            get :part, on: :new
-
-            resources :policies, only: [] do
-              resources :comments, only: %i[create update]
-            end
-          end
-
           namespace :policy_areas do
             resources :parts, only: :index
             resources :policy_classes, except: %i[show]
@@ -319,8 +311,6 @@ Rails.application.routes.draw do
           namespace :policy_areas do
             resources :policy_classes, only: %i[index show edit update]
           end
-
-          resources :policy_classes, only: %i[edit update show]
 
           resources :tasks, only: :index
 

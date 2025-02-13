@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :review do
     assessor { association :user, :assessor }
-    owner { association :policy_class }
+    owner { association :committee_decision }
 
     before :create do |review|
       if review.review_complete?

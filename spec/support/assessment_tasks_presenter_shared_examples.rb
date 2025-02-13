@@ -23,16 +23,6 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       end
     end
 
-    context "when policy class is present" do
-      before do
-        create(:policy_class, planning_application:)
-      end
-
-      it "returns true" do
-        expect(presenter.assessment_tasklist_in_progress?).to be(true)
-      end
-    end
-
     context "when consistency checklist is present" do
       before do
         create(:consistency_checklist, planning_application:)

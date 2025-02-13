@@ -36,17 +36,17 @@ RSpec.describe "Reviewing Policy Class", type: :system do
     context "when reviewing GPDO legislation" do
       let!(:schedule) { create(:policy_schedule, number: 2, name: "Permitted development rights") }
       let!(:part1) { create(:policy_part, name: "Development within the curtilage of a dwellinghouse", number: 1, policy_schedule: schedule) }
-      let!(:policy_classA) { create(:new_policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1) }
+      let!(:policy_classA) { create(:policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1) }
 
-      let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", new_policy_class: policy_classA) }
-      let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", new_policy_class: policy_classA) }
-      let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2bb(ii)", new_policy_class: policy_classA) }
+      let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", policy_class: policy_classA) }
+      let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", policy_class: policy_classA) }
+      let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2bb(ii)", policy_class: policy_classA) }
 
       let!(:pa_policy_section1a) { create(:planning_application_policy_section, :complies, policy_section: policy_section1a, planning_application:) }
       let!(:pa_policy_section1b) { create(:planning_application_policy_section, :complies, policy_section: policy_section1b, planning_application:) }
       let!(:pa_policy_section2bii) { create(:planning_application_policy_section, :does_not_comply, :with_comments, policy_section: policy_section2bii, planning_application:) }
 
-      let!(:planning_application_policy_class) { create(:planning_application_policy_class, planning_application:, new_policy_class: policy_classA) }
+      let!(:planning_application_policy_class) { create(:planning_application_policy_class, planning_application:, policy_class: policy_classA) }
 
       before do
         create(:review, owner_type: "PlanningApplicationPolicyClass", status: "complete", assessor: assessor, owner: planning_application_policy_class)
