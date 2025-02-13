@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_05_203450) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_13_183043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -699,6 +699,28 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_05_203450) do
     t.index ["user_id"], name: "ix_notes_on_user_id"
   end
 
+  create_table "old_policies", force: :cascade do |t|
+    t.string "section", null: false
+    t.string "description", null: false
+    t.integer "status", null: false
+    t.bigint "policy_class_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["policy_class_id"], name: "ix_old_policies_on_policy_class_id"
+  end
+
+  create_table "old_policy_classes", force: :cascade do |t|
+    t.string "schedule", null: false
+    t.integer "part", null: false
+    t.string "section", null: false
+    t.string "url"
+    t.string "name", null: false
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_old_policy_classes_on_planning_application_id"
+  end
+
   create_table "ownership_certificates", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.string "certificate_type"
@@ -893,28 +915,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_05_203450) do
     t.jsonb "params_v1"
     t.jsonb "params_v2"
     t.index ["planning_application_id"], name: "ix_planx_planning_data_on_planning_application_id"
-  end
-
-  create_table "policies", force: :cascade do |t|
-    t.string "section", null: false
-    t.string "description", null: false
-    t.integer "status", null: false
-    t.bigint "policy_class_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["policy_class_id"], name: "ix_policies_on_policy_class_id"
-  end
-
-  create_table "policy_classes", force: :cascade do |t|
-    t.string "schedule", null: false
-    t.integer "part", null: false
-    t.string "section", null: false
-    t.string "url"
-    t.string "name", null: false
-    t.bigint "planning_application_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
   create_table "policy_parts", force: :cascade do |t|
@@ -1194,6 +1194,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_05_203450) do
   add_foreign_key "new_policy_classes", "policy_parts"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
+  add_foreign_key "old_policies", "old_policy_classes", column: "policy_class_id"
+  add_foreign_key "old_policy_classes", "planning_applications"
   add_foreign_key "permitted_development_rights", "planning_applications"
   add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
   add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"
@@ -1211,8 +1213,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_05_203450) do
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
   add_foreign_key "planx_planning_data", "planning_applications"
-  add_foreign_key "policies", "policy_classes"
-  add_foreign_key "policy_classes", "planning_applications"
   add_foreign_key "policy_parts", "policy_schedules"
   add_foreign_key "policy_sections", "new_policy_classes"
   add_foreign_key "press_notices", "planning_applications"
