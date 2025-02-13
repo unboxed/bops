@@ -968,7 +968,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "A prior approval application has been made for the development described below:"
       )
       expect(mail_body).to include(
-        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}"
+        "https://planningregister.org/planx/#{planning_application.reference}"
       )
     end
 
