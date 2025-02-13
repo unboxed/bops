@@ -15,8 +15,6 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplicationStatus
 
-  include PlanningApplicationPolicies
-
   include PlanningApplication::Notification
 
   self.discard_column = :deleted_at
