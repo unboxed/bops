@@ -25,6 +25,7 @@ module BopsConfig
       page_keys = {
         "dashboard" => "dashboard",
         "users" => "users",
+        "local_authorities" => "local_authorities",
         "application_types" => "application_types",
         "categories" => "application_types",
         "determination_periods" => "application_types",
@@ -45,6 +46,7 @@ module BopsConfig
       [
         {text: "Dashboard", href: root_path, active: active_page_key?("dashboard")},
         {text: "Users", href: users_path, active: active_page_key?("users")},
+        {text: "Local authorities", href: local_authorities_path, active: active_page_key?("local_authorities")},
         {text: "Application types", href: application_types_path, active: active_page_key?("application_types")},
         {text: "Legislation", href: legislation_index_path, active: active_page_key?("legislation")},
         {text: "Reporting types", href: reporting_types_path, active: active_page_key?("reporting_types")},

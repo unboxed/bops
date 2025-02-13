@@ -85,6 +85,14 @@ class LocalAuthority < ApplicationRecord
     end
   end
 
+  def inactive?
+    !active
+  end
+
+  def onboarding_status
+    onboarded? ? "Completed" : onboarding_progress
+  end
+
   private
 
   def council_code_exists
@@ -111,20 +119,46 @@ class LocalAuthority < ApplicationRecord
   end
 
   def active_attributes?
-    attributes.select { |k, v| active_attributes.include?(k) }.values.all?(&:present?)
+    attributes.select { |k, v| ACTIVE_ATTRIBUTES.include?(k) }.each_value.all?(&:present?)
   end
 
-  def active_attributes
-    %w[signatory_name
-      signatory_job_title
-      enquiries_paragraph
-      email_address
-      feedback_email
-      press_notice_email
-      reviewer_group_email
-      notify_api_key
-      letter_template_id
-      email_reply_to_id]
+  ACTIVE_ATTRIBUTES = %w[
+    email_address
+    email_reply_to_id
+    enquiries_paragraph
+    feedback_email
+    letter_template_id
+    notify_api_key
+    press_notice_email
+    reviewer_group_email
+    signatory_job_title
+    signatory_name
+  ].freeze
+
+  CREATION_ATTRIBUTES = %w[
+    subdomain
+    council_code
+    council_name
+    short_name
+    applicants_url
+  ].freeze
+
+  ONBOARDED_ATTRIBUTES = (ACTIVE_ATTRIBUTES + CREATION_ATTRIBUTES).freeze
+
+  def onboarded_attributes
+    @onboarded_attributes ||= attributes.select(&method(:onboarded_attribute?))
+  end
+
+  def onboarded_attribute?(attribute, value)
+    ONBOARDED_ATTRIBUTES.include?(attribute) && value.present?
+  end
+
+  def onboarded?
+    onboarded_attributes.size == ONBOARDED_ATTRIBUTES.size
+  end
+
+  def onboarding_progress
+    format("%d of %d", onboarded_attributes.size, ONBOARDED_ATTRIBUTES.size)
   end
 
   def clear_notify_error_status

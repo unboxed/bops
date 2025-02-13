@@ -46,4 +46,6 @@ BopsConfig::Engine.routes.draw do
     get :resend_invite, on: :member
     patch :reactivate, on: :member
   end
+
+  resources :local_authorities, except: %i[destroy]
 end

@@ -1,0 +1,24 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <%= t(".local_authorities") %>
+    </h1>
+    <div class="govuk-tabs" data-module="govuk-tabs">
+    <%= govuk_tabs do |tabs| %>
+      <% tabs.with_tab(label: "All") do %>
+        <%= render("table", local_authorities: @local_authorities) %>
+      <% end %>
+
+      <% tabs.with_tab(label: "Active") do %>
+        <%= render("table", local_authorities: @local_authorities.select(&:active?)) %>
+      <% end %>
+
+      <% tabs.with_tab(label: "Inactive") do %>
+        <%= render("table", local_authorities: @local_authorities.select(&:inactive?)) %>
+      <% end %>
+    <% end %>
+    <div class="govuk-button-group">
+      <%= back_link %>
+    </div>
+  </div>
+</div>
