@@ -219,7 +219,7 @@ RSpec.describe "GPDO", type: :system do
 
     context "when deleting the part" do
       let(:part2) { create(:policy_part, number: 2, name: "Minor operations", policy_schedule: schedule) }
-      let!(:policy_class) { create(:new_policy_class, policy_part: part2) }
+      let!(:policy_class) { create(:policy_class, policy_part: part2) }
 
       it "allows deleting the part when no policy classes are associated", :capybara do
         visit "/gpdo/schedule/2/part/1/edit"
@@ -240,9 +240,9 @@ RSpec.describe "GPDO", type: :system do
 
   context "when managing policy classes" do
     let!(:part) { create(:policy_part, number: 1, name: "Development within the curtilage of a dwellinghouse", policy_schedule: schedule) }
-    let!(:policy_classA) { create(:new_policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part) }
-    let!(:policy_classAA) { create(:new_policy_class, section: "AA", name: "enlargement of a dwellinghouse by construction of additional storeys", policy_part: part) }
-    let!(:policy_classB) { create(:new_policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part) }
+    let!(:policy_classA) { create(:policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part) }
+    let!(:policy_classAA) { create(:policy_class, section: "AA", name: "enlargement of a dwellinghouse by construction of additional storeys", policy_part: part) }
+    let!(:policy_classB) { create(:policy_class, section: "B", name: "additions etc to the roof of a dwellinghouse", policy_part: part) }
 
     it "allows viewing and creating the policy classes" do
       click_link "GPDO"
@@ -334,7 +334,7 @@ RSpec.describe "GPDO", type: :system do
       expect(page).to have_selector("h1", text: "Edit class")
       expect(page).to have_link("Back", href: "/gpdo/schedule/2/part/1/class")
 
-      expect(page).to have_selector("#new-policy-class-section-field[readonly]")
+      expect(page).to have_selector("#policy-class-section-field[readonly]")
       fill_in "Description", with: "other alterations to the roof of a dwellinghouse"
       fill_in "Link (optional)", with: "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-c-other-alterations-to-the-roof-of-a-dwellinghouse"
       click_button "Save"
@@ -352,7 +352,7 @@ RSpec.describe "GPDO", type: :system do
     end
 
     context "when deleting the policy class" do
-      let!(:policy_section) { create(:policy_section, new_policy_class: policy_classAA) }
+      let!(:policy_section) { create(:policy_section, policy_class: policy_classAA) }
 
       it "allows deleting the policy class when no policy sections are associated", :capybara do
         visit "/gpdo/schedule/2/part/1/class/A/edit"
@@ -373,8 +373,8 @@ RSpec.describe "GPDO", type: :system do
 
   context "when managing policy sections" do
     let!(:part) { create(:policy_part, number: 1, name: "Development within the curtilage of a dwellinghouse", policy_schedule: schedule) }
-    let!(:policy_classAA) { create(:new_policy_class, section: "AA", name: "enlargement of a dwellinghouse by construction of additional storeys", policy_part: part) }
-    let!(:policy_section) { create(:policy_section, section: "1b(ii)", title: "Development not permitted", description: "if the dwellinghouse is located on a site of special scientific interest", new_policy_class: policy_classAA) }
+    let!(:policy_classAA) { create(:policy_class, section: "AA", name: "enlargement of a dwellinghouse by construction of additional storeys", policy_part: part) }
+    let!(:policy_section) { create(:policy_section, section: "1b(ii)", title: "Development not permitted", description: "if the dwellinghouse is located on a site of special scientific interest", policy_class: policy_classAA) }
 
     it "allows viewing and creating the policy sections" do
       click_link "GPDO"
@@ -446,7 +446,7 @@ RSpec.describe "GPDO", type: :system do
     end
 
     context "when deleting the policy section" do
-      let!(:policy_section1a) { create(:policy_section, section: "1a", new_policy_class: policy_classAA) }
+      let!(:policy_section1a) { create(:policy_section, section: "1a", policy_class: policy_classAA) }
       let!(:planning_application_policy_section) { create(:planning_application_policy_section, policy_section:) }
 
       it "allows deleting the policy section when no planning application policy sections are associated", :capybara do

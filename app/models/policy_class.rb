@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NewPolicyClass < ApplicationRecord
+class PolicyClass < ApplicationRecord
   belongs_to :policy_part
   has_many :policy_sections, -> { order(:section) }, dependent: :restrict_with_error
   has_many :planning_application_policy_sections, through: :policy_sections

@@ -5,7 +5,7 @@
   <%= form.govuk_text_field :name, label: {text: t(".name_label")}, hint: {text: t(".name_hint")} %>
 
   <%= form.govuk_submit(t(".save")) do %>
-    <% if action_name == "edit" && @part.new_policy_classes.none? %>
+    <% if action_name == "edit" && @part.policy_classes.none? %>
       <%= govuk_button_link_to(t(".remove"),
             gpdo_policy_schedule_policy_part_path(@schedule.number, @part.number),
             warning: true,

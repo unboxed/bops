@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe NewPolicyClass, type: :model do
-  subject(:policy_class) { build(:new_policy_class) }
+RSpec.describe PolicyClass, type: :model do
+  subject(:policy_class) { build(:policy_class) }
 
   describe "validations" do
     describe "#section" do
@@ -13,7 +13,7 @@ RSpec.describe NewPolicyClass, type: :model do
       end
 
       it "validates uniqueness within scope of policy_part_id" do
-        create(:new_policy_class, section: policy_class.section, policy_part: policy_class.policy_part)
+        create(:policy_class, section: policy_class.section, policy_part: policy_class.policy_part)
         expect { policy_class.valid? }.to change { policy_class.errors[:section] }.to ["has already been taken"]
       end
 

@@ -57,7 +57,7 @@ class PlanningApplication < ApplicationRecord
     has_many :site_visits, -> { by_created_at_desc }
     has_many :press_notices, -> { by_created_at_desc }
     has_many :planning_application_policy_classes
-    has_many :new_policy_classes, through: :planning_application_policy_classes
+    has_many :policy_classes, through: :planning_application_policy_classes
     has_many :planning_application_policy_sections
     has_many :policy_sections, through: :planning_application_policy_sections
     has_many :additional_services

@@ -9,18 +9,16 @@ class PolicySection < ApplicationRecord
     "Other"
   ].freeze
 
-  belongs_to :new_policy_class
+  belongs_to :policy_class
   has_many :planning_application_policy_sections, dependent: :restrict_with_error
   has_many :planning_applications, through: :planning_application_policy_sections
 
   with_options presence: true do
-    validates :section, uniqueness: {scope: :new_policy_class}
+    validates :section, uniqueness: {scope: :policy_class}
     validates :description
   end
 
   validates :title, inclusion: {in: TITLES}
-
-  alias_method :policy_class, :new_policy_class
 
   scope :grouped_and_ordered_by_title, -> {
     group_by(&:title)

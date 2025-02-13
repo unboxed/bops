@@ -23,10 +23,10 @@ module PlanningApplications
         end
 
         def create
-          class_ids = params[:new_policy_classes].compact_blank
+          class_ids = params[:policy_classes].compact_blank
 
-          @part.new_policy_classes.where(id: class_ids).find_each do |policy_class|
-            @planning_application.planning_application_policy_classes.find_or_create_by!(new_policy_class_id: policy_class.id)
+          @part.policy_classes.where(id: class_ids).find_each do |policy_class|
+            @planning_application.planning_application_policy_classes.find_or_create_by!(policy_class_id: policy_class.id)
           end
 
           redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
