@@ -57,6 +57,12 @@ module Bops
     # Use Rails 7.0 digest class
     config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA256
 
+    # Ensure the correct local_authority is loaded
+    config.middleware.use BopsCore::Middleware::LocalAuthority
+
+    # Ensure the correct user scope is used for authentication
+    config.middleware.use BopsCore::Middleware::User, global_subdomains: %w[config]
+
     # Load config from application.yml
     config_for(:application).each do |key, value|
       config.send(:"#{key}=", value)

@@ -62,7 +62,7 @@ class User < ApplicationRecord
     end
 
     def find_for_authentication(tainted_conditions)
-      Current.user_scope.find_first_by_auth_conditions(tainted_conditions)
+      find_first_by_auth_conditions(tainted_conditions)
     end
   end
 

@@ -17,6 +17,9 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
     request.set_header("HTTP_HOST", "southwark.bops.test")
     request.set_header("HTTP_AUTHORIZATION", "Bearer #{token}")
 
+    request.set_header("bops.local_authority", southwark)
+    request.set_header("bops.user_scope", southwark.users.kept)
+
     expect(BopsApi::Application::CreationService).to receive(:new).and_return(creation_service)
     expect(creation_service).to receive(:call!).and_return(planning_application)
   end

@@ -57,7 +57,7 @@ module Users
     end
 
     def find_otp_user
-      @user = users_scope.find_by(id: session[:otp_user_id])
+      @user = user_scope.find_by(id: session[:otp_user_id])
 
       redirect_to root_path unless @user
     end

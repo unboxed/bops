@@ -7,7 +7,8 @@ module BopsCore
     class LocalAuthoritySubdomain
       class << self
         def matches?(request)
-          LocalAuthority.pluck(:subdomain).include?(request.subdomain)
+          local_authority = request.env["bops.local_authority"]
+          local_authority && local_authority.subdomain == request.subdomain
         end
       end
     end

@@ -46,7 +46,7 @@ Devise.setup do |config|
   # Scope the lookup to the local authority when restoring the user from the session
   config.warden do |manager|
     manager.serialize_from_session(:user) do |((id), salt)|
-      user = Current.user_scope.find_by(id:)
+      user = env["bops.user_scope"].find_by(id:)
       user if user && user.authenticatable_salt == salt
     end
   end

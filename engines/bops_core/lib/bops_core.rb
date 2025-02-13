@@ -2,6 +2,7 @@
 
 require "bops_core/engine"
 require "bops_core/routing"
+require "bops_core/middleware"
 
 module BopsCore
   class << self

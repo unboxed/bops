@@ -17,7 +17,7 @@ module BopsCore
 
     def current_local_authority
       return @current_local_authority if defined?(@current_local_authority)
-      @current_local_authority = LocalAuthority.find_by(subdomain: request.subdomain)
+      @current_local_authority = request.env["bops.local_authority"]
     end
 
     def require_local_authority!
@@ -59,7 +59,6 @@ module BopsCore
     end
 
     def set_current
-      Current.subdomain = request.subdomain
       Current.local_authority = current_local_authority
       Current.user = current_user
       Current.api_user = current_api_user
