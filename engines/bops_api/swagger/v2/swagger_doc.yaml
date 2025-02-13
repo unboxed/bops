@@ -19879,8 +19879,8 @@ paths:
                       receivedAt: '2024-06-12T15:56:29.830+01:00'
                       validAt: '2024-06-12T00:00:00.000+01:00'
                       publishedAt: '2024-06-12T15:56:29.828+01:00'
-                      determinedAt: 
-                      decision: 
+                      determinedAt:
+                      decision:
                       status: determined
                       consultation:
                         startDate: '2024-04-15'
@@ -19894,7 +19894,7 @@ paths:
                       - value: sections.proposed
                         description: Sections - proposed
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription: 
+                      applicantDescription:
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -19904,7 +19904,7 @@ paths:
                       - value: internal.siteNotice
                         description: Site Notice
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription: 
+                      applicantDescription:
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -19953,8 +19953,8 @@ paths:
                     links:
                       first: http://planx.example.com/api/v2/neighbour_responses?page=1
                       last: http://planx.example.com/api/v2/neighbour_responses?page=1
-                      prev: 
-                      next: 
+                      prev:
+                      next:
                     responses:
                     - receivedAt: '2024-10-21T11:30:00.000+01:00'
                       text: I like it *****
@@ -20060,8 +20060,8 @@ paths:
                     links:
                       first: http://southwark.bops.localhost:3000/api/v2/planning_applications/24-00593-HAPP/validation_requests?page=1
                       last: http://southwark.bops.localhost:3000/api/v2/planning_applications/24-00593-HAPP/validation_requests?page=1
-                      prev: 
-                      next: 
+                      prev:
+                      next:
                     data:
                     - type: FeeChangeValidationRequest
                       state: open
@@ -20070,12 +20070,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.073+01:00'
                       reason: test change
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
-                      approved: 
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      response:
+                      rejection_reason:
+                      approved:
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         suggestion: test change
                     - type: AdditionalDocumentValidationRequest
@@ -20085,12 +20085,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.081+01:00'
                       reason: test
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
-                      approved: 
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      response:
+                      rejection_reason:
+                      approved:
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         document_request_type: test
                     - type: OtherChangeValidationRequest
@@ -20100,12 +20100,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.090+01:00'
                       reason: test change
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
-                      approved: 
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      response:
+                      rejection_reason:
+                      approved:
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         suggestion: test change
                     - type: DescriptionChangeValidationRequest
@@ -20113,13 +20113,13 @@ paths:
                       post_validation: false
                       created_at: '2024-04-23T15:17:00.174+01:00'
                       notified_at: '2024-04-23T15:17:00.290+01:00'
-                      reason: 
+                      reason:
                       response_due: '2024-04-30'
-                      response: 
-                      rejection_reason: 
+                      response:
+                      rejection_reason:
                       approved: true
-                      cancel_reason: 
-                      cancelled_at: 
+                      cancel_reason:
+                      cancelled_at:
                       closed_at: '2024-04-23T15:19:38.912+01:00'
                       specific_attributes:
                         previous_description: Roof extension to the rear of the property,
@@ -20133,12 +20133,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.058+01:00'
                       reason: test
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
+                      response:
+                      rejection_reason:
                       approved: true
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         new_geojson:
                           type: FeatureCollection
@@ -20157,7 +20157,7 @@ paths:
                                   - 51.4655038504508
                                 - - -0.11835515499115692
                                   - 51.465546460366994
-                            properties: 
+                            properties:
                         original_geojson:
                           type: Feature
                           geometry:
@@ -20173,7 +20173,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties: 
+                          properties:
         '401':
           description: with missing or invalid credentials
           content:
@@ -20302,19 +20302,6 @@ paths:
                         not permitted in production
               schema:
                 "$ref": "#/components/schemas/ForbiddenError"
-        '404':
-          description: when a local authority isn't found
-          content:
-            application/json:
-              examples:
-                default:
-                  value:
-                    error:
-                      code: 404
-                      message: Not Found
-                      detail: Local authority not found
-              schema:
-                "$ref": "#/components/schemas/NotFoundError"
         '422':
           description: when an application is invalid
           content:
@@ -21830,7 +21817,7 @@ paths:
                                 - 51.69954799782576
                               - - -0.7085376977920632
                                 - 51.699564621757816
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.299367
                           squareMetres: 2993.67
@@ -21989,7 +21976,7 @@ paths:
                                 - 51.69954799782576
                               - - -0.7085376977920632
                                 - 51.699564621757816
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.299367
                           squareMetres: 2993.67
@@ -22793,7 +22780,7 @@ paths:
                                 - 51.61561499701554
                               - - -0.646633654832832
                                 - 51.61556919642334
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.141826
                           squareMetres: 1418.26
@@ -22896,7 +22883,7 @@ paths:
                                 - 51.61561499701554
                               - - -0.646633654832832
                                 - 51.61556919642334
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.141826
                           squareMetres: 1418.26
@@ -24843,7 +24830,7 @@ paths:
                                 - 51.512609937924225
                               - - -0.5202563671906586
                                 - 51.51349326091676
-                          properties: 
+                          properties:
                         area:
                           hectares: 6.1751949999999995
                           squareMetres: 61751.95
@@ -25949,7 +25936,7 @@ paths:
                                 - 52.00027971842326
                               - - -0.8271436393261123
                                 - 52.00047292273189
-                          properties: 
+                          properties:
                         area:
                           hectares: 0.069395
                           squareMetres: 693.95
@@ -31940,10 +31927,10 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2024-02-06T17:23:44.428+00:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-09-08T11:24:29.682+01:00'
                       description: Add a chimney stack
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 49
                       invalidated_at: '2023-09-08T17:04:37.705+01:00'
@@ -31957,11 +31944,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: awaiting_determination
                       target_date: '2023-10-16'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -31982,12 +31969,12 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
-                        latitude: 
-                        longitude: 
+                        latitude:
+                        longitude:
                       received_date: '2023-09-08T11:24:29.682+01:00'
                       constraints:
                       - Conservation area
@@ -32003,28 +31990,28 @@ paths:
                       agent_email: ziggy@example.com
                       applicant_first_name: David
                       applicant_last_name: Bowie
-                      user_role: 
-                      awaiting_determination_at: 
-                      to_be_reviewed_at: 
+                      user_role:
+                      awaiting_determination_at:
+                      to_be_reviewed_at:
                       created_at: '2024-01-03T16:28:37.986+00:00'
                       description: Roof extension to the rear of the property, incorporating
                         starship launchpad.
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 98
                       invalidated_at: '2024-01-04T22:30:31.634+00:00'
-                      in_assessment_at: 
+                      in_assessment_at:
                       payment_reference: sandbox-ref-456
                       payment_amount: '206.0'
-                      result_flag: 
-                      result_heading: 
-                      result_description: 
-                      result_override: 
-                      returned_at: 
-                      started_at: 
+                      result_flag:
+                      result_heading:
+                      result_description:
+                      result_override:
+                      returned_at:
+                      started_at:
                       status: invalidated
                       target_date: '2024-02-07'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -32041,14 +32028,14 @@ paths:
                               - 51.4655038504508
                             - - -0.1186569035053321
                               - 51.465703531871384
-                        properties: 
+                        properties:
                       application_type: planning_permission
                       reference: 24-00173-HAPP
                       reference_in_full: SWK-24-00173-HAPP
                       site:
                         address_1: 40, STANSFIELD ROAD
-                        address_2: 
-                        county: 
+                        address_2:
+                        county:
                         town: LONDON
                         postcode: SW9 9RZ
                         uprn: '100021892955'
@@ -32059,7 +32046,7 @@ paths:
                       published_comments: []
                       consultee_comments: []
                       consultation:
-                        end_date: 
+                        end_date:
                       make_public: false
                 ids:
                   value:
@@ -32079,10 +32066,10 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2024-02-06T17:23:44.428+00:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-09-08T11:24:29.682+01:00'
                       description: Add a chimney stack
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 49
                       invalidated_at: '2023-09-08T17:04:37.705+01:00'
@@ -32096,11 +32083,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: awaiting_determination
                       target_date: '2023-10-16'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -32121,12 +32108,12 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
-                        latitude: 
-                        longitude: 
+                        latitude:
+                        longitude:
                       received_date: '2023-09-08T11:24:29.682+01:00'
                       constraints:
                       - Conservation area
@@ -32142,28 +32129,28 @@ paths:
                       agent_email: ziggy@example.com
                       applicant_first_name: David
                       applicant_last_name: Bowie
-                      user_role: 
-                      awaiting_determination_at: 
-                      to_be_reviewed_at: 
+                      user_role:
+                      awaiting_determination_at:
+                      to_be_reviewed_at:
                       created_at: '2024-01-03T16:28:37.986+00:00'
                       description: Roof extension to the rear of the property, incorporating
                         starship launchpad.
-                      determined_at: 
+                      determined_at:
                       determination_date: '2024-03-06'
                       id: 98
                       invalidated_at: '2024-01-04T22:30:31.634+00:00'
-                      in_assessment_at: 
+                      in_assessment_at:
                       payment_reference: sandbox-ref-456
                       payment_amount: '206.0'
-                      result_flag: 
-                      result_heading: 
-                      result_description: 
-                      result_override: 
-                      returned_at: 
-                      started_at: 
+                      result_flag:
+                      result_heading:
+                      result_description:
+                      result_override:
+                      returned_at:
+                      started_at:
                       status: invalidated
                       target_date: '2024-02-07'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: Feature
@@ -32180,14 +32167,14 @@ paths:
                               - 51.4655038504508
                             - - -0.1186569035053321
                               - 51.465703531871384
-                        properties: 
+                        properties:
                       application_type: planning_permission
                       reference: 24-00173-HAPP
                       reference_in_full: SWK-24-00173-HAPP
                       site:
                         address_1: 40, STANSFIELD ROAD
-                        address_2: 
-                        county: 
+                        address_2:
+                        county:
                         town: LONDON
                         postcode: SW9 9RZ
                         uprn: '100021892955'
@@ -32198,7 +32185,7 @@ paths:
                       published_comments: []
                       consultee_comments: []
                       consultation:
-                        end_date: 
+                        end_date:
                       make_public: false
         '401':
           description: with missing or invalid credentials
@@ -32262,13 +32249,13 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2023-08-04T13:24:17.885+01:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-06-06T16:50:37.821+01:00'
                       description: Add a chimney stack
                       determined_at: '2023-11-03T08:59:02.345+00:00'
                       determination_date: '2023-11-03T00:00:00.000+00:00'
                       id: 9
-                      invalidated_at: 
+                      invalidated_at:
                       in_assessment_at: '2023-08-04T13:24:06.829+01:00'
                       payment_reference: PAY1
                       payment_amount: '0.0'
@@ -32279,11 +32266,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: determined
                       target_date: '2023-07-11'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: FeatureCollection
@@ -32302,7 +32289,7 @@ paths:
                                 - 51.49453137017866
                               - - -0.06490596313800803
                                 - 51.48755549852538
-                          properties: 
+                          properties:
                       site_notice_content: |-
                         <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
                         <div style="width: 420px; text-align: center">
@@ -32339,7 +32326,7 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
@@ -32394,13 +32381,13 @@ paths:
                       applicant_last_name: Manteras
                       user_role: agent
                       awaiting_determination_at: '2023-08-04T13:24:17.885+01:00'
-                      to_be_reviewed_at: 
+                      to_be_reviewed_at:
                       created_at: '2023-06-06T16:50:37.821+01:00'
                       description: Add a chimney stack
                       determined_at: '2023-11-03T08:59:02.345+00:00'
                       determination_date: '2023-11-03T00:00:00.000+00:00'
                       id: 9
-                      invalidated_at: 
+                      invalidated_at:
                       in_assessment_at: '2023-08-04T13:24:06.829+01:00'
                       payment_reference: PAY1
                       payment_amount: '0.0'
@@ -32411,11 +32398,11 @@ paths:
                         we do not think this is eligible for a Lawful Development
                         Certificate
                       result_override: This was my reason for rejecting the result
-                      returned_at: 
-                      started_at: 
+                      returned_at:
+                      started_at:
                       status: determined
                       target_date: '2023-07-11'
-                      withdrawn_at: 
+                      withdrawn_at:
                       work_status: proposed
                       boundary_geojson:
                         type: FeatureCollection
@@ -32434,7 +32421,7 @@ paths:
                                 - 51.49453137017866
                               - - -0.06490596313800803
                                 - 51.48755549852538
-                          properties: 
+                          properties:
                       site_notice_content: |-
                         <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
                         <div style="width: 420px; text-align: center">
@@ -32471,7 +32458,7 @@ paths:
                       site:
                         address_1: 11 Abbey Gardens
                         address_2: Southwark
-                        county: 
+                        county:
                         town: London
                         postcode: SE16 3RQ
                         uprn: '100081043511'
@@ -32540,19 +32527,19 @@ paths:
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
                     user_role: agent
-                    awaiting_determination_at: 
-                    to_be_reviewed_at: 
+                    awaiting_determination_at:
+                    to_be_reviewed_at:
                     created_at: '2023-05-23T09:39:04.197+01:00'
                     description: This is a long winded description, bla bla bla a
                       single storey ground floor rear extension; replacement of existing
                       garage door with brick infill and a new window; replacement
                       of the existing windows with double glazed windows, installation
                       of rooflight
-                    determined_at: 
+                    determined_at:
                     determination_date: '2024-03-06'
                     id: 2
-                    invalidated_at: 
-                    in_assessment_at: 
+                    invalidated_at:
+                    in_assessment_at:
                     payment_reference: PAY1
                     payment_amount: '0.0'
                     result_flag: Planning permission / Permission needed
@@ -32561,11 +32548,11 @@ paths:
                     result_description: Based on the information you have provided,
                       we do not think this is eligible for a Lawful Development Certificate
                     result_override: This was my reason for rejecting the result
-                    returned_at: 
-                    started_at: 
+                    returned_at:
+                    started_at:
                     status: not_started
                     target_date: '2023-06-27'
-                    withdrawn_at: 
+                    withdrawn_at:
                     work_status: proposed
                     boundary_geojson:
                       type: Feature
@@ -32648,10 +32635,10 @@ paths:
                       targetDate: '2024-05-15'
                       receivedAt: '2024-04-17T00:00:00.000+01:00'
                       validAt: '2024-04-12T00:00:00.000+01:00'
-                      publishedAt: 
-                      determinedAt: 
+                      publishedAt:
+                      determinedAt:
                       status: in_assessment
-                      decision: 
+                      decision:
                       consultation:
                         startDate: '2024-04-15'
                         endDate: '2024-05-07'
@@ -32731,7 +32718,7 @@ paths:
                                     - 51.4655038504508
                                   - - -0.1186569035053321
                                     - 51.465703531871384
-                              properties: 
+                              properties:
                             area:
                               hectares: 0.012592
                               squareMetres: 125.92
@@ -32831,7 +32818,7 @@ paths:
                                     - 51.4655038504508
                                   - - -0.1186569035053321
                                     - 51.465703531871384
-                              properties: 
+                              properties:
                             area:
                               hectares: 0.012592
                               squareMetres: 125.92
@@ -33066,9 +33053,9 @@ paths:
                         targetDate: '2024-05-15'
                         receivedAt: '2024-04-17T00:00:00.000+01:00'
                         validAt: '2024-04-12T00:00:00.000+01:00'
-                        publishedAt: 
-                        determinedAt: 
-                        decision: 
+                        publishedAt:
+                        determinedAt:
+                        decision:
                         status: in_assessment
                         consultation:
                           startDate: '2024-04-15'
@@ -33175,10 +33162,10 @@ paths:
                                   - 51.537313
                                 - - -0.054597
                                   - 51.537331
-                            properties: 
+                            properties:
                       proposal:
                         description: Build a roof extension.
-                        reportingType: 
+                        reportingType:
                         ownerIsPlanningAuthority: false
                       applicant:
                         type: individual
@@ -33240,8 +33227,8 @@ paths:
                       receivedAt: '2024-06-12T15:56:29.830+01:00'
                       validAt: '2024-06-12T00:00:00.000+01:00'
                       publishedAt: '2024-06-12T15:56:29.828+01:00'
-                      determinedAt: 
-                      decision: 
+                      determinedAt:
+                      decision:
                       status: determined
                       consultation:
                         startDate: '2024-04-15'
@@ -33255,7 +33242,7 @@ paths:
                       - value: sections.proposed
                         description: Sections - proposed
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription: 
+                      applicantDescription:
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -33265,7 +33252,7 @@ paths:
                       - value: internal.siteNotice
                         description: Site Notice
                       createdAt: '2024-06-12T15:56:29.803+01:00'
-                      applicantDescription: 
+                      applicantDescription:
                       metadata:
                         byteSize: 144212
                         contentType: application/pdf
@@ -33334,9 +33321,9 @@ paths:
                         targetDate: '2024-05-15'
                         receivedAt: '2024-04-17T00:00:00.000+01:00'
                         validAt: '2024-04-12T00:00:00.000+01:00'
-                        publishedAt: 
-                        determinedAt: 
-                        decision: 
+                        publishedAt:
+                        determinedAt:
+                        decision:
                         status: in_assessment
                         consultation:
                           startDate: '2024-04-15'
@@ -33443,10 +33430,10 @@ paths:
                                   - 51.537313
                                 - - -0.054597
                                   - 51.537331
-                            properties: 
+                            properties:
                       proposal:
                         description: Build a roof extension.
-                        reportingType: 
+                        reportingType:
                         ownerIsPlanningAuthority: false
                       applicant:
                         type: individual
@@ -33505,8 +33492,8 @@ paths:
                       receivedAt: '2024-06-12T15:56:29.830+01:00'
                       validAt: '2024-06-12T00:00:00.000+01:00'
                       publishedAt: '2024-06-12T15:56:29.828+01:00'
-                      determinedAt: 
-                      decision: 
+                      determinedAt:
+                      decision:
                       status: determined
                       consultation:
                         startDate: '2024-04-15'
@@ -33630,8 +33617,8 @@ paths:
                     links:
                       first: http://southwark.bops.localhost:3000/api/v2/validation_requests?page=1
                       last: http://southwark.bops.localhost:3000/api/v2/validation_requests?page=1
-                      prev: 
-                      next: 
+                      prev:
+                      next:
                     data:
                     - planning_application:
                         reference: 24-00593-HAPP
@@ -33642,12 +33629,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.073+01:00'
                       reason: test change
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
-                      approved: 
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      response:
+                      rejection_reason:
+                      approved:
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         suggestion: test change
                     - planning_application:
@@ -33659,12 +33646,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.081+01:00'
                       reason: test
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
-                      approved: 
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      response:
+                      rejection_reason:
+                      approved:
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         document_request_type: test
                     - planning_application:
@@ -33676,12 +33663,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.090+01:00'
                       reason: test change
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
-                      approved: 
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      response:
+                      rejection_reason:
+                      approved:
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         suggestion: test change
                     - planning_application:
@@ -33691,13 +33678,13 @@ paths:
                       post_validation: false
                       created_at: '2024-04-23T15:17:00.174+01:00'
                       notified_at: '2024-04-23T15:17:00.290+01:00'
-                      reason: 
+                      reason:
                       response_due: '2024-04-30'
-                      response: 
-                      rejection_reason: 
+                      response:
+                      rejection_reason:
                       approved: true
-                      cancel_reason: 
-                      cancelled_at: 
+                      cancel_reason:
+                      cancelled_at:
                       closed_at: '2024-04-23T15:19:38.912+01:00'
                       specific_attributes:
                         previous_description: Roof extension to the rear of the property,
@@ -33713,12 +33700,12 @@ paths:
                       notified_at: '2024-04-23T15:17:50.058+01:00'
                       reason: test
                       response_due: '2024-05-15'
-                      response: 
-                      rejection_reason: 
+                      response:
+                      rejection_reason:
                       approved: true
-                      cancel_reason: 
-                      cancelled_at: 
-                      closed_at: 
+                      cancel_reason:
+                      cancelled_at:
+                      closed_at:
                       specific_attributes:
                         new_geojson:
                           type: FeatureCollection
@@ -33737,7 +33724,7 @@ paths:
                                   - 51.4655038504508
                                 - - -0.11835515499115692
                                   - 51.465546460366994
-                            properties: 
+                            properties:
                         original_geojson:
                           type: Feature
                           geometry:
@@ -33753,7 +33740,7 @@ paths:
                                 - 51.4655038504508
                               - - -0.1186569035053321
                                 - 51.465703531871384
-                          properties: 
+                          properties:
               schema:
                 "$ref": "#/components/schemas/ValidationRequests"
         '401':

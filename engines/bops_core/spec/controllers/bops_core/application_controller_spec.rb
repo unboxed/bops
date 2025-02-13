@@ -19,9 +19,14 @@ RSpec.describe BopsCore::ApplicationController, type: :controller do
   let(:user) { create(:user, :assessor, local_authority:) }
   let(:api_user) { create(:api_user, local_authority:) }
 
+  before do
+    request.env["HTTP_HOST"] = "#{local_authority.subdomain}.bops.services"
+    request.env["bops.local_authority"] = local_authority
+    request.env["bops.user_scope"] = local_authority.users.kept
+  end
+
   describe "#set_current" do
     before do
-      request.env["HTTP_HOST"] = "#{local_authority.subdomain}.bops.services"
     end
 
     it "sets the current local authority" do
@@ -58,8 +63,6 @@ RSpec.describe BopsCore::ApplicationController, type: :controller do
   describe "#set_appsignal_tags" do
     before do
       allow(Appsignal).to receive(:add_tags)
-
-      request.env["HTTP_HOST"] = "#{local_authority.subdomain}.bops.services"
     end
 
     context "for an API request" do

@@ -197,24 +197,6 @@ RSpec.describe "BOPS API" do
         run_test!
       end
 
-      response "404", "when a local authority isn't found" do
-        before do
-          allow(LocalAuthority).to receive(:find_by).and_return(nil)
-        end
-
-        schema "$ref" => "#/components/schemas/NotFoundError"
-
-        example "application/json", :default, {
-          error: {
-            code: 404,
-            message: "Not Found",
-            detail: "Local authority not found"
-          }
-        }
-
-        run_test!
-      end
-
       response "422", "when an application is invalid" do
         schema "$ref" => "#/components/schemas/UnprocessableEntityError"
 

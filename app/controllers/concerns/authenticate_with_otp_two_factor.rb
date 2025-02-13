@@ -73,18 +73,14 @@ module AuthenticateWithOtpTwoFactor
 
   def find_user
     if session[:otp_user_id]
-      users_scope.find(session[:otp_user_id])
+      user_scope.find(session[:otp_user_id])
     elsif user_params[:email]
-      users_scope.find_for_authentication(email: user_params[:email])
+      user_scope.find_for_authentication(email: user_params[:email])
     end
   end
 
-  def users_scope
-    if request.subdomain == "config"
-      User.global_administrator
-    else
-      current_local_authority.users
-    end
+  def user_scope
+    request.env["bops.user_scope"]
   end
 
   def mobile_number_needed?(user)
