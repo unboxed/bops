@@ -509,6 +509,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_13_184646) do
     t.string "notify_error_status"
     t.jsonb "application_type_overrides", default: []
     t.boolean "planning_history_enabled", default: false, null: false
+    t.string "public_register_base_url"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

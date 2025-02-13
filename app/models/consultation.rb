@@ -300,7 +300,7 @@ class Consultation < ApplicationRecord
       eaves_height: planning_application&.proposal_measurement&.eaves_height,
       assigned_officer: assigned_officer,
       council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
-      application_link:,
+      application_link: public_register_url,
       legislation_title: planning_application.application_type.legislation_title
     }
 
@@ -384,6 +384,10 @@ class Consultation < ApplicationRecord
 
   def application_link
     "#{local_authority.applicants_url}/planning_applications/#{planning_application.reference}"
+  end
+
+  def public_register_url
+    "#{local_authority.public_register_base_url}/#{planning_application.reference}"
   end
 
   def period_days

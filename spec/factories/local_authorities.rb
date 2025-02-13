@@ -29,6 +29,7 @@ FactoryBot.define do
       short_name { "PlanX" }
       council_name { "PlanX Council" }
       applicants_url { "https://planx.bops-applicants.services" }
+      public_register_base_url { "https://planningregister.org/planx" }
       signatory_name { Faker::FunnyName.two_word_name }
       signatory_job_title { "Director" }
       enquiries_paragraph { Faker::Lorem.unique.sentence }

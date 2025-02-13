@@ -257,6 +257,8 @@ en:
         planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
+        public_register_base_url: Public register url
+        public_register_base_url_hint: Enter the Public register url.
         reviewer_group_email: BOPS lead email
         reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
         signatory_job_title: Job title
@@ -288,6 +290,8 @@ en:
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         profile: Profile
+        public_register_base_url: Public register url
+        public_register_base_url_hint: Enter the Public register url.
         reviewer_group_email: BOPS lead email
         reviewer_group_email_hint: This is the email of the person who will be responsible for managing the planning process in BOPS at your council.
         signatory_job_title: Job title

@@ -131,4 +131,61 @@ RSpec.describe LocalAuthority do
       end
     end
   end
+
+  describe "#public_register_base_url" do
+    let(:local_authority) { build(:local_authority, :lambeth) }
+    before do
+      allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return(bops_env)
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new(rails_env))
+    end
+
+    context "when in production" do
+      let(:bops_env) { "production" }
+      let(:rails_env) { bops_env }
+
+      context "when is nil" do
+        it "does not return the database value" do
+          expect(local_authority.public_register_base_url).not_to eq(local_authority[:public_register_base_url])
+        end
+      end
+
+      context "when is configured at database level" do
+        before do
+          local_authority.update!(public_register_base_url: "https://planning_register.services/#{local_authority.subdomain}")
+        end
+
+        it "returns the database value" do
+          expect(local_authority.public_register_base_url).to eq(local_authority[:public_register_base_url])
+        end
+      end
+    end
+
+    context "when in staging" do
+      let(:bops_env) { "staging" }
+      let(:rails_env) { "production" }
+
+      it "does not return the database value" do
+        expect(local_authority.public_register_base_url).not_to eq(local_authority[:public_register_base_url])
+      end
+
+      it "returns the configured value" do
+        # nb. because this is set at startup time, it won't get the staging version from the production
+        # config; instead it gets the test version.
+        expect(local_authority.public_register_base_url).to eq("https://#{local_authority.subdomain}.bops-applicants.services")
+      end
+    end
+
+    context "when in development" do
+      let(:bops_env) { "development" }
+      let(:rails_env) { bops_env }
+
+      it "does not return the database value" do
+        expect(local_authority.public_register_base_url).not_to eq(local_authority[:public_register_base_url])
+      end
+
+      it "returns the configured value" do
+        expect(local_authority.public_register_base_url).to eq("https://#{local_authority.subdomain}.bops-applicants.services")
+      end
+    end
+  end
 end
