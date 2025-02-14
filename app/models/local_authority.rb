@@ -93,6 +93,42 @@ class LocalAuthority < ApplicationRecord
     onboarded? ? "Completed" : onboarding_progress
   end
 
+  ACTIVE_ATTRIBUTES = %w[email_address
+    email_reply_to_id
+    enquiries_paragraph
+    feedback_email
+    letter_template_id
+    notify_api_key
+    press_notice_email
+    reviewer_group_email
+    signatory_job_title
+    signatory_name].freeze
+
+  CREATION_ATTRIBUTES = %w[subdomain
+    council_code
+    council_name
+    short_name
+    applicants_url].freeze
+
+  ONBOARDED_ATTRIBUTES = (CREATION_ATTRIBUTES + ACTIVE_ATTRIBUTES).freeze
+
+  REDACTED_INFO = %w[notify_api_key
+    reviewer_group_email
+    applicants_url
+    email_address].freeze
+
+  def redacted?(onboarded_attribute)
+    REDACTED_INFO.include?(onboarded_attribute)
+  end
+
+  def onboarded_attributes_list
+    ONBOARDED_ATTRIBUTES
+  end
+
+  def to_param
+    subdomain
+  end
+
   private
 
   def council_code_exists
@@ -121,29 +157,6 @@ class LocalAuthority < ApplicationRecord
   def active_attributes?
     attributes.select { |k, v| ACTIVE_ATTRIBUTES.include?(k) }.each_value.all?(&:present?)
   end
-
-  ACTIVE_ATTRIBUTES = %w[
-    email_address
-    email_reply_to_id
-    enquiries_paragraph
-    feedback_email
-    letter_template_id
-    notify_api_key
-    press_notice_email
-    reviewer_group_email
-    signatory_job_title
-    signatory_name
-  ].freeze
-
-  CREATION_ATTRIBUTES = %w[
-    subdomain
-    council_code
-    council_name
-    short_name
-    applicants_url
-  ].freeze
-
-  ONBOARDED_ATTRIBUTES = (ACTIVE_ATTRIBUTES + CREATION_ATTRIBUTES).freeze
 
   def onboarded_attributes
     @onboarded_attributes ||= attributes.select(&method(:onboarded_attribute?))

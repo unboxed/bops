@@ -1,0 +1,61 @@
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Local authorities", local_authorities_path %>
+
+<div class="govuk-width-container">
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-4">
+        <%= @local_authority.short_name %> onboarding progress
+    </h1>
+    <h3 class="govuk-heading-m">
+        <% if  @local_authority.onboarding_status != "Completed" %>
+            <strong class="govuk-tag govuk-tag--grey">
+                <%= @local_authority.onboarding_status %> steps completed
+            </strong>
+        <% else %>
+            <strong class="govuk-tag govuk-tag--green">
+                Onboarding complete
+            </strong>
+        <% end %>
+    </h3>
+
+    <table class="govuk-table">
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Required field</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Value</th>
+        <th scope="col" class="govuk-table__header">Status</th>
+        </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+        <% @local_authority.onboarded_attributes_list.each do |onboarded_attribute| %>
+                <% next if onboarded_attribute == "subdomain" %>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                        <%= onboarded_attribute.humanize %>
+                    </th>
+                    <td class="govuk-table__cell">
+                        <% if @local_authority[onboarded_attribute].nil? %>
+                            -
+                        <% elsif @local_authority.redacted?(onboarded_attribute) %>
+                            Redacted
+                        <% else %>
+                            <%= @local_authority[onboarded_attribute] %>
+                        <% end %>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <% if @local_authority[onboarded_attribute] %>
+                            Completed
+                        <% else %>
+                            <strong class="govuk-tag govuk-tag--blue">
+                                Not started
+                            </strong>
+                        <% end %>
+                    </td>
+                </tr>
+        <% end %>
+    </tbody>
+    </table>
+    <div class="govuk-button-group">
+        <%= back_link %>
+    </div>
+</div>
