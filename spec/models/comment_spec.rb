@@ -24,10 +24,10 @@ RSpec.describe Comment do
   end
 
   describe "#first?" do
-    let(:policy) { create(:policy) }
+    let(:evidence_group) { create(:evidence_group) }
 
     let(:comment) do
-      create(:comment, commentable: policy, created_at: 1.day.ago)
+      create(:comment, commentable: evidence_group, created_at: 1.day.ago)
     end
 
     context "when there is no previous comment" do
@@ -37,7 +37,7 @@ RSpec.describe Comment do
     end
 
     context "when there is a previous comment" do
-      before { create(:comment, commentable: policy, created_at: 2.days.ago) }
+      before { create(:comment, commentable: evidence_group, created_at: 2.days.ago) }
 
       it "returns false" do
         expect(comment.first?).to be(false)
@@ -48,7 +48,7 @@ RSpec.describe Comment do
       before do
         create(
           :comment,
-          commentable: policy,
+          commentable: evidence_group,
           created_at: 3.days.ago,
           deleted_at: 1.day.ago
         )

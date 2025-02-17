@@ -5,6 +5,6 @@ FactoryBot.define do
     sequence(:section, "1a")
     description { "This is a description of the policy section." }
 
-    association :new_policy_class
+    association :policy_class
   end
 end

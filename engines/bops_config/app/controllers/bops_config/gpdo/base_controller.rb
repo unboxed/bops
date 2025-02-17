@@ -24,7 +24,7 @@ module BopsConfig
       end
 
       def set_policy_classes
-        @policy_classes = @part.new_policy_classes
+        @policy_classes = @part.policy_classes
       end
 
       def policy_part_number

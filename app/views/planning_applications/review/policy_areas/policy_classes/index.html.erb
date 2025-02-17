@@ -15,7 +15,7 @@
 <%= render "shared/dates_and_assignment_header" %>
 
 <ul class="app-task-list__items" id="review-legislation">
-  <% @planning_application.planning_application_policy_classes.order(:new_policy_class_id).each do |policy_class| %>
+  <% @planning_application.planning_application_policy_classes.order(:policy_class_id).each do |policy_class| %>
     <% next if policy_class.current_review.not_started? || policy_class.current_review.in_progress? %>
 
     <%= render TaskListItems::Reviewing::Component.new do |c| %>

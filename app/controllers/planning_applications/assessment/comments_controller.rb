@@ -20,24 +20,7 @@ module PlanningApplications
       private
 
       def create_comment_partial(new_comment)
-        if @comment_type.is_a? Policy
-          create_policy_comment_partial(new_comment)
-        else
-          create_evidence_group_comment_partial(new_comment)
-        end
-      end
-
-      def create_policy_comment_partial(new_comment)
-        render_to_string(
-          partial: "planning_applications/review/policy_classes/comment",
-          locals: {
-            planning_application: @planning_application,
-            policy_class:,
-            policy:,
-            comment: @comment_type.comment,
-            new_comment:
-          }
-        )
+        create_evidence_group_comment_partial(new_comment)
       end
 
       def create_evidence_group_comment_partial(new_comment)
@@ -52,27 +35,8 @@ module PlanningApplications
         )
       end
 
-      def update_comment_partial
-        render_to_string(
-          partial: "planning_applications/assessment/policy_classes/comment",
-          locals: {
-            policy:,
-            comment: nil,
-            policy_index: params[:policy_index]
-          }
-        )
-      end
-
       def comment_params
         params.require(:comment).permit(:text)
-      end
-
-      def policy
-        @policy ||= policy_class.policies.find(params[:policy_id])
-      end
-
-      def policy_class
-        @planning_application.policy_classes.find(params[:policy_class_id])
       end
 
       def evidence_group
@@ -82,8 +46,6 @@ module PlanningApplications
       def set_comment_type
         @comment_type = if params[:evidence_group_id].present?
           EvidenceGroup.find(params[:evidence_group_id])
-        else
-          policy_class.policies.find(params[:policy_id])
         end
       end
     end

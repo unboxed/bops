@@ -84,15 +84,6 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
       application_number: "22-00999-LDCP",
       description: "This is the past application history summary."
     )
-
-    create(
-      :policy_class,
-      :complies,
-      planning_application:,
-      part: 1,
-      section: "A",
-      name: "Window boxes"
-    )
   end
 
   it "lets the user view and download the report" do

@@ -2,7 +2,7 @@
 
 class PlanningApplicationPolicyClass < ApplicationRecord
   belongs_to :planning_application
-  belongs_to :new_policy_class
+  belongs_to :policy_class
 
   with_options dependent: :destroy do
     has_many :reviews, -> { order(created_at: :desc) }, as: :owner
@@ -11,8 +11,6 @@ class PlanningApplicationPolicyClass < ApplicationRecord
   with_options on: :update do
     validates :reporting_types, presence: true
   end
-
-  alias_method :policy_class, :new_policy_class
 
   def current_review
     reviews.load.first || reviews.create!

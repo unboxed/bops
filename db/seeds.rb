@@ -72,14 +72,14 @@ data["en"]["schedules"].first["parts"].each do |part_key, part_data|
   )
 
   part_data["classes"].each do |class_data|
-    new_policy_class = part.new_policy_classes.find_or_create_by!(
+    policy_class = part.policy_classes.find_or_create_by!(
       section: class_data["section"],
       name: class_data["name"],
       url: class_data["url"]
     )
 
     class_data["policies_attributes"].each do |section_data|
-      new_policy_class.policy_sections.find_or_create_by!(
+      policy_class.policy_sections.find_or_create_by!(
         section: section_data["section"].presence || class_data["section"],
         description: section_data["description"]
       )

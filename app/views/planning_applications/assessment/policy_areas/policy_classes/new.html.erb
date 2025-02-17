@@ -38,13 +38,13 @@
           </div>
           <div class="govuk-checkboxes">
             <%= form.collection_check_boxes(
-                  :new_policy_classes,
-                  @part.new_policy_classes.menu,
+                  :policy_classes,
+                  @part.policy_classes.menu,
                   :first,
                   :last
                 ) do |b| %>
               <div class="govuk-checkboxes__item">
-                <% if b.object.first.in?(@planning_application.planning_application_policy_classes.pluck(:new_policy_class_id)) %>
+                <% if b.object.first.in?(@planning_application.planning_application_policy_classes.pluck(:policy_class_id)) %>
                   <%= b.check_box(class: "govuk-checkboxes__input", disabled: true, checked: true) %>
                 <% else %>
                   <%= b.check_box(class: "govuk-checkboxes__input") %>
