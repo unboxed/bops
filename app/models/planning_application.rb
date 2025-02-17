@@ -85,6 +85,7 @@ class PlanningApplication < ApplicationRecord
 
   with_options to: :application_type do
     delegate :appeals?
+    delegate :assess_against_policies?
     delegate :consultation?
     delegate :neighbour_consultation_feature?
     delegate :consultee_consultation_feature?

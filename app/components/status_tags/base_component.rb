@@ -25,15 +25,15 @@ module StatusTags
 
     def colour
       case status.to_sym
-      when :approved, :auto_approved, :supportive
+      when :approved, :auto_approved, :supportive, :complies
         "green"
       when :not_started, :new, :review_not_started, :not_consulted, :none, :no_response
         "blue"
-      when :in_progress, :awaiting_response
+      when :in_progress, :awaiting_response, :to_be_determined
         "light-blue"
       when :updated, :to_be_reviewed, :submitted, :neutral, :amendments_needed, :awaiting_changes
         "yellow"
-      when :refused, :removed, :invalid, :rejected, :objection, :failed, :refused_legal_agreement, :cancelled
+      when :refused, :removed, :invalid, :rejected, :objection, :failed, :refused_legal_agreement, :cancelled, :does_not_comply
         "red"
       end
     end

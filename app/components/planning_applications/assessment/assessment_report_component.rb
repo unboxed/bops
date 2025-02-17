@@ -27,6 +27,7 @@ module PlanningApplications
         :consultation_summary,
         :consultation,
         :permitted_development_right,
+        :planning_application_policy_sections,
         :additional_evidence,
         :immunity_detail,
         :neighbour_summary,
@@ -39,6 +40,12 @@ module PlanningApplications
 
       def documents
         planning_application.documents_for_decision_notice
+      end
+
+      def policy_classes
+        planning_application_policy_sections
+          .includes(:comments, policy_section: {policy_class: :policy_part})
+          .group_by(&:policy_class)
       end
 
       def current_user

@@ -23,4 +23,8 @@ class PolicyClass < ApplicationRecord
       pluck(:id, :section, :name)
     end
   end
+
+  def description
+    "Part #{policy_part_number}, Class #{section} - #{name}"
+  end
 end
