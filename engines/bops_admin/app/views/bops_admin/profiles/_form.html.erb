@@ -93,6 +93,13 @@
       ) %>
 
   <%= form.govuk_text_field(
+        :public_register_base_url,
+        label: {text: t(".public_register_base_url"), class: "govuk-label govuk-label--m"},
+        hint: {text: t(".public_register_base_url_hint")},
+        class: "govuk-input--width-30"
+      ) %>
+
+  <%= form.govuk_text_field(
         :letter_template_id,
         label: {text: t(".letter_template_id"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".letter_template_id_hint")},

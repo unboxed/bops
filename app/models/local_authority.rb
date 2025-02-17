@@ -85,6 +85,12 @@ class LocalAuthority < ApplicationRecord
     end
   end
 
+  def public_register_base_url
+    return super if super.present? && Bops.env.production?
+
+    "https://#{subdomain}.#{Rails.configuration.applicants_base_url}"
+  end
+
   def inactive?
     !active
   end

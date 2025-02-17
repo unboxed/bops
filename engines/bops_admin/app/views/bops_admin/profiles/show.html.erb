@@ -103,6 +103,17 @@
           </p>
         </li>
         <li>
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".public_register_base_url") %></h2>
+          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".public_register_base_url_hint") %></div>
+          <p class="govuk-body">
+            <% if current_local_authority.public_register_base_url? %>
+              <%= govuk_link_to nil, current_local_authority.public_register_base_url, new_tab: "" %>
+            <% else %>
+              –
+            <% end %>
+          </p>
+        </li>
+        <li>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".notify_api_key") %></h2>
           <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".notify_api_key_hint_html", notify_notion_link: govuk_link_to("Read our guide to Notify set up.", t(".notify_notion_link"), new_tab: true)) %></div>
           <p class="govuk-body">
