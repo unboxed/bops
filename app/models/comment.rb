@@ -18,6 +18,12 @@ class Comment < ApplicationRecord
     deleted_at.present?
   end
 
+  def information
+    if user.present?
+      "By #{user.name} on #{created_at.to_fs(:day_month_year_slashes)}"
+    end
+  end
+
   private
 
   def previous

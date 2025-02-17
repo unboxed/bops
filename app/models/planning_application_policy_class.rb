@@ -12,6 +12,15 @@ class PlanningApplicationPolicyClass < ApplicationRecord
     validates :reporting_types, presence: true
   end
 
+  delegate :section, :name, :url, :description, to: :policy_class
+  delegate :planning_application_policy_sections, to: :planning_application
+
+  def policy_sections
+    planning_application_policy_sections
+      .includes(:comments, :policy_section)
+      .where(policy_section: {policy_class_id: policy_class_id})
+  end
+
   def current_review
     reviews.load.first || reviews.create!
   end

@@ -27,11 +27,14 @@ module PlanningApplications
         :consultation_summary,
         :consultation,
         :permitted_development_right,
+        :planning_application_policy_classes,
         :additional_evidence,
         :immunity_detail,
         :neighbour_summary,
         to: :planning_application
       )
+
+      delegate :bops_ticket_panel, to: :helpers
 
       def considerations
         planning_application.consideration_set.considerations
@@ -39,6 +42,10 @@ module PlanningApplications
 
       def documents
         planning_application.documents_for_decision_notice
+      end
+
+      def policy_classes
+        planning_application_policy_classes
       end
 
       def current_user

@@ -1201,6 +1201,7 @@ en:
       assessment_report_component:
         additional_evidence: Summary of additional evidence
         application_details: Application details
+        assessment_against_legislation: Assessment against legislation
         assessment_against_policies_and_guidance: Policies and guidance
         constraints_including_article: Constraints including Article 4 direction(s)
         consultation_documents: Consultation documents
@@ -2182,6 +2183,8 @@ en:
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
     complete: Completed
+    complies: Complies
+    does_not_comply: Does not comply
     emailed: Emailed
     failed: Failed
     granted: To grant
@@ -2222,6 +2225,7 @@ en:
     sending: Sending
     submitted: Submitted
     supportive: Supportive
+    to_be_determined: To be determined
     to_be_reviewed: To be reviewed
     updated: Updated
     valid: Valid

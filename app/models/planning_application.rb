@@ -58,7 +58,7 @@ class PlanningApplication < ApplicationRecord
     has_many :press_notices, -> { by_created_at_desc }
     has_many :planning_application_policy_classes
     has_many :policy_classes, through: :planning_application_policy_classes
-    has_many :planning_application_policy_sections
+    has_many :planning_application_policy_sections, -> { by_id }
     has_many :policy_sections, through: :planning_application_policy_sections
     has_many :additional_services
 
@@ -85,6 +85,7 @@ class PlanningApplication < ApplicationRecord
 
   with_options to: :application_type do
     delegate :appeals?
+    delegate :assess_against_policies?
     delegate :consultation?
     delegate :neighbour_consultation_feature?
     delegate :consultee_consultation_feature?
