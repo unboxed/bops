@@ -39,6 +39,10 @@ module PlanningApplications
         redirect_to planning_application_review_tasks_path(@planning_application), alert: Array.wrap(error).to_sentence
       end
 
+      def redirect_to_review_tasks
+        redirect_to planning_application_review_tasks_path(@planning_application)
+      end
+
       def render_review_tasks
         set_planning_application_constraints
         set_neighbour_review

@@ -47,10 +47,6 @@ module PlanningApplications
         end
       end
 
-      def redirect_to_review_tasks
-        redirect_to planning_application_review_tasks_path(@planning_application)
-      end
-
       def cil_feature?
         @planning_application.application_type.cil?
       end

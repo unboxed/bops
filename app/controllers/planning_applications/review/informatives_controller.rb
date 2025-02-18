@@ -48,10 +48,6 @@ module PlanningApplications
           .merge(reviewer: current_user, reviewed_at: Time.current)
       end
 
-      def redirect_to_review_tasks
-        redirect_to planning_application_review_tasks_path(@planning_application)
-      end
-
       def informatives_not_started?
         @review.not_started?
       end
