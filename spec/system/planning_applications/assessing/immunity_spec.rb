@@ -110,7 +110,7 @@ RSpec.describe "Immunity", type: :system do
 
       click_button "Review evidence of immunity"
 
-      within("#review-evidence") do
+      within("#review-immunity-details") do
         choose "Return with comments"
         fill_in "Add a comment", with: "Please re-assess the evidence of immunity"
         click_button "Save and mark as complete"
@@ -120,13 +120,13 @@ RSpec.describe "Immunity", type: :system do
 
       click_button "Review assessment of immunity"
 
-      within("#review-enforcement") do
+      within("#review-immunity-enforcements") do
         expect(page).to have_content("Assessor decision: Yes")
         expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
         expect(page).to have_content("Summary: A summary")
       end
 
-      within("#review-enforcement-form") do
+      within("#review-immunity-enforcements-form") do
         choose "Return with comments"
         fill_in "Add a comment", with: "Please re-assess immunity enforcement response"
         click_button "Save and mark as complete"
@@ -188,7 +188,7 @@ RSpec.describe "Immunity", type: :system do
 
       click_button "Review evidence of immunity"
 
-      within("#review-evidence") do
+      within("#review-immunity-details") do
         choose "Agree"
         click_button "Save and mark as complete"
       end
@@ -196,7 +196,7 @@ RSpec.describe "Immunity", type: :system do
 
       click_button "Review assessment of immunity"
 
-      within("#review-enforcement") do
+      within("#review-immunity-enforcements") do
         expect(page).to have_content("Assessor decision: No")
         expect(page).to have_content("Reason: Application is not immune")
 

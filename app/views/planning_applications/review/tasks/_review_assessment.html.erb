@@ -2,7 +2,7 @@
   <% accordion.with_heading(text: "Review assessment") %>
 
   <% if @planning_application.application_type.cil? %>
-    <% accordion.with_section(id: "check-cil", expanded: false) do |section| %>
+    <% accordion.with_section(id: "review-cil-liability", expanded: false) do |section| %>
       <%= section.with_heading(text: "Check Community Infrastructure Levy (CIL)") %>
       <%= section.with_status do %>
         <%= render(

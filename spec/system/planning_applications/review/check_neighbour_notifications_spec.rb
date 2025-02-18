@@ -44,14 +44,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "you can accept that the assessor has notified the correct people" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check neighbour notifications"
 
-        within "#check-neighbour-notifications" do
+        within "#review-neighbour-responses" do
           choose "Agree"
 
           click_button "Save and mark as complete"
@@ -59,7 +59,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Completed")
         end
       end
@@ -67,14 +67,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "you can send it back for assessment", :capybara do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check neighbour notifications"
 
-        within "#check-neighbour-notifications" do
+        within "#review-neighbour-responses" do
           choose "Return with comments"
           fill_in "Add a comment", with: "Notify more people"
 
@@ -83,7 +83,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Awaiting changes")
         end
@@ -131,14 +131,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "shows errors" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check neighbour notifications"
 
-        within "#check-neighbour-notifications" do
+        within "#review-neighbour-responses" do
           click_button "Save and mark as complete"
         end
 
@@ -147,14 +147,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
           expect(page).to have_content("Select an option")
         end
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check neighbour notifications"
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           choose "Return with comments"
           click_button "Save and mark as complete"
         end
@@ -170,14 +170,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "you can accept that the assessor has notified the correct people" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check neighbour notifications"
 
-        within "#check-neighbour-notifications" do
+        within "#review-neighbour-responses" do
           choose "Return with comments"
           fill_in "Add a comment", with: "People need to be consulted"
 
@@ -186,7 +186,7 @@ RSpec.describe "Check neighbour notifications", type: :system do
 
         expect(page).to have_content("Review of neighbour responses successfully added")
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Awaiting changes")
         end
@@ -204,14 +204,14 @@ RSpec.describe "Check neighbour notifications", type: :system do
       it "you can't accept or reject the officer's work" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-neighbour-notifications") do
+        within("#review-neighbour-responses") do
           expect(page).to have_content("Check neighbour notifications")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check neighbour notifications"
 
-        within "#check-neighbour-notifications" do
+        within "#review-neighbour-responses" do
           choose "Agree"
           click_button "Save and mark as complete"
         end

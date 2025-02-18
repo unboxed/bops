@@ -76,7 +76,7 @@ RSpec.describe "checking publicity" do
       it "allows a reviewer to mark the publicity check as complete" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           expect(page).to have_content("Check publicity")
           expect(page).to have_content("Not started")
         end
@@ -114,14 +114,14 @@ RSpec.describe "checking publicity" do
           expect(page).to have_content("File name: press-notice.jpg")
         end
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           choose "Agree"
           click_button "Save and mark as complete"
         end
 
         expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           expect(page).to have_content("Check publicity")
           expect(page).to have_content("Completed")
         end
@@ -130,14 +130,14 @@ RSpec.describe "checking publicity" do
       it "allows a reviewer to return the application to the assessor" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           expect(page).to have_content("Check publicity")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check publicity"
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           choose "Return with comments"
           fill_in "Add a comment", with: "Check this"
           click_button "Save and mark as complete"
@@ -145,7 +145,7 @@ RSpec.describe "checking publicity" do
 
         expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           expect(page).to have_content("Check publicity")
           expect(page).to have_content("Awaiting changes")
         end
@@ -193,7 +193,7 @@ RSpec.describe "checking publicity" do
 
         click_link "Review and sign-off"
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           expect(page).to have_content("Check publicity")
           expect(page).to have_content("Not started")
         end
@@ -202,21 +202,21 @@ RSpec.describe "checking publicity" do
       it "shows errors" do
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           expect(page).to have_content("Check publicity")
           expect(page).to have_content("Not started")
         end
 
         click_button "Check publicity"
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           click_button "Save and mark as complete"
         end
 
         expect(page).to have_content "Determine whether this is correct"
         expect(page).not_to have_content "You must add a comment"
 
-        within("#check-publicity") do
+        within("#review-publicities") do
           choose "Return with comments"
           click_button "Save and mark as complete"
         end
@@ -275,7 +275,7 @@ RSpec.describe "checking publicity" do
     it "the reviewer can accept" do
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         expect(page).to have_content("Check publicity")
         expect(page).to have_content("Not started")
       end
@@ -313,13 +313,13 @@ RSpec.describe "checking publicity" do
         expect(page).to have_content("File name: press-notice.jpg")
       end
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         choose "Agree"
         click_button "Save and mark as complete"
       end
       expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         expect(page).to have_content("Check publicity")
         expect(page).to have_content("Completed")
       end
@@ -328,14 +328,14 @@ RSpec.describe "checking publicity" do
     it "allows a reviewer to return the application to the assessor" do
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         expect(page).to have_content("Check publicity")
         expect(page).to have_content("Not started")
       end
 
       click_button "Check publicity"
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         choose "Return with comments"
         fill_in "Add a comment", with: "Check this"
         click_button "Save and mark as complete"
@@ -343,7 +343,7 @@ RSpec.describe "checking publicity" do
 
       expect(page).to have_selector("[role=alert] p", text: "Review of publicity successfully added.")
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         expect(page).to have_content("Check publicity")
         expect(page).to have_content("Awaiting changes")
       end
@@ -392,7 +392,7 @@ RSpec.describe "checking publicity" do
 
       click_link "Review and sign-off"
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         expect(page).to have_content("Check publicity")
         expect(page).to have_content("Not started")
       end
@@ -401,21 +401,21 @@ RSpec.describe "checking publicity" do
     it "shows errors" do
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         expect(page).to have_content("Check publicity")
         expect(page).to have_content("Not started")
       end
 
       click_button "Check publicity"
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         click_button "Save and mark as complete"
       end
 
       expect(page).to have_content "Determine whether this is correct"
       expect(page).not_to have_content "You must add a comment"
 
-      within("#check-publicity") do
+      within("#review-publicities") do
         choose "Return with comments"
         click_button "Save and mark as complete"
       end
