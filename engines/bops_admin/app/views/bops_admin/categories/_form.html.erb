@@ -1,9 +1,0 @@
-<%= form.govuk_error_summary %>
-
-<%= form.govuk_fieldset(legend: {text: nil}) do %>
-  <%= form.govuk_text_field :description, width: "two-thirds", label: {text: t(".labels.description")} %>
-<% end %>
-
-<%= form.govuk_submit(t(".submit")) do %>
-  <%= back_link %>
-<% end %>

@@ -1,6 +1,15 @@
 <%= form.govuk_error_summary %>
 
 <%= form.govuk_fieldset(legend: {text: nil}) do %>
+  <%= form.govuk_radio_buttons_fieldset :category, legend: {size: "m", text: "What category is this requirement?"} do %>
+    <div class="govuk-!-column-count-2">
+      <%= form.govuk_radio_button :category, "drawings", label: {text: t("drawings", scope: "requirements.categories")} %>
+      <%= form.govuk_radio_button :category, "evidence", label: {text: t("evidence", scope: "requirements.categories")} %>
+      <%= form.govuk_radio_button :category, "supporting_documents", label: {text: t("supporting_documents", scope: "requirements.categories")} %>
+      <%= form.govuk_radio_button :category, "other", label: {text: t("other", scope: "requirements.categories")} %>
+    </div>
+  <% end %>
+
   <%= form.govuk_text_field :description, label: {text: t(".labels.description")} %>
   <%= form.govuk_text_field :url, label: {text: t(".labels.url")} %>
   <%= form.govuk_text_area :guidelines, label: {text: t(".labels.guidelines")}, rows: 8 %>

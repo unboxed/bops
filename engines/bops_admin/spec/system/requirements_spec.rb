@@ -54,6 +54,7 @@ RSpec.describe "Requirement" do
     requirement = create(
       :local_authority_requirement,
       local_authority:,
+      category: "drawings",
       description: "Floor plans - existing",
       guidelines: "Drawings to the scale of 1:100",
       url: "https://planx.example.com/planning-guidance"
@@ -69,10 +70,14 @@ RSpec.describe "Requirement" do
 
     within "tbody tr:nth-child(1)" do
       within "td:nth-child(1)" do
-        expect(page).to have_link("Floor plans - existing", href: "https://planx.example.com/planning-guidance")
+        expect(page).to have_text("Drawings")
       end
 
       within "td:nth-child(2)" do
+        expect(page).to have_link("Floor plans - existing", href: "https://planx.example.com/planning-guidance")
+      end
+
+      within "td:nth-child(3)" do
         expect(page).to have_link("Edit", href: "/admin/requirements/#{requirement.to_param}/edit")
         expect(page).to have_link("Delete", href: "/admin/requirements/#{requirement.to_param}")
       end
@@ -96,8 +101,10 @@ RSpec.describe "Requirement" do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
+    expect(page).to have_link("Category can't be blank", href: "#requirement-category-field-error")
     expect(page).to have_link("Description has already been taken", href: "#requirement-description-field-error")
 
+    choose "Drawings"
     fill_in "Description", with: "Floor plans - proposed"
 
     click_button("Submit")
@@ -105,18 +112,20 @@ RSpec.describe "Requirement" do
     expect(page).to have_content("Requirement successfully created")
 
     within "tbody tr:nth-child(2)" do
-      expect(page).to have_selector("td:nth-child(1)", text: "Floor plans - proposed")
+      expect(page).to have_selector("td:nth-child(1)", text: "Drawings")
+      expect(page).to have_selector("td:nth-child(2)", text: "Floor plans - proposed")
     end
   end
 
   it "allows editing an requirement" do
-    create(:local_authority_requirement, local_authority:, description: "Floor plans - existing")
+    create(:local_authority_requirement, local_authority:, category: "drawings", description: "Floor plans - existing")
 
     visit "/admin/requirements"
     expect(page).to have_selector("h1", text: "Manage requirements")
 
     within "tbody tr:nth-child(1)" do
-      expect(page).to have_selector("td:nth-child(1)", text: "Floor plans - existing")
+      expect(page).to have_selector("td:nth-child(1)", text: "Drawings")
+      expect(page).to have_selector("td:nth-child(2)", text: "Floor plans - existing")
 
       click_link("Edit")
     end
@@ -130,7 +139,8 @@ RSpec.describe "Requirement" do
     expect(page).to have_content("Requirement successfully updated")
 
     within "tbody tr:nth-child(1)" do
-      expect(page).to have_selector("td:nth-child(1)", text: "Floor plans")
+      expect(page).to have_selector("td:nth-child(1)", text: "Drawings")
+      expect(page).to have_selector("td:nth-child(2)", text: "Floor plans")
     end
   end
 
@@ -141,7 +151,7 @@ RSpec.describe "Requirement" do
     expect(page).to have_selector("h1", text: "Manage requirements")
 
     within "tbody tr:nth-child(1)" do
-      expect(page).to have_selector("td:nth-child(1)", text: "Floor plans - existing")
+      expect(page).to have_selector("td:nth-child(2)", text: "Floor plans - existing")
 
       accept_confirm do
         click_link("Delete")

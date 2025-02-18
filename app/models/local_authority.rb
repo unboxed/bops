@@ -12,7 +12,6 @@ class LocalAuthority < ApplicationRecord
   with_options dependent: :destroy do
     has_many :users
     has_many :planning_applications, -> { kept }
-    has_many :categories
     has_many :constraints
     has_many :contacts
     has_many :informatives

@@ -13,7 +13,6 @@ BopsAdmin::Engine.routes.draw do
   end
 
   with_options except: %i[show] do
-    resources :categories
     resources :informatives
     resources :requirements
   end
