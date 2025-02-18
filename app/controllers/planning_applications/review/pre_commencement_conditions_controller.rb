@@ -14,7 +14,7 @@ module PlanningApplications::Review
       respond_to do |format|
         format.html do
           if @pre_commencement_condition_set.update(review_params)
-            redirect_to planning_application_review_tasks_path(@planning_application),
+            redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-pre-commencement-conditions"),
               notice: I18n.t("review.conditions.update.success")
           else
             flash.now[:alert] = @pre_commencement_condition_set.errors.messages.values.flatten.join(", ")

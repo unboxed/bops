@@ -17,7 +17,7 @@ module PlanningApplications
           respond_to do |format|
             format.html do
               if @informative.update(informative_params)
-                redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+                redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-informatives"), notice: t(".success")
               else
                 render :edit
               end

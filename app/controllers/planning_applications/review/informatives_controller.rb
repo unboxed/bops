@@ -19,7 +19,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review.update(review_params)
-              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-informatives"), notice: t(".success")
             else
               flash.now[:alert] = @review.errors.messages.values.flatten.join(", ")
               render_review_tasks

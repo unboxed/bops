@@ -28,7 +28,7 @@ module PlanningApplications
         )
 
         if @recommendation.save_and_submit(recommendation_form_params)
-          redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+          redirect_to planning_application_review_tasks_path(@planning_application, anchor: "recommendation_to_committee_section"), notice: t(".success")
         else
           render :new
         end
