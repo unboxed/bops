@@ -2,7 +2,7 @@
   <% if document.tags.present? %>
     <p class="govuk-body">
       <% document.tags.each do |tag| %>
-        <% if plan_tag?(tag) %>
+        <% if drawing_tag?(tag) %>
           <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
         <% end %>
       <% end %>

@@ -67,12 +67,12 @@ en:
         edit:
           continue: Continue
           groups:
+            drawings: Drawings
             evidence: Evidence
-            plans: Plans
             supporting_documents: Supporting documents
           hints:
+            drawings: Select the relevant tags for drawings
             evidence: Select the relevant tags for evidence documents
-            plans: Select the relevant tags for plans
             supporting_documents: Select the relevant tags for supporting documents
           manage_document_tags: Manage document tags
         update:
@@ -174,13 +174,13 @@ en:
         edit: Edit
         features: Features
         groups:
+          drawings: Drawings
           evidence: Evidence
-          plans: Plans
           supporting_documents: Supporting documents
         legislation: Legislation
         links:
+          drawings: drawing tags
           evidence: evidence tags
-          plans: plan tags
           supporting_documents: supporting document tags
         name: Name
         reporting: Reporting

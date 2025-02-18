@@ -55,7 +55,7 @@ class Document < ApplicationRecord
   before_update :reset_replacement_document_validation_request_update_counter!, if: :owner_is_validation_request?
   after_update :audit_updated!
 
-  PLAN_TAGS = %w[
+  DRAWING_TAGS = %w[
     elevations.existing
     elevations.proposed
     floorPlan.existing
@@ -207,14 +207,14 @@ class Document < ApplicationRecord
     otherEvidence: ["What do these documents show?"]
   }.freeze
 
-  DEFAULT_TABS = ["All", "Plans", "Supporting documents", "Evidence"].freeze
+  DEFAULT_TABS = ["All", "Drawings", "Supporting documents", "Evidence"].freeze
   TAGS_MAP = {
-    "Plans" => PLAN_TAGS,
+    "Drawings" => DRAWING_TAGS,
     "Supporting documents" => SUPPORTING_DOCUMENT_TAGS,
     "Evidence" => EVIDENCE_TAGS
   }.freeze
 
-  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SUPPORTING_DOCUMENT_TAGS
+  TAGS = DRAWING_TAGS + EVIDENCE_TAGS + SUPPORTING_DOCUMENT_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
   EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit Appeal].freeze
@@ -248,7 +248,7 @@ class Document < ApplicationRecord
 
   scope :with_tag, ->(tag) { where(arel_table[:tags].contains(Array.wrap(tag))) }
   scope :with_siteplan_tags, -> { where(arel_table[:tags].overlaps(%w[sitePlan.existing sitePlan.proposed])) }
-  scope :with_plan_tags, -> { where(arel_table[:tags].overlaps(PLAN_TAGS)) }
+  scope :with_drawing_tags, -> { where(arel_table[:tags].overlaps(DRAWING_TAGS)) }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
   scope :for_fee_exemption, -> { with_tag("disabilityExemptionEvidence") }
@@ -268,8 +268,8 @@ class Document < ApplicationRecord
   class << self
     def tags(key)
       case key.to_s
-      when "plans"
-        PLAN_TAGS
+      when "drawings"
+        DRAWING_TAGS
       when "evidence"
         EVIDENCE_TAGS
       when "supporting_documents"

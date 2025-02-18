@@ -3,7 +3,7 @@
 class ApplicationTypeDocumentTags
   include StoreModel::Model
 
-  TAG_GROUPS = %w[plans evidence supporting_documents].freeze
+  TAG_GROUPS = %w[drawings evidence supporting_documents].freeze
 
   TAG_GROUPS.each do |name|
     attribute name.to_sym, :list, default: -> { [] }
