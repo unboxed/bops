@@ -14,7 +14,7 @@
     <% local_authorities.each do |local_authority| %>
         <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-                <%= govuk_link_to local_authority.short_name %>
+                <%= govuk_link_to local_authority.short_name, local_authority_path(local_authority) %>
             </td>
             <td class="govuk-table__cell">
                 <%= local_authority.council_code %>
