@@ -2070,6 +2070,12 @@ en:
     resend_message_label: Additional message to include in the email (optional)
     send: No, I’m sending to new consultees
   refused: Refused
+  requirements:
+    categories:
+      drawings: Drawings
+      evidence: evidence
+      other: Other requirements
+      supporting_documents: Supporting documents
   response_tag_component:
     privacy: Privacy
   review:

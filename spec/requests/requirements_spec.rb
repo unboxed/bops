@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Searching for requirements" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
-  let!(:requirement) { create(:local_authority_requirement, local_authority:, description: "Floor plans – existing") }
+  let!(:requirement) { create(:local_authority_requirement, local_authority:, category: "other", description: "Floor plans – existing") }
 
   subject { JSON.parse(response.body) }
 
@@ -30,7 +30,10 @@ RSpec.describe "Searching for requirements" do
 
     it "returns the requirement" do
       expect(subject).to match_array([
-        a_hash_including("description" => "Floor plans – existing")
+        a_hash_including(
+          "category" => "Other requirements",
+          "description" => "Floor plans – existing"
+        )
       ])
     end
   end

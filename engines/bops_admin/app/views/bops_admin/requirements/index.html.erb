@@ -26,6 +26,7 @@
     <%= govuk_table(id: "policy-guidances") do |table| %>
       <% table.with_head do |head| %>
         <% head.with_row do |row| %>
+          <% row.with_cell(text: t(".headings.category")) %>
           <% row.with_cell(text: t(".headings.description")) %>
           <% row.with_cell(text: t(".headings.actions"), classes: %w[govuk-!-text-align-right]) %>
         <% end %>
@@ -35,6 +36,9 @@
         <% if @requirements.present? %>
           <% @requirements.each do |requirement| %>
             <% body.with_row do |row| %>
+              <% row.with_cell do %>
+                <%= t(requirement.category, scope: "requirements.categories") %>
+              <% end %>
               <% row.with_cell do %>
                 <% if requirement.url? %>
                   <%= govuk_link_to(requirement.description, requirement.url, no_visited_state: true, no_underline: true, new_tab: true) %>

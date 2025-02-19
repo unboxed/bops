@@ -2,7 +2,11 @@
 
 class LocalAuthority < ApplicationRecord
   class Requirement < ApplicationRecord
+    enum :category, %i[drawings evidence supporting_documents other].index_with(&:to_s)
+
     belongs_to :local_authority
+
+    validates :category, presence: true
 
     validates :description,
       uniqueness: {scope: :local_authority},

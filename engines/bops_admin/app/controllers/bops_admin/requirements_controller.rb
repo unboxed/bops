@@ -93,7 +93,7 @@ module BopsAdmin
     end
 
     def requirement_attributes
-      %i[description guidelines url]
+      %i[category description guidelines url]
     end
   end
 end
