@@ -9,7 +9,7 @@ module PlanningApplications
         @previous_decision = @planning_application.cil_liable
         if @planning_application.update(cil_liability_params)
           record_audit_for_cil_liability!
-          redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+          redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-cil-liability"), notice: t(".success")
         else
           render :edit
         end
@@ -45,10 +45,6 @@ module PlanningApplications
         else
           "Reviewer marked application as#{" not" unless @planning_application.cil_liable} liable for CIL"
         end
-      end
-
-      def redirect_to_review_tasks
-        redirect_to planning_application_review_tasks_path(@planning_application)
       end
 
       def cil_feature?

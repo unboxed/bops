@@ -1,6 +1,6 @@
 <%= bops_task_accordion(id: "review-consultation") do |accordion| %>
   <% accordion.with_heading(text: "Review consultation") %>
-  <%= accordion.with_section(id: "check-neighbour-notifications", expanded: @neighbour_review.errors.any?) do |section| %>
+  <%= accordion.with_section(id: "review-neighbour-responses", expanded: @neighbour_review.errors.any?) do |section| %>
     <% section.with_heading(text: "Check neighbour notifications") %>
 
     <% section.with_status do %>
@@ -19,7 +19,7 @@
     <% end %>
   <% end %>
 
-  <%= accordion.with_section(id: "check-publicity", expanded: @planning_application.existing_or_new_check_publicity.errors.any?) do |section| %>
+  <%= accordion.with_section(id: "review-publicities", expanded: @planning_application.existing_or_new_check_publicity.errors.any?) do |section| %>
     <% section.with_heading(text: "Check publicity") %>
     <% section.with_status do %>
       <%= render(
@@ -37,7 +37,7 @@
       <%= render(partial: "planning_applications/review/publicities/press_notice") %>
     <% end %>
 
-    <% section.with_footer(id: "check-publicity-form") do %>
+    <% section.with_footer(id: "review-publicities-form") do %>
       <%= render(partial: "planning_applications/review/publicities/form") %>
     <% end %>
   <% end %>

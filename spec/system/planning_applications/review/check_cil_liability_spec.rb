@@ -31,7 +31,7 @@ RSpec.describe "checking publicity" do
     it "the reviewer can mark it as not needing confirmation" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Not started"
       end
 
@@ -39,13 +39,13 @@ RSpec.describe "checking publicity" do
 
       expect(page).to have_content "The validation officer did not confirm whether the application is liable for CIL."
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         click_button "Save and mark as complete"
       end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Completed"
       end
 
@@ -58,7 +58,7 @@ RSpec.describe "checking publicity" do
     it "the reviewer can update it" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Not started"
       end
 
@@ -68,13 +68,13 @@ RSpec.describe "checking publicity" do
 
       choose "Yes"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         click_button "Save and mark as complete"
       end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Completed"
       end
 
@@ -93,7 +93,7 @@ RSpec.describe "checking publicity" do
     it "the reviewer can mark it as correct" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Not started"
       end
 
@@ -101,13 +101,13 @@ RSpec.describe "checking publicity" do
 
       expect(page).to have_content "The validation officer marked this application as liable for CIL"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         click_button "Save and mark as complete"
       end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Completed"
       end
 
@@ -120,7 +120,7 @@ RSpec.describe "checking publicity" do
     it "the reviewer can change it" do
       visit "planning_applications/#{planning_application.id}/review/tasks"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Not started"
       end
 
@@ -130,13 +130,13 @@ RSpec.describe "checking publicity" do
 
       choose "No"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         click_button "Save and mark as complete"
       end
 
       expect(page).to have_content "Review of CIL liability successfully updated"
 
-      within "#check-cil" do
+      within "#review-cil-liability" do
         expect(page).to have_content "Completed"
       end
 
@@ -155,7 +155,7 @@ RSpec.describe "checking publicity" do
     it "does not have a section to review CIL" do
       visit "planning_applications/#{planning_application.reference}/review/tasks"
 
-      expect(page).not_to have_css("#check-cil")
+      expect(page).not_to have_css("#review-cil-liability")
       expect(page).not_to have_content("Check Community Infrastructure Levy (CIL)")
     end
   end

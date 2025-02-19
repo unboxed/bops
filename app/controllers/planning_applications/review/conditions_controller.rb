@@ -9,7 +9,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @condition_set.update(condition_set_review_params)
-              redirect_to planning_application_review_tasks_path(@planning_application),
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-conditions"),
                 notice: I18n.t("review.conditions.update.success")
             else
               flash.now[:alert] = @condition_set.errors.messages.values.flatten.join(", ")

@@ -12,7 +12,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @assessment_detail.update(assessment_detail_params)
-              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-publicities"), notice: t(".success")
             else
               flash.now[:alert] = @assessment_detail.errors.messages.values.flatten.join(", ")
               render_review_tasks
@@ -27,7 +27,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @assessment_detail.save
-              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-publicities"), notice: t(".success")
             else
               flash.now[:alert] = @assessment_detail.errors.messages.values.flatten.join(", ")
               render_review_tasks

@@ -50,14 +50,14 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
 
     context "when planning application is awaiting determination", :capybara do
       it "I can save and mark as complete when adding my review to accept the review evidence of immunity response" do
-        within("#review-evidence") do
+        within("#review-immunity-details") do
           expect(page).to have_content("Review evidence of immunity")
           expect(page).to have_content("Not started")
         end
 
         click_button "Review evidence of immunity"
 
-        within("#review-evidence") do
+        within("#review-immunity-details") do
           expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")
           expect(page).to have_content("Have the works been completed? Yes")
           expect(page).to have_content("When were the works completed? 01/02/2015")
@@ -70,21 +70,21 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
 
         expect(page).to have_content("Review immunity details was successfully updated")
 
-        within("#review-evidence") do
+        within("#review-immunity-details") do
           expect(page).to have_content("Review evidence of immunity")
           expect(page).to have_content("Completed")
         end
       end
 
       it "when I return it with comments, they can see my comments" do
-        within("#review-evidence") do
+        within("#review-immunity-details") do
           expect(page).to have_content("Review evidence of immunity")
           expect(page).to have_content("Not started")
         end
 
         click_button "Review evidence of immunity"
 
-        within("#review-evidence") do
+        within("#review-immunity-details") do
           expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")
           expect(page).to have_content("Have the works been completed? Yes")
           expect(page).to have_content("When were the works completed? 01/02/2015")

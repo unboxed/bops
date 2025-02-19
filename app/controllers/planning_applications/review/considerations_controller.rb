@@ -17,7 +17,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review.update(review_params)
-              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-considerations"), notice: t(".success")
             else
               flash.now[:alert] = @review.errors.messages.values.flatten.join(", ")
               render_review_tasks
@@ -44,10 +44,6 @@ module PlanningApplications
         params.require(:review)
           .permit(:action, :comment, :review_status)
           .merge(reviewer: current_user, reviewed_at: Time.current)
-      end
-
-      def redirect_to_review_tasks
-        redirect_to planning_application_review_tasks_path(@planning_application)
       end
     end
   end

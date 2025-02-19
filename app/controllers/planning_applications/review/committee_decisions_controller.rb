@@ -15,7 +15,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @committee_decision.update(committee_decision_params)
-              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "recommendation_to_committee_section"), notice: t(".success")
             else
               flash.now[:alert] = @committee_decision.errors.messages.values.flatten.join(", ")
               render_review_tasks

@@ -14,7 +14,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @permitted_development_right.update(permitted_development_right_params)
-              redirect_to planning_application_review_tasks_path(@planning_application),
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-permitted-development-rights"),
                 notice: I18n.t("permitted_development_rights.successfully_updated")
             else
               flash.now[:alert] = @permitted_development_right.errors.messages.values.flatten.join(", ")

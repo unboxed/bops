@@ -12,7 +12,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @neighbour_review.update(review_params) && @consultation.update(status: consultation_status)
-              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-neighbour-responses"), notice: t(".success")
             else
               error = @neighbour_review.errors.group_by_attribute.transform_values { |errors| errors.map(&:full_message) }.values.flatten
               redirect_failed_create_error(error)
@@ -27,7 +27,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @neighbour_review.save && @consultation.update(status: consultation_status)
-              redirect_to planning_application_review_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-neighbour-responses"), notice: t(".success")
             else
               error = @neighbour_review.errors.group_by_attribute.transform_values { |errors| errors.map(&:full_message) }.values.flatten
               redirect_failed_create_error(error)

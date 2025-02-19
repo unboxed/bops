@@ -30,7 +30,7 @@ module PlanningApplications
           @form.update(policy_section_status_params)
 
           if @planning_application_policy_class.update_review(review_params)
-            redirect_to planning_application_review_policy_areas_policy_classes_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_review_policy_areas_policy_classes_path(@planning_application, anchor: "review-policy-classes"), notice: t(".success")
           else
             render :edit
           end

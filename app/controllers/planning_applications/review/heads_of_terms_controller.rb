@@ -7,7 +7,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if heads_of_term.update(review_params)
-              redirect_to planning_application_review_tasks_path(@planning_application),
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-heads-of-terms"),
                 notice: I18n.t("review.heads_of_terms.update.success")
             else
               flash.now[:alert] = heads_of_term.errors.messages.values.flatten.join(", ")

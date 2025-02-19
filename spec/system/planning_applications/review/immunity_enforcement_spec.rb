@@ -48,27 +48,27 @@ RSpec.describe "Reviewing immunity enforcement" do
 
     context "when planning application is awaiting determination" do
       it "I can save and mark as complete when adding my review to accept the review evidence of immunity response" do
-        within("#review-enforcement") do
+        within("#review-immunity-enforcements") do
           expect(page).to have_content("Review assessment of immunity")
           expect(page).to have_content("Not started")
         end
 
         click_button "Review assessment of immunity"
 
-        within("#review-enforcement") do
+        within("#review-immunity-enforcements") do
           expect(page).not_to have_content("Immunity from enforcement summary")
           expect(page).to have_content("Assessor decision: Yes")
           expect(page).to have_content("Reason: it looks immune to me")
           expect(page).to have_content("Summary: they have enough bills to show it's immune")
         end
 
-        within("#review-enforcement-form") do
+        within("#review-immunity-enforcements-form") do
           choose "Agree"
 
           click_button "Save and mark as complete"
         end
 
-        within("#review-enforcement") do
+        within("#review-immunity-enforcements") do
           expect(page).to have_content("Review assessment of immunity")
           expect(page).to have_content("Completed")
         end
@@ -77,7 +77,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       it "when I return it with comments, they can see my comments" do
         click_button "Review assessment of immunity"
 
-        within("#review-enforcement-form") do
+        within("#review-immunity-enforcements-form") do
           choose "Return with comments"
 
           fill_in "Add a comment", with: "Please re-assess"
@@ -85,7 +85,7 @@ RSpec.describe "Reviewing immunity enforcement" do
           click_button "Save and mark as complete"
         end
 
-        within("#review-enforcement") do
+        within("#review-immunity-enforcements") do
           expect(page).to have_content("Review assessment of immunity")
           expect(page).to have_content("Awaiting changes")
         end

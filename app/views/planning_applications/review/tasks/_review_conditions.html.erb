@@ -30,7 +30,7 @@
   <% end %>
 
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.evidence.any? %>
-    <%= accordion.with_section(id: "review-evidence", expanded: @planning_application.immunity_detail.current_evidence_review_immunity_detail.errors.any?) do |section| %>
+    <%= accordion.with_section(id: "review-immunity-details", expanded: @planning_application.immunity_detail.current_evidence_review_immunity_detail.errors.any?) do |section| %>
       <% section.with_heading(text: "Review evidence of immunity") %>
 
       <% section.with_status do %>
@@ -47,14 +47,14 @@
         <%= govuk_link_to "Show evidence", planning_application_review_immunity_detail_path(@planning_application, @planning_application.immunity_detail.current_evidence_review_immunity_detail) %>
       <% end %>
 
-      <% section.with_footer(id: "review-evidence-form") do %>
+      <% section.with_footer(id: "review-immunity-details-form") do %>
         <%= render(partial: "planning_applications/review/immunity_details/form") %>
       <% end %>
     <% end %>
   <% end %>
 
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.enforcement.any? %>
-    <%= accordion.with_section(id: "review-enforcement", expanded: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.errors.any?) do |section| %>
+    <%= accordion.with_section(id: "review-immunity-enforcements", expanded: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.errors.any?) do |section| %>
       <% section.with_heading(text: "Review assessment of immunity") %>
 
       <% section.with_status do %>
@@ -69,7 +69,7 @@
         <%= render(partial: "planning_applications/review/immunity_enforcements/details") %>
       <% end %>
 
-      <% section.with_footer(id: "review-enforcement-form") do %>
+      <% section.with_footer(id: "review-immunity-enforcements-form") do %>
         <%= render(partial: "planning_applications/review/immunity_enforcements/form") %>
       <% end %>
     <% end %>
@@ -167,7 +167,7 @@
 
 <ul class="app-task-list__items">
   <% if @planning_application.application_type.assess_against_policies? %>
-    <li class="app-task-list__item" id="review-legislation">
+    <li class="app-task-list__item" id="review-policy-classes">
       <span class="app-task-list__task-name">
         <%= govuk_link_to "Review assessment against legislation", planning_application_review_policy_areas_policy_classes_path(@planning_application) %>
       </span>

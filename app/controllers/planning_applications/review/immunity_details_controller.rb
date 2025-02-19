@@ -16,7 +16,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review_immunity_detail.update(review_immunity_detail_params)
-              redirect_to planning_application_review_tasks_path(@planning_application),
+              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-immunity-details"),
                 notice: I18n.t("planning_applications.review..immunity_details.successfully_updated")
             else
               flash.now[:alert] = @review_immunity_detail.errors.messages.values.flatten.join(", ")
