@@ -46,7 +46,7 @@ RSpec.describe "Edit document numbers page" do
         within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
-        expect(page).to have_text("Plans")
+        expect(page).to have_text("Drawings")
         expect(page).to have_text("Elevations - proposed")
         expect(page).to have_text("Floor plan - proposed")
         expect(page).to have_text("Evidence")

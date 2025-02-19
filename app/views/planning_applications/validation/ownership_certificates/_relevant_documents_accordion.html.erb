@@ -2,7 +2,7 @@
   <% accordion.with_section(heading_text: "Documents") do %>
       <div class="govuk-!-padding-left-2 govuk-!-padding-right-2">
         <div class="scroll-docs">
-          <% @planning_application.documents.with_plan_tags.each do |document| %>
+          <% @planning_application.documents.with_drawing_tags.each do |document| %>
             <hr>
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">

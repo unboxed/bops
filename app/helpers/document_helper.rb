@@ -5,8 +5,8 @@ module DocumentHelper
     documents.select { |file| file.archived? == true }
   end
 
-  def plan_tag?(tag)
-    Document::PLAN_TAGS.include?(tag)
+  def drawing_tag?(tag)
+    Document::DRAWING_TAGS.include?(tag)
   end
 
   def evidence_tag?(tag)

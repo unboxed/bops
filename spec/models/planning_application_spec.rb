@@ -2267,13 +2267,13 @@ RSpec.describe PlanningApplication do
       })
     end
 
-    it "filters documents for the 'Plans' tab" do
-      plans_tab = find_tab("Plans")
+    it "filters documents for the 'Drawings' tab" do
+      plans_tab = find_tab("Drawings")
 
       expect(plans_tab).to eq({
-        title: "Plans",
-        id: "plans",
-        content: "Plans",
+        title: "Drawings",
+        id: "drawings",
+        content: "Drawings",
         records: [document_plan_tag, document_evidence_and_plan_tags, document_plan_and_supporting_tags]
       })
     end

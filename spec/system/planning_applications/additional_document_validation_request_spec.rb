@@ -121,10 +121,10 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
           expect(page).to have_css(".govuk-table__row#document_#{document_plan_and_supporting_tags.id}")
         end
 
-        within("#tab_plans") do
-          expect(page).to have_content("Plans (3)")
+        within("#tab_drawings") do
+          expect(page).to have_content("Drawings (3)")
         end
-        within("#plans") do
+        within("#drawings") do
           expect(page).to have_css(".govuk-table__row#document_#{document_plan_tag.id}")
           expect(page).to have_css(".govuk-table__row#document_#{document_evidence_and_plan_tags.id}")
           expect(page).to have_css(".govuk-table__row#document_#{document_plan_and_supporting_tags.id}")

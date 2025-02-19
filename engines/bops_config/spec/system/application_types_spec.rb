@@ -126,8 +126,8 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     # Manage document tags
     expect(page).to have_selector("h1", text: "Manage document tags")
     expect(page).to have_selector("h1 > span", text: "Planning Permission - Major application")
-    expect(page).to have_selector("legend", text: "Plans")
-    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for plans")
+    expect(page).to have_selector("legend", text: "Drawings")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for drawings")
 
     check "Elevations - proposed"
     check "Elevations - existing"
@@ -603,11 +603,11 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(application_type.appeals?).to eq(true)
   end
 
-  it "allows editing of the tags for plans" do
+  it "allows editing of the tags for drawings" do
     application_type = create(
       :application_type, :configured, :ldc_proposed,
       document_tags: {
-        "plans" => %w[elevations.existing]
+        "drawings" => %w[elevations.existing]
       }
     )
 
@@ -624,8 +624,8 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     expect(page).to have_selector("h1", text: "Manage document tags")
     expect(page).to have_selector("h1 > span", text: "Lawful Development Certificate - Proposed use")
-    expect(page).to have_selector("legend", text: "Plans")
-    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for plans")
+    expect(page).to have_selector("legend", text: "Drawings")
+    expect(page).to have_selector("div.govuk-hint", text: "Select the relevant tags for drawings")
 
     uncheck "Elevations - existing"
     check "Elevations - proposed"

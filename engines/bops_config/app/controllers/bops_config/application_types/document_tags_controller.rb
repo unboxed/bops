@@ -31,7 +31,7 @@ module BopsConfig
       end
 
       def document_tags_params
-        {plans: [], evidence: [], supporting_documents: []}
+        {drawings: [], evidence: [], supporting_documents: []}
       end
 
       def set_application_type

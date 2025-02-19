@@ -16,7 +16,7 @@ RSpec.describe "API request to show document tags" do
       expect(json).to eq({
         "tags" => Document::TAGS,
         "evidence_tags" => Document::EVIDENCE_TAGS,
-        "plan_tags" => Document::PLAN_TAGS
+        "drawing_tags" => Document::DRAWING_TAGS
       })
     end
   end
