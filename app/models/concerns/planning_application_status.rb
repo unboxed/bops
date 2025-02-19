@@ -201,9 +201,5 @@ module PlanningApplicationStatus
     def review_complete?
       to_be_reviewed? || determined?
     end
-
-    def reviewer_disagrees_with_assessor?
-      to_be_reviewed?
-    end
   end
 end
