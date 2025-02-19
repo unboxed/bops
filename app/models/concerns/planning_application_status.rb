@@ -149,5 +149,61 @@ module PlanningApplicationStatus
 
       after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
     end
+
+    def recommendable?
+      true unless closed_or_cancelled? || invalidated? || not_started?
+    end
+
+    def in_progress?
+      true unless closed_or_cancelled?
+    end
+
+    def validated?
+      true unless not_started? || invalidated?
+    end
+
+    def can_validate?
+      true unless awaiting_determination? || closed_or_cancelled?
+    end
+
+    def validation_complete?
+      !not_started?
+    end
+
+    def can_assess?
+      assessment_in_progress? || in_assessment? || to_be_reviewed?
+    end
+
+    def closed_or_cancelled?
+      determined? || returned? || withdrawn? || closed?
+    end
+
+    def can_submit_recommendation?
+      assessment_complete? && (in_assessment? || to_be_reviewed?)
+    end
+
+    def submit_recommendation_complete?
+      awaiting_determination? || determined?
+    end
+
+    def publish_complete?
+      determined?
+    end
+
+    def officer_can_draw_boundary?
+      not_started? || invalidated?
+    end
+
+    def can_edit_documents?
+      can_validate? || publish_complete?
+    end
+
+    def review_complete?
+      to_be_reviewed? || determined?
+    end
+
+    def reviewer_disagrees_with_assessor?
+      to_be_reviewed?
+    end
   end
 end
