@@ -179,4 +179,41 @@
   </section>
 <% end %>
 
+<% if @planning_application.assess_against_policies? %>
+  <section id="considerations-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".assessment_against_legislation") %></h3>
+
+    <% policy_classes.each do |policy_class, policy_sections| %>
+      <p class="govuk-body"><%= govuk_link_to policy_class.description, policy_class.url %></p>
+
+      <ol class="govuk-list">
+        <% policy_sections.each do |policy_section| %>
+          <li class="govuk-!-margin-top-5">
+            <div class="govuk-!-margin-bottom-2">
+              <strong class="govuk-!-margin-right-2"><%= policy_section.section %></strong>
+              <%= render(StatusTags::BaseComponent.new(status: policy_section.status)) %>
+            </div>
+            <div>
+              <%= policy_section.description %>
+            </div>
+            <div class="govuk-inset-text govuk-!-margin-top-2">
+              <% if comment = policy_section.last_comment %>
+                <%= comment.text %>
+              <% else %>
+                <em>No comment</em>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
+
+    <% if show_edit_links && current_user.assessor? %>
+      <p class="govuk-body-s">
+        <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_considerations_path(@planning_application)) %>
+      </p>
+    <% end %>
+  </section>
+<% end %>
+
 <%= render "planning_applications/assessment/recommendations/documents", planning_application: planning_application, documents: documents %>

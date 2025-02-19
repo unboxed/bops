@@ -12,6 +12,8 @@ class PlanningApplicationPolicyClass < ApplicationRecord
     validates :reporting_types, presence: true
   end
 
+  delegate :section, :name, :url, to: :policy_class
+
   def current_review
     reviews.load.first || reviews.create!
   end
