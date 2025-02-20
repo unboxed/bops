@@ -1,9 +1,11 @@
 <section class="govuk-!-margin-top-5 immunity-section">
-  <h3 class="govuk-heading-s">
+  <h3 class="govuk-heading-m">
     Immunity from enforcement
   </h3>
 
   <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
+
+  <h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Consideration of evidence</h3>
 
   <h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Assessment summary — Evidence of immunity</h3>
   <ul class="govuk-body immunity-details-sub-list">
@@ -21,19 +23,63 @@
   </ul>
 
   <div class="govuk-body">
-    <hr>
-    <% for evidence_group in evidence_groups %>
-    <div class="display-flex align-items-center">
-      <h3 class="govuk-heading-s">
-        <%= govuk_link_to sanitize("#{evidence_group.name} (#{evidence_group.documents.count})<br>#{evidence_group.date_range}"), new_planning_application_assessment_immunity_detail_path(planning_application) + "#accordion-default-heading-#{evidence_group.id}", no_underline: true %>
-      </h3>
-      <% if evidence_group.missing_evidence? %>
-        <div class="govuk-warning-text govuk-!-margin-left-6 govuk-!-margin-top-2">
-          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <% evidence_groups.each do |evidence_group| %>
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <div class="display-flex align-items-center">
+            <h2 class="govuk-summary-card__title">
+              <%= "#{evidence_group.name} (#{evidence_group.documents.count})" %>
+              <br>
+              <%= evidence_group.date_range.to_s %>
+            </h2>
+            <% if evidence_group.missing_evidence? %>
+              <div class="govuk-warning-text govuk-!-margin-left-6 govuk-!-margin-top-2">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+              </div>
+            <% end %>
+          </div>
         </div>
-      <% end %>
-    </div>
-    <hr>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <% evidence_group.documents.each do |document| %>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Document
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <%= document.numbers %>
+                  <%= helpers.link_to_document document.numbers, document %>
+                </dd>
+              </div>
+            <% end %>
+          </dl>
+          <p class="govuk-body govuk-!-margin-top-2">
+            <strong>Relevant dates: </strong> <%= evidence_group.date_range %>
+          </p>
+
+          <% if evidence_group.applicant_comment.present? %>
+            <div class="govuk-inset-text" style="background-color: #f3f2f1; border-left: 10px solid #b1b4b6;">
+              <p class="govuk-body">
+                <strong>Applicant comment</strong>
+              </p>
+              <p class="govuk-body">
+                <%= evidence_group.applicant_comment %>
+              </p>
+            </div>
+          <% end %>
+
+          <% if evidence_group.persisted_comments.any? %>
+            <div class="govuk-inset-text" style="background-color: #fff7bf; border-left: 10px solid #ffdd00;">
+              <p class="govuk-body">
+                <strong>Officer comment</strong>
+              </p>
+              <p class="govuk-body">
+                <%= simple_format(evidence_group.persisted_comments.last.text) %>
+              </p>
+            </div>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </section>
