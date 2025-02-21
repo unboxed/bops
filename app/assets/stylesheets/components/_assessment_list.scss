@@ -1,0 +1,32 @@
+.bops-assessment-list {
+  border-top: 1px solid $govuk-border-colour;
+
+  &__row {
+    display: flex;
+    padding-top: govuk-spacing(2);
+    padding-bottom: govuk-spacing(2);
+    border-bottom: 1px solid $govuk-border-colour;
+  }
+
+  &__section {
+    @include govuk-font($size: 19);
+    font-weight: bold;
+    width: 10%;
+  }
+
+  &__description {
+    margin-left: 0;
+    width: 62%;
+
+    p {
+      margin-bottom: govuk-spacing(2);
+    }
+  }
+
+  &__status {
+    margin-left: 0;
+    text-align: right;
+    white-space: nowrap;
+    width: 28%;
+  }
+}
