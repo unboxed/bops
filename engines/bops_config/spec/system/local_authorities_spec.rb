@@ -78,4 +78,16 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
       expect(page).to have_content("Lambeth")
     end
   end
+
+  it "visits the local authorities show page" do
+    click_link("Active")
+    within("#active table.govuk-table") do
+      click_link(local_authority3.short_name)
+    end
+
+    expect(page).to have_content("Buckinghamshire")
+    expect(page).to have_content("press@buckinghamshire.gov.uk")
+    expect(page).not_to have_content("Not started")
+    expect(page).not_to have_content("digitalplanning@lambeth.gov.uk")
+  end
 end

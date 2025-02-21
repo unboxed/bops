@@ -47,5 +47,5 @@ BopsConfig::Engine.routes.draw do
     patch :reactivate, on: :member
   end
 
-  resources :local_authorities, except: %i[destroy]
+  resources :local_authorities, param: :name, except: %i[destroy]
 end
