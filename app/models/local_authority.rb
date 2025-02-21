@@ -121,6 +121,10 @@ class LocalAuthority < ApplicationRecord
     REDACTED_INFO.include?(onboarded_attribute)
   end
 
+  def to_param
+    subdomain
+  end
+
   private
 
   def council_code_exists

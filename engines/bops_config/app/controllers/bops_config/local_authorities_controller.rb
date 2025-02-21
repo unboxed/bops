@@ -10,7 +10,7 @@ module BopsConfig
     end
 
     def show
-      @local_authority = LocalAuthority.find(params[:id])
+      @local_authority = LocalAuthority.find_by(subdomain: params[:name])
       respond_to do |format|
         format.html
       end
