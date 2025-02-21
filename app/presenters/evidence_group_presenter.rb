@@ -23,6 +23,10 @@ class EvidenceGroupPresenter
     end
   end
 
+  def last_comment
+    @last_comment ||= persisted_comments.last
+  end
+
   private
 
   attr_reader :evidence_group

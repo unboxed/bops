@@ -17,7 +17,7 @@ module BopsCore
     end
 
     def call
-      tag.div(**default_attributes) do
+      tag.div(**html_attributes) do
         safe_join([body_wrapper, footer_wrapper].compact_blank)
       end
     end

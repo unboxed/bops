@@ -57,26 +57,18 @@
             <strong>Relevant dates: </strong> <%= evidence_group.date_range %>
           </p>
 
-          <% if evidence_group.applicant_comment.present? %>
-            <div class="govuk-inset-text" style="background-color: #f3f2f1; border-left: 10px solid #b1b4b6;">
-              <p class="govuk-body">
-                <strong>Applicant comment</strong>
-              </p>
-              <p class="govuk-body">
-                <%= evidence_group.applicant_comment %>
-              </p>
-            </div>
+          <% if applicant_comment = evidence_group.applicant_comment %>
+            <%= bops_ticket_panel(colour: "grey", classes: %w[govuk-!-margin-bottom-2]) do |ticket| %>
+              <% ticket.with_body { applicant_comment } %>
+              <% ticket.with_footer { "By applicant" } %>
+            <% end %>
           <% end %>
 
-          <% if evidence_group.persisted_comments.any? %>
-            <div class="govuk-inset-text" style="background-color: #fff7bf; border-left: 10px solid #ffdd00;">
-              <p class="govuk-body">
-                <strong>Officer comment</strong>
-              </p>
-              <p class="govuk-body">
-                <%= simple_format(evidence_group.persisted_comments.last.text) %>
-              </p>
-            </div>
+          <% if comment = evidence_group.last_comment %>
+            <%= bops_ticket_panel(colour: "yellow", classes: %w[govuk-!-margin-bottom-2]) do |ticket| %>
+              <% ticket.with_body { comment.text } %>
+              <% ticket.with_footer { comment.information } %>
+            <% end %>
           <% end %>
         </div>
       </div>
