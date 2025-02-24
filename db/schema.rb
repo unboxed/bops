@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_24_101659) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -511,6 +511,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
     t.boolean "planning_history_enabled", default: false, null: false
     t.string "public_register_base_url"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
+  end
+
+  create_table "local_authority_application_types", force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.bigint "application_type_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_type_id"], name: "ix_local_authority_application_types_on_application_type_id"
+    t.index ["local_authority_id", "application_type_id"], name: "index_local_authority_application_types", unique: true
+    t.index ["local_authority_id"], name: "ix_local_authority_application_types_on_local_authority_id"
   end
 
   create_table "local_authority_informatives", force: :cascade do |t|
@@ -1164,6 +1174,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
+  add_foreign_key "local_authority_application_types", "application_types"
+  add_foreign_key "local_authority_application_types", "local_authorities"
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_references", column: "policy_reference_id"
