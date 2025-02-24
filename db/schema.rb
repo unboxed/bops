@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_24_104514) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_24_131628) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -518,6 +518,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_24_104514) do
     t.bigint "application_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "determination_period_days"
     t.index ["application_type_id"], name: "ix_local_authority_application_types_on_application_type_id"
     t.index ["local_authority_id", "application_type_id"], name: "index_local_authority_application_types", unique: true
     t.index ["local_authority_id"], name: "ix_local_authority_application_types_on_local_authority_id"
