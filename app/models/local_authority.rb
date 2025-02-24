@@ -31,6 +31,9 @@ class LocalAuthority < ApplicationRecord
 
   has_many :neighbour_responses, through: :consultations
 
+  has_many :local_authority_application_types, class_name: "LocalAuthority::ApplicationType", dependent: :destroy
+  has_many :application_types, through: :local_authority_application_types
+
   with_options presence: true do
     validates :council_code, :subdomain
     validates :short_name, :council_name
