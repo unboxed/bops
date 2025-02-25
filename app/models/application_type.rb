@@ -88,7 +88,6 @@ class ApplicationType < ApplicationRecord
     delegate :assess_against_policies?
     delegate :cil?
     delegate :considerations?
-    delegate :consultation_steps
     delegate :consultations_skip_bank_holidays?
     delegate :description_change_requires_validation?
     delegate :eia?
@@ -268,7 +267,13 @@ class ApplicationType < ApplicationRecord
   end
 
   def consultation?
-    consultation_steps.any?
+    steps.include?("consultation")
+  end
+
+  def consultation_steps
+    return [] unless consultation?
+
+    features.consultation_steps
   end
 
   Consultation::STEPS.each do |feature|
