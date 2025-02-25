@@ -38,6 +38,8 @@
                             -
                         <% elsif @local_authority.redacted?(onboarded_attribute) %>
                             Redacted
+                        <% elsif @local_authority.hidden?(onboarded_attribute) %>
+                            Completed
                         <% else %>
                             <%= @local_authority[onboarded_attribute] %>
                         <% end %>
