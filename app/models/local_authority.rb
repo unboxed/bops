@@ -122,12 +122,19 @@ class LocalAuthority < ApplicationRecord
     applicants_url
     email_address].freeze
 
+  HIDDEN_ATTRS = %W[email_reply_to_id
+    letter_template_id].freeze
+
   def redacted?(onboarded_attribute)
     REDACTED_INFO.include?(onboarded_attribute)
   end
 
   def onboarded_attributes_list
     ONBOARDED_ATTRIBUTES
+  end
+
+  def hidden?(onboarded_attribute)
+    HIDDEN_ATTRS.include?(onboarded_attribute)
   end
 
   def to_param
