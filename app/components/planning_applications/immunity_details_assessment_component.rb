@@ -10,6 +10,7 @@ module PlanningApplications
     end
 
     delegate :immunity_detail, to: :planning_application
+    delegate :bops_ticket_panel, to: :helpers
 
     attr_reader :planning_application, :evidence_groups
   end
