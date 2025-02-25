@@ -13,6 +13,12 @@ module BopsApi
             format.json
           end
         end
+
+        def download
+          @planning_application = find_planning_application params[:planning_application_id]
+          @document = @planning_application.documents.active.public.find(params[:document_id])
+          redirect_to uploaded_file_url(document.blob), allow_other_host: true
+        end
       end
     end
   end
