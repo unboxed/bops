@@ -20,7 +20,9 @@ BopsApi::Engine.routes.draw do
         get :submission, on: :member
         get :search, on: :collection
 
-        resource :documents, only: [:show]
+        resource :documents, only: [:show] do
+          get "download/:document_id", on: :member, action: :download, as: :download
+        end
 
         scope module: "planning_applications" do
           resources :validation_requests, only: [:index]
@@ -32,7 +34,9 @@ BopsApi::Engine.routes.draw do
       namespace :public do
         resources :planning_applications, only: [:show] do
           get :search, on: :collection
-          resource :documents, only: [:show]
+          resource :documents, only: [:show] do
+            get "download/:document_id", on: :member, action: :download, as: :download
+          end
         end
       end
     end

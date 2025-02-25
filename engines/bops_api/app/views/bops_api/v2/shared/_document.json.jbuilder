@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 json.name document.name
-json.url main_app.api_v1_planning_application_document_url(planning_application, document)
+json.url document_download_url(planning_application, document)
 json.type document.tags do |tag|
   json.value tag
   json.description I18n.t("document_tags.#{tag}")

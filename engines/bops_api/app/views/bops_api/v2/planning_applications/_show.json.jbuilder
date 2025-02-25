@@ -56,7 +56,7 @@ json.publishedAt planning_application.published_at
 json.decision planning_application.decision if planning_application.determined?
 json.constraints planning_application.planning_application_constraints.map(&:constraint).map(&:type_code) if planning_application.planning_application_constraints.any?
 json.documents planning_application.documents.active.for_publication do |document|
-  json.url main_app.api_v1_planning_application_document_url(planning_application, document)
+  json.url document_download_url(planning_application, document)
   json.extract! document,
     :created_at,
     :tags,
