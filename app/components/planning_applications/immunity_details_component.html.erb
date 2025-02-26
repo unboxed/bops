@@ -1,13 +1,23 @@
-<h3 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-5">Applicant information</h3>
-<ul class="govuk-body immunity-details-sub-list">
-  <% immunity_details.each do |proposal_detail| %>
-    <li>
-      <%= proposal_detail.question %>
+<table class="govuk-table">
+  <caption class="govuk-table__caption govuk-table__caption--m">Applicant information</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Question</th>
+      <th scope="col" class="govuk-table__header">Applicant response</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% immunity_details.each do |proposal_detail| %>
       <% proposal_detail.response_values.each do |response_value| %>
-        <strong>
-          <%= response_value.to_time.nil? ? response_value : response_value.to_time.to_fs(:day_month_year_slashes) %>
-        </strong>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            <%= proposal_detail.question %>
+          </th>
+          <td class="govuk-table__cell">
+            <%= response_value.to_time.nil? ? response_value : response_value.to_time.to_fs(:day_month_year_slashes) %>
+          </td>
+        </tr>
       <% end %>
-    </li>
-  <% end %>
-</ul>
+    <% end %>
+  </tbody>
+</table>
