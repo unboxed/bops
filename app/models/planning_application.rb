@@ -989,7 +989,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def determination_period_days_for_pre_app
-    local_authority.application_type_overrides.find { |ato| ato.code == "preApp" }&.determination_period_days if pre_application?
+    local_authority.local_authority_application_types.pre_app.pick(:determination_period_days)
   end
 
   def set_change_access_id
