@@ -12,7 +12,7 @@ module BopsAdmin
 
     def update
       respond_to do |format|
-        if @pre_app_application_type.update(determination_period_days_params)
+        if @pre_app_application_type.update(determination_period_days_params, :application_type_overrides)
           format.html { redirect_to setting_path, notice: t(".success") }
         else
           format.html { render :edit }

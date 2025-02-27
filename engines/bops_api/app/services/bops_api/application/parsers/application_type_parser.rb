@@ -17,7 +17,9 @@ module BopsApi
         private
 
         def application_type
-          ApplicationType.active.find_by!(code: params[:value])
+          application_type = ApplicationType.active.find_by!(code: params[:value])
+          params[:local_authority].local_authority_application_types.find_or_create_by!(application_type_id: application_type.id)
+          application_type
         end
       end
     end
