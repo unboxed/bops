@@ -6,6 +6,8 @@ RSpec.describe "Profile", type: :system do
   let(:local_authority) { create(:local_authority, :default, :with_api_user) }
   let(:user) { create(:user, :administrator, local_authority:) }
 
+  let!(:local_authority_application_type) { create(:local_authority_application_type, :pre_app, local_authority: local_authority) }
+
   before do
     sign_in(user)
   end
@@ -73,7 +75,6 @@ RSpec.describe "Profile", type: :system do
 
     expect(page).to have_content("Determination period successfully updated")
 
-    expect(local_authority.reload.application_type_overrides.first&.code).to eq("preApp")
-    expect(local_authority.reload.application_type_overrides.first&.determination_period_days).to eq(25)
+    expect(local_authority_application_type.reload.determination_period_days).to eq(25)
   end
 end

@@ -11,20 +11,24 @@
     <%= render "side_navigation" %>
   </div>
   <div class="govuk-grid-column-three-quarters">
-    <%= form_with model: current_local_authority, url: [:setting, :determination_period] do |form| %>
+  <% if @pre_app_application_type %>
+    <%= form_with model: @pre_app_application_type, url: setting_determination_period_path, method: :patch do |form| %>
       <%= form.govuk_error_summary %>
 
-      <%= form.fields_for :application_type_overrides do |ff| %>
-        <%= ff.hidden_field :code, value: :preApp %>
-        <%= ff.govuk_text_field :determination_period_days, width: 5,
-              label: {text: t(".set_determination_period"), size: "l"},
-              hint: {text: t(".hint")},
-              suffix_text: t(".days"),
-              value: current_local_authority&.application_type_overrides&.map(&:determination_period_days) %>
-      <% end %>
+      <%= form.hidden_field :id %>
+      <%= form.hidden_field :application_type_id %>
+
+      <%= form.govuk_text_field :determination_period_days, width: 5,
+            label: {text: t(".set_determination_period"), size: "l"},
+            hint: {text: t(".hint")},
+            suffix_text: t(".days"),
+            value: @pre_app_application_type.determination_period_days %>
 
       <%= form.govuk_submit(t(".save")) %>
       <%= govuk_button_link_to t("back"), setting_path, secondary: true %>
     <% end %>
+  <% else %>
+    <p class="govuk-body"><%= t(".no_pre_app_found") %></p>
+  <% end %>
   </div>
 </div>

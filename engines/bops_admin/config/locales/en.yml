@@ -54,6 +54,7 @@ en:
         days: days
         determination_period: Determination period
         hint: Choose the length of the determination period for the pre-application type.
+        no_pre_app_found: No pre-application type found
         save: Save
         set_determination_period: Set determination period
       update:
@@ -312,6 +313,7 @@ en:
         determination_period_including_bank_holidays:
           one: 1 day - bank holidays included
           other: "%{count} days - bank holidays included"
+        not_found: Determination period not found
         pre_app_determination_period: Pre-application determination period
     tokens:
       create:

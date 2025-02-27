@@ -2,7 +2,7 @@
 
 module BopsAdmin
   class SettingsController < ApplicationController
-    before_action :set_application_type_overrides
+    before_action :set_pre_app_local_authority_application_type, only: %i[show]
 
     def show
       respond_to do |format|
@@ -12,8 +12,12 @@ module BopsAdmin
 
     private
 
-    def set_application_type_overrides
-      @application_type_overrides = current_local_authority.application_type_overrides
+    def set_pre_app_local_authority_application_type
+      @pre_app_application_type = current_local_authority.local_authority_application_types.pre_app.take
+
+      unless @pre_app_application_type
+        redirect_to setting_path, alert: t(".not_found")
+      end
     end
   end
 end
