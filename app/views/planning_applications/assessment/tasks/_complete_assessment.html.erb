@@ -45,6 +45,18 @@
           ) %>
     <% end %>
     <!-- >Only show if it's a minor application<!-->
+    <li class="app-task-list__item" id="check-add-requirements">
+      <span class="app-task-list__task-name">
+        <%= govuk_link_to "Check and add requirements", planning_application_assessment_requirements_path(@planning_application) %>
+      </span>
+      <div class="govuk-task-list__status app-task-list__task-tag">
+      <%= render(
+            StatusTags::RequirementsComponent.new(
+              requirements: @planning_application.local_authority.requirements
+            )
+          ) %>
+      </div>
+    </li>
     <li class="app-task-list__item" id="add-heads-of-terms">
       <span class="app-task-list__task-name">
         <%= govuk_link_to "Add heads of terms", planning_application_assessment_terms_path(@planning_application) %>
