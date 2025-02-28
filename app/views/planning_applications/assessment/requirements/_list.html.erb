@@ -1,0 +1,22 @@
+<div class="govuk-form-group">
+    <% if requirements.length != 0 %>
+        <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h1 class="govuk-fieldset__heading">
+            <%= category.humanize  %>
+            </h1>
+        </legend>
+        <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+            <% requirements.each do |requirement| %>
+                <div class="govuk-checkboxes__item">
+                    <%= check_box_tag(requirement.description, requirement.id, false, class: "govuk-checkboxes__input") %>
+                    <%= label_tag(requirement.id, requirement.description, class: "govuk-label govuk-checkboxes__label") %>
+                </label>
+                </div>
+            <% end %>
+        </div>
+        </fieldset>
+    <% else %>
+        <p class="govuk-body"> There are no requirements available of this type.</p>
+    <% end %>
+</div>
