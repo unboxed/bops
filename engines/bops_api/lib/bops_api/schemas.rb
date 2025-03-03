@@ -2,7 +2,7 @@
 
 module BopsApi
   class Schemas
-    DEFAULT_ODP_VERSION = "odp/v0.7.2"
+    DEFAULT_ODP_VERSION = "odp/v0.7.3"
 
     class << self
       def find!(name, version: nil)
