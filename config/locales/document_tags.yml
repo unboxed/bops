@@ -103,6 +103,7 @@ en:
     treeConditionReport: 'Tree condition report'
     treePlan: 'Tree plan'
     treesReport: 'Trees report'
+    treeSurvey: 'Tree survey'
     unitPlan:
       existing: 'Unit plan - existing'
       proposed: 'Unit plan - proposed'

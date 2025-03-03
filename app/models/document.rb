@@ -162,6 +162,7 @@ class Document < ApplicationRecord
     treeCanopyCalculator
     treeConditionReport
     treesReport
+    treeSurvey
     ventilationStatement
     viabilityAppraisal
     visualisations

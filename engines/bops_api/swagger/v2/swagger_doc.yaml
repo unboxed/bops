@@ -12,7 +12,7 @@ components:
     Address:
       additionalProperties: false
       description: Address information for a person associated with this application
-        not at the property address
+        not at the site address
       properties:
         country:
           type: string
@@ -30,6 +30,7 @@ components:
       - line1
       - town
       - postcode
+      title: Contact address
       type: object
     Agent:
       "$id": "#Agent"
@@ -92,7 +93,7 @@ components:
         email:
           "$ref": "#/components/definitions/Email"
         maintenanceContact:
-          "$ref": "#/components/definitions/MaintenanceContact"
+          "$ref": "#/components/definitions/MaintenanceContacts"
         name:
           additionalProperties: false
           properties:
@@ -1522,7 +1523,7 @@ components:
         email:
           "$ref": "#/components/definitions/Email"
         maintenanceContact:
-          "$ref": "#/components/definitions/MaintenanceContact"
+          "$ref": "#/components/definitions/MaintenanceContacts"
         name:
           additionalProperties: false
           properties:
@@ -1924,10 +1925,173 @@ components:
           type: array
       type: object
     CommunityInfrastructureLevy:
-      "$id": "#CommunityInfrastructureLevy"
       anyOf:
       - additionalProperties: false
         properties:
+          claim:
+            additionalProperties: false
+            properties:
+              annexeOrExtensionExemption:
+                description: Do you wish to claim an exemption for a residential annex
+                  or extension?
+                type: boolean
+              charityRelief:
+                description: Is the site owned by a charity where the development
+                  will be wholly or mainly for charitable purposes, and the development
+                  will be either occupied by or under the control of a charitable
+                  institution?
+                type: boolean
+              selfBuildExemption:
+                description: Do you wish to claim a self build exemption for a whole
+                  new home?
+                type: boolean
+              socialHousingRelief:
+                description: Does the proposed development include affordable housing
+                  which qualifies for mandatory or discretionary Social Housing relief?
+                type: boolean
+            required:
+            - annexeOrExtensionExemption
+            - selfBuildExemption
+            - charityRelief
+            - socialHousingRelief
+            type: object
+          existingBuildings:
+            additionalProperties: false
+            description: How many existing buildings on the site will be retained,
+              demolished or partially demolished as part of the development proposed?
+            properties:
+              buildings:
+                items:
+                  additionalProperties: false
+                  properties:
+                    area:
+                      additionalProperties: false
+                      properties:
+                        loss:
+                          "$ref": "#/components/definitions/Area"
+                          description: Gross internal area to be demolished
+                        retained:
+                          "$ref": "#/components/definitions/Area"
+                          description: Gross internal area to be retained
+                      required:
+                      - retained
+                      - loss
+                      type: object
+                    continuousOccupation:
+                      description: Was the building or part of the building occupied
+                        for its lawful use for 6 continuous months of the 36 previous
+                        months (excluding temporary permissions)?
+                      type: boolean
+                    description:
+                      additionalProperties: false
+                      properties:
+                        existing:
+                          description: Description of existing building or part
+                          type: string
+                        proposed:
+                          description: Proposed use of retained gross internal area
+                          type: string
+                      required:
+                      - existing
+                      - proposed
+                      type: object
+                    lastOccupation:
+                      "$ref": "#/components/definitions/Date"
+                      description: When was the building last occupied for its lawful
+                        use?
+                    stillInUse:
+                      description: Is the building still occupied for its lawful use?
+                      type: boolean
+                  required:
+                  - description
+                  - area
+                  - continuousOccupation
+                  - stillInUse
+                  type: object
+                type: array
+              count:
+                type: number
+            required:
+            - count
+            type: object
+          existingPermissionPrecedingCIL:
+            description: Does the application relate to details or reserved matters
+              on an existing permission that was granted prior to the introduction
+              of the CIL charge in the relevant local authority area?
+            type: boolean
+          existingPermissionReference:
+            description: Planning application reference number for the existing permission
+              if applicable
+            type: string
+          floorAreaHundredPlus:
+            description: Does the application involve a change in the amount or use
+              of new build development, where the total (including that previously
+              granted planning permission) is over 100 square metres gross internal
+              area?
+            type: boolean
+          newDwellings:
+            description: Does the application involve a change in the amount of gross
+              internal area where one or more new dwellings (including residential
+              annexes) are to be created, either through new build or conversion (except
+              the conversion of a single dwelling house into two or more separate
+              dwellings with no additional gross internal area created)?
+            type: boolean
+          newMezzanine:
+            additionalProperties: false
+            description: Will the project create a new mezzanine floor within an existing
+              building?
+            properties:
+              applicable:
+                type: boolean
+              mezzanines:
+                items:
+                  additionalProperties: false
+                  properties:
+                    area:
+                      "$ref": "#/components/definitions/Area"
+                      description: Proposed floorspace of the new mezzanine
+                    description:
+                      description: Description of the use of the new mezzanine
+                      type: string
+                  required:
+                  - description
+                  - area
+                  type: object
+                type: array
+            required:
+            - applicable
+            type: object
+          newNonResidentialDevelopment:
+            description: Does the application involve new non-residential development?
+            type: boolean
+          newResidentialDevelopment:
+            description: Does the application involve new residential development
+              (including new dwellings, extensions, conversions/changes of use, garages,
+              basements or any other buildings ancillary to residential use)?
+            type: boolean
+          proposedTotalArea:
+            additionalProperties: false
+            properties:
+              existing:
+                "$ref": "#/components/definitions/Area"
+                description: Total existing gross internal area
+              loss:
+                "$ref": "#/components/definitions/Area"
+                description: Total gross internal area to be lost by change of use
+                  or demolition
+              net:
+                "$ref": "#/components/definitions/Area"
+                description: Total net additional gross internal area following development
+              proposed:
+                "$ref": "#/components/definitions/Area"
+                description: Total gross internal area proposed including change of
+                  use, basements, and ancillary buildings
+            required:
+            - existing
+            - loss
+            - proposed
+            - net
+            type: object
           result:
             enum:
             - exempt.annexe
@@ -1937,23 +2101,113 @@ components:
             - relief.socialHousing
             - liable
             type: string
+          s73Application:
+            description: Does the application seek to remove or vary conditions on
+              an existing planning permission (Section 73)
+            type: boolean
+          unoccupiedBuildings:
+            additionalProperties: false
+            description: Are there existing buildings on the property into which people
+              do not usually go or that have been granted temporary planning permission?
+            properties:
+              applicable:
+                type: boolean
+              buildings:
+                items:
+                  additionalProperties: false
+                  properties:
+                    area:
+                      additionalProperties: false
+                      properties:
+                        loss:
+                          "$ref": "#/components/definitions/Area"
+                          description: Gross internal area to be demolished
+                        retained:
+                          "$ref": "#/components/definitions/Area"
+                          description: Gross internal area to be retained
+                      required:
+                      - retained
+                      - loss
+                      type: object
+                    description:
+                      additionalProperties: false
+                      properties:
+                        existing:
+                          description: Description of unoccupied building or part
+                          type: string
+                        proposed:
+                          description: Proposed use of retained gross internal area
+                          type: string
+                      required:
+                      - existing
+                      - proposed
+                      type: object
+                  required:
+                  - description
+                  - area
+                  type: object
+                type: array
+            required:
+            - applicable
+            type: object
         required:
+        - claim
+        - existingPermissionPrecedingCIL
+        - floorAreaHundredPlus
+        - newDwellings
+        - newNonResidentialDevelopment
+        - newResidentialDevelopment
         - result
+        - s73Application
         type: object
       - additionalProperties: false
         properties:
           declaration:
             const: true
+            description: Has the user confirmed that the CIL information they have
+              provided is correct? Specifically, that this project does not create
+              either new buildings with 100m² new floor space or new dwellings, and
+              therefore does not need to pay the Community Infrastructure Levy (CIL)?
+            type: boolean
+          existingPermissionPrecedingCIL:
+            description: Does the application relate to details or reserved matters
+              on an existing permission that was granted prior to the introduction
+              of the CIL charge in the relevant local authority area?
+            type: boolean
+          existingPermissionReference:
+            description: Planning application reference number for the existing permission
+              if applicable
+            type: string
+          floorAreaHundredPlus:
+            description: Does the application involve a change in the amount or use
+              of new build development, where the total (including that previously
+              granted planning permission) is over 100 square metres gross internal
+              area?
+            type: boolean
+          newDwellings:
+            description: Does the application involve a change in the amount of gross
+              internal area where one or more new dwellings (including residential
+              annexes) are to be created, either through new build or conversion (except
+              the conversion of a single dwelling house into two or more separate
+              dwellings with no additional gross internal area created)?
             type: boolean
           result:
             const: notLiable
             type: string
+          s73Application:
+            description: Does the application seek to remove or vary conditions on
+              an existing planning permission (Section 73)
+            type: boolean
         required:
+        - existingPermissionPrecedingCIL
+        - floorAreaHundredPlus
+        - newDwellings
         - result
-        - declaration
+        - s73Application
         type: object
-      description: Details about the Community Infrastructure Levy planning charge,
-        if applicable
+      description: 'Details about the Community Infrastructure Levy planning charge
+        according to Form 1: Additional information, if applicable'
+      title: Community Infrastructure Levy (CIL) Form 1
     ContactDetails:
       additionalProperties: false
       description: Contact details for a person associated with this application
@@ -1993,7 +2247,7 @@ components:
       - name
       - email
       - phone
-      title: "#ContactDetails"
+      title: Contact details
       type: object
     Date:
       format: date
@@ -2030,7 +2284,7 @@ components:
       required:
       - accurate
       - connection
-      title: "#Declaration"
+      title: Declaration
       type: object
     DesignAndAccessStatement:
       additionalProperties: false
@@ -2142,6 +2396,7 @@ components:
       type: string
     Entity:
       additionalProperties: false
+      description: A specific entity within an intersecting planning designation category
       properties:
         description:
           type: string
@@ -2171,6 +2426,91 @@ components:
       required:
       - name
       - source
+      title: Designated entity
+      type: object
+    ExistingLondonParking:
+      additionalProperties: false
+      description: Existing parking spaces on the site per the Greater London Authority
+        specification
+      properties:
+        buses:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
+        carClub:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
+        cars:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
+        cycles:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
+        disabled:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
+        motorcycles:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
+        offStreet:
+          additionalProperties: false
+          properties:
+            residential:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+              required:
+              - count
+              type: object
+          required:
+          - residential
+          type: object
+        other:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
+        vans:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+          required:
+          - count
+          type: object
       type: object
     Feature<Geometry,GeoJsonProperties>:
       additionalProperties: false
@@ -2339,7 +2679,7 @@ components:
       - payable
       - exemption
       - reduction
-      title: "#Fee"
+      title: Fee
       type: object
     FeeExplanation:
       "$id": "#FeeExplanation"
@@ -2453,7 +2793,7 @@ components:
           type: boolean
       required:
       - notApplicable
-      title: "#FeeNotApplicable"
+      title: Fee not applicable
       type: object
     File:
       "$id": "#File"
@@ -3523,10 +3863,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Tree plan
+            const: Trees report
             type: string
           value:
-            const: treePlan
+            const: treesReport
             type: string
         required:
         - value
@@ -3535,10 +3875,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Trees report
+            const: Tree survey
             type: string
           value:
-            const: treesReport
+            const: treeSurvey
             type: string
         required:
         - value
@@ -4374,87 +4714,7 @@ components:
           - status
           type: object
         parking:
-          additionalProperties: false
-          properties:
-            buses:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-            carClub:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-            cars:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-            cycles:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-            disabled:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-            motorcycles:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-            offStreet:
-              additionalProperties: false
-              properties:
-                residential:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      type: number
-                  required:
-                  - count
-                  type: object
-              required:
-              - residential
-              type: object
-            other:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-            vans:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-              required:
-              - count
-              type: object
-          type: object
+          "$ref": "#/components/definitions/ExistingLondonParking"
         planning:
           additionalProperties: false
           description: Planning constraints and policies that intersect with this
@@ -4876,115 +5136,8 @@ components:
           "$ref": "#/components/definitions/NewBuildingsOrStoreys"
           description: Increasing the height of existing buildings
         parking:
-          additionalProperties: false
+          "$ref": "#/components/definitions/ProposedLondonParking"
           description: Proposed parking spaces
-          properties:
-            buses:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-            carClub:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-            cars:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-            cycles:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-            disabled:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-            motorcycles:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-            offStreet:
-              additionalProperties: false
-              properties:
-                residential:
-                  additionalProperties: false
-                  properties:
-                    count:
-                      type: number
-                    difference:
-                      type: number
-                  required:
-                  - count
-                  - difference
-                  type: object
-              required:
-              - residential
-              type: object
-            other:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-            vans:
-              additionalProperties: false
-              properties:
-                count:
-                  type: number
-                difference:
-                  type: number
-              required:
-              - count
-              - difference
-              type: object
-          type: object
         projectType:
           items:
             "$ref": "#/components/definitions/ProjectType"
@@ -5351,8 +5504,7 @@ components:
       - description
       - projectType
       type: object
-    MaintenanceContact:
-      "$id": "#MaintenanceContact"
+    MaintenanceContacts:
       description: Contact information for the person(s) responsible for maintenance
         while the works are carried out
       items:
@@ -5373,6 +5525,7 @@ components:
         - address
         - contact
         type: object
+      title: Maintenance contacts
       type: array
     Materials:
       additionalProperties: false
@@ -5581,7 +5734,7 @@ components:
       - usrn
       - x
       - "y"
-      title: "#OSAddress"
+      title: OS site address
       type: object
     OpenSpaceDesignation:
       "$id": "#OpenSpaceDesignation"
@@ -5827,11 +5980,9 @@ components:
       additionalProperties: false
       properties:
         address:
-          anyOf:
-          - "$ref": "#/components/definitions/Address"
-          - type: string
+          "$ref": "#/components/definitions/Address"
         interest:
-          "$ref": "#/components/definitions/OwnersInterest"
+          type: string
         name:
           type: string
         noNoticeReason:
@@ -5841,6 +5992,7 @@ components:
           type: boolean
       required:
       - address
+      - interest
       - name
       - noNoticeReason
       - noticeGiven
@@ -5849,11 +6001,7 @@ components:
       additionalProperties: false
       properties:
         address:
-          anyOf:
-          - "$ref": "#/components/definitions/Address"
-          - type: string
-        interest:
-          "$ref": "#/components/definitions/OwnersInterest"
+          "$ref": "#/components/definitions/Address"
         name:
           type: string
         noticeDate:
@@ -5867,11 +6015,9 @@ components:
       additionalProperties: false
       properties:
         address:
-          anyOf:
-          - "$ref": "#/components/definitions/Address"
-          - type: string
+          "$ref": "#/components/definitions/Address"
         interest:
-          "$ref": "#/components/definitions/OwnersInterest"
+          type: string
         name:
           type: string
         noticeGiven:
@@ -5879,6 +6025,7 @@ components:
           type: boolean
       required:
       - address
+      - interest
       - name
       - noticeGiven
       type: object
@@ -5915,6 +6062,8 @@ components:
             type: string
           - const: owner.co
             type: string
+        interestDescription:
+          type: string
         noticeGiven:
           description: Has requisite notice been given to all the known owners and
             agricultural tenants?
@@ -5996,7 +6145,6 @@ components:
       - submittedAt
       type: object
     PlanningApplication:
-      "$id": "#PlanningApplication"
       additionalProperties: false
       description: Details of the planning application linked to this application,
         if applicable
@@ -6011,6 +6159,7 @@ components:
       - reference
       - date
       - localPlanningAuthority
+      title: Planning application
       type: object
     PlanningConstraint:
       anyOf:
@@ -6029,6 +6178,7 @@ components:
         - description
         - intersects
         - value
+        title: Non-intersecting planning constraint
         type: object
       - additionalProperties: false
         description: A planning constraint that does intersect with the proposed site,
@@ -6050,17 +6200,65 @@ components:
         - entities
         - intersects
         - value
+        title: Intersecting planning constraint
         type: object
-      description: Planning constraints that intersect with the proposed site
-      title: "#PlanningConstraint"
+      description: Planning constraints that may intersect with the proposed site
+      title: Planning constraint
     PlanningDesignation:
-      "$id": "#PlanningDesignation"
       anyOf:
       - anyOf:
         - additionalProperties: false
           properties:
             description:
-              const: Article 4 Direction area
+              const: Aerodrome
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: aerodrome
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Archaeological Priority Area
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: archaeologicalPriorityArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Areas of Archaeological Potential
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: areasOfArchaeologicalPotential
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Article 4 direction area
               type: string
             intersects:
               const: false
@@ -6092,6 +6290,54 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Aquifer
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: aquifer
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Principal aquifer
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: aquifer.principal
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Secondary aquifer
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: aquifer.secondary
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Brownfield site
               type: string
             intersects:
@@ -6099,6 +6345,70 @@ components:
               type: boolean
             value:
               const: brownfieldSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Coastal change management area
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: coastalChangeManagementArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Community asset
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: communityAsset
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Community asset - Nomimated
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: communityAsset.nominated
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Community asset - Registered
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: communityAsset.registered
               type: string
           required:
           - description
@@ -6140,7 +6450,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Conservation Area
+              const: Conservation area
               type: string
             intersects:
               const: false
@@ -6188,7 +6498,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: UNESCO World Heritage Site or buffer zone
+              const: UNESCO World Heritage Site (WHS)
               type: string
             intersects:
               const: false
@@ -6204,7 +6514,39 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone
+              const: UNESCO World Heritage Site (WHS) buffer zone
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: designated.WHS.bufferZone
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Explosives or ordnance storage
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: explosivesOrdnanceStorage
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood risk
               type: string
             intersects:
               const: false
@@ -6220,7 +6562,71 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone 1 - Low risk
+              const: Areas with critical drainage problems
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: flood.criticalDrainage
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local flood site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: flood.local
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood storage area
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: flood.storageArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Coastal storm surge flood risk area
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: flood.stormSurge
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood zone 1 - Low risk
               type: string
             intersects:
               const: false
@@ -6236,7 +6642,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone 2 - Medium risk
+              const: Flood zone 2 - Medium risk
               type: string
             intersects:
               const: false
@@ -6252,7 +6658,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone 3 - High risk
+              const: Flood zone 3 - High risk
               type: string
             intersects:
               const: false
@@ -6268,7 +6674,39 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Green Belt
+              const: Flood zone 3a - High risk
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: flood.zoneThree.a
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood zone 3b - Highest risk
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: flood.zoneThree.b
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Green belt
               type: string
             intersects:
               const: false
@@ -6284,7 +6722,103 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building
+              const: Heritage coast
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: heritageCoast
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Historic underground watercourse
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: historicUndergroundWatercourse
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Irreplaceable habitat
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: irreplaceableHabitat
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Landfill
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: landfill
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Authorised landfill site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: landfill.authorised
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Historic landfill site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: landfill.historic
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed building
               type: string
             intersects:
               const: false
@@ -6300,7 +6834,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building - Grade I
+              const: Listed building - Grade I
               type: string
             intersects:
               const: false
@@ -6316,7 +6850,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building - Grade II
+              const: Listed building - Grade II
               type: string
             intersects:
               const: false
@@ -6332,7 +6866,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building - Grade II*
+              const: Listed building - Grade II*
               type: string
             intersects:
               const: false
@@ -6348,7 +6882,23 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Locally Listed Building
+              const: Designed space or landscape on the local landscape register
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: localLandscapeRegister
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Locally listed building
               type: string
             intersects:
               const: false
@@ -6396,6 +6946,86 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Local geological site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.localGeologicalSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local nature reserve
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.localNatureReserve
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local Biodiversity Action Plan (BAP) priority habitat
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.localPriorityHabitat
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local wildlife site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.localWildlifeSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Habitat of principal importance (Section 41)
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.priorityHabitat
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Ramsar site
               type: string
             intersects:
@@ -6403,6 +7033,38 @@ components:
               type: boolean
             value:
               const: nature.ramsarSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Proposed Ramsar site
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.ramsarSite.proposed
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Regionally Important Geological and Geomorphological Site (RIGS)
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.RIGS
               type: string
           required:
           - description
@@ -6428,6 +7090,22 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Possible Special Area of Conservation (SAC)
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.SAC.possible
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Special Protection Area (SPA)
               type: string
             intersects:
@@ -6435,6 +7113,22 @@ components:
               type: boolean
             value:
               const: nature.SPA
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Potential Special Protection Area (SPA)
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.SPA.potential
               type: string
           required:
           - description
@@ -6460,7 +7154,23 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Historic Park or Garden
+              const: Veteran tree
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: nature.veteranTree
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Registered parks and gardens
               type: string
             intersects:
               const: false
@@ -6476,13 +7186,61 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Classified Road
+              const: Classified road
               type: string
             intersects:
               const: false
               type: boolean
             value:
               const: road.classified
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Safeguarded land
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: safeguardedLand
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Safety hazard area
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: safetyHazardArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Source protection zone
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: sourceProtectionZone
               type: string
           required:
           - description
@@ -6499,6 +7257,54 @@ components:
               type: boolean
             value:
               const: tpo
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Watercourse
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: watercourse
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Main river
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: watercourse.mainRiver
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Other watercourse
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: watercourse.other
               type: string
           required:
           - description
@@ -6507,11 +7313,72 @@ components:
           type: object
         description: A planning designation that does not intersect with the proposed
           site, per the DE-9IM spatial relationship definition of intersects
+        title: Non-intersecting planning designation
       - anyOf:
         - additionalProperties: false
           properties:
             description:
-              const: Article 4 Direction area
+              const: Aerodrome
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: aerodrome
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Archaeological Priority Area
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: archaeologicalPriorityArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Areas of Archaeological Potential
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: areasOfArchaeologicalPotential
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Article 4 direction area
               type: string
             entities:
               items:
@@ -6551,6 +7418,66 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Aquifer
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: aquifer
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Principal aquifer
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: aquifer.principal
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Secondary aquifer
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: aquifer.secondary
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Brownfield site
               type: string
             entities:
@@ -6562,6 +7489,86 @@ components:
               type: boolean
             value:
               const: brownfieldSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Coastal change management area
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: coastalChangeManagementArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Community asset
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: communityAsset
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Community asset - Nomimated
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: communityAsset.nominated
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Community asset - Registered
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: communityAsset.registered
               type: string
           required:
           - description
@@ -6611,7 +7618,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Conservation Area
+              const: Conservation area
               type: string
             entities:
               items:
@@ -6671,7 +7678,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: UNESCO World Heritage Site or buffer zone
+              const: UNESCO World Heritage Site (WHS)
               type: string
             entities:
               items:
@@ -6691,7 +7698,47 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone
+              const: UNESCO World Heritage Site (WHS) buffer zone
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: designated.WHS.bufferZone
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Explosives or ordnance storage
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: explosivesOrdnanceStorage
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood risk
               type: string
             entities:
               items:
@@ -6711,7 +7758,87 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone 1 - Low risk
+              const: Areas with critical drainage problems
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: flood.criticalDrainage
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local flood site
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: flood.local
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood storage area
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: flood.storageArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Coastal storm surge flood risk area
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: flood.stormSurge
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood zone 1 - Low risk
               type: string
             entities:
               items:
@@ -6731,7 +7858,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone 2 - Medium risk
+              const: Flood zone 2 - Medium risk
               type: string
             entities:
               items:
@@ -6751,7 +7878,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Flood Risk Zone 3 - High risk
+              const: Flood zone 3 - High risk
               type: string
             entities:
               items:
@@ -6771,7 +7898,47 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Green Belt
+              const: Flood zone 3a - High risk
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: flood.zoneThree.a
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Flood zone 3b - Highest risk
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: flood.zoneThree.b
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Green belt
               type: string
             entities:
               items:
@@ -6791,7 +7958,127 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building
+              const: Heritage coast
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: heritageCoast
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Historic underground watercourse
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: historicUndergroundWatercourse
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Irreplaceable habitat
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: irreplaceableHabitat
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Landfill
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: landfill
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Authorised landfill site
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: landfill.authorised
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Historic landfill site
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: landfill.historic
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Listed building
               type: string
             entities:
               items:
@@ -6811,7 +8098,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building - Grade I
+              const: Listed building - Grade I
               type: string
             entities:
               items:
@@ -6831,7 +8118,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building - Grade II
+              const: Listed building - Grade II
               type: string
             entities:
               items:
@@ -6851,7 +8138,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Listed Building - Grade II*
+              const: Listed building - Grade II*
               type: string
             entities:
               items:
@@ -6871,7 +8158,27 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Locally Listed Building
+              const: Designed space or landscape on the local landscape register
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: localLandscapeRegister
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Locally listed building
               type: string
             entities:
               items:
@@ -6931,6 +8238,106 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Local geological site
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.localGeologicalSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local nature reserve
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.localNatureReserve
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local Biodiversity Action Plan (BAP) priority habitat
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.localPriorityHabitat
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Local wildlife site
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.localWildlifeSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Habitat of principal importance (Section 41)
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.priorityHabitat
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Ramsar site
               type: string
             entities:
@@ -6942,6 +8349,46 @@ components:
               type: boolean
             value:
               const: nature.ramsarSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Proposed Ramsar site
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.ramsarSite.proposed
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Regionally Important Geological and Geomorphological Site (RIGS)
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.RIGS
               type: string
           required:
           - description
@@ -6971,6 +8418,26 @@ components:
         - additionalProperties: false
           properties:
             description:
+              const: Possible Special Area of Conservation (SAC)
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.SAC.possible
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
               const: Special Protection Area (SPA)
               type: string
             entities:
@@ -6982,6 +8449,26 @@ components:
               type: boolean
             value:
               const: nature.SPA
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Potential Special Protection Area (SPA)
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.SPA.potential
               type: string
           required:
           - description
@@ -7011,7 +8498,27 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Historic Park or Garden
+              const: Veteran tree
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: nature.veteranTree
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Registered parks and gardens
               type: string
             entities:
               items:
@@ -7031,7 +8538,7 @@ components:
         - additionalProperties: false
           properties:
             description:
-              const: Classified Road
+              const: Classified road
               type: string
             entities:
               items:
@@ -7042,6 +8549,66 @@ components:
               type: boolean
             value:
               const: road.classified
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Safeguarded land
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: safeguardedLand
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Safety hazard area
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: safetyHazardArea
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Source protection zone
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: sourceProtectionZone
               type: string
           required:
           - description
@@ -7068,11 +8635,73 @@ components:
           - intersects
           - value
           type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Watercourse
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: watercourse
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Main river
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: watercourse.mainRiver
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Other watercourse
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: watercourse.other
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
         description: A planning designation that does intersect with the proposed
           site, per the DE-9IM spatial relationship definition of intersects
+        title: Intersecting planning designation
       description: Planning designations that may intersect with the proposed site
         determined by spatial queries against Planning Data (planning.data.gov.uk)
         and Ordnance Survey
+      title: Planning designation
     Point:
       additionalProperties: false
       description: Point geometry object. https://tools.ietf.org/html/rfc7946#section-3.1.2
@@ -7122,16 +8751,23 @@ components:
       - type
       type: object
     Position:
-      description: A Position is an array of coordinates. https://tools.ietf.org/html/rfc7946#section-3.1.1
+      description: "A Position is an array of coordinates. https://tools.ietf.org/html/rfc7946#section-3.1.1
         Array should contain between two and three elements. The previous GeoJSON
         specification allowed more elements (e.g., which could be used to represent
         M values), but the current specification only allows X, Y, and (optionally)
-        Z to be defined.
+        Z to be defined.\n\nNote: the type will not be narrowed down to `[number,
+        number] | [number, number, number]` due to marginal benefits and the large
+        impact of breaking change.\n\nSee previous discussions on the type narrowing:\n-
+        \ {@link  https://github.com/DefinitelyTyped/DefinitelyTyped/pull/21590 Nov
+        2017 } \n-  {@link  https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/67773
+        Dec 2023 } \n-  {@link  https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/71441
+        Dec 2024 } \n\nOne can use a  {@link  https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
+        user-defined type guard that returns a type predicate }  to determine if a
+        position is a 2D or 3D position."
       items:
         type: number
       type: array
     PreApplication:
-      "$id": "#PreApplication"
       additionalProperties: false
       description: Details of the pre-application preceeding this application, if
         applicable
@@ -7146,9 +8782,7 @@ components:
           type: string
       required:
       - reference
-      - date
-      - officer
-      - summary
+      title: Pre-application
       type: object
     PreAssessment:
       "$id": "#PreAssessment"
@@ -18040,7 +19674,118 @@ components:
       - title
       - x
       - "y"
-      title: "#ProposedAddress"
+      title: Proposed site address
+      type: object
+    ProposedLondonParking:
+      additionalProperties: false
+      description: Proposed parking spaces and total change or difference in parking
+        spaces per the Greater London Authority specification
+      properties:
+        buses:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
+        carClub:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
+        cars:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
+        cycles:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
+        disabled:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
+        motorcycles:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
+        offStreet:
+          additionalProperties: false
+          properties:
+            residential:
+              additionalProperties: false
+              properties:
+                count:
+                  type: number
+                difference:
+                  type: number
+              required:
+              - count
+              - difference
+              type: object
+          required:
+          - residential
+          type: object
+        other:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
+        vans:
+          additionalProperties: false
+          properties:
+            count:
+              type: number
+            difference:
+              type: number
+          required:
+          - count
+          - difference
+          type: object
       type: object
     ProtectedSpaceDesignation:
       "$id": "#ProtectedSpaceDesignation"
@@ -18169,7 +19914,7 @@ components:
       type: object
     Region:
       description: The region in England that contains this address sourced from planning.data.gov.uk/dataset/region,
-        where London is a proxy for the Greater London Authority (GLA) area
+        where 'London' is a proxy for the Greater London Authority (GLA) area
       enum:
       - North East
       - North West
@@ -18180,7 +19925,7 @@ components:
       - London
       - South East
       - South West
-      title: "#Region"
+      title: Region
       type: string
     RequestedFiles:
       "$id": "#RequestedFiles"
@@ -18666,7 +20411,7 @@ components:
         type: object
       - "$ref": "#/components/definitions/SiteContactOther"
       description: Contact information for the site visit
-      title: "#SiteContact"
+      title: Site contact
     SiteContactOther:
       additionalProperties: false
       description: Contact information for the site visit when the SiteContact's role
@@ -18686,7 +20431,6 @@ components:
       - name
       - email
       - phone
-      title: "#SiteContactOther"
       type: object
     UKProperty:
       "$id": "#UKProperty"
@@ -18986,11 +20730,11 @@ components:
         type: object
       - "$ref": "#/components/definitions/UserAddressNotSameSite"
       description: Address information for the applicant
-      title: "#UserAddress"
+      title: User address
     UserAddressNotSameSite:
       additionalProperties: false
       description: Address information for an applicant with contact information that
-        differs from the property address
+        differs from the site address
       properties:
         country:
           type: string
@@ -19012,7 +20756,6 @@ components:
       - postcode
       - sameAsSiteAddress
       - town
-      title: "#UserAddressNotSameSite"
       type: object
     ApplicationOverview:
       "$id": "#ApplicationOverview"
@@ -20418,7 +22161,7 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: true
                           entities:
                           - name: Tidal Models - Risk level 3
@@ -20430,7 +22173,7 @@ paths:
                               text: Planning Data
                               url: https://www.planning.data.gov.uk/entity/65230121
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: true
                           entities:
                           - name: ROCHESTER CASTLE
@@ -20442,7 +22185,7 @@ paths:
                               text: Planning Data
                               url: https://www.planning.data.gov.uk/entity/42127185
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
@@ -20453,7 +22196,7 @@ paths:
                               text: Planning Data
                               url: https://www.planning.data.gov.uk/entity/13909855
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -20471,34 +22214,34 @@ paths:
                           description: Site of Special Scientific Interest (SSSI)
                           intersects: false
                         - value: flood.zoneOne
-                          description: Flood Risk Zone 1 - Low risk
+                          description: Flood zone 1 - Low risk
                           intersects: false
                         - value: flood.zoneTwo
-                          description: Flood Risk Zone 2 - Medium risk
+                          description: Flood zone 2 - Medium risk
                           intersects: true
                         - value: flood.zoneThree
-                          description: Flood Risk Zone 3 - High risk
+                          description: Flood zone 3 - High risk
                           intersects: true
                         - value: brownfieldSite
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: listed.gradeOne
-                          description: Listed Building - Grade I
+                          description: Listed building - Grade I
                           intersects: true
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
                           intersects: false
                         - value: listed.gradeTwo
-                          description: Listed Building - Grade II
+                          description: Listed building - Grade II
                           intersects: false
                         - value: listed.gradeTwoStar
-                          description: Listed Building - Grade II*
+                          description: Listed building - Grade II*
                           intersects: false
                         - value: nature.ramsarSite
                           description: Ramsar site
@@ -20507,7 +22250,7 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: true
                           entities:
                           - name: Polygon
@@ -20518,7 +22261,7 @@ paths:
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       boundary:
                         site:
@@ -20987,7 +22730,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               listed:
                 summary: Consent to do works to a Listed Building
                 value:
@@ -21064,13 +22807,13 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: true
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: true
                           entities:
                           - name: Basements
@@ -21081,7 +22824,7 @@ paths:
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -21102,19 +22845,19 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: listed.gradeOne
-                          description: Listed Building - Grade I
+                          description: Listed building - Grade I
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
                           intersects: false
                         - value: listed.gradeTwo
-                          description: Listed Building - Grade II
+                          description: Listed building - Grade II
                           intersects: true
                           entities:
                           - name: NUMBERS 50 AND 51 AND ATTACHED AREA WALLS AND BALUSTRADE
@@ -21127,7 +22870,7 @@ paths:
                               text: Planning Data
                               url: https://www.planning.data.gov.uk/entity/42115931
                         - value: listed.gradeTwoStar
-                          description: Listed Building - Grade II*
+                          description: Listed building - Grade II*
                           intersects: false
                         - value: nature.ramsarSite
                           description: Ramsar site
@@ -21136,7 +22879,7 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: true
                           entities:
                           - name: Hampstead
@@ -21147,7 +22890,7 @@ paths:
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       boundary:
                         site:
@@ -21665,7 +23408,7 @@ paths:
                           description: Visualisations
                       fee:
                         notApplicable: true
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               ldc.existing:
                 summary: Lawful Development Certificate - Existing use
                 value:
@@ -21692,6 +23435,47 @@ paths:
                         accurate: true
                         connection:
                           value: none
+                      CIL:
+                        result: exempt.annexe
+                        claim:
+                          annexeOrExtensionExemption: true
+                          selfBuildExemption: false
+                          socialHousingRelief: false
+                          charityRelief: false
+                        s73Application: false
+                        existingPermissionPrecedingCIL: false
+                        newDwellings: true
+                        floorAreaHundredPlus: false
+                        newResidentialDevelopment: true
+                        newNonResidentialDevelopment: false
+                        proposedTotalArea:
+                          existing:
+                            squareMetres: 75
+                          loss:
+                            squareMetres: 0
+                          proposed:
+                            squareMetres: 90
+                          net:
+                            squareMetres: 15
+                        existingBuildings:
+                          count: 1
+                          buildings:
+                          - description:
+                              existing: My primary house (75m2) is the only building
+                                on my site
+                              proposed: I'm building a new garden studio (15m2) and
+                                making no changes to my house
+                            area:
+                              retained:
+                                squareMetres: 75
+                              loss:
+                                squareMetres: 0
+                            continuousOccupation: true
+                            stillInUse: true
+                        unoccupiedBuildings:
+                          applicable: false
+                        newMezzanine:
+                          applicable: false
                     user:
                       role: agent
                     applicant:
@@ -21827,7 +23611,7 @@ paths:
                         - https://api.editor.planx.dev/roads?usrn=07300709
                         designations:
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: true
                           entities:
                           - name: Whole District excluding the Town of Chesham - Poultry
@@ -21846,7 +23630,7 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
@@ -21863,17 +23647,14 @@ paths:
                         - value: nature.SSSI
                           description: Site of Special Scientific Interest (SSSI)
                           intersects: false
-                        - value: locallyListed
-                          description: Locally Listed Building
-                          intersects: false
                         - value: nature.SPA
                           description: Special Protection Area (SPA)
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -21887,13 +23668,13 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: false
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       localAuthorityDistrict:
                       - Buckinghamshire
@@ -22696,7 +24477,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: 2023-10-02t00:00:00z
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               ldc.proposed:
                 summary: Lawful Development Certificate - Proposed use
                 value:
@@ -22790,7 +24571,7 @@ paths:
                         - https://api.editor.planx.dev/roads?usrn=35200844
                         designations:
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: articleFour.caz
                           description: Central Activities Zone (CAZ)
@@ -22799,7 +24580,7 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
@@ -22816,17 +24597,14 @@ paths:
                         - value: nature.SSSI
                           description: Site of Special Scientific Interest (SSSI)
                           intersects: false
-                        - value: locallyListed
-                          description: Locally Listed Building
-                          intersects: false
                         - value: nature.SPA
                           description: Special Protection Area (SPA)
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -22835,13 +24613,13 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: false
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       localAuthorityDistrict:
                       - Buckinghamshire
@@ -23388,7 +25166,7 @@ paths:
                               8
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                     submittedAt: '2023-10-02T00:00:00+01:00'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pp.full.householder:
                 summary: Planning Permission - Full householder
                 value:
@@ -23500,16 +25278,16 @@ paths:
                         - https://api.editor.planx.dev/roads?usrn=22502753
                         designations:
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: tpo
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
@@ -23518,7 +25296,7 @@ paths:
                           description: Designated land
                           intersects: true
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: nature.SAC
                           description: Special Area of Conservation (SAC)
@@ -23529,9 +25307,6 @@ paths:
                         - value: nature.SSSI
                           description: Site of Special Scientific Interest (SSSI)
                           intersects: false
-                        - value: locallyListed
-                          description: Locally Listed Building
-                          intersects: false
                         - value: brownfieldSite
                           description: Brownfield site
                           intersects: false
@@ -23539,10 +25314,10 @@ paths:
                           description: Special Protection Area (SPA)
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -23554,7 +25329,7 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: true
                           entities:
                           - name: Dulwich Village
@@ -23565,7 +25340,7 @@ paths:
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       localAuthorityDistrict:
                       - Southwark
@@ -24423,7 +26198,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pp.full.major:
                 summary: Planning Permission - Major application
                 value:
@@ -24461,7 +26236,7 @@ paths:
                             county: ''
                             country: Greece
                             postcode: 212 00
-                          noticeGiven: true
+                          noticeDate: '2024-01-01'
                         declaration:
                           accurate: true
                       agent:
@@ -24505,19 +26280,19 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: true
                           entities:
                           - name: Buckinghamshire
@@ -24543,10 +26318,10 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -24558,7 +26333,7 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: false
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
@@ -25747,7 +27522,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pp.full.minor:
                 summary: Planning Permission - Minor application
                 value:
@@ -25804,19 +27579,19 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -25837,10 +27612,10 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -25852,13 +27627,13 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: false
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: true
                           entities:
                           - name: Stock Lane - Classified Unnumbered
@@ -26688,7 +28463,7 @@ paths:
                             two: []
                           thirteen: []
                           fourteen: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pa.part20.classAB:
                 summary: Prior Approval - Build homes on an adjoining commercial or
                   mixed use building
@@ -26740,19 +28515,19 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -26773,10 +28548,10 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -26788,13 +28563,13 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: false
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       boundary:
                         site:
@@ -27787,7 +29562,7 @@ paths:
                               Deemed Applications, Requests and Site Visits) (England)
                               Regulations 2012, Regulation 14
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pa.part3.classMA:
                 summary: Prior Approval - Convert a commercial building into a home
                   or homes
@@ -27853,10 +29628,10 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: true
                           entities:
                           - name: 87, HACKFORD ROAD SW9
@@ -27868,13 +29643,13 @@ paths:
                               text: Planning Data
                               url: https://www.planning.data.gov.uk/entity/42103309
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -27895,22 +29670,22 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: listed.gradeOne
-                          description: Listed Building - Grade I
+                          description: Listed building - Grade I
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
                           intersects: false
                         - value: listed.gradeTwo
-                          description: Listed Building - Grade II
+                          description: Listed building - Grade II
                           intersects: true
                         - value: listed.gradeTwoStar
-                          description: Listed Building - Grade II*
+                          description: Listed building - Grade II*
                           intersects: false
                         - value: nature.ramsarSite
                           description: Ramsar site
@@ -27919,7 +29694,7 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: true
                           entities:
                           - name: Hackford Road
@@ -27930,7 +29705,7 @@ paths:
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       boundary:
                         site:
@@ -28758,7 +30533,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pa.part7.classM:
                 summary: Prior Approval - Extend a school, college, university, prison
                   or hospital
@@ -28808,13 +30583,13 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: true
                           entities:
                           - name: Basements
@@ -28825,7 +30600,7 @@ paths:
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -28846,10 +30621,10 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -28861,7 +30636,7 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: true
                           entities:
                           - name: Highgate Village
@@ -28872,7 +30647,7 @@ paths:
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       boundary:
                         site:
@@ -29772,7 +31547,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pa.part1.classA:
                 summary: Prior Approval - Larger extension to a house
                 value:
@@ -29821,19 +31596,19 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -29854,10 +31629,10 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -29869,13 +31644,13 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: false
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: false
                       boundary:
                         site:
@@ -30643,7 +32418,7 @@ paths:
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
                           - text: Regulation 4
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               pa.part14.classJ:
                 summary: Prior Approval - Install or change solar panels
                 value:
@@ -31488,7 +33263,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
               preApp:
                 summary: Pre-application
                 value:
@@ -31539,19 +33314,19 @@ paths:
                           description: Tree Preservation Order (TPO) or zone
                           intersects: false
                         - value: flood
-                          description: Flood Risk Zone
+                          description: Flood risk
                           intersects: false
                         - value: listed
-                          description: Listed Building
+                          description: Listed building
                           intersects: false
                         - value: articleFour
-                          description: Article 4 Direction area
+                          description: Article 4 direction area
                           intersects: false
                         - value: monument
                           description: Site of a Scheduled Monument
                           intersects: false
                         - value: greenBelt
-                          description: Green Belt
+                          description: Green belt
                           intersects: false
                         - value: designated
                           description: Designated land
@@ -31572,10 +33347,10 @@ paths:
                           description: Brownfield site
                           intersects: false
                         - value: designated.WHS
-                          description: UNESCO World Heritage Site or buffer zone
+                          description: UNESCO World Heritage Site (WHS)
                           intersects: false
                         - value: registeredPark
-                          description: Historic Park or Garden
+                          description: Registered parks and gardens
                           intersects: false
                         - value: designated.AONB
                           description: Area of Outstanding Natural Beauty (AONB)
@@ -31587,13 +33362,13 @@ paths:
                           description: National Park
                           intersects: false
                         - value: designated.conservationArea
-                          description: Conservation Area
+                          description: Conservation area
                           intersects: false
                         - value: designated.nationalPark.broads
                           description: National Park - Broads
                           intersects: false
                         - value: road.classified
-                          description: Classified Road
+                          description: Classified road
                           intersects: true
                           entities:
                           - name: Main Street - B Road
@@ -31877,7 +33652,7 @@ paths:
                       fee:
                         payable: []
                         calculated: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.2/schemas/preApplication.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/preApplication.json
     get:
       summary: Retrieves planning applications
       tags:

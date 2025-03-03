@@ -1,0 +1,1226 @@
+{
+  "data": {
+    "user": {
+      "role": "applicant"
+    },
+    "applicant": {
+      "type": "company",
+      "name": {
+        "first": "Jim",
+        "last": "Henson"
+      },
+      "email": "jim@muppets.org",
+      "phone": {
+        "primary": "0123456789"
+      },
+      "company": {
+        "name": "The Jim Henson Company"
+      },
+      "address": {
+        "sameAsSiteAddress": true
+      },
+      "siteContact": {
+        "role": "other",
+        "name": "Gonzo The Great",
+        "email": "gonzo@muppets.org",
+        "phone": "987654321"
+      },
+      "ownership": {
+        "interest": "owner.sole",
+        "certificate": "b",
+        "noticeGiven": true,
+        "agriculturalTenants": true,
+        "ownersKnown": "all",
+        "owners": [
+          {
+            "name": "Rowlf the Dog",
+            "address": {
+              "line1": "123 Sesame Street",
+              "town": "New York City",
+              "postcode": "10023",
+              "country": "USA"
+            },
+            "noticeDate": "2024-04-01"
+          },
+          {
+            "name": "Rizzo the Rat",
+            "address": {
+              "line1": "123 Sesame Street",
+              "town": "New York City",
+              "postcode": "10023",
+              "country": "USA"
+            },
+            "noticeDate": "2024-04-01"
+          }
+        ],
+        "declaration": {
+          "accurate": true
+        }
+      }
+    },
+    "property": {
+      "address": {
+        "latitude": 51.554865,
+        "longitude": -0.1711756,
+        "x": 526885,
+        "y": 185582,
+        "title": "50, DOWNSHIRE HILL, LONDON",
+        "source": "Ordnance Survey",
+        "uprn": "000005023627",
+        "usrn": "20400184",
+        "pao": "50",
+        "street": "DOWNSHIRE HILL",
+        "town": "LONDON",
+        "postcode": "NW3 1PA",
+        "singleLine": "50, DOWNSHIRE HILL, LONDON, CAMDEN, NW3 1PA"
+      },
+      "localAuthorityDistrict": [
+        "Camden"
+      ],
+      "region": "London",
+      "type": {
+        "value": "residential.flat",
+        "description": "Flat"
+      },
+      "planning": {
+        "sources": [
+          "https://api.editor.planx.dev/gis/camden?geom=MULTIPOLYGON+%28%28%28-0.171042+51.554871%2C+-0.171026+51.554883%2C+-0.171194+51.554968%2C+-0.171312+51.554881%2C+-0.171287+51.554867%2C+-0.171275+51.554876%2C+-0.17114+51.554804%2C+-0.171042+51.554871%29%29%29&analytics=false&sessionId=0f2abdbd-2ec5-4918-979b-123bd856b94f",
+          "https://api.editor.planx.dev/roads?usrn=20400184"
+        ],
+        "designations": [
+          {
+            "value": "tpo",
+            "description": "Tree Preservation Order (TPO) or zone",
+            "intersects": false
+          },
+          {
+            "value": "flood",
+            "description": "Flood risk",
+            "intersects": false
+          },
+          {
+            "value": "listed",
+            "description": "Listed building",
+            "intersects": true
+          },
+          {
+            "value": "articleFour",
+            "description": "Article 4 direction area",
+            "intersects": true,
+            "entities": [
+              {
+                "name": "Basements",
+                "source": {
+                  "text": "Planning Data",
+                  "url": "https://www.planning.data.gov.uk/entity/7010002613"
+                }
+              }
+            ]
+          },
+          {
+            "value": "monument",
+            "description": "Site of a Scheduled Monument",
+            "intersects": false
+          },
+          {
+            "value": "greenBelt",
+            "description": "Green belt",
+            "intersects": false
+          },
+          {
+            "value": "designated",
+            "description": "Designated land",
+            "intersects": true
+          },
+          {
+            "value": "nature.SAC",
+            "description": "Special Area of Conservation (SAC)",
+            "intersects": false
+          },
+          {
+            "value": "nature.SPA",
+            "description": "Special Protection Area (SPA)",
+            "intersects": false
+          },
+          {
+            "value": "nature.ASNW",
+            "description": "Ancient Semi-Natural Woodland (ASNW)",
+            "intersects": false
+          },
+          {
+            "value": "nature.SSSI",
+            "description": "Site of Special Scientific Interest (SSSI)",
+            "intersects": false
+          },
+          {
+            "value": "brownfieldSite",
+            "description": "Brownfield site",
+            "intersects": false
+          },
+          {
+            "value": "designated.WHS",
+            "description": "UNESCO World Heritage Site (WHS)",
+            "intersects": false
+          },
+          {
+            "value": "listed.gradeOne",
+            "description": "Listed building - Grade I",
+            "intersects": false
+          },
+          {
+            "value": "registeredPark",
+            "description": "Registered parks and gardens",
+            "intersects": false
+          },
+          {
+            "value": "designated.AONB",
+            "description": "Area of Outstanding Natural Beauty (AONB)",
+            "intersects": false
+          },
+          {
+            "value": "listed.gradeTwo",
+            "description": "Listed building - Grade II",
+            "intersects": true,
+            "entities": [
+              {
+                "name": "NUMBERS 50 AND 51 AND ATTACHED AREA WALLS AND BALUSTRADE",
+                "source": {
+                  "text": "Planning Data",
+                  "url": "https://www.planning.data.gov.uk/entity/31535771"
+                }
+              },
+              {
+                "name": "(South side) Nos.50 AND 51 and attached area walls & balustrade",
+                "source": {
+                  "text": "Planning Data",
+                  "url": "https://www.planning.data.gov.uk/entity/42115931"
+                }
+              }
+            ]
+          },
+          {
+            "value": "listed.gradeTwoStar",
+            "description": "Listed building - Grade II*",
+            "intersects": false
+          },
+          {
+            "value": "nature.ramsarSite",
+            "description": "Ramsar site",
+            "intersects": false
+          },
+          {
+            "value": "designated.nationalPark",
+            "description": "National Park",
+            "intersects": false
+          },
+          {
+            "value": "designated.conservationArea",
+            "description": "Conservation area",
+            "intersects": true,
+            "entities": [
+              {
+                "name": "Hampstead",
+                "source": {
+                  "text": "Planning Data",
+                  "url": "https://www.planning.data.gov.uk/entity/44009659"
+                }
+              }
+            ]
+          },
+          {
+            "value": "designated.nationalPark.broads",
+            "description": "National Park - Broads",
+            "intersects": false
+          },
+          {
+            "value": "road.classified",
+            "description": "Classified road",
+            "intersects": false
+          }
+        ]
+      },
+      "boundary": {
+        "site": {
+          "type": "Feature",
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -0.171042,
+                    51.554871
+                  ],
+                  [
+                    -0.171026,
+                    51.554883
+                  ],
+                  [
+                    -0.171194,
+                    51.554968
+                  ],
+                  [
+                    -0.171312,
+                    51.554881
+                  ],
+                  [
+                    -0.171287,
+                    51.554867
+                  ],
+                  [
+                    -0.171275,
+                    51.554876
+                  ],
+                  [
+                    -0.17114,
+                    51.554804
+                  ],
+                  [
+                    -0.171042,
+                    51.554871
+                  ]
+                ]
+              ]
+            ]
+          },
+          "properties": {
+            "name": "",
+            "entity": 12000495084,
+            "prefix": "title-boundary",
+            "dataset": "title-boundary",
+            "end-date": "",
+            "typology": "geography",
+            "reference": "48946667",
+            "entry-date": "2023-12-12",
+            "start-date": "2010-12-02",
+            "organisation-entity": "13"
+          }
+        },
+        "area": {
+          "hectares": 0.017536000000000003,
+          "squareMetres": 175.36
+        }
+      }
+    },
+    "application": {
+      "type": {
+        "value": "listed",
+        "description": "Consent to do works to a Listed Building"
+      },
+      "fee": {
+        "notApplicable": true
+      },
+      "declaration": {
+        "accurate": true,
+        "connection": {
+          "value": "none"
+        }
+      },
+      "preApp": {
+        "reference": "123-TEST-REF",
+        "date": "2024-01-15",
+        "officer": "Miss Piggy",
+        "summary": "Not provided"
+      }
+    },
+    "proposal": {
+      "projectType": [
+        {
+          "value": "internal",
+          "description": "Internal building works, such as change the internal layout"
+        },
+        {
+          "value": "alter.changeOfMaterials.floors",
+          "description": "Change the material of floors"
+        },
+        {
+          "value": "alter.changeOfMaterials.internalWalls",
+          "description": "Change the material of internal walls"
+        }
+      ],
+      "description": "Remove an internal wall and construct a puppet theatre",
+      "boundary": {
+        "site": {
+          "type": "Feature",
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -0.171042,
+                    51.554871
+                  ],
+                  [
+                    -0.171026,
+                    51.554883
+                  ],
+                  [
+                    -0.171194,
+                    51.554968
+                  ],
+                  [
+                    -0.171312,
+                    51.554881
+                  ],
+                  [
+                    -0.171287,
+                    51.554867
+                  ],
+                  [
+                    -0.171275,
+                    51.554876
+                  ],
+                  [
+                    -0.17114,
+                    51.554804
+                  ],
+                  [
+                    -0.171042,
+                    51.554871
+                  ]
+                ]
+              ]
+            ]
+          },
+          "properties": {
+            "name": "",
+            "entity": 12000495084,
+            "prefix": "title-boundary",
+            "dataset": "title-boundary",
+            "end-date": "",
+            "typology": "geography",
+            "reference": "48946667",
+            "entry-date": "2023-12-12",
+            "start-date": "2010-12-02",
+            "organisation-entity": "13",
+            "planx_user_action": "Accepted the title boundary"
+          }
+        },
+        "area": {
+          "hectares": 0.017536000000000003,
+          "squareMetres": 175.36
+        }
+      }
+    }
+  },
+  "responses": [
+    {
+      "question": "Is the property in Camden?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "The property"
+      }
+    },
+    {
+      "question": "What type of property is it?",
+      "responses": [
+        {
+          "value": "Flat (or building containing flats)"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "The property"
+      }
+    },
+    {
+      "question": "Is it a listed building?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "The property"
+      }
+    },
+    {
+      "question": "What type of property is it?",
+      "responses": [
+        {
+          "value": "Residential"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Select the types of changes involved in the project",
+      "responses": [
+        {
+          "value": "Carry out internal work"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "What does the project involve?",
+      "responses": [
+        {
+          "value": "Internal works"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Do the internal works involve any of these types of changes?",
+      "responses": [
+        {
+          "value": "Demolishing internal walls"
+        }
+      ],
+      "metadata": {
+        "policyRefs": [
+          {
+            "text": "National Planning Policy Framework, Section 16",
+            "url": "https://www.gov.uk/guidance/national-planning-policy-framework/16-conserving-and-enhancing-the-historic-environment"
+          },
+          {
+            "text": "Planning (Listed Buildings and Conservation Areas) Act 1990, section 8",
+            "url": "https://www.legislation.gov.uk/ukpga/1990/9/section/8"
+          }
+        ],
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Does the project introduce new materials?",
+      "responses": [
+        {
+          "value": "Some new materials, some to match the existing"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Select where the project introduces new materials",
+      "responses": [
+        {
+          "value": "Floors"
+        },
+        {
+          "value": "Internal walls"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Floors: describe the existing and new materials",
+      "responses": [
+        {
+          "value": "The existing rooms have original wide oak floorboards, but I'm going to patch the area where the walls are coming down with narrow new oak boards."
+        }
+      ],
+      "metadata": {
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Is it a repair, replacement or new flooring?",
+      "responses": [
+        {
+          "value": "Something else"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Internal walls: describe the existing and new materials",
+      "responses": [
+        {
+          "value": "The existing walls are off-white plaster. After removing a dividing internal wall, we'll patch and paint the new merged room Kermit green."
+        }
+      ],
+      "metadata": {
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Is it an ecclesiastical building?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "What grading is the building?",
+      "responses": [
+        {
+          "value": "Unsure"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Is the building subject to a Certificate of Immunity from Listing?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "policyRefs": [
+          {
+            "text": "Section 6 of the Planning (Listed Buildings and Conservation Areas) Act 1990",
+            "url": "https://www.legislation.gov.uk/ukpga/1990/9/section/6"
+          }
+        ],
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "Is the property in a conservation area?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "How do you want to submit this information?",
+      "responses": [
+        {
+          "value": "Upload a document"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About the project"
+      }
+    },
+    {
+      "question": "What type of application is it?",
+      "responses": [
+        {
+          "value": "Apply for listed building consent"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Are you applying on behalf of someone else?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Which of these best describes you?",
+      "responses": [
+        {
+          "value": "Company"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Your contact details",
+      "responses": [
+        {
+          "value": "Jim Henson The Jim Henson Company 0123456789 jim@muppets.org"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Is your contact address the same as the property address?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Can a planning officer see the works from public land?",
+      "responses": [
+        {
+          "value": "Yes, it's visible from the road or somewhere else"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "We may need to visit the site to assess your application. If we do, who should we contact to arrange the visit?",
+      "responses": [
+        {
+          "value": "Someone else"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Contact details of the person we should contact about a site visit",
+      "responses": [
+        {
+          "value": "Gonzo The Great The Jim Henson Company 987654321 gonzo@muppets.org"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "What type of application is this?",
+      "responses": [
+        {
+          "value": "LBC"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Which of these best describes you?",
+      "responses": [
+        {
+          "value": "I'm the applicant"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Are you the sole owner of the land?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "policyRefs": [
+          {
+            "text": "Article 13 of the Town and Country Planning (Development Management Procedure) (England) Order 2015",
+            "url": "https://www.legislation.gov.uk/uksi/2015/595/article/13/made"
+          }
+        ],
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Does the land have any agricultural tenants?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "policyRefs": [
+          {
+            "text": "Article 13 of the Town and Country Planning (Development Management Procedure) (England) Order 2015",
+            "url": "https://www.legislation.gov.uk/uksi/2015/595/article/13/made"
+          }
+        ],
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Do you know the names and addresses of all agricultural tenants?",
+      "responses": [
+        {
+          "value": "Yes, all of them"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Have you given requisite notice to all the agricultural tenants?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "policyRefs": [
+          {
+            "text": "Article 13 of the Town and Country Planning (Development Management Procedure) (England) Order 2015",
+            "url": "https://www.legislation.gov.uk/uksi/2015/595/article/13/made"
+          }
+        ],
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "How many owners or agricultural tenants have been notified?",
+      "responses": [
+        {
+          "value": "2"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Full name of the first notified owner or agricultural tenant",
+      "responses": [
+        {
+          "value": "Rowlf the Dog"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Address of the first notified owner or agricultural tenant",
+      "responses": [
+        {
+          "value": "123 Sesame Street, New York City, 10023, USA"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Date on which notice was given to the first owner or agricultural tenant",
+      "responses": [
+        {
+          "value": "2024-04-01"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Full name of the second notified owner or agricultural tenant",
+      "responses": [
+        {
+          "value": "Rizzo the Rat"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Address of the second notified owner or agricultural tenant",
+      "responses": [
+        {
+          "value": "123 Sesame Street, New York City, 10023, USA"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Date on which notice was given to the second owner or agricultural tenant",
+      "responses": [
+        {
+          "value": "2024-04-01"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Certificate of ownership declaration - Certificate B",
+      "responses": [
+        {
+          "value": "I certify that the above is true"
+        }
+      ],
+      "metadata": {
+        "policyRefs": [
+          {
+            "text": "Article 13 of the Town and Country Planning (Development Management Procedure) (England) Order 2015",
+            "url": "https://www.legislation.gov.uk/uksi/2015/595/article/13/made"
+          },
+          {
+            "text": "Schedule 2 to the Town and Country Planning (Development Management Procedure (England) (Order) 2015",
+            "url": "https://www.legislation.gov.uk/uksi/2015/595/schedule/2/made"
+          }
+        ],
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "Did you get any pre-application advice from the council before making this application?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "What was the name of the planning officer you spoke to?",
+      "responses": [
+        {
+          "value": "Miss Piggy"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "What was your reference?",
+      "responses": [
+        {
+          "value": "123-TEST-REF"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "What date was the pre-application advice given on?",
+      "responses": [
+        {
+          "value": "2024-01-15"
+        }
+      ],
+      "metadata": {
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "What type of application is it?",
+      "responses": [
+        {
+          "value": "Listed Building Consent"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "What type of application is it?",
+      "responses": [
+        {
+          "value": "Listed building consent"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "About you"
+      }
+    },
+    {
+      "question": "What changes does the project involve?",
+      "responses": [
+        {
+          "value": "Alter"
+        },
+        {
+          "value": "Internal works"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "Upload application documents"
+      }
+    },
+    {
+      "question": "Where do you want to alter the property?",
+      "responses": [
+        {
+          "value": "Inside the listed building"
+        }
+      ],
+      "metadata": {
+        "sectionName": "Upload application documents"
+      }
+    },
+    {
+      "question": "Does the project involve any of these alterations?",
+      "responses": [
+        {
+          "value": "Apply plaster or paint"
+        },
+        {
+          "value": "Remove internal wall"
+        },
+        {
+          "value": "Replace joinery, including internal doors"
+        }
+      ],
+      "metadata": {
+        "policyRefs": [
+          {
+            "text": "Section 7 of the Planning (Listed Buildings and Conservation Areas) Act 1990",
+            "url": "https://www.legislation.gov.uk/ukpga/1990/9/section/8"
+          }
+        ],
+        "sectionName": "Upload application documents"
+      }
+    },
+    {
+      "question": "Is the wall load bearing?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "sectionName": "Upload application documents"
+      }
+    },
+    {
+      "question": "Do the internal works involve any of these?",
+      "responses": [
+        {
+          "value": "Demolishing internal walls"
+        }
+      ],
+      "metadata": {
+        "sectionName": "Upload application documents"
+      }
+    },
+    {
+      "question": "Is this for submission or information only?",
+      "responses": [
+        {
+          "value": "Submission"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "Upload application documents"
+      }
+    },
+    {
+      "question": "Which Local Planning authority is it?",
+      "responses": [
+        {
+          "value": "Camden"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "Review the application"
+      }
+    },
+    {
+      "question": "Connections with London Borough of Camden",
+      "responses": [
+        {
+          "value": "None of the above apply to me"
+        }
+      ],
+      "metadata": {
+        "sectionName": "Review the application"
+      }
+    },
+    {
+      "question": "I confirm that:",
+      "responses": [
+        {
+          "value": "The information contained in this application is truthful, accurate and complete, to the best of my knowledge"
+        }
+      ],
+      "metadata": {
+        "sectionName": "Review the application"
+      }
+    },
+    {
+      "question": "Which Local Planning authority is it?",
+      "responses": [
+        {
+          "value": "Camden"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true,
+        "sectionName": "Submit the appliction"
+      }
+    }
+  ],
+  "files": [
+    {
+      "name": "https://api.editor.planx.dev/file/private/c6mo049s/other.pdf",
+      "type": [
+        {
+          "value": "otherDrawing",
+          "description": "Other - drawing"
+        },
+        {
+          "value": "visualisations",
+          "description": "Visualisations"
+        }
+      ]
+    },
+    {
+      "name": "https://api.editor.planx.dev/file/private/n0akv537/myPlans.pdf",
+      "type": [
+        {
+          "value": "joinerySections",
+          "description": "Joinery section report"
+        },
+        {
+          "value": "sitePlan.existing",
+          "description": "Site plan - existing"
+        },
+        {
+          "value": "sitePlan.proposed",
+          "description": "Site plan - proposed"
+        },
+        {
+          "value": "floorPlan.existing",
+          "description": "Floor plan - existing"
+        },
+        {
+          "value": "floorPlan.proposed",
+          "description": "Floor plan - proposed"
+        }
+      ]
+    },
+    {
+      "name": "https://api.editor.planx.dev/file/private/yencabq4/heritageStatement.pdf",
+      "type": [
+        {
+          "value": "heritageStatement",
+          "description": "Heritage Statement"
+        }
+      ]
+    },
+    {
+      "name": "https://api.editor.planx.dev/file/private/p2ryla48/elevations.pdf",
+      "type": [
+        {
+          "value": "elevations.existing",
+          "description": "Elevations - existing"
+        },
+        {
+          "value": "elevations.proposed",
+          "description": "Elevations - proposed"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "id": "0f2abdbd-2ec5-4918-979b-123bd856b94f",
+    "organisation": "CMD",
+    "submittedAt": "2024-04-30T19:13:34.288Z",
+    "source": "PlanX",
+    "service": {
+      "flowId": "2677568c-00d2-4391-98ea-f34a4e743437",
+      "url": "https://www.editor.planx.uk/camden/apply-for-listed-building-consent/published",
+      "files": {
+        "required": [
+          {
+            "value": "sitePlan.existing",
+            "description": "Site plan - existing"
+          },
+          {
+            "value": "sitePlan.proposed",
+            "description": "Site plan - proposed"
+          },
+          {
+            "value": "elevations.existing",
+            "description": "Elevations - existing"
+          },
+          {
+            "value": "elevations.proposed",
+            "description": "Elevations - proposed"
+          },
+          {
+            "value": "floorPlan.existing",
+            "description": "Floor plan - existing"
+          },
+          {
+            "value": "floorPlan.proposed",
+            "description": "Floor plan - proposed"
+          },
+          {
+            "value": "joinerySections",
+            "description": "Joinery section report"
+          }
+        ],
+        "recommended": [
+          {
+            "value": "heritageStatement",
+            "description": "Heritage Statement"
+          }
+        ],
+        "optional": [
+          {
+            "value": "photographs.existing",
+            "description": "Photographs - existing"
+          },
+          {
+            "value": "otherDrawing",
+            "description": "Other - drawing"
+          },
+          {
+            "value": "otherDocument",
+            "description": "Other - document"
+          },
+          {
+            "value": "visualisations",
+            "description": "Visualisations"
+          }
+        ]
+      },
+      "fee": {
+        "notApplicable": true
+      }
+    },
+    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json"
+  }
+}
