@@ -1,0 +1,40 @@
+<div class="govuk-summary-card__content">
+    <% if requirements.length != 0 %>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Item
+                </dt>
+                <dd class="govuk-summary-list__key">
+                    Source
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                    <strong>Action</strong>
+                </dd>
+            </div>
+            <% requirements.each do |requirement| %>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__value">
+                        <% if requirement.url? %>
+                            <%= govuk_link_to(requirement.description, requirement.url, no_visited_state: true, no_underline: true, new_tab: true) %>
+                        <% else %>
+                            <%= requirement.description %>
+                        <% end %>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        BOPS
+                    </dd>
+                    <dd class="govuk-summary-list__actions">
+                        <%# <%= govuk_link_to("Add note and edit", edit_planning_application_assessment_requirement_path(@requirement), no_visited_state: true) %>
+                        <a class="govuk-link" href="#">Add note and edit <span class="govuk-visually-hidden"> <% requirement %></span></a>
+                    </dd>
+                        <a class="govuk-link" href="#">Remove <span class="govuk-visually-hidden"> <% requirement %></span></a>
+                    <dd class="govuk-summary-list__actions">
+                    </dd>
+                </div>
+            <% end %>
+        </dl>
+    <% else %>
+        <p class="govuk-body">No requirements of this type selected</p>
+    <% end %>
+</div>
