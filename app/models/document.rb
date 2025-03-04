@@ -267,6 +267,12 @@ class Document < ApplicationRecord
     self.user ||= Current.user
   end
 
+  after_create :queue_analysis
+
+  def queue_analysis
+    DocumentAnalyserJob.perform_later(self)
+  end
+
   class << self
     def tags(key)
       case key.to_s

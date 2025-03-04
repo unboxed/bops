@@ -75,6 +75,15 @@
     </p>
   </div>
   <div class="govuk-grid-column-full">
+    <% if @document.ai_description.present? %>
+      <div class="govuk-inset-text">
+        <h2 class="govuk-heading-s">AI Summary</h2>
+        <p class="govuk-body">
+          <%= render(FormattedContentComponent.new(text: @document.ai_description)) %>
+        </p>
+      </div>
+    <% end %>
+
     <%= render "edit_and_upload" %>
   </div>
 </div>
