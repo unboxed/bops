@@ -57,7 +57,7 @@ module BopsApi
           "AgentParser" => data_params[:applicant][:agent],
           "FeeParser" => data_params[:application][:fee],
           "AddressParser" => data_params[:property][:address],
-          "ApplicationTypeParser" => data_params[:application][:type],
+          "ApplicationTypeParser" => data_params[:application][:type].merge(local_authority: local_authority),
           "PreAssessmentParser" => params[:preAssessment],
           "ProposalParser" => data_params[:proposal],
           "ProposalDetailsParser" => params[:responses]

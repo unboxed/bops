@@ -36,6 +36,13 @@ class ApplicationType < ApplicationRecord
   belongs_to :legislation, optional: true
   has_many :planning_applications, -> { kept }, dependent: :restrict_with_exception
 
+  has_many :local_authority_application_types
+
+  with_options through: :local_authority_application_types do
+    has_many :local_authorities,
+    has_many :planning_applications
+  end
+
   accepts_nested_attributes_for :legislation, :document_tags
 
   scope :not_retired, -> { where.not(status: "retired") }

@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 class LocalAuthority < ApplicationRecord
-  include StoreModel::NestedAttributes
-
-  attribute :application_type_overrides, ApplicationTypeOverrides.to_array_type
-
-  validates :application_type_overrides, store_model: {merge_errors: true}
-
-  accepts_nested_attributes_for :application_type_overrides
-
   with_options dependent: :destroy do
     has_many :users
     has_many :planning_applications, -> { kept }
@@ -30,6 +22,11 @@ class LocalAuthority < ApplicationRecord
   end
 
   has_many :neighbour_responses, through: :consultations
+
+  has_many :local_authority_application_types, class_name: "LocalAuthority::ApplicationType", dependent: :destroy
+  has_many :application_types, through: :local_authority_application_types
+
+  accepts_nested_attributes_for :local_authority_application_types
 
   with_options presence: true do
     validates :council_code, :subdomain

@@ -120,7 +120,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
-  belongs_to :application_type
+  belongs_to :application_type, class_name: "LocalAuthority::ApplicationType"
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
@@ -989,7 +989,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def determination_period_days_for_pre_app
-    local_authority.application_type_overrides.find { |ato| ato.code == "preApp" }&.determination_period_days if pre_application?
+    local_authority.local_authority_application_types.pre_app.pick(:determination_period_days)
   end
 
   def set_change_access_id
