@@ -120,7 +120,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
-  belongs_to :application_type
+  belongs_to :application_type, class_name: "ApplicationType::Config"
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
