@@ -35,7 +35,7 @@ module BopsConfig
       end
 
       def set_application_type
-        @application_type = ApplicationType.find(application_type_id)
+        @application_type = ApplicationType::Config.find(application_type_id)
       end
 
       def set_document_tags

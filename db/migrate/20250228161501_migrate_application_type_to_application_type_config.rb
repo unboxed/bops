@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 class MigrateApplicationTypeToApplicationTypeConfig < ActiveRecord::Migration[7.2]

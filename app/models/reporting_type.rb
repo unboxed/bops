@@ -20,7 +20,7 @@ class ReportingType < ApplicationRecord
   end
 
   before_destroy do
-    if ApplicationType.reporting_type_used?(code)
+    if ApplicationType::Config.reporting_type_used?(code)
       errors.add(:base, :used) and throw(:abort)
     end
   end
@@ -31,7 +31,7 @@ class ReportingType < ApplicationRecord
     end
 
     def categories
-      ApplicationType.categories.values
+      ApplicationType::Config.categories.values
     end
 
     def category_menu

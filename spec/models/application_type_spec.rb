@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe ApplicationType do
+RSpec.describe ApplicationType::Config do
   describe "#validations" do
     subject(:application_type) { described_class.new }
 

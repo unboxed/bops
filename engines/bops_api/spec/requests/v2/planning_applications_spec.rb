@@ -247,7 +247,7 @@ RSpec.describe "BOPS API" do
 
         it "validates application types" do
           schema_types = schema["definitions"]["ApplicationType"]["anyOf"].map { |entry| entry["properties"]["value"]["const"] }
-          missing_types = schema_types - ApplicationType::CURRENT_APPLICATION_TYPES
+          missing_types = schema_types - ApplicationType::Config::CURRENT_APPLICATION_TYPES
 
           expect(missing_types).to be_empty, "Missing application types in schema for: #{missing_types.join(", ")}"
         end

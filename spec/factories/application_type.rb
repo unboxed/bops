@@ -602,6 +602,6 @@ FactoryBot.define do
       status { "inactive" }
     end
 
-    initialize_with { ApplicationType.find_or_create_by(code:) }
+    initialize_with { ApplicationType::Config.find_or_create_by(code:) }
   end
 end

@@ -7,7 +7,7 @@ class PlanningApplicationSearch
   STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
   REVIEWER_STATUSES = %w[awaiting_determination to_be_reviewed].freeze
 
-  APPLICATION_TYPES = ApplicationType::NAME_ORDER
+  APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
 
   attribute :view, :enum, values: %w[all mine], default: "mine"
   attribute :application_type, :list
@@ -178,7 +178,7 @@ class PlanningApplicationSearch
   end
 
   def selected_application_type_ids
-    ApplicationType.where(name: application_type).ids
+    ApplicationType::Config.where(name: application_type).ids
   end
 
   def postcode_query?
