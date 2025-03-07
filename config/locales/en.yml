@@ -201,6 +201,10 @@ en:
               taken: There is already an application type with that suffix
               too_long: The suffix must be at most %{count} characters long
               too_short: The suffix must be at least %{count} characters long
+        application_type/decision_notice:
+          attributes:
+            template:
+              blank: You must enter a template for the decision notice
         assessment_detail:
           attributes:
             base:

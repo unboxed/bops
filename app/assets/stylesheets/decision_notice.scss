@@ -1,27 +1,11 @@
 .decision-notice {
-  background-color: govuk-colour("light-grey");
-  border: solid 1px;
-  padding: 30px;
-  margin-top: 10px;
-
-  dt {
-    width: 40%;
-  }
-
-  dd {
-    width: 60%;
-  }
-
-  .map {
-    padding-top: 1em;
-  }
+  border: 1px solid $govuk-border-colour;
+  width: 100%;
+  min-height: calc((297 / 210) * 723px);
+  padding: 0;
 }
 
 .map {
   page-break-inside: avoid;
   overflow: hidden;
-}
-
-.decision-notice-main-section {
-  break-after: always;
 }

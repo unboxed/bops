@@ -2,7 +2,7 @@
 
 module BopsConfig
   module ApplicationTypes
-    class DecisionsController < ApplicationController
+    class DecisionNoticesController < ApplicationController
       before_action :set_application_type
 
       def edit
@@ -13,7 +13,7 @@ module BopsConfig
 
       def update
         respond_to do |format|
-          if @application_type.update(application_type_params, :decision)
+          if @application_type.update(application_type_params, :decision_notice)
             format.html do
               redirect_to next_path, notice: t(".success")
             end
@@ -25,20 +25,24 @@ module BopsConfig
 
       private
 
-      def application_type_params
-        params.require(:application_type).permit(decisions: [])
-      end
-
       def set_application_type
         @application_type = ApplicationType.find(application_type_id)
       end
 
+      def application_type_params
+        params.require(:application_type).permit(*application_type_attributes)
+      end
+
+      def application_type_attributes
+        [decision_notice_attributes: decision_notice_attributes]
+      end
+
+      def decision_notice_attributes
+        %i[template status]
+      end
+
       def next_path
-        if @application_type.configured?
-          application_type_path(@application_type)
-        else
-          edit_application_type_decision_notice_path(@application_type)
-        end
+        application_type_path(@application_type)
       end
     end
   end

@@ -53,6 +53,8 @@ Rails.application.routes.draw do
       get "/requirements", to: "requirements#index"
     end
 
+    resources :decisions, param: :reference, only: %i[show]
+
     resources :planning_applications, param: :reference, except: %i[destroy] do
       member do
         get :confirm_validation

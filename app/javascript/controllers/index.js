@@ -25,6 +25,9 @@ application.register("consultee-email", ConsulteeEmailController)
 import ConsulteesController from "./consultees_controller.js"
 application.register("consultees", ConsulteesController)
 
+import DecisionNoticeController from "./decision_notice_controller.js"
+application.register("decision-notice", DecisionNoticeController)
+
 import DeleteRecordController from "./delete_record_controller.js"
 application.register("delete-record", DeleteRecordController)
 

@@ -35,8 +35,10 @@ class ApplicationType < ApplicationRecord
 
   belongs_to :legislation, optional: true
   has_many :planning_applications, -> { kept }, dependent: :restrict_with_exception
+  has_one :decision_notice, dependent: :destroy
 
   accepts_nested_attributes_for :legislation, :document_tags
+  accepts_nested_attributes_for :decision_notice, update_only: true
 
   scope :not_retired, -> { where.not(status: "retired") }
   default_scope { preload(:legislation) }
@@ -109,6 +111,14 @@ class ApplicationType < ApplicationRecord
     validates :decisions, presence: true
   end
 
+  with_options to: :decision_notice do
+    delegate :status, prefix: true
+  end
+
+  with_options on: :decision_notice do
+    validates :decision_notice, presence: true
+  end
+
   before_validation if: :code_changed? do
     self.name =
       case code
@@ -162,7 +172,7 @@ class ApplicationType < ApplicationRecord
       end
   end
 
-  before_validation on: :decision, unless: :configured? do
+  before_validation on: :decision_notice, unless: :configured? do
     self.configured = true
   end
 
@@ -320,6 +330,10 @@ class ApplicationType < ApplicationRecord
 
   def all_decision_codes
     all_decisions.map(&:code)
+  end
+
+  def decision_notice
+    super || build_decision_notice
   end
 
   private

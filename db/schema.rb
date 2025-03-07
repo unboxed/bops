@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_06_102630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -81,6 +81,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_appeals_on_planning_application_id"
+  end
+
+  create_table "application_type_decision_notices", force: :cascade do |t|
+    t.bigint "application_type_id", null: false
+    t.text "template", null: false
+    t.string "status", default: "not_started", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_type_id"], name: "ix_application_type_decision_notices_on_application_type_id", unique: true
   end
 
   create_table "application_types", force: :cascade do |t|
@@ -1131,6 +1140,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
   add_foreign_key "additional_services", "planning_applications"
   add_foreign_key "api_users", "local_authorities"
   add_foreign_key "appeals", "planning_applications"
+  add_foreign_key "application_type_decision_notices", "application_types"
   add_foreign_key "application_types", "legislation"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"

@@ -16,6 +16,7 @@ BopsConfig::Engine.routes.draw do
       with_options only: %i[edit update] do
         resource :category, controller: "category"
         resource :decisions
+        resource :decision_notice
         resource :determination_period
         resource :document_tags
         resource :features
