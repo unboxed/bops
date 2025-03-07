@@ -216,6 +216,8 @@ RSpec.describe "BOPS public API" do
           data = JSON.parse(response.body)
           expect(data["application"]["reference"]).to eq(planning_application.reference)
           expect(data["application"]["status"]).to eq("Appeal lodged")
+          expect(data["data"]["appeal"]["reason"]).not_to be_empty
+          expect(data["data"]["appeal"]["lodgedDate"]).to match(/\d{4}-\d{2}-\d{2}/)
 
           expect(data["officer"]["name"]).to eq(planning_application.user.name)
 
