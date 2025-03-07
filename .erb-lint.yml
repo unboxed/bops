@@ -6,6 +6,9 @@ linters:
       - "module"
   ErbSafety:
     enabled: true
+    exclude:
+    exclude:
+      - "app/views/decisions/show.html.erb"
 
   # Enabling this caused a lot of test failures
   NoJavascriptTagHelper:

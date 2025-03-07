@@ -1,0 +1,30 @@
+<% content_for :page_title do %>
+  <%= t(".decision_notice") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".decision_notice") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l govuk-!-margin-bottom-2">
+        <%= @application_type.description %>
+      </span>
+      <%= t(".decision_notice") %>
+    </h1>
+
+    <%= form_with model: @application_type, url: [@application_type, :decision_notice] do |form| %>
+      <%= form.fields_for :decision_notice do |fields| %>
+        <%= fields.govuk_text_area :template, label: {text: "Template", hidden: true}, rows: 25, class: %w[monospace govuk-!-font-size-16 govuk-!-margin-bottom-0] %>
+      <% end %>
+
+      <%= form.govuk_submit t(".continue_and_mark_as_complete"), name: "application_type[decision_notice_attributes][status]", value: "complete" do %>
+        <%= form.govuk_submit t(".continue_and_come_back_later"), name: "application_type[decision_notice_attributes][status]", value: "in_progress", secondary: true %>
+        <%= govuk_button_link_to t("back"), @application_type, secondary: true %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -9,6 +9,7 @@ module BopsConfig
 
     PAGE_KEYS = {
       "bops_config/application_types/category" => "application_types",
+      "bops_config/application_types/decision_notices" => "application_types",
       "bops_config/application_types/decisions" => "application_types",
       "bops_config/application_types/determination_periods" => "application_types",
       "bops_config/application_types/document_tags" => "application_types",

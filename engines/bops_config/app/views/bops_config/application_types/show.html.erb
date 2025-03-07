@@ -112,6 +112,12 @@
           end
 
           summary_list.with_row do |row|
+            row.with_key { t(".decision_notice") }
+            row.with_value { govuk_tag(text: @application_type.decision_notice_status.humanize, colour: tag_colour(@application_type.decision_notice_status)) }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :decision_notice]), visually_hidden_text: t(".decision_notice"))
+          end
+
+          summary_list.with_row do |row|
             row.with_key { t(".status") }
             row.with_value { govuk_tag(text: @application_type.status.humanize, colour: tag_colour(@application_type.status)) }
             row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :status]), visually_hidden_text: t(".status"))

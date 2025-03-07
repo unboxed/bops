@@ -550,3 +550,10 @@ body {
   letter-spacing: 0.01px;
 
 }
+
+.monospace {
+  font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono",
+    "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Mono",
+    "Source Code Pro", "Fira Mono", "Droid Sans Mono",
+    "Consolas", "Courier New", monospace !important;
+}

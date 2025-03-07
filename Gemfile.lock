@@ -356,6 +356,9 @@ GEM
     launchy (2.5.2)
       addressable (~> 2.8)
     lint_roller (1.1.0)
+    liquid (5.8.1)
+      bigdecimal
+      strscan (>= 3.1.1)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -621,6 +624,7 @@ GEM
     strong_migrations (1.8.0)
       activerecord (>= 5.2)
     strong_password (0.0.10)
+    strscan (3.1.2)
     sys-uname (1.3.1)
       ffi (~> 1.1)
     terminal-table (4.0.0)
@@ -708,6 +712,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   json_schemer
+  liquid
   listen
   logger
   lograge (~> 0.14.0)

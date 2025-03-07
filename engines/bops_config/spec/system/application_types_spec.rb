@@ -160,6 +160,41 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     click_button "Continue"
     expect(page).to have_content("Decisions successfully updated")
 
+    # Set decision notice template
+    expect(page).to have_selector("h1", text: "Edit decision notice template")
+
+    fill_in "Template", with: <<~HTML
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <title>Decision notice: {{ reference }}</title>
+        </head>
+
+        <body>
+          <h1>Decision notice</h1>
+          <dl>
+            <div>
+              <dt>Applicant</dt>
+              <dd>{{ applicant }}</dd>
+            </div>
+            <div>
+              <dt>Reference</dt>
+              <dd>{{ reference }}</dd>
+            </div>
+            <div>
+              <dt>Decision</dt>
+              <dd>{{ decision }}</dd>
+            </div>
+          </dl>
+        </body>
+      </html>
+    HTML
+
+    click_button "Continue and mark as complete"
+
+    expect(page).to have_content("Decision notice successfully updated")
+
     # Review application type
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(1) dd", text: "Planning Permission - Major application")
@@ -178,7 +213,8 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_selector("dl div:nth-child(10) dd span:nth-child(1)", text: "Environmental Impact Assessment (EIA)")
     expect(page).to have_selector("dl div:nth-child(10) dd span:nth-child(2)", text: "Sustainability statement")
     expect(page).to have_selector("dl div:nth-child(11) dd", text: "Granted, Refused")
-    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Inactive")
+    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Complete")
+    expect(page).to have_selector("dl div:nth-child(13) dd", text: "Inactive")
     expect(page).not_to have_selector("li", text: "Assess against policies and guidance")
     expect(page).to have_selector("li", text: "Assess policies and guidance (considerations)")
   end
@@ -260,7 +296,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(12)" do
+    within "dl div:nth-child(13)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -272,7 +308,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(13) dd", text: "Active")
   end
 
   it "prevents activation of a new application type when the category has not been set" do
@@ -280,7 +316,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     visit "/application_types/#{application_type.id}"
 
-    within "dl div:nth-child(12)" do
+    within "dl div:nth-child(13)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -305,7 +341,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     visit "/application_types/#{application_type.id}"
 
-    within "dl div:nth-child(12)" do
+    within "dl div:nth-child(13)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -330,7 +366,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     visit "/application_types/#{application_type.id}"
 
-    within "dl div:nth-child(12)" do
+    within "dl div:nth-child(13)" do
       expect(page).to have_selector("dd", text: "Inactive")
       click_link "Change"
     end
@@ -356,7 +392,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(12)" do
+    within "dl div:nth-child(13)" do
       expect(page).to have_selector("dd", text: "Active")
       click_link "Change"
     end
@@ -369,7 +405,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Retired")
+    expect(page).to have_selector("dl div:nth-child(13) dd", text: "Retired")
   end
 
   it "allows an application type to be brought out of retirement" do
@@ -379,7 +415,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     expect(page).to have_selector("h1", text: "Review the application type")
 
-    within "dl div:nth-child(12)" do
+    within "dl div:nth-child(13)" do
       expect(page).to have_selector("dd", text: "Retired")
       click_link "Change"
     end
@@ -392,7 +428,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     click_button "Continue"
 
     expect(page).to have_selector("h1", text: "Review the application type")
-    expect(page).to have_selector("dl div:nth-child(12) dd", text: "Active")
+    expect(page).to have_selector("dl div:nth-child(13) dd", text: "Active")
   end
 
   it "allows editing of the category" do

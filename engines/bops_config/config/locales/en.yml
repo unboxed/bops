@@ -36,6 +36,13 @@ en:
           success: Category successfully updated
       create:
         success: Application profile successfully created
+      decision_notices:
+        edit:
+          continue_and_come_back_later: Continue and come back later
+          continue_and_mark_as_complete: Continue and mark as complete
+          decision_notice: Edit decision notice template
+        update:
+          success: Decision notice successfully updated
       decisions:
         edit:
           back: Back
@@ -173,6 +180,7 @@ en:
         category: Category
         change: Change
         continue: Continue
+        decision_notice: Decision notice
         decisions: Decisions
         determination_period: Determination period
         determination_period_including_bank_holidays:
