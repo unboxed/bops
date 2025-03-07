@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
 
-  get "/map_proxy/*path", to: "map_proxy#proxy"
+  get "/map_proxy/(*path)", to: "map_proxy#proxy", as: "os_proxy"
 
   devise_subdomain do
     devise_for :users, controllers: {
