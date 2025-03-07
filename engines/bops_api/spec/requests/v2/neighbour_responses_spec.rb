@@ -27,6 +27,7 @@ RSpec.describe "BOPS API" do
 
         let(:reference) { planning_application.reference }
         let(:planning_application) { create(:planning_application, :published, local_authority:, application_type:) }
+
         before do
           create(:neighbour_response, neighbour: create(:neighbour, consultation: planning_application.consultation))
         end
