@@ -45,6 +45,13 @@ en:
             granted: Granted
             not_required: Not required
             refused: Refused
+          decisions_legend_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Choose decisions
+            </h1>
         update:
           success: Decisions successfully updated
       determination_periods:
