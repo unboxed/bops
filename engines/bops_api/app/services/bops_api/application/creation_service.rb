@@ -47,7 +47,7 @@ module BopsApi
 
       def parsed_data
         parsers.each_with_object({}) do |(parser, data), hash|
-          hash.merge!(parser.new(data).parse)
+          hash.merge!(parser.new(data, local_authority: local_authority).parse)
         end
       end
 

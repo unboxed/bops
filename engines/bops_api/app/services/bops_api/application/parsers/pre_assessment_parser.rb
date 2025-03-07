@@ -3,13 +3,7 @@
 module BopsApi
   module Application
     module Parsers
-      class PreAssessmentParser
-        attr_reader :params
-
-        def initialize(params)
-          @params = params
-        end
-
+      class PreAssessmentParser < BaseParser
         def parse
           return {} if params.blank?
 
