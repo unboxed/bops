@@ -47,6 +47,7 @@ class Document < ApplicationRecord
   delegate :audits, to: :planning_application
   delegate :local_authority, to: :planning_application
   delegate :blob, :representable?, to: :file
+  delegate :key, to: :blob, prefix: true
 
   include Auditable
 

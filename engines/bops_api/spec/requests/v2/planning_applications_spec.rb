@@ -3,6 +3,7 @@
 require "swagger_helper"
 
 RSpec.describe "BOPS API" do
+  let(:config) { Rails.configuration }
   let(:local_authority) { create(:local_authority, :default) }
   let(:southwark) { create(:local_authority, :southwark) }
   let(:application_type) { create(:application_type) }
@@ -410,13 +411,13 @@ RSpec.describe "BOPS API" do
     end
   end
 
-  path "/api/v2/planning_applications/{id}" do
+  path "/api/v2/planning_applications/{reference}" do
     get "Retrieves a planning application" do
       tags "Planning applications"
       security [bearerAuth: []]
       produces "application/json"
 
-      parameter name: :id, in: :path, schema: {
+      parameter name: :reference, in: :path, schema: {
         oneOf: [
           {type: :string, pattern: "\d{2}-\d{5}-[A-Za-z0-9]+"},
           {type: :integer}
@@ -428,12 +429,40 @@ RSpec.describe "BOPS API" do
         example "application/json", :default, api_json_fixture("planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }
-        let(:id) { planning_application.id }
+        let(:reference) { planning_application.id }
 
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          expect(data["id"]).to eq(id)
-          expect(data["description"]).to eq(planning_application.description)
+        let!(:document) { create(:document, :with_tags, planning_application:, validated: true, publishable: true) }
+
+        context "when use_signed_cookies is false" do
+          before do
+            allow(config).to receive(:use_signed_cookies).and_return(false)
+          end
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data["id"]).to eq(reference)
+            expect(data["description"]).to eq(planning_application.description)
+
+            expect(data["documents"]).to match_array([
+              a_hash_including("url" => "http://uploads.example.com/#{document.blob_key}")
+            ])
+          end
+        end
+
+        context "when use_signed_cookies is true" do
+          before do
+            allow(config).to receive(:use_signed_cookies).and_return(true)
+          end
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data["id"]).to eq(reference)
+            expect(data["description"]).to eq(planning_application.description)
+
+            expect(data["documents"]).to match_array([
+              a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
+            ])
+          end
         end
       end
 
@@ -441,12 +470,40 @@ RSpec.describe "BOPS API" do
         example "application/json", :default, api_json_fixture("planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }
-        let(:id) { planning_application.reference }
+        let(:reference) { planning_application.reference }
 
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          expect(data["reference"]).to eq(planning_application.reference)
-          expect(data["description"]).to eq(planning_application.description)
+        let!(:document) { create(:document, :with_tags, planning_application:, validated: true, publishable: true) }
+
+        context "when use_signed_cookies is false" do
+          before do
+            allow(config).to receive(:use_signed_cookies).and_return(false)
+          end
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data["reference"]).to eq(planning_application.reference)
+            expect(data["description"]).to eq(planning_application.description)
+
+            expect(data["documents"]).to match_array([
+              a_hash_including("url" => "http://uploads.example.com/#{document.blob_key}")
+            ])
+          end
+        end
+
+        context "when use_signed_cookies is true" do
+          before do
+            allow(config).to receive(:use_signed_cookies).and_return(true)
+          end
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data["reference"]).to eq(planning_application.reference)
+            expect(data["description"]).to eq(planning_application.description)
+
+            expect(data["documents"]).to match_array([
+              a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
+            ])
+          end
         end
       end
 
@@ -461,7 +518,7 @@ RSpec.describe "BOPS API" do
           }
         }
 
-        let(:id) { 734837 }
+        let(:reference) { 734837 }
 
         run_test!
       end

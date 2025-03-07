@@ -34270,7 +34270,7 @@ paths:
                       consultation:
                         end_date: '2023-12-22'
                       make_public: true
-  "/api/v2/planning_applications/{id}":
+  "/api/v2/planning_applications/{reference}":
     get:
       summary: Retrieves a planning application
       tags:
@@ -34278,7 +34278,7 @@ paths:
       security:
       - bearerAuth: []
       parameters:
-      - name: id
+      - name: reference
         in: path
         schema:
           oneOf:
