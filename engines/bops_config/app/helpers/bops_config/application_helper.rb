@@ -7,6 +7,28 @@ module BopsConfig
 
     attr_reader :back_path
 
+    PAGE_KEYS = {
+      "bops_config/application_types/category" => "application_types",
+      "bops_config/application_types/decisions" => "application_types",
+      "bops_config/application_types/determination_periods" => "application_types",
+      "bops_config/application_types/document_tags" => "application_types",
+      "bops_config/application_types/features" => "application_types",
+      "bops_config/application_types/legislation" => "application_types",
+      "bops_config/application_types/reporting" => "application_types",
+      "bops_config/application_types/statuses" => "application_types",
+      "bops_config/application_types" => "application_types",
+      "bops_config/dashboards" => "dashboard",
+      "bops_config/decisions" => "decisions",
+      "bops_config/gpdo/policy_class" => "gpdo",
+      "bops_config/gpdo/policy_parts" => "gpdo",
+      "bops_config/gpdo/policy_schedules" => "gpdo",
+      "bops_config/gpdo/policy_sections" => "gpdo",
+      "bops_config/legislation" => "legislation",
+      "bops_config/local_authorities" => "local_authorities",
+      "bops_config/reporting_types" => "reporting_types",
+      "bops_config/users" => "users"
+    }.freeze
+
     def back_link(classname: "govuk-button govuk-button--secondary")
       link_to(t("back"), back_path, class: classname)
     end
@@ -20,26 +42,7 @@ module BopsConfig
     end
 
     def active_page_key
-      return "legislation" if controller_path == "bops_config/legislation"
-
-      page_keys = {
-        "dashboard" => "dashboard",
-        "users" => "users",
-        "local_authorities" => "local_authorities",
-        "application_types" => "application_types",
-        "categories" => "application_types",
-        "determination_periods" => "application_types",
-        "legislation" => "application_types",
-        "features" => "application_types",
-        "decisions" => "decisions",
-        "statuses" => "application_types",
-        "reporting_types" => "reporting_types",
-        "policy_schedules" => "gpdo",
-        "policy_parts" => "gpdo",
-        "policy_class" => "gpdo"
-      }
-
-      page_keys.fetch(controller_name, "dashboard")
+      PAGE_KEYS.fetch(controller_path, "dashboard")
     end
 
     def nav_items
