@@ -35237,6 +35237,99 @@ paths:
                             county: ''
                             postcode: F0XH0L3
                             country: ''
+                    - application:
+                        type:
+                          value: pa.part1.classA
+                          description: prior_approval
+                        reference: 25-00240-PA1A
+                        fullReference: SWK-25-00240-PA1A
+                        targetDate: '2025-04-08'
+                        expiryDate: '2025-03-25'
+                        receivedAt: '2025-03-04T14:36:32.999+00:00'
+                        validAt: '2025-03-04T00:00:00.000+00:00'
+                        publishedAt: '2025-03-06T14:22:12.293+00:00'
+                        determinedAt:
+                        decision:
+                        status: Appeal allowed
+                        consultation:
+                          startDate:
+                          endDate:
+                          publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
+                          publishedComments: []
+                          consulteeComments: []
+                        pressNotice:
+                      property:
+                        address:
+                          latitude: 22.87483014329466
+                          longitude: 105.04327269762632
+                          title: 7796 Sherie Mountain
+                          singleLine: 7796 Sherie Mountain, Bashirianland, 78923
+                          uprn: '00254420'
+                          town: Bashirianland
+                          postcode: '78923'
+                        boundary:
+                          site:
+                      proposal:
+                        description: Non voluptatum quo et.
+                        reportingType:
+                        ownerIsPlanningAuthority: false
+                      applicant:
+                        type:
+                        address:
+                        ownership:
+                        agent:
+                          address:
+                      officer:
+                        name: Zena Spinka
+                      data:
+                        appeal:
+                          reason: too slow!
+                          lodgedDate: '2025-02-26'
+                          validatedDate: '2025-02-27'
+                          startedDate: '2025-02-28'
+                          decisionDate: '2025-03-02'
+                          decision: allowed
+                          files:
+                          - name: 01.png
+                            url: http://uploads.bops.localhost:3000/b48as3tuafybda00zffy1h8ym0mu
+                            type:
+                            - value: internal.appealDecision
+                              description: Appeal Decision
+                            createdAt: '2025-03-06T20:42:18.299+00:00'
+                            applicantDescription:
+                            metadata:
+                              byteSize: 312599
+                              contentType: image/png
+                          - name: 03.png
+                            url: http://uploads.bops.localhost:3000/93dj4n9hw8px6q1wgnm7hqwjwyu7
+                            type:
+                            - value: internal.appealDecision
+                              description: Appeal Decision
+                            createdAt: '2025-03-06T20:42:18.400+00:00'
+                            applicantDescription:
+                            metadata:
+                              byteSize: 338776
+                              contentType: image/png
+                          - name: 02.png
+                            url: http://uploads.bops.localhost:3000/n2jd2xor3sl8514m49a4rn8rf3p4
+                            type:
+                            - value: internal.appealDecision
+                              description: Appeal Decision
+                            createdAt: '2025-03-06T20:42:18.415+00:00'
+                            applicantDescription:
+                            metadata:
+                              byteSize: 890308
+                              contentType: image/png
+                          - name: 04.png
+                            url: http://uploads.bops.localhost:3000/gd21huup5zg82wl4qy38gia2tapx
+                            type:
+                            - value: internal.appealDecision
+                              description: Appeal Decision
+                            createdAt: '2025-03-06T20:42:18.428+00:00'
+                            applicantDescription:
+                            metadata:
+                              byteSize: 258315
+                              contentType: image/png
   "/api/v2/public/planning_applications/{reference}":
     get:
       summary: Retrieves a planning application
@@ -35259,69 +35352,107 @@ paths:
                   value:
                     application:
                       type:
-                        value: pp.full.householder
-                        description: planning_permission
-                      reference: 24-00100-HAPP
-                      fullReference: PlanX-24-00100-HAPP
-                      targetDate: '2024-05-15'
-                      receivedAt: '2024-06-12T15:56:29.830+01:00'
-                      validAt: '2024-06-12T00:00:00.000+01:00'
-                      publishedAt: '2024-06-12T15:56:29.828+01:00'
+                        value: pa.part1.classA
+                        description: prior_approval
+                      reference: 25-00240-PA1A
+                      fullReference: SWK-25-00240-PA1A
+                      targetDate: '2025-04-08'
+                      expiryDate: '2025-03-25'
+                      receivedAt: '2025-03-04T14:36:32.999+00:00'
+                      validAt: '2025-03-04T00:00:00.000+00:00'
+                      publishedAt: '2025-03-06T14:22:12.293+00:00'
                       determinedAt:
                       decision:
-                      status: determined
+                      status: Appeal allowed
                       consultation:
-                        startDate: '2024-04-15'
-                        endDate: '2024-05-07'
-                        publishedComments:
-                        - comment: I'm worried about construction noise.
-                          receivedAt: '2024-04-19T00:00:00.000+00:00'
-                          summaryTag: objection
-                        consulteeComments:
-                        - comment: Accepted
-                          receivedAt: '2024-04-19T00:00:00.000+00:00'
-                      property:
+                        startDate:
+                        endDate:
+                        publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
+                        publishedComments: []
+                        consulteeComments: []
+                      pressNotice:
+                    property:
+                      address:
+                        latitude: 22.87483014329466
+                        longitude: 105.04327269762632
+                        title: 7796 Sherie Mountain
+                        singleLine: 7796 Sherie Mountain, Bashirianland, 78923
+                        uprn: '00254420'
+                        town: Bashirianland
+                        postcode: '78923'
+                      boundary:
+                        site:
+                    proposal:
+                      description: Non voluptatum quo et.
+                      reportingType:
+                      ownerIsPlanningAuthority: false
+                    applicant:
+                      type:
+                      address:
+                      ownership:
+                      agent:
                         address:
-                          latitude: 84.3630530473182
-                          longitude: -105.7502386387352
-                          title: 511 German Village
-                          singleLine: 511 German Village, West Rod, 66983
-                          uprn: '00565512'
-                          town: West Rod
-                          postcode: '66983'
-                        boundary:
-                          site:
-                            type: FeatureCollection
-                            features:
-                            - type: Feature
-                              geometry:
-                                type: Polygon
-                                coordinates:
-                                - - - -0.07739927369747812
-                                    - 51.501345554406896
-                                  - - -0.0778893839394212
-                                    - 51.501002280754676
-                                  - - -0.07690508968054104
-                                    - 51.50102474569704
-                                  - - -0.07676672973966252
-                                    - 51.50128963605792
-                                  - - -0.07739927369747812
-                                    - 51.501345554406896
-                              properties:
-                                color: "#d870fc"
-                            - type: Feature
-                              geometry:
-                                type: Polygon
-                                coordinates:
-                                - - - 30
-                                    - 10
-                                  - - 40
-                                    - 40
-                                  - - 30
-                                    - 10
-                              properties: {}
-                      proposal:
-                        description: householder extension
+                    officer:
+                      name: Zena Spinka
+                    applicationFee:
+                      id: 144
+                      planning_application_id: 144
+                      total_fee:
+                      payable_fee:
+                      requested_fee:
+                      exemptions: []
+                      reductions: []
+                      created_at: '2025-03-04T14:36:33.003+00:00'
+                      updated_at: '2025-03-04T14:36:33.003+00:00'
+                    data:
+                      appeal:
+                        reason: too slow!
+                        lodgedDate: '2025-02-26'
+                        validatedDate: '2025-02-27'
+                        startedDate: '2025-02-28'
+                        decisionDate: '2025-03-02'
+                        decision: allowed
+                        files:
+                        - name: 01_decision_type_counts.png
+                          url: http://uploads.bops.localhost:3000/b48as3tuafybda00zffy1h8ym0mu
+                          type:
+                          - value: internal.appealDecision
+                            description: Appeal Decision
+                          createdAt: '2025-03-06T20:42:18.299+00:00'
+                          applicantDescription:
+                          metadata:
+                            byteSize: 312599
+                            contentType: image/png
+                        - name: 03_average_days_to_decision.png
+                          url: http://uploads.bops.localhost:3000/93dj4n9hw8px6q1wgnm7hqwjwyu7
+                          type:
+                          - value: internal.appealDecision
+                            description: Appeal Decision
+                          createdAt: '2025-03-06T20:42:18.400+00:00'
+                          applicantDescription:
+                          metadata:
+                            byteSize: 338776
+                            contentType: image/png
+                        - name: 02_decision_by_app_type.png
+                          url: http://uploads.bops.localhost:3000/n2jd2xor3sl8514m49a4rn8rf3p4
+                          type:
+                          - value: internal.appealDecision
+                            description: Appeal Decision
+                          createdAt: '2025-03-06T20:42:18.415+00:00'
+                          applicantDescription:
+                          metadata:
+                            byteSize: 890308
+                            contentType: image/png
+                        - name: 04_applications_without_decision.png
+                          url: http://uploads.bops.localhost:3000/gd21huup5zg82wl4qy38gia2tapx
+                          type:
+                          - value: internal.appealDecision
+                            description: Appeal Decision
+                          createdAt: '2025-03-06T20:42:18.428+00:00'
+                          applicantDescription:
+                          metadata:
+                            byteSize: 258315
+                            contentType: image/png
   "/api/v2/validation_requests":
     get:
       summary: Retrieves a paginated list of notified validation requests for an LPA
