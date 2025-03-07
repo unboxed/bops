@@ -14,6 +14,11 @@ class LocalAuthority < ApplicationRecord
 
     validates :url, url: true
 
+    CATEGORIES = %w[drawings
+      evidence
+      supporting_documents
+      other].freeze
+
     class << self
       def search(query)
         scope = by_description
@@ -27,6 +32,14 @@ class LocalAuthority < ApplicationRecord
 
       def by_description
         order(:description)
+      end
+
+      def categories
+        CATEGORIES
+      end
+
+      def by_category(category)
+        where(category: category)
       end
 
       private
