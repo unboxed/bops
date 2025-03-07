@@ -79,6 +79,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     context "when planning application has no boundary geojson" do
+      Rails.configuration.os_vector_tiles_api_key = "testtest"
+
       let(:application) do
         create(
           :planning_application,
