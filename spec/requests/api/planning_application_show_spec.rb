@@ -9,7 +9,7 @@ RSpec.describe "API request to list planning applications" do
   let!(:planning_application) do
     create(:planning_application, :in_assessment, :with_constraints, local_authority: default_local_authority, decision: "granted", api_user:)
   end
-  let!(:lambeth) { build(:local_authority, :lambeth) }
+  let!(:lambeth) { create(:local_authority, :lambeth) }
   let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
   let!(:planning_application_not_validated) { create(:planning_application, :not_started, local_authority: default_local_authority) }
   let(:token) { "Bearer #{api_user.token}" }

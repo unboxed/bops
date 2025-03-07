@@ -40,7 +40,7 @@ RSpec.describe BopsConfig::ApplicationTypesController, type: :controller do
   end
 
   describe "#update" do
-    let!(:application_type) { create(:application_type, :inactive, code: "advertConsent", suffix: "ADVR") }
+    let!(:application_type) { create(:application_type_config, :inactive, code: "advertConsent", suffix: "ADVR") }
 
     context "with invalid params" do
       it "doesn't send an audit event" do

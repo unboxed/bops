@@ -6,6 +6,17 @@ RSpec.describe "Check ownership certificate" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
+  let(:config) do
+    create(:application_type_config, features:
+      {
+        "ownership_details" => true
+      })
+  end
+
+  let(:application_type) do
+    create(:application_type, config:, local_authority: default_local_authority)
+  end
+
   let(:planning_application) do
     create(
       :planning_application,
@@ -13,13 +24,6 @@ RSpec.describe "Check ownership certificate" do
       local_authority: default_local_authority,
       application_type:
     )
-  end
-
-  let(:application_type) do
-    create(:application_type, features:
-      {
-        "ownership_details" => true
-      })
   end
 
   before do
@@ -127,11 +131,14 @@ RSpec.describe "Check ownership certificate" do
   end
 
   context "when application type does not process ownership details" do
-    let(:application_type) do
-      create(:application_type, features:
+    let(:config) do
+      create(:application_type_config, features:
         {
           "ownership_details" => false
         })
+    end
+    let(:application_type) do
+      create(:application_type, config:, local_authority: default_local_authority)
     end
 
     it "does not provide a section for checking ownership details in assessment" do

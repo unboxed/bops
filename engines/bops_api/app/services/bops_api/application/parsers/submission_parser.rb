@@ -3,13 +3,7 @@
 module BopsApi
   module Application
     module Parsers
-      class SubmissionParser
-        attr_reader :params
-
-        def initialize(params)
-          @params = params
-        end
-
+      class SubmissionParser < BaseParser
         def parse
           {
             session_id: params[:metadata][:id],

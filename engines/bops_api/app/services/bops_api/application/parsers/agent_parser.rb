@@ -3,13 +3,7 @@
 module BopsApi
   module Application
     module Parsers
-      class AgentParser
-        attr_reader :params
-
-        def initialize(params)
-          @params = params
-        end
-
+      class AgentParser < BaseParser
         def parse
           return {} if params.blank?
 

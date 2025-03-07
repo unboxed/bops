@@ -178,7 +178,7 @@ class PlanningApplicationSearch
   end
 
   def selected_application_type_ids
-    ApplicationType::Config.where(name: application_type).ids
+    local_authority.application_types.where(name: application_type).ids
   end
 
   def postcode_query?

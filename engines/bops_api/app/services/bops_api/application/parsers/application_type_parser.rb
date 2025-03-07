@@ -3,13 +3,7 @@
 module BopsApi
   module Application
     module Parsers
-      class ApplicationTypeParser
-        attr_reader :params
-
-        def initialize(params)
-          @params = params
-        end
-
+      class ApplicationTypeParser < BaseParser
         def parse
           {application_type:}
         end
@@ -17,7 +11,8 @@ module BopsApi
         private
 
         def application_type
-          ApplicationType::Config.active.find_by!(code: params[:value])
+          config = ApplicationType::Config.find_by!(code: params[:value])
+          local_authority.application_types.find_by!(config_id: config.id)
         end
       end
     end

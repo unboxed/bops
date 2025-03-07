@@ -24,7 +24,7 @@ RSpec.describe Legislation do
 
     context "when destroying" do
       let(:legislation) { create(:legislation) }
-      let(:application_type) { create(:application_type, legislation:) }
+      let(:application_type) { create(:application_type_config, legislation:) }
 
       it "restricts with error when there are associated application types" do
         application_type

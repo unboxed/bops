@@ -41,13 +41,13 @@ module BopsApi
         {}.tap do |pa_params|
           pa_params.merge!(parsed_data)
           pa_params.merge!(other_params)
-          pa_params.merge!(planx_planning_data_attributes: Parsers::SubmissionParser.new(params).parse)
+          pa_params.merge!(planx_planning_data_attributes: Parsers::SubmissionParser.new(params, local_authority:).parse)
         end
       end
 
       def parsed_data
         parsers.each_with_object({}) do |(parser, data), hash|
-          hash.merge!(parser.new(data).parse)
+          hash.merge!(parser.new(data, local_authority: local_authority).parse)
         end
       end
 

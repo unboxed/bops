@@ -18,8 +18,8 @@ RSpec.describe "editing planning application" do
   before do
     travel_to(DateTime.new(2023, 1, 1))
     sign_in(assessor)
-    create(:application_type, :prior_approval)
-    create(:application_type, :ldc_existing)
+    create(:application_type, :prior_approval, local_authority:)
+    create(:application_type, :ldc_existing, local_authority:)
     visit "/planning_applications/#{planning_application.reference}"
   end
 
