@@ -8,7 +8,7 @@ RSpec.describe "API request to show a local authority" do
   let!(:planning_application) do
     create(:planning_application, :not_started, local_authority: default_local_authority, decision: "granted")
   end
-  let!(:lambeth) { build(:local_authority, :lambeth) }
+  let!(:lambeth) { create(:local_authority, :lambeth) }
   let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
 
   describe "format" do

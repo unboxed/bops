@@ -157,12 +157,13 @@ RSpec.describe "Check ownership certificate type" do
 
   context "when application type does not process ownership details" do
     let!(:planning_application) { create(:planning_application, local_authority: default_local_authority, application_type:) }
-    let(:application_type) do
-      create(:application_type, features:
+    let(:config) do
+      create(:application_type_config, features:
         {
           "ownership_details" => false
         })
     end
+    let(:application_type) { create(:application_type, config:, local_authority: default_local_authority) }
 
     it "does not provide a section for checking ownership details in assessment" do
       expect(page).not_to have_content("Check ownership certificate")

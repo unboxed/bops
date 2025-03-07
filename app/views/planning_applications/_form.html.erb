@@ -8,7 +8,7 @@
   <div class="govuk-form-group">
     <% if action_name == "new" || action_name == "create" %>
       <div class="govuk-form-group govuk-!-margin-bottom-4">
-        <%= form.govuk_select(:application_type_id, ApplicationType::Config.menu, options: {include_blank: true}, label: {text: "Application type"}) %>
+        <%= form.govuk_select(:application_type_id, current_local_authority.application_types.menu, options: {include_blank: true}, label: {text: "Application type"}) %>
       </div>
 
       <p class="govuk-body">
@@ -24,7 +24,7 @@
         <% end %>
       </p>
 
-      <%= form.govuk_select(:application_type_id, ApplicationType::Config.menu(type: @planning_application.application_type.name), label: {text: "Application type"}) %>
+      <%= form.govuk_select(:application_type_id, current_local_authority.application_types.menu(type: @planning_application.application_type.name), label: {text: "Application type"}) %>
     <% end %>
   </div>
   <div class="govuk-form-group govuk-!-margin-top-8">

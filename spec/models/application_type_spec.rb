@@ -2,192 +2,16 @@
 
 require "rails_helper"
 
-RSpec.describe ApplicationType::Config do
-  describe "#validations" do
-    subject(:application_type) { described_class.new }
-
-    describe "#name" do
-      it "validates presence" do
-        expect { application_type.valid? }.to change { application_type.errors[:name] }.to ["can't be blank"]
-      end
-    end
-
-    describe "#code" do
-      it "validates presence" do
-        expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["Select an application type name"]
-      end
-
-      context "when the code isn't in the allowed list" do
-        subject(:application_type) { described_class.new(code: "pp.invalid") }
-
-        it "validates inclusion" do
-          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["Select a valid application type name"]
-        end
-      end
-
-      context "when the code already exists" do
-        subject(:application_type) { described_class.new(code: "pp.full.householder") }
-
-        before do
-          create(:application_type, :planning_permission)
-        end
-
-        it "validates uniqueness" do
-          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["There is already an application type for that name"]
-        end
-      end
-
-      context "when an application type is inactive" do
-        subject(:application_type) { create(:application_type, :ldc_proposed, status: "inactive") }
-
-        before do
-          application_type.code = "ldc"
-        end
-
-        it "allows the updating of the code" do
-          expect { application_type.valid? }.not_to change { application_type.errors[:code] }.from []
-        end
-      end
-
-      context "when an application type is active" do
-        subject(:application_type) { create(:application_type, :ldc_proposed, status: "active") }
-
-        before do
-          application_type.code = "ldc"
-        end
-
-        it "prevents the updating of the code" do
-          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["The name can't be changed when the application type is active"]
-        end
-      end
-
-      context "when an application type is retired" do
-        subject(:application_type) { create(:application_type, :ldc_proposed, status: "retired") }
-
-        before do
-          application_type.code = "ldc"
-        end
-
-        it "prevents the updating of the code" do
-          expect { application_type.valid? }.to change { application_type.errors[:code] }.to ["The name can't be changed when the application type is retired"]
-        end
-      end
-    end
-
-    describe "#suffix" do
-      it "validates presence" do
-        expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["Enter a suffix for the application number"]
-      end
-
-      context "when the suffix is too short" do
-        subject(:application_type) { described_class.new(suffix: "P") }
-
-        it "validates length" do
-          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must be at least 2 characters long"]
-        end
-      end
-
-      context "when the suffix is too long" do
-        subject(:application_type) { described_class.new(suffix: "PPPPPPP") }
-
-        it "validates length" do
-          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must be at most 6 characters long"]
-        end
-      end
-
-      context "when the suffix uses invalid characters" do
-        subject(:application_type) { described_class.new(suffix: "pppp") }
-
-        it "validates format" do
-          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix must only use uppercase letters and numbers"]
-        end
-      end
-
-      context "when the suffix already exists" do
-        subject(:application_type) { described_class.new(suffix: "LDCP") }
-
-        before do
-          create(:application_type, :ldc_proposed)
-        end
-
-        it "validates uniqueness" do
-          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["There is already an application type with that suffix"]
-        end
-      end
-
-      context "when an application type is inactive" do
-        subject(:application_type) { create(:application_type, :ldc_proposed, status: "inactive") }
-
-        before do
-          application_type.suffix = "LDC"
-        end
-
-        it "allows the updating of the suffix" do
-          expect { application_type.valid? }.not_to change { application_type.errors[:suffix] }.from []
-        end
-      end
-
-      context "when an application type is active" do
-        subject(:application_type) { create(:application_type, :ldc_proposed, status: "active") }
-
-        before do
-          application_type.suffix = "LDC"
-        end
-
-        it "prevents the updating of the suffix" do
-          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix can't be changed when the application type is active"]
-        end
-      end
-
-      context "when an application type is retired" do
-        subject(:application_type) { create(:application_type, :ldc_proposed, status: "retired") }
-
-        before do
-          application_type.suffix = "LDC"
-        end
-
-        it "prevents the updating of the suffix" do
-          expect { application_type.valid? }.to change { application_type.errors[:suffix] }.to ["The suffix can't be changed when the application type is retired"]
-        end
-      end
-    end
-
-    describe "#features" do
-      describe "#consultation_steps" do
-        let(:application_type) { described_class.new(features: {consultation_steps: ["Invalid"]}) }
-
-        it "validates the steps" do
-          expect { application_type.valid? }.to change { application_type.features.errors[:consultation_steps] }.to ["contains invalid steps: Invalid"]
-        end
-      end
-    end
-
-    describe "#legislation" do
-      context "when status is active" do
-        let(:application_type) { build(:application_type, :active, :without_legislation) }
-
-        it "validates presence" do
-          expect { application_type.valid? }.to change { application_type.errors[:legislation] }.to ["The legislation must be set when an application type is made active"]
-        end
-      end
-
-      context "when status is not active" do
-        let(:application_type) { build(:application_type, :inactive, :without_legislation) }
-
-        it "does not validate presence" do
-          expect { application_type.valid? }.not_to change { application_type.errors[:legislation] }
-        end
-      end
-    end
-  end
-
+RSpec.describe ApplicationType do
   describe "class methods" do
     describe "#menu" do
-      let!(:lawfulness_certificate) { create(:application_type) }
-      let!(:prior_approval) { create(:application_type, :prior_approval) }
+      let!(:local_authority) { create(:local_authority) }
+      let!(:lawfulness_certificate) { create(:application_type, local_authority:) }
+      let!(:prior_approval) { create(:application_type, :prior_approval, local_authority:) }
+      subject { local_authority.application_types }
 
       it "returns an array of application type names (humanized) and ids" do
-        expect(described_class.menu).to eq(
+        expect(subject.menu).to eq(
           [
             ["Prior Approval - Larger extension to a house", prior_approval.id],
             ["Lawful Development Certificate - Existing use", lawfulness_certificate.id]
@@ -196,13 +20,13 @@ RSpec.describe ApplicationType::Config do
       end
 
       context "when provided an application type name" do
-        let!(:ldc_proposed) { create(:application_type, :ldc_proposed) }
-        let!(:prior_approval_part_14) { create(:application_type, :pa_part_14_class_j) }
-        let!(:householder) { create(:application_type, :householder) }
-        let!(:householder_retrospective) { create(:application_type, :householder_retrospective) }
+        let!(:ldc_proposed) { create(:application_type, :ldc_proposed, local_authority:) }
+        let!(:prior_approval_part_14) { create(:application_type, :pa_part_14_class_j, local_authority:) }
+        let!(:householder) { create(:application_type, :householder, local_authority:) }
+        let!(:householder_retrospective) { create(:application_type, :householder_retrospective, local_authority:) }
 
         it "returns an array of application type names and ids for ldcs only" do
-          expect(described_class.menu(type: lawfulness_certificate.name)).to eq(
+          expect(subject.menu(type: lawfulness_certificate.name)).to eq(
             [
               ["Lawful Development Certificate - Existing use", lawfulness_certificate.id],
               ["Lawful Development Certificate - Proposed use", ldc_proposed.id]
@@ -211,7 +35,7 @@ RSpec.describe ApplicationType::Config do
         end
 
         it "returns an array of application type names and ids for prior approvals only" do
-          expect(described_class.menu(type: prior_approval.name)).to eq(
+          expect(subject.menu(type: prior_approval.name)).to eq(
             [
               ["Prior Approval - Install or change solar panels", prior_approval_part_14.id],
               ["Prior Approval - Larger extension to a house", prior_approval.id]
@@ -220,49 +44,12 @@ RSpec.describe ApplicationType::Config do
         end
 
         it "returns an array of application type names and ids for householder only" do
-          expect(described_class.menu(type: householder.name)).to eq(
+          expect(subject.menu(type: householder.name)).to eq(
             [
               ["Planning Permission - Full householder", householder.id],
               ["Planning Permission - Full householder retrospective", householder_retrospective.id]
             ]
           )
-        end
-      end
-    end
-  end
-
-  describe "legislation details" do
-    context "when planning application type has legislation details" do
-      let(:legislation) { create(:legislation, :pa_part1_classA) }
-      let(:application_type) { create(:application_type, :prior_approval, part: 1, section: "A", legislation:) }
-
-      describe "legislation_title" do
-        it "returns the legislation title" do
-          expect(application_type.legislation_title).to eq("The Town and Country Planning (General Permitted Development) (England) Order 2015 Part 1, Class A")
-        end
-      end
-
-      describe "legislation_link" do
-        it "returns the legislation link" do
-          expect(application_type.legislation_link).to eq("https://www.legislation.gov.uk/uksi/2015/596/schedule/2")
-        end
-      end
-
-      describe "legislation_description" do
-        it "returns the legislation description" do
-          expect(application_type.legislation_description).to eq("Review Condition A.4 of GPDO 2015 (as amended) Schedule 2, Part 1, Class A.")
-        end
-      end
-    end
-
-    context "when planning application type has no legislation details" do
-      let!(:application_type) { create(:application_type, :inactive, :without_legislation) }
-
-      %w[legislation_link legislation_title legislation_description].each do |legislation_detail|
-        describe legislation_detail.to_s do
-          it "returns nil" do
-            expect(application_type.send(legislation_detail)).to be(nil)
-          end
         end
       end
     end

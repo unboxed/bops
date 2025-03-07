@@ -83,7 +83,7 @@ RSpec.describe "Legislation", type: :system do
   end
 
   it "allows viewing the associated application types" do
-    application_type = create(:application_type, :ldc_proposed, legislation:)
+    application_type = create(:application_type_config, :ldc_proposed, legislation:)
 
     visit "/legislation/#{legislation.id}/edit"
     expect(page).to have_selector("h2", text: "Application types with this legislation")

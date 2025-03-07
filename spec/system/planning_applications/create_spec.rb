@@ -7,8 +7,8 @@ RSpec.describe "Creating a planning application", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor1) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
   let!(:reviewer1) { create(:user, :reviewer, local_authority: default_local_authority, name: "Reviewer 1") }
-  let!(:ldc_existing) { create(:application_type, :ldc_existing) }
-  let!(:ldc_proposed) { create(:application_type, :ldc_proposed) }
+  let!(:ldc_existing) { create(:application_type, :ldc_existing, local_authority: default_local_authority) }
+  let!(:ldc_proposed) { create(:application_type, :ldc_proposed, local_authority: default_local_authority) }
 
   before do
     sign_in assessor1
