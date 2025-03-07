@@ -71,7 +71,7 @@ module BopsConfig
     end
 
     def build_application_type
-      @application_type = ApplicationType.new
+      @application_type = ApplicationType::Config.new
     end
 
     def next_path
@@ -83,11 +83,11 @@ module BopsConfig
     end
 
     def set_application_types
-      @application_types = ApplicationType.by_name
+      @application_types = ApplicationType::Config.by_name
     end
 
     def set_application_type
-      @application_type = ApplicationType.find(application_type_id)
+      @application_type = ApplicationType::Config.find(application_type_id)
     end
   end
 end

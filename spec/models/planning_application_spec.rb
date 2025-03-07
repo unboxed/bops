@@ -396,7 +396,7 @@ RSpec.describe PlanningApplication do
 
           travel_to("2023-02-01") do
             expect do
-              ldc_planning_application.update!(application_type_id: ApplicationType.find_by(name: "prior_approval").id)
+              ldc_planning_application.update!(application_type_id: ApplicationType::Config.find_by(name: "prior_approval").id)
             end.to change(Audit, :count)
               .by(1)
               .and change(ldc_planning_application, :reference)

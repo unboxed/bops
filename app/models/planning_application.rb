@@ -120,13 +120,13 @@ class PlanningApplication < ApplicationRecord
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
-  belongs_to :application_type
+  belongs_to :application_type, class_name: "ApplicationType::Config"
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
   scope :by_latest_received_and_created, -> { order(received_at: :desc, created_at: :desc) }
   scope :by_latest_published, -> { order(published_at: :desc) }
-  scope :by_application_type, -> { joins(:application_type).in_order_of(:name, ApplicationType::NAME_ORDER) }
+  scope :by_application_type, -> { joins(:application_type).in_order_of(:name, ApplicationType::Config::NAME_ORDER) }
   scope :by_status_order, -> { in_order_of(:status, PlanningApplication.aasm.states.map(&:name)) }
   scope :with_user, -> { preload(:user) }
   scope :for_user, ->(user_id) { where(user_id: user_id) }
@@ -661,7 +661,7 @@ class PlanningApplication < ApplicationRecord
 
   delegate :name, to: :application_type, prefix: true
 
-  ApplicationType::NAME_ORDER.each do |name|
+  ApplicationType::Config::NAME_ORDER.each do |name|
     define_method :"#{name}?" do
       name == application_type_name
     end
@@ -1069,7 +1069,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def audit_update_application_type!
-    old_application_type = ApplicationType.find(changes["application_type_id"].first)
+    old_application_type = ApplicationType::Config.find(changes["application_type_id"].first)
     old_reference = reference
 
     transaction do

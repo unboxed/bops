@@ -168,7 +168,7 @@ en:
               date_invalid: The date the appeal was valid must be a valid date
               date_not_on_or_after: The date the appeal was valid must be on or after the lodged at date
               date_not_on_or_before: The date the appeal was valid must be on or before today
-        application_type:
+        application_type/config:
           attributes:
             category:
               blank: A category must be chosen

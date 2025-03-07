@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_28_161501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -81,6 +81,31 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_appeals_on_planning_application_id"
+  end
+
+  create_table "application_type_configs", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "part"
+    t.string "section"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "assessment_details", array: true
+    t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
+    t.string "consistency_checklist", array: true
+    t.jsonb "document_tags", default: {}, null: false
+    t.jsonb "features", default: {}
+    t.string "status", default: "inactive", null: false
+    t.string "code", null: false
+    t.string "suffix", null: false
+    t.integer "determination_period_days"
+    t.bigint "legislation_id"
+    t.boolean "configured", default: false, null: false
+    t.string "category"
+    t.string "reporting_types", default: [], null: false, array: true
+    t.string "decisions", default: [], null: false, array: true
+    t.index ["code"], name: "ix_application_type_configs_on_code", unique: true, where: "((status)::text <> 'retired'::text)"
+    t.index ["legislation_id"], name: "ix_application_type_configs_on_legislation_id"
+    t.index ["suffix"], name: "ix_application_type_configs_on_suffix", unique: true
   end
 
   create_table "application_types", force: :cascade do |t|
@@ -1131,6 +1156,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_18_160812) do
   add_foreign_key "additional_services", "planning_applications"
   add_foreign_key "api_users", "local_authorities"
   add_foreign_key "appeals", "planning_applications"
+  add_foreign_key "application_type_configs", "legislation"
   add_foreign_key "application_types", "legislation"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"
