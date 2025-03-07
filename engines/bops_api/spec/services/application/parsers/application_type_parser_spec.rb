@@ -10,7 +10,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
 
     let(:parse_application_type) do
-      described_class.new(params).parse
+      described_class.new(params, local_authority: local_authority).parse
     end
 
     context "when application type is LDCE" do
