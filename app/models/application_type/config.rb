@@ -209,6 +209,10 @@ class ApplicationType < ApplicationRecord
       end
     end
 
+    def model_name
+      @_model_name ||= ActiveModel::Name.new(self, nil, "ApplicationType")
+    end
+
     def activating?
       status_changed? && active?
     end
