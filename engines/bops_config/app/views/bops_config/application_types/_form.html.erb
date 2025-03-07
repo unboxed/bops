@@ -2,7 +2,7 @@
   <%= form.govuk_error_summary %>
 
   <div data-controller="autocomplete-select">
-    <%= form.govuk_select :code, ApplicationType.code_menu,
+    <%= form.govuk_select :code, ApplicationType::Config.code_menu,
           label: {text: t(".code_label"), tag: "h2", size: "m"},
           hint: {text: t(".code_hint")},
           options: {include_blank: true} %>

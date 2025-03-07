@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer"
+        },
+        "results": {
+          "type": "integer"
+        },
+        "from": {
+          "type": "integer"
+        },
+        "to": {
+          "type": "integer"
+        },
+        "total_pages": {
+          "type": "integer"
+        },
+        "total_results": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "page",
+        "results",
+        "from",
+        "to",
+        "total_pages",
+        "total_results"
+      ]
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        },
+        "prev": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "next": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "first",
+        "last",
+        "prev",
+        "next"
+      ]
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "planning_application": {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "type": "string"
+              }
+            }
+          },
+          "type": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "post_validation": {
+            "type": ["boolean", "null"]
+          },
+          "created_at": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "notified_at": {
+            "format": "datetime",
+            "type": ["string", "null"]
+          },
+          "reason": {
+            "type": ["null", "string"]
+          },
+          "response_due": {
+            "type": "string",
+            "format": "date"
+          },
+          "response": {
+            "type": ["null", "string"]
+          },
+          "rejection_reason": {
+            "type": ["null", "string"]
+          },
+          "approved": {
+            "type": ["boolean", "null"]
+          },
+          "cancel_reason": {
+            "type": ["null", "string"]
+          },
+          "cancelled_at": {
+            "format": "datetime",
+            "type": ["string", "null"]
+          },
+          "closed_at": {
+            "format": "datetime",
+            "type": ["string", "null"]
+          },
+          "specific_attributes": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "type",
+          "state",
+          "post_validation",
+          "created_at",
+          "notified_at",
+          "reason",
+          "response_due",
+          "approved",
+          "closed_at",
+          "specific_attributes"
+        ]
+      }
+    }
+  },
+  "required": [
+    "metadata",
+    "links",
+    "data"
+  ]
+}

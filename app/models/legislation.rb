@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Legislation < ApplicationRecord
-  has_many :application_types, dependent: :restrict_with_error
+  has_many :application_types, class_name: "ApplicationType::Config", dependent: :restrict_with_error
 
   validates :title, presence: true
   validates :title, uniqueness: true

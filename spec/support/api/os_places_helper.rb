@@ -22,6 +22,21 @@ module OsPlacesHelper
     stub_request(:get, "https://api.os.uk/search/places/v1/find").with(query: hash_including({}))
   end
 
+  def stub_any_os_vector_request
+    stub_request(:get, /https:\/\/api\.os\.uk\/maps\/vector\/v1\/vts.*/)
+      .with(
+        headers: {
+          "Key" => "testtest",
+          "Accept" => "application/octet-stream"
+        }
+      )
+      .to_return(
+        status: 200,
+        body: "mock tile data",
+        headers: {"Content-Type" => "application/octet-stream"}
+      )
+  end
+
   def os_places_api_response(status)
     status = Rack::Utils.status_code(status)
 
@@ -77,6 +92,8 @@ if RSpec.respond_to?(:configure)
     config.before do |example|
       unless example.metadata[:exclude_stub_any_os_places_api_request]
         stub_any_os_places_api_request.to_return(os_places_api_response(:ok))
+
+        stub_any_os_vector_request
       end
     end
   end

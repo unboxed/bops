@@ -13,7 +13,7 @@
       <%= form.govuk_error_summary %>
 
       <%= form.govuk_collection_radio_buttons :category,
-            ApplicationType.categories, :first, ->((k)) { t(".category_labels.#{k}") },
+            ApplicationType::Config.categories, :first, ->((k)) { t(".category_labels.#{k}") },
             legend: {text: t(".category_legend_html", description: @application_type.description)},
             hint: {text: t(".category_hint"), size: "l"},
             small: false, class: "govuk-!-column-count-2 govuk-!-margin-top-5" %>

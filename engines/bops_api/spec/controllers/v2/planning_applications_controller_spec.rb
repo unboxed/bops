@@ -63,7 +63,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
     end
   end
 
-  %w[v0.7.1 v0.7.2].each do |version|
+  %w[v0.7.1 v0.7.2 v0.7.3].each do |version|
     describe "ODP Schema #{version}" do
       %w[
         application/landDrainageConsent.json

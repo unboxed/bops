@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "integer"
+        },
+        "totalResults": {
+          "type": "integer"
+        }
+      },
+      "required": ["results", "totalResults"]
+    },
+    "application": {
+      "$ref": "#/definitions/ApplicationOverview"
+    },
+    "files": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "format": "url"
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": ["value", "description"]
+              }
+            },
+            "createdAt": {
+              "format": "datetime",
+              "type": ["string", "null"]
+            },
+            "applicantDescription": {
+              "type": ["string","null"]
+            },
+            "metadata": {
+              "type": "object",
+              "properties": {
+                "byteSize": {
+                  "type": "number"
+                },
+                "contentType": {
+                  "type": "string"
+                }
+              },
+              "required": ["byteSize", "contentType"]
+            }
+          },
+          "required": ["name", "url", "type", "metadata"]
+        }
+      ]
+    },
+    "decisionNotice": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "url"]
+    }
+  },
+  "required": ["metadata", "application", "files"]
+}

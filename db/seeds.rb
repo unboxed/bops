@@ -51,7 +51,7 @@ fixture["reporting_types"].each do |attrs|
 end
 
 fixture["application_types"].each do |attrs|
-  ApplicationType.find_or_create_by!(attrs.slice("code")) do |application_type|
+  ApplicationType::Config.find_or_create_by!(attrs.slice("code")) do |application_type|
     application_type.assign_attributes(attrs)
   end
 end

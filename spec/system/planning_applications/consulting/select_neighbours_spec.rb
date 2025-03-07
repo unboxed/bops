@@ -31,10 +31,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
-    ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
-    allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double(Faraday::Response, status: 200, body: "some data"))
-    allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).and_return(Faraday.new.get)
-    allow_any_instance_of(Apis::Mapit::Query).to receive(:fetch).and_return(Faraday.new.get)
+    Rails.configuration.os_vector_tiles_api_key = "testtest"
 
     stub_any_os_places_api_request
 
