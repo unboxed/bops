@@ -6,7 +6,7 @@
 
 <% content_for :title, t(".title") %>
 
-<% ApplicationType.outstanding.tap do |outstanding| %>
+<% ApplicationType::Config.outstanding.tap do |outstanding| %>
   <% if outstanding.count.nonzero? %>
     <%= govuk_notification_banner(title_text: t(".outstanding_header"), text: t(".outstanding_count", count: outstanding.count)) %>
   <% end %>

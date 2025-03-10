@@ -67,4 +67,8 @@ module ApplicationHelper
 
     CommonMarker.render_html(text).html_safe
   end
+
+  def os_proxy_endpoint
+    "#{request.protocol}#{request.host_with_port}/map_proxy"
+  end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Decision < ApplicationRecord
-  enum :category, ApplicationType.categories
+  enum :category, ApplicationType::Config.categories
   enum :code, %i[granted not_required refused].index_with(&:to_s)
 
   with_options presence: true do

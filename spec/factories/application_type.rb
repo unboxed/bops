@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :application_type do
+  factory :application_type, class: "ApplicationType::Config" do
     lawfulness_certificate
     legislation
 
@@ -602,6 +602,6 @@ FactoryBot.define do
       status { "inactive" }
     end
 
-    initialize_with { ApplicationType.find_or_create_by(code:) }
+    initialize_with { ApplicationType::Config.find_or_create_by(code:) }
   end
 end

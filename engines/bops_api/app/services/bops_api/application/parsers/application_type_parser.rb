@@ -17,7 +17,7 @@ module BopsApi
         private
 
         def application_type
-          ApplicationType.active.find_by!(code: params[:value])
+          ApplicationType::Config.active.find_by!(code: params[:value])
         end
       end
     end

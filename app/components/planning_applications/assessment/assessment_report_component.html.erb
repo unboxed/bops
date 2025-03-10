@@ -56,11 +56,9 @@
           PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
         ) %>
     <p class="govuk-body"><strong>On the balance of probabilities, is the development immune from enforcement action?</strong></p>
-    <p class="govuk-body">
-      <strong><%= review_immunity_detail.decision %></strong><br>
-      <%= review_immunity_detail.decision_reason %>
-    </p>
-    <p class="govuk-body"><%= review_immunity_detail.summary %></p>
+    <p class="govuk-body">Decision: <%= review_immunity_detail.decision %></p>
+    <p class="govuk-body">Reason: <%= review_immunity_detail.decision_reason %></p>
+    <p class="govuk-body">Summary: <%= review_immunity_detail.summary %></p>
   </section>
 <% end %>
 <% if permitted_development_right.persisted? %>

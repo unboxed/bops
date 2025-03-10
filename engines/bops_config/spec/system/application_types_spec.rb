@@ -510,6 +510,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   it "allows editing of the features" do
     application_type = create(
       :application_type, :configured, :ldc_proposed,
+      steps: %w[validation consultation assessment review],
       features: {
         "informatives" => true,
         "planning_conditions" => true,
