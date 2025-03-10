@@ -1418,6 +1418,10 @@ en:
       report_downloads:
         show:
           assessment_report: Assessment report
+      requirements:
+        create:
+          failure: Requirement already added
+          success: Requirements successfully added
       site_histories:
         confirm:
           success: Site history has been confirmed
@@ -2074,7 +2078,7 @@ en:
   requirements:
     categories:
       drawings: Drawings
-      evidence: evidence
+      evidence: Evidence
       other: Other requirements
       supporting_documents: Supporting documents
   response_tag_component:

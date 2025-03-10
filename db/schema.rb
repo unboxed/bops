@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_28_161501) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_03_152123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -805,6 +805,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_28_161501) do
     t.index ["policy_section_id"], name: "ix_planning_application_policy_sections_on_policy_section_id"
   end
 
+  create_table "planning_application_requirements", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.string "description", null: false
+    t.string "url"
+    t.text "guidelines"
+    t.text "additional_comments"
+    t.string "source", default: "BOPS"
+    t.string "category", limit: 30
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_planning_application_requirements_on_planning_application_id"
+  end
+
   create_table "planning_applications", force: :cascade do |t|
     t.date "target_date", null: false
     t.string "status", default: "pending", null: false
@@ -1223,6 +1236,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_28_161501) do
   add_foreign_key "planning_application_policy_classes", "policy_classes"
   add_foreign_key "planning_application_policy_sections", "planning_applications"
   add_foreign_key "planning_application_policy_sections", "policy_sections"
+  add_foreign_key "planning_application_requirements", "planning_applications"
   add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "local_authorities"
   add_foreign_key "planning_applications", "users"

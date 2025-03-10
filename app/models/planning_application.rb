@@ -61,6 +61,7 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_policy_sections, -> { by_id }
     has_many :policy_sections, through: :planning_application_policy_sections
     has_many :additional_services
+    has_many :requirements, class_name: "PlanningApplication::Requirement"
 
     with_options required: false do
       has_one :appeal

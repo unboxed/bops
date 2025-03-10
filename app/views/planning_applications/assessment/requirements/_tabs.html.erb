@@ -1,0 +1,41 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <p class="govuk-body">
+      This section is to select requirements to add to the list.
+    </p>
+    <div class="govuk-tabs" data-module="govuk-tabs">
+    <%= form_with method: :post, url: planning_application_assessment_requirements_path do |form| %>
+      <%= govuk_tabs do |tabs| %>
+        <% @categories.each do |category| %>
+          <% tabs.with_tab(label: category.humanize) do %>
+            <% if @requirements.where(category: category).length > 0 %>
+                <div class="govuk-checkboxes govuk-checkboxes--small">
+                  <%= form.collection_check_boxes :requirement_ids,
+                        @requirements.where(category: category),
+                        :id,
+                        :description,
+                        legend: {text: category.humanize},
+                        small: true do |b| %>
+                    <div class="govuk-checkboxes__item">
+                      <% requirement_added = @existing_requirements.include?(b.object.description) %>
+                      <%= b.check_box(class: "govuk-checkboxes__input", checked: requirement_added, disabled: requirement_added) %>
+                      <%= b.label(class: "govuk-label govuk-checkboxes__label") do %>
+                      <%= b.object.description %>
+                    <% end %>
+                    </div>
+                  <% end %>
+                </div>
+            <% else %>
+              <p class="govuk-body">There are no requirements of this type available.</p>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <div class="govuk-!-margin-top-4">
+        <%= form.govuk_submit("Add requirements") %>
+        <%= govuk_button_link_to t("back"), planning_application_assessment_requirements_path, secondary: true %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</div>

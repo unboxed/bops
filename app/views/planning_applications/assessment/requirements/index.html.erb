@@ -1,0 +1,43 @@
+<% content_for :page_title do %>
+  Check and add requirements - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Check and add requirements" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Check and add requirements"}
+    ) %>
+
+<% if @planning_application.requirements.length > 0 %>
+  <% @categories.each do |category| %>
+    <div id="<%= category %>-card" class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">
+          <%= category.humanize %>
+        </h2>
+      </div>
+          <%= render("table", requirements: @planning_application.requirements.where(category: category)) %>
+    </div>
+  <% end %>
+  <hr>
+  <details class="govuk-details govuk-!-margin-top-5">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Add another requirement
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <%= render("tabs") %>
+    </div>
+  </details>
+<% else %>
+  <%= render("tabs") %>
+<% end %>
+
+<%= back_link %>
