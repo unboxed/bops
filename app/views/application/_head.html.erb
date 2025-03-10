@@ -12,7 +12,7 @@
   <%= favicon_link_tag("b-mask-icon.svg", rel: "mask-icon") %>
 
   <%= stylesheet_link_tag "application", media: "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "application", nonce: true %>
 
   <% if gtmid = Rails.configuration.google_tag_manager_id %>
     <!-- Google Tag Manager -->
