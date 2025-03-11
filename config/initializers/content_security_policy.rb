@@ -17,11 +17,11 @@ uploads_hostname = Rails.configuration.uploads_hostname
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self, :https
-  policy.font_src :self, :https, :data
+  policy.font_src :self
   policy.img_src :self, :https, :data, uploads_hostname, google_tag_manager_hostname, *google_analytics_hostnames
   policy.object_src :none
-  policy.script_src :self, :https, google_tag_manager_hostname, *google_analytics_hostnames
-  policy.style_src :self, :https, :unsafe_inline, google_tag_manager_hostname
+  policy.script_src :self, google_tag_manager_hostname, *google_analytics_hostnames
+  policy.style_src :self, :unsafe_inline, google_tag_manager_hostname
   policy.connect_src :self, :https, google_tag_manager_hostname, *google_analytics_hostnames
 end
 
