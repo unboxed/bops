@@ -1431,6 +1431,12 @@ en:
         create:
           failure: Requirement already added
           success: Requirements successfully added
+        destroy:
+          failure: Unable to remove requirement
+          success: Requirement successfully removed
+        update:
+          failure: Unable to update requirement
+          success: Requirement successfully updated
       site_histories:
         confirm:
           success: Site history has been confirmed

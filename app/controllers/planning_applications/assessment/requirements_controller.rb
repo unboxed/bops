@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class RequirementsController < BaseController
       before_action :set_requirements, only: %i[index create]
+      before_action :set_requirement, only: %i[update edit destroy]
 
       def index
         @categories = LocalAuthority::Requirement.categories
@@ -31,10 +32,44 @@ module PlanningApplications
         end
       end
 
+      def edit
+        respond_to do |format|
+          format.html
+        end
+      end
+
+      def update
+        @requirement.update!(planning_application_requirement_params)
+        redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+
+        respond_to do |format|
+          format.html
+        end
+      end
+
+      def destroy
+        if @requirement.destroy
+          redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+        else
+          redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".failure")
+        end
+        respond_to do |format|
+          format.html
+        end
+      end
+
       private
 
       def set_requirements
         @requirements = @planning_application.local_authority.requirements
+      end
+
+      def set_requirement
+        @requirement = @planning_application.requirements.find(params[:id])
+      end
+
+      def planning_application_requirement_params
+        params.require(:planning_application_requirement).permit(:url, :guidelines)
       end
     end
   end

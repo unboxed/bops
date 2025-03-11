@@ -80,5 +80,33 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
         expect(page).to have_text("No requirements of this type selected")
       end
     end
+
+    it "allows me to edit a requirement" do
+      within("#evidence-card") do
+        click_link("Edit")
+      end
+
+      expect(page).to have_selector("h1", text: "Edit requirement")
+      expect(page).to have_content(requirement3.description)
+      fill_in "Guidelines URL", with: "www.example.southwark.gov.uk"
+
+      click_button "Save"
+
+      expect(page).to have_content("Requirement successfully updated")
+    end
+
+    it "allows me to remove a requirement" do
+      accept_alert(text: "Are you sure you want to remove this requirement?") do
+        within("#evidence-card") do
+          click_link("Remove")
+        end
+      end
+
+      expect(page).to have_content("Requirement successfully removed")
+
+      within("#evidence-card") do
+        expect(page).not_to have_content(requirement3.description)
+      end
+    end
   end
 end

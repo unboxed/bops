@@ -2,17 +2,22 @@
 
 module StatusTags
   class RequirementsComponent < StatusTags::BaseComponent
-    def initialize(requirements:)
-      @requirements = requirements
+    def initialize(planning_application:, requirements:)
+      @planning_application = planning_application
+      @requirements = @planning_application.requirements
       super(status:)
     end
 
     private
 
-    attr_reader :requirements
+    attr_reader :planning_application_requirement
 
     def status
-      :not_started
+      if @requirements.any?
+        :complete
+      else
+        :not_started
+      end
     end
   end
 end
