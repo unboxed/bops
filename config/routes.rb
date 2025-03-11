@@ -164,7 +164,7 @@ Rails.application.routes.draw do
             concerns :positionable, module: :terms
           end
 
-          resources :requirements, only: %i[index edit update create]
+          resources :requirements, only: %i[index edit update create destroy]
 
           resources :recommendations, only: %i[new create update]
           resource :recommendations, only: %i[edit]
