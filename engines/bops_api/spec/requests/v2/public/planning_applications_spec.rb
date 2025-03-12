@@ -63,7 +63,7 @@ RSpec.describe "BOPS public API" do
       it "validates successfully against the example search json" do
         resolved_schema = load_and_resolve_schema(name: "search", version: BopsApi::Schemas::DEFAULT_ODP_VERSION)
         schemer = JSONSchemer.schema(resolved_schema)
-        example_json = example_fixture("search.json")
+        example_json = example_fixture("public/search.json")
 
         expect(schemer.valid?(example_json)).to eq(true)
       end
@@ -170,7 +170,7 @@ RSpec.describe "BOPS public API" do
 
       response "200", "returns planning applications when searching by a reference or description" do
         schema "$ref" => "#/components/schemas/Search"
-        example "application/json", :default, example_fixture("search.json")
+        example "application/json", :default, example_fixture("public/search.json")
 
         let(:page) { 2 }
         let(:maxresults) { 2 }
@@ -206,7 +206,7 @@ RSpec.describe "BOPS public API" do
       }
 
       response "200", "returns a planning application given a reference" do
-        example "application/json", :default, example_fixture("show.json")
+        example "application/json", :default, example_fixture("public/show.json")
 
         let!(:planning_application) { planning_applications.first }
         let!(:appeal) { create(:appeal, planning_application:) }
@@ -216,6 +216,8 @@ RSpec.describe "BOPS public API" do
           data = JSON.parse(response.body)
           expect(data["application"]["reference"]).to eq(planning_application.reference)
           expect(data["application"]["status"]).to eq("Appeal lodged")
+          expect(data["data"]["appeal"]["reason"]).not_to be_empty
+          expect(data["data"]["appeal"]["lodgedDate"]).to match(/\d{4}-\d{2}-\d{2}/)
 
           expect(data["officer"]["name"]).to eq(planning_application.user.name)
 
