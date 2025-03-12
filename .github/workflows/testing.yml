@@ -35,12 +35,6 @@ on:
         required: false
         default: ""
 
-    secrets:
-      NOTIFY_API_KEY:
-        required: true
-      OTP_SECRET_ENCRYPTION_KEY:
-        required: true
-
 jobs:
   tests:
     name: ${{ inputs.name }}
@@ -123,9 +117,7 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          NOTIFY_LETTER_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
+          OTP_SECRET_ENCRYPTION_KEY: testtest
           SPEC_OPTS: '-f doc --force-color --exclude "${{ inputs.exclude }}" --pattern "${{ inputs.include }}" ${{ inputs.additional_spec_opts }}'
         run: |
           bundle exec rake spec
@@ -159,8 +151,7 @@ jobs:
           CUCUMBER_FORMAT: pretty
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
+          OTP_SECRET_ENCRYPTION_KEY: testtest
         run: |
           bundle exec cucumber
 
