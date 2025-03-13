@@ -47,6 +47,9 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       PUPPETEER_SKIP_DOWNLOAD: true
+      SE_BROWSER_VERSION: 131.0.6778.139
+      SE_DRIVER_VERSION: 131.0.6778.139
+      SE_FORCE_BROWSER_DOWNLOAD: true
 
     services:
       postgres:
