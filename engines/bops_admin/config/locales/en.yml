@@ -7,6 +7,86 @@ en:
         consultees: Consultees
         profile: Profile
         users: Users
+    application_types:
+      determination_periods:
+        edit:
+          continue: Continue
+          days: days
+          determination_period: Determination period
+          hint: Choose the length of the determination period for this type of application.
+          set_determination_period: Set determination period
+          set_determination_period_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Set determination period
+            </h1>
+        update:
+          success: Determination period successfully updated
+      index:
+        create_new_application_type: Create new application type
+        outstanding_count:
+          one: There is 1 outstanding application type to configure
+          other: There are %{count} outstanding application types to configure
+          zero: There are no outstanding application types to configure
+        outstanding_header: Important
+        tabs:
+          active: Active
+          inactive: Inactive
+          retired: Retired
+        title: Application Types
+      show:
+        back: Back
+        categories:
+          advertisment: Advertisment
+          certificate_of_lawfulness: Lawful Development Certificate
+          change_of_use: Change of Use
+          conservation_area: Conservation Area
+          full: Full Planning Permission
+          hedgerows: Hedgerows
+          householder: Householder
+          listed_building: Listed Building
+          non_material_amendment: Non-material Amendment
+          other: Other
+          outline: Outline Planning Permission
+          prior_approval: Prior Approval
+          reserved_matters: Reserved Matters
+          tree_works: Tree Works
+        category: Category
+        change: Change
+        decisions: Decisions
+        determination_period: Determination period
+        determination_period_including_bank_holidays:
+          one: 1 day - bank holidays included
+          other: "%{count} days - bank holidays included"
+        edit: Edit
+        features: Features
+        groups:
+          drawings: Drawings
+          evidence: Evidence
+          supporting_documents: Supporting documents
+        legislation: Legislation
+        links:
+          drawings: drawing tags
+          evidence: evidence tags
+          supporting_documents: supporting document tags
+        name: Name
+        reporting: Reporting
+        review_application_type: Review the application type
+        status: Status
+        suffix: Suffix
+        tags: Tags
+      table:
+        action: Action
+        deprecated: Deprecated
+        name: Name
+        no_application_types: There are no %{state} application types
+        status: Status
+        suffix: Suffix
+        view_and_or_edit: View and/or edit
+      update:
+        success: Application profile successfully updated
     consultees:
       create:
         consultee_successfully_created: Consultee successfully created
