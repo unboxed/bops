@@ -8,10 +8,6 @@ BopsAdmin::Engine.routes.draw do
 
   resources :consultees, except: %i[show]
 
-  resource :setting, only: %i[show] do
-    resource :determination_period, only: %i[edit update]
-  end
-
   with_options except: %i[show] do
     resources :informatives
     resources :requirements
