@@ -22,6 +22,8 @@ class Consideration < ApplicationRecord
     attribute :url, :string
   end
 
+  attr_accessor :draft
+
   attribute :policy_references, PolicyReference.to_array_type
   attribute :policy_guidance, PolicyGuidance.to_array_type
   attribute :reviewer_edited, :boolean, default: false
@@ -33,8 +35,7 @@ class Consideration < ApplicationRecord
   acts_as_list scope: :consideration_set
 
   validates :policy_area, presence: true, uniqueness: {scope: :consideration_set}
-  validates :policy_references, presence: true
-  validates :assessment, :conclusion, presence: true
+  validates :policy_references, :assessment, :conclusion, presence: true, unless: :draft
 
   delegate :current_review, to: :consideration_set
   delegate :not_started?, to: :current_review, prefix: true
