@@ -1,0 +1,15 @@
+.govuk-details-wrapper {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $govuk-border-colour;
+
+  .govuk-details {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.status-container {
+  margin-top: 10px;
+  white-space: nowrap;
+}

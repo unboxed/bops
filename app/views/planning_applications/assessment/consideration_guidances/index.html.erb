@@ -1,0 +1,51 @@
+<% content_for :page_title do %>
+  Add planning considerations and advice - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Add planning considerations and advice" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Add planning considerations and advice"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= govuk_tabs do |tabs| %>
+      <% tabs.with_tab(label: "Consultees") do %>
+        <h2 class="govuk-heading-m">Consultees</h2>
+        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+
+        <div class="govuk-!-margin-bottom-5">
+          <% @consultee_responses.each do |consultee_response| %>
+            <%= render ConsulteeResponseDetailComponent.new(response: consultee_response) %>
+          <% end %>
+        </div>
+
+        <%= govuk_link_to "View consultee responses", planning_application_consultees_responses_path(@planning_application), new_tab: true %>
+      <% end %>
+
+      <% tabs.with_tab(label: "Constraints") do %>
+        <h2 class="govuk-heading-m">Constraints</h2>
+        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+
+        <%= render(
+              partial: "planning_applications/validation/constraints/table",
+              locals: {
+                title: "Identified constraints",
+                identifier: "identified",
+                planning_application_constraints: @planning_application.planning_application_constraints,
+                show_source: true,
+                show_entity: true,
+                show_action: false
+              }
+            ) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
