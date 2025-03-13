@@ -1,0 +1,38 @@
+<% content_for :page_title do %>
+  Edit requirement - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Edit requirement" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Edit requirement"}
+    ) %>
+
+<hr>
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m govuk-!-margin-top-5">
+        <%= @requirement.description %>
+      </h2>
+        <%= form_with method: :patch, url: planning_application_assessment_requirement_path(@planning_application), scope: :planning_application_requirement do |form| %>
+          <%= form.govuk_text_field :url,
+                label: {text: "Guidelines URL"},
+                value: @requirement.url || "",
+                placeholder: (@requirement.url.present? ? "" : "No URL provided") %>
+          <%= form.govuk_text_area :guidelines,
+                label: {text: "Guidelines"},
+                value: @requirement.guidelines || "",
+                hint: {text: "Change guidance for this application only"} %>
+          <%= form.govuk_submit("Save", class: "govuk-!-margin-right-3") %>
+          <%= govuk_button_link_to t("back"), planning_application_assessment_requirements_path, secondary: true %>
+        <% end %>
+    </div>
+  </div>
+</div>

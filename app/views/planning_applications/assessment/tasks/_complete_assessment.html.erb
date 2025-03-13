@@ -52,7 +52,8 @@
       <div class="govuk-task-list__status app-task-list__task-tag">
       <%= render(
             StatusTags::RequirementsComponent.new(
-              requirements: @planning_application.local_authority.requirements
+              planning_application: @planning_application,
+              requirements: @planning_application.requirements
             )
           ) %>
       </div>
