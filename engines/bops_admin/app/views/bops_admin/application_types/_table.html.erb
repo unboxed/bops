@@ -1,0 +1,47 @@
+<% if application_types.any? %>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          <%= t(".suffix") %>
+        </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">
+          <%= t(".name") %>
+        </th>
+        <th scope="col" class="govuk-table__header">
+          <%= t(".status") %>
+        </th>
+        <th scope="col" class="govuk-table__header">
+          <%= t(".action") %>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+      <% application_types.each do |application_type| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= application_type.suffix %>
+          </td>
+          <td class="govuk-table__cell govuk-!-text-wrap-balance">
+            <%= application_type.description %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= govuk_tag(text: application_type.status.humanize, colour: tag_colour(application_type.status)) %>
+
+            <% if application_type.deprecated? && !application_type.retired? %>
+              <%= govuk_tag(text: t(".deprecated"), colour: "yellow") %>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= govuk_link_to t(".view_and_or_edit"), application_type_path(application_type) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">
+    <%= t(".no_application_types", state: state) %>
+  </p>
+<% end %>
