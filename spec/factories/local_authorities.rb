@@ -97,5 +97,7 @@ FactoryBot.define do
     trait :planning_history do
       planning_history_enabled { true }
     end
+
+    initialize_with { LocalAuthority.find_or_create_by(subdomain:) }
   end
 end

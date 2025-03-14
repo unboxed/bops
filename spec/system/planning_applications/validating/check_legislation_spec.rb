@@ -82,7 +82,8 @@ RSpec.describe "Check legislation" do
   end
 
   context "when planning application type has no legislation details" do
-    let(:application_type) { create(:application_type, :pre_application, :inactive, :without_legislation) }
+    let(:config) { create(:application_type_config, :pre_application, :inactive, :without_legislation) }
+    let(:application_type) { create(:application_type, config:, local_authority: default_local_authority) }
     let(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority, application_type:)
     end

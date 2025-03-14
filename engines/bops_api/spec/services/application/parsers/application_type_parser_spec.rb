@@ -4,13 +4,15 @@ require "rails_helper"
 
 RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
   describe "#parse" do
-    let!(:application_type_pa) { create(:application_type, :prior_approval) }
-    let!(:application_type_ldce) { create(:application_type, :ldc_existing) }
-    let!(:application_type_ldcp) { create(:application_type, :ldc_proposed) }
-    let!(:application_type_pp) { create(:application_type, :planning_permission) }
+    let(:local_authority) { create(:local_authority, :default) }
+
+    let!(:application_type_pa) { create(:application_type, :prior_approval, local_authority:) }
+    let!(:application_type_ldce) { create(:application_type, :ldc_existing, local_authority:) }
+    let!(:application_type_ldcp) { create(:application_type, :ldc_proposed, local_authority:) }
+    let!(:application_type_pp) { create(:application_type, :planning_permission, local_authority:) }
 
     let(:parse_application_type) do
-      described_class.new(params).parse
+      described_class.new(params, local_authority:).parse
     end
 
     context "when application type is LDCE" do

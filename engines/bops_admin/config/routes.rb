@@ -8,8 +8,12 @@ BopsAdmin::Engine.routes.draw do
 
   resources :consultees, except: %i[show]
 
-  resource :setting, only: %i[show] do
-    resource :determination_period, only: %i[edit update]
+  resources :application_types, only: %i[index show] do
+    scope module: "application_types" do
+      with_options only: %i[edit update] do
+        resource :determination_period
+      end
+    end
   end
 
   with_options except: %i[show] do

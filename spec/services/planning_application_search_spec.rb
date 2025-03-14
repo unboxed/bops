@@ -11,10 +11,10 @@ RSpec.describe PlanningApplicationSearch do
     create(:user, :assessor, local_authority:)
   end
 
-  let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed) }
-  let!(:application_type_prior_approval) { create(:application_type, :prior_approval) }
-  let!(:application_type_householder) { create(:application_type, :householder) }
-  let!(:application_type_pre_application) { create(:application_type, :pre_application) }
+  let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed, local_authority:) }
+  let!(:application_type_prior_approval) { create(:application_type, :prior_approval, local_authority:) }
+  let!(:application_type_householder) { create(:application_type, :householder, local_authority:) }
+  let!(:application_type_pre_application) { create(:application_type, :pre_application, local_authority:) }
 
   let!(:ldc_not_started) do
     travel_to("2022-01-01") do

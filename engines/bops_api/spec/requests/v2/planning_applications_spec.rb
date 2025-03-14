@@ -6,24 +6,24 @@ RSpec.describe "BOPS API" do
   let(:config) { Rails.configuration }
   let(:local_authority) { create(:local_authority, :default) }
   let(:southwark) { create(:local_authority, :southwark) }
-  let(:application_type) { create(:application_type) }
+  let(:application_type) { create(:application_type, local_authority:) }
 
   before do
     create(:api_user, token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
     create(:api_user, name: "other", token: "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ", local_authority: southwark)
 
-    create(:application_type, :ldc_existing)
-    create(:application_type, :ldc_proposed)
-    create(:application_type, :listed)
-    create(:application_type, :land_drainage)
-    create(:application_type, :pa_part1_classA)
-    create(:application_type, :pa_part_14_class_j)
-    create(:application_type, :pa_part_20_class_ab)
-    create(:application_type, :pa_part_3_class_ma)
-    create(:application_type, :pa_part7_classM)
-    create(:application_type, :minor)
-    create(:application_type, :major)
-    create(:application_type, :pre_application)
+    create(:application_type_config, :ldc_existing)
+    create(:application_type_config, :ldc_proposed)
+    create(:application_type_config, :listed)
+    create(:application_type_config, :land_drainage)
+    create(:application_type_config, :pa_part1_classA)
+    create(:application_type_config, :pa_part_14_class_j)
+    create(:application_type_config, :pa_part_20_class_ab)
+    create(:application_type_config, :pa_part_3_class_ma)
+    create(:application_type_config, :pa_part7_classM)
+    create(:application_type_config, :minor)
+    create(:application_type_config, :major)
+    create(:application_type_config, :pre_application)
 
     Rails.configuration.os_vector_tiles_api_key = "testtest"
   end
@@ -35,7 +35,7 @@ RSpec.describe "BOPS API" do
   let!(:planning_applications) { create_list(:planning_application, 8, :published, local_authority:, application_type:) }
   let!(:determined_planning_applications) { create_list(:planning_application, 3, :determined, local_authority:, application_type:) }
 
-  let!(:householder) { create(:application_type, :householder) }
+  let!(:householder) { create(:application_type, :householder, local_authority:) }
   let!(:householder_planning_applications) { create_list(:planning_application, 4, :with_boundary_geojson_features, local_authority:, application_type: householder) }
 
   let(:submission) { create(:planx_planning_data, params_v2: example_fixture("application/planningPermission/fullHouseholder.json")) }

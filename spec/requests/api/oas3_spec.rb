@@ -47,7 +47,7 @@ RSpec.describe "The Open API Specification document" do
         "received_date", "documents", "site", "constraints", "work_status",
         "application_type").merge(
           local_authority: default_local_authority,
-          application_type_id: ApplicationType::Config.first.id,
+          application_type_id: ApplicationType.first.id,
           status: "in_assessment",
           validated_at: Time.zone.now
         )

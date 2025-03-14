@@ -1,0 +1,8 @@
+<%= bops_side_navigation(title: "Settings") do |nav| %>
+  <% nav.with_section(title: "Profile", index: 2) do |section| %>
+    <% section.with_navigation_item(text: "Manage profile", href: profile_path) %>
+  <% end %>
+  <% nav.with_section(title: "Application Types", index: 2) do |section| %>
+    <% section.with_navigation_item(text: "Manage application types", href: application_types_path, current: true) %>
+  <% end %>
+<% end %>

@@ -2,4 +2,7 @@
   <% nav.with_section(title: "Profile", index: 2) do |section| %>
     <% section.with_navigation_item(text: "Manage profile", href: profile_path, current: true) %>
   <% end %>
+  <% nav.with_section(title: "Application Types", index: 2) do |section| %>
+    <% section.with_navigation_item(text: "Manage application types", href: application_types_path) %>
+  <% end %>
 <% end %>

@@ -34,7 +34,7 @@ FactoryBot.define do
     result_override { "Override" }
     target_date { 4.weeks.from_now }
     expiry_date { 4.weeks.from_now }
-    application_type
+    application_type { association :application_type, local_authority: }
 
     proposal_details do
       [
@@ -341,7 +341,7 @@ FactoryBot.define do
         ]
       end
 
-      application_type { association :application_type, :prior_approval }
+      application_type { association :application_type, :prior_approval, local_authority: }
 
       after(:create) do |planning_application|
         create(:proposal_measurement, planning_application:)
@@ -349,23 +349,23 @@ FactoryBot.define do
     end
 
     trait :planning_permission do
-      application_type { association :application_type, :planning_permission }
+      application_type { association :application_type, :planning_permission, local_authority: }
     end
 
     trait :pre_application do
-      application_type { association :application_type, :pre_application }
+      application_type { association :application_type, :pre_application, local_authority: }
     end
 
     trait :lawfulness_certificate do
-      application_type { association :application_type, :lawfulness_certificate }
+      application_type { association :application_type, :lawfulness_certificate, local_authority: }
     end
 
     trait :ldc_proposed do
-      application_type { association :application_type, :ldc_proposed }
+      application_type { association :application_type, :ldc_proposed, local_authority: }
     end
 
     trait :ldc_existing do
-      application_type { association :application_type, :ldc_existing }
+      application_type { association :application_type, :ldc_existing, local_authority: }
     end
 
     trait :consulting do
