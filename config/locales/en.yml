@@ -1222,6 +1222,11 @@ en:
         summary_of_works: Summary of works
       base:
         not_validated: The planning application must be validated before assessment can begin
+      consideration_guidances:
+        index:
+          amendments_needed: Amendments Needed
+          approved: Approved
+          objected: Objected
       considerations:
         create:
           success: Consideration was successfully added

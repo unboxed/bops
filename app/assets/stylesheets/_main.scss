@@ -12,11 +12,11 @@ $govuk-page-width: 1100px;
 @import "bops_core/components/side_navigation";
 @import "bops_core/components/task_accordion";
 @import "bops_core/components/ticket_panel";
+@import "bops_core/components/status_detail";
 
 // Imports from the application
 @import "components/assessment_list";
 @import "components/buttons";
-@import "components/details";
 @import "components/documents";
 @import "components/flashes";
 @import "components/inset_text";

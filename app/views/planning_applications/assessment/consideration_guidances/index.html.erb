@@ -23,7 +23,22 @@
 
         <div class="govuk-!-margin-bottom-5">
           <% @consultee_responses.each do |consultee_response| %>
-            <%= render ConsulteeResponseDetailComponent.new(response: consultee_response) %>
+            <%= bops_status_detail(
+                  id: "consultee-response-#{consultee_response.id}"
+                ) do |component| %>
+              <% component.with_title { consultee_response.name } %>
+              <% component.with_body { consultee_response.comment } %>
+              <% component.with_status do %>
+                <% case consultee_response.summary_tag %>
+                <% when "amendments_needed" %>
+                  <%= tag.span(t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow") %>
+                <% when "objected" %>
+                  <%= tag.span(t(".objected"), class: "govuk-tag govuk-tag--red") %>
+                <% when "approved" %>
+                  <%= tag.span(t(".approved"), class: "govuk-tag govuk-tag--green") %>
+                <% end %>
+              <% end %>
+            <% end %>
           <% end %>
         </div>
 
