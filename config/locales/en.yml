@@ -711,6 +711,10 @@ en:
     published: Published
     received_on: Received on %-d %B %Y
     redact_and_publish: Redact and publish
+  consultee_response_detail_component:
+    amendments_needed: Amendments needed
+    approved: Approved
+    objected: Objected
   consultee_response_group_component:
     external_header: External consultee responses (%{count})
     internal_header: Internal consultee responses (%{count})
@@ -1218,6 +1222,11 @@ en:
         summary_of_works: Summary of works
       base:
         not_validated: The planning application must be validated before assessment can begin
+      consideration_guidances:
+        index:
+          amendments_needed: Amendments Needed
+          approved: Approved
+          objected: Objected
       considerations:
         create:
           success: Consideration was successfully added

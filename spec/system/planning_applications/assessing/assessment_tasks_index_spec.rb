@@ -33,7 +33,7 @@ RSpec.describe "Assessment tasks", type: :system do
           end
 
           within("#assessment-information-tasks") do
-            expect(page).to have_content("Assessor remarks (optional)")
+            expect(page).to have_content("Assessor remarks")
             expect(page).to have_link("Summary of works")
             expect(page).to have_link("Summary of additional evidence")
             expect(page).to have_link("Site description")
@@ -73,7 +73,7 @@ RSpec.describe "Assessment tasks", type: :system do
           end
 
           within("#assessment-information-tasks") do
-            expect(page).to have_content("Assessor remarks (optional)")
+            expect(page).to have_content("Assessor remarks")
             expect(page).to have_link("Summary of works")
             expect(page).to have_link("Summary of additional evidence")
             expect(page).to have_link("Site description")

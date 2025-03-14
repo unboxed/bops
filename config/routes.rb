@@ -175,6 +175,8 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :consideration_guidances, only: %i[index]
+
           resource :informatives, only: %i[create show edit update] do
             resources :items, only: %i[edit update destroy], module: :informatives do
               concerns :positionable
