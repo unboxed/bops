@@ -7,6 +7,29 @@ module Rack
   Handler = ::Rackup::Handler
 end
 
+module Capybara::Selenium::Driver::ChromeDriver
+  def reset!
+    # Use instance variable directly so we avoid starting the browser just to reset the session
+    return unless @browser
+
+    handle = browser.window_handle # Only fetch window handle once
+    switch_to_window(handle) # Should already be there, but ensure everything agrees
+    (window_handles - [handle]).each { |win| close_window(win) } # Close every window handle but the current one.
+    return super if chromedriver_version < 73
+
+    timer = Capybara::Helpers.timer(expire_in: 10)
+    begin
+      clear_storage unless uniform_storage_clear?
+      @browser.navigate.to("about:blank")
+      wait_for_empty_page(timer)
+    rescue *unhandled_alert_errors
+      accept_unhandled_reset_alert
+      retry
+    end
+    execute_cdp("Storage.clearDataForOrigin", origin: "*", storageTypes: storage_types_to_clear)
+  end
+end
+
 download_path = Rails.root.join("tmp/downloads").to_s
 
 Capybara.add_selector(:planning_applications_status_tab) do
