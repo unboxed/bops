@@ -24,8 +24,19 @@ module SystemSpecHelpers
   def pick(value, from:)
     listbox = "ul[@id='#{from.delete_prefix("#")}__listbox']"
     option = "li[@role='option' and normalize-space(.)='#{value}']"
+    retries = 0
 
-    find(:xpath, "//#{listbox}/#{option}").click
+    begin
+      find(:xpath, "//#{listbox}/#{option}").click
+    rescue => error
+      if retries < 3
+        retries += 1
+        sleep 0.1
+        retry
+      else
+        raise error
+      end
+    end
 
     # The autocomplete javascript has some setTimeout handlers
     # to work around bugs with event order so we need to wait
