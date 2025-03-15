@@ -6,6 +6,7 @@ RSpec.describe "Add informatives", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, name: "PlanX", local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:reference) { planning_application.reference }
 
   shared_examples "an application type that supports informatives" do
     before do
@@ -31,8 +32,13 @@ RSpec.describe "Add informatives", type: :system do
       pick "Section 106", from: "#informative-title-field"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
-      expect(page).to have_content "Informative was successfully added"
+      # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+      with_retry do
+        expect(page).to have_content "Informative was successfully added"
+      end
+
       expect(page).to have_content "Must do 106"
       expect(page).to have_no_selector("details[open]")
 
@@ -42,8 +48,13 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: "Consider the trees"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
-      expect(page).to have_content "Informative was successfully added"
+      # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+      with_retry do
+        expect(page).to have_content "Informative was successfully added"
+      end
+
       expect(page).to have_content "Consider the trees"
       expect(page).to have_no_selector("details[open]")
 
@@ -53,6 +64,7 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: "Consider the park"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
       expect(page).to have_content "Consider the park"
       expect(page).to have_no_selector("details[open]")
@@ -68,6 +80,7 @@ RSpec.describe "Add informatives", type: :system do
       expect(page).to have_no_selector("details[open]")
 
       click_button "Save and mark as complete"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
 
       within("#add-informatives") do
         expect(page).to have_content "Completed"
@@ -90,10 +103,16 @@ RSpec.describe "Add informatives", type: :system do
       expect(page).to have_field "Enter details of the informative", with: "Must do 106"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
-      expect(page).to have_content "Informative was successfully added"
+      # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+      with_retry do
+        expect(page).to have_content "Informative was successfully added"
+      end
 
       click_button "Save and come back later"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+      expect(page).to have_content("Informatives were successfully saved")
 
       within("#add-informatives") do
         expect(page).to have_content "In progress"
@@ -109,12 +128,18 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: "Consider the trees"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
-      expect(page).to have_content "Informative was successfully added"
+      # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+      with_retry do
+        expect(page).to have_content "Informative was successfully added"
+      end
+
       expect(page).to have_content "Consider the trees"
       expect(page).to have_no_selector("details[open]")
 
       click_button "Save and come back later"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
 
       within("#add-informatives") do
         expect(page).to have_content "In progress"
@@ -122,6 +147,7 @@ RSpec.describe "Add informatives", type: :system do
       end
 
       click_button "Save and mark as complete"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
 
       within("#add-informatives") do
         expect(page).to have_content "Completed"
@@ -145,6 +171,7 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "informative-text-field", with: "The new detail"
 
       click_button "Save informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
       expect(page).to have_content "Informative was successfully saved"
 
@@ -291,8 +318,13 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: "The new detail"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
-      expect(page).to have_content "Informative was successfully added"
+      # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+      with_retry do
+        expect(page).to have_content "Informative was successfully added"
+      end
+
       expect(page).to have_content "The new detail"
 
       click_link "Edit"
@@ -303,6 +335,7 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: ""
 
       click_button "Save informative"
+      expect(page).to have_current_path(%r{^/planning_applications/#{reference}/assessment/informatives/items/\d+})
 
       expect(page).to have_content "Fill in the title of the informative"
       expect(page).to have_content "Fill in the text of the informative"
@@ -311,6 +344,7 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: "The newer detail"
 
       click_button "Save informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
       expect(page).to have_content "Informative was successfully saved"
       expect(page).to have_content "The newer detail"
@@ -319,6 +353,7 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: "The newer detail"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives")
 
       expect(page).to have_content("There is already an informative with this title")
     end
@@ -329,6 +364,7 @@ RSpec.describe "Add informatives", type: :system do
       end
 
       click_button "Save and mark as complete"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
 
       within("#add-informatives") do
         expect(page).to have_content "Complete"
@@ -357,8 +393,13 @@ RSpec.describe "Add informatives", type: :system do
       fill_in "Enter details of the informative", with: "Consider the trees"
 
       click_button "Add informative"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
-      expect(page).to have_content "Informative was successfully added"
+      # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+      with_retry do
+        expect(page).to have_content "Informative was successfully added"
+      end
+
       expect(page).to have_content "Informative 1"
       expect(page).to have_content "Consider the trees"
       expect(page).to have_no_selector("details[open]")
