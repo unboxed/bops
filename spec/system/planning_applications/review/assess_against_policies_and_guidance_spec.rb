@@ -14,6 +14,8 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
     create(:planning_application, :planning_permission, :awaiting_determination, :with_recommendation, local_authority:)
   end
 
+  let(:reference) { planning_application.reference }
+
   before do
     create(:local_authority_policy_area, local_authority:, description: "Design")
     create(:local_authority_policy_reference, local_authority:, code: "PP100", description: "Wall materials")
@@ -26,7 +28,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       travel_to Time.zone.local(2024, 7, 23, 11)
 
       sign_in(assessor)
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{reference}/assessment/tasks"
 
       click_link "Assess against policies and guidance"
       expect(page).to have_selector("h1", text: "Assess against policies and guidance")
@@ -79,7 +81,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       expect(page).to have_content("Assessment against local policies was successfully saved")
 
       sign_in(reviewer)
-      visit "/planning_applications/#{planning_application.reference}/review/tasks"
+      visit "/planning_applications/#{reference}/review/tasks"
     end
 
     it "shows validation errors" do
@@ -129,7 +131,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
             expect(page).to have_selector("h2", text: "Design")
             expect(page).to have_link(
               "Edit to accept",
-              href: "/planning_applications/#{planning_application.reference}/review/considerations/items/#{consideration.id}/edit"
+              href: "/planning_applications/#{reference}/review/considerations/items/#{consideration.id}/edit"
             )
             expect(page).to have_selector("p", text: "Uses red brick with grey slates", visible: false)
             expect(page).to have_selector("p", text: "Complies with design guidance policies", visible: false)
@@ -145,7 +147,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
           expect(page).to have_link(
             "Edit list position",
-            href: "/planning_applications/#{planning_application.reference}/review/considerations/edit"
+            href: "/planning_applications/#{reference}/review/considerations/edit"
           )
         end
 
@@ -216,6 +218,8 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
     it "I can return to the planning officer with a comment" do
       click_button "Review assessment against policies and guidance"
+      expect(page).to have_selector(:open_review_task, text: "Review assessment against policies and guidance")
+
       within("#considerations_footer") do
         choose "Return with comments"
         fill_in "Add a comment", with: "Please provide more details about the design of the property"
@@ -225,7 +229,9 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
         click_button "Save and mark as complete"
       end
 
+      expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
       expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
+
       within("#considerations_section") do
         expect(find(".govuk-tag")).to have_content("Awaiting changes")
       end
@@ -233,6 +239,8 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       expect(current_review.reload).to have_attributes(action: "rejected", review_status: "review_complete", comment: "Please provide more details about the design of the property")
 
       click_button "Review assessment against policies and guidance"
+      expect(page).to have_selector(:open_review_task, text: "Review assessment against policies and guidance")
+
       within("#considerations_block") do
         click_link("Edit list position")
       end
@@ -243,7 +251,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       travel_to Time.zone.local(2024, 7, 23, 12)
       sign_in(assessor)
 
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{reference}/assessment/tasks"
       expect(page).to have_list_item_for("Assess against policies and guidance", with: "To be reviewed")
 
       click_link "Assess against policies and guidance"
@@ -258,17 +266,22 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       fill_in "Enter assessment", with: "Uses yellow brick with grey slates"
 
       click_button "Save consideration"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/considerations/edit")
       expect(page).to have_content("Consideration was successfully saved")
 
       click_button "Save and mark as complete"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Assessment against local policies was successfully saved")
       expect(page).to have_list_item_for("Assess against policies and guidance", with: "Updated")
 
       travel_to Time.zone.local(2024, 7, 23, 13)
       sign_in(reviewer)
 
-      visit "/planning_applications/#{planning_application.reference}/review/tasks"
+      visit "/planning_applications/#{reference}/review/tasks"
+
       click_button "Review assessment against policies and guidance"
+      expect(page).to have_selector(:open_review_task, text: "Review assessment against policies and guidance")
+
       within("#considerations_section") do
         expect(find(".govuk-tag")).to have_content("Updated")
       end
@@ -278,15 +291,20 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
         click_button "Save and mark as complete"
       end
 
+      expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
       expect(page).to have_content("Review of assessment against policy and guidance updated successfully")
+
       within("#considerations_section") do
         expect(find(".govuk-tag")).to have_content("Completed")
       end
 
       click_button "Review assessment against policies and guidance"
+      expect(page).to have_selector(:open_review_task, text: "Review assessment against policies and guidance")
+
       within("#considerations_block") do
         click_link("Edit list position")
       end
+
       expect(page).to have_content("Assessment accepted by Ray Reviewer, 23 July 2024")
     end
   end
