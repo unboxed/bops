@@ -107,103 +107,137 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
         visit "/"
       end
 
-      it "allows user to filter by different statuses" do
-        within(selected_govuk_tab) do
-          expect(page).to have_content("Your live applications")
-          expect(page).to have_content(not_started_planning_application.reference)
-          expect(page).to have_content(invalid_planning_application.reference)
-          expect(page).to have_content(in_assessment_planning_application.reference)
-          expect(page).to have_content(awaiting_determination_planning_application.reference)
-          expect(page).to have_content(to_be_reviewed_planning_application.reference)
-          expect(page).not_to have_content(closed_planning_application.reference)
-          expect(page).not_to have_content(other_closed_planning_application.reference)
-
-          click_button("Filter")
-          uncheck("Invalid")
-          uncheck("In assessment")
-          uncheck("Awaiting determination")
-          uncheck("To be reviewed")
-
-          click_button("Apply filters")
-
-          expect(page).to have_content(not_started_planning_application.reference)
-          expect(page).not_to have_content(invalid_planning_application.reference)
-          expect(page).not_to have_content(in_assessment_planning_application.reference)
-          expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
-          expect(page).not_to have_content(closed_planning_application.reference)
-
-          check("Invalid")
-          uncheck("Not started")
-          uncheck("In assessment")
-          uncheck("Awaiting determination")
-          uncheck("To be reviewed")
-
-          click_button("Apply filters")
-
-          expect(page).to have_content(invalid_planning_application.reference)
-          expect(page).not_to have_content(not_started_planning_application.reference)
-          expect(page).not_to have_content(in_assessment_planning_application.reference)
-          expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
-          expect(page).not_to have_content(closed_planning_application.reference)
-
-          check("In assessment")
-          uncheck("Not started")
-          uncheck("Invalid")
-          uncheck("Awaiting determination")
-          uncheck("To be reviewed")
-
-          click_button("Apply filters")
-
-          expect(page).to have_content(in_assessment_planning_application.reference)
-          expect(page).not_to have_content(not_started_planning_application.reference)
-          expect(page).not_to have_content(invalid_planning_application.reference)
-          expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
-          expect(page).not_to have_content(closed_planning_application.reference)
-
-          check("Awaiting determination")
-          uncheck("Not started")
-          uncheck("Invalid")
-          uncheck("In assessment")
-          uncheck("To be reviewed")
-
-          click_button("Apply filters")
-
-          expect(page).to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(not_started_planning_application.reference)
-          expect(page).not_to have_content(invalid_planning_application.reference)
-          expect(page).not_to have_content(in_assessment_planning_application.reference)
-          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
-          expect(page).not_to have_content(closed_planning_application.reference)
-
-          check("To be reviewed")
-          uncheck("Not started")
-          uncheck("Invalid")
-          uncheck("In assessment")
-          uncheck("Awaiting determination")
-
-          click_button("Apply filters")
-
-          expect(page).to have_content(to_be_reviewed_planning_application.reference)
-          expect(page).not_to have_content(not_started_planning_application.reference)
-          expect(page).not_to have_content(invalid_planning_application.reference)
-          expect(page).not_to have_content(in_assessment_planning_application.reference)
-          expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(closed_planning_application.reference)
+      describe "filtering by different statuses" do
+        before do
+          within(selected_govuk_tab) do
+            expect(page).to have_content("Your live applications")
+            expect(page).to have_content(not_started_planning_application.reference)
+            expect(page).to have_content(invalid_planning_application.reference)
+            expect(page).to have_content(in_assessment_planning_application.reference)
+            expect(page).to have_content(awaiting_determination_planning_application.reference)
+            expect(page).to have_content(to_be_reviewed_planning_application.reference)
+            expect(page).not_to have_content(closed_planning_application.reference)
+            expect(page).not_to have_content(other_closed_planning_application.reference)
+          end
         end
 
-        click_link("Closed")
+        it "allows viewing 'Not started' applications" do
+          within(selected_govuk_tab) do
+            click_button("Filter")
+            check("Not started")
+            uncheck("Invalid")
+            uncheck("In assessment")
+            uncheck("Awaiting determination")
+            uncheck("To be reviewed")
 
-        within(selected_govuk_tab) do
-          expect(page).to have_content(closed_planning_application.reference)
-          expect(page).not_to have_content(other_closed_planning_application.reference)
-          expect(page).not_to have_content(not_started_planning_application.reference)
-          expect(page).not_to have_content(invalid_planning_application.reference)
-          expect(page).not_to have_content(in_assessment_planning_application.reference)
-          expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
+            click_button("Apply filters")
+            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+
+            expect(page).to have_content(not_started_planning_application.reference)
+            expect(page).not_to have_content(invalid_planning_application.reference)
+            expect(page).not_to have_content(in_assessment_planning_application.reference)
+            expect(page).not_to have_content(awaiting_determination_planning_application.reference)
+            expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
+            expect(page).not_to have_content(closed_planning_application.reference)
+          end
+        end
+
+        it "allows viewing 'Invalid' applications" do
+          within(selected_govuk_tab) do
+            click_button("Filter")
+            uncheck("Not started")
+            check("Invalid")
+            uncheck("In assessment")
+            uncheck("Awaiting determination")
+            uncheck("To be reviewed")
+
+            click_button("Apply filters")
+            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+
+            expect(page).not_to have_content(not_started_planning_application.reference)
+            expect(page).to have_content(invalid_planning_application.reference)
+            expect(page).not_to have_content(in_assessment_planning_application.reference)
+            expect(page).not_to have_content(awaiting_determination_planning_application.reference)
+            expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
+            expect(page).not_to have_content(closed_planning_application.reference)
+          end
+        end
+
+        it "allows viewing 'In assessment' applications" do
+          within(selected_govuk_tab) do
+            click_button("Filter")
+            uncheck("Not started")
+            uncheck("Invalid")
+            check("In assessment")
+            uncheck("Awaiting determination")
+            uncheck("To be reviewed")
+
+            click_button("Apply filters")
+            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+
+            expect(page).not_to have_content(not_started_planning_application.reference)
+            expect(page).not_to have_content(invalid_planning_application.reference)
+            expect(page).to have_content(in_assessment_planning_application.reference)
+            expect(page).not_to have_content(awaiting_determination_planning_application.reference)
+            expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
+            expect(page).not_to have_content(closed_planning_application.reference)
+          end
+        end
+
+        it "allows viewing 'Awaiting determination' applications" do
+          within(selected_govuk_tab) do
+            click_button("Filter")
+            uncheck("Not started")
+            uncheck("Invalid")
+            uncheck("In assessment")
+            check("Awaiting determination")
+            uncheck("To be reviewed")
+
+            click_button("Apply filters")
+            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+
+            expect(page).not_to have_content(not_started_planning_application.reference)
+            expect(page).not_to have_content(invalid_planning_application.reference)
+            expect(page).not_to have_content(in_assessment_planning_application.reference)
+            expect(page).to have_content(awaiting_determination_planning_application.reference)
+            expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
+            expect(page).not_to have_content(closed_planning_application.reference)
+          end
+        end
+
+        it "allows viewing 'To be reviewed' applications" do
+          within(selected_govuk_tab) do
+            click_button("Filter")
+            uncheck("Not started")
+            uncheck("Invalid")
+            uncheck("In assessment")
+            uncheck("Awaiting determination")
+            check("To be reviewed")
+
+            click_button("Apply filters")
+            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+
+            expect(page).not_to have_content(not_started_planning_application.reference)
+            expect(page).not_to have_content(invalid_planning_application.reference)
+            expect(page).not_to have_content(in_assessment_planning_application.reference)
+            expect(page).not_to have_content(awaiting_determination_planning_application.reference)
+            expect(page).to have_content(to_be_reviewed_planning_application.reference)
+            expect(page).not_to have_content(closed_planning_application.reference)
+          end
+        end
+
+        it "allows viewing 'Closed' applications" do
+          click_link("Closed")
+
+          within(selected_govuk_tab) do
+            expect(page).not_to have_content(other_closed_planning_application.reference)
+            expect(page).not_to have_content(not_started_planning_application.reference)
+            expect(page).not_to have_content(invalid_planning_application.reference)
+            expect(page).not_to have_content(in_assessment_planning_application.reference)
+            expect(page).not_to have_content(awaiting_determination_planning_application.reference)
+            expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
+            expect(page).to have_content(closed_planning_application.reference)
+          end
         end
       end
 
