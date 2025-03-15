@@ -31,23 +31,41 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       click_link "Assess against policies and guidance"
       expect(page).to have_selector("h1", text: "Assess against policies and guidance")
 
-      fill_in "Enter policy area", with: "Design"
-      pick "Design", from: "#consideration-policy-area-field"
+      within_fieldset("Add a new consideration") do
+        with_retry do
+          fill_in "Enter policy area", with: "Design"
+          expect(page).to have_selector(:autoselect_option, ["#consideration-policy-area-field", "Design"])
 
-      fill_in "Enter policy references", with: "Wall"
-      pick "PP100 - Wall materials", from: "#policyReferencesAutoComplete"
+          pick "Design", from: "#consideration-policy-area-field"
+        end
 
-      fill_in "Enter policy references", with: "Roofing"
-      pick "PP101 - Roofing materials", from: "#policyReferencesAutoComplete"
+        with_retry do
+          fill_in "Enter policy references", with: "Wall"
+          expect(page).to have_selector(:autoselect_option, ["#policyReferencesAutoComplete", "PP100 - Wall materials"])
 
-      fill_in "Enter policy guidance", with: "Design"
-      pick "Design Guidance", from: "#policyGuidanceAutoComplete"
+          pick "PP100 - Wall materials", from: "#policyReferencesAutoComplete"
+        end
 
-      fill_in "Enter assessment", with: "Uses red brick with grey slates"
-      fill_in "Enter conclusion", with: "Complies with design guidance policies"
+        with_retry do
+          fill_in "Enter policy references", with: "Roofing"
+          expect(page).to have_selector(:autoselect_option, ["#policyReferencesAutoComplete", "PP101 - Roofing materials"])
+
+          pick "PP101 - Roofing materials", from: "#policyReferencesAutoComplete"
+        end
+
+        with_retry do
+          fill_in "Enter policy guidance", with: "Design"
+          expect(page).to have_selector(:autoselect_option, ["#policyGuidanceAutoComplete", "Design Guidance"])
+
+          pick "Design Guidance", from: "#policyGuidanceAutoComplete"
+        end
+
+        fill_in "Enter assessment", with: "Uses red brick with grey slates"
+        fill_in "Enter conclusion", with: "Complies with design guidance policies"
+      end
 
       click_button "Add consideration"
-
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/considerations/edit")
       expect(page).to have_content("Consideration was successfully added")
 
       within "main ol" do
@@ -57,6 +75,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       end
 
       click_button "Save and mark as complete"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Assessment against local policies was successfully saved")
 
       sign_in(reviewer)

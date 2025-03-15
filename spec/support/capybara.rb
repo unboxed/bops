@@ -27,6 +27,12 @@ Capybara.add_selector(:open_review_task) do
   end
 end
 
+Capybara.add_selector(:autoselect_option) do
+  xpath do |from, value|
+    "//ul[@id='#{from.delete_prefix("#")}__listbox']/li[@role='option' and normalize-space(.)='#{value}']"
+  end
+end
+
 Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.load_selenium
   browser_options = Selenium::WebDriver::Chrome::Options.new

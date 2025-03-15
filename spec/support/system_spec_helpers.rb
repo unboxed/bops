@@ -21,21 +21,28 @@ module SystemSpecHelpers
     find("span", text:).click
   end
 
-  def pick(value, from:)
-    listbox = "ul[@id='#{from.delete_prefix("#")}__listbox']"
-    option = "li[@role='option' and normalize-space(.)='#{value}']"
+  def with_retry(delay: 0.1, count: 3)
     retries = 0
 
     begin
-      find(:xpath, "//#{listbox}/#{option}").click
+      yield
     rescue => error
-      if retries < 3
+      if retries < count
         retries += 1
-        sleep 0.1
+        sleep delay
         retry
       else
         raise error
       end
+    end
+  end
+
+  def pick(value, from:)
+    listbox = "ul[@id='#{from.delete_prefix("#")}__listbox']"
+    option = "li[@role='option' and normalize-space(.)='#{value}']"
+
+    with_retry do
+      find(:xpath, "//#{listbox}/#{option}").click
     end
 
     # The autocomplete javascript has some setTimeout handlers
