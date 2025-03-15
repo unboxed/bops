@@ -118,6 +118,7 @@ RSpec.describe "API Tokens", :capybara do
       fill_in "Service", with: "Service Name"
 
       click_button "Save"
+      expect(page).to have_current_path("/admin/tokens")
       expect(page).to have_selector("h1", text: "API token generated")
       expect(page).to have_selector("div.govuk-panel__body strong", text: /\Abops_[a-zA-Z0-9]{36}[-_a-zA-Z0-9]{6}\z/)
 
@@ -164,6 +165,7 @@ RSpec.describe "API Tokens", :capybara do
       end
 
       click_button "Save"
+      expect(page).to have_current_path("/admin/tokens")
       expect(page).to have_selector("h1", text: "API token generated")
       expect(page).to have_selector("div.govuk-panel__body strong", text: /\Abops_[a-zA-Z0-9]{36}[-_a-zA-Z0-9]{6}\z/)
 
@@ -208,6 +210,7 @@ RSpec.describe "API Tokens", :capybara do
       end
 
       click_button "Save"
+      expect(page).to have_current_path("/admin/tokens")
       expect(page).to have_selector("h1", text: "API token generated")
       expect(page).to have_selector("div.govuk-panel__body strong", text: /\Abops_[a-zA-Z0-9]{36}[-_a-zA-Z0-9]{6}\z/)
 
@@ -254,6 +257,7 @@ RSpec.describe "API Tokens", :capybara do
       end
 
       click_button "Save"
+      expect(page).to have_current_path("/admin/tokens")
       expect(page).to have_selector("h1", text: "API token generated")
       expect(page).to have_selector("div.govuk-panel__body strong", text: /\Abops_[a-zA-Z0-9]{36}[-_a-zA-Z0-9]{6}\z/)
 
