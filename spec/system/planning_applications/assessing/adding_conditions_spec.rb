@@ -11,41 +11,56 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     create(:planning_application, :planning_permission, :in_assessment, :with_condition_set, local_authority: default_local_authority, api_user:, decision: "granted")
   end
 
+  let(:reference) { planning_application.reference }
+
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}"
+    visit "/planning_applications/#{reference}"
     click_link "Check and assess"
   end
 
   context "when planning application is planning permission" do
     it "you can add conditions" do
       click_link "Add conditions"
-
       expect(page).to have_content("Add conditions")
 
       toggle "Add condition"
 
       fill_in "Enter condition", with: "New condition"
       fill_in "Enter a reason for this condition", with: "No reason"
+
       click_button "Add condition to list"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/conditions")
+      expect(page).to have_content("Conditions successfully updated")
 
       toggle "Add condition"
+
       fill_in "Enter condition", with: "Custom condition 1"
       fill_in "Enter a reason for this condition", with: "Custom reason 1"
+
       click_button "Add condition to list"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/conditions")
+      expect(page).to have_content("Conditions successfully updated")
 
       toggle "Add condition"
+
       fill_in "Enter condition", with: "Custom condition 2"
       fill_in "Enter a reason for this condition", with: "Custom reason 2"
+
       click_button "Add condition to list"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/conditions")
+      expect(page).to have_content("Conditions successfully updated")
 
       toggle "Add condition"
+
       fill_in "Enter condition", with: "Custom condition 3"
       fill_in "Enter a reason for this condition", with: "Custom reason 3"
       # n.b. form not submitted here
       toggle "Add condition"
 
       click_button "Save and mark as complete"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+      expect(page).to have_content("Conditions successfully updated")
 
       within("#add-conditions") do
         expect(page).to have_content "Completed"
@@ -68,7 +83,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     it "you can edit conditions" do
       create(:condition, condition_set: planning_application.condition_set, standard: false, title: "", text: "You must do this", reason: "For this reason")
 
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
       click_link "Add conditions"
@@ -97,7 +112,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     end
 
     it "you can delete conditions" do
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
       click_link "Add conditions"
@@ -165,7 +180,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       create(:recommendation, :assessment_in_progress, planning_application:)
       create(:condition, condition_set: planning_application.condition_set, standard: true)
 
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
       click_link "Review and submit recommendation"
 
@@ -182,7 +197,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       end
 
       it "doesn't break" do
-        visit "/planning_applications/#{planning_application.reference}"
+        visit "/planning_applications/#{reference}"
         click_link "Check and assess"
 
         click_link "Add conditions"
@@ -206,11 +221,12 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
   end
 
   context "when planning application is not planning permission" do
-    it "you cannot add conditions" do
-      type = create(:application_type)
-      planning_application.update(application_type: type)
+    let(:planning_application) do
+      create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority, api_user:, decision: "granted")
+    end
 
-      visit "/planning_applications/#{planning_application.reference}"
+    it "you cannot add conditions" do
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
       expect(page).not_to have_content("Add conditions")
