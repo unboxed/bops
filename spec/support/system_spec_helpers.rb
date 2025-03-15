@@ -17,10 +17,6 @@ module SystemSpecHelpers
     find(".govuk-checkboxes__item ##{id}")
   end
 
-  def open_accordion_section
-    find(:xpath, "//*[@class='govuk-accordion__section govuk-accordion__section--expanded']")
-  end
-
   def expand_span_item(text)
     find("span", text:).click
   end

@@ -50,7 +50,7 @@ RSpec.describe "Evidence of immunity", type: :system do
         click_button "Utility bills (1)"
         utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utilityBill").first
 
-        within(open_accordion_section) do
+        within(:open_accordion) do
           within_fieldset("Starts from") do
             expect(page).to have_field("Day", with: utility_bill_group.start_date.strftime("%-d"))
             expect(page).to have_field("Month", with: utility_bill_group.start_date.strftime("%-m"))
@@ -75,7 +75,7 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         click_button "Utility bills (1)"
 
-        within(open_accordion_section) do
+        within(:open_accordion) do
           within_fieldset("Runs until") do
             fill_in "Day", with: "03"
             fill_in "Month", with: "12"
@@ -98,7 +98,7 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         click_button "Utility bills (1)"
 
-        within(open_accordion_section) do
+        within(:open_accordion) do
           within_fieldset("Runs until") do
             expect(page).to have_field("Day", with: "3")
             expect(page).to have_field("Month", with: "12")
@@ -121,7 +121,7 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         click_button "Utility bills (1)"
 
-        within(open_accordion_section) do
+        within(:open_accordion) do
           check "Missing evidence (gap in time)"
           fill_in "List all the gap(s) in time", with: "May 2019"
           fill_in "Add comment", with: "Not good enough"
@@ -131,7 +131,7 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         click_button "Building control certificates (1)"
 
-        within(open_accordion_section) do
+        within(:open_accordion) do
           fill_in "Add comment", with: "This proves it"
         end
 

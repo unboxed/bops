@@ -13,6 +13,20 @@ Capybara.add_selector(:planning_applications_status_tab) do
   xpath { "//*[@class='govuk-tabs__list']" }
 end
 
+Capybara.add_selector(:open_accordion) do
+  xpath { "//*[@class='govuk-accordion__section govuk-accordion__section--expanded']" }
+end
+
+Capybara.add_selector(:open_review_task) do
+  xpath do
+    [
+      "//*[@class='bops-task-accordion__section bops-task-accordion__section--expanded']",
+      "/div[@class='bops-task-accordion__section-header']",
+      "/button/h3[@class='bops-task-accordion__section-heading']"
+    ].join
+  end
+end
+
 Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.load_selenium
   browser_options = Selenium::WebDriver::Chrome::Options.new
