@@ -21,6 +21,8 @@ RSpec.describe "Create a site notice", js: true do
       user: assessor)
   end
 
+  let(:reference) { planning_application.reference }
+
   around do |example|
     travel_to("2023-02-01") { example.run }
   end
@@ -46,11 +48,10 @@ RSpec.describe "Create a site notice", js: true do
 
     click_button "Create site notice", visible: true
 
-    expect(page).to have_content "Site notice was successfully created"
-    expect(page).to have_link(
-      "Download site notice PDF",
-      href: "#"
-    )
+    expect(page).to have_current_path("/planning_applications/#{reference}/site_notices/new")
+    expect(page).to have_content("Site notice was successfully created")
+    expect(page).to have_link("Download site notice PDF", href: "#")
+
     expect(planning_application.site_notice.content).not_to include "This application is subject to an Environmental Impact Assessment (EIA)."
   end
 
@@ -65,15 +66,14 @@ RSpec.describe "Create a site notice", js: true do
     choose "Send it by email to applicant"
 
     click_button "Email site notice and mark as complete"
+    expect(page).to have_current_path("/planning_applications/#{reference}/consultation")
+    expect(page).to have_content("Site notice was successfully emailed")
 
     perform_enqueued_jobs
     email_notification = ActionMailer::Base.deliveries.last
 
     expect(email_notification.to).to contain_exactly(planning_application.agent_email)
-
     expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA1A")
-
-    expect(page).to have_content "Site notice was successfully emailed"
   end
 
   it "sends it to the applicant if agent email is not present" do
@@ -86,15 +86,14 @@ RSpec.describe "Create a site notice", js: true do
     choose "Send it by email to applicant"
 
     click_button "Email site notice and mark as complete"
+    expect(page).to have_current_path("/planning_applications/#{reference}/consultation")
+    expect(page).to have_content("Site notice was successfully emailed")
 
     perform_enqueued_jobs
     email_notification = ActionMailer::Base.deliveries.last
 
     expect(email_notification.to).to contain_exactly(planning_application.applicant_email)
-
     expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA1A")
-
-    expect(page).to have_content "Site notice was successfully emailed"
   end
 
   it "allows officers to create a site notice and email it to the internal team" do
@@ -113,16 +112,16 @@ RSpec.describe "Create a site notice", js: true do
 
     choose "Send it by email to internal team to post"
     fill_in "Internal team email", with: "internal@email.com"
+
     click_button "Email site notice and mark as complete"
+    expect(page).to have_current_path("/planning_applications/#{reference}/consultation")
+    expect(page).to have_content("Site notice was successfully emailed")
 
     perform_enqueued_jobs
     email_notification = ActionMailer::Base.deliveries.last
 
     expect(email_notification.to).to contain_exactly("internal@email.com")
-
     expect(email_notification.subject).to eq("Site notice for application number 23-00100-PA1A")
-
-    expect(page).to have_content "Site notice was successfully emailed"
   end
 
   it "allows officers to confirm site notice is not needed" do
@@ -131,8 +130,8 @@ RSpec.describe "Create a site notice", js: true do
     choose "No"
 
     click_button "Save and mark as complete", visible: true
-
-    expect(page).not_to have_content "Confirm site notice is in place"
+    expect(page).to have_current_path("/planning_applications/#{reference}/consultation")
+    expect(page).not_to have_content("Confirm site notice is in place")
   end
 
   context "when it's an EIA application" do
@@ -154,12 +153,9 @@ RSpec.describe "Create a site notice", js: true do
       fill_in "Year", with: "2023"
 
       click_button "Create site notice", visible: true
-
-      expect(page).to have_content "Site notice was successfully created"
-      expect(page).to have_link(
-        "Download site notice PDF",
-        href: "#"
-      )
+      expect(page).to have_current_path("/planning_applications/#{reference}/site_notices/new")
+      expect(page).to have_content("Site notice was successfully created")
+      expect(page).to have_link("Download site notice PDF", href: "#")
 
       expect(planning_application.site_notice.content).to include "This application is subject to an Environmental Impact Assessment (EIA)."
       expect(planning_application.site_notice.content).not_to include "View a hard copy of the Environment Statement"
@@ -180,12 +176,9 @@ RSpec.describe "Create a site notice", js: true do
       fill_in "Year", with: "2023"
 
       click_button "Create site notice", visible: true
-
-      expect(page).to have_content "Site notice was successfully created"
-      expect(page).to have_link(
-        "Download site notice PDF",
-        href: "#"
-      )
+      expect(page).to have_current_path("/planning_applications/#{reference}/site_notices/new")
+      expect(page).to have_content("Site notice was successfully created")
+      expect(page).to have_link("Download site notice PDF", href: "#")
 
       expect(planning_application.site_notice.content).to include "This application is subject to an Environmental Impact Assessment (EIA)."
       expect(planning_application.site_notice.content).to include "You can request a hard copy for a fee of £19 by emailing planner@council.com or in person at 123 street."
