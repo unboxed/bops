@@ -11,6 +11,8 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
     create(:planning_application, :planning_permission, :in_assessment, :with_condition_set, local_authority: default_local_authority, api_user:, decision: "granted")
   end
 
+  let(:reference) { planning_application.reference }
+
   def pre_commencement_conditions
     Condition.joins(:condition_set).where(condition_set: {pre_commencement: true})
   end
@@ -19,7 +21,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
     Current.user = assessor
     travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}"
+    visit "/planning_applications/#{reference}"
     click_link "Check and assess"
   end
 
@@ -193,7 +195,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       create(:review, owner: condition2.condition_set)
 
       travel_to(Time.zone.local(2024, 4, 17, 14, 30))
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
       click_link "Add pre-commencement conditions"
 
@@ -203,7 +205,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
         expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.reference}/assessment/pre_commencement_conditions/#{condition1.id}/edit"
+          href: "/planning_applications/#{reference}/assessment/pre_commencement_conditions/#{condition1.id}/edit"
         )
       end
 
@@ -211,7 +213,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
         expect(page).to have_selector(".govuk-tag", text: "Accepted")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.reference}/assessment/pre_commencement_conditions/#{condition2.id}/edit"
+          href: "/planning_applications/#{reference}/assessment/pre_commencement_conditions/#{condition2.id}/edit"
         )
       end
 
@@ -244,7 +246,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       end
       create(:review, owner: condition1.condition_set)
 
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
       click_link "Add pre-commencement conditions"
 
@@ -273,9 +275,12 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       fill_in "Enter title", with: "Title 1"
       fill_in "Enter condition", with: "Custom condition 1"
       fill_in "Enter reason", with: "Custom reason 1"
-      click_button "Add pre-commencement condition"
 
-      within("#condition_#{Condition.last.id}") do
+      click_button "Add pre-commencement condition"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/pre_commencement_conditions")
+      expect(page).to have_content("Pre-commencement condition has been successfully added")
+
+      within("#conditions-list li:last-child") do
         expect(page).to have_selector("h2", text: "Title 1")
 
         accept_confirm(text: "Are you sure?") do
@@ -283,6 +288,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
         end
       end
 
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/pre_commencement_conditions")
       expect(page).to have_selector("[role=alert] p", text: "Pre-commencement condition was successfully removed")
       expect(page).not_to have_selector("h2", text: "Title 1")
 
@@ -291,12 +297,17 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       fill_in "Enter title", with: "Another title"
       fill_in "Enter condition", with: "Another condition"
       fill_in "Enter reason", with: "Another reason"
+
       click_button "Add pre-commencement condition"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/pre_commencement_conditions")
+      expect(page).to have_content("Pre-commencement condition has been successfully added")
+
       click_button "Confirm and send to applicant"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/pre_commencement_conditions")
+      expect(page).to have_content("Pre-commencement conditions have been confirmed and sent to the applicant")
 
-      within("#condition_#{Condition.last.id}") do
+      within("#conditions-list li:last-child") do
         expect(page).to have_selector("h2", text: "Another title")
-
         expect(page).not_to have_link("Remove")
       end
     end
@@ -306,7 +317,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       condition = create(:condition, :other, condition_set: planning_application.pre_commencement_condition_set, title: "title 1")
       create(:pre_commencement_condition_validation_request, owner: condition, approved: true, state: "closed")
 
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
       click_link "Review and submit recommendation"
 
@@ -335,7 +346,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       type = create(:application_type)
       planning_application.update(application_type: type)
 
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
       expect(page).not_to have_content("Add conditions")
