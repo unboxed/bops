@@ -51,6 +51,6 @@ module SystemSpecHelpers
   end
 
   def toggle(summary)
-    find(:xpath, "//details/summary[contains(., '#{summary}')]").click
+    find(:xpath, ".//details/summary[contains(., '#{summary}')]").click
   end
 end
