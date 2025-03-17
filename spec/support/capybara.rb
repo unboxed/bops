@@ -70,5 +70,11 @@ RSpec.configure do |config|
     driven_by driver
 
     Capybara.app_host = "http://planx.example.com"
+
+    if page.driver.respond_to?(:invalid_element_errors)
+      unless page.driver.invalid_element_errors.include?(Selenium::WebDriver::Error::UnknownError)
+        page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
+      end
+    end
   end
 end
