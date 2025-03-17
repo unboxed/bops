@@ -1,6 +1,6 @@
 <li id="assessment-information-tasks">
   <h2 class="app-task-list__section">
-    Assessor remarks (optional)
+    Assessor remarks
   </h2>
 
   <ul class="app-task-list__items">
@@ -11,6 +11,14 @@
               category:
             )
           ) %>
+    <% end %>
+
+    <% if @planning_application.pre_application? %>
+      <li class="app-task-list__item" id="planning-considerations-and-advice">
+        <span class="app-task-list__task-name">
+          <%= govuk_link_to "Planning considerations and advice", planning_application_assessment_consideration_guidances_path(@planning_application) %>
+        </span>
+      </li>
     <% end %>
   </ul>
 </li>
