@@ -91,6 +91,8 @@
       <% end %>
     </table>
   <% else %>
-    You have not selected any neighbours. <%= link_to "Go back to select and add neighbours", planning_application_consultation_neighbours_path(@planning_application) %>
+    <p class="govuk-body">
+      You have not selected any neighbours. <%= link_to "Go back to select and add neighbours", planning_application_consultation_neighbours_path(@planning_application) %>
+    </p>
   <% end %>
 </div>
