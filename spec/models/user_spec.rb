@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe User do
+  let(:client) { double("Notifications::Client") }
+  before do
+    allow(Notifications::Client).to receive(:new).and_return(client)
+  end
+
   it_behaves_like("PhoneNumberValidator") do
     let(:record) { build(:user) }
     let(:attribute) { :mobile_number }
@@ -243,7 +248,7 @@ RSpec.describe User do
       end
 
       it "sends sms with correct information to user mobile number" do
-        expect_any_instance_of(Notifications::Client)
+        expect(client)
           .to receive(:send_sms)
           .with(expected_args)
 
@@ -266,7 +271,7 @@ RSpec.describe User do
         end
 
         it "returns sms with otp to session mobile number" do
-          expect_any_instance_of(Notifications::Client)
+          expect(client)
             .to receive(:send_sms)
             .with(expected_args)
 
