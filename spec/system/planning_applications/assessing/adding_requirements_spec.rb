@@ -14,9 +14,11 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
     create(:planning_application, :in_assessment, local_authority: local_authority)
   end
 
+  let(:reference) { planning_application.reference }
+
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}"
+    visit "/planning_applications/#{reference}"
     click_link("Check and assess")
     click_link("Check and add requirements")
   end
@@ -61,13 +63,15 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
     end
 
     it "allows me to add further requirements" do
-      find("span", text: "Add another requirement").click
+      toggle "Add another requirement"
+
       click_link("Drawings")
       check "Floor plans – existing"
 
       click_button "Add requirements"
-
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/requirements")
       expect(page).to have_content("Requirements successfully added")
+
       within("#drawings-card") do
         expect(page).to have_content("Floor plans – existing")
       end

@@ -8,6 +8,7 @@ RSpec.describe "Reviewing informatives", js: true do
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority, name: "Ray Reviewer") }
 
   let(:current_review) { planning_application.informative_set.current_review }
+  let(:reference) { planning_application.reference }
 
   shared_examples "an application type that supports informatives" do
     context "when signed in as a reviewer" do
@@ -15,7 +16,7 @@ RSpec.describe "Reviewing informatives", js: true do
         travel_to Time.zone.local(2024, 5, 20, 11)
 
         sign_in(assessor)
-        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+        visit "/planning_applications/#{reference}/assessment/tasks"
 
         click_link "Add informatives"
         expect(page).to have_selector("h1", text: "Add informatives")
@@ -24,18 +25,29 @@ RSpec.describe "Reviewing informatives", js: true do
         fill_in "Enter details of the informative", with: "A Section 106 agreement will be required"
 
         click_button "Add informative"
-        expect(page).to have_content("Informative was successfully added")
+        expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
+
+        # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+        with_retry do
+          expect(page).to have_content("Informative was successfully added")
+        end
 
         toggle "Add new informative"
+        expect(page).to have_selector("legend", text: "Add a new informative", visible: true)
+
         fill_in "Enter a title", with: "Section 206"
         fill_in "Enter details of the informative", with: "A Section 206 agreement will be required"
+
         click_button "Add informative"
+        expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
+        expect(page).to have_content("Informative was successfully added")
 
         click_button "Save and mark as complete"
+        expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
         expect(page).to have_content("Informatives were successfully saved")
 
         sign_in(reviewer)
-        visit "/planning_applications/#{planning_application.reference}/review/tasks"
+        visit "/planning_applications/#{reference}/review/tasks"
       end
 
       context "when planning application is awaiting determination" do
@@ -44,6 +56,8 @@ RSpec.describe "Reviewing informatives", js: true do
           within("#informatives_footer") do
             click_button("Save and mark as complete")
           end
+
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
           expect(page).to have_selector("[role=alert] li", text: "Select an option")
 
           within("#informatives_section") do
@@ -60,6 +74,7 @@ RSpec.describe "Reviewing informatives", js: true do
             end
           end
 
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
           expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
 
           within("#informatives_section") do
@@ -86,7 +101,7 @@ RSpec.describe "Reviewing informatives", js: true do
                 expect(page).to have_selector("h2", text: "Section 106")
                 expect(page).to have_link(
                   "Edit",
-                  href: "/planning_applications/#{planning_application.reference}/review/informatives/items/#{informative1.id}/edit"
+                  href: "/planning_applications/#{reference}/review/informatives/items/#{informative1.id}/edit"
                 )
                 expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
 
@@ -101,7 +116,7 @@ RSpec.describe "Reviewing informatives", js: true do
                 expect(page).to have_selector("h2", text: "Section 206")
                 expect(page).to have_link(
                   "Edit",
-                  href: "/planning_applications/#{planning_application.reference}/review/informatives/items/#{informative2.id}/edit"
+                  href: "/planning_applications/#{reference}/review/informatives/items/#{informative2.id}/edit"
                 )
                 expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
 
@@ -114,7 +129,7 @@ RSpec.describe "Reviewing informatives", js: true do
 
               expect(page).to have_link(
                 "Edit list position",
-                href: "/planning_applications/#{planning_application.reference}/review/informatives/edit"
+                href: "/planning_applications/#{reference}/review/informatives/edit"
               )
             end
           end
@@ -126,7 +141,13 @@ RSpec.describe "Reviewing informatives", js: true do
             click_button "Save and mark as complete"
           end
 
-          expect(page).to have_content("Review of informatives updated successfully")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+
+          # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+          with_retry do
+            expect(page).to have_content("Review of informatives updated successfully")
+          end
+
           within("#informatives_section") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
@@ -148,6 +169,8 @@ RSpec.describe "Reviewing informatives", js: true do
           fill_in "Enter details of the informative", with: "An updated Section 106 agreement will be required"
 
           click_button "Save informative"
+
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
           expect(page).to have_content("Informative was successfully saved")
 
           click_button "Review informatives"
@@ -159,7 +182,13 @@ RSpec.describe "Reviewing informatives", js: true do
             click_button "Save and mark as complete"
           end
 
-          expect(page).to have_content("Review of informatives updated successfully")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+
+          # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+          with_retry do
+            expect(page).to have_content("Review of informatives updated successfully")
+          end
+
           within("#informatives_section") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
@@ -181,7 +210,13 @@ RSpec.describe "Reviewing informatives", js: true do
             click_button "Save and mark as complete"
           end
 
-          expect(page).to have_content("Review of informatives updated successfully")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+
+          # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+          with_retry do
+            expect(page).to have_content("Review of informatives updated successfully")
+          end
+
           within("#informatives_section") do
             expect(find(".govuk-tag")).to have_content("Awaiting changes")
           end
@@ -197,7 +232,7 @@ RSpec.describe "Reviewing informatives", js: true do
           travel_to Time.zone.local(2024, 5, 20, 12)
           sign_in(assessor)
 
-          visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+          visit "/planning_applications/#{reference}/assessment/tasks"
           expect(page).to have_list_item_for("Add informatives", with: "To be reviewed")
 
           click_link "Add informatives"
@@ -219,13 +254,14 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(page).to have_content("Informative was successfully saved")
 
           click_button "Save and mark as complete"
+          expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
           expect(page).to have_content("Informatives were successfully saved")
           expect(page).to have_list_item_for("Add informatives", with: "Updated")
 
           travel_to Time.zone.local(2024, 5, 20, 13)
           sign_in(reviewer)
 
-          visit "/planning_applications/#{planning_application.reference}/review/tasks"
+          visit "/planning_applications/#{reference}/review/tasks"
           within("#informatives_section") do
             expect(find(".govuk-tag")).to have_content("Updated")
           end
@@ -237,7 +273,13 @@ RSpec.describe "Reviewing informatives", js: true do
             click_button "Save and mark as complete"
           end
 
-          expect(page).to have_content("Review of informatives updated successfully")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+
+          # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
+          with_retry do
+            expect(page).to have_content("Review of informatives updated successfully")
+          end
+
           within("#informatives_section") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end

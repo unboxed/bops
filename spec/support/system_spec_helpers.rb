@@ -17,19 +17,33 @@ module SystemSpecHelpers
     find(".govuk-checkboxes__item ##{id}")
   end
 
-  def open_accordion_section
-    find(:xpath, "//*[@class='govuk-accordion__section govuk-accordion__section--expanded']")
-  end
-
   def expand_span_item(text)
     find("span", text:).click
+  end
+
+  def with_retry(delay: 0.1, count: 3)
+    retries = 0
+
+    begin
+      yield
+    rescue => error
+      if retries < count
+        retries += 1
+        sleep delay
+        retry
+      else
+        raise error
+      end
+    end
   end
 
   def pick(value, from:)
     listbox = "ul[@id='#{from.delete_prefix("#")}__listbox']"
     option = "li[@role='option' and normalize-space(.)='#{value}']"
 
-    find(:xpath, "//#{listbox}/#{option}").click
+    with_retry do
+      find(:xpath, "//#{listbox}/#{option}").click
+    end
 
     # The autocomplete javascript has some setTimeout handlers
     # to work around bugs with event order so we need to wait
@@ -37,6 +51,6 @@ module SystemSpecHelpers
   end
 
   def toggle(summary)
-    find(:xpath, "//details/summary[contains(., '#{summary}')]").click
+    find(:xpath, ".//details/summary[contains(., '#{summary}')]").click
   end
 end

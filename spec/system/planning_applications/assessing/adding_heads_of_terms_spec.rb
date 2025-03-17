@@ -15,8 +15,12 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     Current.user = assessor
     travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
+
     visit "/planning_applications/#{planning_application.reference}"
+    expect(page).to have_selector("h1", text: "Application")
+
     click_link "Check and assess"
+    expect(page).to have_selector("h1", text: "Assess the application")
   end
 
   context "when planning application is planning permission" do
@@ -175,13 +179,18 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
 
   it "I can remove a term only if it has not been sent to the applicant" do
     click_link "Add heads of terms"
-    find("span", text: "Add a new heads of terms").click
+    expect(page).to have_selector("h1", text: "Add heads of terms")
+
+    toggle "Add a new heads of terms"
+    expect(page).to have_selector("details[open] > summary", text: "Add a new heads of terms")
 
     fill_in "Enter title", with: "Title 1"
     fill_in "Enter details", with: "Custom details 1"
-    click_button "Add term"
 
-    within("#term_#{Term.last.id}") do
+    click_button "Add term"
+    expect(page).to have_selector("[role=alert] p", text: "Head of terms has been successfully added")
+
+    within("#heads-of-terms-list li:last-child") do
       expect(page).to have_selector("h2", text: "Title 1")
 
       accept_confirm(text: "Are you sure?") do
@@ -192,16 +201,20 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     expect(page).to have_selector("[role=alert] p", text: "Head of terms was successfully removed")
     expect(page).not_to have_selector("h2", text: "Title 1")
 
-    find("span", text: "Add a new heads of terms").click
+    toggle "Add a new heads of terms"
+    expect(page).to have_selector("details[open] > summary", text: "Add a new heads of terms")
 
     fill_in "Enter title", with: "Another title"
     fill_in "Enter details", with: "Another detail"
+
     click_button "Add term"
+    expect(page).to have_selector("[role=alert] p", text: "Head of terms has been successfully added")
+
     click_button "Confirm and send to applicant"
+    expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed and sent to the applicant")
 
-    within("#term_#{Term.last.id}") do
+    within("#heads-of-terms-list li:last-child") do
       expect(page).to have_selector("h2", text: "Another title")
-
       expect(page).not_to have_link("Remove")
     end
   end
