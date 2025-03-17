@@ -7,6 +7,12 @@ RSpec.describe "Sign in" do
   let(:assessor) { create(:user, :assessor, name: "Lorrine Krajcik", local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, name: "Harley Dicki", local_authority: default_local_authority) }
 
+  before do
+    client = double("Notifications::Client")
+    allow(client).to receive(:send_sms)
+    allow(Notifications::Client).to receive(:new).and_return(client)
+  end
+
   it "ensure we can perform a healthcheck" do
     visit "/healthcheck"
 

@@ -46,6 +46,12 @@ RSpec.describe "Send notification to neighbours of committee" do
       create(:neighbour_response, email: "my.email@example.com", neighbour:)
       neighbour2 = create(:neighbour, consultation:, address: "123 street, london, E1")
       create(:neighbour_response, email: nil, neighbour: neighbour2)
+
+      client = double("Notifications::Client")
+      letter_response = double("Notifications::Response")
+      allow(letter_response).to receive(:id).and_return("12345")
+      allow(client).to receive(:send_letter).and_return(letter_response)
+      allow(Notifications::Client).to receive(:new).and_return(client)
     end
 
     it "can send notifications to neighbours who have commented" do
