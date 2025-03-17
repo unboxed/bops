@@ -1,34 +1,25 @@
 <div class="govuk-summary-card__content">
   <% if requirements.length != 0 %>
     <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-!-width-one-half">
-          Item
-        </dt>
-        <dd class="govuk-summary-list__key govuk-!-width-one-quarter">
-          Source
-        </dd>
-        <dd class="govuk-summary-list__actions govuk-!-width-one-quarter">
-          <strong>Action</strong>
-        </dd>
-      </div>
       <% requirements.each do |requirement| %>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__value ">
-            <% if requirement.url? %>
-              <%= govuk_link_to(requirement.description, requirement.url, no_visited_state: true, no_underline: true, new_tab: true) %>
-            <% else %>
-              <%= requirement.description %>
-            <% end %>
+          <dt class="govuk-summary-list__value govuk-!-width-one-half">
+              <strong>
+                <%= requirement.description %>
+              </strong>
           </dt>
-          <dd class="govuk-summary-list__value govuk-!-padding-right-2">
-            <%= requirement.source %>
+          <dd class="govuk-summary-list__value govuk-!-padding-right-2 govuk-!-width-one-quarter govuk-secondary-text-colour">
+            Added by <%= requirement.source %>
           </dd>
-          <dd class="govuk-summary-list__actions  govuk-!-padding-right-2">
+          <dd class="govuk-summary-list__actions  govuk-!-padding-right-2 govuk-!-width-one-quarter">
             <div class="align-items-center justify-end gap-2">
-              <%= govuk_link_to("Add note or edit", "url", no_visited_state: true, no_underline: true) %>
+              <%= govuk_link_to("Edit", edit_planning_application_assessment_requirement_path(@planning_application, requirement), no_visited_state: true, no_underline: true) %>
               <span>|</span>
-              <%= govuk_link_to("Remove", "url", no_visited_state: true, no_underline: true) %>
+              <%= govuk_link_to("Remove", planning_application_assessment_requirement_path(@planning_application, requirement),
+                    method: :delete,
+                    no_visited_state: true,
+                    no_underline: true,
+                    data: {confirm: "Are you sure you want to remove this requirement?"}) %>
             </div>
           </dd>
         </div>
