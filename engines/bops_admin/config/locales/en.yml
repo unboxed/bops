@@ -24,6 +24,20 @@ en:
             </h1>
         update:
           success: Determination period successfully updated
+      disclaimers:
+        edit:
+          continue: Continue
+          disclaimer: Disclaimer
+          hint: Set the legal disclaimer that will be displayed for this type of application.
+          set_disclaimer_html: |
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
+              <span class="govuk-caption-l govuk-!-margin-bottom-2">
+                %{description}
+              </span>
+              Set disclaimer
+            </h1>
+        update:
+          success: Disclaimer successfully updated
       index:
         create_new_application_type: Create new application type
         outstanding_count:
@@ -60,6 +74,7 @@ en:
         determination_period_including_bank_holidays:
           one: 1 day - bank holidays included
           other: "%{count} days - bank holidays included"
+        disclaimer: Disclaimer
         edit: Edit
         features: Features
         groups:

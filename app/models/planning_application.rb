@@ -88,6 +88,7 @@ class PlanningApplication < ApplicationRecord
     delegate :appeals?
     delegate :assess_against_policies?
     delegate :consultation?
+    delegate :disclaimer
     delegate :neighbour_consultation_feature?
     delegate :consultee_consultation_feature?
     delegate :publicity_consultation_feature?

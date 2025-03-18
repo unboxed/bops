@@ -61,10 +61,4 @@ module ApplicationHelper
   def nav_items
     []
   end
-
-  def markdown(text)
-    return if text.blank?
-
-    CommonMarker.render_html(text).html_safe
-  end
 end
