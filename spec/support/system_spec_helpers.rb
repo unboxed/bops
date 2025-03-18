@@ -50,7 +50,32 @@ module SystemSpecHelpers
     sleep 0.1
   end
 
-  def toggle(summary)
-    find(:xpath, ".//details/summary[contains(., '#{summary}')]").click
+  def toggle(title)
+    selectors = [
+      ".//span[@class='govuk-accordion__section-button' and contains(., '#{title}')]",
+      ".//button[@class='govuk-accordion__section-button' and contains(., '#{title}')]",
+      ".//details/summary[contains(., '#{title}')]"
+    ]
+
+    node = find(:xpath, selectors.join("|"))
+
+    if node.tag_name == "span"
+      # For rack-test we need to manually add the
+      # CSS class to expand the accordion
+      parent_selector = ".//ancestor-or-self::*[@class='govuk-accordion__section']"
+      parent_node = node.find(:xpath, parent_selector)
+      expanded_class = "govuk-accordion__section--expanded"
+      native_node = parent_node.native
+
+      if native_node.classes.include?(expanded_class)
+        native_node.remove_class(expanded_class)
+      else
+        native_node.add_class(expanded_class)
+      end
+    else
+      # This is either a summary or button so we
+      # can rely on the standard click behaviour
+      node.click
+    end
   end
 end
