@@ -13,7 +13,7 @@ module PlanningApplications
 
         respond_to do |format|
           format.html do
-            if @consideration.update(consideration_params)
+            if @consideration.update(consideration_params, :assess)
               redirect_to edit_planning_application_assessment_considerations_path(@planning_application), notice: t(".success")
             else
               render :edit

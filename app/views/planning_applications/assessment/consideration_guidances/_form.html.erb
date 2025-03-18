@@ -1,0 +1,54 @@
+<div class="govuk-grid-column-full" data-controller="consideration-form">
+  <%= form_with model: @consideration, url: form_url, method: form_method do |form| %>
+    <%= form.govuk_fieldset legend: {text: nil} do %>
+      <div class="govuk-form-group">
+        <% if action_name.eql?("edit") %>
+          <p class="govuk-body-s"><strong><%= @consideration.proposal %></strong></p>
+        <% end %>
+
+        <%= form.hidden_field :draft, value: false %>
+        <%= form.hidden_field :policy_area, value: policy_area %>
+        <%= form.govuk_text_field :proposal, label: {text: "Enter element of proposal"} %>
+        <%= form.govuk_text_field :policy_references,
+              label: {text: "Enter policy references"},
+              hint: {text: "Start typing to find an existing policy reference"},
+              form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyReferencesContainer"}},
+              data: {consideration_form_target: "policyReferencesInput"} %>
+
+        <ul class="govuk-list editable-list" data-consideration-form-target="policyReferences">
+          <%= form.fields :policy_references do |fields| %>
+            <li>
+              <%= fields.hidden_field :code %>
+              <%= fields.hidden_field :description %>
+              <%= fields.hidden_field :url %>
+              <span><%= fields.object.code %> - <%= fields.object.description %></span>
+              <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+            </li>
+          <% end %>
+        </ul>
+
+        <template id="consultee-template" data-consideration-form-target="policyReferenceTemplate">
+          <li>
+            <input type="hidden" name="code" value="">
+            <input type="hidden" name="description" value="">
+            <input type="hidden" name="url" value="">
+            <span>Code - Description</span>
+            <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+          </li>
+        </template>
+      </div>
+    <% end %>
+
+    <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Status", size: "s"}, small: true do %>
+      <% Consideration.summary_tags.each do |label, value| %>
+        <%= form.govuk_radio_button :summary_tag, value, label: {text: label.humanize} %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>
+  <% end %>
+
+  <% if action_name.eql?("edit") %>
+    <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+  <% end %>
+</div>

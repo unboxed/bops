@@ -175,7 +175,7 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :consideration_guidances, only: %i[index create destroy]
+          resources :consideration_guidances, except: %i[show]
 
           resource :informatives, only: %i[create show edit update] do
             resources :items, only: %i[edit update destroy], module: :informatives do

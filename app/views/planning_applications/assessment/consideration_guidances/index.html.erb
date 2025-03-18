@@ -16,57 +16,50 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= govuk_tabs do |tabs| %>
-      <% tabs.with_tab(label: "Consultees") do %>
-        <h2 class="govuk-heading-m">Consultees</h2>
-        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+    <%= render "tabs" %>
 
-        <div class="govuk-!-margin-bottom-5">
-          <% @consultee_responses.each do |consultee_response| %>
-            <%= bops_status_detail(
-                  id: "consultee-response-#{consultee_response.id}"
-                ) do |component| %>
-              <% component.with_title { consultee_response.name } %>
-              <% component.with_body { consultee_response.comment } %>
-              <% component.with_status do %>
-                <% case consultee_response.summary_tag %>
-                <% when "amendments_needed" %>
-                  <%= tag.span(t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow") %>
-                <% when "objected" %>
-                  <%= tag.span(t(".objected"), class: "govuk-tag govuk-tag--red") %>
-                <% when "approved" %>
-                  <%= tag.span(t(".approved"), class: "govuk-tag govuk-tag--green") %>
-                <% end %>
+    <% @considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
+      <%= govuk_summary_card(title: policy_area, html_attributes: {id: policy_area.parameterize}) do |card| %>
+
+        <% considerations.each do |consideration| %>
+          <% if consideration.draft? %>
+            <% if considerations.length == 1 %>
+              <% card.with_action do %>
+                <%= govuk_link_to("Remove", planning_application_assessment_consideration_guidance_path(@planning_application, consideration), method: :delete, data: {confirm: "Are you sure?"}) %>
               <% end %>
             <% end %>
+          <% else %>
+            <div class="govuk-grid-row" id="consideration_<%= consideration.id %>">
+              <div class="govuk-grid-column-three-quarters">
+                <p class="govuk-body-s"><strong><%= consideration.proposal %></strong></p>
+              </div>
+              <div class="govuk-grid-column-one-quarter" style="text-align: right;">
+                <%= govuk_link_to "Edit", edit_planning_application_assessment_consideration_guidance_path(@planning_application, consideration) %> |
+                <%= govuk_link_to "Remove", planning_application_assessment_consideration_guidance_path(@planning_application, consideration), method: :delete, data: {confirm: "Are you sure?"} %>
+              </div>
+            </div>
+
+            <ul class="govuk-list">
+              <li><%= summary_tag_label(consideration.summary_tag) %></li>
+              <p class="govuk-body">
+                <% consideration.policy_references.each do |reference| %>
+                  <li class="govuk-body-xs"><%= reference.code_and_description %></li>
+                <% end %>
+              </p>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
           <% end %>
-        </div>
+        <% end %>
 
-        <%= govuk_link_to "View consultee responses", planning_application_consultees_responses_path(@planning_application), new_tab: true %>
+        <%= govuk_details(
+              summary_text: "Add advice", open: @consideration.errors.any? && @consideration.policy_area == policy_area
+            ) do %>
+          <div class="govuk-grid-row">
+            <%= render "form", policy_area: policy_area, form_url: planning_application_assessment_consideration_guidances_path(@planning_application), form_method: :post %>
+          </div>
+        <% end %>
       <% end %>
-
-      <% tabs.with_tab(label: "Constraints") do %>
-        <h2 class="govuk-heading-m">Constraints</h2>
-        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
-
-        <%= render(
-              partial: "planning_applications/validation/constraints/table",
-              locals: {
-                title: "Identified constraints",
-                identifier: "identified",
-                planning_application_constraints: @planning_application.planning_application_constraints,
-                show_source: true,
-                show_entity: true,
-                show_action: false
-              }
-            ) %>
-      <% end %>
-    <% end %>
-
-    <% @considerations.each do |consideration| %>
-      <%= govuk_summary_card(title: consideration.policy_area, html_attributes: {id: consideration.policy_area.parameterize}) do |card|
-            card.with_action { govuk_link_to("Remove", planning_application_assessment_consideration_guidance_path(@planning_application, consideration), method: :delete, data: {confirm: "Are you sure?"}) }
-          end %>
     <% end %>
 
     <%= govuk_details(summary_text: "Add a new consideration", open: @considerations.none? || @consideration.errors.any?) do %>

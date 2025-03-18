@@ -6,14 +6,27 @@ module PlanningApplications
       before_action :set_consideration_set
       before_action :set_considerations
       before_action :build_consideration, only: [:index, :create]
-      before_action :set_consultee_responses, only: :index
-      before_action :set_consideration, only: :destroy
+      before_action :set_consultee_responses, only: [:index, :edit]
+      before_action :set_consideration, only: [:destroy, :edit, :update]
+
+      def index
+        respond_to do |format|
+          format.html
+        end
+      end
+
+      def edit
+        respond_to do |format|
+          format.html
+        end
+      end
 
       def create
         @consideration.submitted_by = current_user
+
         respond_to do |format|
           format.html do
-            if @consideration.update(consideration_params)
+            if @consideration.update(consideration_params, :advice)
               redirect_to planning_application_assessment_consideration_guidances_path(@planning_application), notice: t(".success")
             else
               set_consultee_responses
@@ -23,9 +36,16 @@ module PlanningApplications
         end
       end
 
-      def index
+      def update
         respond_to do |format|
-          format.html
+          format.html do
+            if @consideration.update(consideration_params, :advice)
+              redirect_to planning_application_assessment_consideration_guidances_path(@planning_application), notice: t(".success")
+            else
+              set_consultee_responses
+              render :edit
+            end
+          end
         end
       end
 
@@ -35,6 +55,7 @@ module PlanningApplications
             if @consideration.destroy
               redirect_to planning_application_assessment_consideration_guidances_path(@planning_application), notice: t(".success")
             else
+              set_consultee_responses
               render :index
             end
           end
@@ -68,7 +89,9 @@ module PlanningApplications
       end
 
       def consideration_params
-        params.require(:consideration).permit(:policy_area)
+        params.require(:consideration).permit(
+          :policy_area, :draft, :proposal, :summary_tag, policy_references_attributes: %i[code description url]
+        )
       end
     end
   end
