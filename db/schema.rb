@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_03_152123) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_17_171204) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -223,8 +223,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_03_152123) do
     t.string "policy_area", null: false
     t.jsonb "policy_references", default: [], null: false
     t.jsonb "policy_guidance", default: [], null: false
-    t.text "assessment", null: false
-    t.text "conclusion", null: false
+    t.text "assessment"
+    t.text "conclusion"
     t.integer "position"
     t.bigint "submitted_by_id"
     t.datetime "created_at", null: false

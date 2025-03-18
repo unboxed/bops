@@ -1223,6 +1223,10 @@ en:
       base:
         not_validated: The planning application must be validated before assessment can begin
       consideration_guidances:
+        create:
+          success: Consideration was successfully added
+        destroy:
+          success: Consideration was successfully removed
         index:
           amendments_needed: Amendments Needed
           approved: Approved

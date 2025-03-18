@@ -62,5 +62,30 @@
             ) %>
       <% end %>
     <% end %>
+
+    <% @considerations.each do |consideration| %>
+      <%= govuk_summary_card(title: consideration.policy_area, html_attributes: {id: consideration.policy_area.parameterize}) do |card|
+            card.with_action { govuk_link_to("Remove", planning_application_assessment_consideration_guidance_path(@planning_application, consideration), method: :delete, data: {confirm: "Are you sure?"}) }
+          end %>
+    <% end %>
+
+    <%= govuk_details(summary_text: "Add a new consideration", open: @considerations.none? || @consideration.errors.any?) do %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds" data-controller="consideration-form">
+          <%= form_with model: @consideration, url: planning_application_assessment_consideration_guidances_path(@planning_application) do |form| %>
+            <%= form.govuk_fieldset legend: {text: "Add a new consideration"} do %>
+              <%= form.govuk_collection_select :policy_area,
+                    current_local_authority.policy_areas.menu,
+                    :last, :last, options: {include_blank: true},
+                    label: {text: "Select policy area"},
+                    data: {consideration_form_target: "policyAreaSelect"} %>
+              <%= form.govuk_submit("Add consideration", secondary: true, class: "govuk-!-margin-bottom-2") %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
   </div>
 </div>
