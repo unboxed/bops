@@ -25,7 +25,7 @@ module BopsApi
       pagy, paginated_scope = pagy(scope, page:, limit: results_per_page, overflow: :last_page)
       [pagy, paginated_scope]
     end
- 
+
     private
 
     def results_per_page
