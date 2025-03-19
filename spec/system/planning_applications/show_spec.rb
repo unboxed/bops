@@ -31,7 +31,8 @@ RSpec.describe "Planning Application show page" do
     ]
   end
 
-  let(:application_type) { create(:application_type, :ldc_proposed) }
+  let(:config) { create(:application_type_config, :ldc_proposed) }
+  let(:application_type) { create(:application_type, config:, local_authority: default_local_authority) }
 
   let!(:planning_application) do
     create(

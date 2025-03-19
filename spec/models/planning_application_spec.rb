@@ -390,13 +390,15 @@ RSpec.describe PlanningApplication do
       end
 
       context "when application type has changed" do
+        before { create(:application_type, :prior_approval, local_authority:) }
+
         it "updates the application type id and sets a new application and reference number" do
           expect(pa_planning_application.reference).to eq("23-00100-PA1A")
           expect(ldc_planning_application.reference).to eq("23-00101-LDCP")
 
           travel_to("2023-02-01") do
             expect do
-              ldc_planning_application.update!(application_type_id: ApplicationType::Config.find_by(name: "prior_approval").id)
+              ldc_planning_application.update!(application_type_id: local_authority.application_types.find_by(name: "prior_approval").id)
             end.to change(Audit, :count)
               .by(1)
               .and change(ldc_planning_application, :reference)

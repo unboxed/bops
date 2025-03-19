@@ -4,8 +4,10 @@ require "rails_helper"
 
 RSpec.describe BopsApi::Application::Parsers::AddressParser do
   describe "#parse" do
+    let(:local_authority) { create(:local_authority, :default) }
+
     let(:parse_address) do
-      described_class.new(params).parse
+      described_class.new(params, local_authority:).parse
     end
 
     context "with valid params" do

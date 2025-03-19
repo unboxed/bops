@@ -3,13 +3,7 @@
 module BopsApi
   module Application
     module Parsers
-      class AddressParser
-        attr_reader :params
-
-        def initialize(params)
-          @params = params
-        end
-
+      class AddressParser < BaseParser
         def parse
           {uprn:, address_1:, address_2:, town:, postcode:, longitude:, latitude:}
         end

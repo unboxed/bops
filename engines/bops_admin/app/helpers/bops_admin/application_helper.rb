@@ -6,10 +6,10 @@ module BopsAdmin
     include BreadcrumbNavigationHelper
 
     DASHBOARD_PAGES = %w[dashboards].freeze
-    APPLICATION_PAGES = %w[consultees settings determination_periods].freeze
+    APPLICATION_PAGES = %w[consultees].freeze
     POLICY_PAGES = %w[informatives policy_areas policy_guidances policy_references].freeze
     USER_PAGES = %w[tokens users].freeze
-    SETTING_PAGES = %w[profiles].freeze
+    SETTING_PAGES = %w[application_types profiles].freeze
 
     attr_reader :back_path
 

@@ -17,7 +17,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
     let(:create_planning_application) do
       described_class.new(
-        local_authority:, user:, params:
+        user:, params:, local_authority:
       ).call!
     end
 

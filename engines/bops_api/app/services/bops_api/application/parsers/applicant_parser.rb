@@ -3,13 +3,7 @@
 module BopsApi
   module Application
     module Parsers
-      class ApplicantParser
-        attr_reader :params
-
-        def initialize(params)
-          @params = params
-        end
-
+      class ApplicantParser < BaseParser
         def parse
           {
             applicant_first_name: params.dig("name", "first"),

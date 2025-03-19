@@ -35,7 +35,12 @@ class ApplicationType < ApplicationRecord
     enum :status, %i[inactive active retired].index_with(&:to_s)
 
     belongs_to :legislation, optional: true
-    has_many :planning_applications, -> { kept }, dependent: :restrict_with_exception
+    has_many :application_types, dependent: :restrict_with_exception
+
+    with_options through: :application_types do
+      has_many :local_authorities
+      has_many :planning_applications, -> { kept }, dependent: :restrict_with_exception
+    end
 
     accepts_nested_attributes_for :legislation, :document_tags
 
@@ -180,13 +185,6 @@ class ApplicationType < ApplicationRecord
           next memo unless CURRENT_APPLICATION_TYPES.include?(item.first)
 
           memo << item.reverse
-        end
-      end
-
-      def menu(scope = by_name, type: nil)
-        scope = scope.where(name: type) if type
-        scope.active.order(code: :asc).map do |application_type|
-          [application_type.description, application_type.id]
         end
       end
 

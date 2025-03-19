@@ -4,8 +4,8 @@ require "rails_helper"
 
 RSpec.describe "Planning Application index page", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed) }
-  let!(:application_type_prior_approval) { create(:application_type, :prior_approval) }
+  let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed, local_authority: default_local_authority) }
+  let!(:application_type_prior_approval) { create(:application_type, :prior_approval, local_authority: default_local_authority) }
   let!(:planning_application_1) {
     create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority, application_type: application_type_ldc_proposed)
   }

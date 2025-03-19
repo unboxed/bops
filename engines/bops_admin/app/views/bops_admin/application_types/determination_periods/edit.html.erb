@@ -1,0 +1,28 @@
+<% content_for :page_title do %>
+  <%= t(".determination_period") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application Types", application_types_path %>
+
+<% content_for :title, t(".determination_period") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_with model: @application_type, url: [@application_type, :determination_period] do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <%= form.govuk_text_field :determination_period_days, width: 5,
+            label: {text: t(".set_determination_period_html", description: @application_type.description)},
+            hint: {text: t(".hint")},
+            suffix_text: t(".days") %>
+
+      <%= form.govuk_submit(t(".continue")) do %>
+        <%= govuk_button_link_to t("back"), @application_type, secondary: true %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -3,13 +3,7 @@
 module BopsApi
   module Application
     module Parsers
-      class FeeParser
-        attr_reader :params
-
-        def initialize(params)
-          @params = params
-        end
-
+      class FeeParser < BaseParser
         def parse
           return {} if params.blank?
 

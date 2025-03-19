@@ -121,7 +121,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
-  belongs_to :application_type, class_name: "ApplicationType::Config"
+  belongs_to :application_type
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
@@ -984,13 +984,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def application_type_determination_period
-    determination_period_days_for_pre_app ||
-      application_type.determination_period_days ||
-      DAYS_TO_EXPIRE
-  end
-
-  def determination_period_days_for_pre_app
-    local_authority.application_type_overrides.find { |ato| ato.code == "preApp" }&.determination_period_days if pre_application?
+    application_type.determination_period_days || DAYS_TO_EXPIRE
   end
 
   def set_change_access_id
@@ -1070,7 +1064,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def audit_update_application_type!
-    old_application_type = ApplicationType::Config.find(changes["application_type_id"].first)
+    old_application_type = ApplicationType.find(changes["application_type_id"].first)
     old_reference = reference
 
     transaction do

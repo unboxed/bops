@@ -184,7 +184,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "allows editing of an inactive application type" do
-    application_type = create(:application_type, :configured, :ldc_proposed, status: "inactive")
+    application_type = create(:application_type_config, :configured, :ldc_proposed, status: "inactive")
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -205,7 +205,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "prevents editing of an active application type" do
-    application_type = create(:application_type, :ldc_proposed, status: "active")
+    application_type = create(:application_type_config, :ldc_proposed, status: "active")
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -230,7 +230,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "prevents editing of a retired application type" do
-    application_type = create(:application_type, :ldc_proposed, status: "retired")
+    application_type = create(:application_type_config, :ldc_proposed, status: "retired")
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -255,7 +255,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "allows activation of a new application type" do
-    application_type = create(:application_type, :ldc_proposed, status: "inactive")
+    application_type = create(:application_type_config, :ldc_proposed, status: "inactive")
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -276,7 +276,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "prevents activation of a new application type when the category has not been set" do
-    application_type = create(:application_type, :without_category, status: "inactive")
+    application_type = create(:application_type_config, :without_category, status: "inactive")
 
     visit "/application_types/#{application_type.id}"
 
@@ -301,7 +301,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "prevents activation of a new application type when a reporting type has not been selected" do
-    application_type = create(:application_type, :without_reporting_types, status: "inactive")
+    application_type = create(:application_type_config, :without_reporting_types, status: "inactive")
 
     visit "/application_types/#{application_type.id}"
 
@@ -326,7 +326,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "prevents activation of a new application type when the legislation has not been set" do
-    application_type = create(:application_type, :without_legislation, status: "inactive")
+    application_type = create(:application_type_config, :without_legislation, status: "inactive")
 
     visit "/application_types/#{application_type.id}"
 
@@ -351,7 +351,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "allows retirement of an application type" do
-    application_type = create(:application_type, :ldc_proposed, status: "active")
+    application_type = create(:application_type_config, :ldc_proposed, status: "active")
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -373,7 +373,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "allows an application type to be brought out of retirement" do
-    application_type = create(:application_type, :ldc_proposed, status: "retired")
+    application_type = create(:application_type_config, :ldc_proposed, status: "retired")
 
     visit "/application_types/#{application_type.id}"
 
@@ -396,7 +396,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "allows editing of the category" do
-    application_type = create(:application_type, :configured, :ldc_proposed)
+    application_type = create(:application_type_config, :configured, :ldc_proposed)
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -427,7 +427,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     create(:reporting_type, :prior_approval_1a)
     create(:reporting_type, :prior_approval_all_others)
 
-    application_type = create(:application_type, :configured, :prior_approval)
+    application_type = create(:application_type_config, :configured, :prior_approval)
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -457,7 +457,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   it "allows editing of the legislation" do
     legislation = create(:legislation, title: "Town and Country Planning Act 1990")
     determination_period_days = 25
-    application_type = create(:application_type, :configured, :ldc_proposed, legislation:, determination_period_days:)
+    application_type = create(:application_type_config, :configured, :ldc_proposed, legislation:, determination_period_days:)
 
     visit "/application_types/#{application_type.id}"
 
@@ -488,7 +488,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "allows editing of the determination period days" do
-    application_type = create(:application_type, :configured, :ldc_proposed, determination_period_days: 25)
+    application_type = create(:application_type_config, :configured, :ldc_proposed, determination_period_days: 25)
 
     visit "/application_types/#{application_type.id}"
 
@@ -509,7 +509,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
   it "allows editing of the features" do
     application_type = create(
-      :application_type, :configured, :ldc_proposed,
+      :application_type_config, :configured, :ldc_proposed,
       steps: %w[validation consultation assessment review],
       features: {
         "informatives" => true,
@@ -606,7 +606,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
   it "allows editing of the tags for drawings" do
     application_type = create(
-      :application_type, :configured, :ldc_proposed,
+      :application_type_config, :configured, :ldc_proposed,
       document_tags: {
         "drawings" => %w[elevations.existing]
       }
@@ -640,7 +640,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
   it "allows editing of the tags for evidence" do
     application_type = create(
-      :application_type, :configured, :ldc_proposed,
+      :application_type_config, :configured, :ldc_proposed,
       document_tags: {
         "evidence" => %w[bankStatement]
       }
@@ -674,7 +674,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
   it "allows editing of the tags for supporting documents" do
     application_type = create(
-      :application_type, :configured, :ldc_proposed,
+      :application_type_config, :configured, :ldc_proposed,
       document_tags: {
         "supporting_documents" => %w[environmentalImpactAssessment]
       }
@@ -711,7 +711,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     create(:decision, :pa_not_required)
     create(:decision, :pa_refused)
 
-    application_type = create(:application_type, :configured, :prior_approval)
+    application_type = create(:application_type_config, :configured, :prior_approval)
 
     visit "/application_types/#{application_type.id}"
     expect(page).to have_selector("h1", text: "Review the application type")
@@ -738,10 +738,10 @@ RSpec.describe "Application Types", type: :system, capybara: true do
   end
 
   it "displays application types" do
-    ldc_existing = create(:application_type, :ldc_existing, status: "active")
-    ldc_proposed = create(:application_type, :ldc_proposed, status: "retired")
-    prior_approval = create(:application_type, :prior_approval, status: "active")
-    planning_permission = create(:application_type, :planning_permission, status: "inactive")
+    ldc_existing = create(:application_type_config, :ldc_existing, status: "active")
+    ldc_proposed = create(:application_type_config, :ldc_proposed, status: "retired")
+    prior_approval = create(:application_type_config, :prior_approval, status: "active")
+    planning_permission = create(:application_type_config, :planning_permission, status: "inactive")
 
     visit "/application_types"
     expect(page).to have_selector("h1", text: "Application Types")
