@@ -335,7 +335,7 @@ en:
               not_a_number: Payment amount must be a number not exceeding 2 decimal places
             public_comment:
               blank: Please state the reasons for your recommendation
-            reporting_type:
+            reporting_type_code:
               blank: Please select a development type for reporting
             review_documents_for_recommendation_status:
               inclusion: "%{attribute} must be Not started, In progress or Complete"
