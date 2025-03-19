@@ -259,6 +259,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    event_stream_parser (1.0.0)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -268,6 +269,8 @@ GEM
       i18n (>= 1.6, < 2)
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
+    faraday-multipart (1.1.0)
+      multipart-post (~> 2.0)
     faraday-net_http (3.1.0)
       net-http
     ffi (1.17.1)
@@ -391,6 +394,7 @@ GEM
     minitest (5.25.4)
     msgpack (1.7.2)
     multi_test (1.1.0)
+    multipart-post (2.4.1)
     nenv (0.3.0)
     net-http (0.4.1)
       uri
@@ -571,6 +575,10 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
+    ruby-openai (8.0.0)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -735,6 +743,7 @@ DEPENDENCIES
   rswag-api
   rswag-specs
   rswag-ui
+  ruby-openai
   selenium-webdriver
   sidekiq
   sidekiq-scheduler

@@ -56,6 +56,8 @@ class Document < ApplicationRecord
   before_update :reset_replacement_document_validation_request_update_counter!, if: :owner_is_validation_request?
   after_update :audit_updated!
 
+  after_create :generate_ai_summary
+
   DRAWING_TAGS = %w[
     elevations.existing
     elevations.proposed
@@ -282,6 +284,11 @@ class Document < ApplicationRecord
         raise ArgumentError, "Unexpected document tag type: #{key}"
       end
     end
+  end
+
+  def generate_ai_summary
+    # Call the open ai service
+    DocumentAnalyserJob.perform_later(self)
   end
 
   def name
