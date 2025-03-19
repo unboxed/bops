@@ -1,4 +1,4 @@
-FROM postgres:14-bookworm
+FROM postgres:16-bookworm
 
 ENV POSTGIS_MAJOR 3
 
