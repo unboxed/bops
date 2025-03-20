@@ -1251,6 +1251,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
   add_foreign_key "planning_application_requirements", "planning_applications"
   add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "application_types"
+  add_foreign_key "planning_applications", "application_types", column: "recommended_application_type_id", validate: false
   add_foreign_key "planning_applications", "local_authorities"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
