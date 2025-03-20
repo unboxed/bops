@@ -138,6 +138,8 @@ Rails.application.routes.draw do
             end
           end
 
+          resource :recommended_application_type, only: %i[show edit update]
+
           resource :permitted_development_rights, only: %i[show edit update]
 
           namespace :policy_areas do

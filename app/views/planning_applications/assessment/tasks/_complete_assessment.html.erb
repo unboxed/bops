@@ -25,6 +25,13 @@
           ) %>
       </div>
     </li>
+    <% if @planning_application.pre_application? %>
+      <%= render(
+            TaskListItems::Assessment::RecommendedApplicationTypeComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
     <% if @planning_application.application_type.planning_conditions? %>
       <%= render(
             TaskListItems::Assessment::ConditionsComponent.new(

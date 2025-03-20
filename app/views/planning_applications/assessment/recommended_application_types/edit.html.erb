@@ -1,0 +1,21 @@
+<% content_for :page_title do %>
+  Reporting details - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Choose application type" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Choose application type"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "form" %>
+  </div>
+</div>

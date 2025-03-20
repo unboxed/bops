@@ -1,0 +1,21 @@
+<%= form_with model: @planning_application, local: true, url: planning_application_assessment_recommended_application_type_url(@planning_application) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <div data-controller="autocomplete-select">
+    <%= form.govuk_select :recommended_application_type_id, current_local_authority.application_types.menu,
+          label: {text: t(".code_label"), tag: "h2", size: "m"},
+          hint: {text: t(".code_hint")},
+          options: {include_blank: true} %>
+  </div>
+
+  <% if action_name == "show" %>
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      <%= govuk_link_to "Edit application type", edit_planning_application_assessment_recommended_application_type_path(@planning_application), class: "govuk-body" %>
+    </div>
+  <% else %>
+    <%= form.govuk_submit(t("form_actions.save_and_mark_as_complete")) do %>
+      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+    <% end %>
+  <% end %>
+<% end %>
