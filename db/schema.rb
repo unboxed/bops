@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_17_171204) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_20_075646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -1245,6 +1245,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_171204) do
   add_foreign_key "planning_application_policy_sections", "policy_sections"
   add_foreign_key "planning_application_requirements", "planning_applications"
   add_foreign_key "planning_applications", "api_users"
+  add_foreign_key "planning_applications", "application_types"
   add_foreign_key "planning_applications", "local_authorities"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
