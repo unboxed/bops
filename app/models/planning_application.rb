@@ -122,6 +122,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
   belongs_to :application_type
+  belongs_to :recommended_application_type, class_name: "ApplicationType", optional: true
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
@@ -231,6 +232,10 @@ class PlanningApplication < ApplicationRecord
   with_options on: :reporting_types do
     validate :regulation_present, if: :regulation?
     validates :reporting_type_code, presence: true, if: :selected_reporting_types?
+  end
+
+  with_options on: :recommended_application_type do
+    validates :recommended_application_type, presence: true
   end
 
   with_options on: :update, if: -> { changes.present? && !status_changed? } do

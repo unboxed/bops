@@ -915,6 +915,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
     t.datetime "deleted_at"
     t.string "previous_references", default: [], array: true
     t.string "reporting_type_code"
+    t.bigint "recommended_application_type_id"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
@@ -926,6 +927,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
     t.index ["deleted_at"], name: "ix_planning_applications_on_deleted_at"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["lonlat"], name: "ix_planning_applications_on_lonlat", using: :gist
+    t.index ["recommended_application_type_id"], name: "ix_planning_applications_on_recommended_application_type_id"
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"
@@ -1249,6 +1251,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
   add_foreign_key "planning_application_requirements", "planning_applications"
   add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "application_types"
+  add_foreign_key "planning_applications", "application_types", column: "recommended_application_type_id"
   add_foreign_key "planning_applications", "local_authorities"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"

@@ -1431,6 +1431,12 @@ en:
           update_assessment: Update assessment
         update:
           success: Recommendation was successfully reviewed.
+      recommended_application_types:
+        form:
+          code_hint: Enter the application type
+          code_label: What application type would the applicant need to apply for next?
+        update:
+          success: Recommended application type was successfully chosen.
       report_downloads:
         show:
           assessment_report: Assessment report
