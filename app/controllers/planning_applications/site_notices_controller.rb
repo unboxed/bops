@@ -83,12 +83,6 @@ module PlanningApplications
       params.require(:site_notice).permit(:required, :displayed_at, :method, :internal_team_email, documents: [])
     end
 
-    def calculate_consultation_end_date
-      new_end_date = @site_notice.displayed_at + Consultation::DEFAULT_PERIOD
-
-      @planning_application.consultation.update!(end_date: new_end_date)
-    end
-
     def send_mail
       if site_notice_params[:internal_team_email].presence
         @planning_application.send_internal_team_site_notice_mail(site_notice_params[:internal_team_email])
