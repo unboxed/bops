@@ -7,9 +7,8 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
   let!(:assessor) { create(:user, :assessor, local_authority:) }
 
   let(:planning_application) do
-    create(:planning_application, :pre_application, :in_assessment, local_authority:, consultation:)
+    create(:planning_application, :pre_application, :in_assessment, local_authority:)
   end
-  let(:consultation) { create(:consultation) }
   let!(:consultee) { create(:consultee, consultation: planning_application.consultation) }
 
   let!(:consultee_response_approved) do

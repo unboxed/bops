@@ -558,13 +558,15 @@ FactoryBot.define do
     trait :pre_application do
       code { "preApp" }
       suffix { "PRE" }
+      steps { %w[validation consultation assessment review] }
 
       features {
         {
           "cil" => false,
           "description_change_requires_validation" => false,
           "eia" => false,
-          "legislative_requirements" => false
+          "legislative_requirements" => false,
+          "consultation_steps" => ["consultee"]
         }
       }
     end

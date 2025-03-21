@@ -555,6 +555,9 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
       end
 
       context "when application type is preApp" do
+        before do
+          stub_os_places_api_request_for_radius(53.5020957, -1.0205473)
+        end
         let(:params) { json_fixture("v2/preApplication.json").with_indifferent_access }
         let(:planning_application) { create_planning_application }
         let(:service) { described_class.new(local_authority:, user:, params:, planning_application:) }
