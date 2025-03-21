@@ -85,8 +85,8 @@ class Consultation < ApplicationRecord
     validate do
       errors.add(:planning_application, :invalidated) if planning_application.invalidated?
       errors.add(:planning_application, :not_started) if planning_application.not_started?
-      errors.add(:planning_application, :not_public) unless planning_application.make_public?
       errors.add(:consultees, :blank) if consultees.none_selected?
+      errors.add(:planning_application, :not_public) unless planning_application.make_public? || planning_application.pre_application?
 
       unknown_placeholders(consultee_message_subject) do |placeholder|
         errors.add(:consultee_message_subject, :invalid, placeholder: placeholder)
