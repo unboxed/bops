@@ -1,0 +1,46 @@
+<%= govuk_tabs do |tabs| %>
+  <% tabs.with_tab(label: "Consultees") do %>
+    <h2 class="govuk-heading-m">Consultees</h2>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+
+    <div class="govuk-!-margin-bottom-5">
+      <% @consultee_responses.each do |consultee_response| %>
+        <%= bops_status_detail(
+              id: "consultee-response-#{consultee_response.id}"
+            ) do |component| %>
+          <% component.with_title { consultee_response.name } %>
+          <% component.with_body { consultee_response.comment } %>
+          <% component.with_status do %>
+            <% case consultee_response.summary_tag %>
+            <% when "amendments_needed" %>
+              <%= tag.span(t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow") %>
+            <% when "objected" %>
+              <%= tag.span(t(".objected"), class: "govuk-tag govuk-tag--red") %>
+            <% when "approved" %>
+              <%= tag.span(t(".approved"), class: "govuk-tag govuk-tag--green") %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= govuk_link_to "View consultee responses", planning_application_consultees_responses_path(@planning_application), new_tab: true %>
+  <% end %>
+
+  <% tabs.with_tab(label: "Constraints") do %>
+    <h2 class="govuk-heading-m">Constraints</h2>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+
+    <%= render(
+          partial: "planning_applications/validation/constraints/table",
+          locals: {
+            title: "Identified constraints",
+            identifier: "identified",
+            planning_application_constraints: @planning_application.planning_application_constraints,
+            show_source: true,
+            show_entity: true,
+            show_action: false
+          }
+        ) %>
+  <% end %>
+<% end %>

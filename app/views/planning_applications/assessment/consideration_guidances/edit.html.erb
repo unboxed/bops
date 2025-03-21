@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  Edit planning considerations and advice - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Edit planning considerations and advice" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Edit planning considerations and advice"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render "tabs" %>
+
+    <%= render "form", policy_area: @consideration.policy_area, form_url: planning_application_assessment_consideration_guidance_path(@planning_application, @consideration), form_method: :patch %>
+  </div>
+</div>

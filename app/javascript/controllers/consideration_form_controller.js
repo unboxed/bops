@@ -16,82 +16,88 @@ export default class extends Controller {
   ]
 
   connect() {
-    accessibleAutocomplete.enhanceSelectElement({
-      confirmOnBlur: true,
-      defaultValue: "",
-      displayMenu: "overlay",
-      preserveNullOptions: true,
-      selectElement: this.policyAreaSelectTarget,
-      showAllValues: true,
-    })
+    if (this.hasPolicyAreaSelectTarget) {
+      accessibleAutocomplete.enhanceSelectElement({
+        confirmOnBlur: true,
+        defaultValue: "",
+        displayMenu: "overlay",
+        preserveNullOptions: true,
+        selectElement: this.policyAreaSelectTarget,
+        showAllValues: true,
+      })
+    }
 
-    accessibleAutocomplete({
-      element: this.policyReferencesContainerTarget,
-      id: "policyReferencesAutoComplete",
-      name: "policyReference",
-      defaultValue: "",
-      displayMenu: "overlay",
-      showNoOptionsFound: false,
-      minLength: 1,
-      confirmOnBlur: false,
-      source: (query, populateResults) => {
-        this.findPolicyReference(query, populateResults)
-      },
-      templates: {
-        inputValue: (value) => {
-          return value?.description
-            ? `${value.code} - ${value.description}`
-            : ""
+    if (this.hasPolicyReferencesContainerTarget) {
+      accessibleAutocomplete({
+        element: this.policyReferencesContainerTarget,
+        id: "policyReferencesAutoComplete",
+        name: "policyReference",
+        defaultValue: "",
+        displayMenu: "overlay",
+        showNoOptionsFound: false,
+        minLength: 1,
+        confirmOnBlur: false,
+        source: (query, populateResults) => {
+          this.findPolicyReference(query, populateResults)
         },
-        suggestion: (value) => {
-          return value?.description
-            ? `${value.code} - ${value.description}`
-            : ""
+        templates: {
+          inputValue: (value) => {
+            return value?.description
+              ? `${value.code} - ${value.description}`
+              : ""
+          },
+          suggestion: (value) => {
+            return value?.description
+              ? `${value.code} - ${value.description}`
+              : ""
+          },
         },
-      },
-      onConfirm: (value) => {
-        this.appendPolicyReference(value)
+        onConfirm: (value) => {
+          this.appendPolicyReference(value)
 
-        setTimeout(() => {
-          this.policyReferencesAutoComplete.value = ""
-        }, 50)
-      },
-    })
-
-    this.policyReferencesInputTarget.remove()
-    this.policyReferencesLabel.htmlFor = "policyReferencesAutoComplete"
-
-    accessibleAutocomplete({
-      element: this.policyGuidanceContainerTarget,
-      id: "policyGuidanceAutoComplete",
-      name: "policyGuidance",
-      defaultValue: "",
-      displayMenu: "overlay",
-      showNoOptionsFound: false,
-      minLength: 1,
-      confirmOnBlur: false,
-      source: (query, populateResults) => {
-        this.findPolicyGuidance(query, populateResults)
-      },
-      templates: {
-        inputValue: (value) => {
-          return value?.description ? value.description : ""
+          setTimeout(() => {
+            this.policyReferencesAutoComplete.value = ""
+          }, 50)
         },
-        suggestion: (value) => {
-          return value?.description ? value.description : ""
+      })
+
+      this.policyReferencesInputTarget.remove()
+      this.policyReferencesLabel.htmlFor = "policyReferencesAutoComplete"
+    }
+
+    if (this.hasPolicyGuidanceContainerTarget) {
+      accessibleAutocomplete({
+        element: this.policyGuidanceContainerTarget,
+        id: "policyGuidanceAutoComplete",
+        name: "policyGuidance",
+        defaultValue: "",
+        displayMenu: "overlay",
+        showNoOptionsFound: false,
+        minLength: 1,
+        confirmOnBlur: false,
+        source: (query, populateResults) => {
+          this.findPolicyGuidance(query, populateResults)
         },
-      },
-      onConfirm: (value) => {
-        this.appendPolicyGuidance(value)
+        templates: {
+          inputValue: (value) => {
+            return value?.description ? value.description : ""
+          },
+          suggestion: (value) => {
+            return value?.description ? value.description : ""
+          },
+        },
+        onConfirm: (value) => {
+          this.appendPolicyGuidance(value)
 
-        setTimeout(() => {
-          this.policyGuidanceAutoComplete.value = ""
-        }, 50)
-      },
-    })
+          setTimeout(() => {
+            this.policyGuidanceAutoComplete.value = ""
+          }, 50)
+        },
+      })
 
-    this.policyGuidanceInputTarget.remove()
-    this.policyGuidanceLabel.htmlFor = "policyGuidanceAutoComplete"
+      this.policyGuidanceInputTarget.remove()
+      this.policyGuidanceLabel.htmlFor = "policyGuidanceAutoComplete"
+    }
   }
 
   policyReferenceIsAlreadyAdded(data) {

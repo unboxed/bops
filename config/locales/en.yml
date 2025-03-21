@@ -711,10 +711,6 @@ en:
     published: Published
     received_on: Received on %-d %B %Y
     redact_and_publish: Redact and publish
-  consultee_response_detail_component:
-    amendments_needed: Amendments needed
-    approved: Approved
-    objected: Objected
   consultee_response_group_component:
     external_header: External consultee responses (%{count})
     internal_header: Internal consultee responses (%{count})
@@ -922,6 +918,11 @@ en:
       review_immunity_detail:
         accepted: On the balance of probabilities, is the development immune from enforcement action?
         removed: On the balance of probabilities, is the development immune from enforcement action?
+    summary_tags:
+      complies: Complies
+      does_not_comply: Does Not Comply
+      needs_changes: Needs Changes
+      unknown: Unknown
   local_policies:
     custom_areas:
     - Design
@@ -1227,10 +1228,12 @@ en:
           success: Consideration was successfully added
         destroy:
           success: Consideration was successfully removed
-        index:
+        tabs:
           amendments_needed: Amendments Needed
           approved: Approved
           objected: Objected
+        update:
+          success: Consideration was successfully updated
       considerations:
         create:
           success: Consideration was successfully added
