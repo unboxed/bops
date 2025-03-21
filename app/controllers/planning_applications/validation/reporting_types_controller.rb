@@ -32,7 +32,7 @@ module PlanningApplications
 
       def reporting_type_params
         (params[:planning_application] ? params.require(:planning_application) : params)
-          .permit(:reporting_type, :regulation).to_h.merge(regulation_3:, regulation_4:)
+          .permit(:reporting_type_code, :regulation).to_h.merge(regulation_3:, regulation_4:)
       end
 
       def regulation_3

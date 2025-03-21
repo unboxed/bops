@@ -19,7 +19,7 @@ class PlanningApplication < ApplicationRecord
 
   self.discard_column = :deleted_at
 
-  self.ignored_columns += %i[work_status make_public]
+  self.ignored_columns += %i[work_status make_public reporting_type]
 
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112
@@ -230,7 +230,7 @@ class PlanningApplication < ApplicationRecord
 
   with_options on: :reporting_types do
     validate :regulation_present, if: :regulation?
-    validates :reporting_type, presence: true, if: :selected_reporting_types?
+    validates :reporting_type_code, presence: true, if: :selected_reporting_types?
   end
 
   with_options on: :update, if: -> { changes.present? && !status_changed? } do
@@ -843,7 +843,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reporting_type_status
-    reporting_type.blank? ? :not_started : :complete
+    reporting_type_code.blank? ? :not_started : :complete
   end
 
   def updated_neighbour_boundary_geojson
@@ -916,7 +916,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reporting_type_detail
-    @reporting_type_detail ||= application_type.selected_reporting_types.find_by(code: reporting_type)
+    @reporting_type_detail ||= application_type.selected_reporting_types.find_by(code: reporting_type_code)
   end
 
   def to_param

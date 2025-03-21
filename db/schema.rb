@@ -912,6 +912,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_20_075646) do
     t.virtual "address_search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((((((COALESCE(address_1, ''::character varying))::text || ' '::text) || (COALESCE(address_2, ''::character varying))::text) || ' '::text) || (COALESCE(town, ''::character varying))::text) || ' '::text) || (COALESCE(county, ''::character varying))::text) || ' '::text) || (COALESCE(postcode, ''::character varying))::text))", stored: true
     t.datetime "deleted_at"
     t.string "previous_references", default: [], array: true
+    t.string "reporting_type_code"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
