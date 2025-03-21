@@ -49,6 +49,12 @@
           end
 
           summary_list.with_row do |row|
+            row.with_key { t(".disclaimer") }
+            row.with_value { markdown @application_type.disclaimer }
+            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :disclaimer]), visually_hidden_text: t(".disclaimer"))
+          end
+
+          summary_list.with_row do |row|
             row.with_key { t(".features") }
             row.with_value { %>
               <p class="govuk-body"><strong>Application details</strong></p>

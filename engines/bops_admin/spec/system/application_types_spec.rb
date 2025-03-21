@@ -184,4 +184,39 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(6) dd", text: "25 days - bank holidays included")
   end
+
+  it "allows the administrator to edit the disclaimer" do
+    application_type = create(:application_type, :configured, :pre_application, local_authority:)
+
+    visit "/admin/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(7)" do
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Set disclaimer")
+    expect(page).to have_selector("h1 > span", text: "Pre-application Advice")
+
+    # Set determination period
+    expect(page).to have_selector(".govuk-label", text: "Set disclaimer")
+    expect(page).to have_selector("div.govuk-hint", text: "Set the legal disclaimer that will be displayed for this type of application.")
+
+    fill_in "Set disclaimer", with: "hello world!"
+    click_button "Continue"
+
+    expect(page).to have_content("Disclaimer successfully updated")
+    expect(page).to have_content("hello world!")
+
+    within "dl div:nth-child(7)" do
+      click_link "Change"
+    end
+
+    fill_in "Set disclaimer", with: ""
+    click_button "Continue"
+
+    expect(page).to have_content("Disclaimer successfully updated")
+    expect(page).not_to have_content("hello world!")
+
+    expect(page).to have_selector("h1", text: "Review the application type")
+  end
 end

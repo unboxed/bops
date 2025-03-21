@@ -24,5 +24,11 @@ module BopsCore
     def active_page_key?(page_key)
       active_page_key == page_key
     end
+
+    def markdown(text)
+      return if text.blank?
+
+      CommonMarker.render_html(text).html_safe
+    end
   end
 end

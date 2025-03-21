@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
     t.string "category"
     t.string "reporting_types", default: [], null: false, array: true
     t.string "decisions", default: [], null: false, array: true
+    t.string "disclaimer"
     t.index ["code"], name: "ix_application_type_configs_on_code", unique: true, where: "((status)::text <> 'retired'::text)"
     t.index ["legislation_id"], name: "ix_application_type_configs_on_legislation_id"
     t.index ["suffix"], name: "ix_application_type_configs_on_suffix", unique: true
@@ -130,6 +131,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
     t.string "decisions", default: [], null: false, array: true
     t.bigint "config_id"
     t.bigint "local_authority_id"
+    t.string "disclaimer"
     t.index ["config_id"], name: "ix_application_types_on_config_id"
     t.index ["legislation_id"], name: "ix_application_types_on_legislation_id"
     t.index ["local_authority_id", "code"], name: "ix_application_types_on_local_authority_id__code", unique: true, where: "((status)::text <> 'retired'::text)"
