@@ -7,7 +7,7 @@ module Validation
     end
 
     def task_list_link
-      if planning_application.reporting_type_code.present?
+      if planning_application.reporting_type.present?
         planning_application_validation_reporting_type_path(planning_application)
       else
         edit_planning_application_validation_reporting_type_path(planning_application)

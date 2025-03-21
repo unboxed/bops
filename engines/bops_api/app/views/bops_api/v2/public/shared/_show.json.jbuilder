@@ -20,10 +20,10 @@ json.property do
 end
 json.proposal do
   json.description planning_application.description
-  if planning_application.reporting_type_detail.present?
+  if planning_application.reporting_type.present?
     json.reportingType do
-      json.code planning_application.reporting_type_detail.code
-      json.description planning_application.reporting_type_detail.description
+      json.code planning_application.reporting_type.code
+      json.description planning_application.reporting_type.description
     end
   else
     json.reportingType nil
