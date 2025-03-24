@@ -9,6 +9,7 @@ $govuk-page-width: 1100px;
 @import "@x-govuk/govuk-prototype-components/x-govuk/components/sub-navigation/sub-navigation";
 
 // Imports from engines
+@import "bops_core/components/notification_banner";
 @import "bops_core/components/side_navigation";
 @import "bops_core/components/task_accordion";
 @import "bops_core/components/ticket_panel";

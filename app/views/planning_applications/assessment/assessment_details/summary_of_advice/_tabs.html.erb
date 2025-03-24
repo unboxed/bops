@@ -1,0 +1,74 @@
+<%= govuk_tabs do |tabs| %>
+  <% tabs.with_tab(label: "Considerations") do %>
+    <h2 class="govuk-heading-m">Considerations</h2>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+
+    <div class="govuk-!-margin-bottom-5">
+      <% @planning_application.consideration_set.considerations.active.each do |consideration| %>
+        <%= bops_status_detail(
+              id: "consideration-#{consideration.id}"
+            ) do |component| %>
+          <% component.with_title { consideration.policy_area } %>
+          <% component.with_body { consideration.policy_references.map(&:code_and_description).join("; ") } %>
+          <% component.with_status do %>
+            <% case consideration.summary_tag %>
+            <% when "needs_changes" %>
+              <%= tag.span(t(".needs_changes"), class: "govuk-tag govuk-tag--yellow") %>
+            <% when "does_not_comply" %>
+              <%= tag.span(t(".does_not_comply"), class: "govuk-tag govuk-tag--red") %>
+            <% when "complies" %>
+              <%= tag.span(t(".complies"), class: "govuk-tag govuk-tag--green") %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= govuk_link_to "View considerations", planning_application_assessment_consideration_guidances_path(@planning_application), new_tab: true %>
+  <% end %>
+
+  <% tabs.with_tab(label: "Consultees") do %>
+    <h2 class="govuk-heading-m">Consultees</h2>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+
+    <div class="govuk-!-margin-bottom-5">
+      <% @planning_application.consultee_responses.each do |consultee_response| %>
+        <%= bops_status_detail(
+              id: "consultee-response-#{consultee_response.id}"
+            ) do |component| %>
+          <% component.with_title { consultee_response.name } %>
+          <% component.with_body { consultee_response.comment } %>
+          <% component.with_status do %>
+            <% case consultee_response.summary_tag %>
+            <% when "amendments_needed" %>
+              <%= tag.span(t(".amendments_needed"), class: "govuk-tag govuk-tag--yellow") %>
+            <% when "objected" %>
+              <%= tag.span(t(".objected"), class: "govuk-tag govuk-tag--red") %>
+            <% when "approved" %>
+              <%= tag.span(t(".approved"), class: "govuk-tag govuk-tag--green") %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= govuk_link_to "View consultee responses", planning_application_consultees_responses_path(@planning_application), new_tab: true %>
+  <% end %>
+
+  <% tabs.with_tab(label: "Constraints") do %>
+    <h2 class="govuk-heading-m">Constraints</h2>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+
+    <%= render(
+          partial: "planning_applications/validation/constraints/table",
+          locals: {
+            title: "Identified constraints",
+            identifier: "identified",
+            planning_application_constraints: @planning_application.planning_application_constraints,
+            show_source: true,
+            show_entity: true,
+            show_action: false
+          }
+        ) %>
+  <% end %>
+<% end %>

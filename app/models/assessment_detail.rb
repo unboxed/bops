@@ -14,6 +14,7 @@ class AssessmentDetail < ApplicationRecord
     consultation_summary
     neighbour_summary
     amenity
+    summary_of_advice
     check_publicity
   ].freeze
 
@@ -35,15 +36,19 @@ class AssessmentDetail < ApplicationRecord
     additional_evidence
     neighbour_summary
     amenity
+    summary_of_advice
     check_publicity
   ].index_with(&:to_s)
 
   CATEGORIES = defined_enums["category"].keys.map(&:to_sym).freeze
 
+  enum :summary_tag, %i[complies needs_changes does_not_comply].index_with(&:to_s)
+
   before_validation :set_user
 
   validates :assessment_status, presence: true
   validates :entry, presence: true, if: :validate_entry_presence?
+  validates :summary_tag, presence: true, if: :summary_of_advice?
   validate :tagged_entry, if: :neighbour_summary?
   validates :reviewer_verdict, presence: true, if: :review_complete?
 
@@ -86,7 +91,7 @@ class AssessmentDetail < ApplicationRecord
     return false if accepted? || rejected?
 
     summary_of_work? ||
-      site_description? || amenity? || any_neighbour_responses? ||
+      site_description? || amenity? || summary_of_advice? || any_neighbour_responses? ||
       (assessment_complete? && consultation_summary?)
   end
 

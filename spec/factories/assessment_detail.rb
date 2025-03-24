@@ -10,6 +10,10 @@ FactoryBot.define do
     entry { "This is a description about the summary of works" }
 
     AssessmentDetail.categories.each_key do |category|
+      if category == "summary_of_advice"
+        summary_tag { :needs_changes }
+      end
+
       trait category do
         category { category }
       end

@@ -1,0 +1,21 @@
+<%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
+  <%= form.govuk_error_summary %>
+  <% outcome = @planning_application.consideration_set.suggested_outcome %>
+
+<%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Select pre-application outcome", size: "s"}, small: true do %>
+  <% AssessmentDetail.summary_tags.each do |label, value| %>
+    <% key = (value == outcome) ? "#{label}_recommended_html" : label %>
+    <% label_text = t(".#{key}") %>
+    <%= form.govuk_radio_button :summary_tag, value, label: {text: label_text} %>
+  <% end %>
+<% end %>
+
+  <h3 class="govuk-heading-s">
+    Add summary of advice
+  </h3>
+
+  <%= form.govuk_text_area(:entry, label: {text: t(".label")}, rows: 10) %>
+  <%= form.hidden_field(:category, value: @category) %>
+
+  <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
+<% end %>

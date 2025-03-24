@@ -569,6 +569,16 @@ FactoryBot.define do
           "consultation_steps" => ["consultee"]
         }
       }
+
+      assessment_details do
+        %w[
+          summary_of_work
+          summary_of_advice
+          site_description
+          consultation_summary
+          additional_evidence
+        ]
+      end
     end
 
     trait :without_consultation do

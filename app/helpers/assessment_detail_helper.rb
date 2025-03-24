@@ -20,4 +20,8 @@ module AssessmentDetailHelper
 
     t(:neighbour_responses_by_summary_tag, tag: "neighbour response", count:)
   end
+
+  def summary_advice_content(summary_tag)
+    I18n.t("summary_advice.#{summary_tag}")
+  end
 end
