@@ -608,7 +608,6 @@ RSpec.describe "checking consistency" do
       "Additional document requests must be closed or cancelled"
     )
 
-    click_link("View and edit request")
     click_link("Cancel request")
 
     fill_in(
