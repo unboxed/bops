@@ -2,6 +2,7 @@
 
 class LocalAuthority < ApplicationRecord
   include StoreModel::NestedAttributes
+  self.ignored_columns += %i[application_type_overrides]
 
   attribute :application_type_overrides, ApplicationTypeOverrides.to_array_type
 

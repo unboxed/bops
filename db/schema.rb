@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_24_104433) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -541,7 +541,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_21_121622) do
     t.string "document_checklist"
     t.string "planning_policy_and_guidance"
     t.string "notify_error_status"
-    t.jsonb "application_type_overrides", default: []
     t.boolean "planning_history_enabled", default: false, null: false
     t.string "public_register_base_url"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
