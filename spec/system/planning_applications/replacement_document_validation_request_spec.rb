@@ -136,6 +136,12 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       click_button "Update request"
       expect(page).to have_content("Replacement document request successfully updated")
 
+      click_link "Application"
+      within "#documents-content" do
+        expect(page).to have_content "Cancel replacement request"
+      end
+      click_link "Check and validate"
+
       click_link "Tag and validate supplied documents"
 
       # Delete the request
