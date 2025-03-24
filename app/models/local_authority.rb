@@ -2,13 +2,6 @@
 
 class LocalAuthority < ApplicationRecord
   include StoreModel::NestedAttributes
-  self.ignored_columns += %i[application_type_overrides]
-
-  attribute :application_type_overrides, ApplicationTypeOverrides.to_array_type
-
-  validates :application_type_overrides, store_model: {merge_errors: true}
-
-  accepts_nested_attributes_for :application_type_overrides
 
   with_options dependent: :destroy do
     has_many :users

@@ -14,14 +14,6 @@ FactoryBot.define do
     feedback_email { "feedback_email@buckinghamshire.gov.uk" }
     email_reply_to_id { "4896bb50-4f4c-4b4d-ad67-2caddddde125" }
     active { true }
-    application_type_overrides do
-      [
-        {
-          code: :preApp,
-          determination_period_days: 30
-        }
-      ]
-    end
 
     trait :default do
       council_code { "PlanX" }
