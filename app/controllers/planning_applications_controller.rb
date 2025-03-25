@@ -255,13 +255,11 @@ class PlanningApplicationsController < AuthenticationController
       town
       uprn
       longitude
-      latitude]
+      latitude
+      make_public]
     # rubocop:enable Naming/VariableNumber
-    permitted_params = params.require(:planning_application).permit permitted_keys
 
-    permitted_params[:published_at] = (params[:planning_application][:make_public] == "true") ? Time.zone.now : nil
-
-    permitted_params
+    params.require(:planning_application).permit(*permitted_keys)
   end
 
   def determination_date_params

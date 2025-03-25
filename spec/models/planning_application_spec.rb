@@ -2435,4 +2435,180 @@ RSpec.describe PlanningApplication do
       end
     end
   end
+
+  describe "#make_public=" do
+    subject { described_class.new(published_at: published_at) }
+
+    around do |example|
+      travel_to("2025-03-25T12:00:00Z") { example.run }
+    end
+
+    context "when the value is true" do
+      let(:value) { true }
+
+      context "and published_at is blank" do
+        let(:published_at) { nil }
+
+        it "sets the value" do
+          expect {
+            subject.make_public = value
+          }.to change {
+            subject.published_at
+          }.from(nil).to("2025-03-25T12:00:00Z".in_time_zone)
+        end
+      end
+
+      context "and published_at is present" do
+        let(:published_at) { "2025-03-25T10:00:00Z" }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from("2025-03-25T10:00:00Z".in_time_zone)
+        end
+      end
+    end
+
+    context "when the value is 'true'" do
+      let(:value) { "true" }
+
+      context "and published_at is blank" do
+        let(:published_at) { nil }
+
+        it "sets the value" do
+          expect {
+            subject.make_public = value
+          }.to change {
+            subject.published_at
+          }.from(nil).to("2025-03-25T12:00:00Z".in_time_zone)
+        end
+      end
+
+      context "and published_at is present" do
+        let(:published_at) { "2025-03-25T10:00:00Z" }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from("2025-03-25T10:00:00Z".in_time_zone)
+        end
+      end
+    end
+
+    context "when the value is false" do
+      let(:value) { false }
+
+      context "and published_at is blank" do
+        let(:published_at) { nil }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from(nil)
+        end
+      end
+
+      context "and published_at is present" do
+        let(:published_at) { "2025-03-25T10:00:00Z" }
+
+        it "sets the value" do
+          expect {
+            subject.make_public = value
+          }.to change {
+            subject.published_at
+          }.from("2025-03-25T10:00:00Z".in_time_zone).to(nil)
+        end
+      end
+    end
+
+    context "when the value is 'false'" do
+      let(:value) { "false" }
+
+      context "and published_at is blank" do
+        let(:published_at) { nil }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from(nil)
+        end
+      end
+
+      context "and published_at is present" do
+        let(:published_at) { "2025-03-25T10:00:00Z" }
+
+        it "sets the value" do
+          expect {
+            subject.make_public = value
+          }.to change {
+            subject.published_at
+          }.from("2025-03-25T10:00:00Z".in_time_zone).to(nil)
+        end
+      end
+    end
+
+    context "when the value is nil" do
+      let(:value) { nil }
+
+      context "and published_at is blank" do
+        let(:published_at) { nil }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from(nil)
+        end
+      end
+
+      context "and published_at is present" do
+        let(:published_at) { "2025-03-25T10:00:00Z" }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from("2025-03-25T10:00:00Z".in_time_zone)
+        end
+      end
+    end
+
+    context "when the value is something else" do
+      let(:value) { "1" }
+
+      context "and published_at is blank" do
+        let(:published_at) { nil }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from(nil)
+        end
+      end
+
+      context "and published_at is present" do
+        let(:published_at) { "2025-03-25T10:00:00Z" }
+
+        it "doesn't change the value" do
+          expect {
+            subject.make_public = value
+          }.not_to change {
+            subject.published_at
+          }.from("2025-03-25T10:00:00Z".in_time_zone)
+        end
+      end
+    end
+  end
 end

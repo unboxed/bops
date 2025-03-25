@@ -914,7 +914,12 @@ class PlanningApplication < ApplicationRecord
   alias_method :make_public, :make_public?
 
   def make_public=(value)
-    self[:published_at] = value ? Time.zone.now : nil
+    case value
+    when true, "true"
+      self.published_at ||= Time.zone.now
+    when false, "false"
+      self.published_at = nil
+    end
   end
 
   def documents_for_publication
