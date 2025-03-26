@@ -11,7 +11,11 @@
       <%= govuk_link_to t(".archive"), planning_application_document_archive_path(planning_application, document) %>
     </p>
     <p class="govuk-body">
-      <%= govuk_link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_reference: planning_application.reference, document: document, type: "replacement_document") %>
+      <% if document.replacement_document_validation_request %>
+        <%= govuk_link_to "Cancel replacement request", show_validation_request_url(planning_application, document.replacement_document_validation_request) %>
+      <% else %>
+        <%= govuk_link_to "Request replacement", new_planning_application_validation_validation_request_path(planning_application_reference: planning_application.reference, document: document, type: "replacement_document") %>
+      <% end %>
     </p>
   <% end %>
 <% else %>
