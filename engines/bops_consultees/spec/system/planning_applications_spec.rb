@@ -5,8 +5,7 @@ require "rails_helper"
 RSpec.describe "Planning applications", type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :pre_application, local_authority:, user:, documents:) }
-  let!(:consultation) { create(:consultation, :started, planning_application:) }
-  let(:consultee) { create(:consultee, consultation:) }
+  let(:consultee) { create(:consultee, consultation: planning_application.consultation) }
   let(:sgid) { consultee.sgid(expires_in: 1.day, for: "magic_link") }
   let(:reference) { planning_application.reference }
   let(:user) { create(:user) }
@@ -17,6 +16,7 @@ RSpec.describe "Planning applications", type: :system do
   end
 
   before do
+    planning_application.consultation.start_deadline
     visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
   end
 

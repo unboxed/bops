@@ -22,6 +22,18 @@ RSpec.describe "Consultation", type: :system, js: true do
     )
   end
 
+  let(:planning_application2) do
+    create(
+      :planning_application,
+      :pre_application,
+      :in_assessment,
+      local_authority:,
+      api_user:,
+      agent_email: "agent@example.com",
+      applicant_email: "applicant@example.com"
+    )
+  end
+
   let(:consultation) do
     planning_application.consultation
   end
@@ -573,6 +585,66 @@ RSpec.describe "Consultation", type: :system, js: true do
       end
 
       expect(page).to have_selector("[role=alert] li", text: "Emails can’t be sent out when a planning application is invalid")
+    end
+  end
+
+  context "when an application is a pre-app" do
+    before do
+      planning_application2.consultation
+    end
+
+    it "allows emails to be sent without making public" do
+      sign_in assessor
+
+      visit "/planning_applications/#{planning_application2.reference}"
+      expect(page).to have_selector("h1", text: "Application")
+      expect(page).not_to have_text("Public on BOPS Public Portal")
+
+      within "#consultation-section" do
+        expect(page).to have_selector("li:first-child a", text: "Consultees, neighbours and publicity")
+        expect(page).to have_selector("li:first-child .govuk-tag", text: "Not started")
+      end
+
+      click_link "Consultees, neighbours and publicity"
+      expect(page).to have_selector("h1", text: "Consultation")
+
+      within "#consultation-end-date" do
+        expect(page).to have_text("Consultation end Not yet started")
+      end
+
+      within "#consultee-tasks" do
+        expect(page).to have_selector("li:nth-child(2) a", text: "Send emails to consultees")
+        expect(page).to have_selector("li:nth-child(2) .govuk-tag", text: "Not started")
+      end
+
+      click_link "Send emails to consultees"
+      expect(page).to have_selector("h1", text: "Send emails to consultees")
+
+      fill_in "Search for consultees", with: "GLA"
+      expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Consultations (Planning Department, GLA)")
+
+      pick "Consultations (Planning Department, GLA)", from: "#add-consultee"
+      expect(page).to have_field("Search for consultees", with: "Consultations")
+
+      click_button "Add consultee"
+
+      within "#external-consultees" do
+        within "table tbody tr:first-child" do
+          expect(page).to have_checked_field("Select consultee")
+          expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
+          expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
+          expect(page).to have_selector("td:nth-child(3)", text: "–")
+          expect(page).to have_selector("td:nth-child(4)", text: "–")
+          expect(page).to have_selector("td:nth-child(5)", text: "Not consulted")
+        end
+      end
+
+      accept_confirm(text: "Send emails to consultees?") do
+        click_button "Send emails to consultees"
+      end
+
+      expect(page).to have_selector("h1", text: "Consultation")
+      expect(page).to have_selector("[role=alert] h3", text: "Emails have been sent to the selected consultees.")
     end
   end
 end
