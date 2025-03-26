@@ -10,9 +10,6 @@
   email_address: "planning@lambeth.gov.uk"
   feedback_email: "digitalplanning@lambeth.gov.uk"
   press_notice_email: "digitalplanning@lambeth.gov.uk"
-  application_type_overrides:
-    - code: "preApp"
-      determination_period_days: 30
 
 - subdomain: "southwark"
   council_code: "SWK"
@@ -25,9 +22,6 @@
   email_address: "planning@southwark.gov.uk"
   feedback_email: "digital.projects@southwark.gov.uk"
   press_notice_email: "digital.projects@southwark.gov.uk"
-  application_type_overrides:
-    - code: "preApp"
-      determination_period_days: 30
 
 - subdomain: "buckinghamshire"
   council_code: "BUC"
@@ -40,6 +34,3 @@
   email_address: "planning@buckinghamshire.gov.uk"
   feedback_email: "planning.digital@buckinghamshire.gov.uk"
   press_notice_email: "planning.digital@buckinghamshire.gov.uk"
-  application_type_overrides:
-    - code: "preApp"
-      determination_period_days: 30
