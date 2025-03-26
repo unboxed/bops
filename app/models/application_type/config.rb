@@ -272,7 +272,15 @@ class ApplicationType < ApplicationRecord
     end
 
     def assessor_remarks
+      pre_application? ? pre_application_assessor_remarks : assessment_details_excluding_check_publicity
+    end
+
+    def assessment_details_excluding_check_publicity
       assessment_details.excluding("check_publicity")
+    end
+
+    def pre_application_assessor_remarks
+      assessment_details.intersection(["site_description", "summary_of_advice"])
     end
 
     def type_name

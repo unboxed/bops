@@ -15,7 +15,7 @@
           ) %>
       </div>
     </li>
-    <% if @planning_application.check_publicity? %>
+    <% if @planning_application.check_publicity? && !@planning_application.pre_application? %>
       <%= render(
             TaskListItems::Assessment::AssessmentDetailComponent.new(
               planning_application: @planning_application,
@@ -42,7 +42,7 @@
             planning_application: @planning_application
           )
         ) %>
-    <% if @planning_application.possibly_immune? %>
+    <% if @planning_application.possibly_immune? && !@planning_application.pre_application? %>
       <%= render(
             TaskListItems::Assessment::ImmunityDetailsComponent.new(
               planning_application: @planning_application
