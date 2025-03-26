@@ -43,7 +43,8 @@ module BopsAdmin
         :email_reply_to_id,
         :document_checklist,
         :planning_policy_and_guidance,
-        :public_register_base_url
+        :public_register_base_url,
+        :submission_guidance_url
       )
     end
   end
