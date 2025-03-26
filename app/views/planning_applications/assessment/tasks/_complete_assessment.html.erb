@@ -36,7 +36,7 @@
             )
           ) %>
     <% end %>
-    <% if @planning_application.application_type.planning_conditions? %>
+    <% if @planning_application.planning_conditions? %>
       <%= render(
             TaskListItems::Assessment::ConditionsComponent.new(
               condition_set: @planning_application.condition_set
@@ -48,7 +48,7 @@
             )
           ) %>
     <% end %>
-    <% if @planning_application.application_type.informatives? %>
+    <% if @planning_application.informatives? %>
       <%= render(
             TaskListItems::Assessment::InformativesComponent.new(
               planning_application: @planning_application

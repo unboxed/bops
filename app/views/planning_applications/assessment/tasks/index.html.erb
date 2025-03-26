@@ -33,11 +33,11 @@
 
       <%= render "assessment_information" %>
 
-      <% if @planning_application.application_type.considerations? && !@planning_application.pre_application? %>
+      <% if @planning_application.considerations? && !@planning_application.pre_application? %>
         <%= render "assess_against_policies_and_guidance" %>
       <% end %>
 
-      <% if @planning_application.application_type.assess_against_policies? && !@planning_application.pre_application? %>
+      <% if @planning_application.assess_against_policies? && !@planning_application.pre_application? %>
         <%= render "assess_against_legislation" %>
       <% end %>
 

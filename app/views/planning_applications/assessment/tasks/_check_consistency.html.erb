@@ -23,14 +23,14 @@
             )
           ) %>
     <% end %>
-    <% if @planning_application.application_type.ownership_details? %>
+    <% if @planning_application.ownership_details? %>
       <%= render(
             TaskListItems::Assessment::OwnershipCertificateComponent.new(
               planning_application: @planning_application
             )
           ) %>
     <% end %>
-    <% if @planning_application.application_type.consultation? %>
+    <% if @planning_application.consultation? %>
       <%= render(
             TaskListItems::Assessment::ConsulteesConsultedComponent.new(
               planning_application: @planning_application
