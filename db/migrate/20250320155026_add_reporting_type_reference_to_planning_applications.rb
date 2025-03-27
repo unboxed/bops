@@ -3,16 +3,21 @@
 class AddReportingTypeReferenceToPlanningApplications < ActiveRecord::Migration[7.2]
   disable_ddl_transaction!
 
+  class PlanningApplication < ActiveRecord::Base; end
+  class ReportingType < ActiveRecord::Base; end
+
   def change
     safety_assured do
-      remove_column :planning_applications, :reporting_type, :string
+      remove_column :planning_applications, :reporting_type, :string, if_exists: true
     end
 
     add_reference :planning_applications, :reporting_type, null: true, index: {algorithm: :concurrently}
 
     up_only do
-      PlanningApplication.where.not(reporting_type_code: nil).find_each do |planning_application|
-        planning_application.reporting_type_id = ReportingType.find_by(code: planning_application.reporting_type_code).id
+      reporting_types = ReportingType.pluck(:code, :id).to_h
+
+      PlanningApplication.all.find_each do |planning_application|
+        planning_application.reporting_type_id = reporting_types[planning_application.reporting_type_code]
       end
     end
   end
