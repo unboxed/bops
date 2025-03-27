@@ -9,6 +9,11 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
   let(:planning_application) do
     create(:planning_application, :pre_application, :in_assessment, local_authority:)
   end
+
+  let(:reference) { planning_application.reference }
+  let(:consideration_set) { planning_application.consideration_set }
+  let(:considerations) { consideration_set.considerations }
+
   let!(:consultee) { create(:consultee, consultation: planning_application.consultation) }
 
   let!(:consultee_response_approved) do
@@ -21,9 +26,15 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}"
+
+    visit "/planning_applications/#{reference}"
+    expect(page).to have_selector("h1", text: "Application")
+
     click_link "Check and assess"
+    expect(page).to have_selector("h1", text: "Assess the application")
+
     click_link "Planning considerations and advice"
+    expect(page).to have_selector("h1", text: "Add planning considerations and advice")
   end
 
   it "displays consultee and constraints tabs" do
@@ -34,7 +45,7 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
   end
 
   it "displays consultee responses with status tags" do
-    within ".govuk-grid-column-full" do
+    within "#consultees" do
       expect(page).to have_content("Heritage Officer")
       expect(page).to have_content("No objections.")
       expect(page).to have_css(".govuk-tag.govuk-tag--green", text: "Approved")
@@ -46,7 +57,27 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
   end
 
   it "includes a link to view consultee responses" do
-    expect(page).to have_link("View consultee responses", href: "/planning_applications/#{planning_application.reference}/consultee/responses", target: "_blank")
+    expect(page).to have_link("View consultee responses", href: "/planning_applications/#{reference}/consultee/responses", target: "_blank")
+  end
+
+  it "allows progress to be saved" do
+    click_button "Save and come back later"
+    expect(page).to have_content("Assessment against local policies was successfully saved")
+
+    within "#planning-considerations-and-advice" do
+      expect(page).to have_link("Planning considerations and advice", href: "/planning_applications/#{reference}/assessment/consideration_guidances")
+      expect(page).to have_selector("strong", text: "In progress")
+    end
+  end
+
+  it "allows the task to be to be marked as complete" do
+    click_button "Save and mark as complete"
+    expect(page).to have_content("Assessment against local policies was successfully saved")
+
+    within "#planning-considerations-and-advice" do
+      expect(page).to have_link("Planning considerations and advice", href: "/planning_applications/#{reference}/assessment/consideration_guidances")
+      expect(page).to have_selector("strong", text: "Completed")
+    end
   end
 
   context "when adding considerations" do
@@ -57,7 +88,9 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
       create(:local_authority_policy_reference, local_authority:, code: "PP100", description: "Wall materials")
       create(:local_authority_policy_reference, local_authority:, code: "PP101", description: "Roofing materials")
       create(:local_authority_policy_reference, local_authority:, code: "PP200", description: "Flood risk")
+
       visit current_path
+      expect(page).to have_selector("h1", text: "Add planning considerations and advice")
     end
 
     it "allows adding a new consideration" do
@@ -69,11 +102,11 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
 
       click_button "Add consideration"
 
-      expect(Consideration.last.draft).to eq(true)
+      expect(considerations.last.draft).to eq(true)
       expect(page).to have_css(".govuk-summary-card__title", text: "Transport")
       expect(page).to have_content("Consideration was successfully added")
 
-      find("span", text: "Add advice").click
+      toggle "Add advice"
       fill_in "Enter element of proposal", with: "A proposal"
 
       fill_in "Enter policy references", with: "Wall"
@@ -82,13 +115,16 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
       fill_in "Enter policy references", with: "Roofing"
       pick "PP101 - Roofing materials", from: "#policyReferencesAutoComplete"
 
+      fill_in_rich_text_area "Advice", with: "This is what you need to do"
+
       choose "Complies"
 
       click_button "Save advice"
       expect(page).to have_content("Consideration was successfully added")
       expect(page).to have_content("A proposal")
+      expect(page).to have_content("This is what you need to do")
       expect(page).to have_css(".govuk-tag.govuk-tag--green", text: "Complies")
-      expect(Consideration.last.draft).to eq(false)
+      expect(considerations.last.draft).to eq(false)
     end
 
     it "shows validation errors when missing required fields" do

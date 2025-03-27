@@ -34,6 +34,8 @@ class Consideration < ApplicationRecord
   belongs_to :submitted_by, class_name: "User", optional: true
   acts_as_list scope: :consideration_set
 
+  has_rich_text :advice
+
   validates :policy_area, presence: true
   validates :policy_area, uniqueness: {scope: :consideration_set}, if: :draft
   validates :policy_references, presence: true, unless: :draft
@@ -56,6 +58,6 @@ class Consideration < ApplicationRecord
   end
 
   with_options on: :advice do
-    validates :proposal, :summary_tag, :policy_references, presence: true, unless: :draft
+    validates :proposal, :summary_tag, :policy_references, :advice, presence: true, unless: :draft
   end
 end

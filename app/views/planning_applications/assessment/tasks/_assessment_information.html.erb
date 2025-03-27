@@ -14,11 +14,13 @@
     <% end %>
 
     <% if @planning_application.pre_application? %>
-      <li class="app-task-list__item" id="planning-considerations-and-advice">
-        <span class="app-task-list__task-name">
-          <%= govuk_link_to "Planning considerations and advice", planning_application_assessment_consideration_guidances_path(@planning_application) %>
-        </span>
-      </li>
+      <%= render(
+            TaskListItems::Assessment::ConsiderationsComponent.new(
+              planning_application: @planning_application,
+              link_text: "Planning considerations and advice",
+              link_path: planning_application_assessment_consideration_guidances_path(@planning_application)
+            )
+          ) %>
     <% end %>
   </ul>
 </li>

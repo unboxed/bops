@@ -4,7 +4,8 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
     "@opensystemslab/map": "^1.0.0-alpha.5",
-    "@rails/activestorage": "^7.0.4-2",
+    "@rails/actiontext": "^7.2.201",
+    "@rails/activestorage": "^7.2.201",
     "@rails/request.js": "^0.0.9",
     "@rails/ujs": "^7.0.4-2",
     "@stimulus-components/sortable": "^5.0.1",
@@ -19,7 +20,8 @@
     "puppeteer": "^23.8.0",
     "sortablejs": "^1.15.2",
     "stimulus": "^1.1.1",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "trix": "^2.1.13"
   },
   "resolutions": {
     "is-svg": "^4.2.2"

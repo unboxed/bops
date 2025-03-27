@@ -1,0 +1,340 @@
+@mixin trix-content {
+  h1 {
+    @extend .govuk-heading-s;
+  }
+
+  blockquote {
+    @extend .govuk-inset-text;
+    @extend .govuk-\!-margin-top-4;
+    @extend .govuk-\!-margin-bottom-4;
+
+    @include govuk-font($size: 16);
+
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  p {
+    @extend .govuk-body-s;
+  }
+
+  ul, ol {
+    @extend .govuk-list;
+    @extend .govuk-body-s;
+  }
+
+  ul {
+    @extend .govuk-list--bullet;
+  }
+
+  ol {
+    @extend .govuk-list--number;
+  }
+
+  a {
+    @extend .govuk-link;
+    @extend .govuk-link--no-visited-state;
+  }
+}
+
+.bops-rich-text {
+  @include trix-content;
+}
+
+.bops-rich-textarea {
+  position: relative;
+
+  box-shadow: inset 0 44px govuk-colour("light-grey"), inset 0 45px $govuk-border-colour;
+
+  @include govuk-media-query($from: tablet) {
+    box-shadow: inset 0 52px govuk-colour("light-grey"), inset 0 53px $govuk-border-colour;
+  }
+
+  trix-toolbar {
+    --icon-bold: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">\
+        <path d="M0 64C0 46.3 14.3 32 32 32l48 0 16 0 128 0c70.7 0 128 57.3 128 128c0 31.3-11.3 60.1-30 82.3c37.1 22.4 62 63.1 62 109.7c0 70.7-57.3 128-128 128L96 480l-16 0-48 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l16 0 0-160L48 96 32 96C14.3 96 0 81.7 0 64zM224 224c35.3 0 64-28.7 64-64s-28.7-64-64-64L112 96l0 128 112 0zM112 288l0 128 144 0c35.3 0 64-28.7 64-64s-28.7-64-64-64l-32 0-112 0z"/>\
+      </svg>\
+    ');
+
+    --icon-italic: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">\
+        <path d="M128 64c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-58.7 0L160 416l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l58.7 0L224 96l-64 0c-17.7 0-32-14.3-32-32z"/>\
+      </svg>\
+    ');
+
+    --icon-underline: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">\
+        <path d="M16 64c0-17.7 14.3-32 32-32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-16 0 0 128c0 53 43 96 96 96s96-43 96-96l0-128-16 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-16 0 0 128c0 88.4-71.6 160-160 160s-160-71.6-160-160L64 96 48 96C30.3 96 16 81.7 16 64zM0 448c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32z"/>\
+      </svg>\
+    ');
+
+    --icon-link: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">\
+        <path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"/>\
+      </svg>\
+    ');
+
+    --icon-bullet-list: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">\
+        <path d="M64 144a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM64 464a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48-208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"/>\
+      </svg>\
+    ');
+
+    --icon-number-list: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">\
+        <path d="M24 56c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24l0 120 16 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l16 0 0-96-8 0C34.7 80 24 69.3 24 56zM86.7 341.2c-6.5-7.4-18.3-6.9-24 1.2L51.5 357.9c-7.7 10.8-22.7 13.3-33.5 5.6s-13.3-22.7-5.6-33.5l11.1-15.6c23.7-33.2 72.3-35.6 99.2-4.9c21.3 24.4 20.8 60.9-1.1 84.7L86.8 432l33.2 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-88 0c-9.5 0-18.2-5.6-22-14.4s-2.1-18.9 4.3-25.9l72-78c5.3-5.8 5.4-14.6 .3-20.5zM224 64l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/>\
+      </svg>\
+    ');
+
+    --icon-attach: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">\
+        <path d="M364.2 83.8c-24.4-24.4-64-24.4-88.4 0l-184 184c-42.1 42.1-42.1 110.3 0 152.4s110.3 42.1 152.4 0l152-152c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-152 152c-64 64-167.6 64-231.6 0s-64-167.6 0-231.6l184-184c46.3-46.3 121.3-46.3 167.6 0s46.3 121.3 0 167.6l-176 176c-28.6 28.6-75 28.6-103.6 0s-28.6-75 0-103.6l144-144c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-144 144c-6.7 6.7-6.7 17.7 0 24.4s17.7 6.7 24.4 0l176-176c24.4-24.4 24.4-64 0-88.4z"/>\
+      </svg>\
+    ');
+
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .trix-button-row {
+      display: flex;
+      padding: govuk-spacing(2);
+
+      .trix-button-group {
+        display: flex;
+        border-left: 1px solid $govuk-border-colour;
+        margin-left: govuk-spacing(2);
+        padding-left: govuk-spacing(2);
+
+        &:first-child {
+          border-left: none;
+          margin-left: 0;
+          padding-left: 0;
+        }
+      }
+
+      .trix-button--icon {
+        position: relative;
+        display: block;
+        text-indent: -9999px;
+        border: none;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+        margin-right: govuk-spacing(1);
+
+        @include govuk-media-query($from: tablet) {
+          width: 32px;
+          height: 32px;
+        }
+
+        &:hover {
+          background-color: govuk-shade(govuk-colour("light-grey"), 10%);
+        }
+
+        &:after {
+          position: absolute;
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          top: 2px;
+          left: 2px;
+          background-color: $govuk-text-colour;
+          mask-repeat: no-repeat;
+          mask-position: 50%;
+          mask-size: auto 20px;
+
+          @include govuk-media-query($from: tablet) {
+            top: 4px;
+            left: 4px;
+            width: 24px;
+            height: 24px;
+            mask-size: auto 24px;
+          }
+        }
+      }
+
+      .trix-button--icon-bold {
+        &:after {
+          mask-image: var(--icon-bold);
+        }
+      }
+
+      .trix-button--icon-italic {
+        &:after {
+          mask-image: var(--icon-italic);
+        }
+      }
+
+      .trix-button--icon-underline {
+        &:after {
+          mask-image: var(--icon-underline);
+        }
+      }
+
+      .trix-button--icon-link {
+        &:after {
+          mask-image: var(--icon-link);
+          mask-size: 20px auto;
+
+          @include govuk-media-query($from: tablet) {
+            mask-size: 24px auto;
+          }
+        }
+      }
+
+      .trix-button--icon-bullet-list {
+        &:after {
+          mask-image: var(--icon-bullet-list);
+        }
+      }
+
+      .trix-button--icon-number-list {
+        &:after {
+          mask-image: var(--icon-number-list);
+        }
+      }
+
+      .trix-button--icon-attach {
+        &:after {
+          mask-image: var(--icon-attach);
+        }
+      }
+
+      .trix-button--icon.trix-active {
+        background-color: $govuk-border-colour;
+      }
+    }
+
+    .trix-dialogs {
+      background-color: govuk-colour("white");
+      margin: 0 $govuk-border-width-form-element;
+      padding: 0;
+
+      .trix-dialog {
+        width: 100%;
+        padding: govuk-spacing(3);
+        border-top: 1px solid $govuk-border-colour;
+        border-bottom: 1px solid $govuk-border-colour;
+
+        .trix-dialog__link-fields {
+          display: flex;
+          flex-wrap: wrap;
+
+          @include govuk-media-query($from: tablet) {
+            flex-wrap: nowrap;
+          }
+        }
+
+        .trix-input {
+          @extend .govuk-input;
+          flex-wrap: nowrap;
+
+          @include govuk-media-query($from: tablet) {
+            margin-right: govuk-spacing(3);
+          }
+        }
+
+        .trix-button-group {
+          @extend .govuk-button-group;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          flex-grow: 1;
+          margin: 5px -5px;
+          margin-bottom: 0;
+          width: 100%;
+
+          @include govuk-media-query($from: tablet) {
+            flex-grow: 0;
+            margin: 0;
+            margin-right: -15px;
+            width: auto;
+          }
+        }
+
+        .trix-button {
+          @extend .govuk-button;
+          @extend .govuk-button--secondary;
+          flex-grow: 1;
+          margin: 5px;
+          margin-bottom: 0 !important;
+          width: auto;
+
+          @include govuk-media-query($from: tablet) {
+            margin: 0;
+            width: auto;
+          }
+
+          &:hover, &:active {
+            color: $govuk-text-colour;
+          }
+        }
+      }
+    }
+  }
+
+  trix-editor {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    @include govuk-responsive-margin(6, "bottom");
+    padding: govuk-spacing(2);
+    padding-top: 44px;
+
+    @include govuk-media-query($from: tablet) {
+      padding-top: 53px;
+    }
+
+    resize: vertical;
+
+    border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+    border-radius: 0;
+
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: $govuk-focus-width solid $govuk-focus-colour;
+      // Ensure outline appears outside of the element
+      outline-offset: 0;
+      // Double the border by adding its width again. Use `box-shadow` to do
+      // this instead of changing `border-width` (which changes element size)
+      // and since `outline` is already used for the yellow focus state.
+      box-shadow: inset 0 0 0 $govuk-border-width-form-element;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      color: inherit;
+      background-color: transparent;
+      cursor: not-allowed;
+    }
+
+    *:first-child {
+      margin-top: govuk-spacing(2);
+    }
+
+    *:last-child {
+      margin-bottom: 0;
+    }
+
+    @include trix-content;
+  }
+}
+
+.bops-rich-textarea--error {
+  trix-editor {
+    border-color: $govuk-error-colour;
+
+    &:focus {
+      border-color: $govuk-input-border-colour;
+    }
+  }
+}

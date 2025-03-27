@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { ajax } from "@rails/ujs"
+import Rails from "@rails/ujs"
 import accessibleAutocomplete from "accessible-autocomplete"
 
 export default class extends Controller {
@@ -10,7 +10,7 @@ export default class extends Controller {
       name: this.data.get("name"),
       source: (query, populateResults) => {
         const results = []
-        ajax({
+        Rails.ajax({
           type: "get",
           url: `${this.data.get("url")}?query=${query}`,
           success: (data) => {
@@ -35,7 +35,7 @@ export default class extends Controller {
   }
 
   addAddress(address) {
-    ajax({
+    Rails.ajax({
       type: "get",
       url: `${this.data.get("url")}?query=${address}`,
       success: (data) => {

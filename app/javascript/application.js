@@ -3,8 +3,13 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start()
-require("@rails/activestorage").start()
+import Rails from "@rails/ujs"
+Rails.start()
+
+import * as ActiveStorage from "@rails/activestorage"
+ActiveStorage.start()
+
+import "@/bops_core/rich_text"
 
 import "@opensystemslab/map"
 import accessibleAutocomplete from "accessible-autocomplete"
