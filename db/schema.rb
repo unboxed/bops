@@ -903,7 +903,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_104433) do
     t.datetime "not_started_at"
     t.boolean "valid_ownership_certificate"
     t.boolean "valid_description"
-    t.string "reporting_type"
     t.geography "neighbour_boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.string "documents_status", default: "not_started", null: false
     t.datetime "in_committee_at"
@@ -917,6 +916,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_104433) do
     t.string "previous_references", default: [], array: true
     t.string "reporting_type_code"
     t.bigint "recommended_application_type_id"
+    t.bigint "reporting_type_id"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
@@ -930,6 +930,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_104433) do
     t.index ["lonlat"], name: "ix_planning_applications_on_lonlat", using: :gist
     t.index ["recommended_application_type_id"], name: "ix_planning_applications_on_recommended_application_type_id"
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
+    t.index ["reporting_type_id"], name: "ix_planning_applications_on_reporting_type_id"
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
@@ -1254,6 +1255,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_24_104433) do
   add_foreign_key "planning_applications", "application_types"
   add_foreign_key "planning_applications", "application_types", column: "recommended_application_type_id"
   add_foreign_key "planning_applications", "local_authorities"
+  add_foreign_key "planning_applications", "reporting_types"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
   add_foreign_key "planx_planning_data", "planning_applications"

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReportingType < ApplicationRecord
+  has_many :planning_applications, dependent: :nullify
+
   with_options presence: true do
     validates :code, uniqueness: true
     validates :categories, :description

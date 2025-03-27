@@ -118,12 +118,15 @@ class PlanningApplication < ApplicationRecord
 
   delegate :lodged?, :validated?, :started?, :determined?, :display_status, to: :appeal, allow_nil: true, prefix: true
 
+  delegate :code, to: :reporting_type, prefix: true
+
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
   belongs_to :application_type
   belongs_to :recommended_application_type, class_name: "ApplicationType", optional: true
+  belongs_to :reporting_type, optional: true
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
@@ -232,7 +235,7 @@ class PlanningApplication < ApplicationRecord
 
   with_options on: :reporting_types do
     validate :regulation_present, if: :regulation?
-    validates :reporting_type_code, presence: true, if: :selected_reporting_types?
+    validates :reporting_type_id, presence: true, if: :selected_reporting_types?
   end
 
   with_options on: :recommended_application_type do
@@ -849,7 +852,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reporting_type_status
-    reporting_type_code.blank? ? :not_started : :complete
+    reporting_type.nil? ? :not_started : :complete
   end
 
   def updated_neighbour_boundary_geojson
@@ -924,10 +927,6 @@ class PlanningApplication < ApplicationRecord
 
   def documents_for_publication
     documents.active.for_publication.or(site_notice_documents_for_publication)
-  end
-
-  def reporting_type_detail
-    @reporting_type_detail ||= application_type.selected_reporting_types.find_by(code: reporting_type_code)
   end
 
   def to_param
