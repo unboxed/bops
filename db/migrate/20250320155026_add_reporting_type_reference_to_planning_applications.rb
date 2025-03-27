@@ -11,7 +11,7 @@ class AddReportingTypeReferenceToPlanningApplications < ActiveRecord::Migration[
       remove_column :planning_applications, :reporting_type, :string, if_exists: true
     end
 
-    add_reference :planning_applications, :reporting_type, null: true, index: {algorithm: :concurrently}
+    add_reference :planning_applications, :reporting_type, null: true, index: {algorithm: :concurrently}, if_not_exists: true
 
     up_only do
       reporting_types = ReportingType.pluck(:code, :id).to_h
