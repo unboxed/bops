@@ -9,6 +9,7 @@ module PlanningApplications
 
       before_action :set_permitted_development_rights
       before_action :set_permitted_development_right
+      before_action :ensure_planning_application_is_not_preapp
 
       def show
         respond_to do |format|

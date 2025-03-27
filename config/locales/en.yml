@@ -1252,6 +1252,7 @@ en:
         site_history: Site history
         summary_of_works: Summary of works
       base:
+        not_preapp: Cannot access this page on application of type %{application_type}
         not_validated: The planning application must be validated before assessment can begin
       consideration_guidances:
         create:

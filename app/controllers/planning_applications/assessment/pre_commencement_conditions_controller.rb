@@ -5,6 +5,7 @@ module PlanningApplications
     class PreCommencementConditionsController < BaseController
       before_action :set_condition_set
       before_action :set_condition
+      before_action :ensure_planning_application_is_not_preapp
 
       def index
         respond_to do |format|

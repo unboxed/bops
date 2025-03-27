@@ -6,6 +6,7 @@ module PlanningApplications
       class PartsController < BaseController
         before_action :ensure_can_assess_planning_application
         before_action :find_policy_parts
+        before_action :ensure_planning_application_is_not_preapp
 
         def index
           respond_to do |format|

@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class CommentsController < BaseController
       before_action :set_comment_type, only: %i[create update]
+      before_action :ensure_planning_application_is_not_preapp
 
       def create
         new_comment = @comment_type.comments.new(comment_params)

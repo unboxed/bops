@@ -5,6 +5,7 @@ module PlanningApplications
     class TermsController < BaseController
       before_action :set_heads_of_term
       before_action :set_term
+      before_action :ensure_planning_application_is_not_preapp
 
       def index
         respond_to do |format|
