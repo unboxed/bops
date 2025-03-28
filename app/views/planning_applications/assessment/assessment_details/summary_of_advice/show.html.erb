@@ -1,0 +1,31 @@
+<% content_for :page_title do %>
+  <%= t(".title") %> - <%= t("page_title") %>
+<% end %>
+
+<% content_for :title, t(".breadcrumb") %>
+
+<%= render(partial: "shared/assessment_task_breadcrumbs", locals: {planning_application: @planning_application}) %>
+<%= render(partial: "shared/proposal_header", locals: {heading: t(".title")}) %>
+
+<div class="govuk-grid-row">
+  <%= render "planning_applications/assessment/assessment_details/summary_of_advice/tabs" %>
+
+  <div class="govuk-grid-column-two-thirds">
+    <% if @assessment_detail.summary_tag %>
+      <% content = summary_advice_content(@assessment_detail.summary_tag) %>
+      <%= bops_notification_banner(
+            title: "Outcome",
+            **content
+          ) %>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= render(FormattedContentComponent.new(text: @assessment_detail.entry)) %>
+    </p>
+
+    <div class="govuk-button-group">
+      <%= back_link %>
+      <%= govuk_link_to t(".edit"), [:edit, @planning_application, :assessment, @assessment_detail, category: @category] %>
+    </div>
+  </div>
+</div>

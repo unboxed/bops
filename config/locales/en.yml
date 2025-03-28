@@ -1184,6 +1184,36 @@ en:
             warning: This information WILL be made publicly available.
           updated:
             success: Site description was successfully updated.
+        summary_of_advice:
+          created:
+            success: Summary of advice was successfully created.
+          edit:
+            breadcrumb: Summary of advice
+            title: Edit summary of advice
+          form:
+            complies: Likely to be supported_html
+            complies_recommended_html: Likely to be supported <strong>(recommended based on considerations)</strong>
+            does_not_comply: Unlikely to be supported
+            does_not_comply_recommended_html: Unlikely to be supported <strong>(recommended based on considerations)</strong>
+            label: Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.
+            needs_changes: Likely to be supported with changes
+            needs_changes_recommended_html: Likely to be supported with changes <strong>(recommended based on considerations)</strong>
+          new:
+            breadcrumb: Summary of advice
+            title: Add summary of advice
+          show:
+            breadcrumb: Summary of advice
+            edit: Edit summary of advice
+            title: Summary of advice
+          tabs:
+            amendments_needed: Amendments Needed
+            approved: Approved
+            complies: Complies
+            does_not_comply: Does not comply
+            needs_changes: Needs changes
+            objected: Objected
+          updated:
+            success: Summary of advice was successfully updated.
         summary_of_work:
           created:
             success: Summary of works was successfully created.
@@ -2271,6 +2301,19 @@ en:
     returned: Returned
     to_be_reviewed: Corrections requested
     withdrawn: Withdrawn
+  summary_advice:
+    complies:
+      colour: green
+      message: Your proposal is likely to be supported based on the information you have provided.
+      subheading: Likely to be supported
+    does_not_comply:
+      colour: red
+      message: Your proposal includes elements that do not comply with current planning policy.
+      subheading: Unlikely to be supported
+    needs_changes:
+      colour: orange
+      message: Your proposal is generally acceptable, provided you address the recommended changes in this report.
+      subheading: Likely to be supported with changes
   task_list_items:
     additional_document_component:
       check_missing_documents: Check and request documents
@@ -2284,6 +2327,7 @@ en:
         consultation_summary: Summary of consultation
         neighbour_summary: Summary of neighbour responses
         site_description: Site description
+        summary_of_advice: Summary of advice
         summary_of_work: Summary of works
       considerations_component:
         link_text: Assess against policies and guidance

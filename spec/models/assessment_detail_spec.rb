@@ -56,6 +56,15 @@ RSpec.describe AssessmentDetail do
       end
     end
 
+    describe "#summary_tag" do
+      it "validates presence of summary_tag" do
+        assessment_detail = build(:assessment_detail, category: :summary_of_advice, summary_tag: nil)
+
+        expect(assessment_detail.valid?).to be(false)
+        expect(assessment_detail.errors[:summary_tag]).to include("can't be blank")
+      end
+    end
+
     described_class.categories.each_key do |category_type|
       let(:category) { described_class.new(category: category_type) }
 

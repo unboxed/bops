@@ -23,6 +23,13 @@ class ConsiderationSet < ApplicationRecord
     end
   end
 
+  def suggested_outcome
+    return "does_not_comply" if considerations.exists?(summary_tag: "does_not_comply")
+    return "needs_changes" if considerations.exists?(summary_tag: "needs_changes")
+
+    "complies"
+  end
+
   private
 
   def mark_as_complete(params)

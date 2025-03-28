@@ -99,7 +99,7 @@ class PlanningApplication < ApplicationRecord
     delegate :planning_permission?
     delegate :work_status
   end
-
+  delegate :consultee_responses, to: :consultation, allow_nil: true
   delegate :reviewer_group_email, to: :local_authority
   with_options prefix: true, allow_nil: true do
     delegate :email, to: :user

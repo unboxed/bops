@@ -140,20 +140,6 @@ class ApplicationType < ApplicationRecord
       end
     end
 
-    before_update unless: :assessment_details? do
-      self.assessment_details =
-        case name
-        when "lawfulness_certificate"
-          %w[summary_of_work site_description consultation_summary additional_evidence]
-        when "prior_approval"
-          %w[summary_of_work site_description additional_evidence neighbour_summary amenity check_publicity]
-        when "planning_permission"
-          %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary check_publicity]
-        else
-          %w[summary_of_work site_description additional_evidence consultation_summary neighbour_summary check_publicity]
-        end
-    end
-
     before_update unless: :consistency_checklist? do
       self.consistency_checklist =
         case name

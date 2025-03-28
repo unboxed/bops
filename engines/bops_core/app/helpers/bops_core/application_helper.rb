@@ -10,7 +10,8 @@ module BopsCore
       bops_sub_navigation: "BopsCore::SubNavigationComponent",
       bops_task_accordion: "BopsCore::TaskAccordionComponent",
       bops_ticket_panel: "BopsCore::TicketPanelComponent",
-      bops_status_detail: "BopsCore::StatusDetailComponent"
+      bops_status_detail: "BopsCore::StatusDetailComponent",
+      bops_notification_banner: "BopsCore::NotificationBannerComponent"
     }.each do |name, klass|
       define_method(name) do |*args, **kwargs, &block|
         capture do

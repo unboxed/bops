@@ -1,0 +1,30 @@
+@use "sass:map";
+
+.bops-notification-banner {
+  $notification_colours: (
+    "green": (
+      "background-color": govuk-colour("green"),
+      "border-color": govuk-colour("green")
+    ),
+    "orange": (
+      "background-color": govuk-colour("orange"),
+      "border-color": govuk-colour("orange")
+    ),
+    "red": (
+      "background-color": govuk-colour("red"),
+      "border-color": govuk-colour("red")
+    )
+  );
+
+  $default_colour: map.get($notification_colours, "green");
+
+  background-color: map.get($default_colour, "background-color");
+  border: 5px solid map.get($default_colour, "border-color");
+
+  @each $name, $attributes in $notification_colours {
+    &--#{$name} {
+      background-color: map.get($attributes, "background-color");
+      border-color: map.get($attributes, "border-color");
+    }
+  }
+}

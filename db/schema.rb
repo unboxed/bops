@@ -160,6 +160,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_26_120937) do
     t.string "category", null: false
     t.string "reviewer_verdict"
     t.string "review_status"
+    t.string "summary_tag"
     t.index ["planning_application_id"], name: "ix_assessment_details_on_planning_application_id"
     t.index ["user_id"], name: "ix_assessment_details_on_user_id"
   end
