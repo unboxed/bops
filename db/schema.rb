@@ -421,6 +421,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_26_120937) do
     t.bigint "owner_id"
     t.string "tags", default: [], array: true
     t.bigint "document_checklist_items_id"
+    t.text "ai_summary"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["document_checklist_items_id"], name: "ix_documents_on_document_checklist_items_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
