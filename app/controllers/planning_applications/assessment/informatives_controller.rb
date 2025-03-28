@@ -7,6 +7,7 @@ module PlanningApplications
       before_action :set_informatives
       before_action :set_informative
       before_action :set_review
+      before_action :ensure_planning_application_is_not_preapp
 
       def create
         respond_to do |format|

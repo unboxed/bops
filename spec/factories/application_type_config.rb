@@ -565,8 +565,11 @@ FactoryBot.define do
           "cil" => false,
           "description_change_requires_validation" => false,
           "eia" => false,
+          "informatives" => false,
           "legislative_requirements" => false,
-          "consultation_steps" => ["consultee"]
+          "consultation_steps" => ["consultee"],
+          "ownership_details" => false,
+          "permitted_development_rights" => false
         }
       }
 

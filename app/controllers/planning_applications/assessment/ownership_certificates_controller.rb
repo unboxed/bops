@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class OwnershipCertificatesController < BaseController
       before_action :set_valdiation_requests
+      before_action :ensure_planning_application_is_not_preapp
 
       def edit
         respond_to do |format|

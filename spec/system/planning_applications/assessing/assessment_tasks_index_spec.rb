@@ -95,6 +95,76 @@ RSpec.describe "Assessment tasks", type: :system do
         end
       end
     end
+
+    context "when planning application is a pre application", :capybara do
+      let(:planning_application) do
+        create(:planning_application, :in_assessment, :pre_application, :with_additional_services, uprn: "100081043511", local_authority: default_local_authority)
+      end
+
+      before do
+        paapi_data("100081043511").each do |record|
+          create(
+            :site_history,
+            planning_application:,
+            reference: record["reference"],
+            date: record["decision_issued_at"],
+            description: record["description"],
+            decision: record["decision"],
+            comment: "A comment that is relevant to the proposal"
+          )
+        end
+      end
+
+      it "displays the assessment tasks list" do
+        within(".app-task-list") do
+          within("#check-consistency-assessment-tasks") do
+            expect(page).to have_content("Check application")
+
+            expect(page).to have_link("Check application details")
+            expect(page).not_to have_link("Check site notice and press notice")
+            expect(page).not_to have_link("Check ownership certificate")
+            expect(page).to have_link("Check consultees consulted")
+            expect(page).to have_link("Check site history")
+            expect(page).not_to have_link("Permitted development rights")
+            expect(page).not_to have_link("Evidence of immunity")
+          end
+
+          within("#additional-services-tasks") do
+            expect(page).to have_content("Additional services")
+
+            expect(page).to have_link("Site visit")
+            expect(page).to have_link("Meeting")
+          end
+
+          within("#assessment-information-tasks") do
+            expect(page).to have_content("Assessor remarks")
+
+            expect(page).not_to have_link("Summary of works")
+            expect(page).to have_link("Site description")
+            expect(page).not_to have_link("Summary of additional evidence")
+            expect(page).not_to have_link("Summary of consultation")
+            expect(page).not_to have_link("Summary of neighbour responses")
+            expect(page).not_to have_link("Amenity")
+            expect(page).to have_link("Planning considerations and advice")
+          end
+
+          expect(page).not_to have_content("Assess against policies and guidance")
+          expect(page).not_to have_content("Assess against legislation")
+
+          within("#complete-assessment-tasks") do
+            expect(page).to have_content("Complete assessment")
+
+            expect(page).not_to have_link("Review documents for recommendation")
+            expect(page).not_to have_link("Make draft recommendation")
+            expect(page).to have_content("Choose application type")
+            expect(page).not_to have_content("Add informatives")
+            expect(page).to have_content("Check and add requirements")
+            expect(page).not_to have_content("Add heads of terms")
+            expect(page).not_to have_content("Review and submit recommendation")
+          end
+        end
+      end
+    end
   end
 
   context "when the planning application is invalidated, I cannot access the assessment tasks" do

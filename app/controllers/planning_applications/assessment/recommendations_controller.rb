@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class RecommendationsController < BaseController
       before_action :set_committee_decision
+      before_action :ensure_planning_application_is_not_preapp
 
       rescue_from Recommendation::ReviewRecommendationError do |error|
         render_failed_edit(error)

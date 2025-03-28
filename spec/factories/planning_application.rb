@@ -802,5 +802,14 @@ FactoryBot.define do
     trait :pre_application do
       application_type { create(:application_type, :pre_application) }
     end
+
+    trait :with_additional_services do
+      after(:create) do |planning_application|
+        additional_service_with_meeting = create(:additional_service, :with_meeting)
+
+        planning_application.additional_services << additional_service_with_meeting
+        planning_application.save!
+      end
+    end
   end
 end

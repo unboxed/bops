@@ -13,6 +13,7 @@ module PlanningApplications
       before_action :set_review_immunity_details, only: %i[new show edit]
       before_action :set_review_immunity_detail, only: %i[show edit update]
       before_action :ensure_review_immunity_detail_is_editable, only: %i[edit update]
+      before_action :ensure_planning_application_is_not_preapp
 
       def show
         respond_to do |format|

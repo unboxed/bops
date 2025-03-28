@@ -98,6 +98,11 @@ class PlanningApplication < ApplicationRecord
     delegate :lawfulness_certificate?
     delegate :planning_permission?
     delegate :work_status
+    delegate :considerations?
+    delegate :site_visits?
+    delegate :ownership_details?
+    delegate :planning_conditions?
+    delegate :informatives?
   end
   delegate :consultee_responses, to: :consultation, allow_nil: true
   delegate :reviewer_group_email, to: :local_authority

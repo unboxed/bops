@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class ImmunityDetailsController < BaseController
       before_action :set_immunity_detail
+      before_action :ensure_planning_application_is_not_preapp
 
       def show
         respond_to do |format|

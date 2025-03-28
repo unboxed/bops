@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class ConditionsController < BaseController
       before_action :set_condition_set
+      before_action :ensure_planning_application_is_not_preapp
 
       def index
         @conditions = @condition_set.conditions

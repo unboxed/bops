@@ -10,6 +10,7 @@ module PlanningApplications
         before_action :find_planning_application_policy_class, only: %i[edit update destroy]
         before_action :build_form, only: %i[edit update]
         before_action :set_review, only: %i[edit update]
+        before_action :ensure_planning_application_is_not_preapp
 
         def new
           if @part.blank?
