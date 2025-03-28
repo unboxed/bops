@@ -73,6 +73,10 @@
     <p class="govuk-body">
       <%= created_by(@document) %>
     </p>
+
+    <p class="govuk-body govuk-!-margin-bottom-0">
+      <strong>AI summary:</strong> <%= @document.ai_summary %>
+    </p>
   </div>
   <div class="govuk-grid-column-full">
     <%= render "edit_and_upload" %>
