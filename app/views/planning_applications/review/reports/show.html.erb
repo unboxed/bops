@@ -1,0 +1,40 @@
+<% content_for :page_title do %>
+  Pre-application report - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Review pre-application", planning_application_review_root_path(@planning_application) %>
+<% content_for :title, "Pre-application report" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds" id="planning-application-details">
+    <p class="govuk-caption-m">Preview and submit</p>
+    <h1 class="govuk-heading-l">Pre-application report</h1>
+    <p class="govuk-body">
+      This report gives clear guidance on your proposal, helping you to
+      understand what to expect when submitting your formal planning
+      application.
+    </p>
+    <p class="govuk-body">
+      <strong><%= @planning_application.full_address %></strong><br>
+      Pre-application number: <strong><%= @planning_application.reference %></strong><br>
+      Case officer: <strong><%= @planning_application.user&.name || "Unassigned" %></strong><br>
+      Date of report: <strong><%= @planning_application.determined_at&.to_date&.to_fs %></strong><br>
+      </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m govuk-!-margin-top-5">
+        Pre-application outcome
+      </h2>
+
+      <%= bops_notification_banner(
+            title: "Outcome",
+            **summary_advice_content(@outcome_status)
+          ) %>
+    <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
+  </div>
+</div>
