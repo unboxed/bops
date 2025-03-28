@@ -1,0 +1,42 @@
+<%= form_with model: @local_authority do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_text_field :short_name, width: "one-half",
+        label: {text: t(".labels.short_name")},
+        hint: {text: t(".hints.short_name")} %>
+
+  <%= form.govuk_text_field :council_name,
+        label: {text: t(".labels.council_name")},
+        hint: {text: t(".hints.council_name")} %>
+
+  <%= form.govuk_text_field :council_code, width: 5,
+        label: {text: t(".labels.council_code")},
+        hint: {text: t(".hints.council_code")} %>
+
+  <%= form.govuk_text_field :subdomain, width: "one-half",
+        label: {text: t(".labels.subdomain")},
+        hint: {text: t(".hints.subdomain")} %>
+
+  <% if Bops.env.production? %>
+    <%= form.govuk_text_field :applicants_url,
+          label: {text: t(".labels.applicants_url")},
+          hint: {text: t(".hints.applicants_url")} %>
+  <% end %>
+
+  <% unless @local_authority.persisted? %>
+    <%= fields :administrator, model: @administrator do |fields| %>
+      <%= fields.govuk_fieldset legend: {text: t(".labels.user")} do %>
+        <div class="govuk-hint">
+          <%= t(".hints.user") %>
+        </div>
+
+        <%= fields.govuk_text_field :name, label: {text: t(".labels.name")} %>
+        <%= fields.govuk_text_field :email, label: {text: t(".labels.email")} %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_submit(t(".save")) do %>
+    <%= govuk_button_link_to t("back"), local_authorities_path, secondary: true %>
+  <% end %>
+<% end %>

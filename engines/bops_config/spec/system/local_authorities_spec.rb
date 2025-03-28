@@ -23,8 +23,12 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
 
   before do
     sign_in(user)
+
     visit "/"
+    expect(page).to have_selector("h1", text: "BOPS config")
+
     click_link "Local authorities"
+    expect(page).to have_selector("h1", text: "Review all local authorities")
   end
 
   it "shows a list of all local authorities" do
@@ -89,5 +93,46 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
     expect(page).to have_content("press@buckinghamshire.gov.uk")
     expect(page).not_to have_content("Not started")
     expect(page).not_to have_content("digitalplanning@lambeth.gov.uk")
+  end
+
+  it "allows local authorities to be onboarded" do
+    env = ActiveSupport::StringInquirer.new("production")
+    allow(Bops).to receive(:env).and_return(env)
+
+    api = instance_double("Apis::PlanningData::Query")
+    allow(Apis::PlanningData::Query).to receive(:new).and_return(api)
+    allow(api).to receive(:get_council_code).with("COV").and_return("COV")
+
+    click_link "Onboard local authority"
+    expect(page).to have_selector("h1", text: "Onboard a local authority")
+
+    fill_in "Short name", with: "Coventry"
+    fill_in "Council name", with: "Coventry City Council"
+    fill_in "Council code", with: "COV"
+    fill_in "Subdomain", with: "coventry"
+    fill_in "Applicants URL", with: "https://planningapplications.coventry.gov.uk"
+
+    fill_in "Full name", with: "Lady Godiva"
+    fill_in "Email address", with: "lady.godiva@example.com"
+
+    click_button "Save"
+    expect(page).to have_content("Local authority successfully created")
+
+    local_authority = LocalAuthority.find_by!(council_code: "COV")
+    administrator = local_authority.users.first!
+
+    expect(local_authority).to have_attributes(
+      short_name: "Coventry",
+      council_name: "Coventry City Council",
+      council_code: "COV",
+      subdomain: "coventry",
+      applicants_url: "https://planningapplications.coventry.gov.uk"
+    )
+
+    expect(administrator).to have_attributes(
+      name: "Lady Godiva",
+      email: "lady.godiva@example.com",
+      role: "administrator"
+    )
   end
 end
