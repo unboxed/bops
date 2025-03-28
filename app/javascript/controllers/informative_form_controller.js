@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { ajax } from "@rails/ujs"
+import Rails from "@rails/ujs"
 import accessibleAutocomplete from "accessible-autocomplete"
 
 export default class extends Controller {
@@ -39,7 +39,7 @@ export default class extends Controller {
   }
 
   source(query, populateResults) {
-    ajax({
+    Rails.ajax({
       type: "GET",
       url: "/informatives",
       data: new URLSearchParams({ q: query }).toString(),

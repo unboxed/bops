@@ -18,6 +18,6 @@
   <div class="govuk-grid-column-full">
     <%= render "tabs" %>
 
-    <%= render "form", policy_area: @consideration.policy_area, form_url: planning_application_assessment_consideration_guidance_path(@planning_application, @consideration), form_method: :patch %>
+    <%= render "form", policy_area: @consideration.policy_area, form_url: planning_application_assessment_consideration_guidance_path(@planning_application, @consideration), form_method: :patch, index: nil %>
   </div>
 </div>

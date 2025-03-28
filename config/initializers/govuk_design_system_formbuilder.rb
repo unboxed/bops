@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-require "govuk_design_system_formbuilder"
+require "bops_core/form_builder"
 
-GOVUKDesignSystemFormBuilder.configure do |conf|
-  conf.default_submit_button_text = "Save"
-
-  Rails.application.config.to_prepare do
+Rails.application.config.to_prepare do
+  GOVUKDesignSystemFormBuilder.configure do |conf|
+    conf.default_submit_button_text = "Save"
     conf.default_error_summary_presenter = ErrorPresenter
-
-    ActionView::Base.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
   end
+
+  ActionView::Base.default_form_builder = BopsCore::FormBuilder
 end

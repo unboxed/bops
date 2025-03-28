@@ -6,6 +6,7 @@ FactoryBot.define do
     policy_references { [{description: Faker::Lorem.sentence}] }
     assessment { Faker::Lorem.paragraph }
     conclusion { Faker::Lorem.sentence }
+    advice { Faker::Lorem.paragraph }
 
     consideration_set
 

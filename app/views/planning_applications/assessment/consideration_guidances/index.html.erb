@@ -18,9 +18,8 @@
   <div class="govuk-grid-column-full">
     <%= render "tabs" %>
 
-    <% @considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
+    <% @considerations.group_by(&:policy_area).each_with_index do |(policy_area, considerations), index| %>
       <%= govuk_summary_card(title: policy_area, html_attributes: {id: policy_area.parameterize}) do |card| %>
-
         <% considerations.each do |consideration| %>
           <% if consideration.draft? %>
             <% if considerations.length == 1 %>
@@ -48,16 +47,18 @@
               </p>
             </ul>
 
+            <%= consideration.advice %>
+
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
           <% end %>
         <% end %>
 
         <%= govuk_details(
-              summary_text: "Add advice", open: @consideration.errors.any? && @consideration.policy_area == policy_area
+              summary_text: "Add advice",
+              open: @consideration.errors.any? && @consideration.policy_area == policy_area,
+              classes: "govuk-!-margin-bottom-2"
             ) do %>
-          <div class="govuk-grid-row">
-            <%= render "form", policy_area: policy_area, form_url: planning_application_assessment_consideration_guidances_path(@planning_application), form_method: :post %>
-          </div>
+          <%= render "form", policy_area: policy_area, form_url: planning_application_assessment_consideration_guidances_path(@planning_application), form_method: :post, index: index + 1 %>
         <% end %>
       <% end %>
     <% end %>
@@ -79,6 +80,15 @@
       </div>
     <% end %>
 
-    <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+      <div class="govuk-grid-column-full">
+        <%= form_with model: @review, url: planning_application_assessment_considerations_path(@planning_application) do |form| %>
+          <%= form.govuk_submit "Save and mark as complete", name: "review[status]", value: "complete" do %>
+            <%= form.govuk_submit "Save and come back later", name: "review[status]", value: "in_progress", secondary: true %>
+            <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

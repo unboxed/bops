@@ -1,4 +1,4 @@
-<div class="govuk-grid-column-full" data-controller="consideration-form">
+<div data-controller="consideration-form">
   <%= form_with model: @consideration, url: form_url, method: form_method do |form| %>
     <%= form.govuk_fieldset legend: {text: nil} do %>
       <div class="govuk-form-group">
@@ -41,14 +41,19 @@
 
     <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Status", size: "s"}, small: true do %>
       <% Consideration.summary_tags.each do |label, value| %>
-        <%= form.govuk_radio_button :summary_tag, value, label: {text: label.humanize} %>
+        <% input_id = index ? "consideration_#{index}_summary_tag_#{value}" : nil %>
+        <%= form.govuk_radio_button :summary_tag, value, id: input_id, label: {text: label.humanize, for: input_id} %>
       <% end %>
     <% end %>
 
-    <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>
-  <% end %>
+    <%= form.govuk_rich_text_area :advice, input: "consideration_#{index}_advice" %>
 
-  <% if action_name.eql?("edit") %>
-    <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+    <% if action_name.eql?("edit") %>
+      <%= form.govuk_submit("Save advice", class: "govuk-!-margin-bottom-2") do %>
+        <%= govuk_button_link_to(t("back"), planning_application_assessment_consideration_guidances_path(@planning_application), secondary: true) %>
+      <% end %>
+    <% else %>
+      <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>
+    <% end %>
   <% end %>
 </div>

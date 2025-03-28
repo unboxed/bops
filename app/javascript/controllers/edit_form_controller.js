@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { ajax } from "@rails/ujs"
 
 export default class extends Controller {
   handleClick(event) {

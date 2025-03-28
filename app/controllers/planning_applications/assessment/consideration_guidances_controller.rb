@@ -5,6 +5,7 @@ module PlanningApplications
     class ConsiderationGuidancesController < BaseController
       before_action :set_consideration_set
       before_action :set_considerations
+      before_action :set_review
       before_action :build_consideration, only: [:index, :create]
       before_action :set_consultee_responses, only: [:index, :edit]
       before_action :set_consideration, only: [:destroy, :edit, :update]
@@ -76,6 +77,10 @@ module PlanningApplications
         @considerations = @consideration_set.considerations.select(&:persisted?)
       end
 
+      def set_review
+        @review = @consideration_set.current_review
+      end
+
       def build_consideration
         @consideration = @consideration_set.considerations.new(draft: true)
       end
@@ -90,7 +95,7 @@ module PlanningApplications
 
       def consideration_params
         params.require(:consideration).permit(
-          :policy_area, :draft, :proposal, :summary_tag, policy_references_attributes: %i[code description url]
+          :policy_area, :draft, :proposal, :summary_tag, :advice, policy_references_attributes: %i[code description url]
         )
       end
     end

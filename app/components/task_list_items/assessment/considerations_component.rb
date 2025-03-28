@@ -3,8 +3,10 @@
 module TaskListItems
   module Assessment
     class ConsiderationsComponent < TaskListItems::BaseComponent
-      def initialize(planning_application:)
+      def initialize(planning_application:, link_text: nil, link_path: nil)
         @planning_application = planning_application
+        @link_text = link_text
+        @link_path = link_path
       end
 
       private
@@ -15,10 +17,14 @@ module TaskListItems
       delegate :status, to: :current_review
 
       def link_text
-        t(".link_text")
+        @link_text || t(".link_text")
       end
 
       def link_path
+        @link_path || default_path
+      end
+
+      def default_path
         planning_application_assessment_considerations_path(planning_application)
       end
 

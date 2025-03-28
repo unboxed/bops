@@ -11,10 +11,7 @@
       locals: {heading: "Mark application for appeal"}
     ) %>
 
-<%= form_with model: @appeal,
-      url: planning_application_appeal_path(@planning_application),
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-
+<%= form_with model: @appeal, url: planning_application_appeal_path(@planning_application) do |form| %>
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_date_field :lodged_at, legend: {text: "When was the appeal lodged?", size: "s"} %>
