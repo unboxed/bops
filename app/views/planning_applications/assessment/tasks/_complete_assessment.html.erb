@@ -83,7 +83,13 @@
         </div>
       </li>
     <% end %>
-    <% unless @planning_application.pre_application? %>
+    <% if @planning_application.pre_application? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= govuk_link_to "Review and submit pre-application", planning_application_review_report_path(@planning_application), aria: {describedby: "submit_preapplication-completed"} %>
+        </span>
+      </li>
+    <% else %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
           <% if @planning_application.can_submit_recommendation? %>
