@@ -1,0 +1,18 @@
+<% content_for :page_title do %>
+  <%= t(".local_authorities") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Local authorities", legislation_index_path %>
+
+<% content_for :title, t(".local_authorities") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t(".local_authorities") %>
+    </h1>
+
+    <%= render "form" %>
+  </div>
+</div>

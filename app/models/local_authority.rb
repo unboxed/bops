@@ -48,8 +48,20 @@ class LocalAuthority < ApplicationRecord
 
   validate :council_code_exists
 
+  before_validation do
+    if subdomain? && !Bops.env.production?
+      self[:applicants_url] = "https://#{subdomain}.#{Rails.configuration.applicants_base_url}"
+    end
+  end
+
   before_save :clear_notify_error_status
   before_update :set_active
+
+  class << self
+    def by_short_name
+      order(short_name: :asc)
+    end
+  end
 
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
@@ -114,7 +126,6 @@ class LocalAuthority < ApplicationRecord
 
   REDACTED_INFO = %w[notify_api_key
     reviewer_group_email
-    applicants_url
     email_address].freeze
 
   HIDDEN_ATTRS = %W[email_reply_to_id

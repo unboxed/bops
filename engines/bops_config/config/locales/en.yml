@@ -414,8 +414,34 @@ en:
       update:
         success: Legislation successfully updated
     local_authorities:
+      create:
+        created: Local authority successfully created
+      edit:
+        local_authorities: Update a local authority
+      form:
+        hints:
+          applicants_url: This is the URL that applicants use for validation requests, etc.
+          council_code: This is the three letter code on the Planning Data website used to identify the council, e.g. COV
+          council_name: This name is used in the communications like decision notices and should be the full name of the council, e.g. Coventry City Council
+          short_name: This name is used with user interface elements within BOPS and should be the name of the area the council represents, e.g. Coventry
+          subdomain: This is used within the BOPS application to identify the council, e.g. coventry.bops.services and is typically the lowercase form of the short name
+          user: This is the administrator that will complete the onboarding process for the local authority - to gain access they should follow the password reset process
+        labels:
+          applicants_url: Applicants URL
+          council_code: Council code
+          council_name: Council name
+          email: Email address
+          name: Full name
+          short_name: Short name
+          subdomain: Subdomain
+          user: Initial administrator for the local authority
+        save: Save
       index:
         local_authorities: Review all local authorities
+      new:
+        local_authorities: Onboard a local authority
+      update:
+        updated: Local authority successfully updated
     reporting_types:
       create:
         success: Reporting type successfully created
