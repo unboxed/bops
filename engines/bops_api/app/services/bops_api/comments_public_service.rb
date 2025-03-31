@@ -59,7 +59,7 @@ module BopsApi
 
       # Apply sorting to the scope
       sort_field = allowed_sort_fields[sort_by]
-      scope.order("#{sort_field[:column]} #{order_by}")
+      scope.reorder("#{sort_field[:column]} #{order_by}")
     end
 
     def paginate(scope)
