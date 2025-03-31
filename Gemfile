@@ -65,6 +65,7 @@ gem "bops_admin", path: "engines/bops_admin"
 gem "bops_api", path: "engines/bops_api"
 gem "bops_config", path: "engines/bops_config"
 gem "bops_consultees", path: "engines/bops_consultees"
+gem "bops_reports", path: "engines/bops_reports"
 gem "bops_uploads", path: "engines/bops_uploads"
 
 group :development, :test do
