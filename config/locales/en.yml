@@ -1191,7 +1191,7 @@ en:
             breadcrumb: Summary of advice
             title: Edit summary of advice
           form:
-            complies: Likely to be supported_html
+            complies: Likely to be supported
             complies_recommended_html: Likely to be supported <strong>(recommended based on considerations)</strong>
             does_not_comply: Unlikely to be supported
             does_not_comply_recommended_html: Unlikely to be supported <strong>(recommended based on considerations)</strong>
