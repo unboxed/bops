@@ -14,12 +14,11 @@ google_analytics_hostnames = %w[
   region1.analytics.google.com
 ].freeze
 openlayers_map_url = "https://cdn.skypack.dev/ol@%5E6.6.1/ol.css"
-uploads_hostname = Rails.configuration.uploads_hostname
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self, :https
   policy.font_src :self
-  policy.img_src :self, :https, :data, uploads_hostname, google_tag_manager_hostname, *google_analytics_hostnames
+  policy.img_src :self, :https, :data, google_tag_manager_hostname, *google_analytics_hostnames
   policy.object_src :none
   policy.script_src :self, google_tag_manager_hostname, *google_analytics_hostnames
   policy.style_src :self, :unsafe_inline, openlayers_map_url, google_tag_manager_hostname

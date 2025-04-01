@@ -29,14 +29,6 @@ module BopsCore
       end
     end
 
-    class UploadsSubdomain
-      class << self
-        def matches?(request)
-          request.subdomain == "uploads"
-        end
-      end
-    end
-
     def local_authority_subdomain(&)
       constraints(LocalAuthoritySubdomain, &)
     end
@@ -47,10 +39,6 @@ module BopsCore
 
     def devise_subdomain(&)
       constraints(DeviseSubdomain, &)
-    end
-
-    def uploads_subdomain(&)
-      constraints(UploadsSubdomain, &)
     end
   end
 end

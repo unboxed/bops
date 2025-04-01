@@ -7,10 +7,6 @@ BopsUploads::Engine.routes.draw do
     get "/blobs/:key", to: "blobs#show", as: "blob"
     get "/files/:key", to: "files#show", as: "file"
   end
-
-  uploads_subdomain do
-    get "/:key", to: "blobs#show", as: "upload"
-  end
 end
 
 Rails.application.routes.draw do
@@ -20,20 +16,12 @@ Rails.application.routes.draw do
     local_authority_subdomain do
       get "/files/:key", to: "files#show", as: "file"
     end
-
-    uploads_subdomain do
-      get "/:key", to: "blobs#show", as: "upload"
-    end
   end
 
   direct :uploaded_file do |blob, options|
     next "" if blob.blank?
 
-    if Rails.configuration.use_signed_cookies
-      route_for(:bops_uploads_file, blob.key, options)
-    else
-      route_for(:bops_uploads_upload, blob.key, options.merge(host: Rails.configuration.uploads_base_url))
-    end
+    route_for(:bops_uploads_file, blob.key, options)
   end
 
   resolve("ActiveStorage::Attachment") { |attachment, options| route_for(:uploaded_file, attachment.blob, options) }

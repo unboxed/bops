@@ -36,40 +36,16 @@ RSpec.describe "BOPS documents API" do
 
         let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
 
-        context "when use_signed_cookies is false" do
-          before do
-            allow(config).to receive(:use_signed_cookies).and_return(false)
-          end
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["application"]["reference"]).to eq(planning_application.reference)
+          expect(data["decisionNotice"]["name"]).to eq("decision-notice-PlanX-25-00100-HAPP.pdf")
+          expect(data["decisionNotice"]["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
 
-          run_test! do |response|
-            data = JSON.parse(response.body)
-            expect(data["application"]["reference"]).to eq(planning_application.reference)
-            expect(data["decisionNotice"]["name"]).to eq("decision-notice-PlanX-25-00100-HAPP.pdf")
-            expect(data["decisionNotice"]["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
-
-            expect(data["files"]).to match_array([
-              a_hash_including("url" => "http://uploads.example.com/#{public_document.blob_key}"),
-              a_hash_including("url" => "http://uploads.example.com/#{private_document.blob_key}")
-            ])
-          end
-        end
-
-        context "when use_signed_cookies is true" do
-          before do
-            allow(config).to receive(:use_signed_cookies).and_return(true)
-          end
-
-          run_test! do |response|
-            data = JSON.parse(response.body)
-            expect(data["application"]["reference"]).to eq(planning_application.reference)
-            expect(data["decisionNotice"]["name"]).to eq("decision-notice-PlanX-25-00100-HAPP.pdf")
-            expect(data["decisionNotice"]["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
-
-            expect(data["files"]).to match_array([
-              a_hash_including("url" => "http://planx.example.com/files/#{public_document.blob_key}"),
-              a_hash_including("url" => "http://planx.example.com/files/#{private_document.blob_key}")
-            ])
-          end
+          expect(data["files"]).to match_array([
+            a_hash_including("url" => "http://planx.example.com/files/#{public_document.blob_key}"),
+            a_hash_including("url" => "http://planx.example.com/files/#{private_document.blob_key}")
+          ])
         end
       end
 

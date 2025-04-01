@@ -52,7 +52,7 @@ RSpec.describe "Documents index page", type: :system do
       end
 
       within_window(new_window) do
-        expect(page).to have_current_path(%r[\Ahttp://uploads.example.com:\d{4,5}/[a-z0-9]{28}\z], url: true)
+        expect(page).to have_current_path(%r[\Ahttp://planx.example.com:\d{4,5}/blobs/[a-z0-9]{28}\z], url: true)
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe "Documents index page", type: :system do
           end
 
           within_window(first_new_window) do
-            expect(page).to have_current_path(%r[\Ahttp://uploads.example.com:\d{4,5}/[a-z0-9]{28}\z], url: true)
+            expect(page).to have_current_path(%r[\Ahttp://planx.example.com:\d{4,5}/blobs/[a-z0-9]{28}\z], url: true)
           end
         end
 
@@ -85,7 +85,7 @@ RSpec.describe "Documents index page", type: :system do
           end
 
           within_window(second_new_window) do
-            expect(page).to have_current_path(%r[\Ahttp://uploads.example.com:\d{4,5}/[a-z0-9]{28}\z], url: true)
+            expect(page).to have_current_path(%r[\Ahttp://planx.example.com:\d{4,5}/blobs/[a-z0-9]{28}\z], url: true)
           end
         end
 
