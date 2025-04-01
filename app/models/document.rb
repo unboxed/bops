@@ -367,7 +367,7 @@ class Document < ApplicationRecord
 
   def representation(transformations = {resize_to_limit: [1000, 1000]})
     file.representation(transformations).processed
-  rescue ActiveStorage::Error => e
+  rescue ActiveStorage::Error, MiniMagick::Error => e
     logger.warn("Image retrieval failed for document ##{id} with error '#{e.message}'")
     nil
   end
