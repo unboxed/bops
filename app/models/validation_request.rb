@@ -45,6 +45,7 @@ class ValidationRequest < ApplicationRecord
 
   scope :closed, -> { where(state: "closed") }
   scope :active, -> { where.not(state: "cancelled") }
+  scope :approved, -> { where(approved: true) }
   scope :cancelled, -> { where(state: "cancelled") }
   scope :pending, -> { where(state: "pending") }
   scope :not_cancelled, -> { where(cancelled_at: nil) }
