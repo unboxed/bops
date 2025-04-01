@@ -11,6 +11,7 @@ $govuk-page-width: 1100px;
 // Imports from engines
 @import "bops_core/components/notification_banner";
 @import "bops_core/components/side_navigation";
+@import "bops_core/components/table_of_contents";
 @import "bops_core/components/task_accordion";
 @import "bops_core/components/ticket_panel";
 @import "bops_core/components/status_detail";
@@ -562,5 +563,27 @@ body {
 .neighbour-letter-export {
   width: calc(430px - 1.5cm);
   letter-spacing: 0.01px;
+}
 
+.govuk-heading-xs {
+  @extend .govuk-heading-s;
+  font-weight: normal;
+  margin-bottom: 0.5rem;
+}
+
+.govuk-list--dashed {
+  li::before {
+    border-top: 1px solid govuk-colour("black");
+    content: "";
+    left: 0;
+    margin-left: -25px;
+    position: absolute;
+    top: 14px;
+    width: 15px;
+  }
+
+  li {
+    margin-left: 25px;
+    position: relative;
+  }
 }

@@ -25,6 +25,20 @@
   </div>
 </div>
 
+<%= render BopsCore::TableOfContentsComponent.new(items: [
+      ## a section with no heading
+      # {links: [
+      #  ["foo", "#"]  # links are arrays containing two items, text and href
+      # ]},
+      ## sections with headings
+      # {title: "first", links: [
+      #  ["foo", "#"]
+      # ]},
+      # {title: "second", links: [
+      #  ["bar", "#"]
+      # ]}
+    ]) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m govuk-!-margin-top-5">
