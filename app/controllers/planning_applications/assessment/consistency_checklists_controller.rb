@@ -3,8 +3,11 @@
 module PlanningApplications
   module Assessment
     class ConsistencyChecklistsController < BaseController
+      include ReturnToReport
+
       before_action :set_consistency_checklist, except: %i[new create]
       before_action :redirect_to_reference_url
+      before_action :store_return_to_report_path, only: %i[edit create]
 
       def show
       end
@@ -37,10 +40,8 @@ module PlanningApplications
         if @consistency_checklist.update(consistency_checklist_params.except(:proposal_measurement))
           update_proposal_measurements
 
-          redirect_to(
-            planning_application_assessment_tasks_path(@planning_application),
-            notice: t(".successfully_updated_application")
-          )
+          redirect_to redirect_path, notice: t(".successfully_updated_application")
+
         else
           render :new
         end
@@ -98,6 +99,10 @@ module PlanningApplications
             eaves height: #{@planning_application.proposal_measurement.eaves_height}m,
             depth: #{@planning_application.proposal_measurement.depth}m"
         )
+      end
+
+      def redirect_path
+        report_path_or(planning_application_assessment_tasks_path(@planning_application))
       end
     end
   end

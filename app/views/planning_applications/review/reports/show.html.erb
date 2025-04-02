@@ -30,7 +30,11 @@
 <%= render BopsCore::TableOfContentsComponent.new(items: [
       {links: [
         ["Pre-application outcome", "#pre-application-outcome"],
-        ["Your pre-application details", "#pre-application-details"]
+        ["Your pre-application details", "#pre-application-details"],
+        ["Site map", "#site-map"],
+        ["Site constraints", "#site-constraints"],
+        ["Site history", "#site-history"],
+        ["Site and surroundings", "#site-and-surroundings"]
       ]}
     ]) %>
 
@@ -132,5 +136,90 @@
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section  id="site-map">
+  <h2 class="govuk-heading-m">
+    Site map
+  </h2>
+  <p class="govuk-body">
+    This map shows the area of the proposed development. It has been checked by the case officer.
+  </p>
+  <%= render(
+        partial: "shared/location_map",
+        locals: {
+          locals: {
+            geojson: @planning_application.boundary_geojson
+          }
+        }
+      ) %>
+      <% if @planning_application.consistency_checklist.site_map_correct == "no" %>
+        <div  class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+          <div class="grey-border-box ">
+            <div class="flex-between">
+              <h3 class="govuk-heading-s">
+                Officer comments
+              </h3>
+              <%= govuk_link_to "Edit", edit_planning_application_assessment_consistency_checklist_path(
+                @planning_application,
+                :anchor => "consistency-checklist-site-map-correct-comment-field",
+                return_to: "report"
+              ) %>
+            </div>
+            <p class="govuk-body">
+              <%= @planning_application.consistency_checklist.site_map_correct_comment %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+</section>
+
+<section id="site-constraints">
+  <div class="flex-between govuk-!-margin-bottom-2">
+    <h2 class="govuk-heading-m">Relevant site constraints</h2>
+    <%= govuk_link_to "Edit", planning_application_validation_constraints_path(
+                @planning_application,
+                return_to: "report"
+              ) %>
+  </div>
+  <p class="govuk-body">
+    Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.
+  </p>
+  <%= render("constraints_table", constraints: @constraints) %>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+</section>
+
+<section id="site-history">
+  <div class="flex-between govuk-!-margin-bottom-2">
+    <h2 class="govuk-heading-m"> Relevant site history </h2>
+    <%= govuk_link_to "Edit",  planning_application_assessment_site_histories_path(
+                @planning_application,
+                return_to: "report"
+              ) %>
+  </div>
+  <p class="govuk-body">
+    Past applications for this site or relevant nearby locations
+  </p>
+  <%= render "site_history_table" %>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+</section>
+
+<section id="site-and-surroundings">
+  <div class="flex-between govuk-!-margin-bottom-2">
+    <h2 class="govuk-heading-m">Site and surroundings</h2>
+    <%= govuk_link_to "Edit",  edit_planning_application_assessment_assessment_detail_path(
+            @planning_application, @site_description, category: "site_description", return_to: "report"
+          ) %>
+  </div>
+  <p class="govuk-body">
+    <%= @site_description.entry  %>
+  </p>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+</section>
 
 <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>

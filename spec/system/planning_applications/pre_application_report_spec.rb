@@ -6,6 +6,24 @@ RSpec.describe "Pre-application report" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:reviewer) { create(:user, :reviewer, local_authority:) }
 
+  let(:boundary_geojson) do
+    {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-0.054597, 51.537331],
+            [-0.054588, 51.537287],
+            [-0.054453, 51.537313],
+            [-0.054597, 51.537331]
+          ]
+        ]
+      }
+    }.to_json
+  end
+
   let(:planning_application) do
     create(
       :planning_application,
@@ -13,11 +31,13 @@ RSpec.describe "Pre-application report" do
       :in_assessment,
       user: reviewer,
       local_authority:,
+      boundary_geojson:,
       validated_at: Time.zone.local(2024, 6, 1),
       determined_at: Time.zone.local(2024, 6, 20),
       description: "Single-storey rear extension"
     )
   end
+
   let!(:site_visit) do
     create(:site_visit, planning_application:, visited_at: Time.zone.local(2024, 6, 10))
   end
@@ -29,6 +49,16 @@ RSpec.describe "Pre-application report" do
 
   let!(:summary_of_advice) do
     create(:assessment_detail, planning_application:, category: "summary_of_advice", summary_tag: "complies", entry: "Looks good")
+  end
+
+  let!(:site_history) { create(:site_history, planning_application:) }
+
+  let!(:site_description) do
+    create(:assessment_detail, planning_application:, category: "site_description", entry: "A double storey detached house adjacent to greenbelt.")
+  end
+
+  let!(:consistency_checklist) do
+    create(:consistency_checklist, :site_map_incorrect, planning_application:)
   end
 
   let(:report_url) { "/planning_applications/#{planning_application.reference}/review/report" }
@@ -51,6 +81,9 @@ RSpec.describe "Pre-application report" do
     within(".bops-table-of-contents") do
       expect(page).to have_link("Pre-application outcome", href: "#pre-application-outcome")
       expect(page).to have_link("Your pre-application details", href: "#pre-application-details")
+      expect(page).to have_link("Site map", href: "#site-map")
+      expect(page).to have_link("Site constraints", href: "#site-constraints")
+      expect(page).to have_link("Site and surroundings", href: "#site-and-surroundings")
     end
   end
 
@@ -154,6 +187,61 @@ RSpec.describe "Pre-application report" do
     expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/report")
     within("#proposal-description") do
       expect(page).to have_content("This is the amended description for the proposal")
+    end
+  end
+
+  it "displays site map" do
+    within("#site-map") do
+       expect(page).to have_content("Site map")
+       expect(page).to have_content("This map shows the area of the proposed development. It has been checked by the case officer.")
+    end
+  end
+
+  it "displays site constraints" do
+    within("#site-constraints") do
+       expect(page).to have_content("Relevant site constraints")
+       expect(page).to have_content("Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.")
+    end
+  end
+
+  it "displays site history" do
+    within("#site-history") do
+       expect(page).to have_content("Relevant site history")
+       expect(page).to have_content("Past applications for this site or relevant nearby locations")
+
+       within(".govuk-summary-card") do
+         expect(page).to have_content("REF123")
+         expect(page).to have_content("An entry for planning history")
+       end
+    end
+  end
+
+  it "returns to report page after editing site history" do
+    within("#site-history") do
+      expect(page).to have_content("Site visit")
+    end
+  end
+
+  it "displays site and surroundings" do
+    within("#site-and-surroundings") do
+       expect(page).to have_content("Site and surroundings")
+       expect(page).to have_content("A double storey detached house adjacent to greenbelt.")
+    end
+  end
+
+  it "returns to report page after editing site and surroundings" do
+    within("#site-and-surroundings") do
+      click_link "Edit"
+    end
+
+    expect(page).to have_content("Edit site description")
+
+    fill_in "assessment_detail[entry]", with: "This is the amended description of site and surroundings"
+    click_button "Save and mark as complete"
+
+    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/report")
+    within("#site-and-surroundings") do
+      expect(page).to have_content("This is the amended description of site and surroundings")
     end
   end
 end

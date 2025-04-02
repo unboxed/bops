@@ -19,5 +19,13 @@ FactoryBot.define do
       site_map_correct { :yes }
       proposal_measurements_match_documents { :yes }
     end
+
+    trait :site_map_incorrect do
+      description_matches_documents { :yes }
+      documents_consistent { :yes }
+      proposal_details_match_documents { :yes }
+      site_map_correct { :no }
+      proposal_measurements_match_documents { :yes }
+    end
   end
 end
