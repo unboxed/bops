@@ -31,7 +31,7 @@ module BopsCore
       private
 
       def rich_text_area
-        tag.div(class: classes) do
+        tag.div(class: classes, data: {controller: "rich-text"}) do
           @builder.rich_text_area(@attribute_name, **attributes(@html_attributes))
         end
       end

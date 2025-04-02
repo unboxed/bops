@@ -392,12 +392,4 @@ Rails.application.routes.draw do
   end
 
   mount BopsUploads::Engine, at: "/", as: :bops_uploads
-
-  direct :rails_direct_uploads do
-    ""
-  end
-
-  direct :rails_service_blob do
-    ""
-  end
 end

@@ -2,7 +2,7 @@
 
 module BopsUploads
   class FilesController < ApplicationController
-    before_action :set_document
+    before_action :set_blob
     before_action :set_planning_application
     before_action :raise_not_found, unless: :local_authority_matches?
 
@@ -20,12 +20,8 @@ module BopsUploads
 
     private
 
-    def set_document
-      @document = @blob.document
-    end
-
     def set_planning_application
-      @planning_application = @document.planning_application
+      @planning_application = @blob.planning_application
     end
 
     def local_authority_matches?

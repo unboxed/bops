@@ -8,8 +8,8 @@ module BopsUploads
       delegate :key_pair_id, :private_key, :cookie_signer
     end
 
+    before_action :require_local_authority!
     before_action :set_service
-    before_action :set_blob
 
     private
 

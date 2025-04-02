@@ -31,5 +31,13 @@ module BopsCore
 
       CommonMarker.render_html(text).html_safe
     end
+
+    def rich_text_area_tag(name, value = nil, options = {})
+      options[:data] ||= {}
+      options[:data][:direct_upload_url] ||= bops_uploads.uploads_url
+      options[:data][:blob_url_template] ||= bops_uploads.blob_service_url(":signed_id", ":filename")
+
+      super
+    end
   end
 end

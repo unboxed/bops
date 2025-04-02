@@ -1,8 +1,9 @@
+import { Controller } from "@hotwired/stimulus"
 import "@rails/actiontext"
 import Trix from "trix"
 
-// Configure the trix editor
 document.addEventListener("trix-before-initialize", () => {
+  // Line breaks
   Trix.Block.prototype.breaksOnReturn = function () {
     const attr = this.getLastAttribute()
     const config = Trix.config.blockAttributes[attr ? attr : "default"]
@@ -22,35 +23,28 @@ document.addEventListener("trix-before-initialize", () => {
     }
   }
 
+  // Attachments
+  Trix.config.attachments.preview.caption = {
+    name: false,
+    size: false,
+  }
+
+  Trix.config.attachments.file.caption = {
+    size: false,
+  }
+
+  Trix.config.lang.captionPlaceholder = "Add alt text…"
+
   // Block attributes
   Trix.config.blockAttributes.default = {
-    tagName: "p",
+    tagName: "div",
     parse: false,
     breakOnReturn: true,
   }
 
   // Text attributes
-  Trix.config.textAttributes.bold = {
-    tagName: "b",
-    inheritable: true,
-    parser(element) {
-      const style = window.getComputedStyle(element)
-      return style.fontWeight === "bold" || style.fontWeight >= 600
-    },
-  }
-
-  Trix.config.textAttributes.italic = {
-    tagName: "i",
-    inheritable: true,
-    parser(element) {
-      const style = window.getComputedStyle(element)
-      return style.fontStyle === "italic"
-    },
-  }
-
   Trix.config.textAttributes.underline = {
-    tagName: "u",
-    inheritable: true,
+    style: { textDecoration: "underline" },
   }
 
   // Language
@@ -91,3 +85,38 @@ document.addEventListener("trix-before-initialize", () => {
     </div>`
   }
 })
+
+export default class extends Controller {
+  connect() {
+    this.editor.addEventListener("trix-file-accept", (event) => {
+      this.canAcceptFile(event)
+    })
+  }
+
+  canAcceptFile(event) {
+    const acceptedTypes = ["image/jpeg", "image/png", "image/gif"]
+
+    if (!acceptedTypes.includes(event.file.type)) {
+      event.preventDefault()
+
+      alert(
+        "File attachment not supported! You may only add jpeg, png or gif images.",
+      )
+    }
+
+    // Only allow file size up to 4MB
+    const maxFileSize = 4096 * 1024
+
+    if (event.file.size > maxFileSize) {
+      event.preventDefault()
+
+      alert(
+        "File size is too large! You may only add images up to 4MB in size.",
+      )
+    }
+  }
+
+  get editor() {
+    return this.element.querySelector("trix-editor")
+  }
+}
