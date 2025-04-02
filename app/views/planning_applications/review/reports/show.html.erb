@@ -27,14 +27,94 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m govuk-!-margin-top-5">
-        Pre-application outcome
-      </h2>
+    <h2 class="govuk-heading-m govuk-!-margin-top-5">
+      Pre-application outcome
+    </h2>
 
-      <%= bops_notification_banner(
-            title: "Outcome",
-            **summary_advice_content(@outcome_status)
-          ) %>
+    <%= bops_notification_banner(
+          title: "Outcome",
+          **summary_advice_content(@outcome_status)
+        ) %>
     <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  </div>
+</div>
+
+<div class="govuk-grid-row" id="site-map">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">
+      Site map
+    </h2>
+    <p class="govuk-body">
+      This map shows the area of the proposed development. It has been checked by the case officer.
+    </p>
+    <%= render(
+          partial: "shared/location_map",
+          locals: {
+            locals: {
+              geojson: @planning_application.boundary_geojson
+            }
+          }
+        ) %>
+      <div class="govuk-grid-row govuk-!-margin-top-5">
+        <p class="govuk-body govuk-grid-column-three-quarters">
+          <strong>
+            Officer comments
+          </strong>
+        </p>
+        <%= govuk_link_to "Edit", "#", no_visited_state: true, class: "govuk-grid-column-one-quarter govuk-!-text-align-right" %>
+      </div>
+      <p class="govuk-body">Officer comment placeholder</p>
+
+    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+  </div>
+</div>
+
+<div class="govuk-grid-row" id="site-constraints">
+  <div class="govuk-grid-column-two-thirds">
+
+  <div class="govuk-grid-row">
+    <h2 class="govuk-heading-m govuk-grid-column-three-quarters">Relevant site constraints</h2>
+    <%= govuk_link_to "Edit", "#", no_visited_state: true, class: "govuk-grid-column-one-quarter govuk-!-text-align-right" %>
+  </div>
+  <p class="govuk-body">
+    Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.
+  </p>
+  <%= render("constraints_table", constraints: @constraints) %>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  </div>
+</div>
+
+<div class="govuk-grid-row" id="site-history">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-row">
+    <h2 class="govuk-heading-m govuk-grid-column-three-quarters">Relevant site history</h2>
+    <%= govuk_link_to "Edit", "#", no_visited_state: true, class: "govuk-grid-column-one-quarter govuk-!-text-align-right" %>
+  </div>
+  <p class="govuk-body">
+    Past applications for this site or relevant nearby locations
+  </p>
+  <%= render "site_history_table" %>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  </div>
+</div>
+
+<div class="govuk-grid-row" id="site-and-surroundings">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-row">
+    <h2 class="govuk-heading-m govuk-grid-column-three-quarters">Site and surroundings</h2>
+    <%= govuk_link_to "Edit", "#", no_visited_state: true, class: "govuk-grid-column-one-quarter govuk-!-text-align-right" %>
+  </div>
+  <p class="govuk-body">
+    <%= @planning_application.site_description.entry %>
+  </p>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
   </div>
 </div>

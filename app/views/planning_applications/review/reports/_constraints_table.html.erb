@@ -1,0 +1,28 @@
+<% if constraints.any? %>
+  <% @constraints_categories.each do |category| %>
+    <% if constraints.where(category: category).any? %>
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">
+            <%= category.humanize %>
+          </h2>
+        </div>
+        
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <% constraints.each do |constraint| %>
+              <% if constraint.category == category %>
+                <div class="govuk-summary-list__row">
+                  <dd class="govuk-summary-list__value">
+                    <%= constraint.type.humanize %>
+                  </dd>
+                </div>
+              <% end %>
+            <% end %>
+          </dl>
+        </div>
+
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

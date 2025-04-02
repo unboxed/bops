@@ -3,7 +3,11 @@
 module PlanningApplications
   module Review
     class ReportsController < BaseController
+      before_action :set_constraints_categories, only: %i[show]
+
       def show
+        @constraints = @planning_application.constraints
+
         redirect_to planning_application_path(@planning_application) unless @planning_application.pre_application?
 
         summary_tags = @planning_application.assessment_details.map(&:summary_tag)
@@ -14,6 +18,13 @@ module PlanningApplications
         else
           :needs_changes
         end
+      end
+
+      private
+
+      def set_constraints_categories
+        @all_constraints = Constraint.where(local_authority: @local_authority)
+        @constraints_categories = @all_constraints.distinct.pluck(:category)
       end
     end
   end
