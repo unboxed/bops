@@ -3,8 +3,11 @@
 module PlanningApplications
   module Assessment
     class SiteHistoriesController < BaseController
+      include ReturnToReport
+
       before_action :set_site_histories
       before_action :set_site_history, except: %i[confirm]
+      before_action :store_return_to_report_path, only: %i[index edit update destroy]
 
       def index
         respond_to do |format|
@@ -17,7 +20,7 @@ module PlanningApplications
 
         respond_to do |format|
           format.html do
-            redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+            redirect_to redirect_path, notice: t(".success")
           end
         end
       end
@@ -88,6 +91,10 @@ module PlanningApplications
 
       def planning_history_params
         params.require(:site_history).permit(:reference, :description, :decision, :other_decision, :date, :comment)
+      end
+
+      def redirect_path
+        report_path_or(planning_application_assessment_tasks_path(@planning_application))
       end
     end
   end

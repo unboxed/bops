@@ -1,0 +1,22 @@
+<% if constraints.any? %>
+  <% constraints.each do |category, values| %>
+    <div class="govuk-summary-card" id="site-constraints-<%= category %>">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">
+          <%= category.humanize %>
+        </h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <% values.each do |value| %>
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <%= value.type.humanize %>
+                </dd>
+              </div>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+  <% end %>
+<% end %>
