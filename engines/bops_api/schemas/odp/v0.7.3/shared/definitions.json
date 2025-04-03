@@ -15,10 +15,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "value",
-            "description"
-          ]
+          "required": ["value", "description"]
         },
         "reference": {
           "type": "string"
@@ -106,10 +103,7 @@
               }
             }
           },
-          "required": [
-            "startDate",
-            "endDate"
-          ]
+          "required": ["startDate", "endDate"]
         },
         "pressNotice": {
           "anyOf": [
@@ -127,11 +121,7 @@
                   "type": ["string", "null"]
                 }
               },
-              "required": [
-                "required",
-                "reason",
-                "publishedAt"
-              ]
+              "required": ["required", "reason", "publishedAt"]
             },
             {
               "type": "null"
@@ -150,6 +140,25 @@
         "status",
         "decision"
       ]
+    },
+    "PostSubmissionPagination": {
+      "$id": "#PostSubmissionPagination",
+      "type": "object",
+      "properties": {
+        "resultsPerPage": {
+          "type": "integer"
+        },
+        "currentPage": {
+          "type": "integer"
+        },
+        "totalPages": {
+          "type": "integer"
+        },
+        "totalItems": {
+          "type": "integer"
+        }
+      },
+      "required": ["resultsPerPage", "currentPage", "totalPages", "totalItems"]
     }
   }
 }

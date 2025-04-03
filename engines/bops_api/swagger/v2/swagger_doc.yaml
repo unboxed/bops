@@ -20888,6 +20888,23 @@ components:
       - determinedAt
       - status
       - decision
+    PostSubmissionPagination:
+      "$id": "#PostSubmissionPagination"
+      type: object
+      properties:
+        resultsPerPage:
+          type: integer
+        currentPage:
+          type: integer
+        totalPages:
+          type: integer
+        totalItems:
+          type: integer
+      required:
+      - resultsPerPage
+      - currentPage
+      - totalPages
+      - totalItems
   schemas:
     Submission:
       additionalProperties: false
@@ -21461,6 +21478,111 @@ components:
       - metadata
       - links
       - data
+      type: object
+    CommentsPublicResponse:
+      properties:
+        pagination:
+          "$ref": "#/components/definitions/PostSubmissionPagination"
+        summary:
+          type: object
+          properties:
+            totalComments:
+              type: integer
+            sentiment:
+              type: object
+              properties:
+                supportive:
+                  type: integer
+                objection:
+                  type: integer
+                neutral:
+                  type: integer
+          required:
+          - totalComments
+          - sentiment
+        comments:
+          type: array
+          items:
+          - type: object
+            properties:
+              id:
+                type: integer
+              sentiment:
+                enum:
+                - objection
+                - neutral
+                - supportive
+                type: string
+              comment:
+                type: string
+              receivedAt:
+                format: datetime
+                type:
+                - string
+                - 'null'
+            required:
+            - id
+            - sentiment
+            - comment
+            - receivedAt
+      required:
+      - pagination
+      - summary
+      - comments
+      type: object
+    CommentsSpecialistResponse:
+      properties:
+        pagination:
+          "$ref": "#/components/definitions/PostSubmissionPagination"
+        summary:
+          type: object
+          properties:
+            totalComments:
+              type: integer
+            totalConsulted:
+              type: integer
+            sentiment:
+              type: object
+              properties:
+                supportive:
+                  type: integer
+                objection:
+                  type: integer
+                neutral:
+                  type: integer
+          required:
+          - totalComments
+          - totalConsulted
+          - sentiment
+        comments:
+          type: array
+          items:
+          - type: object
+            properties:
+              id:
+                type: integer
+              sentiment:
+                enum:
+                - objection
+                - neutral
+                - approved
+                type: string
+              comment:
+                type: string
+              receivedAt:
+                format: datetime
+                type:
+                - string
+                - 'null'
+            required:
+            - id
+            - sentiment
+            - comment
+            - receivedAt
+      required:
+      - pagination
+      - summary
+      - comments
       type: object
     Healthcheck:
       type: object
@@ -34971,6 +35093,191 @@ paths:
                             country: ''
               schema:
                 "$ref": "#/components/schemas/Search"
+  "/api/v2/public/planning_applications/{reference}/comments/public":
+    get:
+      summary: Retrieves comments for a planning application
+      tags:
+      - Planning applications
+      parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - id
+          - receivedAt
+          default: receivedAt
+          description: The sort type for the comments
+        required: false
+      - name: orderBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+          description: The order for the comments
+        required: false
+      - name: resultsPerPage
+        in: query
+        schema:
+          type: integer
+          default: 10
+          description: Max result for page
+        required: false
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        required: false
+      - name: query
+        in: query
+        schema:
+          type: string
+          description: Search by redacted comment content
+        required: false
+      responses:
+        '200':
+          description: returns a planning application's public comments filtering
+            by sortBy and orderBy
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    pagination:
+                      resultsPerPage: 10
+                      currentPage: 1
+                      totalPages: 1
+                      totalItems: 4
+                    summary:
+                      totalComments: 4
+                      sentiment:
+                        supportive: 4
+                        objection: 0
+                        neutral: 0
+                    comments:
+                    - id: 1
+                      sentiment: supportive
+                      comment: Qui eos impedit. In nostrum nam. Qui odit non.
+                      receivedAt: '2025-03-13T10:49:10Z'
+                    - id: 2
+                      sentiment: supportive
+                      comment: Etiam porta sem malesuada magna mollis euismod.
+                      receivedAt: '2025-03-13T10:49:22Z'
+                    - id: 3
+                      sentiment: supportive
+                      comment: Cras mattis consectetur purus sit amet fermentum.
+                      receivedAt: '2025-03-13T10:49:24Z'
+                    - id: 4
+                      sentiment: supportive
+                      comment: Nullam id dolor id nibh ultricies vehicula ut id elit.
+                      receivedAt: '2025-03-13T10:49:25Z'
+              schema:
+                "$ref": "#/components/schemas/CommentsPublicResponse"
+        '404':
+          description: does not return comments for unpublished planning applications
+  "/api/v2/public/planning_applications/{reference}/comments/specialist":
+    get:
+      summary: Retrieves comments for a planning application
+      tags:
+      - Planning applications
+      parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - id
+          - receivedAt
+          default: receivedAt
+          description: The sort type for the comments
+        required: false
+      - name: orderBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+          description: The order for the comments
+        required: false
+      - name: resultsPerPage
+        in: query
+        schema:
+          type: integer
+          default: 10
+          description: Max result for page
+        required: false
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        required: false
+      - name: query
+        in: query
+        schema:
+          type: string
+          description: Search by redacted comment content
+        required: false
+      responses:
+        '200':
+          description: returns a planning application's specialist comments filtering
+            by sortBy and orderBy
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    pagination:
+                      resultsPerPage: 10
+                      currentPage: 1
+                      totalPages: 1
+                      totalItems: 4
+                    summary:
+                      totalComments: 4
+                      sentiment:
+                        supportive: 4
+                        objection: 0
+                        neutral: 0
+                      totalConsulted: 4
+                    comments:
+                    - id: 1
+                      sentiment: supportive
+                      comment: Qui eos impedit. In nostrum nam. Qui odit non.
+                      receivedAt: '2025-03-13T10:49:10Z'
+                    - id: 2
+                      sentiment: supportive
+                      comment: Etiam porta sem malesuada magna mollis euismod.
+                      receivedAt: '2025-03-13T10:49:22Z'
+                    - id: 3
+                      sentiment: supportive
+                      comment: Cras mattis consectetur purus sit amet fermentum.
+                      receivedAt: '2025-03-13T10:49:24Z'
+                    - id: 4
+                      sentiment: supportive
+                      comment: Nullam id dolor id nibh ultricies vehicula ut id elit.
+                      receivedAt: '2025-03-13T10:49:25Z'
+              schema:
+                "$ref": "#/components/schemas/CommentsSpecialistResponse"
+        '404':
+          description: does not return comments for unpublished planning applications
   "/api/v2/public/planning_applications/{reference}/documents":
     get:
       summary: Retrieves documents for a planning application
