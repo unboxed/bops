@@ -10,7 +10,7 @@ module PlanningApplications
       before_action :set_consultation, if: :has_consultation_and_summary?
       before_action :set_neighbour_responses, if: :neighbour_summary?
       before_action :set_site_and_press_notices, if: :check_publicity?
-      before_action :store_return_to_report_path, only: [:edit]
+      before_action :store_return_to_report_path, only: %i[new edit]
 
       def show
         respond_to do |format|

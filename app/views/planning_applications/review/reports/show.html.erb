@@ -35,24 +35,28 @@
     ]) %>
 
 <section id="pre-application-outcome">
-  <div class="govuk-grid-row">
-    <div class="flex-between govuk-!-margin-bottom-2">
-      <h2 class="govuk-heading-m">Pre-application outcome</h2>
+  <div class="flex-between govuk-!-margin-bottom-2">
+    <h2 class="govuk-heading-m">Pre-application outcome</h2>
+    <% if @summary_of_advice&.summary_tag %>
       <%= govuk_link_to "Edit", edit_planning_application_assessment_assessment_detail_path(
             @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
           ) %>
-    </div>
-
-    <% if @summary_of_advice.summary_tag %>
-      <% content = summary_advice_content(@summary_of_advice.summary_tag) %>
-      <%= bops_notification_banner(
-            title: "Outcome",
-            **content
-          ) %>
     <% else %>
-      <p class="govuk-body">The pre-application outcome has not been set.</p>
+      <%= govuk_link_to "Add outcome", new_planning_application_assessment_assessment_detail_path(
+            @planning_application, category: "summary_of_advice", return_to: "report"
+          ) %>
     <% end %>
   </div>
+
+  <% if @summary_of_advice&.summary_tag %>
+    <% content = summary_advice_content(@summary_of_advice.summary_tag) %>
+    <%= bops_notification_banner(
+          title: "Outcome",
+          **content
+        ) %>
+  <% else %>
+    <p class="govuk-body">The pre-application outcome has not been set.</p>
+  <% end %>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
