@@ -2,9 +2,9 @@
   Pre-application report - <%= t("page_title") %>
 <% end %>
 
-<% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Review pre-application", planning_application_review_root_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Home", main_app.root_path %>
+<% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Review pre-application", main_app.planning_application_review_root_path(@planning_application) %>
 <% content_for :title, "Pre-application report" %>
 
 <div class="govuk-grid-row">
@@ -38,11 +38,11 @@
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Pre-application outcome</h2>
     <% if @summary_of_advice&.summary_tag %>
-      <%= govuk_link_to "Edit", edit_planning_application_assessment_assessment_detail_path(
+      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
             @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
           ) %>
     <% else %>
-      <%= govuk_link_to "Add outcome", new_planning_application_assessment_assessment_detail_path(
+      <%= govuk_link_to "Add outcome", main_app.new_planning_application_assessment_assessment_detail_path(
             @planning_application, category: "summary_of_advice", return_to: "report"
           ) %>
     <% end %>
@@ -92,7 +92,7 @@
           <% row.with_cell(text: "-") %>
         <% end %>
         <% row.with_cell do %>
-          <%= govuk_link_to "Edit", planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
+          <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
         <% end %>
       <% end %>
 
@@ -104,7 +104,7 @@
           <% row.with_cell(text: "-") %>
         <% end %>
           <% row.with_cell do %>
-            <%= govuk_link_to "Edit", planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
+            <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
           <% end %>
       <% end %>
     <% end %>
@@ -113,7 +113,7 @@
   <div id="proposal-description">
     <div class="flex-between govuk-!-margin-bottom-2">
       <h3 class="govuk-heading-s">Description of your proposal</h3>
-      <%= govuk_link_to "Edit", new_planning_application_validation_validation_request_path(
+      <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
             @planning_application,
             type: "description_change",
             return_to: "report"
@@ -133,4 +133,4 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
+<%= govuk_button_link_to "Back", main_app.planning_application_path(@planning_application), secondary: true %>

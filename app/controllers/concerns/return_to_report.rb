@@ -16,7 +16,7 @@ module ReturnToReport
   def report_path_or(default_path)
     if session.dig(:return_to_report_paths, @planning_application.reference)
       session[:return_to_report_paths].delete(@planning_application.reference)
-      planning_application_review_report_path(@planning_application)
+      bops_reports.planning_application_path(@planning_application)
     else
       default_path
     end
