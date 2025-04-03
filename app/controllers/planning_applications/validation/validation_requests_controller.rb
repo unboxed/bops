@@ -3,6 +3,8 @@
 module PlanningApplications
   module Validation
     class ValidationRequestsController < BaseController
+      include ReturnToReport
+
       rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
       rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
       rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
@@ -17,6 +19,7 @@ module PlanningApplications
       before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
       before_action :ensure_planning_application_not_invalidated, only: :edit
       before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
+      before_action :store_return_to_report_path, only: %i[new]
 
       def index
         validation_requests = @planning_application.requests_excluding_time_extension.where(post_validation: false)

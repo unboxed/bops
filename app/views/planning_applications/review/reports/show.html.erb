@@ -25,30 +25,108 @@
   </div>
 </div>
 
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
 <%= render BopsCore::TableOfContentsComponent.new(items: [
-      ## a section with no heading
-      # {links: [
-      #  ["foo", "#"]  # links are arrays containing two items, text and href
-      # ]},
-      ## sections with headings
-      # {title: "first", links: [
-      #  ["foo", "#"]
-      # ]},
-      # {title: "second", links: [
-      #  ["bar", "#"]
-      # ]}
+      {links: [
+        ["Pre-application outcome", "#pre-application-outcome"],
+        ["Your pre-application details", "#pre-application-details"]
+      ]}
     ]) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m govuk-!-margin-top-5">
-        Pre-application outcome
-      </h2>
+<section id="pre-application-outcome">
+  <div class="govuk-grid-row">
+    <div class="flex-between govuk-!-margin-bottom-2">
+      <h2 class="govuk-heading-m">Pre-application outcome</h2>
+      <%= govuk_link_to "Edit", edit_planning_application_assessment_assessment_detail_path(
+            @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
+          ) %>
+    </div>
 
+    <% if @summary_of_advice.summary_tag %>
+      <% content = summary_advice_content(@summary_of_advice.summary_tag) %>
       <%= bops_notification_banner(
             title: "Outcome",
-            **summary_advice_content(@outcome_status)
+            **content
           ) %>
-    <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
+    <% else %>
+      <p class="govuk-body">The pre-application outcome has not been set.</p>
+    <% end %>
   </div>
-</div>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section id="pre-application-details">
+  <h2 class="govuk-heading-m">
+    Your pre-application details
+  </h2>
+
+  <%= govuk_table(id: "pre-application-details-table") do |table| %>
+    <% table.with_caption(size: "s", text: "This section summarises your proposal and key dates in the pre-application process.") %>
+
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: "Event") %>
+        <% row.with_cell(text: "Date") %>
+        <% row.with_cell(text: "Action") %>
+      <% end %>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: "Date made valid") %>
+        <% row.with_cell(text: time_tag(@planning_application.validated_at)) %>
+        <% row.with_cell(text: "-") %>
+      <% end %>
+
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: "Site visit") %>
+        <% if @planning_application.site_visit_visited_at %>
+          <% row.with_cell(text: time_tag(@planning_application.site_visit_visited_at)) %>
+        <% else %>
+          <% row.with_cell(text: "-") %>
+        <% end %>
+        <% row.with_cell do %>
+          <%= govuk_link_to "Edit", planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
+        <% end %>
+      <% end %>
+
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: "Meeting") %>
+        <% if @planning_application.meeting_occurred_at %>
+          <% row.with_cell(text: time_tag(@planning_application.meeting_occurred_at)) %>
+        <% else %>
+          <% row.with_cell(text: "-") %>
+        <% end %>
+          <% row.with_cell do %>
+            <%= govuk_link_to "Edit", planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
+          <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <div id="proposal-description">
+    <div class="display-flex justify-between govuk-!-margin-bottom-2">
+      <h3 class="govuk-heading-s">Description of your proposal</h3>
+      <%= govuk_link_to "Edit", new_planning_application_validation_validation_request_path(
+            @planning_application,
+            type: "description_change",
+            return_to: "report"
+          ) %>
+    </div>
+    <p class="govuk-body"><%= @planning_application.description %></p>
+
+    <% if @planning_application.description_change_validation_requests.approved.any? %>
+      <%= govuk_inset_text do %>
+        <p>
+          <strong>Note:</strong> The case officer has updated the description to accurately reflect the proposed development.
+        </p>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>

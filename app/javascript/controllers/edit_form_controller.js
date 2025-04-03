@@ -5,7 +5,7 @@ export default class extends Controller {
     event.preventDefault()
 
     event.currentTarget.parentElement.parentElement.classList.remove(
-      "proposal-details-sub-heading",
+      "flex-between",
     )
     event.currentTarget.parentElement.parentElement
       .querySelector(".govuk-body")

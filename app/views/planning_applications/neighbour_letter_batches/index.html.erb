@@ -28,7 +28,7 @@
           Date sent: <%= batch.created_at.to_date.to_fs %>
         <% end %>
         <% section.with_footer do %>
-          <div class="display-flex" style="justify-content: space-between">
+          <div class="flex-between">
             <p class="govuk-body">
               Response period: <%= @planning_application.consultation.consultee_response_period %> days
             </p>

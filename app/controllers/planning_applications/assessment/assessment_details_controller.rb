@@ -3,11 +3,14 @@
 module PlanningApplications
   module Assessment
     class AssessmentDetailsController < BaseController
+      include ReturnToReport
+
       before_action :set_assessment_detail, only: %i[show edit update]
       before_action :set_category, :set_rejected_assessment_detail, only: %i[new create edit update show]
       before_action :set_consultation, if: :has_consultation_and_summary?
       before_action :set_neighbour_responses, if: :neighbour_summary?
       before_action :set_site_and_press_notices, if: :check_publicity?
+      before_action :store_return_to_report_path, only: [:edit]
 
       def show
         respond_to do |format|
@@ -146,11 +149,13 @@ module PlanningApplications
       end
 
       def redirect_path
-        if current_user.reviewer?
+        path = if current_user.reviewer?
           planning_application_review_tasks_path(@planning_application)
         else
           planning_application_assessment_tasks_path(@planning_application)
         end
+
+        report_path_or(path)
       end
     end
   end

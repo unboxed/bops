@@ -114,7 +114,10 @@ class PlanningApplication < ApplicationRecord
     delegate :required?, to: :environment_impact_assessment
     delegate :suffix, to: :application_type
     delegate :rejected_review?, to: :committee_decision
+    delegate :visited_at, to: :site_visit
+    delegate :occurred_at, to: :meeting
   end
+
   with_options to: :planx_planning_data, allow_nil: true do
     delegate :params_v1
     delegate :params_v2
@@ -914,6 +917,10 @@ class PlanningApplication < ApplicationRecord
 
   def site_visit
     site_visits.first
+  end
+
+  def meeting
+    meetings.first
   end
 
   def make_public?

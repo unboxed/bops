@@ -4,7 +4,7 @@
       <% accordion.with_section(heading_text: "Neighours already selected") do %>
         <% @consultation.neighbours.select(&:persisted?).sort_by(&:id).each do |neighbour| %>
         <hr>
-        <div class="proposal-details-sub-heading" data-controller="edit-form">
+        <div class="flex-between" data-controller="edit-form">
           <div class="govuk-!-width-three-quarters govuk-!-margin-top-1">
             <p class="govuk-body">
               <%= neighbour.address %>
