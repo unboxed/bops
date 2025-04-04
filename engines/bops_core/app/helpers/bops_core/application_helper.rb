@@ -35,7 +35,7 @@ module BopsCore
     def rich_text_area_tag(name, value = nil, options = {})
       options[:data] ||= {}
       options[:data][:direct_upload_url] ||= bops_uploads.uploads_url
-      options[:data][:blob_url_template] ||= bops_uploads.blob_service_url(":signed_id", ":filename")
+      options[:data][:blob_url_template] ||= bops_uploads.file_url(":key")
 
       super
     end
