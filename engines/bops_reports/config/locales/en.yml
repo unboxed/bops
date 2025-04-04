@@ -1,6 +1,12 @@
 ---
 en:
   bops_reports:
+    planning_applications:
+      form:
+        do_you_agree: Do you agree with the advice?
+        non_committee:
+          'no': No (return the case for assessment)
+          'yes': Yes (an email will be sent to the applicant)
     dashboards:
       show:
         title: Reports
