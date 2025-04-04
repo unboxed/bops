@@ -86,7 +86,7 @@
     <% if @planning_application.pre_application? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
-          <%= govuk_link_to "Review and submit pre-application", planning_application_review_report_path(@planning_application), aria: {describedby: "submit_preapplication-completed"} %>
+          <%= govuk_link_to "Review and submit pre-application", bops_reports.planning_application_path(@planning_application), aria: {describedby: "submit_preapplication-completed"} %>
         </span>
       </li>
     <% else %>

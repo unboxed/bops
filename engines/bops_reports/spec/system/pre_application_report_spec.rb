@@ -31,7 +31,7 @@ RSpec.describe "Pre-application report" do
     create(:assessment_detail, planning_application:, category: "summary_of_advice", summary_tag: "complies", entry: "Looks good")
   end
 
-  let(:report_url) { "/planning_applications/#{planning_application.reference}/review/report" }
+  let(:report_url) { "/reports/planning_applications/#{planning_application.reference}" }
 
   before do
     sign_in reviewer
@@ -105,7 +105,7 @@ RSpec.describe "Pre-application report" do
     choose "Likely to be supported with changes"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/report")
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
     expect(page).to have_content("Likely to be supported with changes")
     expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--orange")
   end
@@ -122,7 +122,7 @@ RSpec.describe "Pre-application report" do
     fill_in "Add notes (optional)", with: "Discussed next steps"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/report")
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
     within("#pre-application-details-table") do
       rows = all("tbody tr")
 
@@ -139,7 +139,7 @@ RSpec.describe "Pre-application report" do
 
     click_link "Back"
 
-    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/report")
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
   end
 
   it "returns to the report page after editing proposal description" do
@@ -151,7 +151,7 @@ RSpec.describe "Pre-application report" do
     fill_in "Enter an amended description", with: "This is the amended description for the proposal"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/report")
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
     within("#proposal-description") do
       expect(page).to have_content("This is the amended description for the proposal")
     end

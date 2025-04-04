@@ -12,5 +12,9 @@ module BopsReports
     def home_path
       root_path
     end
+
+    def summary_advice_content(summary_tag)
+      I18n.t("summary_advice.#{summary_tag}")
+    end
   end
 end
