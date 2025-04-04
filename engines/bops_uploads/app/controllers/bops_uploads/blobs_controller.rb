@@ -2,6 +2,8 @@
 
 module BopsUploads
   class BlobsController < ApplicationController
+    before_action :set_blob
+
     def show
       serve_file(blob_path, content_type:, disposition:)
     rescue Errno::ENOENT

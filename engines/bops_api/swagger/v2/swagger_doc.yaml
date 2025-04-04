@@ -35082,10 +35082,10 @@ paths:
                       total_pages: 5
                       total_results: 10
                     links:
-                      first: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
-                      last: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&maxresults=2
-                      prev: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
-                      next: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=2
+                      first: "/api/v2/public/planning_applications/search?page=1&maxresults=2"
+                      last: "/api/v2/public/planning_applications/search?page=5&maxresults=2"
+                      prev: "/api/v2/public/planning_applications/search?page=1&maxresults=2"
+                      next: "/api/v2/public/planning_applications/search?page=3&maxresults=2"
                     data:
                     - application:
                         type:
@@ -35291,7 +35291,7 @@ paths:
                           decision: allowed
                           files:
                           - name: 01.png
-                            url: http://uploads.bops.localhost:3000/b48as3tuafybda00zffy1h8ym0mu
+                            url: "/files/b48as3tuafybda00zffy1h8ym0mu"
                             type:
                             - value: internal.appealDecision
                               description: Appeal Decision
@@ -35301,7 +35301,7 @@ paths:
                               byteSize: 312599
                               contentType: image/png
                           - name: 03.png
-                            url: http://uploads.bops.localhost:3000/93dj4n9hw8px6q1wgnm7hqwjwyu7
+                            url: "/files/93dj4n9hw8px6q1wgnm7hqwjwyu7"
                             type:
                             - value: internal.appealDecision
                               description: Appeal Decision
@@ -35311,7 +35311,7 @@ paths:
                               byteSize: 338776
                               contentType: image/png
                           - name: 02.png
-                            url: http://uploads.bops.localhost:3000/n2jd2xor3sl8514m49a4rn8rf3p4
+                            url: "/files/n2jd2xor3sl8514m49a4rn8rf3p4"
                             type:
                             - value: internal.appealDecision
                               description: Appeal Decision
@@ -35321,7 +35321,7 @@ paths:
                               byteSize: 890308
                               contentType: image/png
                           - name: 04.png
-                            url: http://uploads.bops.localhost:3000/gd21huup5zg82wl4qy38gia2tapx
+                            url: "/files/gd21huup5zg82wl4qy38gia2tapx"
                             type:
                             - value: internal.appealDecision
                               description: Appeal Decision
@@ -35414,7 +35414,7 @@ paths:
                         decision: allowed
                         files:
                         - name: 01_decision_type_counts.png
-                          url: http://uploads.bops.localhost:3000/b48as3tuafybda00zffy1h8ym0mu
+                          url: "/files/b48as3tuafybda00zffy1h8ym0mu"
                           type:
                           - value: internal.appealDecision
                             description: Appeal Decision
@@ -35424,7 +35424,7 @@ paths:
                             byteSize: 312599
                             contentType: image/png
                         - name: 03_average_days_to_decision.png
-                          url: http://uploads.bops.localhost:3000/93dj4n9hw8px6q1wgnm7hqwjwyu7
+                          url: "/files/93dj4n9hw8px6q1wgnm7hqwjwyu7"
                           type:
                           - value: internal.appealDecision
                             description: Appeal Decision
@@ -35434,7 +35434,7 @@ paths:
                             byteSize: 338776
                             contentType: image/png
                         - name: 02_decision_by_app_type.png
-                          url: http://uploads.bops.localhost:3000/n2jd2xor3sl8514m49a4rn8rf3p4
+                          url: "/files/n2jd2xor3sl8514m49a4rn8rf3p4"
                           type:
                           - value: internal.appealDecision
                             description: Appeal Decision
@@ -35444,7 +35444,7 @@ paths:
                             byteSize: 890308
                             contentType: image/png
                         - name: 04_applications_without_decision.png
-                          url: http://uploads.bops.localhost:3000/gd21huup5zg82wl4qy38gia2tapx
+                          url: "/files/gd21huup5zg82wl4qy38gia2tapx"
                           type:
                           - value: internal.appealDecision
                             description: Appeal Decision

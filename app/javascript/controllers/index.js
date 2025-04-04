@@ -58,6 +58,9 @@ application.register("polygon-search", PolygonSearchController)
 import ResetTextController from "./reset_text_controller.js"
 application.register("reset-text", ResetTextController)
 
+import RichTextController from "@/bops_core/controllers/rich_text_controller.js"
+application.register("rich-text", RichTextController)
+
 import ShowHideController from "./show_hide_controller.js"
 application.register("show-hide", ShowHideController)
 

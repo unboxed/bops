@@ -32,12 +32,18 @@ module BopsUploads
             parent_record(record.attachments.sole.record)
           when ActiveStorage::VariantRecord
             parent_record(record.blob.attachments.sole.record)
+          when ActionText::RichText
+            parent_record(record.record)
+          when Consideration
+            parent_record(record.consideration_set)
+          when Document, ConsiderationSet
+            record.planning_application
           else
-            record
+            raise ArgumentError, "Unexpected record type in chain: #{record.inspect}"
           end
         end
 
-        alias_method :document, :parent_record
+        alias_method :planning_application, :parent_record
       end
     end
   end

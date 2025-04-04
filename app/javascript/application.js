@@ -9,8 +9,6 @@ Rails.start()
 import * as ActiveStorage from "@rails/activestorage"
 ActiveStorage.start()
 
-import "@/bops_core/rich_text"
-
 import "@opensystemslab/map"
 import accessibleAutocomplete from "accessible-autocomplete"
 

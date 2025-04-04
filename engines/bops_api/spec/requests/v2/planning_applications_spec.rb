@@ -433,36 +433,14 @@ RSpec.describe "BOPS API" do
 
         let!(:document) { create(:document, :with_tags, planning_application:, validated: true, publishable: true) }
 
-        context "when use_signed_cookies is false" do
-          before do
-            allow(config).to receive(:use_signed_cookies).and_return(false)
-          end
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["id"]).to eq(reference)
+          expect(data["description"]).to eq(planning_application.description)
 
-          run_test! do |response|
-            data = JSON.parse(response.body)
-            expect(data["id"]).to eq(reference)
-            expect(data["description"]).to eq(planning_application.description)
-
-            expect(data["documents"]).to match_array([
-              a_hash_including("url" => "http://uploads.example.com/#{document.blob_key}")
-            ])
-          end
-        end
-
-        context "when use_signed_cookies is true" do
-          before do
-            allow(config).to receive(:use_signed_cookies).and_return(true)
-          end
-
-          run_test! do |response|
-            data = JSON.parse(response.body)
-            expect(data["id"]).to eq(reference)
-            expect(data["description"]).to eq(planning_application.description)
-
-            expect(data["documents"]).to match_array([
-              a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
-            ])
-          end
+          expect(data["documents"]).to match_array([
+            a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
+          ])
         end
       end
 
@@ -474,36 +452,14 @@ RSpec.describe "BOPS API" do
 
         let!(:document) { create(:document, :with_tags, planning_application:, validated: true, publishable: true) }
 
-        context "when use_signed_cookies is false" do
-          before do
-            allow(config).to receive(:use_signed_cookies).and_return(false)
-          end
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["reference"]).to eq(planning_application.reference)
+          expect(data["description"]).to eq(planning_application.description)
 
-          run_test! do |response|
-            data = JSON.parse(response.body)
-            expect(data["reference"]).to eq(planning_application.reference)
-            expect(data["description"]).to eq(planning_application.description)
-
-            expect(data["documents"]).to match_array([
-              a_hash_including("url" => "http://uploads.example.com/#{document.blob_key}")
-            ])
-          end
-        end
-
-        context "when use_signed_cookies is true" do
-          before do
-            allow(config).to receive(:use_signed_cookies).and_return(true)
-          end
-
-          run_test! do |response|
-            data = JSON.parse(response.body)
-            expect(data["reference"]).to eq(planning_application.reference)
-            expect(data["description"]).to eq(planning_application.description)
-
-            expect(data["documents"]).to match_array([
-              a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
-            ])
-          end
+          expect(data["documents"]).to match_array([
+            a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
+          ])
         end
       end
 
