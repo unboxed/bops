@@ -15,7 +15,8 @@ RSpec.describe "Pre-application report" do
       local_authority:,
       validated_at: Time.zone.local(2024, 6, 1),
       determined_at: Time.zone.local(2024, 6, 20),
-      description: "Single-storey rear extension"
+      description: "Single-storey rear extension",
+      recommended_application_type: create(:application_type, :householder)
     )
   end
   let!(:site_visit) do
@@ -30,8 +31,6 @@ RSpec.describe "Pre-application report" do
   let!(:summary_of_advice) do
     create(:assessment_detail, planning_application:, category: "summary_of_advice", summary_tag: "complies", entry: "Looks good")
   end
-
-  let(:report_url) { "/reports/planning_applications/#{planning_application.reference}" }
 
   before do
     sign_in reviewer
@@ -154,6 +153,33 @@ RSpec.describe "Pre-application report" do
     expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
     within("#proposal-description") do
       expect(page).to have_content("This is the amended description for the proposal")
+    end
+  end
+
+  it "displays next steps and disclaimer" do
+    local_authority.update(submission_guidance_url: "https://www.southwark.gov.uk/planning-and-building-control/planning-policy-and-guidance")
+
+    visit "/reports/planning_applications/#{planning_application.reference}"
+    within("#next-steps") do
+      expect(page).to have_content("If you wish to submit an application, follow these clear steps to submit your formal application:")
+      expect(page).to have_link("website", href: "https://www.southwark.gov.uk/planning-and-building-control/planning-policy-and-guidance")
+      expect(page).to have_content("For further information on applying to the 'Householder Application for Planning Permission' application, visit the council's website.")
+    end
+
+    # Default disclaimer
+    within("#disclaimer") do
+      within(".govuk-warning-text") do
+        expect(page).to have_content("Please note that this pre-application advice follows initial officer assessment of the information you have provided.")
+      end
+    end
+
+    # With custom disclaimer
+    planning_application.application_type.update(disclaimer: "This is a custom disclaimer")
+    visit "/reports/planning_applications/#{planning_application.reference}"
+    within("#disclaimer") do
+      within(".govuk-warning-text") do
+        expect(page).to have_content("This is a custom disclaimer")
+      end
     end
   end
 end
