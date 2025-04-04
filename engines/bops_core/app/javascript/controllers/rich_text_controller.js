@@ -1,6 +1,61 @@
 import { Controller } from "@hotwired/stimulus"
-import "@rails/actiontext"
+import { DirectUpload } from "@rails/activestorage"
 import Trix from "trix"
+
+export class AttachmentUpload {
+  constructor(attachment, element) {
+    this.attachment = attachment
+    this.element = element
+    this.directUpload = new DirectUpload(
+      attachment.file,
+      this.directUploadUrl,
+      this,
+    )
+  }
+
+  start() {
+    this.directUpload.create(this.directUploadDidComplete.bind(this))
+  }
+
+  directUploadWillStoreFileWithXHR(xhr) {
+    xhr.upload.addEventListener("progress", (event) => {
+      const progress = (event.loaded / event.total) * 100
+      this.attachment.setUploadProgress(progress)
+    })
+  }
+
+  directUploadDidComplete(error, attributes) {
+    if (error) {
+      throw new Error(`Direct upload failed: ${error}`)
+    }
+
+    this.attachment.setAttributes({
+      sgid: attributes.attachable_sgid,
+      url: this.createBlobUrl(attributes.key),
+    })
+  }
+
+  createBlobUrl(key) {
+    return this.blobUrlTemplate.replace(":key", key)
+  }
+
+  get directUploadUrl() {
+    return this.element.dataset.directUploadUrl
+  }
+
+  get blobUrlTemplate() {
+    return this.element.dataset.blobUrlTemplate
+  }
+}
+
+document.addEventListener("trix-attachment-add", (event) => {
+  const { attachment, target } = event
+
+  if (attachment.file) {
+    const upload = new AttachmentUpload(attachment, target)
+    upload.start()
+  }
+})
 
 document.addEventListener("trix-before-initialize", () => {
   // Line breaks

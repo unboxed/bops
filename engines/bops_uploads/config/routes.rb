@@ -4,9 +4,9 @@ BopsUploads::Engine.routes.draw do
   extend BopsCore::Routing
 
   local_authority_subdomain do
-    get "/blobs/redirect/:signed_id/*filename", to: "redirects#show", as: "blob_service"
     get "/blobs/:key", to: "blobs#show", as: "blob"
     get "/files/:key", to: "files#show", as: "file"
+
     post "/uploads", to: "uploads#create", as: "uploads"
   end
 end
