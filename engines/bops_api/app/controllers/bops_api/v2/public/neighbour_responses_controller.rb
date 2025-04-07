@@ -3,7 +3,7 @@
 module BopsApi
   module V2
     module Public
-      class CommentsPublicController < PublicController
+      class NeighbourResponsesController < PublicController
         def index
           @planning_application = find_planning_application params[:planning_application_id]
           @consultation = @planning_application.consultation

@@ -33,8 +33,8 @@ BopsApi::Engine.routes.draw do
         resources :planning_applications, only: [:show] do
           get :search, on: :collection
           resource :documents, only: [:show]
-          get "comments/public", to: "comments_public#index"
-          get "comments/specialist", to: "comments_specialist#index"
+          get "comments/public", to: "neighbour_responses#index"
+          get "comments/specialist", to: "consultee_responses#index"
         end
       end
     end
