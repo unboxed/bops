@@ -102,6 +102,7 @@ class ApplicationType < ApplicationRecord
       delegate :ownership_details?
       delegate :permitted_development_rights?
       delegate :planning_conditions?
+      delegate :publishable?
       delegate :site_visits?
     end
 

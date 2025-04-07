@@ -43,6 +43,7 @@ module BopsConfig
           :ownership_details,
           :permitted_development_rights,
           :planning_conditions,
+          :publishable,
           :site_visits,
           {consultation_steps: []}
         ]

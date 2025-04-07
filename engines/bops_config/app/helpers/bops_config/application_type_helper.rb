@@ -25,6 +25,7 @@ module BopsConfig
         ownership_details
         site_visits
         description_change_requires_validation
+        publishable
       ]
     end
   end

@@ -36,7 +36,7 @@
       </p>
     <% end %>
 
-    <% unless @planning_application.pre_application? %>
+    <% if @planning_application.publishable? %>
       <p class="govuk-body">
         Public on BOPS Public Portal: <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", make_public_planning_application_path(@planning_application) %></span>
       </p>

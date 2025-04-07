@@ -3,6 +3,7 @@
 class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, except: %i[new create index]
   before_action :build_planning_application, only: %i[new create]
+  before_action :ensure_planning_application_is_publishable, only: %i[make_public]
   before_action :ensure_user_is_reviewer_checking_assessment, only: %i[edit_public_comment]
   before_action :ensure_no_open_post_validation_requests, only: %i[submit]
   before_action :ensure_draft_recommendation_complete, only: :update
@@ -182,9 +183,15 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def publish
+    respond_to do |format|
+      format.html
+    end
   end
 
   def make_public
+    respond_to do |format|
+      format.html
+    end
   end
 
   def determine
@@ -292,6 +299,13 @@ class PlanningApplicationsController < AuthenticationController
 
   def after_update_url
     params.dig(:planning_application, :return_to) || @planning_application
+  end
+
+  def ensure_planning_application_is_publishable
+    return if @planning_application.publishable?
+
+    redirect_to planning_application_assessment_tasks_path(@planning_application),
+      alert: t(".not_publishable", application_type: @planning_application.application_type.description)
   end
 
   def ensure_no_open_post_validation_requests
