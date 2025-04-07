@@ -82,6 +82,8 @@ class PlanningApplication < ApplicationRecord
     has_one :consistency_checklist
     has_one :informative_set
     has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
+
+    has_many :considerations, through: :consideration_set
   end
 
   with_options to: :application_type do
