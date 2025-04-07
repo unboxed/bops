@@ -283,6 +283,10 @@ class Document < ApplicationRecord
         raise ArgumentError, "Unexpected document tag type: #{key}"
       end
     end
+
+    def tags_for(tab)
+      (tab == "All") ? [] : TAGS_MAP.fetch(tab)
+    end
   end
 
   def name
@@ -375,6 +379,10 @@ class Document < ApplicationRecord
 
   def representation_url(transformations = {resize_to_limit: [1000, 1000]})
     routes.uploaded_file_url(representation(transformations)).presence
+  end
+
+  def has_tags?(tags)
+    tags.empty? || (tags & self.tags).any?
   end
 
   private
