@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
+RSpec.describe BopsApi::Postsubmission::PostsubmissionPagination, type: :service do
   let!(:consultation) { create(:consultation, :started) }
   let!(:neighbour) { create(:neighbour, source: "sent_comment", consultation:) }
   let!(:neighbour_responses) { create_list(:neighbour_response, 50, neighbour:) }
@@ -16,9 +16,9 @@ RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
       it "defaults to the first page and default results per page" do
         pagy, paginated_scope = service.call
 
-        expect(pagy.page).to eq(BopsApi::PostsubmissionPagination::DEFAULT_PAGE)
-        expect(pagy.limit).to eq(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS)
-        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
+        expect(pagy.page).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE)
+        expect(pagy.limit).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS)
+        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
       it "caps resultsPerPage to the maximum limit" do
         pagy, paginated_scope = service.call
 
-        expect(pagy.limit).to eq(BopsApi::PostsubmissionPagination::MAXRESULTS_LIMIT)
+        expect(pagy.limit).to eq(BopsApi::Postsubmission::PostsubmissionPagination::MAXRESULTS_LIMIT)
         expect(paginated_scope.to_a).to eq(scope.limit(50).to_a)
       end
     end
@@ -51,9 +51,9 @@ RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
       it "defaults to the first page and default results per page" do
         pagy, paginated_scope = service.call
 
-        expect(pagy.page).to eq(BopsApi::PostsubmissionPagination::DEFAULT_PAGE)
-        expect(pagy.limit).to eq(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS)
-        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
+        expect(pagy.page).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE)
+        expect(pagy.limit).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS)
+        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
       end
     end
 
@@ -63,8 +63,8 @@ RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
       it "defaults to the default results per page" do
         pagy, paginated_scope = service.call
 
-        expect(pagy.limit).to eq(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS)
-        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
+        expect(pagy.limit).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS)
+        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
       end
     end
 
@@ -74,8 +74,8 @@ RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
       it "defaults to the first page" do
         pagy, paginated_scope = service.call
 
-        expect(pagy.page).to eq(BopsApi::PostsubmissionPagination::DEFAULT_PAGE)
-        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
+        expect(pagy.page).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE)
+        expect(paginated_scope.to_a).to eq(scope.limit(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS).to_a)
       end
     end
 
@@ -85,8 +85,8 @@ RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
       it "returns an empty paginated scope" do
         pagy, paginated_scope = service.call
 
-        expect(pagy.page).to eq(BopsApi::PostsubmissionPagination::DEFAULT_PAGE)
-        expect(pagy.limit).to eq(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS)
+        expect(pagy.page).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE)
+        expect(pagy.limit).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS)
         expect(paginated_scope).to be_empty
       end
     end
@@ -94,38 +94,38 @@ RSpec.describe BopsApi::PostsubmissionPagination, type: :service do
 
   describe "#results_per_page" do
     it "returns the default results per page when no parameter is provided" do
-      expect(service.send(:results_per_page)).to eq(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS)
+      expect(service.send(:results_per_page)).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS)
     end
 
     it "returns the capped results per page when exceeding the maximum limit" do
       params[:resultsPerPage] = 100
-      expect(service.send(:results_per_page)).to eq(BopsApi::PostsubmissionPagination::MAXRESULTS_LIMIT)
+      expect(service.send(:results_per_page)).to eq(BopsApi::Postsubmission::PostsubmissionPagination::MAXRESULTS_LIMIT)
     end
 
     it "returns the default results per page when a negative value is provided" do
       params[:resultsPerPage] = -5
-      expect(service.send(:results_per_page)).to eq(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS)
+      expect(service.send(:results_per_page)).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS)
     end
 
     it "returns the default results per page when a string is provided" do
       params[:resultsPerPage] = "fifteen"
-      expect(service.send(:results_per_page)).to eq(BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS)
+      expect(service.send(:results_per_page)).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS)
     end
   end
 
   describe "#page" do
     it "returns the default page when no parameter is provided" do
-      expect(service.send(:page)).to eq(BopsApi::PostsubmissionPagination::DEFAULT_PAGE)
+      expect(service.send(:page)).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE)
     end
 
     it "returns the default page when a negative value is provided" do
       params[:page] = -1
-      expect(service.send(:page)).to eq(BopsApi::PostsubmissionPagination::DEFAULT_PAGE)
+      expect(service.send(:page)).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE)
     end
 
     it "returns the default page when a string is provided" do
       params[:page] = "one"
-      expect(service.send(:page)).to eq(BopsApi::PostsubmissionPagination::DEFAULT_PAGE)
+      expect(service.send(:page)).to eq(BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE)
     end
 
     it "returns the provided page when a valid value is provided" do

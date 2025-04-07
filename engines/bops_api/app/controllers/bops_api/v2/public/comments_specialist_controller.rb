@@ -24,7 +24,7 @@ module BopsApi
             neutral: @response_summary["amendments_needed"] || 0
           }
 
-          @pagy, @comments = BopsApi::CommentsSpecialistService.new(
+          @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
             @consultee_responses,
             pagination_params
           ).call

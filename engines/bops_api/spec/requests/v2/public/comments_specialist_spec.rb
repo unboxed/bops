@@ -99,7 +99,7 @@ RSpec.describe "BOPS public API Specialist comments" do
           data = JSON.parse(response.body)
 
           # pagination
-          validate_pagination(data, results_per_page: BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::PostsubmissionPagination::DEFAULT_PAGE, total_items: 50)
+          validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_items: 50)
 
           # comment summary
           validate_comment_summary(data)
@@ -140,7 +140,7 @@ RSpec.describe "BOPS public API Specialist comments" do
           data = JSON.parse(response.body)
 
           # pagination
-          validate_pagination(data, results_per_page: BopsApi::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::PostsubmissionPagination::DEFAULT_PAGE, total_items: 1)
+          validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_items: 1)
 
           # comment summary
           expect(data["summary"]["totalComments"]).to eq(51)

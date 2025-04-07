@@ -12,7 +12,7 @@ module BopsApi
           end
           @neighbour_responses = @consultation.neighbour_responses.redacted
 
-          @pagy, @comments = BopsApi::CommentsPublicService.new(
+          @pagy, @comments = BopsApi::Postsubmission::CommentsPublicService.new(
             @neighbour_responses,
             pagination_params
           ).call
