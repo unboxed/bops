@@ -9,7 +9,7 @@ RSpec.describe "Planning applications", type: :system do
   let(:sgid) { consultee.sgid(expires_in: 1.day, for: "magic_link") }
   let(:reference) { planning_application.reference }
   let(:user) { create(:user) }
-  let(:documents) { create_list(:document, 3) }
+  let(:documents) { create_list(:document, 3, :consultees) }
 
   let(:today) do
     Time.zone.today

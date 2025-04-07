@@ -38,6 +38,10 @@ FactoryBot.define do
     publishable { true }
   end
 
+  trait :consultees do
+    available_to_consultees { true }
+  end
+
   trait :evidence do
     tags { ["photographs.proposed", "utilityBill"] }
   end

@@ -6,7 +6,7 @@
   <div class="govuk-grid-column-full">
 <table class="govuk-table current-documents">
   <tbody class="govuk-table__body">
-    <% @planning_application.documents.each do |document| %>
+    <% @planning_application.documents.for_consultees.each do |document| %>
       <tr class="govuk-table__row" id="<%= dom_id(document) %>">
         <td class="govuk-table__cell govuk-!-width-one-quarter">
           <% if document.representable? %>

@@ -247,5 +247,44 @@ RSpec.describe "Edit document", type: :system do
         expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/documents")
       end
     end
+
+    context "when assessing pre-application advice" do
+      let!(:planning_application) do
+        create(
+          :planning_application,
+          :not_started,
+          :pre_application,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "the document can be made available to consultees" do
+        within "tr:nth-of-type(1)" do
+          expect(page).to have_content("Available to consultees: No")
+          expect(page).not_to have_content("Included in decision notice: No")
+          expect(page).not_to have_content("Public: No")
+
+          click_link "Edit"
+        end
+
+        expect(page).to have_content("Edit supplied document")
+        expect(page).not_to have_selector("legend", text: "Do you want to list this document on the decision notice?")
+        expect(page).not_to have_selector("legend", text: "Should this document be made publicly available?")
+
+        within_fieldset("Should these documents be shared with consultees?") do
+          expect(page).to have_unchecked_field("Yes")
+          expect(page).to have_checked_field("No")
+
+          choose "Yes"
+        end
+
+        click_button "Save"
+        expect(page).to have_content("Document has been updated")
+
+        within "tr:nth-of-type(1)" do
+          expect(page).to have_content("Available to consultees: Yes")
+        end
+      end
+    end
   end
 end

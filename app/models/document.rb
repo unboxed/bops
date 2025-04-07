@@ -255,6 +255,7 @@ class Document < ApplicationRecord
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
   scope :for_fee_exemption, -> { with_tag("disabilityExemptionEvidence") }
   scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(%w[disabilityExemptionEvidence])) }
+  scope :for_consultees, -> { active.with_file_attachment.where(available_to_consultees: true) }
 
   before_validation on: :create do
     if owner.present?
