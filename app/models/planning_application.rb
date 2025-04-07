@@ -103,6 +103,7 @@ class PlanningApplication < ApplicationRecord
     delegate :ownership_details?
     delegate :planning_conditions?
     delegate :informatives?
+    delegate :publishable?, allow_nil: true
   end
   delegate :consultee_responses, to: :consultation, allow_nil: true
   delegate :reviewer_group_email, to: :local_authority
@@ -152,6 +153,7 @@ class PlanningApplication < ApplicationRecord
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
+  before_validation :reset_published_at, unless: :publishable?
   before_create :set_received_at
   before_create :set_key_dates
   before_create :set_change_access_id
@@ -169,7 +171,6 @@ class PlanningApplication < ApplicationRecord
                 }, if: :valid_fee?
   before_update :audit_update_application_type!, if: :application_type_id_changed?
   before_update :create_proposal_measurement, if: :changed_to_prior_approval?
-
   after_update :audit_updated!
   after_update :update_constraints
   after_update :address_or_boundary_geojson_updated?
@@ -984,6 +985,10 @@ class PlanningApplication < ApplicationRecord
       max_height: max_height_extension.to_f,
       eaves_height: eave_height_extension.to_f
     )
+  end
+
+  def reset_published_at
+    self.published_at = nil
   end
 
   def set_reference

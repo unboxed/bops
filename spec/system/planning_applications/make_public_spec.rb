@@ -3,52 +3,60 @@
 require "rails_helper"
 
 RSpec.describe "making planning application public" do
-  let(:local_authority) { create(:local_authority, :default) }
+  let!(:local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create(:user, :assessor, local_authority:) }
+  let!(:planning_application) { create(:planning_application, local_authority:) }
+  let!(:reference) { planning_application.reference }
 
-  let!(:assessor) do
-    create(
-      :user,
-      :assessor,
-      local_authority:,
-      name: "Jane Smith"
-    )
+  around do |example|
+    travel_to("2022-01-01") { example.run }
   end
 
-  let(:planning_application) do
-    create(
-      :planning_application,
-      local_authority:
-    )
+  before do
+    sign_in(assessor)
   end
 
   it "lets a planning application be made public and not" do
-    travel_to("2022-01-01")
-    sign_in(assessor)
-
-    visit "/planning_applications/#{planning_application.reference}"
-
+    visit "/planning_applications/#{reference}"
     expect(page).to have_content("Public on BOPS Public Portal: No")
 
-    visit "/planning_applications/#{planning_application.reference}/make_public"
+    expect {
+      visit "/planning_applications/#{reference}/make_public"
+      expect(page).to have_content("Make application public")
+      expect(page).to have_checked_field("No")
 
-    expect(page).to have_content("Make application public")
+      choose "Yes"
 
-    choose "Yes"
+      click_button "Update application"
+      expect(page).to have_content("Public on BOPS Public Portal: Yes")
+    }.to change {
+      planning_application.reload.published_at
+    }.from(nil).to("2022-01-01".in_time_zone)
 
-    click_button "Update application"
+    expect {
+      visit "/planning_applications/#{reference}/make_public"
+      expect(page).to have_content("Make application public")
+      expect(page).to have_checked_field("Yes")
 
-    expect(page).to have_content("Public on BOPS Public Portal: Yes")
+      choose "No"
 
-    expect(planning_application.reload.published_at).to eq(Time.zone.local(2022, 1, 1))
+      click_button "Update application"
+      expect(page).to have_content("Public on BOPS Public Portal: No")
+    }.to change {
+      planning_application.reload.published_at
+    }.from("2022-01-01".in_time_zone).to(nil)
+  end
 
-    visit "/planning_applications/#{planning_application.reference}/make_public"
+  context "when the application type is 'preApp'" do
+    let!(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
 
-    choose "No"
+    it "redirects to the assessment tasks page" do
+      visit "/planning_applications/#{reference}"
+      expect(page).not_to have_content("Public on BOPS Public Portal")
 
-    click_button "Update application"
-
-    expect(page).to have_content("Public on BOPS Public Portal: No")
-
-    expect(planning_application.reload.published_at).to be_nil
+      visit "/planning_applications/#{reference}/make_public"
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+      expect(page).to have_selector("[role=alert] p", text: "You can’t publish Pre-application Advice on the public portal")
+    end
   end
 end

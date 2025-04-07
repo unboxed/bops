@@ -1560,6 +1560,8 @@ en:
     invalidate:
       failure: Please create at least one validation request before invalidating
       success: Application has been invalidated and email has been sent
+    make_public:
+      not_publishable: You can’t publish %{application_type} on the public portal
     neighbour_letters:
       create:
         failure: 'Error adding neighbour addresses with message: %{message}'

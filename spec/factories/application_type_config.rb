@@ -569,7 +569,8 @@ FactoryBot.define do
           "legislative_requirements" => false,
           "consultation_steps" => ["consultee"],
           "ownership_details" => false,
-          "permitted_development_rights" => false
+          "permitted_development_rights" => false,
+          "publishable" => false
         }
       }
 

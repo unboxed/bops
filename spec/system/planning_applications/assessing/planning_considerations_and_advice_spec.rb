@@ -102,9 +102,9 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
 
       click_button "Add consideration"
 
-      expect(considerations.last.draft).to eq(true)
-      expect(page).to have_css(".govuk-summary-card__title", text: "Transport")
       expect(page).to have_content("Consideration was successfully added")
+      expect(page).to have_css(".govuk-summary-card__title", text: "Transport")
+      expect(considerations.last.draft).to eq(true)
 
       toggle "Add advice"
       fill_in "Enter element of proposal", with: "A proposal"

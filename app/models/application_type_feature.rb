@@ -16,6 +16,7 @@ class ApplicationTypeFeature
   attribute :ownership_details, :boolean, default: true
   attribute :permitted_development_rights, :boolean, default: true
   attribute :planning_conditions, :boolean, default: false
+  attribute :publishable, :boolean, default: true
   attribute :site_visits, :boolean, default: true
 
   validate :consultation_steps_are_valid

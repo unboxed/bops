@@ -13,6 +13,7 @@ en:
       ownership_details: "Ownership details"
       planning_conditions: "Check planning conditions"
       permitted_development_rights: "Check permitted development rights"
+      publishable: "Allow applications to be made public"
       site_visits: "Site visits"
       consultation_steps:
         neighbour: Neighbours consultation

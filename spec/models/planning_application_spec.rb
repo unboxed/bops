@@ -163,6 +163,38 @@ RSpec.describe PlanningApplication do
   end
 
   describe "callbacks" do
+    describe "::before_validation #reset_published_at" do
+      let(:published_at) { Time.zone.now }
+
+      around do |example|
+        freeze_time { example.run }
+      end
+
+      context "when the application type is householder" do
+        let(:planning_application) { build(:planning_application, :planning_permission, published_at:) }
+
+        it "doesn't reset the published_at timestamp" do
+          expect {
+            planning_application.validate!(:create)
+          }.not_to change {
+            planning_application.published_at
+          }.from(published_at)
+        end
+      end
+
+      context "when the application type is pre-application" do
+        let(:planning_application) { build(:planning_application, :pre_application, published_at:) }
+
+        it "resets the published_at timestamp" do
+          expect {
+            planning_application.validate!(:create)
+          }.to change {
+            planning_application.published_at
+          }.from(published_at).to(nil)
+        end
+      end
+    end
+
     describe "::before_create #set_application_number" do
       context "when an application number for a given local authority already exists" do
         let(:local_authority) { create(:local_authority) }
