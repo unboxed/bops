@@ -30,22 +30,26 @@
 <%= render BopsCore::TableOfContentsComponent.new(items: [
       {links: [
         ["Pre-application outcome", "#pre-application-outcome"],
-        ["Your pre-application details", "#pre-application-details"]
+        ["Your pre-application details", "#pre-application-details"],
+        ["Next steps", "#next-steps"],
+        ["Disclaimer", "#disclaimer"]
       ]}
     ]) %>
 
 <section id="pre-application-outcome">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Pre-application outcome</h2>
-    <% if @summary_of_advice&.summary_tag %>
-      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-            @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
-          ) %>
-    <% else %>
-      <%= govuk_link_to "Add outcome", main_app.new_planning_application_assessment_assessment_detail_path(
-            @planning_application, category: "summary_of_advice", return_to: "report"
-          ) %>
-    <% end %>
+    <p class="govuk-body-m">
+      <% if @summary_of_advice&.summary_tag %>
+        <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
+              @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
+            ) %>
+      <% else %>
+        <%= govuk_link_to "Add outcome", main_app.new_planning_application_assessment_assessment_detail_path(
+              @planning_application, category: "summary_of_advice", return_to: "report"
+            ) %>
+      <% end %>
+    </p>
   </div>
 
   <% if @summary_of_advice&.summary_tag %>
@@ -73,7 +77,7 @@
       <% head.with_row do |row| %>
         <% row.with_cell(text: "Event") %>
         <% row.with_cell(text: "Date") %>
-        <% row.with_cell(text: "Action") %>
+        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "Action") %>
       <% end %>
     <% end %>
 
@@ -81,7 +85,7 @@
       <% body.with_row do |row| %>
         <% row.with_cell(text: "Date made valid") %>
         <% row.with_cell(text: time_tag(@planning_application.validated_at)) %>
-        <% row.with_cell(text: "-") %>
+        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "-") %>
       <% end %>
 
       <% body.with_row do |row| %>
@@ -91,7 +95,7 @@
         <% else %>
           <% row.with_cell(text: "-") %>
         <% end %>
-        <% row.with_cell do %>
+        <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
           <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
         <% end %>
       <% end %>
@@ -103,7 +107,7 @@
         <% else %>
           <% row.with_cell(text: "-") %>
         <% end %>
-          <% row.with_cell do %>
+          <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
             <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
           <% end %>
       <% end %>
@@ -113,11 +117,13 @@
   <div id="proposal-description">
     <div class="flex-between govuk-!-margin-bottom-2">
       <h3 class="govuk-heading-s">Description of your proposal</h3>
-      <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
-            @planning_application,
-            type: "description_change",
-            return_to: "report"
-          ) %>
+      <p class="govuk-body-m">
+        <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
+              @planning_application,
+              type: "description_change",
+              return_to: "report"
+            ) %>
+      </p>
     </div>
     <p class="govuk-body"><%= @planning_application.description %></p>
 
@@ -129,6 +135,41 @@
       <% end %>
     <% end %>
   </div>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section id="next-steps">
+  <h3 class="govuk-heading-s"><%= t(".next_steps_heading") %></h3>
+
+  <% if @current_local_authority.submission_guidance_url %>
+    <p class="govuk-body">
+      <%= t(".next_steps_intro_html") %>
+    </p>
+
+    <%= t(".next_steps_list_html") %>
+
+    <p class="govuk-body">
+      <%= t(
+            ".next_steps_outro_html",
+            planning_service_link: @current_local_authority.submission_guidance_url,
+            application_type: @planning_application.recommended_application_type.human_name
+          ) %>
+    </p>
+  <% else %>
+    <p class="govuk-body">
+      You must set the submission guidance url in local authority settings before displaying next steps.
+    </p>
+  <% end %>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section id="disclaimer">
+  <h3 class="govuk-heading-s"><%= t(".disclaimer_heading") %></h3>
+  <%= govuk_warning_text do %>
+    <%= @planning_application.disclaimer || t(".disclaimer_content") %>
+  <% end %>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
