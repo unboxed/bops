@@ -241,7 +241,7 @@
 <section id="site-and-surroundings">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Site and surroundings</h2>
-    <% if @site_description %>
+    <% if @site_description.any? %>
       <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
             @planning_application, @site_description,
             category: "site_description",
