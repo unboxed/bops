@@ -4,21 +4,21 @@
   </h2>
 
   <ul class="app-task-list__items">
-    <% @planning_application.application_type.assessor_remarks.each do |category| %>
-      <%= render(
-            TaskListItems::Assessment::AssessmentDetailComponent.new(
-              planning_application: @planning_application,
-              category:
-            )
-          ) %>
-    <% end %>
-
     <% if @planning_application.pre_application? %>
       <%= render(
             TaskListItems::Assessment::ConsiderationsComponent.new(
               planning_application: @planning_application,
               link_text: "Planning considerations and advice",
               link_path: planning_application_assessment_consideration_guidances_path(@planning_application)
+            )
+          ) %>
+    <% end %>
+
+    <% @planning_application.application_type.assessor_remarks.each do |category| %>
+      <%= render(
+            TaskListItems::Assessment::AssessmentDetailComponent.new(
+              planning_application: @planning_application,
+              category:
             )
           ) %>
     <% end %>
