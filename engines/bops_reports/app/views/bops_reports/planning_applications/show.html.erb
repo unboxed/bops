@@ -219,15 +219,27 @@
 <section id="site-and-surroundings">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Site and surroundings</h2>
-    <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-          @planning_application, @site_description,
-          category: "site_description",
-          return_to: "report"
-        ) %>
-  </div>
-  <p class="govuk-body">
-    <%= @site_description.entry %>
-  </p>
+    <% if @site_description %>
+      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
+            @planning_application, @site_description,
+            category: "site_description",
+            return_to: "report"
+          ) %>
+      </div>
+      <p class="govuk-body">
+        <%= @site_description.entry %>
+      </p>
+    <% else %>
+      <%= govuk_link_to "Edit", main_app.new_planning_application_assessment_assessment_detail_path(
+            @planning_application, @site_description,
+            category: "site_description",
+            return_to: "report"
+          ) %>
+      </div>
+      <p class="govuk-body">
+        No site description set.
+      </p>
+    <% end %>
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 </section>
 
