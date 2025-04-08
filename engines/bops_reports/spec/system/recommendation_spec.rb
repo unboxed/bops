@@ -58,6 +58,8 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     click_button "Confirm and submit pre-application report"
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report has been sent back to the case officer for amendments")
 
+    expect(BopsReports::SendReportEmailJob).not_to have_been_enqueued
+
     sign_out(reviewer)
     sign_in(assessor)
 
@@ -85,6 +87,23 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     end
 
     click_button "Confirm and submit pre-application report"
+
+    expect(BopsReports::SendReportEmailJob).to have_been_enqueued.with(
+      planning_application,
+      reviewer
+    ).once
+
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report has been sent to the applicant")
+  end
+
+  it "requires an assigned case officer before you can submit the recommendation" do
+    planning_application.update(user: nil)
+
+    sign_in(assessor)
+
+    visit "/reports/planning_applications/#{reference}"
+
+    click_button "Confirm and submit recommendation"
+    expect(page).to have_selector("[role=alert] p", text: "Pre-application report must be assigned to a case officer before it can be submitted for review")
   end
 end

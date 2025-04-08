@@ -29,6 +29,10 @@ module BopsCore
         bops_consultees.planning_application_url(
           reference: planning_application.reference, sgid:, subdomain:
         )
+      when PlanningApplication
+        bops_reports.planning_application_url(
+          reference: planning_application.reference, sgid:, subdomain:
+        )
       else
         main_app.root_url
       end

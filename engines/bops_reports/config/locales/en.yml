@@ -26,6 +26,7 @@ en:
         submitted_recommendation: Submitted recommendation
       recommendations:
         create:
+          not_assigned: Pre-application report must be assigned to a case officer before it can be submitted for review
           submit_failed: Failed to submit pre-application report for review - please contact support
           submitted: Pre-application report submitted for review
         destroy:

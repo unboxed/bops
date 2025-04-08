@@ -110,6 +110,7 @@ class Audit < ApplicationRecord
     neighbour_response_uploaded
     neighbour_response_edited
     legislation_checked
+    pre_application_report_sent
     press_notice
     press_notice_mail
     site_notice_created

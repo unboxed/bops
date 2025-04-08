@@ -570,6 +570,7 @@ en:
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent_post_validation: 'Sent: request for change (ownership certificate validation#%{args})'
+      pre_application_report_sent: Pre-application report sent
       pre_commencement_condition_validation_request_added: 'Added: validation request for pre-commencement condition #%{args}'
       pre_commencement_condition_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (pre-commencement condition)'
@@ -816,6 +817,7 @@ en:
       press_notice_confirmation_request_mail: Request for confirmation of a press notice for %{reference}
       press_notice_mail: Request for press notice
       receipt_notice_mail: "%{application_type_name} application received"
+      report_mail: "%{council_name} Pre-application advice"
       site_notice_confirmation_request_mail: Request for confirmation of a site notice for %{reference}
       site_notice_mail: Display site notice for your application %{reference}
       update_notification_mail: BOPS case %{reference} has a new update
