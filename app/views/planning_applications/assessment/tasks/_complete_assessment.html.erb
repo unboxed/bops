@@ -48,7 +48,7 @@
             )
           ) %>
     <% end %>
-    <% if @planning_application.informatives?  && !@planning_application.pre_application? %>
+    <% if @planning_application.informatives? %>
       <%= render(
             TaskListItems::Assessment::InformativesComponent.new(
               planning_application: @planning_application
