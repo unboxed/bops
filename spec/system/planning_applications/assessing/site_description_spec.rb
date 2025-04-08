@@ -10,9 +10,13 @@ RSpec.describe "Site description" do
     create(:planning_application, :in_assessment, local_authority: default_local_authority)
   end
 
+  let(:reference) { planning_application.reference }
+  let(:full_address) { planning_application.full_address }
+  let(:assessment_detail) { planning_application.assessment_details.last.id }
+
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}"
+    visit "/planning_applications/#{reference}"
   end
 
   context "when planning application is in assessment" do
@@ -27,17 +31,17 @@ RSpec.describe "Site description" do
       end
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new?category=site_description"
+        "/planning_applications/#{reference}/assessment/assessment_details/new?category=site_description"
       )
 
       expect(page).to have_link(
         "View site on Google Maps",
-        href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
+        href: "https://google.co.uk/maps/place/#{CGI.escape(full_address)}"
       )
 
       expect(page).to have_content("Create a description of the site")
-      expect(page).to have_content(planning_application.reference)
-      expect(page).to have_content(planning_application.full_address)
+      expect(page).to have_content(reference)
+      expect(page).to have_content(full_address)
       expect(page).to have_content("You can include:")
 
       within(".govuk-warning-text") do
@@ -47,22 +51,24 @@ RSpec.describe "Site description" do
 
     it "there is a validation error when submitting an empty text field" do
       click_link "Site description"
+      expect(page).to have_content("Create a description of the site")
 
       click_button "Save and mark as complete"
       within(".govuk-error-summary") do
-        expect(page).to have_content "Entry can't be blank"
+        expect(page).to have_content("Entry can't be blank")
       end
 
       click_button "Save and come back later"
       within(".govuk-error-summary") do
-        expect(page).to have_content "Entry can't be blank"
+        expect(page).to have_content("Entry can't be blank")
       end
     end
 
     it "I can save and come back later when adding or editing a site description" do
       click_link "Site description"
+      expect(page).to have_content("Create a description of the site")
 
-      fill_in "assessment_detail[entry]", with: "A draft entry for the site description"
+      fill_in "Description of the site", with: "A draft entry for the site description"
       click_button "Save and come back later"
 
       expect(page).to have_content("Site description was successfully created.")
@@ -86,7 +92,7 @@ RSpec.describe "Site description" do
     it "I can save and mark as complete when adding a site description" do
       click_link "Site description"
 
-      fill_in "assessment_detail[entry]", with: "A complete entry for the site description"
+      fill_in "Description of the site", with: "A complete entry for the site description"
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Site description was successfully created.")
@@ -101,7 +107,7 @@ RSpec.describe "Site description" do
 
       expect(page).to have_link(
         "Edit site description",
-        href: edit_planning_application_assessment_assessment_detail_path(planning_application, AssessmentDetail.site_description.last, category: :site_description)
+        href: "/planning_applications/#{reference}/assessment/assessment_details/#{assessment_detail}/edit?category=site_description"
       )
     end
   end
@@ -114,9 +120,32 @@ RSpec.describe "Site description" do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("Site description")
 
-      visit "/planning_applications/#{planning_application.reference}/assessment/assessment_details/new"
-
+      visit "/planning_applications/#{reference}/assessment/assessment_details/new"
       expect(page).to have_content("The planning application must be validated before assessment can begin")
+    end
+  end
+
+  context "when planning application is a pre-application" do
+    let!(:planning_application) do
+      create(:planning_application, :pre_application, :in_assessment, local_authority: default_local_authority)
+    end
+
+    before do
+      click_link "Check and assess"
+    end
+
+    it "does not show the information will be made public warning" do
+      within("#assessment-information-tasks") do
+        expect(page).to have_content("Not started")
+        click_link "Site description"
+      end
+
+      expect(page).to have_current_path(
+        "/planning_applications/#{reference}/assessment/assessment_details/new?category=site_description"
+      )
+
+      expect(page).to have_content("Create a description of the site")
+      expect(page).not_to have_content("This information WILL be made publicly available.")
     end
   end
 end

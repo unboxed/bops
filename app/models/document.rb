@@ -255,6 +255,7 @@ class Document < ApplicationRecord
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
   scope :for_fee_exemption, -> { with_tag("disabilityExemptionEvidence") }
   scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(%w[disabilityExemptionEvidence])) }
+  scope :for_consultees, -> { active.with_file_attachment.where(available_to_consultees: true) }
 
   before_validation on: :create do
     if owner.present?
@@ -281,6 +282,10 @@ class Document < ApplicationRecord
       else
         raise ArgumentError, "Unexpected document tag type: #{key}"
       end
+    end
+
+    def tags_for(tab)
+      (tab == "All") ? [] : TAGS_MAP.fetch(tab)
     end
   end
 
@@ -374,6 +379,10 @@ class Document < ApplicationRecord
 
   def representation_url(transformations = {resize_to_limit: [1000, 1000]})
     routes.uploaded_file_url(representation(transformations)).presence
+  end
+
+  def has_tags?(tags)
+    tags.empty? || (tags & self.tags).any?
   end
 
   private

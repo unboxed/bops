@@ -99,12 +99,21 @@ class DocumentsController < AuthenticationController
   private
 
   def document_params
-    document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
-      :numbers, :publishable, :referenced_in_decision_notice,
-      :validated, :invalidated_document_reason, :file,
-      :received_at, :created_by, tags: [])
-    document_params[:tags]&.reject!(&:blank?)
-    document_params
+    params.require(:document).permit(*document_attributes).merge(tags_param)
+  end
+
+  def document_attributes
+    %i[
+      archive_reason name archived_at numbers
+      publishable referenced_in_decision_notice
+      available_to_consultees validated
+      invalidated_document_reason file
+      received_at created_by
+    ]
+  end
+
+  def tags_param
+    {tags: Array.wrap(params.dig(:document, :tags)).compact_blank}
   end
 
   def set_document

@@ -828,16 +828,14 @@ class PlanningApplication < ApplicationRecord
     super || create_fee_calculation
   end
 
-  def generate_document_tabs(tabs = Document::DEFAULT_TABS)
-    tabs.map do |tab|
-      documents = (tab == "All") ? active_documents_with_file : filter_documents_for_tab(active_documents_with_file, tab)
-
-      {title: tab, id: tab.parameterize, content: tab, records: documents}
+  def documents_for(tab)
+    Document.tags_for(tab).then do |tags|
+      active_documents_with_file.select { |document| document.has_tags?(tags) }
     end
   end
 
   def active_documents_with_file
-    documents.active.with_file_attachment
+    @active_documents ||= documents.active.with_file_attachment
   end
 
   def environment_impact_assessment_status
@@ -1143,12 +1141,6 @@ class PlanningApplication < ApplicationRecord
 
   def create_proposal_measurement
     ProposalMeasurement.create(planning_application: self, depth: 0, max_height: 0, eaves_height: 0)
-  end
-
-  def filter_documents_for_tab(documents, tab)
-    tags = Document::TAGS_MAP[tab]
-
-    documents.select { |document| (tags & document.tags).any? }
   end
 
   def neighbour_review_requested?
