@@ -194,6 +194,10 @@ class ApplicationType < ApplicationRecord
       end
     end
 
+    def disclaimer
+      super || I18n.t("disclaimer")
+    end
+
     def model_name
       @_model_name ||= ActiveModel::Name.new(self, nil, "ApplicationType")
     end

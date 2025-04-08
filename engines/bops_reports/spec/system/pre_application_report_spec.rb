@@ -5,6 +5,14 @@ require "rails_helper"
 RSpec.describe "Pre-application report" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:reviewer) { create(:user, :reviewer, local_authority:) }
+  let!(:assessor) do
+    create(
+      :user,
+      :assessor,
+      local_authority:,
+      name: "Jane Smith"
+    )
+  end
 
   let(:planning_application) do
     create(
@@ -59,6 +67,33 @@ RSpec.describe "Pre-application report" do
       expect(page).to have_link("Edit", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
       expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--green")
       expect(page).to have_content("Likely to be supported")
+    end
+  end
+
+  it "displays the officer contact details" do
+    within("#contact-details") do
+      expect(page).to have_content(reviewer.name)
+      expect(page).to have_content(reviewer.email)
+      expect(page).to have_content(reviewer.mobile_number)
+    end
+  end
+
+  it "allows the user to assign case officer if not set" do
+    planning_application.update(user: nil)
+    visit "/reports/planning_applications/#{planning_application.reference}"
+
+    within("#contact-details") do
+      expect(page).to have_content("No case officer has been assigned yet.")
+      click_link("Assign case officer")
+    end
+
+    select("Jane Smith")
+    click_button("Confirm")
+
+    within("#contact-details") do
+      expect(page).to have_content("Jane Smith")
+      expect(page).to have_content(assessor.email)
+      expect(page).to have_content(assessor.mobile_number)
     end
   end
 
