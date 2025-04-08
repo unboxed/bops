@@ -65,4 +65,8 @@ class ApplicationType < ApplicationRecord
       super || config.public_send(name)
     end
   end
+
+  def disclaimer
+    super || I18n.t("disclaimer")
+  end
 end
