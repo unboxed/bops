@@ -9,6 +9,10 @@ module BopsReports
 
       @summary_of_advice = @planning_application.assessment_details.summary_of_advice.last
 
+      @site_description = @planning_application.site_description
+
+      @constraints = @planning_application.constraints.group_by(&:category)
+
       respond_to do |format|
         format.html
       end

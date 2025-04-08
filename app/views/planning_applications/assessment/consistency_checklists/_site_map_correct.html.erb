@@ -1,6 +1,6 @@
 <%= form.govuk_radio_buttons_fieldset(
       :site_map_correct,
-      legend: {text: t(".is_the_red"), size: "s"}
+      legend: {text: t(".is_the_red"), size: "s", id: "site-map-title-field"}
     ) do %>
     <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %>
     <br>

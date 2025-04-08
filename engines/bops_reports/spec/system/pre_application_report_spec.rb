@@ -14,6 +14,24 @@ RSpec.describe "Pre-application report" do
     )
   end
 
+  let(:boundary_geojson) do
+    {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-0.054597, 51.537331],
+            [-0.054588, 51.537287],
+            [-0.054453, 51.537313],
+            [-0.054597, 51.537331]
+          ]
+        ]
+      }
+    }.to_json
+  end
+
   let(:planning_application) do
     create(
       :planning_application,
@@ -21,12 +39,14 @@ RSpec.describe "Pre-application report" do
       :in_assessment,
       user: reviewer,
       local_authority:,
+      boundary_geojson:,
       validated_at: Time.zone.local(2024, 6, 1),
       determined_at: Time.zone.local(2024, 6, 20),
       description: "Single-storey rear extension",
       recommended_application_type: create(:application_type, :householder)
     )
   end
+
   let!(:site_visit) do
     create(:site_visit, planning_application:, visited_at: Time.zone.local(2024, 6, 10))
   end
@@ -39,6 +59,29 @@ RSpec.describe "Pre-application report" do
   let!(:summary_of_advice) do
     create(:assessment_detail, planning_application:, category: "summary_of_advice", summary_tag: "complies", entry: "Looks good")
   end
+
+  let(:report_url) { "/reports/planning_applications/#{planning_application.reference}" }
+  let!(:site_history) { create(:site_history, planning_application:) }
+
+  let!(:site_description) do
+    create(:assessment_detail, planning_application:, category: "site_description", entry: "A double storey detached house adjacent to greenbelt.")
+  end
+
+  let!(:consistency_checklist) do
+    create(:consistency_checklist, :site_map_incorrect, planning_application:)
+  end
+
+  let!(:designated_conservation_area) do
+    create(:planning_application_constraint, planning_application:)
+  end
+
+  let!(:tpo) { create(:constraint, :tpo) }
+
+  let!(:planning_application_constraint) do
+    create(:planning_application_constraint, constraint: tpo, planning_application:)
+  end
+
+  let(:report_url) { "/planning_applications/#{planning_application.reference}" }
 
   before do
     sign_in reviewer
@@ -58,6 +101,10 @@ RSpec.describe "Pre-application report" do
     within(".bops-table-of-contents") do
       expect(page).to have_link("Pre-application outcome", href: "#pre-application-outcome")
       expect(page).to have_link("Your pre-application details", href: "#pre-application-details")
+      expect(page).to have_link("Site map", href: "#site-map")
+      expect(page).to have_link("Site constraints", href: "#site-constraints")
+      expect(page).to have_link("Site history", href: "#site-history")
+      expect(page).to have_link("Site and surroundings", href: "#site-and-surroundings")
     end
   end
 
@@ -188,6 +235,140 @@ RSpec.describe "Pre-application report" do
     expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
     within("#proposal-description") do
       expect(page).to have_content("This is the amended description for the proposal")
+    end
+  end
+
+  it "displays site map" do
+    within("#site-map") do
+      expect(page).to have_content("Site map")
+      expect(page).to have_content("This map shows the area of the proposed development. It has been checked by the case officer.")
+
+      within("#officer-map-comments") do
+        expect(page).to have_content("Officer comments")
+        expect(page).to have_content("Site map is of neighbours property")
+      end
+    end
+  end
+
+  it "returns to report after editing site map comment" do
+    within("#officer-map-comments") do
+      click_link "Edit"
+    end
+
+    fill_in "consistency-checklist-site-map-correct-comment-field", with: "Site map is of neighbours property, this comment has been updated."
+
+    click_button "Save and mark as complete"
+    expect(page).to have_content("Successfully updated application checklist")
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+
+    within("#officer-map-comments") do
+      expect(page).to have_content("Site map is of neighbours property, this comment has been updated.")
+    end
+  end
+
+  it "displays site constraints" do
+    within("#site-constraints") do
+      expect(page).to have_content("Relevant site constraints")
+      expect(page).to have_content("Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.")
+
+      within("#site-constraints-heritage_and_conservation") do
+        expect(page).to have_content("Heritage and conservation")
+        expect(page).to have_content("Designated conservationarea")
+      end
+
+      within("#site-constraints-trees") do
+        expect(page).to have_content("Trees")
+        expect(page).to have_content("Tpo")
+      end
+    end
+  end
+
+  it "returns to report after editing site constraints" do
+    within("#site-constraints") do
+      click_link "Edit"
+    end
+
+    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/constraints?return_to=report")
+    expect(page).to have_content("Check the constraints")
+
+    within(".identified-constraints-table") do
+      expect(page).to have_text("Conservation area")
+      within(row_with_content("Tree preservation zone")) do
+        click_link "Remove"
+      end
+    end
+    expect(page).to have_content("Constraint was successfully removed")
+
+    click_button "Save and mark as complete"
+
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_content("Constraints were successfully checked")
+
+    within("#site-constraints") do
+      expect(page).not_to have_content("Trees")
+    end
+  end
+
+  it "displays site history" do
+    within("#site-history") do
+      expect(page).to have_content("Relevant site history")
+      expect(page).to have_content("Past applications for this site or relevant nearby locations")
+
+      within(".govuk-summary-card") do
+        expect(page).to have_content("REF123")
+        expect(page).to have_content("An entry for planning history")
+      end
+    end
+  end
+
+  it "returns to report page after editing site history" do
+    within("#site-history") do
+      click_link "Edit"
+    end
+
+    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/assessment/site_histories?return_to=report")
+
+    within(".planning-history-table") do
+      within(row_with_content("REF123")) do
+        click_link "Edit"
+      end
+    end
+
+    fill_in "site-history-comment-field", with: "An amended entry for planning history"
+
+    click_button "Update site history"
+
+    expect(page).to have_content("Site history was successfully updated")
+    click_button "Save and mark as complete"
+
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_content("Site history has been confirmed")
+
+    within("#site-history") do
+      expect(page).to have_content("Officer comment: An amended entry for planning history")
+    end
+  end
+
+  it "displays site and surroundings" do
+    within("#site-and-surroundings") do
+      expect(page).to have_content("Site and surroundings")
+      expect(page).to have_content("A double storey detached house adjacent to greenbelt.")
+    end
+  end
+
+  it "returns to report page after editing site and surroundings" do
+    within("#site-and-surroundings") do
+      click_link "Edit"
+    end
+
+    expect(page).to have_content("Edit site description")
+
+    fill_in "assessment_detail[entry]", with: "This is the amended description of site and surroundings"
+    click_button "Save and mark as complete"
+
+    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    within("#site-and-surroundings") do
+      expect(page).to have_content("This is the amended description of site and surroundings")
     end
   end
 

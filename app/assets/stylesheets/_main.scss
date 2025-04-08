@@ -397,6 +397,14 @@ body {
   padding: 2rem;
 }
 
+.grey-border-box {
+  background-color: govuk-colour("light-grey");
+  border: 1px solid govuk-colour("mid-grey");
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 2rem;
+}
+
 .background-light-grey {
   background-color: govuk-colour("light-grey");
 }
