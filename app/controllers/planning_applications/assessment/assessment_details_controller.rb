@@ -10,7 +10,7 @@ module PlanningApplications
       before_action :set_consultation, if: :has_consultation_and_summary?
       before_action :set_neighbour_responses, if: :neighbour_summary?
       before_action :set_site_and_press_notices, if: :check_publicity?
-      before_action :store_return_to_report_path, only: %i[new edit]
+      before_action :store_return_to_report_path, only: %i[new create edit]
 
       def show
         respond_to do |format|
@@ -38,10 +38,7 @@ module PlanningApplications
         respond_to do |format|
           if @assessment_detail.save
             format.html do
-              redirect_to(
-                planning_application_assessment_tasks_path(@planning_application),
-                notice: created_notice
-              )
+              redirect_to redirect_path, notice: created_notice
             end
           else
             @category = @assessment_detail.category
@@ -149,7 +146,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        path = if current_user.reviewer?
+        path = if current_user.reviewer? && @category == "site_description"
           planning_application_review_tasks_path(@planning_application)
         else
           planning_application_assessment_tasks_path(@planning_application)
