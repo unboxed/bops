@@ -38,6 +38,18 @@ module BopsCore
       end
     end
 
+    def require_assessor!
+      unless current_user.assessor?
+        redirect_to main_app.root_url
+      end
+    end
+
+    def require_reviewer!
+      unless current_user.reviewer?
+        redirect_to main_app.root_url
+      end
+    end
+
     def authenticate_api_user
       return nil unless current_local_authority
 

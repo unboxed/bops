@@ -1,18 +1,14 @@
 # frozen_string_literal: true
 
 module BopsReports
-  class PlanningApplicationsController < ApplicationController
-    before_action :set_planning_application, only: %i[show]
+  class PlanningApplicationsController < PlanningApplications::BaseController
+    before_action :set_assessment_details
+    before_action :set_summary_of_advice
+    before_action :set_site_description
+    before_action :set_constraints
+    before_action :set_recommendation
 
     def show
-      redirect_to main_app.planning_application_path(@planning_application) unless @planning_application.pre_application?
-
-      @summary_of_advice = @planning_application.assessment_details.summary_of_advice.last
-
-      @site_description = @planning_application.site_description
-
-      @constraints = @planning_application.constraints.group_by(&:category)
-
       respond_to do |format|
         format.html
       end
@@ -20,21 +16,32 @@ module BopsReports
 
     private
 
-    def planning_applications_scope
-      current_local_authority.planning_applications.accepted
+    def set_assessment_details
+      @assessment_details = @planning_application
     end
 
-    def set_planning_application
-      param = params[planning_application_param]
-      application = planning_applications_scope.find_by!(reference: param)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, application)
-    rescue ActiveRecord::RecordNotFound
-      render_not_found
+    def set_summary_of_advice
+      @summary_of_advice = @assessment_details.summary_of_advice
     end
 
-    def planning_application_param
-      request.path_parameters.key?(:planning_application_reference) ? :planning_application_reference : :reference
+    def set_site_description
+      @site_description = @planning_application.site_description
+    end
+
+    def set_constraints
+      @constraints = @planning_application.constraints.group_by(&:category)
+    end
+
+    def set_recommendation
+      @recommendation = build_or_find_recommendation
+    end
+
+    def build_or_find_recommendation
+      if @planning_application.in_assessment? || @planning_application.to_be_reviewed?
+        @planning_application.recommendations.new
+      elsif @planning_application.awaiting_determination?
+        @planning_application.recommendations.last
+      end
     end
   end
 end

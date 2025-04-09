@@ -1,0 +1,17 @@
+<% if current_user.assessor? %>
+  <%= render(partial: "bops_reports/planning_applications/events", locals: {recommendations: @planning_application.recommendations.reviewed}) %>
+
+  <%= form_with(model: @recommendation, url: planning_application_recommendation_path(@planning_application), method: :post, id: "recommendation-review-form") do |form| %>
+    <% if @planning_application.to_be_reviewed? %>
+      <%= form.govuk_text_area(:assessor_comment, label: {text: t(".assessor_comment")}, hint: {text: t(".explanation")}) %>
+    <% end %>
+
+    <%= form.govuk_submit("Confirm and submit recommendation") do %>
+      <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="govuk-button-group">
+    <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
+  </div>
+<% end %>

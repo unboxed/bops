@@ -7,9 +7,27 @@
 <% add_parent_breadcrumb_link "Review pre-application", main_app.planning_application_review_root_path(@planning_application) %>
 <% content_for :title, "Pre-application report" %>
 
+<% if current_user && current_user.reviewer? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <%= render(
+            SiteMapComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row govuk-!-margin-bottom-0 govuk-!-margin-top-5">
+    <div class="govuk-grid-column-full">
+      <%= render "shared/overview_tabs", planning_application_constraints: @planning_application.planning_application_constraints %>
+    </div>
+  </div>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="planning-application-details">
-    <p class="govuk-caption-m">Preview and submit</p>
+    <span class="govuk-caption-m">Preview and submit</span>
     <h1 class="govuk-heading-l">Pre-application report</h1>
     <p class="govuk-body">
       This report gives clear guidance on your proposal, helping you to
@@ -286,4 +304,16 @@
   <% end %>
 </section>
 
-<%= govuk_button_link_to "Back", main_app.planning_application_path(@planning_application), secondary: true %>
+<% if current_user.present? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <% if @planning_application.can_assess? %>
+        <%= render "bops_reports/planning_applications/assessment_actions" %>
+      <% elsif @planning_application.awaiting_determination? %>
+        <%= render "bops_reports/planning_applications/review_actions" %>
+      <% else %>
+        <%= render "bops_reports/planning_applications/determined_actions" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

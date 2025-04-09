@@ -1,26 +1,56 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-9 application-step-heading">Review</h2>
-<%= govuk_task_list(id_prefix: "review-section", html_attributes: {id: "review-section"}) do |task_list|
-      if current_user.reviewer?
-        task_list.with_item(title: "Review and sign-off",
-          href: (@planning_application.awaiting_determination? || @planning_application.in_committee?) && planning_application_review_tasks_path(@planning_application),
-          html_attributes: {aria: {describedby: "review_assessment-completed"}}) do |item|
-          item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user)))
-        end
-      else
-        task_list.with_item(title: "View recommendation",
-          href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && view_recommendation_planning_application_path(@planning_application),
-          html_attributes: {aria: {describedby: "review_assessment-completed"}}) do |item|
-          if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?
-            item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user)))
-          else
-            item.with_status(text: "Cannot start yet", cannot_start_yet: true)
-          end
-        end
-      end
+<%= govuk_task_list(id_prefix: "review-section", html_attributes: {id: "review-section"}) do |task_list| %>
+  <% if @planning_application.pre_application? %>
+    <% if current_user.reviewer? %>
+      <% task_list.with_item(
+           title: "Review and sign-off",
+           href: bops_reports.planning_application_path(@planning_application),
+           html_attributes: {aria: {describedby: "review_assessment-completed"}}
+         ) do |item| %>
+        <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>
+      <% end %>
+    <% else %>
+      <% task_list.with_item(
+           title: "View recommendation",
+           href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && bops_reports.planning_application_path(@planning_application),
+           html_attributes: {aria: {describedby: "review_assessment-completed"}}
+         ) do |item| %>
+        <% if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled? %>
+          <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>
+        <% else %>
+          <% item.with_status(text: "Cannot start yet", cannot_start_yet: true) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% if current_user.reviewer? %>
+      <% task_list.with_item(
+           title: "Review and sign-off",
+           href: (@planning_application.awaiting_determination? || @planning_application.in_committee?) && planning_application_review_tasks_path(@planning_application),
+           html_attributes: {aria: {describedby: "review_assessment-completed"}}
+         ) do |item| %>
+        <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>
+      <% end %>
+    <% else %>
+      <% task_list.with_item(
+           title: "View recommendation",
+           href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && view_recommendation_planning_application_path(@planning_application),
+           html_attributes: {aria: {describedby: "review_assessment-completed"}}
+         ) do |item| %>
+        <% if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled? %>
+          <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>
+        <% else %>
+          <% item.with_status(text: "Cannot start yet", cannot_start_yet: true) %>
+        <% end %>
+      <% end %>
+    <% end %>
 
-      task_list.with_item(title: "Publish determination",
-        href: (@planning_application.can_publish? || @planning_application.publish_complete?) && current_user.reviewer? && publish_planning_application_path(@planning_application),
-        html_attributes: {aria: {describedby: "publish_completed"}}) do |item|
-          item.with_status(text: render(StatusTags::PublishDeterminationComponent.new(planning_application: @planning_application, user: current_user)))
-        end
-    end %>
+    <% task_list.with_item(
+         title: "Publish determination",
+         href: (@planning_application.can_publish? || @planning_application.publish_complete?) && current_user.reviewer? && publish_planning_application_path(@planning_application),
+         html_attributes: {aria: {describedby: "publish_completed"}}
+       ) do |item| %>
+      <% item.with_status(text: render(StatusTags::PublishDeterminationComponent.new(planning_application: @planning_application, user: current_user))) %>
+    <% end %>
+  <% end %>
+<% end %>
