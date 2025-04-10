@@ -285,7 +285,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       let!(:recommendation) do
-        create(:recommendation, :reviewed, planning_application:,
+        create(:recommendation, :reviewed, planning_application:, challenged: true,
           reviewer_comment: "I disagree", assessor_comment: "This looks good")
       end
 

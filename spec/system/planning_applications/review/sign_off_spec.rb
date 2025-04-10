@@ -41,6 +41,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
   it "can be accepted" do
     create(:recommendation, :reviewed,
       planning_application:,
+      challenged: true,
       assessor_comment: "First assessor comment",
       reviewer_comment: "First reviewer comment")
 
@@ -200,7 +201,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
   it "can edit an existing review of an assessment" do
     recommendation = create(:recommendation, :reviewed, planning_application:,
-      reviewer_comment: "Reviewer private comment")
+      challenged: true, reviewer_comment: "Reviewer private comment")
 
     visit "/planning_applications/#{planning_application.reference}"
     click_link "Review and sign-off"

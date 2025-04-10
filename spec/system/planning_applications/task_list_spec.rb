@@ -96,7 +96,7 @@ RSpec.describe "Planning Application show page", type: :system do
     it "makes valid task list for when it is awaiting determination and recommendation has been reviewed", :capybara do
       planning_application = create(:planning_application, :awaiting_determination,
         local_authority: default_local_authority)
-      create(:recommendation, :reviewed, planning_application:)
+      create(:recommendation, :reviewed, planning_application:, challenged: false)
       visit "/planning_applications/#{planning_application.reference}"
 
       within "#review-section" do
@@ -140,7 +140,7 @@ RSpec.describe "Planning Application show page", type: :system do
     it "makes valid task list for when it is to be reviewed and a re-proposal has been made" do
       planning_application = create(:planning_application, :to_be_reviewed,
         local_authority: default_local_authority)
-      create(:recommendation, :reviewed, planning_application:)
+      create(:recommendation, :reviewed, planning_application:, challenged: false)
       create(:recommendation, planning_application:, submitted: true)
       visit "/planning_applications/#{planning_application.reference}"
 
@@ -206,7 +206,7 @@ RSpec.describe "Planning Application show page", type: :system do
     it "makes valid task list for when it is awaiting determination and recommendation has been reviewed" do
       planning_application = create(:planning_application, :awaiting_determination,
         local_authority: default_local_authority)
-      create(:recommendation, :reviewed, planning_application:)
+      create(:recommendation, :reviewed, planning_application:, challenged: false)
       visit "/planning_applications/#{planning_application.reference}"
 
       within "#validation-section" do

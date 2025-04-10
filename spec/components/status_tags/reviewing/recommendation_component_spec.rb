@@ -35,7 +35,8 @@ RSpec.describe StatusTags::Reviewing::RecommendationComponent, type: :component 
       create(
         :recommendation,
         status: :review_complete,
-        planning_application:
+        planning_application:,
+        challenged: false
       )
 
       render_inline(

@@ -235,7 +235,7 @@
   <p class="govuk-body">
     Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.
   </p>
-  <%= render("constraints_table", constraints: @constraints) %>
+  <%= render "bops_reports/planning_applications/constraints_table", constraints: @constraints %>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -251,7 +251,7 @@
   <p class="govuk-body">
     Past applications for this site or relevant nearby locations
   </p>
-  <%= render "site_history_table" %>
+  <%= render "bops_reports/planning_applications/site_history_table" %>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

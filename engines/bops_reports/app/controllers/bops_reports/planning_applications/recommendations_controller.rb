@@ -50,18 +50,6 @@ module BopsReports
 
       private
 
-      def set_recommendation
-        @recommendation = build_or_find_recommendation
-      end
-
-      def build_or_find_recommendation
-        if @planning_application.in_assessment? || @planning_application.to_be_reviewed?
-          @planning_application.recommendations.new
-        elsif @planning_application.awaiting_determination?
-          @planning_application.recommendations.last
-        end
-      end
-
       def recommendation_form_params
         params.require(:recommendation).permit(:assessor_comment)
       end

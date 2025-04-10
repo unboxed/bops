@@ -23,7 +23,7 @@ RSpec.describe Reviewing::Tasks::ButtonGroupComponent, type: :component do
       status: :review_complete,
       reviewer_comment: "reviewer comment",
       submitted: true,
-      challenged: nil)
+      challenged: true)
     render_inline(described_class.new(planning_application: rec.planning_application))
 
     expect(page).not_to have_link("Review and publish decision",
