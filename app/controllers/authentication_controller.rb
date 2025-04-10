@@ -17,7 +17,12 @@ class AuthenticationController < ApplicationController
   def ensure_planning_application_is_not_preapp
     return unless @planning_application.pre_application?
 
-    redirect_to planning_application_assessment_tasks_path(@planning_application),
-      alert: t("planning_applications.assessment.base.not_preapp", application_type: @planning_application.application_type.full_name)
+    if @planning_application.in_assessment?
+      redirect_to planning_application_assessment_tasks_path(@planning_application),
+        alert: t("planning_applications.assessment.base.not_preapp", application_type: @planning_application.application_type.full_name)
+    else
+      redirect_to planning_application_path(@planning_application),
+        alert: t("planning_applications.assessment.base.not_preapp", application_type: @planning_application.application_type.full_name)
+    end
   end
 end

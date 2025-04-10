@@ -3,7 +3,7 @@ en:
   bops_reports:
     dashboards:
       show:
-        disclaimer_content: "Please note that this pre-application advice follows initial officer assessment of the information you have provided. Every formal application is subject to a statutory assessment process and it is only then that a full assessment of all the material planning considerations can be made in the context of relevant development plan policies.\nSome important considerations may only arise or become apparent during this formal process which includes consultation with residents and other third parties affected by the development. This officer advice is therefore given for your general guidance in the preparation of a future planning application or proposal. The advice does not prejudice the Council’s consideration or decision on any future application that may be submitted. \n"
+        disclaimer_content: Please note that this pre-application advice follows initial officer assessment of the information you have provided. Every formal application is subject to a statutory assessment process and it is only then that a full assessment of all the material planning considerations can be made in the context of relevant development plan policies. Some important considerations may only arise or become apparent during this formal process which includes consultation with residents and other third parties affected by the development. This officer advice is therefore given for your general guidance in the preparation of a future planning application or proposal. The advice does not prejudice the Council’s consideration or decision on any future application that may be submitted.
         disclaimer_heading: Disclaimer
         next_steps_heading: Next steps
         next_steps_intro_html: 'If you wish to submit an application, follow these clear steps to submit your formal application:'
@@ -15,7 +15,35 @@ en:
         next_steps_outro_html: The Council’s application service makes it easy to find the right fee and provide the right information. For further information on applying to the '%{application_type}' application, visit the council's <a class="govuk-link" href="%{planning_service_link}">website</a>.
         title: Reports
     planning_applications:
+      assessment_actions:
+        assessor_comment: Assessor comment
+        explanation: Explain to the reviewer why the report is now acceptable
+      event:
+        by_name_at: by %{name}, %{date} at %{time}
+      events:
+        assessor_reviewer_audit: Assessor and reviewer audit
+        recommendation_queried: Recommendation queried
+        submitted_recommendation: Submitted recommendation
+      recommendations:
+        create:
+          submit_failed: Failed to submit pre-application report for review - please contact support
+          submitted: Pre-application report submitted for review
+        destroy:
+          withdrawal_failed: Failed to withdraw pre-application report - please contact support
+          withdrawal_not_allowed: Withdrawing the pre-application report is no longer allowed
+          withdrawn: Pre-application report withdrawn
+        update:
+          challenged: Pre-application report has been sent back to the case officer for amendments
+          not_challenged: Pre-application report has been sent to the applicant
+          review_failed_html: Review submission failed – <a href="#recommendation-review-form" class="govuk-link govuk-link--no-visited-state">check the form for errors</a>
+      review_actions:
+        do_you_agree: Do you agree with the advice?
+        explanation: Explain to the case officer why the report is being returned
+        'no': No (return the case for assessment)
+        reviewer_comment: Reviewer comment
+        'yes': 'Yes'
       show:
+        disclaimer_content: Please note that this pre-application advice follows initial officer assessment of the information you have provided. Every formal application is subject to a statutory assessment process and it is only then that a full assessment of all the material planning considerations can be made in the context of relevant development plan policies. Some important considerations may only arise or become apparent during this formal process which includes consultation with residents and other third parties affected by the development. This officer advice is therefore given for your general guidance in the preparation of a future planning application or proposal. The advice does not prejudice the Council’s consideration or decision on any future application that may be submitted.
         disclaimer_heading: Disclaimer
         next_steps_heading: Next steps
         next_steps_intro_html: 'If you wish to submit an application, follow these clear steps to submit your formal application:'

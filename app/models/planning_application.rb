@@ -678,7 +678,7 @@ class PlanningApplication < ApplicationRecord
     [address_1, address_2, town, county, postcode].compact_blank.join(", ")
   end
 
-  delegate :name, to: :application_type, prefix: true
+  delegate :name, to: :application_type, prefix: true, allow_nil: true
 
   ApplicationType::Config::NAME_ORDER.each do |name|
     define_method :"#{name}?" do

@@ -53,6 +53,8 @@ class PlanningApplicationConstraint < ApplicationRecord
   end
 
   def planning_data_dataset
+    return if entity.blank?
+
     planning_data_geojson.dig(:properties, :dataset)
   end
 
@@ -75,6 +77,8 @@ class PlanningApplicationConstraint < ApplicationRecord
   end
 
   def planning_data_geojson
+    return if entity.blank?
+
     @planning_data_geojson ||= Apis::PlanningData::Query.new.get_entity_geojson(entity)
   end
 end
