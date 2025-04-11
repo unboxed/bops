@@ -5,6 +5,11 @@ module BopsReports
     class BaseController < ApplicationController
       before_action :set_planning_application
       before_action :redirect_to_application_page, unless: :pre_application?
+      before_action :set_assessment_details
+      before_action :set_summary_of_advice
+      before_action :set_site_description
+      before_action :set_constraints
+      before_action :set_recommendation
 
       delegate :pre_application?, to: :@planning_application
 
@@ -31,6 +36,34 @@ module BopsReports
 
       def redirect_to_application_page
         redirect_to main_app.planning_application_url(@planning_application)
+      end
+
+      def set_assessment_details
+        @assessment_details = @planning_application
+      end
+
+      def set_summary_of_advice
+        @summary_of_advice = @assessment_details.summary_of_advice
+      end
+
+      def set_site_description
+        @site_description = @planning_application.site_description
+      end
+
+      def set_constraints
+        @constraints = @planning_application.constraints.group_by(&:category)
+      end
+
+      def set_recommendation
+        @recommendation = build_or_find_recommendation
+      end
+
+      def build_or_find_recommendation
+        if @planning_application.in_assessment? || @planning_application.to_be_reviewed?
+          @planning_application.recommendations.new
+        elsif @planning_application.awaiting_determination?
+          @planning_application.recommendations.last
+        end
       end
     end
   end

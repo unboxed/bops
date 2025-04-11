@@ -1460,7 +1460,8 @@ RSpec.describe PlanningApplication do
       create(
         :recommendation,
         planning_application:,
-        status:
+        status:,
+        challenged: false
       )
     end
 

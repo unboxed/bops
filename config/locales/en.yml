@@ -397,6 +397,7 @@ en:
         recommendation:
           attributes:
             challenged:
+              blank: Choose one of the options 'Yes' or 'No'
               updates_required: You have requested officer changes, resolve these before agreeing with the recommendation
         reporting_type:
           attributes:

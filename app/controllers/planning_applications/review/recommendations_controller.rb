@@ -24,7 +24,8 @@ module PlanningApplications
         @recommendation = @planning_application.recommendations.new(
           status: "review_complete",
           assessor: Current.user,
-          reviewer: Current.user
+          reviewer: Current.user,
+          challenged: false
         )
 
         if @recommendation.save_and_submit(recommendation_form_params)

@@ -811,5 +811,16 @@ FactoryBot.define do
         planning_application.save!
       end
     end
+
+    trait :with_preapp_assessment do
+      after(:create) do |planning_application|
+        create(:assessment_detail, planning_application:, category: "site_description", entry: "A double storey detached house adjacent to greenbelt.")
+        create(:consistency_checklist, planning_application:)
+        create(:planning_application_constraint, planning_application:)
+        create(:planning_application_constraint, constraint: create(:constraint, :tpo), planning_application:)
+
+        planning_application.update!(recommended_application_type: create(:application_type, :householder))
+      end
+    end
   end
 end
