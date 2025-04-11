@@ -71,7 +71,7 @@
           <% end %>
         </ol>
       <% end %>
-      <% if @planning_application.condition_set.conditions.any? %>
+      <% if @planning_application.condition_set.conditions.any? && @planning_application.granted? %>
         <h3 class="govuk-heading-s">
           Conditions:
         </h3>
