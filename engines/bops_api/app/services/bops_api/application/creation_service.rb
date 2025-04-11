@@ -5,7 +5,10 @@ module BopsApi
     class CreationService
       def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil, email_sending_permitted: false)
         if planning_application
-          initialize_from_planning_application(planning_application)
+          @params = planning_application.params_v2.with_indifferent_access
+          @local_authority = planning_application.local_authority
+          @user = planning_application.api_user
+          @email_sending_permitted = false
         else
           @local_authority = local_authority
           @user = user
@@ -82,13 +85,6 @@ module BopsApi
         PostApplicationToStagingJob.perform_later(local_authority, planning_application) if Bops.env.production?
 
         planning_application
-      end
-
-      def initialize_from_planning_application(planning_application)
-        @params = planning_application.params_v2.with_indifferent_access
-        @local_authority = planning_application.local_authority
-        @user = planning_application.api_user
-        @email_sending_permitted = false
       end
 
       def raise_not_permitted_in_production_error

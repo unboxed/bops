@@ -19,9 +19,11 @@ module BopsApi
       @document_checklist_items ||= params.dig(:metadata, :service, :files)
     end
 
-    def perform(planning_application:, user:, files:, params:, email_sending_permitted:)
-      @user = user
-      @params = params
+    def perform(planning_application:, user: nil, files: nil, params: nil, email_sending_permitted: false)
+      @user = user || planning_application.api_user
+      @params = params || planning_application.params_v2.with_indifferent_access
+
+      files ||= @params.fetch(:files)
 
       Application::AnonymisationService.new(planning_application:).call! if planning_application.from_production?
       process_document_checklist_items(planning_application)
