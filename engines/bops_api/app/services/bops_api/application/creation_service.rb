@@ -3,18 +3,11 @@
 module BopsApi
   module Application
     class CreationService
-      def initialize(local_authority: nil, user: nil, params: nil, planning_application: nil, email_sending_permitted: false)
-        if planning_application
-          @params = planning_application.params_v2.with_indifferent_access
-          @local_authority = planning_application.local_authority
-          @user = planning_application.api_user
-          @email_sending_permitted = false
-        else
-          @local_authority = local_authority
-          @user = user
-          @params = params
-          @email_sending_permitted = email_sending_permitted
-        end
+      def initialize(local_authority: nil, user: nil, params: nil, email_sending_permitted: false)
+        @local_authority = local_authority
+        @user = user
+        @params = params
+        @email_sending_permitted = email_sending_permitted
       end
 
       def call!
