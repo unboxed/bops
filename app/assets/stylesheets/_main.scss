@@ -471,7 +471,7 @@ body {
 
 .comment-component {
   border-left: 10px solid $govuk-link-colour;
-  background-color: #F2F9FF;
+  background-color: #f2f9ff;
 }
 
 .govuk-details--borderless {
@@ -593,5 +593,19 @@ body {
   li {
     margin-left: 25px;
     position: relative;
+  }
+}
+
+.govuk-list--divided {
+  li + li {
+    border-top: 1px solid govuk-colour("mid-grey");
+    padding-top: 1rem;
+  }
+}
+
+.govuk-table--borderless {
+  .govuk-table__header,
+  .govuk-table__cell {
+    border-bottom: none;
   }
 }

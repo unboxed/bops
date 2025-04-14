@@ -3,8 +3,11 @@
 module PlanningApplications
   module Assessment
     class RequirementsController < BaseController
+      include ReturnToReport
+
       before_action :set_requirements, only: %i[index create]
       before_action :set_requirement, only: %i[update edit destroy]
+      before_action :store_return_to_report_path, only: %i[index]
 
       def index
         @categories = LocalAuthority::Requirement.categories

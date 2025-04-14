@@ -54,7 +54,9 @@
         ["Site constraints", "#site-constraints"],
         ["Site history", "#site-history"],
         ["Site and surroundings", "#site-and-surroundings"],
-        ["Your pre-application details", "#pre-application-details"],
+        ["Considerations and advice", "#considerations-advice"],
+        ["Policies and guidance", "#policies-guidance"],
+        ["Requirements", "#requirements"],
         ["Next steps", "#next-steps"],
         ["Disclaimer", "#disclaimer"]
       ]}
@@ -280,8 +282,155 @@
         No site description set.
       </p>
     <% end %>
-  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 </section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section id="considerations-advice">
+  <div class="flex-between govuk-!-margin-bottom-2">
+     <h2 class="govuk-heading-m">Planning considerations and advice</h2>
+     <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
+           @planning_application,
+           return_to: "report"
+         ) %>
+  </div>
+
+  <p class="govuk-body"> This section includes the case officer's assessment of your proposal against relevant policy and guidance. The elements of the proposal are grouped by how acceptable they are:</p>
+
+  <%= govuk_table(html_attributes: {class: "govuk-table--borderless"}) do |table| %>
+    <% table.with_body do |body|
+         body.with_row do |row|
+           row.with_cell(text: "‘Supported’", header: true)
+           row.with_cell(text: "means that the current proposal is likely to be supported")
+         end
+         body.with_row do |row|
+           row.with_cell(text: "‘Needs changes’", header: true)
+           row.with_cell(text: "means that an element of the proposal is likely to be supported subject to suggested changes")
+         end
+         body.with_row do |row|
+           row.with_cell(text: "‘Does not comply’", header: true)
+           row.with_cell(text: "means that an element of the proposal will not be acceptable and permission is likely to be refused")
+         end
+       end %>
+  <% end %>
+
+  <%= govuk_table(html_attributes: {id: "considerations-overview"}) do |table| %>
+    <% table.with_head do |head|
+         head.with_row do |row|
+           row.with_cell(text: "Consideration")
+           row.with_cell(text: "Element of proposal")
+           row.with_cell(text: "Status")
+         end
+       end %>
+    <% table.with_body do |body|
+         @planning_application.considerations.each do |consideration|
+           body.with_row do |row|
+             row.with_cell(text: consideration.policy_area)
+             row.with_cell(text: consideration.proposal)
+             row.with_cell(text: render(StatusTags::PreappComponent.new(status: consideration.summary_tag)))
+           end
+         end
+       end %>
+  <% end %>
+
+  <% @planning_application.considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
+    <%= govuk_summary_card(title: policy_area) do %>
+      <% considerations.each do |consideration| %>
+        <div class="flex-between">
+          <strong class="govuk-heading-s"><%= consideration.proposal %></strong>
+          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
+                @planning_application,
+                return_to: "report"
+              ) %>
+        </div>
+
+        <%= render StatusTags::PreappComponent.new(status: consideration.summary_tag) %><br>
+
+        <div class="govuk-body govuk-!-margin-top-4"><strong>Relevant policies</strong><br>
+          <ul class="govuk-list">
+            <% consideration.policy_references.each do |reference| %>
+              <li class="govuk-body">
+                <% if reference.url.present? %>
+                  <%= govuk_link_to reference.code_and_description, reference.url %>
+                <% else %>
+                  <%= reference.code_and_description %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <p class="govuk-body">
+          <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
+        </p>
+        <p class="govuk-body">
+          <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+        </p>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <section id="summary-advice">
+    <div class="flex-between">
+      <h2 class="govuk-heading-m">Summary</h2>
+      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
+            @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
+          ) %>
+    </div>
+
+    <p class="govuk-body">This is the case officer's summary of the conclusions and advice.</p>
+    <p class="govuk-body grey-border-box">
+      <%= @planning_application.summary_of_advice.entry %>
+    </p>
+  </section>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section id="policies-guidance">
+  <h2 class="govuk-heading-m">List of relevant policies and guidance</h2>
+  <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url %>.</p>
+
+  <% @planning_application.considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
+    <% references = considerations.map(&:policy_references).flatten %>
+    <p class="govuk-body"><strong><%= policy_area.humanize %></strong></p>
+    <ul class="govuk-list">
+      <% references.each do |reference| %>
+        <li><%= govuk_link_to reference.description, reference.url %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section id="requirements">
+  <div class="flex-between">
+    <h2 class="govuk-heading-m">Requirements</h2>
+    <%= govuk_link_to "Edit", main_app.planning_application_assessment_requirements_path(@planning_application, return_to: "report") %>
+  </div>
+
+  <p class="govuk-body">Should you wish to submit an application, the following requirements are needed:</p>
+  <% @planning_application.requirements.group_by(&:category).each do |category, requirements| %>
+    <%= govuk_summary_card(title: category.humanize) do %>
+      <ul class="govuk-list govuk-list--divided">
+        <% requirements.each do |requirement| %>
+          <li>
+            <p class="govuk-body"><%= govuk_link_to requirement.description, requirement.url %></p>
+            <% if requirement.guidelines.present? %>
+              <p class="govuk-body govuk-hint"><%= requirement.guidelines %></p>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+  <!-- TODO pdf link -->
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="next-steps">
   <h3 class="govuk-heading-s"><%= t(".next_steps_heading") %></h3>

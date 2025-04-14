@@ -37,15 +37,22 @@ RSpec.describe "Pre-application report" do
       :planning_application,
       :pre_application,
       :in_assessment,
+      :with_preapp_assessment,
       user: reviewer,
       local_authority:,
       boundary_geojson:,
+      consideration_set:,
+      consistency_checklist:,
       validated_at: Time.zone.local(2024, 6, 1),
       determined_at: Time.zone.local(2024, 6, 20),
       description: "Single-storey rear extension",
       recommended_application_type: create(:application_type, :householder)
     )
   end
+
+  let(:consideration_set) { create(:consideration_set, considerations: create_list(:consideration, 3, summary_tag: "complies")) }
+  let(:local_authority_requirements) { create_list(:local_authority_requirement, 3, local_authority:) }
+  let!(:requirements) { local_authority_requirements.map { |r| planning_application.requirements.create(**r.as_json.except("id", "local_authority_id", "search")) } }
 
   let!(:site_visit) do
     create(:site_visit, planning_application:, visited_at: Time.zone.local(2024, 6, 10))
@@ -56,9 +63,7 @@ RSpec.describe "Pre-application report" do
 
   let!(:assessment_detail) { create(:assessment_detail, planning_application:) }
 
-  let!(:summary_of_advice) do
-    create(:assessment_detail, planning_application:, category: "summary_of_advice", summary_tag: "complies", entry: "Looks good")
-  end
+  let(:summary_of_advice) { planning_application.summary_of_advice }
 
   let(:report_url) { "/reports/planning_applications/#{planning_application.reference}" }
   let!(:site_history) { create(:site_history, planning_application:) }
@@ -67,18 +72,12 @@ RSpec.describe "Pre-application report" do
     create(:assessment_detail, planning_application:, category: "site_description", entry: "A double storey detached house adjacent to greenbelt.")
   end
 
-  let!(:consistency_checklist) do
-    create(:consistency_checklist, :site_map_incorrect, planning_application:)
+  let(:consistency_checklist) do
+    create(:consistency_checklist, :site_map_incorrect)
   end
 
   let!(:designated_conservation_area) do
     create(:planning_application_constraint, planning_application:)
-  end
-
-  let!(:tpo) { create(:constraint, :tpo) }
-
-  let!(:planning_application_constraint) do
-    create(:planning_application_constraint, constraint: tpo, planning_application:)
   end
 
   let(:report_url) { "/planning_applications/#{planning_application.reference}" }
@@ -114,6 +113,14 @@ RSpec.describe "Pre-application report" do
       expect(page).to have_link("Edit", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
       expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--green")
       expect(page).to have_content("Likely to be supported")
+    end
+  end
+
+  it "displays the summary of advice section" do
+    within("#summary-advice") do
+      expect(page).to have_content("Summary")
+      expect(page).to have_link("Edit", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
+      expect(page).to have_content("Looks good")
     end
   end
 
@@ -369,6 +376,37 @@ RSpec.describe "Pre-application report" do
     expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
     within("#site-and-surroundings") do
       expect(page).to have_content("This is the amended description of site and surroundings")
+    end
+  end
+
+  it "displays considerations" do
+    within "#considerations-advice" do
+      expect(page).to have_selector(".govuk-summary-card__title", text: planning_application.considerations.first.policy_area.humanize)
+      expect(page).to have_selector("li", text: planning_application.considerations.first.policy_references.first.description)
+
+      within "#considerations-overview" do
+        within ".govuk-table__body .govuk-table__row:first-child" do
+          expect(page).to have_text(planning_application.considerations.first.policy_area)
+          expect(page).to have_text(planning_application.considerations.first.proposal)
+          expect(page).to have_text("Supported")
+        end
+      end
+    end
+  end
+
+  it "displays policies and guidance" do
+    within "#policies-guidance" do
+      expect(page).to have_text(planning_application.considerations.first.policy_area)
+      expect(page).to have_text(planning_application.considerations.first.policy_references.first.description)
+    end
+  end
+
+  it "displays requirements" do
+    within "#requirements" do
+      expect(page).to have_text(planning_application.local_authority.submission_guidance_url)
+      expect(page).to have_text(planning_application.requirements.first.category.humanize)
+      expect(page).to have_text(planning_application.requirements.first.description)
+      expect(page).to have_text(planning_application.requirements.first.guidelines)
     end
   end
 

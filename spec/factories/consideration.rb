@@ -7,6 +7,7 @@ FactoryBot.define do
     assessment { Faker::Lorem.paragraph }
     conclusion { Faker::Lorem.sentence }
     advice { Faker::Lorem.paragraph }
+    proposal { Faker::Lorem.sentence }
 
     consideration_set
 
