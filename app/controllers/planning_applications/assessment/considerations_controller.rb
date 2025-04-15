@@ -49,7 +49,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @consideration_set.update_review(review_params)
-              redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+              redirect_to return_path, notice: t(".success")
             else
               render :edit
             end
@@ -85,6 +85,10 @@ module PlanningApplications
 
       def review_params
         params.require(:review).permit(:status).merge(assessor: current_user)
+      end
+
+      def return_path
+        report_path_or(planning_application_assessment_tasks_path(@planning_application))
       end
     end
   end

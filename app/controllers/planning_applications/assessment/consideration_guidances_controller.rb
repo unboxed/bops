@@ -3,12 +3,14 @@
 module PlanningApplications
   module Assessment
     class ConsiderationGuidancesController < BaseController
+      include ReturnToReport
       before_action :set_consideration_set
       before_action :set_considerations
       before_action :set_review
       before_action :build_consideration, only: [:index, :create]
       before_action :set_consultee_responses, only: [:index, :edit]
       before_action :set_consideration, only: [:destroy, :edit, :update]
+      before_action :store_return_to_report_path, only: %i[create edit]
 
       def index
         respond_to do |format|
@@ -41,7 +43,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @consideration.update(consideration_params, :advice)
-              redirect_to planning_application_assessment_consideration_guidances_path(@planning_application), notice: t(".success")
+              redirect_to return_path, notice: t(".success")
             else
               set_consultee_responses
               render :edit
@@ -97,6 +99,10 @@ module PlanningApplications
         params.require(:consideration).permit(
           :policy_area, :draft, :proposal, :summary_tag, :advice, policy_references_attributes: %i[code description url]
         )
+      end
+
+      def return_path
+        report_path_or(planning_application_assessment_consideration_guidances_path(@planning_application))
       end
     end
   end
