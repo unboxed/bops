@@ -285,10 +285,10 @@
               return_to: "report"
             ) %>
         </div>
-        <p class="govuk-body">
-          <%= @site_description.entry %>
-        </p>
       <% end %>
+      <p class="govuk-body">
+        <%= @site_description.entry %>
+      </p>
     <% else %>
       <% if current_user %>
         <%= govuk_link_to "Edit", main_app.new_planning_application_assessment_assessment_detail_path(
