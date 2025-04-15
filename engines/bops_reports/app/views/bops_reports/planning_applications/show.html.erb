@@ -386,10 +386,7 @@
         </div>
 
         <p class="govuk-body">
-          <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
-        </p>
-        <p class="govuk-body">
-          <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+          <%= render(FormattedContentComponent.new(text: consideration.advice)) %>
         </p>
       <% end %>
     <% end %>
