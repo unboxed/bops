@@ -409,12 +409,13 @@ RSpec.describe "Pre-application report" do
   end
 
   it "displays next steps and disclaimer" do
-    local_authority.update(submission_guidance_url: "https://www.southwark.gov.uk/planning-and-building-control/planning-policy-and-guidance")
+    local_authority.update(submission_url: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/step-by-step/apply-planning-permission/submit")
+    local_authority.update(submission_guidance_url: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/planning-policy-and-guidance")
 
     visit "/reports/planning_applications/#{planning_application.reference}"
     within("#next-steps") do
       expect(page).to have_content("If you wish to submit an application, follow these clear steps to submit your formal application:")
-      expect(page).to have_link("website", href: "https://www.southwark.gov.uk/planning-and-building-control/planning-policy-and-guidance")
+      expect(page).to have_link("website", href: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/step-by-step/apply-planning-permission/submit")
       expect(page).to have_content("For further information on applying to the 'Householder Application for Planning Permission' application, visit the council's website.")
     end
 

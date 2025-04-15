@@ -156,12 +156,23 @@
             <% end %>
           </p>
         </li>
-         <li>
+        <li>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".submission_guidance_url") %></h2>
           <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".submission_guidance_url_hint") %></div>
           <p class="govuk-body">
             <% if current_local_authority.submission_guidance_url? %>
               <%= govuk_link_to nil, current_local_authority.submission_guidance_url, new_tab: "" %>
+            <% else %>
+              –
+            <% end %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".submission_url") %></h2>
+          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".submission_url_hint") %></div>
+          <p class="govuk-body">
+            <% if current_local_authority.submission_url? %>
+              <%= govuk_link_to nil, current_local_authority.submission_url, new_tab: "" %>
             <% else %>
               –
             <% end %>

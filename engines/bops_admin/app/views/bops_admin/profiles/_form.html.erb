@@ -128,6 +128,13 @@
       ) %>
 
   <%= form.govuk_text_field(
+        :submission_url,
+        label: {text: t(".submission_url"), class: "govuk-label govuk-label--m"},
+        hint: {text: t(".submission_url_hint")},
+        class: "govuk-input--width-30"
+      ) %>
+
+  <%= form.govuk_text_field(
         :submission_guidance_url,
         label: {text: t(".submission_guidance_url"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".submission_guidance_url_hint")},

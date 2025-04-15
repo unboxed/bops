@@ -416,7 +416,7 @@
 <section id="policies-guidance">
   <h2 class="govuk-heading-m">List of relevant policies and guidance</h2>
   <% if @planning_application.local_authority.submission_guidance_url.present? %>
-    <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url %>.</p>
+    <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url, new_tab: true %>.</p>
   <% end %>
 
   <% references = @planning_application.considerations.map(&:policy_references).flatten.uniq(&:description) %>
@@ -460,7 +460,7 @@
 <section id="next-steps">
   <h3 class="govuk-heading-s"><%= t(".next_steps_heading") %></h3>
 
-  <% if @current_local_authority.submission_guidance_url %>
+  <% if @current_local_authority.submission_url && @current_local_authority.submission_guidance_url %>
     <p class="govuk-body">
       <%= t(".next_steps_intro_html") %>
     </p>
@@ -470,14 +470,14 @@
     <p class="govuk-body">
       <%= t(
             ".next_steps_outro_html",
-            planning_service_link: @current_local_authority.submission_guidance_url,
+            planning_service_link: @current_local_authority.submission_url,
             application_type: @planning_application.recommended_application_type.human_name
           ) %>
     </p>
   <% else %>
     <% if current_user %>
       <p class="govuk-body">
-        You must set the submission guidance url in local authority settings before displaying next steps.
+        You must set the application submission url in local authority settings before displaying next steps.
       </p>
     <% end %>
   <% end %>

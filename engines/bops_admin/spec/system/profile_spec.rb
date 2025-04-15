@@ -32,6 +32,7 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_content("Document checklist")
     expect(page).to have_content("Planning policy and guidance")
     expect(page).to have_content("Submission guidance")
+    expect(page).to have_content("Application submission")
   end
 
   it "shows the correct hint text for the council's profile" do
@@ -50,6 +51,7 @@ RSpec.describe "Profile", type: :system do
     expect(page).to have_content("Link to a document checklist that applicants use when submitting applications")
     expect(page).to have_content("Link to planning policy and guidance documents for planning officers")
     expect(page).to have_content("This is the web page applicants visit to find out more information about submitting their application")
+    expect(page).to have_content("This is the web page applicants visit to submit their planning application.")
   end
 
   it "allows the administrator to edit council's profile" do
@@ -72,6 +74,7 @@ RSpec.describe "Profile", type: :system do
     fill_in("Document checklist", with: "https://www.buckinghamshire.gov.uk/planning-and-building-control/building-or-improving-your-property/how-to-prepare-a-valid-planning-application/")
     fill_in("Planning policy and guidance", with: "https://www.buckinghamshire.gov.uk/planning-and-building-control/planning-policy/")
     fill_in("Submission guidance", with: "https://www.buckinghamshire.gov.uk/planning-and-building-control/submission-guidance")
+    fill_in("Submission guidance", with: "https://www.buckinghamshire.gov.uk/planning-and-building-control/building-or-improving-your-property/apply-for-planning-permission/")
 
     click_button("Submit")
     expect(page).to have_content("Council information successfully updated")
