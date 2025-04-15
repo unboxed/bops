@@ -391,7 +391,9 @@
 
 <section id="policies-guidance">
   <h2 class="govuk-heading-m">List of relevant policies and guidance</h2>
-  <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url %>.</p>
+  <% if @planning_application.local_authority.submission_guidance_url.present? %>
+    <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url %>.</p>
+  <% end %>
 
   <% @planning_application.considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
     <% references = considerations.map(&:policy_references).flatten %>
