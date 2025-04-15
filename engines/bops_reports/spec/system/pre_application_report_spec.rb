@@ -395,7 +395,7 @@ RSpec.describe "Pre-application report" do
 
   it "displays policies and guidance" do
     within "#policies-guidance" do
-      expect(page).to have_text(planning_application.considerations.first.policy_area)
+      expect(page).to have_text(planning_application.considerations.first.policy_references.first.code)
       expect(page).to have_text(planning_application.considerations.first.policy_references.first.description)
     end
   end
