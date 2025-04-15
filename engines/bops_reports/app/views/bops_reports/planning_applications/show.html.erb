@@ -310,7 +310,7 @@
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Planning considerations and advice</h2>
     <% if current_user %>
-      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
+      <%= govuk_link_to "Edit", main_app.planning_application_assessment_consideration_guidances_path(
             @planning_application,
             return_to: "report"
           ) %>
@@ -361,8 +361,9 @@
         <div class="flex-between">
           <strong class="govuk-heading-s"><%= consideration.proposal %></strong>
           <% if current_user %>
-            <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
+            <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consideration_guidance_path(
                   @planning_application,
+                  consideration,
                   return_to: "report"
                 ) %>
           <% end %>
@@ -385,10 +386,7 @@
         </div>
 
         <p class="govuk-body">
-          <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
-        </p>
-        <p class="govuk-body">
-          <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+          <%= render(FormattedContentComponent.new(text: consideration.advice)) %>
         </p>
       <% end %>
     <% end %>
