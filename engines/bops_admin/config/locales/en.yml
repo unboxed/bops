@@ -322,6 +322,8 @@ en:
         signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
         submission_guidance_url: Submission guidance
         submission_guidance_url_hint: This is the web page applicants visit to find out more information about submitting their application.
+        submission_url: Application submission
+        submission_url_hint: This is the web page applicants visit to submit their planning application.
         submit: Submit
         telephone_number: Contact telephone (optional)
         telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
@@ -357,6 +359,8 @@ en:
         signatory_name_hint: This is the person whose signature appears at the bottom of decision notices.
         submission_guidance_url: Submission guidance
         submission_guidance_url_hint: This is the web page applicants visit to find out more information about submitting their application.
+        submission_url: Application submission
+        submission_url_hint: This is the web page applicants visit to submit their planning application.
         telephone_number: Contact telephone
         telephone_number_hint: This is the number that applicants or neighbours can call if they need information in alternative formats.
       update:

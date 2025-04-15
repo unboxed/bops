@@ -44,7 +44,8 @@ module BopsAdmin
         :document_checklist,
         :planning_policy_and_guidance,
         :public_register_base_url,
-        :submission_guidance_url
+        :submission_guidance_url,
+        :submission_url
       )
     end
   end

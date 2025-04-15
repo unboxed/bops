@@ -12,7 +12,7 @@ en:
             <li>Follow the advice in this report and update your proposal.</li>
             <li>Prepare all requirements listed in this report.</li>
           </ul>
-        next_steps_outro_html: The Council’s application service makes it easy to find the right fee and provide the right information. For further information on applying to the '%{application_type}' application, visit the council's <a class="govuk-link" href="%{planning_service_link}">website</a>.
+        next_steps_outro_html: The Council’s application service makes it easy to find the right fee and provide the right information. For further information on applying to the '%{application_type}' application, visit the council's <a class="govuk-link" href="%{planning_service_link}" target="_blank">website</a>.
         title: Reports
     planning_applications:
       assessment_actions:
@@ -54,4 +54,4 @@ en:
             <li>Follow the advice in this report and update your proposal.</li>
             <li>Prepare all requirements listed in this report.</li>
           </ul>
-        next_steps_outro_html: The Council’s application service makes it easy to find the right fee and provide the right information. For further information on applying to the '%{application_type}' application, visit the council's <a class="govuk-link" href="%{planning_service_link}">website</a>.
+        next_steps_outro_html: The Council’s application service makes it easy to find the right fee and provide the right information. For further information on applying to the '%{application_type}' application, visit the council's <a class="govuk-link" href="%{planning_service_link}" target="_blank">website</a>.
