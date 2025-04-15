@@ -238,4 +238,15 @@ class PlanningApplicationMailer < ApplicationMailer
       reply_to_id: @planning_application.local_authority.email_reply_to_id
     )
   end
+
+  def report_mail(planning_application, email)
+    @planning_application = planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:report_mail, council_name: @planning_application.local_authority.council_name),
+      to: email,
+      reply_to_id: @planning_application.local_authority.email_reply_to_id
+    )
+  end
 end

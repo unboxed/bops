@@ -1589,4 +1589,47 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
   end
+
+  describe "#report_mail" do
+    let(:report_mail) do
+      described_class.report_mail(
+        planning_application,
+        planning_application.agent_email
+      )
+    end
+
+    let(:mail_body) { report_mail.body.encoded }
+
+    before do
+      travel_to("2024-10-22") do
+        planning_application.user = reviewer
+      end
+    end
+
+    it "sets the subject" do
+      expect(report_mail.subject).to eq("PlanX Council Pre-application advice")
+    end
+
+    it "sets the recipient" do
+      expect(report_mail.to).to contain_exactly("cookie_crackers@example.com")
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "24-00100-LDCP"
+      )
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "123 High Street, Big City, AB3 4EF"
+      )
+    end
+
+    it "includes the report content" do
+      expect(mail_body).to include(
+        "Your case officer has completed their review of the information you submitted to us about the proposed development"
+      )
+    end
+  end
 end

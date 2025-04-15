@@ -82,6 +82,8 @@ RSpec.describe "Pre-application report" do
 
   let(:report_url) { "/planning_applications/#{planning_application.reference}" }
 
+  let(:reference) { planning_application.reference }
+
   before do
     sign_in reviewer
     visit "/planning_applications/#{planning_application.reference}"
@@ -127,8 +129,7 @@ RSpec.describe "Pre-application report" do
   it "displays the officer contact details" do
     within("#contact-details") do
       expect(page).to have_content(reviewer.name)
-      expect(page).to have_content(reviewer.email)
-      expect(page).to have_content(reviewer.mobile_number)
+      expect(page).to have_content(local_authority.email_address)
     end
   end
 
@@ -146,8 +147,6 @@ RSpec.describe "Pre-application report" do
 
     within("#contact-details") do
       expect(page).to have_content("Jane Smith")
-      expect(page).to have_content(assessor.email)
-      expect(page).to have_content(assessor.mobile_number)
     end
   end
 
@@ -403,7 +402,6 @@ RSpec.describe "Pre-application report" do
 
   it "displays requirements" do
     within "#requirements" do
-      expect(page).to have_text(planning_application.local_authority.submission_guidance_url)
       expect(page).to have_text(planning_application.requirements.first.category.humanize)
       expect(page).to have_text(planning_application.requirements.first.description)
       expect(page).to have_text(planning_application.requirements.first.guidelines)
@@ -433,6 +431,62 @@ RSpec.describe "Pre-application report" do
     within("#disclaimer") do
       within(".govuk-warning-text") do
         expect(page).to have_content("This is a custom disclaimer")
+      end
+    end
+  end
+
+  context "when viewing the report as an applicant" do
+    before do
+      sign_out reviewer
+      visit "/reports/planning_applications/#{reference}?sgid=#{sgid}"
+    end
+
+    context "with valid sgid" do
+      let(:sgid) { planning_application.sgid(expires_in: nil, for: "magic_link") }
+
+      it "I can view the report" do
+        expect(page).to have_current_path("/reports/planning_applications/#{reference}?sgid=#{sgid}")
+
+        expect(page).to have_selector("h1", text: "Pre-application report")
+        expect(page).to have_content(planning_application.full_address)
+        expect(page).to have_content("Pre-application number: #{reference}")
+        expect(page).to have_content(planning_application.description)
+        expect(page).to have_content("Case officer: #{reviewer.name}")
+        expect(page).to have_content("Email: #{local_authority.email_address}")
+
+        expect(page).to have_selector("section", text: "Pre-application outcome")
+        expect(page).to have_selector("section", text: "Officer contact details")
+        expect(page).to have_selector("section", text: "Your pre-application details")
+        expect(page).to have_selector("section", text: "Site map")
+        expect(page).to have_selector("section", text: "Site constraints")
+        expect(page).to have_selector("section", text: "Site and surroundings")
+        expect(page).to have_selector("section", text: "Planning considerations and advice")
+        expect(page).to have_selector("section", text: "List of relevant policies and guidance")
+        expect(page).to have_selector("section", text: "Requirements")
+        expect(page).to have_selector("section", text: "Next steps")
+        expect(page).to have_selector("section", text: "Disclaimer")
+
+        expect(page).not_to have_link("Edit")
+        expect(page).not_to have_css("govuk-breadcrumbs")
+        expect(page).not_to have_content("Preview and submit")
+      end
+    end
+
+    context "with invalid sgid" do
+      let(:sgid) { planning_application.sgid(expires_in: nil, for: "other_link") }
+
+      it "I cannot view the report" do
+        expect(page).not_to have_content(reference)
+        expect(page).to have_content("Not found")
+      end
+    end
+
+    context "without sgid" do
+      let!(:sgid) { nil }
+
+      it "I cannot view the report" do
+        expect(page).not_to have_content(reference)
+        expect(page).to have_content("Not found")
       end
     end
   end

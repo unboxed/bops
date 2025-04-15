@@ -14,20 +14,20 @@
       </div>
       <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
-              <div class="govuk-summary-list__row">
-                <dd class="govuk-summary-list__value">
-                  <strong>Description: </strong><%= site_history.description %>
-                  <div class="govuk-!-margin-top-2">
-                    <% if site_history.comment %>
-                    <strong>Officer comment:</strong> <%= site_history.comment %>
-                    <% else %>
-                      <p class="govuk-body govuk-!-font-size-16  govuk-secondary-text-colour">
-                        No comment added
-                      </p>
-                    <% end %>
-                  </div>
-                </dd>
+          <div class="govuk-summary-list__row">
+            <dd class="govuk-summary-list__value">
+              <strong>Description: </strong><%= site_history.description %>
+              <div class="govuk-!-margin-top-2">
+                <% if site_history.comment %>
+                <strong>Officer comment:</strong> <%= site_history.comment %>
+                <% else %>
+                  <p class="govuk-body govuk-!-font-size-16  govuk-secondary-text-colour">
+                    No comment added
+                  </p>
+                <% end %>
               </div>
+            </dd>
+          </div>
         </dl>
       </div>
     </div>

@@ -1,0 +1,17 @@
+Subject: <%= @planning_application.local_authority.council_name %> pre-application advice
+
+Dear <%= @planning_application.applicant_name %>,
+
+<%= @planning_application.reference %>
+
+Your case officer has completed their review of the information you submitted to us about the proposed development at <%= @planning_application.full_address %>.
+
+You can view the case officer’s advice here: <%= @planning_application.report_link %>
+
+Please note that this advice is based on the information you gave us. If you choose to make a full application, this will be subject to a statutory consultation process. It is only then that a final decision can be made.
+
+If you have any questions, please contact <%= mail_to @planning_application.local_authority.email_address %>. We can offer clarifications but we cannot offer any further advice at this stage.
+
+Regards,
+
+<%= @planning_application.local_authority.council_name %> Pre-application Services

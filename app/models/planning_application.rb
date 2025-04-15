@@ -17,6 +17,8 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplication::Notification
 
+  include BopsCore::MagicLinkable
+
   self.discard_column = :deleted_at
 
   self.ignored_columns += %i[work_status make_public reporting_type]
@@ -255,6 +257,39 @@ class PlanningApplication < ApplicationRecord
 
   with_options on: :update, if: -> { changes.present? && !status_changed? } do
     validate :prevent_update_if_closed_or_cancelled
+  end
+
+  class Routing
+    include Rails.application.routes.url_helpers
+    include Rails.application.routes.mounted_helpers
+
+    def initialize(subdomain, planning_application, sgid: nil)
+      @subdomain = subdomain
+      @planning_application = planning_application
+      @sgid = sgid
+    end
+
+    def default_url_options
+      {host: "#{subdomain}.#{domain}"}
+    end
+
+    def report_magic_link
+      bops_reports.planning_application_url(
+        reference: planning_application.reference, sgid:, subdomain:
+      )
+    end
+
+    private
+
+    attr_reader :subdomain, :sgid, :planning_application
+
+    def domain
+      Rails.configuration.domain
+    end
+  end
+
+  def report_link
+    routes.report_magic_link
   end
 
   def regulation_present
@@ -1157,5 +1192,11 @@ class PlanningApplication < ApplicationRecord
     return if changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).blank?
 
     errors.add(:base, "This application has been #{status} and cannot be modified.") if closed_or_cancelled?
+  end
+
+  def routes
+    @_routes ||= Routing.new(
+      local_authority.subdomain, self, sgid: sgid(expires_in: nil)
+    )
   end
 end

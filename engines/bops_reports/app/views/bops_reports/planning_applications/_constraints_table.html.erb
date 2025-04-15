@@ -9,11 +9,11 @@
       <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
           <% values.each do |value| %>
-              <div class="govuk-summary-list__row">
-                <dd class="govuk-summary-list__value">
-                  <%= value.type.humanize %>
-                </dd>
-              </div>
+            <div class="govuk-summary-list__row">
+              <dd class="govuk-summary-list__value">
+                <%= value.type.humanize %>
+              </dd>
+            </div>
           <% end %>
         </dl>
       </div>

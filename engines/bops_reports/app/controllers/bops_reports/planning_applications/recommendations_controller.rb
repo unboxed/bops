@@ -6,6 +6,7 @@ module BopsReports
       before_action :require_assessor!, only: %i[create destroy]
       before_action :require_reviewer!, only: %i[update]
       before_action :set_recommendation
+      before_action :require_assigned_user!, only: %i[create update]
 
       def create
         if @planning_application.to_be_reviewed?
@@ -28,6 +29,7 @@ module BopsReports
           else
             @planning_application.determination_date = Date.current
             @planning_application.determine!
+            BopsReports::SendReportEmailJob.perform_later(@planning_application.presented, current_user)
 
             redirect_to application_url, notice: t(".not_challenged")
           end
@@ -80,6 +82,12 @@ module BopsReports
 
       def report_url
         planning_application_url(@planning_application)
+      end
+
+      def require_assigned_user!
+        unless @planning_application.user
+          redirect_to report_url, alert: t(".not_assigned")
+        end
       end
     end
   end

@@ -26,6 +26,16 @@ class PlanningApplication < ApplicationRecord
       end
     end
 
+    def send_report_mail
+      return unless applicant_and_agent_email.any?
+
+      downcase_and_unique(applicant_and_agent_email).each do |email|
+        PlanningApplicationMailer
+          .report_mail(self, email)
+          .deliver_later
+      end
+    end
+
     def send_invalidation_notice_mail
       PlanningApplicationMailer
         .invalidation_notice_mail(self)

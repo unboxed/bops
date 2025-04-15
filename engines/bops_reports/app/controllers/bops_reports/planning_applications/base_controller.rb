@@ -10,6 +10,7 @@ module BopsReports
       before_action :set_site_description
       before_action :set_constraints
       before_action :set_recommendation
+      before_action :set_considerations
 
       delegate :pre_application?, to: :@planning_application
 
@@ -56,6 +57,10 @@ module BopsReports
 
       def set_recommendation
         @recommendation = build_or_find_recommendation
+      end
+
+      def set_considerations
+        @considerations = @planning_application.considerations.active
       end
 
       def build_or_find_recommendation

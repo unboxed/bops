@@ -2,9 +2,12 @@
   Pre-application report - <%= t("page_title") %>
 <% end %>
 
-<% add_parent_breadcrumb_link "Home", main_app.root_path %>
-<% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Review pre-application", main_app.planning_application_review_root_path(@planning_application) %>
+<% if current_user %>
+  <% add_parent_breadcrumb_link "Home", main_app.root_path %>
+  <% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
+  <% add_parent_breadcrumb_link "Review pre-application", main_app.planning_application_review_root_path(@planning_application) %>
+<% end %>
+
 <% content_for :title, "Pre-application report" %>
 
 <% if current_user && current_user.reviewer? %>
@@ -27,7 +30,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="planning-application-details">
-    <span class="govuk-caption-m">Preview and submit</span>
+    <% if current_user %>
+      <p class="govuk-caption-m">Preview and submit</p>
+    <% end %>
     <h1 class="govuk-heading-l">Pre-application report</h1>
     <p class="govuk-body">
       This report gives clear guidance on your proposal, helping you to
@@ -38,8 +43,10 @@
       <strong><%= @planning_application.full_address %></strong><br>
       Pre-application number: <strong><%= @planning_application.reference %></strong><br>
       Case officer: <strong><%= @planning_application.user&.name || "Unassigned" %></strong><br>
-      Date of report: <strong><%= @planning_application.determined_at&.to_date&.to_fs %></strong><br>
-      </p>
+      <% if @planning_application.determined_at %>
+        Date of report: <strong><%= @planning_application.determined_at.to_date.to_fs %></strong><br>
+      <% end %>
+    </p>
   </div>
 </div>
 
@@ -65,17 +72,19 @@
 <section id="pre-application-outcome">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Pre-application outcome</h2>
-    <p class="govuk-body-m">
-      <% if @summary_of_advice&.summary_tag %>
-        <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-              @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
-            ) %>
-      <% else %>
-        <%= govuk_link_to "Add outcome", main_app.new_planning_application_assessment_assessment_detail_path(
-              @planning_application, category: "summary_of_advice", return_to: "report"
-            ) %>
-      <% end %>
-    </p>
+    <% if current_user %>
+      <p class="govuk-body-m">
+        <% if @summary_of_advice&.summary_tag %>
+          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
+                @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
+              ) %>
+        <% else %>
+          <%= govuk_link_to "Add outcome", main_app.new_planning_application_assessment_assessment_detail_path(
+                @planning_application, category: "summary_of_advice", return_to: "report"
+              ) %>
+        <% end %>
+      </p>
+    <% end %>
   </div>
 
   <% if @summary_of_advice&.summary_tag %>
@@ -99,14 +108,13 @@
   <%= govuk_inset_text do %>
     <% if @planning_application.user %>
       <p><strong>Case officer:</strong> <%= @planning_application.user.name %></p>
-      <p><strong>Email:</strong> <%= mail_to @planning_application.user.email %></p>
-      <% if mobile_number = @planning_application.user.mobile_number %>
-        <p><strong>Phone:</strong> <%= mobile_number %></p>
-      <% end %>
     <% else %>
-      <p>No case officer has been assigned yet.</p>
-      <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: "report") %>
+      <% if current_user %>
+        <p>No case officer has been assigned yet.</p>
+        <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: "report") %>
+      <% end %>
     <% end %>
+    <p><strong>Email:</strong> <%= mail_to @current_local_authority.email_address %></p>
   <% end %>
 </section>
 
@@ -124,7 +132,7 @@
       <% head.with_row do |row| %>
         <% row.with_cell(text: "Event") %>
         <% row.with_cell(text: "Date") %>
-        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "Action") %>
+        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "Action") if current_user %>
       <% end %>
     <% end %>
 
@@ -132,7 +140,7 @@
       <% body.with_row do |row| %>
         <% row.with_cell(text: "Date made valid") %>
         <% row.with_cell(text: time_tag(@planning_application.validated_at)) %>
-        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "-") %>
+        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "-") if current_user %>
       <% end %>
 
       <% body.with_row do |row| %>
@@ -143,7 +151,7 @@
           <% row.with_cell(text: "-") %>
         <% end %>
         <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
-          <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
+          <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") if current_user %>
         <% end %>
       <% end %>
 
@@ -155,7 +163,7 @@
           <% row.with_cell(text: "-") %>
         <% end %>
           <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
-            <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
+            <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") if current_user %>
           <% end %>
       <% end %>
     <% end %>
@@ -164,13 +172,15 @@
   <div id="proposal-description">
     <div class="flex-between govuk-!-margin-bottom-2">
       <h3 class="govuk-heading-s">Description of your proposal</h3>
-      <p class="govuk-body-m">
-        <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
-              @planning_application,
-              type: "description_change",
-              return_to: "report"
-            ) %>
-      </p>
+      <% if current_user %>
+        <p class="govuk-body-m">
+          <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
+                @planning_application,
+                type: "description_change",
+                return_to: "report"
+              ) %>
+        </p>
+      <% end %>
     </div>
     <p class="govuk-body"><%= @planning_application.description %></p>
 
@@ -207,13 +217,15 @@
         <h3 class="govuk-heading-s">
           Officer comments
         </h3>
-        <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consistency_checklist_path(
-              @planning_application,
-              anchor: "site-map-title-field",
-              return_to: "report"
-            ) %>
+        <% if current_user %>
+          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consistency_checklist_path(
+                @planning_application,
+                anchor: "site-map-title-field",
+                return_to: "report"
+              ) %>
+        <% end %>
       </div>
-      <% if @planning_application.consistency_checklist.site_map_correct == "no" %>
+      <% if @planning_application.consistency_checklist&.site_map_correct == "no" %>
         <p class="govuk-body">
           <%= @planning_application.consistency_checklist.site_map_correct_comment %>
         </p>
@@ -229,10 +241,12 @@
 <section id="site-constraints">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Relevant site constraints</h2>
-    <%= govuk_link_to "Edit", main_app.planning_application_validation_constraints_path(
-          @planning_application,
-          return_to: "report"
-        ) %>
+    <% if current_user %>
+      <%= govuk_link_to "Edit", main_app.planning_application_validation_constraints_path(
+            @planning_application,
+            return_to: "report"
+          ) %>
+    <% end %>
   </div>
   <p class="govuk-body">
     Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.
@@ -244,11 +258,13 @@
 
 <section id="site-history">
   <div class="flex-between govuk-!-margin-bottom-2">
-    <h2 class="govuk-heading-m"> Relevant site history </h2>
-    <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_histories_path(
-          @planning_application,
-          return_to: "report"
-        ) %>
+    <h2 class="govuk-heading-m">Relevant site history</h2>
+    <% if current_user %>
+      <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_histories_path(
+            @planning_application,
+            return_to: "report"
+          ) %>
+    <% end %>
   </div>
   <p class="govuk-body">
     Past applications for this site or relevant nearby locations
@@ -262,21 +278,25 @@
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Site and surroundings</h2>
     <% if @site_description %>
-      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-            @planning_application, @site_description,
-            category: "site_description",
-            return_to: "report"
-          ) %>
-      </div>
-      <p class="govuk-body">
-        <%= @site_description.entry %>
-      </p>
+      <% if current_user %>
+        <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
+              @planning_application, @site_description,
+              category: "site_description",
+              return_to: "report"
+            ) %>
+        </div>
+        <p class="govuk-body">
+          <%= @site_description.entry %>
+        </p>
+      <% end %>
     <% else %>
-      <%= govuk_link_to "Edit", main_app.new_planning_application_assessment_assessment_detail_path(
-            @planning_application,
-            category: "site_description",
-            return_to: "report"
-          ) %>
+      <% if current_user %>
+        <%= govuk_link_to "Edit", main_app.new_planning_application_assessment_assessment_detail_path(
+              @planning_application,
+              category: "site_description",
+              return_to: "report"
+            ) %>
+      <% end %>
       </div>
       <p class="govuk-body">
         No site description set.
@@ -288,11 +308,13 @@
 
 <section id="considerations-advice">
   <div class="flex-between govuk-!-margin-bottom-2">
-     <h2 class="govuk-heading-m">Planning considerations and advice</h2>
-     <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
-           @planning_application,
-           return_to: "report"
-         ) %>
+    <h2 class="govuk-heading-m">Planning considerations and advice</h2>
+    <% if current_user %>
+      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
+            @planning_application,
+            return_to: "report"
+          ) %>
+    <% end %>
   </div>
 
   <p class="govuk-body"> This section includes the case officer's assessment of your proposal against relevant policy and guidance. The elements of the proposal are grouped by how acceptable they are:</p>
@@ -323,7 +345,7 @@
          end
        end %>
     <% table.with_body do |body|
-         @planning_application.considerations.each do |consideration|
+         @considerations.each do |consideration|
            body.with_row do |row|
              row.with_cell(text: consideration.policy_area)
              row.with_cell(text: consideration.proposal)
@@ -333,15 +355,17 @@
        end %>
   <% end %>
 
-  <% @planning_application.considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
+  <% @considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
     <%= govuk_summary_card(title: policy_area) do %>
       <% considerations.each do |consideration| %>
         <div class="flex-between">
           <strong class="govuk-heading-s"><%= consideration.proposal %></strong>
-          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
-                @planning_application,
-                return_to: "report"
-              ) %>
+          <% if current_user %>
+            <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_considerations_path(
+                  @planning_application,
+                  return_to: "report"
+                ) %>
+          <% end %>
         </div>
 
         <%= render StatusTags::PreappComponent.new(status: consideration.summary_tag) %><br>
@@ -375,9 +399,11 @@
   <section id="summary-advice">
     <div class="flex-between">
       <h2 class="govuk-heading-m">Summary</h2>
-      <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-            @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
-          ) %>
+      <% if current_user %>
+        <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
+              @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
+            ) %>
+      <% end %>
     </div>
 
     <p class="govuk-body">This is the case officer's summary of the conclusions and advice.</p>
@@ -395,7 +421,7 @@
     <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url %>.</p>
   <% end %>
 
-  <% @planning_application.considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
+  <% @considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
     <% references = considerations.map(&:policy_references).flatten %>
     <p class="govuk-body"><strong><%= policy_area.humanize %></strong></p>
     <ul class="govuk-list">
@@ -411,7 +437,9 @@
 <section id="requirements">
   <div class="flex-between">
     <h2 class="govuk-heading-m">Requirements</h2>
-    <%= govuk_link_to "Edit", main_app.planning_application_assessment_requirements_path(@planning_application, return_to: "report") %>
+    <% if current_user %>
+      <%= govuk_link_to "Edit", main_app.planning_application_assessment_requirements_path(@planning_application, return_to: "report") %>
+    <% end %>
   </div>
 
   <p class="govuk-body">Should you wish to submit an application, the following requirements are needed:</p>
@@ -452,9 +480,11 @@
           ) %>
     </p>
   <% else %>
-    <p class="govuk-body">
-      You must set the submission guidance url in local authority settings before displaying next steps.
-    </p>
+    <% if current_user %>
+      <p class="govuk-body">
+        You must set the submission guidance url in local authority settings before displaying next steps.
+      </p>
+    <% end %>
   <% end %>
 </section>
 
