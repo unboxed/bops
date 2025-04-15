@@ -419,15 +419,12 @@
     <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url %>.</p>
   <% end %>
 
-  <% @considerations.group_by(&:policy_area).each do |policy_area, considerations| %>
-    <% references = considerations.map(&:policy_references).flatten %>
-    <p class="govuk-body"><strong><%= policy_area.humanize %></strong></p>
-    <ul class="govuk-list">
-      <% references.each do |reference| %>
-        <li><%= govuk_link_to reference.description, reference.url %></li>
-      <% end %>
-    </ul>
-  <% end %>
+  <% references = @planning_application.considerations.map(&:policy_references).flatten.uniq(&:description) %>
+  <ul class="govuk-list">
+    <% references.each do |reference| %>
+      <li><%= govuk_link_to reference.code_and_description, reference.url %></li>
+    <% end %>
+  </ul>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
