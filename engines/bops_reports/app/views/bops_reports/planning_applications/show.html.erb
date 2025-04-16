@@ -345,7 +345,7 @@
          end
        end %>
     <% table.with_body do |body|
-         @considerations.each do |consideration|
+         @considerations.select(&:proposal?).each do |consideration|
            body.with_row do |row|
              row.with_cell(text: consideration.policy_area)
              row.with_cell(text: consideration.proposal)
