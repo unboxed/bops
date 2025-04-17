@@ -18,10 +18,18 @@ module BopsConsultees
 
       govuk_link_to(
         link_text,
-        planning_application_document_path(document.planning_application, document),
+        url_for_document(document),
         new_tab:,
         **args
       )
+    end
+
+    def url_for_document(document)
+      if document.published?
+        main_app.api_v1_planning_application_document_url(document.planning_application, document)
+      else
+        main_app.uploaded_file_url(document.blob)
+      end
     end
   end
 end
