@@ -2271,6 +2271,7 @@ en:
       rejected: Rejected
       submitted: Submitted
       technical_failure: Technical failure
+    needs_changes: Needs Changes
     neutral: Neutral
     new: New
     no_response: No response
