@@ -1,3 +1,3 @@
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
-  <%= image_tag blob, alt: blob.try(:caption) %>
+  <%= image_tag main_app.url_for(blob), alt: blob.try(:caption) %>
 </figure>
