@@ -9,6 +9,11 @@ FactoryBot.define do
     advice { Faker::Lorem.paragraph }
     proposal { Faker::Lorem.sentence }
 
+    trait :design_consideration do
+      policy_area { "Design" }
+      proposal { "Roof lights" }
+    end
+
     consideration_set
 
     after(:create) do |consideration|
