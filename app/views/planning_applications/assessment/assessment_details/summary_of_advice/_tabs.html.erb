@@ -8,7 +8,7 @@
         <%= bops_status_detail(
               id: "consideration-#{consideration.id}"
             ) do |component| %>
-          <% component.with_title { consideration.policy_area } %>
+          <% component.with_title { "#{consideration.policy_area}: #{consideration.proposal}" } %>
           <% component.with_body { consideration.policy_references.map(&:code_and_description).join("; ") } %>
           <% component.with_status do %>
             <% case consideration.summary_tag %>

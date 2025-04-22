@@ -28,12 +28,17 @@ RSpec.describe "Summary of Advice", type: :system, capybara: true do
   end
 
   it "displays considerations, consultee and constraints tabs" do
+    create(:consideration, :design_consideration, consideration_set:, summary_tag: "does_not_comply")
     click_link "Summary of advice"
 
     within(".govuk-tabs") do
       expect(page).to have_css("#considerations")
       expect(page).to have_css("#consultees")
       expect(page).to have_css("#constraints")
+    end
+
+    within "#considerations" do
+      expect(page).to have_content("Design: Roof lights")
     end
   end
 
