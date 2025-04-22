@@ -1,12 +1,14 @@
 <li class="app-task-list__item">
   <span class="app-task-list__task-name">
-    <%= link_to_if(
-          @planning_application.awaiting_determination?,
-          "Sign off recommendation",
-          edit_planning_application_review_recommendation_path(@planning_application, @planning_application.recommendation),
-          aria: {describedby: "review_assessment-completed"},
-          class: "govuk-link"
-        ) %>
+    <% if @planning_application.awaiting_determination? && @planning_application.recommendation.present? %>
+      <%= govuk_link_to(
+            "Sign off recommendation",
+            edit_planning_application_review_recommendation_path(@planning_application, @planning_application.recommendation),
+            aria: {describedby: "review_assessment-completed"}
+          ) %>
+    <% else %>
+      Sign off recommendation
+    <% end %>
   </span>
   <div class="govuk-task-list__status app-task-list__task-tag">
   <%= render(
