@@ -54,7 +54,7 @@ module DocumentHelper
 
   def document_thumbnail_link(document, thumbnail_args: {}, image_args: {})
     image = if document.representable?
-      image_tag(document.representation(**thumbnail_args) || "", **image_args)
+      image_tag(document.representation_url(**thumbnail_args) || "", **image_args)
     else
       image_tag("placeholder/blank_image.png", **image_args.merge(alt: "Blank image"))
     end
