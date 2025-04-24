@@ -168,29 +168,6 @@ Do this through the provided Swagger documentation at /api/docs/index.html
 [1]: https://www.docker.com/products/docker-desktop
 [2]: http://localhost:3000/
 
-## Creating a new local authority using a rake take
-
-The following parameters are required and a validation error will be raised if they are not provided:
-
-- `subdomain`: the subdomain to run the service
-- `council_code`: should be matched with planning data's code
-- `council_name`: the council's name
-- `short_name`: the council's short name
-- `applicants_url`: match to council's applicants url
-
-There is also the following optional parameter:
-
-- `admin_email`
-
-```sh
-rake local_authority:create -- --subdomain 'lambeth' \
-  --council_code 'LBH' \
-  --council_name 'Lambeth Council' \
-  --short_name 'Lambeth' \
-  --applicants_url 'https://planningapplications.lambeth.gov.uk' \
-  --admin_email 'admin@lambeth.gov.uk'
-```
-
 ## Working with API documentation: aggregate Swagger files
 
 To keep the code easy to maintain, there are multiple files that are compiled into a single OpenAPI file:
