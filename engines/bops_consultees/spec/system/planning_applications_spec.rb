@@ -37,9 +37,9 @@ RSpec.describe "Planning applications", type: :system do
 
     it "includes documents on planning application overview" do
       expect(page).to have_content(documents.first.name)
-      expect(page).to have_link "Download", href: %r{^/consultees/planning_applications/#{reference}/documents/#{documents.first.id}\?sgid=}
+      expect(page).to have_link "Download", href: %r{/files/#{documents.first.blob.key}\?sgid=}
       expect(page).to have_content(documents.last.name)
-      expect(page).to have_link "Download", href: %r{^/consultees/planning_applications/#{reference}/documents/#{documents.last.id}\?sgid=}
+      expect(page).to have_link "Download", href: %r{/files/#{documents.last.blob.key}\?sgid=}
 
       find_all("a", text: "Download").first.click
       expect(page.status_code).to be < 400

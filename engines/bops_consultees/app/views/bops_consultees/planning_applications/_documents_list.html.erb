@@ -28,7 +28,7 @@
 
           <p class="govuk-body">
             <%= govuk_link_to "Download",
-                  planning_application_document_path(@planning_application, document, sgid: params[:sgid]),
+                  main_app.uploaded_file_url(document.blob, sgid: params[:sgid]),
                   new_tab: "" %>
           </p>
         </td>

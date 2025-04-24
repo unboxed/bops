@@ -7,7 +7,5 @@ BopsConsultees::Engine.routes.draw do
   resources :planning_applications, param: :reference, only: %i[show] do
     resource :consultee_response, only: :update
     post :resend_link, on: :member
-
-    resources :documents, only: %i[show]
   end
 end
