@@ -18,11 +18,15 @@
   <div class="govuk-grid-column-two-thirds">
     <h3 class="govuk-heading-m">Check CIL</h3>
     <p class="govuk-body">
-      <% if @planning_application.cil_liability_planx_answer? %>
-          According to PlanX the new floor area being added is:
-          <strong><%= @planning_application.cil_liability_proposal_detail.response_values.to_sentence %></strong>.
+      <% if @planning_application.cil_liability_details? %>
+        According to PlanX
+        <% if  @planning_application.cil_liability_details[:proposedTotalArea][:squareMetres].present? %>
+          the new floor area being added is:
+          <strong><%= @planning_application.cil_liability_details[:proposedTotalArea][:squareMetres] %>m²</strong>.
           <br>
-          This might mean that the application is
+          This might mean that
+        <% end %>
+          the application is
           <% unless @planning_application.likely_cil_liable? %>
             not
           <% end %>
