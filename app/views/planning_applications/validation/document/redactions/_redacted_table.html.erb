@@ -10,7 +10,7 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-!-width-one-half">
           <p class="govuk-body govuk-!-margin-bottom-1">
-            <%= document_thumbnail_link document, thumbnail_args: {resize: "150x106"} %>
+            <%= document_thumbnail_link document, thumbnail_args: {resize_to_limit: [150, 106]} %>
           </p>
           <p class="govuk-body">
             <%= truncate(document.name.to_s, length: 50) %><br>
