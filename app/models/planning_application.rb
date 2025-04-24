@@ -140,6 +140,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :application_type
   belongs_to :recommended_application_type, class_name: "ApplicationType", optional: true
   belongs_to :reporting_type, optional: true
+  belongs_to :submission, optional: true
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
