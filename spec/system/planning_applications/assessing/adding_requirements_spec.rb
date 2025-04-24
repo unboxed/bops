@@ -11,7 +11,7 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
   let!(:requirement4) { create(:local_authority_requirement, local_authority:, category: "other", description: "Other") }
 
   let(:planning_application) do
-    create(:planning_application, :in_assessment, local_authority: local_authority)
+    create(:planning_application, :in_assessment, :pre_application, local_authority: local_authority)
   end
 
   let(:reference) { planning_application.reference }

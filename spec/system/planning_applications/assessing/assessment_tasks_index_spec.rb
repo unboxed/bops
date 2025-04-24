@@ -91,6 +91,7 @@ RSpec.describe "Assessment tasks", type: :system do
             expect(page).to have_link("Review documents for recommendation")
             expect(page).to have_link("Make draft recommendation")
             expect(page).to have_content("Review and submit recommendation")
+            expect(page).not_to have_content("Check and add requirements")
           end
         end
       end
