@@ -96,19 +96,21 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
   context "when there is liability information from planx" do
     before do
-      cil_liability_proposal_detail = instance_double(ProposalDetail)
-      allow(cil_liability_proposal_detail).to receive(:response_values).and_return([planx_response])
-      allow_any_instance_of(PlanningApplication).to receive(:cil_liability_planx_answers).and_return([cil_liability_proposal_detail])
+      planx_planning_data = instance_double(PlanxPlanningData)
+      params_v2 = {data: {CIL: {result: planx_response, proposedTotalArea: {squareMetres: planx_size}}}}
+      allow(planx_planning_data).to receive(:params_v2).and_return(params_v2)
+      allow_any_instance_of(PlanningApplication).to receive(:planx_planning_data).and_return(planx_planning_data)
     end
 
     context "when the application might be liable" do
-      let(:planx_response) { "More than 100m²" }
+      let(:planx_response) { "liable" }
+      let(:planx_size) { 420 }
 
       it "shows relevant liability information" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
         click_link "Confirm Community Infrastructure Levy (CIL)"
 
-        expect(page).to have_content(planx_response)
+        expect(page).to have_content("420m²")
         expect(page).to have_content("This might mean that the application is liable for CIL.")
       end
 
@@ -122,14 +124,25 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
     end
 
     context "when the application might not be liable" do
-      let(:planx_response) { "Less than 100m²" }
+      let(:planx_response) { "notLiable" }
+      let(:planx_size) { 88.8 }
 
       it "shows relevant liability information" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
         click_link "Confirm Community Infrastructure Levy (CIL)"
 
-        expect(page).to have_content(planx_response)
+        expect(page).to have_content("88.8m²")
         expect(page).to have_content("This might mean that the application is not liable for CIL.")
+      end
+
+      context "and no size is given" do
+        let(:planx_size) { nil }
+        it "shows relevant liability information" do
+          visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+          click_link "Confirm Community Infrastructure Levy (CIL)"
+
+          expect(page).to have_content("According to PlanX the application is not liable for CIL.")
+        end
       end
 
       it "selects no by default" do
