@@ -55,20 +55,22 @@
             )
           ) %>
     <% end %>
+    <% if @planning_application.pre_application? %>
+      <li class="app-task-list__item" id="check-add-requirements">
+        <span class="app-task-list__task-name">
+          <%= govuk_link_to "Check and add requirements", planning_application_assessment_requirements_path(@planning_application) %>
+        </span>
+        <div class="govuk-task-list__status app-task-list__task-tag">
+        <%= render(
+              StatusTags::RequirementsComponent.new(
+                planning_application: @planning_application,
+                requirements: @planning_application.requirements
+              )
+            ) %>
+        </div>
+      </li>
+    <% end %>
     <!-- >Only show if it's a minor application<!-->
-    <li class="app-task-list__item" id="check-add-requirements">
-      <span class="app-task-list__task-name">
-        <%= govuk_link_to "Check and add requirements", planning_application_assessment_requirements_path(@planning_application) %>
-      </span>
-      <div class="govuk-task-list__status app-task-list__task-tag">
-      <%= render(
-            StatusTags::RequirementsComponent.new(
-              planning_application: @planning_application,
-              requirements: @planning_application.requirements
-            )
-          ) %>
-      </div>
-    </li>
     <% unless @planning_application.pre_application? %>
       <li class="app-task-list__item" id="add-heads-of-terms">
         <span class="app-task-list__task-name">
