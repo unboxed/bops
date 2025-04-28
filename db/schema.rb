@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_15_150831) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_24_091602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -928,9 +928,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_150831) do
     t.virtual "address_search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((((((COALESCE(address_1, ''::character varying))::text || ' '::text) || (COALESCE(address_2, ''::character varying))::text) || ' '::text) || (COALESCE(town, ''::character varying))::text) || ' '::text) || (COALESCE(county, ''::character varying))::text) || ' '::text) || (COALESCE(postcode, ''::character varying))::text))", stored: true
     t.datetime "deleted_at"
     t.string "previous_references", default: [], array: true
-    t.string "reporting_type_code"
     t.bigint "recommended_application_type_id"
     t.bigint "reporting_type_id"
+    t.string "reporting_type_code"
+    t.bigint "submission_id"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
@@ -947,6 +948,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_150831) do
     t.index ["reporting_type_id"], name: "ix_planning_applications_on_reporting_type_id"
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"
+    t.index ["submission_id"], name: "ix_planning_applications_on_submission_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
@@ -1119,6 +1121,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_150831) do
     t.index ["planning_application_id"], name: "ix_site_visits_on_planning_application_id"
   end
 
+  create_table "submissions", force: :cascade do |t|
+    t.string "status", default: "submitted", null: false
+    t.datetime "started_at"
+    t.datetime "failed_at"
+    t.datetime "completed_at"
+    t.jsonb "request_headers", default: {}, null: false
+    t.jsonb "request_body", default: {}, null: false
+    t.bigint "local_authority_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id"], name: "ix_submissions_on_local_authority_id"
+    t.index ["status"], name: "ix_submissions_on_status"
+  end
+
   create_table "terms", force: :cascade do |t|
     t.string "title", null: false
     t.text "text", null: false
@@ -1272,6 +1288,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_150831) do
   add_foreign_key "planning_applications", "reporting_types"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
+  add_foreign_key "planning_applications", "submissions"
   add_foreign_key "planx_planning_data", "planning_applications"
   add_foreign_key "policy_classes", "policy_parts"
   add_foreign_key "policy_parts", "policy_schedules"
@@ -1289,6 +1306,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_150831) do
   add_foreign_key "site_visits", "neighbours"
   add_foreign_key "site_visits", "planning_applications"
   add_foreign_key "site_visits", "users", column: "created_by_id"
+  add_foreign_key "submissions", "local_authorities"
   add_foreign_key "users", "local_authorities"
   add_foreign_key "validation_requests", "documents", column: "old_document_id"
   add_foreign_key "validation_requests", "planning_applications"
