@@ -15,7 +15,8 @@ FactoryBot.define do
 
       features {
         {
-          assess_against_policies: true
+          assess_against_policies: true,
+          heads_of_terms: false
         }
       }
 
@@ -89,6 +90,7 @@ FactoryBot.define do
       features {
         {
           "assess_against_policies" => true,
+          "heads_of_terms" => false,
           "informatives" => true,
           "planning_conditions" => false,
           "consultation_steps" => []
@@ -107,6 +109,7 @@ FactoryBot.define do
       features {
         {
           "assess_against_policies" => true,
+          "heads_of_terms" => false,
           "informatives" => true,
           "planning_conditions" => false,
           "consultation_steps" => []
@@ -533,6 +536,17 @@ FactoryBot.define do
       reporting_types { %w[Q13 Q14 Q15 Q16 Q17 Q18] }
 
       legislation { association :legislation, :tcpa_1990 }
+
+      features {
+        {
+          "considerations" => true,
+          "informatives" => true,
+          "planning_conditions" => true,
+          "permitted_development_rights" => false,
+          "site_visits" => true,
+          "consultation_steps" => ["neighbour", "publicity", "consultee"]
+        }
+      }
     end
 
     trait :major do
@@ -543,6 +557,17 @@ FactoryBot.define do
       reporting_types { %w[Q01 Q02 Q03 Q04 Q05 Q06] }
 
       legislation { association :legislation, :tcpa_1990 }
+
+      features {
+        {
+          "considerations" => true,
+          "informatives" => true,
+          "planning_conditions" => true,
+          "permitted_development_rights" => false,
+          "site_visits" => true,
+          "consultation_steps" => ["neighbour", "publicity", "consultee"]
+        }
+      }
     end
 
     trait :listed do
@@ -565,6 +590,7 @@ FactoryBot.define do
           "cil" => false,
           "description_change_requires_validation" => false,
           "eia" => false,
+          "heads_of_terms" => false,
           "informatives" => false,
           "legislative_requirements" => false,
           "consultation_steps" => ["consultee"],

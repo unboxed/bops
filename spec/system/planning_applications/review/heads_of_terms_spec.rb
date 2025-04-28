@@ -8,7 +8,7 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :with_heads_of_terms, :awaiting_determination, :with_recommendation, local_authority: default_local_authority)
+    create(:planning_application, :planning_permission, :with_heads_of_terms, :awaiting_determination, :with_recommendation, local_authority: default_local_authority)
   end
 
   context "when signed in as a reviewer" do

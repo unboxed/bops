@@ -70,8 +70,7 @@
         </div>
       </li>
     <% end %>
-    <!-- >Only show if it's a minor application<!-->
-    <% unless @planning_application.pre_application? %>
+    <% if @planning_application.heads_of_terms? %>
       <li class="app-task-list__item" id="add-heads-of-terms">
         <span class="app-task-list__task-name">
           <%= govuk_link_to "Add heads of terms", planning_application_assessment_terms_path(@planning_application) %>
