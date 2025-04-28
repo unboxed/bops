@@ -65,7 +65,11 @@ module BopsConfig
     end
 
     def build_local_authority
-      @local_authority = LocalAuthority.new
+      api_user = ApiUser.find_by!(name: "bops-applicants")
+
+      @local_authority = LocalAuthority.new do |la|
+        la.api_users.new(name: "bops-applicants", token: api_user.token)
+      end
     end
 
     def build_administrator

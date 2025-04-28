@@ -3,6 +3,11 @@
 require "bops_config_helper"
 
 RSpec.describe "Local Authorities", type: :system, capybara: true do
+  before do
+    local_authority = create(:local_authority, :southwark)
+    ApiUser.create!(name: "bops-applicants", local_authority:, token: "bops_letmeinpleasethisisabsolutelysecurereally_")
+  end
+
   let(:user) { create(:user, :global_administrator, name: "Clark Kent", local_authority: nil) }
   let!(:local_authority) {
     create(:local_authority,
@@ -120,6 +125,7 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
 
     local_authority = LocalAuthority.find_by!(council_code: "COV")
     administrator = local_authority.users.first!
+    api_user = ApiUser.find_by!(local_authority:, name: "bops-applicants")
 
     expect(local_authority).to have_attributes(
       short_name: "Coventry",
@@ -134,5 +140,7 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
       email: "lady.godiva@example.com",
       role: "administrator"
     )
+
+    expect(api_user).not_to be_nil
   end
 end
