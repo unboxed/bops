@@ -219,4 +219,58 @@ RSpec.describe "Profile", type: :system do
 
     expect(page).to have_selector("h1", text: "Review the application type")
   end
+
+  it "allows the administrator to edit the requirements", :capybara do
+    application_type = create(:application_type, :configured, :pre_application, local_authority:)
+    create(:local_authority_requirement, local_authority:, category: "drawings", description: "Floor plans - existing")
+    create(:local_authority_requirement, local_authority:, category: "evidence", description: "Proof of ownership")
+
+    visit "/admin/application_types/#{application_type.id}"
+
+    within "dl div:nth-child(14)" do
+      click_link "Change"
+    end
+
+    expect(page).to have_current_path("/admin/application_types/#{application_type.id}/application_type_requirements/edit")
+
+    expect(page).to have_selector("h1", text: "Update requirements")
+    expect(page).to have_selector("h1 > span", text: "Pre-application Advice")
+
+    within "#drawings" do
+      check "Floor plans - existing"
+    end
+
+    click_link "Evidence"
+
+    within "#evidence" do
+      check "Proof of ownership"
+    end
+
+    click_button "Update requirements"
+
+    expect(page).to have_content("Requirements successully updated")
+    expect(page).to have_current_path("/admin/application_types/#{application_type.id}")
+
+    within "dl div:nth-child(14)" do
+      expect(page).to have_content("Floor plans - existing")
+      expect(page).to have_content("Proof of ownership")
+    end
+
+    within "dl div:nth-child(14)" do
+      click_link "Change"
+    end
+
+    within "#drawings" do
+      uncheck "Floor plans - existing"
+    end
+    click_button "Update requirements"
+
+    expect(page).to have_content("Requirements successully updated")
+    expect(page).to have_current_path("/admin/application_types/#{application_type.id}")
+
+    within "dl div:nth-child(14)" do
+      expect(page).not_to have_content("Floor plans - existing")
+      expect(page).to have_content("Proof of ownership")
+    end
+  end
 end
