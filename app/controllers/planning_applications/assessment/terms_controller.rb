@@ -3,9 +3,9 @@
 module PlanningApplications
   module Assessment
     class TermsController < BaseController
+      before_action :redirect_to_assessment_tasks, unless: :heads_of_terms_enabled?
       before_action :set_heads_of_term
       before_action :set_term
-      before_action :ensure_planning_application_is_not_preapp
 
       def index
         respond_to do |format|
@@ -71,6 +71,14 @@ module PlanningApplications
       end
 
       private
+
+      def redirect_to_assessment_tasks
+        redirect_to planning_application_assessment_tasks_path(@planning_application)
+      end
+
+      def heads_of_terms_enabled?
+        @planning_application.heads_of_terms?
+      end
 
       def set_heads_of_term
         @heads_of_term = @planning_application.heads_of_term

@@ -3,6 +3,8 @@
 module PlanningApplications
   module Review
     class HeadsOfTermsController < BaseController
+      before_action :redirect_to_review_tasks, unless: :heads_of_terms_enabled?
+
       def update
         respond_to do |format|
           format.html do
@@ -18,6 +20,14 @@ module PlanningApplications
       end
 
       private
+
+      def redirect_to_review_tasks
+        redirect_to planning_application_review_tasks_path(@planning_application)
+      end
+
+      def heads_of_terms_enabled?
+        @planning_application.heads_of_terms?
+      end
 
       def heads_of_term
         @planning_application.heads_of_term

@@ -106,6 +106,7 @@ class PlanningApplication < ApplicationRecord
     delegate :site_visits?
     delegate :ownership_details?
     delegate :planning_conditions?
+    delegate :heads_of_terms?
     delegate :informatives?
     delegate :publishable?, allow_nil: true
   end

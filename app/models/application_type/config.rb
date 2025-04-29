@@ -97,6 +97,7 @@ class ApplicationType < ApplicationRecord
       delegate :consultations_skip_bank_holidays?
       delegate :description_change_requires_validation?
       delegate :eia?
+      delegate :heads_of_terms?
       delegate :informatives?
       delegate :legislative_requirements?
       delegate :ownership_details?

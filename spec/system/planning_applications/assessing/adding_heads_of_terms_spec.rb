@@ -11,16 +11,52 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     create(:planning_application, :planning_permission, :in_assessment, local_authority: default_local_authority, api_user:)
   end
 
+  let!(:reference) { planning_application.reference }
+
   before do
     Current.user = assessor
     travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.reference}"
+    visit "/planning_applications/#{reference}"
     expect(page).to have_selector("h1", text: "Application")
 
     click_link "Check and assess"
     expect(page).to have_selector("h1", text: "Assess the application")
+  end
+
+  context "when planning application is a pre-application" do
+    let!(:planning_application) do
+      create(:planning_application, :pre_application, :in_assessment, local_authority: default_local_authority, api_user:)
+    end
+
+    it "doesn't show the 'Add heads of terms' link" do
+      expect(page).not_to have_link("Add heads of terms", href: "/planning_applications/#{reference}/assessment/terms")
+    end
+
+    it "it doesn't allow visiting the heads of terms page" do
+      visit "/planning_applications/#{reference}/assessment/terms"
+
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+      expect(page).to have_selector("h1", text: "Assess the application")
+    end
+  end
+
+  context "when planning application is an LDC" do
+    let!(:planning_application) do
+      create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority, api_user:)
+    end
+
+    it "doesn't show the 'Add heads of terms' link" do
+      expect(page).not_to have_link("Add heads of terms", href: "/planning_applications/#{reference}/assessment/terms")
+    end
+
+    it "it doesn't allow visiting the heads of terms page" do
+      visit "/planning_applications/#{reference}/assessment/terms"
+
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+      expect(page).to have_selector("h1", text: "Assess the application")
+    end
   end
 
   context "when planning application is planning permission" do
@@ -104,7 +140,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       create(:review, owner: term2.heads_of_term)
 
       travel_to(Time.zone.local(2024, 4, 17, 14, 30))
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
       click_link "Add heads of terms"
 
@@ -114,7 +150,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
         expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.reference}/assessment/terms/#{term1.id}/edit"
+          href: "/planning_applications/#{reference}/assessment/terms/#{term1.id}/edit"
         )
       end
 
@@ -122,7 +158,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
         expect(page).to have_selector(".govuk-tag", text: "Accepted")
         expect(page).to have_link(
           "Edit",
-          href: "/planning_applications/#{planning_application.reference}/assessment/terms/#{term2.id}/edit"
+          href: "/planning_applications/#{reference}/assessment/terms/#{term2.id}/edit"
         )
       end
 
@@ -153,7 +189,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       end
       create(:review, owner: planning_application.heads_of_term)
 
-      visit "/planning_applications/#{planning_application.reference}"
+      visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
       click_link "Add heads of terms"
