@@ -5532,17 +5532,29 @@ components:
       properties:
         boundary:
           type: string
+        ceiling:
+          type: string
+        chimney:
+          type: string
         door:
+          type: string
+        doorInternal:
+          type: string
+        floor:
           type: string
         lighting:
           type: string
         other:
+          type: string
+        rainwater:
           type: string
         roof:
           type: string
         surface:
           type: string
         wall:
+          type: string
+        wallInternal:
           type: string
         window:
           type: string
@@ -6329,6 +6341,22 @@ components:
               type: boolean
             value:
               const: aquifer.secondary
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Historic battlefield
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: battlefield
               type: string
           required:
           - description
@@ -7469,6 +7497,26 @@ components:
               type: boolean
             value:
               const: aquifer.secondary
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Historic battlefield
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: battlefield
               type: string
           required:
           - description
@@ -9399,6 +9447,42 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Install a freestanding car charging point
+            type: string
+          value:
+            const: alter.equipment.charging.freestanding
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Install a wall mounted car charging point
+            type: string
+          value:
+            const: alter.equipment.charging.wallMounted
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Install a CHP flue
+            type: string
+          value:
+            const: alter.equipment.chp
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Install a heat pump
             type: string
           value:
@@ -9640,6 +9724,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add or change a flue
+            type: string
+          value:
+            const: alter.flue
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Changes to a public road, pavement or path (including drop kerb)
             type: string
           value:
@@ -9688,22 +9784,10 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Changes to a dropped kerb
-            type: string
-          value:
-            const: alter.highways.droppedKerb
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
             const: Add a dropped kerb
             type: string
           value:
-            const: alter.highways.droppedKerb.add
+            const: alter.highways.dropKerb.add
             type: string
         required:
         - value
@@ -9715,7 +9799,7 @@ components:
             const: Remove a dropped kerb
             type: string
           value:
-            const: alter.highways.droppedKerb.remove
+            const: alter.highways.dropKerb.remove
             type: string
         required:
         - value
@@ -9812,6 +9896,18 @@ components:
             type: string
           value:
             const: alter.landscape.ponds
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Alter a loading bay
+            type: string
+          value:
+            const: alter.loadingBay
             type: string
         required:
         - value
@@ -10540,6 +10636,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add or change roof openings
+            type: string
+          value:
+            const: alter.roof.openings
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: Add or change a roof parapet
             type: string
           value:
@@ -10640,6 +10748,18 @@ components:
             type: string
           value:
             const: alter.soilPipes
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Add or replace a soil vent pipe
+            type: string
+          value:
+            const: alter.soilVentPipes
             type: string
         required:
         - value
@@ -11117,7 +11237,7 @@ components:
       - additionalProperties: false
         properties:
           description:
-            const: Demolish a building
+            const: Demolish a building or structure
             type: string
           value:
             const: demolish
@@ -11133,6 +11253,18 @@ components:
             type: string
           value:
             const: demolish.boundary
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Demolish a building
+            type: string
+          value:
+            const: demolish.building
             type: string
         required:
         - value
@@ -11780,18 +11912,6 @@ components:
             const: Convert a hip roof to a gable
             type: string
           value:
-            const: extend.roof.hiptogable
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Convert a hip roof to a gable
-            type: string
-          value:
             const: extend.roof.hipToGable
             type: string
         required:
@@ -11805,18 +11925,6 @@ components:
             type: string
           value:
             const: extend.roof.mansard
-            type: string
-        required:
-        - value
-        - description
-        type: object
-      - additionalProperties: false
-        properties:
-          description:
-            const: Add one or more new storeys
-            type: string
-          value:
-            const: extend.roof.newstorey
             type: string
         required:
         - value
@@ -12161,6 +12269,18 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: New mineral extraction development
+            type: string
+          value:
+            const: new.mineralExtraction
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: New offices
             type: string
           value:
@@ -12233,10 +12353,34 @@ components:
       - additionalProperties: false
         properties:
           description:
+            const: Add a trolley store
+            type: string
+          value:
+            const: new.trolleyStore
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
             const: New storage or distribution premises
             type: string
           value:
             const: new.warehouse
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: New waste deposit
+            type: string
+          value:
+            const: new.wasteDeposit
             type: string
         required:
         - value
@@ -22852,7 +22996,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               listed:
                 summary: Consent to do works to a Listed Building
                 value:
@@ -23530,7 +23674,7 @@ paths:
                           description: Visualisations
                       fee:
                         notApplicable: true
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               ldc.existing:
                 summary: Lawful Development Certificate - Existing use
                 value:
@@ -24599,7 +24743,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: 2023-10-02t00:00:00z
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               ldc.proposed:
                 summary: Lawful Development Certificate - Proposed use
                 value:
@@ -25288,7 +25432,7 @@ paths:
                               8
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                     submittedAt: '2023-10-02T00:00:00+01:00'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pp.full.householder:
                 summary: Planning Permission - Full householder
                 value:
@@ -26320,7 +26464,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pp.full.major:
                 summary: Planning Permission - Major application
                 value:
@@ -27644,7 +27788,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pp.full.minor:
                 summary: Planning Permission - Minor application
                 value:
@@ -28585,7 +28729,7 @@ paths:
                             two: []
                           thirteen: []
                           fourteen: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pa.part20.classAB:
                 summary: Prior Approval - Build homes on an adjoining commercial or
                   mixed use building
@@ -29684,7 +29828,7 @@ paths:
                               Deemed Applications, Requests and Site Visits) (England)
                               Regulations 2012, Regulation 14
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pa.part3.classMA:
                 summary: Prior Approval - Convert a commercial building into a home
                   or homes
@@ -30655,7 +30799,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pa.part7.classM:
                 summary: Prior Approval - Extend a school, college, university, prison
                   or hospital
@@ -31669,7 +31813,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pa.part1.classA:
                 summary: Prior Approval - Larger extension to a house
                 value:
@@ -32540,7 +32684,7 @@ paths:
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
                           - text: Regulation 4
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               pa.part14.classJ:
                 summary: Prior Approval - Install or change solar panels
                 value:
@@ -33385,7 +33529,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/application.json
               preApp:
                 summary: Pre-application
                 value:
@@ -33774,7 +33918,7 @@ paths:
                       fee:
                         payable: []
                         calculated: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.3/schemas/preApplication.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.4/schemas/preApplication.json
     get:
       summary: Retrieves planning applications
       tags:
@@ -35093,98 +35237,6 @@ paths:
                             country: ''
               schema:
                 "$ref": "#/components/schemas/Search"
-  "/api/v2/public/planning_applications/{reference}/comments/public":
-    get:
-      summary: Retrieves comments for a planning application
-      tags:
-      - Planning applications
-      parameters:
-      - name: reference
-        in: path
-        schema:
-          type: string
-          description: The planning application reference
-        required: true
-      - name: sortBy
-        in: query
-        schema:
-          type: string
-          enum:
-          - id
-          - receivedAt
-          default: receivedAt
-          description: The sort type for the comments
-        required: false
-      - name: orderBy
-        in: query
-        schema:
-          type: string
-          enum:
-          - asc
-          - desc
-          default: desc
-          description: The order for the comments
-        required: false
-      - name: resultsPerPage
-        in: query
-        schema:
-          type: integer
-          default: 10
-          description: Max result for page
-        required: false
-      - name: page
-        in: query
-        schema:
-          type: integer
-          default: 1
-        required: false
-      - name: query
-        in: query
-        schema:
-          type: string
-          description: Search by redacted comment content
-        required: false
-      responses:
-        '200':
-          description: returns a planning application's public comments filtering
-            by sortBy and orderBy
-          content:
-            application/json:
-              examples:
-                default:
-                  value:
-                    pagination:
-                      resultsPerPage: 10
-                      currentPage: 1
-                      totalPages: 1
-                      totalItems: 4
-                    summary:
-                      totalComments: 4
-                      sentiment:
-                        supportive: 4
-                        objection: 0
-                        neutral: 0
-                    comments:
-                    - id: 1
-                      sentiment: supportive
-                      comment: Qui eos impedit. In nostrum nam. Qui odit non.
-                      receivedAt: '2025-03-13T10:49:10Z'
-                    - id: 2
-                      sentiment: supportive
-                      comment: Etiam porta sem malesuada magna mollis euismod.
-                      receivedAt: '2025-03-13T10:49:22Z'
-                    - id: 3
-                      sentiment: supportive
-                      comment: Cras mattis consectetur purus sit amet fermentum.
-                      receivedAt: '2025-03-13T10:49:24Z'
-                    - id: 4
-                      sentiment: supportive
-                      comment: Nullam id dolor id nibh ultricies vehicula ut id elit.
-                      receivedAt: '2025-03-13T10:49:25Z'
-              schema:
-                "$ref": "#/components/schemas/CommentsPublicResponse"
-        '404':
-          description: does not return comments for unpublished planning applications
   "/api/v2/public/planning_applications/{reference}/comments/specialist":
     get:
       summary: Retrieves comments for a planning application
@@ -35346,6 +35398,98 @@ paths:
                       url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
+  "/api/v2/public/planning_applications/{reference}/comments/public":
+    get:
+      summary: Retrieves comments for a planning application
+      tags:
+      - Planning applications
+      parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - id
+          - receivedAt
+          default: receivedAt
+          description: The sort type for the comments
+        required: false
+      - name: orderBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+          description: The order for the comments
+        required: false
+      - name: resultsPerPage
+        in: query
+        schema:
+          type: integer
+          default: 10
+          description: Max result for page
+        required: false
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        required: false
+      - name: query
+        in: query
+        schema:
+          type: string
+          description: Search by redacted comment content
+        required: false
+      responses:
+        '200':
+          description: returns a planning application's public comments filtering
+            by sortBy and orderBy
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    pagination:
+                      resultsPerPage: 10
+                      currentPage: 1
+                      totalPages: 1
+                      totalItems: 4
+                    summary:
+                      totalComments: 4
+                      sentiment:
+                        supportive: 4
+                        objection: 0
+                        neutral: 0
+                    comments:
+                    - id: 1
+                      sentiment: supportive
+                      comment: Qui eos impedit. In nostrum nam. Qui odit non.
+                      receivedAt: '2025-03-13T10:49:10Z'
+                    - id: 2
+                      sentiment: supportive
+                      comment: Etiam porta sem malesuada magna mollis euismod.
+                      receivedAt: '2025-03-13T10:49:22Z'
+                    - id: 3
+                      sentiment: supportive
+                      comment: Cras mattis consectetur purus sit amet fermentum.
+                      receivedAt: '2025-03-13T10:49:24Z'
+                    - id: 4
+                      sentiment: supportive
+                      comment: Nullam id dolor id nibh ultricies vehicula ut id elit.
+                      receivedAt: '2025-03-13T10:49:25Z'
+              schema:
+                "$ref": "#/components/schemas/CommentsPublicResponse"
+        '404':
+          description: does not return comments for unpublished planning applications
   "/api/v2/public/planning_applications/search":
     get:
       summary: Retrieves planning applications based on a search criteria
