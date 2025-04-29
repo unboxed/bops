@@ -77,11 +77,12 @@ jobs:
             }
           - { group: "bops_admin", module: "engines" }
           - { group: "bops_api", module: "engines" }
-          - { group: "bops_reports", module: "engines" }
           - { group: "bops_config", module: "engines" }
           - { group: "bops_core", module: "engines" }
-          - { group: "bops_uploads", module: "engines" }
           - { group: "bops_consultees", module: "engines", want_pdf: true }
+          - { group: "bops_reports", module: "engines" }
+          - { group: "bops_submissions", module: "engines" }
+          - { group: "bops_uploads", module: "engines" }
       fail-fast: false
     with:
       name: "${{matrix.specs.group}}"
