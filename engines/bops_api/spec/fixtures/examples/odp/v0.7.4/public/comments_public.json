@@ -1,0 +1,42 @@
+{
+  "pagination": {
+    "resultsPerPage": 10,
+    "currentPage": 1,
+    "totalPages": 1,
+    "totalItems": 4
+  },
+  "summary": {
+    "totalComments": 4,
+    "sentiment": {
+      "supportive": 4,
+      "objection": 0,
+      "neutral": 0
+    }
+  },
+  "comments": [
+    {
+      "id": 1,
+      "sentiment": "supportive",
+      "comment": "Qui eos impedit. In nostrum nam. Qui odit non.",
+      "receivedAt": "2025-03-13T10:49:10Z"
+    },
+    {
+      "id": 2,
+      "sentiment": "supportive",
+      "comment": "Etiam porta sem malesuada magna mollis euismod.",
+      "receivedAt": "2025-03-13T10:49:22Z"
+    },
+    {
+      "id": 3,
+      "sentiment": "supportive",
+      "comment": "Cras mattis consectetur purus sit amet fermentum.",
+      "receivedAt": "2025-03-13T10:49:24Z"
+    },
+    {
+      "id": 4,
+      "sentiment": "supportive",
+      "comment": "Nullam id dolor id nibh ultricies vehicula ut id elit.",
+      "receivedAt": "2025-03-13T10:49:25Z"
+    }
+  ]
+}
