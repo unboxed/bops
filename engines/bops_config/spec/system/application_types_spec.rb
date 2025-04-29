@@ -512,6 +512,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
       :application_type_config, :configured, :ldc_proposed,
       steps: %w[validation consultation assessment review],
       features: {
+        "heads_of_terms" => true,
         "informatives" => true,
         "planning_conditions" => true,
         "permitted_development_rights" => false,
@@ -524,6 +525,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     within "dl div:nth-child(7) dd.govuk-summary-list__value" do
       expect(page).to have_selector("p strong", text: "Application details")
+      expect(page).to have_selector("li", text: "Add heads of terms")
       expect(page).to have_selector("li", text: "Add informatives")
       expect(page).to have_selector("li", text: "Ownership details")
       expect(page).to have_selector("li", text: "Check planning conditions")
@@ -548,6 +550,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_selector("h1 > span", text: "Lawful Development Certificate - Proposed use")
 
     expect(page).to have_selector("fieldset legend", text: "Check application details")
+    expect(page).to have_checked_field("Add heads of terms")
     expect(page).to have_checked_field("Add informatives")
     expect(page).to have_checked_field("Ownership details")
     expect(page).to have_checked_field("Check planning conditions")
@@ -559,6 +562,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     expect(page).to have_checked_field("Publicity (site notice and press notice)")
     expect(page).to have_unchecked_field("Consultees")
 
+    uncheck("Add heads of terms")
     uncheck("Ownership details")
     uncheck("Check planning conditions")
     uncheck("Environmental Impact Assessment")
@@ -577,6 +581,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     within "dl div:nth-child(7) dd.govuk-summary-list__value" do
       expect(page).to have_selector("p strong", text: "Application details")
       expect(page).to have_selector("li", text: "Add informatives")
+      expect(page).not_to have_selector("li", text: "Add heads of terms")
       expect(page).not_to have_selector("li", text: "Ownership details")
       expect(page).not_to have_selector("li", text: "Check planning conditions")
       expect(page).not_to have_selector("li", text: "Environmental Impact Assessment")
@@ -593,6 +598,7 @@ RSpec.describe "Application Types", type: :system, capybara: true do
     end
 
     application_type.reload
+    expect(application_type.heads_of_terms?).to eq(false)
     expect(application_type.informatives?).to eq(true)
     expect(application_type.ownership_details?).to eq(false)
     expect(application_type.planning_conditions?).to eq(false)
