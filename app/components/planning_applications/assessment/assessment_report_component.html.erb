@@ -181,20 +181,20 @@
   <section id="policy-classes-section" class="govuk-!-margin-bottom-7">
     <h3 class="govuk-heading-m"><%= t(".assessment_against_legislation") %></h3>
 
-    <% policy_classes.each do |policy_class| %>
-      <p class="govuk-body"><%= govuk_link_to policy_class.description, policy_class.url %></p>
+    <% planning_application_policy_classes.each do |pa_policy_class| %>
+      <p class="govuk-body"><%= govuk_link_to pa_policy_class.description, pa_policy_class.url %></p>
 
       <dl class="bops-assessment-list">
-        <% policy_class.policy_sections.each do |policy_section| %>
+        <% pa_policy_class.planning_application_policy_sections.each do |pa_policy_section| %>
           <div class="bops-assessment-list__row">
             <dt class="bops-assessment-list__section">
-              <%= policy_section.section %>
+              <%= pa_policy_section.section %>
             </dt>
             <dd class="bops-assessment-list__description">
               <p class="govuk-body">
-                <%= policy_section.description %>
+                <%= pa_policy_section.description %>
               </p>
-              <% if comment = policy_section.last_comment %>
+              <% if comment = pa_policy_section.last_comment %>
                 <%= bops_ticket_panel(colour: "yellow") do |ticket| %>
                   <% ticket.with_body { comment.text } %>
                   <% ticket.with_footer { comment.information } %>
@@ -202,14 +202,14 @@
               <% end %>
             </dd>
             <dd class="bops-assessment-list__status">
-              <%= render(StatusTags::BaseComponent.new(status: policy_section.status)) %>
+              <%= render(StatusTags::BaseComponent.new(status: pa_policy_section.status)) %>
             </dd>
           </div>
         <% end %>
       </dl>
       <% if show_edit_links && current_user.assessor? %>
         <p class="govuk-body-s">
-          <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_policy_areas_policy_class_path(@planning_application, policy_class)) %>
+          <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_policy_areas_policy_class_path(@planning_application, pa_policy_class)) %>
         </p>
       <% end %>
     <% end %>

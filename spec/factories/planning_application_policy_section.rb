@@ -18,5 +18,7 @@ FactoryBot.define do
         create(:comment, text: "A comment", commentable: planning_application_policy_section, commentable_type: "PlanningApplicationPolicySection")
       end
     end
+
+    initialize_with { PlanningApplicationPolicySection.find_or_create_by(planning_application:, policy_section:) }
   end
 end

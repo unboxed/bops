@@ -32,8 +32,8 @@
       <% end %>
 
       <% table.with_body do |body| %>
-        <% @planning_application_policy_class.policy_class.policy_sections.each do |policy_section| %>
-          <% pa_policy_section = policy_section.planning_application_policy_section %>
+        <% @planning_application_policy_class.planning_application_policy_sections.each do |pa_policy_section| %>
+          <% policy_section = pa_policy_section.policy_section %>
           <% body.with_row(html_attributes: {id: "policy-section-#{policy_section.id}"}) do |row| %>
             <% row.with_cell do %>
               <p><strong><%= @planning_application_policy_class.policy_class.section %>.<%= policy_section.section %></strong></p>
@@ -58,7 +58,7 @@
                   <%= form.govuk_radio_button(
                         "planning_application_policy_sections[#{policy_section.id}][status]",
                         status,
-                        checked: @form.planning_application_policy_sections[policy_section.id].status == status,
+                        checked: pa_policy_section.status == status,
                         label: {hidden: true},
                         class: "govuk-radios__input"
                       ) %>
