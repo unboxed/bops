@@ -21042,6 +21042,8 @@ components:
           type: integer
         totalPages:
           type: integer
+        totalResults:
+          type: integer
         totalItems:
           type: integer
       required:
@@ -35301,6 +35303,7 @@ paths:
                       resultsPerPage: 10
                       currentPage: 1
                       totalPages: 1
+                      totalResults: 4
                       totalItems: 4
                     summary:
                       totalComments: 4
@@ -35462,6 +35465,7 @@ paths:
                       resultsPerPage: 10
                       currentPage: 1
                       totalPages: 1
+                      totalResults: 4
                       totalItems: 4
                     summary:
                       totalComments: 4
