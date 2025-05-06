@@ -5,7 +5,7 @@ class LocalAuthority < ApplicationRecord
     enum :category, %i[drawings evidence supporting_documents other].index_with(&:to_s)
 
     belongs_to :local_authority
-    has_many :application_type_requirements, dependent: :destroy
+    has_many :application_type_requirements, dependent: :destroy, inverse_of: :local_authority_requirement
 
     validates :category, presence: true
 
