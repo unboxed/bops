@@ -205,7 +205,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
             let(:comment1) { create(:comment, text: "Original comment") }
             let(:comment2) { create(:comment, text: "Updated comment") }
             let(:comment3) { create(:comment, text: "Current comment") }
-            let(:planning_application_policy_section) { create(:planning_application_policy_section, policy_section: policy_section1a, planning_application:) }
+            let(:planning_application_policy_section) { policy_section1a.planning_application_policy_sections.find_or_create_by(planning_application:) }
 
             before do
               Current.user = assessor

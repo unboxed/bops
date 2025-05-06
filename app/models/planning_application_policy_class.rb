@@ -12,13 +12,14 @@ class PlanningApplicationPolicyClass < ApplicationRecord
     validates :reporting_types, presence: true
   end
 
-  delegate :section, :name, :url, :description, to: :policy_class
-  delegate :planning_application_policy_sections, to: :planning_application
+  after_create :initialize_planning_application_policy_sections
 
-  def policy_sections
-    planning_application_policy_sections
-      .includes(:comments, :policy_section)
-      .where(policy_section: {policy_class_id: policy_class_id})
+  delegate :section, :name, :url, :description, to: :policy_class
+
+  def planning_application_policy_sections
+    planning_application.planning_application_policy_sections
+      .includes(:policy_section)
+      .where(policy_section: {policy_class:})
   end
 
   def current_review
@@ -65,5 +66,14 @@ class PlanningApplicationPolicyClass < ApplicationRecord
     current_review.update!(params)
   rescue ActiveRecord::ActiveRecordError
     false
+  end
+
+  def initialize_planning_application_policy_sections
+    policy_class.policy_sections.each do |policy_section|
+      PlanningApplicationPolicySection.find_or_create_by(
+        planning_application:,
+        policy_section:
+      )
+    end
   end
 end
