@@ -19,7 +19,7 @@
         planning_application,
         anchor: dom_id(request)
       ) %>
-  <% if request.can_cancel? %>
+  <% if request.may_cancel? %>
     <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, request), class: "govuk-!-display-block" %>
   <% end %>
 <% end %>
