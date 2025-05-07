@@ -15,8 +15,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= govuk_notification_banner(title_text: "Assessor recommendation") do %>
-      <strong><%= t("status_tag_component.#{@planning_application.assessor_recommendation}") %></strong>
+    <% if @planning_application.assessor_recommendation %>
+      <%= govuk_notification_banner(title_text: "Assessor recommendation") do %>
+        <strong><%= t(@planning_application.assessor_recommendation, scope: :status_tag_component) %></strong>
+      <% end %>
     <% end %>
 
     <%= render(
