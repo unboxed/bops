@@ -6,7 +6,7 @@ json.pagination do
   json.totalPages @pagy.pages
   json.totalResults @pagy.count
   if @total_responses.present?
-    json.totalItems @total_responses
+    json.totalAvailableItems @total_responses
   end
 end
 
