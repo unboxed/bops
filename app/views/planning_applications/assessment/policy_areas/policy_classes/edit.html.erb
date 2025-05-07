@@ -39,9 +39,25 @@
               <p><strong><%= @planning_application_policy_class.policy_class.section %>.<%= policy_section.section %></strong></p>
               <%= render(FormattedContentComponent.new(text: pa_policy_section&.description || policy_section.description)) %>
 
+              <% if pa_policy_section&.last_comment&.text.present? %>
+                <% comment = pa_policy_section.last_comment %>
+                <div id="planning_application_policy_section-<%= policy_section.id %>-current-comment">
+                  <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+                    <%= existing_policy_comment_label(comment) %>
+                  </p>
+                  <p class="govuk-body"><%= comment.created_at.to_fs %></p>
+                  <p class="govuk-body"><%= simple_format(comment.text) %></p>
+                  <% if comment.deleted? %>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                      <%= t(".comment_deleted", time: comment.deleted_at) %>
+                    </p>
+                  <% end %>
+                </div>
+              <% end %>
+
               <%= form.govuk_text_area "planning_application_policy_sections[#{policy_section.id}][comments_attributes][0][text]",
                     label: {text: "Add comment", class: "govuk-label govuk-label--s"},
-                    value: pa_policy_section&.last_comment&.text,
+                    value: "",
                     class: "govuk-textarea govuk-!-margin-bottom-2",
                     rows: 2 %>
 
