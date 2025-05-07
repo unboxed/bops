@@ -731,7 +731,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def heads_of_term
-    super || HeadsOfTerm.create!(planning_application: self)
+    super || create_heads_of_term!
   end
 
   def pending_validation_requests?
@@ -973,7 +973,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def assessor_recommendation
-    if heads_of_term&.terms&.any?
+    if persisted? && heads_of_term&.terms&.any?
       :"#{decision}_legal_agreement"
     else
       decision&.to_sym
