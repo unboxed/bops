@@ -8,6 +8,7 @@ module PlanningApplications
       before_action :set_planning_application
       before_action :ensure_planning_application_is_validated
       before_action :ensure_user_is_reviewer
+      before_action :ensure_application_is_not_preapp
       before_action :set_consultation, if: :has_consultation?
 
       def index
@@ -21,6 +22,12 @@ module PlanningApplications
 
         redirect_to planning_application_path(@planning_application),
           alert: t("planning_applications.review.base.not_validated")
+      end
+
+      def ensure_application_is_not_preapp
+        return unless @planning_application.pre_application?
+
+        redirect_to bops_reports.planning_application_path(@planning_application)
       end
 
       def has_consultation?
