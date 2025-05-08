@@ -35,9 +35,12 @@ module BopsApi
           @total_available_items = redacted_responses.count
           @total_consulted ||= consultation_consultees.consulted.count
 
+          sentiments = normalize_sentiments_from_query_string(request.env["QUERY_STRING"])
+          updated_params = pagination_params.to_h.merge(sentiment: sentiments)
+
           @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
             redacted_responses,
-            pagination_params
+            updated_params
           ).call
 
           respond_to do |format|
@@ -49,7 +52,13 @@ module BopsApi
 
         # Permit and return the required parameters
         def pagination_params
-          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id)
+          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
+        end
+
+        def normalize_sentiments_from_query_string(query_string)
+          query_string.scan(/sentiment=([^&]*)/).flatten.map do |s|
+            (s == "amendmentsNeeded") ? "amendments_needed" : s
+          end
         end
       end
     end

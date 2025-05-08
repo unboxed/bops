@@ -65,6 +65,11 @@ RSpec.describe "BOPS public API Specialist comments" do
           description: "Search by redacted comment content"
         }, required: false
 
+        parameter name: :sentiment, in: :query, schema: {
+          type: :string,
+          description: "Search by sentiment"
+        }, required: false
+
         def validate_pagination(data, results_per_page:, current_page:, total_results:, total_available_items:)
           expect(data["pagination"]["resultsPerPage"]).to eq(results_per_page)
           expect(data["pagination"]["totalPages"]).to eq((total_results.to_f / results_per_page).ceil)
@@ -225,6 +230,29 @@ RSpec.describe "BOPS public API Specialist comments" do
                 expect(sorted_values).to eq(sorted_values.sort.reverse) # Descending order
               end
             end
+          end
+        end
+
+        response "200", "returns a planning application's specialist comments filtering by sentiment" do
+          before do
+            create(:consultee, :external, :consulted, responses: build_list(:consultee_response, 1, :with_redaction, response: "rude word not like the other comments", redacted_response: "***** not like the other comments"), consultation: planning_application.consultation)
+          end
+
+          let(:reference) { planning_application.reference }
+          let(:sentiment) { "approved" }
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+
+            # pagination
+            expect(data["pagination"]["totalPages"]).to eq(6)
+
+            # comment summary
+            expect(data["summary"]["totalComments"]).to eq(51)
+
+            # comments
+            validate_comments(data, count: 10, total_items: 1)
+            expect(data["comments"].first["sentiment"]).to eq("approved")
           end
         end
 

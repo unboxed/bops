@@ -12,6 +12,10 @@ module BopsApi
           "id" => {column: "consultee_responses.id", default_order: "asc"}
         }
       end
+
+      def sentiment_mapping
+        Consultee::Response.summary_tags.keys
+      end
     end
   end
 end
