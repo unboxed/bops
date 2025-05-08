@@ -7,6 +7,14 @@ en:
         consultees: Consultees
         profile: Profile
         users: Users
+    application_type_requirements:
+      create:
+        failure: Unable to save application type requirements
+        success: Application type requirements successfully updated
+      edit:
+        requirements: Application type requirements
+      update:
+        success: Requirements successully updated
     application_types:
       determination_periods:
         edit:
@@ -88,6 +96,7 @@ en:
           supporting_documents: supporting document tags
         name: Name
         reporting: Reporting
+        requirements: Requirements
         review_application_type: Review the application type
         status: Status
         suffix: Suffix

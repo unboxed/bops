@@ -5,6 +5,7 @@ class ApplicationType < ApplicationRecord
   belongs_to :config, autosave: true
 
   has_many :planning_applications, -> { kept }, dependent: :restrict_with_exception
+  has_many :application_type_requirements, dependent: :destroy
   has_many :recommended_planning_applications,
     class_name: "PlanningApplication",
     foreign_key: :recommended_application_type_id,
