@@ -17,13 +17,13 @@
         "sentiment": {
           "type": "object",
           "properties": {
-            "supportive": {
+            "approved": {
               "type": "integer"
             },
-            "objection": {
+            "amendmentsNeeded": {
               "type": "integer"
             },
-            "neutral": {
+            "objected": {
               "type": "integer"
             }
           }
@@ -41,7 +41,7 @@
               "type": "integer"
             },
             "sentiment": {
-              "enum": ["objection", "neutral", "approved"],
+              "enum": ["approved", "amendmentsNeeded", "objected"],
               "type": "string"
             },
             "comment": {

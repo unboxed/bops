@@ -6,36 +6,36 @@
     "totalItems": 4
   },
   "summary": {
+    "totalConsulted": 4,
     "totalComments": 4,
     "sentiment": {
-      "supportive": 4,
-      "objection": 0,
-      "neutral": 0
-    },
-    "totalConsulted": 4
+      "approved": 4,
+      "amendmentsNeeded": 0,
+      "objected": 0
+    }
   },
   "comments": [
     {
       "id": 1,
-      "sentiment": "supportive",
+      "sentiment": "approved",
       "comment": "Qui eos impedit. In nostrum nam. Qui odit non.",
       "receivedAt": "2025-03-13T10:49:10Z"
     },
     {
       "id": 2,
-      "sentiment": "supportive",
+      "sentiment": "approved",
       "comment": "Etiam porta sem malesuada magna mollis euismod.",
       "receivedAt": "2025-03-13T10:49:22Z"
     },
     {
       "id": 3,
-      "sentiment": "supportive",
+      "sentiment": "approved",
       "comment": "Cras mattis consectetur purus sit amet fermentum.",
       "receivedAt": "2025-03-13T10:49:24Z"
     },
     {
       "id": 4,
-      "sentiment": "supportive",
+      "sentiment": "approved",
       "comment": "Nullam id dolor id nibh ultricies vehicula ut id elit.",
       "receivedAt": "2025-03-13T10:49:25Z"
     }

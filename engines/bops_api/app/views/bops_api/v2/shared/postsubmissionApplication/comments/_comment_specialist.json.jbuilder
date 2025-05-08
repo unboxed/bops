@@ -3,16 +3,7 @@
 # DprComment
 
 json.id comment.id
-json.sentiment case comment.summary_tag
-when "supportive"
-  "approved"
-when "objected"
-  "objection"
-when "amendments_needed"
-  "neutral"
-else
-  "neutral" # Fallback for unexpected values
-end
+json.sentiment comment.summary_tag.camelize(:lower)
 json.comment comment.redacted_response
 json.receivedAt format_postsubmission_datetime(comment.received_at)
 
