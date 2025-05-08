@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_29_083130) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_07_092146) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -481,7 +481,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_29_083130) do
   end
 
   create_table "heads_of_terms", force: :cascade do |t|
-    t.bigint "planning_application_id"
+    t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "public", default: false, null: false
@@ -1256,6 +1256,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_29_083130) do
   add_foreign_key "documents", "users"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
+  add_foreign_key "heads_of_terms", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
@@ -1296,9 +1297,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_29_083130) do
   add_foreign_key "planning_applications", "application_types", column: "recommended_application_type_id"
   add_foreign_key "planning_applications", "local_authorities"
   add_foreign_key "planning_applications", "reporting_types"
+  add_foreign_key "planning_applications", "submissions"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
-  add_foreign_key "planning_applications", "submissions"
   add_foreign_key "planx_planning_data", "planning_applications"
   add_foreign_key "policy_classes", "policy_parts"
   add_foreign_key "policy_parts", "policy_schedules"

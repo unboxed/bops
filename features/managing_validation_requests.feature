@@ -38,7 +38,6 @@ Feature: Managing validation requests
   Scenario: As an assessor I can delete a validation request before invalidating the planning application
     When I view the application's validations requests
     And I click link "View and update" in table row for "Picture of the dog"
-    Then the page does not contain "Cancel request"
     When I click link "Delete request" in table row for "Picture of the dog"
     And I view the application's validations requests
     Then there is no validation request for a "Picture of the dog"

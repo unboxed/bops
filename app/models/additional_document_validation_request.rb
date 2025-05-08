@@ -14,10 +14,6 @@ class AdditionalDocumentValidationRequest < ValidationRequest
     open? && may_close?
   end
 
-  def can_cancel?
-    may_cancel? && (planning_application.invalidated? || post_validation?)
-  end
-
   def upload_files!(files)
     transaction do
       files.each do |file|

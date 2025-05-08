@@ -44,10 +44,6 @@ module PlanningApplications
         planning_application.documents_for_decision_notice
       end
 
-      def policy_classes
-        planning_application_policy_classes
-      end
-
       def current_user
         Current.user
       end

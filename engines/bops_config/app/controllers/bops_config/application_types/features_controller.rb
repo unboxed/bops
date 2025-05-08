@@ -38,6 +38,7 @@ module BopsConfig
           :consultations_skip_bank_holidays,
           :description_change_requires_validation,
           :eia,
+          :heads_of_terms,
           :informatives,
           :legislative_requirements,
           :ownership_details,

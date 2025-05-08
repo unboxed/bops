@@ -167,11 +167,11 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
               expect(page).to have_content("description for section 1a")
               expect(page).not_to have_content("A new description")
 
-              expect(page).to have_field("Add comment", with: "My first comment")
+              expect(page).to have_content("My first comment")
               fill_in("Add comment", with: "Updated first comment")
             end
             within("#policy-section-#{policy_section1b.id}") do
-              expect(page).to have_field("Add comment", with: "My second comment")
+              expect(page).to have_content("My second comment")
               fill_in("Add comment", with: "Updated second comment")
             end
 
@@ -185,13 +185,13 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
 
             click_link("Part 1, Class A")
             within("#policy-section-#{policy_section1a.id}") do
-              expect(page).to have_field("Add comment", with: "Updated first comment")
+              expect(page).to have_content("Updated first comment")
               find("span", text: "Previous comments").click
               expect(page).to have_content("Comment added on 1 September 2022 by Alice Smith")
               expect(page).to have_content("My first comment")
             end
             within("#policy-section-#{policy_section1b.id}") do
-              expect(page).to have_field("Add comment", with: "Updated second comment")
+              expect(page).to have_content("Updated second comment")
               find("span", text: "Previous comments").click
               expect(page).to have_content("Comment added on 1 September 2022 by Alice Smith")
               expect(page).to have_content("My second comment")
@@ -205,7 +205,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
             let(:comment1) { create(:comment, text: "Original comment") }
             let(:comment2) { create(:comment, text: "Updated comment") }
             let(:comment3) { create(:comment, text: "Current comment") }
-            let(:planning_application_policy_section) { create(:planning_application_policy_section, policy_section: policy_section1a, planning_application:) }
+            let(:planning_application_policy_section) { policy_section1a.planning_application_policy_sections.find_or_create_by(planning_application:) }
 
             before do
               Current.user = assessor
@@ -226,7 +226,7 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
               click_link("Part 1, Class A")
 
               within("#policy-section-#{policy_section1a.id}") do
-                expect(page).to have_field("Add comment", with: "Current comment")
+                expect(page).to have_content("Current comment")
                 find("span", text: "Previous comments").click
 
                 within("#comment_#{comment1.id}") do
@@ -247,8 +247,8 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
               click_button("Save and come back later")
               click_link("Part 1, Class A")
 
-              within("#policy-section-#{policy_section1a.id}") do
-                expect(page).to have_field("Add comment", with: "Current comment")
+              within("#planning_application_policy_section-#{policy_section1a.id}-current-comment") do
+                expect(page).to have_content("Current comment")
               end
               expect(planning_application_policy_section.comments.length).to eq(3)
             end

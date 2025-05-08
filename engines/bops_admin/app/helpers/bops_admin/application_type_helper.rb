@@ -14,6 +14,7 @@ module BopsAdmin
 
     def application_details_features
       %i[
+        heads_of_terms
         informatives
         assess_against_policies
         considerations

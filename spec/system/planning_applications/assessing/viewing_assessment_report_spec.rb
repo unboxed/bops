@@ -227,7 +227,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
       expect(page).to have_link(policy_class.description, href: policy_class.url)
 
       within ".bops-assessment-list" do
-        within ".bops-assessment-list__row:nth-of-type(1)" do
+        within ".bops-assessment-list__row:nth-of-type(4)" do
           expect(page).to have_selector(".bops-assessment-list__section", text: "A")
 
           within ".bops-assessment-list__description" do
@@ -240,7 +240,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           end
         end
 
-        within ".bops-assessment-list__row:nth-of-type(2)" do
+        within ".bops-assessment-list__row:nth-of-type(1)" do
           expect(page).to have_selector(".bops-assessment-list__section", text: "1a")
 
           within ".bops-assessment-list__description" do
@@ -257,7 +257,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           end
         end
 
-        within ".bops-assessment-list__row:nth-of-type(3)" do
+        within ".bops-assessment-list__row:nth-of-type(2)" do
           expect(page).to have_selector(".bops-assessment-list__section", text: "1b")
 
           within ".bops-assessment-list__description" do
@@ -274,7 +274,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           end
         end
 
-        within ".bops-assessment-list__row:nth-of-type(4)" do
+        within ".bops-assessment-list__row:nth-of-type(3)" do
           expect(page).to have_selector(".bops-assessment-list__section", text: "1c")
 
           within ".bops-assessment-list__description" do
