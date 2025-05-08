@@ -21,7 +21,7 @@
     "sortablejs": "^1.15.2",
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4",
-    "trix": "^2.1.13"
+    "trix": "^2.1.15"
   },
   "resolutions": {
     "is-svg": "^4.2.2"
