@@ -12,6 +12,10 @@ module BopsApi
           "id" => {column: "neighbour_responses.id", default_order: "asc"}
         }
       end
+
+      def sentiment_mapping
+        NeighbourResponse.summary_tags.keys
+      end
     end
   end
 end

@@ -14,9 +14,13 @@ module BopsApi
             NeighbourResponse.none
           end
 
+          raw_query_string = request.env["QUERY_STRING"]
+          sentiments = extract_sentiments_from_query(raw_query_string)
+          updated_params = pagination_params.to_h.merge(sentiment: sentiments)
+
           @pagy, @comments = BopsApi::Postsubmission::CommentsPublicService.new(
             @neighbour_responses,
-            pagination_params
+            updated_params
           ).call
 
           @total_available_items = @neighbour_responses.count
@@ -36,7 +40,12 @@ module BopsApi
 
         # Permit and return the required parameters
         def pagination_params
-          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id)
+          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
+        end
+
+        def extract_sentiments_from_query(query_string)
+          # Use a regular expression to find all occurrences of the sentiment parameter
+          query_string.scan(/sentiment=([^&]*)/).flatten
         end
       end
     end
