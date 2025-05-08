@@ -221,7 +221,7 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
       fill_in "Enter element of proposal", with: ""
       click_button "Save advice"
 
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_content("Enter element of the proposal being assessed")
     end
   end
 end
