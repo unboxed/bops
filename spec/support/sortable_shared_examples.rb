@@ -99,7 +99,7 @@ RSpec.shared_examples "Sortable" do |class_name|
       click_link "Back"
       click_link "Review and submit recommendation"
 
-      within("#pre-commencement-conditions-list") do
+      within("#conditions-list") do
         expect(page).to have_selector("li:nth-of-type(1)", text: "Title 3")
         expect(page).to have_selector("li:nth-of-type(2)", text: "Title 2")
         expect(page).to have_selector("li:nth-of-type(3)", text: "Title 1")

@@ -57,33 +57,24 @@
       </p>
     <% end %>
     <% if @planning_application.application_type.planning_conditions? %>
-      <% if @planning_application.pre_commencement_condition_set.approved_conditions.any? %>
-        <h3 class="govuk-heading-s">
-          Pre-commencement conditions:
-        </h3>
-        <ol class="govuk-list govuk-list--number" id="pre-commencement-conditions-list">
-          <% @planning_application.pre_commencement_condition_set.approved_conditions.each do |condition| %>
-            <li>
-              <%= condition.title %><br>
-              <%= render(FormattedContentComponent.new(text: condition.text)) %>
-              <%= render(FormattedContentComponent.new(text: condition.reason)) %>
-            </li>
-          <% end %>
-        </ol>
-      <% end %>
-      <% if @planning_application.condition_set.conditions.any? && @planning_application.granted? %>
-        <h3 class="govuk-heading-s">
-          Conditions:
-        </h3>
-        <ol class="govuk-list govuk-list--number">
-          <% @planning_application.condition_set.conditions.each do |condition| %>
-            <li>
-              <%= render(FormattedContentComponent.new(text: condition.text)) %>
-              <%= render(FormattedContentComponent.new(text: condition.reason)) %>
-            </li>
-          <% end %>
-        </ol>
-      <% end %>
+      <h3 class="govuk-heading-s">
+        Conditions:
+      </h3>
+      <ol class="govuk-list govuk-list--number" id="conditions-list">
+        <% @planning_application.pre_commencement_condition_set.approved_conditions.each do |condition| %>
+          <li>
+            <%= condition.title %><br>
+            <%= render(FormattedContentComponent.new(text: condition.text)) %>
+            <%= render(FormattedContentComponent.new(text: condition.reason)) %>
+          </li>
+        <% end %>
+        <% @planning_application.condition_set.conditions.each do |condition| %>
+          <li>
+            <%= render(FormattedContentComponent.new(text: condition.text)) %>
+            <%= render(FormattedContentComponent.new(text: condition.reason)) %>
+          </li>
+        <% end %>
+      </ol>
     <% end %>
     <% if @planning_application.application_type.informatives? %>
       <% if @planning_application.informative_set.informatives.any? %>
