@@ -417,6 +417,10 @@ class PlanningApplication < ApplicationRecord
     cil_liability_details&.fetch(:result) == "liable"
   end
 
+  def likely_cil_exempt?
+    cil_liability_details&.fetch(:result)&.start_with? "exempt."
+  end
+
   def secure_change_url
     params = {planning_application_id: id, change_access_id:}
     "#{local_authority.applicants_url}/validation_requests?#{params.to_query}"
