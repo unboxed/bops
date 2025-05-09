@@ -321,10 +321,13 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       click_link "Check and assess"
       click_link "Review and submit recommendation"
 
-      expect(page).to have_content "Pre-commencement conditions"
-      expect(page).to have_content condition.title
-      expect(page).to have_content condition.text
-      expect(page).to have_content condition.reason
+      within "#conditions-list" do
+        within "li:nth-child(1)" do
+          expect(page).to have_content condition.title
+          expect(page).to have_content condition.text
+          expect(page).to have_content condition.reason
+        end
+      end
     end
   end
 
