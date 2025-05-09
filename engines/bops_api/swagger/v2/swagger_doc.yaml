@@ -21042,13 +21042,15 @@ components:
           type: integer
         totalPages:
           type: integer
-        totalItems:
+        totalResults:
+          type: integer
+        totalAvailableItems:
           type: integer
       required:
       - resultsPerPage
       - currentPage
       - totalPages
-      - totalItems
+      - totalAvailableItems
   schemas:
     Submission:
       additionalProperties: false
@@ -35301,7 +35303,8 @@ paths:
                       resultsPerPage: 10
                       currentPage: 1
                       totalPages: 1
-                      totalItems: 4
+                      totalResults: 4
+                      totalAvailableItems: 4
                     summary:
                       totalComments: 4
                       sentiment:
@@ -35462,7 +35465,8 @@ paths:
                       resultsPerPage: 10
                       currentPage: 1
                       totalPages: 1
-                      totalItems: 4
+                      totalResults: 4
+                      totalAvailableItems: 4
                     summary:
                       totalComments: 4
                       sentiment:
