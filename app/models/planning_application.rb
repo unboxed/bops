@@ -406,7 +406,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def cil_liability_details
-    planx_planning_data&.params_v2&.dig(:data, :CIL)
+    planx_planning_data&.params_v2&.dig(:data, :application, :CIL)
   end
 
   def cil_liability_details?
@@ -414,7 +414,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def likely_cil_liable?
-    cil_liability_details&.fetch(:result) != "notLiable"
+    cil_liability_details&.fetch(:result) == "liable"
+  end
+
+  def likely_cil_exempt?
+    cil_liability_details&.fetch(:result)&.start_with? "exempt."
   end
 
   def secure_change_url

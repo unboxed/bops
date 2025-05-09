@@ -97,7 +97,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
   context "when there is liability information from planx" do
     before do
       planx_planning_data = instance_double(PlanxPlanningData)
-      params_v2 = {data: {CIL: {result: planx_response, proposedTotalArea: {squareMetres: planx_size}}}}
+      params_v2 = {data: {application: {CIL: {result: planx_response, proposedTotalArea: {squareMetres: planx_size}}}}}
       allow(planx_planning_data).to receive(:params_v2).and_return(params_v2)
       allow_any_instance_of(PlanningApplication).to receive(:planx_planning_data).and_return(planx_planning_data)
     end
