@@ -414,7 +414,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def likely_cil_liable?
-    cil_liability_details&.fetch(:result) != "notLiable"
+    cil_liability_details&.fetch(:result) == "liable"
   end
 
   def secure_change_url
