@@ -406,7 +406,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def cil_liability_details
-    planx_planning_data&.params_v2&.dig(:data, :CIL)
+    planx_planning_data&.params_v2&.dig(:data, :application, :CIL)
   end
 
   def cil_liability_details?
