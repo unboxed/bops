@@ -5,15 +5,23 @@ module StatusTags
     private
 
     def status
-      return :supported if @status&.to_sym == :complies
-
-      super
+      case @status&.to_sym
+      when :complies
+        :supported
+      else
+        super
+      end
     end
 
     def colour
-      return "green" if status == :supported
-
-      super
+      case status&.to_sym
+      when :supported
+        "green"
+      when :needs_changes
+        "yellow"
+      else
+        super
+      end
     end
   end
 end

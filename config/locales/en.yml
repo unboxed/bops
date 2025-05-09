@@ -225,6 +225,8 @@ en:
               blank: Enter the title of this condition
         consideration:
           attributes:
+            advice:
+              blank: Enter assessment of this element of the proposal
             assessment:
               blank: Enter the assessment of this consideration
             conclusion:
@@ -233,6 +235,10 @@ en:
               blank: Enter the policy area of this consideration
             policy_references:
               blank: Enter at least one existing policy reference for this consideration
+            proposal:
+              blank: Enter element of the proposal being assessed
+            summary_tag:
+              blank: Select a status for this element of the proposal
         consistency_checklist:
           attributes:
             description_matches_documents:
