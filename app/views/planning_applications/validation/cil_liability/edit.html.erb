@@ -26,11 +26,14 @@
           <br>
           This might mean that
         <% end %>
-          the application is
-          <% unless @planning_application.likely_cil_liable? %>
-            not
-          <% end %>
-          liable for CIL.
+        the application is
+        <% if @planning_application.likely_cil_exempt? %>
+          exempt from CIL.
+        <% elsif @planning_application.likely_cil_liable? %>
+            liable for CIL.
+        <% else %>
+          not liable for CIL.
+        <% end %>
       <% else %>
         No information on potential CIL liability from PlanX.
       <% end %>
