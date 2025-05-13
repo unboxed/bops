@@ -25,7 +25,9 @@
 
     <div class="govuk-button-group">
       <%= back_link %>
-      <%= govuk_link_to t(".edit"), [:edit, @planning_application, :assessment, @assessment_detail, category: @category] %>
+      <% unless @planning_application.determined? %>
+        <%= govuk_link_to t(".edit"), [:edit, @planning_application, :assessment, @assessment_detail, category: @category] %>
+      <% end %>
     </div>
   </div>
 </div>

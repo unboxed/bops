@@ -22,13 +22,17 @@
 
     <%= render "table", site_histories: @site_histories, show_action: true %>
 
-    <%= govuk_details(summary_text: "Add a new site history", open: @site_history.errors.any?) do %>
-      <%= render "form", model: @site_history, url: planning_application_assessment_site_histories_path(@planning_application) %>
-    <% end %>
+    <% if @planning_application.determined? %>
+      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+    <% else %>
+      <%= govuk_details(summary_text: "Add a new site history", open: @site_history.errors.any?) do %>
+        <%= render "form", model: @site_history, url: planning_application_assessment_site_histories_path(@planning_application) %>
+      <% end %>
 
-    <%= form_with url: confirm_planning_application_assessment_site_histories_path(@planning_application) do |form| %>
-      <%= form.govuk_submit "Save and mark as complete" do %>
-        <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      <%= form_with url: confirm_planning_application_assessment_site_histories_path(@planning_application) do |form| %>
+        <%= form.govuk_submit "Save and mark as complete" do %>
+          <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

@@ -12,15 +12,17 @@
             Added by <%= requirement.source %>
           </dd>
           <dd class="govuk-summary-list__actions  govuk-!-padding-right-2 govuk-!-width-one-quarter">
-            <div class="align-items-center justify-end gap-2">
-              <%= govuk_link_to("Edit", edit_planning_application_assessment_requirement_path(@planning_application, requirement), no_visited_state: true, no_underline: true) %>
-              <span>|</span>
-              <%= govuk_link_to("Remove", planning_application_assessment_requirement_path(@planning_application, requirement),
-                    method: :delete,
-                    no_visited_state: true,
-                    no_underline: true,
-                    data: {confirm: "Are you sure you want to remove this requirement?"}) %>
-            </div>
+            <% unless @planning_application.determined? %>
+              <div class="align-items-center justify-end gap-2">
+                <%= govuk_link_to("Edit", edit_planning_application_assessment_requirement_path(@planning_application, requirement), no_visited_state: true, no_underline: true) %>
+                <span>|</span>
+                <%= govuk_link_to("Remove", planning_application_assessment_requirement_path(@planning_application, requirement),
+                      method: :delete,
+                      no_visited_state: true,
+                      no_underline: true,
+                      data: {confirm: "Are you sure you want to remove this requirement?"}) %>
+              </div>
+            <% end %>
           </dd>
         </div>
       <% end %>

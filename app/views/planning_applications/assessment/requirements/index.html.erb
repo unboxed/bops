@@ -25,18 +25,20 @@
           <%= render("table", requirements: @planning_application.requirements.where(category: category)) %>
     </div>
   <% end %>
-  <hr>
-  <details class="govuk-details govuk-!-margin-top-5">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Add another requirement
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= render("tabs") %>
-    </div>
-  </details>
-  <%= govuk_button_link_to "Save and mark as complete", planning_application_assessment_tasks_path(@planning_application) %>
+  <% unless @planning_application.determined? %>
+    <hr>
+    <details class="govuk-details govuk-!-margin-top-5">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Add another requirement
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        <%= render("tabs") %>
+      </div>
+    </details>
+    <%= govuk_button_link_to "Save and mark as complete", planning_application_assessment_tasks_path(@planning_application) %>
+  <% end %>
 <% else %>
   <%= render("tabs") %>
 <% end %>
