@@ -72,7 +72,7 @@
 <section id="pre-application-outcome">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Pre-application outcome</h2>
-    <% if current_user %>
+    <% if current_user && !@planning_application.determined? %>
       <p class="govuk-body-m">
         <% if @summary_of_advice&.summary_tag %>
           <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
@@ -108,10 +108,12 @@
   <%= govuk_inset_text do %>
     <% if @planning_application.user %>
       <p><strong>Case officer:</strong> <%= @planning_application.user.name %></p>
-    <% else %>
-      <% if current_user %>
-        <p>No case officer has been assigned yet.</p>
-        <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: "report") %>
+    <% elsif current_user %>
+      <% unless @planning_application.determined? %>
+        <p class="govuk-body">
+          No case officer has been assigned yet.<br>
+          <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: "report") %>
+        </p>
       <% end %>
     <% end %>
     <p><strong>Email:</strong> <%= mail_to @current_local_authority.email_address %></p>
@@ -132,7 +134,9 @@
       <% head.with_row do |row| %>
         <% row.with_cell(text: "Event") %>
         <% row.with_cell(text: "Date") %>
-        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "Action") if current_user %>
+        <% if current_user && !@planning_application.determined? %>
+          <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "Action") %>
+        <% end %>
       <% end %>
     <% end %>
 
@@ -140,7 +144,9 @@
       <% body.with_row do |row| %>
         <% row.with_cell(text: "Date made valid") %>
         <% row.with_cell(text: time_tag(@planning_application.validated_at)) %>
-        <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "-") if current_user %>
+        <% if current_user && !@planning_application.determined? %>
+          <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "-") %>
+        <% end %>
       <% end %>
 
       <% body.with_row do |row| %>
@@ -150,8 +156,10 @@
         <% else %>
           <% row.with_cell(text: "-") %>
         <% end %>
-        <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
-          <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") if current_user %>
+        <% if current_user && !@planning_application.determined? %>
+          <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
+            <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
+          <% end %>
         <% end %>
       <% end %>
 
@@ -162,8 +170,10 @@
         <% else %>
           <% row.with_cell(text: "-") %>
         <% end %>
-          <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
-            <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") if current_user %>
+          <% if current_user && !@planning_application.determined? %>
+            <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
+              <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
+            <% end %>
           <% end %>
       <% end %>
     <% end %>
@@ -172,7 +182,7 @@
   <div id="proposal-description">
     <div class="flex-between govuk-!-margin-bottom-2">
       <h3 class="govuk-heading-s">Description of your proposal</h3>
-      <% if current_user %>
+      <% if current_user && !@planning_application.determined? %>
         <p class="govuk-body-m">
           <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
                 @planning_application,
@@ -217,7 +227,7 @@
         <h3 class="govuk-heading-s">
           Officer comments
         </h3>
-        <% if current_user %>
+        <% if current_user && !@planning_application.determined? %>
           <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consistency_checklist_path(
                 @planning_application,
                 anchor: "site-map-title-field",
@@ -241,7 +251,7 @@
 <section id="site-constraints">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Relevant site constraints</h2>
-    <% if current_user %>
+    <% if current_user && !@planning_application.determined? %>
       <%= govuk_link_to "Edit", main_app.planning_application_validation_constraints_path(
             @planning_application,
             return_to: "report"
@@ -259,7 +269,7 @@
 <section id="site-history">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Relevant site history</h2>
-    <% if current_user %>
+    <% if current_user && !@planning_application.determined? %>
       <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_histories_path(
             @planning_application,
             return_to: "report"
@@ -278,7 +288,7 @@
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Site and surroundings</h2>
     <% if @site_description %>
-      <% if current_user %>
+      <% if current_user && !@planning_application.determined? %>
         <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
               @planning_application, @site_description,
               category: "site_description",
@@ -309,7 +319,7 @@
 <section id="considerations-advice">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2 class="govuk-heading-m">Planning considerations and advice</h2>
-    <% if current_user %>
+    <% if current_user && !@planning_application.determined? %>
       <%= govuk_link_to "Edit", main_app.planning_application_assessment_consideration_guidances_path(
             @planning_application,
             return_to: "report"
@@ -360,7 +370,7 @@
       <% considerations.each do |consideration| %>
         <div class="flex-between">
           <strong class="govuk-heading-s"><%= consideration.proposal %></strong>
-          <% if current_user %>
+          <% if current_user && !@planning_application.determined? %>
             <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consideration_guidance_path(
                   @planning_application,
                   consideration,
@@ -397,7 +407,7 @@
   <section id="summary-advice">
     <div class="flex-between">
       <h2 class="govuk-heading-m">Summary</h2>
-      <% if current_user %>
+      <% if current_user && !@planning_application.determined? %>
         <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
               @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
             ) %>
@@ -432,7 +442,7 @@
 <section id="requirements">
   <div class="flex-between">
     <h2 class="govuk-heading-m">Requirements</h2>
-    <% if current_user %>
+    <% if current_user && !@planning_application.determined? %>
       <%= govuk_link_to "Edit", main_app.planning_application_assessment_requirements_path(@planning_application, return_to: "report") %>
     <% end %>
   </div>

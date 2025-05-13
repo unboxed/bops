@@ -16,20 +16,26 @@
 
 <div class="govuk-grid-row">
   <%= content_tag :div, class: "govuk-grid-column-full", data: {} do %>
-    <%= render ErrorSummaryComponent.new(errors: @consultation.errors) %>
+    <% unless @planning_application.determined? %>
+      <%= render ErrorSummaryComponent.new(errors: @consultation.errors) %>
+    <% end %>
 
     <h3 class="govuk-body">Assign consultees based on identified constraints</h3>
     <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation, show_assign: true %>
 
-    <%= form_with model: @planning_application,
-          url: check_planning_application_assessment_consultees_path do |form| %>
-      <div class="govuk-button-group">
+    <% if @planning_application.determined? %>
+      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+    <% else %>
+      <%= form_with model: @planning_application,
+            url: check_planning_application_assessment_consultees_path do |form| %>
+        <div class="govuk-button-group">
 
-        <%= form.submit "Confirm as checked", class: "govuk-button" %>
-        <%= govuk_button_link_to "Add consultees", planning_application_consultees_path(@planning_application), secondary: true %>
+          <%= form.submit "Confirm as checked", class: "govuk-button" %>
+          <%= govuk_button_link_to "Add consultees", planning_application_consultees_path(@planning_application), secondary: true %>
 
-        <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
-      </div>
+          <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>

@@ -26,14 +26,16 @@
     </table>
   <% end %>
 
-  <details class="govuk-details govuk-!-padding-top-5" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Add a new meeting
-      </span>
-    </summary>
-    <%= render "form" %>
+  <% unless @planning_application.determined? %>
+    <details class="govuk-details govuk-!-padding-top-5" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Add a new meeting
+        </span>
+      </summary>
+      <%= render "form" %>
     </details>
+  <% end %>
 
   <div class="govuk-button-group govuk-!-padding-top-7">
     <%= back_link %>

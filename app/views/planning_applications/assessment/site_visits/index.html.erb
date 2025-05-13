@@ -43,7 +43,9 @@
   </p>
 <% end %>
 
-<%= govuk_link_to "Add site visit response", new_planning_application_assessment_site_visit_path(@planning_application) %>
+<% unless @planning_application.determined? %>
+  <%= govuk_link_to "Add site visit response", new_planning_application_assessment_site_visit_path(@planning_application) %>
+<% end %>
 
 <div class="govuk-button-group govuk-!-padding-top-7">
   <%= back_link %>

@@ -33,8 +33,10 @@
                 <p class="govuk-body-s"><strong><%= consideration.proposal %></strong></p>
               </div>
               <div class="govuk-grid-column-one-quarter" style="text-align: right;">
-                <%= govuk_link_to "Edit", edit_planning_application_assessment_consideration_guidance_path(@planning_application, consideration) %> |
-                <%= govuk_link_to "Remove", planning_application_assessment_consideration_guidance_path(@planning_application, consideration), method: :delete, data: {confirm: "Are you sure?"} %>
+                <% unless @planning_application.determined? %>
+                  <%= govuk_link_to "Edit", edit_planning_application_assessment_consideration_guidance_path(@planning_application, consideration) %> |
+                  <%= govuk_link_to "Remove", planning_application_assessment_consideration_guidance_path(@planning_application, consideration), method: :delete, data: {confirm: "Are you sure?"} %>
+                <% end %>
               </div>
             </div>
 
@@ -53,39 +55,47 @@
           <% end %>
         <% end %>
 
-        <%= govuk_details(
-              summary_text: "Add advice",
-              open: @consideration.errors.any? && @consideration.policy_area == policy_area,
-              classes: "govuk-!-margin-bottom-2"
-            ) do %>
-          <%= render "form", policy_area: policy_area, form_url: planning_application_assessment_consideration_guidances_path(@planning_application), form_method: :post, index: index + 1 %>
+        <% unless @planning_application.determined? %>
+          <%= govuk_details(
+                summary_text: "Add advice",
+                open: @consideration.errors.any? && @consideration.policy_area == policy_area,
+                classes: "govuk-!-margin-bottom-2"
+              ) do %>
+            <%= render "form", policy_area: policy_area, form_url: planning_application_assessment_consideration_guidances_path(@planning_application), form_method: :post, index: index + 1 %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
 
-    <%= govuk_details(summary_text: "Add a new consideration", open: @considerations.none? || @consideration.errors.any?) do %>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds" data-controller="consideration-form">
-          <%= form_with model: @consideration, url: planning_application_assessment_consideration_guidances_path(@planning_application) do |form| %>
-            <%= form.govuk_fieldset legend: {text: "Add a new consideration"} do %>
-              <%= form.govuk_collection_select :policy_area,
-                    current_local_authority.policy_areas.menu,
-                    :last, :last, options: {include_blank: true},
-                    label: {text: "Select policy area"},
-                    data: {consideration_form_target: "policyAreaSelect"} %>
-              <%= form.govuk_submit("Add consideration", secondary: true, class: "govuk-!-margin-bottom-2") %>
+    <% unless @planning_application.determined? %>
+      <%= govuk_details(summary_text: "Add a new consideration", open: @considerations.none? || @consideration.errors.any?) do %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds" data-controller="consideration-form">
+            <%= form_with model: @consideration, url: planning_application_assessment_consideration_guidances_path(@planning_application) do |form| %>
+              <%= form.govuk_fieldset legend: {text: "Add a new consideration"} do %>
+                <%= form.govuk_collection_select :policy_area,
+                      current_local_authority.policy_areas.menu,
+                      :last, :last, options: {include_blank: true},
+                      label: {text: "Select policy area"},
+                      data: {consideration_form_target: "policyAreaSelect"} %>
+                <%= form.govuk_submit("Add consideration", secondary: true, class: "govuk-!-margin-bottom-2") %>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
 
     <div class="govuk-grid-row govuk-!-margin-top-5">
       <div class="govuk-grid-column-full">
-        <%= form_with model: @review, url: planning_application_assessment_considerations_path(@planning_application) do |form| %>
-          <%= form.govuk_submit "Save and mark as complete", name: "review[status]", value: "complete" do %>
-            <%= form.govuk_submit "Save and come back later", name: "review[status]", value: "in_progress", secondary: true %>
-            <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+        <% if @planning_application.determined? %>
+          <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+        <% else %>
+          <%= form_with model: @review, url: planning_application_assessment_considerations_path(@planning_application) do |form| %>
+            <%= form.govuk_submit "Save and mark as complete", name: "review[status]", value: "complete" do %>
+              <%= form.govuk_submit "Save and come back later", name: "review[status]", value: "in_progress", secondary: true %>
+              <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+            <% end %>
           <% end %>
         <% end %>
       </div>
