@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_07_092146) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -1140,6 +1140,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_07_092146) do
     t.bigint "local_authority_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_uuid"
+    t.index ["external_uuid"], name: "ix_submissions_on_external_uuid", unique: true
     t.index ["local_authority_id"], name: "ix_submissions_on_local_authority_id"
     t.index ["status"], name: "ix_submissions_on_status"
   end

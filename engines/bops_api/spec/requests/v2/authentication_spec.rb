@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "swagger_helper"
+require_relative "../../swagger_helper"
 
 RSpec.describe "ApiUser" do
   let(:local_authority) { create(:local_authority, :default) }

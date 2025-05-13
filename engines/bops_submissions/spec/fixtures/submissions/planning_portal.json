@@ -1,0 +1,15 @@
+{
+  "applicationRef": "10087984",
+  "applicationVersion": 1,
+  "applicationState": "Submitted",
+  "sentDateTime": "2023-06-19T08:45:59.9722472Z",
+  "updated": false,
+  "documentLinks": [
+    {
+      "documentName": "PT-10087984.zip",
+      "documentLink": "https://example.com/files/PT-10087984.zip",
+      "expiryDateTime": "2023-07-19T08:45:59.975412Z",
+      "documentType": "application/x-zip-compressed"
+    }
+  ]
+}

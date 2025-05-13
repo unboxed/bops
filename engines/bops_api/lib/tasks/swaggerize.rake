@@ -11,6 +11,8 @@ namespace :api do
         t.pattern = "engines/bops_api/spec/requests/**/*_spec.rb"
 
         t.rspec_opts = [
+          "-I", BopsApi::Engine.root.join("spec").to_s,
+          "--require", "swagger_helper",
           "--format Rswag::Specs::SwaggerFormatter",
           "--dry-run",
           "--order defined"

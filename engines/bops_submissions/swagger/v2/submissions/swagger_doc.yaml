@@ -1,0 +1,189 @@
+---
+openapi: 3.0.1
+info:
+  title: BOPS Submissions API
+  version: v2
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    SubmissionResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        message:
+          type: string
+      required:
+      - uuid
+    SubmissionEvent:
+      type: object
+      properties:
+        applicationRef:
+          type: string
+        applicationVersion:
+          type: integer
+        applicationState:
+          type: string
+        sentDateTime:
+          type: string
+          format: date_time
+        updated:
+          type: boolean
+        documentLinks:
+          type: array
+          items:
+            type: object
+            properties:
+              documentName:
+                type: string
+              documentLink:
+                type: string
+                format: uri
+              expiryDateTime:
+                type: string
+                format: date_time
+              documentType:
+                type: string
+            required:
+            - documentName
+            - documentLink
+            - documentType
+      required:
+      - applicationRef
+      - applicationVersion
+      - applicationState
+      - sentDateTime
+      - updated
+    UnprocessableEntityError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 422
+            message:
+              type: string
+              example: Unprocessable Entity
+            detail:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - error
+    UnauthorizedError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 401
+            message:
+              type: string
+              example: Unauthorized
+            detail:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - error
+    BadRequestError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Bad Request
+            detail:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - error
+    NotFoundError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: Not Found
+            detail:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - error
+paths:
+  "/api/v2/submissions":
+    post:
+      summary: Creates a submission record
+      tags:
+      - Submissions
+      security:
+      - bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: submission accepted
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SubmissionResponse"
+        '401':
+          description: missing or invalid credentials
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UnauthorizedError"
+        '422':
+          description: missing request body
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UnprocessableEntityError"
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BadRequestError"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SubmissionEvent"
+            examples:
+              ValidSubmissionEvent:
+                summary: Planning Portal Submission
+                value:
+                  applicationRef: '10087984'
+                  applicationVersion: 1
+                  applicationState: Submitted
+                  sentDateTime: '2023-06-19T08:45:59.9722472Z'
+                  updated: false
+                  documentLinks:
+                  - documentName: PT-10087984.zip
+                    documentLink: https://example.com/files/PT-10087984.zip
+                    expiryDateTime: '2023-07-19T08:45:59.975412Z'
+                    documentType: application/x-zip-compressed

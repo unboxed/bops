@@ -6,6 +6,8 @@ class Submission < ApplicationRecord
   belongs_to :local_authority
   has_one :planning_application, dependent: :nullify
 
+  validates :external_uuid, uniqueness: true, allow_nil: true
+
   with_options presence: true do
     validates :request_body
     validates :request_headers
@@ -28,5 +30,9 @@ class Submission < ApplicationRecord
     event :complete do
       transitions from: :started, to: :completed
     end
+  end
+
+  def application_reference
+    request_body["applicationRef"]
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "swagger_helper"
+require_relative "../../swagger_helper"
 
 RSpec.describe "BOPS documents API" do
   let(:config) { Rails.configuration }
