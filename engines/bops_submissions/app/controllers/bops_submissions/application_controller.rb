@@ -3,6 +3,7 @@
 module BopsSubmissions
   class ApplicationController < ActionController::Base
     include BopsCore::ApplicationController
+    include ErrorHandler
 
     before_action :require_local_authority!
 
