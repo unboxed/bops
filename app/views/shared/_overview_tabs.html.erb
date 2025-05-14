@@ -67,22 +67,24 @@
             <% end %>
           </td>
         </tr>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            <strong><%= t(".press_notice_date") %></strong>
-          </td>
-          <td class="govuk-table__cell">
-            <%= @planning_application.press_notice&.published_at.present? ? time_tag(@planning_application.press_notice.published_at) : "-" %>
-          </td>
-        </tr>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            <strong><%= t(".site_notice_date") %></strong>
-          </td>
-          <td class="govuk-table__cell">
-            <%= @planning_application.site_notices.last&.displayed_at.present? ? time_tag(@planning_application.site_notices.last.displayed_at) : "-" %>
-          </td>
-        </tr>
+        <% unless @planning_application.pre_application? %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <strong><%= t(".press_notice_date") %></strong>
+            </td>
+            <td class="govuk-table__cell">
+              <%= @planning_application.press_notice&.published_at.present? ? time_tag(@planning_application.press_notice.published_at) : "-" %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <strong><%= t(".site_notice_date") %></strong>
+            </td>
+            <td class="govuk-table__cell">
+              <%= @planning_application.site_notices.last&.displayed_at.present? ? time_tag(@planning_application.site_notices.last.displayed_at) : "-" %>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   <% end %>
