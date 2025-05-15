@@ -74,16 +74,16 @@ RSpec.describe "BOPS public API Specialist comments" do
       def validate_comment_summary(data)
         expect(data["summary"]["totalComments"]).to eq(50)
         expect(data["summary"]["totalConsulted"]).to eq(100)
-        expect(data["summary"]["sentiment"]["supportive"]).to eq(50)
-        expect(data["summary"]["sentiment"]["objection"]).to eq(0)
-        expect(data["summary"]["sentiment"]["neutral"]).to eq(0)
+        expect(data["summary"]["sentiment"]["approved"]).to eq(50)
+        expect(data["summary"]["sentiment"]["amendmentsNeeded"]).to eq(0)
+        expect(data["summary"]["sentiment"]["objected"]).to eq(0)
       end
 
       def validate_comments(data, count:, total_items:)
         expect(data["comments"].count).to eq(count)
         data["comments"].each do |comment|
           expect(comment["id"]).to be_a(Integer)
-          expect(comment["sentiment"]).to be_in(["supportive", "objection", "neutral"])
+          expect(comment["sentiment"]).to be_in(["approved", "amendmentsNeeded", "objected"])
           expect(comment["comment"]).to include("*****")
           expect { DateTime.iso8601(comment["receivedAt"]) }.not_to raise_error
         end
@@ -144,9 +144,9 @@ RSpec.describe "BOPS public API Specialist comments" do
 
           # comment summary
           expect(data["summary"]["totalComments"]).to eq(51)
-          expect(data["summary"]["sentiment"]["supportive"]).to eq(51)
-          expect(data["summary"]["sentiment"]["objection"]).to eq(0)
-          expect(data["summary"]["sentiment"]["neutral"]).to eq(0)
+          expect(data["summary"]["sentiment"]["approved"]).to eq(51)
+          expect(data["summary"]["sentiment"]["amendmentsNeeded"]).to eq(0)
+          expect(data["summary"]["sentiment"]["objected"]).to eq(0)
 
           # comments
           validate_comments(data, count: 1, total_items: 1)

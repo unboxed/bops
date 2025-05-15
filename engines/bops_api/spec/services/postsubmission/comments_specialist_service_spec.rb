@@ -23,11 +23,11 @@ RSpec.describe BopsApi::Postsubmission::CommentsSpecialistService, type: :servic
     end
 
     context "when a query parameter is provided" do
-      let(:params) { {query: "supportive"} }
+      let(:params) { {query: "approved"} }
 
       it "filters the scope by the query" do
-        filtered_scope = scope.where("redacted_response ILIKE ?", "%supportive%")
-        allow(scope).to receive(:where).with("redacted_response ILIKE ?", "%supportive%").and_return(filtered_scope)
+        filtered_scope = scope.where("redacted_response ILIKE ?", "%approved%")
+        allow(scope).to receive(:where).with("redacted_response ILIKE ?", "%approved%").and_return(filtered_scope)
         allow_any_instance_of(BopsApi::Postsubmission::PostsubmissionPagination).to receive(:call).and_return([nil, filtered_scope])
 
         _, result = service.call
