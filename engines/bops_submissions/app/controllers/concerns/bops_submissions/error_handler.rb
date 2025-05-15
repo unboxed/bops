@@ -8,7 +8,7 @@ module BopsSubmissions
       "ActionController::BadRequest" => :bad_request,
       "ActiveRecord::RecordNotFound" => :not_found,
       "ActiveRecord::RecordInvalid" => :unprocessable_entity,
-      "ActiveRecord::RecordNotSaved" => :unprocessable_entity,
+      "ActiveRecord::RecordNotSaved" => :unprocessable_entity
     ).freeze
 
     included do

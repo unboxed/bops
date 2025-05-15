@@ -31,4 +31,8 @@ class Submission < ApplicationRecord
       transitions from: :started, to: :completed
     end
   end
+
+  def application_reference
+    request_body["applicationRef"]
+  end
 end

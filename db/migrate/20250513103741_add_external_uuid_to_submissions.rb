@@ -5,6 +5,6 @@ class AddExternalUuidToSubmissions < ActiveRecord::Migration[7.2]
 
   def change
     add_column :submissions, :external_uuid, :string
-    add_index  :submissions, :external_uuid, unique: true, algorithm: :concurrently
+    add_index :submissions, :external_uuid, unique: true, algorithm: :concurrently
   end
 end

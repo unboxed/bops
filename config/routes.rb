@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
     mount BopsReports::Engine, at: "/reports", as: :bops_reports
 
-    mount BopsSubmissions::Engine, at: "/", as: :bops_submissions
+    mount BopsSubmissions::Engine, at: "/api", as: :bops_submissions
 
     defaults format: "json" do
       get "/os_places_api",

@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 BopsSubmissions::Engine.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      resources :submissions, only: %i[create]
-    end
+  namespace :v2 do
+    resources :submissions, only: %i[create]
   end
 
-  mount Rswag::Ui::Engine => "/api-docs"
-  mount Rswag::Api::Engine => "/api-docs"
+  mount Rswag::Ui::Engine => "/docs"
+  mount Rswag::Api::Engine => "/docs"
 end

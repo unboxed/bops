@@ -2,6 +2,7 @@
 
 require "rails_helper"
 require "rswag/specs"
+puts "✅ Using BOPS API swagger_helper: #{__FILE__}"
 
 Dir[BopsApi::Engine.root.join("spec/support/**/*.rb")].each { |f| require f }
 

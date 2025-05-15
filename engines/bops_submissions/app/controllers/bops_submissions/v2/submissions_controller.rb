@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module BopsSubmissions
-  module V1
+  module V2
     class SubmissionsController < AuthenticatedController
       def create
-        @uuid = creation_service.call
+        @submission = creation_service.call
 
         respond_to do |format|
           format.json
@@ -15,7 +15,7 @@ module BopsSubmissions
 
       def creation_service
         @creation_service ||= BopsSubmissions::CreationService.new(
-          request: request, local_authority: current_local_authority
+          params: params, headers: request.headers, local_authority: current_local_authority
         )
       end
     end

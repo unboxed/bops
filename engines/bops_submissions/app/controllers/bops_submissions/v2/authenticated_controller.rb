@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsSubmissions
-  module V1
+  module V2
     class AuthenticatedController < ApplicationController
       before_action :authenticate_api_user!
     end
