@@ -55,11 +55,12 @@ RSpec.describe "BOPS public API Public comments" do
         description: "Search by redacted comment content"
       }, required: false
 
-      def validate_pagination(data, results_per_page:, current_page:, total_items:)
+      def validate_pagination(data, results_per_page:, current_page:, total_results:, total_available_items:)
         expect(data["pagination"]["resultsPerPage"]).to eq(results_per_page)
         expect(data["pagination"]["currentPage"]).to eq(current_page)
-        expect(data["pagination"]["totalPages"]).to eq((total_items.to_f / results_per_page).ceil)
-        expect(data["pagination"]["totalItems"]).to eq(total_items)
+        expect(data["pagination"]["totalPages"]).to eq((total_results.to_f / results_per_page).ceil)
+        expect(data["pagination"]["totalResults"]).to eq(total_results)
+        expect(data["pagination"]["totalAvailableItems"]).to eq(total_available_items)
       end
 
       def validate_comment_summary(data)
@@ -89,7 +90,7 @@ RSpec.describe "BOPS public API Public comments" do
           data = JSON.parse(response.body)
 
           # pagination
-          validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_items: 50)
+          validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_results: 50, total_available_items: 50)
 
           # comment summary
           validate_comment_summary(data)
@@ -108,7 +109,7 @@ RSpec.describe "BOPS public API Public comments" do
           data = JSON.parse(response.body)
 
           # pagination
-          validate_pagination(data, results_per_page: 2, current_page: 2, total_items: 50)
+          validate_pagination(data, results_per_page: 2, current_page: 2, total_results: 50, total_available_items: 50)
 
           # comment summary
           validate_comment_summary(data)
@@ -130,7 +131,7 @@ RSpec.describe "BOPS public API Public comments" do
           data = JSON.parse(response.body)
 
           # pagination
-          validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_items: 1)
+          validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_results: 1, total_available_items: 51)
 
           # comment summary
           expect(data["summary"]["totalComments"]).to eq(51)
