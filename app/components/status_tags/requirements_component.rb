@@ -15,6 +15,8 @@ module StatusTags
     def status
       if @requirements.any?
         :complete
+      elsif @planning_application.recommended_application_type.blank?
+        :cannot_start_yet
       else
         :not_started
       end

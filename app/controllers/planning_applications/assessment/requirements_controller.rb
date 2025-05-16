@@ -12,6 +12,10 @@ module PlanningApplications
       def index
         @categories = LocalAuthority::Requirement.categories
         @existing_requirements = @planning_application.requirements.pluck(:description)
+        @application_type_requirements = ApplicationTypeRequirement.includes(:local_authority_requirement).where(
+          local_authority_requirement: {local_authority_id: @planning_application.local_authority.id},
+          application_type_id: @planning_application.recommended_application_type_id
+        ).pluck(:description)
         respond_to do |format|
           format.html
         end
