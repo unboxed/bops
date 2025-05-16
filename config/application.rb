@@ -64,6 +64,8 @@ module Bops
     # Ensure the correct user scope is used for authentication
     config.middleware.use BopsCore::Middleware::User, global_subdomains: %w[config]
 
+    config.exceptions_app = routes
+
     # Load config from application.yml
     config_for(:application).each do |key, value|
       config.send(:"#{key}=", value)
