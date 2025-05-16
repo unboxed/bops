@@ -58,7 +58,14 @@
     <% if @planning_application.pre_application? %>
       <li class="app-task-list__item" id="check-add-requirements">
         <span class="app-task-list__task-name">
-          <%= govuk_link_to "Check and add requirements", planning_application_assessment_requirements_path(@planning_application) %>
+          <%= link_to_if(
+                @planning_application.recommended_application_type.present?,
+                "Check and add requirements",
+                planning_application_assessment_requirements_path(@planning_application),
+                class: "govuk-link"
+              ) do %>
+              Check and add requirements
+          <% end %>
         </span>
         <div class="govuk-task-list__status app-task-list__task-tag">
         <%= render(
