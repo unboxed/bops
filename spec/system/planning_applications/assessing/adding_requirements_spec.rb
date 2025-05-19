@@ -9,9 +9,17 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
   let!(:requirement2) { create(:local_authority_requirement, local_authority:, category: "supporting_documents", description: "Parking plan") }
   let!(:requirement3) { create(:local_authority_requirement, local_authority:, category: "evidence", description: "Design statement") }
   let!(:requirement4) { create(:local_authority_requirement, local_authority:, category: "other", description: "Other") }
+  let!(:recommended_application_type) { create(:application_type, :householder) }
+  let!(:application_type_requirement) { create(:application_type_requirement, local_authority_requirement: requirement, application_type: recommended_application_type) }
 
   let(:planning_application) do
-    create(:planning_application, :in_assessment, :pre_application, local_authority: local_authority)
+    create(
+      :planning_application,
+      :in_assessment,
+      :pre_application,
+      local_authority: local_authority,
+      recommended_application_type: recommended_application_type
+    )
   end
 
   let(:reference) { planning_application.reference }
@@ -31,10 +39,18 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
       expect(page).to have_content("Floor plans – existing")
       expect(page).not_to have_element(".govuk-summary-card")
     end
+
+    it "shows pre-configured application type requirements" do
+      expect(page).to have_content("The recommended application type is: #{recommended_application_type.description}")
+      expect(page).to have_content("Any pre-configured requirements for #{recommended_application_type.description} have been pre-selected.")
+      expect(page).to have_field("Floor plans – existing", type: "checkbox", checked: true)
+    end
   end
 
   describe "adding a list of requirements" do
     before do
+      click_link("Drawings")
+      uncheck "Floor plans – existing"
       click_link("Evidence")
       check "Design statement"
       click_link("Supporting documents")

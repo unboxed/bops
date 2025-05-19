@@ -2258,6 +2258,7 @@ en:
     awaiting_response: Awaiting response
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
+    cannot_start_yet: Cannot start yet
     complete: Completed
     complies: Complies
     does_not_comply: Does not comply
