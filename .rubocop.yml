@@ -20,7 +20,6 @@ AllCops:
   SuggestExtensions: false
   Exclude:
     - 'bin/*'
-    - 'bops-applicants/**/*'
     - 'db/schema.rb'
     - 'config/environments/**'
     - 'config/puma.rb'

@@ -43,7 +43,6 @@
 !/app/assets/builds/.keep
 /public/assets
 
-/bops-applicants
 /deploy
 /pkg
 /.cache

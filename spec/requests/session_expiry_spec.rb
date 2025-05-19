@@ -7,7 +7,7 @@ RSpec.describe "session expiry" do
   let(:assessor) { create(:user, :assessor, local_authority:) }
 
   def new_browser(current_local_authority: local_authority)
-    open_session { |s| s.host! "#{current_local_authority.subdomain}.bops.localhost" }
+    open_session { |s| s.host! "#{current_local_authority.subdomain}.bops.services" }
   end
 
   context "when a new session is created" do
@@ -24,7 +24,7 @@ RSpec.describe "session expiry" do
 
       s1.get "/"
       expect(s1.response.status).to eq 302
-      expect(s1.response.headers["Location"]).to eq "http://#{local_authority.subdomain}.bops.localhost/users/sign_in"
+      expect(s1.response.headers["Location"]).to eq "http://#{local_authority.subdomain}.bops.services/users/sign_in"
     end
   end
 

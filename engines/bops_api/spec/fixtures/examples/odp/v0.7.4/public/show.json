@@ -14,7 +14,7 @@
     "consultation": {
       "startDate": null,
       "endDate": null,
-      "publicUrl": "https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A",
+      "publicUrl": "https://southwark.bops-applicants.localhost:3000/planning_applications/25-00240-PA1A",
       "publishedComments": [],
       "consulteeComments": []
     },

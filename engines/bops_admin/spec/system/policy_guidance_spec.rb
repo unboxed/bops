@@ -55,7 +55,7 @@ RSpec.describe "Policy guidance" do
       :local_authority_policy_guidance,
       local_authority:,
       description: "Biodiversity",
-      url: "https://planx.example.com/planning-guidance"
+      url: "https://planx.bops.services/planning-guidance"
     )
 
     visit "/admin/policy/guidance"
@@ -68,7 +68,7 @@ RSpec.describe "Policy guidance" do
 
     within "tbody tr:nth-child(1)" do
       within "td:nth-child(1)" do
-        expect(page).to have_link("Biodiversity", href: "https://planx.example.com/planning-guidance")
+        expect(page).to have_link("Biodiversity", href: "https://planx.bops.services/planning-guidance")
       end
 
       within "td:nth-child(2)" do

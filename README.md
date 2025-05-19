@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/unboxed/bops/actions/workflows/build.yml/badge.svg) ![CodeQL](https://github.com/unboxed/bops/workflows/CodeQL/badge.svg)
 
-[FAQs](docs/FAQs.md) | [BOPS Applicants](https://github.com/unboxed/bops-applicants/)
+[FAQs](docs/FAQs.md)
 
 ## Back-Office Planning System (BOPS)
 
@@ -12,13 +12,7 @@ This README is aimed at developers wishing to work on this project or learn more
 
 ### Using Docker
 
-The easiest way to run the application is with Docker. First `cd` into the `bops-applicants` folder and run:
-
-```sh
-git submodule update --init --recursive
-```
-
-This links the main repo to the [BOPS applicants project](https://github.com/unboxed/bops-applicants/).
+The easiest way to run the application is with Docker.
 
 If it's your first time setting up the project or you are changing the docker file first run:
 
@@ -131,26 +125,6 @@ See the [BOPS Terraform](https://github.com/unboxed/bops-terraform) repo for mor
 
 To utilise all the map functionality, set an `OS_VECTOR_TILES_API_KEY` in `.env`
 This value can be found in the AWS Parameter Store
-
-## BOPS Applicants
-
-BOPS allows planning officers to request changes to an application;
-these requests are presented to applicants through a separate app
-called
-[BOPS Applicants](https://github.com/unboxed/bops-applicants). Applicants
-receive an email containing a special URL that will be opened in BOPS
-applicants and contain the right parameters for it to query back at
-BOPS.
-
-If the application is running with Docker, `bops-applicants` is already part of the
-Compose group and should be running on port 3001. If not,
-clone/setup/boot the application manually and set the
-`applicants_url` column on the local authority record.
-
-Note that because of the limitations of Docker network aliases (which
-can't accept wildcards, we will add a small DNS service eventually),
-BOPS Applicants has to operate against the Southwark local authority
-(i.e `southwark.localhost`) for now.
 
 ## API
 

@@ -40,11 +40,11 @@ RSpec.describe "BOPS documents API" do
           data = JSON.parse(response.body)
           expect(data["application"]["reference"]).to eq(planning_application.reference)
           expect(data["decisionNotice"]["name"]).to eq("decision-notice-PlanX-25-00100-HAPP.pdf")
-          expect(data["decisionNotice"]["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
+          expect(data["decisionNotice"]["url"]).to eq("http://planx.bops.services/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
 
           expect(data["files"]).to match_array([
-            a_hash_including("url" => "http://planx.example.com/files/#{public_document.blob_key}"),
-            a_hash_including("url" => "http://planx.example.com/files/#{private_document.blob_key}")
+            a_hash_including("url" => "http://planx.bops.services/files/#{public_document.blob_key}"),
+            a_hash_including("url" => "http://planx.bops.services/files/#{private_document.blob_key}")
           ])
         end
       end
