@@ -4,6 +4,38 @@ module BopsCore
   module Routing
     extend ActiveSupport::Concern
 
+    class BopsDomain
+      class << self
+        delegate :env, to: :BopsCore
+
+        def matches?(request)
+          domain.starts_with?(request.domain)
+        end
+
+        private
+
+        def domain
+          Rails.application.config.domain
+        end
+      end
+    end
+
+    class ApplicantsDomain
+      class << self
+        delegate :env, to: :BopsCore
+
+        def matches?(request)
+          domain.starts_with?(request.domain)
+        end
+
+        private
+
+        def domain
+          Rails.application.config.applicants_domain
+        end
+      end
+    end
+
     class LocalAuthoritySubdomain
       class << self
         def matches?(request)
@@ -27,6 +59,14 @@ module BopsCore
           ConfigSubdomain.matches?(request) || LocalAuthoritySubdomain.matches?(request)
         end
       end
+    end
+
+    def bops_domain(&)
+      constraints(BopsDomain, &)
+    end
+
+    def applicants_domain(&)
+      constraints(ApplicantsDomain, &)
     end
 
     def local_authority_subdomain(&)

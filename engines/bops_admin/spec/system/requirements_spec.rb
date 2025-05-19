@@ -57,7 +57,7 @@ RSpec.describe "Requirement" do
       category: "drawings",
       description: "Floor plans - existing",
       guidelines: "Drawings to the scale of 1:100",
-      url: "https://planx.example.com/planning-guidance"
+      url: "https://planx.bops.services/planning-guidance"
     )
 
     visit "/admin/requirements"
@@ -74,7 +74,7 @@ RSpec.describe "Requirement" do
       end
 
       within "td:nth-child(2)" do
-        expect(page).to have_link("Floor plans - existing", href: "https://planx.example.com/planning-guidance")
+        expect(page).to have_link("Floor plans - existing", href: "https://planx.bops.services/planning-guidance")
       end
 
       within "td:nth-child(3)" do

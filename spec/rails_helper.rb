@@ -30,7 +30,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
 
   config.before type: :request do
-    host!("planx.example.com")
+    host!("planx.bops.services")
   end
 
   config.include(ActiveJob::TestHelper)

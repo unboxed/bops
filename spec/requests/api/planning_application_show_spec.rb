@@ -144,8 +144,8 @@ RSpec.describe "API request to list planning applications" do
           expect(planning_application_json["documents"].size).to eq(1)
 
           planning_application_json["documents"].first.tap do |document_json|
-            expect(document_json["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/documents/#{document_with_number.id}")
-            expect(document_json["blob_url"]).to eq("http://planx.example.com/files/#{document_with_number.representation.key}")
+            expect(document_json["url"]).to eq("http://planx.bops.services/api/v1/planning_applications/#{planning_application.reference}/documents/#{document_with_number.id}")
+            expect(document_json["blob_url"]).to eq("http://planx.bops.services/files/#{document_with_number.representation.key}")
             expect(document_json["created_at"]).to eq(json_time_format(document_with_number.created_at))
             expect(document_json["archived_at"]).to eq(json_time_format(document_with_number.archived_at))
             expect(document_json["archive_reason"]).to eq(document_with_number.archive_reason)
