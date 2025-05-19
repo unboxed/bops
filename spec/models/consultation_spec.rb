@@ -77,12 +77,11 @@ RSpec.describe Consultation do
     end
   end
 
-  describe "#end_date_from_now" do
+  describe "#end_date_from" do
     let(:consultation) { create(:consultation) }
 
     before do
       create(:environment_impact_assessment, planning_application: consultation.planning_application, required: false)
-      travel_to date
     end
 
     context "when tomorrow is not a working day" do
@@ -91,7 +90,7 @@ RSpec.describe Consultation do
         let(:date) { Time.zone.local(2023, 9, 23, 13) }
 
         it "returns the day 21 days after the next working day" do
-          expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 17).to_date)
+          expect(consultation.end_date_from(date).to_date).to eq(Time.zone.local(2023, 10, 17).to_date)
         end
       end
 
@@ -100,7 +99,7 @@ RSpec.describe Consultation do
         let(:date) { Time.zone.local(2023, 9, 24, 13) }
 
         it "returns the day 21 days after the next working day" do
-          expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 17).to_date)
+          expect(consultation.end_date_from(date).to_date).to eq(Time.zone.local(2023, 10, 17).to_date)
         end
       end
     end
@@ -110,7 +109,7 @@ RSpec.describe Consultation do
       let(:date) { Time.zone.local(2023, 9, 20, 13) }
 
       it "returns the day 21 days after the next working day" do
-        expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 12).to_date)
+        expect(consultation.end_date_from(date).to_date).to eq(Time.zone.local(2023, 10, 12).to_date)
       end
     end
 
@@ -123,7 +122,7 @@ RSpec.describe Consultation do
       end
 
       it "sets the end date to 30 days instead of 21" do
-        expect(consultation.end_date_from_now).to eq(Time.zone.local(2023, 10, 21).to_date)
+        expect(consultation.end_date_from(date).to_date).to eq(Time.zone.local(2023, 10, 21).to_date)
       end
     end
 
@@ -135,7 +134,7 @@ RSpec.describe Consultation do
       let(:date) { Time.zone.local(2023, 12, 18, 13) }
 
       it "returns the day 21 days after the next working day" do
-        expect(consultation.end_date_from_now).to eq(Time.zone.local(2024, 1, 12).to_date)
+        expect(consultation.end_date_from(date).to_date).to eq(Time.zone.local(2024, 1, 12).to_date)
       end
     end
   end

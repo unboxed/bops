@@ -210,10 +210,6 @@ class Consultation < ApplicationRecord
     end
   end
 
-  def end_date_from_now
-    end_date_from(Time.zone.today)
-  end
-
   def letter_closing_date
     end_date_from(Time.next_immediate_business_day(Time.zone.now).to_date)
   end
