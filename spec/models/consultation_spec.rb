@@ -156,7 +156,7 @@ RSpec.describe Consultation do
       end
 
       it "sets the start date to tomorrow" do
-        expect(consultation.start_date).to eq(Time.zone.local(2023, 9, 21).to_date)
+        expect(consultation.start_date).to eq(Time.zone.local(2023, 9, 20).to_date)
       end
 
       it "sets the end date to the future" do

@@ -183,7 +183,7 @@ class Consultation < ApplicationRecord
   end
 
   def start_deadline(now = Time.zone.today)
-    update!(end_date: [end_date, end_date_from(now)].compact.max, start_date: start_date || default_start_date(now))
+    update!(end_date: [end_date, end_date_from(now)].compact.max, start_date: start_date || now)
   end
 
   def extend_deadline(new_date)
@@ -200,10 +200,12 @@ class Consultation < ApplicationRecord
 
     effective_period_days = [consultee_response_period.days, period_days].max
 
+    from_date = 1.business_day.since(now)
+
     if planning_application.application_type.consultations_skip_bank_holidays?
-      Bops::Holidays.days_after_plus_holidays(from_date: default_start_date(now), count: effective_period_days)
+      Bops::Holidays.days_after_plus_holidays(from_date: from_date, count: effective_period_days)
     else
-      default_start_date(now) + effective_period_days
+      from_date + effective_period_days
     end
   end
 
@@ -422,10 +424,6 @@ class Consultation < ApplicationRecord
 
   def replace_placeholders(string, variables)
     string.to_s.gsub(EMAIL_PLACEHOLDER) { variables.fetch($1.to_sym) }
-  end
-
-  def default_start_date(now = Time.zone.today)
-    1.business_day.since(now)
   end
 
   def enqueue_send_consultee_email_jobs

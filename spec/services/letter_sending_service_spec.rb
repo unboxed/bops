@@ -37,7 +37,7 @@ RSpec.describe LetterSendingService do
           expect(letter.id).not_to be_nil
           expect(letter.status).not_to be_nil
           expect(neighbour.consultation.end_date).to eq(Time.utc(2023, 1, 27).to_date)
-          expect(neighbour.consultation.start_date).to eq(Time.utc(2023, 1, 6).to_date)
+          expect(neighbour.consultation.start_date).to eq(Time.utc(2023, 1, 5).to_date)
           expect(letter.text).to include(letter_content)
         end
       end
