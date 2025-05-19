@@ -25,7 +25,7 @@ class AddExtraFieldsToLocalAuthorities < ActiveRecord::Migration[7.0]
           when "bops-applicants-staging.services"
             "https://#{la.subdomain}.bops-applicants-staging.services"
           else
-            "https://#{la.subdomain}.bops-applicants.localhost:3001"
+            "https://#{la.subdomain}.bops-applicants.localhost:3000"
           end
 
         la.save!

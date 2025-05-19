@@ -60,8 +60,8 @@ RSpec.describe "The Open API Specification document" do
 
       expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
       expected_response["status"] = "in_assessment"
-      expected_response["documents"].first["url"] = "http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/documents/#{planning_application_document.id}"
-      expected_response["documents"].first["blob_url"] = "http://planx.example.com/files/#{planning_application_document.representation.key}"
+      expected_response["documents"].first["url"] = "http://planx.bops.services/api/v1/planning_applications/#{planning_application.reference}/documents/#{planning_application_document.id}"
+      expected_response["documents"].first["blob_url"] = "http://planx.bops.services/files/#{planning_application_document.representation.key}"
 
       get("/api/v1/planning_applications/#{planning_application_hash["id"]}", headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"})
       expect(JSON.parse(response.body)).to eq(expected_response)

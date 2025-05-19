@@ -8,8 +8,8 @@
     "totalResults": 1
   },
   "links": {
-    "first": "http://planx.example.com/api/v2/neighbour_responses?page=1",
-    "last": "http://planx.example.com/api/v2/neighbour_responses?page=1",
+    "first": "http://planx.bops.services/api/v2/neighbour_responses?page=1",
+    "last": "http://planx.bops.services/api/v2/neighbour_responses?page=1",
     "prev": null,
     "next": null
   },
