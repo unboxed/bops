@@ -7,7 +7,7 @@ RSpec.describe "Press notice" do
   let!(:assessor) { create(:user, :assessor, local_authority:) }
 
   let!(:planning_application) do
-    create(:planning_application, :prior_approval, local_authority:)
+    create(:planning_application, :prior_approval, local_authority:, postcode: "")
   end
 
   before do
@@ -412,11 +412,11 @@ RSpec.describe "Press notice" do
   describe "confirming a press notice" do
     let(:consultation) { planning_application.consultation }
 
-    before do
-      consultation.start_deadline("2023-09-20".in_time_zone)
-    end
-
     around do |example|
+      travel_to "2023-09-20" do
+        consultation.start_deadline
+      end
+
       travel_to "2023-10-31" do
         example.run
       end

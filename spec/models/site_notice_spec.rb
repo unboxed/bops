@@ -24,7 +24,9 @@ RSpec.describe SiteNotice do
 
       before do
         site_notice.planning_application = planning_application
-        planning_application.consultation.start_deadline(1.day.from_now)
+        travel_to 1.day.from_now do
+          planning_application.consultation.start_deadline
+        end
       end
 
       it "validates date is not in future" do

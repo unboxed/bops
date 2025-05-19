@@ -182,7 +182,8 @@ class Consultation < ApplicationRecord
     )
   end
 
-  def start_deadline(now = Time.zone.today)
+  def start_deadline
+    now = Time.zone.today
     update!(end_date: [end_date, end_date_from(now)].compact.max, start_date: start_date || now)
   end
 
