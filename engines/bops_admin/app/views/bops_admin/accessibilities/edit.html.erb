@@ -1,0 +1,25 @@
+<% content_for :page_title do %>
+  <%= t(".accessibility") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Accessibility", edit_accessibility_path %>
+
+<% content_for :title, t(".accessibility") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".accessibility") %>
+    </h1>
+
+    <p class="govuk-body">
+      <%= t(".about_accessibility") %>
+    </p>
+
+    <%= render "form" %>
+  </div>
+</div>
