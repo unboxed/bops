@@ -1,6 +1,18 @@
 ---
 en:
   bops_admin:
+    accessibilities:
+      edit:
+        about_accessibility: This information is used on the applicants accessibility page.
+        accessibility: Manage accessibility information
+      form:
+        contact_details: Contact details
+        email_address: Email address
+        phone_number: Phone number
+        postal_address: Postal address
+        submit: Submit
+      update:
+        success: Accessibility information successfully updated
     administrator_required: You need to be an administrator to view the page '%{path}'
     application:
       navigation_items:
