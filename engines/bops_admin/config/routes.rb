@@ -39,4 +39,6 @@ BopsAdmin::Engine.routes.draw do
     get :resend_invite, on: :member
     patch :reactivate, on: :member
   end
+
+  resources :submissions, only: [:index, :show]
 end

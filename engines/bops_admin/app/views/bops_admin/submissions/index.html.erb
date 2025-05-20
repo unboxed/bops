@@ -1,0 +1,49 @@
+<% content_for :page_title do %>
+  <%= t(".submissions") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+
+<% content_for :title, t(".submissions") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".submissions") %>
+    </h1>
+
+    <%= govuk_table(id: "submissions") do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: "Reference") %>
+          <% row.with_cell(text: "Source") %>
+          <% row.with_cell(text: "Status") %>
+          <% row.with_cell(text: "Created at") %>
+          <% row.with_cell(text: "Actions") %>
+        <% end %>
+      <% end %>
+
+      <% table.with_body do |body| %>
+        <% if @submissions.present? %>
+          <% @submissions.each do |submission| %>
+            <% body.with_row(html_attributes: {id: dom_id(submission)}) do |row| %>
+              <% row.with_cell(text: submission.application_reference) %>
+              <% row.with_cell(text: submission.source) %>
+              <% row.with_cell(text: submission.status) %>
+              <% row.with_cell(text: submission.created_at.to_fs) %>
+              <% row.with_cell do %>
+                <%= govuk_link_to "View", submission_path(submission) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: "No submissions found", colspan: 5) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_pagination(pagy: @pagy) if @pagy.pages > 1 %>
+  </div>
+</div>

@@ -67,6 +67,7 @@ module BopsAdmin
         {text: "Applications", href: consultees_path, active: active_page_key?("applications")},
         {text: "Policies", href: policies_path, active: active_page_key?("policies")},
         {text: "Users & Access", href: users_path, active: active_page_key?("users")},
+        {text: "Submissions", href: submissions_path, active: active_page_key?("submissions")},
         {text: "Settings", href: profile_path, active: active_page_key?("settings")}
       ]
     end
