@@ -63,6 +63,7 @@ gem "bops_core", path: "engines/bops_core"
 
 gem "bops_admin", path: "engines/bops_admin"
 gem "bops_api", path: "engines/bops_api"
+gem "bops_applicants", path: "engines/bops_applicants"
 gem "bops_config", path: "engines/bops_config"
 gem "bops_consultees", path: "engines/bops_consultees"
 gem "bops_reports", path: "engines/bops_reports"

@@ -77,6 +77,7 @@ jobs:
             }
           - { group: "bops_admin", module: "engines" }
           - { group: "bops_api", module: "engines" }
+          - { group: "bops_applicants", module: "engines" }
           - { group: "bops_config", module: "engines" }
           - { group: "bops_core", module: "engines" }
           - { group: "bops_consultees", module: "engines", want_pdf: true }

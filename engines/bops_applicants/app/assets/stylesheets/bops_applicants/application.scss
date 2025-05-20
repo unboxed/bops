@@ -1,0 +1,8 @@
+$govuk-assets-path: "govuk-frontend/dist/govuk/assets/";
+$govuk-font-family: open-sans, sans-serif;
+
+@import "govuk-frontend/dist/govuk/all";
+
+@import "banner";
+@import "fonts";
+@import "header";
