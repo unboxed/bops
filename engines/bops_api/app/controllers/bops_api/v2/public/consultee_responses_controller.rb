@@ -19,9 +19,9 @@ module BopsApi
             .unscope(:order) # Remove default ORDER BY clause
             .count
           @response_summary = {
-            supportive: @response_summary["approved"] || 0,
-            objection: @response_summary["objected"] || 0,
-            neutral: @response_summary["amendments_needed"] || 0
+            approved: @response_summary["approved"] || 0,
+            objected: @response_summary["objected"] || 0,
+            amendments_needed: @response_summary["amendments_needed"] || 0
           }
 
           @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
