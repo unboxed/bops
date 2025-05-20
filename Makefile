@@ -41,6 +41,9 @@ submission-api-specs:
 admin-specs:
 	$(DOCKER-RUN) console rspec engines/bops_admin/spec
 
+applicants-specs:
+	$(DOCKER-RUN) console rspec engines/bops_applicants/spec
+
 config-specs:
 	$(DOCKER-RUN) console rspec engines/bops_config/spec
 
