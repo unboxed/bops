@@ -60,11 +60,10 @@ Style/NoFetchWithLiteralNilDefault:
 Style/UseGovukLinkHelper:
   Enable: true
 
-# past migrations are ignored; we don't expect to go back and edit them ever,
-# we'll fix them in future migrations if at all.
+# We use the strong_migrations gem to catch any schema changes that might affect
+# performance but it can't see what change_table does so don't require its use.
 Rails/BulkChangeTable:
-  Exclude:
-    - db/migrate/202[0123]*
+  Enabled: false
 
 Rails/ReversibleMigration:
   Exclude:
