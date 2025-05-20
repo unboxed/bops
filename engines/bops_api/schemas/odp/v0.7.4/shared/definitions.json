@@ -154,11 +154,19 @@
         "totalPages": {
           "type": "integer"
         },
-        "totalItems": {
+        "totalResults": {
+          "type": "integer"
+        },
+        "totalAvailableItems": {
           "type": "integer"
         }
       },
-      "required": ["resultsPerPage", "currentPage", "totalPages", "totalItems"]
+      "required": [
+        "resultsPerPage",
+        "currentPage",
+        "totalPages",
+        "totalAvailableItems"
+      ]
     }
   }
 }

@@ -3,7 +3,8 @@
     "resultsPerPage": 10,
     "currentPage": 1,
     "totalPages": 1,
-    "totalItems": 4
+    "totalResults": 4,
+    "totalAvailableItems": 4
   },
   "summary": {
     "totalComments": 4,
