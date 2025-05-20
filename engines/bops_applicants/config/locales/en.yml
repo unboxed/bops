@@ -1,0 +1,7 @@
+---
+en:
+  bops_applicants:
+    application:
+      header:
+        back_office_planning: Back Office Planning System
+    page_title: "%{council} BOPS"

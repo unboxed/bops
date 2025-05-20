@@ -5,3 +5,9 @@
 #
 # the docs suggest quiet-deps alone should be enough but quiet seems to be needed too
 Rails.application.config.dartsass.build_options << " --quiet-deps --quiet"
+
+# configure entrypoints
+Rails.application.config.dartsass.builds = {
+  "application.scss" => "application.css",
+  "applicants.scss" => "applicants.css"
+}

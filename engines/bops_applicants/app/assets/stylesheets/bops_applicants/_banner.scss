@@ -1,0 +1,7 @@
+.staging-banner {
+  @include govuk-font($size: 14);
+
+  background-color: govuk-colour("yellow");
+  color: govuk-colour("black");
+  padding: govuk-spacing(1) 0;
+}
