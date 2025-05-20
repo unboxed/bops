@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Provides the interface for consultees using BOPS"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,consultees,db,lib}/**/*"]
+    Dir["{app,config,db,lib}/**/*"]
   end
 
   spec.add_dependency "bops_core", "0.1.0"
