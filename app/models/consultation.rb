@@ -194,22 +194,6 @@ class Consultation < ApplicationRecord
     update!(end_date: new_date)
   end
 
-  def end_date_from(now = Time.zone.today)
-    # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
-    # Second class letters are delivered 2 days after they’re dispatched.
-    # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
-
-    effective_period_days = [consultee_response_period.days, period_days].max
-
-    from_date = 1.business_day.since(now)
-
-    if planning_application.application_type.consultations_skip_bank_holidays?
-      Bops::Holidays.days_after_plus_holidays(from_date: from_date, count: effective_period_days)
-    else
-      from_date + effective_period_days
-    end
-  end
-
   def letter_closing_date
     end_date_from(Time.next_immediate_business_day(Time.zone.now).to_date)
   end
@@ -524,5 +508,21 @@ class Consultation < ApplicationRecord
 
   def neighbour_exists?(new_neighbour)
     neighbours.find_by(address: new_neighbour[:address]).present?
+  end
+
+  def end_date_from(now = Time.zone.today)
+    # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
+    # Second class letters are delivered 2 days after they’re dispatched.
+    # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
+
+    effective_period_days = [consultee_response_period.days, period_days].max
+
+    from_date = 1.business_day.since(now)
+
+    if planning_application.application_type.consultations_skip_bank_holidays?
+      Bops::Holidays.days_after_plus_holidays(from_date: from_date, count: effective_period_days)
+    else
+      from_date + effective_period_days
+    end
   end
 end
