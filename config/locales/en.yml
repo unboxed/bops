@@ -316,6 +316,14 @@ en:
               invalid: Enter a valid url for the legislation
             title:
               blank: Enter a title for the legislation
+        local_authority:
+          attributes:
+            accessibility_email_address:
+              blank: Enter an email address for the applicants accessibility page
+            accessibility_phone_number:
+              blank: Enter a phone number for the applicants accessibility page
+            accessibility_postal_address:
+              blank: Enter a postal address for the applicants accessibility page
         meeting:
           attributes:
             occurred_at:
