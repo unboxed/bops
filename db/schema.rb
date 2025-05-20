@@ -569,6 +569,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_103524) do
     t.string "public_register_base_url"
     t.string "submission_guidance_url"
     t.string "submission_url"
+    t.string "privacy_policy_url"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
