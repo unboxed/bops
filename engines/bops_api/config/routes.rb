@@ -6,6 +6,15 @@ BopsApi::Engine.routes.draw do
   mount Rswag::Ui::Engine, at: "/docs"
   mount Rswag::Api::Engine, at: "/docs"
 
+  # Fixme
+  get "/docs/v2/api/swagger_doc.yaml", to: proc { |env|
+    [
+      200,
+      {"Content-Type" => "text/yaml"},
+      [File.read(BopsApi::Engine.root.join("swagger/v2/swagger_doc.yaml"))]
+    ]
+  }
+
   defaults format: "json" do
     get "/v1/docs", to: redirect("docs/index.html?urls.primaryName=API%20V1%20Docs", status: 302)
 

@@ -39,8 +39,14 @@ locales:
 api-docs:
 	$(DOCKER-RUN) console rake api:docs:generate
 
+submission-api-docs:
+	$(DOCKER-RUN) console rake submission_api:docs:generate
+
 api-specs:
 	$(DOCKER-RUN) console rspec engines/bops_api/spec
+
+submission-api-specs:
+	$(DOCKER-RUN) console rspec engines/bops_submissions/spec
 
 admin-specs:
 	$(DOCKER-RUN) console rspec engines/bops_admin/spec
