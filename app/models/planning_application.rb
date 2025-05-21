@@ -291,6 +291,16 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  class << self
+    def find_by_param!(param)
+      if param.match?(/\A\d+\z/)
+        find(param)
+      else
+        find_by!(reference: param)
+      end
+    end
+  end
+
   def report_link
     routes.report_magic_link
   end
@@ -428,7 +438,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def site_notice_link
-    "#{local_authority.applicants_url}/planning_applications/#{reference}/site_notices/download"
+    "#{local_authority.applicants_url}/planning_applications/#{reference}/site_notice"
   end
 
   def last_site_notice_audit

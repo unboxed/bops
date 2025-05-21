@@ -4,6 +4,8 @@ module BopsCore
   module ApplicationHelper
     include GOVUKDesignSystemFormBuilder::BuilderHelper
 
+    using HTMLAttributesUtils
+
     {
       bops_secondary_navigation: "BopsCore::SecondaryNavigationComponent",
       bops_side_navigation: "BopsCore::SideNavigationComponent",
@@ -20,6 +22,24 @@ module BopsCore
           end
         end
       end
+    end
+
+    def govuk_button(content = nil, name: nil, type: "button", **html_attributes, &)
+      default_attributes = {
+        type: type,
+        class: "govuk-button",
+        data: {module: "govuk-button"}
+      }
+
+      options = default_attributes
+        .deep_merge_html_attributes(html_attributes)
+        .deep_tidy_html_attributes
+
+      # The deep_tidy_html_attributes removes blank attributes
+      # so we need to add the 'name' attribute afterwards.
+      options[:name] = name
+
+      button_tag(content, options, &)
     end
 
     def active_page_key?(page_key)

@@ -1056,7 +1056,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "As part of the application process"
       )
       expect(mail_body).to include(
-        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}/site_notices/download"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}/site_notice"
       )
     end
   end
@@ -1126,7 +1126,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "The site notice for this application is ready for display"
       )
       expect(mail_body).to include(
-        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}/site_notices/download"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}/site_notice"
       )
     end
   end

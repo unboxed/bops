@@ -1,0 +1,31 @@
+<% content_for :page_title do %>
+  Download your site notice - <%= page_title %>
+<% end %>
+
+<div class="govuk-!-margin-bottom-7">
+  <h1 class="govuk-heading-l">
+    Download site notice
+  </h1>
+
+  <h2 class="govuk-heading-m">
+    <span class="govuk-caption-m">Address</span>
+    <%= formatted_address(@planning_application) %>
+  </h2>
+
+  <h2 class="govuk-heading-m">
+    <span class="govuk-caption-m">Reference number</span>
+    <%= @planning_application.reference %>
+  </h2>
+</div>
+
+<div class="govuk-!-display-none">
+  <div id="site-notice-content">
+    <div style="width: 430px; font-family: Arial;">
+      <%= @site_notice.sanitized_content %>
+    </div>
+  </div>
+</div>
+
+<%= stimulus_tag("site-notice", values: {reference: @planning_application.reference}) do %>
+  <%= govuk_button "Download printable PDF", data: {action: "click->site-notice#downloadPdf"} %>
+<% end %>
