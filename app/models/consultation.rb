@@ -182,8 +182,9 @@ class Consultation < ApplicationRecord
     )
   end
 
-  def start_deadline(now = Time.zone.today)
-    update!(end_date: [end_date, end_date_from(now)].compact.max, start_date: start_date || default_start_date(now))
+  def start_deadline
+    now = Time.zone.today
+    update!(end_date: [end_date, end_date_from(now)].compact.max, start_date: start_date || now)
   end
 
   def extend_deadline(new_date)
@@ -191,24 +192,6 @@ class Consultation < ApplicationRecord
     return unless new_date > end_date
 
     update!(end_date: new_date)
-  end
-
-  def end_date_from(now = Time.zone.today)
-    # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
-    # Second class letters are delivered 2 days after they’re dispatched.
-    # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
-
-    effective_period_days = [consultee_response_period.days, period_days].max
-
-    if planning_application.application_type.consultations_skip_bank_holidays?
-      Bops::Holidays.days_after_plus_holidays(from_date: default_start_date(now), count: effective_period_days)
-    else
-      default_start_date(now) + effective_period_days
-    end
-  end
-
-  def end_date_from_now
-    end_date_from(Time.zone.today)
   end
 
   def letter_closing_date
@@ -424,10 +407,6 @@ class Consultation < ApplicationRecord
     string.to_s.gsub(EMAIL_PLACEHOLDER) { variables.fetch($1.to_sym) }
   end
 
-  def default_start_date(now = Time.zone.today)
-    1.business_day.since(now)
-  end
-
   def enqueue_send_consultee_email_jobs
     defaults = {
       signatory_name: local_authority.signatory_name,
@@ -529,5 +508,21 @@ class Consultation < ApplicationRecord
 
   def neighbour_exists?(new_neighbour)
     neighbours.find_by(address: new_neighbour[:address]).present?
+  end
+
+  def end_date_from(now = Time.zone.today)
+    # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
+    # Second class letters are delivered 2 days after they’re dispatched.
+    # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
+
+    effective_period_days = [consultee_response_period.days, period_days].max
+
+    from_date = 1.business_day.since(now)
+
+    if planning_application.application_type.consultations_skip_bank_holidays?
+      Bops::Holidays.days_after_plus_holidays(from_date: from_date, count: effective_period_days)
+    else
+      from_date + effective_period_days
+    end
   end
 end
