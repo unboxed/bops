@@ -7,7 +7,7 @@ BopsApi::Engine.routes.draw do
   mount Rswag::Api::Engine, at: "/docs"
 
   # Fixme
-  get "/docs/v2/api/swagger_doc.yaml", to: proc { |env|
+  get "/docs/v2/swagger_doc.yaml", to: proc { |env|
     [
       200,
       {"Content-Type" => "text/yaml"},
