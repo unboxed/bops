@@ -1,0 +1,500 @@
+{
+  "applicationData": {
+    "siteLocation": {
+      "bs7666Number": 2,
+      "bs7666Description": "Lambeth Town Hall",
+      "bs7666StreetDescription": "Brixton Hill",
+      "bs7666AdministrativeArea": "Lambeth",
+      "bs7666Town": "London",
+      "bs7666PostCode": "SW2 1RW",
+      "bs7666UniquePropertyReferenceNumber": 100023673934,
+      "bs7666X": 530919,
+      "bs7666Y": 175202,
+      "isGla": true
+    },
+    "applicant": {
+      "personGivenName": "Daleel",
+      "personFamilyName": "Hagy",
+      "orgName": "Test_Company Name",
+      "intAddressLine1": "Lambeth Town Hall, 1 Brixton Hill",
+      "intAddressLine4": "London",
+      "intAddressLine5": "Lambeth",
+      "country": "United Kingdom",
+      "internationalPostCode": "SW2 1RW",
+      "isAgent": true,
+      "telNationalNumber": "070000000",
+      "emailAddress": "dhagy1@lambeth.gov.uk",
+      "title": "MR"
+    },
+    "agent": {
+      "personGivenName": "Daleel",
+      "personFamilyName": "Hagy",
+      "intAddressLine1": "Lambeth Town Hall, 1 Brixton Hill",
+      "intAddressLine2": " Brixton Hill",
+      "intAddressLine4": "Lambeth",
+      "country": "United Kingdom",
+      "internationalPostCode": "SW2 1RW",
+      "telNationalNumber": "02079260135",
+      "emailAddress": "dhagy1@lambeth.gov.uk",
+      "title": "MR"
+    },
+    "siteArea": {
+      "siteArea": 23,
+      "areaUnit": "sq.metres"
+    },
+    "siteInformation": {
+      "separateTitleNumbersGLA": [
+        {
+          "textField": "1"
+        }
+      ],
+      "epcCertificate": false,
+      "publicPrivateOwnership": "Private"
+    },
+    "proposalDescription": {
+      "descriptionText": "\nDH Test Description",
+      "proposalStarted": false
+    },
+    "proposalDescriptionGla": {
+      "fastTrackAffordableHousing": false,
+      "permissionForWholeBuilding": true,
+      "registeredSocialLandlord": false,
+      "includesBuildings": false,
+      "lossOfGardenLand": false,
+      "projectedWorksCategory": "UpTo2m"
+    },
+    "occupationalStatus": {
+      "vacantBuildingCredit": false
+    },
+    "supersede": {
+      "supersedingExistingConsent": false
+    },
+    "developmentDates": {
+      "developmentPhases": [
+        {
+          "schemePhaseDetail": "Phase Detail 1",
+          "glaCommencementDate": "2024-12-19T00:00:00Z",
+          "glaCompletionDate": "2026-02-01T00:00:00Z"
+        }
+      ]
+    },
+    "developerInformation": {
+      "hasSchemeName": false,
+      "leadDeveloperAssigned": false
+    },
+    "existingUse": {
+      "currentUse": "test Please describe the current use of the site",
+      "isCurrentlyVacant": false,
+      "contaminatedLandKnown": false,
+      "contaminatedLandSuspect": false,
+      "contaminatedProposedUse": false
+    },
+    "existingProposedFloorArea": {
+      "existingProposedFloorAreaDetail": [
+        {
+          "floorAreaUseClasses": "B2",
+          "existingGrossFloorArea": 34,
+          "grossFloorAreaToBeLost": 32,
+          "grossFloorAreaGained": 12
+        }
+      ],
+      "totalExistingGrossFloorArea": 34,
+      "totalGrossFloorAreaToBeLost": 32,
+      "totalGrossFloorAreaGained": 12
+    },
+    "materials": {
+      "externalMaterialsRequired": false,
+      "materials": []
+    },
+    "access": {
+      "newAlteredVehicular": "No",
+      "newAlteredPedestrian": "No",
+      "newPublicRoad": "No",
+      "newRightsOfWay": "No",
+      "changeRightsOfWay": "No"
+    },
+    "parkingGla": {
+      "householdParking": {
+        "existingParkingAffected": false
+      },
+      "fullParking": {}
+    },
+    "electricVehicle": {
+      "electricVehicleChargingPoints": false,
+      "electricVehicleDetail": []
+    },
+    "fullTreesHedges": {
+      "fullTreesHedges": {
+        "treesHedgesOnSite": false,
+        "treesHedgesAdjacent": false
+      }
+    },
+    "floodRisk": {
+      "siteInFloodRiskArea": "No",
+      "proposalNearWatercourse": false,
+      "proposalIncreaseFloodrisk": false,
+      "sustainableDrainage": false,
+      "existingWatercourse": false,
+      "soakaway": false,
+      "mainSewer": true,
+      "pondLake": false
+    },
+    "biodiversity": {
+      "protectedPrioritySpecies": "no",
+      "designatedSites": "no",
+      "geologicalConservationImportance": "no"
+    },
+    "biodiversityNetGain1": {
+      "developmentIsGrantedPermission": true,
+      "exemptions": [],
+      "supportingDocument": [
+        {
+          "documentPlan": "biodiversityMetricCalculation",
+          "documentNameReference": "er32"
+        },
+        {
+          "documentPlan": "onsiteIrreplaceableHabitats",
+          "documentNameReference": "ewr"
+        }
+      ],
+      "thePreDevelopmentBiodiversityValue": 23,
+      "dateTime": "2024-12-19T00:00:00Z",
+      "ifDateIsEarlier": "If an earlier date, to the date of the planning application, has been used, please provide details why this date has been use",
+      "dateBiodiversityMetricUsedPublished": "2024-12-19T00:00:00Z",
+      "doesPreDevelopmentBiodiversityValueAndDate": true,
+      "ThePreDevelopmentValue": 54,
+      "dateOfPreDevelopmentBiodiversityValue": "2024-12-19T00:00:00Z",
+      "pleaseProvideSupportingEvidence": "Please provide supporting evidence *Required\n",
+      "doesSiteHaveIrreplaceableHabitats": true,
+      "pleaseProvideDetails": "Please provide details *Required\n"
+    },
+    "openAndProtectedSpace": {
+      "openSpace": {
+        "lossGainChangeOfUseOpenSpace": false
+      },
+      "protectedSpace": {
+        "lossGainChangeOfUseProtectedSpace": false
+      }
+    },
+    "foulSewage": {
+      "disposal": {
+        "mainsSewer": true,
+        "septicTank": false,
+        "packageTreatmentPlant": false,
+        "cessPit": false,
+        "other": false,
+        "notKnown": false
+      },
+      "connectExistingDrainage": "Yes",
+      "reference": "If Yes, please include the details of the existing system on the application drawings and state the plan(s)/drawing(s) references *Required\n"
+    },
+    "waterManagement": {
+      "percentageReductionOfSurfaceWaterDischarge": 23,
+      "greenSuDSIncorporatedIntoDrainageDesign": true,
+      "internalResidentialWaterUsage": 0,
+      "rainWaterHarvesting": false,
+      "greyWaterReuse": false
+    },
+    "tradeEffluent": {
+      "disposeTradeWaste": "No"
+    },
+    "residentialUnitsSpec": {
+      "unitsToBeLost": false,
+      "lostUnitsSpecStructure": [],
+      "lostSpaceUnitsSpecStructure": [],
+      "unitsToBeAdded": false,
+      "addedUnitsSpecStructure": [],
+      "addedSpaceUnitsSpecStructure": [],
+      "isMixedResidential": false
+    },
+    "nonPermanentDwellings": {
+      "lossGainNonPermanentDwellings": false
+    },
+    "otherResidentialAccommodation": {
+      "hotelHolidayAccommodation": false,
+      "unitsProposed": []
+    },
+    "wasteAndRecycling": {
+      "wasteProvisionComplete": true
+    },
+    "utilities": {
+      "newWaterConnections": 23,
+      "gasConnections": 32,
+      "fireSupression": false,
+      "fullFibreInternetConnectionRes": 3,
+      "fullFibreInternetConnectionNonRes": 2,
+      "mobileNetworkProviders": false
+    },
+    "environmental": {
+      "communityEnergyFacilities": false,
+      "heatPumps": false,
+      "solarCapacity": false,
+      "numberOfPassiveCoolingUnits": 3,
+      "noX": 3,
+      "pms": 6,
+      "greenhouseGasEmissionReduction": false,
+      "greenRoofArea": 6,
+      "urbanGreeningFactorScore": 6,
+      "electricalHeatingUnits": 7,
+      "reuseRecycleOfDemolitionMaterial": 7
+    },
+    "employment": {
+      "isEmployeesChanged": false
+    },
+    "hours": {
+      "areHours": "No"
+    },
+    "industrialCommercial": {
+      "doesInvolveIndustrialCommercial": false,
+      "isProposalWasteManagementDevelopment": false
+    },
+    "hazardousSubstances": {
+      "isUseStorageFollowingMaterials": "No"
+    },
+    "siteVisit": {
+      "seeSite": false,
+      "visitContactDetails": "ContactAgent"
+    },
+    "advice": {
+      "haveSoughtAdvice": false
+    },
+    "declarationOfInterest": {
+      "isRelated": false
+    },
+    "ownershipCertificates": {
+      "isApplicantSoleLandOwner": true,
+      "certificateSelected": "CertificateA",
+      "declarationMade": true,
+      "isAgriculturalHolding": false,
+      "signatory": "Agent",
+      "personGivenName": "Daleel",
+      "personFamilyName": "Hagy",
+      "declarationDate": "2024-12-19T00:00:00Z",
+      "title": "MR"
+    },
+    "declaration": {
+      "declaration": "I/We hereby apply for Full planning permission as described in the questions answered, details provided, and the accompanying plans/drawings and additional information.\nI/We confirm that, to the best of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine opinions of the person(s) giving them.\nI/We also accept that, in accordance with the Planning Portal\u0027s terms and conditions:\n  - Once submitted, this information will be made available to the Local Planning Authority and, once validated by them, be published as part of a public register and on the authority\u0027s website;\n  - Our system will automatically generate and send you emails in regard to the submission of this application.",
+      "declarationMade": true,
+      "signed": "Daleel Hagy",
+      "declarationDate": "2024-12-19T13:15:15Z"
+    }
+  },
+  "applicationHeader": {
+    "dateSubmitted": "2024-12-19T13:15:21.353Z",
+    "refNum": 10087984,
+    "formattedRefNum": "PT-10087984",
+    "applicationVersion": 1,
+    "description": "DH_Town Hall",
+    "payment": {
+      "amountDue": 0.0,
+      "amountPaid": 0.0,
+      "currency": "GBP",
+      "paymentMethod": "OnlineViaPortal"
+    },
+    "applicationTo": "N5660",
+    "attachmentsChanged": false,
+    "isValidApplication": true
+  },
+  "applicationScenario": {
+    "scenarioNumber": 4
+  },
+  "documentList": [
+    {
+      "name": "Application Form",
+      "description": "Application Form",
+      "fileName": "ApplicationForm.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 589438,
+      "documentRef": "10087984-1-1",
+      "deliveryMethod": "Electronic",
+      "documentType": "Application_Form",
+      "reference": "Application Form"
+    },
+    {
+      "name": "Application Form - Without Personal Data",
+      "description": "Application Form - Without Personal Data",
+      "fileName": "ApplicationFormRedacted.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 588953,
+      "documentRef": "10087984-1-2",
+      "deliveryMethod": "Electronic",
+      "documentType": "Application_Form_Without_Personal_Data",
+      "reference": "Application Form - Without Personal Data"
+    },
+    {
+      "name": "How the fee was calculated",
+      "description": "How the fee was calculated",
+      "fileName": "FeeCalculation.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 109095,
+      "documentRef": "10087984-1-3",
+      "deliveryMethod": "Electronic",
+      "documentType": "How_the_fee_was_calculated",
+      "reference": "How the fee was calculated"
+    },
+    {
+      "name": "A summary of the attachments in the proposal",
+      "description": "A summary of the attachments in the proposal",
+      "fileName": "AttachmentSummary.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 85135,
+      "documentRef": "10087984-1-4",
+      "deliveryMethod": "Electronic",
+      "documentType": "A_summary_of_the_attachments_in_the_proposal",
+      "reference": "A summary of the attachments in the proposal"
+    },
+    {
+      "name": "The location plan",
+      "description": "",
+      "fileName": "Test document DH.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 18382,
+      "documentRef": "10087984-1-1075799",
+      "deliveryMethod": "Electronic",
+      "documentType": "The_location_plan",
+      "reference": "The location plan"
+    },
+    {
+      "name": "Community Infrastructure Levy - Completed form",
+      "description": "",
+      "fileName": "Test document DH.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "sizeInBytes": 15495,
+      "documentRef": "10087984-1-1075800",
+      "deliveryMethod": "Electronic",
+      "documentType": "Community_Infrastructure_Levy_-_Completed_form",
+      "reference": "Community Infrastructure Levy - Completed form"
+    },
+    {
+      "name": "Additional plans",
+      "description": "Document description ",
+      "fileName": "C.jpg",
+      "mimeType": "image/jpeg",
+      "sizeInBytes": 4197,
+      "documentRef": "10087984-1-1075801",
+      "deliveryMethod": "Electronic",
+      "documentType": "Additional_plans",
+      "reference": "Additional plans"
+    },
+    {
+      "name": "Community Infrastructure Levy - Completed form",
+      "description": "Document description ",
+      "fileName": "Community Infrastructure Levy - Completed form_included_in_Additional plans.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 42955,
+      "documentRef": "10087984-1-1075802",
+      "deliveryMethod": "CoveredInAnotherDocument",
+      "documentType": "Community_Infrastructure_Levy_-_Completed_form",
+      "reference": "Community Infrastructure Levy - Completed form"
+    },
+    {
+      "name": "The location plan",
+      "description": "Document description ",
+      "fileName": "The location plan_included_in_Additional plans.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 42094,
+      "documentRef": "10087984-1-1075803",
+      "deliveryMethod": "CoveredInAnotherDocument",
+      "documentType": "The_location_plan",
+      "reference": "The location plan"
+    }
+  ],
+  "feeCalculationSummary": {
+    "fullFee": {
+      "enlargementImprovementAlteration": true,
+      "newDwellinghouses": false,
+      "changeToMultipleDwellinghouses": false,
+      "changeBuildingToDwellinghouses": false,
+      "buildingErection": false,
+      "agriculturalBuildingErection": false,
+      "glasshouseErection": false,
+      "plantOrMachinery": false,
+      "refuseOrWasteMaterials": false,
+      "otherOperations": false,
+      "meansOfAccess": false,
+      "otherMaterialChange": false,
+      "fee": 258,
+      "enlargementImprovementAlterationSingleOrMultiple": "enlargementImprovementAlterationSingle"
+    },
+    "concessions": {
+      "reductions": {
+        "nonProfit": true
+      },
+      "exemptions": {
+        "amendmentPostFeeUplift": false,
+        "disabledAccess": false,
+        "disabledAccessPublic": true,
+        "planningActPart3": false,
+        "firstRevision": false
+      }
+    },
+    "multipleLpaFees": {
+      "isMultipleLpa": false
+    },
+    "calculation": {
+      "payment": {
+        "amountDue": 0.00,
+        "currency": "GBP",
+        "paymentMethod": "OnlineViaPortal"
+      }
+    }
+  },
+  "polygon": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  530926,
+                  175216.21
+                ],
+                [
+                  530897.02,
+                  175205.71
+                ],
+                [
+                  530896.2343587935,
+                  175191.29044591202
+                ],
+                [
+                  530904.4400000001,
+                  175189.18999999997
+                ],
+                [
+                  530912,
+                  175191.28999999998
+                ],
+                [
+                  530916.06,
+                  175195.62999999998
+                ],
+                [
+                  530912.9800000001,
+                  175208.50999999998
+                ],
+                [
+                  530928.8,
+                  175213.83
+                ],
+                [
+                  530926,
+                  175216.21
+                ]
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "boundaryType": "MY_BOUNDARY"
+        },
+        "id": "099bc773-098d-44e9-9344-26d9e9c8c4ef"
+      }
+    ]
+  },
+  "schemaVersion": "1.0"
+}
