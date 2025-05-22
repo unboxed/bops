@@ -407,6 +407,18 @@ en:
         requirement: Requirement
       update:
         successfully_updated: Requirement successfully updated
+    submissions:
+      actions:
+        view: View
+      headings:
+        actions: Actions
+        created_at: Created at
+        id: ID
+        status: Status
+      index:
+        page_title: BOPS Admin
+        submissions: Submissions
+      no_submissions_found: No submissions found
     tokens:
       create:
         success: API token successfully created

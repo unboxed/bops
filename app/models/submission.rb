@@ -13,6 +13,8 @@ class Submission < ApplicationRecord
     validates :request_headers
   end
 
+  scope :by_created_at_desc, -> { order(created_at: :desc) }
+
   aasm column: :status, timestamps: true do
     state :submitted, initial: true
     state :started
@@ -34,5 +36,10 @@ class Submission < ApplicationRecord
 
   def application_reference
     request_body["applicationRef"]
+  end
+
+  def source
+    # TODO: this should be dynamic based on the source of the submission
+    "Planning Portal"
   end
 end
