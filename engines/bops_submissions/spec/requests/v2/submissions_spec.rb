@@ -7,7 +7,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
   let(:valid_submission_event) { json_fixture("submissions/planning_portal.json") }
 
   before do
-    create(:api_user, token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
+    create(:api_user, permissions: %w[planning_application:write], token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
   end
 
   path "/api/v2/submissions" do

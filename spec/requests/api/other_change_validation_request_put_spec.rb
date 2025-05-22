@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "API request to list change requests" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:user) { create(:user, local_authority: local_authority) }
-  let!(:api_user) { create(:api_user, local_authority: local_authority) }
+  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read validation_request:write], local_authority: local_authority) }
 
   let(:path) do
     "/api/v1/planning_applications/#{planning_application.reference}/other_change_validation_requests/#{other_change_validation_request.id}"

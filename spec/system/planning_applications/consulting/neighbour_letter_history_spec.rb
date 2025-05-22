@@ -8,7 +8,7 @@ def toggle_accordion(text)
 end
 
 RSpec.describe "View history of letters to neighbours", type: :system do
-  let(:api_user) { create(:api_user, name: "PlanX") }
+  let(:api_user) { create(:api_user, :planx) }
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
   let!(:application_type) { create(:application_type, :prior_approval) }

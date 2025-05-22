@@ -17,7 +17,7 @@ RSpec.describe BopsCore::ApplicationController, type: :controller do
 
   let(:local_authority) { create(:local_authority) }
   let(:user) { create(:user, :assessor, local_authority:) }
-  let(:api_user) { create(:api_user, local_authority:) }
+  let(:api_user) { create(:api_user, permissions: %w[validation_request:read], local_authority:) }
 
   before do
     request.env["HTTP_HOST"] = "#{local_authority.subdomain}.bops.services"

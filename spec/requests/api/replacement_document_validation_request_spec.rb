@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Replacement document validation requests API" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
+  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read validation_request:write], local_authority: default_local_authority) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let(:old_document) { create(:document, planning_application:) }
 

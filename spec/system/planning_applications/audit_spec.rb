@@ -10,7 +10,7 @@ RSpec.describe "Auditing changes to a planning application" do
     create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
 
-  let!(:api_user) { create(:api_user) }
+  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read]) }
 
   before do
     create(:audit, planning_application_id: planning_application.id,

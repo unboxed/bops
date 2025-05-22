@@ -5,7 +5,7 @@ require "bops_config_helper"
 RSpec.describe "Local Authorities", type: :system, capybara: true do
   before do
     local_authority = create(:local_authority, :southwark)
-    ApiUser.create!(name: "bops-applicants", local_authority:, token: "bops_letmeinpleasethisisabsolutelysecurereally_")
+    create(:api_user, name: "bops-applicants", local_authority:, token: "bops_letmeinpleasethisisabsolutelysecurereally_", permissions: %w[validation_request:read])
   end
 
   let(:user) { create(:user, :global_administrator, name: "Clark Kent", local_authority: nil) }

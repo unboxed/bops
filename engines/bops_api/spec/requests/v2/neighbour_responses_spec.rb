@@ -8,7 +8,7 @@ RSpec.describe "BOPS API" do
   let(:document) { create(:document, :with_tags, validated: true, publishable: true) }
 
   let(:token) { "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
-  let!(:api_user) { create(:api_user, token:, local_authority:) }
+  let!(:api_user) { create(:api_user, permissions: %w[comment:read], token:, local_authority:) }
   let!(:Authorization) { "Bearer #{token}" }
 
   around do |example|

@@ -68,7 +68,7 @@ module BopsConfig
       api_user = ApiUser.find_by!(name: "bops-applicants")
 
       @local_authority = LocalAuthority.new do |la|
-        la.api_users.new(name: "bops-applicants", token: api_user.token)
+        la.api_users.new(name: "bops-applicants", token: api_user.token, permissions: api_user.permissions)
       end
     end
 

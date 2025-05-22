@@ -18,10 +18,15 @@ FactoryBot.define do
 
     trait :swagger do
       name { "swagger" }
+      permissions {
+        ["planning_application:read", "comment:read",
+          "planning_application:write", "comment:write"]
+      }
     end
 
     trait :planx do
       name { "PlanX" }
+      permissions { ["planning_application:write"] }
     end
   end
 end

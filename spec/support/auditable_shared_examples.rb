@@ -22,7 +22,7 @@ RSpec.shared_examples "Auditable" do
     end
 
     context "when current API user is present" do
-      let(:api_user) { create(:api_user) }
+      let(:api_user) { create(:api_user, permissions: %w[validation_request:read]) }
 
       before { Current.api_user = api_user }
 

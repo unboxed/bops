@@ -7,6 +7,11 @@ class ApiUser < ApplicationRecord
   include StoreModel::NestedAttributes
 
   TOKEN_FORMAT = /\Abops_[a-zA-Z0-9]{36}[-_a-zA-Z0-9]{6}\z/
+  VALID_PERMISSIONS = %w[
+    planning_application:read planning_application:write
+    comment:read comment:write
+    validation_request:read validation_request:write
+  ].freeze
 
   attribute :file_downloader, FileDownloaders.to_type
   alias_attribute :value, :token
@@ -23,6 +28,8 @@ class ApiUser < ApplicationRecord
   validates :name, presence: true, uniqueness: {scope: :local_authority_id, conditions: -> { where(revoked_at: nil) }}
   validates :token, format: {with: TOKEN_FORMAT}, on: :create
   validates :file_downloader, store_model: true
+  validates :permissions, presence: true, on: :create
+  validates :permissions, inclusion: {in: VALID_PERMISSIONS}
 
   accepts_nested_attributes_for :file_downloader
 

@@ -6,7 +6,7 @@ RSpec.describe "API request to patch document validation requests" do
   include ActionDispatch::TestProcess::FixtureFile
 
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
+  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read validation_request:write], local_authority: default_local_authority) }
   let(:user) { create(:user, local_authority: default_local_authority) }
 
   let!(:planning_application) do

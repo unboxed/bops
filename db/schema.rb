@@ -73,6 +73,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_103524) do
     t.string "service"
     t.datetime "revoked_at"
     t.datetime "last_used_at"
+    t.string "permissions", array: true
     t.index ["local_authority_id", "name"], name: "ix_api_users_on_local_authority_id__name", unique: true, where: "(revoked_at IS NULL)"
     t.index ["local_authority_id", "token"], name: "ix_api_users_on_local_authority_id__token", unique: true
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
