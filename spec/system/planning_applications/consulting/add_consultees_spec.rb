@@ -6,7 +6,7 @@ RSpec.describe "Consultation", type: :system, js: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
   let(:application_type) { create(:application_type, :planning_permission) }
-  let(:api_user) { create(:api_user, name: "PlanX") }
+  let(:api_user) { create(:api_user, :planx) }
   let(:planning_application) do
     create(
       :planning_application,

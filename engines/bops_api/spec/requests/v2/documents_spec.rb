@@ -10,7 +10,7 @@ RSpec.describe "BOPS documents API" do
   let(:private_document) { create(:document, :with_tags, validated: true, publishable: false) }
 
   let(:token) { "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
-  let!(:api_user) { create(:api_user, token:, local_authority:) }
+  let!(:api_user) { create(:api_user, permissions: %w[planning_application:read], token:, local_authority:) }
 
   let(:planning_application) { create(:planning_application, :with_boundary_geojson, :with_press_notice, :determined, documents: [public_document, private_document], local_authority:, application_type:) }
   let(:reference) { planning_application.reference }

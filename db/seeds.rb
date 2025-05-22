@@ -14,7 +14,7 @@ end
 
 LocalAuthority.find_each do |lpa|
   lpa.readonly!
-  lpa.api_users.find_or_create_by!(name: lpa.subdomain)
+  lpa.api_users.find_or_create_by!(name: lpa.subdomain, permissions: %w[validation_request:read])
 
   %w[assessor reviewer administrator].each do |role|
     lpa.users.find_or_create_by!(email: email[lpa.subdomain, role]) do |user|

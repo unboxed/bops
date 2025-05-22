@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "API request to list planning applications" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
+  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read planning_application:read], local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer) }
   let!(:planning_application) do
     create(:planning_application, :in_assessment, :with_constraints, local_authority: default_local_authority, decision: "granted", api_user:)
