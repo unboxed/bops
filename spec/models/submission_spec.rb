@@ -54,6 +54,47 @@ RSpec.describe Submission do
     end
   end
 
+  describe "scopes" do
+    it "orders by created_at desc" do
+      older = create(:submission, created_at: 1.day.ago)
+      newer = create(:submission, created_at: 1.hour.ago)
+      expect(Submission.by_created_at_desc.to_a).to eq([newer, older])
+    end
+  end
+
+  describe "instance methods" do
+    let(:submission) do
+      build(
+        :submission,
+        request_body: {
+          "applicationRef" => "ABC123",
+          "documentLinks" => [
+            {"documentLink" => "http://foo"},
+            {"documentLink" => "http://bar"}
+          ]
+        }
+      )
+    end
+
+    describe "#application_reference" do
+      it "reads applicationRef from the body" do
+        expect(submission.application_reference).to eq("ABC123")
+      end
+    end
+
+    describe "#document_link_urls" do
+      it "plucks documentLink entries" do
+        expect(submission.document_link_urls).to contain_exactly("http://foo", "http://bar")
+      end
+    end
+
+    describe "#source" do
+      it "currently always returns Planning Portal" do
+        expect(submission.source).to eq("Planning Portal")
+      end
+    end
+  end
+
   describe "state transitions" do
     let(:submission) { create(:submission) }
 
@@ -85,6 +126,36 @@ RSpec.describe Submission do
       it "transitions to completed and sets completed_at" do
         expect { submission.complete! }.to change(submission, :status).from("started").to("completed")
         expect(submission.completed_at).to eq(Time.current)
+      end
+    end
+
+    context "event guards" do
+      it "won't complete before start" do
+        expect(submission.may_complete?).to be_falsey
+        expect { submission.complete! }.to raise_error(AASM::InvalidTransition)
+      end
+
+      it "won't fail after completion" do
+        submission.start!
+        submission.complete!
+        expect(submission.may_fail?).to be_falsey
+        expect { submission.fail! }.to raise_error(AASM::InvalidTransition)
+      end
+
+      it "won't start twice" do
+        submission.start!
+        expect(submission.may_start?).to be_falsey
+        expect { submission.start! }.to raise_error(AASM::InvalidTransition)
+      end
+
+      it "allows fail from started" do
+        submission.start!
+        expect(submission.may_fail?).to be_truthy
+      end
+
+      it "allows complete only from started" do
+        submission.start!
+        expect(submission.may_complete?).to be_truthy
       end
     end
   end

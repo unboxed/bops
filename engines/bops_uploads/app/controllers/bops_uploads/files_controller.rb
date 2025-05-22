@@ -24,8 +24,16 @@ module BopsUploads
       @planning_application = @blob.planning_application
     end
 
+    def set_submission
+      @submission = @blob.submission
+    end
+
     def local_authority_matches?
-      @planning_application.local_authority == current_local_authority
+      if @planning_application
+        @planning_application.local_authority == current_local_authority
+      elsif set_submission
+        @submission.local_authority == current_local_authority
+      end
     end
 
     def raise_not_found

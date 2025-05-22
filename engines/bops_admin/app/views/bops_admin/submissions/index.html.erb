@@ -7,7 +7,7 @@
 <% content_for :title, t(".submissions") %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
+  <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">
       <%= t(".submissions") %>
     </h1>
@@ -19,6 +19,9 @@
           <% row.with_cell(text: "Source") %>
           <% row.with_cell(text: "Status") %>
           <% row.with_cell(text: "Created at") %>
+          <% row.with_cell(text: "Started at") %>
+          <% row.with_cell(text: "Completed at") %>
+          <% row.with_cell(text: "Failed at") %>
           <% row.with_cell(text: "Actions") %>
         <% end %>
       <% end %>
@@ -31,6 +34,9 @@
               <% row.with_cell(text: submission.source) %>
               <% row.with_cell(text: submission.status) %>
               <% row.with_cell(text: submission.created_at.to_fs) %>
+              <% row.with_cell(text: submission.started_at&.to_fs) %>
+              <% row.with_cell(text: submission.completed_at&.to_fs) %>
+              <% row.with_cell(text: submission.failed_at&.to_fs) %>
               <% row.with_cell do %>
                 <%= govuk_link_to "View", submission_path(submission) %>
               <% end %>
