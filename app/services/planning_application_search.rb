@@ -165,12 +165,16 @@ class PlanningApplicationSearch
     submit.present?
   end
 
-  def status_type
-    status&.reject(&:empty?)
+  def selected_statuses
+    @selected_statuses ||= status&.reject(&:empty?)
   end
 
   def filtered_scope(scope = current_planning_applications)
-    scope.where(status: [status_type], application_type: [selected_application_type_ids]).by_created_at_desc
+    filters = {}
+    filters[:status] = selected_statuses if selected_statuses.present?
+    filters[:application_type] = selected_application_type_ids if selected_application_type_ids.present?
+
+    scope.where(**filters).by_created_at_desc
   end
 
   def sorted_scope(scope = current_planning_applications)
@@ -178,7 +182,7 @@ class PlanningApplicationSearch
   end
 
   def selected_application_type_ids
-    local_authority.application_types.where(name: application_type).ids
+    @selected_application_type_ids ||= local_authority.application_types.where(name: application_type).ids
   end
 
   def postcode_query?
