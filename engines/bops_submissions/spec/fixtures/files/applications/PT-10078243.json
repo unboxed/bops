@@ -1,0 +1,419 @@
+{
+  "applicationData": {
+    "siteLocation": {
+      "bs7666Number": 6,
+      "bs7666Suffix": "",
+      "bs7666Description": "Civic Centre",
+      "bs7666StreetDescription": "Brixton Hill",
+      "bs7666Locality": "",
+      "bs7666AdministrativeArea": "Lambeth",
+      "bs7666Town": "London",
+      "bs7666PostCode": "SW2 1EG",
+      "bs7666UniquePropertyReferenceNumber": 10093378978,
+      "bs7666X": 530917,
+      "bs7666Y": 175095,
+      "otherLocation": "",
+      "isGla": true
+    },
+    "applicant": {
+      "personGivenName": "Bob",
+      "personFamilyName": "Smith",
+      "orgName": "test",
+      "intAddressLine1": "test",
+      "intAddressLine2": "",
+      "intAddressLine3": "",
+      "intAddressLine4": "Test",
+      "intAddressLine5": "",
+      "country": "test",
+      "internationalPostCode": "TE2 3ST",
+      "isAgent": false,
+      "telNationalNumber": "07000000000",
+      "telNationalNumber2": "",
+      "faxNationalNumber": "",
+      "emailAddress": "test@lambeth.gov.uk",
+      "title": ""
+    },
+    "siteArea": {
+      "siteArea": 12,
+      "areaUnit": "sq.metres"
+    },
+    "siteInformation": {
+      "separateTitleNumbersGLA": [
+        {
+          "textField": "TestTitleNumber"
+        }
+      ],
+      "epcCertificate": false,
+      "publicPrivateOwnership": "Private"
+    },
+    "proposalDescription": {
+      "descriptionText": "Description Test",
+      "proposalStarted": false
+    },
+    "proposalDescriptionGla": {
+      "fastTrackAffordableHousing": false,
+      "permissionForWholeBuilding": false,
+      "registeredSocialLandlord": false,
+      "includesBuildings": false,
+      "lossOfGardenLand": false,
+      "projectedWorksCategory": "UpTo2m",
+      "permissionForWholeBuildingDetails": "test",
+      "separateProposedBuildings": [
+        {
+          "separateBuildingNumber": "te",
+          "separateBuildingMaxHeight": 1222,
+          "separateBuildingStoreys": 1
+        }
+      ]
+    },
+    "occupationalStatus": {
+      "vacantBuildingCredit": false
+    },
+    "supersede": {
+      "supersedingExistingConsent": false
+    },
+    "developmentDates": {
+      "developmentPhases": [
+        {
+          "schemePhaseDetail": "1",
+          "glaCommencementDate": "2022-08",
+          "glaCompletionDate": "2023-08"
+        }
+      ]
+    },
+    "developerInformation": {
+      "hasSchemeName": false,
+      "leadDeveloperAssigned": false
+    },
+    "existingUse": {
+      "currentUse": "test",
+      "isCurrentlyVacant": false,
+      "contaminatedLandKnown": false,
+      "contaminatedLandSuspect": false,
+      "contaminatedProposedUse": false
+    },
+    "existingProposedFloorArea": {
+      "existingProposedFloorAreaDetail": [
+        {
+          "floorAreaUseClasses": "c3",
+          "existingGrossFloorArea": 2,
+          "grossFloorAreaToBeLost": 2,
+          "grossFloorAreaGained": 2
+        }
+      ],
+      "totalExistingGrossFloorArea": 2,
+      "totalGrossFloorAreaToBeLost": 2,
+      "totalGrossFloorAreaGained": 2
+    },
+    "materials": {
+      "externalMaterialsRequired": false,
+      "materials": []
+    },
+    "access": {
+      "newAlteredVehicular": "No",
+      "newAlteredPedestrian": "No",
+      "newPublicRoad": "No",
+      "newRightsOfWay": "No",
+      "changeRightsOfWay": "No"
+    },
+    "parkingGla": {
+      "householdParking": {
+        "existingParkingAffected": false
+      },
+      "fullParking": {}
+    },
+    "electricVehicle": {
+      "electricVehicleChargingPoints": false,
+      "electricVehicleDetail": []
+    },
+    "fullTreesHedges": {
+      "fullTreesHedges": {
+        "treesHedgesOnSite": false,
+        "treesHedgesAdjacent": false
+      }
+    },
+    "floodRisk": {
+      "siteInFloodRiskArea": "No",
+      "proposalNearWatercourse": false,
+      "proposalIncreaseFloodrisk": false,
+      "sustainableDrainage": false,
+      "existingWatercourse": true,
+      "soakaway": false,
+      "mainSewer": false,
+      "pondLake": false
+    },
+    "biodiversity": {
+      "protectedPrioritySpecies": "no",
+      "designatedSites": "no",
+      "geologicalConservationImportance": "no"
+    },
+    "openAndProtectedSpace": {
+      "openSpace": {
+        "lossGainChangeOfUseOpenSpace": false
+      },
+      "protectedSpace": {
+        "lossGainChangeOfUseProtectedSpace": false
+      }
+    },
+    "foulSewage": {
+      "disposal": {
+        "mainsSewer": true,
+        "septicTank": false,
+        "packageTreatmentPlant": false,
+        "cessPit": false,
+        "other": false,
+        "notKnown": false
+      },
+      "connectExistingDrainage": "No"
+    },
+    "waterManagement": {
+      "percentageReductionOfSurfaceWaterDischarge": 12,
+      "greenSuDSIncorporatedIntoDrainageDesign": false,
+      "internalResidentialWaterUsage": 0,
+      "rainWaterHarvesting": false,
+      "greyWaterReuse": false
+    },
+    "tradeEffluent": {
+      "disposeTradeWaste": "No"
+    },
+    "residentialUnitsSpec": {
+      "unitsToBeLost": false,
+      "lostUnitsSpecStructure": [],
+      "lostSpaceUnitsSpecStructure": [],
+      "unitsToBeAdded": false,
+      "addedUnitsSpecStructure": [],
+      "addedSpaceUnitsSpecStructure": [],
+      "isMixedResidential": false,
+      "residentialSiteArea": 2,
+      "resiAreaUnit": "sq.metres"
+    },
+    "nonPermanentDwellings": {
+      "lossGainNonPermanentDwellings": false
+    },
+    "otherResidentialAccommodation": {
+      "hotelHolidayAccommodation": false,
+      "unitsProposed": []
+    },
+    "wasteAndRecycling": {
+      "wasteProvisionComplete": true
+    },
+    "utilities": {
+      "newWaterConnections": 0,
+      "gasConnections": 0,
+      "fireSupression": false,
+      "fullFibreInternetConnectionRes": 0,
+      "fullFibreInternetConnectionNonRes": 0,
+      "mobileNetworkProviders": false
+    },
+    "environmental": {
+      "communityEnergyFacilities": false,
+      "heatPumps": false,
+      "solarCapacity": false,
+      "numberOfPassiveCoolingUnits": 8,
+      "noX": 0,
+      "pms": 0,
+      "greenhouseGasEmissionReduction": false,
+      "greenRoofArea": 0,
+      "urbanGreeningFactorScore": 0,
+      "electricalHeatingUnits": 0,
+      "reuseRecycleOfDemolitionMaterial": 0
+    },
+    "employment": {
+      "isEmployeesChanged": false
+    },
+    "hours": {
+      "areHours": "No"
+    },
+    "industrialCommercial": {
+      "doesInvolveIndustrialCommercial": false,
+      "isProposalWasteManagementDevelopment": false
+    },
+    "hazardousSubstances": {
+      "isUseStorageFollowingMaterials": "No"
+    },
+    "siteVisit": {
+      "seeSite": false,
+      "visitContactDetails": "ContactApplicant"
+    },
+    "advice": {
+      "haveSoughtAdvice": false
+    },
+    "declarationOfInterest": {
+      "isRelated": false
+    },
+    "ownershipCertificates": {
+      "isApplicantSoleLandOwner": true,
+      "certificateSelected": "CertificateA",
+      "declarationMade": true,
+      "isAgriculturalHolding": false,
+      "signatory": "Applicant",
+      "personGivenName": "Bob",
+      "personFamilyName": "Smith",
+      "declarationDate": "2022-08-03T23:00:00Z",
+      "title": ""
+    },
+    "declaration": {
+      "declaration": "I / We hereby apply for Full planning permission as described in this form and accompanying plans/drawings and additional information. I / We confirm that, to the best  of my/our knowledge, any facts stated are true and accurate and any opinions given are the genuine  options of the persons giving them. I / We also accept that: Once submitted, this information will  be transmitted to the Local Planning Authority and, once validated by them, be made available as  part of a public register and on the authority\u0027s website; our system will automatically generate and send you emails in regard to the submission of this application.",
+      "declarationMade": true,
+      "signed": "Bob Smith",
+      "declarationDate": "2023-07-03T10:21:39Z",
+      "summary": "test"
+    }
+  },
+  "applicationHeader": {
+    "dateSubmitted": "2023-07-03T10:21:46.55Z",
+    "refNum": 10078243,
+    "formattedRefNum": "PT-10078243",
+    "applicationVersion": 2,
+    "description": "DHTestApplicationPP",
+    "payment": {
+      "amountDue": 0.0,
+      "amountPaid": 0.0,
+      "currency": "GBP",
+      "paymentMethod": "OnlineViaPortal"
+    },
+    "applicationTo": "N5660",
+    "attachmentsChanged": false,
+    "isValidApplication": true
+  },
+  "applicationScenario": {
+    "scenarioNumber": 4
+  },
+  "documentList": [
+    {
+      "name": "Application Form",
+      "description": "Application Form",
+      "fileName": "ApplicationForm.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 540003,
+      "documentRef": "10078243-2-1",
+      "deliveryMethod": "Electronic",
+      "documentType": "Application_Form",
+      "reference": "Application Form"
+    },
+    {
+      "name": "Application Form - Without Personal Data",
+      "description": "Application Form - Without Personal Data",
+      "fileName": "ApplicationFormRedacted.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 539743,
+      "documentRef": "10078243-2-2",
+      "deliveryMethod": "Electronic",
+      "documentType": "Application_Form_Without_Personal_Data",
+      "reference": "Application Form - Without Personal Data"
+    },
+    {
+      "name": "How the fee was calculated",
+      "description": "How the fee was calculated",
+      "fileName": "FeeCalculation.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 109058,
+      "documentRef": "10078243-2-3",
+      "deliveryMethod": "Electronic",
+      "documentType": "How_the_fee_was_calculated",
+      "reference": "How the fee was calculated"
+    },
+    {
+      "name": "A summary of the attachments in the proposal",
+      "description": "A summary of the attachments in the proposal",
+      "fileName": "AttachmentSummary.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 73687,
+      "documentRef": "10078243-2-4",
+      "deliveryMethod": "Electronic",
+      "documentType": "A_summary_of_the_attachments_in_the_proposal",
+      "reference": "A summary of the attachments in the proposal"
+    },
+    {
+      "name": "The location plan",
+      "description": "test",
+      "fileName": "Test PP jpg.jpg",
+      "mimeType": "image/jpeg",
+      "sizeInBytes": 153694,
+      "documentRef": "10078243-2-1054761",
+      "deliveryMethod": "Electronic",
+      "documentType": "The_location_plan",
+      "reference": "The location plan"
+    },
+    {
+      "name": "Additional plans",
+      "description": "test",
+      "fileName": "TestPP pdf.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 181533,
+      "documentRef": "10078243-2-1054762",
+      "deliveryMethod": "Electronic",
+      "documentType": "Additional_plans",
+      "reference": "Additional plans"
+    },
+    {
+      "name": "Block plan of the site",
+      "description": "",
+      "fileName": "TestPP.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "sizeInBytes": 5061811,
+      "documentRef": "10078243-2-1054763",
+      "deliveryMethod": "Electronic",
+      "documentType": "Block_plan_of_the_site",
+      "reference": "Block plan of the site"
+    },
+    {
+      "name": "Community Infrastructure Levy - Completed form",
+      "description": "",
+      "fileName": "10078243_DRAFT.pdf",
+      "mimeType": "application/pdf",
+      "sizeInBytes": 278186,
+      "documentRef": "10078243-2-1054764",
+      "deliveryMethod": "Electronic",
+      "documentType": "Community_Infrastructure_Levy_-_Completed_form",
+      "reference": "Community Infrastructure Levy - Completed form"
+    }
+  ],
+  "feeCalculationSummary": {
+    "fullFee": {
+      "enlargementImprovementAlteration": true,
+      "newDwellinghouses": false,
+      "changeToMultipleDwellinghouses": false,
+      "changeBuildingToDwellinghouses": false,
+      "buildingErection": false,
+      "agriculturalBuildingErection": false,
+      "glasshouseErection": false,
+      "plantOrMachinery": false,
+      "refuseOrWasteMaterials": false,
+      "otherOperations": false,
+      "meansOfAccess": false,
+      "otherMaterialChange": false,
+      "fee": 206,
+      "enlargementImprovementAlterationSingleOrMultiple": "enlargementImprovementAlterationSingle"
+    },
+    "concessions": {
+      "reductions": {
+        "alternativeProposal": true
+      },
+      "exemptions": {
+        "disabledAccess": false,
+        "disabledAccessPublic": true,
+        "planningActPart3": false,
+        "firstRevision": false
+      }
+    },
+    "multipleLpaFees": {
+      "isMultipleLpa": true,
+      "currentlyAssignedLocalPlanningAuthority": "Lambeth Council London Borough",
+      "additionalLpas": [
+        {
+          "lpaName": "Lambeth Council London Borough"
+        }
+      ]
+    },
+    "calculation": {
+      "payment": {
+        "amountDue": 0.00,
+        "paymentRef": "",
+        "currency": "GBP",
+        "paymentMethod": "OnlineViaPortal"
+      }
+    }
+  },
+  "schemaVersion": "1.0"
+}

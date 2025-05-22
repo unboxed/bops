@@ -16,4 +16,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rswag-api", "~> 2.14"
   spec.add_dependency "rswag-specs", "~> 2.14"
   spec.add_dependency "rswag-ui", "~> 2.14"
+  spec.add_dependency "rubyzip", "~> 2.4.1"
 end
