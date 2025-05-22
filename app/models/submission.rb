@@ -4,7 +4,10 @@ class Submission < ApplicationRecord
   include AASM
 
   belongs_to :local_authority
-  has_one :planning_application, dependent: :nullify
+  with_options dependent: :nullify do
+    has_many :documents
+    has_one :planning_application
+  end
 
   validates :external_uuid, uniqueness: true, allow_nil: true
 
@@ -20,7 +23,7 @@ class Submission < ApplicationRecord
     state :completed
 
     event :start do
-      transitions from: :submitted, to: :started
+      transitions from: [:failed, :submitted], to: :started
     end
 
     event :fail do
@@ -31,6 +34,8 @@ class Submission < ApplicationRecord
       transitions from: :started, to: :completed
     end
   end
+
+  store_accessor :metadata, :json_file, :other_files
 
   def application_reference
     request_body["applicationRef"]

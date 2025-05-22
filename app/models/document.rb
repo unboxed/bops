@@ -24,9 +24,8 @@ class Document < ApplicationRecord
 
   class NotArchiveableError < StandardError; end
 
-  belongs_to :planning_application
-
   with_options optional: true do
+    belongs_to :planning_application
     belongs_to :api_user
     belongs_to :document_checklist_item
     belongs_to :evidence_group
@@ -34,6 +33,7 @@ class Document < ApplicationRecord
     belongs_to :owner, polymorphic: true
     belongs_to :site_notice
     belongs_to :site_visit
+    belongs_to :submission
     belongs_to :user
   end
 
