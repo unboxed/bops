@@ -14,8 +14,8 @@ RSpec.describe "API Tokens", :capybara do
   before do
     sign_in(user)
 
-    create(:api_user, name: "Active Token", service: "PlanX", last_used_at: 1.week.ago)
-    create(:api_user, name: "Revoked Token", service: "PlanX", last_used_at: 2.weeks.ago, revoked_at: 1.week.ago)
+    create(:api_user, :planx, name: "Active Token", last_used_at: 1.week.ago)
+    create(:api_user, :planx, name: "Revoked Token", last_used_at: 2.weeks.ago, revoked_at: 1.week.ago)
   end
 
   it "shows a list of active tokens" do

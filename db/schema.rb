@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_22_142302) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
     t.string "service"
     t.datetime "revoked_at"
     t.datetime "last_used_at"
+    t.string "permissions", array: true
     t.index ["local_authority_id", "name"], name: "ix_api_users_on_local_authority_id__name", unique: true, where: "(revoked_at IS NULL)"
     t.index ["local_authority_id", "token"], name: "ix_api_users_on_local_authority_id__token", unique: true
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"

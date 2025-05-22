@@ -60,7 +60,7 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
   end
 
   describe "#call" do
-    let!(:api_user) { create(:api_user, name: "PlanX") }
+    let!(:api_user) { create(:api_user, :planx) }
     let!(:local_authority1) { create(:local_authority) }
     let!(:local_authority2) { create(:local_authority, :southwark) }
 

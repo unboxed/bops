@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Planning Application show page" do
   let(:validated_at) { 10.business_days.until(Date.current) }
   let(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, name: "PlanX", local_authority: default_local_authority) }
+  let!(:api_user) { create(:api_user, :planx, local_authority: default_local_authority) }
 
   let(:proposal_details) do
     [
