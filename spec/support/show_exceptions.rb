@@ -7,6 +7,7 @@ RSpec.configure do |config|
         env_config = Rails.application.env_config
         show_exceptions = env_config["action_dispatch.show_exceptions"]
         env_config["action_dispatch.show_exceptions"] = example.metadata[:show_exceptions] ? :all : :none
+        env_config["action_dispatch.show_detailed_exceptions"] = !example.metadata[:show_exceptions]
 
         example.run
       ensure
