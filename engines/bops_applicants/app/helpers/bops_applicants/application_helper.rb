@@ -15,6 +15,10 @@ module BopsApplicants
       simple_format(address, {}, wrapper_tag: "span")
     end
 
+    def header_link
+      content_for(:header_link) || root_path
+    end
+
     def page_title
       t(:page_title, scope: "bops_applicants", council: current_local_authority.short_name)
     end
