@@ -15,7 +15,7 @@
       <%= govuk_tabs do |tabs| %>
         <% @categories.each do |category| %>
           <% tabs.with_tab(label: category.humanize) do %>
-            <% if @requirements.where(category: category).length > 0 && @application_type_requirements.any? %>
+            <% if @requirements.where(category: category).length > 0 %>
                 <div class="govuk-checkboxes govuk-checkboxes--small">
                   <%= form.collection_check_boxes :requirement_ids,
                         @requirements.where(category: category),
