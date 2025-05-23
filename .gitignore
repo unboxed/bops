@@ -18,6 +18,10 @@
 !/storage/.keep
 
 /public/assets
+/public/error.css
+/public/fonts
+/public/*.html
+
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
