@@ -7,7 +7,7 @@
       "check_name": "VerbConfusion",
       "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
       "file": "engines/bops_core/app/controllers/concerns/bops_core/application_controller.rb",
-      "line": 86,
+      "line": 98,
       "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
       "code": "session[:back_path] = request.referer if request.get?",
       "render_path": null,
@@ -20,6 +20,40 @@
       "confidence": "Weak",
       "cwe_id": [
         352
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "36ea5a61b74c18b2c58ef8f20b50233d6f068b892668f4b138f0329aba08bbc7",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "engines/bops_applicants/app/views/bops_applicants/neighbour_responses/new.html.erb",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => BopsApplicants::NeighbourResponseForm.new(PlanningApplicationPresenter.new(view_context, get_planning_application(params[planning_application_param])), params), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BopsApplicants::NeighbourResponsesController",
+          "method": "create",
+          "line": 20,
+          "file": "engines/bops_applicants/app/controllers/bops_applicants/neighbour_responses_controller.rb",
+          "rendered": {
+            "name": "bops_applicants/neighbour_responses/new",
+            "file": "engines/bops_applicants/app/views/bops_applicants/neighbour_responses/new.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "bops_applicants/neighbour_responses/new"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
       ],
       "note": ""
     },
@@ -54,7 +88,7 @@
       "check_name": "CrossSiteScripting",
       "message": "Unescaped parameter value",
       "file": "app/views/planning_applications/site_notices/_status.html.erb",
-      "line": 21,
+      "line": 23,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
       "code": "PlanningApplicationPresenter.new(view_context, get_planning_application(params[planning_application_param])).last_site_notice.preview_content",
       "render_path": [
@@ -88,29 +122,6 @@
       "confidence": "Weak",
       "cwe_id": [
         79
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Remote Code Execution",
-      "warning_code": 25,
-      "fingerprint": "dd51f8ca8b70d1d6b01e9a8e0dc0983c1c3f6a24bb5d6fe418020b086723e60a",
-      "check_name": "Deserialize",
-      "message": "Use of `Marshal.load` may be dangerous",
-      "file": "app/controllers/concerns/active_storage/set_disk_blob.rb",
-      "line": 27,
-      "link": "https://brakemanscanner.org/docs/warning_types/unsafe_deserialization",
-      "code": "Marshal.load(Base64.decode64(json_parsed_hash))",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ActiveStorage::SetDiskBlob",
-        "method": "decrypted_hash"
-      },
-      "user_input": null,
-      "confidence": "Weak",
-      "cwe_id": [
-        502
       ],
       "note": ""
     },

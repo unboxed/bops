@@ -4,6 +4,10 @@ BopsApplicants::Engine.routes.draw do
   extend BopsCore::Routing
 
   local_authority_subdomain do
+    defaults format: "json" do
+      get "/addresses", to: "addresses#index"
+    end
+
     controller "pages" do
       get "/", action: "index", as: "root"
       get "/accessibility", action: "accessibility"
@@ -14,6 +18,10 @@ BopsApplicants::Engine.routes.draw do
 
     resources :planning_applications, param: :reference, only: %i[show] do
       resource :site_notice, only: %i[show]
+
+      resources :neighbour_responses, only: %i[new create] do
+        get :start, :thank_you, on: :collection
+      end
     end
 
     resources :validation_requests, only: %i[index] do

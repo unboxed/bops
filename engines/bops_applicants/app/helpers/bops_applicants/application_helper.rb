@@ -8,6 +8,10 @@ module BopsApplicants
       "#{current_local_authority.subdomain}.#{Rails.application.config.applicants_domain}"
     end
 
+    def bops_host
+      "#{current_local_authority.subdomain}.#{Rails.application.config.domain}"
+    end
+
     def formatted_address(planning_application)
       address = [
         planning_application.address_1,
@@ -19,8 +23,8 @@ module BopsApplicants
       simple_format(address, {}, wrapper_tag: "span")
     end
 
-    def bops_host
-      "#{current_local_authority.subdomain}.#{Rails.application.config.domain}"
+    def header_link
+      content_for(:header_link) || root_path
     end
 
     def page_title
@@ -37,6 +41,17 @@ module BopsApplicants
 
     def stimulus_tag(controller, values: {}, &)
       tag.div(data: {controller:}.merge(stimulus_values(controller, values)), &)
+    end
+
+    def tag_colour(status)
+      case status
+      when "supportive"
+        "green"
+      when "objection"
+        "red"
+      else
+        "yellow"
+      end
     end
 
     def url_for_document(document)

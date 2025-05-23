@@ -1,0 +1,26 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<%= form_with model: [@planning_application, @neighbour_response] do |form| %>
+  <%= render "hidden_fields", form: form, stage: @neighbour_response.stage %>
+
+  <%= form.govuk_check_boxes_fieldset :tags, multiple: true,
+        legend: {text: t(".legend"), tag: "h1", size: "l"},
+        hint: {text: t(".hint")} do %>
+
+    <% @neighbour_response.response_tags.each do |tag| %>
+      <% if tag == :other %>
+        <%= form.govuk_check_box_divider %>
+      <% end %>
+
+      <%= form.govuk_check_box :tags, tag.to_s, label: {text: t(".labels.tags.#{tag}")} do %>
+        <%= form.govuk_text_area tag, label: {text: t(".labels.comments.#{tag}")} %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_submit "Continue" do %>
+    <%= form.govuk_submit "Back", name: "movement", value: "backwards", secondary: true %>
+  <% end %>
+<% end %>

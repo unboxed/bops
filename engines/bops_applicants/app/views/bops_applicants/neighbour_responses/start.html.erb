@@ -1,0 +1,113 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">
+      Comment on a planning application
+    </h1>
+
+    <p class="govuk-body">
+      <strong>Address:</strong><br>
+      <%= @planning_application.full_address %>
+    </p>
+
+    <p class="govuk-body">
+      <strong>Application number:</strong><br>
+      <%= @planning_application.reference %>
+    </p>
+
+    <p class="govuk-body">
+      Use this form to comment on this planning application
+    </p>
+
+    <h2 class="govuk-heading-m">
+      Writing useful comments
+    </h2>
+
+    <p class="govuk-body">
+      Your comments help planning officers to understand the potential impact of
+      the proposed development. To make your comments more helpful:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>read the application documents and view drawings before you start</li>
+      <li>be specific and tell us which part of the application your comment refers to</li>
+    </ul>
+
+    <p class="govuk-body">
+      Your comments will be made available to the public. Your response may be edited
+      (redacted) if it includes personal information or offensive language.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      What we will consider
+    </h2>
+
+    <p class="govuk-body">
+      We can only consider comments that are directly related to the actual proposals.
+      These are known as ‘material considerations’. For example, we can consider
+      comments that concern:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>the design, size and height of new buildings or extensions</li>
+      <li>the impact of new uses of buildings or of land</li>
+      <li>loss of light and the privacy of neighbours</li>
+      <li>access for disabled people</li>
+      <li>noise from new uses</li>
+      <li>the impact of development on traffic parking and road safety.</li>
+    </ul>
+
+    <h2 class="govuk-heading-m">
+      What we cannot consider
+    </h2>
+
+    <p class="govuk-body">
+      We cannot consider issues such as:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>disputes about civil matters, such as building freeholds or the ‘right to light’</li>
+      <li>loss of property value</li>
+      <li>loss of view</li>
+      <li>issues which are dealt with by other forms of law, such as party wall matters</li>
+    </ul>
+
+    <p class="govuk-body">
+      We cannot refuse permission because of construction noise. However, we can restrict
+      the hours of work to reduce disturbance to residents and other sensitive neighbours.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      What happens next
+    </h2>
+
+    <p class="govuk-body">
+      Once you've submitted your form:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>a planning officer will read and consider your comments</li>
+      <li>you can check the status of the application by using the application number</li>
+      <li>
+        if you are commenting on a householder application, such as an extension,
+        dropped kerb, new garage, driveway or roof alterations, you cannot make any
+        further comments on this application
+      </li>
+    </ul>
+
+    <p class="govuk-body">
+      <strong>
+        We will make a decision about this application by
+        <%= @planning_application.target_date.to_date.to_fs %>.
+      </strong>
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--m">
+
+    <%= govuk_start_button text: "Start now",
+          href: new_planning_application_neighbour_response_path(@planning_application.reference) %>
+  </div>
+</div>

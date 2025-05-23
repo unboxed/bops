@@ -1,0 +1,17 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<%= form_with model: [@planning_application, @neighbour_response] do |form| %>
+  <%= render "hidden_fields", form: form, stage: @neighbour_response.stage %>
+
+  <%= form.govuk_radio_buttons_fieldset(:summary_tag, legend: {text: t(".legend"), tag: "h1", size: "l"}) do %>
+    <%= form.govuk_radio_button :summary_tag, "supportive", label: {text: t(".labels.supportive")} %>
+    <%= form.govuk_radio_button :summary_tag, "neutral", label: {text: t(".labels.neutral")} %>
+    <%= form.govuk_radio_button :summary_tag, "objection", label: {text: t(".labels.objection")} %>
+  <% end %>
+
+  <%= form.govuk_submit "Continue" do %>
+    <%= form.govuk_submit "Back", name: "movement", value: "backwards", secondary: true %>
+  <% end %>
+<% end %>

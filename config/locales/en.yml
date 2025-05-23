@@ -125,6 +125,32 @@ en:
               blank: Enter the owner’s postcode
             town:
               blank: Enter the owner’s town or city
+        neighbour_response:
+          attributes:
+            access:
+              blank: Enter your comments about access to the proposed development
+            design:
+              blank: Enter your comments about the design, size or height of new buildings or extensions
+            email:
+              invalid: Enter a valid email address
+            light:
+              blank: Enter your comments about the impacts on natural light
+            name:
+              blank: Enter your name
+            noise:
+              blank: Enter your comments about noise from new uses
+            other:
+              blank: Enter any other comments about the proposed development
+            privacy:
+              blank: Enter your comments about the privacy of neighbours
+            summary_tag:
+              blank: Select how you feel about the application
+            tags:
+              blank: Enter a comment
+            traffic:
+              blank: Enter your comments about traffic, parking or road safety
+            use:
+              blank: Enter your comments about the use and function of the proposed development
         ownership_certificate:
           attributes:
             certificate_type:

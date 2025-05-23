@@ -49,6 +49,71 @@ en:
         success: Your response has been sent to the case officer.
       validation_request:
         page_title: 'Heads of terms request #%{id}'
+    neighbour_responses:
+      about_you:
+        confirm_back: This will reset the form – do you wish to continue?
+        hints:
+          address: This helps us understand how your property might be affected by the proposal
+          email: We'll send you an email confirmation once you've submitted your comments
+        labels:
+          address: Address (optional)
+          email: Email (optional)
+          name: Full name
+        legend: Your details
+        page_title: About you
+      check:
+        files_hint: Add any documents that will help the planning officers understand your comments. For example, site maps, photographs or drawings.
+        files_label: Upload documents
+        headings:
+          access: Access
+          design: Design, size or height of new buildings or extensions
+          light: Impacts on natural light
+          noise: Noise from new uses
+          other: Other
+          privacy: Privacy of neighbours
+          traffic: Traffic, parking or road safety
+          use: Use and function of the proposed development
+        page_title: Check your comments before sending
+        summary:
+          neutral: You’re making general comments
+          objection: You don’t support the application
+          supportive: You support the application
+      create:
+        failure: Unable to send your comments – please try again later
+      response:
+        hint: Select the topics you want to comment on. You can attach documents to help the planning officer understand your comments on the next page.
+        labels:
+          comments:
+            access: Tell us about how the proposed work could affect access to buildings, premises or other existing spaces
+            design: We cannot consider comments about loss of view
+            light: Be as specific as possible. Describe the areas where you think natural light could be affected.
+            noise: We cannot refuse permission because of construction noise. We can consider the impact from new uses once the work is complete.
+            other: Use this space to share any other comments about this application
+            privacy: You can upload maps or drawings to help us understand how privacy might be affected.
+            traffic: Tell us how the development could affect road users. This could include improvements to parking or safety as well as concerns about increased traffic, for example.
+            use: Tell us about the potential impact of how the site will be used
+          tags:
+            access: Access
+            design: Design, size or height of new buildings or extensions
+            light: Impacts on natural light
+            noise: Noise from new uses
+            other: Other
+            privacy: Privacy of neighbours
+            traffic: Traffic, parking or road safety
+            use: Use and function of the proposed development
+        legend: Share your comments about the proposed work
+        page_title: Share your comments about the work
+      start:
+        page_title: Comment on a planning application
+      thank_you:
+        page_title: We’ve got your comments
+      thoughts:
+        labels:
+          neutral: I want to make general comments
+          objection: I don't support the application
+          supportive: I support the application
+        legend: How do you feel about the proposed work?
+        page_title: How do you feel about the proposed work?
     other_change_validation_requests:
       form:
         page_title: 'Other change validation request #%{id}'
@@ -106,6 +171,9 @@ en:
       owners:
         page_title: Confirm ownership
     page_title: "%{council} BOPS"
+    planning_applications:
+      show:
+        page_title: Planning application for %{address}
     pre_commencement_condition_validation_requests:
       form:
         approved_label: I accept the condition

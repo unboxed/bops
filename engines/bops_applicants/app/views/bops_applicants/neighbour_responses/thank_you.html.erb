@@ -1,0 +1,33 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+    We've got your comments
+  </h1>
+
+  <div class="govuk-panel__body">
+    Application number<br>
+    <strong><%= @planning_application.reference %></strong>
+  </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--m">
+
+<h2 class="govuk-heading-m">
+  What happens next
+</h2>
+
+<p class="govuk-body">
+  A planning officer will review your comments as part of their assessment of this application.
+</p>
+
+<p class="govuk-body">
+  The decision date for this application is <strong><%= @planning_application.target_date.to_date.to_fs %></strong>.
+  You can check the status of the application at any time on the council website.
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to "Back to the planning application", planning_application_path(@planning_application), no_visited_state: true %>
+</p>

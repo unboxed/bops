@@ -1,0 +1,20 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<%= form_with model: [@planning_application, @neighbour_response] do |form| %>
+  <%= render "hidden_fields", form: form, stage: @neighbour_response.stage %>
+
+  <%= form.govuk_fieldset(legend: {text: t(".legend"), tag: "h1", size: "l"}) do %>
+    <%= form.govuk_text_field :name, label: {text: t(".labels.name")} %>
+    <%= form.govuk_text_field :email, label: {text: t(".labels.email")}, hint: {text: t(".hints.email")} %>
+
+    <div data-controller="address-fill">
+      <%= form.govuk_text_field :address, label: {text: t(".labels.address")}, hint: {text: t(".hints.address")} %>
+    </div>
+  <% end %>
+
+  <%= form.govuk_submit "Continue" do %>
+    <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true, data: {confirm: t(".confirm_back")} %>
+  <% end %>
+<% end %>
