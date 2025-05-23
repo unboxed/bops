@@ -9,4 +9,6 @@ BopsApplicants::Engine.routes.draw do
   resources :planning_applications, param: :reference, only: %i[show] do
     resource :site_notice, only: %i[show]
   end
+
+  resources :validation_requests, only: %i[index]
 end

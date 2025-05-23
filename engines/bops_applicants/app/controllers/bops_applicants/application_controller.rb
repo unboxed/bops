@@ -9,7 +9,11 @@ module BopsApplicants
     private
 
     def set_planning_application
-      @planning_application = planning_applications_scope.find_by_param!(planning_application_param)
+      if planning_application_param.present?
+        @planning_application = planning_applications_scope.find_by_param!(planning_application_param)
+      else
+        raise BopsCore::Errors::NotFoundError, "Missing planning application reference parameter"
+      end
     end
   end
 end
