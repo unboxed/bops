@@ -3,6 +3,9 @@
 class SiteNotice < ApplicationRecord
   class NotCreatableError < StandardError; end
 
+  SAFE_TAGS = %w[div h1 h2 h3 p ul li table tr td th hr].freeze
+  SAFE_ATTRIBUTES = %w[style].freeze
+
   include DateValidateable
   include Consultable
 
@@ -35,6 +38,12 @@ class SiteNotice < ApplicationRecord
 
   alias_method :consultable_event_at, :displayed_at
 
+  class << self
+    def latest!
+      by_created_at_desc.first!
+    end
+  end
+
   def documents=(files)
     files.select(&:present?).each do |file|
       documents.new(file: file, planning_application: planning_application, tags: %w[internal.siteNotice])
@@ -64,6 +73,10 @@ class SiteNotice < ApplicationRecord
       eia_statement: eia_statement)
   end
 
+  def sanitized_content
+    sanitizer.sanitize(content, tags: SAFE_TAGS, attributes: SAFE_ATTRIBUTES)&.html_safe
+  end
+
   def incomplete?
     required? && !displayed_at?
   end
@@ -81,6 +94,10 @@ class SiteNotice < ApplicationRecord
   end
 
   private
+
+  def sanitizer
+    @sanitize ||= Rails::HTML5::Sanitizer.safe_list_sanitizer.new
+  end
 
   def application_link
     "#{planning_application.local_authority.applicants_url}/planning_applications/#{planning_application.reference}"

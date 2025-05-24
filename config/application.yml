@@ -11,3 +11,4 @@ shared:
   staging_api_bearer: <%= ENV["STAGING_API_BEARER"] %>
   staging_api_url: <%= ENV["STAGING_API_URL"] %>
   domain: <%= ENV.fetch("DOMAIN", "bops.localhost:3000") %>
+  applicants_domain: <%= ENV.fetch("APPLICANTS_DOMAIN", "bops-applicants.localhost:3000") %>

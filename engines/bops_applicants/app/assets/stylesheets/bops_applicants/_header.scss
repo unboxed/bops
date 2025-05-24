@@ -1,0 +1,14 @@
+.govuk-header {
+  @include govuk-media-query($until: tablet) {
+    &__service-name {
+      display: block;
+      margin-bottom: 0;
+    }
+
+    &__product-name {
+      display: block;
+      margin-top: govuk-spacing(1);
+      margin-bottom: govuk-spacing(2);
+    }
+  }
+}
