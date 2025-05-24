@@ -5,6 +5,9 @@ Rails.application.routes.draw do
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
 
+  match "/404", to: "errors#not_found", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+
   get "/map_proxy/(*path)", to: "map_proxy#proxy", as: "os_proxy"
 
   devise_subdomain do

@@ -16,6 +16,8 @@ require "action_view/railtie"
 require "grover"
 require "sprockets/railtie"
 
+require_relative "../lib/bops/errors_application"
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -63,6 +65,8 @@ module Bops
 
     # Ensure the correct user scope is used for authentication
     config.middleware.use BopsCore::Middleware::User, global_subdomains: %w[config]
+
+    config.exceptions_app = Bops::ErrorsApplication.new(Rails.public_path)
 
     # Load config from application.yml
     config_for(:application).each do |key, value|
