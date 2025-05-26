@@ -944,6 +944,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_103524) do
     t.bigint "reporting_type_id"
     t.string "reporting_type_code"
     t.bigint "submission_id"
+    t.string "map_east"
+    t.string "map_north"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
