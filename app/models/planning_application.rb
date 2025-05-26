@@ -160,6 +160,7 @@ class PlanningApplication < ApplicationRecord
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
   before_validation :reset_published_at, unless: :publishable?
+  before_save :set_lat_and_long
   before_create :set_received_at
   before_create :set_key_dates
   before_create :set_change_access_id
@@ -685,9 +686,15 @@ class PlanningApplication < ApplicationRecord
   end
 
   def update_lonlat
-    return unless longitude.present? && latitude.present?
+    return unless longitude_and_latitude_present?
 
     self.lonlat = factory.point(longitude, latitude)
+  end
+
+  def set_lat_and_long
+    return if longitude_and_latitude_present? || !map_east_and_map_north_present?
+
+    self.longitude, self.latitude = OsNationalGrid.os_ng_to_wgs84(map_east.to_i, map_north.to_i)
   end
 
   def factory
@@ -1187,6 +1194,14 @@ class PlanningApplication < ApplicationRecord
     return if changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).blank?
 
     errors.add(:base, "This application has been #{status} and cannot be modified.") if closed_or_cancelled?
+  end
+
+  def longitude_and_latitude_present?
+    longitude.present? && latitude.present?
+  end
+
+  def map_east_and_map_north_present?
+    map_east.present? && map_north.present?
   end
 
   def routes
