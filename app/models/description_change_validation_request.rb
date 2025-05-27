@@ -8,6 +8,16 @@ class DescriptionChangeValidationRequest < ValidationRequest
   validate :planning_application_has_not_been_determined, on: :create
   validate :rejected_reason_is_present?
 
+  validate if: :applicant_responding? do
+    if approved.nil?
+      errors.add(:approved, :blank, message: "Tell us whether you agree or disagree with the change")
+    end
+
+    if approved == false && rejection_reason.blank?
+      errors.add(:rejection_reason, :blank, message: "Tell us why you disagree with the change and enter your suggested wording")
+    end
+  end
+
   before_create :set_previous_application_description
   after_save :preapplication_auto_close, if: -> { open? && !planning_application.application_type.description_change_requires_validation? }
 
@@ -56,9 +66,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
     return if planning_application.nil?
     return unless approved == false && rejection_reason.blank?
 
-    errors.add(:base,
-      "Please include a comment for the case officer to " \
-      "indicate why the red line boundary change has been rejected.")
+    errors.add(:base, "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
   end
 
   def set_previous_application_description
