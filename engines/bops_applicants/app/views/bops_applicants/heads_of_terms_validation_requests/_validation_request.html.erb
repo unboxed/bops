@@ -1,0 +1,51 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled heads of terms request for your application" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Response to heads of terms validation change request
+  </h1>
+
+  <div id="heads-of-terms-suggestion">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Heads of term: <%= @validation_request.term_title %>
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.term_text)) %>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="heads-of-terms-response">
+    <h2 class="govuk-heading-s">
+      Your response
+    </h2>
+
+    <% if @validation_request.approved? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--green">
+          Agreed
+        </strong>
+        to the term
+      </p>
+    <% elsif @validation_request.rejected? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--red">
+          Disagreed
+        </strong>
+        with the term
+      </p>
+
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        Reason for disagreeing with the term:
+      </h3>
+
+      <%= render(FormattedContentComponent.new(text: @validation_request.rejection_reason)) %>
+    <% end %>
+  </div>
+<% end %>

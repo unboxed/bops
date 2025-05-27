@@ -37,6 +37,18 @@ en:
         success: Your response has been sent to the case officer.
       validation_request:
         page_title: 'Fee change validation request #%{id}'
+    heads_of_terms_validation_requests:
+      form:
+        approved_label: Yes, I agree with the term
+        legend: Do you agree with the term?
+        page_title: 'Heads of terms request #%{id}'
+        rejected_label: No, I disagree with the term
+        rejection_reason_label: Tell us why you disagree
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Heads of terms request #%{id}'
     other_change_validation_requests:
       form:
         page_title: 'Other change validation request #%{id}'

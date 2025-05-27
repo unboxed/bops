@@ -8,9 +8,9 @@
         <li class="govuk-task-list__item govuk-task-list__item--with-link">
           <div class="govuk-task-list__name-and-hint">
             <% if validation_request.open? %>
-              <%= govuk_link_to validation_request.term_title, edit_heads_of_term_validation_request_path(validation_request.id, access_control_params) %>
+              <%= govuk_link_to validation_request.term_title, edit_heads_of_terms_validation_request_path(validation_request.id, access_control_params) %>
             <% else %>
-              <%= govuk_link_to validation_request.term_title, heads_of_term_validation_request_path(validation_request.id, access_control_params) %>
+              <%= govuk_link_to validation_request.term_title, heads_of_terms_validation_request_path(validation_request.id, access_control_params) %>
             <% end %>
           </div>
 
