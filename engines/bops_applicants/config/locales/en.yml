@@ -144,3 +144,15 @@ en:
         success: Your response has been sent to the case officer.
       validation_request:
         page_title: 'Replacement document validation request #%{id}'
+    time_extension_validation_requests:
+      form:
+        approved_label: Yes, I agree with the changes made
+        legend: Do you agree with the proposed new expiry date for your planning application?
+        page_title: 'Time extension validation request #%{id}'
+        rejected_label: No, I disagree with the changes made
+        rejection_reason_label: Tell the case officer why you disagree
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Time extension validation request #%{id}'

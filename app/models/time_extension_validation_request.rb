@@ -8,6 +8,16 @@ class TimeExtensionValidationRequest < ValidationRequest
   validate :allows_only_one_open_time_extension, on: :create
   validate :proposed_expiry_is_later?
 
+  validate if: :applicant_responding? do
+    if approved.nil?
+      errors.add(:approved, :blank, message: "Tell us whether you agree or disagree with the change")
+    end
+
+    if approved == false && rejection_reason.blank?
+      errors.add(:rejection_reason, :blank, message: "Tell us why you disagree with the change")
+    end
+  end
+
   def proposed_expiry_is_later?
     return if planning_application.nil? || proposed_expiry_date.blank?
 
@@ -48,9 +58,15 @@ class TimeExtensionValidationRequest < ValidationRequest
     mark_as_sent!
   end
 
-  def update_planning_application!(params)
-    modified_target_date = proposed_expiry_date - 19.days
+  def previous_expiry_date
+    super&.to_date
+  end
 
+  def update_planning_application!(params)
+    self.previous_expiry_date = planning_application.expiry_date
+    save!(validate: false)
+
+    modified_target_date = proposed_expiry_date - 19.days
     planning_application.update_columns(expiry_date: proposed_expiry_date, target_date: modified_target_date)
   end
 end

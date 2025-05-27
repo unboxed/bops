@@ -57,7 +57,7 @@ class ValidationRequest < ApplicationRecord
   scope :excluding_time_extension, -> { where.not(type: "TimeExtensionValidationRequest") }
   scope :notified, -> { where.not(notified_at: nil) }
 
-  store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
+  store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description previous_expiry_date]
 
   before_create :set_sequence
   before_create :ensure_planning_application_not_closed_or_cancelled!
