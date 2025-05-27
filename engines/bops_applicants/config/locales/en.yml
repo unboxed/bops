@@ -4,6 +4,18 @@ en:
     application:
       header:
         back_office_planning: Back Office Planning System
+    description_change_validation_requests:
+      form:
+        approved_label: Yes, I agree with the changes made
+        legend: Do you agree with the changes made to your application description?
+        page_title: 'Description change validation request #%{id}'
+        rejected_label: No, I disagree with the changes made
+        rejection_reason_label: Tell us why you disagree. Enter your suggested wording for the description.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Description change validation request #%{id}'
     other_change_validation_requests:
       form:
         page_title: 'Other change validation request #%{id}'
