@@ -106,3 +106,15 @@ en:
       owners:
         page_title: Confirm ownership
     page_title: "%{council} BOPS"
+    pre_commencement_condition_validation_requests:
+      form:
+        approved_label: I accept the condition
+        legend: Do you accept or not accept this condition?
+        page_title: 'Pre-commencement condition request #%{id}'
+        rejected_label: I do not accept the condition
+        rejection_reason_label: Tell us why you do not accept this condition
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Pre-commencement condition request #%{id}'
