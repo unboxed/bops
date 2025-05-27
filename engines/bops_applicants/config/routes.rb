@@ -16,7 +16,9 @@ BopsApplicants::Engine.routes.draw do
       resource :site_notice, only: %i[show]
     end
 
-    resources :validation_requests, only: %i[index]
+    resources :validation_requests, only: %i[index] do
+      resource :ownership_certificate, only: %i[new create]
+    end
 
     with_options only: %i[show edit update] do
       resources :description_change_validation_requests

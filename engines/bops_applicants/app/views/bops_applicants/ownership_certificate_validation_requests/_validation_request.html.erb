@@ -1,0 +1,55 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled request for confirmation of ownership" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Response to ownership certificate change request
+  </h1>
+
+  <div id="ownership-certificate-reason">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Officer's reason for invalidating application
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="ownership-certificate-response">
+    <h2 class="govuk-heading-s">
+      Your response
+    </h2>
+
+    <% if @validation_request.approved? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--green">
+          Agreed
+        </strong>
+        with suggested ownership certificate change
+      </p>
+
+      <% unless @validation_request.ownership_certificate_submitted? %>
+        <%= govuk_link_to "Submit new ownership certificate", new_validation_request_ownership_certificate_path(@validation_request, access_control_params), no_visited_state: true %>
+      <% end %>
+    <% elsif @validation_request.rejected? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--red">
+          Disagreed
+        </strong>
+        with suggested ownership certificate change
+      </p>
+
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        My reason for objecting to the ownership certificate:
+      </h3>
+
+      <%= render(FormattedContentComponent.new(text: @validation_request.rejection_reason)) %>
+    <% end %>
+  </div>
+<% end %>

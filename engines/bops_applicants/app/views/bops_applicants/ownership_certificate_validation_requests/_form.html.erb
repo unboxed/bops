@@ -1,0 +1,68 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<h1 class="govuk-heading-l">
+  Confirm ownership
+</h1>
+
+<h2 class="govuk-heading-m">
+  <%= @planning_application.full_address %>
+</h2>
+
+<p class="govuk-body">
+  We need to confirm who owns the land for this application
+</p>
+
+<div class="govuk-grid-row govuk-!-margin-bottom-3">
+  <div class="govuk-grid-column-full">
+    <%= tag.my_map \
+          osProxyEndpoint: main_app.applicants_os_proxy_url,
+          latitude: @planning_application.latitude,
+          longitude: @planning_application.longitude,
+          showScale: true, useScaleBarStyle: true, showNorthArrow: true,
+          geojsonData: @planning_application.boundary_geojson.to_json,
+          style: "width: 100%; height: 400px;" %>
+  </div>
+</div>
+
+<p class="govuk-body">
+  If you need this information in an alternative format, contact your case officer on
+  <%= current_local_authority.feedback_email %> or by telephone at
+  <span style="white-space: nowrap;"><%= current_local_authority.telephone_number %></span>.
+</p>
+
+<div id="ownership-certificate-reason">
+  <p class="govuk-body">
+    After reviewing the plans for this application, we think that you may not be the sole owner of this land
+  </p>
+
+  <p class="govuk-body">
+    Your case officer has made the following statement:
+  </p>
+
+  <div class="govuk-inset-text">
+    <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+  </div>
+</div>
+
+<div id="validation-request-form">
+  <%= form_with model: @validation_request, scope: :validation_request do |form| %>
+    <%= hidden_field_tag(:planning_application_reference, @planning_application.reference) %>
+    <%= hidden_field_tag(:change_access_id, @planning_application.change_access_id) %>
+
+    <%= form.govuk_radio_buttons_fieldset(:approved, legend: {text: t(".legend")}) do %>
+      <%= form.govuk_radio_button :approved, true, label: {text: t(".approved_label")} %>
+      <%= form.govuk_radio_button :approved, false, label: {text: t(".rejected_label")} do %>
+        <%= form.govuk_text_area :rejection_reason, label: {text: t(".rejection_reason_label")}, rows: 6 %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_submit "Submit" do %>
+      <%= govuk_button_link_to "Back", validation_requests_path(
+            planning_application_reference: @planning_application.reference,
+            change_access_id: @planning_application.change_access_id
+          ), secondary: true %>
+    <% end %>
+  <% end %>
+</div>

@@ -2,14 +2,30 @@
 
 class OwnershipCertificateValidationRequest < ValidationRequest
   validates :reason, presence: true
-  validates :rejection_reason, presence: true, if: :rejected?
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :allows_only_one_open_ownership_certificate_change, on: :create
+
+  validate if: :applicant_responding? do
+    if approved.nil?
+      errors.add(:approved, :blank, message: "Tell us whether you agree or disagree with the statement")
+    end
+
+    if approved == false && rejection_reason.blank?
+      errors.add(:rejection_reason, :blank, message: "Tell us why you disagree with the statement")
+    end
+  end
 
   after_update do
     if approved_changed? && owner.planning_application.post_validation?
       owner.current_review.update!(status: "in_progress")
     end
+  end
+
+  store_accessor :specific_attributes, :old_ownership_certificate
+  store_accessor :specific_attributes, :ownership_certificate_submitted
+
+  def ownership_certificate_submitted?
+    rejected? || !!ownership_certificate_submitted
   end
 
   def update_planning_application!(params)
@@ -32,10 +48,6 @@ class OwnershipCertificateValidationRequest < ValidationRequest
 
   def audit_comment
     reason
-  end
-
-  def rejected?
-    approved == false
   end
 
   def allows_only_one_open_ownership_certificate_change

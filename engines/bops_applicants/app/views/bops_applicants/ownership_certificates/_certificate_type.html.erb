@@ -1,0 +1,58 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<h1 class="govuk-heading-l">
+  Confirm ownership
+</h1>
+
+<div id="ownership-details">
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+    Address
+  </h2>
+
+  <p class="govuk-body">
+    <%= @planning_application.full_address %>
+  </p>
+
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+    Application number
+  </h2>
+
+  <p class="govuk-body">
+    <%= @planning_application.reference %>
+  </p>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<%= form_with model: @ownership_certificate, url: validation_request_ownership_certificate_path(@validation_request) do |form| %>
+  <%= render "hidden_fields", form: form, stage: @ownership_certificate.stage %>
+
+  <%= form.govuk_radio_buttons_fieldset(:know_owners, legend: {text: t(".know_owners.legend")}) do %>
+    <%= form.govuk_radio_button :know_owners, "yes", label: {text: t(".know_owners.yes_label")} do %>
+      <%= form.govuk_text_field :number_of_owners, inputmode: "numeric", width: 5, label: {text: t(".know_owners.number_of_owners_label")} %>
+    <% end %>
+    <%= form.govuk_radio_button :know_owners, "no", label: {text: t(".know_owners.no_label")} %>
+  <% end %>
+
+  <%= form.govuk_radio_buttons_fieldset :certificate_type, legend: {text: t(".certificate_type.legend")} do %>
+    <%= form.govuk_radio_button :certificate_type, "B", label: {text: t(".certificate_type.b_label")} %>
+    <%= form.govuk_radio_button :certificate_type, "C", label: {text: t(".certificate_type.c_label")} %>
+    <%= form.govuk_radio_button :certificate_type, "D", label: {text: t(".certificate_type.d_label")} %>
+  <% end %>
+
+  <%= form.govuk_radio_buttons_fieldset(:notification_of_owners, legend: {text: t(".notification_of_owners.legend")}) do %>
+    <%= form.govuk_radio_button :notification_of_owners, "yes", label: {text: t(".notification_of_owners.yes_label")} %>
+    <%= form.govuk_radio_button :notification_of_owners, "some", label: {text: t(".notification_of_owners.some_label")} %>
+    <%= form.govuk_radio_button :notification_of_owners, "no", label: {text: t(".notification_of_owners.no_label")} do %>
+      <p class="govuk-body">
+        You must notify owners about this application. Use a <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %> to send them details of the proposed work.
+      </p>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_submit "Continue", name: "next_stage", value: "owners" do %>
+    <%= govuk_button_link_to "Back", ownership_certificate_validation_request_path(@validation_request, access_control_params), secondary: true, data: {confirm: t(".confirm_back")} %>
+  <% end %>
+<% end %>

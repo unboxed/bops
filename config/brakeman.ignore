@@ -113,6 +113,40 @@
         502
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "bbc8672cfac05e9b4a5fdbe3b29517f159517645b052666325a4cc6c9f31f750",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "engines/bops_applicants/app/views/bops_applicants/ownership_certificates/new.html.erb",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => BopsApplicants::OwnershipCertificateForm.new(PlanningApplicationPresenter.new(view_context, get_planning_application(params[planning_application_param])), @validation_request, params), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BopsApplicants::OwnershipCertificatesController",
+          "method": "create",
+          "line": 22,
+          "file": "engines/bops_applicants/app/controllers/bops_applicants/ownership_certificates_controller.rb",
+          "rendered": {
+            "name": "bops_applicants/ownership_certificates/new",
+            "file": "engines/bops_applicants/app/views/bops_applicants/ownership_certificates/new.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "bops_applicants/ownership_certificates/new"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
     }
   ],
   "brakeman_version": "7.0.0"

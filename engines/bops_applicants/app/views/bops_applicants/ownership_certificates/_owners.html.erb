@@ -1,0 +1,118 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<%= govuk_notification_banner(title_text: "Important") do |nb| %>
+  <% nb.with_heading(text: "You must notify other owners about the proposed work") %>
+
+  <p class="govuk-body">
+    If you know the other owners' details, you must tell them about this application. You need to do this in writing
+    (by email or letter). You can use this <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %> to share the right information.
+  </p>
+<% end %>
+
+<h1 class="govuk-heading-l">
+  Confirm ownership
+</h1>
+
+<div id="ownership-details">
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+    Address
+  </h2>
+
+  <p class="govuk-body">
+    <%= @planning_application.full_address %>
+  </p>
+
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+    Application number
+  </h2>
+
+  <p class="govuk-body">
+    <%= @planning_application.reference %>
+  </p>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<%= form_with model: @ownership_certificate, url: validation_request_ownership_certificate_path(@validation_request) do |form| %>
+  <%= render "hidden_fields", form: form, stage: @ownership_certificate.stage %>
+
+  <div class="govuk-!-margin-bottom-6" id="land-owners">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+      Add details of other owners
+    </h2>
+
+    <% if @ownership_certificate.certificate_type == "D" %>
+      <p class="govuk-body">You've told us that you don't know who any of the owners are</p>
+    <% else %>
+      <p class="govuk-body">Add the details of all the owners you know about. This will help us process you application more quickly.</p>
+
+      <table class="govuk-table govuk-!-margin-top-6">
+        <caption class="govuk-table__caption govuk-table__caption--m">
+          Owners you've told us about
+        </caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Owner details</th>
+            <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Notified</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Date notified</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% if @ownership_certificate.land_owners.empty? %>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell" colspan="3">
+                  You’ve not told us about any owners yet
+                </td>
+              </tr>
+          <% else %>
+            <% @ownership_certificate.land_owners.each do |land_owner| %>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                  <strong><%= land_owner.name %></strong><br>
+                  <%= land_owner.address_1 %><br>
+                  <% if land_owner.address_2.present? %>
+                    <%= land_owner.address_2 %><br>
+                  <% end %>
+                  <%= land_owner.town %><br>
+                  <% if land_owner.country.present? %>
+                    <%= land_owner.country %><br>
+                  <% end %>
+                  <%= land_owner.postcode %>
+                </td>
+                <td class="govuk-table__cell govuk-!-text-align-centre">
+                  <%= land_owner.notice_given_at.present? ? "Yes" : "No" %>
+                </td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                  <% if land_owner.notice_given_at.present? %>
+                    <%= land_owner.notice_given_at.to_fs(:day_month_year_slashes) %>
+                  <% else %>
+                    &ndash;
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%= form.govuk_submit "Add owner", name: "next_stage", value: "new_owner", secondary: true %>
+    <% end %>
+  </div>
+
+  <div class="govuk-!-margin-bottom-6">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+      Now send your confirmation of ownership
+    </h2>
+
+    <p class="govuk-body">
+      By submitting this information you are confirming that, to the best of your knowledge,
+      the details you are providing are correct.
+    </p>
+  </div>
+
+  <%= form.govuk_submit "Accept and send", name: "next_stage", value: "send" do %>
+    <%= form.govuk_submit "Back", name: "next_stage", value: "certificate_type", secondary: true %>
+  <% end %>
+<% end %>

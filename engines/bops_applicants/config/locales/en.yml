@@ -58,4 +58,51 @@ en:
         success: Your response has been sent to the case officer.
       validation_request:
         page_title: 'Other change validation request #%{id}'
+    ownership_certificate_validation_requests:
+      form:
+        approved_label: Yes, I agree
+        legend: Do you agree with this statement from the case officer?
+        page_title: 'Confirm ownership #%{id}'
+        rejected_label: No, I don’t agree
+        rejection_reason_label: Tell us why you don’t agree. Include any information that will help the case officer understand your reasons.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Confirm ownership #%{id}'
+    ownership_certificates:
+      certificate_type:
+        certificate_type:
+          b_label: 'Yes'
+          c_label: I know who some of them are
+          d_label: I don't know who they are
+          legend: Do you know who the owners of the property are?
+        confirm_back: This will reset the form – do you wish to continue?
+        know_owners:
+          legend: Do you know how many owners there are?
+          no_label: No or not sure
+          number_of_owners_label: Enter number of owners
+          yes_label: 'Yes'
+        notification_of_owners:
+          legend: Have you notified the owners of the land about this application?
+          no_label: 'No'
+          some_label: Yes, some of them
+          yes_label: Yes, all of them
+        page_title: Confirm ownership
+      create:
+        failure_html: There was a problem sending your ownership certificate to the case officer - please <a href="mailto:%{feedback_email}" class="govuk-link govuk-link--no-visited-state">contact us</a> for assistance
+        success: Your ownership certificate has been sent to the case officer.
+      new_owner:
+        labels:
+          address_1: Address line 1
+          address_2: Address line 2 (optional)
+          country: Country (optional)
+          name: Owner name
+          notice_given_at: What date was notice given to this owner?
+          postcode: Postcode
+          town: Town or city
+        legend: Details of owner
+        page_title: Confirm ownership
+      owners:
+        page_title: Confirm ownership
     page_title: "%{council} BOPS"

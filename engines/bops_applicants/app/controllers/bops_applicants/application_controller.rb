@@ -41,5 +41,21 @@ module BopsApplicants
         change_access_id: @planning_application.change_access_id
       }
     end
+
+    def change_access_id
+      params.fetch(:change_access_id) do
+        raise BopsCore::Errors::NotFoundError, "Missing change access parameter"
+      end
+    end
+
+    def require_change_access_id!
+      if @planning_application.change_access_id != change_access_id
+        raise BopsCore::Errors::NotFoundError, "Change access id does not match the planning application"
+      end
+    end
+
+    def set_validation_request
+      @validation_request = @planning_application.validation_requests.find(validation_request_id)
+    end
   end
 end

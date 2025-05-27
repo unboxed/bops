@@ -113,6 +113,31 @@ en:
               blank: Please enter the name of the custom header
             value:
               blank: Please enter the value for the custom header
+        land_owner:
+          attributes:
+            address_1:
+              blank: Enter the owner’s address
+            name:
+              blank: Enter the owner’s name
+            notice_given_at:
+              blank: Enter the date when you gave notice to this owner
+            postcode:
+              blank: Enter the owner’s postcode
+            town:
+              blank: Enter the owner’s town or city
+        ownership_certificate:
+          attributes:
+            certificate_type:
+              blank: Tell us if you know who the owners are
+            know_owners:
+              blank: Tell us whether you know how many owners there are
+            notification_of_owners:
+              blank: Tell us whether you have notified the owners
+            number_of_owners:
+              blank: Tell us the number of owners
+              greater_than: The number of owners must be greater than zero
+              not_a_number: Tell us the number of owners using digits and not letters
+              not_an_integer: Tell us the number of owners as a whole number not a fraction
         recommendation_form:
           attributes:
             decision:
