@@ -1,0 +1,22 @@
+<% if @validation_requests[:ownership_certificate].present? %>
+  <li id="ownership-certificate-validation-requests">
+    <h3 class="app-task-list__section">
+      Confirm ownership of the land
+    </h3>
+    <ul class="govuk-task-list">
+      <% @validation_requests[:ownership_certificate].each do |validation_request| %>
+        <li class="govuk-task-list__item govuk-task-list__item--with-link">
+          <div class="govuk-task-list__name-and-hint">
+            <% if validation_request.open? %>
+              <%= govuk_link_to "Confirm ownership", edit_ownership_certificate_validation_request_path(validation_request.id, access_control_params) %>
+            <% else %>
+              <%= govuk_link_to "Confirm ownership", ownership_certificate_validation_request_path(validation_request.id, access_control_params) %>
+            <% end %>
+          </div>
+
+          <%= render "validation_request_status", validation_request: validation_request %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+<% end %>

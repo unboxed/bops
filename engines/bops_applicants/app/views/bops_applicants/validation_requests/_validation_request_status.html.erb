@@ -1,0 +1,19 @@
+<% if validation_request.open? %>
+  <div class="govuk-task-list__status">
+    <strong class="govuk-tag govuk-tag--grey">
+      Not started
+    </strong>
+  </div>
+<% elsif validation_request.cancelled? %>
+  <div class="govuk-task-list__status">
+    <strong class="govuk-tag govuk-tag--red">
+      Cancelled
+    </strong>
+  </div>
+<% else %>
+  <div class="govuk-task-list__status">
+    <strong class="govuk-tag govuk-tag--green">
+      Complete
+    </strong>
+  </div>
+<% end %>

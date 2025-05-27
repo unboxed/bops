@@ -115,6 +115,20 @@ class ValidationRequest < ApplicationRecord
     end
   end
 
+  class << self
+    def by_created_at
+      order(created_at: :asc)
+    end
+
+    def grouped_by_type
+      by_created_at.group_by(&:type_symbol)
+    end
+  end
+
+  def type_symbol
+    type.underscore.gsub(/_validation_request\z/, "").to_sym
+  end
+
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at.to_date)
   end
