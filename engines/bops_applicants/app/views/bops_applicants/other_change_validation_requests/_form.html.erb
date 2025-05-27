@@ -1,0 +1,56 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<h1 class="govuk-heading-l">
+  Respond to other request
+</h1>
+
+<p class="govuk-body">
+  The case officer working on your application has requested more information.
+</p>
+
+<h2 class="govuk-heading-m">
+  What you need to do:
+</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>read the request from the case officer</li>
+  <li>enter your response</li>
+  <li>submit your response</li>
+</ul>
+
+<div class="govuk-inset-text">
+  You must submit your response by <strong><%= @validation_request.response_due.to_fs %></strong>.
+  If we don’t receive a response by this date we will return your application to you and refund any payment.
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div id="other-change-reason">
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Reason why case officer needs more information</h3>
+  <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+</div>
+
+<div id="other-change-suggestion">
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">How you can make your application valid</h3>
+  <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div id="validation-request-form">
+  <%= form_with model: @validation_request, scope: :validation_request do |form| %>
+    <%= hidden_field_tag(:planning_application_reference, @planning_application.reference) %>
+    <%= hidden_field_tag(:change_access_id, @planning_application.change_access_id) %>
+
+    <%= form.govuk_text_area :response, label: {text: t(".response_label")}, rows: 6 %>
+
+    <%= form.govuk_submit "Submit" do %>
+      <%= govuk_button_link_to "Back", validation_requests_path(
+            planning_application_reference: @planning_application.reference,
+            change_access_id: @planning_application.change_access_id
+          ), secondary: true %>
+    <% end %>
+  <% end %>
+</div>

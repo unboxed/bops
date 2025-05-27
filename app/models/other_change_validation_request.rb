@@ -5,6 +5,12 @@ class OtherChangeValidationRequest < ValidationRequest
   validates :suggestion, presence: true
   validates :cancel_reason, presence: true, if: :cancelled?
 
+  validate if: :applicant_responding? do
+    if response.blank?
+      errors.add(:response, :blank, message: "Tell us how you plan to make your application valid")
+    end
+  end
+
   before_create :ensure_planning_application_not_validated!
 
   def ensure_planning_application_not_validated!
