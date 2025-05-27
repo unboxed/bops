@@ -134,3 +134,13 @@ en:
         aria_label_original: An interactive map centred on your address where the original red line boundary lines are drawn to create the site outline.
         aria_label_proposed: An interactive map centred on your address where the newly proposed red line boundary lines are drawn to create the site outline.
         page_title: 'Red line boundary change validation request #%{id}'
+    replacement_document_validation_requests:
+      form:
+        page_title: 'Replacement document validation request #%{id}'
+        replacement_file_label: Upload a replacement document
+      update:
+        applicant_has_provided: Applicant has provided a replacement document.
+        failure_html: There was a problem sending your response to the case officer - please <a href="mailto:%{feedback_email}" class="govuk-link govuk-link--no-visited-state">contact us</a> for assistance
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Replacement document validation request #%{id}'

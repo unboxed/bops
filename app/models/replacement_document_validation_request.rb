@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReplacementDocumentValidationRequest < ValidationRequest
+  attribute :replacement_file
+
   validates :cancel_reason, presence: true, if: :cancelled?
   validates :old_document, presence: true
   validates :reason, presence: true
@@ -16,6 +18,13 @@ class ReplacementDocumentValidationRequest < ValidationRequest
   before_destroy :reset_document_invalidation
 
   def replace_document!(file:, reason:)
+    self.replacement_file = file
+
+    if replacement_file.blank?
+      errors.add(:replacement_file, :blank, message: "Select a file to upload")
+      raise ActiveRecord::RecordInvalid, self
+    end
+
     transaction do
       self.new_document = planning_application.documents.create!(
         file:,

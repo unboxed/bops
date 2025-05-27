@@ -1,0 +1,79 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled request to provide a replacement document" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Provide a replacement document
+  </h1>
+
+  <p class="govuk-body">
+    The case officer specified below why this document needed replacing.
+  </p>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="replacement-document-requested">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Name of file on submission:
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.old_document_name)) %>
+  </div>
+
+  <div id="replacement-document-comment">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Case officer's reason for requesting the document:
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="replacement-document-response">
+    <div id="replacement-documents" class="govuk-grid-row">
+      <div id="old-document" class="govuk-grid-column-one-half">
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+          Old document
+        </h3>
+
+        <p class="govuk-body">
+          <%= govuk_link_to(url_for_document(@old_document), new_tab: "", class: "govuk-!-display-inline-block") do %>
+            <%= image_tag(url_for_representation(@old_document, resize_to_fill: [240, 180, gravity: "North"]), size: "240x180", class: "govuk-!-display-inline-block", style: "border: 1px solid #080;") %>
+          <% end %>
+        </p>
+
+        <p class="govuk-body">
+          <%= govuk_link_to(url_for_document(@old_document), new_tab: "") do %>
+            <%= @old_document.name %><br>
+          <% end %>
+          (opens in a new window/tab)
+        </p>
+      </div>
+
+      <div id="replacement-document" class="govuk-grid-column-one-half">
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+          Replacement document
+        </h3>
+
+        <p class="govuk-body">
+          <%= govuk_link_to(url_for_document(@new_document), new_tab: "", class: "govuk-!-display-inline-block") do %>
+            <%= image_tag(url_for_representation(@new_document, resize_to_fill: [240, 180, gravity: "North"]), size: "240x180", class: "govuk-!-display-inline-block", style: "border: 1px solid #080;") %>
+          <% end %>
+        </p>
+
+        <p class="govuk-body">
+          <%= govuk_link_to(url_for_document(@new_document), new_tab: "") do %>
+            <%= @new_document.name %><br>
+          <% end %>
+          (opens in a new window/tab)
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
