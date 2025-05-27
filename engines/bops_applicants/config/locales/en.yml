@@ -58,4 +58,11 @@ en:
         success: Your response has been sent to the case officer.
       validation_request:
         page_title: 'Other change validation request #%{id}'
+    ownership_certificate_validation_requests:
+      form:
+        page_title: 'Confirm ownership #%{id}'
+      update:
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Confirm ownership #%{id}'
     page_title: "%{council} BOPS"
