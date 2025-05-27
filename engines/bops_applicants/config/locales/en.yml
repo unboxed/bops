@@ -78,3 +78,10 @@ en:
         success: Your response has been sent to the case officer.
       validation_request:
         page_title: 'Pre-commencement condition request #%{id}'
+    red_line_boundary_change_validation_requests:
+      form:
+        page_title: 'Red line boundary change validation request #%{id}'
+      update:
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Red line boundary change validation request #%{id}'
