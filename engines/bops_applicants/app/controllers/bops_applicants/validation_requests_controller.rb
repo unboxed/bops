@@ -43,7 +43,7 @@ module BopsApplicants
         if update_validation_request
           format.html { redirect_to validation_requests_url(access_control_params), notice: t(".success") }
         else
-          format.html { render :edit, alert: t(".failure_html") }
+          format.html { render :edit, alert: t(".failure_html", feedback_email: current_local_authority.feedback_email) }
         end
       end
     end

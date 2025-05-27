@@ -9,6 +9,9 @@ BopsApplicants::Engine.routes.draw do
       get "/accessibility", action: "accessibility"
     end
 
+    get "/blobs/:key", to: "blobs#show", as: "blob"
+    get "/files/:key", to: "files#show", as: "file"
+
     resources :planning_applications, param: :reference, only: %i[show] do
       resource :site_notice, only: %i[show]
     end
