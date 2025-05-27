@@ -1,0 +1,83 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled request to change your application’s red line boundary" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Confirm changes to your red line boundary
+  </h1>
+
+  <p class="govuk-body">
+    The following changes have been made to your application's red line boundary.
+  </p>
+
+  <div id="red-line-boundary-change-original">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+      Your original red line boundary
+    </h2>
+
+    <div class="govuk-!-margin-bottom-6">
+      <%= tag.my_map \
+            osProxyEndpoint: main_app.applicants_os_proxy_url,
+            geojsonData: @validation_request.original_geojson.to_json,
+            style: "width: 100%; height: 400px;",
+            staticMode: true, hideResetControl: true,
+            aria: {label: t(".aria_label_original")} %>
+    </div>
+  </div>
+
+  <div id="red-line-boundary-change-proposed">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+      Proposed red line boundary
+    </h2>
+
+    <div class="govuk-!-margin-bottom-6">
+      <%= tag.my_map \
+            osProxyEndpoint: main_app.applicants_os_proxy_url,
+            geojsonData: @validation_request.new_geojson.to_json,
+            style: "width: 100%; height: 400px;",
+            staticMode: true, hideResetControl: true,
+            aria: {label: t(".aria_label_proposed")} %>
+    </div>
+  </div>
+
+  <p class="govuk-body">
+    If you need this information in an alternative format, contact your case officer on
+    <%= current_local_authority.feedback_email %> or by telephone at
+    <span style="white-space: nowrap;"><%= current_local_authority.telephone_number %></span>.
+  </p>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="red-line-boundary-change-response">
+    <h2 class="govuk-heading-s">
+      Your response
+    </h2>
+
+    <% if @validation_request.approved? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--green">
+          Agreed
+        </strong>
+        with suggested boundary changes
+      </p>
+    <% elsif @validation_request.rejected? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--red">
+          Disagreed
+        </strong>
+        with suggested boundary changes
+      </p>
+
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        My reason for objecting to the boundary changes:
+      </h3>
+
+      <%= render(FormattedContentComponent.new(text: @validation_request.rejection_reason)) %>
+    <% end %>
+  </div>
+<% end %>
