@@ -1,0 +1,69 @@
+<% content_for :page_title do %>
+  Your planning application - <%= page_title %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      Your planning application
+    </h1>
+
+    <p class="govuk-body">
+      <strong>At:</strong>
+      <%= @planning_application.full_address %><br>
+      <strong>Date received:</strong>
+      <%= @planning_application.received_at.to_date.to_fs %><br>
+      <strong>Application number:</strong>
+      <%= @planning_application.reference %>
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--m">
+
+    <p class="govuk-body">
+      The case officer working on your application has requested some more information.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      What you need to do:
+    </h2>
+
+    <p class="govuk-body">
+      View the requests from your case officer below, then:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>follow the link in each section to respond to each request</li>
+      <li>once you’ve responded, the status for that task will show as ‘Complete’</li>
+    </ul>
+
+    <p class="govuk-body">
+      Your response will be sent to your case officer immediately.
+      You won’t be able to make any further changes.
+    </p>
+
+    <p class="govuk-body">
+      You need to respond to all requests before your case officer
+      can proceed with your planning application.
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <ol id="validation-requests" class="govuk-list govuk-list--number">
+      <%= render "description_change_validation_requests" %>
+      <%= render "time_extension_validation_requests" %>
+
+      <% unless @planning_application.not_started? %>
+        <%= render "replacement_document_validation_requests" %>
+        <%= render "additional_document_validation_requests" %>
+        <%= render "red_line_boundary_change_validation_requests" %>
+        <%= render "fee_change_validation_requests" %>
+        <%= render "ownership_certificate_validation_requests" %>
+        <%= render "other_change_validation_requests" %>
+        <%= render "pre_commencement_condition_validation_requests" %>
+        <%= render "heads_of_terms_validation_requests" %>
+      <% end %>
+    </ol>
+  </div>
+</div>

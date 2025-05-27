@@ -3,12 +3,13 @@
 class PreCommencementConditionValidationRequest < ValidationRequest
   RESPONSE_TIME_IN_DAYS = 10
 
+  belongs_to :owner, polymorphic: true
+  delegate :title, to: :owner, prefix: :condition, allow_nil: true
+
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :rejected_reason_is_present?
 
   before_validation :condition_cancelled_at_now, if: :cancelled?
-
-  belongs_to :owner, polymorphic: true
 
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date

@@ -5,6 +5,7 @@ class ReplacementDocumentValidationRequest < ValidationRequest
   validates :old_document, presence: true
   validates :reason, presence: true
 
+  delegate :name, to: :old_document, prefix: true, allow_nil: true
   delegate :invalidated_document_reason, to: :old_document
   delegate :validated?, :archived?, to: :new_document, prefix: :new_document
 
