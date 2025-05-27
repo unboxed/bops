@@ -4,6 +4,10 @@ module BopsApplicants
   module ApplicationHelper
     include BopsCore::ApplicationHelper
 
+    def applicants_host
+      "#{current_local_authority.subdomain}.#{Rails.application.config.applicants_domain}"
+    end
+
     def formatted_address(planning_application)
       address = [
         planning_application.address_1,
@@ -15,8 +19,16 @@ module BopsApplicants
       simple_format(address, {}, wrapper_tag: "span")
     end
 
+    def bops_host
+      "#{current_local_authority.subdomain}.#{Rails.application.config.domain}"
+    end
+
     def page_title
       t(:page_title, scope: "bops_applicants", council: current_local_authority.short_name)
+    end
+
+    def public_planning_guides_url
+      main_app.public_planning_guides_url(host: bops_host)
     end
 
     def staging_environment?
@@ -25,6 +37,14 @@ module BopsApplicants
 
     def stimulus_tag(controller, values: {}, &)
       tag.div(data: {controller:}.merge(stimulus_values(controller, values)), &)
+    end
+
+    def url_for_document(document)
+      main_app.uploaded_file_url(document.blob, access_control_params)
+    end
+
+    def url_for_representation(document, transformations)
+      main_app.uploaded_file_url(document.representation(transformations), access_control_params)
     end
 
     private

@@ -3,6 +3,8 @@
 class AdditionalDocumentValidationRequest < ValidationRequest
   has_many :additional_documents, as: :owner, dependent: :destroy, class_name: "Document"
 
+  attribute :files, array: true
+
   validates :document_request_type, presence: true
   validates :reason, presence: true
   validates :cancel_reason, presence: true, if: :cancelled?
@@ -14,7 +16,14 @@ class AdditionalDocumentValidationRequest < ValidationRequest
     open? && may_close?
   end
 
-  def upload_files!(files)
+  def upload_files!(files_from_user)
+    self.files = files_from_user
+
+    if files.empty?
+      errors.add(:files, :blank, message: "Select some files to upload")
+      raise ActiveRecord::RecordInvalid, self
+    end
+
     transaction do
       files.each do |file|
         planning_application.documents.create!(file:, owner: self)

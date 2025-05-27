@@ -1,6 +1,15 @@
 ---
 en:
   bops_applicants:
+    additional_document_validation_requests:
+      form:
+        files_label: Upload additional document(s)
+        page_title: 'Additional document validation request #%{id}'
+      update:
+        failure_html: There was a problem sending your response to the case officer - please <a href="mailto:%{feedback_email}" class="govuk-link govuk-link--no-visited-state">contact us</a> for assistance
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Additional document validation request #%{id}'
     application:
       header:
         back_office_planning: Back Office Planning System
