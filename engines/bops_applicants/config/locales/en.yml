@@ -4,4 +4,13 @@ en:
     application:
       header:
         back_office_planning: Back Office Planning System
+    other_change_validation_requests:
+      form:
+        page_title: 'Other change validation request #%{id}'
+        response_label: Respond to this request
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Other change validation request #%{id}'
     page_title: "%{council} BOPS"

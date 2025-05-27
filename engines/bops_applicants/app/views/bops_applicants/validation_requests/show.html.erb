@@ -1,0 +1,14 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "validation_request" %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <p class="govuk-body">
+      <%= govuk_button_link_to "Back", validation_requests_path(
+            planning_application_reference: @planning_application.reference,
+            change_access_id: @planning_application.change_access_id
+          ), secondary: true %>
+    </p>
+  </div>
+</div>

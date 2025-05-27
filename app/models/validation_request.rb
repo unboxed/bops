@@ -26,16 +26,13 @@ class ValidationRequest < ApplicationRecord
   include Auditable
 
   class RecordCancelError < RuntimeError; end
-
   class NotDestroyableError < StandardError; end
-
   class CancelledEmailError < StandardError; end
-
   class ValidationRequestNotCreatableError < StandardError; end
-
   class UploadFilesError < RuntimeError; end
-
   class ResetDocumentInvalidationError < StandardError; end
+
+  attribute :applicant_responding, :boolean, default: false
 
   belongs_to :planning_application
   belongs_to :user

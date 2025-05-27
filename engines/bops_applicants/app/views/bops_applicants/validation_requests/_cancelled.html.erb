@@ -1,0 +1,19 @@
+<h1 class="govuk-heading-l">
+  <%= heading %>
+</h1>
+
+<p class="govuk-body">
+  This request has been cancelled. You do not have to take any further actions.
+</p>
+
+<h2 class="govuk-heading-s">
+  The officer gave the following reason for cancelling this request:
+</h2>
+
+<div id="cancellation-reason" class="govuk-inset-text">
+  <%= render(FormattedContentComponent.new(text: validation_request.cancel_reason)) %>
+
+  <p class="govuk-body">
+    <%= validation_request.cancelled_at.to_time.to_fs(:day_month_year) %>
+  </p>
+</div>
