@@ -13,6 +13,8 @@ module BopsApi
 
       private
 
+      def required_api_key_scope = "validation_request"
+
       def query_service(scope = current_local_authority.validation_requests.notified.includes(:planning_application))
         @query_service ||= ValidationRequest::QueryService.new(scope, query_params)
       end

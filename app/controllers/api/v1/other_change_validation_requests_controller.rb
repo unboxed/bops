@@ -44,6 +44,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "validation_request"
+
       def set_other_change_validation_request
         @other_change_validation_request = @planning_application.other_change_validation_requests.find(params[:id])
       end

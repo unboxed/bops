@@ -41,6 +41,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "validation_request"
+
       def set_time_extension_validation_request
         @time_extension_validation_request = @planning_application.time_extension_validation_requests.find(params[:id])
       end

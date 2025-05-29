@@ -52,6 +52,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "validation_request"
+
       def check_file_type
         return if Document::PERMITTED_CONTENT_TYPES.include? params[:new_file].content_type
 

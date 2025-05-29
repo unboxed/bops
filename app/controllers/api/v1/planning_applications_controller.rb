@@ -24,6 +24,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "planning_application"
+
       def send_not_found_response
         render json: {message: "Unable to find record"},
           status: :not_found

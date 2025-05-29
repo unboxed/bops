@@ -8,6 +8,12 @@ module BopsApi
           format.json
         end
       end
+
+      private
+
+      def required_api_key_scope
+        :any
+      end
     end
   end
 end
