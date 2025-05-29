@@ -34,10 +34,10 @@ RSpec.describe "BOPS public API" do
           data = JSON.parse(response.body)
           expect(data["application"]["reference"]).to eq(planning_application.reference)
           expect(data["decisionNotice"]["name"]).to eq("decision-notice-PlanX-24-00100-HAPP.pdf")
-          expect(data["decisionNotice"]["url"]).to eq("http://planx.example.com/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
+          expect(data["decisionNotice"]["url"]).to eq("http://planx.bops.services/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf")
 
           expect(data["files"]).to match_array([
-            a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
+            a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}")
           ])
         end
       end
@@ -93,10 +93,10 @@ RSpec.describe "BOPS public API" do
             expect(data["application"]["reference"]).to eq(planning_application.reference)
 
             expect(data["files"]).to match_array([
-              a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}"),
+              a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}"),
               a_hash_including(
                 "name" => "site-notice.jpg",
-                "url" => "http://planx.example.com/files/#{site_notice_evidence.blob_key}",
+                "url" => "http://planx.bops.services/files/#{site_notice_evidence.blob_key}",
                 "type" => [
                   a_hash_including(
                     "description" => "Site Notice",

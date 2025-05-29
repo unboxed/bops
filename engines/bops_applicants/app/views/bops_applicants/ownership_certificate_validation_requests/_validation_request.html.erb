@@ -1,0 +1,10 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled request for changes to your description" %>
+<% else %>
+<% end %>

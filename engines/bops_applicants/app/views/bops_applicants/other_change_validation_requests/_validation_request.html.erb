@@ -1,0 +1,39 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled other request to change your application" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Response to other validation change request
+  </h1>
+
+  <div id="other-change-reason">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Officer's reason for invalidating application
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+  </div>
+
+  <div id="other-change-suggestion">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      How you can make your application valid
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="other-change-response">
+    <h2 class="govuk-heading-s">
+      Your response to this request
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.response)) %>
+  </div>
+<% end %>

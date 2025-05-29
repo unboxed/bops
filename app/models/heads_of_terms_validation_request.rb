@@ -1,10 +1,22 @@
 # frozen_string_literal: true
 
 class HeadsOfTermsValidationRequest < ValidationRequest
+  belongs_to :owner, polymorphic: true
+  delegate :title, :text, to: :owner, prefix: :term, allow_nil: true
+
   validate :rejected_reason_is_present?
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :allows_only_one_open_heads_of_terms_request, on: :create
-  belongs_to :owner, polymorphic: true
+
+  validate if: :applicant_responding? do
+    if approved.nil?
+      errors.add(:approved, :blank, message: "Tell us whether you agree or disagree with the term")
+    end
+
+    if approved == false && rejection_reason.blank?
+      errors.add(:rejection_reason, :blank, message: "Tell us why you disagree with the term")
+    end
+  end
 
   before_validation :cancel_now!, if: :cancelled?
 

@@ -1,0 +1,59 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled pre-commencement condition request for your application" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Review pre-commencement condition
+  </h1>
+
+  <div id="pre-commencement-condition-suggestion">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Condition: <%= @validation_request.condition_title %>
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.condition_text)) %>
+  </div>
+
+  <div id="pre-commencement-condition-reason">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Reason
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.condition_reason)) %>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="pre-commencement-condition-response">
+    <h2 class="govuk-heading-s">
+      Your response
+    </h2>
+
+    <% if @validation_request.approved? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--green">
+          Agreed
+        </strong>
+        to the condition
+      </p>
+    <% elsif @validation_request.rejected? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--red">
+          Disagreed
+        </strong>
+        with the condition
+      </p>
+
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        Reason for disagreeing with the condition:
+      </h3>
+
+      <%= render(FormattedContentComponent.new(text: @validation_request.rejection_reason)) %>
+    <% end %>
+  </div>
+<% end %>

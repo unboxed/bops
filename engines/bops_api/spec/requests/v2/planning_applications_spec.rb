@@ -439,7 +439,7 @@ RSpec.describe "BOPS API" do
           expect(data["description"]).to eq(planning_application.description)
 
           expect(data["documents"]).to match_array([
-            a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
+            a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}")
           ])
         end
       end
@@ -458,7 +458,7 @@ RSpec.describe "BOPS API" do
           expect(data["description"]).to eq(planning_application.description)
 
           expect(data["documents"]).to match_array([
-            a_hash_including("url" => "http://planx.example.com/files/#{document.blob_key}")
+            a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}")
           ])
         end
       end

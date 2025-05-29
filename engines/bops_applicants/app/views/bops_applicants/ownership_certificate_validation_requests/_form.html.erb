@@ -1,0 +1,17 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<%= form_with model: @validation_request, scope: :validation_request do |form| %>
+  <%= hidden_field_tag(:planning_application_reference, @planning_application.reference) %>
+  <%= hidden_field_tag(:change_access_id, @planning_application.change_access_id) %>
+
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_submit "Submit" do %>
+    <%= govuk_button_link_to "Back", validation_requests_path(
+          planning_application_reference: @planning_application.reference,
+          change_access_id: @planning_application.change_access_id
+        ), secondary: true %>
+  <% end %>
+<% end %>

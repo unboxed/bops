@@ -1,0 +1,106 @@
+---
+en:
+  bops_applicants:
+    additional_document_validation_requests:
+      form:
+        files_label: Upload additional document(s)
+        page_title: 'Additional document validation request #%{id}'
+      update:
+        failure_html: There was a problem sending your response to the case officer - please <a href="mailto:%{feedback_email}">contact us</a> for assistance
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Additional document validation request #%{id}'
+    application:
+      header:
+        back_office_planning: Back Office Planning System
+    description_change_validation_requests:
+      form:
+        approved_label: Yes, I agree with the changes made
+        legend: Do you agree with the changes made to your application description?
+        page_title: 'Description change validation request #%{id}'
+        rejected_label: No, I disagree with the changes made
+        rejection_reason_label: Tell us why you disagree. Enter your suggested wording for the description.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Description change validation request #%{id}'
+    fee_change_validation_requests:
+      form:
+        page_title: 'Fee change validation request #%{id}'
+        response_hint: Include any reasons why you don't agree with what they've said
+        response_label: Enter any comments you want to share with the case officer
+        supporting_documents_hint: You can upload up to 30MB.
+        supporting_documents_label: Upload as many files as you need to from your device.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Fee change validation request #%{id}'
+    heads_of_terms_validation_requests:
+      form:
+        approved_label: Yes, I agree with the term
+        legend: Do you agree with the term?
+        page_title: 'Heads of terms request #%{id}'
+        rejected_label: No, I disagree with the term
+        rejection_reason_label: Tell us why you disagree
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Heads of terms request #%{id}'
+    other_change_validation_requests:
+      form:
+        page_title: 'Other change validation request #%{id}'
+        response_label: Respond to this request
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Other change validation request #%{id}'
+    ownership_certificate_validation_requests:
+      form:
+        page_title: 'Confirm ownership #%{id}'
+      update:
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Confirm ownership #%{id}'
+    page_title: "%{council} BOPS"
+    pre_commencement_condition_validation_requests:
+      form:
+        approved_label: I accept the condition
+        legend: Do you accept or not accept this condition?
+        page_title: 'Pre-commencement condition request #%{id}'
+        rejected_label: I do not accept the condition
+        rejection_reason_label: Tell us why you do not accept this condition
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Pre-commencement condition request #%{id}'
+    red_line_boundary_change_validation_requests:
+      form:
+        page_title: 'Red line boundary change validation request #%{id}'
+      update:
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Red line boundary change validation request #%{id}'
+    replacement_document_validation_requests:
+      form:
+        page_title: 'Replacement document validation request #%{id}'
+      update:
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Replacement document validation request #%{id}'
+    time_extension_validation_requests:
+      form:
+        approved_label: Yes, I agree with the changes made
+        legend: Do you agree with the proposed new expiry date for your planning application?
+        page_title: 'Time extension validation request #%{id}'
+        rejected_label: No, I disagree with the changes made
+        rejection_reason_label: Tell the case officer why you disagree
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Time extension validation request #%{id}'

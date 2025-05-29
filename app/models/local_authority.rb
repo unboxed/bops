@@ -27,6 +27,16 @@ class LocalAuthority < ApplicationRecord
 
   has_many :neighbour_responses, through: :consultations
 
+  class Accessibility < Struct.new(:postal_address, :phone_number, :email_address); end
+
+  composed_of :accessibility,
+    class_name: "LocalAuthority::Accessibility",
+    allow_nil: true, mapping: [
+      %w[accessibility_postal_address postal_address],
+      %w[accessibility_phone_number phone_number],
+      %w[accessibility_email_address email_address]
+    ]
+
   with_options presence: true do
     validates :council_code, :subdomain
     validates :short_name, :council_name
@@ -48,6 +58,12 @@ class LocalAuthority < ApplicationRecord
   end
 
   validate :council_code_exists
+
+  with_options on: :accessibility do
+    validates :accessibility_postal_address, presence: true
+    validates :accessibility_phone_number, presence: true
+    validates :accessibility_email_address, presence: true
+  end
 
   before_validation do
     if subdomain? && !Bops.env.production?

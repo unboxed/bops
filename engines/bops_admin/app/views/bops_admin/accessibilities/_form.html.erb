@@ -1,0 +1,13 @@
+<%= form_with(model: current_local_authority, url: accessibility_path, id: "accessibility-form") do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_fieldset(legend: {text: t(".contact_details")}) do %>
+    <%= form.govuk_text_area(:accessibility_postal_address, rows: 6, label: {text: t(".postal_address")}) %>
+    <%= form.govuk_text_field(:accessibility_phone_number, label: {text: t(".phone_number")}) %>
+    <%= form.govuk_text_field(:accessibility_email_address, label: {text: t(".email_address")}) %>
+  <% end %>
+
+  <%= form.govuk_submit(t(".submit")) do %>
+    <%= back_link %>
+  <% end %>
+<% end %>

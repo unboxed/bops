@@ -1,0 +1,63 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled request for changes to your description" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Confirm changes to your application description
+  </h1>
+
+  <p class="govuk-body">
+    The following changes have been made to your application's description.
+  </p>
+
+  <div id="description-change-previous">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Previous description
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.previous_description)) %>
+  </div>
+
+  <div id="description-change-proposed">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      New description
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.proposed_description)) %>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="description-change-response">
+    <h2 class="govuk-heading-s">
+      Your response
+    </h2>
+
+    <% if @validation_request.approved? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--green">
+          Agreed
+        </strong>
+        with suggested changes
+      </p>
+    <% elsif @validation_request.rejected? %>
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--red">
+          Disagreed
+        </strong>
+        with suggested changes
+      </p>
+
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        My objection and suggested wording for description:
+      </h3>
+
+      <%= render(FormattedContentComponent.new(text: @validation_request.rejection_reason)) %>
+    <% end %>
+  </div>
+<% end %>

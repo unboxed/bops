@@ -7,8 +7,6 @@ module Rack
   Handler = ::Rackup::Handler
 end
 
-download_path = Rails.root.join("tmp/downloads").to_s
-
 Capybara.add_selector(:planning_applications_status_tab) do
   xpath { "//*[@class='govuk-tabs__list']" }
 end
@@ -44,9 +42,7 @@ Capybara.register_driver :chrome_headless do |app|
   browser_options.args << "--disable-dev-shm-usage"
   browser_options.args << "--host-rules=MAP * 127.0.0.1"
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options).tap do |d|
-    d.browser.download_path = download_path
-  end
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
 
 RSpec.configure do |config|
@@ -69,12 +65,19 @@ RSpec.configure do |config|
 
     driven_by driver
 
-    Capybara.app_host = "http://planx.example.com"
+    Capybara.app_host = "http://planx.bops.services"
 
     if page.driver.respond_to?(:invalid_element_errors)
       unless page.driver.invalid_element_errors.include?(Selenium::WebDriver::Error::UnknownError)
         page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
       end
+    end
+
+    if page.driver.browser.respond_to?(:download_path=)
+      page.driver.browser.download_path = downloads_path
+
+      FileUtils.rm_rf(downloads_path)
+      FileUtils.mkdir_p(downloads_path)
     end
   end
 end

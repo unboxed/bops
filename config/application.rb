@@ -68,6 +68,9 @@ module Bops
     config_for(:application).each do |key, value|
       config.send(:"#{key}=", value)
     end
+
+    # Render custom error pages
+    config.exceptions_app = BopsCore::PublicExceptions.new(Rails.public_path)
   end
 
   def self.env

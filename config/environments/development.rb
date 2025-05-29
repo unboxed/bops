@@ -94,6 +94,7 @@ Rails.application.configure do
 
   # Allow connections on any bops.localhost subdomain
   config.hosts << /[a-z][-a-z0-9]{0,62}\.bops\.localhost/
+  config.hosts << /[a-z][-a-z0-9]{0,62}\.bops-applicants\.localhost/
 
   # Allow web-console connections into docker
   config.web_console.permissions = %w[127.0.0.1 ::1 172.23.9.254]
@@ -105,5 +106,5 @@ Rails.application.configure do
   config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY", "notasecret")
   config.active_record.encryption.key_derivation_salt = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT", "notasecret")
 
-  config.applicants_base_url = "bops-applicants.localhost:3001"
+  config.applicants_base_url = "bops-applicants.localhost:3000"
 end

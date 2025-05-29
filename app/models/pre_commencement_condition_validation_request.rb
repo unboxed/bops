@@ -3,12 +3,23 @@
 class PreCommencementConditionValidationRequest < ValidationRequest
   RESPONSE_TIME_IN_DAYS = 10
 
+  belongs_to :owner, polymorphic: true
+  delegate :title, :text, :reason, to: :owner, prefix: :condition, allow_nil: true
+
   validates :cancel_reason, presence: true, if: :cancelled?
   validate :rejected_reason_is_present?
 
-  before_validation :condition_cancelled_at_now, if: :cancelled?
+  validate if: :applicant_responding? do
+    if approved.nil?
+      errors.add(:approved, :blank, message: "Tell us whether you accept or do not accept this condition")
+    end
 
-  belongs_to :owner, polymorphic: true
+    if approved == false && rejection_reason.blank?
+      errors.add(:rejection_reason, :blank, message: "Tell us why you do not accept this condition")
+    end
+  end
+
+  before_validation :condition_cancelled_at_now, if: :cancelled?
 
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
