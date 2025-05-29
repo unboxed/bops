@@ -160,6 +160,7 @@ class PlanningApplication < ApplicationRecord
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
   before_validation :reset_published_at, unless: :publishable?
+  before_save :set_lat_and_long
   before_create :set_received_at
   before_create :set_key_dates
   before_create :set_change_access_id
@@ -688,6 +689,12 @@ class PlanningApplication < ApplicationRecord
     return unless longitude.present? && latitude.present?
 
     self.lonlat = factory.point(longitude, latitude)
+  end
+
+  def set_lat_and_long
+    return if longitude.present? && latitude.present?
+
+    self.longitude, self.latitude = NationalGrid.os_ng_to_wgs84(map_east.to_i, map_north.to_i)
   end
 
   def factory
