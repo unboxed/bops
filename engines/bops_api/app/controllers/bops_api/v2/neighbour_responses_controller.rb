@@ -13,6 +13,8 @@ module BopsApi
 
       private
 
+      def required_api_key_scope = "comment"
+
       def response_scope
         current_local_authority.neighbour_responses
       end

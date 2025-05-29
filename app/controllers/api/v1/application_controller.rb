@@ -55,6 +55,8 @@ module Api
 
       private
 
+      def required_api_key_scope = nil
+
       def planning_application
         scope = current_local_authority.planning_applications
         param = if params.key? :reference

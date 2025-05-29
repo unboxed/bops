@@ -12,6 +12,10 @@ module BopsApi
           format.json
         end
       end
+
+      private
+
+      def required_api_key_scope = "planning_application"
     end
   end
 end
