@@ -8,6 +8,8 @@ module BopsApi
       def planning_applications_scope
         current_local_authority.planning_applications.includes(:user)
       end
+
+      def required_api_key_scope = nil
     end
   end
 end

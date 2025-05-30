@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Reviewing assessment against policies and guidance", type: :system, js: true do
   let!(:local_authority) { create(:local_authority, :default, planning_policy_and_guidance: "http://example.com") }
-  let!(:api_user) { create(:api_user, local_authority:) }
+  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read], local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:, name: "Anne Assessor") }
   let!(:reviewer) { create(:user, :reviewer, local_authority:, name: "Ray Reviewer") }
   let(:consideration_set) { planning_application.consideration_set }

@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe ImmunityDetailsCreationService, type: :service do
   describe "#call" do
-    let(:api_user) { create(:api_user) }
+    let(:api_user) { create(:api_user, :planx) }
 
     context "when a planning application is provided" do
       let!(:planning_application) { create(:planning_application, :from_planx_immunity, api_user:) }

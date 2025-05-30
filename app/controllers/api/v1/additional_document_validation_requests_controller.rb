@@ -52,6 +52,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "validation_request"
+
       def file_params
         @file_params ||= params[:files]
       end

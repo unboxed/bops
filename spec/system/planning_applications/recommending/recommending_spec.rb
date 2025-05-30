@@ -11,7 +11,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     )
   end
 
-  let!(:api_user) { create(:api_user, name: "PlanX") }
+  let!(:api_user) { create(:api_user, :planx) }
 
   let!(:assessor) do
     create(
