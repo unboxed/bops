@@ -5,6 +5,7 @@ module BopsSubmissions
     class SubmissionsController < AuthenticatedController
       def create
         @submission = creation_service.call
+        SubmissionProcessorJob.perform_later(@submission.id)
 
         respond_to do |format|
           format.json

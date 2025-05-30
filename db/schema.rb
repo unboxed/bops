@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_27_103524) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -432,6 +432,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
     t.string "tags", default: [], array: true
     t.bigint "document_checklist_items_id"
     t.boolean "available_to_consultees", default: false, null: false
+    t.bigint "submission_id"
+    t.jsonb "metadata", default: {}, null: false
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["document_checklist_items_id"], name: "ix_documents_on_document_checklist_items_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
@@ -441,6 +443,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
     t.index ["press_notice_id"], name: "ix_documents_on_press_notice_id"
     t.index ["site_notice_id"], name: "ix_documents_on_site_notice_id"
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
+    t.index ["submission_id"], name: "ix_documents_on_submission_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
   end
 
@@ -1141,6 +1144,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_uuid"
+    t.string "error_message"
+    t.jsonb "application_payload", default: {}, null: false
     t.index ["external_uuid"], name: "ix_submissions_on_external_uuid", unique: true
     t.index ["local_authority_id"], name: "ix_submissions_on_local_authority_id"
     t.index ["status"], name: "ix_submissions_on_status"
@@ -1255,6 +1260,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_13_103741) do
   add_foreign_key "documents", "press_notices"
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
+  add_foreign_key "documents", "submissions"
   add_foreign_key "documents", "users"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
