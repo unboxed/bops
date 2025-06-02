@@ -23,6 +23,16 @@
         <%= form.govuk_text_field :service, hint: {text: t(".hints.service")} %>
       <% end %>
 
+      <%= form.govuk_check_boxes_fieldset(:permissions,
+            multiple: false,
+            legend: {text: "Permissions to be granted to this key"}) do %>
+        <% ApiUser::VALID_PERMISSIONS.each do |permission| %>
+          <%= form.govuk_check_box :permissions, permission,
+                checked: @token.permissions.include?(permission),
+                label: {text: tag.code(permission)} %>
+        <% end %>
+      <% end %>
+
       <%= render "file_downloader", form: form, file_downloader: @token.file_downloader %>
 
       <%= form.govuk_submit(t(".submit")) do %>

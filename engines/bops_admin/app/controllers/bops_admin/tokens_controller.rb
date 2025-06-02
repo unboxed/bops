@@ -73,7 +73,7 @@ module BopsAdmin
     end
 
     def token_params
-      params.fetch(:token, {}).permit(*token_attributes, file_downloader_attributes:)
+      params.fetch(:token, {}).permit(*token_attributes, permissions: [], file_downloader_attributes:)
     end
 
     def token_attributes
