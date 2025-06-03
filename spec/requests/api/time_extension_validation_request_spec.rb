@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Time extension validation requests API" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read validation_request:write], local_authority: default_local_authority) }
+  let!(:api_user) { create(:api_user, :validation_requests_rw, local_authority: default_local_authority) }
 
   let(:planning_application) do
     create(

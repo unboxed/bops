@@ -132,7 +132,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority)
     end
 
-    let!(:api_user) { create(:api_user, permissions: %w[validation_request:read], name: "Api Wizard") }
+    let!(:api_user) { create(:api_user, :validation_requests_ro) }
 
     before do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"

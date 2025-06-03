@@ -8,7 +8,7 @@ RSpec.describe BopsApi::Application::DocumentsService, type: :job do
   end
 
   let(:planning_application) { create(:planning_application) }
-  let(:user) { create(:api_user, permissions: %w[validation_request:read]) }
+  let(:user) { create(:api_user, :validation_requests_ro) }
   let(:url) { "https://example.com/path/to/file.pdf" }
   let(:tags) { %w[sitePlan.proposed] }
   let(:description) { "Proposed site plan" }

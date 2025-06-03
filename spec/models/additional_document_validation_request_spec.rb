@@ -37,7 +37,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
 
   describe "instance methods" do
     let(:additional_document_validation_request) { create(:additional_document_validation_request, :open) }
-    let(:api_user) { create(:api_user, permissions: %w[validation_request:read validation_request:write]) }
+    let(:api_user) { create(:api_user, :validation_requests_rw) }
     let(:files) do
       [
         fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png"),

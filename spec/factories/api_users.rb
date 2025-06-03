@@ -28,5 +28,13 @@ FactoryBot.define do
       name { "PlanX" }
       permissions { ["planning_application:write"] }
     end
+
+    trait :validation_requests_ro do
+      permissions { ["validation_request:read"] }
+    end
+
+    trait :validation_requests_rw do
+      permissions { ["validation_request:read", "validation_request:write"] }
+    end
   end
 end

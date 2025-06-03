@@ -34,8 +34,8 @@ RSpec.describe "BOPS API" do
   end
 
   before do
-    create(:api_user, permissions: %w[validation_request:read], token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
-    create(:api_user, permissions: %w[validation_request:read], name: "other", token: "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ", local_authority: southwark)
+    create(:api_user, :validation_requests_ro, token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
+    create(:api_user, :validation_requests_ro, name: "other", token: "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ", local_authority: southwark)
     create(:application_type, :ldc_existing)
 
     Rails.configuration.os_vector_tiles_api_key = "testtest"

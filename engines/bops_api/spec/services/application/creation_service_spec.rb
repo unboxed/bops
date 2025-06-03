@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe BopsApi::Application::CreationService, type: :service do
   describe "#call" do
-    let(:user) { create(:api_user, permissions: %w[validation_request:read]) }
+    let(:user) { create(:api_user, :validation_requests_ro) }
     let(:local_authority) { create(:local_authority) }
     let!(:application_type_ldce) { create(:application_type, :ldc_existing) }
     let!(:application_type_ldcp) { create(:application_type, :ldc_proposed) }
