@@ -5,6 +5,7 @@ class Submission < ApplicationRecord
 
   belongs_to :local_authority
   has_one :planning_application, dependent: :nullify
+  has_many :documents, dependent: :destroy
 
   validates :external_uuid, uniqueness: true, allow_nil: true
 
@@ -22,7 +23,7 @@ class Submission < ApplicationRecord
     state :completed
 
     event :start do
-      transitions from: :submitted, to: :started
+      transitions from: [:failed, :submitted], to: :started
     end
 
     event :fail do
@@ -34,8 +35,14 @@ class Submission < ApplicationRecord
     end
   end
 
+  store_accessor :application_payload, :json_file, :other_files
+
   def application_reference
     request_body["applicationRef"]
+  end
+
+  def document_link_urls
+    request_body.fetch("documentLinks", []).pluck("documentLink")
   end
 
   def source

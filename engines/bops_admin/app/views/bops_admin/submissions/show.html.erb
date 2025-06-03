@@ -17,6 +17,9 @@
            "Source" => @submission.source,
            "Status" => @submission.status,
            "Created at" => @submission.created_at.to_fs,
+           "Started at" => @submission.started_at&.to_fs,
+           "Completed at" => @submission.completed_at&.to_fs,
+           "Failed at" => @submission.failed_at&.to_fs,
            "External UUID" => @submission.external_uuid
          }.each do |key, value| %>
         <% summary_list.with_row do |row| %>
@@ -26,12 +29,42 @@
       <% end %>
     <% end %>
 
+    <% if @submission.failed? %>
+      <%= govuk_details(summary_text: "Error") do %>
+        <pre><%= @submission.error_message %></pre>
+      <% end %>
+    <% end %>
+
     <%= govuk_details(summary_text: "Request Body") do %>
       <pre><%= JSON.pretty_generate(@submission.request_body) %></pre>
     <% end %>
 
     <%= govuk_details(summary_text: "Request Headers") do %>
       <pre><%= JSON.pretty_generate(@submission.request_headers) %></pre>
+    <% end %>
+
+    <%= govuk_details(summary_text: "Application payload") do %>
+      <pre><%= JSON.pretty_generate(@submission.json_file) %></pre>
+    <% end %>
+
+    <%= govuk_details(summary_text: "Other files") do %>
+      <pre><%= JSON.pretty_generate(@submission.other_files) %></pre>
+    <% end %>
+
+    <% if @submission.documents.any? %>
+      <h2 class="govuk-heading-m">Documents</h2>
+      <%= govuk_table(
+            head: ["Filename", "Uploaded At", "View"],
+            rows: @submission.documents.order(:created_at).map do |document|
+              [
+                document.file.filename.to_s,
+                document.created_at.to_fs,
+                link_to_document("View", document)
+              ]
+            end
+          ) %>
+    <% else %>
+      <p class="govuk-body">No documents have been extracted for this submission yet.</p>
     <% end %>
 
     <div class="govuk-button-group">

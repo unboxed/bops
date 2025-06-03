@@ -21,5 +21,20 @@ FactoryBot.define do
         updated: false
       }
     }
+    external_uuid { SecureRandom.uuid_v7 }
+
+    trait :completed do
+      after(:create) do |submission|
+        submission.start!
+        submission.complete!
+      end
+    end
+
+    trait :failed do
+      after(:create) do |submission|
+        submission.start!
+        submission.fail!
+      end
+    end
   end
 end

@@ -5,6 +5,10 @@ RSpec.configure do |config|
     def json_fixture(name, **opts)
       JSON.parse(BopsSubmissions::Engine.root.join("spec", "fixtures", name).read, symbolize_names: true, **opts)
     end
+
+    def zip_fixture(name)
+      BopsSubmissions::Engine.root.join("spec", "fixtures", "files", name).to_s
+    end
   end
 
   config.extend(helpers)

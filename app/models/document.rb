@@ -24,9 +24,8 @@ class Document < ApplicationRecord
 
   class NotArchiveableError < StandardError; end
 
-  belongs_to :planning_application
-
   with_options optional: true do
+    belongs_to :planning_application
     belongs_to :api_user
     belongs_to :document_checklist_item
     belongs_to :evidence_group
@@ -34,6 +33,7 @@ class Document < ApplicationRecord
     belongs_to :owner, polymorphic: true
     belongs_to :site_notice
     belongs_to :site_visit
+    belongs_to :submission
     belongs_to :user
   end
 
@@ -225,7 +225,7 @@ class Document < ApplicationRecord
 
   validate :no_open_replacement_request, if: :replacement_file
   validate :tag_values_permitted
-  validate :file_content_type_permitted
+  validate :file_content_type_permitted, unless: :submission
   validate :file_attached
   validate :numbered
   validate :created_date_is_in_the_past
@@ -408,6 +408,8 @@ class Document < ApplicationRecord
   end
 
   def file_attached
+    return if metadata["filename"].present? && metadata["error"].present?
+
     errors.add(:file, :missing_file) unless file.attached?
   end
 
@@ -422,6 +424,8 @@ class Document < ApplicationRecord
   end
 
   def create_audit!
+    return unless planning_application
+
     audit!(activity_type: "uploaded", activity_information: file.filename)
   end
 

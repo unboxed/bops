@@ -184,6 +184,6 @@ paths:
                   updated: false
                   documentLinks:
                   - documentName: PT-10087984.zip
-                    documentLink: https://example.com/files/PT-10087984.zip
+                    documentLink: http://localhost:3000/api/v2/fixtures/PT-10087984.zip
                     expiryDateTime: '2023-07-19T08:45:59.975412Z'
                     documentType: application/x-zip-compressed

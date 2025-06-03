@@ -48,6 +48,7 @@ PATH
       rswag-api (~> 2.14)
       rswag-specs (~> 2.14)
       rswag-ui (~> 2.14)
+      rubyzip (~> 2.4.1)
 
 PATH
   remote: engines/bops_uploads
@@ -589,7 +590,7 @@ GEM
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
-    rubyzip (2.3.2)
+    rubyzip (2.4.1)
     rufus-scheduler (3.8.2)
       fugit (~> 1.1, >= 1.1.6)
     securerandom (0.4.1)
