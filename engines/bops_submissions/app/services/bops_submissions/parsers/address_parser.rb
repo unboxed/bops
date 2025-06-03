@@ -45,6 +45,12 @@ module BopsSubmissions
       def latitude
         params["bs7666Y"]
       end
+
+      # def lat_lng
+      #   OsNationalGrid.os_ng_to_wgs84(map_east.to_i, map_north.to_i)
+      # end
+
+      # self.longitude, self.latitude = OsNationalGrid.os_ng_to_wgs84(map_east.to_i, map_north.to_i)
     end
   end
 end

@@ -145,6 +145,30 @@ RSpec.describe Document do
         end
       end
     end
+
+    describe "::after_update #create_audit!" do
+      context "when document is associated with a planning application" do
+        let!(:document) { create(:document, planning_application_id: nil) }
+        let(:planning_application) { create(:planning_application) }
+
+        it "creates exactly one new Audit with the correct fields" do
+          expect(document.audits).to eq(nil)
+          document.update!(planning_application_id: planning_application.id)
+          expect(document.audits.where(activity_type: "uploaded").count).to eq(1)
+        end
+      end
+
+      context "when document is associated with a submission" do
+        let(:document) { create(:document) }
+        let(:submission) { create(:submission) }
+
+        it "does not create an audit" do
+          expect {
+            document.update!(submission:)
+          }.to change { document.reload.audits.count }.by(0)
+        end
+      end
+    end
   end
 
   describe "instance methods" do

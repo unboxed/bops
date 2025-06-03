@@ -3,21 +3,37 @@
 module BopsSubmissions
   module Application
     class CreationService
-      def initialize(local_authority: nil, params: nil)
-        @local_authority = local_authority
-        @params = params
+      def initialize(submission:)
+        @submission = submission
+        @local_authority = submission.local_authority
+        @data = submission.json_file
       end
 
       def call!
-        save!(build_planning_application)
+        verify_application_json!
+        create_planning_application!
+        attach_documents!
+        @planning_application.mark_accepted!
       end
 
       private
 
-      attr_reader :local_authority, :params
+      attr_reader :submission, :data, :local_authority
+
+      def verify_application_json!
+        unless data.is_a?(Hash) && data.present?
+          raise ArgumentError, "Submission: #{submission.id} has no valid application JSON"
+        end
+      end
+
+      def create_planning_application!
+        @planning_application = build_planning_application
+        @planning_application.save!
+      end
 
       def build_planning_application
         PlanningApplication.new(planning_application_params).tap do |pa|
+          pa.submission_id = submission.id
           pa.local_authority_id = local_authority.id
         end
       end
@@ -30,38 +46,30 @@ module BopsSubmissions
       end
 
       def parsed_data
-        parsers.each_with_object({}) do |(parser, data), hash|
-          hash.merge!(parser.new(data, local_authority:).parse)
+        parsers.each_with_object({}) do |(parser, section_data), hash|
+          hash.merge!(parser.new(section_data, local_authority:).parse)
         end
       end
 
       def parsers
         {
-          "ApplicantParser" => params["applicationData"]["applicant"],
-          "AgentParser" => params["applicationData"]["agent"],
-          "AddressParser" => params["applicationData"]["siteLocation"],
-          "FeeParser" => params["feeCalculationSummary"],
-          "ProposalParser" => params,
-          "ProposalDetailsParser" => params["applicationData"]
+          "ApplicantParser" => data.dig("applicationData", "applicant"),
+          "AgentParser" => data.dig("applicationData", "agent"),
+          "AddressParser" => data.dig("applicationData", "siteLocation"),
+          "FeeParser" => data["feeCalculationSummary"],
+          "ProposalParser" => data
         }.transform_keys { |key| Parsers.const_get(key) }
       end
 
       def application_type_params
-        {
-          application_type: local_authority.application_types.find_or_create_by!(code: "pp.full.householder")
-          # Planning portal are not currently sending application type, for now we are saving all as a full hosueholder so we are able to pass validation on the.
-        }
+        # Planning portal are not currently sending application type. For now, we save all as full householder to pass validation.
+        {application_type: local_authority.application_types.find_or_create_by!(code: "pp.full.householder")}
       end
 
-      def save!(planning_application)
-        PlanningApplication.transaction do
-          if planning_application.save!
-            puts "Planning application saved"
-            # Call background jobs
-          end
+      def attach_documents!
+        submission.documents.find_each do |document|
+          document.update!(planning_application: @planning_application)
         end
-
-        planning_application
       end
     end
   end

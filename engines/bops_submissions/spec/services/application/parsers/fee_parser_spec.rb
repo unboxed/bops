@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require_relative "../../../swagger_helper"
 
 RSpec.describe BopsSubmissions::Parsers::FeeParser do
   describe "#parse" do
@@ -12,14 +12,12 @@ RSpec.describe BopsSubmissions::Parsers::FeeParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_portal_planning_permission.json").read)
-        )["feeCalculationSummary"]
+        ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json"))[:feeCalculationSummary]
       }
 
-      it "returns a correctly formatted applicant hash" do
+      it "returns a correctly formatted fee hash" do
         expect(parse_fee).to eq(
-          payment_amount: 0.00,
+          payment_amount: 0.0,
           payment_reference: nil
         )
       end
