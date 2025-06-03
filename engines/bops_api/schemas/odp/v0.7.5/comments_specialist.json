@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "pagination": {
+      "$ref": "#/definitions/PostSubmissionPagination"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "totalComments": {
+          "type": "integer"
+        },
+        "totalConsulted": {
+          "type": "integer"
+        },
+        "sentiment": {
+          "type": "object",
+          "properties": {
+            "approved": {
+              "type": "integer"
+            },
+            "amendmentsNeeded": {
+              "type": "integer"
+            },
+            "objected": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "required": ["totalComments", "totalConsulted", "sentiment"]
+    },
+    "comments": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "sentiment": {
+              "enum": ["approved", "amendmentsNeeded", "objected"],
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            },
+            "receivedAt": {
+              "format": "datetime",
+              "type": ["string", "null"]
+            }
+          },
+          "required": ["id", "sentiment", "comment", "receivedAt"]
+        }
+      ]
+    }
+  },
+  "required": ["pagination", "summary", "comments"]
+}
