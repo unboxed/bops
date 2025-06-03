@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-require "pry"
+require_relative "../../../swagger_helper"
 
 RSpec.describe BopsSubmissions::Parsers::ProposalParser do
   describe "#parse" do
@@ -13,16 +12,30 @@ RSpec.describe BopsSubmissions::Parsers::ProposalParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_portal_planning_permission.json").read)
-        )
+        ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json"))
       }
 
       it "returns a correctly formatted proposal hash" do
-        # binding.pry
+        expected_geojson = params.dig("polygon", "features", 0, "geometry").to_json
+
         expect(parse_proposal).to eq(
           description: "\nDH Test Description",
-          boundary_geojson: "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[530926,175216.21],[530897.02,175205.71],[530896.2343587935,175191.29044591202],[530904.4400000001,175189.18999999997],[530912,175191.28999999998],[530916.06,175195.62999999998],[530912.9800000001,175208.50999999998],[530928.8,175213.83],[530926,175216.21]]]]}"
+          boundary_geojson: expected_geojson
+        )
+      end
+    end
+
+    context "with missing polygon" do
+      let(:params) do
+        fixture = ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json")).deep_dup
+        fixture["polygon"] = nil
+        fixture
+      end
+
+      it "returns description and nil boundary_geojson" do
+        expect(parse_proposal).to eq(
+          description: "\nDH Test Description",
+          boundary_geojson: nil
         )
       end
     end

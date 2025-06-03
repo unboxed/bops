@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require_relative "../../../swagger_helper"
 
 RSpec.describe BopsSubmissions::Parsers::AddressParser do
   describe "#parse" do
@@ -12,9 +12,7 @@ RSpec.describe BopsSubmissions::Parsers::AddressParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_portal_planning_permission.json").read)
-        )["applicationData"]["siteLocation"]
+        ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json"))[:applicationData][:siteLocation]
       }
 
       it "returns a correctly formatted address hash" do
@@ -24,8 +22,8 @@ RSpec.describe BopsSubmissions::Parsers::AddressParser do
           address_2: "Lambeth Town Hall",
           town: "London",
           postcode: "SW2 1RW",
-          latitude: 175202,
-          longitude: 530919
+          map_east: 530919,
+          map_north: 175202
         )
       end
     end
@@ -42,15 +40,15 @@ RSpec.describe BopsSubmissions::Parsers::AddressParser do
         }
       end
 
-      it "returns a hash without lonlat" do
+      it "returns a hash without easting/ northing" do
         expect(parse_address).to eq(
           uprn: "123456789",
           address_1: "10, Biscuit Lane",
           address_2: "Westminster",
           town: "London",
           postcode: "SW2 AAA",
-          longitude: nil,
-          latitude: nil
+          map_east: nil,
+          map_north: nil
         )
       end
     end

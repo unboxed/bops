@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require_relative "../../../swagger_helper"
 
 RSpec.describe BopsSubmissions::Parsers::AgentParser do
   describe "#parse" do
@@ -12,17 +12,15 @@ RSpec.describe BopsSubmissions::Parsers::AgentParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_portal_planning_permission.json").read)
-        )["applicationData"]["agent"]
+        ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json"))[:applicationData][:agent]
       }
 
       it "returns a correctly formatted agent hash" do
         expect(parse_agent).to eq(
-          agent_first_name: "Jane",
-          agent_last_name: "Doe",
-          agent_email: "example_agent@lambeth.com",
-          agent_phone: "02071234567"
+          agent_first_name: "Bob",
+          agent_last_name: "Smith",
+          agent_email: "test@lambeth.gov.uk",
+          agent_phone: "02079260135"
         )
       end
     end

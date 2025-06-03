@@ -4,7 +4,7 @@ module BopsSubmissions
   module Parsers
     class AddressParser < BaseParser
       def parse
-        {uprn:, address_1:, address_2:, town:, postcode:, longitude:, latitude:}
+        {uprn:, address_1:, address_2:, town:, postcode:, map_east:, map_north:}
       end
 
       private
@@ -37,12 +37,11 @@ module BopsSubmissions
         params["bs7666PostCode"]
       end
 
-      # Might need to convert these to EPSG coordinates
-      def longitude
+      def map_east
         params["bs7666X"]
       end
 
-      def latitude
+      def map_north
         params["bs7666Y"]
       end
     end
