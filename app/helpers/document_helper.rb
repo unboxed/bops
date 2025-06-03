@@ -33,25 +33,6 @@ module DocumentHelper
     document.numbers.presence || document.name
   end
 
-  def link_to_document(link_text, document, **args)
-    new_tab = /(new (window|tab)|<img\b)/.match?(link_text) ? "" : true
-
-    govuk_link_to(
-      link_text,
-      url_for_document(document),
-      new_tab:,
-      **args
-    )
-  end
-
-  def url_for_document(document)
-    if document.published?
-      api_v1_planning_application_document_url(document.planning_application, document)
-    else
-      uploaded_file_url(document.blob)
-    end
-  end
-
   def document_thumbnail_link(document, thumbnail_args: {}, image_args: {})
     image = if document.representable?
       image_tag(document.representation_url(**thumbnail_args) || "", **image_args)
