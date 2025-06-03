@@ -54,5 +54,20 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         expect(submission.error_message).to eq("An error!")
       end
     end
+
+    context "when the submission cannot be found" do
+      before do
+        allow(Submission).to receive(:find).with(1).and_raise(ActiveRecord::RecordNotFound.new("not found"))
+        allow(Appsignal).to receive(:report_error)
+      end
+
+      it "reports the RecordNotFound to AppSignal and re-raises" do
+        expect(Appsignal).to receive(:report_error).with(instance_of(ActiveRecord::RecordNotFound))
+
+        expect {
+          described_class.perform_now(1)
+        }.to raise_error(ActiveRecord::RecordNotFound, "not found")
+      end
+    end
   end
 end

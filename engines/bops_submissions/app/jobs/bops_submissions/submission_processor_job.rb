@@ -9,6 +9,9 @@ module BopsSubmissions
       submission.start! if submission.may_start?
       ZipExtractionService.new(submission:).call
       submission.complete!
+    rescue ActiveRecord::RecordNotFound => e
+      Appsignal.report_error(e)
+      raise
     rescue => e
       submission.fail!
       submission.update!(error_message: e.message)
