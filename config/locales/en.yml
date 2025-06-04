@@ -2008,7 +2008,7 @@ en:
         form:
           legislation: Legislation
           no_applicable_reporting_types: No applicable reporting types. Please configure them for the application type if they are required.
-          read_more: Read more guidance on GOV.UK (opens in a new tab)
+          read_more: Read more guidance on GOV.UK
         update:
           failure: Please select a development type for reporting
           success: Planning application's reporting details were successfully updated.

@@ -16,9 +16,9 @@
 
 <% if @planning_application.local_authority.planning_policy_and_guidance? %>
   <p class="govuk-body govuk-!-margin-bottom-7">
-    <%= govuk_link_to @planning_application.local_authority.planning_policy_and_guidance, new_tab: "" do %>
-      Check your local policies and guidance (in a new tab)
-    <% end %>
+  <%= govuk_link_to "Check your local policies and guidance",
+        @planning_application.local_authority.planning_policy_and_guidance,
+        new_tab: true %>
   </p>
 <% end %>
 
@@ -80,7 +80,7 @@
 
     <% if @planning_application.decision? %>
       <p class="govuk-body govuk-!-margin-bottom-9">
-        <%= govuk_link_to "View draft decision notice (in a new tab)", decision_notice_planning_application_path(@planning_application), new_tab: "" %>
+        <%= govuk_link_to "View draft decision notice", decision_notice_planning_application_path(@planning_application), new_tab: true %>
       </p>
     <% end %>
 

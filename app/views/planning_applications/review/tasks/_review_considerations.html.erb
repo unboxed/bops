@@ -11,9 +11,9 @@
   <% section.with_block(id: "considerations_block") do %>
     <% if @planning_application.local_authority.planning_policy_and_guidance? %>
       <p class="govuk-body govuk-!-margin-bottom-7">
-        <%= govuk_link_to @planning_application.local_authority.planning_policy_and_guidance, new_tab: "" do %>
-          Check your local policies and guidance (in a new tab)
-        <% end %>
+      <%= govuk_link_to "Check your local policies and guidance",
+            @planning_application.local_authority.planning_policy_and_guidance,
+            new_tab: true %>
       </p>
     <% end %>
 

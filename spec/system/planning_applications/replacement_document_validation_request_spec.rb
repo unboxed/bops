@@ -80,7 +80,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         "This request will be added to the application. The requests will not be sent until the application is marked as invalid."
       )
       expect(page).to have_link(
-        "Applicants will be able to see this advice about how to prepare plans (Opens in a new window or tab)",
+        "Applicants will be able to see this advice about how to prepare plans (opens in new tab)",
         href: public_planning_guides_path
       )
       expect(page).to have_link("Back")
@@ -287,7 +287,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(page).to have_content("Request a replacement document")
       expect(page).to have_content("This request will be sent to the applicant immediately.")
       expect(page).to have_link(
-        "Applicants will be able to see this advice about how to prepare plans (Opens in a new window or tab)",
+        "Applicants will be able to see this advice about how to prepare plans (opens in new tab)",
         href: public_planning_guides_path
       )
 
