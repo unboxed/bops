@@ -24,8 +24,8 @@
     <% if @planning_application.local_authority.document_checklist? %>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       <p class="govuk-body-m">
-        <%= govuk_link_to(@planning_application.local_authority.document_checklist, new_tab: "") do %>
-          Checklist for <%= @planning_application.application_type.name.humanize.downcase %> (opens in a new tab)
+        <%= govuk_link_to(@planning_application.local_authority.document_checklist, new_tab: true) do %>
+          Checklist for <%= @planning_application.application_type.name.humanize.downcase %>
         <% end %>
       </p>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

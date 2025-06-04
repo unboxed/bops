@@ -123,7 +123,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
         expect(find(".govuk-tag")).to have_content("Not started")
 
         within("#considerations_block") do
-          expect(page).to have_link("Check your local policies and guidance (in a new tab)")
+          expect(page).to have_link("Check your local policies and guidance (opens in new tab)")
 
           consideration = Consideration.last
           within("#consideration_#{consideration.id}") do
