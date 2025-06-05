@@ -41,8 +41,7 @@ class PlanningApplicationSearch
       filtered_scope
     end
 
-    return filtered unless sort_key
-    sorted_scope(filtered)
+    sorted_scope(filtered, sort_key, direction)
   end
 
   def statuses
@@ -177,8 +176,13 @@ class PlanningApplicationSearch
     scope.where(**filters).by_created_at_desc
   end
 
-  def sorted_scope(scope = current_planning_applications)
-    PlanningApplicationSorter.new(scope:, sort_key:, direction:).call
+  def sorted_scope(scope, sort_key, direction)
+    case sort_key
+    when "expiry_date"
+      scope.reorder(expiry_date: direction)
+    else
+      scope
+    end
   end
 
   def selected_application_type_ids
