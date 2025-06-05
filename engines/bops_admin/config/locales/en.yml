@@ -1,6 +1,18 @@
 ---
 en:
   bops_admin:
+    accessibilities:
+      edit:
+        about_accessibility: This information is used on the applicants accessibility page.
+        accessibility: Manage accessibility information
+      form:
+        contact_details: Contact details
+        email_address: Email address
+        phone_number: Phone number
+        postal_address: Postal address
+        submit: Submit
+      update:
+        success: Accessibility information successfully updated
     administrator_required: You need to be an administrator to view the page '%{path}'
     application:
       navigation_items:
@@ -321,6 +333,8 @@ en:
         planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers.
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
+        privacy_policy_url: Privacy policy
+        privacy_policy_url_hint: Link to privacy policy for applicants
         public_register_base_url: Public register url
         public_register_base_url_hint: Enter the Public register url.
         reviewer_group_email: BOPS lead email
@@ -357,6 +371,8 @@ en:
         planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers.
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
+        privacy_policy_url: Privacy policy
+        privacy_policy_url_hint: Link to privacy policy for applicants
         profile: Profile
         public_register_base_url: Public register url
         public_register_base_url_hint: Enter the Public register url.

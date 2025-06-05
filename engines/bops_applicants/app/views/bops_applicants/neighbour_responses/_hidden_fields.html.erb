@@ -1,0 +1,21 @@
+<%= hidden_field_tag :stage, @neighbour_response.stage %>
+
+<% unless stage == "about_you" %>
+  <%= form.hidden_field :name %>
+  <%= form.hidden_field :email %>
+  <%= form.hidden_field :address %>
+<% end %>
+
+<% unless stage == "thoughts" %>
+  <%= form.hidden_field :summary_tag %>
+<% end %>
+
+<% unless stage == "response" %>
+  <% @neighbour_response.tags.each do |tag| %>
+    <%= hidden_field_tag "neighbour_response[tags][]", tag, id: "neighbour_response_tags_#{tag}" %>
+  <% end %>
+
+  <% @neighbour_response.response_tags.each do |tag| %>
+    <%= form.hidden_field tag %>
+  <% end %>
+<% end %>

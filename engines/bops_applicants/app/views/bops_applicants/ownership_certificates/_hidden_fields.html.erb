@@ -1,0 +1,22 @@
+<%= hidden_field_tag(:planning_application_reference, @planning_application.reference) %>
+<%= hidden_field_tag(:change_access_id, @planning_application.change_access_id) %>
+<%= hidden_field_tag :stage, @ownership_certificate.stage %>
+
+<% unless stage == "certificate_type" %>
+  <%= form.hidden_field :know_owners %>
+  <%= form.hidden_field :number_of_owners %>
+  <%= form.hidden_field :certificate_type %>
+  <%= form.hidden_field :notification_of_owners %>
+<% end %>
+
+<% @ownership_certificate.land_owners.each_with_index do |land_owner, index| %>
+  <%= form.fields_for :land_owners, land_owner, index: index do |fields| %>
+    <%= fields.hidden_field :name %>
+    <%= fields.hidden_field :address_1 %>
+    <%= fields.hidden_field :address_2 %>
+    <%= fields.hidden_field :town %>
+    <%= fields.hidden_field :country %>
+    <%= fields.hidden_field :postcode %>
+    <%= fields.hidden_field :notice_given_at %>
+  <% end %>
+<% end %>

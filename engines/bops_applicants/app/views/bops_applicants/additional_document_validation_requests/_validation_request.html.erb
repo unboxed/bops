@@ -1,0 +1,66 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
+<% end %>
+
+<% if @validation_request.cancelled? %>
+  <%= render "cancelled",
+        validation_request: @validation_request,
+        heading: "Cancelled request to provide a new document" %>
+<% else %>
+  <h1 class="govuk-heading-l">
+    Confirm <%= "document".pluralize(@documents.length) %> uploaded
+  </h1>
+
+  <p class="govuk-body">
+    <% if @documents.length == 1 %>
+      The case officer specified below why this document was needed.
+    <% else %>
+      The case officer specified below why these documents were needed.
+    <% end %>
+  </p>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="additional-document-requested">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      <%= "Document".pluralize(@documents.length) %> requested:
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.document_request_type)) %>
+  </div>
+
+  <div id="additional-document-comment">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Comment from case officer:
+    </h2>
+
+    <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  <div id="additional-document-response">
+    <h2 class="govuk-heading-s">
+      <%= "Document".pluralize(@documents.length) %> you uploaded in response:
+    </h2>
+
+    <ul id="additional-documents" class="govuk-list">
+      <% @documents.each do |document| %>
+        <li>
+          <p class="govuk-body">
+            <%= govuk_link_to(url_for_document(document), new_tab: "", class: "govuk-!-display-inline-block") do %>
+              <%= image_tag(url_for_representation(document, resize_to_fill: [360, 240, gravity: "North"]), size: "360x240", class: "govuk-!-display-inline-block", style: "border: 1px solid #080;") %>
+            <% end %>
+          </p>
+
+          <p class="govuk-body">
+            <%= govuk_link_to(url_for_document(document), new_tab: "") do %>
+              <%= document.name %><br>
+            <% end %>
+            (opens in a new window/tab)
+          </p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

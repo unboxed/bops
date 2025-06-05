@@ -1,0 +1,12 @@
+<div class="govuk-width-container">
+  <%= govuk_phase_banner(tag: {text: "Beta"}) do %>
+    This is a new service – your <%= govuk_mail_to(current_local_authority.feedback_email, "feedback", no_visited_state: true) %> will help us to improve it.
+  <% end %>
+
+  <%= yield :back_link %>
+
+  <main class="govuk-main-wrapper" id="main-content">
+    <%= render "flash" %>
+    <%= yield %>
+  </main>
+</div>

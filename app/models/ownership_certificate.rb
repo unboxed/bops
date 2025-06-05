@@ -22,6 +22,20 @@ class OwnershipCertificate < ApplicationRecord
     reviews.where.not(id: nil).order(:created_at).last
   end
 
+  def serialize
+    as_json(
+      only: %i[certificate_type created_at updated_at],
+      include: {
+        land_owners: {
+          only: %i[
+            name address_1 address_2 town county country postcode
+            notice_given_at created_at updated_at
+          ]
+        }
+      }
+    )
+  end
+
   private
 
   def create_review

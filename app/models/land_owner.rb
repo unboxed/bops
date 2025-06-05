@@ -6,7 +6,7 @@ class LandOwner < ApplicationRecord
   validates :name, presence: true
 
   before_create do
-    throw :abort if notice_given && notice_given_at.blank?
+    self.notice_given = notice_given_at.present?
   end
 
   def address

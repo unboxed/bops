@@ -1,0 +1,91 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<h1 class="govuk-heading-l">
+  Check your comments before sending
+</h1>
+
+<p class="govuk-body">
+  You can go back and make changes before you submit your comments
+</p>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-m">
+  Personal details
+</h2>
+
+<ul class="govuk-list">
+  <li>
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Name
+    </h3>
+    <p class="govuk-body">
+      <%= @neighbour_response.name %>
+    </p>
+  </li>
+
+  <% if @neighbour_response.email.present? %>
+    <li>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        Email
+      </h3>
+      <p class="govuk-body">
+        <%= @neighbour_response.email %>
+      </p>
+    </li>
+  <% end %>
+
+  <% if @neighbour_response.address.present? %>
+    <li>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        Address
+      </h3>
+      <p class="govuk-body">
+        <%= @neighbour_response.address %>
+      </p>
+    </li>
+  <% end %>
+</ul>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-m">
+  Your comments
+</h2>
+
+<h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+  Summary
+</h3>
+
+<p class="govuk-body">
+  <%= t(".summary.#{@neighbour_response.summary_tag}") %>
+</p>
+
+<ul class="govuk-list">
+  <% @neighbour_response.tags.each do |tag| %>
+    <li>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        <%= t(:".headings.#{tag}") %>
+      </h3>
+
+      <%= render(FormattedContentComponent.new(text: @neighbour_response.attributes[tag])) %>
+    </li>
+  <% end %>
+</ul>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<%= form_with model: [@planning_application, @neighbour_response] do |form| %>
+  <%= render "hidden_fields", form: form, stage: @neighbour_response.stage %>
+
+  <%= form.govuk_file_field :files,
+        label: {text: t(".files_label"), size: "m"}, hint: {text: t(".files_hint")},
+        accept: ".png, image/png, .jpeg, .jpg, image/jpeg, .pdf, application/pdf",
+        multiple: true %>
+
+  <%= form.govuk_submit "Send" do %>
+    <%= form.govuk_submit "Back", name: "movement", value: "backwards", secondary: true %>
+  <% end %>
+<% end %>

@@ -1,0 +1,10 @@
+#consultation-status {
+  border: 1px solid $govuk-border-colour;
+  margin: govuk-spacing(7) 0;
+  padding: govuk-spacing(5);
+  padding-top: govuk-spacing(6);
+
+  & > a:last-child {
+    margin-bottom: 0;
+  }
+}

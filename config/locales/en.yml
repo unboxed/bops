@@ -113,6 +113,57 @@ en:
               blank: Please enter the name of the custom header
             value:
               blank: Please enter the value for the custom header
+        land_owner:
+          attributes:
+            address_1:
+              blank: Enter the owner’s address
+            name:
+              blank: Enter the owner’s name
+            notice_given_at:
+              blank: Enter the date when you gave notice to this owner
+            postcode:
+              blank: Enter the owner’s postcode
+            town:
+              blank: Enter the owner’s town or city
+        neighbour_response:
+          attributes:
+            access:
+              blank: Enter your comments about access to the proposed development
+            design:
+              blank: Enter your comments about the design, size or height of new buildings or extensions
+            email:
+              invalid: Enter a valid email address
+            light:
+              blank: Enter your comments about the impacts on natural light
+            name:
+              blank: Enter your name
+            noise:
+              blank: Enter your comments about noise from new uses
+            other:
+              blank: Enter any other comments about the proposed development
+            privacy:
+              blank: Enter your comments about the privacy of neighbours
+            summary_tag:
+              blank: Select how you feel about the application
+            tags:
+              blank: Enter a comment
+            traffic:
+              blank: Enter your comments about traffic, parking or road safety
+            use:
+              blank: Enter your comments about the use and function of the proposed development
+        ownership_certificate:
+          attributes:
+            certificate_type:
+              blank: Tell us if you know who the owners are
+            know_owners:
+              blank: Tell us whether you know how many owners there are
+            notification_of_owners:
+              blank: Tell us whether you have notified the owners
+            number_of_owners:
+              blank: Tell us the number of owners
+              greater_than: The number of owners must be greater than zero
+              not_a_number: Tell us the number of owners using digits and not letters
+              not_an_integer: Tell us the number of owners as a whole number not a fraction
         recommendation_form:
           attributes:
             decision:
@@ -316,6 +367,14 @@ en:
               invalid: Enter a valid url for the legislation
             title:
               blank: Enter a title for the legislation
+        local_authority:
+          attributes:
+            accessibility_email_address:
+              blank: Enter an email address for the applicants accessibility page
+            accessibility_phone_number:
+              blank: Enter a phone number for the applicants accessibility page
+            accessibility_postal_address:
+              blank: Enter a postal address for the applicants accessibility page
         meeting:
           attributes:
             occurred_at:

@@ -56,7 +56,7 @@ RSpec.describe "Policy references" do
       local_authority:,
       code: "PP-256",
       description: "Biodiversity",
-      url: "https://planx.example.com/planning-guidance",
+      url: "https://planx.bops.services/planning-guidance",
       policy_areas: [environment]
     )
 
@@ -73,7 +73,7 @@ RSpec.describe "Policy references" do
       expect(page).to have_selector("td:nth-child(1)", text: "PP-256")
 
       within "td:nth-child(2)" do
-        expect(page).to have_link("Biodiversity", href: "https://planx.example.com/planning-guidance")
+        expect(page).to have_link("Biodiversity", href: "https://planx.bops.services/planning-guidance")
       end
 
       expect(page).to have_selector("td:nth-child(3)", text: "Environment")
@@ -94,7 +94,7 @@ RSpec.describe "Policy references" do
       expect(page).to have_selector("td:nth-child(1)", text: "PP-256")
 
       within "td:nth-child(2)" do
-        expect(page).to have_link("Biodiversity", href: "https://planx.example.com/planning-guidance")
+        expect(page).to have_link("Biodiversity", href: "https://planx.bops.services/planning-guidance")
       end
 
       expect(page).to have_selector("td:nth-child(3)", text: "Environment")

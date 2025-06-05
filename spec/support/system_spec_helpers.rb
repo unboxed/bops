@@ -78,4 +78,13 @@ module SystemSpecHelpers
       node.click
     end
   end
+
+  def on_subdomain(subdomain)
+    previous_app_host = Capybara.app_host
+    Capybara.app_host = "http://#{subdomain}.bops.services"
+
+    yield
+  ensure
+    Capybara.app_host = previous_app_host
+  end
 end

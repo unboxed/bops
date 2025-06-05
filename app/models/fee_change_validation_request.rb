@@ -16,6 +16,12 @@ class FeeChangeValidationRequest < ValidationRequest
   before_update :reset_fee_invalidation, if: :closed?
   before_destroy :reset_fee_invalidation
 
+  validate if: :applicant_responding? do
+    if response.blank?
+      errors.add(:response, :blank, message: "Tell us whether you agree or disagree with what was said")
+    end
+  end
+
   def supporting_documents=(files)
     files.select(&:present?).each do |file|
       supporting_documents.new(file: file, planning_application: planning_application, tags: %w[disabilityExemptionEvidence])

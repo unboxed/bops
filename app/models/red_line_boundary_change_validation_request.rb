@@ -6,6 +6,16 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
   validate :rejected_reason_is_present?
   validates :cancel_reason, presence: true, if: :cancelled?
 
+  validate if: :applicant_responding? do
+    if approved.nil?
+      errors.add(:approved, :blank, message: "Tell us whether you agree or disagree with the proposed red line boundary")
+    end
+
+    if approved == false && rejection_reason.blank?
+      errors.add(:rejection_reason, :blank, message: "Tell us why you disagree with the proposed red line boundary")
+    end
+  end
+
   before_create :set_original_geojson
 
   before_create lambda {

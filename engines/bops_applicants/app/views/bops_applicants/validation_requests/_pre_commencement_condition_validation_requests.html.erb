@@ -1,0 +1,22 @@
+<% if @validation_requests[:pre_commencement_condition].present? %>
+  <li id="pre-commencement-condition-validation-requests">
+    <h3 class="app-task-list__section">
+      Respond to pre-commencement conditions
+    </h3>
+    <ul class="govuk-task-list">
+      <% @validation_requests[:pre_commencement_condition].each do |validation_request| %>
+        <li class="govuk-task-list__item govuk-task-list__item--with-link">
+          <div class="govuk-task-list__name-and-hint">
+            <% if validation_request.open? %>
+              <%= govuk_link_to validation_request.condition_title, edit_pre_commencement_condition_validation_request_path(validation_request.id, access_control_params) %>
+            <% else %>
+              <%= govuk_link_to validation_request.condition_title, pre_commencement_condition_validation_request_path(validation_request.id, access_control_params) %>
+            <% end %>
+          </div>
+
+          <%= render "validation_request_status", validation_request: validation_request %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+<% end %>

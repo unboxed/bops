@@ -26,16 +26,13 @@ class ValidationRequest < ApplicationRecord
   include Auditable
 
   class RecordCancelError < RuntimeError; end
-
   class NotDestroyableError < StandardError; end
-
   class CancelledEmailError < StandardError; end
-
   class ValidationRequestNotCreatableError < StandardError; end
-
   class UploadFilesError < RuntimeError; end
-
   class ResetDocumentInvalidationError < StandardError; end
+
+  attribute :applicant_responding, :boolean, default: false
 
   belongs_to :planning_application
   belongs_to :user
@@ -60,7 +57,7 @@ class ValidationRequest < ApplicationRecord
   scope :excluding_time_extension, -> { where.not(type: "TimeExtensionValidationRequest") }
   scope :notified, -> { where.not(notified_at: nil) }
 
-  store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description]
+  store_accessor :specific_attributes, %w[new_geojson original_geojson suggestion document_request_type proposed_description previous_description previous_expiry_date]
 
   before_create :set_sequence
   before_create :ensure_planning_application_not_closed_or_cancelled!
@@ -113,6 +110,20 @@ class ValidationRequest < ApplicationRecord
         update!(closed_at: Time.current)
       end
     end
+  end
+
+  class << self
+    def by_created_at
+      order(created_at: :asc)
+    end
+
+    def grouped_by_type
+      by_created_at.group_by(&:type_symbol)
+    end
+  end
+
+  def type_symbol
+    type.underscore.gsub(/_validation_request\z/, "").to_sym
   end
 
   def response_due

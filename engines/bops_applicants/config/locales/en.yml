@@ -1,0 +1,226 @@
+---
+en:
+  bops_applicants:
+    additional_document_validation_requests:
+      form:
+        files_label: Upload additional document(s)
+        page_title: 'Additional document validation request #%{id}'
+      update:
+        failure_html: There was a problem sending your response to the case officer - please <a href="mailto:%{feedback_email}" class="govuk-link govuk-link--no-visited-state">contact us</a> for assistance
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Additional document validation request #%{id}'
+    application:
+      header:
+        back_office_planning: Back Office Planning System
+    description_change_validation_requests:
+      form:
+        approved_label: Yes, I agree with the changes made
+        legend: Do you agree with the changes made to your application description?
+        page_title: 'Description change validation request #%{id}'
+        rejected_label: No, I disagree with the changes made
+        rejection_reason_label: Tell us why you disagree. Enter your suggested wording for the description.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Description change validation request #%{id}'
+    fee_change_validation_requests:
+      form:
+        page_title: 'Fee change validation request #%{id}'
+        response_hint: Include any reasons why you don't agree with what they've said
+        response_label: Enter any comments you want to share with the case officer
+        supporting_documents_hint: You can upload up to 30MB.
+        supporting_documents_label: Upload as many files as you need to from your device.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Fee change validation request #%{id}'
+    heads_of_terms_validation_requests:
+      form:
+        approved_label: Yes, I agree with the term
+        legend: Do you agree with the term?
+        page_title: 'Heads of terms request #%{id}'
+        rejected_label: No, I disagree with the term
+        rejection_reason_label: Tell us why you disagree
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Heads of terms request #%{id}'
+    neighbour_responses:
+      about_you:
+        confirm_back: This will reset the form – do you wish to continue?
+        hints:
+          address: This helps us understand how your property might be affected by the proposal
+          email: We'll send you an email confirmation once you've submitted your comments
+        labels:
+          address: Address (optional)
+          email: Email (optional)
+          name: Full name
+        legend: Your details
+        page_title: About you
+      check:
+        files_hint: Add any documents that will help the planning officers understand your comments. For example, site maps, photographs or drawings.
+        files_label: Upload documents
+        headings:
+          access: Access
+          design: Design, size or height of new buildings or extensions
+          light: Impacts on natural light
+          noise: Noise from new uses
+          other: Other
+          privacy: Privacy of neighbours
+          traffic: Traffic, parking or road safety
+          use: Use and function of the proposed development
+        page_title: Check your comments before sending
+        summary:
+          neutral: You’re making general comments
+          objection: You don’t support the application
+          supportive: You support the application
+      create:
+        failure: Unable to send your comments – please try again later
+      response:
+        hint: Select the topics you want to comment on. You can attach documents to help the planning officer understand your comments on the next page.
+        labels:
+          comments:
+            access: Tell us about how the proposed work could affect access to buildings, premises or other existing spaces
+            design: We cannot consider comments about loss of view
+            light: Be as specific as possible. Describe the areas where you think natural light could be affected.
+            noise: We cannot refuse permission because of construction noise. We can consider the impact from new uses once the work is complete.
+            other: Use this space to share any other comments about this application
+            privacy: You can upload maps or drawings to help us understand how privacy might be affected.
+            traffic: Tell us how the development could affect road users. This could include improvements to parking or safety as well as concerns about increased traffic, for example.
+            use: Tell us about the potential impact of how the site will be used
+          tags:
+            access: Access
+            design: Design, size or height of new buildings or extensions
+            light: Impacts on natural light
+            noise: Noise from new uses
+            other: Other
+            privacy: Privacy of neighbours
+            traffic: Traffic, parking or road safety
+            use: Use and function of the proposed development
+        legend: Share your comments about the proposed work
+        page_title: Share your comments about the work
+      start:
+        page_title: Comment on a planning application
+      thank_you:
+        page_title: We’ve got your comments
+      thoughts:
+        labels:
+          neutral: I want to make general comments
+          objection: I don't support the application
+          supportive: I support the application
+        legend: How do you feel about the proposed work?
+        page_title: How do you feel about the proposed work?
+    other_change_validation_requests:
+      form:
+        page_title: 'Other change validation request #%{id}'
+        response_label: Respond to this request
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Other change validation request #%{id}'
+    ownership_certificate_validation_requests:
+      form:
+        approved_label: Yes, I agree
+        legend: Do you agree with this statement from the case officer?
+        page_title: 'Confirm ownership #%{id}'
+        rejected_label: No, I don’t agree
+        rejection_reason_label: Tell us why you don’t agree. Include any information that will help the case officer understand your reasons.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Confirm ownership #%{id}'
+    ownership_certificates:
+      certificate_type:
+        certificate_type:
+          b_label: 'Yes'
+          c_label: I know who some of them are
+          d_label: I don't know who they are
+          legend: Do you know who the owners of the property are?
+        confirm_back: This will reset the form – do you wish to continue?
+        know_owners:
+          legend: Do you know how many owners there are?
+          no_label: No or not sure
+          number_of_owners_label: Enter number of owners
+          yes_label: 'Yes'
+        notification_of_owners:
+          legend: Have you notified the owners of the land about this application?
+          no_label: 'No'
+          some_label: Yes, some of them
+          yes_label: Yes, all of them
+        page_title: Confirm ownership
+      create:
+        failure_html: There was a problem sending your ownership certificate to the case officer - please <a href="mailto:%{feedback_email}" class="govuk-link govuk-link--no-visited-state">contact us</a> for assistance
+        success: Your ownership certificate has been sent to the case officer.
+      new_owner:
+        labels:
+          address_1: Address line 1
+          address_2: Address line 2 (optional)
+          country: Country (optional)
+          name: Owner name
+          notice_given_at: What date was notice given to this owner?
+          postcode: Postcode
+          town: Town or city
+        legend: Details of owner
+        page_title: Confirm ownership
+      owners:
+        page_title: Confirm ownership
+    page_title: "%{council} BOPS"
+    planning_applications:
+      show:
+        page_title: Planning application for %{address}
+    pre_commencement_condition_validation_requests:
+      form:
+        approved_label: I accept the condition
+        legend: Do you accept or not accept this condition?
+        page_title: 'Pre-commencement condition request #%{id}'
+        rejected_label: I do not accept the condition
+        rejection_reason_label: Tell us why you do not accept this condition
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Pre-commencement condition request #%{id}'
+    red_line_boundary_change_validation_requests:
+      form:
+        approved_label: Yes, I agree with the proposed red line boundary
+        aria_label_original: An interactive map centred on your address where the original red line boundary lines are drawn to create the site outline.
+        aria_label_proposed: An interactive map centred on your address where the newly proposed red line boundary lines are drawn to create the site outline.
+        legend: Respond to the proposed new boundary
+        page_title: 'Red line boundary change validation request #%{id}'
+        rejected_label: No, I disagree with the proposed red line boundary
+        rejection_reason_label: Indicate why you disagree with the proposed red line boundary.
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        aria_label_original: An interactive map centred on your address where the original red line boundary lines are drawn to create the site outline.
+        aria_label_proposed: An interactive map centred on your address where the newly proposed red line boundary lines are drawn to create the site outline.
+        page_title: 'Red line boundary change validation request #%{id}'
+    replacement_document_validation_requests:
+      form:
+        page_title: 'Replacement document validation request #%{id}'
+        replacement_file_label: Upload a replacement document
+      update:
+        applicant_has_provided: Applicant has provided a replacement document.
+        failure_html: There was a problem sending your response to the case officer - please <a href="mailto:%{feedback_email}" class="govuk-link govuk-link--no-visited-state">contact us</a> for assistance
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Replacement document validation request #%{id}'
+    time_extension_validation_requests:
+      form:
+        approved_label: Yes, I agree with the changes made
+        legend: Do you agree with the proposed new expiry date for your planning application?
+        page_title: 'Time extension validation request #%{id}'
+        rejected_label: No, I disagree with the changes made
+        rejection_reason_label: Tell the case officer why you disagree
+      update:
+        failure_html: There was a problem sending your response to the case officer - <a class="govuk-link govuk-link--no-visited-state" href="#validation-request-form">check the form below</a> for more details
+        success: Your response has been sent to the case officer.
+      validation_request:
+        page_title: 'Time extension validation request #%{id}'

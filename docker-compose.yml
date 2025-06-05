@@ -38,42 +38,6 @@ x-bops: &bops
       tmpfs:
         mode: 0777
 
-x-applicants: &applicants
-  image: bops/applicants
-  build: bops-applicants/docker/ruby
-  working_dir: /home/rails/bops-applicants
-  init: true
-  stdin_open: true
-  tty: true
-  restart: always
-  depends_on:
-    - web
-  dns:
-    - 172.23.9.53
-  environment:
-    API_BEARER: 123
-    API_HOST: bops.localhost:3000
-    API_USER: api_user
-    PIDFILE: /tmp/pids/server.pid
-    PORT: 3001
-    PROTOCOL: http
-    OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
-    DATABASE_URL: postgres://postgres:postgres@db:5432
-  volumes:
-    - type: bind
-      source: bops-applicants
-      target: /home/rails/bops-applicants
-    - type: volume
-      source: applicants_bundle
-      target: /home/rails/bundle
-    - type: volume
-      source: applicants_node_modules
-      target: /home/rails/bops-applicants/node_modules
-    - type: tmpfs
-      target: /tmp/pids
-      tmpfs:
-        mode: 0777
-
 services:
   dnsmasq:
     image: bops/dnsmasq
@@ -132,21 +96,6 @@ services:
     profiles:
       - console
 
-  applicants:
-    <<: *applicants
-    command: ["foreman", "start", "-f", "Procfile.dev"]
-    ports:
-      - "127.0.0.1:3001:3001"
-    networks:
-      default:
-        ipv4_address: 172.23.9.31
-
-  aconsole:
-    <<: *applicants
-    command: ["/bin/bash"]
-    profiles:
-      - console
-
 networks:
   default:
     ipam:
@@ -160,5 +109,3 @@ volumes:
   db:
   bundle:
   node_modules:
-  applicants_bundle:
-  applicants_node_modules:

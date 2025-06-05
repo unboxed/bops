@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/bops_applicants/*": ["engines/bops_applicants/app/javascript/*"],
       "@/bops_core/*": ["engines/bops_core/app/javascript/*"]
     }
   },

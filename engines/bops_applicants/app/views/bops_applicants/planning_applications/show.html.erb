@@ -1,0 +1,174 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title", address: @planning_application.full_address) %> - <%= page_title %>
+<% end %>
+
+<% content_for(:header_link) { planning_application_path(@planning_application) } %>
+
+<h1 class="govuk-heading-l">
+  <%= @planning_application.full_address %>
+</h1>
+
+<h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+  Planning application reference number
+</h2>
+
+<p class="govuk-body">
+  <%= @planning_application.reference %>
+</p>
+
+<div class="govuk-grid-row govuk-!-margin-bottom-7">
+  <div class="govuk-grid-column-full">
+    <%= tag.my_map \
+          osProxyEndpoint: main_app.applicants_os_proxy_url,
+          latitude: @planning_application.latitude,
+          longitude: @planning_application.longitude,
+          showScale: true, useScaleBarStyle: true, showNorthArrow: true,
+          geojsonData: @planning_application.boundary_geojson.to_json,
+          style: "width: 100%; height: 400px;" %>
+  </div>
+</div>
+
+<h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+  Application summary
+</h2>
+
+<p class="govuk-body">
+  <%= @planning_application.description %>
+</p>
+
+<p class="govuk-body">
+  If you need this information in an alternative format, contact your case officer on
+  <%= current_local_authority.feedback_email %> or by telephone at
+  <span style="white-space: nowrap;"><%= current_local_authority.telephone_number %></span>.
+</p>
+
+<div id="consultation-status">
+  <p class="govuk-body">
+    <%= planning_application_status %>
+  </p>
+
+  <% if planning_application_closed? %>
+    <p class="govuk-body">
+      This application has been withdrawn or cancelled
+    </p>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        We can no longer consider comments about this application.
+      </p>
+    </div>
+  <% elsif planning_application_determined? %>
+    <p class="govuk-body">
+      <% if planning_application_granted? %>
+        The application has been granted
+      <% else %>
+        The application has been refused
+      <% end %>
+    </p>
+
+    <%= decision_notice_link %>
+  <% elsif planning_application_consultation? %>
+    <p class="govuk-body">
+      <strong>Comment on this application by <%= consultation_end_date %></strong>
+    </p>
+
+    <% unless consultation_in_progress? %>
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          If we receive your comments after <%= consultation_end_date %>, we may not be able to take them into consideration if a decision has already been made.
+        </p>
+      </div>
+    <% end %>
+
+    <%= neighbour_comment_link %>
+  <% end %>
+</div>
+
+<h2 class="govuk-heading-s">
+  Application documents
+</h2>
+
+<ul class="govuk-list" id="documents">
+  <% @documents.each do |document| %>
+    <li>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <p class="govuk-body">
+            <%= govuk_link_to(url_for_document(document), new_tab: "", class: "govuk-!-display-inline-block") do %>
+              <%= image_tag(url_for_representation(document, resize_to_fill: [640, 480, gravity: "North"]), class: "govuk-!-display-inline-block", style: "border: 1px solid #080; width: 100%;") %>
+            <% end %>
+          </p>
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+          <p class="govuk-body">
+            <strong>Name</strong><br>
+            <%= govuk_link_to(url_for_document(document), new_tab: "") do %>
+              <%= document.name %><br>
+            <% end %>
+            (opens in a new window/tab)
+          </p>
+
+          <p class="govuk-body">
+            <strong>Reference</strong><br>
+            <%= document.numbers %>
+          </p>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-s">
+  Neighbour comments
+</h2>
+
+<% if @neighbour_comments.present? %>
+  <ul class="govuk-list" id="neighbour-comments">
+    <% @neighbour_comments.each do |comment| %>
+      <li class="govuk-!-margin-bottom-6">
+        <p class="govuk-body">
+          <%= govuk_tag(text: comment.summary_tag.humanize, colour: tag_colour(comment.summary_tag)) %>
+        </p>
+
+        <p class="govuk-body">
+          <strong>Date received:</strong> <%= comment.received_at.to_date.to_fs(:day_month_year_slashes) %>
+        </p>
+
+        <p class="govuk-body">
+          <%= simple_format(comment.redacted_response) %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="govuk-body">
+    No comments have been made on this application yet.
+  </p>
+<% end %>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-s">
+  Consultee comments
+</h2>
+
+<% if @consultee_comments.present? %>
+  <ul class="govuk-list" id="consultee-comments">
+    <% @consultee_comments.each do |comment| %>
+      <li class="govuk-!-margin-bottom-6">
+        <p class="govuk-body">
+          <strong>Date received:</strong> <%= comment.received_at.to_date.to_fs(:day_month_year_slashes) %>
+        </p>
+
+        <p class="govuk-body">
+          <%= simple_format(comment.redacted_response) %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="govuk-body">
+    No comments have been made on this application yet.
+  </p>
+<% end %>

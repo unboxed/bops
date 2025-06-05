@@ -92,43 +92,36 @@ RSpec.describe "Sign in" do
     context "with a user belonging to a given subdomain" do
       let!(:lambeth) { create(:local_authority, :lambeth) }
       let!(:southwark) { create(:local_authority, :southwark) }
-      let(:lambeth_assessor) do
-        create(:user, :assessor, name: "Lambertina Lamb", local_authority: lambeth)
-      end
-      let(:southwark_assessor) do
-        create(:user, :assessor, name: "Southwarkina Sully", local_authority: southwark)
-      end
-
-      before do
-        @previous_host = Capybara.app_host
-        Capybara.app_host = "http://#{lambeth.subdomain}.example.com"
-      end
-
-      after do
-        Capybara.app_host = "http://#{@previous_host}"
-      end
 
       it "is prevented from logging in to a different subdomain" do
-        visit "/"
+        assessor = create(:user, :assessor, local_authority: southwark)
 
-        fill_in("user[email]", with: southwark_assessor.email)
-        fill_in("user[password]", with: southwark_assessor.password)
-        click_button("Log in")
+        on_subdomain("lambeth") do
+          visit "/"
 
-        expect(page).to have_text("Email")
-        expect(page).not_to have_text("Welcome")
+          fill_in("user[email]", with: assessor.email)
+          fill_in("user[password]", with: assessor.password)
+          click_button("Log in")
+
+          expect(page).to have_text("Email")
+          expect(page).not_to have_text("Welcome")
+        end
       end
 
       it "is able to login to its allocated subdomain" do
-        visit "/"
+        assessor = create(:user, :assessor, local_authority: lambeth)
 
-        fill_in("user[email]", with: lambeth_assessor.email)
-        fill_in("user[password]", with: lambeth_assessor.password)
-        click_button("Log in")
-        fill_in("Security code", with: lambeth_assessor.current_otp)
-        click_button("Enter code")
+        on_subdomain("lambeth") do
+          visit "/"
 
-        expect(page).to have_text("Signed in successfully.")
+          fill_in("user[email]", with: assessor.email)
+          fill_in("user[password]", with: assessor.password)
+          click_button("Log in")
+          fill_in("Security code", with: assessor.current_otp)
+          click_button("Enter code")
+
+          expect(page).to have_text("Signed in successfully.")
+        end
       end
     end
   end

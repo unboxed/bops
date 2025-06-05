@@ -1,0 +1,47 @@
+<% content_for(:page_title) do %>
+  <%= t(".page_title") %> - <%= page_title %>
+<% end %>
+
+<h1 class="govuk-heading-l">
+  Confirm ownership
+</h1>
+
+<div id="ownership-details">
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+    Address
+  </h2>
+
+  <p class="govuk-body">
+    <%= @planning_application.full_address %>
+  </p>
+
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+    Application number
+  </h2>
+
+  <p class="govuk-body">
+    <%= @planning_application.reference %>
+  </p>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<%= form_with model: @ownership_certificate, url: validation_request_ownership_certificate_path(@validation_request) do |form| %>
+  <%= render "hidden_fields", form: form, stage: @ownership_certificate.stage %>
+
+  <%= form.govuk_fieldset(legend: {text: t(".legend"), tag: "h3", size: "s"}) do %>
+    <%= fields model: @ownership_certificate.land_owner do |fields| %>
+      <%= fields.govuk_text_field :name, label: {text: t(".labels.name")} %>
+      <%= fields.govuk_text_field :address_1, label: {text: t(".labels.address_1")} %>
+      <%= fields.govuk_text_field :address_2, label: {text: t(".labels.address_2")} %>
+      <%= fields.govuk_text_field :town, label: {text: t(".labels.town")} %>
+      <%= fields.govuk_text_field :country, label: {text: t(".labels.country")} %>
+      <%= fields.govuk_text_field :postcode, label: {text: t(".labels.postcode")} %>
+      <%= fields.govuk_date_field :notice_given_at, legend: {text: t(".labels.notice_given_at"), size: "s"} %>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_submit "Add owner", name: "next_stage", value: "add_owner" do %>
+    <%= form.govuk_submit "Back", name: "next_stage", value: "owners", secondary: true %>
+  <% end %>
+<% end %>

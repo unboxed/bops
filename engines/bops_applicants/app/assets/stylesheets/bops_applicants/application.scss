@@ -1,0 +1,35 @@
+$govuk-assets-path: "govuk-frontend/dist/govuk/assets/";
+$govuk-font-family: open-sans, sans-serif;
+
+@import "govuk-frontend/dist/govuk/all";
+@import "accessible-autocomplete/dist/accessible-autocomplete.min";
+
+@import "banner";
+@import "fonts";
+@import "header";
+@import "notifications";
+@import "consultation";
+
+.autocomplete__input {
+  font-family: $govuk-font-family;
+
+  &:focus {
+    outline: 3px solid #fd0;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px
+  }
+}
+
+.autocomplete__menu {
+  font-family: $govuk-font-family;
+}
+
+.govuk-form-group--error {
+  .autocomplete__input {
+    border-color: $govuk-error-colour;
+
+    &:focus {
+      border-color: $govuk-input-border-colour;
+    }
+  }
+}

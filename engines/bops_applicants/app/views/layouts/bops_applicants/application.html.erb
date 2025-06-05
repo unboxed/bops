@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+  <head>
+    <meta charset="utf-8">
+    <title><%= content_for?(:page_title) ? yield(:page_title) : page_title %></title>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0c0c">
+
+    <%= favicon_link_tag("b-favicon.ico") %>
+    <%= favicon_link_tag("b-apple-touch-icon.png", rel: "apple-touch-icon", type: "image/png") %>
+    <%= favicon_link_tag("b-mask-icon.svg", rel: "mask-icon") %>
+
+    <%= stylesheet_link_tag "applicants", media: "all" %>
+    <%= javascript_include_tag "applicants", nonce: true %>
+  </head>
+
+  <body class="govuk-template__body">
+    <%= javascript_tag nonce: true do %>
+      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+    <% end %>
+
+    <%= govuk_skip_link %>
+
+    <%= render "banner" if staging_environment? %>
+    <%= render "header" %>
+    <%= render "main" %>
+    <%= render "footer" %>
+
+    <%= javascript_include_tag "govuk", nonce: true %>
+  </body>
+</html>

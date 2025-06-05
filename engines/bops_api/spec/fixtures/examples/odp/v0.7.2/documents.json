@@ -21,7 +21,7 @@
   "files": [
     {
       "name": "proposed-floorplan.png",
-      "url": "http://planx.example.com/api/v1/planning_applications/1889/documents/111",
+      "url": "http://planx.bops.services/api/v1/planning_applications/1889/documents/111",
       "type": [
         {
           "value": "elevations.proposed",
@@ -41,7 +41,7 @@
     },
     {
       "name": "site-notice.jpg",
-      "url": "http://planx.example.com/api/v1/planning_applications/1889/documents/111",
+      "url": "http://planx.bops.services/api/v1/planning_applications/1889/documents/111",
       "type": [
         {
           "value": "internal.siteNotice",
@@ -62,6 +62,6 @@
   },
   "decisionNotice": {
     "name": "decision-notice-PlanX-24-00100-HAPP.pdf",
-    "url": "http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf"
+    "url": "http://planx.bops.services/api/v1/planning_applications/1889/decision_notice.pdf"
   }
 }

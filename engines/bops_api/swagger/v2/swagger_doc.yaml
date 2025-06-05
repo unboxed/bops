@@ -21930,7 +21930,7 @@ paths:
                         endDate: '2024-05-07'
                     files:
                     - name: proposed-floorplan.png
-                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
                       type:
                       - value: elevations.proposed
                         description: Elevations - proposed
@@ -21942,7 +21942,7 @@ paths:
                         byteSize: 144212
                         contentType: application/pdf
                     - name: site-notice.jpg
-                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
                       type:
                       - value: internal.siteNotice
                         description: Site Notice
@@ -21956,7 +21956,7 @@ paths:
                       totalResults: 1
                     decisionNotice:
                       name: decision-notice-PlanX-24-00100-HAPP.pdf
-                      url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
+                      url: http://planx.bops.services/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
         '401':
@@ -21994,8 +21994,8 @@ paths:
                       totalPages: 1
                       totalResults: 1
                     links:
-                      first: http://planx.example.com/api/v2/neighbour_responses?page=1
-                      last: http://planx.example.com/api/v2/neighbour_responses?page=1
+                      first: http://planx.bops.services/api/v2/neighbour_responses?page=1
+                      last: http://planx.bops.services/api/v2/neighbour_responses?page=1
                       prev:
                       next:
                     responses:
@@ -35417,7 +35417,7 @@ paths:
                         endDate: '2024-05-07'
                     files:
                     - name: proposed-floorplan.png
-                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
                       type:
                       - value: elevations.proposed
                         description: Elevations - proposed
@@ -35429,7 +35429,7 @@ paths:
                         byteSize: 144212
                         contentType: application/pdf
                     - name: site-notice.jpg
-                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
                       type:
                       - value: internal.siteNotice
                         description: Site Notice
@@ -35443,7 +35443,7 @@ paths:
                       totalResults: 1
                     decisionNotice:
                       name: decision-notice-PlanX-24-00100-HAPP.pdf
-                      url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
+                      url: http://planx.bops.services/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
   "/api/v2/public/planning_applications/{reference}/comments/public":
@@ -35754,7 +35754,7 @@ paths:
                         consultation:
                           startDate:
                           endDate:
-                          publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
+                          publicUrl: https://southwark.bops-applicants.localhost:3000/planning_applications/25-00240-PA1A
                           publishedComments: []
                           consulteeComments: []
                         pressNotice:
@@ -35867,7 +35867,7 @@ paths:
                       consultation:
                         startDate:
                         endDate:
-                        publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
+                        publicUrl: https://southwark.bops-applicants.localhost:3000/planning_applications/25-00240-PA1A
                         publishedComments: []
                         consulteeComments: []
                       pressNotice:

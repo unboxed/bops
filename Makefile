@@ -3,7 +3,6 @@ DOCKER-RUN = docker compose --profile console run --rm
 .DEFAULT_GOAL := up
 
 build:
-	git submodule update --init
 	docker compose build
 
 up:
@@ -15,20 +14,11 @@ down:
 prompt:
 	$(DOCKER-RUN) console bash
 
-aprompt:
-	$(DOCKER-RUN) aconsole bash
-
 console:
 	$(DOCKER-RUN) console rails console
 
-aconsole:
-	$(DOCKER-RUN) aconsole rails console
-
 migrate:
 	$(DOCKER-RUN) console rails db:migrate
-
-amigrate:
-	$(DOCKER-RUN) aconsole rails db:migrate
 
 rollback:
 	$(DOCKER-RUN) console rails db:rollback
@@ -50,6 +40,9 @@ submission-api-specs:
 
 admin-specs:
 	$(DOCKER-RUN) console rspec engines/bops_admin/spec
+
+applicants-specs:
+	$(DOCKER-RUN) console rspec engines/bops_applicants/spec
 
 config-specs:
 	$(DOCKER-RUN) console rspec engines/bops_config/spec
