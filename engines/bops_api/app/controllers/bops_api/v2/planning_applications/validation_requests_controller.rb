@@ -15,6 +15,8 @@ module BopsApi
 
         private
 
+        def required_api_key_scope = "validation_request"
+
         def planning_applications_scope
           current_local_authority.planning_applications.includes(:user)
         end

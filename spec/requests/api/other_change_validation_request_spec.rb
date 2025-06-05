@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Other change validation requests API" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, local_authority: default_local_authority) }
+  let!(:api_user) { create(:api_user, :validation_requests_rw, local_authority: default_local_authority) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:other_change_validation_request) do
     travel_to(DateTime.new(2023, 12, 15)) { create(:other_change_validation_request, planning_application:) }

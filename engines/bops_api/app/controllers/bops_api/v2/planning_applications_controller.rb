@@ -61,6 +61,8 @@ module BopsApi
 
       private
 
+      def required_api_key_scope = "planning_application"
+
       def send_email
         query_parameters[:send_email] == "true"
       end

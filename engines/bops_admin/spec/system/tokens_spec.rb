@@ -14,8 +14,8 @@ RSpec.describe "API Tokens", :capybara do
   before do
     sign_in(user)
 
-    create(:api_user, name: "Active Token", service: "PlanX", last_used_at: 1.week.ago)
-    create(:api_user, name: "Revoked Token", service: "PlanX", last_used_at: 2.weeks.ago, revoked_at: 1.week.ago)
+    create(:api_user, :planx, name: "Active Token", last_used_at: 1.week.ago)
+    create(:api_user, :planx, name: "Revoked Token", last_used_at: 2.weeks.ago, revoked_at: 1.week.ago)
   end
 
   it "shows a list of active tokens" do
@@ -116,6 +116,7 @@ RSpec.describe "API Tokens", :capybara do
 
       fill_in "Name", with: "New Token"
       fill_in "Service", with: "Service Name"
+      check "comment:read"
 
       click_button "Save"
       expect(page).to have_current_path("/admin/tokens")
@@ -148,6 +149,7 @@ RSpec.describe "API Tokens", :capybara do
 
       fill_in "Name", with: "New Token"
       fill_in "Service", with: "Service Name"
+      check "comment:read"
 
       within_fieldset "Authentication for downloading documents" do
         choose "Username and password"
@@ -195,6 +197,7 @@ RSpec.describe "API Tokens", :capybara do
 
       fill_in "Name", with: "New Token"
       fill_in "Service", with: "Service Name"
+      check "comment:read"
 
       within_fieldset "Authentication for downloading documents" do
         choose "Bearer token"
@@ -240,6 +243,7 @@ RSpec.describe "API Tokens", :capybara do
 
       fill_in "Name", with: "New Token"
       fill_in "Service", with: "Service Name"
+      check "comment:read"
 
       within_fieldset "Authentication for downloading documents" do
         choose "Custom header"

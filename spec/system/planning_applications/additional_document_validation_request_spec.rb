@@ -10,7 +10,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
 
-  let!(:api_user) { create(:api_user, name: "Api Wizard") }
+  let!(:api_user) { create(:api_user, :validation_requests_ro) }
 
   before do
     travel_to Time.zone.local(2021, 1, 1)

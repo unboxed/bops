@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe ConstraintsCreationService, type: :service do
   describe "#call" do
-    let!(:api_user) { create(:api_user, name: "PlanX") }
+    let!(:api_user) { create(:api_user, :planx) }
     let!(:local_authority1) { create(:local_authority) }
     let!(:local_authority2) { create(:local_authority, :southwark) }
 

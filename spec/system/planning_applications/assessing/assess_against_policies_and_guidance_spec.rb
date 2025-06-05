@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Assessing against policies and guidance", type: :system, js: true do
   let!(:local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, local_authority:) }
+  let!(:api_user) { create(:api_user, :validation_requests_ro, local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
   let(:consideration_set) { planning_application.consideration_set }
 

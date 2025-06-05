@@ -18,10 +18,23 @@ FactoryBot.define do
 
     trait :swagger do
       name { "swagger" }
+      permissions {
+        ["planning_application:read", "comment:read",
+          "planning_application:write", "comment:write"]
+      }
     end
 
     trait :planx do
       name { "PlanX" }
+      permissions { ["planning_application:write"] }
+    end
+
+    trait :validation_requests_ro do
+      permissions { ["validation_request:read"] }
+    end
+
+    trait :validation_requests_rw do
+      permissions { ["validation_request:read", "validation_request:write"] }
     end
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
 
   before do
     token = "bops_pDzTZPTrC7HiBiJHGEJVUSkX2PVwkk1d4mcTm9PgnQ"
-    create(:api_user, token:, local_authority: southwark)
+    create(:api_user, permissions: %w[planning_application:write], token:, local_authority: southwark)
 
     request.set_header("HTTP_HOST", "southwark.bops.test")
     request.set_header("HTTP_AUTHORIZATION", "Bearer #{token}")

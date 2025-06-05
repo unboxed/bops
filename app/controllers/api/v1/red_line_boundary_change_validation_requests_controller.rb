@@ -42,6 +42,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "validation_request"
+
       def set_red_line_boundary_change_validation_request
         @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
       end

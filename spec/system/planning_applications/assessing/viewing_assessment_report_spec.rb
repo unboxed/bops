@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "viewing assessment report", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, name: "PlanX", local_authority: local_authority) }
+  let!(:api_user) { create(:api_user, :planx, local_authority: local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
 
   let!(:assessor) do

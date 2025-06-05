@@ -82,7 +82,7 @@ FactoryBot.define do
 
     trait :with_api_user do
       after(:create) do |local_authority|
-        local_authority.api_users.find_or_create_by!(name: local_authority.subdomain)
+        local_authority.api_users.find_or_create_by!(name: local_authority.subdomain, permissions: %w[validation_request:read])
       end
     end
 

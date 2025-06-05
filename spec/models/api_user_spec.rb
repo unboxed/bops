@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe ApiUser do
   describe "#validations" do
     it "creates api user successfully" do
-      api_user = create(:api_user)
+      api_user = create(:api_user, :validation_requests_ro)
       expect(api_user).to be_valid
     end
 
@@ -22,7 +22,7 @@ RSpec.describe ApiUser do
     end
 
     it "must have a unique name and token" do
-      create(:api_user, name: "test")
+      create(:api_user, :validation_requests_ro, name: "test")
       api_user = build(:api_user, name: "test")
       api_user.save
 
@@ -148,7 +148,7 @@ RSpec.describe ApiUser do
     end
 
     context "when an API user with the token exists" do
-      let!(:api_user) { create(:api_user, token:) }
+      let!(:api_user) { create(:api_user, :validation_requests_ro, token:) }
 
       it "returns the API user" do
         expect(described_class.authenticate(token)).to eq(api_user)

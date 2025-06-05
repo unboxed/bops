@@ -10,6 +10,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "validation_request"
+
       def unauthorized_response
         render json: {}, status: :unauthorized
       end

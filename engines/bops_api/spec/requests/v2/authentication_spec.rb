@@ -5,7 +5,7 @@ require_relative "../../swagger_helper"
 RSpec.describe "ApiUser" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:revoked_at) { nil }
-  let(:api_user) { create(:api_user, local_authority:, revoked_at:) }
+  let(:api_user) { create(:api_user, :validation_requests_ro, local_authority:, revoked_at:) }
 
   let(:headers) do
     {
