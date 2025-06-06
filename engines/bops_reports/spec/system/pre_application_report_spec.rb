@@ -65,7 +65,7 @@ RSpec.describe "Pre-application report" do
 
   let(:summary_of_advice) { planning_application.summary_of_advice }
 
-  let(:report_url) { "/reports/planning_applications/#{planning_application.reference}" }
+  let(:report_url) { "/reports/planning_applications/#{reference}" }
   let!(:site_history) { create(:site_history, planning_application:) }
 
   let!(:site_description) do
@@ -80,13 +80,13 @@ RSpec.describe "Pre-application report" do
     create(:planning_application_constraint, planning_application:)
   end
 
-  let(:report_url) { "/planning_applications/#{planning_application.reference}" }
+  let(:report_url) { "/planning_applications/#{reference}" }
 
   let(:reference) { planning_application.reference }
 
   before do
     sign_in reviewer
-    visit "/planning_applications/#{planning_application.reference}"
+    visit "/planning_applications/#{reference}"
     click_link "Check and assess"
     click_link "Review and submit pre-application"
   end
@@ -95,7 +95,7 @@ RSpec.describe "Pre-application report" do
     expect(page).to have_content("Pre-application report")
     expect(page).to have_content("This report gives clear guidance on your proposal")
     expect(page).to have_content(planning_application.full_address)
-    expect(page).to have_content("Pre-application number: #{planning_application.reference}")
+    expect(page).to have_content("Pre-application number: #{reference}")
     expect(page).to have_content("Case officer: #{reviewer.name}")
     expect(page).to have_content("Date of report: #{planning_application.determined_at.to_date.to_fs}")
 
@@ -112,7 +112,7 @@ RSpec.describe "Pre-application report" do
   it "displays the summary of advice outcome section" do
     within("#pre-application-outcome") do
       expect(page).to have_content("Pre-application outcome")
-      expect(page).to have_link("Edit", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
+      expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
       expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--green")
       expect(page).to have_content("Likely to be supported")
     end
@@ -121,7 +121,7 @@ RSpec.describe "Pre-application report" do
   it "displays the summary of advice section" do
     within("#summary-advice") do
       expect(page).to have_content("Summary")
-      expect(page).to have_link("Edit", href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
+      expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
       expect(page).to have_content("Looks good")
     end
   end
@@ -135,7 +135,7 @@ RSpec.describe "Pre-application report" do
 
   it "allows the user to assign case officer if not set" do
     planning_application.update(user: nil)
-    visit "/reports/planning_applications/#{planning_application.reference}"
+    visit "/reports/planning_applications/#{reference}"
 
     within("#contact-details") do
       expect(page).to have_content("No case officer has been assigned yet.")
@@ -163,13 +163,13 @@ RSpec.describe "Pre-application report" do
       within(rows[1]) do
         expect(page).to have_content("Site visit")
         expect(page).to have_content(planning_application.site_visit_visited_at.to_date.to_fs)
-        expect(page).to have_link("Edit", href: "/planning_applications/#{planning_application.reference}/assessment/site_visits?return_to=report")
+        expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/site_visits?return_to=report")
       end
 
       within(rows[2]) do
         expect(page).to have_content("Meeting")
         expect(page).to have_content(planning_application.meeting_occurred_at.to_date.to_fs)
-        expect(page).to have_link("Edit", href: "/planning_applications/#{planning_application.reference}/assessment/meetings?return_to=report")
+        expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/meetings?return_to=report")
       end
     end
   end
@@ -180,7 +180,7 @@ RSpec.describe "Pre-application report" do
   end
 
   it "has a back link to the application page" do
-    expect(page).to have_link("Back", href: "/planning_applications/#{planning_application.reference}")
+    expect(page).to have_link("Back", href: "/planning_applications/#{reference}")
   end
 
   it "returns to the report page after editing summary of advice" do
@@ -192,14 +192,14 @@ RSpec.describe "Pre-application report" do
     choose "Likely to be supported with changes"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
     expect(page).to have_content("Likely to be supported with changes")
     expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--orange")
   end
 
   it "returns to the report page after adding a new meeting" do
     within("#pre-application-details-table") do
-      click_link "Edit", href: "/planning_applications/#{planning_application.reference}/assessment/meetings?return_to=report"
+      click_link "Edit", href: "/planning_applications/#{reference}/assessment/meetings?return_to=report"
     end
 
     toggle "Add a new meeting"
@@ -209,7 +209,7 @@ RSpec.describe "Pre-application report" do
     fill_in "Add notes (optional)", with: "Discussed next steps"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
     within("#pre-application-details-table") do
       rows = all("tbody tr")
 
@@ -221,12 +221,12 @@ RSpec.describe "Pre-application report" do
 
   it "returns to the report page after viewing site visits" do
     within("#pre-application-details-table") do
-      click_link "Edit", href: "/planning_applications/#{planning_application.reference}/assessment/site_visits?return_to=report"
+      click_link "Edit", href: "/planning_applications/#{reference}/assessment/site_visits?return_to=report"
     end
 
     click_link "Back"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
   end
 
   it "returns to the report page after editing proposal description" do
@@ -238,7 +238,7 @@ RSpec.describe "Pre-application report" do
     fill_in "Enter an amended description", with: "This is the amended description for the proposal"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
     within("#proposal-description") do
       expect(page).to have_content("This is the amended description for the proposal")
     end
@@ -265,7 +265,7 @@ RSpec.describe "Pre-application report" do
 
     click_button "Save and mark as complete"
     expect(page).to have_content("Successfully updated application checklist")
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
 
     within("#officer-map-comments") do
       expect(page).to have_content("Site map is of neighbours property, this comment has been updated.")
@@ -294,7 +294,7 @@ RSpec.describe "Pre-application report" do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/constraints?return_to=report")
+    expect(page).to have_current_path("/planning_applications/#{reference}/validation/constraints?return_to=report")
     expect(page).to have_content("Check the constraints")
 
     within(".identified-constraints-table") do
@@ -307,7 +307,7 @@ RSpec.describe "Pre-application report" do
 
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
     expect(page).to have_content("Constraints were successfully checked")
 
     within("#site-constraints") do
@@ -332,7 +332,7 @@ RSpec.describe "Pre-application report" do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/assessment/site_histories?return_to=report")
+    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/site_histories?return_to=report")
 
     within(".planning-history-table") do
       within(row_with_content("REF123")) do
@@ -347,7 +347,7 @@ RSpec.describe "Pre-application report" do
     expect(page).to have_content("Site history was successfully updated")
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
     expect(page).to have_content("Site history has been confirmed")
 
     within("#site-history") do
@@ -372,7 +372,7 @@ RSpec.describe "Pre-application report" do
     fill_in "assessment_detail[entry]", with: "This is the amended description of site and surroundings"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{planning_application.reference}")
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
     within("#site-and-surroundings") do
       expect(page).to have_content("This is the amended description of site and surroundings")
     end
@@ -412,7 +412,7 @@ RSpec.describe "Pre-application report" do
     local_authority.update(submission_url: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/step-by-step/apply-planning-permission/submit")
     local_authority.update(submission_guidance_url: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/planning-policy-and-guidance")
 
-    visit "/reports/planning_applications/#{planning_application.reference}"
+    visit "/reports/planning_applications/#{reference}"
     within("#next-steps") do
       expect(page).to have_content("If you wish to submit an application, follow these clear steps to submit your formal application:")
       expect(page).to have_link("website", href: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/step-by-step/apply-planning-permission/submit")
@@ -428,11 +428,25 @@ RSpec.describe "Pre-application report" do
 
     # With custom disclaimer
     planning_application.application_type.update(disclaimer: "This is a custom disclaimer")
-    visit "/reports/planning_applications/#{planning_application.reference}"
+    visit "/reports/planning_applications/#{reference}"
     within("#disclaimer") do
       within(".govuk-warning-text") do
         expect(page).to have_content("This is a custom disclaimer")
       end
+    end
+  end
+
+  context "when there is no summary of advice" do
+    before do
+      summary_of_advice.destroy!
+    end
+
+    it "displays the page correctly" do
+      visit "/reports/planning_applications/#{reference}"
+
+      expect(page).to have_selector("h1", text: "Pre-application report")
+      expect(page).to have_link("Add outcome", href: "/planning_applications/#{reference}/assessment/assessment_details/new?category=summary_of_advice&return_to=report")
+      expect(page).to have_content("The pre-application outcome has not been set.")
     end
   end
 
