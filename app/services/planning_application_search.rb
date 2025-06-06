@@ -60,7 +60,19 @@ class PlanningApplicationSearch
   end
 
   def current_planning_applications
-    @current_planning_applications ||= exclude_others? ? my_applications : all_applications
+    @current_planning_applications ||= user_scope(all_applications)
+  end
+
+  def reviewer_planning_applications
+    user_scope(all_applications.to_be_reviewed)
+  end
+
+  def closed_planning_applications
+    user_scope(all_applications.closed)
+  end
+
+  def unstarted_prior_approvals
+    user_scope(all_applications.prior_approvals.not_started)
   end
 
   private
@@ -71,16 +83,6 @@ class PlanningApplicationSearch
 
   def all_applications_title_key
     exclude_others? ? :all_your_applications : :all_applications
-  end
-
-  def my_applications
-    if reviewer?
-      all_applications.for_current_user
-        .or(all_applications.in_review.for_null_users)
-        .or(all_applications.determined.for_null_users)
-    else
-      all_applications.for_current_user.or(all_applications.for_null_users)
-    end
   end
 
   def all_applications
@@ -179,6 +181,20 @@ class PlanningApplicationSearch
     case sort_key
     when "expiry_date"
       scope.reorder(expiry_date: direction)
+    else
+      scope
+    end
+  end
+
+  def user_scope(scope)
+    if exclude_others?
+      if reviewer?
+        scope.for_current_user
+          .or(scope.in_review.for_null_users)
+          .or(scope.determined.for_null_users)
+      else
+        scope.for_current_user.or(scope.for_null_users)
+      end
     else
       scope
     end
