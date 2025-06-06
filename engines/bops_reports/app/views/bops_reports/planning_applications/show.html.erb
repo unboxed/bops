@@ -402,23 +402,25 @@
     <% end %>
   <% end %>
 
-  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <% if @summary_of_advice.present? %>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-  <section id="summary-advice">
-    <div class="flex-between">
-      <h2 class="govuk-heading-m">Summary</h2>
-      <% if current_user && !@planning_application.determined? %>
-        <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-              @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
-            ) %>
-      <% end %>
-    </div>
+    <section id="summary-advice">
+      <div class="flex-between">
+        <h2 class="govuk-heading-m">Summary</h2>
+        <% if current_user && !@planning_application.determined? %>
+          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
+                @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
+              ) %>
+        <% end %>
+      </div>
 
-    <p class="govuk-body">This is the case officer's summary of the conclusions and advice.</p>
-    <p class="govuk-body grey-border-box">
-      <%= @planning_application.summary_of_advice.entry %>
-    </p>
-  </section>
+      <p class="govuk-body">This is the case officer's summary of the conclusions and advice.</p>
+      <p class="govuk-body grey-border-box">
+        <%= @summary_of_advice.entry %>
+      </p>
+    </section>
+  <% end %>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
