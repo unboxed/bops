@@ -22,7 +22,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def index
-    @planning_applications = search.call
+    @search ||= PlanningApplicationSearch.new(params)
 
     respond_to do |format|
       format.html
@@ -230,10 +230,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def build_planning_application
     @planning_application = current_local_authority.planning_applications.new
-  end
-
-  def search
-    @search ||= PlanningApplicationSearch.new(params)
   end
 
   def planning_application_params
