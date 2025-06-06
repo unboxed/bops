@@ -8,7 +8,7 @@
 <% content_for :title, "Submission #{@submission.application_reference}" %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
+  <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">Submission</h1>
 
     <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list| %>
@@ -16,10 +16,10 @@
            "Reference" => @submission.application_reference,
            "Source" => @submission.source,
            "Status" => @submission.status,
-           "Created at" => @submission.created_at.to_fs,
-           "Started at" => @submission.started_at&.to_fs,
-           "Completed at" => @submission.completed_at&.to_fs,
-           "Failed at" => @submission.failed_at&.to_fs,
+           "Created at" => @submission.created_at.to_fs(:day_month_year_seconds),
+           "Started at" => @submission.started_at&.to_fs(:day_month_year_seconds),
+           "Completed at" => @submission.completed_at&.to_fs(:day_month_year_seconds),
+           "Failed at" => @submission.failed_at&.to_fs(:day_month_year_seconds),
            "External UUID" => @submission.external_uuid
          }.each do |key, value| %>
         <% summary_list.with_row do |row| %>
@@ -27,6 +27,22 @@
           <% row.with_value { value } %>
         <% end %>
       <% end %>
+    <% end %>
+
+    <% if @submission.documents.any? %>
+      <h3 class="govuk-heading-s">Submission documents</h2>
+      <%= govuk_table(
+            head: ["Filename", "Uploaded At", "View"],
+            rows: @submission.documents.order(:created_at).map do |document|
+              [
+                document.file.filename.to_s,
+                document.created_at.to_fs,
+                link_to_document("View", document)
+              ]
+            end
+          ) %>
+    <% else %>
+      <p class="govuk-body">No documents have been extracted for this submission yet.</p>
     <% end %>
 
     <% if @submission.failed? %>
@@ -51,20 +67,48 @@
       <pre><%= JSON.pretty_generate(@submission.other_files) %></pre>
     <% end %>
 
-    <% if @submission.documents.any? %>
-      <h2 class="govuk-heading-m">Documents</h2>
-      <%= govuk_table(
-            head: ["Filename", "Uploaded At", "View"],
-            rows: @submission.documents.order(:created_at).map do |document|
-              [
-                document.file.filename.to_s,
-                document.created_at.to_fs,
-                link_to_document("View", document)
-              ]
-            end
-          ) %>
+    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+    <% if @planning_application %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h2 class="govuk-heading-m">Planning Application</h2>
+
+          <%= govuk_summary_list(actions: false, classes: "planning-applications-summary-list") do |pa_list| %>
+            <% {
+                 "Reference" => @planning_application.reference,
+                 "Status" => @planning_application.status.humanize,
+                 "Received at" => @planning_application.received_at&.to_fs,
+                 "Local Authority" => @planning_application.local_authority.council_name,
+                 "Application Type" => @planning_application.application_type.human_name
+               }.each do |key, value| %>
+              <% pa_list.with_row do |row| %>
+                <% row.with_key { key } %>
+                <% row.with_value { value } %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% if @planning_application.documents.any? %>
+            <h3 class="govuk-heading-s">Planning Application documents</h2>
+            <%= govuk_table(
+                  id: "planning-application-documents-table",
+                  head: ["Filename", "Uploaded At", "View"],
+                  rows: @planning_application.documents.order(:created_at).map do |document|
+                    [
+                      document.file.filename.to_s,
+                      document.created_at.to_fs,
+                      link_to_document("View", document)
+                    ]
+                  end
+                ) %>
+          <% else %>
+            <p class="govuk-body">No documents have been attached to this planning application yet.</p>
+          <% end %>
+        </div>
+      </div>
     <% else %>
-      <p class="govuk-body">No documents have been extracted for this submission yet.</p>
+      <p class="govuk-body">There is no associated planning application with this submission.</p>
     <% end %>
 
     <div class="govuk-button-group">

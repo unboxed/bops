@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Submissions", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:admin) { create(:user, :administrator, local_authority: local_authority) }
+  let(:admin) { create(:user, :administrator, local_authority:) }
 
   before { sign_in(admin) }
 
@@ -147,7 +147,7 @@ RSpec.describe "Submissions", type: :system do
         expect(page).to have_content("Application.xml")
       end
 
-      expect(page).to have_selector("h2.govuk-heading-m", text: "Documents")
+      expect(page).to have_selector("h3.govuk-heading-s", text: "Submission documents")
 
       docs = submission.documents.order(:created_at)
       expect(docs.length).to eq(9)
@@ -165,6 +165,89 @@ RSpec.describe "Submissions", type: :system do
           expect(tr).to have_link(
             "View (opens in new tab)"
           )
+        end
+      end
+    end
+  end
+
+  context "when a submission has been processed into a planning application" do
+    let!(:application_type_pp) { create(:application_type, :planning_permission, local_authority:) }
+    let(:submission) do
+      create(
+        :submission,
+        request_body: {
+          "applicationRef" => "PT-10087984",
+          "documentLinks" => [
+            {
+              "documentName" => "PT-10087984.zip",
+              "documentLink" => zip_path
+            }
+          ]
+        },
+        local_authority:
+      )
+    end
+
+    let(:zip_path) { BopsSubmissions::Engine.root.join("spec/fixtures/files/applications/PT-10087984.zip") }
+
+    before do
+      stub_request(:get, submission.document_link_urls.first)
+        .to_return(
+          status: 200,
+          body: File.binread(zip_path),
+          headers: {"Content-Type" => "application/zip"}
+        )
+
+      BopsSubmissions::ZipExtractionService.new(submission:).call
+      BopsSubmissions::Application::CreationService.new(submission:).call!
+      submission.reload
+    end
+
+    it "displays the Planning Application section with correct summary and documents" do
+      visit "/admin/submissions"
+      within("#submission_#{submission.id}") do
+        click_link "View"
+      end
+
+      expect(page).to have_selector("h1.govuk-heading-l", text: "Submission")
+      expect(page).to have_selector("hr.govuk-section-break--visible")
+
+      planning_application = submission.planning_application
+      expect(page).to have_selector("h2.govuk-heading-m", text: "Planning Application")
+
+      within(".planning-applications-summary-list") do
+        expect(page).to have_selector("dt", text: "Reference")
+        expect(page).to have_selector("dd", text: planning_application.reference)
+
+        expect(page).to have_selector("dt", text: "Status")
+        expect(page).to have_selector("dd", text: "Not started")
+
+        expect(page).to have_selector("dt", text: "Received at")
+        expect(page).to have_selector("dd", text: planning_application.received_at.to_fs)
+
+        expect(page).to have_selector("dt", text: "Local Authority")
+        expect(page).to have_selector("dd", text: planning_application.local_authority.council_name)
+
+        expect(page).to have_selector("dt", text: "Application Type")
+        expect(page).to have_selector("dd", text: planning_application.application_type.human_name)
+      end
+
+      expect(page).to have_selector("h3.govuk-heading-s", text: "Planning Application documents")
+
+      documents = planning_application.documents.order(:created_at)
+
+      within("#planning-application-documents-table") do
+        expect(page).to have_content("Filename")
+        expect(page).to have_content("Uploaded At")
+        expect(page).to have_content("View")
+
+        all("tbody tr").each_with_index do |tr, idx|
+          doc = documents[idx]
+          cols = tr.all("td").map(&:text)
+
+          expect(cols[0]).to eq(doc.file.filename.to_s)
+          expect(cols[1]).to eq(doc.created_at.to_fs)
+          expect(tr).to have_link("View (opens in new tab)")
         end
       end
     end
