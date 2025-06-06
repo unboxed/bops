@@ -5,7 +5,6 @@ class PlanningApplicationSearch
   include ActiveModel::Attributes
 
   STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
-  REVIEWER_STATUSES = %w[awaiting_determination to_be_reviewed].freeze
 
   APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
 
@@ -76,11 +75,11 @@ class PlanningApplicationSearch
 
   def my_applications
     if reviewer?
-      all_applications.for_user(current_user.id).or(
-        all_applications.where(status: REVIEWER_STATUSES + %w[determined]).for_null_users
-      )
+      all_applications.for_current_user
+        .or(all_applications.in_review.for_null_users)
+        .or(all_applications.determined.for_null_users)
     else
-      all_applications.for_user_and_null_users(current_user.id)
+      all_applications.for_current_user.or(all_applications.for_null_users)
     end
   end
 

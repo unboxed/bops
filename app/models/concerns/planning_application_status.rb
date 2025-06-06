@@ -8,6 +8,7 @@ module PlanningApplicationStatus
   include Auditable
 
   IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination in_committee to_be_reviewed].freeze
+  IN_REVIEW_STATUSES = %i[awaiting_determination to_be_reviewed].freeze
   PRIVATE_STATUSES = %i[invalidated not_started returned pending].freeze
 
   included do
