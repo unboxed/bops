@@ -59,7 +59,7 @@
       <%= govuk_tabs do |tabs|
             tabs.with_tab(label: @search.all_applications_title, id: "all") {
               render PlanningApplications::PanelComponent.new(
-                planning_applications: @planning_applications,
+                planning_applications: @search.filtered_planning_applications,
                 type: :all,
                 search: @search
               )

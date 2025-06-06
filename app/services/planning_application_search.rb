@@ -34,7 +34,7 @@ class PlanningApplicationSearch
     end
   end
 
-  def call
+  def filtered_planning_applications
     filtered = if valid? && query
       filtered_scope(records_matching_query)
     else
