@@ -34,13 +34,13 @@ class PlanningApplicationSearch
   end
 
   def filtered_planning_applications
-    filtered = if valid? && query
-      filtered_scope(records_matching_query)
-    else
-      filtered_scope
+    scope = filtered_scope(all_applications)
+
+    if valid? && query
+      scope = records_matching_query(scope)
     end
 
-    sorted_scope(filtered, sort_key, direction)
+    user_scope(sorted_scope(scope, sort_key, direction))
   end
 
   def statuses
@@ -57,10 +57,6 @@ class PlanningApplicationSearch
 
   def all_applications_title
     I18n.t(all_applications_title_key, scope: "planning_applications.tabs")
-  end
-
-  def current_planning_applications
-    @current_planning_applications ||= user_scope(all_applications)
   end
 
   def reviewer_planning_applications
@@ -105,40 +101,41 @@ class PlanningApplicationSearch
     @local_authority = current_user.local_authority
   end
 
-  def records_matching_query
-    records_matching_reference.presence || records_matching_address_search.presence || records_matching_description
+  def records_matching_query(scope)
+    records_matching_reference(scope).presence ||
+      records_matching_address_search(scope).presence ||
+      records_matching_description(scope)
   end
 
-  def records_matching_reference
-    current_planning_applications.where(
+  def records_matching_reference(scope)
+    scope.where(
       "LOWER(reference) LIKE ?",
       "%#{query.downcase}%"
     )
   end
 
-  def records_matching_postcode
-    current_planning_applications.where(
+  def records_matching_postcode(scope)
+    scope.where(
       "LOWER(replace(postcode, ' ', '')) = ?",
       query.gsub(/\s+/, "").downcase
     )
   end
 
-  def records_matching_description
-    current_planning_applications
+  def records_matching_description(scope)
+    scope
       .select(sanitized_select_sql)
       .where(where_sql, query_terms)
       .order(rank: :desc)
   end
 
-  def records_matching_address_search
-    return records_matching_address unless postcode_query?
+  def records_matching_address_search(scope)
+    return records_matching_address(scope) unless postcode_query?
 
-    postcode_results = records_matching_postcode
-    postcode_results.presence || records_matching_address
+    records_matching_postcode(scope).presence || records_matching_address(scope)
   end
 
-  def records_matching_address
-    current_planning_applications.where("address_search @@ to_tsquery('simple', ?)", query.split.join(" & "))
+  def records_matching_address(scope)
+    scope.where("address_search @@ to_tsquery('simple', ?)", query.split.join(" & "))
   end
 
   def sanitized_select_sql
@@ -169,7 +166,7 @@ class PlanningApplicationSearch
     @selected_statuses ||= status&.reject(&:empty?)
   end
 
-  def filtered_scope(scope = current_planning_applications)
+  def filtered_scope(scope)
     filters = {}
     filters[:status] = selected_statuses if selected_statuses.present?
     filters[:application_type] = selected_application_type_ids if selected_application_type_ids.present?
