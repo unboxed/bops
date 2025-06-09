@@ -67,16 +67,18 @@
 
     <%= decision_notice_link %>
   <% elsif planning_application_consultation? %>
-    <p class="govuk-body">
-      <strong>Comment on this application by <%= consultation_end_date %></strong>
-    </p>
+    <% if consultation_end_date? %>
+      <p class="govuk-body">
+        <strong>Comment on this application by <%= consultation_end_date %></strong>
+      </p>
 
-    <% unless consultation_in_progress? %>
-      <div class="govuk-inset-text">
-        <p class="govuk-body">
-          If we receive your comments after <%= consultation_end_date %>, we may not be able to take them into consideration if a decision has already been made.
-        </p>
-      </div>
+      <% unless consultation_in_progress? %>
+        <div class="govuk-inset-text">
+          <p class="govuk-body">
+            If we receive your comments after <%= consultation_end_date %>, we may not be able to take them into consideration if a decision has already been made.
+          </p>
+        </div>
+      <% end %>
     <% end %>
 
     <%= neighbour_comment_link %>
