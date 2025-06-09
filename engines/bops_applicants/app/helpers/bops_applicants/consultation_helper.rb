@@ -10,6 +10,10 @@ module BopsApplicants
       @consultation.end_date.to_fs
     end
 
+    def consultation_end_date?
+      @consultation.end_date?
+    end
+
     def consultation_in_progress?
       @consultation.end_date? && @consultation.end_date >= Date.current
     end

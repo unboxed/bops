@@ -377,6 +377,15 @@ FactoryBot.define do
       end
     end
 
+    trait :not_consulting do
+      after(:create) do |planning_application|
+        planning_application.consultation.update!(
+          start_date: nil,
+          end_date: nil
+        )
+      end
+    end
+
     trait :with_consultees do
       after(:create) do |planning_application|
         consultation = planning_application.consultation || planning_application.create_consultation!
