@@ -38,6 +38,37 @@ RSpec.describe "Edit document", type: :system do
       expect(page).to have_content(planning_application.reference)
     end
 
+    context "when viewing the document tags", js: true do
+      let!(:document) do
+        create(
+          :document,
+          :with_file,
+          planning_application: planning_application,
+          tags: ["floorPlan.existing", "locationPlan"]
+        )
+      end
+
+      it "only shows selected tags and hides the rest until 'Show all' is clicked" do
+        visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
+
+        within "#drawings-tags" do
+          expect(page).to have_checked_field("Floor plan - existing")
+          expect(page).to have_checked_field("Location plan")
+
+          expect(page).to have_css(".document-tags", visible: false)
+          expect(page).to have_unchecked_field("Elevations - existing", visible: false)
+          expect(page).to have_unchecked_field("Elevations - proposed", visible: false)
+
+          count = Document.tags("drawings").size - 2
+          click_link "Show all (#{count})"
+          expect(page).to have_css(".document-tags", visible: true)
+
+          expect(page).to have_unchecked_field("Elevations - existing")
+          expect(page).to have_unchecked_field("Elevations - proposed")
+        end
+      end
+    end
+
     it "archives and replaces existing document when new file is uploaded" do
       visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 

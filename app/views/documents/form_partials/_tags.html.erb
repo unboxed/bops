@@ -9,7 +9,7 @@
     </legend>
 
     <%= govuk_tabs do |tabs| %>
-      <% document_tags.tag_groups.each do |group| %>
+      <% document_tags.tag_groups_for_document(@document).each do |group| %>
         <% tabs.with_tab(label: t(".groups.#{group}"), id: "#{group}-tags") do %>
           <%= form.govuk_check_boxes_fieldset :tags, legend: {text: t(".groups.#{group}")}, hint: {text: t(".hints.#{group}")}, small: true do %>
             <div data-controller="show-hide">
