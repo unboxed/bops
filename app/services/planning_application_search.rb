@@ -89,14 +89,6 @@ class PlanningApplicationSearch
     @current_user ||= Current.user
   end
 
-  def assessor?
-    current_user.assessor?
-  end
-
-  def reviewer?
-    current_user.reviewer?
-  end
-
   def local_authority
     @local_authority = current_user.local_authority
   end
@@ -185,7 +177,7 @@ class PlanningApplicationSearch
 
   def user_scope(scope)
     if exclude_others?
-      if reviewer?
+      if current_user.reviewer?
         scope.for_current_user
           .or(scope.in_review.for_null_users)
           .or(scope.determined.for_null_users)
