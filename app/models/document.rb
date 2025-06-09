@@ -44,7 +44,7 @@ class Document < ApplicationRecord
     dependent: :destroy,
     inverse_of: false
 
-  delegate :audits, to: :planning_application
+  delegate :audits, to: :planning_application, allow_nil: true
   delegate :local_authority, to: :planning_application
   delegate :blob, :representable?, to: :file
   delegate :key, to: :blob, prefix: true
@@ -54,6 +54,7 @@ class Document < ApplicationRecord
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
   before_update :reset_replacement_document_validation_request_update_counter!, if: :owner_is_validation_request?
+  after_update :create_audit!, if: :saved_change_to_planning_application_id?
   after_update :audit_updated!
 
   DRAWING_TAGS = %w[
