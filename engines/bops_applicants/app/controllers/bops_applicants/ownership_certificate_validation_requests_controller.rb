@@ -27,8 +27,6 @@ module BopsApplicants
         @validation_request.update!(validation_request_params)
         @validation_request.close!
         @validation_request.create_api_audit!
-
-        @planning_application.send_update_notification_to_assessor
       end
 
       true

@@ -22,7 +22,7 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
     reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
   }
 
-  def update_planning_application!(params)
+  def update_planning_application!(*)
     planning_application.update!(boundary_geojson: new_geojson)
   end
 

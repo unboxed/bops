@@ -25,7 +25,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
   end
 
-  def update_planning_application!(params)
+  def update_planning_application!(*)
     planning_application.update!(description: proposed_description)
   end
 

@@ -260,9 +260,8 @@ class ValidationRequest < ApplicationRecord
     type == "TimeExtensionValidationRequest"
   end
 
-  def update_planning_application!(params)
-    # Specific types of validation request use this method, which is overwritten in those models.
-    #  A couple don't hence the empty method
+  def update_planning_application!(*)
+    # Subclasses must implement any necessary updates
   end
 
   def send_post_validation_request_email

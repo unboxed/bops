@@ -101,9 +101,13 @@ RSpec.describe "Time extension validation requests" do
 
           choose "Yes, I agree with the changes made"
 
-          click_button "Submit"
-          expect(page).to have_selector("h1", text: "Your planning application")
-          expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          expect {
+            click_button "Submit"
+            expect(page).to have_selector("h1", text: "Your planning application")
+            expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          }.to change {
+            planning_application.reload.expiry_date
+          }.from(Date.civil(2025, 7, 18)).to(Date.civil(2025, 8, 1))
 
           within "#time-extension-validation-requests" do
             expect(page).to have_selector("h3", text: "Confirm time extension request")
@@ -158,9 +162,13 @@ RSpec.describe "Time extension validation requests" do
 
           fill_in "Tell the case officer why you disagree", with: "The delay is excessive"
 
-          click_button "Submit"
-          expect(page).to have_selector("h1", text: "Your planning application")
-          expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          expect {
+            click_button "Submit"
+            expect(page).to have_selector("h1", text: "Your planning application")
+            expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          }.not_to change {
+            planning_application.reload.expiry_date
+          }.from(Date.civil(2025, 7, 18))
 
           within "#time-extension-validation-requests" do
             expect(page).to have_selector("h3", text: "Confirm time extension request")
