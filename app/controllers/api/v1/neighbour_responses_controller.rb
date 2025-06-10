@@ -36,6 +36,8 @@ module Api
 
       private
 
+      def required_api_key_scope = "comment"
+
       def set_application
         @planning_application = planning_application
 
