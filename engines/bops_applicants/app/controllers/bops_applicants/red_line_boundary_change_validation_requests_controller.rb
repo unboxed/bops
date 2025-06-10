@@ -14,6 +14,10 @@ module BopsApplicants
         @validation_request.close!
         @validation_request.create_api_audit!
 
+        if @validation_request.approved?
+          @validation_request.update_planning_application!
+        end
+
         @planning_application.send_update_notification_to_assessor
       end
 

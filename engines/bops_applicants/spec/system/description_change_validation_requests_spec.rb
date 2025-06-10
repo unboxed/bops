@@ -100,9 +100,13 @@ RSpec.describe "Description change validation requests" do
 
           choose "Yes, I agree with the changes made"
 
-          click_button "Submit"
-          expect(page).to have_selector("h1", text: "Your planning application")
-          expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          expect {
+            click_button "Submit"
+            expect(page).to have_selector("h1", text: "Your planning application")
+            expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          }.to change {
+            planning_application.reload.description
+          }.from("Application for the erection of 47 dwellings").to("Application for the erection of 48 dwellings")
 
           within "#description-change-validation-requests" do
             expect(page).to have_selector("h3", text: "Confirm change to your application description")
@@ -149,9 +153,13 @@ RSpec.describe "Description change validation requests" do
 
           fill_in "Tell us why you disagree", with: "The number is correct"
 
-          click_button "Submit"
-          expect(page).to have_selector("h1", text: "Your planning application")
-          expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          expect {
+            click_button "Submit"
+            expect(page).to have_selector("h1", text: "Your planning application")
+            expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          }.not_to change {
+            planning_application.reload.description
+          }.from("Application for the erection of 47 dwellings")
 
           within "#description-change-validation-requests" do
             expect(page).to have_selector("h3", text: "Confirm change to your application description")

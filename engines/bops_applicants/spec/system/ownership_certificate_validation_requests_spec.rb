@@ -168,8 +168,12 @@ RSpec.describe "Ownership certificate validation requests" do
             end
           end
 
-          click_button "Accept and send"
-          expect(page).to have_content("Your ownership certificate has been sent to the case officer")
+          expect {
+            click_button "Accept and send"
+            expect(page).to have_content("Your ownership certificate has been sent to the case officer")
+          }.to change {
+            planning_application.reload.ownership_certificate
+          }.from(nil).to(an_instance_of(OwnershipCertificate))
 
           expect(ownership_certificate).to be_present
           expect(ownership_certificate).to have_attributes(certificate_type: "c")

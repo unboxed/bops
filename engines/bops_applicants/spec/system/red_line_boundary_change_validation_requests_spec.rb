@@ -6,6 +6,49 @@ RSpec.describe "Red line boundary change validation requests" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:user) { create(:user, :assessor, local_authority:) }
 
+  let!(:existing_geojson) do
+    <<~JSON
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-0.054597, 51.537331],
+              [-0.054588, 51.537287],
+              [-0.054453, 51.537313],
+              [-0.054597, 51.537331]
+            ]
+          ]
+        }
+      }
+    JSON
+  end
+
+  let!(:new_geojson) do
+    <<~JSON
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-0.077161, 51.500942],
+              [-0.076459, 51.500534],
+              [-0.076153, 51.501152],
+              [-0.077161, 51.500942]
+            ]
+          ]
+        }
+      }
+    JSON
+  end
+
+  let!(:existing_boundary) { JSON.parse(existing_geojson) }
+  let!(:new_boundary) { JSON.parse(new_geojson) }
+
   let(:planning_application) do
     create(
       :planning_application,
@@ -15,7 +58,8 @@ RSpec.describe "Red line boundary change validation requests" do
       description: "Application for the erection of 47 dwellings",
       address_1: "60-62 Commercial Street",
       town: "London",
-      postcode: "E1 6LT"
+      postcode: "E1 6LT",
+      boundary_geojson: existing_boundary
     )
   end
 
@@ -46,7 +90,8 @@ RSpec.describe "Red line boundary change validation requests" do
         planning_application:,
         reason: "The submitted boundary is incorrect",
         approved: validation_request_approved,
-        rejection_reason: validation_request_rejection_reason
+        rejection_reason: validation_request_rejection_reason,
+        specific_attributes: {new_geojson: new_boundary}
       )
     end
 
@@ -105,9 +150,13 @@ RSpec.describe "Red line boundary change validation requests" do
 
           choose "Yes, I agree with the proposed red line boundary"
 
-          click_button "Submit"
-          expect(page).to have_selector("h1", text: "Your planning application")
-          expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          expect {
+            click_button "Submit"
+            expect(page).to have_selector("h1", text: "Your planning application")
+            expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          }.to change {
+            planning_application.reload.boundary_geojson
+          }.from(existing_boundary).to(new_boundary)
 
           within "#red-line-boundary-change-validation-requests" do
             expect(page).to have_selector("h3", text: "Confirm changes to the red line boundary")
@@ -163,9 +212,13 @@ RSpec.describe "Red line boundary change validation requests" do
 
           fill_in "Indicate why you disagree", with: "The original red line boundary is correct"
 
-          click_button "Submit"
-          expect(page).to have_selector("h1", text: "Your planning application")
-          expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          expect {
+            click_button "Submit"
+            expect(page).to have_selector("h1", text: "Your planning application")
+            expect(page).to have_selector("[role=alert] p", text: "Your response has been sent to the case officer")
+          }.not_to change {
+            planning_application.reload.boundary_geojson
+          }.from(existing_boundary)
 
           within "#red-line-boundary-change-validation-requests" do
             expect(page).to have_selector("h3", text: "Confirm changes to the red line boundary")

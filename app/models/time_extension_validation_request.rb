@@ -62,7 +62,7 @@ class TimeExtensionValidationRequest < ValidationRequest
     super&.to_date
   end
 
-  def update_planning_application!(params)
+  def update_planning_application!(*)
     self.previous_expiry_date = planning_application.expiry_date
     save!(validate: false)
 

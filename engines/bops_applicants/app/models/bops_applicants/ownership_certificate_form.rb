@@ -190,6 +190,8 @@ module BopsApplicants
             end
           end
         end
+
+        planning_application.send_update_notification_to_assessor
       end
 
       true
