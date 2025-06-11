@@ -38,14 +38,18 @@ RSpec.describe "Edit document numbers page" do
       end
 
       it "displays the planning application address and reference" do
+        expect(page).to have_selector("h1", text: "Documents")
         expect(page).to have_content(planning_application.full_address)
         expect(page).to have_content(planning_application.reference)
       end
 
       it "Assessor can see information about the document" do
-        within(all(".govuk-table__row").first) do
+        expect(page).to have_selector("h1", text: "Documents")
+
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
+
         expect(page).to have_text("Drawings")
         expect(page).to have_text("Elevations - proposed")
         expect(page).to have_text("Floor plan - proposed")
@@ -57,105 +61,143 @@ RSpec.describe "Edit document numbers page" do
       end
 
       it "Assessor is able to add document numbers and save them" do
-        within(all(".govuk-table__row").first) do
+        expect(page).to have_selector("h1", text: "Documents")
+
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
+
         fill_in "Document reference(s)", with: "new_number_1, new_number_2"
 
         click_button "Save"
+        expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
 
-        within(all(".govuk-table__row").first) do
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
-        # the submitted values are re-presented in the form
-        expect(page).to have_field(
-          "Document reference(s)",
-          with: "new_number_1, new_number_2"
-        )
+
+        expect(page).to have_selector("h1", text: "Edit supplied document")
+        expect(page).to have_field("Document reference(s)", with: "new_number_1, new_number_2")
 
         click_link "Documents"
+        expect(page).to have_selector("h1", text: "Documents")
 
-        within(all(".govuk-table__row").first) do
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
+
+        expect(page).to have_selector("h1", text: "Edit supplied document")
+
         fill_in "Document reference(s)", with: "other_new_number_1"
 
         click_button "Save"
+        expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
       end
 
       it "Assessor is able to add documents to decision notice without publishing" do
-        within(all(".govuk-table__row").first) do
+        expect(page).to have_selector("h1", text: "Documents")
+
+        within(".current-documents tr:first-child") do
           click_link("Edit")
         end
+
+        expect(page).to have_selector("h1", text: "Edit supplied document")
+
         fill_in "Document reference(s)", with: "new_number_1, new_number_2"
 
-        within(".display") do
+        within_fieldset("Do you want to list this document on the decision notice?") do
           choose "Yes"
         end
 
-        within(".publish") do
+        within_fieldset("Should this document be made publicly available?") do
           choose "No"
         end
 
-        click_button "Save"
+        within_fieldset("Should this document be shared with consultees") do
+          choose "Yes"
+        end
 
-        within(all(".govuk-table__row").first) do
+        click_button "Save"
+        expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
+
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
-        # the submitted values are re-presented in the form
-        expect(page).to have_field(
-          "Document reference(s)",
-          with: "new_number_1, new_number_2"
-        )
+
+        expect(page).to have_selector("h1", text: "Edit supplied document")
+        expect(page).to have_field("Document reference(s)", with: "new_number_1, new_number_2")
 
         click_link "Documents"
+        expect(page).to have_selector("h1", text: "Documents")
 
-        within(all(".govuk-table__row").first) do
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
+
+        expect(page).to have_selector("h1", text: "Edit supplied document")
+
         fill_in "Document reference(s)", with: "other_new_number_1"
 
         click_button "Save"
+        expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
 
         expect(planning_application.documents.active.for_display.count).to eq(1)
         expect(planning_application.documents.active.for_publication.count).to eq(0)
+        expect(planning_application.documents.active.for_consultees.count).to eq(1)
       end
 
       it "Assessor is able to publish documents without adding to the decision notice" do
-        within(all(".govuk-table__row").first) do
+        expect(page).to have_selector("h1", text: "Documents")
+
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
+
+        expect(page).to have_selector("h1", text: "Edit supplied document")
         fill_in "Document reference(s)", with: "new_number_1, new_number_2"
 
-        within(".display") do
+        within_fieldset("Do you want to list this document on the decision notice?") do
           choose "No"
         end
 
-        within(".publish") do
+        within_fieldset("Should this document be made publicly available?") do
+          choose "Yes"
+        end
+
+        within_fieldset("Should this document be shared with consultees") do
           choose "Yes"
         end
 
         click_button "Save"
+        expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
 
         expect(planning_application.documents.active.for_display.count).to eq(0)
         expect(planning_application.documents.active.for_publication.count).to eq(1)
+        expect(planning_application.documents.active.for_consultees.count).to eq(1)
       end
 
       it "Error message is shown if document referenced is true without document number" do
-        within(all(".govuk-table__row").first) do
+        expect(page).to have_selector("h1", text: "Documents")
+
+        within(".current-documents tr:first-child") do
           click_link "Edit"
         end
 
-        within(".display") do
+        expect(page).to have_selector("h1", text: "Edit supplied document")
+
+        within_fieldset("Do you want to list this document on the decision notice?") do
           choose "Yes"
         end
 
-        within(".publish") do
+        within_fieldset("Should this document be made publicly available?") do
+          choose "No"
+        end
+
+        within_fieldset("Should this document be shared with consultees") do
           choose "No"
         end
 
         click_button "Save"
-
         expect(page).to have_content "All documents listed on the decision notice must have a document number"
       end
     end
@@ -172,6 +214,8 @@ RSpec.describe "Edit document numbers page" do
       end
 
       it "displays a placeholder image with error information" do
+        expect(page).to have_selector("h1", text: "Documents")
+
         expect(page).to have_content("This document has been removed due to a security issue")
         expect(page).to have_content("Error: Infected file found")
         expect(page).to have_content("File name: proposed-floorplan.png")

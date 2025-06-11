@@ -180,11 +180,15 @@ RSpec.describe "Withdraw or cancel" do
 
       fill_in("Document reference(s)", with: "DOCREF123")
 
-      within(".display") do
+      within_fieldset("Do you want to list this document on the decision notice?") do
         choose "Yes"
       end
 
-      within(".publish") do
+      within_fieldset("Should this document be made publicly available?") do
+        choose "Yes"
+      end
+
+      within_fieldset("Should this document be shared with consultees") do
         choose "Yes"
       end
 
