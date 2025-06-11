@@ -54,9 +54,19 @@ class ApplicationTypeDocumentTags
     TAG_GROUPS.map(&method(:build_tag_group))
   end
 
+  def tag_groups_for_document(document)
+    TAG_GROUPS.map { |name| build_tag_group_for_document(name, document.tags) }
+  end
+
   private
 
   def build_tag_group(name)
     TagGroup.new(name, attributes[name], Document.tags(name))
+  end
+
+  def build_tag_group_for_document(name, document_tags)
+    all = Document.tags(name)
+    selected = (attributes[name] + (document_tags & all)).uniq
+    TagGroup.new(name, selected, all)
   end
 end
