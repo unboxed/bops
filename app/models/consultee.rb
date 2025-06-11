@@ -95,11 +95,7 @@ class Consultee < ApplicationRecord
   end
 
   def application_link
-    if consultation.planning_application.pre_application?
-      routes.consultees_magic_link
-    else
-      consultation.application_link
-    end
+    routes.consultees_magic_link
   end
 
   def can_resend_magic_link?

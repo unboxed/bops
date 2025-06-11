@@ -271,7 +271,7 @@ RSpec.describe "Edit document", type: :system do
         expect(page).not_to have_selector("legend", text: "Do you want to list this document on the decision notice?")
         expect(page).not_to have_selector("legend", text: "Should this document be made publicly available?")
 
-        within_fieldset("Should these documents be shared with consultees?") do
+        within_fieldset("Should this document be shared with consultees") do
           expect(page).to have_unchecked_field("Yes")
           expect(page).to have_checked_field("No")
 

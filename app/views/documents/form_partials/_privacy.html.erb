@@ -22,11 +22,11 @@
       <%= form.govuk_radio_button :publishable, "false", label: {text: "No"} %>
     <% end %>
   </div>
-<% else %>
-  <div class="display govuk-!-margin-top-3">
-    <%= form.govuk_radio_buttons_fieldset(:available_to_consultees, inline: true, legend: {size: "s", text: "Should these documents be shared with consultees?"}) do %>
-      <%= form.govuk_radio_button :available_to_consultees, "true", label: {text: "Yes"} %>
-      <%= form.govuk_radio_button :available_to_consultees, "false", label: {text: "No"} %>
-    <% end %>
-  </div>
 <% end %>
+
+<div class="display govuk-!-margin-top-3">
+  <%= form.govuk_radio_buttons_fieldset(:available_to_consultees, inline: true, legend: {size: "s", text: "Should this document be shared with consultees?"}) do %>
+    <%= form.govuk_radio_button :available_to_consultees, "true", label: {text: "Yes"} %>
+    <%= form.govuk_radio_button :available_to_consultees, "false", label: {text: "No"} %>
+  <% end %>
+</div>

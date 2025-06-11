@@ -280,7 +280,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     expect(consultee.expires_at.to_date).to eq(today + 5.days)
 
     expect(consultee.emails.last.body).to include("Please respond to the message below by #{consultee_response_date}")
-    expect(consultee.emails.last.body).to include("Please submit your comments by #{consultee_response_date} by replying to this email.")
+    expect(consultee.emails.last.body).to include("Please submit your comments by #{consultee_response_date} by using the web form.")
 
     click_link "Back"
     expect(page).to have_selector("h1", text: "Consultation")

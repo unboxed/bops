@@ -4,37 +4,37 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-<table class="govuk-table current-documents">
-  <tbody class="govuk-table__body">
-    <% @planning_application.documents.for_consultees.each do |document| %>
-      <tr class="govuk-table__row" id="<%= dom_id(document) %>">
-        <td class="govuk-table__cell govuk-!-width-one-quarter">
-          <% if document.representable? %>
-            <%= image_tag(main_app.uploaded_file_url(document.representation)) %>
-          <% else %>
-            <%= image_tag("placeholder/blank_image.png", style: "max-width: 100%; max-height: 6em;", alt: "Blank image") %>
-          <% end %>
-        </td>
-        <td class="govuk-table__cell govuk-!-width-one-half">
-          <p class="govuk-body"><%= document.name %><% if document.numbers? %> — <%= document.numbers %><% end %></p>
+    <table class="govuk-table current-documents">
+      <tbody class="govuk-table__body">
+        <% @planning_application.documents.for_consultees.each do |document| %>
+          <tr class="govuk-table__row" id="<%= dom_id(document) %>">
+            <td class="govuk-table__cell govuk-!-width-one-quarter">
+              <% if document.representable? %>
+                <%= image_tag(main_app.uploaded_file_url(document.representation(resize_to_fill: [360, 240, gravity: "North"]))) %>
+              <% else %>
+                <%= image_tag("placeholder/blank_image.png", style: "max-width: 100%; max-height: 6em;", alt: "Blank image") %>
+              <% end %>
+            </td>
+            <td class="govuk-table__cell govuk-!-width-one-half">
+              <p class="govuk-body"><%= document.name %><% if document.numbers? %> — <%= document.numbers %><% end %></p>
 
-          <p class="govuk-body">
-            <% document.tags.each do |tag| %>
-              <strong class="govuk-tag govuk-tag--turquoise">
-                <%= I18n.t(:"#{tag}", scope: :document_tags) %>
-              </strong>
-            <% end %>
-          </p>
+              <p class="govuk-body">
+                <% document.tags.each do |tag| %>
+                  <strong class="govuk-tag govuk-tag--turquoise">
+                    <%= I18n.t(:"#{tag}", scope: :document_tags) %>
+                  </strong>
+                <% end %>
+              </p>
 
-          <p class="govuk-body">
-            <%= govuk_link_to "Download",
-                  main_app.uploaded_file_url(document.blob, sgid: params[:sgid]),
-                  new_tab: "" %>
-          </p>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+              <p class="govuk-body">
+                <%= govuk_link_to "Download",
+                      main_app.uploaded_file_url(document.blob, sgid: params[:sgid]),
+                      new_tab: "" %>
+              </p>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
