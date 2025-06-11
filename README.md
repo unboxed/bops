@@ -3,6 +3,7 @@
 ![CI](https://github.com/unboxed/bops/actions/workflows/build.yml/badge.svg) ![CodeQL](https://github.com/unboxed/bops/workflows/CodeQL/badge.svg)
 
 [FAQs](docs/FAQs.md)
+[Architecture overview](docs/architecture.md)
 
 ## Back-Office Planning System (BOPS)
 
