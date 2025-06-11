@@ -52,8 +52,7 @@ RSpec.describe BopsSubmissions::Application::CreationService, type: :service do
           longitude: "-0.116898",
           application_type_id: ApplicationType.find_by(code: "pp.full.householder").id
         )
-
-        expect(pa.boundary_geojson).to include("type" => "MultiPolygon")
+        expect(pa.boundary_geojson["geometry"]).to include("type" => "MultiPolygon")
       end
 
       it "sets application_type to full householder" do
