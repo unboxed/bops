@@ -35,9 +35,7 @@ BOPS is integrated with:
 
 ### What does the architecture look like?
 
-Here is a very high-level view of how BOPS works:
-
-![Architecture](images/architecture.png)
+- [Docs](docs/architecture.md)
 
 ### Where can I find out more about terms that are used in the planning process?
 Here is a helpful [glossary](https://opensystemslab.notion.site/Glossary-of-planning-terms-8c61da556dfb45d4a53c34a03f249994) of commonly used planning terms.
