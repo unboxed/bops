@@ -20,9 +20,9 @@
     <p class="govuk-body">
       <% if @planning_application.cil_liability_details? %>
         According to PlanX
-        <% if  @planning_application.cil_liability_details[:proposedTotalArea][:squareMetres].present? %>
+        <% if (area = @planning_application.cil_liability_details&.dig(:proposedTotalArea, :squareMetres)) %>
           the new floor area being added is:
-          <strong><%= @planning_application.cil_liability_details[:proposedTotalArea][:squareMetres] %>m²</strong>.
+          <strong><%= area %>m²</strong>.
           <br>
           This might mean that
         <% end %>
