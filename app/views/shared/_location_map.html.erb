@@ -53,9 +53,22 @@
       document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON["EPSG:3857"]);
     });
   <% end %>
+
   <% if locals[:in_accordion] == true %>
-    function accordion_expanded() {
-      window.dispatchEvent(new Event("resize"));
+    const map = document.querySelector("my-map");
+    const section = map.closest(".govuk-accordion__section");
+
+    if (section) {
+      const callback = (mutationList, observer) => {
+        if (section.classList.contains("govuk-accordion__section--expanded")) {
+          setTimeout(() => {
+            map.shadowRoot.querySelector("button[title='Reset map view']").click();
+          }, 100);
+        }
+      }
+
+      const observer = new MutationObserver(callback);
+      observer.observe(section, { attributes: true });
     }
   <% end %>
 <% end %>
