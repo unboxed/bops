@@ -13,7 +13,9 @@
     <% end %>
   <% end %>
 <% else %>
-  <div class="govuk-button-group">
-    <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
-  </div>
+  <%= form_with(model: @recommendation, url: publish_planning_application_recommendation_path(@planning_application), id: "recommendation-review-form") do |form| %>
+    <%= form.govuk_submit("Confirm and submit pre-application report") do %>
+      <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
+    <% end %>
+  <% end %>
 <% end %>
