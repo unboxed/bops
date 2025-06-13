@@ -33,6 +33,7 @@ BopsApi::Engine.routes.draw do
 
         scope module: "planning_applications" do
           resources :validation_requests, only: [:index]
+          post "/comments/public", to: "neighbour_responses#create"
         end
       end
 

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "response": {
+      "type": "string"
+    },
+    "summary_tag": {
+      "enum": ["objection", "neutral", "supportive"],
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["design","use","light","privacy","access","noise","traffic","other"]
+      }
+    }
+  },
+  "required": ["name", "address", "response", "summary_tag", "tags"]
+}
