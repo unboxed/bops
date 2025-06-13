@@ -5,7 +5,6 @@ class PlanningApplicationSearch
   include ActiveModel::Attributes
 
   STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
-  REVIEWER_STATUSES = %w[awaiting_determination to_be_reviewed].freeze
 
   APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
 
@@ -34,15 +33,14 @@ class PlanningApplicationSearch
     end
   end
 
-  def call
-    filtered = if valid? && query
-      filtered_scope(records_matching_query)
-    else
-      filtered_scope
+  def filtered_planning_applications
+    scope = filtered_scope(all_applications)
+
+    if valid? && query
+      scope = records_matching_query(scope)
     end
 
-    return filtered unless sort_key
-    sorted_scope(filtered)
+    user_scope(sorted_scope(scope, sort_key, direction))
   end
 
   def statuses
@@ -61,8 +59,16 @@ class PlanningApplicationSearch
     I18n.t(all_applications_title_key, scope: "planning_applications.tabs")
   end
 
-  def current_planning_applications
-    @current_planning_applications ||= exclude_others? ? my_applications : all_applications
+  def reviewer_planning_applications
+    user_scope(all_applications.to_be_reviewed)
+  end
+
+  def closed_planning_applications
+    user_scope(all_applications.closed)
+  end
+
+  def unstarted_prior_approvals
+    user_scope(all_applications.prior_approvals.not_started)
   end
 
   private
@@ -75,16 +81,6 @@ class PlanningApplicationSearch
     exclude_others? ? :all_your_applications : :all_applications
   end
 
-  def my_applications
-    if reviewer?
-      all_applications.for_user(current_user.id).or(
-        all_applications.where(status: REVIEWER_STATUSES + %w[determined]).for_null_users
-      )
-    else
-      all_applications.for_user_and_null_users(current_user.id)
-    end
-  end
-
   def all_applications
     @all_applications ||= local_authority.planning_applications.accepted.by_status_order.by_application_type
   end
@@ -93,52 +89,45 @@ class PlanningApplicationSearch
     @current_user ||= Current.user
   end
 
-  def assessor?
-    current_user.assessor?
-  end
-
-  def reviewer?
-    current_user.reviewer?
-  end
-
   def local_authority
     @local_authority = current_user.local_authority
   end
 
-  def records_matching_query
-    records_matching_reference.presence || records_matching_address_search.presence || records_matching_description
+  def records_matching_query(scope)
+    records_matching_reference(scope).presence ||
+      records_matching_address_search(scope).presence ||
+      records_matching_description(scope)
   end
 
-  def records_matching_reference
-    current_planning_applications.where(
+  def records_matching_reference(scope)
+    scope.where(
       "LOWER(reference) LIKE ?",
       "%#{query.downcase}%"
     )
   end
 
-  def records_matching_postcode
-    current_planning_applications.where(
+  def records_matching_postcode(scope)
+    scope.where(
       "LOWER(replace(postcode, ' ', '')) = ?",
       query.gsub(/\s+/, "").downcase
     )
   end
 
-  def records_matching_description
-    current_planning_applications
+  def records_matching_description(scope)
+    scope
       .select(sanitized_select_sql)
       .where(where_sql, query_terms)
       .order(rank: :desc)
   end
 
-  def records_matching_address_search
-    return records_matching_address unless postcode_query?
+  def records_matching_address_search(scope)
+    return records_matching_address(scope) unless postcode_query?
 
-    postcode_results = records_matching_postcode
-    postcode_results.presence || records_matching_address
+    records_matching_postcode(scope).presence || records_matching_address(scope)
   end
 
-  def records_matching_address
-    current_planning_applications.where("address_search @@ to_tsquery('simple', ?)", query.split.join(" & "))
+  def records_matching_address(scope)
+    scope.where("address_search @@ to_tsquery('simple', ?)", query.split.join(" & "))
   end
 
   def sanitized_select_sql
@@ -169,7 +158,7 @@ class PlanningApplicationSearch
     @selected_statuses ||= status&.reject(&:empty?)
   end
 
-  def filtered_scope(scope = current_planning_applications)
+  def filtered_scope(scope)
     filters = {}
     filters[:status] = selected_statuses if selected_statuses.present?
     filters[:application_type] = selected_application_type_ids if selected_application_type_ids.present?
@@ -177,8 +166,27 @@ class PlanningApplicationSearch
     scope.where(**filters).by_created_at_desc
   end
 
-  def sorted_scope(scope = current_planning_applications)
-    PlanningApplicationSorter.new(scope:, sort_key:, direction:).call
+  def sorted_scope(scope, sort_key, direction)
+    case sort_key
+    when "expiry_date"
+      scope.reorder(expiry_date: direction)
+    else
+      scope
+    end
+  end
+
+  def user_scope(scope)
+    if exclude_others?
+      if current_user.reviewer?
+        scope.for_current_user
+          .or(scope.in_review.for_null_users)
+          .or(scope.determined.for_null_users)
+      else
+        scope.for_current_user.or(scope.for_null_users)
+      end
+    else
+      scope
+    end
   end
 
   def selected_application_type_ids

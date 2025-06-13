@@ -36,16 +36,18 @@
   <h2 class="govuk-heading-m">Status update:</h2>
   <div class="status-bar govuk-!-margin-bottom-4 govuk-!-padding-bottom-4">
     <div class="status-panel<% if filter_enabled_uniquely?(status: 'to_be_reviewed') %> status-panel--highlighted<% end %>" id="reviewer-requests">
-      <a class="status-filter-link" href="<%= planning_applications_path(filter_enabled_uniquely?(status: "to_be_reviewed") ? {} : {status: [:to_be_reviewed]}) %>">
+      <%= link_to planning_applications_path({view: params[:view]}.merge(filter_enabled_uniquely?(status: "to_be_reviewed") ? {} : {status: [:to_be_reviewed]})),
+            class: "status-filter-link" do %>
         <h3 class="govuk-heading-s"><%= t ".reviewer_requests.title" %></h3>
-        <p class="govuk-heading-m"><%= t ".reviewer_requests", count: @search.current_planning_applications.to_be_reviewed.count %></p>
-      </a>
+        <p class="govuk-heading-m"><%= t ".reviewer_requests", count: @search.reviewer_planning_applications.count %></p>
+      <% end %>
     </div>
     <div class="status-panel<% if filter_enabled_uniquely?(application_type: 'prior_approval') %> status-panel--highlighted<% end %>" id="not-started">
-      <a class="status-filter-link" href="<%= planning_applications_path(filter_enabled_uniquely?(application_type: "prior_approval") ? {} : {application_type: [:prior_approval]}) %>">
+      <%= link_to planning_applications_path({view: params[:view]}.merge(filter_enabled_uniquely?(application_type: "prior_approval") ? {} : {application_type: [:prior_approval]})),
+            class: "status-filter-link" do %>
         <h3 class="govuk-heading-s"><%= t ".prior_approvals.title" %></h3>
-        <p class="govuk-heading-m"><%= t ".prior_approvals", count: @search.current_planning_applications.prior_approvals.not_started.count %></p>
-      </a>
+        <p class="govuk-heading-m"><%= t ".prior_approvals", count: @search.unstarted_prior_approvals.count %></p>
+      <% end %>
     </div>
   </div>
 </div>
@@ -59,14 +61,14 @@
       <%= govuk_tabs do |tabs|
             tabs.with_tab(label: @search.all_applications_title, id: "all") {
               render PlanningApplications::PanelComponent.new(
-                planning_applications: @planning_applications,
+                planning_applications: @search.filtered_planning_applications,
                 type: :all,
                 search: @search
               )
             }
             tabs.with_tab(label: "Closed") {
               render PlanningApplications::PanelComponent.new(
-                planning_applications: @search.current_planning_applications.closed,
+                planning_applications: @search.closed_planning_applications,
                 type: :closed
               )
             }
