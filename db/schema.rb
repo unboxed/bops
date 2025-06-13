@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_27_103524) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_13_200838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -131,30 +131,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_103524) do
 
   create_table "application_types", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "part"
-    t.string "section"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "assessment_details", array: true
-    t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
-    t.string "consistency_checklist", array: true
-    t.jsonb "document_tags", default: {}, null: false
-    t.jsonb "features", default: {}
-    t.string "status", default: "inactive", null: false
     t.string "code", null: false
     t.string "suffix", null: false
     t.integer "determination_period_days"
-    t.bigint "legislation_id"
-    t.boolean "configured", default: false, null: false
-    t.string "category"
-    t.string "reporting_types", default: [], null: false, array: true
-    t.string "decisions", default: [], null: false, array: true
     t.bigint "config_id"
     t.bigint "local_authority_id"
     t.string "disclaimer"
     t.index ["config_id"], name: "ix_application_types_on_config_id"
-    t.index ["legislation_id"], name: "ix_application_types_on_legislation_id"
-    t.index ["local_authority_id", "code"], name: "ix_application_types_on_local_authority_id__code", unique: true, where: "((status)::text <> 'retired'::text)"
     t.index ["local_authority_id", "config_id"], name: "ix_application_types_on_local_authority_id__config_id", unique: true
     t.index ["local_authority_id", "suffix"], name: "ix_application_types_on_local_authority_id__suffix", unique: true
     t.index ["local_authority_id"], name: "ix_application_types_on_local_authority_id"
@@ -1237,7 +1222,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_27_103524) do
   add_foreign_key "application_type_configs", "legislation"
   add_foreign_key "application_type_requirements", "local_authority_requirements"
   add_foreign_key "application_types", "application_type_configs", column: "config_id"
-  add_foreign_key "application_types", "legislation"
   add_foreign_key "application_types", "local_authorities"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"
