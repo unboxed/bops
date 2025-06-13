@@ -5,14 +5,14 @@ require "rails_helper"
 RSpec.describe PlanningApplicationsImportService, type: :service do
   let(:csv_path) { "tmp/test_import.csv" }
 
-  let(:local_authority) { create(:local_authority) }
+  let(:local_authority) { create(:local_authority, :southwark) }
   let(:application_type) { create(:application_type, local_authority_id: local_authority.id) }
-  let(:authority_id) { local_authority.id }
+  let(:local_authority_name) { "Southwark" }
 
   subject(:service) do
     described_class.new(
       csv_path: csv_path,
-      authority_id: authority_id,
+      local_authority_name: local_authority_name,
       application_type: application_type
     )
   end
@@ -65,7 +65,7 @@ RSpec.describe PlanningApplicationsImportService, type: :service do
       service.import
       app = PlanningApplication.last
 
-      expect(app.local_authority_id).to eq(authority_id)
+      expect(app.local_authority_id).to eq(local_authority.id)
       expect(app.application_type_id).to eq(application_type.id)
     end
   end

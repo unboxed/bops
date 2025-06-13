@@ -16,11 +16,11 @@ class PlanningApplicationsImportService
     "valid_red_line_boundary", "validated_at", "ward", "withdrawn_at", "application_type"
   ].freeze
 
-  attr_reader :csv_path, :authority_id
+  attr_reader :csv_path, :local_authority_name
 
-  def initialize(csv_path:, authority_id:, application_type:)
+  def initialize(csv_path:, local_authority_name:, application_type:)
     @csv_path = Rails.root.join(csv_path)
-    @authority_id = authority_id
+    @local_authority_name = local_authority_name.downcase
     @application_type = application_type
     @import_report_rows = []
   end
@@ -83,7 +83,7 @@ class PlanningApplicationsImportService
   end
 
   def import
-    broadcast "Importing PlanningApplications from #{csv_path} with local_authority_id #{authority_id}..."
+    broadcast "Importing PlanningApplications from #{csv_path} with local_authority_name #{local_authority_name}..."
 
     CSV.foreach(csv_path, headers: true) do |row|
       attrs = row.to_h
@@ -102,7 +102,7 @@ class PlanningApplicationsImportService
 
       app = PlanningApplication.create!(
         attrs.merge(
-          local_authority_id: authority_id,
+          local_authority_id: local_authority.id,
           application_type_id: @application_type.id,
           regulation_3: "pending",
           regulation_4: "pending",
@@ -123,5 +123,9 @@ class PlanningApplicationsImportService
       @import_report_rows.each { |r| output << r }
     end
     broadcast "Import results written to: #{IMPORT_REPORT_PATH}"
+  end
+
+  def local_authority
+    @local_authority ||= LocalAuthority.find_by!(subdomain: local_authority_name)
   end
 end
