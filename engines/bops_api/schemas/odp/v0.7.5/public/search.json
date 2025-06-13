@@ -2,54 +2,28 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "metadata": {
+    "pagination": {
       "type": "object",
       "properties": {
-        "page": {
+        "currentPage": {
           "type": "integer"
         },
-        "results": {
+        "resultsPerPage": {
           "type": "integer"
         },
-        "from": {
+        "totalPages": {
           "type": "integer"
         },
-        "to": {
-          "type": "integer"
-        },
-        "total_pages": {
-          "type": "integer"
-        },
-        "total_results": {
+        "totalResults": {
           "type": "integer"
         }
       },
       "required": [
-        "page",
-        "results",
-        "from",
-        "to",
-        "total_pages",
-        "total_results"
+        "currentPage",
+        "resultsPerPage",
+        "totalPages",
+        "totalResults"
       ]
-    },
-    "links": {
-      "type": "object",
-      "properties": {
-        "first": {
-          "type": "string"
-        },
-        "last": {
-          "type": "string"
-        },
-        "prev": {
-          "type": ["string", "null"]
-        },
-        "next": {
-          "type": ["string", "null"]
-        }
-      },
-      "required": ["first", "last", "prev", "next"]
     },
     "data": {
       "type": "array",
@@ -322,5 +296,5 @@
       ]
     }
   },
-  "required": ["metadata", "links", "data"]
+  "required": ["pagination", "data"]
 }
