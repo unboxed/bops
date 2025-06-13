@@ -3,7 +3,7 @@
 RSpec.configure do |config|
   helpers = Module.new do
     def json_fixture(name, **opts)
-      JSON.parse(BopsSubmissions::Engine.root.join("spec", "fixtures", name).read, symbolize_names: true, **opts)
+      JSON.parse(BopsSubmissions::Engine.root.join("spec", "fixtures", name).read, **opts)
     end
 
     def zip_fixture(name)

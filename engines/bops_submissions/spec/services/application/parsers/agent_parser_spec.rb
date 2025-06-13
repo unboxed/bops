@@ -12,7 +12,7 @@ RSpec.describe BopsSubmissions::Parsers::AgentParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json"))[:applicationData][:agent]
+        json_fixture("files/applications/PT-10087984.json")["applicationData"]["agent"]
       }
 
       it "returns a correctly formatted agent hash" do

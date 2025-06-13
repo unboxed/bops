@@ -12,7 +12,7 @@ RSpec.describe BopsSubmissions::Parsers::AddressParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json"))[:applicationData][:siteLocation]
+        json_fixture("files/applications/PT-10087984.json")["applicationData"]["siteLocation"]
       }
 
       it "returns a correctly formatted address hash" do
