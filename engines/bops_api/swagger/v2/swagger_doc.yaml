@@ -35539,6 +35539,85 @@ paths:
                 "$ref": "#/components/schemas/CommentsPublicResponse"
         '404':
           description: does not return comments for unpublished planning applications
+  '/api/v2/planning_applications/{reference}/comments/public':
+    post:
+      summary: Create new neighbour response
+      tags:
+        - Neighbour response
+      parameters:
+        - in: path
+          name: reference
+          required: true
+          schema:
+            type: string
+          description: The planning application reference
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: valid_request
+          content: {}
+        '400':
+          description: invalid_request
+          content: {}
+        '401':
+          description: unauthorized_user
+          content: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  enum:
+                    - Jo Blogs
+                  example: Jo Blogs
+                email:
+                  type: string
+                  enum:
+                    - jo@example.com
+                  example: jo@example.com
+                address:
+                  type: string
+                  enum:
+                    - '123 Street, London, E1 6LT'
+                  example: '123 Street, London, E1 6LT'
+                response:
+                  type: string
+                  enum:
+                    - I like it
+                  example: I like it
+                summary_tag:
+                  type: string
+                  enum:
+                    - supportive
+                  example: supportive
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - privacy
+                    example: privacy
+              required:
+                - name
+                - address
+                - response
+                - summary_tag
+                - tags
+            examples:
+              supportive:
+                value:
+                  name: Jo Blogs
+                  email: jo@example.com
+                  address: '123 Street, London, E1 6LT'
+                  response: I like it
+                  summary_tag: supportive
+                  tags:
+                    - privacy
+                    - design
   "/api/v2/public/planning_applications/search":
     get:
       summary: Retrieves planning applications based on a search criteria
