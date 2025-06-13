@@ -12,9 +12,7 @@ RSpec.describe BopsApi::Application::Parsers::PreAssessmentParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_prior_approval.json").read)
-        )[:preAssessment]
+        JSON.parse(file_fixture("v2/valid_prior_approval.json").read).with_indifferent_access[:preAssessment]
       }
 
       it "returns a correctly formatted applicant hash" do

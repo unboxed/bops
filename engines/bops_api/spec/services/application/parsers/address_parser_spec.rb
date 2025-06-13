@@ -12,9 +12,7 @@ RSpec.describe BopsApi::Application::Parsers::AddressParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_permission.json").read)
-        )[:data][:property][:address]
+        JSON.parse(file_fixture("v2/valid_planning_permission.json").read).with_indifferent_access[:data][:property][:address]
       }
 
       it "returns a correctly formatted address hash" do

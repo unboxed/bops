@@ -12,9 +12,7 @@ RSpec.describe BopsApi::Application::Parsers::SubmissionParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_permission.json").read)
-        )
+        JSON.parse(file_fixture("v2/valid_planning_permission.json").read).with_indifferent_access
       }
 
       it "returns a correctly formatted submission hash" do
