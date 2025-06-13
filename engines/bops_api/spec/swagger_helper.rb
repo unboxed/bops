@@ -13,6 +13,7 @@ RSpec.configure do |config|
   version = BopsApi::Schemas::DEFAULT_ODP_VERSION
   submission_json = BopsApi::Schemas.find!("submission", version:).value
   search_json = BopsApi::Schemas.find!("search", version:).value
+  public_search_json = BopsApi::Schemas.find!("public/search", version:).value
   application_submission_json = BopsApi::Schemas.find!("applicationSubmission", version:).value
   documents_json = BopsApi::Schemas.find!("documents", version:).value
   neighbour_responses_json = BopsApi::Schemas.find!("neighbourResponses", version:).value
@@ -41,6 +42,8 @@ RSpec.configure do |config|
   submission = submission_json.slice(*keys).deep_transform_values(&transformer)
 
   search = search_json.slice(*keys).deep_transform_values(&transformer)
+
+  public_search = public_search_json.slice(*keys).deep_transform_values(&transformer)
 
   application_submission = application_submission_json.slice(*keys).deep_transform_values(&transformer)
 
@@ -88,6 +91,8 @@ RSpec.configure do |config|
           },
 
           Search: search,
+
+          PublicSearch: public_search,
 
           ApplicationSubmission: application_submission,
 

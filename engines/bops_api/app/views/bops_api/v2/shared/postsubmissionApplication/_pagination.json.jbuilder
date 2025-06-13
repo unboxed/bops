@@ -5,8 +5,8 @@ json.pagination do
   json.currentPage @pagy.page
   json.totalPages @pagy.pages
   json.totalResults @pagy.count
-  if @total_responses.present?
-    json.totalAvailableItems @total_responses
+  if @total_available_items.present?
+    json.totalAvailableItems @total_available_items
   end
 end
 
