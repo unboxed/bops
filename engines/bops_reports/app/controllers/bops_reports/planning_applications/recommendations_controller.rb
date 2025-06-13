@@ -4,9 +4,9 @@ module BopsReports
   module PlanningApplications
     class RecommendationsController < BaseController
       before_action :require_assessor!, only: %i[create destroy]
-      before_action :require_reviewer!, only: %i[update]
+      before_action :require_reviewer!, only: %i[update publish]
       before_action :set_recommendation
-      before_action :require_assigned_user!, only: %i[create update]
+      before_action :require_assigned_user!, only: %i[create update publish]
 
       def create
         if @planning_application.to_be_reviewed?
@@ -36,6 +36,22 @@ module BopsReports
         else
           flash.now.alert = t(".review_failed_html")
           render "bops_reports/planning_applications/show"
+        end
+      end
+
+      def publish
+        if @recommendation.save_and_review(status: "review_complete", reviewer: current_user, challenged: false)
+          @planning_application.tap do |pa|
+            pa.update!(planning_application_params.merge(determination_date: Date.current))
+            pa.submit_recommendation!
+            pa.determine!
+          end
+
+          BopsReports::SendReportEmailJob.perform_later(@planning_application.presented, current_user)
+
+          redirect_to application_url, notice: t(".published")
+        else
+          redirect_to report_url, alert: t(".publish_failed")
         end
       end
 
