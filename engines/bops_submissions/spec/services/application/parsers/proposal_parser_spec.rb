@@ -12,7 +12,7 @@ RSpec.describe BopsSubmissions::Parsers::ProposalParser do
 
     context "with valid params" do
       let(:params) {
-        json_fixture("files/applications/PT-10087984.json").with_indifferent_access
+        json_fixture("files/applications/PT-10087984.json")
       }
 
       it "returns a correctly formatted proposal hash" do
@@ -45,7 +45,7 @@ RSpec.describe BopsSubmissions::Parsers::ProposalParser do
 
     context "with missing polygon" do
       let(:params) do
-        fixture = ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json")).deep_dup
+        fixture = json_fixture("files/applications/PT-10087984.json").deep_dup
         fixture["polygon"] = nil
         fixture
       end
