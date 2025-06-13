@@ -12,15 +12,33 @@ RSpec.describe BopsSubmissions::Parsers::ProposalParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(json_fixture("files/applications/PT-10087984.json"))
+        json_fixture("files/applications/PT-10087984.json").with_indifferent_access
       }
 
       it "returns a correctly formatted proposal hash" do
-        expected_geojson = params.dig("polygon", "features", 0, "geometry").to_json
-
         expect(parse_proposal).to eq(
           description: "\nDH Test Description",
-          boundary_geojson: expected_geojson
+          boundary_geojson: {"geometry" => {
+                               "coordinates" => [
+                                 [
+                                   [
+                                     [-0.116792, 51.460787],
+                                     [-0.117213, 51.4607],
+                                     [-0.117229, 51.46057],
+                                     [-0.117112, 51.46055],
+                                     [-0.117002, 51.460567],
+                                     [-0.116942, 51.460605],
+                                     [-0.116982, 51.460721],
+                                     [-0.116752, 51.460765],
+                                     [-0.116792, 51.460787]
+                                   ]
+                                 ]
+                               ],
+                               "type" => "MultiPolygon"
+                             },
+                             "id" => "099bc773-098d-44e9-9344-26d9e9c8c4ef",
+                             "properties" => {"boundaryType" => "MY_BOUNDARY"},
+                             "type" => "Feature"}
         )
       end
     end
