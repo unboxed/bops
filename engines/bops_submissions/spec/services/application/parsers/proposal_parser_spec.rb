@@ -45,7 +45,7 @@ RSpec.describe BopsSubmissions::Parsers::ProposalParser do
 
     context "with missing polygon" do
       let(:params) do
-        fixture = json_fixture("files/applications/PT-10087984.json").deep_dup
+        fixture = json_fixture("files/applications/PT-10087984.json")
         fixture["polygon"] = nil
         fixture
       end
