@@ -1625,7 +1625,7 @@ en:
       reviewer_requests:
         one: "%{count} application"
         other: "%{count} applications"
-        title: Reviewer requests
+        title: Applications returned by reviewer
     invalidate:
       failure: Please create at least one validation request before invalidating
       success: Application has been invalidated and email has been sent

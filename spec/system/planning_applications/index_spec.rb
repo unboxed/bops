@@ -43,7 +43,7 @@ RSpec.describe "Planning Application index page", type: :system do
         visit "/"
 
         expect(page).to have_content(
-          "Reviewer requests 1 application "
+          "Applications returned by reviewer 1 application "
         )
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe "Planning Application index page", type: :system do
         visit "/"
 
         expect(page).to have_content(
-          "Reviewer requests 2 applications "
+          "Applications returned by reviewer 2 applications "
         )
       end
     end
@@ -628,7 +628,7 @@ RSpec.describe "Planning Application index page", type: :system do
         visit "/"
 
         expect(page).to have_content(
-          "Reviewer requests 1 application "
+          "Applications returned by reviewer 1 application "
         )
       end
     end
@@ -647,7 +647,7 @@ RSpec.describe "Planning Application index page", type: :system do
         visit "/"
 
         expect(page).to have_content(
-          "Reviewer requests 2 applications "
+          "Applications returned by reviewer 2 applications "
         )
       end
     end
