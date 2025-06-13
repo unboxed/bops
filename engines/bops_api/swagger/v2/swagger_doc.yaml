@@ -22253,6 +22253,83 @@ paths:
                       message: Unauthorized
               schema:
                 "$ref": "#/components/schemas/UnauthorizedError"
+  "/api/v2/planning_applications/{reference}/comments/public":
+    post:
+      summary: Submit a public neighbour response
+      tags:
+      - Neighbour Responses
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: reference
+        in: path
+        description: Planning Application Reference
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: neighbour response created
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    message: Neighbour response created successfully
+        '422':
+          description: internal service failure
+          content:
+            application/json:
+              examples:
+                missing_response:
+                  value:
+                    error: Response can't be blank
+        '400':
+          description: planning application not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  enum:
+                    - '123 Street, London, E1 6LT'
+                  example: '123 Street, London, E1 6LT'
+                name:
+                  type: string
+                  enum:
+                    - Jo Blogs
+                  example: Jo Blogs
+                email:
+                  type: string
+                  enum:
+                    - jo@example.com
+                  example: jo@example.com
+                response:
+                  type: string
+                  enum:
+                    - I like it
+                  example: I like it
+                summary_tag:
+                  type: string
+                  enum:
+                    - supportive
+                  example: supportive
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - privacy
+                    example: privacy
+              required:
+              - name
+              - address
+              - response
+              - summary_tag
+              - tags
   "/api/v2/planning_applications/{reference}/validation_requests":
     get:
       summary: Retrieves the validation requests for an application
