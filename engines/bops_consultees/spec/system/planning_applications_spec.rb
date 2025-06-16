@@ -45,7 +45,7 @@ RSpec.describe "Planning applications", type: :system do
         expect(page.status_code).to be < 400
       end
 
-      it "successfully submits and disables the form" do
+      it "successfully submits two comments" do
         choose "Approved"
 
         click_button "Submit Response"
@@ -68,7 +68,18 @@ RSpec.describe "Planning applications", type: :system do
             expect(page).to have_selector("p", text: "We are happy for this application to proceed")
           end
 
-          expect(page).not_to have_content(planning_application.consultation.end_date.to_fs(:day_month_year_slashes))
+          choose "Amendments needed"
+
+          fill_in "Response", with: "On further reflection we believe the applicant should reduce the size and scale of the proposed development"
+
+          click_button "Submit Response"
+
+          within ".consultee-response:first-of-type" do
+            expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
+            expect(page).to have_selector("p span", text: "Amendments needed")
+            expect(page).to have_selector("p span", text: "Private")
+            expect(page).to have_selector("p", text: "On further reflection we believe the applicant should reduce the size and scale of the proposed development")
+          end
         end
       end
     end
