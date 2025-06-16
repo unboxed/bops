@@ -18,6 +18,11 @@ RSpec.describe "Site visit" do
 
   before do
     travel_to("2023-07-21")
+
+    allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses)
+      .with("60-")
+      .and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, LONDON, E16LT"}}]}))
+
     sign_in(assessor)
   end
 
@@ -166,14 +171,25 @@ RSpec.describe "Site visit" do
       expect(page).to have_content "The date the site visit took place must be on or before today"
     end
 
-    context "when a site visit is taking place" do
+    context "when a site visit is taking place", js: true do
+      before do
+        allow_any_instance_of(PlanningApplication).to receive(:address).and_return("140, WOODWARDE ROAD, LONDON, SE22 8UR")
+      end
+
       it "I choose yes and provide some information" do
+        visit "/planning_applications/#{planning_application.reference}/assessment/site_visits/new"
+
         choose "Yes"
         fill_in "Day", with: "20"
         fill_in "Month", with: "7"
         fill_in "Year", with: "2023"
 
-        select neighbour.address
+        # Default address is set to the planning application address
+        expect(page).to have_field("Search for address", with: "140, WOODWARDE ROAD, LONDON, SE22 8UR")
+
+        fill_in "Search for address", with: "60-"
+
+        page.find(:xpath, "//li[text()='60-62, Commercial Street, LONDON, E16LT']").click
 
         attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
 
@@ -209,7 +225,6 @@ RSpec.describe "Site visit" do
         expect(page).to have_content("Response created by: #{assessor.name}")
         expect(page).to have_content("Response created at: #{SiteVisit.last.created_at.to_fs}")
         expect(page).to have_content("Visited at: 20 July 2023")
-        expect(page).to have_content("Neighbour: #{neighbour.address}")
         expect(page).to have_content("Comment: Site visit is needed")
 
         within(".govuk-table") do
@@ -276,12 +291,6 @@ RSpec.describe "Site visit" do
       let!(:application_type) { create(:application_type, :without_consultation) }
       let!(:planning_application) do
         create(:planning_application, application_type:, local_authority:)
-      end
-
-      before do
-        allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses)
-          .with("60-")
-          .and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, LONDON, E16LT"}}]}))
       end
 
       it "I can manually pick the address for the site visit", js: true do
