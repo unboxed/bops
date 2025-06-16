@@ -25,11 +25,6 @@ class PlanningApplicationsImportService
     @import_report_rows = []
   end
 
-  def broadcast(message)
-    Rails.logger.debug message
-    Rails.logger&.info(message)
-  end
-
   def run
     validate
     import
@@ -48,27 +43,20 @@ class PlanningApplicationsImportService
     end
 
     issues = []
-
-    unless missing_columns.empty?
-      issues << "Missing required columns: #{missing_columns.join(", ")}"
-    end
-
-    unless blank_columns.empty?
-      issues << "Columns with no data: #{blank_columns.join(", ")}"
-    end
+    issues << "Missing required columns: #{missing_columns.join(", ")}" if missing_columns.any?
+    issues << "Columns with no data: #{blank_columns.join(", ")}" if blank_columns.any?
 
     CSV.open(VALIDATION_REPORT_PATH, "w") do |output|
       output << ["row_number", "previous_references", "blank_fields"]
       csv.each_with_index do |row, index|
         blank_fields = row.headers.select { |field| row[field].to_s.strip.empty? }
+        next if blank_fields.empty?
 
-        if blank_fields.any?
-          output << [
-            index + 2, # 1-based row index + header
-            row["previous_references"].to_s.strip.presence || "(none)",
-            blank_fields.join(", ")
-          ]
-        end
+        output << [
+          index + 2,
+          row["previous_references"].to_s.strip.presence || "(none)",
+          blank_fields.join(", ")
+        ]
       end
     end
 
@@ -86,32 +74,7 @@ class PlanningApplicationsImportService
     broadcast "Importing PlanningApplications from #{csv_path} with local_authority_name #{local_authority_name}..."
 
     CSV.foreach(csv_path, headers: true) do |row|
-      attrs = row.to_h
-      # Temporary solution until application_type is populated
-      attrs.delete("application_type")
-
-      # Transform decision values
-      case attrs["decision"]&.strip&.upcase
-      when "GRANT"
-        attrs["decision"] = "granted"
-      when "REFUSED"
-        attrs["decision"] = "refused"
-      when "NOT REQUIRED"
-        attrs["decision"] = "not_required"
-      end
-
-      app = PlanningApplication.create!(
-        attrs.merge(
-          local_authority_id: local_authority.id,
-          application_type_id: @application_type.id,
-          regulation_3: "pending",
-          regulation_4: "pending",
-          applicant_email: attrs["applicant_email"].presence || "admin@example.com",
-          ownership_certificate_checked: attrs["ownership_certificate_checked"].presence || false
-        )
-      )
-
-      @import_report_rows << [row["previous_references"], app.reference]
+      import_row(row)
     end
 
     broadcast "Import complete."
@@ -122,10 +85,28 @@ class PlanningApplicationsImportService
       output << ["previous_references", "new_reference"]
       @import_report_rows.each { |r| output << r }
     end
+
     broadcast "Import results written to: #{IMPORT_REPORT_PATH}"
+  end
+
+  def import_row(row)
+    app = PlanningApplicationCreationService.new(
+      row.to_h,
+      local_authority: local_authority,
+      application_type: @application_type
+    ).perform
+
+    @import_report_rows << [row["previous_references"], app.reference]
   end
 
   def local_authority
     @local_authority ||= LocalAuthority.find_by!(subdomain: local_authority_name)
+  end
+
+  private
+
+  def broadcast(message)
+    Rails.logger.info(message)
+    Rails.logger.debug(message)
   end
 end
