@@ -982,6 +982,9 @@ class PlanningApplication < ApplicationRecord
     case value
     when true, "true"
       self.published_at ||= Time.zone.now
+      if consultation
+        consultation.start_deadline unless consultation.start_date
+      end
     when false, "false"
       self.published_at = nil
     end
