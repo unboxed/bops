@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "swagger_helper"
 
 RSpec.describe "Public Neighbour Responses API", type: :request do
@@ -22,14 +24,14 @@ RSpec.describe "Public Neighbour Responses API", type: :request do
       parameter name: :neighbour_response, in: :body, schema: {
         type: :object,
         properties: {
-          address: { type: :string },
-          name: { type: :string },
-          email: { type: :string },
-          response: { type: :string },
-          summary_tag: { type: :string },
+          address: {type: :string},
+          name: {type: :string},
+          email: {type: :string},
+          response: {type: :string},
+          summary_tag: {type: :string},
           tags: {
             type: :array,
-            items: { type: :string }
+            items: {type: :string}
           }
         },
         required: ["address", "response"]
@@ -108,7 +110,7 @@ RSpec.describe "Public Neighbour Responses API", type: :request do
 
         run_test! do |response|
           expect(response).to have_http_status(:bad_request)
-          expect(JSON.parse(response.body)["error"]["detail"]).to match(/Invalid planning application reference or id: \"nonexistent-ref-999/i)
+          expect(JSON.parse(response.body)["error"]["detail"]).to match(/Invalid planning application reference or id: "nonexistent-ref-999/i)
         end
       end
 
