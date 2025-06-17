@@ -4,7 +4,7 @@ module Sortable
   class ListItemComponent < ViewComponent::Base
     include ConditionsHelper
 
-    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, remove_record_url:)
+    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, remove_record_url: nil)
       @record = record
       @record_class = record_class
       @record_controller = record_controller
@@ -36,6 +36,8 @@ module Sortable
     end
 
     def remove_link
+      return unless remove_record_url.present?
+
       govuk_link_to(
         "Remove",
         remove_record_url,
