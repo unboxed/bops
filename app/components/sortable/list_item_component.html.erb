@@ -53,14 +53,14 @@
         <% unless current_request.cancelled? || current_request.open? %>
           <%= edit_link %>
         <% end %>
-        <% if current_request.pending? %>
+        <% if remove_link && current_request.pending? %>
           <%= remove_link %>
         <% elsif !current_request.cancelled? %>
           <%= cancel_link %>
         <% end %>
       <% else %>
         <%= edit_link %>
-        <%= remove_link %>
+        <%= remove_link if remove_link %>
       <% end %>
     </nav>
   </div>
