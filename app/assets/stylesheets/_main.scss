@@ -306,8 +306,12 @@ $govuk-page-width: 1100px;
   background: none;
   padding: 0;
   color: govuk-colour("blue");
+  font-family: $govuk-font-family;
   font-size: inherit;
+  line-height: 1;
   text-decoration: underline;
+  text-decoration-thickness: $govuk-link-underline-thickness;
+  text-underline-offset: $govuk-link-underline-offset;
 
   &:active {
     color: govuk-colour("black");
@@ -316,6 +320,7 @@ $govuk-page-width: 1100px;
   &:hover {
     color: govuk-colour("dark-blue");
     cursor: pointer;
+    text-decoration-thickness: $govuk-link-hover-underline-thickness;
   }
 
   &:focus {
