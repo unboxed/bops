@@ -18,32 +18,15 @@
   <div class="govuk-grid-column-full">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <% if @informatives.any? %>
-      <ol data-controller="sortable" class="govuk-list">
-        <% @informative_set.informatives.each do |informative| %>
-          <%= content_tag :li,
-                class: "sortable-list",
-                id: dom_id(informative),
-                data: {
-                  model_name: informative.class.name,
-                  sortable_url: planning_application_review_informatives_item_position_path(@planning_application, informative),
-                  sortable_handle: true
-                } do %>
-
-            <div class="sortable-container">
-              <div data-controller="max-lines">
-                <span class="govuk-caption-m">Informative <%= informative.position %></span>
-                <h2 class="govuk-heading-m"><%= informative.title %></h2>
-
-                <%= render(FormattedContentComponent.new(text: informative.text, classname: "scrollable")) %>
-
-                <%= govuk_link_to "Edit to accept", edit_planning_application_review_informatives_item_path(@planning_application, informative) %>
-              </div>
-
-              <%= render "shared/sortable_svg" %>
-            </div>
-
-            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-          <% end %>
+      <ol data-controller="sortable" class="govuk-list sortable-list">
+        <% @informatives.each do |informative| %>
+          <%= render(Sortable::ListItemComponent.new(
+                record: informative,
+                record_class: "informative",
+                record_controller: "",
+                record_sortable_url: planning_application_review_informatives_item_position_path(@planning_application, informative),
+                edit_record_url: edit_planning_application_review_informatives_item_path(@planning_application, informative)
+              )) %>
         <% end %>
       </ol>
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>
