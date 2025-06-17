@@ -8,6 +8,12 @@ export default class extends Controller {
     },
   }
 
+  connect() {
+    if (window.location.hash == `#${this.element.id}`) {
+      this.element.classList.add(this.classNameValue)
+    }
+  }
+
   toggle(_event) {
     this.element.classList.toggle(this.classNameValue)
 

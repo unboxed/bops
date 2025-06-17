@@ -56,6 +56,6 @@
 
     <%= render "planning_applications/review/shared/review_information" %>
 
-    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
+    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: 'informatives_section'), secondary: true) %>
   </div>
 </div>
