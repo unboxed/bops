@@ -17,8 +17,7 @@ module BopsApi
     rescue NeighbourResponseCreationService::CreateError => e
       render json: {error: e.message}, status: :unprocessable_entity
     end
-
+            end
         end
     end
-end
 end
