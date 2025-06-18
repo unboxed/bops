@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "making planning application public" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
-  let!(:planning_application) { create(:planning_application, local_authority:) }
+  let!(:planning_application) { create(:planning_application, :planning_permission, local_authority:) }
   let!(:reference) { planning_application.reference }
 
   around do |example|
@@ -30,8 +30,8 @@ RSpec.describe "making planning application public" do
       click_button "Update application"
       expect(page).to have_content("Public on BOPS Public Portal: Yes")
     }.to change {
-      planning_application.reload.published_at
-    }.from(nil).to("2022-01-01".in_time_zone)
+      [planning_application.reload.published_at, planning_application.consultation.start_date]
+    }.from([nil, nil]).to(["2022-01-01".in_time_zone, "2022-01-01".in_time_zone])
 
     expect {
       visit "/planning_applications/#{reference}/make_public"
