@@ -9,6 +9,7 @@ class DocumentsController < AuthenticationController
   before_action :ensure_blob_is_representable, only: %i[edit update archive unarchive]
   before_action :validate_document?, only: %i[edit update]
   before_action :replacement_document_validation_request, only: %i[edit update]
+  before_action :set_return_to_session, only: %i[update]
 
   def index
     @documents = @planning_application.documents.default.with_file_attachment
@@ -149,6 +150,8 @@ class DocumentsController < AuthenticationController
       supply_documents_planning_application_path(@planning_application)
     elsif session[:return_to]
       return_to_session
+    elsif request.referer&.include?("route=review")
+      planning_application_review_documents_path(@planning_application)
     else
       planning_application_documents_path(@planning_application)
     end

@@ -63,7 +63,7 @@
                   </td>
                 <% else %>
                   <td class="govuk-table__cell text-align-centre" colspan="2">
-                    <%= govuk_link_to "Add document reference", edit_planning_application_document_path(@planning_application, document) %>
+                    <%= govuk_link_to "Add document reference", edit_planning_application_document_path(@planning_application, document, route: "review") %>
                   </td>
                 <% end %>
               <% end %>

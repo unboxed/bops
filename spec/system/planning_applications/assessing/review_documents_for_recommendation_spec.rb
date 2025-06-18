@@ -189,19 +189,40 @@ RSpec.describe "Review documents for recommendation" do
       expect(document_with_reference_and_tags__publishable_checkbox).to be_checked
     end
 
-    it "I see a link to add a document reference when a reference hasn't been set" do
-      click_link "Check and assess"
-      expect(page).to have_selector("h1", text: "Assess the application")
+    context "when a reference hasn't been set", capybara: true do
+      it "shows me the link to add a reference" do
+        click_link "Check and assess"
+        expect(page).to have_selector("h1", text: "Assess the application")
 
-      click_link "Review documents for recommendation"
-      expect(page).to have_selector("h1", text: "Review documents for recommendation")
+        click_link "Review documents for recommendation"
+        expect(page).to have_selector("h1", text: "Review documents for recommendation")
 
-      within("#document_#{document_without_reference.id}") do
-        expect(page).to have_link(
-          "Add document reference",
-          href: edit_planning_application_document_path(planning_application, document_without_reference)
-        )
-        expect(page).not_to have_css("govuk-checkboxes")
+        within("#document_#{document_without_reference.id}") do
+          expect(page).to have_link(
+            "Add document reference",
+            href: edit_planning_application_document_path(planning_application, document_without_reference, route: "review")
+          )
+          expect(page).not_to have_css("govuk-checkboxes")
+        end
+      end
+
+      it "navigates back to the document review page" do
+        click_link "Check and assess"
+        click_link "Review documents for recommendation"
+        within("#document_#{document_without_reference.id}") do
+          click_link(
+            "Add document reference",
+            href: edit_planning_application_document_path(planning_application, document_without_reference, route: "review")
+          )
+        end
+
+        expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/documents/#{document_without_reference.id}/edit?route=review")
+
+        expect(page).to have_content("Document reference(s)")
+        fill_in "Document reference(s)", with: "DOC-REF-01"
+        click_button "Save"
+
+        expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/documents")
       end
     end
 
