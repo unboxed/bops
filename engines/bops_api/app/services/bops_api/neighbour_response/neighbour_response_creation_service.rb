@@ -3,7 +3,6 @@
 module BopsApi
   module NeighbourResponse
     class NeighbourResponseCreationService
-      class CreateError < StandardError; end
 
       def initialize(planning_application:, params:)
         @planning_application = planning_application
