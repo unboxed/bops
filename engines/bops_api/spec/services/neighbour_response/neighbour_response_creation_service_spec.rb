@@ -29,7 +29,7 @@ RSpec.describe NeighbourResponseCreationService do
           expect(response.response).to eq("I support this proposal.")
           expect(response.neighbour.address).to eq("45 Test Avenue, London, W1 1AA")
         }.to change { consultation.neighbour_responses.count }.by(1)
-         .and change { consultation.neighbours.count }.by(1)
+        .and change { consultation.neighbours.count }.by(1)
       end
     end
 
