@@ -92,7 +92,8 @@ RSpec.describe "Public Neighbour Responses API", type: :request do
 
         run_test! do |response|
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(JSON.parse(response.body)["error"]).to match(/Summary tag can't be blank/i)
+          # expect(JSON.parse(response.body)["error"]).to match(/Summary tag can't be blank/i)
+          expect(JSON.parse(response.body)["error"]).to eq("Validation failed: Summary tag can't be blank")
         end
       end
 
