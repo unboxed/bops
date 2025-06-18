@@ -5,7 +5,7 @@ module BopsCore
     extend ActiveSupport::Concern
     include GlobalID::Identification
 
-    def sgid(expires_in: 48.hours, for: "magic_link")
+    def sgid(expires_in: 7.days, for: "magic_link")
       to_sgid(expires_in:, for:).to_s
     end
   end

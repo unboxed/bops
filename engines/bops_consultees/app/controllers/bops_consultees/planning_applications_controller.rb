@@ -35,7 +35,7 @@ module BopsConsultees
     end
 
     def set_consultee_response
-      @consultee_response = @consultee.responses.first_or_initialize
+      @consultee_response = @consultee.responses.new
     end
 
     def render_expired

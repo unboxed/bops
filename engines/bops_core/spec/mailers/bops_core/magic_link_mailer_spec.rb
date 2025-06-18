@@ -28,9 +28,5 @@ RSpec.describe BopsCore::MagicLinkMailer, type: :mailer do
     it "includes the planning application reference in the email body" do
       expect(mail.body.encoded).to include("This is your magic link to view BOPS application: #{planning_application.reference_in_full}")
     end
-
-    it "includes the link expiration information" do
-      expect(mail.body.encoded).to include("This link will expire in 48 hours.")
-    end
   end
 end

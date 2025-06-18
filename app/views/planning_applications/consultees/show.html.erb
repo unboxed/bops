@@ -16,7 +16,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= render ConsulteeSummaryComponent.new(consultee: @consultee) %>
-    <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses) %>
+    <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: true) %>
 
     <div class="govuk-button-group govuk-!-margin-top-5">
       <%= govuk_button_link_to "Back", planning_application_consultees_responses_path(@planning_application), secondary: true %>

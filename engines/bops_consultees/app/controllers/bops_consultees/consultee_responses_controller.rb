@@ -6,8 +6,9 @@ module BopsConsultees
     before_action :set_consultee
     before_action :set_consultee_response
 
-    def update
-      if @consultee_response.update(consultee_response_params.merge(received_at: Time.zone.now))
+    def create
+      @consultee_response.assign_attributes(consultee_response_params.merge(received_at: Time.zone.now))
+      if @consultee_response.save
         redirect_to planning_application_path(@planning_application, sgid: params[:sgid]),
           notice: "Your response has been updated."
       else
@@ -25,7 +26,7 @@ module BopsConsultees
     end
 
     def set_consultee_response
-      @consultee_response = @consultee.responses.first_or_initialize
+      @consultee_response = @consultee.responses.new
     end
 
     def consultee_response_params

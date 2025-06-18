@@ -16,14 +16,13 @@
       <%= @planning_application.status_tag %>
       <%= @planning_application.days_status_tag %>
     </p>
-
-    <% unless @consultee_response.persisted? %>
       <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
         <div class="govuk-notification-banner__header">
           <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
             Important
           </h2>
         </div>
+      <% unless @planning_application.consultation.complete? %>
         <div class="govuk-notification-banner__content">
           <p class="govuk-notification-banner__heading">
             Submit your comments by
@@ -35,7 +34,17 @@
           </p>
         </div>
       </div>
-    <% end %>
+      <% else %>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">
+            Consulation for this planning application has ended
+          </p>
+          <p class="gov-uk-body">
+            Please contact the planning officer if you have further comments.
+          </p>
+        </div>
+      </div>
+      <% end %>
   </div>
   <div class="govuk-grid-column-full">
     <% if @planning_application.boundary_geojson.present? %>
@@ -92,11 +101,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full" id="comments-form">
-    <% unless @consultee_response.persisted? %>
+    <% unless @planning_application.consultation.complete? %>
       <%= render "bops_consultees/consultee_responses/form", planning_application: @planning_application, consultee_response: @consultee_response, sgid: params[:sgid] %>
-    <% else %>
-      <h2 class="govuk-heading-m">Response</h2>
-      <%= render ConsulteeResponseComponent.new(response: @consultee_response, redact_and_publish: false) %>
+      <hr class="govuk-!-margin-top-5 govuk-!-margin-bottom-5">
+      <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: false) %>
     <% end %>
   </div>
 </div>
