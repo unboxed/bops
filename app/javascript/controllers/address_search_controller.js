@@ -8,6 +8,7 @@ export default class extends Controller {
       element: document.querySelector(`#${this.data.get("id")}-container`),
       id: this.data.get("id"),
       name: this.data.get("name"),
+      defaultValue: this.data.get("defaultAddressValue") || undefined,
       source: (query, populateResults) => {
         const results = []
         Rails.ajax({

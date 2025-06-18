@@ -18,21 +18,18 @@
             ) do %>
           <%= form.govuk_date_field(:visited_at, rows: 6, legend: {text: "Site visited at"}) %>
 
-          <% if @consultation && @consultation.selected_neighbours.any? %>
-            <%= form.govuk_collection_select :neighbour_id, @consultation.selected_neighbours, :id, :address, options: {include_blank: true}, label: {text: "Select site visit address"} %>
-          <% else %>
-            <%= content_tag :div, data: {
-                  controller: "address-search",
-                  address_search_url: os_places_api_index_path,
-                  address_search_id: "address"
-                } do %>
-              <label for="address" class="govuk-heading-s govuk-!-margin-bottom-1">Search for address</label>
-              <span id="address-hint" class="govuk-hint">
-                Start typing address or postcode
-              </span>
-              <div id="address-container" class="govuk-input--width-50 govuk-!-margin-bottom-3"></div>
-              <%= form.hidden_field :address, id: "address-hidden-field" %>
-            <% end %>
+          <%= content_tag :div, data: {
+                controller: "address-search",
+                address_search_url: os_places_api_index_path,
+                address_search_id: "address",
+                address_search_default_address_value: form.object.address.presence || @planning_application.address
+              } do %>
+            <label for="address" class="govuk-heading-s govuk-!-margin-bottom-1">Search for address</label>
+            <span id="address-hint" class="govuk-hint">
+              Start typing address or postcode
+            </span>
+            <div id="address-container" class="govuk-input--width-50 govuk-!-margin-bottom-3"></div>
+            <%= form.hidden_field :address, id: "address-hidden-field", value: form.object.address.presence || @planning_application.address %>
           <% end %>
 
           <%= form.govuk_file_field :documents,
