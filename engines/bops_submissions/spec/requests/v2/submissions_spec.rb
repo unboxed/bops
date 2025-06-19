@@ -34,7 +34,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
         let(:event) { valid_submission_event }
 
         before do
-          stub_request(:get, event[:documentLinks].first[:documentLink])
+          stub_request(:get, event["documentLinks"].first["documentLink"])
             .to_return(
               status: 200,
               body: zip_fixture("applications/PT-10087984.zip"),

@@ -17,9 +17,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
 
     context "when application type is LDCE" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read)
-        )[:data][:application][:type]
+        JSON.parse(file_fixture("v2/valid_lawful_development_certificate_existing.json").read).with_indifferent_access[:data][:application][:type]
       }
 
       it "returns the correct application type" do
@@ -29,9 +27,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
 
     context "when application type is LDCP" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_lawful_development_certificate_proposed.json").read)
-        )[:data][:application][:type]
+        JSON.parse(file_fixture("v2/valid_lawful_development_certificate_proposed.json").read).with_indifferent_access[:data][:application][:type]
       }
 
       it "returns the correct application type" do
@@ -51,9 +47,7 @@ RSpec.describe BopsApi::Application::Parsers::ApplicationTypeParser do
 
     context "when application type is planning permission full householder" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_permission.json").read)
-        )[:data][:application][:type]
+        JSON.parse(file_fixture("v2/valid_planning_permission.json").read).with_indifferent_access[:data][:application][:type]
       }
 
       it "returns the correct application type" do

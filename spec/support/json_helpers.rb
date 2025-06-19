@@ -3,7 +3,7 @@
 RSpec.configure do |config|
   helpers = Module.new do
     def json_fixture(name, **)
-      JSON.parse(Rails.root.join("spec", "fixtures", "files", name).read, **)
+      JSON.parse(Rails.root.join("spec", "fixtures", "files", name).read, **).with_indifferent_access
     end
 
     def api_json_fixture(name, **)
