@@ -13,11 +13,11 @@ module BopsApi
           @consultee_responses = @consultation.consultee_responses.redacted
 
           @total_responses = @consultee_responses.count
-          @total_consulted = @consultation.consultees.count
+          @total_consulted = @consultation.consultees.consulted.count
 
-          @response_summary = @consultee_responses.group(:summary_tag)
-            .unscope(:order) # Remove default ORDER BY clause
-            .count
+          # gets last redacted response
+          @response_summary = @consultation.consultees.map { |c| c.responses.redacted.max_by(&:id) }.compact.group_by(&:summary_tag).transform_values(&:count)
+          @total_comments = @response_summary.values.sum
           @response_summary = {
             approved: @response_summary["approved"] || 0,
             objected: @response_summary["objected"] || 0,
