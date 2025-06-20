@@ -19,8 +19,13 @@ module BopsCore
       end
     end
 
-    class ApplicantsDomain < BopsDomain
+    class ApplicantsDomain
       class << self
+        def matches?(request)
+          tld_length = [1, request.subdomains.size].max
+          domain.starts_with?(request.domain(tld_length))
+        end
+
         private
 
         def domain
