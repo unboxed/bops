@@ -22,7 +22,7 @@ module BopsCore
 
     def require_local_authority!
       unless devise_controller? || current_local_authority
-        raise ActiveRecord::RecordNotFound, "Couldn't find LocalAuthority with 'subdomain'=#{request.subdomain}"
+        raise ActiveRecord::RecordNotFound, "Couldn't find LocalAuthority with 'subdomain'=#{request.subdomains.first}"
       end
     end
 
