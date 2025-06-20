@@ -10,7 +10,7 @@ module BopsCore
 
       def call(env)
         request = ActionDispatch::Request.new(env)
-        env["bops.user_scope"] = user_scope(request.subdomain, env["bops.local_authority"])
+        env["bops.user_scope"] = user_scope(request.subdomains.first, env["bops.local_authority"])
 
         @app.call(env)
       end

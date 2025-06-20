@@ -6,10 +6,9 @@ module BopsCore
 
     class BopsDomain
       class << self
-        delegate :env, to: :BopsCore
-
         def matches?(request)
-          domain.starts_with?(request.domain)
+          tld_length = [1, request.subdomains.size].max
+          domain.starts_with?(request.domain(tld_length))
         end
 
         private
@@ -20,14 +19,8 @@ module BopsCore
       end
     end
 
-    class ApplicantsDomain
+    class ApplicantsDomain < BopsDomain
       class << self
-        delegate :env, to: :BopsCore
-
-        def matches?(request)
-          domain.starts_with?(request.domain)
-        end
-
         private
 
         def domain
@@ -40,7 +33,7 @@ module BopsCore
       class << self
         def matches?(request)
           local_authority = request.env["bops.local_authority"]
-          local_authority && local_authority.subdomain == request.subdomain
+          local_authority && local_authority.subdomain == request.subdomains.first
         end
       end
     end
@@ -57,6 +50,14 @@ module BopsCore
       class << self
         def matches?(request)
           ConfigSubdomain.matches?(request) || LocalAuthoritySubdomain.matches?(request)
+        end
+      end
+    end
+
+    class PublicSubdomain
+      class << self
+        def matches?(request)
+          request.subdomains.empty? || request.subdomains.first == "www"
         end
       end
     end
@@ -79,6 +80,10 @@ module BopsCore
 
     def devise_subdomain(&)
       constraints(DeviseSubdomain, &)
+    end
+
+    def public_subdomain(&)
+      constraints(PublicSubdomain, &)
     end
   end
 end

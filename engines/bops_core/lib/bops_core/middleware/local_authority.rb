@@ -9,7 +9,7 @@ module BopsCore
 
       def call(env)
         request = ActionDispatch::Request.new(env)
-        env["bops.local_authority"] = ::LocalAuthority.find_by(subdomain: request.subdomain)
+        env["bops.local_authority"] = ::LocalAuthority.find_by(subdomain: request.subdomains.first)
 
         @app.call(env)
       end
