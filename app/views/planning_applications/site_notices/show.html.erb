@@ -14,7 +14,7 @@
 
 <%= render "status", planning_application: @planning_application %>
 
-<% if @site_notice.document %>
+<% if @site_notice.documents.any? %>
   <table class="govuk-table govuk-!-margin-top-6">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
@@ -25,27 +25,31 @@
     </thead>
 
     <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell govuk-!-width-one-third">
-          <p class="govuk-body govuk-!-margin-bottom-1">
-            <%= document_thumbnail_link @site_notice.document, thumbnail_args: {resize: "300x212"} %>
-          </p>
-          <p class="govuk-body">
-            <%= truncate(@site_notice.document.name.to_s, length: 50) %><br>
-            <%= link_to_document "View in new window", @site_notice.document %>
-          </p>
-        </td>
-        <td class="govuk-table__cell govuk-!-width-one-third">
-          <% @site_notice.document.tags.each do |tag| %>
-            <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
-          <% end %>
-        </td>
-        <td class="govuk-table__cell govuk-!-width-one-third">
-          <p class="govuk-body govuk-!-margin-bottom-1">
-            <%= @site_notice.displayed_at.to_date.to_fs %>
-          </p>
-        </td>
-      </tr>
+      <% @site_notice.documents.each do |document| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell govuk-!-width-one-third">
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
+            </p>
+            <p class="govuk-body">
+              <%= truncate(document.name.to_s, length: 50) %><br>
+              <%= link_to_document "View in new window", document %>
+            </p>
+          </td>
+          <td class="govuk-table__cell govuk-!-width-one-third">
+            <% document.tags.each do |tag| %>
+              <strong class="govuk-tag govuk-tag--turquoise">
+                <%= I18n.t(:"#{tag}", scope: :document_tags) %>
+              </strong>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell govuk-!-width-one-third">
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              <%= @site_notice.displayed_at.to_date.to_fs %>
+            </p>
+          </td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 <% else %>
