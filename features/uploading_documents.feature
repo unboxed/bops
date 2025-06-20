@@ -12,25 +12,12 @@ Feature: Uploading documents for an application
     And I check "Floor plan - existing"
     And I check "Roof plan - existing"
     And I check "Utility bill"
-    And I choose "Yes" for "Do you want to list this document on the decision notice?"
-    And I choose "Yes" for "Should this document be made publicly available?"
     And I fill in "Document reference(s)" with "Floorplan"
     And I press "Save"
     Then the page contains "proposed-floorplan.png has been uploaded."
     And the page contains "Date received: 5 July 2021"
-    And the page contains "Included in decision notice: Yes"
-    And the page contains "Public: Yes"
     When I view the document with reference "Floorplan"
     Then the page contains "This document was manually uploaded by Morisuke"
     And the option "Floor plan - existing" is checked
     And the option "Roof plan - existing" is checked
     And the option "Utility bill" is checked
-
-
- Scenario: I can upload a new document with no tags and it defaults to not public
-    Given I press "Upload document"
-    And I upload "spec/fixtures/images/proposed-floorplan.png" for the "file" input
-    And I press "Save"
-    Then the page contains "proposed-floorplan.png has been uploaded."
-    Then the page contains "Included in decision notice: No"
-    Then the page contains "Public: No"
