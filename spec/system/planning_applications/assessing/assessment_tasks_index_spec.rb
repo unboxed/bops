@@ -277,7 +277,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
       first(:link, "Back to top").click
 
-      expect(current_url).to have_target_id("accordion-default-heading-proposal_details")
+      expect(current_url).to have_target_id("proposal-details-section")
     end
   end
 
