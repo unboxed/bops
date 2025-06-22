@@ -16,18 +16,6 @@ class HeadsOfTerm < ApplicationRecord
     reviews.order(:created_at).last
   end
 
-  def latest_validation_request
-    validation_requests.notified.max_by(&:notified_at)
-  end
-
-  def latest_validation_requests
-    validation_requests.group_by(&:owner_id).map { |id, vr| vr.max_by(&:notified_at) }
-  end
-
-  def latest_active_validation_requests
-    latest_validation_requests.select { |vr| vr.state != "cancelled" }
-  end
-
   def any_new_updated_validation_requests?
     validation_requests.requests_created_later(current_review).any? { |validation_request| !validation_request.approved.nil? }
   end
@@ -55,6 +43,10 @@ class HeadsOfTerm < ApplicationRecord
   end
 
   private
+
+  def latest_validation_request
+    validation_requests.notified.max_by(&:notified_at)
+  end
 
   def should_create_review?
     return if current_review.nil?

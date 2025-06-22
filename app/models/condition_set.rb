@@ -17,18 +17,6 @@ class ConditionSet < ApplicationRecord
     reviews.order(:created_at).last
   end
 
-  def latest_validation_request
-    validation_requests.notified.max_by(&:notified_at)
-  end
-
-  def latest_validation_requests
-    validation_requests.group_by(&:owner_id).map { |id, vr| vr.max_by(&:notified_at) }
-  end
-
-  def latest_active_validation_requests
-    latest_validation_requests.select { |vr| vr.state != "cancelled" }
-  end
-
   def approved_conditions
     conditions.joins(:validation_requests).where(validation_requests: {approved: true}).distinct
   end
@@ -60,6 +48,10 @@ class ConditionSet < ApplicationRecord
   end
 
   private
+
+  def latest_validation_request
+    validation_requests.notified.max_by(&:notified_at)
+  end
 
   def send_pre_commencement_condition_request_email
     PlanningApplicationMailer.pre_commencement_condition_request_mail(
