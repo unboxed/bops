@@ -60,7 +60,7 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
           expect(page).to have_selector("[role=alert] li", text: "Select an option")
 
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             within(".bops-task-accordion__section-header") do
               expect(find("button")[:"aria-expanded"]).to eq("true")
             end
@@ -77,7 +77,7 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
           expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
 
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             within(".bops-task-accordion__section-header") do
               expect(find("button")[:"aria-expanded"]).to eq("true")
             end
@@ -90,7 +90,7 @@ RSpec.describe "Reviewing informatives", js: true do
         it "I can accept the planning officer's decision" do
           click_button "Review informatives"
 
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             expect(find(".govuk-tag")).to have_content("Not started")
             informative1 = Informative.first
             informative2 = Informative.second
@@ -148,7 +148,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
 
@@ -189,7 +189,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
 
@@ -217,7 +217,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             expect(find(".govuk-tag")).to have_content("Awaiting changes")
           end
 
@@ -262,7 +262,7 @@ RSpec.describe "Reviewing informatives", js: true do
           sign_in(reviewer)
 
           visit "/planning_applications/#{reference}/review/tasks"
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             expect(find(".govuk-tag")).to have_content("Updated")
           end
 
@@ -280,7 +280,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#informatives_section") do
+          within("#review-informatives-section") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
 
