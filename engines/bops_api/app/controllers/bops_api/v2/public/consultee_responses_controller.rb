@@ -7,25 +7,30 @@ module BopsApi
         def index
           @planning_application = find_planning_application params[:planning_application_id]
           @consultation = @planning_application.consultation
-          if @consultation.nil?
-            raise BopsApi::Errors::InvalidRequestError, "Consultation not found"
-          end
-          @consultee_responses = @consultation.consultee_responses.redacted
+          raise BopsApi::Errors::InvalidRequestError, "Consultation not found" unless @consultation
 
-          @total_responses = @consultee_responses.count
+          consultation_consultees = @consultation.consultees.includes(:responses)
+
+          latest_redacted_responses = consultation_consultees
+            .map { |consultee| consultee.responses.redacted.max_by(&:id) }
+            .compact
+
+          summary_counts = latest_redacted_responses
+            .group_by(&:summary_tag)
+            .transform_values(&:size)
+          @total_comments = summary_counts.values.sum
+
+          @response_summary = {
+            approved: summary_counts["approved"] || 0,
+            objected: summary_counts["objected"] || 0,
+            amendments_needed: summary_counts["amendments_needed"] || 0
+          }
+          @redacted_responses = @consultation.consultee_responses.redacted
+          @total_responses = @redacted_responses.count
           @total_consulted = @consultation.consultees.consulted.count
 
-          # gets last redacted response
-          @response_summary = @consultation.consultees.map { |c| c.responses.redacted.max_by(&:id) }.compact.group_by(&:summary_tag).transform_values(&:count)
-          @total_comments = @response_summary.values.sum
-          @response_summary = {
-            approved: @response_summary["approved"] || 0,
-            objected: @response_summary["objected"] || 0,
-            amendments_needed: @response_summary["amendments_needed"] || 0
-          }
-
           @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
-            @consultee_responses,
+            @redacted_responses,
             pagination_params
           ).call
 
