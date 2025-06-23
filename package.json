@@ -15,6 +15,7 @@
     "govuk-frontend": "^5.2.0",
     "is-svg": "^5.0.0",
     "jspdf": "^3.0.1",
+    "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "leaflet-css": "^0.1.0",
     "puppeteer": "^23.8.0",
