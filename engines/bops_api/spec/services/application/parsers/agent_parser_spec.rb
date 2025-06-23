@@ -12,9 +12,7 @@ RSpec.describe BopsApi::Application::Parsers::AgentParser do
 
     context "with valid params" do
       let(:params) {
-        ActionController::Parameters.new(
-          JSON.parse(file_fixture("v2/valid_planning_permission.json").read)
-        )[:data][:applicant][:agent]
+        JSON.parse(file_fixture("v2/valid_planning_permission.json").read).with_indifferent_access[:data][:applicant][:agent]
       }
 
       it "returns a correctly formatted agent hash" do
