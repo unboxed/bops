@@ -1,0 +1,64 @@
+<% accordion.with_section(id: "review-informatives", expanded: current_review.errors.any?) do |section| %>
+  <% section.with_heading(text: "Review informatives") %>
+
+  <% section.with_status do %>
+    <%= render(
+          StatusTags::ReviewComponent.new(
+            review_item: current_review,
+            updated: current_review.updated?
+          )
+        ) %>
+  <% end %>
+
+  <% section.with_block do %>
+    <% if informatives.any? %>
+      <ol class="govuk-list">
+        <% informatives.each do |informative| %>
+          <%= content_tag :li, id: dom_id(informative) do %>
+            <div class="govuk-!-margin-bottom-6">
+              <span class="govuk-caption-m">Informative <%= informative.position %></span>
+              <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><%= informative.title %></h2>
+
+              <div data-controller="summary">
+                <div class="bops-summary" data-summary-target="content">
+                  <%= render(FormattedContentComponent.new(text: informative.text)) %>
+                </div>
+
+                <nav class="nav-links" data-summary-target="navigation">
+                  <%= govuk_link_to "Edit to accept", edit_planning_application_review_informatives_item_path(@planning_application, informative) %>
+                </nav>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </ol>
+
+      <p class="govuk-body-s govuk-!-margin-bottom-0">
+        <%= govuk_link_to "Rearrange informatives", edit_planning_application_review_informatives_path(@planning_application) %>
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        There are no informatives.
+      </p>
+    <% end %>
+  <% end %>
+
+  <% section.with_footer(id: "review-informatives-form") do %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <%= form_with model: current_review, scope: "review_informatives",
+              url: planning_application_review_informatives_path(@planning_application, anchor: "review-informatives-form") do |form| %>
+
+          <%= form.govuk_radio_buttons_fieldset :action, small: true, legend: nil do %>
+            <%= form.govuk_radio_button :action, :accepted, label: {text: "Agree"} %>
+            <%= form.govuk_radio_button :action, :rejected, label: {text: "Return with comments"} do %>
+              <%= form.govuk_text_area(:comment, rows: 3, label: {text: "Add a comment"}) %>
+            <% end %>
+          <% end %>
+
+          <%= form.govuk_submit "Save and mark as complete", name: "review_informatives[review_status]", value: "review_complete" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

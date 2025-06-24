@@ -17,6 +17,8 @@ module StatusTags
         :updated
       elsif review_item.nil?
         :not_started
+      elsif review_item.errors.any?
+        :in_progress
       elsif review_item.review_in_progress?
         :in_progress
       elsif review_item.to_be_reviewed? && review_item.review_complete?

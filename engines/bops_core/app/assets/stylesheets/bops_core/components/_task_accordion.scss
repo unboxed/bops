@@ -184,7 +184,6 @@
 
 .bops-task-accordion__section--expanded {
   .bops-task-accordion__section {
-
     &-header {
       & > button {
         &:before {
@@ -205,6 +204,24 @@
 
     &-content {
       display: block;
+    }
+  }
+}
+
+@keyframes hilite-successful-section {
+  0% {
+    background-color: govuk-tint($govuk-success-colour, 85%);
+  }
+
+  100% {
+    background-color: initial;
+  }
+}
+
+.bops-task-accordion__section--success {
+  .bops-task-accordion__section {
+    &-header {
+      animation: 1s hilite-successful-section
     }
   }
 }

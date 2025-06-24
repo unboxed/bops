@@ -1,65 +1,55 @@
 # frozen_string_literal: true
 
-module PlanningApplications::Review
-  class PreCommencementConditionsController < BaseController
-    before_action :set_pre_commencement_condition_set
+module PlanningApplications
+  module Review
+    class PreCommencementConditionsController < BaseController
+      before_action :set_condition_set
+      before_action :set_conditions
+      before_action :set_review
 
-    def show
-      respond_to do |format|
-        format.html
+      before_action :redirect_to_review_tasks, if: :conditions_not_started?
+
+      def edit
+        respond_to do |format|
+          format.html
+        end
       end
-    end
 
-    def update
-      respond_to do |format|
-        format.html do
-          if @pre_commencement_condition_set.update(review_params)
-            redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-pre-commencement-conditions"),
-              notice: I18n.t("review.conditions.update.success")
-          else
-            flash.now[:alert] = @pre_commencement_condition_set.errors.messages.values.flatten.join(", ")
-            render_review_tasks
+      def update
+        respond_to do |format|
+          format.html do
+            if @review.update(review_params)
+              redirect_to tasks_url(anchor: "review-pre-commencement-conditions", next: true), notice: t(".success")
+            else
+              render :tasks, alert: t(".failure_html")
+            end
           end
         end
       end
-    end
 
-    private
+      private
 
-    def set_pre_commencement_condition_set
-      @pre_commencement_condition_set = @planning_application.pre_commencement_condition_set
-    end
-
-    def review_complete?
-      @pre_commencement_condition_set&.current_review&.complete_or_to_be_reviewed?
-    end
-
-    def review_params
-      params.require(:pre_commencement_condition_set)
-        .permit(reviews_attributes: %i[action comment],
-          conditions_attributes: %i[_destroy id standard title text reason])
-        .to_h
-        .deep_merge(
-          reviews_attributes: {
-            reviewed_at: Time.current,
-            reviewer: current_user,
-            status: status,
-            review_status: :review_complete,
-            id: @pre_commencement_condition_set&.current_review&.id
-          }
-        )
-    end
-
-    def status
-      if return_to_officer?
-        :to_be_reviewed
-      elsif mark_as_complete?
-        :complete
+      def set_condition_set
+        @condition_set = @planning_application.pre_commencement_condition_set
       end
-    end
 
-    def return_to_officer?
-      params.dig(:pre_commencement_condition_set, :reviews_attributes, :action) == "rejected"
+      def set_conditions
+        @conditions = @condition_set.approved_conditions
+      end
+
+      def set_review
+        @review = @condition_set.current_review
+      end
+
+      def review_params
+        params.require(:review_pre_commencement_conditions)
+          .permit(:action, :comment, :review_status)
+          .merge(reviewer: current_user, reviewed_at: Time.current)
+      end
+
+      def conditions_not_started?
+        @review.not_started?
+      end
     end
   end
 end

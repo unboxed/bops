@@ -6,6 +6,9 @@ module PlanningApplications
       include CommitMatchable
 
       before_action :set_planning_application
+      before_action :set_planning_application_constraints
+      before_action :set_neighbour_review, if: :has_consultation?
+
       before_action :ensure_planning_application_is_validated
       before_action :ensure_user_is_reviewer
       before_action :ensure_application_is_not_preapp
@@ -51,9 +54,11 @@ module PlanningApplications
       end
 
       def render_review_tasks
-        set_planning_application_constraints
-        set_neighbour_review
         render "planning_applications/review/tasks/index"
+      end
+
+      def tasks_url(options = {})
+        planning_application_review_tasks_url(@planning_application, options)
       end
     end
   end

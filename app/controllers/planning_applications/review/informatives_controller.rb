@@ -19,10 +19,9 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review.update(review_params)
-              redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-informatives-section"), notice: t(".success")
+              redirect_to tasks_url(anchor: "review-informatives", next: true), notice: t(".success")
             else
-              flash.now[:alert] = @review.errors.messages.values.flatten.join(", ")
-              render_review_tasks
+              render :tasks, alert: t(".failure_html")
             end
           end
         end
@@ -43,13 +42,17 @@ module PlanningApplications
       end
 
       def review_params
-        params.require(:review)
+        params.require(:review_informatives)
           .permit(:action, :comment, :review_status)
           .merge(reviewer: current_user, reviewed_at: Time.current)
       end
 
       def informatives_not_started?
         @review.not_started?
+      end
+
+      def sign_off_url
+        edit_planning_application_review_recommendation_path(@planning_application, @planning_application.recommendation)
       end
     end
   end
