@@ -52,7 +52,7 @@ class ImportHistoricApplicationsJob < ApplicationJob
       Rails.logger.debug "local"
       file.write(local_import_file)
     else
-      s3.get_object(bucket: "bops-#{ENV.fetch("BOPS_ENVIRONMENT", "development")}-import", key: filename) do |chunk|
+      s3.get_object(bucket: "bops-#{Rails.env}-import", key: filename) do |chunk|
         file.write(chunk.dup.force_encoding("utf-8"))
       end
     end
