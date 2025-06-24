@@ -3,29 +3,32 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["button", "content"]
 
-  initialize() {
-    this.className = "govuk-!-display-none"
+  static values = {
+    className: { type: String, default: "govuk-!-display-none" },
+    condensedText: { type: String, default: "Show more" },
+    expandedText: { type: String, default: "Show less" },
   }
 
   click(_event) {
-    if (this.isVisible) {
-      this.hide()
-    } else {
-      this.show()
-    }
+    this.toggle(!this.isVisible)
   }
 
   show() {
-    this.contentTarget.classList.remove(this.className)
-    this.buttonTarget.textContent = "Show less"
+    this.toggle(true)
   }
 
   hide() {
-    this.contentTarget.classList.add(this.className)
-    this.buttonTarget.textContent = "Show more"
+    this.toggle(false)
+  }
+
+  toggle(visibility) {
+    this.contentTarget.classList.toggle(this.classNameValue, !visibility)
+    this.buttonTarget.textContent = visibility
+      ? this.expandedTextValue
+      : this.condensedTextValue
   }
 
   get isVisible() {
-    return !this.contentTarget.classList.contains(this.className)
+    return !this.contentTarget.classList.contains(this.classNameValue)
   }
 }
