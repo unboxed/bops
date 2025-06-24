@@ -28,7 +28,8 @@
               record_controller: "terms",
               record_sortable_url: planning_application_assessment_term_position_path(@planning_application, term),
               edit_record_url: edit_planning_application_assessment_term_path(@planning_application, term),
-              remove_record_url: planning_application_assessment_term_path(@planning_application, term)
+              remove_record_url: planning_application_assessment_term_path(@planning_application, term),
+              current_request: term.current_validation_request
             )) %>
       <% end %>
 

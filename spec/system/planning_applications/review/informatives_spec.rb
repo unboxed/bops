@@ -53,22 +53,24 @@ RSpec.describe "Reviewing informatives", js: true do
       context "when planning application is awaiting determination" do
         it "shows validation errors" do
           click_button "Review informatives"
-          within("#informatives_footer") do
+
+          within("#review-informatives") do
             click_button("Save and mark as complete")
           end
 
           expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
           expect(page).to have_selector("[role=alert] li", text: "Select an option")
 
-          within("#review-informatives-section") do
+          within("#review-informatives") do
             within(".bops-task-accordion__section-header") do
               expect(find("button")[:"aria-expanded"]).to eq("true")
             end
-            within("#informatives_footer") do
+
+            within(".bops-task-accordion__section-footer") do
               expect(page).to have_selector("p.govuk-error-message", text: "Select an option")
             end
 
-            within("#informatives_footer") do
+            within(".bops-task-accordion__section-footer") do
               choose "Return with comments"
               click_button("Save and mark as complete")
             end
@@ -77,11 +79,12 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
           expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
 
-          within("#review-informatives-section") do
+          within("#review-informatives") do
             within(".bops-task-accordion__section-header") do
               expect(find("button")[:"aria-expanded"]).to eq("true")
             end
-            within("#informatives_footer") do
+
+            within(".bops-task-accordion__section-footer") do
               expect(page).to have_selector("p.govuk-error-message", text: "Explain to the case officer why")
             end
           end
@@ -90,51 +93,50 @@ RSpec.describe "Reviewing informatives", js: true do
         it "I can accept the planning officer's decision" do
           click_button "Review informatives"
 
-          within("#review-informatives-section") do
+          within("#review-informatives") do
             expect(find(".govuk-tag")).to have_content("Not started")
             informative1 = Informative.first
             informative2 = Informative.second
 
-            within("#informatives_block") do
-              within("#informative_#{informative1.id}") do
-                expect(page).to have_selector("span", text: "Informative 1")
-                expect(page).to have_selector("h2", text: "Section 106")
-                expect(page).to have_link(
-                  "Edit",
-                  href: "/planning_applications/#{reference}/review/informatives/items/#{informative1.id}/edit"
-                )
-                expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
-
-                click_button("Show more")
-                expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: true)
-
-                click_button("Show less")
-                expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
-              end
-              within("#informative_#{informative2.id}") do
-                expect(page).to have_selector("span", text: "Informative 2")
-                expect(page).to have_selector("h2", text: "Section 206")
-                expect(page).to have_link(
-                  "Edit",
-                  href: "/planning_applications/#{reference}/review/informatives/items/#{informative2.id}/edit"
-                )
-                expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
-
-                click_button("Show more")
-                expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: true)
-
-                click_button("Show less")
-                expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
-              end
-
+            within("#informative_#{informative1.id}") do
+              expect(page).to have_selector("span", text: "Informative 1")
+              expect(page).to have_selector("h2", text: "Section 106")
               expect(page).to have_link(
-                "Edit list position",
-                href: "/planning_applications/#{reference}/review/informatives/edit"
+                "Edit",
+                href: "/planning_applications/#{reference}/review/informatives/items/#{informative1.id}/edit"
               )
+              expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
+
+              click_button("Show more")
+              expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: true)
+
+              click_button("Show less")
+              expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
             end
+
+            within("#informative_#{informative2.id}") do
+              expect(page).to have_selector("span", text: "Informative 2")
+              expect(page).to have_selector("h2", text: "Section 206")
+              expect(page).to have_link(
+                "Edit",
+                href: "/planning_applications/#{reference}/review/informatives/items/#{informative2.id}/edit"
+              )
+              expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
+
+              click_button("Show more")
+              expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: true)
+
+              click_button("Show less")
+              expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
+            end
+
+            expect(page).to have_link(
+              "Rearrange informatives",
+              href: "/planning_applications/#{reference}/review/informatives/edit"
+            )
           end
 
-          within("#informatives_footer") do
+          within(".bops-task-accordion__section-footer") do
             choose "Agree"
 
             expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
@@ -148,7 +150,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#review-informatives-section") do
+          within("#review-informatives") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
 
@@ -158,7 +160,7 @@ RSpec.describe "Reviewing informatives", js: true do
         it "I can edit the planning officer's decision" do
           click_button "Review informatives"
 
-          within("#informatives_block") do
+          within("#review-informatives") do
             within("#informative_#{Informative.first.id}") do
               click_link "Edit"
             end
@@ -174,7 +176,7 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(page).to have_content("Informative was successfully saved")
 
           click_button "Review informatives"
-          within("#informatives_footer") do
+          within(".bops-task-accordion__section-footer") do
             choose "Agree"
 
             expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
@@ -189,7 +191,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#review-informatives-section") do
+          within("#review-informatives") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
 
@@ -202,7 +204,7 @@ RSpec.describe "Reviewing informatives", js: true do
         it "I can return to the planning officer with a comment" do
           click_button "Review informatives"
 
-          within("#informatives_footer") do
+          within(".bops-task-accordion__section-footer") do
             choose "Return with comments"
             fill_in "Add a comment", with: "Please provide more details about the Section 106 agreement"
 
@@ -217,7 +219,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#review-informatives-section") do
+          within("#review-informatives") do
             expect(find(".govuk-tag")).to have_content("Awaiting changes")
           end
 
@@ -262,12 +264,13 @@ RSpec.describe "Reviewing informatives", js: true do
           sign_in(reviewer)
 
           visit "/planning_applications/#{reference}/review/tasks"
-          within("#review-informatives-section") do
+
+          within("#review-informatives") do
             expect(find(".govuk-tag")).to have_content("Updated")
           end
 
           click_button("Review informatives")
-          within("#informatives_footer") do
+          within(".bops-task-accordion__section-footer") do
             choose "Agree"
 
             click_button "Save and mark as complete"
@@ -280,7 +283,7 @@ RSpec.describe "Reviewing informatives", js: true do
             expect(page).to have_content("Review of informatives updated successfully")
           end
 
-          within("#review-informatives-section") do
+          within("#review-informatives") do
             expect(find(".govuk-tag")).to have_content("Completed")
           end
 

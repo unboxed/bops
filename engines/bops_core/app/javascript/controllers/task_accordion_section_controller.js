@@ -6,14 +6,24 @@ export default class extends Controller {
       type: String,
       default: "bops-task-accordion__section--expanded",
     },
+    successClassName: {
+      type: String,
+      default: "bops-task-accordion__section--success",
+    },
   }
 
   connect() {
-    this.toggleIfNotExpanded()
+    if (this.openNextSibling) {
+      this.element.classList.add(this.successClassNameValue)
 
-    window.addEventListener("hashchange", () => {
-      this.toggleIfNotExpanded()
-    })
+      setTimeout(() => {
+        this.toggleNextSiblingIfNotExpanded()
+      }, 50)
+    } else if (this.isTarget) {
+      setTimeout(() => {
+        this.toggleIfNotExpanded()
+      }, 50)
+    }
   }
 
   toggle(_event) {
@@ -29,8 +39,20 @@ export default class extends Controller {
   }
 
   toggleIfNotExpanded() {
-    if (this.isTarget && !this.isExpanded) {
+    if (!this.isExpanded) {
       this.toggle()
+    }
+  }
+
+  toggleNextSiblingIfNotExpanded() {
+    const nextSibling = this.element.nextElementSibling
+
+    if (nextSibling) {
+      const controller = this.application.getControllerForElementAndIdentifier(nextSibling, this.identifier)
+
+      if (controller) {
+        controller.toggleIfNotExpanded()
+      }
     }
   }
 
@@ -44,5 +66,17 @@ export default class extends Controller {
 
   get button() {
     return this.element.querySelector("button")
+  }
+
+  get queryParams() {
+    return new URLSearchParams(window.location.search)
+  }
+
+  get openNextParam() {
+    return this.queryParams.get("next")
+  }
+
+  get openNextSibling() {
+    return this.isTarget && this.openNextParam === "true"
   }
 }

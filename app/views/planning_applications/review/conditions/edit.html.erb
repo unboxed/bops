@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Review informatives - <%= t("page_title") %>
+  Review conditions - <%= t("page_title") %>
 <% end %>
 
 <%= render(
@@ -7,38 +7,38 @@
       locals: {planning_application: @planning_application}
     ) %>
 
-<% content_for :title, "Review informatives" %>
+<% content_for :title, "Review conditions" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: {heading: "Review informatives"}
+      locals: {heading: "Review conditions"}
     ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <% if @informatives.any? %>
+    <% if @conditions.any? %>
       <ol data-controller="sortable" class="govuk-list sortable-list">
-        <% @informatives.each do |informative| %>
+        <% @conditions.each do |condition| %>
           <%= render(Sortable::ListItemComponent.new(
-                record: informative,
-                record_class: "informative",
+                record: condition,
+                record_class: "condition",
                 record_controller: "",
-                record_sortable_url: planning_application_review_informatives_item_position_path(@planning_application, informative),
-                edit_record_url: edit_planning_application_review_informatives_item_path(@planning_application, informative)
+                record_sortable_url: planning_application_review_conditions_item_position_path(@planning_application, condition),
+                edit_record_url: edit_planning_application_review_conditions_item_path(@planning_application, condition)
               )) %>
         <% end %>
       </ol>
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>
     <% else %>
       <p class="govuk-body">
-        <strong>No informatives added</strong>
+        <strong>No conditions added</strong>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </p>
     <% end %>
 
     <%= render "planning_applications/review/shared/review_information" %>
 
-    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-informatives"), secondary: true) %>
+    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-conditions"), secondary: true) %>
   </div>
 </div>

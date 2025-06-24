@@ -75,6 +75,7 @@ class PlanningApplication < ApplicationRecord
       has_one :fee_calculation
       has_one :immunity_detail
       has_one :ownership_certificate
+      has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet"
       has_one :planx_planning_data
       has_one :proposal_measurement
     end
@@ -83,7 +84,6 @@ class PlanningApplication < ApplicationRecord
     has_one :consideration_set
     has_one :consistency_checklist
     has_one :informative_set
-    has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet", required: false
 
     has_many :considerations, through: :consideration_set
   end
@@ -747,7 +747,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def pre_commencement_condition_set
-    super || ConditionSet.create!(planning_application: self, pre_commencement: true)
+    super || create_pre_commencement_condition_set!
   end
 
   def consideration_set

@@ -86,7 +86,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
     it "shows validation errors" do
       click_button "Review assessment against policies and guidance"
-      within("#considerations_footer") do
+      within(".bops-task-accordion__section-footer") do
         click_button("Save and mark as complete")
       end
       expect(page).to have_selector("[role=alert] li", text: "Select an option")
@@ -95,11 +95,11 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
         within(".bops-task-accordion__section-header") do
           expect(find("button")[:"aria-expanded"]).to eq("true")
         end
-        within("#considerations_footer") do
+        within(".bops-task-accordion__section-footer") do
           expect(page).to have_selector("a", text: "Select an option")
         end
 
-        within("#considerations_footer") do
+        within(".bops-task-accordion__section-footer") do
           choose "Return with comments"
           click_button("Save and mark as complete")
         end
@@ -111,7 +111,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
         within(".bops-task-accordion__section-header") do
           expect(find("button")[:"aria-expanded"]).to eq("true")
         end
-        within("#considerations_footer") do
+        within(".bops-task-accordion__section-footer") do
           expect(page).to have_selector("p.govuk-error-message", text: "Explain to the case officer why")
         end
       end
@@ -122,7 +122,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       within("#considerations_section") do
         expect(find(".govuk-tag")).to have_content("Not started")
 
-        within("#considerations_block") do
+        within(".bops-task-accordion__section-block") do
           expect(page).to have_link("Check your local policies and guidance (opens in new tab)")
 
           consideration = Consideration.last
@@ -164,7 +164,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
       expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
 
-      within("#considerations_block") do
+      within(".bops-task-accordion__section-block") do
         click_link("Edit list position")
       end
 
@@ -175,7 +175,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
     it "I can edit and accept the planning officer's decision" do
       click_button "Review assessment against policies and guidance"
 
-      within("#considerations_block") do
+      within(".bops-task-accordion__section-block") do
         click_link "Edit to accept"
       end
 
@@ -187,12 +187,12 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       expect(page).to have_content("Consideration was successfully saved")
 
       click_button "Review assessment against policies and guidance"
-      within("#considerations_block") do
+      within(".bops-task-accordion__section-block") do
         click_button("Show more")
         expect(page).to have_selector("p", text: "Uses yellow brick with grey slates")
       end
 
-      within("#considerations_footer") do
+      within(".bops-task-accordion__section-footer") do
         choose "Agree"
 
         expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
@@ -208,7 +208,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
 
       click_button "Review assessment against policies and guidance"
-      within("#considerations_block") do
+      within(".bops-task-accordion__section-block") do
         click_link("Edit list position")
       end
 
@@ -220,7 +220,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       click_button "Review assessment against policies and guidance"
       expect(page).to have_selector(:open_review_task, text: "Review assessment against policies and guidance")
 
-      within("#considerations_footer") do
+      within(".bops-task-accordion__section-footer") do
         choose "Return with comments"
         fill_in "Add a comment", with: "Please provide more details about the design of the property"
 
@@ -241,7 +241,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       click_button "Review assessment against policies and guidance"
       expect(page).to have_selector(:open_review_task, text: "Review assessment against policies and guidance")
 
-      within("#considerations_block") do
+      within(".bops-task-accordion__section-block") do
         click_link("Edit list position")
       end
 
@@ -286,7 +286,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
         expect(find(".govuk-tag")).to have_content("Updated")
       end
 
-      within("#considerations_footer") do
+      within(".bops-task-accordion__section-footer") do
         choose "Agree"
         click_button "Save and mark as complete"
       end
@@ -301,7 +301,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       click_button "Review assessment against policies and guidance"
       expect(page).to have_selector(:open_review_task, text: "Review assessment against policies and guidance")
 
-      within("#considerations_block") do
+      within(".bops-task-accordion__section-block") do
         click_link("Edit list position")
       end
 

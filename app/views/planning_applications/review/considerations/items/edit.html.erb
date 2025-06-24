@@ -17,7 +17,13 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" data-controller="consideration-form">
     <%= form_with model: @consideration, url: planning_application_review_considerations_item_path(@planning_application, @consideration) do |form| %>
-      <%= form.govuk_fieldset legend: {text: nil} do %>
+      <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
+        <p class="govuk-body">
+          Use this form to make minor changes, such as fixing spelling errors.
+          If you want to suggest changes to the content of the condition,
+          return the application to the case officer.
+        </p>
+
         <%= form.govuk_collection_select :policy_area,
               current_local_authority.policy_areas.menu,
               :last, :last, options: {include_blank: true},
@@ -85,7 +91,7 @@
       <% end %>
 
       <%= form.govuk_submit("Save consideration") do %>
-        <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
+        <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-considerations"), secondary: true) %>
       <% end %>
     <% end %>
   </div>

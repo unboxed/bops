@@ -29,8 +29,59 @@
 
     <% if @considerations.any? %>
       <ol data-controller="sortable" class="govuk-list sortable-list">
-        <%= render @considerations, editable: true, sortable: true %>
+        <% @considerations.each do |consideration| %>
+          <%= content_tag(:li,
+                id: dom_id(consideration),
+                class: "consideration sortable-list sortable-container govuk-!-margin-bottom-7",
+                data: {
+                  model_name: "Consideration",
+                  sortable_url: planning_application_review_considerations_item_position_path(@planning_application, consideration),
+                  sortable_handle: true
+                }) do %>
+
+            <div class="govuk-!-margin-bottom-6">
+              <span class="govuk-caption-m">Consideration <%= consideration.position %></span>
+              <h2 class="govuk-heading-m govuk-!-margin-bottom-3"><%= consideration.policy_area %></h2>
+
+              <div data-controller="summary">
+                <div class="bops-summary" data-summary-target="content">
+                  <h3 class="govuk-heading-s">
+                    Policy
+                  </h3>
+
+                  <p class="govuk-body">
+                    <%= consideration.policy_references.map(&:code_and_description).join("; ") %>
+                  </p>
+
+                  <% if consideration.policy_guidance.present? %>
+                    <h3 class="govuk-heading-s">
+                      Guidance
+                    </h3>
+                    <p class="govuk-body">
+                      <%= consideration.policy_guidance.map(&:description).join("; ") %>
+                    </p>
+                  <% end %>
+
+                  <h3 class="govuk-heading-s">
+                    Assessment
+                  </h3>
+                  <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
+
+                  <h3 class="govuk-heading-s">
+                    Conclusion
+                  </h3>
+                  <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
+                </div>
+
+                <nav class="nav-links" data-summary-target="navigation">
+                  <%= govuk_link_to "Edit", edit_planning_application_review_considerations_item_path(@planning_application, consideration) %>
+                </nav>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
       </ol>
+
       <p class="govuk-body"><%= t(".drag_and_drop") %></p>
     <% else %>
       <p class="govuk-body">
@@ -41,6 +92,6 @@
 
     <%= render "planning_applications/review/shared/review_information" %>
 
-    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application), secondary: true) %>
+    <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-considerations"), secondary: true) %>
   </div>
 </div>
