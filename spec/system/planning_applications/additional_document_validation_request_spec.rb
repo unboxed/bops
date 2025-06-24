@@ -199,8 +199,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
             within(cells[1]) do
               expect(page).to have_content("Date received: 1 January 2021")
-              expect(page).to have_content("Included in decision notice: No")
-              expect(page).to have_content("Public: No")
+              expect(page).not_to have_content("Included in decision notice")
+              expect(page).not_to have_content("Public")
             end
           end
 
@@ -213,10 +213,15 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
             within(cells[1]) do
               expect(page).to have_content("Date received: 1 January 2021")
-              expect(page).to have_content("Included in decision notice: No")
-              expect(page).to have_content("Public: No")
             end
           end
+
+          expect(planning_application.documents).to all(
+            have_attributes(
+              referenced_in_decision_notice: false,
+              publishable: false
+            )
+          )
         end
       end
 
@@ -518,8 +523,6 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
               within(cells[1]) do
                 expect(page).to have_content("File name: proposed-floorplan.png")
                 expect(page).to have_content("Date received: 1 January 2021")
-                expect(page).to have_content("Included in decision notice: No")
-                expect(page).to have_content("Public: No")
               end
             end
           end

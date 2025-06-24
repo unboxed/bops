@@ -42,7 +42,7 @@
       Document reference(s): <strong><%= document.numbers %></strong>
     </p>
   <% end %>
-  <% if document.planning_application.publishable? %>
+  <% if document.planning_application.publishable? && document.planning_application.validated? %>
     <p class="govuk-body govuk-!-margin-bottom-1">
       Included in decision notice: <strong><%= document.referenced_in_decision_notice? ? "Yes" : "No" %></strong>
     </p>
