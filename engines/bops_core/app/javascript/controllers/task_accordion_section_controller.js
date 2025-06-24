@@ -9,12 +9,14 @@ export default class extends Controller {
   }
 
   connect() {
-    if (window.location.hash == `#${this.element.id}`) {
-      this.element.classList.add(this.classNameValue)
-    }
+    this.toggleIfNotExpanded()
+
+    window.addEventListener("hashchange", () => {
+      this.toggleIfNotExpanded()
+    })
   }
 
-  toggle(event) {
+  toggle() {
     this.element.classList.toggle(this.classNameValue)
 
     if (this.isExpanded) {
@@ -26,8 +28,18 @@ export default class extends Controller {
     this.dispatch("toggled")
   }
 
+  toggleIfNotExpanded() {
+    if (this.isTarget && !this.isExpanded) {
+      this.toggle()
+    }
+  }
+
   get isExpanded() {
     return this.element.classList.contains(this.classNameValue)
+  }
+
+  get isTarget() {
+    return `#${this.element.id}` === window.location.hash
   }
 
   get button() {
