@@ -16,6 +16,7 @@ $govuk-page-width: 1100px;
 @import "bops_core/components/ticket_panel";
 @import "bops_core/components/status_detail";
 @import "bops_core/rich_text";
+@import "bops_core/summary";
 
 // Imports from the application
 @import "components/assessment_list";
