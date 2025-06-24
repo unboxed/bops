@@ -103,6 +103,9 @@ import SubmitFormController from "./submit_form_controller.js"
 
 application.register("submit-form", SubmitFormController)
 
+import SummaryController from "@/bops_core/controllers/summary_controller.js"
+application.register("summary", SummaryController)
+
 import TaskAccordionController from "@/bops_core/controllers/task_accordion_controller.js"
 
 application.register("task-accordion", TaskAccordionController)
