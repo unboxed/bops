@@ -137,10 +137,6 @@ RSpec.describe "Planning application updated tab spec", type: :system do
   end
 
   context "when viewing all applications" do
-    before do
-      click_link("View all applications")
-    end
-
     it "shows the updated tab" do
       within("#updated") do
         expect(page).to have_content("Updated")

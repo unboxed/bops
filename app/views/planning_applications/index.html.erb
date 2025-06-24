@@ -4,31 +4,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @search.exclude_others? %>
-      <h1 class="govuk-heading-l">
-        Your planning applications
-      </h1>
-      <p class="govuk-body-m">
-        <strong><%= current_user.name %>,</strong> <%= role_name %>
-      </p>
-      <p class="govuk-body">
-        <%= govuk_link_to "Add new application", new_planning_application_path %>
-      </p>
-      <p class="govuk-body"><%= govuk_button_link_to "View all applications", planning_applications_path(view: "all") %></p>
-    <% else %>
-      <h1 class="govuk-heading-l">
-        All planning applications
-      </h1>
-      <p class="govuk-body-m">
-        <strong><%= current_user.name %>,</strong> <%= role_name %>
-      </p>
-      <p class="govuk-body">
-        <%= govuk_link_to "Add new application", new_planning_application_path %>
-      </p>
-      <p class="govuk-body">
-        <%= govuk_button_link_to "View my applications", planning_applications_path %>
-      </p>
-    <% end %>
+    <h1 class="govuk-heading-l">
+      Planning applications
+    </h1>
+    <p class="govuk-body-m">
+      <strong><%= current_user.name %>,</strong> <%= role_name %>
+    </p>
+    <p class="govuk-body">
+      <%= govuk_link_to "Add new application", new_planning_application_path %>
+    </p>
   </div>
 </div>
 
@@ -59,10 +43,17 @@
         Contents
       </h2>
       <%= govuk_tabs do |tabs|
-            tabs.with_tab(label: @search.all_applications_title, id: "all") {
+            tabs.with_tab(label: "Cases assigned to you", id: "mine") {
               render PlanningApplications::PanelComponent.new(
-                planning_applications: @search.filtered_planning_applications,
-                type: :all,
+                planning_applications: @search.filtered_planning_applications.for_current_user,
+                type: :mine,
+                search: @search
+              )
+            }
+            tabs.with_tab(label: "Unassigned cases", id: "unassigned") {
+              render PlanningApplications::PanelComponent.new(
+                planning_applications: @search.filtered_planning_applications.for_null_users,
+                type: :unassigned,
                 search: @search
               )
             }
@@ -75,6 +66,13 @@
             tabs.with_tab(label: "Updated") {
               render PlanningApplications::UpdatedPanelComponent.new(
                 audits: current_local_authority.audits.most_recent_for_planning_applications.limit(20)
+              )
+            }
+            tabs.with_tab(label: "All cases", id: "all") {
+              render PlanningApplications::PanelComponent.new(
+                planning_applications: @search.filtered_planning_applications,
+                type: :all,
+                search: @search
               )
             }
           end %>
