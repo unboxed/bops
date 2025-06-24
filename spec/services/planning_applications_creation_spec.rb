@@ -2,6 +2,7 @@
 
 require "rails_helper"
 
+# rubocop:disable Layout/ArgumentAlignment, Layout/FirstArgumentIndentation, Layout/MultilineOperationIndentation
 RSpec.describe PlanningApplicationsCreation do
   let(:local_authority) { create(:local_authority) }
   let(:application_type) { create(:application_type, local_authority: local_authority) }
@@ -192,3 +193,4 @@ RSpec.describe PlanningApplicationsCreation do
     end
   end
 end
+# rubocop:enable Layout/ArgumentAlignment, Layout/FirstArgumentIndentation, Layout/MultilineOperationIndentation
