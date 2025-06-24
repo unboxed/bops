@@ -275,7 +275,11 @@ local_authority_subdomain do
 
         resources :assessment_details, only: %i[update]
 
-        resource :conditions, only: %i[update]
+        resource :conditions, only: %i[edit update] do
+          resources :items, only: %i[edit update], module: :conditions do
+            concerns :positionable
+          end
+        end
 
         resources :documents, only: %i[index] do
           patch :update, on: :collection
@@ -293,7 +297,11 @@ local_authority_subdomain do
           end
         end
 
-        resource :heads_of_terms, only: %i[update]
+        resource :heads_of_terms, only: %i[edit update] do
+          resources :items, only: %i[edit update], module: :heads_of_terms do
+            concerns :positionable
+          end
+        end
 
         resources :immunity_details, only: %i[show update]
 
@@ -333,7 +341,11 @@ local_authority_subdomain do
 
         resources :recommendations, only: %i[new create update edit]
 
-        resource :pre_commencement_conditions, only: %i[edit update show]
+        resource :pre_commencement_conditions, only: %i[edit update] do
+          resources :items, only: %i[edit update], module: :pre_commencement_conditions do
+            concerns :positionable
+          end
+        end
       end
     end
   end

@@ -38,7 +38,8 @@
               record_controller: "pre-commencement-conditions",
               record_sortable_url: planning_application_assessment_pre_commencement_condition_position_path(@planning_application, condition),
               edit_record_url: edit_planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
-              remove_record_url: planning_application_assessment_pre_commencement_condition_path(@planning_application, condition)
+              remove_record_url: planning_application_assessment_pre_commencement_condition_path(@planning_application, condition),
+              current_request: condition.current_validation_request
             )) %>
       <% end %>
     </ol>
