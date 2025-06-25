@@ -5,6 +5,7 @@ module PlanningApplications
     module Considerations
       class ItemsController < BaseController
         before_action :set_consideration_set
+        before_action :set_considerations
         before_action :set_consideration
 
         def edit
@@ -17,7 +18,7 @@ module PlanningApplications
           respond_to do |format|
             format.html do
               if @consideration.update(consideration_params)
-                redirect_to planning_application_review_tasks_path(@planning_application, anchor: "considerations_section"), notice: t(".success")
+                redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-considerations"), notice: t(".success")
               else
                 render :edit
               end
@@ -31,8 +32,12 @@ module PlanningApplications
           @consideration_set = @planning_application.consideration_set
         end
 
+        def set_considerations
+          @considerations = @consideration_set.considerations
+        end
+
         def set_consideration
-          @consideration = @consideration_set.considerations.find(params[:id])
+          @consideration = @considerations.find(params[:id])
         end
 
         def consideration_params

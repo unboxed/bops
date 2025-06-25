@@ -1,0 +1,27 @@
+.nav-links {
+  @include govuk-font($size: 16);
+
+  display: flex;
+  padding-top: 10px;
+
+  a, span, button {
+    padding-right: 0.5rem;
+  }
+
+  span {
+    color: govuk-colour("dark-grey");
+  }
+
+  a + a,
+  a + span,
+  a + button,
+  span + a,
+  span + span,
+  span + button,
+  button + a,
+  button + span,
+  button + button {
+    border-left: 1px solid govuk-colour("mid-grey");
+    padding-left: 0.5rem;
+  }
+}

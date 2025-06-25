@@ -8,7 +8,15 @@ export default class extends Controller {
     },
   }
 
-  toggle(event) {
+  connect() {
+    this.toggleIfNotExpanded()
+
+    window.addEventListener("hashchange", () => {
+      this.toggleIfNotExpanded()
+    })
+  }
+
+  toggle() {
     this.element.classList.toggle(this.classNameValue)
 
     if (this.isExpanded) {
@@ -20,8 +28,18 @@ export default class extends Controller {
     this.dispatch("toggled")
   }
 
+  toggleIfNotExpanded() {
+    if (this.isTarget && !this.isExpanded) {
+      this.toggle()
+    }
+  }
+
   get isExpanded() {
     return this.element.classList.contains(this.classNameValue)
+  }
+
+  get isTarget() {
+    return `#${this.element.id}` === window.location.hash
   }
 
   get button() {
