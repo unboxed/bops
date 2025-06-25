@@ -19,6 +19,9 @@ application.register("clear-form", ClearFormController)
 import ConditionsController from "./conditions_controller.js"
 application.register("conditions", ConditionsController)
 
+import ConsiderationFormController from "./consideration_form_controller.js"
+application.register("consideration-form", ConsiderationFormController)
+
 import ConsulteeEmailController from "./consultee_email_controller.js"
 application.register("consultee-email", ConsulteeEmailController)
 
@@ -27,6 +30,9 @@ application.register("consultees", ConsulteesController)
 
 import DeleteRecordController from "./delete_record_controller.js"
 application.register("delete-record", DeleteRecordController)
+
+import DownloadController from "./download_controller.js"
+application.register("download", DownloadController)
 
 import EditFormController from "./edit_form_controller.js"
 application.register("edit-form", EditFormController)
@@ -37,17 +43,14 @@ application.register("informative-form", InformativeFormController)
 import LocalPoliciesController from "./local_policies_controller.js"
 application.register("local-policies", LocalPoliciesController)
 
+import MapController from "./map_controller.js"
+application.register("map", MapController)
+
 import MaxLinesController from "./max_lines_controller.js"
 application.register("max-lines", MaxLinesController)
 
 import NeighboursController from "./neighbours_controller.js"
 application.register("neighbours", NeighboursController)
-
-import ConsiderationFormController from "./consideration_form_controller.js"
-application.register("consideration-form", ConsiderationFormController)
-
-import MapController from "./map_controller.js"
-application.register("map", MapController)
 
 import PdfController from "./pdf_controller.js"
 application.register("pdf", PdfController)
@@ -70,6 +73,9 @@ application.register("show-hide-form", ShowHideFormController)
 import ShowMoreTextController from "./show_more_text_controller.js"
 application.register("show-more-text", ShowMoreTextController)
 
+import Sortable from "./sortable_controller.js"
+application.register("sortable", Sortable)
+
 import SubmitFormController from "./submit_form_controller.js"
 application.register("submit-form", SubmitFormController)
 
@@ -84,6 +90,3 @@ application.register("toggle", ToggleController)
 
 import UnsavedChangesController from "./unsaved_changes_controller.js"
 application.register("unsaved-changes", UnsavedChangesController)
-
-import Sortable from "./sortable_controller.js"
-application.register("sortable", Sortable)

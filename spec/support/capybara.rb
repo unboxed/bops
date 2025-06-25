@@ -33,6 +33,7 @@ end
 
 Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.load_selenium
+  download_dir = Rails.root.join("tmp/downloads")
   browser_options = Selenium::WebDriver::Chrome::Options.new
   browser_options.args << "--headless=new"
   browser_options.args << "--no-sandbox"
@@ -41,6 +42,13 @@ Capybara.register_driver :chrome_headless do |app|
   browser_options.args << "--disable-gpu" if Gem.win_platform?
   browser_options.args << "--disable-dev-shm-usage"
   browser_options.args << "--host-rules=MAP * 127.0.0.1"
+
+  browser_options.add_preference(:download, {
+    prompt_for_download: false,
+    default_directory: download_dir.to_s
+  })
+
+  browser_options.add_option("goog:loggingPrefs", {browser: "ALL"})
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
