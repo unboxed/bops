@@ -12,7 +12,7 @@ Feature: Uploading documents for an application
     And I check "Floor plan - existing"
     And I check "Roof plan - existing"
     And I check "Utility bill"
-    And I fill in "Document reference(s)" with "Floorplan"
+    And I fill in "Drawing number" with "Floorplan"
     And I press "Save"
     Then the page contains "proposed-floorplan.png has been uploaded."
     And the page contains "Date received: 5 July 2021"

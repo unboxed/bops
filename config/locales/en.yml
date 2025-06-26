@@ -844,7 +844,7 @@ en:
       view_in_new: View in new window
     form_partials:
       privacy:
-        document_references: Document reference(s)
+        document_references: Drawing number
         where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (for example, "25A-V2, 25B-V2").
       tags:
         groups:
