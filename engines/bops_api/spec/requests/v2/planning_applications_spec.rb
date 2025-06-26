@@ -44,6 +44,9 @@ RSpec.describe "BOPS API" do
   let(:page) { 2 }
   let(:maxresults) { 5 }
   let("ids[]") { [] }
+  let("application_type_codes[]") { [] }
+  let(:sort_direction) { "desc" }
+  let(:sort_by) { "published_at" }
 
   path "/api/v2/planning_applications" do
     post "Creates a new plannning application" do
@@ -551,6 +554,28 @@ RSpec.describe "BOPS API" do
       parameter name: "q", in: :query, schema: {
         type: :string,
         description: "Search by reference or description"
+      }
+
+      parameter name: "application_type_codes[]", in: :query, style: :form, explode: true, schema: {
+        type: :array,
+        items: {
+          type: :string
+        },
+        description: "Filter by one or more application type codes"
+      }
+
+      parameter name: :sort_direction, in: :query, schema: {
+        type: :string,
+        description: "Sort by ascending or descending order",
+        enum: ["asc", "desc"],
+        default: "desc"
+      }
+
+      parameter name: :sort_by, in: :query, schema: {
+        type: :string,
+        description: "Sort by field",
+        enum: ["published_at", "received_at"],
+        default: "published_at"
       }
 
       it "validates successfully against the example search json" do
