@@ -39,6 +39,7 @@ BopsApi::Engine.routes.draw do
       resources :validation_requests, only: [:index]
 
       namespace :public do
+        resources :application_types, only: :index
         resources :planning_applications, only: [:show] do
           get :search, on: :collection
           resource :documents, only: [:show]

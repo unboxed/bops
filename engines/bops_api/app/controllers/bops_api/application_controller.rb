@@ -24,7 +24,7 @@ module BopsApi
     end
 
     def search_params
-      params.permit(:page, :maxresults, :q)
+      params.permit(:page, :maxresults, :q, :sort_by, :sort_direction, application_type_codes: [])
     end
 
     def search_service(scope = planning_applications_scope.by_latest_received_and_created)

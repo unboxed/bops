@@ -100,5 +100,91 @@ RSpec.describe BopsApi::Application::SearchService do
         end
       end
     end
+
+    context "when filtering by application type codes" do
+      let(:local_authority) { create(:local_authority) }
+      let!(:ldc) { create(:application_type, code: "ldc.existing", local_authority:) }
+      let!(:householder) { create(:application_type, :householder, local_authority:) }
+
+      let!(:app1) { create(:planning_application, application_type: ldc) }
+      let!(:app2) { create(:planning_application, application_type: householder) }
+      let!(:app3) { create(:planning_application, application_type: householder, address_1: "Random street") }
+
+      before do
+        create(:application_type_config, :ldc_existing)
+        create(:application_type_config, :ldc_proposed)
+      end
+
+      context "when no application type codes are provided" do
+        let(:params) { {application_type_codes: [""]} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([])
+        end
+      end
+
+      context "when one matching application type code is provided" do
+        let(:params) { {application_type_codes: ["ldc.existing", "notvalid"]} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([app1])
+        end
+      end
+
+      context "when one application type code is provided" do
+        let(:params) { {application_type_codes: ["ldc.existing"]} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([app1])
+        end
+      end
+
+      context "when multiple application type codes are provided" do
+        let(:params) { {application_type_codes: ["ldc.existing", "pp.full.householder"]} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([app1, app2, app3])
+        end
+      end
+
+      context "when application type codes and query are provided" do
+        let(:params) { {q: "Random street", application_type_codes: ["pp.full.householder"]} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([app3])
+        end
+      end
+    end
+
+    context "when sorting results" do
+      let!(:older_app) { create(:planning_application, published_at: 3.days.ago) }
+      let!(:newer_app) { create(:planning_application, published_at: 1.day.ago) }
+
+      context "ascending order by published_at" do
+        let(:params) { {sort_by: "published_at", sort_direction: "asc"} }
+
+        it "returns the oldest application first" do
+          expect(results.first).to eq(older_app)
+          expect(results.last).to eq(newer_app)
+        end
+      end
+
+      context "descending order by published_at" do
+        let(:params) { {sort_by: "published_at", sort_direction: "desc"} }
+
+        it "returns the newest application first" do
+          expect(results.first).to eq(newer_app)
+          expect(results.last).to eq(older_app)
+        end
+      end
+
+      context "default order when sort_direction not provided" do
+        let(:params) { {sort_by: "published_at"} }
+
+        it "defaults to descending order" do
+          expect(results.first).to eq(newer_app)
+        end
+      end
+    end
   end
 end

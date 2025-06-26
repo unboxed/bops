@@ -9,6 +9,9 @@ RSpec.describe "BOPS public API" do
   let(:page) { 1 }
   let(:maxresults) { 5 }
   let(:invalidated) { create(:planning_application, :with_boundary_geojson_features, :published, local_authority:, application_type:, description: "This is not valid even if marked as published", status: :invalidated) }
+  let("application_type_codes[]") { [] }
+  let(:sort_direction) { "desc" }
+  let(:sort_by) { "published_at" }
 
   before do
     create_list(:planning_application, 2, :with_boundary_geojson_features, :published, local_authority:, application_type:)
@@ -34,6 +37,28 @@ RSpec.describe "BOPS public API" do
         type: :string,
         description: "Search by reference or description"
       }, required: false
+
+      parameter name: "application_type_codes[]", in: :query, style: :form, explode: true, schema: {
+        type: :array,
+        items: {
+          type: :string
+        },
+        description: "Filter by one or more application type codes"
+      }
+
+      parameter name: :sort_direction, in: :query, schema: {
+        type: :string,
+        description: "Sort by ascending or descending order",
+        enum: ["asc", "desc"],
+        default: "desc"
+      }
+
+      parameter name: :sort_by, in: :query, schema: {
+        type: :string,
+        description: "Sort by field",
+        enum: ["published_at", "received_at"],
+        default: "published_at"
+      }
 
       response "200", "returns planning applications when searching by the reference" do
         schema "$ref" => "#/components/schemas/Search"
