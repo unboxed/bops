@@ -4,16 +4,16 @@
   $notification_colours: (
     "green": (
       "background-color": govuk-colour("green"),
-      "border-color": govuk-colour("green")
+      "border-color": govuk-colour("green"),
     ),
     "orange": (
       "background-color": govuk-colour("orange"),
-      "border-color": govuk-colour("orange")
+      "border-color": govuk-colour("orange"),
     ),
     "red": (
       "background-color": govuk-colour("red"),
-      "border-color": govuk-colour("red")
-    )
+      "border-color": govuk-colour("red"),
+    ),
   );
 
   $default_colour: map.get($notification_colours, "green");

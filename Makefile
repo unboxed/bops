@@ -68,10 +68,10 @@ db-prompt:
 	$(DOCKER-RUN) console psql postgres://postgres:postgres@db
 
 lint:
-	$(DOCKER-RUN) console rake rubocop biome erblint
+	$(DOCKER-RUN) console rake rubocop biome erblint prettier
 
 lint-auto-correct:
-	$(DOCKER-RUN) console rake rubocop:fix biome:fix erblint:fix
+	$(DOCKER-RUN) console rake rubocop:fix biome:fix erblint:fix prettier:fix
 
 lint-locales:
 	$(DOCKER-RUN) console i18n-tasks normalize
