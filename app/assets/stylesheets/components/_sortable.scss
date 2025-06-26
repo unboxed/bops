@@ -7,7 +7,8 @@
     display: flex;
     padding-top: 10px;
 
-    a, span {
+    a,
+    span {
       padding-right: 0.5rem;
     }
 
@@ -15,7 +16,10 @@
       color: govuk-colour("dark-grey");
     }
 
-    a + a, a + span, span + span, span + a {
+    a + a,
+    a + span,
+    span + span,
+    span + a {
       border-left: 1px solid govuk-colour("mid-grey");
       padding-left: 0.5rem;
     }
@@ -55,7 +59,7 @@
 button.arrow {
   background-color: transparent;
   border-width: 0;
-  color:  govuk-colour("blue");
+  color: govuk-colour("blue");
   cursor: pointer;
   font-family: inherit;
   font-size: inherit;

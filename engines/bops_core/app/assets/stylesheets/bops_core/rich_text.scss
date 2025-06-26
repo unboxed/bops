@@ -6,13 +6,21 @@
 }
 
 %trix-invisible-selection {
-  &::-moz-selection { background: none; }
-  &::selection { background: none; }
+  &::-moz-selection {
+    background: none;
+  }
+  &::selection {
+    background: none;
+  }
 }
 
 %trix-visible-selection {
-  &::-moz-selection { background: highlight; }
-  &::selection { background: highlight; }
+  &::-moz-selection {
+    background: highlight;
+  }
+  &::selection {
+    background: highlight;
+  }
 }
 
 @mixin trix-content {
@@ -20,11 +28,13 @@
     @extend .govuk-heading-m;
   }
 
-  div, p {
+  div,
+  p {
     @extend .govuk-body;
   }
 
-  ul, ol {
+  ul,
+  ol {
     @extend .govuk-list;
     @extend .govuk-body;
   }
@@ -79,10 +89,14 @@
 .bops-rich-textarea {
   position: relative;
 
-  box-shadow: inset 0 44px govuk-colour("light-grey"), inset 0 45px $govuk-border-colour;
+  box-shadow:
+    inset 0 44px govuk-colour("light-grey"),
+    inset 0 45px $govuk-border-colour;
 
   @include govuk-media-query($from: tablet) {
-    box-shadow: inset 0 52px govuk-colour("light-grey"), inset 0 53px $govuk-border-colour;
+    box-shadow:
+      inset 0 52px govuk-colour("light-grey"),
+      inset 0 53px $govuk-border-colour;
   }
 
   trix-toolbar {
@@ -307,7 +321,8 @@
             width: auto;
           }
 
-          &:hover, &:active {
+          &:hover,
+          &:active {
             color: $govuk-text-colour;
           }
         }
@@ -530,7 +545,7 @@
       max-width: 90%;
       padding: 0.1em 0.6em;
       font-size: 0.8em;
-      line-height: 2.0;
+      line-height: 2;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 3px;

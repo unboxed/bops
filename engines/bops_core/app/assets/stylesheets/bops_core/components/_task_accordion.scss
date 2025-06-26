@@ -87,7 +87,8 @@
         background-color: govuk-colour("light-grey");
         color: $govuk-text-colour;
 
-        &:before, &:after {
+        &:before,
+        &:after {
           border-color: $govuk-text-colour;
         }
       }
@@ -97,7 +98,8 @@
         color: $govuk-text-colour;
         outline: none;
 
-        &::before, &:after {
+        &::before,
+        &:after {
           border-color: $govuk-text-colour;
         }
 
@@ -184,7 +186,6 @@
 
 .bops-task-accordion__section--expanded {
   .bops-task-accordion__section {
-
     &-header {
       & > button {
         &:before {

@@ -206,7 +206,7 @@ export default class extends Controller {
       success: (data) => {
         populateResults(data)
       },
-      failure: (event) => {
+      failure: (_event) => {
         populateResults([])
       },
     })

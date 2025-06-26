@@ -110,7 +110,7 @@ export default class extends Controller {
     }
   }
 
-  addConsulteeClick(event) {
+  addConsulteeClick(_event) {
     this.addConsultee()
   }
 

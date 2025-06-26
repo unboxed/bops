@@ -10,7 +10,7 @@ export default class extends Controller {
     },
   }
 
-  toggleAll(event) {
+  toggleAll(_event) {
     if (this.isExpanded) {
       this.sections.forEach((section) => {
         section.classList.remove(this.classNameValue)
@@ -28,7 +28,7 @@ export default class extends Controller {
     }
   }
 
-  sectionToggled(event) {
+  sectionToggled(_event) {
     if (this.isExpanded) {
       this.button.ariaExpanded = "true"
       this.buttonText.textContent = this.collapseAllTextValue

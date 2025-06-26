@@ -23,6 +23,7 @@ jobs:
           - brakeman
           - rubocop
           - biome
+          - prettier
           - erblint
           - language_versions
       fail-fast: false

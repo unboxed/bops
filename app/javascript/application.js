@@ -4,12 +4,13 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
+
 Rails.start()
 
 import * as ActiveStorage from "@rails/activestorage"
+
 ActiveStorage.start()
 
 import "@opensystemslab/map"
-import accessibleAutocomplete from "accessible-autocomplete"
 
 import "./controllers"
