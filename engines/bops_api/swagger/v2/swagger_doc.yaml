@@ -21931,6 +21931,7 @@ paths:
                     files:
                     - name: proposed-floorplan.png
                       url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      referencesInDocument: []
                       type:
                       - value: elevations.proposed
                         description: Elevations - proposed
@@ -21943,6 +21944,8 @@ paths:
                         contentType: application/pdf
                     - name: site-notice.jpg
                       url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      referencesInDocument:
+                      - siteNotice2025v2
                       type:
                       - value: internal.siteNotice
                         description: Site Notice
@@ -35418,6 +35421,7 @@ paths:
                     files:
                     - name: proposed-floorplan.png
                       url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      referencesInDocument: []
                       type:
                       - value: elevations.proposed
                         description: Elevations - proposed
@@ -35430,6 +35434,8 @@ paths:
                         contentType: application/pdf
                     - name: site-notice.jpg
                       url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      referencesInDocument:
+                      - siteNotice2025v2
                       type:
                       - value: internal.siteNotice
                         description: Site Notice

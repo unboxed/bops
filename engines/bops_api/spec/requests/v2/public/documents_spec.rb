@@ -65,6 +65,7 @@ RSpec.describe "BOPS public API" do
     let!(:site_notice_evidence) do
       create(:document,
         :public,
+        numbers: "siteNotice2025v2",
         planning_application: planning_application,
         owner: site_notice,
         file: fixture_file_upload("site-notice.jpg", "image/jpeg", true),
@@ -96,6 +97,7 @@ RSpec.describe "BOPS public API" do
               a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}"),
               a_hash_including(
                 "name" => "site-notice.jpg",
+                "referencesInDocument" => ["siteNotice2025v2"],
                 "url" => "http://planx.bops.services/files/#{site_notice_evidence.blob_key}",
                 "type" => [
                   a_hash_including(
