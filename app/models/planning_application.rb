@@ -1071,9 +1071,12 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_ward_and_parish_information
-    return if postcode.blank?
-
     return if ward.present? && parish_name.present?
+    fetch_ward_and_parish_information
+  end
+
+  def fetch_ward_and_parish_information
+    return if postcode.blank?
 
     ward_type_fetched, ward_fetched, parish_name_fetched = Apis::Mapit::Query.new.fetch(postcode)
 

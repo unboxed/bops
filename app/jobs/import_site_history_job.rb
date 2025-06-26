@@ -2,22 +2,23 @@
 
 require "csv"
 
-class ImportHistoricApplicationsJob < ApplicationJob
-  def perform(local_authority_name:)
+class ImportSiteHistoryJob < ApplicationJob
+  def perform(local_authority_name:, create_class_name:)
     @local_authority_name = local_authority_name
+    @create_class_name = create_class_name
     create_tempfile
-    import_planning_applications
+    import_csv
   rescue => e
     log_exception(e)
   end
 
   private
 
-  attr_reader :local_authority_name
+  attr_reader :local_authority_name, :create_class_name
 
   def log_exception(exception)
     broadcast(message: exception.message)
-    broadcast(message: "Expected S3 filepath: historic_applications/#{filename}") unless local_import_file_enabled?
+    broadcast(message: "Expected S3 filepath: site_history/#{filename}") unless local_import_file_enabled?
   end
 
   def broadcast(message:)
@@ -25,8 +26,12 @@ class ImportHistoricApplicationsJob < ApplicationJob
     Rails.logger.debug(message)
   end
 
-  def import_planning_applications
+  def import_csv
     import_rows
+  end
+
+  def create_class
+    @create_class ||= create_class_name.to_s.constantize
   end
 
   def import_rows
@@ -38,7 +43,7 @@ class ImportHistoricApplicationsJob < ApplicationJob
   end
 
   def create_tempfile
-    @file = Tempfile.new(["planning_applications", ".csv"])
+    @file = Tempfile.new(["site_history", ".csv"])
     write_tempfile(@file)
     @file.close
   end
@@ -59,7 +64,7 @@ class ImportHistoricApplicationsJob < ApplicationJob
   end
 
   def filename
-    "PlanningHistory#{local_authority_name.capitalize}.csv"
+    "SiteHistory#{local_authority_name.capitalize}.csv"
   end
 
   def import_row(row)
@@ -69,7 +74,7 @@ class ImportHistoricApplicationsJob < ApplicationJob
       attributes[:previous_references] = attributes[:previous_references].split(",").map(&:strip)
     end
 
-    PlanningApplicationsCreation.new(
+    create_class.new(
       **attributes.merge(local_authority:)
     ).perform
   end

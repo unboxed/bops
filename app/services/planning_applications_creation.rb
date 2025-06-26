@@ -68,6 +68,19 @@ class PlanningApplicationsCreation
     raise
   end
 
+  def transform_decision
+    case decision&.strip&.upcase
+    when "GRANT"
+      "granted"
+    when "REFUSED"
+      "refused"
+    when "NOT REQUIRED"
+      "not_required"
+    else
+      ""
+    end
+  end
+
   def planning_application_attributes
     {
       address_1:,
@@ -81,7 +94,7 @@ class PlanningApplicationsCreation
       assessment_in_progress_at:,
       awaiting_determination_at:,
       cil_liable:,
-      decision:,
+      decision: transform_decision,
       description:,
       determination_date:,
       determined_at:,
