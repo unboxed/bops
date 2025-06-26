@@ -218,8 +218,8 @@ RSpec.describe "Review documents for recommendation" do
 
         expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/documents/#{document_without_reference.id}/edit?route=review")
 
-        expect(page).to have_content("Document reference(s)")
-        fill_in "Document reference(s)", with: "DOC-REF-01"
+        expect(page).to have_content("Drawing number")
+        fill_in "Drawing number", with: "DOC-REF-01"
         click_button "Save"
 
         expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/documents")

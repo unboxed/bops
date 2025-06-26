@@ -178,7 +178,7 @@ RSpec.describe "Withdraw or cancel" do
 
       check "Roof plan - proposed"
 
-      fill_in("Document reference(s)", with: "DOCREF123")
+      fill_in("Drawing number", with: "DOCREF123")
 
       within_fieldset("Do you want to list this document on the decision notice?") do
         choose "Yes"

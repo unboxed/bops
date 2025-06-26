@@ -67,7 +67,7 @@ RSpec.describe "Edit document numbers page" do
           click_link "Edit"
         end
 
-        fill_in "Document reference(s)", with: "new_number_1, new_number_2"
+        fill_in "Drawing number", with: "new_number_1, new_number_2"
 
         click_button "Save"
         expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
@@ -77,7 +77,7 @@ RSpec.describe "Edit document numbers page" do
         end
 
         expect(page).to have_selector("h1", text: "Edit supplied document")
-        expect(page).to have_field("Document reference(s)", with: "new_number_1, new_number_2")
+        expect(page).to have_field("Drawing number", with: "new_number_1, new_number_2")
 
         click_link "Documents"
         expect(page).to have_selector("h1", text: "Documents")
@@ -88,7 +88,7 @@ RSpec.describe "Edit document numbers page" do
 
         expect(page).to have_selector("h1", text: "Edit supplied document")
 
-        fill_in "Document reference(s)", with: "other_new_number_1"
+        fill_in "Drawing number", with: "other_new_number_1"
 
         click_button "Save"
         expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
@@ -103,7 +103,7 @@ RSpec.describe "Edit document numbers page" do
 
         expect(page).to have_selector("h1", text: "Edit supplied document")
 
-        fill_in "Document reference(s)", with: "new_number_1, new_number_2"
+        fill_in "Drawing number", with: "new_number_1, new_number_2"
 
         within_fieldset("Do you want to list this document on the decision notice?") do
           choose "Yes"
@@ -125,7 +125,7 @@ RSpec.describe "Edit document numbers page" do
         end
 
         expect(page).to have_selector("h1", text: "Edit supplied document")
-        expect(page).to have_field("Document reference(s)", with: "new_number_1, new_number_2")
+        expect(page).to have_field("Drawing number", with: "new_number_1, new_number_2")
 
         click_link "Documents"
         expect(page).to have_selector("h1", text: "Documents")
@@ -136,7 +136,7 @@ RSpec.describe "Edit document numbers page" do
 
         expect(page).to have_selector("h1", text: "Edit supplied document")
 
-        fill_in "Document reference(s)", with: "other_new_number_1"
+        fill_in "Drawing number", with: "other_new_number_1"
 
         click_button "Save"
         expect(page).to have_selector("[role=alert] p", text: "Document has been updated")
@@ -154,7 +154,7 @@ RSpec.describe "Edit document numbers page" do
         end
 
         expect(page).to have_selector("h1", text: "Edit supplied document")
-        fill_in "Document reference(s)", with: "new_number_1, new_number_2"
+        fill_in "Drawing number", with: "new_number_1, new_number_2"
 
         within_fieldset("Do you want to list this document on the decision notice?") do
           choose "No"
