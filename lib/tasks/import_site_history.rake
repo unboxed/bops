@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :import do
   desc "Import planning applications"
   task planning_applications: :environment do
