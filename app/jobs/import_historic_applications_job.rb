@@ -2,11 +2,11 @@
 
 require "csv"
 
-class ImportHistoricApplicationsJob < ApplicationJob
-  def perform(local_authority_name:)
+class ImportHistoricDataJob < ApplicationJob
+  def perform(csv_type, local_authority_name:)
     @local_authority_name = local_authority_name
     create_tempfile
-    import_planning_applications
+    import_data
   rescue => e
     log_exception(e)
   end
@@ -17,7 +17,7 @@ class ImportHistoricApplicationsJob < ApplicationJob
 
   def log_exception(exception)
     broadcast(message: exception.message)
-    broadcast(message: "Expected S3 filepath: historic_applications/#{filename}") unless local_import_file_enabled?
+    broadcast(message: "Expected S3 filepath: #{csv_type}/#{filename}") unless local_import_file_enabled?
   end
 
   def broadcast(message:)
@@ -25,12 +25,8 @@ class ImportHistoricApplicationsJob < ApplicationJob
     Rails.logger.debug(message)
   end
 
-  def import_planning_applications
+  def import_data
     import_rows
-  end
-
-  def validate_planning_applications
-    PlanningApplicationsValidation.new
   end
 
   def import_rows
@@ -76,6 +72,13 @@ class ImportHistoricApplicationsJob < ApplicationJob
     PlanningApplicationsCreation.new(
       **attributes.merge(local_authority:)
     ).perform
+  end
+
+  def select_csv(csv_type)
+    csv_type
+    case
+    when
+    end
   end
 
   def local_authority
