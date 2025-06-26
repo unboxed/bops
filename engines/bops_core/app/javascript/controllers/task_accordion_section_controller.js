@@ -8,7 +8,7 @@ export default class extends Controller {
     },
   }
 
-  toggle(event) {
+  toggle(_event) {
     this.element.classList.toggle(this.classNameValue)
 
     if (this.isExpanded) {

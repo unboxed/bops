@@ -5,7 +5,7 @@ import accessibleAutocomplete from "accessible-autocomplete"
 export default class extends Controller {
   connect() {
     const inputField = this.element.querySelector("input[type=text]")
-    const formGroup = inputField.parentNode
+    const _formGroup = inputField.parentNode
     const fieldId = inputField.id
     const fieldName = inputField.name
     const fieldValue = inputField.value

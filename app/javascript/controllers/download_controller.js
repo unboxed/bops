@@ -51,7 +51,7 @@ export default class extends Controller {
     }
   }
 
-  showError(error) {
+  showError(_error) {
     const errorMessage = document.createElement("span")
     errorMessage.innerText =
       "Unable to complete download, please contact support"

@@ -7,7 +7,7 @@ export default class extends Controller {
     this.className = "govuk-!-display-none"
   }
 
-  click(event) {
+  click(_event) {
     if (this.isVisible) {
       this.hide()
     } else {
