@@ -1,17 +1,10 @@
 {
-  "metadata": {
-    "page": 2,
-    "results": 2,
-    "from": 3,
-    "to": 4,
-    "total_pages": 5,
-    "total_results": 10
-  },
-  "links": {
-    "first": "/api/v2/public/planning_applications/search?page=1&maxresults=2",
-    "last": "/api/v2/public/planning_applications/search?page=5&maxresults=2",
-    "prev": "/api/v2/public/planning_applications/search?page=1&maxresults=2",
-    "next": "/api/v2/public/planning_applications/search?page=3&maxresults=2"
+  "pagination": {
+    "currentPage": 2,
+    "resultsPerPage": 2,
+    "totalPages": 5,
+    "totalResults": 10,
+    "totalAvailableItems": 10
   },
   "data": [
     {
