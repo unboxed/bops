@@ -6,7 +6,7 @@ RSpec.describe "BOPS public API" do
   let(:config) { Rails.configuration }
   let(:local_authority) { create(:local_authority, :default) }
   let(:application_type) { create(:application_type, :householder) }
-  let(:document) { create(:document, :with_tags, validated: true, publishable: true) }
+  let(:document) { create(:document, :with_tags, validated: true, publishable: true, numbers: "2025v1") }
   let(:planning_application) { create(:planning_application, :published, :with_boundary_geojson, :determined, documents: [document], local_authority:, application_type:) }
 
   around do |example|
@@ -96,6 +96,7 @@ RSpec.describe "BOPS public API" do
               a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}"),
               a_hash_including(
                 "name" => "site-notice.jpg",
+                "drawing_number" => "2025v1",
                 "url" => "http://planx.bops.services/files/#{site_notice_evidence.blob_key}",
                 "type" => [
                   a_hash_including(
