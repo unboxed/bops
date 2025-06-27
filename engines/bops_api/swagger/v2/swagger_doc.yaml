@@ -35110,6 +35110,33 @@ paths:
         schema:
           type: string
           description: Search by reference or description
+      - name: applicationType[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+          description: Filter by one or more application type codes
+      - name: orderBy
+        in: query
+        schema:
+          type: string
+          description: Sort by ascending or descending order
+          enum:
+          - asc
+          - desc
+          default: desc
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+          description: Sort by field
+          enum:
+          - publishedAt
+          - receivedAt
+          default: receivedAt
       responses:
         '200':
           description: returns planning applications when searching by a reference
@@ -35284,6 +35311,34 @@ paths:
                             country: ''
               schema:
                 "$ref": "#/components/schemas/Search"
+  "/api/v2/public/application_types":
+    get:
+      summary: List all application types for the current local authority
+      tags:
+      - Application types
+      responses:
+        '200':
+          description: array of application types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: lawfulness_certificate
+                    code:
+                      type: string
+                      example: ldc.proposed
+                    suffix:
+                      type: string
+                      example: LDCP
+                  required:
+                  - name
+                  - code
+                  - suffix
   "/api/v2/public/planning_applications/{reference}/comments/specialist":
     get:
       summary: Retrieves comments for a planning application
@@ -35563,6 +35618,33 @@ paths:
           type: string
           description: Search by reference or description
         required: false
+      - name: applicationType[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+          description: Filter by one or more application type codes
+      - name: orderBy
+        in: query
+        schema:
+          type: string
+          description: Sort by ascending or descending order
+          enum:
+          - asc
+          - desc
+          default: desc
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+          description: Sort by field
+          enum:
+          - publishedAt
+          - receivedAt
+          default: receivedAt
       responses:
         '200':
           description: returns planning applications when searching by a reference

@@ -3,6 +3,8 @@
 module BopsApi
   module Application
     class SearchService
+      ALLOWED_SORT_FIELDS = %w[publishedAt receivedAt].freeze
+
       def initialize(scope, params)
         @scope = scope
         @params = params
@@ -12,10 +14,27 @@ module BopsApi
       attr_reader :scope, :params, :query
 
       def call
-        Pagination.new(scope: search, params:).paginate
+        @scope = filter_by_application_type_code
+        @scope = search
+        @scope = sort
+
+        Pagination.new(scope: @scope, params:).paginate
       end
 
       private
+
+      def sort
+        field = params[:sortBy].presence_in(ALLOWED_SORT_FIELDS) || "receivedAt"
+        direction = (params[:orderBy].to_s.downcase == "asc") ? :asc : :desc
+
+        scope.reorder(field.underscore => direction)
+      end
+
+      def filter_by_application_type_code
+        return @scope if params[:applicationType].blank?
+
+        scope.for_application_type_codes(params[:applicationType])
+      end
 
       def search
         return scope if query.blank?
