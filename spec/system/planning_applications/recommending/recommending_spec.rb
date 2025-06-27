@@ -32,7 +32,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "when application type is lawfulness_certificate" do
-    let!(:planning_application) do
+    let(:planning_application) do
       travel_to("2022-01-01") do
         create(
           :planning_application,
@@ -40,6 +40,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           :ldc_proposed,
           local_authority: default_local_authority,
           public_comment: nil,
+          user: assessor,
           api_user:
         )
       end
@@ -50,12 +51,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
       create(:decision, :ldc_refused)
 
       sign_in assessor
-      visit "/planning_applications"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     end
 
     it "shows the correct status tags at each stage" do
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-
       expect(list_item("Make draft recommendation")).to have_content("Not started")
 
       click_link("Make draft recommendation")
@@ -181,11 +180,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "when clicking Save and mark as complete" do
       context "with no previous recommendations" do
         it "can create a new recommendation, edit it, and submit it" do
-          within(selected_govuk_tab) do
-            click_link(planning_application.reference)
-          end
-
-          click_link("Check and assess")
           click_link("Make draft recommendation")
           within_fieldset("What is your recommendation?") do
             choose("Granted")
@@ -281,7 +275,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "with previous recommendations" do
       let!(:planning_application) do
-        create(:planning_application, :to_be_reviewed, local_authority: default_local_authority)
+        create(:planning_application, :to_be_reviewed, local_authority: default_local_authority, user: assessor)
       end
 
       let!(:recommendation) do
@@ -290,11 +284,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "displays the previous recommendations" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
-
-        click_link("Check and assess")
         click_link("Make draft recommendation")
 
         within ".recommendations" do
@@ -332,11 +321,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "when submitting a recommendation" do
       it "can only be submitted when a planning application is in assessment" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
-
-        click_link("Check and assess")
         click_link("Make draft recommendation")
 
         within_fieldset("What is your recommendation?") do
@@ -384,11 +368,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "allows navigation to assess recommendation page" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
-
-        click_link("Check and assess")
         click_link("Make draft recommendation")
 
         within_fieldset("What is your recommendation?") do
@@ -405,11 +384,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "allows navigation back to the planning application page" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
-
-        click_link("Check and assess")
         click_link("Make draft recommendation")
 
         within_fieldset("What is your recommendation?") do
@@ -426,15 +400,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       context "when there are open post validation requests" do
-        let!(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority) }
+        let(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority, user: assessor) }
         let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
 
         it "prevents me from submitting the planning application" do
-          within(selected_govuk_tab) do
-            click_link(planning_application.reference)
-          end
-
-          click_link("Check and assess")
           click_link("Make draft recommendation")
           within_fieldset("What is your recommendation?") do
             choose("Granted")
@@ -457,15 +426,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       context "when there is an open time extension request" do
-        let(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority) }
+        let(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority, user: assessor) }
         let!(:time_extension_request) { create(:time_extension_validation_request, :open, planning_application:, post_validation: true) }
 
         it "allows me to submit the planning application" do
-          within(selected_govuk_tab) do
-            click_link(planning_application.reference)
-          end
-
-          click_link("Check and assess")
           click_link("Make draft recommendation")
           within_fieldset("What is your recommendation?") do
             choose("Granted")
@@ -485,11 +449,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "when it needs to go to committee" do
       it "I can recommend the application go to committee" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
-
-        click_link("Check and assess")
         click_link("Make draft recommendation")
 
         within_fieldset("Does this planning application need to be decided by committee?") do
@@ -531,11 +490,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "shows the right thing when I submit my recommendation" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
-
-        click_link("Check and assess")
         click_link("Make draft recommendation")
 
         within_fieldset("Does this planning application need to be decided by committee?") do
@@ -567,14 +521,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     context "when withdrawing a recommendation", :capybara do
-      let!(:planning_application) do
-        create(:planning_application, :with_recommendation, :awaiting_determination, local_authority: default_local_authority, decision: "granted")
+      let(:planning_application) do
+        create(:planning_application, :with_recommendation, :awaiting_determination, local_authority: default_local_authority, decision: "granted", user: assessor)
       end
 
       it "can only be withdrawn when a planning application is awaiting determination" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
+        visit "/planning_applications/#{planning_application.reference}"
 
         click_link("View recommendation")
 
@@ -611,11 +563,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "when clicking Save and come back later" do
       context "with no previous recommendations" do
         it "can create a new recommendation,saves it and come back later" do
-          within(selected_govuk_tab) do
-            click_link(planning_application.reference)
-          end
-
-          click_link("Check and assess")
           click_link("Make draft recommendation")
           within_fieldset("What is your recommendation?") do
             choose("Granted")
@@ -639,11 +586,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "errors if no decision given" do
-        within(selected_govuk_tab) do
-          click_link(planning_application.reference)
-        end
-
-        click_link("Check and assess")
         click_link("Make draft recommendation")
         click_button "Save and come back later"
 
@@ -759,7 +701,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     context "when there are assessment details" do
-      let!(:planning_application) do
+      let(:planning_application) do
         create(
           :planning_application,
           :with_consultees,
@@ -918,7 +860,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "when application type is prior approval" do
-    let!(:planning_application) do
+    let(:planning_application) do
       travel_to("2022-01-01") do
         create(
           :planning_application,
@@ -939,17 +881,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
       create(:decision, :pa_refused)
 
       sign_in assessor
-      visit "/planning_applications"
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
     end
 
     context "when clicking Save and mark as complete" do
       context "with no previous recommendations" do
         it "can create a new recommendation, edit it, and submit it" do
-          within(selected_govuk_tab) do
-            click_link(planning_application.reference)
-          end
-
-          click_link("Check and assess")
           click_link("Make draft recommendation")
 
           choose "Prior approval required and approved"

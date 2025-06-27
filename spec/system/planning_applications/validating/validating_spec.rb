@@ -7,7 +7,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :not_started, local_authority: default_local_authority)
+    create(:planning_application, :not_started, local_authority: default_local_authority, user: assessor)
   end
 
   let!(:additional_document_validation_request) do
@@ -20,15 +20,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   let!(:new_planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
 
-  let(:govuk_tab_all) { find("div[class='govuk-tabs__panel']#all") }
-
   before do
     stub_planx_api_response_for("POLYGON ((-0.054597 51.537331, -0.054588 51.537287, -0.054453 51.537313, -0.054597 51.537331))").to_return(
       status: 200, body: "{}"
     )
 
     sign_in assessor
-    visit "/"
+    visit "/#all"
   end
 
   context "when planning application does not transition when expected inputs are not sent" do
@@ -39,7 +37,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         validated: false, invalidated_document_reason: "Missing a lazy Suzan",
         owner: request)
 
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -54,7 +52,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows edit, upload and archive links for documents" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -147,7 +145,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         delivered_emails = ActionMailer::Base.deliveries.count
 
-        within(govuk_tab_all) do
+        within(selected_govuk_tab) do
           click_link(planning_application.reference)
         end
 
@@ -204,9 +202,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       it "allows planning application to be made valid when open validation request exists" do
         create(:additional_document_validation_request, planning_application:, state: "open")
 
-        within(govuk_tab_all) do
-          click_link(planning_application.reference)
-        end
+        visit "/planning_applications/#{planning_application.id}"
 
         click_link "Check and validate"
         click_link "Send validation decision"

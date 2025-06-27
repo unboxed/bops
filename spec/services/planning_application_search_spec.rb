@@ -126,51 +126,10 @@ RSpec.describe PlanningApplicationSearch do
       end
     end
 
-    context "when is search with exclude_others" do
-      let(:params) do
-        ActionController::Parameters.new(
-          {view: "mine"}
-        )
-      end
-
-      let!(:assessor1) do
-        create(:user, :assessor, local_authority:)
-      end
-
-      let!(:planning_application4) do
-        travel_to("2022-03-01") do
-          create(
-            :planning_application,
-            :in_assessment,
-            description: "Skylight",
-            local_authority:,
-            user: assessor1
-          )
-        end
-      end
-
-      it "returns any associated and unassociated planning applications" do
-        expect(search.filtered_planning_applications).to contain_exactly(
-          prior_approval_not_started,
-          ldc_not_started,
-          prior_approval_in_assessment,
-          ldc_in_assessment_2,
-          ldc_in_assessment_1,
-          householder_application_for_planning_permission_in_assessment,
-          pre_application_in_assessment
-        )
-      end
-
-      it "does not return any planning application which is associated with other user" do
-        expect(search.filtered_planning_applications).not_to contain_exactly(planning_application4)
-      end
-    end
-
     context "when just using search" do
       let(:params) do
         ActionController::Parameters.new(
           {
-            view: "all",
             query:,
             submit: "query"
           }

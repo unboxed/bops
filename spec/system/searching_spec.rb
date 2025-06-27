@@ -55,8 +55,6 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     )
   end
 
-  let(:govuk_tab_all) { find("div[class='govuk-tabs__panel']#all") }
-
   before { sign_in(user) }
 
   context "when user views her own planning applications" do
@@ -74,36 +72,32 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     }
 
     before do
-      visit "/"
+      visit "/#mine"
     end
 
     it "allows user to search planning applications by reference" do
-      within(govuk_tab_all) do
-        expect(page).to have_content("Your live applications")
+      within(selected_govuk_tab) do
+        expect(page).to have_content("My applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
-        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
-      end
 
-      click_button("Search")
-      expect(page).to have_current_path(%r{^/planning_applications\?query=&submit=search})
+        click_button("Search")
+        expect(page).to have_current_path(%r{^/planning_applications\?query=&submit=search})
 
-      within(govuk_tab_all) do
-        expect(page).to have_content("Your live applications")
+        expect(page).to have_content("My applications")
         expect(page).to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
-        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
-      end
 
-      fill_in("Find an application", with: "00100")
+        fill_in("Find an application", with: "00100")
 
-      click_button("Search")
-      expect(page).to have_current_path(%r{^/planning_applications\?query=00100&submit=search})
+        click_button("Search")
+        expect(page).to have_current_path(%r{^/planning_applications\?query=00100&submit=search})
 
-      within(govuk_tab_all) do
-        expect(page).to have_content("Your live applications")
+        expect(page).to have_content("My applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
@@ -111,29 +105,37 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       end
 
       visit "/"
-      visit "/planning_applications?#{query}#all"
+      visit "/planning_applications?#{query}#mine"
 
-      within(govuk_tab_all) do
-        expect(page).to have_content("Your live applications")
+      within(selected_govuk_tab) do
+        expect(page).to have_content("My applications")
         expect(page).not_to have_content("Query can't be blank")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+
+        click_link("Clear search")
+        expect(page).to have_field("Find an application", with: "")
+
+        expect(page).to have_content("My applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
       end
 
-      click_link("Clear search")
-      expect(page).to have_field("Find an application", with: "")
-
-      within(govuk_tab_all) do
-        expect(page).to have_content("Your live applications")
-        expect(page).to have_content(planning_application1.reference)
+      click_link "Unassigned cases"
+      within(selected_govuk_tab) do
+        expect(page).to have_content("Unassigned applications")
+        expect(page).not_to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
       end
     end
 
     it "allows user to search on filtered results" do
-      within(govuk_tab_all) do
+      click_link "All cases"
+
+      within(selected_govuk_tab) do
         click_button("Filter")
         uncheck("Invalid")
         uncheck("Not started")
@@ -154,7 +156,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     end
 
     it "allows user to search planning applications by description" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         fill_in("Find an application", with: "chimney")
         click_button("Search")
 
@@ -164,11 +166,13 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     end
 
     describe "searching for applications using an address" do
+      before do
+        click_link "All cases"
+      end
+
       context "when using: '11 Abbey Gardens'" do
         it "returns the correct results" do
-          click_link "View all applications"
-
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "11 Abbey Gardens")
 
             click_button("Search")
@@ -183,9 +187,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       context "when using: '20 Abbey Gardens'" do
         it "returns the correct results" do
-          click_link "View all applications"
-
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "20 Abbey Gardens")
 
             click_button("Search")
@@ -200,9 +202,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       context "when using: 'GARDENS'" do
         it "returns the correct results" do
-          click_link "View all applications"
-
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "GARDENS")
 
             click_button("Search")
@@ -217,9 +217,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       context "when using: '140 woodwarde'" do
         it "returns the correct results" do
-          click_link "View all applications"
-
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "140 woodwarde")
 
             click_button("Search")
@@ -234,9 +232,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       context "when using: 'london'" do
         it "returns the correct results" do
-          click_link "View all applications"
-
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "london")
 
             click_button("Search")
@@ -251,9 +247,9 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       context "when using: 'southwark'" do
         it "returns the correct results" do
-          click_link "View all applications"
+          click_link "All cases"
 
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "southwark")
 
             click_button("Search")
@@ -268,9 +264,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       context "when using: 'se22 8UR'" do
         it "returns the correct results" do
-          click_link "View all applications"
-
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "se22 8UR")
 
             click_button("Search")
@@ -285,9 +279,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       context "when using: 'se22 8UR'" do
         it "returns the correct results" do
-          click_link "View all applications"
-
-          within(govuk_tab_all) do
+          within(selected_govuk_tab) do
             fill_in("Find an application", with: "sE228uR")
 
             click_button("Search")
@@ -302,21 +294,21 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     end
 
     it "allows user to clear form without submitting it" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         fill_in("Find an application", with: "abc")
 
         click_link("Clear search")
         expect(page).to have_field("Find an application", with: "")
 
-        expect(page).to have_content("Your live applications")
+        expect(page).to have_content("My applications")
         expect(page).to have_content(planning_application1.reference)
-        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
       end
     end
 
     it "shows message when there are no search results" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         fill_in("Find an application", with: "something else entirely")
         click_button("Search")
 
@@ -340,7 +332,6 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     let(:empty_query) {
       %w[
         query=
-        view=all
         submit=search
         application_type%5B%5D=
         application_type%5B%5D=prior_approval
@@ -360,7 +351,6 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     let(:query) {
       %w[
         query=00100
-        view=all
         submit=search
         application_type%5B%5D=
         application_type%5B%5D=prior_approval
@@ -379,17 +369,16 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
     before do
       visit "/planning_applications"
-      click_link("View all applications")
+      click_link("All cases")
 
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         click_link("Clear search")
         expect(page).to have_field("Find an application", with: "")
       end
     end
 
     it "allows user to search planning applications by reference" do
-      within(govuk_tab_all) do
-        expect(page).to have_content("Live applications")
+      within(selected_govuk_tab) do
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -398,7 +387,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         click_button("Search")
         expect(page).to have_current_path("/planning_applications?#{empty_query}")
 
-        expect(page).to have_content("Live applications")
+        expect(page).to have_content("All applications")
         expect(page).to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -409,7 +398,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         click_button("Search")
         expect(page).to have_current_path("/planning_applications?#{query}")
 
-        expect(page).to have_content("Live applications")
+        expect(page).to have_content("All applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
@@ -419,8 +408,8 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       visit "/"
       visit "/planning_applications?#{query}#all"
 
-      within(govuk_tab_all) do
-        expect(page).to have_content("Live applications")
+      within(selected_govuk_tab) do
+        expect(page).to have_content("All applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
@@ -429,7 +418,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         click_link("Clear search")
         expect(page).to have_field("Find an application", with: "")
 
-        expect(page).to have_content("Live applications")
+        expect(page).to have_content("All applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
@@ -437,7 +426,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     end
 
     it "allows user to search planning applications by description" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         fill_in("Find an application", with: "chimney")
 
         click_button("Search")
@@ -450,7 +439,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     end
 
     it "allows user to search on filtered results" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         click_button("Filter")
         uncheck("Invalid")
         uncheck("Not started")
@@ -474,13 +463,13 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     end
 
     it "allows user to clear form without submitting it" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         fill_in("Find an application", with: "abc")
 
         click_link("Clear search")
         expect(page).to have_field("Find an application", with: "")
 
-        expect(page).to have_content("Live applications")
+        expect(page).to have_content("All applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
@@ -488,7 +477,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     end
 
     it "shows message when there are no search results" do
-      within(govuk_tab_all) do
+      within(selected_govuk_tab) do
         fill_in("Find an application", with: "something else entirely")
 
         click_button("Search")

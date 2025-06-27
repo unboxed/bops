@@ -10,9 +10,6 @@ module PlanningApplications
       @search = search
     end
 
-    delegate :exclude_others?, to: :search, allow_nil: true
-    delegate :all_applications_title, to: :search, allow_nil: true
-
     attr_reader :type, :search
 
     def before_render
@@ -37,22 +34,18 @@ module PlanningApplications
     end
 
     def title
-      (type == :all) ? all_applications_title : t(".#{type}")
+      t(".#{type}")
     end
 
     def attributes
-      if exclude_others?
-        your_application_attributes
-      else
-        try("#{type}_attributes") || default_attributes
-      end
+      try("#{type}_attributes") || default_attributes
     end
 
     def all_attributes
-      %i[formatted_expiry_date reference status_tag full_address description user_name]
+      %i[reference full_address description days_status_tag status_tag formatted_expiry_date user_name]
     end
 
-    def your_application_attributes
+    def mine_attributes
       %i[reference full_address formatted_expiry_date days_status_tag status_tag]
     end
 

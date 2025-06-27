@@ -15,9 +15,6 @@
             hint: {text: t(".you_can_search")}
           ) %>
     <% end %>
-    <% unless exclude_others? %>
-      <%= hidden_field_tag(:view, "all") %>
-    <% end %>
     <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
     <%= govuk_button_link_to(
           t(".clear_search"),
@@ -27,7 +24,7 @@
         ) %>
   </div>
 
-  <% if panel_type == :all %>
+  <% if panel_type != :closed %>
     <%= govuk_accordion do |accordion| %>
       <% accordion.with_section(heading_text: "Filters") do %>
         <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">

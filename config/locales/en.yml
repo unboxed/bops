@@ -1654,7 +1654,7 @@ en:
       one: 1 day overdue
       other: "%{count} days overdue"
     panel_component:
-      all: All
+      all: All applications
       application_type_name: Application type
       awaiting_determination: Awaiting determination
       closed: Closed
@@ -1664,12 +1664,14 @@ en:
       formatted_expiry_date: Expiry date
       formatted_outcome_date: Outcome date
       full_address: Site address
+      mine: My applications
       no_planning_applications: No planning applications match your search
       not_started_and_invalid: Not started
       outcome: Outcome
       reference: Application number
       status_tag: Status
       to_be_reviewed: Corrections requested
+      unassigned: Unassigned applications
       under_assessment: In assessment
       user_name: Planning officer
     policy_consideration_list:
