@@ -23,6 +23,7 @@ RSpec.describe "Downloading planning application documents", type: :system, js: 
   let!(:doc1) { create(:document, :floorplan_tags, file: file1, planning_application:) }
   let!(:doc2) { create(:document, file: file2, planning_application:) }
   let!(:doc3) { create(:document, file: file3, planning_application:) }
+  let!(:doc4) { create(:document, file: file3, planning_application:) }
 
   let(:download_path) { Rails.root.join("tmp/downloads", "#{planning_application.reference}.zip") }
 
@@ -50,7 +51,8 @@ RSpec.describe "Downloading planning application documents", type: :system, js: 
       expect(zip_files).to include(
         "existing-floorplan.png",
         "proposed-floorplan.png",
-        "existing-floorplan-redacted.png"
+        "existing-floorplan-redacted.png",
+        "existing-floorplan-redacted (1).png"
       )
     end
   end
