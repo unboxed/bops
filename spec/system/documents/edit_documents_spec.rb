@@ -73,12 +73,12 @@ RSpec.describe "Edit document", type: :system do
       visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
       check("Roof plan - proposed")
-      fill_in("Document reference(s)", with: "DOC123")
+      fill_in("Drawing number", with: "DOC123")
       click_button("Save")
       click_link("Edit")
 
       expect(page).to have_content("proposed-floorplan.png")
-      expect(page).to have_field("Document reference(s)", with: "DOC123")
+      expect(page).to have_field("Drawing number", with: "DOC123")
       expect(page).to have_field("Roof plan - proposed", checked: true)
 
       attach_file(
@@ -95,7 +95,7 @@ RSpec.describe "Edit document", type: :system do
       click_link("Edit")
 
       expect(page).to have_content("proposed-roofplan.png")
-      expect(page).to have_field("Document reference(s)", with: "DOC123")
+      expect(page).to have_field("Drawing number", with: "DOC123")
       expect(page).to have_field("Roof plan - proposed", checked: true)
     end
 
@@ -176,7 +176,7 @@ RSpec.describe "Edit document", type: :system do
       it "can edit document and return back to the planning applications index page" do
         visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
-        fill_in("Document reference(s)", with: "DOCREF123")
+        fill_in("Drawing number", with: "DOCREF123")
 
         click_button "Save"
 
@@ -204,7 +204,7 @@ RSpec.describe "Edit document", type: :system do
           click_link "Edit"
         end
 
-        fill_in("Document reference(s)", with: "DOCREF123")
+        fill_in("Drawing number", with: "DOCREF123")
 
         click_button "Save"
 

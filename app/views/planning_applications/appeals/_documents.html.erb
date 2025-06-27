@@ -32,15 +32,16 @@
               <% end %>
             <% end %>
             <p class="govuk-body govuk-!-margin-bottom-1">
-              <% if document.numbers? %>
-                Reference: <strong><%= document.numbers %></strong>
-              <% else %>
-                File name: <strong><%= document.name %></strong>
-              <% end %>
+              File name: <strong><%= document.name %></strong>
             </p>
             <p class="govuk-body govuk-!-margin-bottom-1">
               Date received: <strong><%= document.received_at_or_created %></strong>
             </p>
+            <% if document.numbers.present? %>
+              <p class="govuk-body govuk-!-margin-bottom-1">
+                Drawing number: <strong><%= document.numbers %></strong>
+              </p>
+            <% end %>
           </div>
         </tr>
       <% end %>

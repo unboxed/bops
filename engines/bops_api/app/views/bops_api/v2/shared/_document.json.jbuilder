@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 json.name document.name
+json.drawing_number document.numbers.presence || "-"
 json.url main_app.uploaded_file_url(document.blob)
 json.type document.tags do |tag|
   json.value tag
