@@ -116,7 +116,7 @@ RSpec.describe BopsApi::Application::SearchService do
       end
 
       context "when no application type codes are provided" do
-        let(:params) { {application_type_codes: [""]} }
+        let(:params) { {applicationType: [""]} }
 
         it "returns matching applications" do
           expect(results).to match_array([])
@@ -124,7 +124,7 @@ RSpec.describe BopsApi::Application::SearchService do
       end
 
       context "when one matching application type code is provided" do
-        let(:params) { {application_type_codes: ["ldc.existing", "notvalid"]} }
+        let(:params) { {applicationType: ["ldc.existing", "notvalid"]} }
 
         it "returns matching applications" do
           expect(results).to match_array([app1])
@@ -132,7 +132,7 @@ RSpec.describe BopsApi::Application::SearchService do
       end
 
       context "when one application type code is provided" do
-        let(:params) { {application_type_codes: ["ldc.existing"]} }
+        let(:params) { {applicationType: ["ldc.existing"]} }
 
         it "returns matching applications" do
           expect(results).to match_array([app1])
@@ -140,7 +140,7 @@ RSpec.describe BopsApi::Application::SearchService do
       end
 
       context "when multiple application type codes are provided" do
-        let(:params) { {application_type_codes: ["ldc.existing", "pp.full.householder"]} }
+        let(:params) { {applicationType: ["ldc.existing", "pp.full.householder"]} }
 
         it "returns matching applications" do
           expect(results).to match_array([app1, app2, app3])
@@ -148,7 +148,7 @@ RSpec.describe BopsApi::Application::SearchService do
       end
 
       context "when application type codes and query are provided" do
-        let(:params) { {q: "Random street", application_type_codes: ["pp.full.householder"]} }
+        let(:params) { {q: "Random street", applicationType: ["pp.full.householder"]} }
 
         it "returns matching applications" do
           expect(results).to match_array([app3])
@@ -160,8 +160,8 @@ RSpec.describe BopsApi::Application::SearchService do
       let!(:older_app) { create(:planning_application, published_at: 3.days.ago) }
       let!(:newer_app) { create(:planning_application, published_at: 1.day.ago) }
 
-      context "ascending order by published_at" do
-        let(:params) { {sort_by: "published_at", sort_direction: "asc"} }
+      context "ascending order by publishedAt" do
+        let(:params) { {sortBy: "publishedAt", orderBy: "asc"} }
 
         it "returns the oldest application first" do
           expect(results.first).to eq(older_app)
@@ -169,8 +169,8 @@ RSpec.describe BopsApi::Application::SearchService do
         end
       end
 
-      context "descending order by published_at" do
-        let(:params) { {sort_by: "published_at", sort_direction: "desc"} }
+      context "descending order by publishedAt" do
+        let(:params) { {sortBy: "publishedAt", orderBy: "desc"} }
 
         it "returns the newest application first" do
           expect(results.first).to eq(newer_app)
@@ -178,8 +178,8 @@ RSpec.describe BopsApi::Application::SearchService do
         end
       end
 
-      context "default order when sort_direction not provided" do
-        let(:params) { {sort_by: "published_at"} }
+      context "default order when orderBy not provided" do
+        let(:params) { {sortBy: "publishedAt"} }
 
         it "defaults to descending order" do
           expect(results.first).to eq(newer_app)

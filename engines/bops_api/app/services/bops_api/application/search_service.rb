@@ -3,7 +3,7 @@
 module BopsApi
   module Application
     class SearchService
-      ALLOWED_SORT_FIELDS = %w[published_at receivedAt].freeze
+      ALLOWED_SORT_FIELDS = %w[publishedAt receivedAt].freeze
 
       def initialize(scope, params)
         @scope = scope
@@ -24,16 +24,16 @@ module BopsApi
       private
 
       def sort
-        field = params[:sort_by].presence_in(ALLOWED_SORT_FIELDS) || "published_at"
-        direction = (params[:sort_direction].to_s.downcase == "asc") ? :asc : :desc
+        field = params[:sortBy].presence_in(ALLOWED_SORT_FIELDS) || "receivedAt"
+        direction = (params[:orderBy].to_s.downcase == "asc") ? :asc : :desc
 
-        scope.reorder(field => direction)
+        scope.reorder(field.underscore => direction)
       end
 
       def filter_by_application_type_code
-        return @scope if params[:application_type_codes].blank?
+        return @scope if params[:applicationType].blank?
 
-        scope.joins(:application_type).where(application_types: {code: params[:application_type_codes]})
+        scope.for_application_type_codes(params[:applicationType])
       end
 
       def search

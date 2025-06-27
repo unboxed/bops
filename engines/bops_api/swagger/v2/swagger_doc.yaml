@@ -35110,7 +35110,7 @@ paths:
         schema:
           type: string
           description: Search by reference or description
-      - name: application_type_codes[]
+      - name: applicationType[]
         in: query
         style: form
         explode: true
@@ -35119,7 +35119,7 @@ paths:
           items:
             type: string
           description: Filter by one or more application type codes
-      - name: sort_direction
+      - name: orderBy
         in: query
         schema:
           type: string
@@ -35128,15 +35128,15 @@ paths:
           - asc
           - desc
           default: desc
-      - name: sort_by
+      - name: sortBy
         in: query
         schema:
           type: string
           description: Sort by field
           enum:
-          - published_at
-          - received_at
-          default: published_at
+          - publishedAt
+          - receivedAt
+          default: receivedAt
       responses:
         '200':
           description: returns planning applications when searching by a reference
@@ -35618,7 +35618,7 @@ paths:
           type: string
           description: Search by reference or description
         required: false
-      - name: application_type_codes[]
+      - name: applicationType[]
         in: query
         style: form
         explode: true
@@ -35627,7 +35627,7 @@ paths:
           items:
             type: string
           description: Filter by one or more application type codes
-      - name: sort_direction
+      - name: orderBy
         in: query
         schema:
           type: string
@@ -35636,15 +35636,15 @@ paths:
           - asc
           - desc
           default: desc
-      - name: sort_by
+      - name: sortBy
         in: query
         schema:
           type: string
           description: Sort by field
           enum:
-          - published_at
-          - received_at
-          default: published_at
+          - publishedAt
+          - receivedAt
+          default: receivedAt
       responses:
         '200':
           description: returns planning applications when searching by a reference
