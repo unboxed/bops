@@ -23,9 +23,13 @@
       <div class="govuk-hint" id="planning-application-validated-at-hint">
         Will be marked as valid from <%= @planning_application.valid_from_date.to_date.to_fs %>
       </div>
-      <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: "Publish application on BOPS Public Portal?"} do %>
-        <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
-        <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
+      <% if @planning_application.publishable? %>
+        <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: "Publish application on BOPS Public Portal?"} do %>
+          <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"}, class: "govuk-!-display-none hidden-content" %>
+          <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
+        <% end %>
+      <% else %>
+        <%= form.hidden_field :make_public, value: false %>
       <% end %>
       <div class="govuk-button-group">
         <%= form.submit "Mark the application as valid", class: "govuk-button", data: {module: "govuk-button"} %>
