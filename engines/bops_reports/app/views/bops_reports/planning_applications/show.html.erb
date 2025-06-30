@@ -149,32 +149,38 @@
         <% end %>
       <% end %>
 
-      <% body.with_row do |row| %>
-        <% row.with_cell(text: "Site visit") %>
-        <% if @planning_application.site_visit_visited_at %>
-          <% row.with_cell(text: time_tag(@planning_application.site_visit_visited_at)) %>
-        <% else %>
-          <% row.with_cell(text: "-") %>
-        <% end %>
-        <% if current_user && !@planning_application.determined? %>
-          <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
-            <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
+      <% if current_user || @planning_application.site_visit_visited_at %>
+        <% body.with_row do |row| %>
+          <% row.with_cell(text: "Site visit") %>
+          <% if @planning_application.site_visit_visited_at %>
+            <% row.with_cell(text: time_tag(@planning_application.site_visit_visited_at)) %>
+          <% else %>
+            <% row.with_cell(text: "-") %>
+          <% end %>
+
+          <% if current_user && !@planning_application.determined? %>
+            <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
+              <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
 
-      <% body.with_row do |row| %>
-        <% row.with_cell(text: "Meeting") %>
-        <% if @planning_application.meeting_occurred_at %>
-          <% row.with_cell(text: time_tag(@planning_application.meeting_occurred_at)) %>
-        <% else %>
-          <% row.with_cell(text: "-") %>
-        <% end %>
+      <% if current_user || @planning_application.meeting_occurred_at %>
+        <% body.with_row do |row| %>
+          <% row.with_cell(text: "Meeting") %>
+          <% if @planning_application.meeting_occurred_at %>
+            <% row.with_cell(text: time_tag(@planning_application.meeting_occurred_at)) %>
+          <% else %>
+            <% row.with_cell(text: "-") %>
+          <% end %>
+
           <% if current_user && !@planning_application.determined? %>
             <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
               <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
             <% end %>
           <% end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
