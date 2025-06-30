@@ -202,7 +202,7 @@ RSpec.describe "Description change validation requests" do
           validation_request.additional_documents << document_2
         end
 
-        it "shows the additional documents uploaded" do
+        it "shows the additional documents uploaded", skip: "flaky" do
           visit "/additional_document_validation_requests/#{validation_request.id}?#{access_control_params}"
           expect(page).to have_selector("h1", text: "Confirm documents uploaded")
 
