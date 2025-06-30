@@ -49,10 +49,7 @@
         </p>
 
         <p class="govuk-body">
-          <%= govuk_link_to(url_for_document(@old_document), new_tab: "") do %>
-            <%= @old_document.name %><br>
-          <% end %>
-          (opens in a new window/tab)
+          <%= govuk_link_to @old_document.name, url_for_document(@old_document), new_tab: true %>
         </p>
       </div>
 
