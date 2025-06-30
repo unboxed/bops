@@ -12,7 +12,7 @@ Given("the planning application has a document with reference {string}") do |ref
     When I manage the application's documents
     And I press "Upload document"
     And I upload "spec/fixtures/images/proposed-floorplan.png" for the "file" input
-    And I fill in "Document reference(s)" with "#{reference}"
+    And I fill in "Drawing number" with "#{reference}"
     And I press "Save"
   )
 end

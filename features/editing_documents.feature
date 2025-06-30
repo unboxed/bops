@@ -8,7 +8,7 @@ Feature: Editing documents for an application
 
   Scenario: I can replace the document
     Given I attach a replacement file with path "spec/fixtures/images/proposed-roofplan.pdf"
-    And I fill in "Document reference(s)" with "DOC0001"
+    And I fill in "Drawing number" with "DOC0001"
     And I check "Floor plan - existing"
     And I check "Roof plan - existing"
     And I choose "Yes" for "Do you want to list this document on the decision notice?"
