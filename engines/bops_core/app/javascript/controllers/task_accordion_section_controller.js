@@ -48,7 +48,10 @@ export default class extends Controller {
     const nextSibling = this.element.nextElementSibling
 
     if (nextSibling) {
-      const controller = this.application.getControllerForElementAndIdentifier(nextSibling, this.identifier)
+      const controller = this.application.getControllerForElementAndIdentifier(
+        nextSibling,
+        this.identifier,
+      )
 
       if (controller) {
         controller.toggleIfNotExpanded()
