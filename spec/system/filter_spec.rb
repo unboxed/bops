@@ -110,7 +110,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
       describe "filtering by different statuses" do
         before do
           within(selected_govuk_tab) do
-            expect(page).to have_content("Your live applications")
+            expect(page).to have_content("My applications")
             expect(page).to have_content(not_started_planning_application.reference)
             expect(page).to have_content(invalid_planning_application.reference)
             expect(page).to have_content(in_assessment_planning_application.reference)
@@ -359,13 +359,12 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
     context "when looking at all applications" do
       before do
         sign_in(user)
-        visit "/"
-        click_link "View all applications"
+        visit "/#all"
       end
 
       it "allows user to filter by different statuses" do
         within(selected_govuk_tab) do
-          expect(page).to have_content("Live applications")
+          expect(page).to have_content("All applications")
           expect(page).to have_content(not_started_planning_application.reference)
           expect(page).to have_content(invalid_planning_application.reference)
           expect(page).to have_content(in_assessment_planning_application.reference)
@@ -396,7 +395,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
 
         within(selected_govuk_tab) do
           expect(page).to have_content(closed_planning_application.reference)
-          expect(page).to have_content(other_closed_planning_application.reference)
+          expect(page).not_to have_content(other_closed_planning_application.reference)
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
@@ -416,7 +415,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
 
       it "allows user to filter by different statuses" do
         within(selected_govuk_tab) do
-          expect(page).to have_content("Your live applications")
+          expect(page).to have_content("My applications")
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
           expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).to have_content(other_user_in_assessment_planning_application.reference)
@@ -456,13 +455,12 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
     context "when looking at all applications" do
       before do
         sign_in(other_user)
-        visit "/"
-        click_link "View all applications"
+        visit "/#all"
       end
 
       it "allows user to filter by different statuses" do
         within(selected_govuk_tab) do
-          expect(page).to have_content("Live applications")
+          expect(page).to have_content("All applications")
           expect(page).to have_content(not_started_planning_application.reference)
           expect(page).to have_content(invalid_planning_application.reference)
           expect(page).to have_content(in_assessment_planning_application.reference)
@@ -492,7 +490,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
         click_link("Closed")
 
         within(selected_govuk_tab) do
-          expect(page).to have_content(closed_planning_application.reference)
+          expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).to have_content(other_closed_planning_application.reference)
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)

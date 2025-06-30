@@ -4,11 +4,11 @@ class PlanningApplicationSearch
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
+  STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed closed].freeze
+  SELECTED_STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
 
   APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
 
-  attribute :view, :enum, values: %w[all mine], default: "mine"
   attribute :application_type, :list
   attribute :sort_key, :string
   attribute :direction, :enum, values: %w[asc desc]
@@ -23,7 +23,7 @@ class PlanningApplicationSearch
   after_initialize :init_filter_options
 
   def init_filter_options
-    self.status ||= statuses
+    self.status ||= default_statuses
     self.application_type ||= application_types
   end
 
@@ -40,45 +40,37 @@ class PlanningApplicationSearch
       scope = records_matching_query(scope)
     end
 
-    user_scope(sorted_scope(scope, sort_key, direction))
+    sorted_scope(scope, sort_key, direction)
   end
 
-  def statuses
+  def all_statuses
     STATUSES
+  end
+
+  def default_statuses
+    SELECTED_STATUSES
   end
 
   def application_types
     APPLICATION_TYPES
   end
 
-  def exclude_others?
-    view == "mine"
-  end
-
-  def all_applications_title
-    I18n.t(all_applications_title_key, scope: "planning_applications.tabs")
-  end
-
   def reviewer_planning_applications
-    user_scope(all_applications.to_be_reviewed)
+    all_applications.to_be_reviewed.for_current_user
   end
 
   def closed_planning_applications
-    user_scope(all_applications.closed)
+    all_applications.closed.for_current_user
   end
 
   def unstarted_prior_approvals
-    user_scope(all_applications.prior_approvals.not_started)
+    all_applications.prior_approvals.not_started.for_current_user
   end
 
   private
 
   def filter_params(params)
-    params.permit(:view, :query, :sort_key, :direction, :submit, status: [], application_type: [])
-  end
-
-  def all_applications_title_key
-    exclude_others? ? :all_your_applications : :all_applications
+    params.permit(:query, :sort_key, :direction, :submit, status: [], application_type: [])
   end
 
   def all_applications
@@ -170,20 +162,6 @@ class PlanningApplicationSearch
     case sort_key
     when "expiry_date"
       scope.reorder(expiry_date: direction)
-    else
-      scope
-    end
-  end
-
-  def user_scope(scope)
-    if exclude_others?
-      if current_user.reviewer?
-        scope.for_current_user
-          .or(scope.in_review.for_null_users)
-          .or(scope.determined.for_null_users)
-      else
-        scope.for_current_user.or(scope.for_null_users)
-      end
     else
       scope
     end

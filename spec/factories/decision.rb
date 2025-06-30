@@ -55,5 +55,7 @@ FactoryBot.define do
       description { "Refused" }
       category { "householder" }
     end
+
+    initialize_with { Decision.find_or_create_by(code:, category:) }
   end
 end

@@ -9,15 +9,12 @@ module PlanningApplications
 
     private
 
-    delegate :exclude_others?, to: :search
     attr_reader :search, :panel_type
+
+    delegate :all_statuses, :default_statuses, to: :search
 
     def selected_status
       search&.status
-    end
-
-    def all_statuses
-      search&.statuses
     end
 
     def total_status_count
@@ -32,15 +29,10 @@ module PlanningApplications
       search&.application_types
     end
 
-    def view
-      exclude_others? ? nil : "all"
-    end
-
     def clear_search_url
       planning_applications_path(
         anchor: panel_type,
-        view:,
-        status: all_statuses,
+        status: default_statuses,
         application_type: all_application_types
       )
     end
