@@ -395,7 +395,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
 
         within(selected_govuk_tab) do
           expect(page).to have_content(closed_planning_application.reference)
-          # expect(page).to have_content(other_closed_planning_application.reference)
+          expect(page).not_to have_content(other_closed_planning_application.reference)
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
@@ -490,7 +490,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
         click_link("Closed")
 
         within(selected_govuk_tab) do
-          # expect(page).to have_content(closed_planning_application.reference)
+          expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).to have_content(other_closed_planning_application.reference)
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)

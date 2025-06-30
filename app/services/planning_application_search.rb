@@ -4,7 +4,8 @@ class PlanningApplicationSearch
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
+  STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed closed].freeze
+  SELECTED_STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
 
   APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
 
@@ -22,7 +23,7 @@ class PlanningApplicationSearch
   after_initialize :init_filter_options
 
   def init_filter_options
-    self.status ||= statuses
+    self.status ||= default_statuses
     self.application_type ||= application_types
   end
 
@@ -42,8 +43,12 @@ class PlanningApplicationSearch
     sorted_scope(scope, sort_key, direction)
   end
 
-  def statuses
+  def all_statuses
     STATUSES
+  end
+
+  def default_statuses
+    SELECTED_STATUSES
   end
 
   def application_types

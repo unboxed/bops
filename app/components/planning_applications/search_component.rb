@@ -11,12 +11,10 @@ module PlanningApplications
 
     attr_reader :search, :panel_type
 
+    delegate :all_statuses, :default_statuses, to: :search
+
     def selected_status
       search&.status
-    end
-
-    def all_statuses
-      search&.statuses
     end
 
     def total_status_count
@@ -34,7 +32,7 @@ module PlanningApplications
     def clear_search_url
       planning_applications_path(
         anchor: panel_type,
-        status: all_statuses,
+        status: default_statuses,
         application_type: all_application_types
       )
     end
