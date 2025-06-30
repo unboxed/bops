@@ -103,10 +103,7 @@
         <div class="govuk-grid-column-two-thirds">
           <p class="govuk-body">
             <strong>Name</strong><br>
-            <%= govuk_link_to(url_for_document(document), new_tab: "") do %>
-              <%= document.name %><br>
-            <% end %>
-            (opens in a new window/tab)
+            <%= govuk_link_to document.name, url_for_document(document), new_tab: true %>
           </p>
 
           <p class="govuk-body">

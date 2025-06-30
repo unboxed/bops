@@ -47,10 +47,7 @@
             </p>
 
             <p class="govuk-body">
-              <%= govuk_link_to(url_for_document(document), new_tab: "") do %>
-                <%= document.name %><br>
-              <% end %>
-              (opens in a new window/tab)
+              <%= govuk_link_to document.name, url_for_document(document), new_tab: true %>
             </p>
           </li>
         <% end %>
