@@ -601,11 +601,11 @@ RSpec.describe "Consultation", type: :system, js: true do
       expect(page).not_to have_text("Public on BOPS Public Portal")
 
       within "#consultation-section" do
-        expect(page).to have_selector("li:first-child a", text: "Consultees, neighbours and publicity")
+        expect(page).to have_selector("li:first-child a", text: "Consultees")
         expect(page).to have_selector("li:first-child .govuk-tag", text: "Not started")
       end
 
-      click_link "Consultees, neighbours and publicity"
+      click_link "Consultees"
       expect(page).to have_selector("h1", text: "Consultation")
 
       within "#consultation-end-date" do

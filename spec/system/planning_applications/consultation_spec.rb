@@ -137,7 +137,7 @@ RSpec.describe "Consultation" do
     }
 
     it "does not show the neighbour section" do
-      click_link "Consultees, neighbours and publicity"
+      click_link "Consultees and publicity"
 
       expect(page).to have_css("#consultee-tasks")
       expect(page).to have_css("#publicity-tasks")

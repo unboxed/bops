@@ -67,4 +67,16 @@ module PlanningApplicationHelper
       [".mark_for_appeal", new_planning_application_appeal_path(planning_application)]
     end
   end
+
+  def consultation_task_title(planning_application)
+    if planning_application.neighbour_consultation_feature? && planning_application.publishable?
+      "Consultees, neighbours and publicity"
+    elsif planning_application.publishable?
+      "Consultees and publicity"
+    elsif planning_application.neighbour_consultation_feature?
+      "Consultees and neighbours"
+    else
+      "Consultees"
+    end
+  end
 end
