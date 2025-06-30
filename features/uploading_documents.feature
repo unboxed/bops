@@ -9,6 +9,7 @@ Feature: Uploading documents for an application
     Given I press "Upload document"
     And I upload "spec/fixtures/images/proposed-floorplan.png" for the "file" input
     And I set the date inputs to "5/7/2021"
+    And I click "Edit tags"
     And I check "Floor plan - existing"
     And I check "Roof plan - existing"
     And I check "Utility bill"
@@ -18,6 +19,7 @@ Feature: Uploading documents for an application
     And the page contains "Date received: 5 July 2021"
     When I view the document with reference "Floorplan"
     Then the page contains "This document was manually uploaded by Morisuke"
+    And I click "Edit tags"
     And the option "Floor plan - existing" is checked
     And the option "Roof plan - existing" is checked
     And the option "Utility bill" is checked

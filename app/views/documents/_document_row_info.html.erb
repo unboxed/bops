@@ -1,25 +1,7 @@
 <% if document.representable? %>
   <% if document.tags.present? %>
-    <p class="govuk-body">
-      <% document.tags.each do |tag| %>
-        <% if drawing_tag?(tag) %>
-          <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
-        <% end %>
-      <% end %>
-    </p>
     <% document.tags.each do |tag| %>
-      <% if evidence_tag?(tag) %>
-        <p class="govuk-body">
-          <strong class="govuk-tag govuk-tag--turquoise">EVIDENCE</strong> <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong><br>
-        </p>
-      <% end %>
-    <% end %>
-    <% document.tags.each do |tag| %>
-      <% if supporting_document_tag?(tag) %>
-        <p class="govuk-body">
-          <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong><br>
-        </p>
-      <% end %>
+      <strong class="govuk-tag govuk-tag--turquoise document-tag"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
     <% end %>
   <% end %>
   <% if document.invalidated_document_reason %>
