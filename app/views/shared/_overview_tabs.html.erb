@@ -103,9 +103,11 @@
         ) %>
   <% end %>
   <% if @planning_application.application_type.consultation? %>
-    <% tabs.with_tab(label: (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)", id: "neighbours")  do %>
-      <h2 class="govuk-heading-m"><%= (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)" %></h2>
-      <%= render "shared/neighbours_table", planning_application: @planning_application, neighbours: @planning_application.consultation.neighbours %>
+    <% if @planning_application.neighbour_consultation_feature? %>
+      <% tabs.with_tab(label: (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)", id: "neighbours")  do %>
+        <h2 class="govuk-heading-m"><%= (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)" %></h2>
+        <%= render "shared/neighbours_table", planning_application: @planning_application, neighbours: @planning_application.consultation.neighbours %>
+      <% end %>
     <% end %>
     <% tabs.with_tab(label: (@planning_application.consultation&.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)", id: "consultees")  do %>
       <h2 class="govuk-heading-m"><%= (@planning_application.consultation&.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)" %></h2>
