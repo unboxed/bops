@@ -13,9 +13,7 @@ module PlanningApplications
     attr_reader :type, :search
 
     def before_render
-      if type == :all
-        @pagy, @paginated_applications = pagy(@planning_applications)
-      end
+      @pagy, @paginated_applications = pagy(@planning_applications)
     end
 
     def planning_applications
