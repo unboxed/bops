@@ -59,7 +59,7 @@ RSpec.describe "Reviewing informatives", js: true do
           end
 
           expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
-          expect(page).to have_selector("[role=alert] li", text: "Select an option")
+          expect(page).to have_selector("[role=alert] p", text: "There was an error submitting your review")
 
           within("#review-informatives") do
             within(".bops-task-accordion__section-header") do
@@ -77,7 +77,7 @@ RSpec.describe "Reviewing informatives", js: true do
           end
 
           expect(page).to have_current_path("/planning_applications/#{reference}/review/informatives")
-          expect(page).to have_selector("[role=alert] li", text: "Explain to the case officer why")
+          expect(page).to have_selector("[role=alert] p", text: "There was an error submitting your review")
 
           within("#review-informatives") do
             within(".bops-task-accordion__section-header") do
@@ -95,15 +95,13 @@ RSpec.describe "Reviewing informatives", js: true do
 
           within("#review-informatives") do
             expect(find(".govuk-tag")).to have_content("Not started")
-            informative1 = Informative.first
-            informative2 = Informative.second
 
-            within("#informative_#{informative1.id}") do
+            within("li:nth-child(1)") do
               expect(page).to have_selector("span", text: "Informative 1")
               expect(page).to have_selector("h2", text: "Section 106")
               expect(page).to have_link(
                 "Edit",
-                href: "/planning_applications/#{reference}/review/informatives/items/#{informative1.id}/edit"
+                href: %r{/planning_applications/#{reference}/review/informatives/items/\d+/edit}
               )
               expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
 
@@ -114,12 +112,12 @@ RSpec.describe "Reviewing informatives", js: true do
               expect(page).to have_selector("p", text: "A Section 106 agreement will be required", visible: false)
             end
 
-            within("#informative_#{informative2.id}") do
+            within("li:nth-child(2)") do
               expect(page).to have_selector("span", text: "Informative 2")
               expect(page).to have_selector("h2", text: "Section 206")
               expect(page).to have_link(
                 "Edit",
-                href: "/planning_applications/#{reference}/review/informatives/items/#{informative2.id}/edit"
+                href: %r{/planning_applications/#{reference}/review/informatives/items/\d+/edit}
               )
               expect(page).to have_selector("p", text: "A Section 206 agreement will be required", visible: false)
 
@@ -134,16 +132,16 @@ RSpec.describe "Reviewing informatives", js: true do
               "Rearrange informatives",
               href: "/planning_applications/#{reference}/review/informatives/edit"
             )
+
+            within(".bops-task-accordion__section-footer") do
+              choose "Agree"
+
+              expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+              click_button "Save and mark as complete"
+            end
           end
 
-          within(".bops-task-accordion__section-footer") do
-            choose "Agree"
-
-            expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
-            click_button "Save and mark as complete"
-          end
-
-          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks?next=true")
 
           # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
           with_retry do
@@ -161,10 +159,11 @@ RSpec.describe "Reviewing informatives", js: true do
           click_button "Review informatives"
 
           within("#review-informatives") do
-            within("#informative_#{Informative.first.id}") do
-              click_link "Edit"
+            within("li:first-child") do
+              click_link "Edit to accept"
             end
           end
+
           expect(page).to have_selector("h1", text: "Edit informative")
 
           fill_in "Enter a title", with: "Updated Section 106"
@@ -175,16 +174,14 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
           expect(page).to have_content("Informative was successfully saved")
 
-          click_button "Review informatives"
-          within(".bops-task-accordion__section-footer") do
+          expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
+
+          within("#review-informatives") do
             choose "Agree"
-
-            expect(current_review).to have_attributes(action: nil, review_status: "review_not_started")
-
             click_button "Save and mark as complete"
           end
 
-          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks?next=true")
 
           # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
           with_retry do
@@ -196,23 +193,26 @@ RSpec.describe "Reviewing informatives", js: true do
           end
 
           expect(current_review.reload).to have_attributes(action: "accepted", review_status: "review_complete")
+
           click_button("Review informatives")
-          click_link("Edit list position")
+          click_link("Rearrange informatives")
+
           expect(page).to have_content("Assessment accepted by Ray Reviewer, 20 May 2024")
         end
 
         it "I can return to the planning officer with a comment" do
           click_button "Review informatives"
 
-          within(".bops-task-accordion__section-footer") do
+          expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
+
+          within("#review-informatives") do
             choose "Return with comments"
             fill_in "Add a comment", with: "Please provide more details about the Section 106 agreement"
 
-            expect(current_review).to have_attributes(action: nil, review_status: "review_not_started", comment: nil)
             click_button "Save and mark as complete"
           end
 
-          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks?next=true")
 
           # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
           with_retry do
@@ -226,7 +226,7 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(current_review.reload).to have_attributes(action: "rejected", review_status: "review_complete", comment: "Please provide more details about the Section 106 agreement")
 
           click_button "Review informatives"
-          click_link("Edit list position")
+          click_link("Rearrange informatives")
 
           expect(page).to have_selector("h1", text: "Review informatives")
           expect(page).to have_content("Assessment rejected by Ray Reviewer, 20 May 2024")
@@ -243,7 +243,7 @@ RSpec.describe "Reviewing informatives", js: true do
           expect(page).to have_content("Please provide more details about the Section 106 agreement")
           expect(page).to have_content("Sent on 20 May 2024 11:00 by Ray Reviewer")
 
-          within("#informative_#{Informative.first.id}") do
+          within("ol.sortable-list li:first-child") do
             click_link "Edit"
           end
 
@@ -270,13 +270,14 @@ RSpec.describe "Reviewing informatives", js: true do
           end
 
           click_button("Review informatives")
-          within(".bops-task-accordion__section-footer") do
+
+          within("#review-informatives") do
             choose "Agree"
 
             click_button "Save and mark as complete"
           end
 
-          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
+          expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks?next=true")
 
           # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
           with_retry do
@@ -288,7 +289,8 @@ RSpec.describe "Reviewing informatives", js: true do
           end
 
           click_button("Review informatives")
-          click_link("Edit list position")
+          click_link("Rearrange informatives")
+
           expect(page).to have_content("Assessment accepted by Ray Reviewer, 20 May 2024")
         end
       end
