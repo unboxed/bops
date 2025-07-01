@@ -13,7 +13,7 @@ module PlanningApplications
     attr_reader :type, :search
 
     def before_render
-      @pagy, @paginated_applications = pagy(@planning_applications)
+      @pagy, @paginated_applications = pagy(@planning_applications, overflow: :last_page)
     end
 
     def planning_applications
@@ -28,7 +28,21 @@ module PlanningApplications
     def pagination
       return unless @pagy.pages > 1
 
-      govuk_pagination(pagy: @pagy)
+      page_data = @pagy.series.map { |i|
+        {href: pagination_url(page: i), number: i, current: i.is_a?(String)}
+      }
+
+      govuk_pagination do |p|
+        p.with_previous_page(href: pagination_url(page: @pagy.prev)) if @pagy.page > 1
+
+        p.with_items page_data
+
+        p.with_next_page(href: pagination_url(page: @pagy.next)) if @pagy.page < @pagy.last
+      end
+    end
+
+    def pagination_url(page:)
+      pagy_url_for(@pagy, page) + "##{type}"
     end
 
     def title
