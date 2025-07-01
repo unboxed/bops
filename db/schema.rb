@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_13_210912) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_01_093500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -173,6 +173,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_13_210912) do
     t.index ["api_user_id"], name: "index_audits_on_api_user_id"
     t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
     t.index ["user_id"], name: "index_audits_on_user_id"
+  end
+
+  create_table "case_records", id: :uuid, default: nil, force: :cascade do |t|
+    t.bigint "local_authority_id", null: false
+    t.string "caseable_type", null: false
+    t.bigint "caseable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["caseable_type", "caseable_id"], name: "ix_case_records_on_caseable_type__caseable_id"
+    t.index ["local_authority_id"], name: "ix_case_records_on_local_authority_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -431,6 +441,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_13_210912) do
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
     t.index ["submission_id"], name: "ix_documents_on_submission_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
+  end
+
+  create_table "enforcements", force: :cascade do |t|
+    t.string "breach_description"
+    t.string "status"
+    t.boolean "urgent", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
@@ -1228,6 +1246,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_13_210912) do
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
+  add_foreign_key "case_records", "local_authorities"
   add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"
