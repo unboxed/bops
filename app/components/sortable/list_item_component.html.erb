@@ -40,29 +40,31 @@
       </p>
     <% end %>
 
-    <%= render(ShowMoreTextComponent.new(
-          text: record.text,
-          title: record.is_a?(Condition) ? caption_text : nil,
-          other_text: record.respond_to?(:reason) ? record.reason : nil,
-          other_text_title: record.respond_to?(:reason) ? "Reason" : nil,
-          length: 200
-        )) %>
+    <div data-controller="summary">
+      <div class="bops-summary" data-summary-target="content">
+        <% if record.respond_to?(:text_and_reason) %>
+          <%= render(FormattedContentComponent.new(text: record.text_and_reason)) %>
+        <% else %>
+          <%= render(FormattedContentComponent.new(text: record.text)) %>
+        <% end %>
+      </div>
 
-    <nav class="nav-links govuk-!-padding-top-3">
-      <% if current_request %>
-        <% unless current_request.cancelled? || current_request.open? %>
+      <nav class="nav-links" data-summary-target="navigation">
+        <% if current_request %>
+          <% unless current_request.cancelled? || current_request.open? %>
+            <%= edit_link %>
+          <% end %>
+          <% if remove_link && current_request.pending? %>
+            <%= remove_link %>
+          <% elsif !current_request.cancelled? %>
+            <%= cancel_link %>
+          <% end %>
+        <% else %>
           <%= edit_link %>
-        <% end %>
-        <% if current_request.pending? %>
           <%= remove_link %>
-        <% elsif !current_request.cancelled? %>
-          <%= cancel_link %>
         <% end %>
-      <% else %>
-        <%= edit_link %>
-        <%= remove_link %>
-      <% end %>
-    </nav>
+      </nav>
+    </div>
   </div>
 
   <%= render "shared/sortable_svg" %>

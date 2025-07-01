@@ -1,0 +1,39 @@
+<% content_for :page_title do %>
+  Edit heads of terms - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/review_task_breadcrumbs",
+      locals: {planning_application: @planning_application}
+    ) %>
+
+<% content_for :title, "Review heads of terms" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Edit heads of terms"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @term, url: planning_application_review_heads_of_terms_item_path(@planning_application, @term) do |form| %>
+      <%= form.govuk_error_summary %>
+
+        <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
+          <p class="govuk-body">
+            Use this form to make minor changes, such as fixing spelling errors.
+            If you want to suggest changes to the content of the condition,
+            return the application to the case officer.
+          </p>
+
+          <%= form.govuk_text_field :title, label: {text: "Enter a title"} %>
+          <%= form.govuk_text_area :text, label: {text: "Enter details"} %>
+        <% end %>
+
+        <%= form.govuk_submit("Save term") do %>
+          <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-heads-of-terms"), secondary: true) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

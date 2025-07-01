@@ -2,31 +2,27 @@
 
 class ConditionSet < ApplicationRecord
   belongs_to :planning_application
-  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
-  has_many :conditions, -> { order(position: :asc) }, dependent: :destroy
+
+  with_options dependent: :destroy do
+    has_many :conditions, -> { order(position: :asc) }
+    has_many :reviews, -> { order(created_at: :desc) }, as: :owner
+  end
+
   has_many :validation_requests, through: :conditions
 
   accepts_nested_attributes_for :conditions, allow_destroy: true
   accepts_nested_attributes_for :reviews
 
-  after_create :create_standard_conditions, unless: :pre_commencement?
-  after_create :create_review
   after_update :create_review, if: :should_create_review?
 
+  before_create unless: :pre_commencement? do
+    I18n.t(:conditions_list).each do |condition|
+      conditions.new(condition)
+    end
+  end
+
   def current_review
-    reviews.order(:created_at).last
-  end
-
-  def latest_validation_request
-    validation_requests.notified.max_by(&:notified_at)
-  end
-
-  def latest_validation_requests
-    validation_requests.group_by(&:owner_id).map { |id, vr| vr.max_by(&:notified_at) }
-  end
-
-  def latest_active_validation_requests
-    latest_validation_requests.select { |vr| vr.state != "cancelled" }
+    reviews.load.first || reviews.create!
   end
 
   def approved_conditions
@@ -61,6 +57,10 @@ class ConditionSet < ApplicationRecord
 
   private
 
+  def latest_validation_request
+    validation_requests.notified.max_by(&:notified_at)
+  end
+
   def send_pre_commencement_condition_request_email
     PlanningApplicationMailer.pre_commencement_condition_request_mail(
       planning_application,
@@ -74,10 +74,6 @@ class ConditionSet < ApplicationRecord
   end
 
   def create_review(status = :not_started)
-    reviews.create!(assessor: Current.user, owner_type: "ConditionSet", owner_id: id, status:)
-  end
-
-  def create_standard_conditions
-    Condition.standard_conditions.each { |condition| condition.update!(condition_set: self) }
+    reviews.create!(assessor: Current.user, status:)
   end
 end

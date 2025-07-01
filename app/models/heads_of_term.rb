@@ -2,8 +2,12 @@
 
 class HeadsOfTerm < ApplicationRecord
   belongs_to :planning_application
-  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
-  has_many :terms, -> { order(position: :asc) }, extend: TermsExtension, dependent: :destroy
+
+  with_options dependent: :destroy do
+    has_many :terms, -> { order(position: :asc) }, extend: TermsExtension
+    has_many :reviews, -> { order(created_at: :desc) }, as: :owner
+  end
+
   has_many :validation_requests, through: :terms
 
   accepts_nested_attributes_for :terms, allow_destroy: true
@@ -13,19 +17,7 @@ class HeadsOfTerm < ApplicationRecord
   after_commit :update_validation_requests, if: :public?
 
   def current_review
-    reviews.order(:created_at).last
-  end
-
-  def latest_validation_request
-    validation_requests.notified.max_by(&:notified_at)
-  end
-
-  def latest_validation_requests
-    validation_requests.group_by(&:owner_id).map { |id, vr| vr.max_by(&:notified_at) }
-  end
-
-  def latest_active_validation_requests
-    latest_validation_requests.select { |vr| vr.state != "cancelled" }
+    reviews.load.first || reviews.create!
   end
 
   def any_new_updated_validation_requests?
@@ -55,6 +47,10 @@ class HeadsOfTerm < ApplicationRecord
   end
 
   private
+
+  def latest_validation_request
+    validation_requests.notified.max_by(&:notified_at)
+  end
 
   def should_create_review?
     return if current_review.nil?

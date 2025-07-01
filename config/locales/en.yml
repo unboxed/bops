@@ -1728,6 +1728,15 @@ en:
       committee_decisions:
         update:
           success: Review of committee decision recommendation updated successfully
+      conditions:
+        edit:
+          drag_and_drop: Drag and drop conditions to change the order that they appear in the decision notice.
+        items:
+          update:
+            success: Condition was successfully saved
+        update:
+          failure_html: There was an error submitting your review - <a class="govuk-link" href="#review-conditions-form">see the form</a> for details
+          success: Review of conditions successfully updated
       considerations:
         edit:
           drag_and_drop: Drag and drop considerations to change their order.
@@ -1735,12 +1744,20 @@ en:
           update:
             success: Consideration was successfully saved
         update:
-          success: Review of assessment against policy and guidance updated successfully
+          failure_html: There was an error submitting your review - <a class="govuk-link" href="#review-considerations-form">see the form</a> for details
+          success: Review of assessment against policy and guidance successfully updated
       documents:
         update:
           success: Documents were successfully updated.
       heads_of_terms:
-        successfully_updated: Review heads of terms was successfully updated
+        edit:
+          drag_and_drop: Drag and drop heads of terms to change their order.
+        items:
+          update:
+            success: Heads of terms was successfully saved
+        update:
+          failure_html: There was an error submitting your review - <a class="govuk-link" href="#review-heads-of-terms-form">see the form</a> for details
+          success: Review of heads of terms successfully updated
       immunity_details:
         successfully_updated: Review immunity details was successfully updated
       informatives:
@@ -1750,6 +1767,7 @@ en:
           update:
             success: Informative was successfully saved
         update:
+          failure_html: There was an error submitting your review - please <a class="govuk-link" href="#review-informatives-form">see the form</a> for details
           success: Review of informatives updated successfully
       local_policies:
         edit:
@@ -1813,6 +1831,15 @@ en:
           review_heading: Review - Part%{part}, Class %{class}
         update:
           successfully_updated_policy_class: Successfully updated policy class
+      pre_commencement_conditions:
+        edit:
+          drag_and_drop: Drag and drop pre-commencement conditions to change their order.
+        items:
+          update:
+            success: Pre-commencement condition was successfully saved
+        update:
+          failure_html: There was an error submitting your review - please <a class="govuk-link" href="#review-pre-commencement-conditions-form">see the form</a> for details
+          success: Review of pre-commencement conditions successfully updated
       publicities:
         create:
           success: Review of publicity successfully added.
@@ -2217,9 +2244,6 @@ en:
   response_tag_component:
     privacy: Privacy
   review:
-    conditions:
-      update:
-        success: Review conditions successfully updated
     heads_of_terms:
       update:
         success: Review heads of terms successfully updated

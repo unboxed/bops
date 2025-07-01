@@ -1,0 +1,60 @@
+.bops-summary {
+  h3 {
+    margin-bottom: govuk-spacing(1);
+  }
+
+  p {
+    margin-bottom: govuk-spacing(3);
+  }
+
+  p + h3 {
+    padding-top: 0 !important;
+  }
+
+  p:nth-child(1) {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    margin-bottom: govuk-spacing(1);
+  }
+
+  h3:nth-child(n + 2),
+  p:nth-child(n + 2) {
+    display: none !important;
+  }
+
+  h3:nth-child(1) + p:nth-child(n + 2) {
+    display: -webkit-box !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    margin-bottom: govuk-spacing(1);
+  }
+
+  &--expanded {
+    p:nth-child(1) {
+      display: block !important;
+      overflow: revert;
+      text-overflow: revert;
+      -webkit-box-orient: revert;
+      -webkit-line-clamp: revert;
+      margin-bottom: revert;
+    }
+
+    h3:nth-child(n + 2),
+    p:nth-child(n + 2) {
+      display: block !important;
+    }
+
+    h3:nth-child(1) + p:nth-child(n + 2) {
+      margin-bottom: revert;
+    }
+
+    p:last-child {
+      margin-bottom: govuk-spacing(1);
+    }
+  }
+}

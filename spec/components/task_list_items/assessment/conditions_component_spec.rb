@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component do
   let(:planning_application) { create(:planning_application, :in_assessment) }
+  let(:current_review) { condition_set.current_review }
 
   context "when conditions" do
     let(:condition_set) { create(:condition_set, planning_application:, pre_commencement: false) }
@@ -39,7 +40,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
 
     context "when review status is 'complete'" do
       before do
-        create(:review, owner: condition_set, status: "complete")
+        current_review.complete!
 
         render_inline(
           described_class.new(
@@ -62,7 +63,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
 
     context "when review status is not 'complete'" do
       before do
-        create(:review, owner: condition_set, status: "in_progress")
+        current_review.in_progress!
 
         render_inline(
           described_class.new(
@@ -110,7 +111,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
 
     context "when review status is 'complete'" do
       before do
-        create(:review, owner: condition_set, status: "complete")
+        current_review.complete!
 
         render_inline(
           described_class.new(
@@ -133,7 +134,7 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
 
     context "when review status is not 'complete'" do
       before do
-        create(:review, owner: condition_set, status: "in_progress")
+        current_review.in_progress!
 
         render_inline(
           described_class.new(
@@ -159,7 +160,6 @@ RSpec.describe TaskListItems::Assessment::ConditionsComponent, type: :component 
 
       before do
         Current.user = assessor
-        create(:review, owner: condition_set, status: "in_progress")
         condition = create(:condition, condition_set:)
         create(:pre_commencement_condition_validation_request, owner: condition, state: "closed", approved: false)
 
