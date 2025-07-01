@@ -16,6 +16,7 @@ class LocalAuthority < ApplicationRecord
     has_many :api_users
     has_many :application_types
     has_many :submissions
+    has_many :case_records
   end
 
   with_options through: :planning_applications do
