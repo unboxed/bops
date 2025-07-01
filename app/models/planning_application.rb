@@ -1061,7 +1061,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_key_dates
-    return if environment_impact_assessment_required? || time_extension_validation_requests.any?(:accepted)
+    return if environment_impact_assessment_required? || time_extension_validation_requests.any?(:accepted) || determined_at.present?
 
     self.expiry_date = application_type_determination_period.days.after(validated_at || received_at)
     self.target_date = 35.days.after(validated_at || received_at)
@@ -1076,13 +1076,18 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_ward_and_parish_information
+    return if ward.present? && parish_name.present?
+    fetch_ward_and_parish_information
+  end
+
+  def fetch_ward_and_parish_information
     return if postcode.blank?
 
-    ward_type, ward, parish_name = Apis::Mapit::Query.new.fetch(postcode)
+    ward_type_fetched, ward_fetched, parish_name_fetched = Apis::Mapit::Query.new.fetch(postcode)
 
-    self.ward_type = ward_type
-    self.ward = ward
-    self.parish_name = parish_name
+    self.ward_type ||= ward_type_fetched
+    self.ward ||= ward_fetched
+    self.parish_name ||= parish_name_fetched
     save!
   end
 
