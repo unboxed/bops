@@ -16,7 +16,7 @@
         <strong>Site Address:</strong> <%= @planning_application.full_address %>
       </p>
       <p class="govuk-body">
-        Your application is now valid and has been started from <%= @planning_application.validated_at %>.
+        Your application is now valid and has been started from <%= @planning_application.validated_at.to_date.to_fs %>.
         The description of your development given in the title block above may be different from the one on your application form.
         Contact us if you would like the description to be amended.
       </p>
@@ -27,8 +27,8 @@
         We may request additional information and/or revisions before deciding whether the application should be recommended for permission or refusal.
       </p>
       <p class="govuk-body">
-        We aim to issue a decision by <%= @planning_application.expiry_date %>.
-        However, if your application has not been determined by <%= @planning_application.expiry_date %>,
+        We aim to issue a decision by <%= @planning_application.expiry_date.to_date.to_fs %>.
+        However, if your application has not been determined by <%= @planning_application.expiry_date.to_date.to_fs %>,
         you have the right to appeal to the Secretary of State, either online at https://www.gov.uk/government/organisations/planning-inspectorate,
         or by post to Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN.
       </p>
@@ -52,7 +52,9 @@
         the
         <%= @planning_application.local_authority.signatory_job_title %>,
         <%= @planning_application.local_authority.council_name %>,
-        <%= render(FormattedContentComponent.new(text: @planning_application.local_authority.enquiries_paragraph)) %>
+      </p>
+      <%= render(FormattedContentComponent.new(text: @planning_application.local_authority.enquiries_paragraph, classname: "govuk-body")) %>
+      <p class="govuk-body">
         or by email to <%= @planning_application.local_authority.email_address %>
       </p>
       <p class="govuk-body">
@@ -67,5 +69,6 @@
       </p>
     </div>
     <br>
+    <%= govuk_button_link_to "Back", validation_decision_planning_application_path(@planning_application), secondary: true %>
   </div>
 </div>
