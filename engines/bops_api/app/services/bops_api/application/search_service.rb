@@ -33,7 +33,13 @@ module BopsApi
       def filter_by_application_type_code
         return @scope if params[:applicationType].blank?
 
-        scope.for_application_type_codes(params[:applicationType])
+        codes = Array(params[:applicationType])
+          .flat_map { |c| c.to_s.split(",") }
+          .map(&:presence)
+          .compact
+          .uniq
+
+        scope.for_application_type_codes(codes)
       end
 
       def search

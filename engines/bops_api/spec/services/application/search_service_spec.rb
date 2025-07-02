@@ -147,6 +147,22 @@ RSpec.describe BopsApi::Application::SearchService do
         end
       end
 
+      context "when comma-separated application type codes are provided as a single string" do
+        let(:params) { {applicationType: "ldc.existing,pp.full.householder"} }
+
+        it "returns matching applications for both codes" do
+          expect(results).to match_array([app1, app2, app3])
+        end
+      end
+
+      context "when application type code is provided as a single string" do
+        let(:params) { {applicationType: "ldc.existing"} }
+
+        it "returns matching applications for both codes" do
+          expect(results).to match_array([app1])
+        end
+      end
+
       context "when application type codes and query are provided" do
         let(:params) { {q: "Random street", applicationType: ["pp.full.householder"]} }
 
