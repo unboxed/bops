@@ -50,7 +50,11 @@ module PlanningApplications
 
         respond_to do |format|
           format.html do
-            redirect_to planning_application_assessment_terms_path(@planning_application), notice: t(".success")
+            if @heads_of_term.current_review.update(status: :complete)
+              redirect_to planning_application_assessment_terms_path(@planning_application), notice: t(".success")
+            else
+              render :index
+            end
           end
         end
       rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
