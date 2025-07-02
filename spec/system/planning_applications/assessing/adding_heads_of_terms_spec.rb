@@ -122,7 +122,6 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_link "Back"
       within("#add-heads-of-terms") do
         expect(page).to have_content "Completed"
-        click_link "Add heads of terms"
       end
     end
 
