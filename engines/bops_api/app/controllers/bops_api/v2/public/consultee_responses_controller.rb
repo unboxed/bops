@@ -25,12 +25,12 @@ module BopsApi
             objected: summary_counts["objected"] || 0,
             amendments_needed: summary_counts["amendments_needed"] || 0
           }
-          @redacted_responses = @consultation.consultee_responses.redacted
-          @total_responses = @redacted_responses.count
+          redacted_responses = @consultation.consultee_responses.redacted
+          @total_responses = redacted_responses.count
           @total_consulted = @consultation.consultees.consulted.count
 
           @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
-            @redacted_responses,
+            redacted_responses,
             pagination_params
           ).call
 
