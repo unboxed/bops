@@ -143,6 +143,15 @@ class PlanningApplication < ApplicationRecord
   belongs_to :reporting_type, optional: true
   belongs_to :submission, optional: true
 
+  composed_of :address,
+    mapping: {
+      address_line_1: :line_1,
+      address_line_2: :line_2,
+      town: :town,
+      county: :county,
+      postcode: :postcode
+    }
+
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
   scope :by_latest_received_and_created, -> { order(received_at: :desc, created_at: :desc) }
