@@ -219,6 +219,7 @@ RSpec.describe "Description change validation requests" do
           within "#additional-document-response" do
             expect(page).to have_selector("h2", text: "Documents you uploaded in response:")
 
+            puts page.html
             within "li:nth-of-type(1)" do
               expect(page).to have_selector("img[src^='http://planx.bops-applicants.services/files/#{preview_1.key}']")
               expect(page).to have_link("proposed-floorplan.png", href: %r{\Ahttp://planx\.bops-applicants\.services/files/#{document_1.blob_key}})

@@ -45,7 +45,7 @@
     </h2>
 
     <ul id="additional-documents" class="govuk-list">
-      <% @documents.each do |document| %>
+      <% @documents.by_created_at.each do |document| %>
         <li>
           <p class="govuk-body">
             <%= govuk_link_to(url_for_document(document), new_tab: "", class: "govuk-!-display-inline-block") do %>
