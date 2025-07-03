@@ -21930,7 +21930,7 @@ paths:
                         endDate: '2024-05-07'
                     files:
                     - name: proposed-floorplan.png
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument: []
                       type:
                       - value: elevations.proposed
@@ -21943,7 +21943,7 @@ paths:
                         byteSize: 144212
                         contentType: application/pdf
                     - name: site-notice.jpg
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument:
                       - siteNotice2025v2
                       type:
@@ -21959,7 +21959,7 @@ paths:
                       totalResults: 1
                     decisionNotice:
                       name: decision-notice-PlanX-24-00100-HAPP.pdf
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/decision_notice.pdf
+                      url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
         '401':
@@ -21997,8 +21997,8 @@ paths:
                       totalPages: 1
                       totalResults: 1
                     links:
-                      first: http://planx.bops.services/api/v2/neighbour_responses?page=1
-                      last: http://planx.bops.services/api/v2/neighbour_responses?page=1
+                      first: http://planx.example.com/api/v2/neighbour_responses?page=1
+                      last: http://planx.example.com/api/v2/neighbour_responses?page=1
                       prev:
                       next:
                     responses:
@@ -35122,6 +35122,54 @@ paths:
           items:
             type: string
           description: Filter by one or more application type codes
+      - name: receivedAtFrom
+        in: query
+        schema:
+          type: string
+          description: Received at field start date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: receivedAtTo
+        in: query
+        schema:
+          type: string
+          description: Received at field end date in yyyy/mm/dd format
+        example: 2025/07/04
+      - name: validatedAtFrom
+        in: query
+        schema:
+          type: string
+          description: Validated at field start date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: validatedAtTo
+        in: query
+        schema:
+          type: string
+          description: Validated at field end date in yyyy/mm/dd format
+        example: 2025/07/04
+      - name: publishedAtFrom
+        in: query
+        schema:
+          type: string
+          description: Published at field start date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: publishedAtTo
+        in: query
+        schema:
+          type: string
+          description: Published at field end date in yyyy/mm/dd format
+        example: 2025/07/04
+      - name: consultationEndDateFrom
+        in: query
+        schema:
+          type: string
+          description: Consultation end from date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: consultationEndDateTo
+        in: query
+        schema:
+          type: string
+          description: Consultation end to date in yyyy/mm/dd format
+        example: 2025/07/04
       - name: orderBy
         in: query
         schema:
@@ -35475,7 +35523,7 @@ paths:
                         endDate: '2024-05-07'
                     files:
                     - name: proposed-floorplan.png
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument: []
                       type:
                       - value: elevations.proposed
@@ -35488,7 +35536,7 @@ paths:
                         byteSize: 144212
                         contentType: application/pdf
                     - name: site-notice.jpg
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument:
                       - siteNotice2025v2
                       type:
@@ -35504,7 +35552,7 @@ paths:
                       totalResults: 1
                     decisionNotice:
                       name: decision-notice-PlanX-24-00100-HAPP.pdf
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/decision_notice.pdf
+                      url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
   "/api/v2/public/planning_applications/{reference}/comments/public":
@@ -35633,6 +35681,54 @@ paths:
           items:
             type: string
           description: Filter by one or more application type codes
+      - name: receivedAtFrom
+        in: query
+        schema:
+          type: string
+          description: Received at field start date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: receivedAtTo
+        in: query
+        schema:
+          type: string
+          description: Received at field end date in yyyy/mm/dd format
+        example: 2025/07/04
+      - name: validatedAtFrom
+        in: query
+        schema:
+          type: string
+          description: Validated at field start date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: validatedAtTo
+        in: query
+        schema:
+          type: string
+          description: Validated at field end date in yyyy/mm/dd format
+        example: 2025/07/04
+      - name: publishedAtFrom
+        in: query
+        schema:
+          type: string
+          description: Published at field start date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: publishedAtTo
+        in: query
+        schema:
+          type: string
+          description: Published at field end date in yyyy/mm/dd format
+        example: 2025/07/04
+      - name: consultationEndDateFrom
+        in: query
+        schema:
+          type: string
+          description: Consultation end from date in yyyy/mm/dd format
+        example: 2022/01/01
+      - name: consultationEndDateTo
+        in: query
+        schema:
+          type: string
+          description: Consultation end to date in yyyy/mm/dd format
+        example: 2025/07/04
       - name: orderBy
         in: query
         schema:
@@ -35842,7 +35938,7 @@ paths:
                         consultation:
                           startDate:
                           endDate:
-                          publicUrl: https://southwark.bops-applicants.localhost:3000/planning_applications/25-00240-PA1A
+                          publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
                           publishedComments: []
                           consulteeComments: []
                         pressNotice:
@@ -35955,7 +36051,7 @@ paths:
                       consultation:
                         startDate:
                         endDate:
-                        publicUrl: https://southwark.bops-applicants.localhost:3000/planning_applications/25-00240-PA1A
+                        publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
                         publishedComments: []
                         consulteeComments: []
                       pressNotice:

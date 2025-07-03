@@ -172,6 +172,19 @@ class PlanningApplication < ApplicationRecord
   scope :accepted, -> { where.not(status: "pending") }
   scope :published, -> { publishable.where.not(published_at: nil) }
   scope :in_review, -> { where(status: IN_REVIEW_STATUSES) }
+  scope :received_between, ->(from, to) {
+    where(received_at: from..to)
+  }
+  scope :validated_between, ->(from, to) {
+    where(validated_at: from..to)
+  }
+  scope :published_between, ->(from, to) {
+    where(published_at: from..to)
+  }
+  scope :consultation_end_between, ->(from, to) {
+    joins(:consultation)
+      .where(consultations: {end_date: from..to})
+  }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create

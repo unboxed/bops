@@ -15,6 +15,8 @@ module BopsApi
 
       def call
         @scope = filter_by_application_type_code
+        @scope = filter_by_received_date_range
+        @scope = filter_by_validated_date_range
         @scope = search
         @scope = sort
 
@@ -34,6 +36,48 @@ module BopsApi
         return @scope if params[:applicationType].blank?
 
         scope.for_application_type_codes(params[:applicationType])
+      end
+
+      def transform_date_time(date_string)
+        return nil if date_string.blank?
+
+        DateTime.strptime(date_string, "%Y/%m/%d").to_time.in_time_zone
+      end
+
+      def filter_by_received_date_range
+        from = transform_date_time(params[:receivedAtFrom])&.beginning_of_day
+        to = transform_date_time(params[:receivedAtTo])&.end_of_day
+
+        return scope if from.nil? || to.nil?
+
+        scope.received_between(from, to)
+      end
+
+      def filter_by_validated_date_range
+        from = transform_date_time(params[:validatedAtFrom])&.beginning_of_day
+        to = transform_date_time(params[:validatedAtTo])&.end_of_day
+
+        return scope if from.nil? || to.nil?
+
+        scope.validated_between(from, to)
+      end
+
+      def filter_by_published_date_range
+        from = transform_date_time(params[:publishedAtFrom])&.beginning_of_day
+        to = transform_date_time(params[:publishedAtTo])&.end_of_day
+
+        return scope if from.nil? || to.nil?
+
+        scope.published_between(from, to)
+      end
+
+      def filter_by_consultation_end_date_range
+        from = transform_date_time(params[:consultationEndDateFrom])&.beginning_of_day
+        to = transform_date_time(params[:consultationEndDateTo])&.end_of_day
+
+        return scope if from.nil? || to.nil?
+
+        scope.consultation_end_between(from, to)
       end
 
       def search
