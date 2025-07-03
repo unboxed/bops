@@ -75,11 +75,10 @@ module BopsApi
 
       def allowed_sort_fields
         {
-          "publishedAt" => { column: "published_at", default_order: "desc" },
-          "receivedAt"  => { column: "received_at",  default_order: "desc" }
+          "publishedAt" => {column: "published_at", default_order: "desc"},
+          "receivedAt" => {column: "received_at", default_order: "desc"}
         }
       end
-
 
       def allowed_order_values
         %w[asc desc]
