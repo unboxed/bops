@@ -29,7 +29,7 @@ module PlanningApplications
       return unless @pagy.pages > 1
 
       page_data = @pagy.series.map { |i|
-        {href: pagination_url(page: i), number: i, current: i.is_a?(String)}
+        {href: pagination_url(page: i), number: (i == :gap) ? "…" : i, current: i.is_a?(String)}
       }
 
       govuk_pagination do |p|
