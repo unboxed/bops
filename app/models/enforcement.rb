@@ -10,4 +10,18 @@ class Enforcement < ApplicationRecord
       county: :county,
       postcode: :postcode
     }
+
+  after_initialize -> { self.received_at ||= Time.zone.now }
+
+  def to_param
+    case_record.id
+  end
+
+  def status
+    :unknown
+  end
+
+  def user
+    nil
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_05_083501) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_07_105904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -454,6 +454,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_05_083501) do
     t.string "town"
     t.string "county"
     t.string "postcode"
+    t.datetime "received_at", null: false
+    t.datetime "started_at"
+    t.datetime "notice_served_at"
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
