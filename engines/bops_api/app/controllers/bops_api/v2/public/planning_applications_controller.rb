@@ -5,7 +5,10 @@ module BopsApi
     module Public
       class PlanningApplicationsController < PublicController
         def search
-          @pagy, @planning_applications = search_service(planning_applications_scope.by_latest_published).call
+          @total_available_items = planning_applications_scope.by_latest_published.count
+
+          @pagy, @planning_applications = BopsApi::Postsubmission::PlanningApplicationsSearchService
+            .new(planning_applications_scope.by_latest_published, pagination_params).call
 
           respond_to do |format|
             format.json
@@ -18,6 +21,12 @@ module BopsApi
           respond_to do |format|
             format.json
           end
+        end
+
+        private
+
+        def pagination_params
+          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :reference, :description, :postcode, :publishedAtFrom, :publishedAtTo)
         end
       end
     end
