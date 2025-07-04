@@ -219,6 +219,7 @@ class PlanningApplication < ApplicationRecord
     created_at(3i)
     created_at(2i)
     created_at(1i)
+    decision
     description
     proposal_details
     payment_reference

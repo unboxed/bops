@@ -12,6 +12,6 @@ json.metadata do
   json.totalResults @count
 end
 
-if @planning_application.decision
+if @planning_application.determined?
   json.partial! "bops_api/v2/shared/decision_notice", planning_application: @planning_application
 end
