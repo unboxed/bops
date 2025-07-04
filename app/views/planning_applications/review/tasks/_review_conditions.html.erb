@@ -28,9 +28,9 @@
       <% end %>
 
       <% section.with_block do %>
-        <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: @planning_application.immune_proposal_details)) %>
-
-        <%= govuk_link_to "Show evidence", planning_application_review_immunity_detail_path(@planning_application, @planning_application.immunity_detail.current_evidence_review_immunity_detail) %>
+        <%= render(
+              PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
+            ) %>
       <% end %>
 
       <% section.with_footer(id: "review-immunity-details-form") do %>
