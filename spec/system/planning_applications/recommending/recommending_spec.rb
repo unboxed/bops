@@ -82,6 +82,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(list_item("Make draft recommendation")).to have_content("Completed")
 
+      visit "/planning_applications/#{planning_application.reference}/audits"
+      expect(page).to have_content("Decision updated")
+      expect(page).to have_content("Changed to: granted")
+
       visit "/planning_applications/#{planning_application.reference}"
       ["Not started", "In progress", "Completed"].each do |status|
         expect(list_item("View recommendation")).not_to have_content(status)

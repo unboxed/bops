@@ -82,6 +82,36 @@ RSpec.describe "BOPS public API" do
           description: "The planning application reference"
         }
 
+        response "200", "returns a non determined planning application's documents given a reference" do
+          example "application/json", :default, example_fixture("documents.json")
+          schema "$ref" => "#/components/schemas/Documents"
+
+          let(:reference) { planning_application.reference }
+          let(:planning_application) { create(:planning_application, :published, :with_boundary_geojson, decision: "refused", documents: [document], local_authority:, application_type:) }
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data["application"]["reference"]).to eq(planning_application.reference)
+            # Decision notice should not be present for non determined applications
+            expect(data["decisionNotice"]).to be_nil
+
+            expect(data["files"]).to match_array([
+              a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}"),
+              a_hash_including(
+                "name" => "site-notice.jpg",
+                "referencesInDocument" => ["siteNotice2025v2"],
+                "url" => "http://planx.bops.services/files/#{site_notice_evidence.blob_key}",
+                "type" => [
+                  a_hash_including(
+                    "description" => "Site Notice",
+                    "value" => "internal.siteNotice"
+                  )
+                ]
+              )
+            ])
+          end
+        end
+
         response "200", "returns a planning application's documents and decision notice given a reference" do
           example "application/json", :default, example_fixture("documents.json")
           schema "$ref" => "#/components/schemas/Documents"
@@ -92,6 +122,10 @@ RSpec.describe "BOPS public API" do
           run_test! do |response|
             data = JSON.parse(response.body)
             expect(data["application"]["reference"]).to eq(planning_application.reference)
+            expect(data["decisionNotice"]).to eq(
+              "name" => "decision-notice-#{planning_application.reference_in_full}.pdf",
+              "url" => "http://planx.bops.services/api/v1/planning_applications/#{planning_application.reference}/decision_notice.pdf"
+            )
 
             expect(data["files"]).to match_array([
               a_hash_including("url" => "http://planx.bops.services/files/#{document.blob_key}"),
