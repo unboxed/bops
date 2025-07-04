@@ -160,7 +160,6 @@ class PlanningApplication < ApplicationRecord
   scope :by_status_order, -> { in_order_of(:status, PlanningApplication.aasm.states.map(&:name)) }
   scope :with_user, -> { preload(:user) }
   scope :for_application_type_codes, ->(codes) {
-    codes = Array(codes).compact_blank
     joins(:application_type)
       .where(application_types: {code: codes})
   }
