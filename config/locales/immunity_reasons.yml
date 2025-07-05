@@ -1,0 +1,23 @@
+en:
+  immunity_reasons:
+    substantial-completion-on-or-after-2024-04-25: >-
+      No action has been taken within 10 years of substantial completion for a
+      breach of planning control consisting of operational development where
+      substantial completion took place on or after 25 April 2024
+    unauthorised-change-on-or-after-2024-04-25: >-
+      No action has been taken within 10 years for an unauthorised
+      change of use to a single dwellinghouse where the change of use
+      took place on or after 25 April 2024
+    substantial-completion-before-2024-04-25: >-
+      No action has been taken within 4 years of substantial completion for a
+      breach of planning control consisting of operational development where
+      substantial completion took place before 25 April 2024
+    unauthorised-change-before-2024-04-25: >-
+      No action has been taken within 4 years for an unauthorised
+      change of use to a single dwellinghouse where the change of use
+      took place before 25 April 2024
+    other-breach-of-planning-control: >-
+      No action has been taken within 10 years for any other breach
+      of planning control (essentially other changes of use)
+    other: >-
+      Other reason
