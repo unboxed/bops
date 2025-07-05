@@ -5,44 +5,48 @@
     <%= render "planning_applications/assessment/permitted_development_rights/information" %>
 
     <%= render(
-          PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
+          PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @form.evidence_groups)
         ) %>
 
-    <%= render "planning_applications/assessment/permitted_development_rights/previous", permitted_development_rights: @permitted_development_rights %>
+    <%= render "planning_applications/assessment/permitted_development_rights/previous", permitted_development_rights: @form.permitted_development_rights %>
 
-    <% if @review_immunity_detail %>
+    <% if @form.current_review.present? %>
       <p class="govuk-body govuk-!-padding-top-5">
         <strong>On the balance of probabilities, is the development immune from enforcement action?</strong>
       </p>
 
-      <p class="govuk-body">Assessor decision: <%= @review_immunity_detail.decision %></p>
-      <p class="govuk-body">Reason: <%= @review_immunity_detail.decision_reason %></p>
-      <p class="govuk-body">Summary: <%= @review_immunity_detail.summary %></p>
+      <p class="govuk-body">Assessor decision: <%= @form.current_review.decision %></p>
+      <p class="govuk-body">Reason: <%= @form.current_review.decision_reason %></p>
 
-      <% if @review_immunity_detail.reviewed_at.nil? %>
+      <% if @form.current_review.summary.present? %>
+        <p class="govuk-body">Summary: <%= @form.current_review.summary %></p>
+      <% end %>
+
+      <% unless @form.current_review.accepted? %>
         <div class="govuk-button-group govuk-!-padding-top-5">
           <%= govuk_link_to "Edit immunity/permitted development rights", edit_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(@planning_application) %>
         </div>
       <% end %>
-    <% end %>
 
-    <% if @review_immunity_detail.try(:decision_is_not_immune?) && @permitted_development_right %>
-      <p class="govuk-body govuk-!-padding-top-5">
-        <strong>Have the permitted development rights relevant for this application been removed?</strong>
-      </p>
-
-      <% if @permitted_development_right.removed %>
-        <p class="govuk-body"><strong>Yes</strong></p>
-        <p class="govuk-body"><%= @permitted_development_right.removed_reason %></p>
-      <% else %>
-        <p class="govuk-body"><strong>No</strong></p>
-      <% end %>
-
-      <% if @permitted_development_right.accepted && @permitted_development_right.reviewed_at %>
-        <p class="govuk-body">
-          <strong><%= @permitted_development_right.reviewer.name %> accepted this response on <%= @permitted_development_right.reviewed_at %></strong>
+      <% if @form.current_review.decision_is_not_immune? && @form.permitted_development_right.present? %>
+        <p class="govuk-body govuk-!-padding-top-5">
+          <strong>Have the permitted development rights relevant for this application been removed?</strong>
         </p>
+
+        <% if @form.permitted_development_right.removed %>
+          <p class="govuk-body"><strong>Yes</strong></p>
+          <p class="govuk-body"><%= @form.permitted_development_right.removed_reason %></p>
+        <% else %>
+          <p class="govuk-body"><strong>No</strong></p>
+        <% end %>
+
+        <% if @form.permitted_development_right.accepted && @form.permitted_development_right.reviewed_at %>
+          <p class="govuk-body">
+            <strong><%= @form.permitted_development_right.reviewer.name %> accepted this response on <%= @form.permitted_development_right.reviewed_at %></strong>
+          </p>
+        <% end %>
       <% end %>
+
     <% end %>
 
     <div class="govuk-button-group">

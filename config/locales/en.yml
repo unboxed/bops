@@ -87,16 +87,20 @@ en:
       models:
         assess_immunity_detail_permitted_development_right_form:
           attributes:
-            decision:
-              blank: Select Yes or No for whether the application is immune from enforcement
-            decision_reason:
-              blank: Decision reason for why the application is immune can't be blank
-            removed:
-              inclusion: Select Yes or No for the permitted development rights
-            removed_reason:
-              blank: Removed reason for the permitted development rights can't be blank
+            immunity:
+              inclusion: Select Yes or No for whether the development is immune
+            immunity_reason:
+              inclusion: Select one of the reasons why the development is immune
+            no_immunity_reason:
+              blank: Enter a reason as to why this development is not immune
+            other_immunity_reason:
+              blank: Enter the other reason as to why this development is immune
+            rights_removed:
+              inclusion: Select Yes or No for whether the permitted development rights have been removed
+            rights_removed_reason:
+              blank: Enter the reason as to why the permitted development rights have been removed
             summary:
-              blank: Immunity from enforcement summary can't be blank
+              blank: Enter a summary of the evidence and history provided as to why this development is immune
         file_downloaders/basic_authentication:
           attributes:
             password:
@@ -1058,14 +1062,17 @@ en:
         update:
           success: Appeal was successfully updated as valid
     assessment:
-      assess_immunity_detail_permitted_development_right_form:
-        four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
-        other: other
-        ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
-        ten_years_substantial: no action is taken within 10 years of substantial completion for a breach of planning control consisting of operational development
       assess_immunity_detail_permitted_development_rights:
-        successfully_created: Immunity/permitted development rights response was successfully created
-        successfully_updated: Immunity/permitted development rights response was successfully updated
+        form:
+          immunity_legend: On the balance of probabilities, is the development immune from enforcement action?
+          immunity_reason_legend: Provide a reason why this development is immune
+          no_immunity_reason_label: Describe why the application is not immune from enforcement
+          other_immunity_reason_label: Provide the other reason why this development is immune
+          rights_removed_legend: Have the permitted development rights relevant for this application been removed?
+          rights_removed_reason_label: Describe how permitted development rights have been removed
+          summary_hint: Refer to the evidence and history provided
+          summary_label: Immunity from enforcement summary
+        success: Immunity/permitted development rights response was successfully updated
       assessment_details:
         additional_evidence:
           created:

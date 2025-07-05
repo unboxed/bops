@@ -338,7 +338,7 @@ RSpec.describe "Permitted development right" do
       expect do
         visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights"
         expect(page).to have_selector("h1", text: "Does not exist")
-      end.to raise_error(ActionController::RoutingError, "Not found")
+      end.to raise_error(BopsCore::Errors::NotFoundError, "Permitted development rights are not applicable to this planning application")
     end
   end
 end

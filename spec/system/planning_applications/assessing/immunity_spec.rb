@@ -92,15 +92,13 @@ RSpec.describe "Immunity", type: :system do
       click_link "Immunity/permitted development rights"
       expect(page).to have_selector("h1", text: "Immunity/permitted development rights")
 
-      within("#assess-immunity-detail-section") do
-        choose "Yes"
-        choose "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse"
-        fill_in "Immunity from enforcement summary", with: "A summary"
-      end
+      choose "Yes, the development is immune"
+      choose "No action has been taken within 4 years for an unauthorised change of use"
+      fill_in "Immunity from enforcement summary", with: "A summary"
 
       click_button "Save and mark as complete"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_content("Immunity/permitted development rights response was successfully created")
+      expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
 
       click_link "Make draft recommendation"
       expect(page).to have_selector("h1", text: "Make draft recommendation")
@@ -154,7 +152,7 @@ RSpec.describe "Immunity", type: :system do
 
       within("#review-immunity-enforcements") do
         expect(page).to have_content("Assessor decision: Yes")
-        expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
+        expect(page).to have_content("Reason: No action has been taken within 4 years for an unauthorised change of use")
         expect(page).to have_content("Summary: A summary")
       end
 
@@ -205,26 +203,20 @@ RSpec.describe "Immunity", type: :system do
       toggle "See previous review immunity detail responses"
 
       expect(page).to have_content("Assessor decision: Yes")
-      expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
+      expect(page).to have_content("Reason: No action has been taken within 4 years for an unauthorised change of use")
       expect(page).to have_content("Summary: A summary")
       expect(page).to have_content("Please re-assess immunity enforcement response")
 
       # Fill in immunity response again
-      within("#assess-immunity-detail-section") do
-        choose "No"
+      choose "No, the development is not immune"
+      fill_in "Describe why the application is not immune from enforcement", with: "Application is not immune"
 
-        fill_in "Describe why the application is not immune from enforcement", with: "Application is not immune"
-      end
-
-      within("#permitted-development-right-section") do
-        choose "Yes"
-
-        fill_in "Describe how permitted development rights have been removed", with: "A reason"
-      end
+      choose "Yes, permitted development rights have been removed"
+      fill_in "Describe how permitted development rights have been removed", with: "A reason"
 
       click_button "Save and mark as complete"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_content("Immunity/permitted development rights response was successfully created")
+      expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
 
       sign_out(assessor)
       sign_in(reviewer)
