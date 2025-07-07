@@ -151,9 +151,9 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_selector(:open_review_task, text: "Review assessment of immunity")
 
       within("#review-immunity-enforcements") do
-        expect(page).to have_content("Assessor decision: Yes")
+        expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action? Yes")
         expect(page).to have_content("Reason: No action has been taken within 4 years for an unauthorised change of use")
-        expect(page).to have_content("Summary: A summary")
+        expect(page).to have_content("Assessor summary: A summary")
       end
 
       within("#review-immunity-enforcements-form") do
@@ -242,7 +242,7 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_selector(:open_review_task, text: "Review assessment of immunity")
 
       within("#review-immunity-enforcements") do
-        expect(page).to have_content("Assessor decision: No")
+        expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action? No")
         expect(page).to have_content("Reason: Application is not immune")
 
         choose("Agree", match: :first)

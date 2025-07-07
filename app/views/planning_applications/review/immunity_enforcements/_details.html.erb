@@ -1,7 +1,7 @@
 <% if @planning_application.immunity_detail.current_enforcement_review_immunity_detail %>
-  <p>Assessor decision: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision %></p>
-  <p>Reason: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision_reason %></p>
-  <p>Summary: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.summary %></p>
+  <p>On the balance of probabilities, is the development immune from enforcement action? <strong><%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision %></strong></p>
+  <p>Reason: <strong><%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision_reason %></strong></p>
+  <p>Assessor summary: <strong><%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.summary %></strong></p>
 <% end %>
 
 <%= govuk_link_to "Edit", edit_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(@planning_application) %>
