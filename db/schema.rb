@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_07_105904) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_07_164356) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -181,8 +181,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_07_105904) do
     t.bigint "caseable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["caseable_type", "caseable_id"], name: "ix_case_records_on_caseable_type__caseable_id"
     t.index ["local_authority_id"], name: "ix_case_records_on_local_authority_id"
+    t.index ["user_id"], name: "ix_case_records_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -1255,6 +1257,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_07_105904) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
   add_foreign_key "case_records", "local_authorities"
+  add_foreign_key "case_records", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"

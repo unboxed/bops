@@ -20,8 +20,4 @@ class Enforcement < ApplicationRecord
   def status
     :unknown
   end
-
-  def user
-    nil
-  end
 end
