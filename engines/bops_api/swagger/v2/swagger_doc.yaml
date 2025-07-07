@@ -35110,80 +35110,91 @@ paths:
         required: false
       - name: q
         in: query
+        description: Search by reference, address or description
+        required: false
         schema:
           type: string
-          description: Search by reference or description
       - name: applicationType[]
         in: query
+        description: Filter by one or more application type codes
         style: form
         explode: true
         schema:
           type: array
           items:
             type: string
-          description: Filter by one or more application type codes
       - name: receivedAtFrom
         in: query
+        required: false
+        description: Received at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Received at field start date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: receivedAtTo
         in: query
+        required: false
+        description: Received at to date in yyyy-mm-dd format
         schema:
           type: string
-          description: Received at field end date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: validatedAtFrom
         in: query
+        required: false
+        description: Validated at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Validated at field start date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: validatedAtTo
         in: query
+        required: false
+        description: Validated at to date in yyyy-mm-dd format
         schema:
           type: string
-          description: Validated at field end date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: publishedAtFrom
         in: query
+        required: false
+        description: Published at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Published at field start date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: publishedAtTo
         in: query
+        required: false
+        description: Published at to date in yyyy-mm-dd format
         schema:
           type: string
-          description: Published at field end date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: consultationEndDateFrom
         in: query
+        required: false
+        description: Consultation end date from in yyyy-mm-dd format
         schema:
           type: string
-          description: Consultation end from date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: consultationEndDateTo
         in: query
+        required: false
+        description: Consultation end date to in yyyy-mm-dd format
         schema:
           type: string
-          description: Consultation end to date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: orderBy
         in: query
+        description: Sort by ascending or descending order
         schema:
           type: string
-          description: Sort by ascending or descending order
+          required: false
           enum:
           - asc
           - desc
           default: desc
       - name: sortBy
         in: query
+        description: Sort by field
         schema:
           type: string
-          description: Sort by field
+          required: false
           enum:
           - publishedAt
           - receivedAt
@@ -35668,81 +35679,91 @@ paths:
         required: false
       - name: q
         in: query
+        description: Search by reference, address or description
+        required: false
         schema:
           type: string
-          description: Search by reference or description
-        required: false
       - name: applicationType[]
         in: query
+        description: Filter by one or more application type codes
         style: form
         explode: true
         schema:
           type: array
           items:
             type: string
-          description: Filter by one or more application type codes
       - name: receivedAtFrom
         in: query
+        required: false
+        description: Received at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Received at field start date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: receivedAtTo
         in: query
+        required: false
+        description: Received at to date in yyyy-mm-dd format
         schema:
           type: string
-          description: Received at field end date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: validatedAtFrom
         in: query
+        required: false
+        description: Validated at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Validated at field start date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: validatedAtTo
         in: query
+        required: false
+        description: Validated at to date in yyyy-mm-dd format
         schema:
           type: string
-          description: Validated at field end date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: publishedAtFrom
         in: query
+        required: false
+        description: Published at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Published at field start date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: publishedAtTo
         in: query
+        required: false
+        description: Published at to date in yyyy-mm-dd format
         schema:
           type: string
-          description: Published at field end date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: consultationEndDateFrom
         in: query
+        required: false
+        description: Consultation end date from in yyyy-mm-dd format
         schema:
           type: string
-          description: Consultation end from date in yyyy/mm/dd format
-        example: 2022/01/01
+          format: date
       - name: consultationEndDateTo
         in: query
+        required: false
+        description: Consultation end date to in yyyy-mm-dd format
         schema:
           type: string
-          description: Consultation end to date in yyyy/mm/dd format
-        example: 2025/07/04
+          format: date
       - name: orderBy
         in: query
+        description: Sort by ascending or descending order
         schema:
           type: string
-          description: Sort by ascending or descending order
+          required: false
           enum:
           - asc
           - desc
           default: desc
       - name: sortBy
         in: query
+        description: Sort by field
         schema:
           type: string
-          description: Sort by field
+          required: false
           enum:
           - publishedAt
           - receivedAt

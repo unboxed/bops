@@ -4,6 +4,12 @@ module BopsApi
   module Application
     class SearchService
       ALLOWED_SORT_FIELDS = %w[publishedAt receivedAt].freeze
+      DATE_FIELDS = %i[
+        receivedAt
+        validatedAt
+        publishedAt
+        consultationEndDate
+      ].freeze
 
       def initialize(scope, params)
         @scope = scope
@@ -15,8 +21,7 @@ module BopsApi
 
       def call
         @scope = filter_by_application_type_code
-        @scope = filter_by_received_date_range
-        @scope = filter_by_validated_date_range
+        @scope = apply_date_filters
         @scope = search
         @scope = sort
 
@@ -38,46 +43,28 @@ module BopsApi
         scope.for_application_type_codes(params[:applicationType])
       end
 
-      def transform_date_time(date_string)
-        return nil if date_string.blank?
+      def apply_date_filters
+        DATE_FIELDS.reduce(scope) do |current, prefix|
+          from_key = :"#{prefix}From"
+          to_key = :"#{prefix}To"
 
-        DateTime.strptime(date_string, "%Y/%m/%d").to_time.in_time_zone
+          if params[from_key].present? || params[to_key].present?
+            from = parse_date(params[from_key])&.beginning_of_day || Time.zone.at(0)
+            to = parse_date(params[to_key])&.end_of_day || Time.zone.now.end_of_day
+
+            scope_name = "#{prefix.to_s.underscore}_between"
+            current.public_send(scope_name, from, to)
+          else
+            current
+          end
+        end
       end
 
-      def filter_by_received_date_range
-        from = transform_date_time(params[:receivedAtFrom])&.beginning_of_day
-        to = transform_date_time(params[:receivedAtTo])&.end_of_day
-
-        return scope if from.nil? || to.nil?
-
-        scope.received_between(from, to)
-      end
-
-      def filter_by_validated_date_range
-        from = transform_date_time(params[:validatedAtFrom])&.beginning_of_day
-        to = transform_date_time(params[:validatedAtTo])&.end_of_day
-
-        return scope if from.nil? || to.nil?
-
-        scope.validated_between(from, to)
-      end
-
-      def filter_by_published_date_range
-        from = transform_date_time(params[:publishedAtFrom])&.beginning_of_day
-        to = transform_date_time(params[:publishedAtTo])&.end_of_day
-
-        return scope if from.nil? || to.nil?
-
-        scope.published_between(from, to)
-      end
-
-      def filter_by_consultation_end_date_range
-        from = transform_date_time(params[:consultationEndDateFrom])&.beginning_of_day
-        to = transform_date_time(params[:consultationEndDateTo])&.end_of_day
-
-        return scope if from.nil? || to.nil?
-
-        scope.consultation_end_between(from, to)
+      def parse_date(date_string)
+        return if date_string.blank?
+        Date.iso8601(date_string)
+      rescue ArgumentError
+        nil
       end
 
       def search

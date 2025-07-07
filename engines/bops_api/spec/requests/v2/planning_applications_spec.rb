@@ -47,14 +47,6 @@ RSpec.describe "BOPS API" do
   let("applicationType[]") { [] }
   let(:orderBy) { "desc" }
   let(:sortBy) { "publishedAt" }
-  let(:receivedAtFrom) { "" }
-  let(:receivedAtTo) { Time.zone.today.strftime("%Y/%m/%d") }
-  let(:validatedAtFrom) { "" }
-  let(:validatedAtTo) { Time.zone.today.strftime("%Y/%m/%d") }
-  let(:publishedAtFrom) { "" }
-  let(:publishedAtTo) { Time.zone.today.strftime("%Y/%m/%d") }
-  let(:consultationEndDateFrom) { "" }
-  let(:consultationEndDateTo) { Time.zone.today.strftime("%Y/%m/%d") }
 
   path "/api/v2/planning_applications" do
     post "Creates a new plannning application" do
@@ -549,82 +541,7 @@ RSpec.describe "BOPS API" do
       security [bearerAuth: []]
       produces "application/json"
 
-      parameter name: :page, in: :query, schema: {
-        type: :integer,
-        default: 1
-      }, required: false
-
-      parameter name: :maxresults, in: :query, schema: {
-        type: :integer,
-        default: 10
-      }, required: false
-
-      parameter name: "q", in: :query, schema: {
-        type: :string,
-        description: "Search by reference or description"
-      }
-
-      parameter name: "applicationType[]", in: :query, style: :form, explode: true, schema: {
-        type: :array,
-        items: {
-          type: :string
-        },
-        description: "Filter by one or more application type codes"
-      }
-
-      parameter name: :receivedAtFrom, in: :query, schema: {
-        type: :string,
-        description: "Received at field start date in yyyy/mm/dd format"
-      }, example: "2022/01/01"
-
-      parameter name: :receivedAtTo, in: :query, schema: {
-        type: :string,
-        description: "Received at field end date in yyyy/mm/dd format"
-      }, example: Time.zone.today.strftime("%Y/%m/%d")
-
-      parameter name: :validatedAtFrom, in: :query, schema: {
-        type: :string,
-        description: "Validated at field start date in yyyy/mm/dd format"
-      }, example: "2022/01/01"
-
-      parameter name: :validatedAtTo, in: :query, schema: {
-        type: :string,
-        description: "Validated at field end date in yyyy/mm/dd format"
-      }, example: Time.zone.today.strftime("%Y/%m/%d")
-
-      parameter name: :publishedAtFrom, in: :query, schema: {
-        type: :string,
-        description: "Published at field start date in yyyy/mm/dd format"
-      }, example: "2022/01/01"
-
-      parameter name: :publishedAtTo, in: :query, schema: {
-        type: :string,
-        description: "Published at field end date in yyyy/mm/dd format"
-      }, example: Time.zone.today.strftime("%Y/%m/%d")
-
-      parameter name: :consultationEndDateFrom, in: :query, schema: {
-        type: :string,
-        description: "Consultation end from date in yyyy/mm/dd format"
-      }, example: "2022/01/01"
-
-      parameter name: :consultationEndDateTo, in: :query, schema: {
-        type: :string,
-        description: "Consultation end to date in yyyy/mm/dd format"
-      }, example: Time.zone.today.strftime("%Y/%m/%d")
-
-      parameter name: :orderBy, in: :query, schema: {
-        type: :string,
-        description: "Sort by ascending or descending order",
-        enum: ["asc", "desc"],
-        default: "desc"
-      }
-
-      parameter name: :sortBy, in: :query, schema: {
-        type: :string,
-        description: "Sort by field",
-        enum: ["publishedAt", "receivedAt"],
-        default: "receivedAt"
-      }
+      with_search_and_filter_params
 
       it "validates successfully against the example search json" do
         resolved_schema = load_and_resolve_schema(name: "search", version: BopsApi::Schemas::DEFAULT_ODP_VERSION)

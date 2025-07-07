@@ -186,5 +186,133 @@ RSpec.describe BopsApi::Application::SearchService do
         end
       end
     end
+
+    context "when filtering by date ranges" do
+      let!(:old) do
+        create(:planning_application, :planning_permission, :consulting, received_at: 10.days.ago, validated_at: 8.days.ago, published_at: 6.days.ago)
+      end
+      let!(:mid) do
+        create(:planning_application, :planning_permission, :consulting, received_at: 5.days.ago, validated_at: 4.days.ago, published_at: 3.days.ago)
+      end
+      let!(:new) do
+        create(:planning_application, :planning_permission, :consulting, received_at: 1.day.ago, validated_at: 1.day.ago, published_at: 1.day.ago)
+      end
+
+      before do
+        old.consultation.update(end_date: 12.days.ago)
+        mid.consultation.update(end_date: 5.days.ago)
+        new.consultation.update(end_date: 1.days.ago)
+      end
+
+      context "receivedAtFrom only" do
+        let(:params) { {receivedAtFrom: 3.days.ago.to_date.iso8601} }
+
+        it "returns applications received on or after the given date" do
+          expect(results).to match_array([new])
+        end
+      end
+
+      context "receivedAtTo only" do
+        let(:params) { {receivedAtTo: 6.days.ago.to_date.iso8601} }
+
+        it "returns applications received on or before the given date" do
+          expect(results).to match_array([old])
+        end
+      end
+
+      context "receivedAtFrom and receivedAtTo" do
+        let(:params) do
+          {
+            receivedAtFrom: 7.days.ago.to_date.iso8601,
+            receivedAtTo: 2.days.ago.to_date.iso8601
+          }
+        end
+
+        it "returns applications within the received date range" do
+          expect(results).to match_array([mid])
+        end
+      end
+
+      context "validatedAt range" do
+        let(:params) do
+          {
+            validatedAtFrom: 5.days.ago.to_date.iso8601,
+            validatedAtTo: 2.days.ago.to_date.iso8601
+          }
+        end
+
+        it "returns applications within the validated date range" do
+          expect(results).to match_array([mid])
+        end
+      end
+
+      context "publishedAt range" do
+        let(:params) do
+          {
+            publishedAtFrom: 4.days.ago.to_date.iso8601,
+            publishedAtTo: 1.day.ago.to_date.iso8601
+          }
+        end
+
+        it "returns applications within the published date range" do
+          expect(results).to match_array([mid, new])
+        end
+      end
+
+      context "consultationEndDate range" do
+        let(:params) do
+          {
+            consultationEndDateFrom: 6.days.ago.to_date.iso8601,
+            consultationEndDateTo: 2.days.ago.to_date.iso8601
+          }
+        end
+
+        it "returns applications with consultation end date in range" do
+          expect(results).to match_array([mid])
+        end
+      end
+    end
+
+    context "when chaining multiple filters: date + search" do
+      let!(:roof_a) do
+        create(:planning_application, received_at: 5.days.ago, published_at: 5.days.ago, description: "A roof extension")
+      end
+      let!(:roof_b) do
+        create(:planning_application, received_at: 3.days.ago, published_at: 3.days.ago, description: "A roof extension")
+      end
+      let!(:loft) do
+        create(:planning_application, received_at: 3.days.ago, published_at: 3.days.ago, description: "A loft extension")
+      end
+
+      let(:params) do
+        {
+          receivedAtFrom: 4.days.ago.to_date.iso8601,
+          publishedAtTo: 2.days.ago.to_date.iso8601,
+          q: "roof"
+        }
+      end
+
+      it "returns only applications matching both date filters and search" do
+        expect(results).to match_array([roof_b])
+      end
+    end
+
+    context "when chaining date + sortBy" do
+      let!(:old) { create(:planning_application, published_at: 5.days.ago) }
+      let!(:mid) { create(:planning_application, published_at: 3.days.ago) }
+      let!(:new) { create(:planning_application, published_at: 1.day.ago) }
+
+      let(:params) do
+        {
+          publishedAtFrom: 3.days.ago.to_date.iso8601,
+          sortBy: "publishedAt",
+          orderBy: "asc"
+        }
+      end
+
+      it "returns filtered and sorted results" do
+        expect(results).to eq([mid, new])
+      end
+    end
   end
 end
