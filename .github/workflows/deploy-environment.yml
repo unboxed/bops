@@ -7,12 +7,6 @@ on:
       environment-name:
         type: string
         required: true
-      db_subnets:
-        type: string
-        required: true
-      db_sg:
-        type: string
-        required: true
 
 concurrency:
   group: ${{ inputs.environment-name }}
@@ -71,10 +65,47 @@ jobs:
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
             -f Dockerfile.production .
 
+  sync-assets:
+    name: Compile and sync assets to S3 bucket
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.environment-name }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - run: yarn install
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/bops_github_deploy_${{ inputs.environment-name }}
+          aws-region: eu-west-2
+
+      - name: Compile assets
+        env:
+          SECRET_KEY_BASE_DUMMY: '1'
+        run: |
+          bundle exec rake assets:precompile
+
+      - name: Sync assets to S3 bucket
+        run: |
+          aws s3 sync public/assets s3://bops-${{ inputs.environment-name }}-assets/assets --size-only
+
   deploy-services:
     name: Deploy service ${{ matrix.service_type }} to ${{ inputs.environment-name }}
     runs-on: ubuntu-24.04
-    needs: [build-image]
+    needs: [build-image, sync-assets]
     strategy:
       matrix:
         service_type: ["console", "worker", "web"]
