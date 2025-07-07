@@ -4,7 +4,9 @@ module PermittedDevelopmentRights
   extend ActiveSupport::Concern
 
   included do
-    before_action :raise_routing_error, unless: :permitted_development_rights_can_be_checked?
+    before_action unless: :permitted_development_rights_can_be_checked? do
+      raise BopsCore::Errors::NotFoundError, "Permitted development rights are not applicable to this planning application"
+    end
   end
 
   def permitted_development_rights_can_be_checked?
@@ -17,11 +19,5 @@ module PermittedDevelopmentRights
 
   def set_permitted_development_rights
     @permitted_development_rights = @planning_application.permitted_development_rights.returned
-  end
-
-  private
-
-  def raise_routing_error
-    raise ActionController::RoutingError, "Not found"
   end
 end
