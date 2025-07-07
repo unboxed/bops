@@ -17,7 +17,7 @@
       ) %>
 <% end %>
 
-<p class="govuk-body">
+<p>
   Invalid fee previously paid: <%= number_to_currency @planning_application.invalid_payment_amount, unit: "£" %>
 </p>
 
@@ -26,13 +26,13 @@
     <h2 class="govuk-heading-m">Officer request</h2>
 
     <div class="govuk-inset-text govuk-!-margin-bottom-3">
-      <p class="govuk-body">
+      <p>
         <strong>Reason fee is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
-      <p class="govuk-body">
+      <p>
         <strong>What the applicant needs to do </strong><%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
       </p>
-      <p class="govuk-body">
+      <p>
       <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
@@ -47,10 +47,10 @@
     <% if @validation_request.closed? && @planning_application.invalidated? %>
       <h2 class="govuk-heading-m">Applicant response</h2>
       <div class="govuk-inset-text">
-        <p class="govuk-body">
+        <p>
           <%= @validation_request.response %>
         </p>
-        <p class="govuk-body">
+        <p>
           <%= @validation_request.updated_at.to_fs %>
         </p>
       </div>

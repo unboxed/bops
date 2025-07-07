@@ -1,4 +1,4 @@
-<p class="govuk-body">
+<p>
   Review the documents submitted by the applicant
 </p>
 
@@ -16,9 +16,9 @@
               <% end %>
             </td>
             <td class="govuk-table__cell govuk-!-width-one-half">
-              <p class="govuk-body"><%= document.name %><% if document.numbers? %> — <%= document.numbers %><% end %></p>
+              <p><%= document.name %><% if document.numbers? %> — <%= document.numbers %><% end %></p>
 
-              <p class="govuk-body">
+              <p>
                 <% document.tags.each do |tag| %>
                   <strong class="govuk-tag govuk-tag--turquoise">
                     <%= I18n.t(:"#{tag}", scope: :document_tags) %>
@@ -26,7 +26,7 @@
                 <% end %>
               </p>
 
-              <p class="govuk-body">
+              <p>
                 <%= govuk_link_to "Download",
                       main_app.uploaded_file_url(document.blob, sgid: params[:sgid]),
                       new_tab: "" %>

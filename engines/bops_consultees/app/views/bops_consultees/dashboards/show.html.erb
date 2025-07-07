@@ -9,9 +9,9 @@
     </h1>
 
     <% if @expired_resource %>
-      <p class="govuk-body"><strong>Your magic link has expired</strong></p>
+      <p><strong>Your magic link has expired</strong></p>
 
-      <p class="govuk-body">
+      <p>
         Contact <%= govuk_mail_to(current_local_authority.feedback_email) %> if you think there's a problem.
       </p>
 

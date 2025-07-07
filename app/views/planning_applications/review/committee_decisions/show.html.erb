@@ -21,7 +21,7 @@
     </h2>
 
     <% if @committee_decision.recommend? %>
-      <p class="govuk-body">
+      <p>
         The case officer has marked this application as requiring decision by Committee for the following reasons:
       </p>
 
@@ -37,7 +37,7 @@
         </ul>
       </div>
     <% else %>
-      <p class="govuk-body">
+      <p>
         The case officer has marked this application as not requiring decision by Committee.
       </p>
     <% end %>
@@ -45,7 +45,7 @@
     <h3 class="govuk-heading-s">
       Submitted recommendation
     </h3>
-    <p class="govuk-body">
+    <p>
       by <%= @committee_decision.current_review.assessor&.name %>, <%= @planning_application.in_assessment_at.to_fs %>
     </p>
   </div>
@@ -56,9 +56,9 @@
 <div class="govuk-!-margin-bottom-8">
     <h3 class="govuk-heading-s">Reviewer decision:</h3>
   <% if (!@committee_decision.recommend? && @committee_decision.current_review.to_be_reviewed?) || (@committee_decision.recommend? && @committee_decision.current_review.complete?) %>
-    <p class="govuk-body">The application should go to committee</p>
+    <p>The application should go to committee</p>
   <% else %>
-    <p class="govuk-body">The application should not go to committee</p>
+    <p>The application should not go to committee</p>
   <% end %>
 </div>
 

@@ -1,9 +1,9 @@
 <% if @planning_application.planning_application_constraints.active.empty? %>
-  <p class="govuk-body">
+  <p>
     There are no planning constraints on the application site.
   </p>
 <% else %>
-  <p class="govuk-body">
+  <p>
     The application site has these constraints:
   </p>
   <%= render(

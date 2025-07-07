@@ -10,7 +10,7 @@
         <p><strong><%= permitted_development_right.reviewer.name %> marked this for review</strong></p>
         <p><%= permitted_development_right.reviewed_at %></p>
         <% if permitted_development_right.removed %>
-          <p class="govuk-body"><%= permitted_development_right.removed_reason %></p>
+          <p><%= permitted_development_right.removed_reason %></p>
         <% end %>
         <p><em>Reviewer comment: <%= permitted_development_right.reviewer_comment %></em></p>
       <% end %>

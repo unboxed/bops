@@ -11,7 +11,7 @@
     Confirm changes to your application expiry date
   </h1>
 
-  <p class="govuk-body">
+  <p>
     The following changes have been made to your application's expiry date.
   </p>
 
@@ -59,14 +59,14 @@
     </h2>
 
     <% if @validation_request.approved? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--green">
           Agreed
         </strong>
         with suggested date
       </p>
     <% elsif @validation_request.rejected? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--red">
           Disagreed
         </strong>

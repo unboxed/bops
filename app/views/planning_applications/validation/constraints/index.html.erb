@@ -13,7 +13,7 @@
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Add, remove and save constraints</h2>
-    <p class="govuk-body">
+    <p>
       Check the constraints for this application. Add any constraints that are relevant. When all relevant constraints have been added, save and mark as complete.
     </p>
   </div>
@@ -22,7 +22,7 @@
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-full">
     <h2 class="govuk-heading-m">Identified constraints</h2>
-    <p class="govuk-body">
+    <p>
       <%= govuk_link_to "View map on Planning Data", planning_data_map_url(@planning_application_constraints.flat_map(&:dataset).compact, @planning_application), new_tab: true %>
     </p>
     <%= render(

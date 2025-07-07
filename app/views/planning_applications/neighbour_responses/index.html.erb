@@ -14,17 +14,17 @@
 
 <% if @consultation.end_date %>
   <h2 class="govuk-heading-m govuk-!-margin-top-7">Date consultation will end</h2>
-  <p class="govuk-body"><%= @consultation.end_date.to_fs(:day_month_year_slashes) %></p>
+  <p><%= @consultation.end_date.to_fs(:day_month_year_slashes) %></p>
 <% end %>
 
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Responses (<%= @neighbour_responses.count %>)</h2>
 <% if @neighbour_responses.any? %>
   <%= render "responses", neighbour_responses: @neighbour_responses %>
 <% else %>
-  <p class="govuk-body">No neighbour responses yet</p>
+  <p>No neighbour responses yet</p>
 <% end %>
 
-<p class="govuk-body">
+<p>
   <%= govuk_link_to "Add a new neighbour response", new_planning_application_consultation_neighbour_response_path(@planning_application) %>
 </p>
 

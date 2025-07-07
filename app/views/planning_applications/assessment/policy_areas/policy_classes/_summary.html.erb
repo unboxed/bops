@@ -31,13 +31,13 @@
           class: "govuk-button govuk-button--secondary",
           disabled: planning_application.submit_recommendation_complete?
         ) %>
-    <p class="govuk-body">
+    <p>
       <%= t(
             ".please_indicate_if",
             part: policy_class.policy_part_number,
             class: policy_class.section
           ) %>
-    <p class="govuk-body">
+    <p>
       <%= govuk_link_to(
             t(".open_legislation_in"),
             policy_class.url,

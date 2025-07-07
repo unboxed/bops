@@ -20,7 +20,7 @@
       Application going to committee
     </h2>
 
-    <p class="govuk-body">
+    <p>
       The case officer has marked this application as requiring decision by Committee for the following reasons:
     </p>
 
@@ -65,7 +65,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">2. Check and send notification</h2>
-      <p class="govuk-body">This will be sent to the selected neighbours and anyone who submitted a comment on this application. A copy will be sent to the applicant and agent.</p>
+      <p>This will be sent to the selected neighbours and anyone who submitted a comment on this application. A copy will be sent to the applicant and agent.</p>
 
       <details class="govuk-details">
         <summary class="govuk-details__summary">
@@ -76,8 +76,8 @@
         <div class="govuk-details__text">
           <%= form.label :notification_content, "Neighbour letter", class: "govuk-!-display-none" %>
           <div class="govuk-inset-text">
-            <p class="govuk-body">Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
-            <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
+            <p>Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
+            <p>Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
           </div>
           <%= form.text_area :notification_content, value: I18n.t("neighbour_letter_template.committee"), rows: 25, class: "govuk-body neighbour-letter-template" %>
         </div>

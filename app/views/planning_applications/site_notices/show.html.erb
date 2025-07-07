@@ -28,10 +28,10 @@
       <% @site_notice.documents.each do |document| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell govuk-!-width-one-third">
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
             </p>
-            <p class="govuk-body">
+            <p>
               <%= truncate(document.name.to_s, length: 50) %><br>
               <%= link_to_document "View in new window", document %>
             </p>
@@ -44,7 +44,7 @@
             <% end %>
           </td>
           <td class="govuk-table__cell govuk-!-width-one-third">
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               <%= @site_notice.displayed_at.to_date.to_fs %>
             </p>
           </td>
@@ -53,7 +53,7 @@
     </tbody>
   </table>
 <% else %>
-  <p class="govuk-body"><strong>Date displayed:</strong> <%= @site_notice.displayed_at.to_date.to_fs %></p>
+  <p><strong>Date displayed:</strong> <%= @site_notice.displayed_at.to_date.to_fs %></p>
 <% end %>
 
 <%= back_link %>

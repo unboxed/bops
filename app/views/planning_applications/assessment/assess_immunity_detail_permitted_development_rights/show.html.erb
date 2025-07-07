@@ -11,15 +11,15 @@
     <%= render "planning_applications/assessment/permitted_development_rights/previous", permitted_development_rights: @form.permitted_development_rights %>
 
     <% if @form.current_review.present? %>
-      <p class="govuk-body govuk-!-padding-top-5">
+      <p class="govuk-!-padding-top-5">
         <strong>On the balance of probabilities, is the development immune from enforcement action?</strong>
       </p>
 
-      <p class="govuk-body">Assessor decision: <%= @form.current_review.decision %></p>
-      <p class="govuk-body">Reason: <%= @form.current_review.decision_reason %></p>
+      <p>Assessor decision: <%= @form.current_review.decision %></p>
+      <p>Reason: <%= @form.current_review.decision_reason %></p>
 
       <% if @form.current_review.summary.present? %>
-        <p class="govuk-body">Summary: <%= @form.current_review.summary %></p>
+        <p>Summary: <%= @form.current_review.summary %></p>
       <% end %>
 
       <% unless @form.current_review.accepted? %>
@@ -29,19 +29,19 @@
       <% end %>
 
       <% if @form.current_review.decision_is_not_immune? && @form.permitted_development_right.present? %>
-        <p class="govuk-body govuk-!-padding-top-5">
+        <p class="govuk-!-padding-top-5">
           <strong>Have the permitted development rights relevant for this application been removed?</strong>
         </p>
 
         <% if @form.permitted_development_right.removed %>
-          <p class="govuk-body"><strong>Yes</strong></p>
-          <p class="govuk-body"><%= @form.permitted_development_right.removed_reason %></p>
+          <p><strong>Yes</strong></p>
+          <p><%= @form.permitted_development_right.removed_reason %></p>
         <% else %>
-          <p class="govuk-body"><strong>No</strong></p>
+          <p><strong>No</strong></p>
         <% end %>
 
         <% if @form.permitted_development_right.accepted && @form.permitted_development_right.reviewed_at %>
-          <p class="govuk-body">
+          <p>
             <strong><%= @form.permitted_development_right.reviewer.name %> accepted this response on <%= @form.permitted_development_right.reviewed_at %></strong>
           </p>
         <% end %>

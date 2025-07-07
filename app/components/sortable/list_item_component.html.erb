@@ -21,19 +21,19 @@
 
       <% if current_request.rejection_reason %>
         <div class="govuk-inset-text applicant">
-          <p class="govuk-body">
+          <p>
             <strong>Applicant comment</strong>
           </p>
-          <p class="govuk-body govuk-hint">
+          <p class="govuk-hint">
             Sent on: <%= current_request.updated_at.to_fs %>
           </p>
-          <p class="govuk-body">
+          <p>
             <%= current_request.rejection_reason %>
           </p>
         </div>
       <% end %>
 
-      <p class="govuk-body govuk-hint">
+      <p class="govuk-hint">
         <% if current_request.notified_at %>
           Sent on <%= current_request.notified_at.to_fs %>
         <% end %>

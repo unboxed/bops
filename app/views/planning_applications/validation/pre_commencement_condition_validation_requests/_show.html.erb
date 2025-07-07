@@ -24,16 +24,16 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Officer request</h2>
     <div class="govuk-inset-text">
-      <p class="govuk-body">
+      <p>
         <strong>Condition: <%= @validation_request.owner.title %></strong>
       </p>
-      <p class="govuk-body">
+      <p>
         <%= @validation_request.owner.text %>
       </p>
-      <p class="govuk-body">
+      <p>
         Reason: <%= @validation_request.owner.reason %>
       </p>
-      <p class="govuk-body">
+      <p>
       <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
@@ -42,13 +42,13 @@
       <h2 class="govuk-heading-m">Applicant response</h2>
       <% if @validation_request.approved? %>
         <% if @validation_request.auto_closed? %>
-          <p class="govuk-body">Condition was auto approved after 10 days</p>
+          <p>Condition was auto approved after 10 days</p>
         <% else %>
-          <p class="govuk-body">Applicant approved this condition</p>
+          <p>Applicant approved this condition</p>
         <% end %>
       <% elsif !@validation_request.approved? %>
-        <p class="govuk-body">Applicant rejected this ownership pre-commencement</p>
-        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s %></p>
+        <p>Applicant rejected this ownership pre-commencement</p>
+        <p>Reason: <%= @validation_request.rejection_reason.to_s %></p>
       <% end %>
 
       <%= form_with model: @planning_application do |form| %>

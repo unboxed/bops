@@ -1,16 +1,16 @@
 <% if document.representable? %>
   <%= document_thumbnail_link document, thumbnail_args: {resize: resize}, image_args: {style: "max-width: 100%"} %>
-  <p class="govuk-body">
+  <p>
     <%= link_to_document(t(".view_in_new"), document) %>
   </p>
   <% if edit_and_archive %>
-    <p class="govuk-body">
+    <p>
       <%= govuk_link_to t(".edit"), edit_planning_application_document_path(planning_application, document) %>
     </p>
-    <p class="govuk-body">
+    <p>
       <%= govuk_link_to t(".archive"), planning_application_document_archive_path(planning_application, document) %>
     </p>
-    <p class="govuk-body">
+    <p>
       <% if document.replacement_document_validation_request %>
         <%= govuk_link_to "Cancel replacement request", show_validation_request_url(planning_application, document.replacement_document_validation_request) %>
       <% else %>

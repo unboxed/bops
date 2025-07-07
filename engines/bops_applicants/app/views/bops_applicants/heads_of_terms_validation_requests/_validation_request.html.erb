@@ -27,14 +27,14 @@
     </h2>
 
     <% if @validation_request.approved? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--green">
           Agreed
         </strong>
         to the term
       </p>
     <% elsif @validation_request.rejected? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--red">
           Disagreed
         </strong>

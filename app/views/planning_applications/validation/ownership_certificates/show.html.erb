@@ -61,9 +61,9 @@
     </table>
     <% if @planning_application.ownership_certificate_validation_requests.open_or_pending.any? %>
       <% if @planning_application.ownership_certificate_validation_requests.open.any? %>
-        <p class="govuk-body">Request for more information about ownership certificate has been sent to applicant</p>
+        <p>Request for more information about ownership certificate has been sent to applicant</p>
       <% else %>
-        <p class="govuk-body">Request for more information about ownership certificate will be sent once application has been made invalid</p>
+        <p>Request for more information about ownership certificate will be sent once application has been made invalid</p>
       <% end %>
 
       <div class="govuk-button-group">

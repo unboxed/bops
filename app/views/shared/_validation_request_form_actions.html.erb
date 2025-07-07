@@ -1,9 +1,9 @@
 <% if @planning_application.not_started? %>
-  <p class="govuk-body">
+  <p>
     This request will be added to the application. The requests will not be sent until the application is marked as invalid.
   </p>
 <% elsif @planning_application.invalidated? %>
-  <p class="govuk-body">
+  <p>
     This request will be sent to the applicant immediately.
   </p>
 <% end %>

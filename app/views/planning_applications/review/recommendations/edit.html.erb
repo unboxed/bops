@@ -21,7 +21,7 @@
             planning_application: @planning_application
           )
         ) %>
-    <p class="govuk-body">
+    <p>
       <%= govuk_warning_text(text: t(".this_information_will")) %>
     </p>
     <%= render(FormattedContentComponent.new(text: @planning_application.public_comment)) %>
@@ -39,14 +39,14 @@
           locals: {recommendations: @recommendations}
         ) %>
     <% if @planning_application.updates_required? %>
-      <p class="govuk-body">
+      <p>
         <%= t(".you_have_suggested") %>
       </p>
       <p>
         <%= govuk_link_to t(".review_changes"), planning_application_review_tasks_path(@planning_application), class: "govuk-body" %>
       </p>
     <% else %>
-      <p class="govuk-body">
+      <p>
         <%= t(".you_have_not") %>
       </p>
     <% end %>

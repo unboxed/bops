@@ -11,21 +11,21 @@
     <h1 class="govuk-heading-l">
       Request approval to a description change
     </h1>
-    <p class="govuk-body">
+    <p>
       <strong>At:</strong> <%= @planning_application.full_address %> <br>
       <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %> <br>
       <strong>Application number:</strong> <%= @planning_application.reference %>
     </p>
 
     <div>
-      <p class="govuk-body"> <strong> Previous description:</strong><br>
+      <p> <strong> Previous description:</strong><br>
         <%= @validation_request.previous_description %>
       </p>
-      <p class="govuk-body"> <strong> Proposed description:</strong><br>
+      <p> <strong> Proposed description:</strong><br>
         <%= @validation_request.proposed_description %>
       </p>
     </div>
-    <p class="govuk-body">
+    <p>
       <% if @validation_request.open? %>
         Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
       <% else %>

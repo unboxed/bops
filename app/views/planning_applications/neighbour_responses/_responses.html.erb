@@ -39,10 +39,10 @@
                     <% response.documents.each do |document| %>
                       <tr class="govuk-table__row">
                         <td class="govuk-table__cell govuk-!-width-one-third">
-                          <p class="govuk-body govuk-!-margin-bottom-1">
+                          <p class="govuk-!-margin-bottom-1">
                             <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
                           </p>
-                          <p class="govuk-body">
+                          <p>
                             <%= truncate(document.name.to_s, length: 50) %><br>
                             <%= link_to_document "View in new window", document %>
                           </p>
@@ -53,7 +53,7 @@
                           <% end %>
                         </td>
                         <td class="govuk-table__cell govuk-!-width-one-third">
-                          <p class="govuk-body govuk-!-margin-bottom-1">
+                          <p class="govuk-!-margin-bottom-1">
                             <%= document.created_at.to_fs %>
                           </p>
                         </td>
@@ -62,7 +62,7 @@
                   </tbody>
                 <% end %>
                 <br>
-                <p class="govuk-body">
+                <p>
                   <%= govuk_link_to "Redact and publish", edit_planning_application_consultation_redact_neighbour_response_path(@planning_application, response) %>
                   <% if response.redacted_by.try(:name) %>
                     (Redacted by: <%= response.redacted_by.name %>)

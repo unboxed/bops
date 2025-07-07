@@ -2,7 +2,7 @@
   <h2 class="govuk-heading-m"><%= t(".check_press_notice") %></h2>
 
   <% if @planning_application.press_notice.nil? %>
-    <p class="govuk-body">
+    <p>
       <%= t(".press_notice_incomplete") %>
     </p>
   <% elsif @planning_application.press_notice.required? %>
@@ -36,7 +36,7 @@
     <% if document = @planning_application.press_notice.last_document %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-!-margin-bottom-1">
+          <p class="govuk-!-margin-bottom-1">
             <%= link_to_document(image_tag(document.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
           </p>
           <ul class="govuk-list">
@@ -52,13 +52,13 @@
         </div>
       </div>
     <% else %>
-      <p class="govuk-body">
+      <p>
         <%= t(".no_documents_uploaded") %><br>
       </p>
     <% end %>
 
   <% else %>
-    <p class="govuk-body">
+    <p>
       <%= t(".press_notice_not_required") %><br>
     </p>
   <% end %>

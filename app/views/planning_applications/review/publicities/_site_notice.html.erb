@@ -1,7 +1,7 @@
 <div class="govuk-!-margin-top-5">
   <h2 class="govuk-heading-m"><%= t(".check_site_notice") %></h2>
   <% if @planning_application.site_notice.nil? %>
-    <p class="govuk-body">
+    <p>
       <%= t(".site_notice_incomplete") %>
     </p>
   <% elsif @planning_application.site_notice.required? %>
@@ -33,7 +33,7 @@
     <% if document = @planning_application.site_notice.last_document %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-!-margin-bottom-1">
+          <p class="govuk-!-margin-bottom-1">
             <%= link_to_document(image_tag(document.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
           </p>
           <ul class="govuk-list">
@@ -49,12 +49,12 @@
         </div>
       </div>
     <% else %>
-      <p class="govuk-body">
+      <p>
         <%= t(".no_documents_uploaded") %><br>
       </p>
     <% end %>
   <% else %>
-    <p class="govuk-body">
+    <p>
       <%= t(".site_notice_not_required") %><br>
     </p>
   <% end %>

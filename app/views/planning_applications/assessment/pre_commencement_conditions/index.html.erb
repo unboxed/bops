@@ -43,7 +43,7 @@
             )) %>
       <% end %>
     </ol>
-    <p class="govuk-body"><%= t(".drag_and_drop") %></p>
+    <p><%= t(".drag_and_drop") %></p>
   </div>
 
   <div class="govuk-grid-column-two-thirds">
@@ -62,7 +62,7 @@
     </div>
 
     <% if @condition_set.validation_requests.any?(&:open?) %>
-      <p class="govuk-body">Waiting for the applicant to respond to the requests.</p>
+      <p>Waiting for the applicant to respond to the requests.</p>
     <% end %>
 
     <div class="govuk-button-group">

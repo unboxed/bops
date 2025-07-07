@@ -11,12 +11,12 @@
         <%= form.govuk_select(:application_type_id, current_local_authority.application_types.menu, options: {include_blank: true}, label: {text: "Application type"}) %>
       </div>
 
-      <p class="govuk-body">
+      <p>
         <%= form.label :description, "Description", class: "govuk-heading-m govuk-!-margin-bottom-1" %>
         <%= form.text_area :description, class: "govuk-textarea", rows: "5" %>
       </p>
     <% else %>
-      <p class="govuk-body">
+      <p>
         <% if @planning_application.description_change_validation_requests.open.any? %>
           <%= govuk_link_to "View requested change", planning_application_validation_validation_request_path(@planning_application, @planning_application.description_change_validation_request.id) %>
         <% elsif !@planning_application.closed_or_cancelled? %>

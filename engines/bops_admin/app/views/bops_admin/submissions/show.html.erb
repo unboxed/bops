@@ -42,7 +42,7 @@
             end
           ) %>
     <% else %>
-      <p class="govuk-body">No documents have been extracted for this submission yet.</p>
+      <p>No documents have been extracted for this submission yet.</p>
     <% end %>
 
     <% if @submission.failed? %>
@@ -103,12 +103,12 @@
                   end
                 ) %>
           <% else %>
-            <p class="govuk-body">No documents have been attached to this planning application yet.</p>
+            <p>No documents have been attached to this planning application yet.</p>
           <% end %>
         </div>
       </div>
     <% else %>
-      <p class="govuk-body">There is no associated planning application with this submission.</p>
+      <p>There is no associated planning application with this submission.</p>
     <% end %>
 
     <div class="govuk-button-group">

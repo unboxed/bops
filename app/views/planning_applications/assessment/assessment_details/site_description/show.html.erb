@@ -9,7 +9,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">
+    <p>
       <%= govuk_link_to t(".view_site_on_map"), map_link(@planning_application.full_address), new_tab: true %>
     </p>
 
@@ -19,7 +19,7 @@
       <%= govuk_warning_text(text: t(".warning")) %>
     <% end %>
 
-    <p class="govuk-body">
+    <p>
       <%= render(FormattedContentComponent.new(text: @assessment_detail.entry)) %>
     </p>
 

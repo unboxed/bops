@@ -12,19 +12,19 @@
 
     <%= render "previous", permitted_development_rights: @permitted_development_rights %>
 
-    <p class="govuk-body govuk-!-padding-top-5">
+    <p class="govuk-!-padding-top-5">
       <strong>Have the permitted development rights relevant for this application been removed?</strong>
     </p>
 
     <% if @permitted_development_right.removed %>
-      <p class="govuk-body"><strong>Yes</strong></p>
-      <p class="govuk-body"><%= @permitted_development_right.removed_reason %></p>
+      <p><strong>Yes</strong></p>
+      <p><%= @permitted_development_right.removed_reason %></p>
     <% else %>
-      <p class="govuk-body"><strong>No</strong></p>
+      <p><strong>No</strong></p>
     <% end %>
 
     <% if @permitted_development_right.accepted && @permitted_development_right.reviewed_at %>
-      <p class="govuk-body">
+      <p>
         <strong><%= @permitted_development_right.reviewer.name %> accepted this response on <%= @permitted_development_right.reviewed_at %></strong>
       </p>
     <% end %>

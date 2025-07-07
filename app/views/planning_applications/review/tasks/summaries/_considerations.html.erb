@@ -12,7 +12,7 @@
 
   <% section.with_block do %>
     <% if current_local_authority.planning_policy_and_guidance? %>
-      <p class="govuk-body">
+      <p>
         <%= govuk_link_to "Check your local policies and guidance",
               current_local_authority.planning_policy_and_guidance,
               new_tab: true %>
@@ -33,7 +33,7 @@
                     Policy
                   </h3>
 
-                  <p class="govuk-body">
+                  <p>
                     <%= consideration.policy_references.map(&:code_and_description).join("; ") %>
                   </p>
 
@@ -41,7 +41,7 @@
                     <h3 class="govuk-heading-s">
                       Guidance
                     </h3>
-                    <p class="govuk-body">
+                    <p>
                       <%= consideration.policy_guidance.map(&:description).join("; ") %>
                     </p>
                   <% end %>
@@ -70,7 +70,7 @@
         <%= govuk_link_to "Rearrange assessments against policies and guidance", edit_planning_application_review_considerations_path(@planning_application) %>
       </p>
     <% else %>
-      <p class="govuk-body">
+      <p>
         There are no assessments against policies and guidance.
       </p>
     <% end %>

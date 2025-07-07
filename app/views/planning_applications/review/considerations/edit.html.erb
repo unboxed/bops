@@ -15,7 +15,7 @@
     ) %>
 
 <% if @planning_application.local_authority.planning_policy_and_guidance? %>
-  <p class="govuk-body govuk-!-margin-bottom-7">
+  <p class="govuk-!-margin-bottom-7">
   <%= govuk_link_to "Check your local policies and guidance",
         @planning_application.local_authority.planning_policy_and_guidance,
         new_tab: true %>
@@ -49,7 +49,7 @@
                     Policy
                   </h3>
 
-                  <p class="govuk-body">
+                  <p>
                     <%= consideration.policy_references.map(&:code_and_description).join("; ") %>
                   </p>
 
@@ -57,7 +57,7 @@
                     <h3 class="govuk-heading-s">
                       Guidance
                     </h3>
-                    <p class="govuk-body">
+                    <p>
                       <%= consideration.policy_guidance.map(&:description).join("; ") %>
                     </p>
                   <% end %>
@@ -82,9 +82,9 @@
         <% end %>
       </ol>
 
-      <p class="govuk-body"><%= t(".drag_and_drop") %></p>
+      <p><%= t(".drag_and_drop") %></p>
     <% else %>
-      <p class="govuk-body">
+      <p>
         <strong>No considerations added</strong>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </p>

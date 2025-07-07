@@ -22,7 +22,7 @@
           :true,
           label: {text: t(".yes_with_amendments")}
         ) do %>
-      <p class="govuk-body">
+      <p>
         Case currently assigned to: <span class="govuk-!-font-weight-bold"><%= recommendation.assessor.name %></span>
       </p>
       <%= form.govuk_text_area(:reviewer_comment) %>
@@ -33,7 +33,7 @@
           label: {text: t(".no")}
         ) %>
   <% end %>
-  <p class="govuk-body">
+  <p>
     If the committee did not agree, you can add details of their decision in the next step.
   </p>
   <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>

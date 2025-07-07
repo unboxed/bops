@@ -28,7 +28,7 @@
 
       <% if devise_mapping.rememberable? %>
         <div class="field">
-          <p class="govuk-body">
+          <p>
             <%= f.check_box :remember_me %>
             <%= f.label :remember_me %>
           </p>
@@ -40,7 +40,7 @@
       </div>
     <% end %>
 
-    <p class="govuk-body">
+    <p>
       <%= render "devise/shared/links" %>
     </p>
   </div>

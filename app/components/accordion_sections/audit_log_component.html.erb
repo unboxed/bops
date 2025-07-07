@@ -1,9 +1,9 @@
 <% if last_audit.present? %>
-  <p class="govuk-body">
+  <p>
     <%= render(Audits::ActivityComponent.new(audit: last_audit)) %>
   </p>
-  <p class="govuk-body"><%= audit_user_name(last_audit) %></p>
-  <p class="govuk-body">
+  <p><%= audit_user_name(last_audit) %></p>
+  <p>
     <%= t(
           ".date_at_time",
           date: last_audit.created_at.to_date.to_fs,

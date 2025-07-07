@@ -40,13 +40,13 @@
       <ul id="supporting-documents" class="govuk-list govuk-!-margin-top-7">
         <% @documents.each do |document| %>
           <li>
-            <p class="govuk-body">
+            <p>
               <%= govuk_link_to(url_for_document(document), new_tab: "", class: "govuk-!-display-inline-block") do %>
                 <%= image_tag(url_for_representation(document, resize_to_fill: [360, 240, gravity: "North"]), size: "360x240", class: "govuk-!-display-inline-block", style: "border: 1px solid #080;") %>
               <% end %>
             </p>
 
-            <p class="govuk-body">
+            <p>
               <%= govuk_link_to document.name, url_for_document(document), new_tab: true %>
             </p>
           </li>

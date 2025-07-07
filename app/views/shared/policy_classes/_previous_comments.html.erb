@@ -10,10 +10,10 @@
         <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
           <%= existing_policy_comment_label(comment) %>
         </p>
-        <p class="govuk-body"><%= comment.created_at.to_fs %></p>
-        <p class="govuk-body"><%= simple_format(comment.text) %></p>
+        <p><%= comment.created_at.to_fs %></p>
+        <p><%= simple_format(comment.text) %></p>
         <% if comment.deleted? %>
-          <p class="govuk-body govuk-!-font-weight-bold">
+          <p class="govuk-!-font-weight-bold">
             <%= t(".comment_deleted", time: comment.deleted_at) %>
           </p>
         <% end %>

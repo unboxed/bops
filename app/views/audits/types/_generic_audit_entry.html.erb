@@ -1,5 +1,5 @@
 <%= activity(audit.activity_type, audit.activity_information) %>
-<p class="govuk-body">
+<p>
   <% activity_type = get_relevant_audit_information(audit) %>
 
   <% if valid_json?(activity_type) %>

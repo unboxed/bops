@@ -42,7 +42,7 @@
 
             <ul class="govuk-list">
               <li><%= summary_tag_label(consideration.summary_tag) %></li>
-              <p class="govuk-body">
+              <p>
                 <% consideration.policy_references.each do |reference| %>
                   <li class="govuk-body-xs"><%= reference.code_and_description %></li>
                 <% end %>

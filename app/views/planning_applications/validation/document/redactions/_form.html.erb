@@ -15,10 +15,10 @@
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-!-padding-top-3 govuk-!-padding-bottom-3">
-          <p class="govuk-body govuk-!-margin-bottom-1">
+          <p class="govuk-!-margin-bottom-1">
             <%= document_thumbnail_link ff.object, thumbnail_args: {resize_to_limit: [150, 106]} %>
           </p>
-          <p class="govuk-body">
+          <p>
             <%= truncate(ff.object.name.to_s, length: 50) %><br>
             <%= link_to_document "Download", ff.object, class: "govuk-body-s" %>
           </p>

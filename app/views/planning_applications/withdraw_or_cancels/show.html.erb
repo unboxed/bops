@@ -22,7 +22,7 @@
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
           <% if @planning_application.determined? %>
-            <p class="govuk-body">
+            <p>
               This application has been determined and cannot be withdrawn or cancelled.
             </p>
             <%= form.hidden_field :status, value: :deleted %>
@@ -31,10 +31,10 @@
               Do not use this for live data
             </div>
           <% elsif !@planning_application.in_progress? %>
-            <p class="govuk-body">
+            <p>
               This application has already been withdrawn or cancelled.
             </p>
-            <p class="govuk-body">
+            <p>
               Comment: <%= @planning_application.closed_or_cancellation_comment %>
             </p>
 

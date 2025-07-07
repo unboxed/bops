@@ -27,7 +27,7 @@
     </h2>
 
     <% if @validation_request.approved? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--green">
           Agreed
         </strong>
@@ -38,7 +38,7 @@
         <%= govuk_link_to "Submit new ownership certificate", new_validation_request_ownership_certificate_path(@validation_request, access_control_params), no_visited_state: true %>
       <% end %>
     <% elsif @validation_request.rejected? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--red">
           Disagreed
         </strong>

@@ -24,19 +24,19 @@
   <div class="govuk-grid-column-full">
     <% if @active_validation_requests.any? %>
       <% if @planning_application.not_started? %>
-        <p class="govuk-body">
+        <p>
           <%= "The following requests will be sent when the application is invalidated." %>
         </p>
       <% end %>
       <% if post_validation_requests_index? %>
-        <p class="govuk-body"><%= t(".for_redline_and") %></p>
-        <p class="govuk-body"><%= t(".for_new_document") %></p>
+        <p><%= t(".for_redline_and") %></p>
+        <p><%= t(".for_new_document") %></p>
       <% end %>
 
       <%= render "planning_applications/validation/validation_requests/table", requests: @active_validation_requests, planning_application: @planning_application %>
 
     <% else %>
-      <p class="govuk-body">There are no active validation requests.</p>
+      <p>There are no active validation requests.</p>
     <% end %>
 
     <% if @cancelled_validation_requests.any? %>
@@ -44,12 +44,12 @@
     <% end %>
 
     <% if @planning_application.not_started? %>
-      <p class="govuk-body">
+      <p>
         <strong>
           The application has not been marked as valid or invalid yet.
         </strong>
       </p>
-      <p class="govuk-body">
+      <p>
         When all parts of the application have been checked and are correct, mark the application as valid.
       </p>
     <% end %>

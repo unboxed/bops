@@ -10,7 +10,7 @@
     <h1 class="govuk-heading-l">
       <%= @schedule.name %>
     </h1>
-    <p class="govuk-body">
+    <p>
       <%= govuk_button_link_to t(".create_new"), new_gpdo_policy_schedule_policy_part_path(@schedule.number, @part) %>
     </p>
     <%= render "table" %>

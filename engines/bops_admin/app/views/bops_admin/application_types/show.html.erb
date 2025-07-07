@@ -57,7 +57,7 @@
           summary_list.with_row do |row|
             row.with_key { t(".features") }
             row.with_value { %>
-              <p class="govuk-body"><strong>Application details</strong></p>
+              <p><strong>Application details</strong></p>
               <ul class="govuk-list govuk-list--bullet">
                 <% application_details_features.each do |field| %>
                   <% if @application_type.public_send("#{field}?") %>
@@ -67,7 +67,7 @@
               </ul>
 
               <% if @application_type.consultation? %>
-                <p class="govuk-body"><strong>Consultation</strong></p>
+                <p><strong>Consultation</strong></p>
                 <ul class="govuk-list govuk-list--bullet">
                   <% @application_type.consultation_steps.each do |step| %>
                     <li><%= step.humanize %></li>
@@ -79,7 +79,7 @@
               <% end %>
 
               <% if @application_type.appeals? %>
-                <p class="govuk-body"><strong>Appeals</strong></p>
+                <p><strong>Appeals</strong></p>
                 <ul class="govuk-list govuk-list--bullet">
                   <li><%= t("application_type_features.labels.appeals") %></li>
                 </ul>
@@ -91,7 +91,7 @@
             summary_list.with_row do |row|
               row.with_key { t(".groups.#{group}") }
               row.with_value { %>
-                <p class="govuk-body max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
+                <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
                   <% group.translated_tags.each do |tag| %>
                     <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
                   <% end %>

@@ -15,7 +15,7 @@
     ) %>
 
 <% if @planning_application.local_authority.planning_policy_and_guidance? %>
-  <p class="govuk-body govuk-!-margin-bottom-7">
+  <p class="govuk-!-margin-bottom-7">
   <%= govuk_link_to "Check your local policies and guidance",
         @planning_application.local_authority.planning_policy_and_guidance,
         new_tab: true %>
@@ -35,9 +35,9 @@
       <ol data-controller="sortable" class="govuk-list sortable-list">
         <%= render @considerations, editable: true %>
       </ol>
-      <p class="govuk-body"><%= t(".drag_and_drop") %></p>
+      <p><%= t(".drag_and_drop") %></p>
     <% else %>
-      <p class="govuk-body">
+      <p>
         <strong>No considerations added yet</strong>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </p>
@@ -127,7 +127,7 @@
 <%= govuk_section_break(visible: true, size: "xl") %>
 
 <% if @planning_application.decision? %>
-  <p class="govuk-body govuk-!-margin-bottom-9">
+  <p class="govuk-!-margin-bottom-9">
     <%= govuk_link_to "View draft decision notice", decision_notice_planning_application_path(@planning_application), new_tab: true %>
   </p>
 <% end %>

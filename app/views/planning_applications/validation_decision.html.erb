@@ -15,12 +15,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <% if @planning_application.not_started? && @planning_application.validation_requests.pending.none? %>
-      <p class="govuk-body">
+      <p>
         <strong>
           The application has not been marked as valid or invalid yet.
         </strong>
       </p>
-      <p class="govuk-body">
+      <p>
         When all parts of the application have been checked and are correct, mark the application as valid.
       </p>
       <div class="govuk-button-group">
@@ -29,7 +29,7 @@
       </div>
     <% elsif @planning_application.not_started? && @planning_application.validation_requests.pending.any? %>
       <h2 class="govuk-heading-m">You have marked items as invalid, so you cannot validate this application.</h2>
-      <p class="govuk-body">If you mark the application as invalid then the applicant or agent will be sent an invalid notification. This notification will contain a link to allow the applicant or agent to view all validation requests and to accept and reject requests.</p>
+      <p>If you mark the application as invalid then the applicant or agent will be sent an invalid notification. This notification will contain a link to allow the applicant or agent to view all validation requests and to accept and reject requests.</p>
       <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local: true do |form| %>
         <div class="govuk-button-group">
           <%= form.submit "Mark the application as invalid", class: "govuk-button", data: {module: "govuk-button"} %>
@@ -37,7 +37,7 @@
         </div>
       <% end %>
     <% elsif @planning_application.invalidated? %>
-      <p class="govuk-body">
+      <p>
         <strong>
           <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at.to_fs}" %>
         </strong>
@@ -45,13 +45,13 @@
       <h2 class="govuk-heading-m">
         Validation requests
       </h2>
-      <p class="govuk-body">
+      <p>
         <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
       </p>
-      <p class="govuk-body">
+      <p>
         <%= govuk_link_to "View existing requests", planning_application_validation_validation_requests_path(@planning_application) %>
       </p>
-      <p class="govuk-body">
+      <p>
         Once the application has been checked and all validation requests resolved, mark the application as valid.
       </p>
       <div class="govuk-button-group">
@@ -59,19 +59,19 @@
         <%= govuk_button_link_to "Back", planning_application_validation_tasks_path(@planning_application), secondary: true %>
       </div>
     <% elsif @planning_application.validated? %>
-      <p class="govuk-body">
+      <p>
         <strong>
           The application is marked as valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br>
           The applicant was notified on <%= @planning_application.validated_at.to_fs %>
         </strong>
       </p>
-      <p class="govuk-body">
+      <p>
         <%= govuk_link_to "View notification", validation_notice_planning_application_path(@planning_application) %>
       </p>
       <h2 class="govuk-heading-m">
         Validation requests
       </h2>
-      <p class="govuk-body">
+      <p>
         <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
       </p>
       <%= govuk_button_link_to "Back", planning_application_validation_tasks_path(@planning_application), secondary: true %>

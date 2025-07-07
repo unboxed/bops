@@ -9,16 +9,16 @@
     <% @planning_application.documents.active.redacted.each do |document| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-!-width-one-half">
-          <p class="govuk-body govuk-!-margin-bottom-1">
+          <p class="govuk-!-margin-bottom-1">
             <%= document_thumbnail_link document, thumbnail_args: {resize_to_limit: [150, 106]} %>
           </p>
-          <p class="govuk-body">
+          <p>
             <%= truncate(document.name.to_s, length: 50) %><br>
             <%= link_to_document "View in new window", document %>
           </p>
         </td>
         <td class="govuk-table__cell govuk-!-width-one-half">
-          <p class="govuk-body govuk-!-margin-bottom-1">
+          <p class="govuk-!-margin-bottom-1">
             <%= document.created_at.to_fs %>
           </p>
         </td>

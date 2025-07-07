@@ -7,20 +7,20 @@
     <h1 class="govuk-heading-l">
       BOPS
     </h1>
-    <p class="govuk-body">
+    <p>
       <strong><%= t(".welcome_message", name: current_user.name) %></strong>
     </p>
-    <p class="govuk-body">
+    <p>
       Your council: <strong><%= current_local_authority.council_name %></strong>
     </p>
 
     <% if current_local_authority.active? %>
-      <p class="govuk-body"><strong class="govuk-tag govuk-tag--green">Active</strong></p>
-      <p class="govuk-body">Use this admin portal to update your settings, add new users or edit user detail.</p>
+      <p><strong class="govuk-tag govuk-tag--green">Active</strong></p>
+      <p>Use this admin portal to update your settings, add new users or edit user detail.</p>
     <% else %>
-      <p class="govuk-body"><strong class="govuk-tag govuk-tag--yellow">Inactive</strong></p>
-      <p class="govuk-body">This is your admin portal for the back-office planning system (BOPS).</p>
-      <p class="govuk-body">Enter your council's profile information to complete set up.</p>
+      <p><strong class="govuk-tag govuk-tag--yellow">Inactive</strong></p>
+      <p>This is your admin portal for the back-office planning system (BOPS).</p>
+      <p>Enter your council's profile information to complete set up.</p>
 
       <%= button_to "Edit profile", edit_profile_path, method: :get, class: "govuk-button govuk-button--primary" %>
     <% end %>

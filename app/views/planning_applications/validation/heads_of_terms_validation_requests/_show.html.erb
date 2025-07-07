@@ -25,20 +25,20 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Officer request</h2>
     <div class="govuk-inset-text">
-      <p class="govuk-body">
+      <p>
         <strong><%= @validation_request.owner.title %></strong>
       </p>
-      <p class="govuk-body">
+      <p>
         <%= @validation_request.owner.text %>
       </p>
-      <p class="govuk-body">
+      <p>
         Request was sent on <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
     <%= form_with model: @planning_application do |form| %>
       <% if @validation_request.closed? %>
         <h3 class="govuk-heading-s">Applicant response</h3>
-        <p class="govuk-body">
+        <p>
           <% if @validation_request.approved? %>
             <% if @validation_request.auto_closed? %>
               The heads of terms were auto closed and approved after being open for more than 10 business days

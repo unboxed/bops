@@ -1,13 +1,13 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <p class="govuk-body">
+    <p>
        The recommended application type is:
         <strong> <%= @planning_application.recommended_application_type.description %>. </strong>
       <% if @application_type_requirements.any? && !@existing_requirements.any? %>
         Any pre-configured requirements for <%= @planning_application.recommended_application_type.description %> have been pre-selected.
       <% end %>
     </p>
-    <p class="govuk-body">
+    <p>
       This section is to select requirements for any subsequent application.
     </p>
     <div class="govuk-tabs" data-module="govuk-tabs">
@@ -41,7 +41,7 @@
                   <% end %>
                 </div>
             <% else %>
-              <p class="govuk-body">There are no requirements of this type available.</p>
+              <p>There are no requirements of this type available.</p>
             <% end %>
           <% end %>
         <% end %>

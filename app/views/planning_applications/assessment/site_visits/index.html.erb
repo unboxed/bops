@@ -30,7 +30,7 @@
     <div class="govuk-details__text">
       <% @site_visits.each do |site_visit| %>
         <%= render "overview", site_visit: site_visit %>
-        <p class="govuk-body"><%= site_visit.documents.count %> document<%= (site_visit.documents.count == 1) ? "" : "s" %> added</p>
+        <p><%= site_visit.documents.count %> document<%= (site_visit.documents.count == 1) ? "" : "s" %> added</p>
 
         <p><%= govuk_link_to "View", planning_application_assessment_site_visit_path(@planning_application, site_visit) %></p>
         <hr>
@@ -38,7 +38,7 @@
     </div>
   </details>
 <% else %>
-  <p class="govuk-body">
+  <p>
     No site visit responses have been added yet.
   </p>
 <% end %>
