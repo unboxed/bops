@@ -52,11 +52,15 @@
                 </dd>
               </div>
             <% end %>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Relevant dates
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <%= evidence_group.date_range %>
+                </dd>
+              </div>
           </dl>
-          <p class="govuk-!-margin-top-2">
-            <strong>Relevant dates: </strong> <%= evidence_group.date_range %>
-          </p>
-
           <% if applicant_comment = evidence_group.applicant_comment %>
             <%= bops_ticket_panel(colour: "grey", classes: %w[govuk-!-margin-bottom-2]) do |ticket| %>
               <% ticket.with_body { applicant_comment } %>
