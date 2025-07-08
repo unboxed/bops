@@ -19,7 +19,7 @@
 
       <% section.with_block(id: "#{assessment_detail.category}_block") do %>
         <% if assessment_detail.category == "site_description" %>
-          <p class="govuk-body"><%= govuk_link_to "View site on Google Maps", map_link(@planning_application.full_address), new_tab: true %></p>
+          <p><%= govuk_link_to "View site on Google Maps", map_link(@planning_application.full_address), new_tab: true %></p>
         <% end %>
         <% if assessment_detail.category == "consultation_summary" && @consultation&.consultees&.any? %>
           <%= render(
@@ -30,14 +30,14 @@
         <% end %>
         <% if assessment_detail.category == "amenity" || assessment_detail.category == "neighbour_summary" %>
           <% if consultation = @planning_application.consultation %>
-            <p class="govuk-body">
+            <p>
               View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
             </p>
-            <p class="govuk-body">
+            <p>
               <%= govuk_link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application), new_tab: true %>
             </p>
           <% else %>
-            <p class="govuk-body">
+            <p>
               There is no existing consultation for this planning application.
             </p>
           <% end %>

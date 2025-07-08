@@ -14,12 +14,12 @@
       </p>
     <% end %>
 
-    <p class="govuk-body">
+    <p>
       <%= consultee_status %>
     </p>
 
     <% if responded? %>
-      <p class="govuk-body">
+      <p>
         <%= last_response.response %>
       </p>
 
@@ -33,7 +33,7 @@
     <% end %>
   </div>
 
-  <p class="govuk-body govuk-!-margin-top-2">
+  <p class="govuk-!-margin-top-2">
     <%= view_responses_link_tag if responses? %>
     <%= upload_new_response_link_tag %>
   </p>

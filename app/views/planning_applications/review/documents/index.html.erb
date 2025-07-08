@@ -18,11 +18,11 @@
   <div class="govuk-grid-column-full">
     <h3 class="govuk-heading-s">Check document details</h3>
 
-    <p class="govuk-body">All documents need a reference to be on the decision notice and be made public.</p>
-    <p class="govuk-body">You can return to <%= link_to "Manage documents", planning_application_documents_path(@planning_application) %> to make any other changes.</p>
+    <p>All documents need a reference to be on the decision notice and be made public.</p>
+    <p>You can return to <%= link_to "Manage documents", planning_application_documents_path(@planning_application) %> to make any other changes.</p>
 
     <% if @documents.empty? %>
-      <p class="govuk-body">There are no active documents.</p>
+      <p>There are no active documents.</p>
     <% else %>
       <%= form_with(
             method: :patch,
@@ -49,7 +49,7 @@
                       <strong class="govuk-tag govuk-tag--turquoise govuk-!-margin-bottom-1"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
                     <% end %>
                   <% else %>
-                    <p class="govuk-body govuk govuk-!-margin-bottom-1">
+                    <p class="govuk govuk-!-margin-bottom-1">
                       <em>No tags added</em>
                     </p>
                   <% end %>

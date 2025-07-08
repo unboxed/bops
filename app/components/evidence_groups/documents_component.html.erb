@@ -4,14 +4,14 @@
       <hr>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-          <p class="govuk-body govuk-!-margin-bottom-1">
+          <p class="govuk-!-margin-bottom-1">
             File name: <strong><%= document.name %></strong>
           </p>
-          <p class="govuk-body govuk-!-margin-bottom-1">
+          <p class="govuk-!-margin-bottom-1">
             Date received: <strong><%= document.received_at_or_created %></strong>
           </p>
           <% if document.numbers.present? %>
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               Drawing number: <strong><%= document.numbers %></strong>
             </p>
           <% end %>

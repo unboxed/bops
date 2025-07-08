@@ -2,7 +2,7 @@
   <%= heading %>
 </h1>
 
-<p class="govuk-body">
+<p>
   This request has been cancelled. You do not have to take any further actions.
 </p>
 
@@ -13,7 +13,7 @@
 <div id="cancellation-reason" class="govuk-inset-text">
   <%= render(FormattedContentComponent.new(text: validation_request.cancel_reason)) %>
 
-  <p class="govuk-body">
+  <p>
     <%= validation_request.cancelled_at.to_time.to_fs(:day_month_year) %>
   </p>
 </div>

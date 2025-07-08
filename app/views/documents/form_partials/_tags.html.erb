@@ -9,13 +9,13 @@
     </legend>
 
     <div class="govuk-!-width-two-thirds">
-      <p class="govuk-body">
+      <p>
         <% if @document.tags.present? %>
           <% @document.tags.each do |tag| %>
             <strong class="govuk-tag govuk-tag--turquoise document-tag"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
           <% end %>
         <% else %>
-          <p class="govuk-body govuk govuk-!-margin-bottom-1">
+          <p class="govuk govuk-!-margin-bottom-1">
             <em>No tags added</em>
           </p>
         <% end %>

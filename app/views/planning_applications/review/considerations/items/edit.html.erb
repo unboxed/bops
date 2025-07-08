@@ -18,7 +18,7 @@
   <div class="govuk-grid-column-two-thirds" data-controller="consideration-form">
     <%= form_with model: @consideration, url: planning_application_review_considerations_item_path(@planning_application, @consideration) do |form| %>
       <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
-        <p class="govuk-body">
+        <p>
           Use this form to make minor changes, such as fixing spelling errors.
           If you want to suggest changes to the content of the condition,
           return the application to the case officer.

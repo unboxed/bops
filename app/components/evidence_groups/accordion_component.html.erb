@@ -31,7 +31,7 @@
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                   Starts from
                 </legend>
-                <p class="govuk-body"><%= ff.object.start_date.to_fs(:day_month_year_slashes) %></p>
+                <p><%= ff.object.start_date.to_fs(:day_month_year_slashes) %></p>
               <% end %>
             <% end %>
 
@@ -42,7 +42,7 @@
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                   Runs until
                 </legend>
-                <p class="govuk-body"><%= ff.object.end_date.to_fs(:day_month_year_slashes) %></p>
+                <p><%= ff.object.end_date.to_fs(:day_month_year_slashes) %></p>
               <% end %>
             <% end %>
 
@@ -66,7 +66,7 @@
               <% end %>
             <% end %>
 
-            <p class="govuk-body">
+            <p>
               <strong>Applicant comment:</strong>
               <%= section.applicant_comment %>
             </p>

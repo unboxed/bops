@@ -18,13 +18,13 @@
       Officer request
     </h3>
     <div class="govuk-inset-text" id="replacement-document-details">
-      <p class="govuk-body">
+      <p>
         Additional document type: <%= @validation_request.document_request_type %>
       </p>
-      <p class="govuk-body">
+      <p>
         Reason: <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
-      <p class="govuk-body">
+      <p>
         <%= @validation_request.created_at.to_fs %>
       </p>
     </div>

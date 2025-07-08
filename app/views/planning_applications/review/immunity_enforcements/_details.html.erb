@@ -1,7 +1,7 @@
 <% if @planning_application.immunity_detail.current_enforcement_review_immunity_detail %>
-  <p class="govuk-body">Assessor decision: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision %></p>
-  <p class="govuk-body">Reason: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision_reason %></p>
-  <p class="govuk-body">Summary: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.summary %></p>
+  <p>Assessor decision: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision %></p>
+  <p>Reason: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.decision_reason %></p>
+  <p>Summary: <%= @planning_application.immunity_detail.current_enforcement_review_immunity_detail.summary %></p>
 <% end %>
 
 <%= govuk_link_to "Edit", edit_planning_application_assessment_assess_immunity_detail_permitted_development_right_path(@planning_application) %>

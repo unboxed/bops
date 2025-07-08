@@ -11,7 +11,7 @@
     Provide a replacement document
   </h1>
 
-  <p class="govuk-body">
+  <p>
     The case officer specified below why this document needed replacing.
   </p>
 
@@ -42,13 +42,13 @@
           Old document
         </h3>
 
-        <p class="govuk-body">
+        <p>
           <%= govuk_link_to(url_for_document(@old_document), new_tab: "", class: "govuk-!-display-inline-block") do %>
             <%= image_tag(url_for_representation(@old_document, resize_to_fill: [240, 180, gravity: "North"]), size: "240x180", class: "govuk-!-display-inline-block", style: "border: 1px solid #080;") %>
           <% end %>
         </p>
 
-        <p class="govuk-body">
+        <p>
           <%= govuk_link_to @old_document.name, url_for_document(@old_document), new_tab: true %>
         </p>
       </div>
@@ -58,13 +58,13 @@
           Replacement document
         </h3>
 
-        <p class="govuk-body">
+        <p>
           <%= govuk_link_to(url_for_document(@new_document), new_tab: "", class: "govuk-!-display-inline-block") do %>
             <%= image_tag(url_for_representation(@new_document, resize_to_fill: [240, 180, gravity: "North"]), size: "240x180", class: "govuk-!-display-inline-block", style: "border: 1px solid #080;") %>
           <% end %>
         </p>
 
-        <p class="govuk-body">
+        <p>
           <%= govuk_link_to(url_for_document(@new_document), new_tab: "") do %>
             <%= @new_document.name %><br>
           <% end %>

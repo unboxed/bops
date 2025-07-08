@@ -5,47 +5,47 @@
     <% end %>
   <% end %>
   <% if document.invalidated_document_reason %>
-    <p class="govuk-body govuk-!-margin-bottom-1">
+    <p class="govuk-!-margin-bottom-1">
       Invalid: <strong><%= render(FormattedContentComponent.new(text: document.invalidated_document_reason)) %></strong>
     </p>
   <% end %>
-  <p class="govuk-body govuk-!-margin-bottom-1">
+  <p class="govuk-!-margin-bottom-1">
     File name: <strong><%= document.name %></strong>
   </p>
-  <p class="govuk-body govuk-!-margin-bottom-1">
+  <p class="govuk-!-margin-bottom-1">
     Date received: <strong><%= document.received_at_or_created %></strong>
   </p>
   <% if document.numbers.present? %>
-    <p class="govuk-body govuk-!-margin-bottom-1">
+    <p class="govuk-!-margin-bottom-1">
       Drawing number: <strong><%= document.numbers %></strong>
     </p>
   <% end %>
   <% if document.planning_application.publishable? && document.planning_application.validated? %>
-    <p class="govuk-body govuk-!-margin-bottom-1">
+    <p class="govuk-!-margin-bottom-1">
       Included in decision notice: <strong><%= document.referenced_in_decision_notice? ? "Yes" : "No" %></strong>
     </p>
-    <p class="govuk-body govuk-!-margin-bottom-1">
+    <p class="govuk-!-margin-bottom-1">
       Public: <strong><%= document.publishable? ? "Yes" : "No" %></strong>
     </p>
   <% else %>
-    <p class="govuk-body govuk-!-margin-bottom-1">
+    <p class="govuk-!-margin-bottom-1">
       Available to consultees: <strong><%= document.available_to_consultees? ? "Yes" : "No" %></strong>
     </p>
   <% end %>
-  <p class="govuk-body govuk-!-margin-bottom-1">
+  <p class="govuk-!-margin-bottom-1">
     Redacted: <strong><%= document.redacted? ? "Yes" : "No" %></strong>
   </p>
 <% else %>
-  <p class="govuk-body">
+  <p>
     <strong>This document has been removed due to a security issue</strong>
   </p>
-  <p class="govuk-body">
+  <p>
     Error: Infected file found
   </p>
-  <p class="govuk-body">
+  <p>
     File name: <%= document.name %>
   </p>
-  <p class="govuk-body">
+  <p>
     Date received: <%= document.received_at_or_created %>
   </p>
 <% end %>

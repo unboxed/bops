@@ -1,18 +1,18 @@
 <% if @permitted_development_right.removed? %>
-  <p class="govuk-body">
+  <p>
     The permitted development rights have been removed for the following reasons:
   </p>
   <div class="govuk-inset-text">
-    <p class="govuk-body">
+    <p>
       <%= @permitted_development_right.removed_reason %>
     </p>
   </div>
 <% elsif @permitted_development_right.removed == false %>
-  <p class="govuk-body">
+  <p>
     The permitted development rights have not been removed.
   </p>
 <% else %>
-  <p class="govuk-body">
+  <p>
     There was no assessment for permitted development rights
   </p>
 <% end %>

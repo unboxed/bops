@@ -8,7 +8,7 @@
           </h2>
           <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags), html_attributes: {class: "govuk-!-padding-top-2"}) %>
         </div>
-        <p class="govuk-body govuk-!-font-size-16  govuk-secondary-text-colour">
+        <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
           Decided on <%= site_history.date %>
         </p>
       </div>
@@ -21,7 +21,7 @@
                 <% if site_history.comment %>
                 <strong>Officer comment:</strong> <%= site_history.comment %>
                 <% else %>
-                  <p class="govuk-body govuk-!-font-size-16  govuk-secondary-text-colour">
+                  <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
                     No comment added
                   </p>
                 <% end %>

@@ -16,11 +16,11 @@
       <%= t(".new_token_body_html", token: @token.value) %>
     <% end %>
 
-    <p class="govuk-body">
+    <p>
       <%= t(".new_token_warning") %>
     </p>
 
-    <p class="govuk-body">
+    <p>
       <%= govuk_link_to t(".back_to_token_list"), tokens_path %>
     </p>
   </div>

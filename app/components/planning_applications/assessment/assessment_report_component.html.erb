@@ -24,11 +24,11 @@
   <h3 class="govuk-heading-m"><%= t(".constraints_including_article") %></h3>
 
   <% if @planning_application.planning_application_constraints.active.empty? %>
-    <p class="govuk-body">
+    <p>
       There are no planning constraints on the application site.
     </p>
   <% else %>
-    <p class="govuk-body">
+    <p>
       The application site has these constraints:
     </p>
     <%= render(
@@ -55,20 +55,20 @@
     <%= render(
           PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
         ) %>
-    <p class="govuk-body"><strong>On the balance of probabilities, is the development immune from enforcement action?</strong></p>
-    <p class="govuk-body">Decision: <%= review_immunity_detail.decision %></p>
-    <p class="govuk-body">Reason: <%= review_immunity_detail.decision_reason %></p>
-    <p class="govuk-body">Summary: <%= review_immunity_detail.summary %></p>
+    <p><strong>On the balance of probabilities, is the development immune from enforcement action?</strong></p>
+    <p>Decision: <%= review_immunity_detail.decision %></p>
+    <p>Reason: <%= review_immunity_detail.decision_reason %></p>
+    <p>Summary: <%= review_immunity_detail.summary %></p>
   </section>
 <% end %>
 <% if permitted_development_right.persisted? %>
   <section id="permitted-development-rights-section" class="govuk-!-margin-bottom-7">
     <h3 class="govuk-heading-m"><%= t(".have_the_permitted_development_rights") %></h3>
     <% if permitted_development_right.removed %>
-      <p class="govuk-body"><strong>Yes</strong></p>
+      <p><strong>Yes</strong></p>
       <%= render(FormattedContentComponent.new(text: permitted_development_right.removed_reason)) %>
     <% elsif permitted_development_right.removed == false %>
-      <p class="govuk-body"><strong>No</strong></p>
+      <p><strong>No</strong></p>
     <% end %>
   </section>
 <% end %>
@@ -101,7 +101,7 @@
   <section id="neighbour-responses-summary-section" class="govuk-!-margin-bottom-7">
     <h3 class="govuk-heading-m"><%= t(".neighbour_responses") %></h3>
     <% if consultation.neighbour_responses.any? %>
-      <p class="govuk-body"><%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
+      <p><%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
     <% end %>
     <%= render(FormattedContentComponent.new(text: neighbour_summary.entry)) %>
   </section>
@@ -166,7 +166,7 @@
         </div>
       <% end %>
     <% else %>
-      <p class="govuk-body"><%= t(".no_considerations_assessed") %></p>
+      <p><%= t(".no_considerations_assessed") %></p>
     <% end %>
 
     <% if show_edit_links && current_user.assessor? %>
@@ -182,7 +182,7 @@
     <h3 class="govuk-heading-m"><%= t(".assessment_against_legislation") %></h3>
 
     <% planning_application_policy_classes.each do |pa_policy_class| %>
-      <p class="govuk-body"><%= govuk_link_to pa_policy_class.description, pa_policy_class.url %></p>
+      <p><%= govuk_link_to pa_policy_class.description, pa_policy_class.url %></p>
 
       <dl class="bops-assessment-list">
         <% pa_policy_class.planning_application_policy_sections.each do |pa_policy_section| %>
@@ -191,7 +191,7 @@
               <%= pa_policy_section.section %>
             </dt>
             <dd class="bops-assessment-list__description">
-              <p class="govuk-body">
+              <p>
                 <%= pa_policy_section.description %>
               </p>
               <% if comment = pa_policy_section.last_comment %>

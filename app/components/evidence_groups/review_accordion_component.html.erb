@@ -21,18 +21,18 @@
       </div>
       <div class="govuk-accordion__section-content">
         <% if section.start_date.present? %>
-          <p class="govuk-body">Starts from: <%= section.start_date.to_fs(:day_month_year_slashes) %></p>
+          <p>Starts from: <%= section.start_date.to_fs(:day_month_year_slashes) %></p>
         <% end %>
 
         <% if section.end_date.present? %>
-          <p class="govuk-body">Runs until: <%= section.end_date.to_fs(:day_month_year_slashes) %></p>
+          <p>Runs until: <%= section.end_date.to_fs(:day_month_year_slashes) %></p>
         <% end %>
 
         <% if section.missing_evidence? %>
-          <p class="govuk-body"><strong>Missing evidence (gap in time): <%= section.missing_evidence_entry %></strong></p>
+          <p><strong>Missing evidence (gap in time): <%= section.missing_evidence_entry %></strong></p>
         <% end %>
 
-        <p class="govuk-body">
+        <p>
           <strong>Applicant comment:</strong>
           <%= section.applicant_comment %>
         </p>

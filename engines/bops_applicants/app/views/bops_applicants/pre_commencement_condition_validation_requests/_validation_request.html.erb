@@ -35,14 +35,14 @@
     </h2>
 
     <% if @validation_request.approved? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--green">
           Agreed
         </strong>
         to the condition
       </p>
     <% elsif @validation_request.rejected? %>
-      <p class="govuk-body">
+      <p>
         <strong class="govuk-tag govuk-tag--red">
           Disagreed
         </strong>

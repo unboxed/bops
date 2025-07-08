@@ -8,17 +8,17 @@
       Comment on a planning application
     </h1>
 
-    <p class="govuk-body">
+    <p>
       <strong>Address:</strong><br>
       <%= @planning_application.full_address %>
     </p>
 
-    <p class="govuk-body">
+    <p>
       <strong>Application number:</strong><br>
       <%= @planning_application.reference %>
     </p>
 
-    <p class="govuk-body">
+    <p>
       Use this form to comment on this planning application
     </p>
 
@@ -26,7 +26,7 @@
       Writing useful comments
     </h2>
 
-    <p class="govuk-body">
+    <p>
       Your comments help planning officers to understand the potential impact of
       the proposed development. To make your comments more helpful:
     </p>
@@ -36,7 +36,7 @@
       <li>be specific and tell us which part of the application your comment refers to</li>
     </ul>
 
-    <p class="govuk-body">
+    <p>
       Your comments will be made available to the public. Your response may be edited
       (redacted) if it includes personal information or offensive language.
     </p>
@@ -45,7 +45,7 @@
       What we will consider
     </h2>
 
-    <p class="govuk-body">
+    <p>
       We can only consider comments that are directly related to the actual proposals.
       These are known as ‘material considerations’. For example, we can consider
       comments that concern:
@@ -64,7 +64,7 @@
       What we cannot consider
     </h2>
 
-    <p class="govuk-body">
+    <p>
       We cannot consider issues such as:
     </p>
 
@@ -75,7 +75,7 @@
       <li>issues which are dealt with by other forms of law, such as party wall matters</li>
     </ul>
 
-    <p class="govuk-body">
+    <p>
       We cannot refuse permission because of construction noise. However, we can restrict
       the hours of work to reduce disturbance to residents and other sensitive neighbours.
     </p>
@@ -84,7 +84,7 @@
       What happens next
     </h2>
 
-    <p class="govuk-body">
+    <p>
       Once you've submitted your form:
     </p>
 
@@ -98,7 +98,7 @@
       </li>
     </ul>
 
-    <p class="govuk-body">
+    <p>
       <strong>
         We will make a decision about this application by
         <%= @planning_application.target_date.to_date.to_fs %>.

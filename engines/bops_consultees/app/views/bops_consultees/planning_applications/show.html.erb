@@ -8,11 +8,11 @@
       <%= @planning_application.full_address %>
     </h1>
 
-    <p class="govuk-body ">
+    <p>
       <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
     </p>
 
-    <p class="govuk-body govuk-!-margin-bottom-6">
+    <p class="govuk-!-margin-bottom-6">
       <%= @planning_application.status_tag %>
       <%= @planning_application.days_status_tag %>
     </p>
@@ -28,7 +28,7 @@
             Submit your comments by
             <%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %>
           </p>
-          <p class="gov-uk-body">
+          <p>
             Jump to
             <a class="govuk-notification-banner__link" href="#comments-form">comments section</a>.
           </p>
@@ -39,7 +39,7 @@
           <p class="govuk-notification-banner__heading">
             Consulation for this planning application has ended
           </p>
-          <p class="gov-uk-body">
+          <p>
             Please contact the planning officer if you have further comments.
           </p>
         </div>
@@ -58,7 +58,7 @@
         <%= tag.div id: :map %>
       <% end %>
     <% else %>
-      <p class="govuk-body"><%= t(".no_digital_sitemap") %></p>
+      <p><%= t(".no_digital_sitemap") %></p>
     <% end %>
   </div>
 </div>
@@ -70,13 +70,13 @@
     <h2 class="govuk-heading-m">Pre-application details</h2>
     <div id="description">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Description</p>
-      <p class="govuk-body">
+      <p>
         <%= @planning_application.description %>
       </p>
     </div>
     <div id="application-type">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Application type</p>
-      <p class="govuk-body">
+      <p>
         <%= @planning_application.application_type.description %>
       </p>
     </div>

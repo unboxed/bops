@@ -24,7 +24,7 @@
           <td class="govuk-table__cell">
             <% if @planning_application.can_edit_documents? %>
               <% if document.representable? %>
-                <p class="govuk-body govuk-!-margin-right-2 govuk-!-text-align-right">
+                <p class="govuk-!-margin-right-2 govuk-!-text-align-right">
                   <%= govuk_link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br>
                   <%= govuk_link_to "Archive", planning_application_document_archive_path(document_id: document.id) %><br>
                   <% if document.replacement_document_validation_request %>

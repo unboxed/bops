@@ -11,7 +11,7 @@
       locals: {heading: "Appeal"}
     ) %>
 
-<p class="govuk-body">
+<p>
   <% translation_key, link_path = appeal_link_and_translation(@planning_application) %>
   <%= govuk_link_to t(translation_key), link_path %>
 </p>

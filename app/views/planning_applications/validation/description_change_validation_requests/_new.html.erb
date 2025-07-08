@@ -21,7 +21,7 @@
         Suggest a new description to the applicant
       </h2>
 
-      <p class="govuk-body">
+      <p>
         This will be sent to the applicant immediately. If the applicant does not respond within 5 days, the amended description will be automatically accepted.
       </p>
     <% else %>
@@ -29,7 +29,7 @@
         Update description
       </h2>
 
-      <p class="govuk-body">
+      <p>
         This will be applied immediately.
       </p>
     <% end %>
@@ -45,13 +45,13 @@
       <%= form.govuk_error_summary %>
 
       <% if @planning_application.latest_rejected_description_change.present? %>
-        <p class="govuk-body">
+        <p>
           <strong>
             Rejected proposed description
           </strong>
         </p>
         <%= render(FormattedContentComponent.new(text: @planning_application.latest_rejected_description_change.proposed_description)) %>
-        <p class="govuk-body">
+        <p>
           <span class="govuk-caption-m">
             Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.rejection_reason %>
           </span>

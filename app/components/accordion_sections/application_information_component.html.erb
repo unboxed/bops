@@ -44,7 +44,7 @@
       <td class="govuk-table__cell"><strong><%= t(".ward") %></strong></td>
       <td class="govuk-table__cell">
         <% if planning_application.postcode.present? %>
-          <p class="govuk-body"><%= planning_application.ward %></p>
+          <p><%= planning_application.ward %></p>
           <%= govuk_link_to(
                 t(".view_on_mapit"),
                 mapit_link,

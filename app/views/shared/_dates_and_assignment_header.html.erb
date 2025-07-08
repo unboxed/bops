@@ -19,35 +19,35 @@
     <% end %>
 
     <% if @planning_application.in_progress? %>
-      <p class="govuk-body">
+      <p>
         Assigned to: <strong><%= @planning_application.user&.name || "Unassigned" %></strong>
         <!-- FIXME: make the link explicit and remove the span (i.e "Assign application"/"Change assignee") -->
         <span class="assignment_cta"><%= govuk_link_to "Change", planning_application_assign_users_path(@planning_application) %></span>
       </p>
     <% elsif @planning_application.determined? %>
-      <p class="govuk-body">
+      <p>
         <%= govuk_link_to "View decision notice", decision_notice_planning_application_path(@planning_application) %>
       </p>
     <% end %>
 
     <% if @planning_application.possibly_immune? %>
-      <p class="govuk-body">
+      <p>
         <strong>Note: application may be immune from enforcement</strong>
       </p>
     <% end %>
 
     <% if @planning_application.publishable? %>
-      <p class="govuk-body">
+      <p>
         Public on BOPS Public Portal: <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", make_public_planning_application_path(@planning_application) %></span>
       </p>
     <% end %>
 
-    <p class="govuk-body">
+    <p>
       Application type: <strong><%= @planning_application.application_type.description %></strong>
     </p>
 
     <% if @planning_application.pre_application? %>
-      <p class="govuk-body" id="additional-services">
+      <p id="additional-services">
         Requested services:
         <%- @planning_application.additional_services.each_with_index do |service, i| -%><%- if i > 0 %>, <% end -%>
           <strong><%= service.name.to_s.humanize %></strong><% end %>

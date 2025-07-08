@@ -5,7 +5,7 @@
 <%= govuk_notification_banner(title_text: "Important") do |nb| %>
   <% nb.with_heading(text: "You must notify other owners about the proposed work") %>
 
-  <p class="govuk-body">
+  <p>
     If you know the other owners' details, you must tell them about this application. You need to do this in writing
     (by email or letter). You can use this <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %> to share the right information.
   </p>
@@ -20,7 +20,7 @@
     Address
   </h2>
 
-  <p class="govuk-body">
+  <p>
     <%= @planning_application.full_address %>
   </p>
 
@@ -28,7 +28,7 @@
     Application number
   </h2>
 
-  <p class="govuk-body">
+  <p>
     <%= @planning_application.reference %>
   </p>
 </div>
@@ -44,9 +44,9 @@
     </h2>
 
     <% if @ownership_certificate.certificate_type == "D" %>
-      <p class="govuk-body">You've told us that you don't know who any of the owners are</p>
+      <p>You've told us that you don't know who any of the owners are</p>
     <% else %>
-      <p class="govuk-body">Add the details of all the owners you know about. This will help us process you application more quickly.</p>
+      <p>Add the details of all the owners you know about. This will help us process you application more quickly.</p>
 
       <table class="govuk-table govuk-!-margin-top-6">
         <caption class="govuk-table__caption govuk-table__caption--m">
@@ -106,7 +106,7 @@
       Now send your confirmation of ownership
     </h2>
 
-    <p class="govuk-body">
+    <p>
       By submitting this information you are confirming that, to the best of your knowledge,
       the details you are providing are correct.
     </p>

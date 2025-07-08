@@ -31,7 +31,7 @@
 
       <% unless @press_notice.published_at? %>
         <div class="govuk-form-group">
-          <p class="govuk-body">
+          <p>
             <% if @press_notice.press_notice_email.present? %>
               An email notification will be sent to <strong><%= @planning_application.local_authority.press_notice_email %></strong> if a press notice is required.
             <% else %>

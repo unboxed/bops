@@ -7,7 +7,7 @@
           <span class="govuk-tag govuk-tag--yellow">From production</span>
         </p>
       <% end %>
-      <p class="govuk-body">
+      <p>
         <strong><%= @planning_application.full_address %></strong>
         <br>
         <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
@@ -21,7 +21,7 @@
     <% end %>
 
     <div id="planning-application-statuses-tags">
-      <p class="govuk-body">
+      <p>
         <% if @planning_application.appeal&.persisted? %>
           <%= @planning_application.appeal_status_tag %>
         <% end %>
@@ -48,13 +48,13 @@
     </div>
 
     <% if @planning_application.closed? %>
-      <p class="govuk-body">
+      <p>
         <strong>Reason for being closed:</strong>
         <%= render(FormattedContentComponent.new(text: @planning_application.closed_or_cancellation_comment)) %>
       </p>
     <% end %>
 
-    <p class="govuk-body">
+    <p>
       <%= @planning_application.description %>
     </p>
   </div>

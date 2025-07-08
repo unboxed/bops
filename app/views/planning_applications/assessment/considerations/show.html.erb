@@ -15,7 +15,7 @@
     ) %>
 
 <% if @planning_application.local_authority.planning_policy_and_guidance? %>
-  <p class="govuk-body govuk-!-margin-bottom-7">
+  <p class="govuk-!-margin-bottom-7">
   <%= govuk_link_to "Check your local policies and guidance",
         @planning_application.local_authority.planning_policy_and_guidance,
         new_tab: true %>
@@ -72,14 +72,14 @@
         <% end %>
       </ol>
     <% else %>
-      <p class="govuk-body">
+      <p>
         <strong>No considerations added yet</strong>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </p>
     <% end %>
 
     <% if @planning_application.decision? %>
-      <p class="govuk-body govuk-!-margin-bottom-9">
+      <p class="govuk-!-margin-bottom-9">
         <%= govuk_link_to "View draft decision notice", decision_notice_planning_application_path(@planning_application), new_tab: true %>
       </p>
     <% end %>

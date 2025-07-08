@@ -13,7 +13,7 @@
         </h2>
 
         <% if committee_decision.recommend? %>
-          <p class="govuk-body">
+          <p>
             The case officer has marked this application as requiring decision by Committee for the following reasons:
           </p>
 
@@ -29,7 +29,7 @@
             <% end %>
           </ul>
         <% else %>
-          <p class="govuk-body">
+          <p>
             The case officer has marked this application as not requiring decision by Committee.
           </p>
         <% end %>
@@ -37,7 +37,7 @@
         <h3 class="govuk-heading-s">
           Submitted recommendation
         </h3>
-        <p class="govuk-body">
+        <p>
           by <%= @planning_application.user&.name %>, <%= @planning_application.in_assessment_at.to_fs %>
         </p>
 

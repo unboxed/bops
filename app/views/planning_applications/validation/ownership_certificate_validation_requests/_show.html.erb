@@ -19,13 +19,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">Certificate type: <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %></p>
+    <p>Certificate type: <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %></p>
     <h2 class="govuk-heading-m">Officer request</h2>
     <div class="govuk-inset-text">
-      <p class="govuk-body">
+      <p>
         <strong>Reason it is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
-      <p class="govuk-body">
+      <p>
       <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
@@ -33,7 +33,7 @@
     <% if @validation_request.closed? %>
       <h2 class="govuk-heading-m">Applicant response</h2>
       <% if @validation_request.approved? %>
-        <p class="govuk-body">The applicant provided this information:</p>
+        <p>The applicant provided this information:</p>
         <table class="govuk-table">
           <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
@@ -71,12 +71,12 @@
           </tbody>
         </table>
 
-        <p class="govuk-body">
+        <p>
           If this is incorrect, <%= link_to "create another ownership certificate validation request", edit_planning_application_validation_ownership_certificate_path(@planning_application) %>
         </p>
       <% elsif !@validation_request.approved? %>
-        <p class="govuk-body">Applicant rejected this ownership certificate change</p>
-        <p class="govuk-body">Reason: <%= @validation_request.rejection_reason.to_s %></p>
+        <p>Applicant rejected this ownership certificate change</p>
+        <p>Reason: <%= @validation_request.rejection_reason.to_s %></p>
       <% end %>
 
       <%= form_with model: @planning_application do |form| %>

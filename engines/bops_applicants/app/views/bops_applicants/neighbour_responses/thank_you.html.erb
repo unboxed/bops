@@ -19,15 +19,15 @@
   What happens next
 </h2>
 
-<p class="govuk-body">
+<p>
   A planning officer will review your comments as part of their assessment of this application.
 </p>
 
-<p class="govuk-body">
+<p>
   The decision date for this application is <strong><%= @planning_application.target_date.to_date.to_fs %></strong>.
   You can check the status of the application at any time on the council website.
 </p>
 
-<p class="govuk-body">
+<p>
   <%= govuk_link_to "Back to the planning application", planning_application_path(@planning_application), no_visited_state: true %>
 </p>

@@ -35,7 +35,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">
+    <p>
       Check all documents to ensure they support the information provided by the applicant and add tags to indicate the document contents.
     </p>
     <p>
@@ -87,14 +87,14 @@
       <% filter_archived(@documents).each do |document| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell govuk-!-width-one-quarter">
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
             </p>
-            <p class="govuk-body">
+            <p>
               <%= document.name %><br>
               <%= link_to_document "View in new window", document %>
             </p>
-            <p class="govuk-body">
+            <p>
               <%= form_for document, url: planning_application_document_unarchive_path(document_id: document.id), class: "restore" do |form| %>
                   <%= form.submit "Restore document", class: "govuk-body btn-link govuk-link" %>
               <% end %>
@@ -106,18 +106,18 @@
                 <strong class="govuk-tag govuk-tag--turquoise document-tag"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
               <% end %>
             <% else %>
-              <p class="govuk-body govuk govuk-!-margin-bottom-1">
+              <p class="govuk govuk-!-margin-bottom-1">
                 <em>No tags added</em>
               </p>
             <% end %>
           </td>
           <td class="govuk-table__cell govuk-!-width-one-quarter">
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               <%= document.created_at.to_date.to_fs %>
             </p>
           </td>
           <td class="govuk-table__cell govuk-!-width-one-quarter">
-            <p class="govuk-body">
+            <p>
               <% if document.archive_reason.present? %>
                 <%= document.archive_reason %>
               <% else %>
@@ -130,7 +130,7 @@
     </tbody>
   </table>
 <% else %>
-  <p class="govuk-body">
+  <p>
     <strong>No documents archived</strong>
   </p>
 <% end %>

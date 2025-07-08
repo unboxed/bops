@@ -26,19 +26,19 @@
           <td class="govuk-table__cell govuk-!-width-one-half">
             <% document.tags.each do |tag| %>
               <% if supporting_document_tag?(tag) %>
-                <p class="govuk-body">
+                <p>
                   <strong class="govuk-tag govuk-tag--turquoise"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong><br>
                 </p>
               <% end %>
             <% end %>
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               File name: <strong><%= document.name %></strong>
             </p>
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               Date received: <strong><%= document.received_at_or_created %></strong>
             </p>
             <% if document.numbers.present? %>
-              <p class="govuk-body govuk-!-margin-bottom-1">
+              <p class="govuk-!-margin-bottom-1">
                 Drawing number: <strong><%= document.numbers %></strong>
               </p>
             <% end %>

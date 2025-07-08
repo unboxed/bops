@@ -33,14 +33,14 @@
         <% end %>
     </tbody>
   <% end %>
-  <p class="govuk-body">
+  <p>
     <%= govuk_link_to "Show details", planning_application_consultation_neighbour_responses_path(@planning_application) %>
   </p>
 <% else %>
   <div class="background-light-grey govuk-!-padding-6 govuk-!-margin-bottom-6">
-    <p class="govuk-body govuk-!-margin-bottom-1"><strong>You have not selected any neighbours.</strong></p>
+    <p class="govuk-!-margin-bottom-1"><strong>You have not selected any neighbours.</strong></p>
   </div>
-  <p class="govuk-body">
+  <p>
     <%= link_to "Select and add neighbours", main_app.planning_application_consultation_neighbours_path(@planning_application) %>
   </p>
 <% end %>

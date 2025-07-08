@@ -25,17 +25,17 @@
     <%= render(FormattedContentComponent.new(text: planning_application.result_description)) %>
   <% end %>
   <% if planning_application.result_override.present? %>
-    <p class="govuk-body">
+    <p>
       <%= t(".the_applicant_believes_html") %>
     </p>
     <div class="govuk-inset-text">
-      <p class="govuk-body">
+      <p>
         <%= planning_application.result_override %>
       </p>
     </div>
   <% end %>
   <% if proposal_details.any? %>
-  <p class="govuk-body">
+  <p>
     <strong><%= t(".details_identified_as") %></strong>
   </p>
   <ol class="govuk-list">
@@ -45,7 +45,7 @@
         <%= proposal_detail.index %>.
         <%= proposal_detail.question %>
       </h3>
-      <p class="govuk-body">
+      <p>
         <% proposal_detail.response_values.each do |response| %>
           <%= response %>
         <% end %>
@@ -55,7 +55,7 @@
   </ol>
   <% end %>
 <% else %>
-  <p class="govuk-body">
+  <p>
     <strong><%= t(".no_result") %></strong><br>
     <%= t(".the_application_was") %>
   </p>

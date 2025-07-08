@@ -6,16 +6,16 @@
           <%= image_tag("placeholder/blank_image.png", alt: "Blank image", width: 180, height: 220) %>
         </td>
         <td class="govuk-table__cell govuk-!-width-one-half">
-          <p class="govuk-body">
+          <p>
             <strong>New document requested</strong>
           </p>
-          <p class="govuk-body">
+          <p>
             Document requested: <%= validation_request.document_request_type %>
           </p>
-          <p class="govuk-body">
+          <p>
             Reason: <%= validation_request.reason %>
           </p>
-          <p class="govuk-body">
+          <p>
             Requested at: <%= validation_request.created_at.to_fs %>
           </p>
         </td>

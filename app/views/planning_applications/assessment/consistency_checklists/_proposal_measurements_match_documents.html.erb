@@ -2,7 +2,7 @@
       :proposal_measurements_match_documents,
       legend: {text: t(".are_the_proposal"), size: "s"}
     ) do %>
-  <p class="govuk-body govuk-!-margin-bottom-1">Applicant answers from PlanX</p>
+  <p class="govuk-!-margin-bottom-1">Applicant answers from PlanX</p>
   <ul class="govuk-list">
     <li>Maximum height: <%= @planning_application.max_height_extension %>m</li>
     <li>Eaves height: <%= @planning_application.eave_height_extension %>m</li>
@@ -28,7 +28,7 @@
     <% end %>
   <% else %>
     <% if consistency_checklist.proposal_measurements_match_documents == "no" %>
-      <p class="govuk-body govuk-!-margin-bottom-1">Actual measurements according to plans</p>
+      <p class="govuk-!-margin-bottom-1">Actual measurements according to plans</p>
       <ul class="govuk-list">
         <li>Maximum height: <%= @planning_application.proposal_measurement.max_height %>m</li>
         <li>Eaves height: <%= @planning_application.proposal_measurement.eaves_height %>m</li>

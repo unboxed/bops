@@ -33,7 +33,7 @@
 <% end %>
 <% unless can_edit || consistency_checklist.proposal_details_match_documents_yes? %>
   <h4 class="govuk-heading-s"><%= t(".how_are_the") %></h4>
-  <p class="govuk-body">
+  <p>
     <%= render(FormattedContentComponent.new(text: consistency_checklist.proposal_details_match_documents_comment)) %>
   <p>
 <% end %>

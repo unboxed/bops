@@ -37,6 +37,10 @@ $govuk-page-width: 1100px;
 @import "map-constraints";
 @import "proposal";
 
+p {
+  @extend .govuk-body;
+}
+
 .accordion-tr:last-child > td {
   border-bottom: none !important;
 }

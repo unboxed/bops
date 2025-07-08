@@ -11,7 +11,7 @@
     Address
   </h2>
 
-  <p class="govuk-body">
+  <p>
     <%= @planning_application.full_address %>
   </p>
 
@@ -19,7 +19,7 @@
     Application number
   </h2>
 
-  <p class="govuk-body">
+  <p>
     <%= @planning_application.reference %>
   </p>
 </div>
@@ -46,7 +46,7 @@
     <%= form.govuk_radio_button :notification_of_owners, "yes", label: {text: t(".notification_of_owners.yes_label")} %>
     <%= form.govuk_radio_button :notification_of_owners, "some", label: {text: t(".notification_of_owners.some_label")} %>
     <%= form.govuk_radio_button :notification_of_owners, "no", label: {text: t(".notification_of_owners.no_label")} do %>
-      <p class="govuk-body">
+      <p>
         You must notify owners about this application. Use a <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %> to send them details of the proposed work.
       </p>
     <% end %>

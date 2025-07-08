@@ -12,13 +12,13 @@
             <% end %>
           <% end %>
           <% if reporting_type.legislation? %>
-            <p class="govuk-body"><strong><%= t(".legislation") %></strong></p>
+            <p><strong><%= t(".legislation") %></strong></p>
             <p class="govuk-hint"><%= reporting_type.legislation %></p>
           <% end %>
         <% end %>
       <% end %>
     <% else %>
-      <p class="govuk-body"><%= t(".no_applicable_reporting_types") %></p>
+      <p><%= t(".no_applicable_reporting_types") %></p>
     <% end %>
   <% end %>
 

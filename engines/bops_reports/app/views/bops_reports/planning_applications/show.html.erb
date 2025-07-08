@@ -34,12 +34,12 @@
       <p class="govuk-caption-m">Preview and submit</p>
     <% end %>
     <h1 class="govuk-heading-l">Pre-application report</h1>
-    <p class="govuk-body">
+    <p>
       This report gives clear guidance on your proposal, helping you to
       understand what to expect when submitting your formal planning
       application.
     </p>
-    <p class="govuk-body">
+    <p>
       <strong><%= @planning_application.full_address %></strong><br>
       Pre-application number: <strong><%= @planning_application.reference %></strong><br>
       Case officer: <strong><%= @planning_application.user&.name || "Unassigned" %></strong><br>
@@ -94,7 +94,7 @@
           **content
         ) %>
   <% else %>
-    <p class="govuk-body">The pre-application outcome has not been set.</p>
+    <p>The pre-application outcome has not been set.</p>
   <% end %>
 </section>
 
@@ -110,7 +110,7 @@
       <p><strong>Case officer:</strong> <%= @planning_application.user.name %></p>
     <% elsif current_user %>
       <% unless @planning_application.determined? %>
-        <p class="govuk-body">
+        <p>
           No case officer has been assigned yet.<br>
           <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: "report") %>
         </p>
@@ -198,7 +198,7 @@
         </p>
       <% end %>
     </div>
-    <p class="govuk-body"><%= @planning_application.description %></p>
+    <p><%= @planning_application.description %></p>
 
     <% if @planning_application.description_change_validation_requests.approved.any? %>
       <%= govuk_inset_text do %>
@@ -216,7 +216,7 @@
   <h2 class="govuk-heading-m">
     Site map
   </h2>
-  <p class="govuk-body">
+  <p>
     This map shows the area of the proposed development. It has been checked by the case officer.
   </p>
   <%= render(
@@ -242,11 +242,11 @@
         <% end %>
       </div>
       <% if @planning_application.consistency_checklist&.site_map_correct == "no" %>
-        <p class="govuk-body">
+        <p>
           <%= @planning_application.consistency_checklist.site_map_correct_comment %>
         </p>
       <% else %>
-        <p class="govuk-body">The site map was marked as correct.</p>
+        <p>The site map was marked as correct.</p>
       <% end %>
     </div>
   </div>
@@ -264,7 +264,7 @@
           ) %>
     <% end %>
   </div>
-  <p class="govuk-body">
+  <p>
     Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.
   </p>
   <%= render "bops_reports/planning_applications/constraints_table", constraints: @constraints %>
@@ -282,7 +282,7 @@
           ) %>
     <% end %>
   </div>
-  <p class="govuk-body">
+  <p>
     Past applications for this site or relevant nearby locations
   </p>
   <%= render "bops_reports/planning_applications/site_history_table" %>
@@ -302,7 +302,7 @@
             ) %>
         </div>
       <% end %>
-      <p class="govuk-body">
+      <p>
         <%= @site_description.entry %>
       </p>
     <% else %>
@@ -314,7 +314,7 @@
             ) %>
       <% end %>
       </div>
-      <p class="govuk-body">
+      <p>
         No site description set.
       </p>
     <% end %>
@@ -333,7 +333,7 @@
     <% end %>
   </div>
 
-  <p class="govuk-body"> This section includes the case officer's assessment of your proposal against relevant policy and guidance. The elements of the proposal are grouped by how acceptable they are:</p>
+  <p> This section includes the case officer's assessment of your proposal against relevant policy and guidance. The elements of the proposal are grouped by how acceptable they are:</p>
 
   <%= govuk_table(html_attributes: {class: "govuk-table--borderless"}) do |table| %>
     <% table.with_body do |body|
@@ -401,7 +401,7 @@
           </ul>
         </div>
 
-        <p class="govuk-body">
+        <p>
           <%= consideration.advice %>
         </p>
       <% end %>
@@ -421,8 +421,8 @@
         <% end %>
       </div>
 
-      <p class="govuk-body">This is the case officer's summary of the conclusions and advice.</p>
-      <p class="govuk-body grey-border-box">
+      <p>This is the case officer's summary of the conclusions and advice.</p>
+      <p class="grey-border-box">
         <%= @summary_of_advice.entry %>
       </p>
     </section>
@@ -434,7 +434,7 @@
 <section id="policies-guidance">
   <h2 class="govuk-heading-m">List of relevant policies and guidance</h2>
   <% if @planning_application.local_authority.submission_guidance_url.present? %>
-    <p class="govuk-body">You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url, new_tab: true %>.</p>
+    <p>You can view all relevant planning policy and guidance at <%= govuk_link_to @planning_application.local_authority.submission_guidance_url, @planning_application.local_authority.submission_guidance_url, new_tab: true %>.</p>
   <% end %>
 
   <% references = @planning_application.considerations.map(&:policy_references).flatten.uniq(&:description) %>
@@ -455,15 +455,15 @@
     <% end %>
   </div>
 
-  <p class="govuk-body">Should you wish to submit an application, the following requirements are needed:</p>
+  <p>Should you wish to submit an application, the following requirements are needed:</p>
   <% @planning_application.requirements.group_by(&:category).each do |category, requirements| %>
     <%= govuk_summary_card(title: category.humanize) do %>
       <ul class="govuk-list govuk-list--divided">
         <% requirements.each do |requirement| %>
           <li>
-            <p class="govuk-body"><%= govuk_link_to requirement.description, requirement.url %></p>
+            <p><%= govuk_link_to requirement.description, requirement.url %></p>
             <% if requirement.guidelines.present? %>
-              <p class="govuk-body govuk-hint"><%= requirement.guidelines %></p>
+              <p class="govuk-hint"><%= requirement.guidelines %></p>
             <% end %>
           </li>
         <% end %>
@@ -479,13 +479,13 @@
   <h3 class="govuk-heading-s"><%= t(".next_steps_heading") %></h3>
 
   <% if @current_local_authority.submission_url && @current_local_authority.submission_guidance_url %>
-    <p class="govuk-body">
+    <p>
       <%= t(".next_steps_intro_html") %>
     </p>
 
     <%= t(".next_steps_list_html") %>
 
-    <p class="govuk-body">
+    <p>
       <%= t(
             ".next_steps_outro_html",
             planning_service_link: @current_local_authority.submission_url,
@@ -494,7 +494,7 @@
     </p>
   <% else %>
     <% if current_user %>
-      <p class="govuk-body">
+      <p>
         You must set the application submission url in local authority settings before displaying next steps.
       </p>
     <% end %>

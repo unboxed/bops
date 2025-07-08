@@ -45,7 +45,7 @@
 <% end %>
 <% if !can_edit && consistency_checklist.site_map_correct_comment %>
   <h4 class="govuk-heading-s">Comment</h4>
-  <p class="govuk-body">
+  <p>
   <%= render(FormattedContentComponent.new(text: consistency_checklist.site_map_correct_comment)) %>
   <p>
 <% end %>

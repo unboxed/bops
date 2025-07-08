@@ -231,7 +231,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           expect(page).to have_selector(".bops-assessment-list__section", text: "A")
 
           within ".bops-assessment-list__description" do
-            expect(page).to have_selector("p.govuk-body:first-child", text: policy_section_A.description)
+            expect(page).to have_selector("p:first-child", text: policy_section_A.description)
             expect(page).not_to have_selector(".bops-ticket-panel")
           end
 
@@ -244,7 +244,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           expect(page).to have_selector(".bops-assessment-list__section", text: "1a")
 
           within ".bops-assessment-list__description" do
-            expect(page).to have_selector("p.govuk-body:first-child", text: policy_section_1a.description)
+            expect(page).to have_selector("p:first-child", text: policy_section_1a.description)
 
             within ".bops-ticket-panel" do
               expect(page).to have_selector(".bops-ticket-panel__body", text: "A comment")
@@ -261,7 +261,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           expect(page).to have_selector(".bops-assessment-list__section", text: "1b")
 
           within ".bops-assessment-list__description" do
-            expect(page).to have_selector("p.govuk-body:first-child", text: policy_section_1b.description)
+            expect(page).to have_selector("p:first-child", text: policy_section_1b.description)
 
             within ".bops-ticket-panel" do
               expect(page).to have_selector(".bops-ticket-panel__body", text: "A comment")
@@ -278,7 +278,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           expect(page).to have_selector(".bops-assessment-list__section", text: "1c")
 
           within ".bops-assessment-list__description" do
-            expect(page).to have_selector("p.govuk-body:first-child", text: policy_section_1c.description)
+            expect(page).to have_selector("p:first-child", text: policy_section_1c.description)
             expect(page).not_to have_selector(".bops-ticket-panel")
           end
 

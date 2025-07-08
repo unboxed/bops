@@ -17,7 +17,7 @@
     <%= render "form" %>
 
     <% if @notes.empty? %>
-      <p class="govuk-body">There are no notes yet.</p>
+      <p>There are no notes yet.</p>
     <% else %>
       <ul id="notes" class="govuk-list">
         <% @notes.each_with_index do |note, i| %>
@@ -29,10 +29,10 @@
             <h2 class="govuk-heading-m">Previous notes</h2>
           <% end %>
           <%= content_tag(:li, id: dom_id(note), class: "govuk-!-margin-bottom-7") do %>
-            <p class="govuk-body">
+            <p>
               <%= note.user.name %> on <%= note.created_at.to_fs %>
             </p>
-            <p class="govuk-body">
+            <p>
               <%= render(FormattedContentComponent.new(text: note.entry)) %>
             </p>
           <% end %>

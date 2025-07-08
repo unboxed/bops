@@ -1,8 +1,8 @@
 <div class="govuk-inset-text">
-  <p class="govuk-body">
+  <p>
     <% if @planning_application.audits.review_cil_liability.any? %>
       <% @planning_application.audits.review_cil_liability.each do |audit| %>
-        <p class="govuk-body">
+        <p>
           <strong><%= audit.created_at.to_fs %></strong><br>
           <%= audit.activity_information %>. <%= audit.audit_comment %>
         </p>

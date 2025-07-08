@@ -11,10 +11,10 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-!-width-one-third">
           <% press_notice.documents.with_file_attachment.each do |document| %>
-            <p class="govuk-body govuk-!-margin-bottom-1">
+            <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
             </p>
-            <p class="govuk-body">
+            <p>
               <%= truncate(document.name.to_s, length: 50) %><br>
               <%= link_to_document "View in new window", document %>
             </p>
@@ -22,13 +22,13 @@
         </td>
 
         <td class="govuk-table__cell govuk-!-width-two-thirds">
-          <p class="govuk-body"><strong class="govuk-tag">Published</strong></p>
-          <p class="govuk-body">Date requested: <strong><%= time_tag(press_notice.requested_at) %></strong></p>
+          <p><strong class="govuk-tag">Published</strong></p>
+          <p>Date requested: <strong><%= time_tag(press_notice.requested_at) %></strong></p>
           <% if press_notice.published_at %>
-            <p class="govuk-body">Date published: <strong><%= time_tag(press_notice.published_at) %></strong></p>
+            <p>Date published: <strong><%= time_tag(press_notice.published_at) %></strong></p>
           <% end %>
           <% if press_notice.comment.present? %>
-            <p class="govuk-body">Comments: <%= press_notice.comment %></p>
+            <p>Comments: <%= press_notice.comment %></p>
           <% end %>
         </td>
       </tr>

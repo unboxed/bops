@@ -49,7 +49,7 @@
       <h2 class="govuk-heading-m"><%= t(".check_site_notice") %></h2>
 
       <% if @site_notice.nil? %>
-        <p class="govuk-body">
+        <p>
           <%= t(".site_notice_incomplete") %>
           <%= govuk_link_to t(".create_site_notice"), new_planning_application_site_notice_path(@planning_application), no_visited_state: true %>
         </p>
@@ -82,7 +82,7 @@
         <% if document = @site_notice.last_document %>
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-third">
-              <p class="govuk-body govuk-!-margin-bottom-1">
+              <p class="govuk-!-margin-bottom-1">
                 <%= link_to_document(image_tag(document.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
               </p>
               <ul class="govuk-list">
@@ -98,7 +98,7 @@
             </div>
           </div>
         <% else %>
-          <p class="govuk-body">
+          <p>
             <%= t(".no_documents_uploaded") %><br>
             <%= govuk_link_to t(".upload_evidence"), edit_planning_application_site_notice_path(@planning_application, @site_notice), no_visited_state: true, class: "govuk-body-s" %>
           </p>
@@ -115,7 +115,7 @@
               ) %>
         <% end %>
       <% else %>
-        <p class="govuk-body">
+        <p>
           <%= t(".site_notice_not_required") %><br>
           <%= govuk_link_to t(".mark_site_notice_as_required"), new_planning_application_site_notice_path(@planning_application), no_visited_state: true, class: "govuk-body-s" %>
         </p>
@@ -128,7 +128,7 @@
       <h2 class="govuk-heading-m"><%= t(".check_press_notice") %></h2>
 
       <% if @press_notice.nil? %>
-        <p class="govuk-body">
+        <p>
           <%= t(".press_notice_incomplete") %>
           <%= govuk_link_to t(".create_press_notice"), planning_application_press_notice_path(@planning_application), no_visited_state: true %>
         </p>
@@ -163,7 +163,7 @@
         <% if document = @press_notice.last_document %>
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-third">
-              <p class="govuk-body govuk-!-margin-bottom-1">
+              <p class="govuk-!-margin-bottom-1">
                 <%= link_to_document(image_tag(document.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
               </p>
               <ul class="govuk-list">
@@ -179,7 +179,7 @@
             </div>
           </div>
         <% else %>
-          <p class="govuk-body">
+          <p>
             <%= t(".no_documents_uploaded") %><br>
             <%= govuk_link_to t(".upload_evidence"), planning_application_press_notice_confirmation_path(@planning_application), no_visited_state: true, class: "govuk-body-s" %>
           </p>
@@ -196,7 +196,7 @@
               ) %>
         <% end %>
       <% else %>
-        <p class="govuk-body">
+        <p>
           <%= t(".press_notice_not_required") %><br>
           <%= govuk_link_to t(".mark_press_notice_as_required"), planning_application_press_notice_path(@planning_application), no_visited_state: true, class: "govuk-body-s" %>
         </p>

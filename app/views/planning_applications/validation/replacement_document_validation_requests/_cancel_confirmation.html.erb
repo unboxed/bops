@@ -21,15 +21,15 @@
     </h3>
 
     <div class="govuk-inset-text">
-      <p class="govuk-body">
+      <p>
         <strong>Replacement for:
         <%= link_to_document @validation_request.old_document.name, @validation_request.old_document %>
         </strong>
       </p>
-      <p class="govuk-body">
+      <p>
         Reason: <%= render(FormattedContentComponent.new(text: @validation_request.invalidated_document_reason)) %>
       </p>
-      <p class="govuk-body">
+      <p>
       <%= @validation_request.created_at.to_fs %>
       </p>
     </div>

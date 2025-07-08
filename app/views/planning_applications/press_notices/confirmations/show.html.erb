@@ -30,30 +30,30 @@
 </div>
 
 <% if requested_at = @press_notice.requested_at %>
-  <p class="govuk-body">Date requested: <strong><%= time_tag(requested_at) %></strong></p>
+  <p>Date requested: <strong><%= time_tag(requested_at) %></strong></p>
 <% else %>
-  <p class="govuk-body">Press notice has not been requested</p>
+  <p>Press notice has not been requested</p>
 <% end %>
 
 <% if @press_notice.published_at %>
-  <p class="govuk-body">Date published: <strong><%= time_tag(@press_notice.published_at) %></strong></p>
+  <p>Date published: <strong><%= time_tag(@press_notice.published_at) %></strong></p>
 
   <% if @press_notice.comment.present? %>
-    <p class="govuk-body govuk-!-margin-bottom-2">
+    <p class="govuk-!-margin-bottom-2">
       Comments: <%= @press_notice.comment %>
     </p>
   <% end %>
 
   <%= render "planning_applications/press_notices/press_notices", press_notices: [@press_notice] %>
 
-  <p class="govuk-body">
+  <p>
     <%= govuk_link_to "Edit publication details", edit_planning_application_press_notice_confirmation_path(@planning_application) %>
   </p>
-  <p class="govuk-body">
+  <p>
     <%= govuk_link_to "Add a new press notice response", new_planning_application_press_notice_path(@planning_application) %>
   </p>
 <% else %>
-  <p class="govuk-body">Upload evidence of the press notice publication.</p>
+  <p>Upload evidence of the press notice publication.</p>
 
   <%= govuk_button_link_to "Confirm publication", edit_planning_application_press_notice_confirmation_path(@planning_application) %>
 <% end %>
