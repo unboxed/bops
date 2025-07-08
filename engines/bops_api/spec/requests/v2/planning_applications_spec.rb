@@ -541,42 +541,7 @@ RSpec.describe "BOPS API" do
       security [bearerAuth: []]
       produces "application/json"
 
-      parameter name: :page, in: :query, schema: {
-        type: :integer,
-        default: 1
-      }, required: false
-
-      parameter name: :maxresults, in: :query, schema: {
-        type: :integer,
-        default: 10
-      }, required: false
-
-      parameter name: "q", in: :query, schema: {
-        type: :string,
-        description: "Search by reference or description"
-      }
-
-      parameter name: "applicationType[]", in: :query, style: :form, explode: true, schema: {
-        type: :array,
-        items: {
-          type: :string
-        },
-        description: "Filter by one or more application type codes"
-      }
-
-      parameter name: :orderBy, in: :query, schema: {
-        type: :string,
-        description: "Sort by ascending or descending order",
-        enum: ["asc", "desc"],
-        default: "desc"
-      }
-
-      parameter name: :sortBy, in: :query, schema: {
-        type: :string,
-        description: "Sort by field",
-        enum: ["publishedAt", "receivedAt"],
-        default: "receivedAt"
-      }
+      with_search_and_filter_params
 
       it "validates successfully against the example search json" do
         resolved_schema = load_and_resolve_schema(name: "search", version: BopsApi::Schemas::DEFAULT_ODP_VERSION)

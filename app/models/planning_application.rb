@@ -111,6 +111,7 @@ class PlanningApplication < ApplicationRecord
     delegate :publishable?, allow_nil: true
   end
   delegate :consultee_responses, to: :consultation, allow_nil: true
+  delegate :end_date, to: :consultation, prefix: true, allow_nil: true
   delegate :reviewer_group_email, to: :local_authority
   with_options prefix: true, allow_nil: true do
     delegate :email, to: :user
@@ -171,6 +172,19 @@ class PlanningApplication < ApplicationRecord
   scope :accepted, -> { where.not(status: "pending") }
   scope :published, -> { publishable.where.not(published_at: nil) }
   scope :in_review, -> { where(status: IN_REVIEW_STATUSES) }
+  scope :received_at_between, ->(from, to) {
+    where(received_at: from..to)
+  }
+  scope :validated_at_between, ->(from, to) {
+    where(validated_at: from..to)
+  }
+  scope :published_at_between, ->(from, to) {
+    where(published_at: from..to)
+  }
+  scope :consultation_end_date_between, ->(from, to) {
+    joins(:consultation)
+      .where(consultations: {end_date: from..to})
+  }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create

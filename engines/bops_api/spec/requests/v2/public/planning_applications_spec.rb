@@ -23,42 +23,7 @@ RSpec.describe "BOPS public API" do
       tags "Planning applications"
       produces "application/json"
 
-      parameter name: :page, in: :query, schema: {
-        type: :integer,
-        default: 1
-      }, required: false
-
-      parameter name: :maxresults, in: :query, schema: {
-        type: :integer,
-        default: 10
-      }, required: false
-
-      parameter name: "q", in: :query, schema: {
-        type: :string,
-        description: "Search by reference or description"
-      }, required: false
-
-      parameter name: "applicationType[]", in: :query, style: :form, explode: true, schema: {
-        type: :array,
-        items: {
-          type: :string
-        },
-        description: "Filter by one or more application type codes"
-      }
-
-      parameter name: :orderBy, in: :query, schema: {
-        type: :string,
-        description: "Sort by ascending or descending order",
-        enum: ["asc", "desc"],
-        default: "desc"
-      }
-
-      parameter name: :sortBy, in: :query, schema: {
-        type: :string,
-        description: "Sort by field",
-        enum: ["publishedAt", "receivedAt"],
-        default: "receivedAt"
-      }
+      with_search_and_filter_params
 
       response "200", "returns planning applications when searching by the reference" do
         schema "$ref" => "#/components/schemas/Search"

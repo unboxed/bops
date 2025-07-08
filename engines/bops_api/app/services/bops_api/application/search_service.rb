@@ -4,6 +4,12 @@ module BopsApi
   module Application
     class SearchService
       ALLOWED_SORT_FIELDS = %w[publishedAt receivedAt].freeze
+      DATE_FIELDS = %i[
+        receivedAt
+        validatedAt
+        publishedAt
+        consultationEndDate
+      ].freeze
 
       def initialize(scope, params)
         @scope = scope
@@ -15,6 +21,7 @@ module BopsApi
 
       def call
         @scope = filter_by_application_type_code
+        @scope = apply_date_filters
         @scope = search
         @scope = sort
 
@@ -40,6 +47,30 @@ module BopsApi
           .uniq
 
         scope.for_application_type_codes(codes)
+      end
+
+      def apply_date_filters
+        DATE_FIELDS.reduce(scope) do |current, prefix|
+          from_key = :"#{prefix}From"
+          to_key = :"#{prefix}To"
+
+          if params[from_key].present? || params[to_key].present?
+            from = parse_date(params[from_key])&.beginning_of_day || Time.zone.at(0)
+            to = parse_date(params[to_key])&.end_of_day || Time.zone.now.end_of_day
+
+            scope_name = "#{prefix.to_s.underscore}_between"
+            current.public_send(scope_name, from, to)
+          else
+            current
+          end
+        end
+      end
+
+      def parse_date(date_string)
+        return if date_string.blank?
+        Date.iso8601(date_string)
+      rescue ArgumentError
+        nil
       end
 
       def search

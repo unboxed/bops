@@ -21930,7 +21930,7 @@ paths:
                         endDate: '2024-05-07'
                     files:
                     - name: proposed-floorplan.png
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument: []
                       type:
                       - value: elevations.proposed
@@ -21943,7 +21943,7 @@ paths:
                         byteSize: 144212
                         contentType: application/pdf
                     - name: site-notice.jpg
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument:
                       - siteNotice2025v2
                       type:
@@ -21959,7 +21959,7 @@ paths:
                       totalResults: 1
                     decisionNotice:
                       name: decision-notice-PlanX-24-00100-HAPP.pdf
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/decision_notice.pdf
+                      url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
         '401':
@@ -21997,8 +21997,8 @@ paths:
                       totalPages: 1
                       totalResults: 1
                     links:
-                      first: http://planx.bops.services/api/v2/neighbour_responses?page=1
-                      last: http://planx.bops.services/api/v2/neighbour_responses?page=1
+                      first: http://planx.example.com/api/v2/neighbour_responses?page=1
+                      last: http://planx.example.com/api/v2/neighbour_responses?page=1
                       prev:
                       next:
                     responses:
@@ -35110,32 +35110,91 @@ paths:
         required: false
       - name: q
         in: query
+        description: Search by reference, address or description
+        required: false
         schema:
           type: string
-          description: Search by reference or description
       - name: applicationType[]
         in: query
+        description: Filter by one or more application type codes
         style: form
         explode: true
         schema:
           type: array
           items:
             type: string
-          description: Filter by one or more application type codes
-      - name: orderBy
+      - name: receivedAtFrom
         in: query
+        required: false
+        description: Received at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Sort by ascending or descending order
+          format: date
+      - name: receivedAtTo
+        in: query
+        required: false
+        description: Received at to date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: validatedAtFrom
+        in: query
+        required: false
+        description: Validated at from date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: validatedAtTo
+        in: query
+        required: false
+        description: Validated at to date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: publishedAtFrom
+        in: query
+        required: false
+        description: Published at from date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: publishedAtTo
+        in: query
+        required: false
+        description: Published at to date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: consultationEndDateFrom
+        in: query
+        required: false
+        description: Consultation end date from in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: consultationEndDateTo
+        in: query
+        required: false
+        description: Consultation end date to in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: orderBy
+        in: query
+        description: Sort by ascending or descending order
+        schema:
+          type: string
+          required: false
           enum:
           - asc
           - desc
           default: desc
       - name: sortBy
         in: query
+        description: Sort by field
         schema:
           type: string
-          description: Sort by field
+          required: false
           enum:
           - publishedAt
           - receivedAt
@@ -35475,7 +35534,7 @@ paths:
                         endDate: '2024-05-07'
                     files:
                     - name: proposed-floorplan.png
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument: []
                       type:
                       - value: elevations.proposed
@@ -35488,7 +35547,7 @@ paths:
                         byteSize: 144212
                         contentType: application/pdf
                     - name: site-notice.jpg
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/documents/111
+                      url: http://planx.example.com/api/v1/planning_applications/1889/documents/111
                       referencesInDocument:
                       - siteNotice2025v2
                       type:
@@ -35504,7 +35563,7 @@ paths:
                       totalResults: 1
                     decisionNotice:
                       name: decision-notice-PlanX-24-00100-HAPP.pdf
-                      url: http://planx.bops.services/api/v1/planning_applications/1889/decision_notice.pdf
+                      url: http://planx.example.com/api/v1/planning_applications/1889/decision_notice.pdf
               schema:
                 "$ref": "#/components/schemas/Documents"
   "/api/v2/public/planning_applications/{reference}/comments/public":
@@ -35620,33 +35679,91 @@ paths:
         required: false
       - name: q
         in: query
+        description: Search by reference, address or description
+        required: false
         schema:
           type: string
-          description: Search by reference or description
-        required: false
       - name: applicationType[]
         in: query
+        description: Filter by one or more application type codes
         style: form
         explode: true
         schema:
           type: array
           items:
             type: string
-          description: Filter by one or more application type codes
-      - name: orderBy
+      - name: receivedAtFrom
         in: query
+        required: false
+        description: Received at from date in yyyy-mm-dd format
         schema:
           type: string
-          description: Sort by ascending or descending order
+          format: date
+      - name: receivedAtTo
+        in: query
+        required: false
+        description: Received at to date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: validatedAtFrom
+        in: query
+        required: false
+        description: Validated at from date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: validatedAtTo
+        in: query
+        required: false
+        description: Validated at to date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: publishedAtFrom
+        in: query
+        required: false
+        description: Published at from date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: publishedAtTo
+        in: query
+        required: false
+        description: Published at to date in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: consultationEndDateFrom
+        in: query
+        required: false
+        description: Consultation end date from in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: consultationEndDateTo
+        in: query
+        required: false
+        description: Consultation end date to in yyyy-mm-dd format
+        schema:
+          type: string
+          format: date
+      - name: orderBy
+        in: query
+        description: Sort by ascending or descending order
+        schema:
+          type: string
+          required: false
           enum:
           - asc
           - desc
           default: desc
       - name: sortBy
         in: query
+        description: Sort by field
         schema:
           type: string
-          description: Sort by field
+          required: false
           enum:
           - publishedAt
           - receivedAt
@@ -35842,7 +35959,7 @@ paths:
                         consultation:
                           startDate:
                           endDate:
-                          publicUrl: https://southwark.bops-applicants.localhost:3000/planning_applications/25-00240-PA1A
+                          publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
                           publishedComments: []
                           consulteeComments: []
                         pressNotice:
@@ -35955,7 +36072,7 @@ paths:
                       consultation:
                         startDate:
                         endDate:
-                        publicUrl: https://southwark.bops-applicants.localhost:3000/planning_applications/25-00240-PA1A
+                        publicUrl: https://southwark.bops-applicants.localhost:3001/planning_applications/25-00240-PA1A
                         publishedComments: []
                         consulteeComments: []
                       pressNotice:
