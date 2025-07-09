@@ -36,6 +36,84 @@ RSpec.describe BopsApi::Postsubmission::CommentsPublicService, type: :service do
       end
     end
 
+    context "when a multiple sentiment parameter is provided" do
+      let(:params) { {sentiment: ["supportive", "neutral"]} }
+
+      it "filters the scope by the sentiment" do
+        filtered_scope = scope.where(summary_tag: ["supportive", "neutral"])
+        allow(scope).to receive(:where).with(summary_tag: ["supportive", "neutral"]).and_return(filtered_scope)
+        allow_any_instance_of(BopsApi::Postsubmission::PostsubmissionPagination).to receive(:call).and_return([nil, filtered_scope])
+
+        _, result = service.call
+
+        expect(result).to eq(filtered_scope)
+      end
+    end
+
+    context "when supportive sentiment parameter is provided" do
+      let(:params) { {sentiment: ["supportive"]} }
+
+      it "filters the scope by the sentiment" do
+        filtered_scope = scope.where(summary_tag: ["supportive"])
+        allow(scope).to receive(:where).with(summary_tag: ["supportive"]).and_return(filtered_scope)
+        allow_any_instance_of(BopsApi::Postsubmission::PostsubmissionPagination).to receive(:call).and_return([nil, filtered_scope])
+
+        _, result = service.call
+
+        expect(result).to eq(filtered_scope)
+      end
+    end
+
+    context "when neutral sentiment parameter is provided" do
+      let(:params) { {sentiment: ["neutral"]} }
+
+      it "filters the scope by the sentiment" do
+        filtered_scope = scope.where(summary_tag: ["neutral"])
+        allow(scope).to receive(:where).with(summary_tag: ["neutral"]).and_return(filtered_scope)
+        allow_any_instance_of(BopsApi::Postsubmission::PostsubmissionPagination).to receive(:call).and_return([nil, filtered_scope])
+
+        _, result = service.call
+
+        expect(result).to eq(filtered_scope)
+      end
+    end
+
+    context "when objection sentiment parameter is provided" do
+      let(:params) { {sentiment: ["objection"]} }
+
+      it "filters the scope by the sentiment" do
+        filtered_scope = scope.where(summary_tag: ["objection"])
+        allow(scope).to receive(:where).with(summary_tag: ["objection"]).and_return(filtered_scope)
+        allow_any_instance_of(BopsApi::Postsubmission::PostsubmissionPagination).to receive(:call).and_return([nil, filtered_scope])
+
+        _, result = service.call
+
+        expect(result).to eq(filtered_scope)
+      end
+    end
+
+    context "when a sentiment array is provided and only one item matches" do
+      let(:params) { {sentiment: ["supportive", "neutral"]} }
+
+      it "filters the scope by the sentiment and returns results for the matching item only" do
+        # Assume that only "supportive" has matching results in the scope
+        matching_scope = scope.where(summary_tag: "supportive")
+        allow(scope).to receive(:where).with(summary_tag: ["supportive", "neutral"]).and_return(matching_scope)
+        allow_any_instance_of(BopsApi::Postsubmission::PostsubmissionPagination).to receive(:call).and_return([nil, matching_scope])
+
+        _, result = service.call
+
+        expect(result).to eq(matching_scope)
+      end
+    end
+    context "when invalid sentiment is provided" do
+      let(:params) { {sentiment: "invalidField"} }
+
+      it "raises an ArgumentError" do
+        expect { service.call }.to raise_error(ArgumentError, /Invalid sentiment field/)
+      end
+    end
+
     context "sortBy and orderBy" do
       context "when sortBy and orderBy parameters are provided" do
         let(:params) { {sortBy: "id", orderBy: "desc"} }

@@ -35452,6 +35452,17 @@ paths:
           type: string
           description: Search by redacted comment content
         required: false
+      - name: sentiment
+        in: query
+        description: The sentiment for the comments
+        required: false  
+        schema:
+          type: array
+          items:
+            type: string
+            enum: [ approved, amendmentsNeeded, objected ]
+        style: form
+        explode: true   
       responses:
         '200':
           description: returns a planning application's specialist comments filtering
@@ -35617,6 +35628,17 @@ paths:
           type: string
           description: Search by redacted comment content
         required: false
+      - name: sentiment
+        in: query
+        description: The sentiment for the comments
+        required: false  
+        schema:
+          type: array
+          items:
+            type: string
+            enum: [ supportive, neutral, objection ]
+        style: form
+        explode: true   
       responses:
         '200':
           description: returns a planning application's public comments filtering
