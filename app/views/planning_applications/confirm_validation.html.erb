@@ -25,7 +25,7 @@
       </div>
       <% if @planning_application.publishable? %>
         <%= form.govuk_radio_buttons_fieldset :make_public, legend: {text: "Publish application on BOPS Public Portal?"} do %>
-          <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"}, class: "govuk-!-display-none hidden-content" %>
+          <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
           <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
         <% end %>
       <% else %>
