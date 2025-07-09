@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_14_195355) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_17_105529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -305,6 +305,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_14_195355) do
     t.string "consultee_message_subject"
     t.text "consultee_message_body"
     t.uuid "consultee_email_reply_to_id"
+    t.boolean "consultees_not_required", default: false, null: false
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id", unique: true
   end
 
