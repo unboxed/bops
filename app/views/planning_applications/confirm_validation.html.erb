@@ -31,10 +31,9 @@
       <% else %>
         <%= form.hidden_field :make_public, value: false %>
       <% end %>
-      <div class="govuk-button-group">
-        <%= form.submit "Mark the application as valid", class: "govuk-button", data: {module: "govuk-button"} %>
+      <%= form.govuk_submit "Mark the application as valid" do %>
         <%= govuk_button_link_to "Back", validation_decision_planning_application_path(@planning_application), secondary: true %>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>
