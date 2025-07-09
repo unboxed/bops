@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class EnforcementsController < ApplicationController
+class EnforcementsController < AuthenticationController
   before_action :set_enforcement, only: %i[show]
 
   def show
