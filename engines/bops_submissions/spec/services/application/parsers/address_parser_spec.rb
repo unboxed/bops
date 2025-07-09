@@ -7,7 +7,7 @@ RSpec.describe BopsSubmissions::Parsers::AddressParser do
     let(:local_authority) { create(:local_authority, :default) }
 
     let(:parse_address) do
-      described_class.new(params, local_authority:).parse
+      described_class.new(params, source: "Planning Portal", local_authority:).parse
     end
 
     context "with valid params" do

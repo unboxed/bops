@@ -2,6 +2,9 @@
 
 class Enforcement < ApplicationRecord
   include Caseable
+
+  belongs_to :application_type
+
   composed_of :address,
     mapping: {
       address_1: :line_1,

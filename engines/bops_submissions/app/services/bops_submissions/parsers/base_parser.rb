@@ -3,10 +3,11 @@
 module BopsSubmissions
   module Parsers
     class BaseParser
-      attr_reader :params, :local_authority
+      attr_reader :params, :source, :local_authority
 
-      def initialize(params, local_authority:)
-        @params = params&.with_indifferent_access
+      def initialize(params, source:, local_authority:)
+        @params = params
+        @source = source
         @local_authority = local_authority
       end
     end

@@ -59,12 +59,14 @@
       <pre><%= JSON.pretty_generate(@submission.request_headers) %></pre>
     <% end %>
 
-    <%= govuk_details(summary_text: "Application payload") do %>
-      <pre><%= JSON.pretty_generate(@submission.json_file) %></pre>
-    <% end %>
+    <% if @submission.planning_portal? %>
+      <%= govuk_details(summary_text: "Application payload") do %>
+        <pre><%= JSON.pretty_generate(@submission.json_file) %></pre>
+      <% end %>
 
-    <%= govuk_details(summary_text: "Other files") do %>
-      <pre><%= JSON.pretty_generate(@submission.other_files) %></pre>
+      <%= govuk_details(summary_text: "Other files") do %>
+        <pre><%= JSON.pretty_generate(@submission.other_files) %></pre>
+      <% end %>
     <% end %>
 
     <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
@@ -107,8 +109,10 @@
           <% end %>
         </div>
       </div>
+    <% elsif @submission.case_record %>
+      <p>There is an associated case with this submission with type: <%= @submission.case_record.caseable_type %> and id: <%= @submission.case_record.caseable_id %>.</p>
     <% else %>
-      <p>There is no associated planning application with this submission.</p>
+      <p>There is no associated case with this submission.</p>
     <% end %>
 
     <div class="govuk-button-group">
