@@ -252,4 +252,37 @@ RSpec.describe "Submissions", type: :system do
       end
     end
   end
+
+  context "when a submission has been processed into an enforcement case" do
+    let!(:submission) { create(:submission, :enforcement, local_authority:) }
+
+    it "shows the PlanX enforcement in the index and lets me view its request body and headers" do
+      visit "/admin/submissions"
+
+      within("#submission_#{submission.id}") do
+        expect(page).to have_content("PlanX")
+        click_link "View"
+      end
+
+      expect(page).to have_selector(".govuk-details__summary-text", text: "Request Body")
+      expect(page).to have_selector(".govuk-details__summary-text", text: "Request Headers")
+
+      find(".govuk-details__summary-text", text: "Request Body").click
+      within(".govuk-details", text: "Request Body") do
+        raw = find("pre").text
+        parsed = JSON.parse(raw)
+
+        expect(parsed.keys).to include(
+          "data",
+          "metadata",
+          "responses"
+        )
+      end
+
+      find(".govuk-details__summary-text", text: "Request Headers").click
+      within(".govuk-details", text: "Request Headers") do
+        expect(page).to have_content('"Content-Type"')
+      end
+    end
+  end
 end
