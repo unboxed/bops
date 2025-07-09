@@ -1,0 +1,13 @@
+<%= render @enforcement, with_dates: true, with_assignment: true %>
+
+<%= govuk_accordion do |accordion|
+      accordion.with_section(heading_text: "Breach report") { tag.p("Content") }
+
+      accordion.with_section(heading_text: "Complainant details") { tag.p("Content") }
+
+      accordion.with_section(heading_text: "Site owner and interested parties") { tag.p("Content") }
+
+      accordion.with_section(heading_text: "Documents") { tag.p("Content") }
+
+      accordion.with_section(heading_text: "Photos") { tag.p("Content") }
+    end %>

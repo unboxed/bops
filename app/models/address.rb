@@ -7,4 +7,14 @@ class Address < Struct.new(
   :county,
   :postcode
 )
+
+  def to_s
+    [
+      line_1,
+      line_2,
+      town,
+      county,
+      postcode.gsub(/\s+/, "\u00A0") # non-breaking space
+    ].compact_blank.join(", ")
+  end
 end

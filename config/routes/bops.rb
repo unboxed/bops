@@ -350,6 +350,8 @@ local_authority_subdomain do
     end
   end
 
+  resources :enforcements, only: %i[show]
+
   namespace :public, path: "/" do
     scope "/planning_guides" do
       get "/", to: "planning_guides#index", as: :planning_guides
