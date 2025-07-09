@@ -26,7 +26,7 @@ module BopsApi
             amendments_needed: summary_counts["amendments_needed"] || 0
           }
           redacted_responses = @consultation.consultee_responses.redacted
-          @total_responses = redacted_responses.count
+          @total_available_items = redacted_responses.count
           @total_consulted = @consultation.consultees.consulted.count
 
           @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
