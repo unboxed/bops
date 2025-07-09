@@ -21140,45 +21140,21 @@ components:
         metadata:
           type: object
           properties:
-            page:
+            resultsPerPage:
               type: integer
-            results:
+            currentPage:
               type: integer
-            from:
+            totalPages:
               type: integer
-            to:
+            totalResults:
               type: integer
-            total_pages:
-              type: integer
-            total_results:
+            totalAvailableItems:
               type: integer
           required:
-          - page
-          - results
-          - from
-          - to
-          - total_pages
-          - total_results
-        links:
-          type: object
-          properties:
-            first:
-              type: string
-            last:
-              type: string
-            prev:
-              type:
-              - string
-              - 'null'
-            next:
-              type:
-              - string
-              - 'null'
-          required:
-          - first
-          - last
-          - prev
-          - next
+          - resultsPerPage
+          - currentPage
+          - totalPages
+          - totalAvailableItems
         data:
           type: array
           items:
@@ -21369,7 +21345,6 @@ components:
           - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
       required:
       - metadata
-      - links
       - data
       type: object
     ApplicationSubmission:
@@ -35102,13 +35077,13 @@ paths:
           type: integer
           default: 1
         required: false
-      - name: maxresults
+      - name: resultsPerPage
         in: query
         schema:
           type: integer
           default: 10
         required: false
-      - name: q
+      - name: query
         in: query
         description: Search by reference, address or description
         required: false
@@ -35209,17 +35184,15 @@ paths:
                 default:
                   value:
                     metadata:
-                      page: 2
-                      results: 2
-                      from: 3
-                      to: 4
-                      total_pages: 5
-                      total_results: 10
+                      resultsPerPage: 2
+                      currentPage: 2
+                      totalPages: 5
+                      totalAvailableItems: 10
                     links:
-                      first: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
-                      last: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&maxresults=2
-                      prev: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
-                      next: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=2
+                      first: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&resultsPerPage=2
+                      last: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&resultsPerPage=2
+                      prev: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&resultsPerPage=2
+                      next: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&resultsPerPage=2
                     data:
                     - application:
                         type:
@@ -35671,13 +35644,13 @@ paths:
           type: integer
           default: 1
         required: false
-      - name: maxresults
+      - name: resultsPerPage
         in: query
         schema:
           type: integer
           default: 10
         required: false
-      - name: q
+      - name: query
         in: query
         description: Search by reference, address or description
         required: false
@@ -35780,17 +35753,11 @@ paths:
                 default:
                   value:
                     metadata:
-                      page: 2
-                      results: 2
-                      from: 3
-                      to: 4
-                      total_pages: 5
-                      total_results: 10
-                    links:
-                      first: "/api/v2/public/planning_applications/search?page=1&maxresults=2"
-                      last: "/api/v2/public/planning_applications/search?page=5&maxresults=2"
-                      prev: "/api/v2/public/planning_applications/search?page=1&maxresults=2"
-                      next: "/api/v2/public/planning_applications/search?page=3&maxresults=2"
+                      resultsPerPage: 2
+                      currentPage: 2
+                      totalPages: 5
+                      totalResults: 10
+                      totalAvailableItems: 10
                     data:
                     - application:
                         type:

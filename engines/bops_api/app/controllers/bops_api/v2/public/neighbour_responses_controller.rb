@@ -17,7 +17,7 @@ module BopsApi
             pagination_params
           ).call
 
-          @total_responses = @neighbour_responses.count
+          @total_available_items = @neighbour_responses.count
           @response_summary = @neighbour_responses.group(:summary_tag).count
           @response_summary = {
             supportive: @response_summary["supportive"] || 0,

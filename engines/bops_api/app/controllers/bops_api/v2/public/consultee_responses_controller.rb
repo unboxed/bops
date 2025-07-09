@@ -12,7 +12,7 @@ module BopsApi
           end
           @consultee_responses = @consultation.consultee_responses.redacted
 
-          @total_responses = @consultee_responses.count
+          @total_available_items = @consultee_responses.count
           @total_consulted = @consultation.consultees.count
 
           @response_summary = @consultee_responses.group(:summary_tag)
