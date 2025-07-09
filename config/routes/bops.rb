@@ -303,7 +303,7 @@ local_authority_subdomain do
           end
         end
 
-        resources :immunity_details, only: %i[show update]
+        resources :immunity_details, only: :update
 
         resources :immunity_enforcements, only: :update
 
