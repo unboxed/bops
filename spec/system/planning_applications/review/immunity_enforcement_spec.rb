@@ -57,9 +57,9 @@ RSpec.describe "Reviewing immunity enforcement" do
 
         within("#review-immunity-enforcements") do
           expect(page).not_to have_content("Immunity from enforcement summary")
-          expect(page).to have_content("Assessor decision: Yes")
+          expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action? Yes")
           expect(page).to have_content("Reason: it looks immune to me")
-          expect(page).to have_content("Summary: they have enough bills to show it's immune")
+          expect(page).to have_content("Assessor summary: they have enough bills to show it's immune")
         end
 
         within("#review-immunity-enforcements-form") do
