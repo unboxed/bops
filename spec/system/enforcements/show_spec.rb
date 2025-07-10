@@ -4,6 +4,9 @@ require "rails_helper"
 
 RSpec.describe "Enforcement show page", type: :system do
   let(:enforcement) { create(:enforcement) }
+  let(:user) { create(:user, local_authority: enforcement.case_record.local_authority) }
+
+  before { sign_in user }
 
   it "has a show page with basic details" do
     visit "/enforcements/#{enforcement.case_record.id}/"
@@ -11,7 +14,6 @@ RSpec.describe "Enforcement show page", type: :system do
   end
 
   context "when assigned to an officer" do
-    let(:user) { create(:user) }
     before { enforcement.case_record.update!(user:) }
 
     it "shows the assigned officer" do
