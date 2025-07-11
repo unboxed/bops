@@ -3,10 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Decision notice" do
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) do
-    create(:planning_application, :determined, local_authority: default_local_authority, decision: "granted")
+  let(:local_authority) { create(:local_authority, :default) }
+  let(:application_type) { create(:application_type, :planning_permission) }
+  let(:planning_application) do
+    create(:planning_application, :determined, application_type:, local_authority:, decision:)
   end
+  let(:decision) { "granted" }
 
   context "when not logged in" do
     before do
@@ -23,11 +25,25 @@ RSpec.describe "Decision notice" do
 
         expect(page).to have_css(".decision-notice")
       end
+
+      context "when decision is to grant" do
+        it "shows conditions on the notice" do
+          expect(page).to have_selector("h3", text: "Conditions:")
+        end
+      end
+
+      context "when decision is to refuse" do
+        let(:decision) { "refused" }
+
+        it "does not show conditions on the notice" do
+          expect(page).not_to have_selector("h3", text: "Conditions:")
+        end
+      end
     end
 
     context "when planning application has not been determined" do
       let!(:planning_application) do
-        create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
+        create(:planning_application, :awaiting_determination, local_authority:)
       end
 
       it "shows a not found page" do
@@ -38,7 +54,7 @@ RSpec.describe "Decision notice" do
   end
 
   context "when logged in" do
-    let(:user) { create(:user, local_authority: default_local_authority) }
+    let(:user) { create(:user, local_authority:) }
 
     before do
       sign_in(user)
