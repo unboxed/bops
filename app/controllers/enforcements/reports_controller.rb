@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Enforcements::ReportsController < AuthenticationController
-  before_action -> { view_context_class.prefix_partial_path_with_controller_namespace = false }
-
   before_action :set_enforcement
 
   def show
