@@ -1072,7 +1072,7 @@ en:
           rights_removed_reason_label: Describe how permitted development rights have been removed
           summary_hint: Refer to the evidence and history provided
           summary_label: Immunity from enforcement summary
-        success: Immunity/permitted development rights response was successfully updated
+        success: Assess immunity response was successfully updated
       assessment_details:
         additional_evidence:
           created:
@@ -2428,7 +2428,7 @@ en:
       check_missing_documents: Check and request documents
     assessment:
       assess_immunity_detail_permitted_development_right_component:
-        immune_permitted_development_rights: Immunity/permitted development rights
+        immune_permitted_development_rights: Assess immunity
       assessment_detail_component:
         additional_evidence: Summary of additional evidence
         amenity: Amenity

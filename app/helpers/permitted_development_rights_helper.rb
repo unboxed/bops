@@ -3,7 +3,7 @@
 module PermittedDevelopmentRightsHelper
   def page_title(planning_application)
     if planning_application.possibly_immune?
-      "Immunity/permitted development rights"
+      "Assess immunity"
     else
       "Permitted development rights"
     end

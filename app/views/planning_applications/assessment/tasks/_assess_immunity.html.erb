@@ -1,0 +1,17 @@
+<li id="assess-immunity-tasks">
+  <h2 class="app-task-list__section">Assess immunity</h2>
+  <ul class="app-task-list__items">
+    <%= render(
+          TaskListItems::Assessment::ImmunityDetailsComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+    <% if @planning_application.check_permitted_development_rights? %>
+      <%= render(
+            TaskListItems::Assessment::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
+  </ul>
+</li>
