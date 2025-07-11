@@ -60,7 +60,7 @@ class PlanningApplicationSearch
   end
 
   def closed_planning_applications
-    all_applications.closed.for_current_user
+    all_applications.closed_or_cancelled.for_current_user
   end
 
   def unstarted_prior_approvals

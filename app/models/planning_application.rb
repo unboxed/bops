@@ -172,6 +172,7 @@ class PlanningApplication < ApplicationRecord
   scope :accepted, -> { where.not(status: "pending") }
   scope :published, -> { publishable.where.not(published_at: nil) }
   scope :in_review, -> { where(status: IN_REVIEW_STATUSES) }
+  scope :closed_or_cancelled, -> { where(status: CLOSED_STATUSES) }
   scope :received_at_between, ->(from, to) {
     where(received_at: from..to)
   }
