@@ -4,7 +4,7 @@ class PlanningApplicationSearch
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed closed].freeze
+  STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed closed withdrawn determined returned].freeze
   SELECTED_STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
 
   APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
