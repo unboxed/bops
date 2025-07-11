@@ -29,9 +29,15 @@
             }
           ) %>
 
-      <%= render "additional_services" %>
+      <% if @planning_application.pre_application? %>
+        <%= render "additional_services" %>
+      <% end %>
 
       <%= render "assessment_information" %>
+
+      <% if @planning_application.possibly_immune?  && !@planning_application.pre_application? %>
+        <%= render "assess_immunity" %>
+      <% end %>
 
       <% if @planning_application.considerations? && !@planning_application.pre_application? %>
         <%= render "assess_against_policies_and_guidance" %>

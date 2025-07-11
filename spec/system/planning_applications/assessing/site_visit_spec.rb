@@ -32,7 +32,7 @@ RSpec.describe "Site visit" do
         visit "/planning_applications/#{planning_application.reference}"
         click_link "Check and assess"
 
-        within("#additional-services-tasks") do
+        within("#assessment-information-tasks") do
           expect(page).to have_css("#site-visit")
         end
       end

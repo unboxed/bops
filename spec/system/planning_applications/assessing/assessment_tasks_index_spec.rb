@@ -33,7 +33,7 @@ RSpec.describe "Assessment tasks", type: :system do
           end
 
           within("#assessment-information-tasks") do
-            expect(page).to have_content("Assessor remarks")
+            expect(page).to have_content("Assessment summaries")
             expect(page).to have_link("Summary of works")
             expect(page).to have_link("Summary of additional evidence")
             expect(page).to have_link("Site description")
@@ -73,7 +73,7 @@ RSpec.describe "Assessment tasks", type: :system do
           end
 
           within("#assessment-information-tasks") do
-            expect(page).to have_content("Assessor remarks")
+            expect(page).to have_content("Assessment summaries")
             expect(page).to have_link("Summary of works")
             expect(page).to have_link("Summary of additional evidence")
             expect(page).to have_link("Site description")
@@ -138,7 +138,7 @@ RSpec.describe "Assessment tasks", type: :system do
           end
 
           within("#assessment-information-tasks") do
-            expect(page).to have_content("Assessor remarks")
+            expect(page).to have_content("Assessment summaries")
 
             expect(page).not_to have_link("Summary of works")
             expect(page).to have_link("Site description")
@@ -296,8 +296,11 @@ RSpec.describe "Assessment tasks", type: :system do
         within("#check-consistency-assessment-tasks") do
           expect(page).to have_content("Check application")
           expect(page).to have_link("Check application details")
+        end
+
+        within("#assess-immunity-tasks") do
           expect(page).to have_link("Evidence of immunity")
-          expect(page).to have_link("Immunity/permitted development rights")
+          expect(page).to have_link("Assess immunity")
         end
       end
     end

@@ -279,18 +279,18 @@ RSpec.describe "Permitted development right" do
         click_link "Check and assess"
 
         expect(page).to have_list_item_for(
-          "Immunity/permitted development rights",
+          "Assess immunity",
           with: "Not started"
         )
 
-        click_link("Immunity/permitted development rights")
+        click_link("Assess immunity")
 
         expect(page).to have_current_path(
           "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
         )
 
         within(".govuk-heading-l") do
-          expect(page).to have_content("Immunity/permitted development rights")
+          expect(page).to have_content("Assess immunity")
         end
         expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
