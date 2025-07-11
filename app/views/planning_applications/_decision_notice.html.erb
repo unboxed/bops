@@ -56,7 +56,7 @@
         <%= @planning_application.assessment_details.find { |ad| ad.category == "amenity" }.entry %>
       </p>
     <% end %>
-    <% if @planning_application.application_type.planning_conditions? %>
+    <% if @planning_application.granted? && @planning_application.planning_conditions? %>
       <h3 class="govuk-heading-s">
         Conditions:
       </h3>

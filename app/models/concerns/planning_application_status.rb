@@ -101,6 +101,8 @@ module PlanningApplicationStatus
         transitions from: %i[awaiting_determination in_committee], to: :determined
 
         after do
+          condition_set.update!(conditions: []) if refused?
+
           audit!(
             activity_type: "determined",
             audit_comment: "Application #{decision} on #{determination_date.to_date.to_fs} (manually inputted date)"
