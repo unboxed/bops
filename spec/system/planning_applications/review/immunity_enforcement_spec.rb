@@ -94,11 +94,11 @@ RSpec.describe "Reviewing immunity enforcement" do
         click_link "Check and assess"
 
         expect(page).to have_list_item_for(
-          "Immunity/permitted development rights",
+          "Assess immunity",
           with: "To be reviewed"
         )
 
-        click_link "Immunity/permitted development rights"
+        click_link "Assess immunity"
         find("span", text: "See previous review immunity detail responses").click
 
         expect(page).to have_content("Please re-assess")
