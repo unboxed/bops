@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_07_164356) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_11_090552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -446,13 +446,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_07_164356) do
   end
 
   create_table "enforcements", force: :cascade do |t|
-    t.string "breach_description"
+    t.string "description"
     t.string "status"
     t.boolean "urgent", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "address_line_1"
-    t.string "address_line_2"
+    t.string "address_1"
+    t.string "address_2"
     t.string "town"
     t.string "county"
     t.string "postcode"
