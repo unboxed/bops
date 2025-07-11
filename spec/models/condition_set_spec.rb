@@ -65,4 +65,25 @@ RSpec.describe ConditionSet do
       end
     end
   end
+
+  describe "on a determined application" do
+    let(:planning_application) { create(:planning_application, :awaiting_determination, application_type:, local_authority:) }
+    let(:local_authority) { create(:local_authority, :default) }
+    let(:application_type) { create(:application_type, :planning_permission) }
+    let(:condition_set) { planning_application.condition_set }
+
+    it "has its conditions removed when refused" do
+      expect(condition_set.conditions).not_to be_empty
+      planning_application.decision = :refused
+      planning_application.determine!
+      expect(condition_set.conditions).to be_empty
+    end
+
+    it "does not have its conditions removed when granted" do
+      expect(condition_set.conditions).not_to be_empty
+      planning_application.decision = :granted
+      planning_application.determine!
+      expect(condition_set.conditions).not_to be_empty
+    end
+  end
 end
