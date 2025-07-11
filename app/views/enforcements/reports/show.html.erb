@@ -1,4 +1,4 @@
-<%= render @enforcement, title: "Check breach report" %>
+<%= render "enforcements/enforcement", title: "Check breach report" %>
 
 <%= govuk_task_list(id_prefix: "breach-report") do |task_list|
       task_list.with_item(title: "Check report details", href: "#", status: govuk_tag(text: "Incomplete", colour: "blue"))
