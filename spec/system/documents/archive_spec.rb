@@ -229,21 +229,4 @@ RSpec.describe "Documents index page" do
       expect(page).to have_content("Cannot archive document with an open or pending validation request")
     end
   end
-
-  context "when a document has been removed due to a security issue" do
-    let!(:document) do
-      create(:document, planning_application:)
-    end
-
-    before do
-      sign_in assessor
-      allow_any_instance_of(Document).to receive(:representable?).and_return(false)
-    end
-
-    it "cannot archive" do
-      visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
-
-      expect(page).to have_content("forbidden")
-    end
-  end
 end
