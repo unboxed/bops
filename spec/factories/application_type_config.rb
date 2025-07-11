@@ -611,6 +611,11 @@ FactoryBot.define do
       end
     end
 
+    trait :enforcement do
+      code { "breach" }
+      suffix { "ENF" }
+    end
+
     trait :without_consultation do
       features {
         {

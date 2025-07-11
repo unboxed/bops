@@ -5,6 +5,7 @@ class Submission < ApplicationRecord
 
   belongs_to :local_authority
   has_one :planning_application, dependent: :nullify
+  has_one :case_record, dependent: :nullify
   has_many :documents, dependent: :destroy
 
   validates :external_uuid, uniqueness: true, allow_nil: true
@@ -38,15 +39,22 @@ class Submission < ApplicationRecord
   store_accessor :application_payload, :json_file, :other_files
 
   def application_reference
-    request_body["applicationRef"]
+    @application_reference ||= request_body["applicationRef"] || request_body["metadata"]["id"]
   end
 
   def document_link_urls
-    request_body.fetch("documentLinks", []).pluck("documentLink")
+    @document_link_urls ||= request_body.fetch("documentLinks", []).pluck("documentLink")
   end
 
   def source
-    # TODO: this should be dynamic based on the source of the submission
-    "Planning Portal"
+    @source ||= request_body.dig("metadata", "source") || "Planning Portal"
+  end
+
+  def planning_portal?
+    source == "Planning Portal"
+  end
+
+  def planx?
+    source == "PlanX"
   end
 end

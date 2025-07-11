@@ -22,9 +22,15 @@ RSpec.describe "BOPS Submissions API", type: :request do
       }
 
       request_body_example(
-        name: "ValidSubmissionEvent",
+        name: "ValidPlanningPortalSubmissionEvent",
         summary: "Planning Portal Submission",
         value: json_fixture("submissions/planning_portal.json")
+      )
+
+      request_body_example(
+        name: "ValidEnforcementSubmissionEvent",
+        summary: "Enforcement Submission",
+        value: json_fixture_api("v0.7.5/enforcement/breach.json")
       )
 
       response "200", "submission accepted" do

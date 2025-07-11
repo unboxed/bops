@@ -24,7 +24,7 @@ module BopsSubmissions
     def call
       submission = local_authority.submissions.create!(
         request_headers: filtered_request_headers,
-        request_body: permitted_request_params
+        request_body: params
       )
 
       submission.update!(external_uuid: SecureRandom.uuid_v7)
@@ -39,17 +39,6 @@ module BopsSubmissions
       end.transform_keys do |key|
         key.sub(/^HTTP_/, "").split("_").map(&:capitalize).join("-")
       end.slice(*HEADERS)
-    end
-
-    def permitted_request_params
-      params.permit(
-        :applicationRef,
-        :applicationVersion,
-        :applicationState,
-        :sentDateTime,
-        :updated,
-        documentLinks: [:documentName, :documentLink, :expiryDateTime, :documentType]
-      ).to_h
     end
   end
 end
