@@ -13,6 +13,12 @@ RSpec.describe "Enforcement show page", type: :system do
     expect(page).to have_content(enforcement.address)
   end
 
+  it "has a link to the breach report page" do
+    visit "/enforcements/#{enforcement.case_record.id}/"
+    click_link "Check breach report"
+    expect(page).to have_selector("h1", text: "Check breach report")
+  end
+
   context "when assigned to an officer" do
     before { enforcement.case_record.update!(user:) }
 

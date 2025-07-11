@@ -350,7 +350,11 @@ local_authority_subdomain do
     end
   end
 
-  resources :enforcements, only: %i[show]
+  resources :enforcements, only: %i[show] do
+    scope module: :enforcements do
+      resource :report, only: :show
+    end
+  end
 
   namespace :public, path: "/" do
     scope "/planning_guides" do

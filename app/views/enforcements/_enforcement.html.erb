@@ -1,6 +1,8 @@
+<%# locals: (title: "Enforcement case", with_dates: false, with_assignment: false, enforcement:) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="planning-application-details">
-    <h1 class="govuk-heading-l">Enforcement case</h1>
+    <h1 class="govuk-heading-l"><%= title %></h1>
     <p class="govuk-body">
       <strong><%= @enforcement.address %></strong>
       <br>
