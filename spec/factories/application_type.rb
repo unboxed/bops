@@ -9,6 +9,7 @@ FactoryBot.define do
     suffix { config.suffix }
 
     %i[
+      enforcement
       lawfulness_certificate
       ldc_existing
       ldc_proposed

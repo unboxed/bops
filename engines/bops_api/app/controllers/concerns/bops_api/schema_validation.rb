@@ -53,6 +53,8 @@ module BopsApi
         ["submission", "odp/#{File.basename(File.dirname(path, 2))}"]
       when "preApplication.json"
         ["preApplication", "odp/#{File.basename(File.dirname(path, 2))}"]
+      when "enforcement.json"
+        ["enforcement", "odp/#{File.basename(File.dirname(path, 2))}"]
       else
         raise BopsApi::Errors::InvalidRequestError, "We couldn’t process your request because some information is missing or incorrect."
       end

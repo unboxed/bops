@@ -8,8 +8,12 @@ module BopsSubmissions
       submission = Submission.find(submission_id)
       submission.start! if submission.may_start?
 
-      ZipExtractionService.new(submission:).call
-      Application::CreationService.new(submission:).call!
+      if submission.planning_portal?
+        ZipExtractionService.new(submission:).call
+        Application::CreationService.new(submission:).call!
+      elsif submission.planx?
+        Enforcement::CreationService.new(submission:).call!
+      end
 
       submission.complete!
     rescue ActiveRecord::RecordNotFound => e

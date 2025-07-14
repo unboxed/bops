@@ -182,8 +182,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_090552) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.bigint "submission_id"
     t.index ["caseable_type", "caseable_id"], name: "ix_case_records_on_caseable_type__caseable_id"
     t.index ["local_authority_id"], name: "ix_case_records_on_local_authority_id"
+    t.index ["submission_id"], name: "ix_case_records_on_submission_id"
     t.index ["user_id"], name: "ix_case_records_on_user_id"
   end
 
@@ -459,6 +461,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_090552) do
     t.datetime "received_at", null: false
     t.datetime "started_at"
     t.datetime "notice_served_at"
+    t.jsonb "proposal_details"
+    t.string "uprn"
+    t.geography "boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
+    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
@@ -1258,6 +1264,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_090552) do
   add_foreign_key "audits", "users"
   add_foreign_key "case_records", "local_authorities"
   add_foreign_key "case_records", "users"
+  add_foreign_key "case_records", "submissions"
   add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"
@@ -1282,7 +1289,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_090552) do
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "submissions"
-  add_foreign_key "documents", "users"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "heads_of_terms", "planning_applications"

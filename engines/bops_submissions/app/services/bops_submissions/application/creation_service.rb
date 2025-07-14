@@ -6,7 +6,7 @@ module BopsSubmissions
       def initialize(submission:)
         @submission = submission
         @local_authority = submission.local_authority
-        @data = submission.json_file
+        @data = submission.json_file&.with_indifferent_access
       end
 
       def call!
@@ -47,7 +47,7 @@ module BopsSubmissions
 
       def parsed_data
         parsers.each_with_object({}) do |(parser, section_data), hash|
-          hash.merge!(parser.new(section_data, local_authority:).parse)
+          hash.merge!(parser.new(section_data, source: submission.source, local_authority:).parse)
         end
       end
 

@@ -5,13 +5,30 @@ module BopsSubmissions
     class ProposalParser < BaseParser
       def parse
         return {} if params.blank?
+
+        case source
+        when "Planning Portal"
+          parse_planning_portal
+        when "PlanX"
+          parse_planx
+        end
+      end
+
+      private
+
+      def parse_planning_portal
         {
           description: params.dig("applicationData", "proposalDescription", "descriptionText"),
           boundary_geojson: build_boundary_feature
         }
       end
 
-      private
+      def parse_planx
+        {
+          description: params[:description],
+          boundary_geojson: params.dig("boundary", "site")&.to_json
+        }
+      end
 
       def build_boundary_feature
         boundary = params.dig("polygon", "features", 0).deep_dup

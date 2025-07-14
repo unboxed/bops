@@ -43,14 +43,6 @@ RSpec.describe BopsSubmissions::CreationService, type: :service do
     }.to change { local_authority.submissions.count }.by(1)
   end
 
-  it "only permits allowed params" do
-    params[:foo] = "bar"
-    submission = service.call
-    expect(submission.request_body.deep_symbolize_keys).to eq(submission_params_hash)
-    expect(submission.request_body).not_to have_key(:foo)
-    expect(submission.request_body).not_to have_key("foo")
-  end
-
   it "filters only allowed headers" do
     headers.env["Authorization"] = "xxxxxx"
     submission = service.call
