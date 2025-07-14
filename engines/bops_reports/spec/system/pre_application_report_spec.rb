@@ -32,13 +32,14 @@ RSpec.describe "Pre-application report" do
     }.to_json
   end
 
+  let(:case_record) { build(:case_record, user: reviewer, local_authority:) }
   let(:planning_application) do
     create(
       :planning_application,
       :pre_application,
       :in_assessment,
       :with_preapp_assessment,
-      user: reviewer,
+      case_record:,
       local_authority:,
       boundary_geojson:,
       consideration_set:,
@@ -134,7 +135,7 @@ RSpec.describe "Pre-application report" do
   end
 
   it "allows the user to assign case officer if not set" do
-    planning_application.update(user: nil)
+    planning_application.case_record.update(user: nil)
     visit "/reports/planning_applications/#{reference}"
 
     within("#contact-details") do

@@ -7,6 +7,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
   let(:assessor) { create(:user, :assessor, local_authority:, name: "Jane Smith") }
   let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Alan Jones") }
 
+  let(:case_record) { build(:case_record, user: assessor, local_authority:) }
   let(:planning_application) do
     create(
       :planning_application,
@@ -14,7 +15,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
       :in_assessment,
       :with_preapp_assessment,
       local_authority:,
-      user: assessor
+      case_record:
     )
   end
 
@@ -97,7 +98,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
   end
 
   it "requires an assigned case officer before you can submit the recommendation" do
-    planning_application.update(user: nil)
+    planning_application.case_record.update(user: nil)
 
     sign_in(assessor)
 

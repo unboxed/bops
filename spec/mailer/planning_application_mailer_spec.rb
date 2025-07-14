@@ -381,7 +381,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     context "when there is an assigned officer to the case" do
       before do
-        planning_application.user = assessor
+        planning_application.case_record.user = assessor
       end
 
       it "includes the information about the validation request being auto accepted" do
@@ -491,7 +491,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     context "when there is an assigned officer to the case" do
       before do
-        planning_application.user = assessor
+        planning_application.case_record.user = assessor
       end
 
       it "includes the information about the validation request being auto accepted" do

@@ -82,7 +82,7 @@ FactoryBot.define do
 
     trait :with_api_user do
       after(:create) do |local_authority|
-        local_authority.api_users.find_or_create_by!(name: local_authority.subdomain, permissions: %w[validation_request:read])
+        local_authority.api_users.find_or_initialize_by(name: local_authority.subdomain, permissions: %w[validation_request:read])
       end
     end
 
@@ -90,6 +90,6 @@ FactoryBot.define do
       planning_history_enabled { true }
     end
 
-    initialize_with { LocalAuthority.find_or_create_by(subdomain:) }
+    initialize_with { LocalAuthority.find_or_initialize_by(subdomain:) }
   end
 end

@@ -9,6 +9,8 @@ class PlanningApplication < ApplicationRecord
 
   include Auditable
 
+  include Caseable
+
   include Discard::Model
 
   include PlanningApplicationDecorator
@@ -565,7 +567,7 @@ class PlanningApplication < ApplicationRecord
 
   def assign!(user)
     transaction do
-      update!(user:)
+      case_record.update!(user:)
       audit!(activity_type: "assigned", activity_information: user&.name)
 
       if application_type_name == "prior_approval"

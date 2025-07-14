@@ -3,7 +3,7 @@
 require "securerandom"
 
 class CaseRecord < ApplicationRecord
-  delegated_type :caseable, types: %w[Enforcement], dependent: :destroy
+  delegated_type :caseable, types: %w[Enforcement PlanningApplication], dependent: :destroy
 
   belongs_to :local_authority
   belongs_to :user, optional: true
