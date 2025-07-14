@@ -67,7 +67,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Pre-application details</h2>
+    <h2 class="govuk-heading-m"><% if @planning_application.pre_application? %>Pre-application<% else %>Application<% end %> details</h2>
     <div id="description">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Description</p>
       <p>
