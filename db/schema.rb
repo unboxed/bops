@@ -465,8 +465,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_090552) do
     t.string "uprn"
     t.geography "boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
-    t.bigint "application_type_id", null: false
-    t.index ["application_type_id"], name: "ix_enforcements_on_application_type_id"
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
@@ -1291,8 +1289,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_11_090552) do
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "submissions"
-  add_foreign_key "documents", "users"
-  add_foreign_key "enforcements", "application_types"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "heads_of_terms", "planning_applications"

@@ -13,7 +13,6 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
       )
     end
     let(:service) { described_class.new(submission: submission) }
-    let!(:application_type_enforcement) { create(:application_type, :enforcement) }
     let(:parsed_enforcement_data) do
       factory = RGeo::Geographic.spherical_factory(srid: 4326)
       {
@@ -40,8 +39,7 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
       )
 
       expect(enforcement).to have_attributes(
-        **parsed_enforcement_data,
-        application_type: application_type_enforcement
+        **parsed_enforcement_data
       )
     end
 

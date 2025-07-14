@@ -38,7 +38,6 @@ module BopsSubmissions
       def enforcement_params
         {}.tap do |enforcement_params|
           enforcement_params.merge!(parsed_data)
-          enforcement_params.merge!(application_type_params)
         end
       end
 
@@ -54,11 +53,6 @@ module BopsSubmissions
           "ProposalParser" => data_params[:report],
           "ProposalDetailsParser" => data[:responses]
         }.transform_keys { |key| Parsers.const_get(key) }
-      end
-
-      def application_type_params
-        config = ApplicationType::Config.find_by!(code: "breach")
-        {application_type: local_authority.application_types.find_or_create_by!(config_id: config.id, code: config.code, name: config.name, suffix: config.suffix)}
       end
     end
   end

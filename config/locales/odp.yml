@@ -24,7 +24,6 @@ en:
       - ['approval', 'Planning approval']
       - ['approval.conditions', 'Approval of details reserved by condition']
       - ['approval.reservedMatters', 'Approval of reserved matters']
-      - ['breach', 'Report a planning breach']
       - ['complianceConfirmation', 'Written confirmation of compliance with a planning condition']
       - ['environmentalImpact', 'Environmental Impact Decision']
       - ['environmentalImpact.scoping', 'Environmental Impact Decision - Scoping']
@@ -142,7 +141,6 @@ en:
       - approval
       - approval.conditions
       - approval.reservedMatters
-      - breach
       - complianceConfirmation
       - environmentalImpact
       - environmentalImpact.scoping

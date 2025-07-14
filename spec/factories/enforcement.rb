@@ -8,6 +8,5 @@ FactoryBot.define do
     town { Faker::Address.city }
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
-    application_type { association :application_type }
   end
 end
