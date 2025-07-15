@@ -23,7 +23,7 @@ class PlanningApplication < ApplicationRecord
 
   self.discard_column = :deleted_at
 
-  self.ignored_columns += %i[work_status make_public reporting_type]
+  self.ignored_columns += %i[work_status make_public reporting_type submission_id]
 
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112

@@ -27,8 +27,9 @@ RSpec.describe Submission do
 
   describe "associations" do
     let(:local_authority) { create(:local_authority) }
-    let(:submission) { create(:submission, local_authority: local_authority) }
-    let!(:planning_application) { create(:planning_application, submission: submission) }
+    let(:submission) { create(:submission, local_authority:) }
+    let(:case_record) { build(:case_record, local_authority:, submission:) }
+    let!(:planning_application) { create(:planning_application, case_record:) }
 
     describe "#local_authority" do
       it "returns the associated local authority" do
@@ -47,9 +48,9 @@ RSpec.describe Submission do
         expect { submission.destroy }.not_to change(PlanningApplication, :count)
       end
 
-      it "nullifies the planning application's submission_id" do
+      it "nullifies the case record's submission_id" do
         submission.destroy
-        expect(planning_application.reload.submission_id).to be_nil
+        expect(case_record.reload.submission_id).to be_nil
       end
     end
   end

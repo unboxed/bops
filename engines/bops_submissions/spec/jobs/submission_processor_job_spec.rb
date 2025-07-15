@@ -135,7 +135,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
 
         pa = PlanningApplication.last
         expect(pa).to be_present
-        expect(pa.submission_id).to eq(submission.id)
+        expect(pa.case_record.submission_id).to eq(submission.id)
         expect(pa.local_authority_id).to eq(submission.local_authority_id)
       end
     end
