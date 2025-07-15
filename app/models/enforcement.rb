@@ -21,4 +21,10 @@ class Enforcement < ApplicationRecord
   def status
     :unknown
   end
+
+  def proposal_details
+    Array(super).each_with_index.map do |hash, index|
+      ProposalDetail.new(hash, index)
+    end
+  end
 end

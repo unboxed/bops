@@ -13,6 +13,9 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
       )
     end
     let(:service) { described_class.new(submission: submission) }
+    let!(:expected_proposal_details) do
+      submission.request_body["responses"]
+    end
     let(:parsed_enforcement_data) do
       factory = RGeo::Geographic.spherical_factory(srid: 4326)
       {
@@ -24,8 +27,7 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
         postcode: "ME1 1EW",
         uprn: "000044009430",
         boundary_geojson: nil,
-        lonlat: factory.point(0.506217, 51.3873264),
-        proposal_details: submission.request_body["responses"]
+        lonlat: factory.point(0.506217, 51.3873264)
       }
     end
 
@@ -41,6 +43,9 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
       expect(enforcement).to have_attributes(
         **parsed_enforcement_data
       )
+
+      expect(enforcement.proposal_details).to all(be_a(ProposalDetail))
+      expect(enforcement.proposal_details.size).to eq(expected_proposal_details.size)
     end
 
     context "when saving Enforcement fails" do
