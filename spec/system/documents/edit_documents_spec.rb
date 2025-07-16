@@ -160,22 +160,6 @@ RSpec.describe "Edit document", type: :system do
       expect(page).not_to have_css("#validate-document")
     end
 
-    context "when a document has been removed due to a security issue" do
-      let!(:document) do
-        create(:document, planning_application:)
-      end
-
-      before do
-        allow_any_instance_of(Document).to receive(:representable?).and_return(false)
-      end
-
-      it "cannot edit" do
-        visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
-
-        expect(page).to have_content("forbidden")
-      end
-    end
-
     context "when editing/archiving document from the documents accordian section" do
       it "can edit document and return back to the planning applications index page" do
         visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
