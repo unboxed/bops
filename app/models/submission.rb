@@ -4,9 +4,13 @@ class Submission < ApplicationRecord
   include AASM
 
   belongs_to :local_authority
-  has_one :planning_application, dependent: :nullify
   has_one :case_record, dependent: :nullify
   has_many :documents, dependent: :destroy
+
+  with_options through: :case_record, source: :caseable, dependent: :nullify do
+    has_one :enforcement, source_type: "Enforcement"
+    has_one :planning_application, source_type: "PlanningApplication"
+  end
 
   validates :external_uuid, uniqueness: true, allow_nil: true
 

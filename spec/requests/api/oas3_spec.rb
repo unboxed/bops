@@ -5,8 +5,8 @@ require "openapi3_parser"
 
 RSpec.describe "The Open API Specification document" do
   let!(:document) { Openapi3Parser.load_file(Rails.public_path.join("api/docs/v1/swagger_doc.yaml")) }
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read planning_application:read], local_authority: default_local_authority) }
+  let!(:local_authority) { create(:local_authority, :default) }
+  let!(:api_user) { create(:api_user, permissions: %w[validation_request:read planning_application:read], local_authority:) }
   let!(:application_type) { create(:application_type, :ldc_proposed) }
   let(:result) { PlanningApplication.last }
 
@@ -46,7 +46,8 @@ RSpec.describe "The Open API Specification document" do
       planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full", "status",
         "received_date", "documents", "site", "constraints", "work_status",
         "application_type").merge(
-          local_authority: default_local_authority,
+          case_record: CaseRecord.create(local_authority:),
+          local_authority:,
           application_type_id: ApplicationType.first.id,
           status: "in_assessment",
           validated_at: Time.zone.now

@@ -60,7 +60,8 @@ class PlanningApplicationsCreation
 
   def importer
     pa = PlanningApplication.find_or_initialize_by(reference: reference)
-    pa.update!(**planning_application_attributes)
+    pa.update!(case_record: CaseRecord.new(local_authority: planning_application_attributes[:local_authority]),
+               **planning_application_attributes)
     pa
   rescue => e
     Rails.logger.debug { "[IMPORT ERROR] #{e.class}: #{e.message}" }

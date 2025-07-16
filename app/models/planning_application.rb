@@ -9,6 +9,8 @@ class PlanningApplication < ApplicationRecord
 
   include Auditable
 
+  include Caseable
+
   include Discard::Model
 
   include PlanningApplicationDecorator
@@ -21,7 +23,7 @@ class PlanningApplication < ApplicationRecord
 
   self.discard_column = :deleted_at
 
-  self.ignored_columns += %i[work_status make_public reporting_type]
+  self.ignored_columns += %i[work_status make_public reporting_type submission_id]
 
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112
@@ -565,7 +567,7 @@ class PlanningApplication < ApplicationRecord
 
   def assign!(user)
     transaction do
-      update!(user:)
+      case_record.update!(user:)
       audit!(activity_type: "assigned", activity_information: user&.name)
 
       if application_type_name == "prior_approval"

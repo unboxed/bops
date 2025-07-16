@@ -11,8 +11,9 @@ RSpec.describe "Creating a planning application", type: :system do
   let!(:ldc_proposed) { create(:application_type, :ldc_proposed, local_authority: local_authority) }
 
   let!(:subdomain) { local_authority.subdomain }
+  let!(:case_record) { build(:case_record, local_authority:) }
   let!(:planning_applications) { local_authority.planning_applications }
-  let!(:planning_application) { planning_applications.new }
+  let!(:planning_application) { planning_applications.new(case_record:) }
 
   let(:reference) { planning_application.reference }
 

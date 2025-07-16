@@ -1156,13 +1156,13 @@ RSpec.describe PlanningApplication do
 
     context "when an ActiveRecord error is raised" do
       before do
-        allow(planning_application).to receive(:update!).and_raise(ActiveRecord::ActiveRecordError)
+        allow(planning_application.case_record).to receive(:update!).and_raise(ActiveRecord::ActiveRecordError)
       end
 
       it "raises an error and does not create an audit" do
         expect { planning_application.assign!(user) }
           .to raise_error(ActiveRecord::ActiveRecordError)
-          .and not_change(planning_application, :user_id)
+          .and not_change(planning_application.case_record, :user_id)
           .and not_change(Audit, :count)
       end
     end

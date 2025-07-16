@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :case_record do
-    local_authority { create(:local_authority, :default) }
+    local_authority { create(:local_authority) }
   end
 end

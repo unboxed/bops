@@ -41,6 +41,6 @@ FactoryBot.define do
       end
     end
 
-    initialize_with { local_authority.application_types.find_or_create_by(code:) }
+    initialize_with { local_authority.application_types.find_or_initialize_by(code:) }
   end
 end

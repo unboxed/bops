@@ -3,8 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "Enforcement show page", type: :system do
-  let(:enforcement) { create(:enforcement) }
-  let(:user) { create(:user, local_authority: enforcement.case_record.local_authority) }
+  let(:local_authority) { create(:local_authority, :default) }
+  let(:case_record) { build(:case_record, local_authority:) }
+  let(:enforcement) { create(:enforcement, case_record:) }
+  let(:user) { create(:user, local_authority:) }
 
   before { sign_in user }
 
