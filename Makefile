@@ -50,10 +50,13 @@ config-specs:
 core-specs:
 	$(DOCKER-RUN) console rspec engines/bops_core/spec
 
+reports-specs:
+	$(DOCKER-RUN) console rspec engines/bops_reports/spec
+
 uploads-specs:
 	$(DOCKER-RUN) console rspec engines/bops_uploads/spec
 
-engine-specs: api-specs admin-specs config-specs core-specs uploads-specs
+engine-specs: api-specs admin-specs config-specs core-specs reports-specs uploads-specs
 
 rspec:
 	$(DOCKER-RUN) console rspec

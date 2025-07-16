@@ -112,6 +112,10 @@ class User < ApplicationRecord
     persistence_token == token
   end
 
+  def assessor_or_reviewer?
+    assessor? || reviewer?
+  end
+
   private
 
   def generate_otp_secret
