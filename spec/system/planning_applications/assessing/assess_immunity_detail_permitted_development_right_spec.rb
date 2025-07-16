@@ -21,7 +21,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       sign_in assessor
       visit "/planning_applications/#{reference}"
       click_link("Check and assess")
-      click_link("Immunity/permitted development rights")
+      click_link("Assess immunity")
     end
 
     context "when there are validation errors" do
@@ -67,7 +67,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       end
 
       it "I see the relevant information" do
-        expect(page).to have_content("Immunity/permitted development rights")
+        expect(page).to have_content("Assess immunity")
         expect(page).to have_css("#planning-application-details")
         expect(page).to have_css("#constraints-section")
         expect(page).to have_css("#planning-history-section")
@@ -100,7 +100,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         fill_in "Immunity from enforcement summary", with: "A summary"
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+        expect(page).to have_content("Assess immunity response was successfully updated")
 
         expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
@@ -117,9 +117,9 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
           }
         )
 
-        within("#immunity-permitted-development-rights") do
+        within("#assess-immunity") do
           expect(page).to have_link(
-            "Immunity/permitted development rights",
+            "Assess immunity",
             href: planning_application_assessment_assess_immunity_detail_permitted_development_right_path(planning_application)
           )
           expect(page).to have_content("Completed")
@@ -133,7 +133,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         fill_in "Immunity from enforcement summary", with: "A summary"
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+        expect(page).to have_content("Assess immunity response was successfully updated")
 
         expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
@@ -165,7 +165,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         fill_in "Immunity from enforcement summary", with: "A summary"
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+        expect(page).to have_content("Assess immunity response was successfully updated")
 
         expect(Review.where(owner_type: "ImmunityDetail").length).to eq(1)
         # No permitted development right response is created
@@ -180,7 +180,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         fill_in "Describe how permitted development rights have been removed", with: "A reason"
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+        expect(page).to have_content("Assess immunity response was successfully updated")
 
         expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
@@ -208,12 +208,12 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         fill_in "Describe how permitted development rights have been removed", with: "A reason"
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+        expect(page).to have_content("Assess immunity response was successfully updated")
 
         # View show page
-        click_link "Immunity/permitted development rights"
+        click_link "Assess immunity"
 
-        expect(page).to have_content("Immunity/permitted development rights")
+        expect(page).to have_content("Assess immunity")
         expect(page).to have_css("#planning-application-details")
         expect(page).to have_css("#constraints-section")
         expect(page).to have_css("#planning-history-section")
@@ -230,7 +230,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action?")
 
         # View edit page
-        click_link "Edit immunity/permitted development rights"
+        click_link "Edit assess immunity"
 
         expect(page).to have_unchecked_field("Yes, the development is immune")
         expect(page).to have_checked_field("No, the development is not immune")
@@ -246,12 +246,12 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         fill_in "Immunity from enforcement summary", with: "A summary"
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+        expect(page).to have_content("Assess immunity response was successfully updated")
 
-        click_link "Immunity/permitted development rights"
-        expect(page).to have_selector("h1", text: "Immunity/permitted development rights")
+        click_link "Assess immunity"
+        expect(page).to have_selector("h1", text: "Assess immunity")
 
-        click_link "Edit immunity/permitted development rights"
+        click_link "Edit assess immunity"
         expect(page).to have_content("On the balance of probabilities, is the development immune from enforcement action?")
 
         expect(page).to have_checked_field("Yes, the development is immune")
@@ -260,7 +260,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         expect(page).to have_field("Immunity from enforcement summary", with: "A summary")
 
         click_button "Save and mark as complete"
-        expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+        expect(page).to have_content("Assess immunity response was successfully updated")
 
         expect(Review.enforcement.last).to have_attributes(
           owner_id: immunity_detail.id,
@@ -274,7 +274,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
           }
         )
 
-        click_link "Immunity/permitted development rights"
+        click_link "Assess immunity"
 
         expect(page).not_to have_content("Have the permitted development rights relevant for this application been removed?")
 
@@ -323,7 +323,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       sign_in assessor
       visit "/planning_applications/#{reference}"
 
-      expect(page).not_to have_link("Immunity/permitted development rights")
+      expect(page).not_to have_link("Assess immunity")
 
       visit "/planning_applications/#{reference}/assessment/permitted_development_rights"
 
@@ -339,7 +339,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       visit "/planning_applications/#{reference}"
 
       click_link "Check and assess"
-      expect(page).not_to have_link("Immunity/permitted development rights")
+      expect(page).not_to have_link("Assess immunity")
 
       expect {
         visit "/planning_applications/#{reference}/assessment/assess_immunity_detail_permitted_development_rights/new"

@@ -1,6 +1,6 @@
 <li id="assessment-information-tasks">
   <h2 class="app-task-list__section">
-    Assessor remarks
+    Assessment summaries
   </h2>
 
   <ul class="app-task-list__items">
@@ -19,6 +19,14 @@
             TaskListItems::Assessment::AssessmentDetailComponent.new(
               planning_application: @planning_application,
               category:
+            )
+          ) %>
+    <% end %>
+
+    <% if @planning_application.site_visits? && !@planning_application.pre_application? %>
+      <%= render(
+            TaskListItems::Assessment::SiteVisitComponent.new(
+              planning_application: @planning_application
             )
           ) %>
     <% end %>

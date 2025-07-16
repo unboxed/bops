@@ -89,8 +89,8 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Evidence of immunity successfully updated")
 
-      click_link "Immunity/permitted development rights"
-      expect(page).to have_selector("h1", text: "Immunity/permitted development rights")
+      click_link "Assess immunity"
+      expect(page).to have_selector("h1", text: "Assess immunity")
 
       choose "Yes, the development is immune"
       choose "No action has been taken within 4 years for an unauthorised change of use"
@@ -98,7 +98,7 @@ RSpec.describe "Immunity", type: :system do
 
       click_button "Save and mark as complete"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+      expect(page).to have_content("Assess immunity response was successfully updated")
 
       click_link "Make draft recommendation"
       expect(page).to have_selector("h1", text: "Make draft recommendation")
@@ -195,9 +195,9 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Evidence of immunity successfully updated")
 
-      within("#immunity-permitted-development-rights") do
+      within("#assess-immunity") do
         expect(page).to have_content("To be reviewed")
-        click_link "Immunity/permitted development rights"
+        click_link "Assess immunity"
       end
 
       toggle "See previous review immunity detail responses"
@@ -216,7 +216,7 @@ RSpec.describe "Immunity", type: :system do
 
       click_button "Save and mark as complete"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
+      expect(page).to have_content("Assess immunity response was successfully updated")
 
       sign_out(assessor)
       sign_in(reviewer)
