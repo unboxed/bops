@@ -1,4 +1,4 @@
-<% if current_user.assessor? %>
+<% if current_user.assessor_or_reviewer? %>
   <%= render(partial: "bops_reports/planning_applications/events", locals: {recommendations: @planning_application.recommendations.reviewed}) %>
 
   <%= form_with(model: @recommendation, url: planning_application_recommendation_path(@planning_application), method: :post, id: "recommendation-review-form") do |form| %>
@@ -13,9 +13,5 @@
     <% end %>
   <% end %>
 <% else %>
-  <%= form_with(model: @recommendation, url: publish_planning_application_recommendation_path(@planning_application), id: "recommendation-review-form") do |form| %>
-    <%= form.govuk_submit("Confirm and submit pre-application report") do %>
-      <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
-    <% end %>
-  <% end %>
+  <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
 <% end %>

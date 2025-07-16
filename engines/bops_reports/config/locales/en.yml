@@ -26,21 +26,25 @@ en:
         submitted_recommendation: Submitted recommendation
       recommendations:
         create:
+          not_assessor_or_reviewer: Pre-application report recommendations can only be submitted by a case officer
           not_assigned: Pre-application report must be assigned to a case officer before it can be submitted for review
           submit_failed: Failed to submit pre-application report for review - please contact support
           submitted: Pre-application report submitted for review
         destroy:
+          not_assessor_or_reviewer: Pre-application reports can only be withdrawn by a case officer
           withdrawal_failed: Failed to withdraw pre-application report - please contact support
           withdrawal_not_allowed: Withdrawing the pre-application report is no longer allowed
           withdrawn: Pre-application report withdrawn
         publish:
           not_assigned: Pre-application report must be assigned to a case officer before it can be submitted to the applicant
+          not_reviewer: Pre-application reports can only be published by a manager
           publish_failed: Failed to publish pre-application report - please contact support
           published: Pre-application report has been sent to the applicant
         update:
           challenged: Pre-application report has been sent back to the case officer for amendments
           not_assigned: Pre-application report must be assigned to a case officer before it can be submitted to the applicant
           not_challenged: Pre-application report has been sent to the applicant
+          not_reviewer: Pre-application reports can only be published by a manager
           review_failed_html: Review submission failed – <a href="#recommendation-review-form" class="govuk-link govuk-link--no-visited-state">check the form for errors</a>
       review_actions:
         do_you_agree: Do you agree with the advice?

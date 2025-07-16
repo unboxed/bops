@@ -1,5 +1,3 @@
-<% if current_user.present? %>
-  <div class="govuk-button-group">
-    <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
-  </div>
-<% end %>
+<div class="govuk-button-group">
+  <%= govuk_button_link_to("Back", main_app.planning_application_path(@planning_application), secondary: true) %>
+</div>

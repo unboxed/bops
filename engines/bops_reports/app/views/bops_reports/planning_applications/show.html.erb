@@ -116,7 +116,7 @@
         </p>
       <% end %>
     <% end %>
-    <p><strong>Email:</strong> <%= mail_to @current_local_authority.email_address %></p>
+    <p><strong>Email:</strong> <%= govuk_mail_to @current_local_authority.email_address %></p>
   <% end %>
 </section>
 
@@ -510,7 +510,7 @@
   <% end %>
 </section>
 
-<% if current_user.present? %>
+<% if current_user && current_user.assessor_or_reviewer? %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <% if @planning_application.can_assess? %>

@@ -3,10 +3,11 @@
 module BopsReports
   module PlanningApplications
     class RecommendationsController < BaseController
-      before_action :require_assessor!, only: %i[create destroy]
+      before_action :require_assessor_or_reviewer!, only: %i[create destroy]
       before_action :require_reviewer!, only: %i[update publish]
-      before_action :set_recommendation
       before_action :require_assigned_user!, only: %i[create update publish]
+
+      before_action :set_recommendation
 
       def create
         if @planning_application.to_be_reviewed?
@@ -98,6 +99,18 @@ module BopsReports
 
       def report_url
         planning_application_url(@planning_application)
+      end
+
+      def require_assessor_or_reviewer!
+        unless current_user.assessor_or_reviewer?
+          redirect_to report_url, alert: t(".not_assessor_or_reviewer")
+        end
+      end
+
+      def require_reviewer!
+        unless current_user.reviewer?
+          redirect_to report_url, alert: t(".not_reviewer")
+        end
       end
 
       def require_assigned_user!
