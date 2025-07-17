@@ -26,6 +26,18 @@ module PlanningApplications
         end
       end
 
+      def update
+        respond_to do |format|
+          if @consultation.update(permitted_params)
+            format.html do
+              redirect_to consultation_url, notice: t(".consultees_not_required")
+            end
+          else
+            format.html { render :index }
+          end
+        end
+      end
+
       private
 
       def set_consultees
@@ -41,6 +53,7 @@ module PlanningApplications
           :consultee_message_subject,
           :consultee_message_body,
           :consultee_response_period,
+          :consultees_not_required,
           :email_reason,
           :resend_message,
           :reconsult_message,

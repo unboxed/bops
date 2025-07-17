@@ -47,6 +47,15 @@ export default class extends Controller {
 
     // Confirm that the user wants to send the emails
     this.formTarget.addEventListener("submit", (event) => {
+      const form = document.querySelector("form")
+      const requiredCheckbox = form.querySelector(
+        "#consultation-consultees-not-required-true-field",
+      )
+
+      if (requiredCheckbox?.checked) {
+        return
+      }
+
       if (!confirm(this.confirmationMessage)) {
         event.preventDefault()
         this.submitTarget.blur()

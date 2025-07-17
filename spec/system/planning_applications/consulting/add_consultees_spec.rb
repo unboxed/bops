@@ -133,4 +133,21 @@ RSpec.describe "Consultation", type: :system, js: true do
 
     expect(page).to have_selector(".govuk-table__row", text: "Conservation area Chris Wood Not consulted Not required")
   end
+
+  context "when no consultees are required" do
+    before do
+      planning_application.consultation.update!(consultees: [])
+      visit "/planning_applications/#{planning_application.reference}/consultation"
+    end
+
+    it "allows marking as not requiring consultees" do
+      click_link "Select and add consultees"
+      check "Mark as consultees not required"
+      click_button "Save"
+
+      within "#consultee-tasks" do
+        expect(page).to have_selector("li:first-child .govuk-tag", text: "Complete")
+      end
+    end
+  end
 end

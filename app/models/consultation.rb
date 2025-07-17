@@ -231,7 +231,7 @@ class Consultation < ApplicationRecord
   def consultee_emails_status
     if consultees.failed?
       "failed"
-    elsif consultees.complete?
+    elsif consultees.complete? || consultees_not_required?
       "complete"
     elsif consultees.awaiting_responses?
       "awaiting_responses"
