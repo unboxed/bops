@@ -10,6 +10,10 @@ $govuk-font-family: open-sans, sans-serif;
 @import "notifications";
 @import "consultation";
 
+p {
+  @extend .govuk-body;
+}
+
 .autocomplete__input {
   font-family: $govuk-font-family;
 
