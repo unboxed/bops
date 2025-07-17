@@ -7,9 +7,7 @@ BopsReports::Engine.routes.draw do
 
   resources :planning_applications, param: :reference, only: %i[show] do
     scope module: "planning_applications" do
-      resource :recommendation, only: %i[create update destroy] do
-        post :publish, on: :member
-      end
+      resource :recommendation, only: %i[create update destroy]
     end
   end
 end
