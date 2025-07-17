@@ -352,7 +352,9 @@ local_authority_subdomain do
 
   resources :enforcements, only: %i[show] do
     scope module: :enforcements do
-      resource :report, only: :show
+      resource :report, only: %i[show update] do
+        resource :check_details, only: :show
+      end
     end
   end
 
