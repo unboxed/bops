@@ -21958,59 +21958,97 @@ components:
       - comments
       type: object
     CommentsSpecialistResponse:
+      type: object
+      required:
+      - pagination
+      - data 
       properties:
         pagination:
           "$ref": "#/components/definitions/PostSubmissionPagination"
-        summary:
+        data:
           type: object
-          properties:
-            totalComments:
-              type: integer
-            totalConsulted:
-              type: integer
-            sentiment:
-              type: object
-              properties:
-                approved:
-                  type: integer
-                amendmentsNeeded:
-                  type: integer
-                objected:
-                  type: integer
           required:
-          - totalComments
-          - totalConsulted
-          - sentiment
-        comments:
-          type: array
-          items:
-          - type: object
-            properties:
-              id:
-                type: integer
-              sentiment:
-                enum:
-                - approved
-                - amendmentsNeeded
-                - objected
-                type: string
-              comment:
-                type: string
-              receivedAt:
-                format: datetime
-                type:
-                - string
-                - 'null'
-            required:
-            - id
-            - sentiment
-            - comment
-            - receivedAt
-      required:
-      - pagination
-      - summary
-      - comments
-      type: object
+            - summary
+            - comments
+          properties:
+            summary:
+              type: object
+              required:
+                - totalComments
+                - totalConsulted
+                - sentiment
+              properties:
+                totalComments:
+                  type: integer
+                totalConsulted:
+                  type: integer
+                sentiment:
+                  type: object
+                  properties:
+                    approved:
+                      type: integer
+                    amendmentsNeeded:
+                      type: integer
+                    objected:
+                      type: integer
+            comments:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  organisationSpecialism:
+                    type: [string, "null"]
+                  jobTitle:
+                    type: [string, "null"]
+                  reason:
+                    type: string
+                  firstConsultedAt:
+                    type: [string, "null"]
+                    format: date-time
+                  constraints:
+                    type: array
+                    items:
+                      type: object
+                  comments:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - sentiment
+                        - commentRedacted
+                        - metadata
+                      properties:
+                        id:
+                          type: string
+                        sentiment:
+                          type: string
+                          enum:
+                            - approved
+                            - amendmentsNeeded
+                            - objected
+                        commentRedacted:
+                          type: string
+                        files:
+                          type: array
+                          items:
+                            type: object
+                        metadata:
+                          type: object
+                          properties:
+                            submittedAt:
+                              type: [string, "null"]
+                              format: date-time
+                            validatedAt:
+                              type: [string, "null"]
+                              format: date-time
+                            publishedAt:
+                              type: [string, "null"]
+                              format: date-time
+
+
     Healthcheck:
       type: object
       properties:
@@ -35809,30 +35847,50 @@ paths:
                       totalPages: 1
                       totalResults: 4
                       totalAvailableItems: 4
-                    summary:
-                      totalConsulted: 4
-                      totalComments: 4
-                      sentiment:
-                        approved: 4
-                        amendmentsNeeded: 0
-                        objected: 0
-                    comments:
-                    - id: 1
-                      sentiment: approved
-                      comment: Qui eos impedit. In nostrum nam. Qui odit non.
-                      receivedAt: '2025-03-13T10:49:10Z'
-                    - id: 2
-                      sentiment: approved
-                      comment: Etiam porta sem malesuada magna mollis euismod.
-                      receivedAt: '2025-03-13T10:49:22Z'
-                    - id: 3
-                      sentiment: approved
-                      comment: Cras mattis consectetur purus sit amet fermentum.
-                      receivedAt: '2025-03-13T10:49:24Z'
-                    - id: 4
-                      sentiment: approved
-                      comment: Nullam id dolor id nibh ultricies vehicula ut id elit.
-                      receivedAt: '2025-03-13T10:49:25Z'
+                    data:
+                      summary:
+                        totalConsulted: 2
+                        totalComments: 2
+                        sentiment:
+                          approved: 2
+                          amendmentsNeeded: 0
+                          objected: 0
+                      specialists: 
+                        - id: "39"
+                          organisationSpecialism: "Lorem Ipsum Dolor"
+                          reason: "constraint"
+                          constraints: []
+                          firstConsultedAt: "2025-03-12T10:00:00Z"
+                          comments:
+                            - id: "1"
+                              sentiment: "approved"
+                              commentRedacted: "Qui eos impedit. In nostrum nam. Qui odit non. *****"
+                              files: []
+                              metadata:
+                                submittedAt: "2025-03-13T10:49:10Z"
+                                validatedAt: "2025-03-13T11:00:00Z"
+                                publishedAt: "2025-03-13T11:00:00Z"
+                        - id: "77"
+                          organisationSpecialism: "Consectetur Adipiscing"
+                          jobTitle: "Elit Sed Do"
+                          reason: "Eiusmod Tempor"
+                          firstConsultedAt: "2025-03-12T11:00:00Z"
+                          comments:
+                            - id: "2"
+                              sentiment: "approved"
+                              commentRedacted: "Etiam porta sem malesuada magna mollis euismod. *****"
+                              metadata:
+                                submittedAt: "2025-03-13T10:49:22Z"
+                            - id: "3"
+                              sentiment: "approved"
+                              commentRedacted: "Cras mattis consectetur purus sit amet fermentum. *****"
+                              metadata:
+                                submittedAt: "2025-03-13T10:49:24Z"
+                            - id: "4"
+                              sentiment: "approved"
+                              commentRedacted: "Nullam id dolor id nibh ultricies vehicula ut id elit. *****"
+                              metadata:
+                                submittedAt: "2025-03-13T10:49:25Z"
               schema:
                 "$ref": "#/components/schemas/CommentsSpecialistResponse"
         '404':

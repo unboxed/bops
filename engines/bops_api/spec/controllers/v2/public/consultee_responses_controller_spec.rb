@@ -31,7 +31,7 @@ RSpec.describe BopsApi::V2::Public::ConsulteeResponsesController, type: :control
         expect(response).to have_http_status(:ok)
         json = JSON.parse(response.body)
         expect(json["pagination"]).to eq({"resultsPerPage" => 10, "currentPage" => 1, "totalPages" => 1, "totalResults" => 3, "totalAvailableItems" => 3})
-        expect(json["comments"].size).to eq(3)
+        expect(json.dig("data", "comments").size).to eq(3)
       end
     end
 
