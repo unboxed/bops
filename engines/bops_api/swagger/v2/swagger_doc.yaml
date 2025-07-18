@@ -35633,7 +35633,7 @@ paths:
                   - suffix
   "/api/v2/public/planning_applications/{reference}/comments/specialist":
     get:
-      summary: Edge-case scenarios
+      summary: Retrieves comments for a planning application
       tags:
       - Planning applications
       parameters:
@@ -35641,14 +35641,60 @@ paths:
         in: path
         schema:
           type: string
+          description: The planning application reference
         required: true
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - id
+          - receivedAt
+          default: receivedAt
+          description: The sort type for the comments
+        required: false
+      - name: orderBy
+        in: query
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+          description: The order for the comments
+        required: false
+      - name: resultsPerPage
+        in: query
+        schema:
+          type: integer
+          default: 10
+          description: Max result for page
+        required: false
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        required: false
+      - name: query
+        in: query
+        schema:
+          type: string
+          description: Search by redacted comment content
+        required: false
+      - name: sentiment
+        in: query
+        schema:
+          type: string
+          description: Search by sentiment
+        required: false
       responses:
         '200':
-          description: latest response only for multiple redacted comments
+          description: Successful operation
           content:
             application/json:
               examples:
-                default:
+                Default response:
                   value:
                     pagination:
                       resultsPerPage: 10
@@ -35683,7 +35729,11 @@ paths:
               schema:
                 "$ref": "#/components/schemas/CommentsSpecialistResponse"
         '404':
-          description: does not return comments for unpublished planning applications
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NotFoundError"
   "/api/v2/public/planning_applications/{reference}/documents":
     get:
       summary: Retrieves documents for a planning application
