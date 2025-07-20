@@ -96,7 +96,6 @@
         <span class="app-task-list__task-name">
           <%= link_to_if(
                 @planning_application.recommended_application_type.present? &&
-                @planning_application.consistency_checklist.present? &&
                 @planning_application.assessment_details.present?,
                 "Review and submit pre-application",
                 bops_reports.planning_application_path(@planning_application),

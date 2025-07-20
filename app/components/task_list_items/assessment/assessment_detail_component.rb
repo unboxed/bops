@@ -4,6 +4,7 @@ module TaskListItems
   module Assessment
     class AssessmentDetailComponent < TaskListItems::BaseComponent
       include AssessmentDetailable
+      OPTIONAL = ["site_description", "summary_of_work"].freeze
 
       def initialize(planning_application:, category:)
         @planning_application = planning_application
@@ -20,7 +21,7 @@ module TaskListItems
 
       def link_path
         case status
-        when :not_started, :to_be_reviewed
+        when :not_started, :to_be_reviewed, :optional
           new_planning_application_assessment_assessment_detail_path(
             planning_application,
             category:
@@ -43,6 +44,8 @@ module TaskListItems
       def status
         if assessment_detail_update_required?(assessment_detail)
           :to_be_reviewed
+        elsif not_started? && OPTIONAL.include?(category)
+          :optional
         elsif not_started?
           :not_started
         elsif assessment_detail.assessment_in_progress?

@@ -24,7 +24,7 @@ module TaskListItems
       end
 
       def status
-        planning_application.site_history_checked ? :complete : :not_started
+        planning_application.site_history_checked ? :complete : :optional
       end
     end
   end

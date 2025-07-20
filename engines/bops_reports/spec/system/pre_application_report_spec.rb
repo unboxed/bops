@@ -319,7 +319,7 @@ RSpec.describe "Pre-application report" do
   it "displays site history" do
     within("#site-history") do
       expect(page).to have_content("Relevant site history")
-      expect(page).to have_content("Past applications for this site or relevant nearby locations")
+      expect(page).to have_content("No relevant site history at this site or nearby locations.")
 
       within(".govuk-summary-card") do
         expect(page).to have_content("REF123")
@@ -504,6 +504,24 @@ RSpec.describe "Pre-application report" do
         expect(page).not_to have_content(reference)
         expect(page).to have_content("Not found")
       end
+    end
+  end
+
+  context "when previewing as applicant while signed in" do
+    before do
+      visit "/reports/planning_applications/#{reference}"
+      click_link "Preview the report as the applicant (opens in new tab)"
+    end
+
+    it "renders applicant view without edit links" do
+      expect(page).to have_current_path("/reports/planning_applications/#{reference}?view_as=applicant")
+      expect(page).to have_selector("h1", text: "Pre-application report")
+      expect(page).to have_content(planning_application.full_address)
+      expect(page).to have_content("Pre-application number: #{reference}")
+      expect(page).not_to have_link("Edit")
+      expect(page).not_to have_css("govuk-breadcrumbs")
+      expect(page).not_to have_content("Preview and submit")
+      expect(page).not_to have_content("Confirm and submit pre-application")
     end
   end
 end
