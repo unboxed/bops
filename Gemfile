@@ -102,5 +102,6 @@ group :test do
   gem "email_spec"
   gem "factory_bot_rails"
   gem "openapi3_parser", require: false
+  gem "parallel_tests"
   gem "webmock"
 end

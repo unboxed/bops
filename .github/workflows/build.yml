@@ -70,6 +70,32 @@ jobs:
               directories: "system",
               additional_spec_opts: "--tag 'capybara' --tag 'js'",
               want_pdf: true,
+              shard: 1,
+              total_shards: 4,
+            }
+          - {
+              group: "system: capybara",
+              directories: "system",
+              additional_spec_opts: "--tag 'capybara' --tag 'js'",
+              want_pdf: true,
+              shard: 2,
+              total_shards: 4,
+            }
+          - {
+              group: "system: capybara",
+              directories: "system",
+              additional_spec_opts: "--tag 'capybara' --tag 'js'",
+              want_pdf: true,
+              shard: 3,
+              total_shards: 4,
+            }
+          - {
+              group: "system: capybara",
+              directories: "system",
+              additional_spec_opts: "--tag 'capybara' --tag 'js'",
+              want_pdf: true,
+              shard: 4,
+              total_shards: 4,
             }
           - { group: "components", want_pdf: true }
           - {
@@ -91,6 +117,8 @@ jobs:
       include: "${{matrix.specs.module || 'spec'}}/${{matrix.specs.directories || matrix.specs.group}}/${{matrix.specs.pattern || '**/*_spec.rb'}}"
       want-pdf: "${{ !!matrix.specs.want_pdf }}"
       additional_spec_opts: "${{ matrix.specs.additional_spec_opts }}"
+      shard: ${{ matrix.specs.shard }}
+      total-shards: ${{ matrix.specs.total_shards }}
     secrets: inherit
 
   cucumber:

@@ -449,6 +449,8 @@ GEM
     ostruct (0.6.0)
     pagy (9.3.3)
     parallel (1.25.1)
+    parallel_tests (5.3.0)
+      parallel
     parser (3.3.7.0)
       ast (~> 2.4.1)
       racc
@@ -749,6 +751,7 @@ DEPENDENCIES
   os_national_grid (~> 0.1.0)
   ostruct
   pagy
+  parallel_tests
   pg (>= 0.18, < 2.0)
   pry-byebug
   puma (~> 6)

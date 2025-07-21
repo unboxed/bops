@@ -34,6 +34,14 @@ on:
         type: string
         required: false
         default: ""
+      total-shards:
+        type: number
+        required: false
+        default: 1
+      shard:
+        type: number
+        required: false
+        default: 1
 
 jobs:
   tests:
@@ -113,14 +121,27 @@ jobs:
         run: bundle exec rake assets:precompile
 
       - name: Run rspec specs
-        if: ${{ inputs.test-runner == 'rspec' }}
+        if: ${{ inputs['test-runner'] == 'rspec' }}
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
           OTP_SECRET_ENCRYPTION_KEY: testtest
-          SPEC_OPTS: '-f doc --force-color --exclude "${{ inputs.exclude }}" --pattern "${{ inputs.include }}" ${{ inputs.additional_spec_opts }}'
+          SPEC_OPTS: >
+            -f doc --force-color
+            --exclude "${{ inputs.exclude }}"
+            --pattern "${{ inputs.include }}"
+            ${{ inputs.additional_spec_opts }}
         run: |
-          bundle exec rake spec
+          if [ ${{ inputs['total-shards'] }} -gt 1 ]; then
+            bundle exec parallel_rspec \
+              --type rspec \
+              --pattern "${{ inputs.include }}" \
+              -n ${{ inputs['total-shards'] }} \
+              --only-group ${{ inputs.shard }} \
+              ${{ inputs.additional_spec_opts }}
+          else
+            bundle exec rake spec
+          fi
 
       - name: Define artifact name
         if: ${{ failure() }}
