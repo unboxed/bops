@@ -107,10 +107,10 @@ RSpec.describe BopsApi::Postsubmission::CommentsPublicService, type: :service do
       end
     end
     context "when invalid sentiment is provided" do
-      let(:params) { {sentiment: "invalidField"} }
+      let(:params) { {sentiment: ["invalidField"]} }
 
       it "raises an ArgumentError" do
-        expect { service.call }.to raise_error(ArgumentError, /Invalid sentiment field/)
+        expect { service.call }.to raise_error(ArgumentError, /Invalid sentiment/)
       end
     end
 

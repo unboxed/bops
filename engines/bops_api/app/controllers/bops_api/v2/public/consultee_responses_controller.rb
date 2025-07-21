@@ -4,6 +4,8 @@ module BopsApi
   module V2
     module Public
       class ConsulteeResponsesController < PublicController
+        include ParamHelpers
+
         def index
           @planning_application = find_planning_application params[:planning_application_id]
           @consultation = @planning_application.consultation
@@ -35,12 +37,9 @@ module BopsApi
           @total_available_items = redacted_responses.count
           @total_consulted ||= consultation_consultees.consulted.count
 
-          sentiments = normalize_sentiments_from_query_string(request.env["QUERY_STRING"])
-          updated_params = pagination_params.to_h.merge(sentiment: sentiments)
-
           @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
             redacted_responses,
-            updated_params
+            pagination_params
           ).call
 
           respond_to do |format|
@@ -52,13 +51,11 @@ module BopsApi
 
         # Permit and return the required parameters
         def pagination_params
-          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
-        end
-
-        def normalize_sentiments_from_query_string(query_string)
-          query_string.scan(/sentiment=([^&]*)/).flatten.map do |s|
-            (s == "amendmentsNeeded") ? "amendments_needed" : s
+          permitted = params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
+          if permitted[:sentiment].present?
+            permitted[:sentiment] = handle_comma_separated_param(permitted, :sentiment)
           end
+          permitted
         end
       end
     end

@@ -35633,7 +35633,7 @@ paths:
                   - suffix
   "/api/v2/public/planning_applications/{reference}/comments/specialist":
     get:
-      summary: Retrieves comments for a planning application
+      summary: Retrieves published specialist comments for a planning application
       tags:
       - Planning applications
       parameters:
@@ -35684,9 +35684,17 @@ paths:
         required: false
       - name: sentiment
         in: query
+        description: Filter by sentiment
         schema:
-          type: string
-          description: Search by sentiment
+          type: array
+          items:
+            type: string
+            enum:
+            - approved
+            - amendmentsNeeded
+            - objected
+        style: form
+        explode: false
         required: false
       responses:
         '200':
@@ -35807,7 +35815,7 @@ paths:
                 "$ref": "#/components/schemas/Documents"
   "/api/v2/public/planning_applications/{reference}/comments/public":
     get:
-      summary: Retrieves comments for a planning application
+      summary: Retrieves published public comments for a planning application
       tags:
       - Planning applications
       parameters:
@@ -35856,14 +35864,27 @@ paths:
           type: string
           description: Search by redacted comment content
         required: false
+      - name: sentiment
+        in: query
+        description: Filter by sentiment
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - supportive
+            - neutral
+            - objection
+        style: form
+        explode: false
+        required: false
       responses:
         '200':
-          description: returns a planning application's public comments filtering
-            by sortBy and orderBy
+          description: Successful operation
           content:
             application/json:
               examples:
-                default:
+                Default response:
                   value:
                     pagination:
                       resultsPerPage: 10
@@ -35897,7 +35918,11 @@ paths:
               schema:
                 "$ref": "#/components/schemas/CommentsPublicResponse"
         '404':
-          description: does not return comments for unpublished planning applications
+          description: The requested resource was not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NotFoundError"
   "/api/v2/public/planning_applications/search":
     get:
       summary: Retrieves planning applications based on a search criteria

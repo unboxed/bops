@@ -4,6 +4,8 @@ module BopsApi
   module V2
     module Public
       class NeighbourResponsesController < PublicController
+        include ParamHelpers
+
         def index
           @planning_application = find_planning_application params[:planning_application_id]
           @consultation = @planning_application.consultation
@@ -14,13 +16,9 @@ module BopsApi
             NeighbourResponse.none
           end
 
-          raw_query_string = request.env["QUERY_STRING"]
-          sentiments = extract_sentiments_from_query(raw_query_string)
-          updated_params = pagination_params.to_h.merge(sentiment: sentiments)
-
           @pagy, @comments = BopsApi::Postsubmission::CommentsPublicService.new(
             @neighbour_responses,
-            updated_params
+            pagination_params
           ).call
 
           @total_available_items = @neighbour_responses.count
@@ -40,12 +38,11 @@ module BopsApi
 
         # Permit and return the required parameters
         def pagination_params
-          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
-        end
-
-        def extract_sentiments_from_query(query_string)
-          # Use a regular expression to find all occurrences of the sentiment parameter
-          query_string.scan(/sentiment=([^&]*)/).flatten
+          permitted = params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
+          if permitted[:sentiment].present?
+            permitted[:sentiment] = handle_comma_separated_param(permitted, :sentiment)
+          end
+          permitted
         end
       end
     end
