@@ -350,7 +350,7 @@ local_authority_subdomain do
     end
   end
 
-  resources :enforcements, only: %i[show] do
+  resources :enforcements, only: %i[index show] do
     scope module: :enforcements do
       resource :report, only: %i[show update] do
         resource :check_details, only: :show

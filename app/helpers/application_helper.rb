@@ -58,7 +58,23 @@ module ApplicationHelper
     end
   end
 
+  def active_page_key
+    page_keys = {
+      "planning_applications" => "planning_applications",
+      "enforcements" => "enforcements"
+    }
+
+    page_keys.fetch(controller_name, "dashboard")
+  end
+
+  def active_page_key?(page_key)
+    active_page_key == page_key
+  end
+
   def nav_items
-    []
+    [
+      {text: "Planning", href: root_path, active: active_page_key?("planning_applications")},
+      {text: "Enforcement", href: enforcements_path, active: active_page_key?("enforcements")}
+    ]
   end
 end
