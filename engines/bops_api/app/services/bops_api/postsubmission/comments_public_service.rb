@@ -13,8 +13,11 @@ module BopsApi
         }
       end
 
-      def sentiment_mapping
-        NeighbourResponse.summary_tags.keys
+      # Defines allowed sentiment values and their corresponding database values
+      def allowed_sentiment_values
+        NeighbourResponse.summary_tags.keys.map do |s|
+          {s.to_s.camelize(:lower) => {value: s}}
+        end
       end
     end
   end

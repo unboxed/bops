@@ -11,11 +11,9 @@ module BopsApi
       attr_reader :scope, :params
 
       def call
-        paginate(
-          sort_results(
-            filter_by(scope)
-          )
-        )
+        scoped = filter_by(scope)
+        scoped = sort_results(scoped)
+        paginate(scoped)
       end
 
       private
@@ -28,17 +26,28 @@ module BopsApi
 
         # Filter by sentiment
         if params[:sentiment].present?
-          sentiments = Array.wrap(params[:sentiment])
-            .flat_map { |s| s.to_s.split(",") }
-            .map { |s| s.strip.underscore if s.present? }
-            .compact
-          unless sentiments.all? { |s| sentiment_mapping.include?(s) }
-            raise ArgumentError, "Invalid sentiment field."
+          sentiments = params[:sentiment].map(&:to_s)
+
+          # Validate the provided sentiment values
+          allowed_values = allowed_sentiment_values.map(&:keys).flatten
+          invalid = sentiments - allowed_values
+          if invalid.any?
+            raise ArgumentError, "Invalid sentiment(s): #{invalid.join(", ")}. Allowed values: #{allowed_values.join(", ")}"
           end
-          scope = scope.where(summary_tag: sentiments)
+
+          # Map to equivalent DB value
+          db_sentiments = sentiments.map do |key|
+            allowed_sentiment_values.find { |h| h.key?(key) }[key][:value]
+          end
+
+          scope = scope.where(summary_tag: db_sentiments)
         end
 
         scope
+      end
+
+      # Defines allowed sentiment values and their corresponding database values
+      def allowed_sentiment_values
       end
 
       # Defines allowed fields and their default sort orders

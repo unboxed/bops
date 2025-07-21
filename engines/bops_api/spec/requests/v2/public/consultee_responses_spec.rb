@@ -7,22 +7,23 @@ RSpec.describe "BOPS public API Specialist comments" do
 
   def validate_pagination(data, results_per_page:, current_page:, total_results:, total_available_items:)
     expect(data["pagination"]["resultsPerPage"]).to eq(results_per_page)
+    expect(data["pagination"]["currentPage"]).to eq(current_page)
     expect(data["pagination"]["totalPages"]).to eq((total_results.to_f / results_per_page).ceil)
     expect(data["pagination"]["totalResults"]).to eq(total_results)
     expect(data["pagination"]["totalAvailableItems"]).to eq(total_available_items)
   end
 
-  def validate_comment_summary(data)
-    expect(data["summary"]["totalComments"]).to eq(50)
-    expect(data["summary"]["totalConsulted"]).to eq(50)
+  def validate_comment_summary(data, total_comments: 50, total_consulted: 50, approved: 50, objected: 0, amendments_needed: 0)
+    expect(data["summary"]["totalComments"]).to eq(total_comments)
+    expect(data["summary"]["totalConsulted"]).to eq(total_consulted)
 
     sentiment = data.dig("summary", "sentiment")
-    expect(sentiment["approved"]).to eq(50)
-    expect(sentiment["objected"]).to eq(0)
-    expect(sentiment["amendmentsNeeded"]).to eq(0)
+    expect(sentiment["approved"]).to eq(approved)
+    expect(sentiment["objected"]).to eq(objected)
+    expect(sentiment["amendmentsNeeded"]).to eq(amendments_needed)
   end
 
-  def validate_comments(data, count:, total_items:)
+  def validate_comments(data, count:)
     expect(data["comments"].size).to eq(count)
     data["comments"].each do |c|
       expect(c["id"]).to be_a(Integer)
@@ -33,7 +34,7 @@ RSpec.describe "BOPS public API Specialist comments" do
   end
 
   path "/api/v2/public/planning_applications/{reference}/comments/specialist" do
-    get "Retrieves comments for a planning application" do
+    get "Retrieves published specialist comments for a planning application" do
       tags "Planning applications"
       produces "application/json"
 
@@ -74,10 +75,18 @@ RSpec.describe "BOPS public API Specialist comments" do
         description: "Search by redacted comment content"
       }, required: false
 
-      parameter name: :sentiment, in: :query, schema: {
-        type: :string,
-        description: "Search by sentiment"
-      }, required: false
+      parameter name: :sentiment, in: :query,
+        description: "Filter by sentiment",
+        schema: {
+          type: :array,
+          items: {
+            type: :string,
+            enum: ["approved", "amendmentsNeeded", "objected"]
+          }
+        },
+        style: :form,
+        explode: false,
+        required: false
 
       # Document a standard response based on static json file
       response "200", "Successful operation" do
@@ -128,7 +137,7 @@ RSpec.describe "BOPS public API Specialist comments" do
               # comment summary
               validate_comment_summary(data)
               # comments
-              validate_comments(data, count: 10, total_items: 50)
+              validate_comments(data, count: 10)
             end
           end
 
@@ -146,7 +155,7 @@ RSpec.describe "BOPS public API Specialist comments" do
               # comment summary
               validate_comment_summary(data)
               # comments
-              validate_comments(data, count: 2, total_items: 50)
+              validate_comments(data, count: 2)
             end
           end
 
@@ -165,12 +174,9 @@ RSpec.describe "BOPS public API Specialist comments" do
               # pagination
               validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_results: 1, total_available_items: 51)
               # comment summary
-              expect(data["summary"]["totalComments"]).to eq(51)
-              expect(data["summary"]["sentiment"]["approved"]).to eq(51)
-              expect(data["summary"]["sentiment"]["objected"]).to eq(0)
-              expect(data["summary"]["sentiment"]["amendmentsNeeded"]).to eq(0)
+              validate_comment_summary(data, total_comments: 51, total_consulted: 51, approved: 51, objected: 0, amendments_needed: 0)
               # comments
-              validate_comments(data, count: 1, total_items: 1)
+              validate_comments(data, count: 1)
               expect(data["comments"].first["comment"]).to include("***** not like the other comments")
             end
           end
@@ -250,26 +256,64 @@ RSpec.describe "BOPS public API Specialist comments" do
               end
             end
           end
+        end
 
-          # sentiment
-          response "200", "Passing sentiment should return correct pagination, summary, and comments", document: false do
-            before do
-              create(:consultee, :external, :consulted, responses: build_list(:consultee_response, 1, :with_redaction, response: "rude word not like the other comments", redacted_response: "***** not like the other comments"), consultation: planning_application.consultation)
+        # sentiment
+        context "Query params: sentiment" do
+          # Helper method to count sentiments in comments
+          # This method takes an array of comments and returns a hash with sentiment counts
+          def sentiment_counts(comments)
+            comments.pluck("sentiment").each_with_object(Hash.new(0)) { |s, h| h[s] += 1 }
+          end
+
+          before do
+            # create a consultee with a response for each sentiment
+            Consultee::Response.summary_tags.keys.each do |sentiment|
+              create(:consultee, :consulted, responses: build_list(:consultee_response, 1, :with_redaction, summary_tag: sentiment), consultation: planning_application.consultation)
             end
+          end
 
+          response "200", "Singular sentiment", document: false do
             let(:reference) { planning_application.reference }
-            let(:sentiment) { "approved" }
+            let(:sentiment) { ["approved"] }
 
             run_test! do |response|
               data = JSON.parse(response.body)
 
               # pagination
-              expect(data["pagination"]["totalPages"]).to eq(6)
+              validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_results: 1, total_available_items: 3)
               # comment summary
-              expect(data["summary"]["totalComments"]).to eq(51)
+              validate_comment_summary(data, total_comments: 3, total_consulted: 3, approved: 1, objected: 1, amendments_needed: 1)
               # comments
-              validate_comments(data, count: 10, total_items: 1)
-              expect(data["comments"].first["sentiment"]).to eq("approved")
+              validate_comments(data, count: 1)
+
+              # Check that only comments with the specified sentiment are returned
+              expect(sentiment_counts(data["comments"])).to match_array([["approved", 1]])
+            end
+          end
+
+          # ?sentiment=a,b
+          response "200", "Multiple sentiments", document: false do
+            let(:reference) { planning_application.reference }
+            let(:sentiment) { ["approved", "objected"] }
+
+            run_test! do |response|
+              data = JSON.parse(response.body)
+              expect(sentiment_counts(data["comments"])).to match_array([["approved", 1], ["objected", 1]])
+            end
+          end
+
+          # ?sentiment=invalid
+          response "500", "Invalid sentiments", document: false do
+            let(:reference) { planning_application.reference }
+            let(:sentiment) { ["amendments_needed", "invalid"] }
+
+            run_test! do |response|
+              data = JSON.parse(response.body)
+
+              expect(data["error"]["code"]).to match(500)
+              expect(data["error"]["message"]).to match("Internal Server Error")
+              expect(data["error"]["detail"]).to match("Invalid sentiment(s): amendments_needed, invalid. Allowed values: approved, amendmentsNeeded, objected")
             end
           end
         end
