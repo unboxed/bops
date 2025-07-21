@@ -110,7 +110,7 @@
         </div>
       </div>
     <% elsif @submission.case_record %>
-      <p>There is an associated case with this submission with type: <%= @submission.case_record.caseable_type %> and id: <%= @submission.case_record.caseable_id %>.</p>
+      <p>There is an associated case with this submission with type: <%= @submission.case_record.caseable_type %> and case id: <%= @submission.case_record.id %>.</p>
     <% else %>
       <p>There is no associated case with this submission.</p>
     <% end %>
