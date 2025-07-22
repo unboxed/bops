@@ -7,10 +7,12 @@ module BopsApi
         def index
           @planning_application = find_planning_application params[:planning_application_id]
           @consultation = @planning_application.consultation
-          if @consultation.nil?
-            raise BopsApi::Errors::InvalidRequestError, "Consultation not found"
+
+          @neighbour_responses = if @consultation
+            @consultation.neighbour_responses.redacted
+          else
+            NeighbourResponse.none
           end
-          @neighbour_responses = @consultation.neighbour_responses.redacted
 
           @pagy, @comments = BopsApi::Postsubmission::CommentsPublicService.new(
             @neighbour_responses,
