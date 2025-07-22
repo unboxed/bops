@@ -21746,6 +21746,45 @@ components:
       - metadata
       - responses
       type: object
+    NeighbourResponseSubmission:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+          format: email
+        response:
+          type: string
+        summary_tag:
+          enum:
+          - objection
+          - neutral
+          - supportive
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+            enum:
+            - design
+            - use
+            - light
+            - privacy
+            - access
+            - noise
+            - traffic
+            - other
+      required:
+      - name
+      - address
+      - response
+      - summary_tag
+      - tags
+      type: object
     ValidationRequests:
       properties:
         metadata:
@@ -22255,7 +22294,7 @@ paths:
                 "$ref": "#/components/schemas/UnauthorizedError"
   "/api/v2/planning_applications/{reference}/comments/public":
     post:
-      summary: Submit a public neighbour response
+      summary: Accepts a neighbour response
       tags:
       - Neighbour Responses
       security:
@@ -22263,73 +22302,56 @@ paths:
       parameters:
       - name: reference
         in: path
-        description: Planning Application Reference
         required: true
         schema:
           type: string
       responses:
-        '201':
-          description: neighbour response created
+        '200':
+          description: Successful operation
           content:
             application/json:
-              examples:
-                default:
-                  value:
-                    message: Neighbour response created successfully
-        '422':
-          description: internal service failure
-          content:
-            application/json:
-              examples:
-                missing_response:
-                  value:
-                    error: Response can't be blank
+              schema:
+                "$ref": "#/components/schemas/SubmissionResponse"
         '400':
-          description: planning application not found
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BadRequestError"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UnauthorizedError"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NotFoundError"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/InternalServerError"
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                address:
-                  type: string
-                  enum:
-                    - '123 Street, London, E1 6LT'
-                  example: '123 Street, London, E1 6LT'
-                name:
-                  type: string
-                  enum:
-                    - Jo Blogs
-                  example: Jo Blogs
-                email:
-                  type: string
-                  enum:
-                    - jo@example.com
-                  example: jo@example.com
-                response:
-                  type: string
-                  enum:
-                    - I like it
-                  example: I like it
-                summary_tag:
-                  type: string
-                  enum:
-                    - supportive
-                  example: supportive
-                tags:
-                  type: array
-                  items:
-                    type: string
-                    enum:
-                      - privacy
-                    example: privacy
-              required:
-              - name
-              - address
-              - response
-              - summary_tag
-              - tags
+              "$ref": "#/components/schemas/NeighbourResponseSubmission"
+            examples:
+              Supportive neighbour response:
+                summary: Supportive neighbour response
+                value:
+                  name: Jo Blogs
+                  address: 123 street, AAA111
+                  response: I like it
+                  summary_tag: supportive
+                  tags:
+                  - light
+        required: true
   "/api/v2/planning_applications/{reference}/validation_requests":
     get:
       summary: Retrieves the validation requests for an application
