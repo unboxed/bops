@@ -21140,21 +21140,45 @@ components:
         metadata:
           type: object
           properties:
-            resultsPerPage:
+            page:
               type: integer
-            currentPage:
+            results:
               type: integer
-            totalPages:
+            from:
               type: integer
-            totalResults:
+            to:
               type: integer
-            totalAvailableItems:
+            total_pages:
+              type: integer
+            total_results:
               type: integer
           required:
-          - resultsPerPage
-          - currentPage
-          - totalPages
-          - totalAvailableItems
+          - page
+          - results
+          - from
+          - to
+          - total_pages
+          - total_results
+        links:
+          type: object
+          properties:
+            first:
+              type: string
+            last:
+              type: string
+            prev:
+              type:
+              - string
+              - 'null'
+            next:
+              type:
+              - string
+              - 'null'
+          required:
+          - first
+          - last
+          - prev
+          - next
         data:
           type: array
           items:
@@ -21345,6 +21369,217 @@ components:
           - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
       required:
       - metadata
+      - links
+      - data
+      type: object
+    PublicSearch:
+      properties:
+        pagination:
+          type: object
+          properties:
+            currentPage:
+              type: integer
+            resultsPerPage:
+              type: integer
+            totalPages:
+              type: integer
+            totalResults:
+              type: integer
+          required:
+          - currentPage
+          - resultsPerPage
+          - totalPages
+          - totalResults
+        data:
+          type: array
+          items:
+          - type: object
+            properties:
+              application:
+                "$ref": "#/components/definitions/ApplicationOverview"
+              property:
+                type: object
+                properties:
+                  address:
+                    type: object
+                    properties:
+                      latitude:
+                        type: number
+                      longitude:
+                        type: number
+                      title:
+                        type: string
+                      singleLine:
+                        type: string
+                      uprn:
+                        type: string
+                      town:
+                        type: string
+                      postcode:
+                        type: string
+                    required:
+                    - latitude
+                    - longitude
+                    - title
+                    - singleLine
+                    - uprn
+                    - town
+                    - postcode
+                  boundary:
+                    type: object
+                    anyOf:
+                    - properties:
+                        site:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                            geometry:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                coordinates:
+                                  type: array
+                                  items:
+                                  - type: array
+                                    items:
+                                    - type: array
+                                      items:
+                                      - type: number
+                                      - type: number
+                              required:
+                              - type
+                              - coordinates
+                            properties:
+                              type:
+                              - object
+                              - 'null'
+                          required:
+                          - type
+                          - geometry
+                          - properties
+                      required:
+                      - site
+                    - properties:
+                        site:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                            features:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                  geometry:
+                                    type: object
+                                    properties:
+                                      type:
+                                        type: string
+                                      coordinates:
+                                        type: array
+                                        items:
+                                        - type: array
+                                          items:
+                                          - type: array
+                                            items:
+                                            - type: number
+                                            - type: number
+                                    required:
+                                    - type
+                                    - coordinates
+                                  properties:
+                                    type:
+                                    - object
+                                    - 'null'
+                                required:
+                                - type
+                                - geometry
+                                - properties
+                          required:
+                          - type
+                          - features
+                      required:
+                      - site
+                required:
+                - address
+                - boundary
+              proposal:
+                type: object
+                properties:
+                  description:
+                    type: string
+                  reportingType:
+                    anyOf:
+                    - type: object
+                      properties:
+                        code:
+                          type: string
+                        description:
+                          type: string
+                      required:
+                      - code
+                      - description
+                    - type: 'null'
+                  ownerIsPlanningAuthority:
+                    type: boolean
+                required:
+                - description
+                - ownerIsPlanningAuthority
+                - reportingType
+              applicant:
+                type: object
+                properties:
+                  address:
+                    anyOf:
+                    - "$ref": "#/components/definitions/Address"
+                    - type: 'null'
+                  agent:
+                    anyOf:
+                    - type: object
+                      properties:
+                        address:
+                          anyOf:
+                          - "$ref": "#/components/definitions/Address"
+                          - type: 'null'
+                    - type: 'null'
+                  ownership:
+                    anyOf:
+                    - "$ref": "#/components/definitions/Ownership"
+                    - type: 'null'
+                  type:
+                    anyOf:
+                    - type: string
+                    - type: 'null'
+                required:
+                - type
+                - address
+                - ownership
+                - agent
+              officer:
+                anyOf:
+                - type: object
+                  properties:
+                    name:
+                      type:
+                      - string
+                  required:
+                  - name
+                - type: 'null'
+            required:
+            - applicant
+            - application
+            - property
+            - proposal
+        applicationFee:
+          anyOf:
+          - "$ref": "#/components/definitions/ApplicationFee"
+          - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
+      required:
+      - pagination
       - data
       type: object
     ApplicationSubmission:
@@ -21510,6 +21745,45 @@ components:
       required:
       - metadata
       - responses
+      type: object
+    NeighbourResponseSubmission:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+          format: email
+        response:
+          type: string
+        summary_tag:
+          enum:
+          - objection
+          - neutral
+          - supportive
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+            enum:
+            - design
+            - use
+            - light
+            - privacy
+            - access
+            - noise
+            - traffic
+            - other
+      required:
+      - name
+      - address
+      - response
+      - summary_tag
+      - tags
       type: object
     ValidationRequests:
       properties:
@@ -22020,7 +22294,7 @@ paths:
                 "$ref": "#/components/schemas/UnauthorizedError"
   "/api/v2/planning_applications/{reference}/comments/public":
     post:
-      summary: Submit a public neighbour response
+      summary: Accepts a neighbour response
       tags:
       - Neighbour Responses
       security:
@@ -22028,73 +22302,56 @@ paths:
       parameters:
       - name: reference
         in: path
-        description: Planning Application Reference
         required: true
         schema:
           type: string
       responses:
-        '201':
-          description: neighbour response created
+        '200':
+          description: Successful operation
           content:
             application/json:
-              examples:
-                default:
-                  value:
-                    message: Neighbour response created successfully
-        '422':
-          description: internal service failure
-          content:
-            application/json:
-              examples:
-                missing_response:
-                  value:
-                    error: Response can't be blank
+              schema:
+                "$ref": "#/components/schemas/SubmissionResponse"
         '400':
-          description: planning application not found
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BadRequestError"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UnauthorizedError"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NotFoundError"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/InternalServerError"
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                address:
-                  type: string
-                  enum:
-                    - '123 Street, London, E1 6LT'
-                  example: '123 Street, London, E1 6LT'
-                name:
-                  type: string
-                  enum:
-                    - Jo Blogs
-                  example: Jo Blogs
-                email:
-                  type: string
-                  enum:
-                    - jo@example.com
-                  example: jo@example.com
-                response:
-                  type: string
-                  enum:
-                    - I like it
-                  example: I like it
-                summary_tag:
-                  type: string
-                  enum:
-                    - supportive
-                  example: supportive
-                tags:
-                  type: array
-                  items:
-                    type: string
-                    enum:
-                      - privacy
-                    example: privacy
-              required:
-              - name
-              - address
-              - response
-              - summary_tag
-              - tags
+              "$ref": "#/components/schemas/NeighbourResponseSubmission"
+            examples:
+              Supportive neighbour response:
+                summary: Supportive neighbour response
+                value:
+                  name: Jo Blogs
+                  address: 123 street, AAA111
+                  response: I like it
+                  summary_tag: supportive
+                  tags:
+                  - light
+        required: true
   "/api/v2/planning_applications/{reference}/validation_requests":
     get:
       summary: Retrieves the validation requests for an application
@@ -35154,13 +35411,13 @@ paths:
           type: integer
           default: 1
         required: false
-      - name: resultsPerPage
+      - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
         required: false
-      - name: query
+      - name: q
         in: query
         description: Search by reference, address or description
         required: false
@@ -35261,15 +35518,17 @@ paths:
                 default:
                   value:
                     metadata:
-                      resultsPerPage: 2
-                      currentPage: 2
-                      totalPages: 5
-                      totalAvailableItems: 10
+                      page: 2
+                      results: 2
+                      from: 3
+                      to: 4
+                      total_pages: 5
+                      total_results: 10
                     links:
-                      first: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&resultsPerPage=2
-                      last: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&resultsPerPage=2
-                      prev: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&resultsPerPage=2
-                      next: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&resultsPerPage=2
+                      first: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
+                      last: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&maxresults=2
+                      prev: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2
+                      next: https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=2
                     data:
                     - application:
                         type:
@@ -35453,7 +35712,7 @@ paths:
                   - suffix
   "/api/v2/public/planning_applications/{reference}/comments/specialist":
     get:
-      summary: Retrieves comments for a planning application
+      summary: Edge-case scenarios
       tags:
       - Planning applications
       parameters:
@@ -35461,51 +35720,10 @@ paths:
         in: path
         schema:
           type: string
-          description: The planning application reference
         required: true
-      - name: sortBy
-        in: query
-        schema:
-          type: string
-          enum:
-          - id
-          - receivedAt
-          default: receivedAt
-          description: The sort type for the comments
-        required: false
-      - name: orderBy
-        in: query
-        schema:
-          type: string
-          enum:
-          - asc
-          - desc
-          default: desc
-          description: The order for the comments
-        required: false
-      - name: resultsPerPage
-        in: query
-        schema:
-          type: integer
-          default: 10
-          description: Max result for page
-        required: false
-      - name: page
-        in: query
-        schema:
-          type: integer
-          default: 1
-        required: false
-      - name: query
-        in: query
-        schema:
-          type: string
-          description: Search by redacted comment content
-        required: false
       responses:
         '200':
-          description: returns a planning application's specialist comments filtering
-            by sortBy and orderBy
+          description: latest response only for multiple redacted comments
           content:
             application/json:
               examples:
@@ -35721,13 +35939,13 @@ paths:
           type: integer
           default: 1
         required: false
-      - name: resultsPerPage
+      - name: maxresults
         in: query
         schema:
           type: integer
           default: 10
         required: false
-      - name: query
+      - name: q
         in: query
         description: Search by reference, address or description
         required: false
@@ -35818,6 +36036,47 @@ paths:
           - publishedAt
           - receivedAt
           default: receivedAt
+      - name: resultsPerPage
+        in: query
+        schema:
+          type: integer
+          default: 5
+          minimum: 1
+          maximum: 50
+        required: false
+      - name: query
+        in: query
+        schema:
+          type: string
+          description: Search by reference or description
+        required: false
+      - name: applicationType[]
+        in: query
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+          description: Filter by one or more application type codes
+      - name: orderBy
+        in: query
+        schema:
+          type: string
+          description: Sort by ascending or descending order
+          enum:
+          - asc
+          - desc
+          default: desc
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+          description: Sort by field
+          enum:
+          - publishedAt
+          - receivedAt
+          default: receivedAt
       responses:
         '200':
           description: returns planning applications when searching by a reference
@@ -35825,13 +36084,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Search"
+                "$ref": "#/components/schemas/PublicSearch"
               examples:
                 default:
                   value:
-                    metadata:
-                      resultsPerPage: 2
+                    pagination:
                       currentPage: 2
+                      resultsPerPage: 2
                       totalPages: 5
                       totalResults: 10
                       totalAvailableItems: 10
