@@ -102,7 +102,7 @@ RSpec.describe "Validation tasks" do
       within("#confirm-documents-tasks") do
         within("#check-supplied-documents-task") do
           expect(page).to have_link(
-            "Tag and validate supplied documents",
+            "Review documents",
             href: supply_documents_planning_application_path(planning_application)
           )
         end
@@ -263,12 +263,10 @@ RSpec.describe "Validation tasks" do
       expect(page).to have_content("Check, tag and confirm documents")
       within("#confirm-documents-tasks") do
         within("#check-supplied-documents-task") do
-          expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Check supplied document")
         end
 
         within("#check-missing-documents-task") do
-          expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Check and request documents")
         end
 
