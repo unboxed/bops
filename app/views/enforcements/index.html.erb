@@ -1,0 +1,47 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      Enforcement cases
+    </h1>
+    <p class="govuk-body-m">
+      <strong><%= current_user.name %>,</strong> <%= role_name %>
+    </p>
+  </div>
+</div>
+
+<div class="status-bar-container status-bar-container--colored">
+  <div class="status-bar govuk-!-margin-bottom-4 govuk-!-padding-bottom-4">
+    <div class="status-panel" id="follow-up-cases">
+      <h3 class="govuk-heading-m"><%= t ".follow_ups", count: 1 %></h3>
+      <%= govuk_link_to enforcements_path, class: "status-filter-link" do %>
+        <p class="govuk-heading-s"><%= t ".follow_ups.title" %></p>
+      <% end %>
+    </div>
+    <div class="status-panel" id="returned-cases">
+      <h3 class="govuk-heading-m"><%= t ".returned_cases", count: 1 %></h3>
+      <%= govuk_link_to enforcements_path, class: "status-filter-link" do %>
+        <p class="govuk-heading-s"><%= t ".returned_cases.title" %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">
+        Contents
+      </h2>
+      <%= govuk_tabs do |tabs|
+            tabs.with_tab(label: "All cases", id: "all") {
+              render Enforcements::PanelComponent.new(
+                enforcements: @enforcements,
+                type: :all,
+                search: @search,
+                attributes: @attributes
+              )
+            }
+          end %>
+    </div>
+  </div>
+</div>

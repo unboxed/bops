@@ -1,0 +1,44 @@
+<%= form_with(
+      model: search,
+      scope: "",
+      method: :get,
+      url: enforcements_path
+    ) do |form| %>
+  <%# add in error summary with search %>
+  <div class="search-form-inputs">
+    <%= form.govuk_fieldset(legend: {text: nil}) do %>
+      <%= form.govuk_text_field(
+            :query,
+            class: "govuk-input--width-30",
+            label: {text: t(".find_a_case")},
+            hint: {text: t(".you_can_search")}
+          ) %>
+    <% end %>
+    <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
+    <%= govuk_button_link_to(
+          t(".clear_search"),
+          clear_search_url,
+          secondary: true
+        ) %>
+  </div>
+
+  <%= govuk_accordion do |accordion| %>
+    <% accordion.with_section(heading_text: "Filters") do %>
+      <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
+        <p><strong>Priority</strong></p>
+        <%= form.govuk_check_box(:urgent, "Urgent", small: true, legend: nil, class: "display-flex") %>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      </div>
+
+      <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
+        <p><strong>Status</strong></p>
+        <%= form.govuk_check_box(:status, "status", small: true, legend: nil, class: "display-flex") %>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      </div>
+      <div class="govuk-accordion__section-content govuk-!-padding-bottom-3">
+        <%= form.govuk_submit "Apply filters", class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+    <%# will need to change to collection_check_boxes once status' are re-added %>
+  <% end %>
+<% end %>
