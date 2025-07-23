@@ -27,7 +27,7 @@ module TaskListItems
 
       def status_tag_component
         StatusTags::BaseComponent.new(
-          status: site_visit&.status || "not_started"
+          status: site_visit&.status || "optional"
         )
       end
     end

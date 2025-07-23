@@ -13,7 +13,7 @@ module StatusTags
 
     def status
       if consistency_checklist.blank?
-        :not_started
+        :optional
       elsif consistency_checklist.in_assessment?
         :in_progress
       else
