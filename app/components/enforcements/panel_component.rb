@@ -72,11 +72,7 @@ module Enforcements
     def default_attributes
       %i[
         to_param
-<<<<<<< HEAD
         to_s
-=======
-        full_address
->>>>>>> 26876a78d (Add enforcement index page)
         days_status_tag
         urgent
         status_tag

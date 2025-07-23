@@ -26,7 +26,7 @@ RSpec.describe "Check breach report", type: :system, capybara: true do
     click_link "Check report details"
     check "Select here if the case is urgent"
 
-    click_button "Save and mark complete"
+    click_button "Save and mark as complete"
     expect(page).to have_content("Enforcement case updated")
     expect(page).to have_content("urgent")
   end

@@ -10,6 +10,17 @@ class Enforcements::CheckDetailsController < AuthenticationController
     end
   end
 
+  def update
+    respond_to do |format|
+      format.html
+    end
+    if @enforcement.update(enforcement_params)
+      redirect_to enforcement_report_path(@enforcement), notice: "Enforcement case updated"
+    else
+      render :show, notice: "Unable to update enforcement case"
+    end
+  end
+
   private
 
   def set_enforcement
@@ -21,5 +32,9 @@ class Enforcements::CheckDetailsController < AuthenticationController
 
   def set_proposal_details
     @proposal_details = @enforcement.proposal_details
+  end
+
+  def enforcement_params
+    params.require(:enforcement).permit(:urgent)
   end
 end
