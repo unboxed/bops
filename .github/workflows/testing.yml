@@ -120,7 +120,7 @@ jobs:
           OTP_SECRET_ENCRYPTION_KEY: testtest
           SPEC_OPTS: '-f doc --force-color --exclude "${{ inputs.exclude }}" --pattern "${{ inputs.include }}" ${{ inputs.additional_spec_opts }}'
         run: |
-          bundle exec rake spec
+          bundle exec rspec $SPEC_OPTS
 
       - name: Define artifact name
         if: ${{ failure() }}
