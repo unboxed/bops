@@ -47,7 +47,7 @@ class Consultation < ApplicationRecord
     end
 
     def complete?
-      consulted.present? && consulted.all?(&:responded?)
+      present? && all?(&:responded?)
     end
   end
 end

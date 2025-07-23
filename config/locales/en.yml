@@ -767,6 +767,7 @@ en:
     approved: Approved
     awaiting_response: Awaiting response
     failed: Failed
+    not_consulted: Not consulted
     objected: Objected
     sending: Sending
   consultee_response:
@@ -783,8 +784,8 @@ en:
     received_on: Received on %-d %B %Y
     redact_and_publish: Redact and publish
   consultee_response_group_component:
-    external_header: External consultee responses (%{count})
-    internal_header: Internal consultee responses (%{count})
+    external_header: External consultees (%{count})
+    internal_header: Internal consultees (%{count})
     no_external_responses: No external consultee responses yet
     no_internal_responses: No internal consultee responses yet
   consultee_response_list_component:
@@ -796,6 +797,7 @@ en:
     failed: Failed
     last_email_delivered_at: Last consulted on %-d %B %Y
     last_received_at: Last received on %-d %B %Y
+    not_consulted: Not consulted
     objected: Objected
     sending: Sending
     upload_new_response: Upload new response

@@ -19,7 +19,7 @@ module TaskListItems
     end
 
     def link_active?
-      consultees.consulted?
+      true
     end
 
     def link_path
