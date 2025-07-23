@@ -44,11 +44,11 @@ class ConsulteeOverviewRowComponent < ViewComponent::Base
   end
 
   def consultee_email_sent_at
-    consultee.email_sent_at.to_fs(:day_month_year_slashes)
+    consultee.email_sent_at&.to_fs(:day_month_year_slashes) || "–"
   end
 
   def consultee_expires_at
-    consultee.expires_at.to_fs(:day_month_year_slashes)
+    consultee.expires_at&.to_fs(:day_month_year_slashes) || "–"
   end
 
   def consultee_status
@@ -68,6 +68,8 @@ class ConsulteeOverviewRowComponent < ViewComponent::Base
       when "approved"
         content_tag(:span, t(".approved"), class: "govuk-tag govuk-tag--green")
       end
+    else
+      content_tag(:span, t(".not_consulted"), class: "govuk-tag govuk-tag--grey")
     end
   end
 end

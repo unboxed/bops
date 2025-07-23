@@ -33,9 +33,11 @@
       <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation, show_assign: true %>
       <%= render AddConsulteeComponent.new(consultees: @consultees, form: form) %>
 
-      <%= form.govuk_check_box :consultees_not_required, true, multiple: false, label: {text: "Mark as consultees not required"} %>
+      <div class="govuk-form-group">
+        <%= form.govuk_check_box :consultees_not_required, true, multiple: false, label: {text: "Mark as consultees not required"} %>
+      </div>
 
-      <div class="submit-buttons display-flex">
+      <div class="submit-buttons govuk-button-group">
         <%= form.govuk_submit "Save" %>
         <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true, class: "back-button" %>
       </div>

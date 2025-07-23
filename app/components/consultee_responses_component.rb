@@ -70,6 +70,8 @@ class ConsulteeResponsesComponent < ViewComponent::Base
       when "approved"
         content_tag(:span, t(".approved"), class: "govuk-tag govuk-tag--green")
       end
+    else
+      content_tag(:span, t(".not_consulted"), class: "govuk-tag govuk-tag--grey")
     end
   end
 
