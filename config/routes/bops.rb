@@ -351,12 +351,12 @@ local_authority_subdomain do
     end
   end
 
-  resources :enforcements, only: %i[index show] do
-    scope module: :enforcements do
-      resource :report, only: %i[show update] do
-        resource :check_details, only: :show
-      end
-    end
+  resources :enforcements, only: %i[index show]
+
+  scope "/cases/:case_id" do
+    get "/*slug/edit", to: "tasks#edit", as: :edit_task
+    patch "/*slug", to: "tasks#update"
+    get "/*slug", to: "tasks#show", as: :task
   end
 
   namespace :public, path: "/" do

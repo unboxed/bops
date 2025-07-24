@@ -12,6 +12,12 @@
       accordion.with_section(heading_text: "Photos") { tag.p("Content") }
     end %>
 
-<%= govuk_task_list(id_prefix: "enforcement") do |task_list|
-      task_list.with_item(title: "Check breach report", href: enforcement_report_path(@enforcement), status: govuk_tag(text: "Incomplete", colour: "blue"))
-    end %>
+<%= govuk_task_list(id_prefix: "enforcement") do |task_list| %>
+  <% @enforcement.case_record.tasks.each do |task| %>
+    <%= task_list.with_item(
+          title: task.name,
+          href: task_path(case_type: "enforcement", case_id: @enforcement.case_record.id, slug: task.slug),
+          status: task_status_tag(task)
+        ) %>
+  <% end %>
+<% end %>

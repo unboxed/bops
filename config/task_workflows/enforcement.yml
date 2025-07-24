@@ -1,0 +1,70 @@
+- name: "Check breach report"
+  position: 0
+  tasks:
+    - name: "Check report details"
+      position: 0
+    - name: "Check site location"
+      position: 1
+    - name: "Review constraints"
+      position: 2
+    - name: "Review site history"
+      position: 3
+    - name: "Review documents"
+      position: 4
+    - name: "Start investigation"
+      position: 5
+
+- name: "Investigate and decide"
+  position: 1
+  tasks:
+    - name: "Update site and owner details"
+      position: 0
+      tasks:
+        - name: "Update site location"
+          position: 0
+        - name: "Add site owners and interested parties"
+          position: 1
+        - name: "Review site history"
+          position: 2
+        - name: "Review constraints"
+          position: 3
+    - name: "Investigation actions"
+      position: 1
+      tasks:
+        - name: "Add investigation action"
+          position: 0
+        - name: "Add site visit"
+          position: 1
+    - name: "Assess"
+      position: 2
+      tasks:
+        - name: "Add legislation for assessment"
+          position: 0
+        - name: "Assess against policy"
+          position: 1
+    - name: "Summarise and decide"
+      position: 3
+      tasks:
+        - name: "Summarise investigation and make recommendation"
+          position: 0
+        - name: "Create enforcement notice"
+          position: 1
+        - name: "Submit recommendation"
+          position: 2
+
+- name: "Review recommendation"
+  position: 2
+
+- name: "Serve notice and monitor compliance"
+  position: 3
+  tasks:
+    - name: "Serve notice"
+      position: 0
+      tasks:
+        - name: "Add evidence of serving a notice"
+          position: 0
+    - name: "Required actions"
+      position: 1
+
+- name: "Process an appeal"
+  position: 4

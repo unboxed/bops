@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_17_105529) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_24_134042) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -1176,6 +1176,23 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_17_105529) do
     t.index ["external_uuid"], name: "ix_submissions_on_external_uuid", unique: true
     t.index ["local_authority_id"], name: "ix_submissions_on_local_authority_id"
     t.index ["status"], name: "ix_submissions_on_status"
+  end
+
+  create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "parent_type", null: false
+    t.uuid "parent_id", null: false
+    t.string "name", null: false
+    t.string "status", default: "not_started"
+    t.string "slug", null: false
+    t.boolean "optional", default: false, null: false
+    t.integer "position"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_type", "parent_id", "name"], name: "index_tasks_on_parent_and_name", unique: true
+    t.index ["parent_type", "parent_id", "slug"], name: "index_tasks_on_parent_and_slug"
+    t.index ["parent_type", "parent_id"], name: "index_tasks_on_parent"
   end
 
   create_table "terms", force: :cascade do |t|

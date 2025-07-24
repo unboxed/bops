@@ -9,17 +9,6 @@ class Enforcements::ReportsController < AuthenticationController
     end
   end
 
-  def update
-    respond_to do |format|
-      format.html
-    end
-    if @enforcement.update(enforcement_params)
-      redirect_to enforcement_report_path(@enforcement), notice: "Enforcement case updated"
-    else
-      render :show, notice: "Unable to update enforcement case"
-    end
-  end
-
   private
 
   def set_enforcement
