@@ -72,8 +72,10 @@ module ApplicationHelper
   end
 
   def nav_items
+    return [] unless current_user
+
     [
-      {text: "Planning", href: root_path, active: active_page_key?("planning_applications")},
+      {text: "Planning", href: planning_applications_path, active: active_page_key?("planning_applications")},
       {text: "Enforcement", href: enforcements_path, active: active_page_key?("enforcements")}
     ]
   end
