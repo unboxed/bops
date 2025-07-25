@@ -52,7 +52,7 @@ module BopsReports
       end
 
       def set_constraints
-        @constraints = @planning_application.constraints.group_by(&:category)
+        @constraints = @planning_application.planning_application_constraints.group_by(&:category)
       end
 
       def set_recommendation

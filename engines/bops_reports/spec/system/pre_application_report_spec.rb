@@ -280,12 +280,12 @@ RSpec.describe "Pre-application report" do
 
       within("#site-constraints-heritage_and_conservation") do
         expect(page).to have_content("Heritage and conservation")
-        expect(page).to have_content("Designated conservationarea")
+        expect(page).to have_content("Conservation area")
       end
 
       within("#site-constraints-trees") do
         expect(page).to have_content("Trees")
-        expect(page).to have_content("Tpo")
+        expect(page).to have_content("Tree preservation zone")
       end
     end
   end
