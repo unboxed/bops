@@ -1,16 +1,20 @@
 <%= render "enforcements/enforcement", title: "Check breach report" %>
 
-<%= govuk_task_list(id_prefix: "breach-report") do |task_list|
-      task_list.with_item(title: "Check report details", href: enforcement_report_check_details_path(@enforcement), status: govuk_tag(text: "Incomplete", colour: "blue"))
-      task_list.with_item(title: "Check site location", href: "#", status: govuk_tag(text: "Incomplete", colour: "blue"))
-      task_list.with_item(title: "Review constraints", href: "#", status: govuk_tag(text: "Incomplete", colour: "blue"))
-      task_list.with_item(title: "Review site history", href: "#", status: govuk_tag(text: "Incomplete", colour: "blue"))
-      task_list.with_item(title: "Review documents", href: "#", status: govuk_tag(text: "Incomplete", colour: "blue"))
-      task_list.with_item(title: "Start investigation", href: "#", status: govuk_tag(text: "Incomplete", colour: "blue"))
-    end %>
+<div class="govuk-grid-row">
+  <div class="govuk-column-two-thirds">
+    <%= govuk_task_list(id_prefix: "breach-report") do |task_list|
+          task_list.with_item(title: "Check report details", href: enforcement_report_check_details_path(@enforcement), status: govuk_tag(text: "Not started", colour: "blue"))
+          task_list.with_item(title: "Check site location", href: "#", status: govuk_tag(text: "Not started", colour: "blue"))
+          task_list.with_item(title: "Review constraints", href: "#", status: govuk_tag(text: "Not started", colour: "blue"))
+          task_list.with_item(title: "Review site history", href: "#", status: govuk_tag(text: "Not started", colour: "blue"))
+          task_list.with_item(title: "Review documents", href: "#", status: govuk_tag(text: "Not started", colour: "blue"))
+          task_list.with_item(title: "Start investigation", href: "#", status: govuk_tag(text: "Not started", colour: "blue"))
+        end %>
+  </div>
+</div>
 
 <%= form_with model: @enforcement, url: "#", local: true do |form| %>
-  <%= form.govuk_submit "Close the case" do %>
+  <%= form.govuk_submit "Close the case", class: "govuk-button--warning" do %>
     <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
   <% end %>
 <% end %>
