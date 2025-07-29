@@ -21,8 +21,16 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <% consultees.each do |consultee| %>
-        <%= render ConsulteeOverviewRowComponent.new(consultee: consultee) %>
+      <% if consultees.none? %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell" colspan="4">
+            <strong><%= t(".no_consultees") %></strong>
+          </td>
+        </tr>
+      <% else %>
+        <% consultees.each do |consultee| %>
+          <%= render ConsulteeOverviewRowComponent.new(consultee: consultee) %>
+        <% end %>
       <% end %>
     </tbody>
   </table>

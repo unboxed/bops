@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ConsulteeAccordianComponent < ViewComponent::Base
+class ConsulteeAccordionComponent < ViewComponent::Base
   def initialize(consultees:)
     @consultees = consultees
   end
@@ -9,14 +9,14 @@ class ConsulteeAccordianComponent < ViewComponent::Base
 
   attr_reader :consultees
 
-  def accordian_tag(&)
+  def accordion_tag(&)
     options = {
       class: "govuk-accordion",
       style: consultees.none? ? "display: none;" : nil,
       data: {
         module: "govuk-accordion",
         remember_expanded: "false",
-        consultees_target: "accordian"
+        consultees_target: "accordion"
       }
     }
 

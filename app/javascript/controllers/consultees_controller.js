@@ -5,7 +5,7 @@ import accessibleAutocomplete from "accessible-autocomplete"
 export default class extends Controller {
   static targets = [
     "form",
-    "accordian",
+    "accordion",
     "allConsultees",
     "externalConsultees",
     "externalCount",
@@ -46,21 +46,20 @@ export default class extends Controller {
     })
 
     // Confirm that the user wants to send the emails
-    this.formTarget.addEventListener("submit", (event) => {
-      const form = document.querySelector("form")
-      const requiredCheckbox = form.querySelector(
-        "#consultation-consultees-not-required-true-field",
-      )
+    if (this.hasSubmitTarget) {
+      this.formTarget.addEventListener("submit", (event) => {
+        const form = document.querySelector("form")
 
-      if (requiredCheckbox?.checked) {
-        return
-      }
+        if (!confirm(this.confirmationMessage)) {
+          event.preventDefault()
 
-      if (!confirm(this.confirmationMessage)) {
-        event.preventDefault()
-        this.submitTarget.blur()
-      }
-    })
+          setTimeout(() => {
+            this.submitTarget.disabled = false
+            this.submitTarget.blur()
+          }, 50)
+        }
+      })
+    }
 
     this.autocompleteInput.addEventListener("keydown", (event) => {
       if (event.keyCode === 13) {
@@ -187,7 +186,7 @@ export default class extends Controller {
     }
 
     if (this.hasAccordionTarget) {
-      this.accordianTarget.style.display = ""
+      this.accordionTarget.style.display = ""
     }
 
     consulteesTarget.style.display = ""

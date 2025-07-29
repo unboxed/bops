@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ConsulteeAccordianSectionComponent < ViewComponent::Base
+class ConsulteeAccordionSectionComponent < ViewComponent::Base
   def initialize(consultees:, origin:)
     @consultees = consultees
     @origin = origin

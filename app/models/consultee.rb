@@ -48,6 +48,7 @@ class Consultee < ApplicationRecord
 
   enum :status, {
     not_consulted: "not_consulted",
+    not_required: "not_required",
     sending: "sending",
     awaiting_response: "awaiting_response",
     failed: "failed",

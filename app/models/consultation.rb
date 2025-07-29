@@ -243,7 +243,7 @@ class Consultation < ApplicationRecord
   end
 
   def consultee_responses_status
-    if consultees.complete?
+    if consultees.complete? || consultees_not_required?
       "complete"
     elsif consultees.responded?
       "in_progress"

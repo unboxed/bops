@@ -136,17 +136,51 @@ RSpec.describe "Consultation", type: :system, js: true do
 
   context "when no consultees are required" do
     before do
-      planning_application.consultation.update!(consultees: [])
-      visit "/planning_applications/#{planning_application.reference}/consultation"
+      planning_application.consultation.consultees.clear
+      planning_application.planning_application_constraints.clear
     end
 
     it "allows marking as not requiring consultees" do
-      click_link "Select and add consultees"
-      check "Mark as consultees not required"
-      click_button "Save"
+      visit "/planning_applications/#{planning_application.reference}/consultation"
 
       within "#consultee-tasks" do
-        expect(page).to have_selector("li:first-child .govuk-tag", text: "Complete")
+        within "li:nth-child(1)" do
+          expect(page).to have_selector("a", text: "Select and add consultees")
+          expect(page).to have_selector("strong", text: "Not started")
+        end
+
+        within "li:nth-child(2)" do
+          expect(page).to have_selector("a", text: "Send emails to consultees")
+          expect(page).to have_selector("strong", text: "Not started")
+        end
+
+        within "li:nth-child(3)" do
+          expect(page).to have_selector("a", text: "View consultee responses")
+          expect(page).to have_selector("strong", text: "Not started")
+        end
+      end
+
+      click_link "Select and add consultees"
+      expect(page).to have_content("No reasons or constraints have been identified, so there are no suggested consultees.")
+
+      click_button "Mark consultees as not required"
+      expect(page).to have_content("Consultation was successfully updated")
+
+      within "#consultee-tasks" do
+        within "li:nth-child(1)" do
+          expect(page).to have_selector("a", text: "Select and add consultees")
+          expect(page).to have_selector("strong", text: "Complete")
+        end
+
+        within "li:nth-child(2)" do
+          expect(page).to have_selector("a", text: "Send emails to consultees")
+          expect(page).to have_selector("strong", text: "Complete")
+        end
+
+        within "li:nth-child(3)" do
+          expect(page).to have_selector("a", text: "View consultee responses")
+          expect(page).to have_selector("strong", text: "Complete")
+        end
       end
     end
   end

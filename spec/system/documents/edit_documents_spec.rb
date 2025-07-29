@@ -160,7 +160,7 @@ RSpec.describe "Edit document", type: :system do
       expect(page).not_to have_css("#validate-document")
     end
 
-    context "when editing/archiving document from the documents accordian section" do
+    context "when editing/archiving document from the documents accordion section" do
       it "can edit document and return back to the planning applications index page" do
         visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 

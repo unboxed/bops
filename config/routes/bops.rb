@@ -191,7 +191,6 @@ local_authority_subdomain do
 
       namespace :consultee, as: :consultees do
         resources :emails, only: %i[index create]
-        resource :emails, only: :update
         resources :responses, only: %i[index]
         resource :assign_constraint, only: %i[create]
       end

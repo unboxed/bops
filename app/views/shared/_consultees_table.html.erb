@@ -7,46 +7,54 @@
   </tr>
   </thead>
   <tbody class="govuk-table__body">
-  <% @planning_application.planning_application_constraints.each do |constraint| %>
-    <% if constraint.consultee.present? || show_assign %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
-        <%= constraint.type_code %>
-        </td>
-        <td class="govuk-table__cell">
-          <% if constraint.consultee.present? %>
-            <%= constraint.consultee.name %>
-          <% else %>
-            <% if @planning_application.determined? %>
-              &ndash;
+  <% if @planning_application.planning_application_constraints.none? && @planning_application.consultation.consultees.unassigned.none? %>
+    <tr class="govuk-table__row" data-consultees-target="noConsultees">
+      <td class="govuk-table__cell" colspan="3">
+        <strong>No reasons or constraints have been identified, so there are no suggested consultees.</strong>
+      </td>
+    </tr>
+  <% else %>
+    <% @planning_application.planning_application_constraints.each do |constraint| %>
+      <% if constraint.consultee.present? || show_assign %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+          <%= constraint.type_code %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if constraint.consultee.present? %>
+              <%= constraint.consultee.name %>
             <% else %>
-              <%= govuk_link_to "Assign consultee", new_planning_application_consultee_path(@planning_application, constraint: constraint) %>
+              <% if @planning_application.determined? %>
+                &ndash;
+              <% else %>
+                <%= govuk_link_to "Assign consultee", new_planning_application_consultee_path(@planning_application, constraint: constraint) %>
+              <% end %>
             <% end %>
-          <% end %>
+          </td>
+          <td class="govuk-table__cell govuk-!-text-align-right">
+            <% if constraint.consultee.present? %>
+              <%= render StatusTags::BaseComponent.new(status: constraint.consultee.status) %>
+            <% else %>
+              <%= render StatusTags::BaseComponent.new(status: "not_assigned") %>
+            <% end %>
+            <% unless constraint.consultation_required? %>
+              <%= render StatusTags::BaseComponent.new(status: "not_required") %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    <% @planning_application.consultation.consultees.unassigned.find_each do |consultee| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Other</td>
+        <td class="govuk-table__cell">
+          <%= consultee.name %>
         </td>
         <td class="govuk-table__cell govuk-!-text-align-right">
-          <% if constraint.consultee.present? %>
-            <%= render StatusTags::BaseComponent.new(status: constraint.consultee.status) %>
-          <% else %>
-            <%= render StatusTags::BaseComponent.new(status: "not_assigned") %>
-          <% end %>
-          <% unless constraint.consultation_required? %>
-            <%= render StatusTags::BaseComponent.new(status: "not_required") %>
-          <% end %>
+          <%= render StatusTags::BaseComponent.new(status: consultee.status) %>
         </td>
       </tr>
     <% end %>
-  <% end %>
-  <% @planning_application.consultation.consultees.unassigned.find_each do |consultee| %>
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell">Other</td>
-      <td class="govuk-table__cell">
-        <%= consultee.name %>
-      </td>
-      <td class="govuk-table__cell govuk-!-text-align-right">
-        <%= render StatusTags::BaseComponent.new(status: consultee.status) %>
-      </td>
-    </tr>
   <% end %>
   </tbody>
 </table>
