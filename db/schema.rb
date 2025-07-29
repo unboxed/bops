@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_17_105529) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_29_092203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -510,6 +510,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_17_105529) do
     t.datetime "updated_at", null: false
     t.boolean "public", default: false, null: false
     t.index ["planning_application_id"], name: "ix_heads_of_terms_on_planning_application_id"
+  end
+
+  create_table "history_reports", force: :cascade do |t|
+    t.jsonb "raw", null: false
+    t.boolean "checked", default: false, null: false
+    t.string "error_message"
+    t.string "uprn"
+    t.datetime "refreshed_at"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_history_reports_on_planning_application_id"
   end
 
   create_table "immunity_details", force: :cascade do |t|
@@ -1293,6 +1305,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_17_105529) do
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "heads_of_terms", "planning_applications"
+  add_foreign_key "history_reports", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"

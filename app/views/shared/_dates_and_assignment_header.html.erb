@@ -46,6 +46,103 @@
       Application type: <strong><%= @planning_application.application_type.description %></strong>
     </p>
 
+    <% parsed = JSON.parse(@planning_application.history_report&.raw || "") rescue nil %>
+
+<% if parsed.present? %>
+  <div class="govuk-grid-row planning-history-report">
+    <div class="govuk-grid-column-full">
+      <h2 class="govuk-heading-l">Planning History Report</h2>
+
+      <h3 class="govuk-heading-m">Property</h3>
+      <p><strong>Address:</strong> <%= parsed["address"] %></p>
+
+      <h3 class="govuk-heading-m">Planning Applications</h3>
+      <% parsed["planning_applications"]&.each do |app| %>
+        <div class="govuk-summary-list__row">
+          <strong><%= app["reference"] %></strong> – <%= app["description"] %> (<%= app["status"] %> on <%= app["decision_date"] %>)<br>
+          <% app["documents"]&.each do |doc| %>
+            <%= link_to(doc["name"], doc["link"], class: "govuk-link", target: "_blank") %><br>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h3 class="govuk-heading-m">Appeals</h3>
+      <% parsed["appeals"]&.each do |appeal| %>
+        <div class="govuk-summary-list__row">
+          <strong><%= appeal["reference"] %></strong> (related to <%= appeal["related_application"] %>) – <%= appeal["status"] %> on <%= appeal["decision_date"] %><br>
+          <% appeal["documents"]&.each do |doc| %>
+            <%= link_to(doc["name"], doc["link"], class: "govuk-link", target: "_blank") %><br>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h3 class="govuk-heading-m">Lawful Development Certificates</h3>
+      <% parsed["lawful_development_certificates"]&.each do |cert| %>
+        <div class="govuk-summary-list__row">
+          <strong><%= cert["reference"] %></strong> – <%= cert["description"] %> (<%= cert["status"] %> on <%= cert["decision_date"] %>)<br>
+          <% cert["documents"]&.each do |doc| %>
+            <%= link_to(doc["name"], doc["link"], class: "govuk-link", target: "_blank") %><br>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h3 class="govuk-heading-m">Site Constraints</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><strong>Conservation Area:</strong> <%= parsed.dig("site_constraints", "conservation_area") %></li>
+        <li><strong>Listed Status:</strong> <%= parsed.dig("site_constraints", "listed_status") %></li>
+        <li><strong>Flood Risk:</strong> <%= parsed.dig("site_constraints", "flood_risk") %></li>
+        <li>
+          <strong>TPOs:</strong>
+          <ul>
+            
+          </ul>
+        </li>
+      </ul>
+
+      <h3 class="govuk-heading-m">Applicable Planning Policies</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><strong>Local Plan:</strong> <%= parsed.dig("planning_policy", "local_plan") %></li>
+        <li><strong>SPDs:</strong>
+          <ul>
+            <% parsed.dig("planning_policy", "supplementary_planning_documents")&.each do |spd| %>
+              <li><%= spd %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li><strong>London Plan:</strong> <%= parsed.dig("planning_policy", "london_plan") %></li>
+        <li><strong>NPPF:</strong> <%= parsed.dig("planning_policy", "national_planning_policy_framework") %></li>
+      </ul>
+
+      <h3 class="govuk-heading-m">Neighbouring Applications</h3>
+      <% parsed["neighbouring_applications"]&.each do |neighbour| %>
+        <div class="govuk-summary-list__row">
+          <strong><%= neighbour["reference"] %></strong> at <%= neighbour["address"] %>: <%= neighbour["description"] %> (<%= neighbour["status"] %> on <%= neighbour["decision_date"] %>)<br>
+          <% neighbour["documents"]&.each do |doc| %>
+            <%= link_to(doc["name"], doc["link"], class: "govuk-link", target: "_blank") %><br>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h3 class="govuk-heading-m">Active Conditions</h3>
+      <% parsed["active_conditions"]&.each do |cond| %>
+        <div class="govuk-summary-list__row">
+          <strong><%= cond["application_reference"] %></strong>: <%= cond["condition"] %><br>
+          <%= cond["details"] %><br>
+        </div>
+      <% end %>
+
+      <h3 class="govuk-heading-m">Archive Access</h3>
+      <p>
+        Planning Portal: <%= link_to(parsed.dig("archive_access", "planning_portal"), parsed.dig("archive_access", "planning_portal"), class: "govuk-link", target: "_blank") %><br>
+        Contact: <%= parsed.dig("archive_access", "contact_information", "email") %> / <%= parsed.dig("archive_access", "contact_information", "phone") %>
+      </p>
+    </div>
+  </div>
+<% else %>
+  <p class="govuk-body">No planning history data available.</p>
+<% end %>
+
+
     <% if @planning_application.pre_application? %>
       <p id="additional-services">
         Requested services:

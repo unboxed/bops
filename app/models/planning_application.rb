@@ -80,6 +80,7 @@ class PlanningApplication < ApplicationRecord
       has_one :pre_commencement_condition_set, -> { where(pre_commencement: true) }, class_name: "ConditionSet"
       has_one :planx_planning_data
       has_one :proposal_measurement
+      has_one :history_report
     end
 
     has_one :heads_of_term
@@ -201,6 +202,7 @@ class PlanningApplication < ApplicationRecord
   after_create :create_audit!
   after_create :update_measurements, if: :prior_approval?
   after_create :create_consultation!, if: :consultation?
+  after_create :create_history_report
   before_update :set_key_dates
   before_update lambda {
                   reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
@@ -332,6 +334,10 @@ class PlanningApplication < ApplicationRecord
         find_by!(reference: param)
       end
     end
+  end
+
+  def create_history_report
+    HistoryReportJob.perform_later(self)
   end
 
   def report_link
