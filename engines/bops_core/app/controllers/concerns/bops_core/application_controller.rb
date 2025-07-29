@@ -79,7 +79,7 @@ module BopsCore
 
       raise NotImplementedError, "No permissions have been defined for this authenticated method for #{params[:controller]}:#{request.method}" if required_api_key_scope.nil?
 
-      required_api_key_scope == :any || key.permissions&.include?(required_api_key_scope + scope_type)
+      required_api_key_scope == :any || key.permits?(required_api_key_scope + scope_type)
     end
 
     def set_current

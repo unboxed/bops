@@ -64,4 +64,8 @@ class ApiUser < ApplicationRecord
   def active?
     !revoked?
   end
+
+  def permits?(permission)
+    permissions&.include?(permission)
+  end
 end
