@@ -28,7 +28,7 @@
             legend: {text: "Permissions to be granted to this key"}) do %>
         <% ApiUser::VALID_PERMISSIONS.each do |permission| %>
           <%= form.govuk_check_box :permissions, permission,
-                checked: @token.permissions.include?(permission),
+                checked: @token.permits?(permission),
                 label: {text: tag.code(permission)} %>
         <% end %>
       <% end %>
