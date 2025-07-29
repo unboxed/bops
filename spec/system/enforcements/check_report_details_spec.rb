@@ -10,7 +10,7 @@ RSpec.describe "Check breach report", type: :system, capybara: true do
 
   before do
     sign_in user
-    visit "/enforcements/#{enforcement.case_record.id}/report"
+    visit "/cases/#{enforcement.case_record.id}/check-breach-report"
   end
 
   it "shows the relevant report details" do
@@ -27,7 +27,11 @@ RSpec.describe "Check breach report", type: :system, capybara: true do
     check "Select here if the case is urgent"
 
     click_button "Save and mark complete"
-    expect(page).to have_content("Enforcement case updated")
+    expect(page).to have_content("Task updated successfully")
     expect(page).to have_content("urgent")
+
+    within(".govuk-task-list") do
+      expect(page).to have_content("Completed")
+    end
   end
 end
