@@ -711,7 +711,7 @@ en:
     nature_sssi: Site of special scientific interest
     registeredpark: Historic parks and gardens
     tpo: Tree preservation zone
-  consultee_accordian_section_component:
+  consultee_accordion_section_component:
     consultee: Consultee
     date_consulted: Date consulted
     external_header_html: External (<span data-consultees-target="externalCount">%{count}</span>)
@@ -760,6 +760,7 @@ en:
     expires: Date of expiry
     header: Consultee overview
     name: Consultee name
+    no_consultees: No reasons or constraints have been identified, so there are no consultees.
     reconsult_existing_consultees: Reconsult existing consultees
     status: Status
   consultee_overview_row_component:
@@ -1635,8 +1636,6 @@ en:
           please_search_for_a_consultee: Please search for a consultee first
           send_emails_to_consultees: Send emails to consultees?
           unable_to_add_consultee: 'Error: Unable to add the consultee to the list'
-        update:
-          consultees_not_required: Consultation marked as not requiring consultees
       responses:
         create:
           success: Response was successfully uploaded.

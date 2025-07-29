@@ -14,7 +14,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render ConsulteeOverviewComponent.new(consultation: @consultation, consultees: @consultees) %>
+    <%= render ConsulteeOverviewComponent.new(consultation: @consultation, consultees: @consultees.sorted) %>
     <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.external, group: "external") %>
     <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.internal, group: "internal") %>
 

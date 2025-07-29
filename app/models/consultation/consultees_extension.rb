@@ -2,8 +2,12 @@
 
 class Consultation < ApplicationRecord
   module ConsulteesExtension
+    def sorted
+      sort_by(&:created_at)
+    end
+
     def internal
-      select(&:internal?).sort_by(&:created_at)
+      sorted.select(&:internal?)
     end
 
     def internal_consulted
@@ -11,7 +15,7 @@ class Consultation < ApplicationRecord
     end
 
     def external
-      select(&:external?).sort_by(&:created_at)
+      sorted.select(&:external?)
     end
 
     def external_consulted
@@ -19,7 +23,7 @@ class Consultation < ApplicationRecord
     end
 
     def selected
-      select(&:selected?)
+      sorted.select(&:selected?)
     end
 
     def none_selected?
@@ -27,7 +31,7 @@ class Consultation < ApplicationRecord
     end
 
     def consulted
-      select(&:consulted?).sort_by(&:created_at)
+      sorted.select(&:consulted?)
     end
 
     def consulted?

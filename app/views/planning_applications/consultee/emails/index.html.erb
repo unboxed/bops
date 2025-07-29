@@ -38,7 +38,7 @@
       <div class="govuk-form-group" id="response-period">
         <h2 class="govuk-heading-m">
           <div class="govuk-hint govuk-!-margin-bottom-0">Step <%= @consultees.consulted? ? "4" : "3" %></div>
-          <%= form.label :consultee_response_period, "Set response period", class: "govuk-label govuk-label--m" %>
+          <%= form.govuk_label :consultee_response_period, text: "Set response period", size: "m" %>
         </h2>
 
         <p class="govuk-hint">Enter the number of days that consultees have to respond.</p>

@@ -1,0 +1,5 @@
+<a name="consultation-consultees-field-error"></a>
+<%= accordion_tag do %>
+  <%= render ConsulteeAccordionSectionComponent.new(consultees: consultees.external, origin: "external") %>
+  <%= render ConsulteeAccordionSectionComponent.new(consultees: consultees.internal, origin: "internal") %>
+<% end %>

@@ -24,23 +24,24 @@
       } do %>
 
     <%= form_with(model: @consultation,
-          url: planning_application_consultees_emails_path(@planning_application),
+          url: planning_application_consultation_path(@planning_application),
           data: {
             consultees_target: "form"
           }) do |form| %>
-      <%= form.govuk_error_summary %>
+
       <h3 class="govuk-body">Assign consultees based on identified constraints</h3>
       <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation, show_assign: true %>
       <%= render AddConsulteeComponent.new(consultees: @consultees, form: form) %>
 
-      <div class="govuk-form-group">
-        <%= form.govuk_check_box :consultees_not_required, true, multiple: false, label: {text: "Mark as consultees not required"} %>
-      </div>
+      <%= form.hidden_field :consultees_not_required, value: true %>
 
-      <div class="submit-buttons govuk-button-group">
-        <%= form.govuk_submit "Save" %>
+      <% if @consultation.consultees_not_required? %>
         <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true, class: "back-button" %>
-      </div>
+      <% else %>
+        <%= form.govuk_submit "Mark consultees as not required" do %>
+          <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true, class: "back-button" %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 </div>
